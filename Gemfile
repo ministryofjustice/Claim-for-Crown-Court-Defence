@@ -16,7 +16,16 @@ group :development do
 end
 
 group :development, :test do
+  gem 'byebug'
+  gem 'faker'
   gem 'rspec-rails', '~> 3.0'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'rspec-mocks'
 end
 
 group :doc do

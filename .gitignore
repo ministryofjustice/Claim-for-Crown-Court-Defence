@@ -14,3 +14,16 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# ignore simplecov output
+/coverage
+
+.DS_Store
+
+/*.BACKUP.*
+/*.BASE.*
+/*.LOCAL.*
+/*.REMOTE.*
+*.orig
+
+public/paperclip

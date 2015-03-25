@@ -51,6 +51,7 @@ group :test do
   gem 'fuubar'
   gem 'fuubar-cucumber'
   gem 'rspec-mocks'
+  gem 'ruby-progressbar', '< 1.7.4'
   gem 'shoulda-matchers', require: false
   gem 'simplecov', require: false
   gem 'simplecov-csv', require: false

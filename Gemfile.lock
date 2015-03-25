@@ -269,7 +269,7 @@ GEM
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
-    ruby-progressbar (1.7.4)
+    ruby-progressbar (1.7.1)
     ruby_gntp (0.3.4)
     ruby_parser (3.6.4)
       sexp_processor (~> 4.1)
@@ -377,6 +377,7 @@ DEPENDENCIES
   responder
   rspec-mocks
   rspec-rails (~> 3.0)
+  ruby-progressbar (< 1.7.4)
   ruby_gntp
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

@@ -6,10 +6,6 @@ if ENV["RAILS_ENV"] == 'production'
   timeout 15
   preload_app true
 
-  # log to specific files, otherwise these default to /dev/null
-  stderr_path '/srv/tribunals/log/unicorn.stderr.log'
-  stdout_path '/srv/tribunals/log/unicorn.stdout.log'
-
   before_fork do |server, worker|
     Signal.trap 'TERM' do
       puts 'Unicorn master intercepting TERM and sending myself QUIT instead'

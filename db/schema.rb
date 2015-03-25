@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325122945) do
+ActiveRecord::Schema.define(version: 20150325144103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20150325122945) do
 
   add_index "advocates", ["email"], name: "index_advocates_on_email", unique: true, using: :btree
   add_index "advocates", ["reset_password_token"], name: "index_advocates_on_reset_password_token", unique: true, using: :btree
+
+  create_table "case_worker_claims", force: true do |t|
+    t.integer  "case_worker_id"
+    t.integer  "claim_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_worker_claims", ["case_worker_id"], name: "index_case_worker_claims_on_case_worker_id", using: :btree
+  add_index "case_worker_claims", ["claim_id"], name: "index_case_worker_claims_on_claim_id", using: :btree
 
   create_table "case_workers", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -59,5 +69,13 @@ ActiveRecord::Schema.define(version: 20150325122945) do
   end
 
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
+
+  create_table "claims", force: true do |t|
+    t.integer  "advocate_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
 
 end

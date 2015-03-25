@@ -1,2 +1,4 @@
-%h1 Claims#index
-%p Find me in app/views/claims/index.html.haml
+%h1 Claims
+%ul
+  - @claims.each do |claim|
+    %li= link_to 'claim', claim

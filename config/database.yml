@@ -7,15 +7,15 @@ default: &default
 
 development:
   <<: *default
-  database: cbo_api_development
+  database: cbo_development
 
 test: &test
   <<: *default
-  database: cbo_api_test
+  database: cbo_test
 
 develop:
   <<: *default
-  database: cbo_api_develop
+  database: cbo_develop
 
 production:
   <<: *default

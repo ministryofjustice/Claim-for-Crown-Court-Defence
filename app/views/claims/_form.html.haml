@@ -40,5 +40,9 @@
         .links
           = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
   %br
+
+  = f.label :vat_required, 'VAT on Fees & Expenses (please tick if required)'
+  = f.check_box :vat_required
+
   %p
     = f.submit 'Submit', class: 'button'

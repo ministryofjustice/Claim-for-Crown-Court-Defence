@@ -1,6 +1,7 @@
 %w(
   fee_types
   fees
+  expense_types
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

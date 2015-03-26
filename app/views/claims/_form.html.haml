@@ -5,62 +5,26 @@
       - @claim.errors.full_messages.each do |msg|
         %li= msg
   %h2 Defendants
-  - @claim.defendants.each_with_index do |defendant, index|
-    %p
-      %h3= "Defendant #{index + 1}"
-      = f.fields_for defendant do |defendant_form|
-        = defendant_form.label :first_name
-        = defendant_form.text_field :first_name
-        %br
-        = defendant_form.label :middle_name
-        = defendant_form.text_field :middle_name
-        %br
-        = defendant_form.label :last_name
-        = defendant_form.text_field :last_name
-        %br
-        = defendant_form.label :date_of_birth
-        = defendant_form.date_field :date_of_birth
-        %br
-        = defendant_form.label :representation_order_date
-        = defendant_form.date_field :representation_order_date
-        %br
-        = defendant_form.label :order_for_judicial_apportionment
-        = defendant_form.check_box :order_for_judicial_apportionment
-        %br
-        = defendant_form.label :maat_ref_nos
-        = defendant_form.text_field :maat_ref_nos
-    %br
+  #defendants
+    = f.fields_for :defendants do |defendant|
+      = render 'defendant_fields', f: defendant
+      .links
+        = link_to_add_association 'Add Defendant', f, :defendants
   %hr
   %h2 Additional information
   = f.text_area :additional_information
   %h2 Fees
-  - @claim.claim_fees.each do |claim_fee|
-    %p
-      = f.fields_for claim_fee do |claim_fee_form|
-        = claim_fee_form.label :fee
-        = claim_fee_form.grouped_collection_select :fee_id, FeeType.all, :fees, :name, :id, :description, prompt: true
-        = claim_fee_form.label :quantity
-        = claim_fee_form.number_field :quantity
-        = claim_fee_form.label :rate
-        = claim_fee_form.number_field :rate
-        = claim_fee_form.label :amount
-        = claim_fee_form.number_field :amount
+  #claim_fees
+    = f.fields_for :claim_fees do |claim_fee|
+      = render 'claim_fee_fields', f: claim_fee
+      .links
+        = link_to_add_association 'Add Fee', f, :claim_fees
   %hr
   %h2 Expenses
-  - @claim.expenses.each do |expense|
-    = f.fields_for expense do |expense_form|
-      = expense_form.label :expense_type
-      = expense_form.collection_select :expense_type_id, ExpenseType.all, :id, :name, prompt: true
-      = expense_form.label :location
-      = expense_form.text_field :location
-      = expense_form.label :quantity
-      = expense_form.number_field :quantity
-      = expense_form.label :rate
-      = expense_form.number_field :rate
-      = expense_form.label :hours
-      = expense_form.number_field :hours
-      = expense_form.label :amount
-      = expense_form.number_field :amount
-
+  #claim_fees
+    = f.fields_for :expenses do |expense|
+      = render 'expense_fields', f: expense
+      .links
+        = link_to_add_association 'Add Expense', f, :expenses
   %p
     = f.submit

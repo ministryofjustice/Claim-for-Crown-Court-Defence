@@ -11,17 +11,9 @@ class ClaimsController < ApplicationController
   def new
     @claim = Claim.new
 
-    3.times do
-      @claim.defendants.build
-    end
-
-    3.times do
-      @claim.claim_fees.build
-    end
-
-    3.times do
-      @claim.expenses.build
-    end
+    @claim.defendants.build
+    @claim.claim_fees.build
+    @claim.expenses.build
   end
 
   def edit; end
@@ -31,17 +23,9 @@ class ClaimsController < ApplicationController
     if @claim.save
       respond_with @claim, { location: root_url, notice: 'Claim successfully created' }
     else
-      3.times do
-        @claim.defendants.build
-      end
-
-      3.times do
-        @claim.claim_fees.build
-      end
-
-      3.times do
-        @claim.expenses.build
-      end
+      @claim.defendants.build
+      @claim.claim_fees.build
+      @claim.expenses.build
 
       render action: :new
     end

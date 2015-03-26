@@ -12,6 +12,10 @@ class ClaimsController < ApplicationController
     @claim = Claim.new
 
     3.times do
+      @claim.defendants.build
+    end
+
+    3.times do
       @claim.claim_fees.build
     end
 
@@ -27,6 +31,10 @@ class ClaimsController < ApplicationController
     if @claim.save
       respond_with @claim, { location: root_url, notice: 'Claim successfully created' }
     else
+      3.times do
+        @claim.defendants.build
+      end
+
       3.times do
         @claim.claim_fees.build
       end
@@ -62,6 +70,7 @@ class ClaimsController < ApplicationController
     params.require(:claim).permit(
      :advocate,
      :advocate_id,
+     defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_ref_nos, :_destroy],
      claim_fees_attributes: [:id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy]
     )

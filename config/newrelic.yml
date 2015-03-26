@@ -20,16 +20,8 @@ common: &default_settings
 development:
   <<: *default_settings
   monitor_mode: true
-  app_name: CBO (<%= ENV["APP_ENVIRONMENT"] %>)
+  app_name: "CBO Heroku Dev"
   developer_mode: true
 test:
   <<: *default_settings
   monitor_mode: false
-production:
-  <<: *default_settings
-  monitor_mode: true
-  app_name: CBO (<%= ENV["APP_ENVIRONMENT"] %>)
-staging:
-  <<: *default_settings
-  monitor_mode: true
-  app_name: CBO (<%= ENV["APP_ENVIRONMENT"] %>)

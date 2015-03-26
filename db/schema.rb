@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325144103) do
+ActiveRecord::Schema.define(version: 20150326114342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,5 +77,28 @@ ActiveRecord::Schema.define(version: 20150325144103) do
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
+
+  create_table "fee_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fee_types", ["name"], name: "index_fee_types_on_name", using: :btree
+
+  create_table "fees", force: true do |t|
+    t.string   "description"
+    t.string   "code"
+    t.integer  "quantity"
+    t.decimal  "rate"
+    t.decimal  "amount"
+    t.integer  "fee_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fees", ["code"], name: "index_fees_on_code", using: :btree
+  add_index "fees", ["description"], name: "index_fees_on_description", using: :btree
+  add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
 end

@@ -6,4 +6,6 @@ class Claim < ActiveRecord::Base
   has_many :fees, through: :claim_fees
 
   validates :advocate, presence: true
+
+  accepts_nested_attributes_for :fees, reject_if: :all_blank, allow_destroy: true
 end

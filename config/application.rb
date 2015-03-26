@@ -14,7 +14,7 @@ module CrimeBillingOnline
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    config.time_zone = 'London'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -24,5 +24,20 @@ module CrimeBillingOnline
       g.view_specs false
       g.helper_specs false
     end
+
+    # Application Title (Populates <title>)
+    config.app_title = 'Crime Billing Online'
+    # Proposition Title (Populates proposition header)
+    config.proposition_title = 'Crime Billing Online'
+    # Current Phase (Sets the current phase and the colour of phase tags)
+    # Presumed values: alpha, beta, live
+    config.phase = 'alpha'
+    # Product Type (Adds class to body based on service type)
+    # Presumed values: information, service
+    config.product_type = 'not_set'
+    # Feedback URL (URL for feedback link in phase banner)
+    config.feedback_url = 'not_set'
+    # Google Analytics ID (Tracking ID for the service)
+    config.ga_id = 'not_set'
   end
 end

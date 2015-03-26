@@ -13,4 +13,6 @@ deploy:
   on:
     repo: ministryofjustice/crime-billing-online
     branch: develop
-  run: "rake db:migrate"
+  run:
+    - "rake db:migrate"
+    - "rake db:seed"

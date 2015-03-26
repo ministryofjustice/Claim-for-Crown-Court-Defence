@@ -1,6 +1,6 @@
 common: &default_settings
-  license_key: '<%= ENV["NEWRELIC_KEY"] %>'
-  app_name: CBO (<%= ENV["APP_ENVIRONMENT"] %>)
+  license_key: '<%= ENV["NEWRELIC_LICENSE_KEY"] %>'
+  app_name: "Crime Billing Online Heroku Dev"
   monitor_mode: true
   developer_mode: false
   log_level: info

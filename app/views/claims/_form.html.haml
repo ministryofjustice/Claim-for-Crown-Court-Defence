@@ -31,6 +31,8 @@
         = defendant_form.text_field :maat_ref_nos
     %br
   %hr
+  %h2 Additional information
+  = f.text_area :additional_information
   %h2 Fees
   - @claim.claim_fees.each do |claim_fee|
     %p

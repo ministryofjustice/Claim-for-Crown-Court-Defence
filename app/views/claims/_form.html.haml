@@ -4,27 +4,41 @@
     %ul
       - @claim.errors.full_messages.each do |msg|
         %li= msg
-  %h2 Defendants
-  #defendants
-    = f.fields_for :defendants do |defendant|
-      = render 'defendant_fields', f: defendant
-      .links
-        = link_to_add_association 'Add Defendant', f, :defendants, class: 'button'
-  %hr
-  %h2 Additional information
-  = f.text_area :additional_information
-  %h2 Fees
-  #claim_fees
-    = f.fields_for :claim_fees do |claim_fee|
-      = render 'claim_fee_fields', f: claim_fee
-      .links
-        = link_to_add_association 'Add Fee', f, :claim_fees, class: 'button'
-  %hr
-  %h2 Expenses
-  #claim_fees
-    = f.fields_for :expenses do |expense|
-      = render 'expense_fields', f: expense
-      .links
-        = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
+
+  %fieldset
+    %legend
+      Section 1: Case, Instructed Advocate & Offence
+    %p Defendants
+    #defendants
+      = f.fields_for :defendants do |defendant|
+        = render 'defendant_fields', f: defendant
+        .links
+          = link_to_add_association 'Add Defendant', f, :defendants, class: 'button'
+
+  %br
+  %fieldset
+    %legend
+      Section 2: Additional Information
+    = f.text_area :additional_information, rows: 10, style: 'width: 100%'
+
+  %fieldset
+    %legend
+      Fees
+    #claim_fees
+      = f.fields_for :claim_fees do |claim_fee|
+        = render 'claim_fee_fields', f: claim_fee
+        .links
+          = link_to_add_association 'Add Fee', f, :claim_fees, class: 'button'
+  %br
+
+  %fieldset
+    %legend
+      Expenses
+    #claim_fees
+      = f.fields_for :expenses do |expense|
+        = render 'expense_fields', f: expense
+        .links
+          = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
+  %br
   %p
     = f.submit 'Submit', class: 'button'

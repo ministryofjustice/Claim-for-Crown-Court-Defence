@@ -2,8 +2,6 @@ language: ruby
 cache: bundler
 addons:
   postgresql: '9.3'
-  code_climate:
-    repo_token: '<%= ENV["TRAVIS_TOKEN"] %>'
 before_script:
 - psql -c 'create database travis_ci_test;' -U postgres
 - cp config/database.yml.travis config/database.yml

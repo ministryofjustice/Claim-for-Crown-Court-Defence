@@ -71,32 +71,78 @@ RSpec.describe ClaimsController, type: :controller do
   end
 
   describe "POST #create" do
-    let(:advocate) { create(:advocate) }
+    context 'with valid input' do
+      let(:advocate) { create(:advocate) }
 
-    it 'creates a claim' do
-      expect {
+      it 'creates a claim' do
+        expect {
+          post :create, claim: { advocate_id: advocate }
+        }.to change(Claim, :count).by(1)
+      end
+
+      it 'redirects to root url' do
         post :create, claim: { advocate_id: advocate }
-      }.to change(Claim, :count).by(1)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    context 'without valid input' do
+      it 'does not create a claim' do
+        expect {
+          post :create, claim: { advocate_id: nil }
+        }.to_not change(Claim, :count)
+      end
+
+      it 'renders the new template' do
+        post :create, claim: { advocate_id: nil }
+        expect(response).to render_template(:new)
+      end
     end
   end
 
   describe "PUT #update" do
     subject { create(:claim) }
-    let(:advocate) { create(:advocate) }
 
-    it 'updates a claim' do
-      put :update, id: subject, claim: { advocate_id: advocate }
-      subject.reload
-      expect(subject.advocate).to eq(advocate)
+    context 'with valid input' do
+      let(:advocate) { create(:advocate) }
+
+      it 'updates a claim' do
+        put :update, id: subject, claim: { advocate_id: advocate }
+        subject.reload
+        expect(subject.advocate).to eq(advocate)
+      end
+
+      it 'redirects to root url' do
+        put :update, id: subject, claim: { advocate_id: advocate }
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    context 'without valid input' do
+      it 'does not update a claim' do
+        put :update, id: subject, claim: { advocate_id: nil }
+        subject.reload
+        expect(subject.advocate).to_not be_nil
+      end
+
+      it 'renders the edit template' do
+        put :update, id: subject, claim: { advocate_id: nil }
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
   describe "DELETE #destroy" do
     subject { create(:claim) }
 
+    before { delete :destroy, id: subject }
+
     it 'destroys the claim' do
-      delete :destroy, id: subject
       expect(Claim.count).to eq(0)
+    end
+
+    it 'redirects to root url' do
+      expect(response).to redirect_to(root_url)
     end
   end
 end

@@ -5,21 +5,28 @@
       - @claim.errors.full_messages.each do |msg|
         %li= msg
   %h2 Defendants
-  - @claim.defendants.each do |defendant|
+  - @claim.defendants.each_with_index do |defendant, index|
     %p
+      %h3= "Defendant #{index + 1}"
       = f.fields_for defendant do |defendant_form|
         = defendant_form.label :first_name
         = defendant_form.text_field :first_name
+        %br
         = defendant_form.label :middle_name
         = defendant_form.text_field :middle_name
+        %br
         = defendant_form.label :last_name
         = defendant_form.text_field :last_name
+        %br
         = defendant_form.label :date_of_birth
         = defendant_form.date_field :date_of_birth
+        %br
         = defendant_form.label :representation_order_date
         = defendant_form.date_field :representation_order_date
+        %br
         = defendant_form.label :order_for_judicial_apportionment
         = defendant_form.check_box :order_for_judicial_apportionment
+        %br
         = defendant_form.label :maat_ref_nos
         = defendant_form.text_field :maat_ref_nos
     %br

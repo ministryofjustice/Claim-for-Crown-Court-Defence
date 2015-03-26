@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326140817) do
+ActiveRecord::Schema.define(version: 20150326145555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,21 @@ ActiveRecord::Schema.define(version: 20150326140817) do
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
+
+  create_table "defendants", force: true do |t|
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.datetime "date_of_birth"
+    t.datetime "representation_order_date"
+    t.boolean  "order_for_judicial_apportionment"
+    t.string   "maat_ref_nos"
+    t.integer  "claim_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
   create_table "expense_types", force: true do |t|
     t.string   "name"

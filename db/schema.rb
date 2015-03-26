@@ -73,6 +73,9 @@ ActiveRecord::Schema.define(version: 20150326115934) do
   create_table "claim_fees", force: true do |t|
     t.integer  "claim_id"
     t.integer  "fee_id"
+    t.integer  "quantity"
+    t.decimal  "rate"
+    t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -99,9 +102,6 @@ ActiveRecord::Schema.define(version: 20150326115934) do
   create_table "fees", force: true do |t|
     t.string   "description"
     t.string   "code"
-    t.integer  "quantity"
-    t.decimal  "rate"
-    t.decimal  "amount"
     t.integer  "fee_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"

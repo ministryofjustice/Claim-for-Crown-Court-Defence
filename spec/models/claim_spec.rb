@@ -9,4 +9,6 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_workers) }
 
   it { should validate_presence_of(:advocate) }
+
+  it { should accept_nested_attributes_for(:fees) }
 end

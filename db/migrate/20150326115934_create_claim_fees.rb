@@ -4,6 +4,10 @@ class CreateClaimFees < ActiveRecord::Migration
       t.references :claim, index: true
       t.references :fee, index: true
 
+      t.integer :quantity
+      t.decimal :rate
+      t.decimal :amount
+
       t.timestamps
     end
   end

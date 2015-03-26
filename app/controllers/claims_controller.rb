@@ -45,7 +45,8 @@ class ClaimsController < ApplicationController
   def claim_params
     params.require(:claim).permit(
      :advocate,
-     :advocate_id
+     :advocate_id,
+     claim_fees_attributes: [:id, :fee_id, :quantity, :rate, :amount, :_destroy]
     )
   end
 end

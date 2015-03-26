@@ -1,2 +1,14 @@
 = form_for @claim do |f|
+  - @claim.claim_fees.each do |claim_fee|
+    %p
+      = f.fields_for claim_fee do |claim_fee_form|
+        = claim_fee_form.label :fee
+        = claim_fee_form.grouped_collection_select :fee_id, FeeType.all, :fees, :name, :id, :description, prompt: true
+        = claim_fee_form.label :quantity
+        = claim_fee_form.number_field :quantity
+        = claim_fee_form.label :rate
+        = claim_fee_form.number_field :rate
+        = claim_fee_form.label :amount
+        = claim_fee_form.number_field :amount
+  %hr
   = f.submit

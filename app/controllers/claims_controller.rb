@@ -10,6 +10,9 @@ class ClaimsController < ApplicationController
 
   def new
     @claim = Claim.new
+    5.times do
+      @claim.claim_fees.build
+    end
   end
 
   def edit; end

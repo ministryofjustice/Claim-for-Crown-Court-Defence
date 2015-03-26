@@ -50,6 +50,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'codeclimate-test-reporter', require: nil
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'fuubar'

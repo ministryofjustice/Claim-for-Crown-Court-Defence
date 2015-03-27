@@ -5,6 +5,8 @@
   = javascript_include_tag "application"
 
 = content_for :content_override do
+  = csrf_meta_tags
+
   #wrapper.group
     .phase-banner
       %p
@@ -16,6 +18,8 @@
     %section#content{role: 'main'}
       %header.page-header.group.tribunal-header
         #fixed-header
+          - if current_user
+            = render 'layouts/user'
         .container
           = yield
 

@@ -2,3 +2,14 @@
 
 %p
   = link_to 'New Claim', new_claim_path, class: 'button'
+
+%hr
+
+%h2 Claims
+- if @claims.none?
+  %p No claims found
+- else
+  %ul
+    - @claims.each do |claim|
+      %li
+        = @claim.created_at

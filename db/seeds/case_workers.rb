@@ -1,1 +1,1 @@
-User.create!(email: 'caseworker@example.com', password: 'password', password_confirmation: 'password', role: 'case_worker')
+User.create!(email: 'caseworker@example.com', password: 'password', password_confirmation: ENV['CASE_WORKER_PASSWORD'], role: 'case_worker')

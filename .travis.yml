@@ -10,12 +10,13 @@ before_script:
   - echo "deb http://toolbelt.heroku.com/ubuntu ./" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
   - sudo apt-get install -y heroku-toolbelt
-  - heroku pg:reset DATABASE_URL
 deploy:
   provider: heroku
   api_key:
     secure: XLE9lmmig5XRSZPIxQF7lVuDYyDeC5sabWWUkr0rQihOK5UHumURuw444eaaaHYbr8cGK+SxptOlTaO94pSvQtbvYrAzEgzSKOwRQ2sah6VePTHiww0nKVOHSIVplrJ64fJBu3I/OPaSLkkoRMWDSKU8beWJKVZvDco37YZcRmI=
   app: crime-billing-online-dev
+  before_deploy:
+    - heroku pg:reset DATABASE_URL
   on:
     repo: ministryofjustice/crime-billing-online
     branch: develop

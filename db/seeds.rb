@@ -2,6 +2,8 @@
   fee_types
   fees
   expense_types
+  case_workers
+  advocates
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

@@ -1,8 +1,6 @@
 %h1
   Crime Billing Online
 
-%p= link_to 'Advocate Sign In', new_advocate_session_path
-
-%p= link_to 'Case Worker Sign In', new_case_worker_session_path
-
-%p= link_to 'New Claim', new_claim_path
+- unless current_user
+  %p= link_to 'Advocate Sign In', new_user_session_path(role: 'advocate')
+  %p= link_to 'Case Worker Sign In', new_user_session_path(role: 'case_worker')

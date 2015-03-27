@@ -6,7 +6,6 @@ addons:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
-before_deploy:
 deploy:
   - heroku pg:reset DATABASE_URL
   provider: heroku

@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       when 'case_worker'
         case_workers_root_url
       else
-        root_url
+        raise 'Invalid or missing role'
     end
   end
 end

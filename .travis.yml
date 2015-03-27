@@ -1,10 +1,15 @@
 language: ruby
 cache: bundler
+sudo: true
 addons:
   postgresql: '9.3'
 before_script:
-- psql -c 'create database travis_ci_test;' -U postgres
-- cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - curl https://toolbelt.heroku.com/apt/release.key | sudo apt-key add -
+  - echo "deb http://toolbelt.heroku.com/ubuntu ./" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
+  - sudo apt-get install -y heroku-toolbelt
 deploy:
   provider: heroku
   api_key:
@@ -14,7 +19,6 @@ deploy:
     repo: ministryofjustice/crime-billing-online
     branch: develop
   run:
-    - "wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh"
     - "heroku pg:reset DATABASE_URL"
     - "rake db:migrate"
     - "rake db:seed"

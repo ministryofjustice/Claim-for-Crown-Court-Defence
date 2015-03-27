@@ -14,5 +14,6 @@ deploy:
     repo: ministryofjustice/crime-billing-online
     branch: develop
   run:
+    - "heroku pg:reset DATABASE_URL"
     - "rake db:migrate"
     - "rake db:seed"

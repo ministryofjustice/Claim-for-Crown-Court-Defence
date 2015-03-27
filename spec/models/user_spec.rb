@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:claims_to_manage) }
 
   it { should validate_presence_of(:role) }
-  it { should ensure_inclusion_of(:role).in_array(%w( advocate case_worker )) }
+  it { should validate_inclusion_of(:role).in_array(%w( advocate case_worker )) }
 
   describe 'ROLES' do
     it 'should have "advocate" and "case_worker"' do

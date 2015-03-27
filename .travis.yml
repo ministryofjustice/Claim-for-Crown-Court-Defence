@@ -1,10 +1,11 @@
 language: ruby
 cache: bundler
+sudo: true
 addons:
   postgresql: '9.3'
 before_script:
-- psql -c 'create database travis_ci_test;' -U postgres
-- cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
 deploy:
   provider: heroku
   api_key:
@@ -14,5 +15,6 @@ deploy:
     repo: ministryofjustice/crime-billing-online
     branch: develop
   run:
+    - "rake db:clear"
     - "rake db:migrate"
     - "rake db:seed"

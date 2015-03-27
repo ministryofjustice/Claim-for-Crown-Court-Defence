@@ -16,5 +16,12 @@ RSpec.describe ApplicationController, type: :controller do
         expect(subject.after_sign_in_path_for(case_worker)).to eq(case_workers_root_url)
       end
     end
+
+    context 'given a user with a different role' do
+      it 'raises error' do
+        user = build(:user, role: 'foo')
+        expect { subject.after_sign_in_path_for(user) }.to raise_error
+      end
+    end
   end
 end

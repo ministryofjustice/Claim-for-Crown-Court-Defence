@@ -1,2 +1,10 @@
 %h1 Case Worker Dashboard
 
+%h2 Claims
+- if @claims.none?
+  %p No claims found
+- else
+  %ul
+    - @claims.each do |claim|
+      %li
+        = @claim.created_at

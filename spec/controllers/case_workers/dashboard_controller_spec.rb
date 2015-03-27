@@ -7,6 +7,10 @@ RSpec.describe CaseWorkers::DashboardController, type: :controller do
       get :index
       expect(response).to have_http_status(:success)
     end
-  end
 
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template(:index)
+    end
+  end
 end

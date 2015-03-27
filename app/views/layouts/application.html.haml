@@ -1,11 +1,22 @@
-!!!
-%html
-  %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title CrimeBillingOnline
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    = csrf_meta_tags
-  %body
-    .flash= render partial: 'layouts/flashes' unless flash.empty?
-    = yield
+- content_for :stylesheets do
+  = stylesheet_link_tag "application", media: "all"
+
+- content_for :javascripts do
+  = javascript_include_tag "application"
+
+= content_for :content_override do
+  #wrapper.group
+    .phase-banner
+      %p
+        %strong.phase-tag= config_item(:phase)
+        %span
+          This is a new service – your
+          %a{href: "#"} feedback
+          will help us to improve it.
+    %section#content{role: 'main'}
+      %header.page-header.group.tribunal-header
+        #fixed-header
+        .container
+          = yield
+
+= render template: "layouts/moj_template"

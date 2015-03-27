@@ -1,23 +1,30 @@
 .nested-fields
   = f.label :first_name
+  %br
   = f.text_field :first_name
   %br
   = f.label :middle_name
+  %br
   = f.text_field :middle_name
   %br
   = f.label :last_name
+  %br
   = f.text_field :last_name
   %br
   = f.label :date_of_birth
+  %br
   = f.date_field :date_of_birth
   %br
   = f.label :representation_order_date
+  %br
   = f.date_field :representation_order_date
   %br
   = f.label :order_for_judicial_apportionment
+  %br
   = f.check_box :order_for_judicial_apportionment
   %br
   = f.label :maat_ref_nos
+  %br
   = f.text_field :maat_ref_nos
   %p
     = link_to_remove_association 'Remove defendant', f

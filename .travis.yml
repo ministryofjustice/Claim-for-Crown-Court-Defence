@@ -10,6 +10,7 @@ before_script:
   - echo "deb http://toolbelt.heroku.com/ubuntu ./" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
   - sudo apt-get install -y heroku-toolbelt
+  - heroku pg:reset DATABASE_URL
 deploy:
   provider: heroku
   api_key:
@@ -19,6 +20,5 @@ deploy:
     repo: ministryofjustice/crime-billing-online
     branch: develop
   run:
-    - "heroku pg:reset DATABASE_URL"
     - "rake db:migrate"
     - "rake db:seed"

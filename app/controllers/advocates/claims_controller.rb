@@ -22,7 +22,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
 
     if @claim.save
-      respond_with @claim, { location: root_url, notice: 'Claim successfully created' }
+      respond_with @claim, { location: advocates_root_url, notice: 'Claim successfully created' }
     else
       @claim.defendants.build
       @claim.claim_fees.build
@@ -34,7 +34,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def update
     if @claim.update(claim_params)
-      respond_with @claim, { location: root_url, notice: 'Claim successfully updated' }
+      respond_with @claim, { location: advocates_root_url, notice: 'Claim successfully updated' }
     else
       render action: :edit
     end
@@ -42,7 +42,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def destroy
     @claim.destroy
-    respond_with @claim, { location: root_url, notice: 'Claim deleted' }
+    respond_with @claim, { location: advocates_root_url, notice: 'Claim deleted' }
   end
 
   private

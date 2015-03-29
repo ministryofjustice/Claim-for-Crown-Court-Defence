@@ -1,4 +1,4 @@
-= form_for @claim do |f|
+= form_for [:advocates, @claim] do |f|
   - if @claim.errors.any?
     %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
     %ul

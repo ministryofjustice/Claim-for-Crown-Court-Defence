@@ -1,6 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe ClaimsController, type: :controller do
+RSpec.describe Advocates::ClaimsController, type: :controller do
+  let(:advocate) { create(:advocate) }
+
+  before { sign_in advocate }
 
   describe "GET #index" do
     before { get :index }
@@ -71,31 +74,30 @@ RSpec.describe ClaimsController, type: :controller do
   end
 
   describe "POST #create" do
-    context 'with valid input' do
-      let(:advocate) { create(:advocate) }
+    context 'when advocate signed in' do
+      context 'and the input is valid' do
+        it 'creates a claim' do
+          expect {
+            post :create, claim: { additional_information: 'foo' }
+          }.to change(Claim, :count).by(1)
+        end
 
-      it 'creates a claim' do
-        expect {
-          post :create, claim: { advocate_id: advocate }
-        }.to change(Claim, :count).by(1)
-      end
+        it 'redirects to root url' do
+          post :create, claim: { additional_information: 'foo' }
+          expect(response).to redirect_to(root_url)
+        end
 
-      it 'redirects to root url' do
-        post :create, claim: { advocate_id: advocate }
-        expect(response).to redirect_to(root_url)
+        it 'sets the created claim\'s advocate to the signed in advocate' do
+          post :create, claim: { additional_information: 'foo' }
+          expect(Claim.first.advocate).to eq(advocate)
+        end
       end
     end
 
-    context 'without valid input' do
-      it 'does not create a claim' do
-        expect {
-          post :create, claim: { advocate_id: nil }
-        }.to_not change(Claim, :count)
-      end
-
-      it 'renders the new template' do
-        post :create, claim: { advocate_id: nil }
-        expect(response).to render_template(:new)
+    context 'when advocate not signed in' do
+      it 'redirects to root url' do
+        post :create, claim: { additional_information: 'foo' }
+        expect(response).to redirect_to(root_url)
       end
     end
   end
@@ -103,32 +105,15 @@ RSpec.describe ClaimsController, type: :controller do
   describe "PUT #update" do
     subject { create(:claim) }
 
-    context 'with valid input' do
-      let(:advocate) { create(:advocate) }
-
-      it 'updates a claim' do
-        put :update, id: subject, claim: { advocate_id: advocate }
-        subject.reload
-        expect(subject.advocate).to eq(advocate)
-      end
-
-      it 'redirects to root url' do
-        put :update, id: subject, claim: { advocate_id: advocate }
-        expect(response).to redirect_to(root_url)
-      end
+    it 'updates a claim' do
+      put :update, id: subject, claim: { additional_information: 'foo' }
+      subject.reload
+      expect(subject.additional_information).to eq('foo')
     end
 
-    context 'without valid input' do
-      it 'does not update a claim' do
-        put :update, id: subject, claim: { advocate_id: nil }
-        subject.reload
-        expect(subject.advocate).to_not be_nil
-      end
-
-      it 'renders the edit template' do
-        put :update, id: subject, claim: { advocate_id: nil }
-        expect(response).to render_template(:edit)
-      end
+    it 'redirects to root url' do
+      put :update, id: subject, claim: { additional_information: 'foo' }
+      expect(response).to redirect_to(root_url)
     end
   end
 

@@ -5,11 +5,10 @@ Rails.application.routes.draw do
 
   namespace :advocates do
     root to: 'dashboard#index'
+    resources :claims
   end
 
   namespace :case_workers do
     root to: 'dashboard#index'
   end
-
-  resources :claims
 end

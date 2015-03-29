@@ -12,4 +12,4 @@
   %ul
     - @claims.each do |claim|
       %li
-        = @claim.created_at
+        = link_to claim.created_at, advocates_claim_path(claim)

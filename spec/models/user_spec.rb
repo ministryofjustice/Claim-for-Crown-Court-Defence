@@ -46,13 +46,13 @@ RSpec.describe User, type: :model do
     describe '#is?' do
       context 'given advocate' do
         context 'for an advocate' do
-          it 'returns true"' do
+          it 'returns true' do
             expect(advocate.is? :advocate).to eq(true)
           end
         end
 
         context 'for a case worker' do
-          it 'returns false"' do
+          it 'returns false' do
             expect(case_worker.is? :advocate).to eq(false)
           end
         end
@@ -60,13 +60,13 @@ RSpec.describe User, type: :model do
 
       context 'given case worker' do
         context 'if case worker' do
-          it 'returns true"' do
+          it 'returns true' do
             expect(case_worker.is? :case_worker).to eq(true)
           end
         end
 
         context 'for an advocate' do
-          it 'returns false"' do
+          it 'returns false' do
             expect(advocate.is? :case_worker).to eq(false)
           end
         end

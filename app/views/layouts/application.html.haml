@@ -18,9 +18,10 @@
     %section#content{role: 'main'}
       %header.page-header.group.tribunal-header
         #fixed-header
-          - if current_user
+          - if user_signed_in?
             = render 'layouts/user'
         .container
+          = render partial: 'layouts/flashes' unless flash.empty?
           = yield
 
 = render template: "layouts/moj_template"

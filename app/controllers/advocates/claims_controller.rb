@@ -1,4 +1,4 @@
-class ClaimsController < ApplicationController
+class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
 
@@ -19,7 +19,8 @@ class ClaimsController < ApplicationController
   def edit; end
 
   def create
-    @claim = Claim.new(claim_params)
+    @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
+
     if @claim.save
       respond_with @claim, { location: root_url, notice: 'Claim successfully created' }
     else

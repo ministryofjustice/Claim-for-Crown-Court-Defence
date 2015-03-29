@@ -5,7 +5,10 @@ Rails.application.routes.draw do
 
   namespace :advocates do
     root to: 'dashboard#index'
-    resources :claims
+
+    resources :claims do
+      get 'summary', on: :member
+    end
   end
 
   namespace :case_workers do

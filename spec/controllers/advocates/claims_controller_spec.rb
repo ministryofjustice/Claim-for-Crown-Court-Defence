@@ -82,22 +82,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
           }.to change(Claim, :count).by(1)
         end
 
-        it 'redirects to advocates root url' do
+        it 'redirects to claim summary' do
           post :create, claim: { additional_information: 'foo' }
-          expect(response).to redirect_to(advocates_root_url)
+          expect(response).to redirect_to(summary_advocates_claim_path(Claim.first))
         end
 
         it 'sets the created claim\'s advocate to the signed in advocate' do
           post :create, claim: { additional_information: 'foo' }
           expect(Claim.first.advocate).to eq(advocate)
         end
-      end
-    end
-
-    context 'when advocate not signed in' do
-      it 'redirects to advocates root url' do
-        post :create, claim: { additional_information: 'foo' }
-        expect(response).to redirect_to(advocates_root_url)
       end
     end
   end

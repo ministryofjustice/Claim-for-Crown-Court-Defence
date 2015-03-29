@@ -1,6 +1,6 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
   def index
     @claims = Claim.all
@@ -18,11 +18,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def edit; end
 
+  def summary; end
+
   def create
     @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
 
     if @claim.save
-      respond_with @claim, { location: advocates_root_url, notice: 'Claim successfully created' }
+      respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
     else
       @claim.defendants.build
       @claim.claim_fees.build

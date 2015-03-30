@@ -13,7 +13,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
     end
 
     it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(Claim.all)
+      create(:claim, advocate: advocate)
+      expect(assigns(:claims)).to eq(advocate.reload.claims_created.order(created_at: :desc))
     end
 
     it 'renders the template' do

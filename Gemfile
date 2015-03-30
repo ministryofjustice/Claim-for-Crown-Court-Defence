@@ -28,28 +28,32 @@ gem 'unicorn-rails'
 
 gem 'rails_12factor', group: :production
 
-group :development do
-  gem 'spring'
-end
-
-group :devedopment, :test do
+group :development, :test do
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
-
+  gem 'byebug'
+  gem 'factory_girl_rails'
+  gem 'faker'
   gem 'guard'
-
   gem 'guard-bundler'
   gem 'guard-cucumber'
   gem 'guard-rspec'
   gem 'guard-rails'
   gem 'listen'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rb-fchange', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
   gem 'rb-readline'
+  gem 'rspec-rails', '~> 3.0'
   gem 'ruby_gntp'
+end
+
+group :development do
+  gem 'spring'
 end
 
 group :test do
@@ -59,6 +63,7 @@ group :test do
   gem 'database_cleaner'
   gem 'fuubar'
   gem 'fuubar-cucumber'
+  gem 'launchy'
   gem 'rspec-mocks'
   gem 'ruby-progressbar', '< 1.7.4'
   gem 'shoulda-matchers', require: false
@@ -66,15 +71,6 @@ group :test do
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
   gem 'timecop'
-end
-
-group :development, :test do
-  gem 'byebug'
-  gem 'factory_girl_rails'
-  gem 'faker'
-  gem 'pry-byebug'
-  gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.0'
 end
 
 group :doc do

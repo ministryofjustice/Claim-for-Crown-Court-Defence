@@ -20,6 +20,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def summary; end
 
+  def confirmation; end
+
   def create
     @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
 
@@ -36,7 +38,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def update
     if @claim.update(claim_params)
-      respond_with @claim, { location: advocates_root_url, notice: 'Claim successfully updated' }
+      respond_with @claim, { location: confirmation_advocates_claim_path(@claim), notice: 'Claim successfully updated' }
     else
       render action: :edit
     end

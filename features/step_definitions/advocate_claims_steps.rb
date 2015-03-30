@@ -28,3 +28,20 @@ end
 Then(/^I should see the claim total$/) do
   expect(page).to have_content('Total')
 end
+
+Given(/^I am on the claim summary page$/) do
+  steps <<-STEPS
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I select a court and fill in the defendant details
+      And I submit the form
+     Then I should be redirected to the claim summary page
+      And I should see the claim total
+  STEPS
+end
+
+Then(/^I should be on the claim confirmation page$/) do
+  save_and_open_page
+  claim = Claim.first
+  expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+end

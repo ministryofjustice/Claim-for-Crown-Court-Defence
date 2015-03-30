@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
     resources :claims do
       get 'summary', on: :member
+      get 'confirmation', on: :member
     end
   end
 

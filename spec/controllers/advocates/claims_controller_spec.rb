@@ -122,7 +122,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
       it 'redirects to advocates root url' do
         put :update, id: subject, claim: { additional_information: 'foo' }
-        expect(response).to redirect_to(advocates_root_url)
+        expect(response).to redirect_to(confirmation_advocates_claim_path(subject))
       end
     end
 

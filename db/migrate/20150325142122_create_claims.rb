@@ -4,6 +4,7 @@ class CreateClaims < ActiveRecord::Migration
       t.text :additional_information
       t.boolean :vat_required
       t.references :advocate, index: true
+      t.references :court, index: true
 
       t.timestamps
     end

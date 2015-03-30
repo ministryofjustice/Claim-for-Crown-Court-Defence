@@ -55,8 +55,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def claim_params
     params.require(:claim).permit(
-     :advocate,
      :advocate_id,
+     :court_id,
      :additional_information,
      :vat_required,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_ref_nos, :_destroy],

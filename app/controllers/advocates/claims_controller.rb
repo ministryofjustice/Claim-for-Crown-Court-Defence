@@ -60,7 +60,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :additional_information,
      :vat_required,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_ref_nos, :_destroy],
-     claim_fees_attributes: [:id, :fee_id, :quantity, :rate, :amount, :_destroy],
+     claim_fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy]
     )
   end

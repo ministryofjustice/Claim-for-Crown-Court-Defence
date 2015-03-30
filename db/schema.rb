@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150330084305) do
   create_table "claims", force: true do |t|
     t.text     "additional_information"
     t.boolean  "vat_required"
+    t.string   "state"
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.datetime "created_at"

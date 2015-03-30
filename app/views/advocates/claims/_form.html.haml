@@ -8,6 +8,11 @@
   %fieldset
     %legend
       Section 1: Case, Instructed Advocate & Offence
+
+    = f.label :court
+    %br
+    = f.collection_select :court_id, Court.all, :id, :name, prompt: true
+
     %p Defendants
     #defendants
       = f.fields_for :defendants do |defendant|

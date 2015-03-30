@@ -41,7 +41,6 @@ Given(/^I am on the claim summary page$/) do
 end
 
 Then(/^I should be on the claim confirmation page$/) do
-  save_and_open_page
   claim = Claim.first
   expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
 end

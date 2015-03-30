@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :advocates do
-    root to: 'dashboard#index'
+    root to: 'claims#index'
 
     resources :claims do
       get 'summary', on: :member
@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   end
 
   namespace :case_workers do
-    root to: 'dashboard#index'
+    root to: 'claims#index'
+
+    resources :claims, only: [:index, :show]
   end
 end

@@ -1,4 +1,6 @@
 class Claim < ActiveRecord::Base
+  include Claims::StateMachine
+
   belongs_to :court
   belongs_to :advocate, class_name: 'User', inverse_of: :claims_created
   has_many :case_worker_claims, dependent: :destroy

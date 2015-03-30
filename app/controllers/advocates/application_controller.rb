@@ -4,7 +4,7 @@ class Advocates::ApplicationController < ApplicationController
   private
 
   def authenticate_advocate!
-    unless user_signed_in? && current_user.is?(:advocate)
+    unless user_signed_in? && current_user.advocate?
       redirect_to root_url, alert: 'Must be signed in as an advocate'
     end
   end

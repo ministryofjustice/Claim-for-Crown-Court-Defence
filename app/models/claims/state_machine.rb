@@ -5,5 +5,8 @@ module Claims::StateMachine
         transition draft: :submitted
       end
     end
+
+    klass.scope :draft, -> { klass.where(state: 'draft') }
+    klass.scope :submitted, -> { klass.where(state: 'submitted') }
   end
 end

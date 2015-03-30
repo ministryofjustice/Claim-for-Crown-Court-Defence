@@ -5,10 +5,10 @@ class Claim < ActiveRecord::Base
   belongs_to :advocate, class_name: 'User', inverse_of: :claims_created
   has_many :case_worker_claims, dependent: :destroy
   has_many :case_workers, through: :case_worker_claims
-  has_many :claim_fees, dependent: :destroy
+  has_many :claim_fees, dependent: :destroy, inverse_of: :claim
   has_many :fees, through: :claim_fees
-  has_many :expenses, dependent: :destroy
-  has_many :defendants, dependent: :destroy
+  has_many :expenses, dependent: :destroy, inverse_of: :claim
+  has_many :defendants, dependent: :destroy, inverse_of: :claim
 
   validates :advocate, presence: true
   validates :court, presence: true

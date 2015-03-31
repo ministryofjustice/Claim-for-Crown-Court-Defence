@@ -10,10 +10,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
-
-    @claim.defendants.build
-    @claim.claim_fees.build
-    @claim.expenses.build
+    build_nested_resources
   end
 
   def edit; end
@@ -28,10 +25,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
     else
-      @claim.defendants.build
-      @claim.claim_fees.build
-      @claim.expenses.build
-
+      build_nested_resources
       render action: :new
     end
   end
@@ -65,5 +59,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      claim_fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy]
     )
+  end
+
+  def build_nested_resources
+    @claim.defendants.build if @claim.defendants.none?
+    @claim.claim_fees.build if @claim.claim_fees.none?
+    @claim.expenses.build if @claim.expenses.none?
   end
 end

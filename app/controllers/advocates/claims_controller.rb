@@ -31,8 +31,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def update
-    if @claim.update(claim_params)
-      respond_with @claim, { location: confirmation_advocates_claim_path(@claim), notice: 'Claim successfully updated' }
+    if @claim.update(claim_params) && @claim.submit!
+      respond_with @claim, { location: update_redirect_location, notice: 'Claim successfully updated' }
     else
       render action: :edit
     end
@@ -65,5 +65,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.defendants.build if @claim.defendants.none?
     @claim.claim_fees.build if @claim.claim_fees.none?
     @claim.expenses.build if @claim.expenses.none?
+  end
+
+  def update_redirect_location
+    if params[:summary]
+      confirmation_advocates_claim_path(@claim)
+    else
+      summary_advocates_claim_path(@claim)
+    end
   end
 end

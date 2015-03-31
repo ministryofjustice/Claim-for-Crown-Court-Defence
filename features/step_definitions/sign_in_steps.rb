@@ -13,7 +13,7 @@ When(/^I enter my email, password and click log in$/) do
   click_on 'Log in'
 end
 
-Then(/^I should be redirected to the "(.*?)" claims index$/) do |namespace|
+Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
   case namespace.gsub(/\s/, '_')
   when 'advocates'
     expect(current_url).to eq(advocates_root_url)

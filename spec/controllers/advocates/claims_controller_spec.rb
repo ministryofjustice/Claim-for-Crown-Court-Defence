@@ -115,15 +115,26 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
     subject { create(:claim) }
 
     context 'when valid' do
-      it 'updates a claim' do
-        put :update, id: subject, claim: { additional_information: 'foo' }
-        subject.reload
-        expect(subject.additional_information).to eq('foo')
+      context 'and draft' do
+        it 'updates a claim' do
+          put :update, id: subject, claim: { additional_information: 'foo' }
+          subject.reload
+          expect(subject.additional_information).to eq('foo')
+        end
+
+        it 'redirects to claim summary path' do
+          put :update, id: subject, claim: { additional_information: 'foo' }
+          expect(response).to redirect_to(summary_advocates_claim_path(subject))
+        end
       end
 
-      it 'redirects to advocates root url' do
-        put :update, id: subject, claim: { additional_information: 'foo' }
-        expect(response).to redirect_to(confirmation_advocates_claim_path(subject))
+      context 'and submitted' do
+        before { subject.submit! }
+
+        it 'redirects to the claim confirmation path' do
+          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
+          expect(response).to redirect_to(confirmation_advocates_claim_path(subject))
+        end
       end
     end
 

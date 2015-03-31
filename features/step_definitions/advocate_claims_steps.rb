@@ -44,3 +44,31 @@ Then(/^I should be on the claim confirmation page$/) do
   claim = Claim.first
   expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
 end
+
+Then(/^the claim should be submitted$/) do
+  claim = Claim.first
+  expect(claim).to be_submitted
+end
+
+When(/^I click the back button$/) do
+  click_link 'Back'
+end
+
+Then(/^I should be on the claim edit form$/) do
+  claim = Claim.first
+  expect(page.current_path).to eq(edit_advocates_claim_path(claim))
+end
+
+Then(/^I should be on the claim summary page$/) do
+  claim = Claim.first
+  expect(page.current_path).to eq(summary_advocates_claim_path(claim))
+end
+
+Given(/^a claim exists$/) do
+  create(:claim, advocate_id: User.first.id)
+end
+
+When(/^I am on the claim edit page$/) do
+  claim = Claim.first
+  visit edit_advocates_claim_path(claim)
+end

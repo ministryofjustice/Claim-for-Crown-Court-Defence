@@ -19,6 +19,7 @@
     %ul
       - @claim.errors.full_messages.each do |msg|
         %li= msg
-  = f.hidden_field :advocate_id, value: current_user.id
+  = f.hidden_field :advocate_id, value: @claim.advocate_id
+  = hidden_field_tag :summary, true
   = f.submit 'Submit', class: 'button'
   = link_to 'Back', edit_advocates_claim_path(@claim), class: 'button'

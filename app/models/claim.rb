@@ -9,6 +9,7 @@ class Claim < ActiveRecord::Base
   has_many :fees, through: :claim_fees
   has_many :expenses, dependent: :destroy, inverse_of: :claim
   has_many :defendants, dependent: :destroy, inverse_of: :claim
+  has_many :documents, dependent: :destroy, inverse_of: :claim
 
   validates :advocate, presence: true
   validates :court, presence: true

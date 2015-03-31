@@ -7,6 +7,7 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:fees) }
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
+  it { should have_many(:documents) }
 
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }

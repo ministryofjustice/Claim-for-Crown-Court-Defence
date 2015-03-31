@@ -9,9 +9,19 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe '#submit' do
-      it 'should transition to "submitted"' do
-        subject.submit!
-        expect(subject).to be_submitted
+      context 'when draft' do
+        it 'should transition to "submitted"' do
+          subject.submit!
+          expect(subject).to be_submitted
+        end
+      end
+
+      context 'when submitted' do
+        before { subject.submit! }
+
+        it 'should not raise error' do
+          expect{subject.submit!}.to_not raise_error
+        end
       end
     end
   end

@@ -2,6 +2,7 @@ class Claim < ActiveRecord::Base
   include Claims::StateMachine
 
   CASE_TYPES = %w{ guilty trial retrial cracked_retrial }
+  OFFENCE_CLASSES = ('A'..'J').to_a
 
   belongs_to :court
   belongs_to :advocate, class_name: 'User', inverse_of: :claims_created
@@ -16,6 +17,7 @@ class Claim < ActiveRecord::Base
   validates :advocate, presence: true
   validates :court, presence: true
   validates :case_type, presence: true, inclusion: { in: CASE_TYPES }
+  validates :offence_class, presence: true, inclusion: { in: OFFENCE_CLASSES }
 
   accepts_nested_attributes_for :claim_fees, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true

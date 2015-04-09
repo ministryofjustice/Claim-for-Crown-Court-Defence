@@ -5,6 +5,7 @@ class CreateClaims < ActiveRecord::Migration
       t.boolean :vat_required
       t.string :state, index: true
       t.string :case_type, index: true
+      t.string :offence_class, index: true
 
       t.references :advocate, index: true
       t.references :court, index: true

@@ -53,10 +53,6 @@ group :development, :test do
   gem 'ruby_gntp'
 end
 
-group :development do
-  gem 'spring'
-end
-
 group :test do
   gem 'capybara'
   gem 'codeclimate-test-reporter', require: nil

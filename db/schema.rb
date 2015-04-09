@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150331133748) do
     t.boolean  "vat_required"
     t.string   "state"
     t.string   "case_type"
+    t.string   "offence_class"
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.datetime "created_at"

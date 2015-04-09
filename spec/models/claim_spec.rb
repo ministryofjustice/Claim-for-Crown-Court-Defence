@@ -18,9 +18,10 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:case_type) }
   it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }
 
+  it { should validate_presence_of(:offence_class) }
+  it { should validate_inclusion_of(:offence_class).in_array(('A'..'J').to_a) }
+
   it { should accept_nested_attributes_for(:claim_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
-
-
 end

@@ -8,6 +8,7 @@ gem 'carrierwave'
 gem 'cocoon'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'devise'
+gem 'fog' # Make it explicit for other Amazon services later.
 gem 'govuk_frontend_toolkit'
 gem 'haml'
 gem 'haml-rails'

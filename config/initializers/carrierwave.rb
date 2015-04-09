@@ -13,6 +13,7 @@ CarrierWave.configure do |config|
       region:                 'eu-west-1'
     }
     config.fog_directory  = "moj_cbo_documents_#{Rails.env}"
+    config.fog_public     = false
     config.fog_attributes = {'Cache-Control': 'no-cache'}
   end
 

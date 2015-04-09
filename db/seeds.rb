@@ -4,6 +4,7 @@
   expense_types
   case_workers
   advocates
+  courts
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

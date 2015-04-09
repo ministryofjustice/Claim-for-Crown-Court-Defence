@@ -9,6 +9,10 @@
     %legend
       Section 1: Case, Instructed Advocate & Offence
 
+    = f.label :case_type
+    %br
+    = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, prompt: true
+    %br
     = f.label :court
     %br
     = f.collection_select :court_id, Court.all, :id, :name, prompt: true

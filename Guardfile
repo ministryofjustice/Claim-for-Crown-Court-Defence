@@ -5,7 +5,8 @@
 # directories %w(app lib config test spec features)
 
 ## Uncomment to clear the screen before every task
-# clearing :on
+clearing :on
+notification :growl
 
 ## Guard internally checks for changes in the Guardfile and exits.
 ## If you want Guard to automatically start up again, run guard in a
@@ -40,7 +41,6 @@ group :features do
   guard 'cucumber',
     cli: '--profile default',
     all_on_start: true,
-    notification: false,
     binstubs: true do
       watch(%r{^features/.+\.feature$})
       watch(%r{^features/support/.+$})          { "features" }

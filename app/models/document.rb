@@ -3,7 +3,7 @@ class Document < ActiveRecord::Base
 
   belongs_to :claim
 
-  validates :claim, presence: true
-  validates :description, presence: true
-  validates :document, presence: true
+  #validates :claim, presence: true
+  #validates :description, presence: true
+  #validates :document, presence: true
 end

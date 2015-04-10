@@ -17,4 +17,8 @@ Rails.application.routes.draw do
 
     resources :claims, only: [:index, :show]
   end
+
+  namespace :admin do
+    resources :users
+  end
 end

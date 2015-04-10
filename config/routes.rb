@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  resources :documents
+
   namespace :advocates do
     root to: 'claims#index'
 
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
       get 'summary', on: :member
       get 'confirmation', on: :member
     end
+
   end
 
   namespace :case_workers do

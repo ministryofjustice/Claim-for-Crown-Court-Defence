@@ -30,4 +30,4 @@
 *.orig
 
 public/paperclip
-public/upload
+public/uploads

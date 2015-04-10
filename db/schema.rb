@@ -84,17 +84,12 @@ ActiveRecord::Schema.define(version: 20150331133748) do
   add_index "claim_fees", ["fee_id"], name: "index_claim_fees_on_fee_id", using: :btree
 
   create_table "claims", force: true do |t|
-    t.text     "additional_information"
-    t.boolean  "vat_required"
-    t.string   "state"
     t.integer  "advocate_id"
-    t.integer  "court_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
-  add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
 
   create_table "courts", force: true do |t|
     t.string   "code"

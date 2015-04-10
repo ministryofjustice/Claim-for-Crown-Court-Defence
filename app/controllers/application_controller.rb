@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
         advocates_root_url
       when 'case_worker'
         case_workers_root_url
+      when 'admin'
+        admin_root_url
       else
         raise 'Invalid or missing role'
     end

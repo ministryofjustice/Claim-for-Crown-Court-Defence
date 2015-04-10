@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Admin::UsersController, type: :controller do
+  let(:admin) { create(:admin) }
+
+  before { sign_in admin }
 
   describe "GET #index" do
     before { get :index }
@@ -11,7 +14,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     it 'assigns @users' do
       user = create(:case_worker)
-      expect(assigns(:users)).to eq([user])
+      expect(assigns(:users)).to match_array([admin, user])
     end
 
     it 'renders the template' do
@@ -72,30 +75,61 @@ RSpec.describe Admin::UsersController, type: :controller do
   end
 
   describe "POST #create" do
-    it 'creates a user' do
-      expect {
+    context 'when valid' do
+      it 'creates a user' do
+        expect {
+          post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', role: 'case_worker' }
+        }.to change(User, :count).by(1)
+      end
+
+      it 'redirects to users index' do
         post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', role: 'case_worker' }
-      }.to change(User, :count).by(1)
+        expect(response).to redirect_to(admin_users_url)
+      end
     end
 
-    it 'redirects to users index' do
-      post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', role: 'case_worker' }
-      expect(response).to redirect_to(admin_users_url)
+    context 'when invalid' do
+      it 'does not create a user' do
+        expect {
+          post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+        }.to_not change(User, :count)
+      end
+
+      it 'renders the new template' do
+        post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+        expect(response).to render_template(:new)
+      end
     end
   end
 
   describe "PUT #update" do
     subject { create(:case_worker) }
 
-    before(:each) { put :update, id: subject, user: { email: 'email@example.com' } }
+    context 'when valid' do
+      before(:each) { put :update, id: subject, user: { email: 'email@example.com' } }
 
-    it 'updates a user' do
-      subject.reload
-      expect(subject.email).to eq('email@example.com')
+      it 'updates a user' do
+        subject.reload
+        expect(subject.email).to eq('email@example.com')
+      end
+
+      it 'redirects to users index' do
+        expect(response).to redirect_to(admin_users_url)
+      end
     end
 
-    it 'redirects to users index' do
-      expect(response).to redirect_to(admin_users_url)
+    context 'when invalid' do
+      before(:each) { put :update, id: subject, user: { email: 'emailexample.com', role: 'admin' } }
+
+      it 'does not update user' do
+        subject.reload
+        expect(subject.role).to eq('case_worker')
+        expect(subject.email).to_not eq('emailexample.com')
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
@@ -105,7 +139,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     before { delete :destroy, id: subject }
 
     it 'destroys the user' do
-      expect(User.count).to eq(0)
+      expect(User.count).to eq(1)
     end
 
     it 'redirects to advocates root url' do

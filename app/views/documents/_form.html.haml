@@ -1,0 +1,7 @@
+= simple_form_for @document, html: { multipart: true } do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :document, label: t('.upload'), as: :file
+  .form-actions
+    = f.button :submit, t('upload')

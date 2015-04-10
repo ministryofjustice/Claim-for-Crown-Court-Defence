@@ -10,3 +10,9 @@ Feature: Sign in
      When I vist the user sign in page
       And I enter my email, password and click log in
      Then I should be redirected to the "case workers" root url
+
+  Scenario: Sign in as an admin
+    Given a "admin" user account exists
+     When I vist the user sign in page
+      And I enter my email, password and click log in
+     Then I should be redirected to the "admin" root url

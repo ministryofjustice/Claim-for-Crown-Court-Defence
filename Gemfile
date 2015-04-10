@@ -51,6 +51,7 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
+  gem 'growl'
 end
 
 group :test do

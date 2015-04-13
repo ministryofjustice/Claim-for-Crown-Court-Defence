@@ -49,6 +49,7 @@ end
 
 Then(/^the claim should be submitted$/) do
   claim = Claim.first
+  p claim.submitted_at
   expect(claim).to be_submitted
 end
 

@@ -32,8 +32,19 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
     end
 
     it "creates a new claim" do
-      puts json.class
       expect(Claim.all.count).to eq @claim_count + 1
+    end
+
+  end
+
+  describe "GET #show" do
+    before do
+      request.accept = 'application/json'
+      create(:claim)
+    end
+
+    it "displays json corresponding to a specific claim" do
+      expect(get :show, {id: Claim.first.id}).to have_http_status(:success)
     end
 
   end

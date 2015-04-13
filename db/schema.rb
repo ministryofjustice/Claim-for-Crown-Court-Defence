@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20150331133748) do
     t.string   "case_type"
     t.string   "offence_class"
     t.datetime "submitted_at"
+    t.string   "case_number"
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.datetime "created_at"

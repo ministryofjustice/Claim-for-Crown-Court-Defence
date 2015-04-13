@@ -14,6 +14,7 @@ RSpec.describe Claim, type: :model do
 
   it { should validate_presence_of(:advocate) }
   it { should validate_presence_of(:court) }
+  it { should validate_presence_of(:case_number) }
 
   it { should validate_presence_of(:case_type) }
   it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }

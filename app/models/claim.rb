@@ -16,6 +16,7 @@ class Claim < ActiveRecord::Base
 
   validates :advocate, presence: true
   validates :court, presence: true
+  validates :case_number, presence: true
   validates :case_type, presence: true, inclusion: { in: CASE_TYPES }
   validates :offence_class, presence: true, inclusion: { in: OFFENCE_CLASSES }
 

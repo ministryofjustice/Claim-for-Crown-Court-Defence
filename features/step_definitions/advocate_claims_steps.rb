@@ -11,6 +11,7 @@ end
 
 When(/^I select a court and fill in the defendant details$/) do
   select('some court', from: 'claim_court_id')
+  fill_in 'Case number', with: '123456'
   select('Guilty', from: 'claim_case_type')
   select('A', from: 'claim_offence_class')
   fill_in 'First name', with: 'Foo'

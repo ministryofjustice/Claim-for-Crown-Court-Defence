@@ -7,6 +7,7 @@ class CreateClaims < ActiveRecord::Migration
       t.string :case_type, index: true
       t.string :offence_class, index: true
       t.datetime :submitted_at
+      t.string :case_number, index: true
 
       t.references :advocate, index: true
       t.references :court, index: true

@@ -40,13 +40,24 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   describe "GET #show" do
     before do
       request.accept = 'application/json'
-      create(:claim)
+      create(:claim, advocate: advocate)
     end
 
     it "displays json corresponding to a specific claim" do
       expect(get :show, {id: Claim.first.id}).to have_http_status(:success)
     end
 
+  end
+
+  describe "DELETE #destroy" do
+    before do
+      request.accept = 'application/json'
+      create(:claim, advocate: advocate)
+    end
+
+    it "destroys a specific record" do
+      expect{ delete :destroy, {id: Claim.first.id} }.to change(Claim, :count).by -1
+    end
   end
 
 end

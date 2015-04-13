@@ -19,5 +19,7 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
     expect(current_url).to eq(advocates_root_url)
   when 'case_workers'
     expect(current_url).to eq(case_workers_root_url)
+  when 'admin'
+    expect(current_url).to eq(admin_root_url)
   end
 end

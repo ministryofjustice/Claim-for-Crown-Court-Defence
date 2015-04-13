@@ -129,11 +129,22 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
       end
 
       context 'and submitted' do
-        before { subject.submit! }
+        before do
+          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
+        end
 
         it 'redirects to the claim confirmation path' do
-          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
           expect(response).to redirect_to(confirmation_advocates_claim_path(subject))
+        end
+
+        it 'sets the claim to submitted' do
+          subject.reload
+          expect(subject).to be_submitted
+        end
+
+        it 'sets the claim submitted_at' do
+          subject.reload
+          expect(subject.submitted_at).to_not be_nil
         end
       end
     end

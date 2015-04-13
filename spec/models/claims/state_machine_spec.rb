@@ -10,9 +10,14 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe '#submit' do
       context 'when draft' do
+        before { subject.submit! }
+
         it 'should transition to "submitted"' do
-          subject.submit!
           expect(subject).to be_submitted
+        end
+
+        it 'should set submitted_at' do
+          expect(subject.submitted_at).to_not be_nil
         end
       end
 

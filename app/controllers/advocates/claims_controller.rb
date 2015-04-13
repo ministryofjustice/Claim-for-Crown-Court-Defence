@@ -1,5 +1,5 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
-  respond_to :html, :json
+  respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
   def index

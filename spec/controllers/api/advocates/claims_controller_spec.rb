@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Advocates::ClaimsController, type: :controller do
+RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   let(:advocate)  { create(:advocate)                   }
   let(:new_claim) { build(:claim)                       }
   let(:params)    { {claim: new_claim.attributes}       }

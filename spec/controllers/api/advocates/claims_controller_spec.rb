@@ -17,11 +17,14 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
         get :index
       end
 
-      it "generates a successful response" do
-        expect(response).to have_http_status(:success)
+      it "generates a response status of 200 (OK)" do
+        expect(response.status).to eq 200
       end
       it 'responds with json' do
         expect(response.content_type).to eq 'application/json'
+      end
+      it 'renders the index view' do
+        expect(response).to render_template(:index)
       end
   end
 
@@ -31,8 +34,8 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
       post :create, params
     end
 
-    it 'generates a successful response' do
-      expect(response).to have_http_status(:success) 
+    it 'generates a response status of 201 (created)' do
+      expect(response.status).to eq 201
     end
     it "creates a new claim" do
       expect(Claim.all.count).to eq @claim_count + 1
@@ -46,11 +49,14 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
     before do
       get :show, id: Claim.first.id
     end
-    it "generates a successful response" do
-      expect(response).to have_http_status(:success)
+    it "generates a response status of 200 (OK)" do
+      expect(response.status).to eq 200
     end
     it 'responds with json' do
       expect(response.content_type).to eq 'application/json'
+    end
+    it 'renders the show view' do
+      expect(response).to render_template(:show)
     end
   end
 
@@ -59,11 +65,14 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
       get :edit, id: Claim.first.id
     end
 
-    it 'generates a successful response' do
-      expect(response).to have_http_status(:success)
+    it 'generates a response status of 200 (OK)' do
+      expect(response.status).to eq 200
     end
     it 'responds with json' do
       expect(response.content_type).to eq 'application/json'
+    end
+    it 'renders the edit view' do
+      expect(response).to render_template(:edit)
     end
   end
 
@@ -74,11 +83,16 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
       put :update, id: Claim.first.id, claim: @claim_to_update.attributes
     end
 
+    it 'generates a response status of 200' do
+      expect(response.status).to eq 200
+    end
     it "updates a record" do
       expect(Claim.first.case_type).to eq 'guilty'
     end
     it 'responds with json' do
       expect(response.content_type).to eq 'application/json'
+    end
+    it '' do
     end
   end
 

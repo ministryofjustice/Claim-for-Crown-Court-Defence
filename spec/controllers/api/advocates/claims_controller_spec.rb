@@ -6,7 +6,6 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   let(:invalid_new_claim)  { build(:invalid_claim)                 }
   let(:params)             { {claim: new_claim.attributes}         }
   let(:invalid_params)     { {claim: invalid_new_claim.attributes} }
-  let(:json)               { JSON.parse(response.body)             }
 
   before do
     sign_in advocate
@@ -50,11 +49,14 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
 
     context 'when validations fail' do
       before do
-        @claim_count = Claim.all.count
+        @claim_count = Claim.all.count #number of claims before attempt to create a new one
         post :create, invalid_params
       end
-      it 'generates a response status of 422' do
+      it 'generates a response status of 422 (unprocessable entity)' do
         expect(response.status).to eq 422
+      end
+      it 'does not create a new claim' do
+        expect(Claim.all.count).to eq @claim_count #therefore it remains unchanged
       end
     end
   end
@@ -93,8 +95,8 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   describe "PUT #update" do
     context 'when validations pass' do
       before do
-        @claim_to_update = Claim.first
-        @claim_to_update.case_type = 'guilty'
+        @claim_to_update = Claim.first #factory girl created a claim with case_type of 'trial' (above)
+        @claim_to_update.case_type = 'guilty' #change case type
         put :update, id: @claim_to_update.id, claim: @claim_to_update.attributes
       end
 

@@ -45,6 +45,9 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
       it 'responds with json' do
         expect(response.content_type).to eq 'application/json'
       end
+      it 'sets the date of submission' do
+        expect(Claim.last.submitted_at).to_not eq nil
+      end
     end
 
     context 'when validations fail' do

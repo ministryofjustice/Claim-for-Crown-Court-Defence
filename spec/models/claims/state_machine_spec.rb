@@ -29,6 +29,15 @@ RSpec.describe Claims::StateMachine, type: :model do
         end
       end
     end
+
+    describe '#set_submission_date!' do
+      it 'sets the submission date/time to now' do
+        Timecop.freeze(Time.now) do
+          subject.send(:set_submission_date!)
+          expect(subject.submitted_at.to_time).to eq(Time.now)
+        end
+      end
+    end
   end
 
   context 'scopes' do

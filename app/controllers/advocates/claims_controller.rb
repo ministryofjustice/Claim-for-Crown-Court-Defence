@@ -53,6 +53,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     params.require(:claim).permit(
      :advocate_id,
      :court_id,
+     :case_number,
      :case_type,
      :offence_class,
      :additional_information,

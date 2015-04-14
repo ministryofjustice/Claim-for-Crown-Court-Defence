@@ -77,23 +77,36 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   end
 
   describe "PUT #update" do
-    before do
-      @claim_to_update = Claim.first
-      @claim_to_update.case_type = 'guilty'
-      put :update, id: Claim.first.id, claim: @claim_to_update.attributes
+    context 'when validations pass' do
+      before do
+        @claim_to_update = Claim.first
+        @claim_to_update.case_type = 'guilty'
+        put :update, id: @claim_to_update.id, claim: @claim_to_update.attributes
+      end
+
+      it 'generates a response status of 200' do
+        expect(response.status).to eq 200
+      end
+      it "updates a record" do
+        expect(Claim.first.case_type).to eq 'guilty'
+      end
+      it 'responds with json' do
+        expect(response.content_type).to eq 'application/json'
+      end
     end
 
-    it 'generates a response status of 200' do
-      expect(response.status).to eq 200
+    context 'when validations fail' do
+      before do
+        @claim_to_update = Claim.first
+        @claim_to_update.case_type = 'invalid case type'
+        put :update, id: @claim_to_update.id, claim: @claim_to_update.attributes
+      end
+
+      it 'generates a response status of 422 (unprocessable entity)' do
+        expect(response.status).to eq 422
+      end
     end
-    it "updates a record" do
-      expect(Claim.first.case_type).to eq 'guilty'
-    end
-    it 'responds with json' do
-      expect(response.content_type).to eq 'application/json'
-    end
-    it '' do
-    end
+
   end
 
   describe "DELETE #destroy" do

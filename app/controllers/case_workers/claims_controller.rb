@@ -1,9 +1,9 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_claim, only: [:show]
 
   def index
-    @claims = Claim.order(created_at: :desc)
+    @claims = current_user.claims_to_manage.order(submitted_at: :desc)
   end
 
   def show; end

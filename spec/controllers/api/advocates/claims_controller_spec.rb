@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::Advocates::ClaimsController, type: :controller do
-  let(:advocate)  { create(:advocate)                   }
-  let(:new_claim) { build(:claim)                       }
-  let(:params)    { {claim: new_claim.attributes}       }
-  let(:json)      { JSON.parse(response.body)           }
+  let(:advocate)           { create(:advocate)                     }
+  let(:new_claim)          { build(:claim)                         }
+  let(:invalid_new_claim)  { build(:invalid_claim)                 }
+  let(:params)             { {claim: new_claim.attributes}         }
+  let(:invalid_params)     { {claim: invalid_new_claim.attributes} }
+  let(:json)               { JSON.parse(response.body)             }
 
   before do
     sign_in advocate
@@ -29,19 +31,31 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   end
 
   describe "POST #create" do
-    before do
-      @claim_count = Claim.all.count
-      post :create, params
+    context 'when validations pass' do
+      before do
+        @claim_count = Claim.all.count
+        post :create, params
+      end
+
+      it 'generates a response status of 201 (created)' do
+        expect(response.status).to eq 201
+      end
+      it "creates a new claim" do
+        expect(Claim.all.count).to eq @claim_count + 1
+      end
+      it 'responds with json' do
+        expect(response.content_type).to eq 'application/json'
+      end
     end
 
-    it 'generates a response status of 201 (created)' do
-      expect(response.status).to eq 201
-    end
-    it "creates a new claim" do
-      expect(Claim.all.count).to eq @claim_count + 1
-    end
-    it 'responds with json' do
-      expect(response.content_type).to eq 'application/json'
+    context 'when validations fail' do
+      before do
+        @claim_count = Claim.all.count
+        post :create, invalid_params
+      end
+      it 'generates a response status of 422' do
+        expect(response.status).to eq 422
+      end
     end
   end
 
@@ -119,6 +133,9 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
     end
     it 'responds with json' do
       expect(response.content_type).to eq 'application/json'
+    end
+    it 'generates a response status of 200 (OK)' do
+      expect(response.status).to eq 200
     end
   end
 

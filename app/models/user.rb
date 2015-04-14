@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   belongs_to :chamber, -> { where(role: 'advocate') }, inverse_of: :advocates
   has_many :claims_created, class_name: 'Claim', foreign_key: 'advocate_id'
   has_many :case_worker_claims, foreign_key: 'case_worker_id', dependent: :destroy
-  has_many :claims_to_manage, class_name: 'Claim', through: :case_worker_claims
+  has_many :claims_to_manage, through: :case_worker_claims, source: :claim
 
   scope :admin, -> { where(role: 'admin') }
   scope :advocates, -> { where(role: 'advocate') }

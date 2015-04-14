@@ -17,8 +17,11 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
         get :index
       end
 
-      it "returns http success" do
+      it "generates a successful response" do
         expect(response).to have_http_status(:success)
+      end
+      it 'responds with json' do
+        expect(response.content_type).to eq 'application/json'
       end
   end
 
@@ -28,23 +31,39 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
       post :create, params
     end
 
-    it 'the prompts a successful response' do
+    it 'generates a successful response' do
       expect(response).to have_http_status(:success) 
     end
     it "creates a new claim" do
       expect(Claim.all.count).to eq @claim_count + 1
     end
+    it 'responds with json' do
+      expect(response.content_type).to eq 'application/json'
+    end
   end
 
   describe "GET #show" do
-    it "displays json corresponding to a specific claim" do
-      expect(get :show, {id: Claim.first.id}).to have_http_status(:success)
+    before do
+      get :show, id: Claim.first.id
+    end
+    it "generates a successful response" do
+      expect(response).to have_http_status(:success)
+    end
+    it 'responds with json' do
+      expect(response.content_type).to eq 'application/json'
     end
   end
 
   describe "GET #edit" do
-    it 'returns the record to be edited' do
-      expect(get :edit, {id: Claim.first.id}).to have_http_status(:success)
+    before do
+      get :edit, id: Claim.first.id
+    end
+
+    it 'generates a successful response' do
+      expect(response).to have_http_status(:success)
+    end
+    it 'responds with json' do
+      expect(response.content_type).to eq 'application/json'
     end
   end
 
@@ -52,17 +71,27 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
     before do
       @claim_to_update = Claim.first
       @claim_to_update.case_type = 'guilty'
+      put :update, id: Claim.first.id, claim: @claim_to_update.attributes
     end
 
     it "updates a record" do
-      put :update, id: @claim_to_update.id, claim: @claim_to_update.attributes
       expect(Claim.first.case_type).to eq 'guilty'
+    end
+    it 'responds with json' do
+      expect(response.content_type).to eq 'application/json'
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys a specific record" do
-      expect{ delete :destroy, {id: Claim.first.id} }.to change(Claim, :count).by -1
+    before do
+      @claims_before_deletion = Claim.all.count
+      delete :destroy, {id: Claim.first.id}
+    end
+    it "removes a single record from the db" do
+      expect(Claim.all.count).to eq @claims_before_deletion -1
+    end
+    it 'responds with json' do
+      expect(response.content_type).to eq 'application/json'
     end
   end
 

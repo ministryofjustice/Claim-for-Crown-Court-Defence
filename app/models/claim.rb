@@ -23,4 +23,28 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :claim_fees, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :defendants, reject_if: :all_blank, allow_destroy: true
+
+  def calculate_fees_total
+    claim_fees.sum(:amount)
+  end
+
+  def calculate_expenses_total
+    expenses.sum(:amount)
+  end
+
+  def calculate_total
+    calculate_fees_total + calculate_expenses_total
+  end
+
+  def update_fees_total
+    update_column(:fees_total, calculate_fees_total)
+  end
+
+  def update_expenses_total
+    update_column(:expenses_total, calculate_expenses_total)
+  end
+
+  def update_total
+    update_column(:total, fees_total + expenses_total)
+  end
 end

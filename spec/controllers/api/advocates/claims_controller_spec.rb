@@ -49,6 +49,18 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
 
   end
 
+  describe "GET #edit" do
+    before do
+      request.accept = 'application/json'
+      create(:claim, advocate: advocate)
+    end
+
+    it 'returns the record to be edited' do
+      expect(get :edit, {id: Claim.first.id}).to have_http_status(:success)
+    end
+
+  end
+
   describe "PUT #update" do
     before do
       request.accept = 'application/json'

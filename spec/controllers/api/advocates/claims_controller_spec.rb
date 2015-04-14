@@ -49,6 +49,21 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
 
   end
 
+  describe "PUT #update" do
+    before do
+      request.accept = 'application/json'
+      create(:claim, advocate: advocate)
+      @claim_to_update = Claim.first
+      @claim_to_update.case_type = 'guilty'
+    end
+
+    it "updates a record" do
+      put :update, id: @claim_to_update.id, claim: @claim_to_update.attributes
+      expect(Claim.first.case_type).to eq 'guilty'
+    end
+
+  end
+
   describe "DELETE #destroy" do
     before do
       request.accept = 'application/json'

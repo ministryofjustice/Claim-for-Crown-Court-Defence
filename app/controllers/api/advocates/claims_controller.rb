@@ -7,6 +7,7 @@ module Api
         @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
 
         if @claim.save
+          @claim.submit!
           render json: @claim, message: 'Claim successfully submitted', status: :created
         else
           render json: { errors: @claim.errors.full_messages }, status: :unprocessable_entity

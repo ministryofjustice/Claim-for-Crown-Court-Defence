@@ -3,7 +3,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claim, only: [:show]
 
   def index
-    @claims = current_user.claims_to_manage.order("#{sort_column} #{sort_direction}")
+    @claims = case tab
+      when 'current'
+        current_user.claims_to_manage
+      when 'archive'
+        Claim.all
+    end
+
+    @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
   def show; end
@@ -12,6 +19,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def set_claim
     @claim = Claim.find(params[:id])
+  end
+
+  def tab
+    %w(current archive).include?(params[:tab]) ? params[:tab] : 'current'
   end
 
   def sort_column

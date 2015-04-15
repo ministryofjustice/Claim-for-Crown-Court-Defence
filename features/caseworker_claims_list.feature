@@ -24,3 +24,7 @@ Feature: Caseworker claims list
     Given I am signed in and on the case worker dashboard
      When I sort the the claims by lowest value first
      Then I should see the claims sorted by lowest value first
+
+  Scenario: Current claims count
+    Given I am signed in and on the case worker dashboard
+     Then I should see the claims count

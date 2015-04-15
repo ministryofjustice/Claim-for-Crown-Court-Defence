@@ -10,6 +10,8 @@ Given(/^claims have been assigned to me$/) do
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
+  create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
+  create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
 end
 
 When(/^I visit my dashboard$/) do
@@ -72,4 +74,14 @@ end
 
 Then(/^I should see the claims count$/) do
   expect(page).to have_content("Current claims (#{@claims.size})")
+end
+
+When(/^I search for a claim by MAAT reference$/) do
+  fill_in 'search', with: 'AA1245'
+  click_button 'Search'
+end
+
+Then(/^I should only see claims matching the MAAT reference$/) do
+  expect(page).to have_content("Current claims (1)")
+  expect(page).to have_selector("#claim_#{@claims.first.id}")
 end

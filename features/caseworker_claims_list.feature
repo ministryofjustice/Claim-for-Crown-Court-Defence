@@ -28,3 +28,8 @@ Feature: Caseworker claims list
   Scenario: Current claims count
     Given I am signed in and on the case worker dashboard
      Then I should see the claims count
+
+  Scenario: Search for claims by MAAT reference
+    Given I am signed in and on the case worker dashboard
+     When I search for a claim by MAAT reference
+     Then I should only see claims matching the MAAT reference

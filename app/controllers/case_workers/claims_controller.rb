@@ -10,6 +10,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         Claim.all
     end
 
+    if params[:search].present?
+      @claims = @claims.find_by_maat_reference(params[:search])
+    end
+
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 

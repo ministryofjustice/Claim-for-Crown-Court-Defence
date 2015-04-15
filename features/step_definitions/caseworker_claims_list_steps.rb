@@ -69,3 +69,7 @@ Then(/^I should see the claims sorted by lowest value first$/) do
   claim_dom_ids = @claims.sort_by(&:total).map { |c| "claim_#{c.id}" }
   expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
 end
+
+Then(/^I should see the claims count$/) do
+  expect(page).to have_content("Current claims (#{@claims.size})")
+end

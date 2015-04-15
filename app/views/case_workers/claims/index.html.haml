@@ -1,9 +1,27 @@
-%h1 Claims
+%div
+  = link_to 'Current claims', case_workers_claims_path(tab: 'current')
+  |
+  = link_to 'Archived claims', case_workers_claims_path(tab: 'archive')
 
-- if @claims.none?
-  %p No claims found
-- else
-  %ul
-    - @claims.each do |claim|
-      %li
-        = link_to claim.created_at, case_workers_claim_path(claim)
+%h1
+  Current claims (#{@claims.count})
+
+
+%p
+  Sort by:
+  = link_to 'Oldest', case_workers_claims_path(sort: 'submitted_at', direction: 'asc')
+  |
+  = link_to 'Newest', case_workers_claims_path(sort: 'submitted_at', direction: 'desc')
+  |
+  = link_to 'Value - Highest first', case_workers_claims_path(sort: 'total', direction: 'desc')
+  |
+  = link_to 'Value - Lowest first', case_workers_claims_path(sort: 'total', direction: 'asc')
+%p
+  = form_tag case_workers_claims_path do
+    = text_field_tag :search, params[:search], placeholder: 'MAAT reference no.'
+%ul
+  - @claims.each do |claim|
+    %li{ id: dom_id(claim) }
+      Case number: #{claim.case_number}
+      %span.value= claim.total
+      = link_to 'Detail', case_workers_claim_path(claim)

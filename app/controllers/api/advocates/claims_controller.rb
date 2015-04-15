@@ -1,32 +1,37 @@
 module Api
   module Advocates
-    class ClaimsController < ::Advocates::ClaimsController
+
+    class ClaimsController < ActionController::Base
+      protect_from_forgery with: :null_session
       respond_to :json
 
       def create
-        @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
+        @claim = Claim.new(claim_params)
 
         if @claim.save
           @claim.submit!
-          render json: @claim, message: 'Claim successfully submitted', status: :created
+          render json: @claim, status: :created
         else
           render json: { errors: @claim.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
-      def update
-        if @claim.update(claim_params)
-          render json: @claim, message: 'Claim sucessfully updated'
-        else
-          render json: { errors: @claim.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+      private
 
-      def destroy
-        @claim.destroy
-        render json: { message: 'Claim successfully deleted' }, status: :ok
+      def claim_params
+        params.require(:claim).permit(
+         :advocate_id,
+         :court_id,
+         :case_number,
+         :case_type,
+         :offence_class,
+         :additional_information,
+         :vat_required,
+         defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_ref_nos, :_destroy],
+         claim_fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
+         expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy]
+        )
       end
-
     end
   end
 end

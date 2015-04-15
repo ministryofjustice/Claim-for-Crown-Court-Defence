@@ -1,5 +1,5 @@
 class CaseWorkers::ApplicationController < ApplicationController
-  #before_action :authenticate_case_worker!
+  before_action :authenticate_case_worker!
 
   private
 

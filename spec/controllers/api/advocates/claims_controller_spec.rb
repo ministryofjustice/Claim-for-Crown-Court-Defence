@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Api::Advocates::ClaimsController, type: :controller do
-  let(:advocate)           { create(:advocate)                     }
   let(:new_claim)          { build(:claim)                         }
   let(:invalid_new_claim)  { build(:invalid_claim)                 }
   let(:params)             { {claim: new_claim.attributes}         }
   let(:invalid_params)     { {claim: invalid_new_claim.attributes} }
 
   before do
+    http_login
     request.accept = 'application/json'
     @claim_count = Claim.all.count
   end
@@ -43,6 +43,12 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
         expect(Claim.all.count).to eq @claim_count
       end
     end
+  end
+
+  def http_login
+    name = 'cms_client'
+    password = '12345678'
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(name,password)
   end
 
 end

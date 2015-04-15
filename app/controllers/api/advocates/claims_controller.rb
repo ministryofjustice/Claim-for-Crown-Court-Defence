@@ -2,7 +2,7 @@ module Api
   module Advocates
 
     class ClaimsController < ActionController::Base
-      protect_from_forgery with: :null_session
+      http_basic_authenticate_with name: 'cms_client', password: '12345678'
       respond_to :json
 
       def create

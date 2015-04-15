@@ -2,7 +2,7 @@ module Api
   module Advocates
 
     class ClaimsController < ActionController::Base
-      http_basic_authenticate_with name: 'cms_client', password: '12345678'
+      http_basic_authenticate_with name: ENV['CBO_API_USER'], password: ENV['CBO_API_PASS']
       respond_to :json
 
       def create

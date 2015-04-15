@@ -46,8 +46,8 @@ RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   end
 
   def http_login
-    name = 'cms_client'
-    password = '12345678'
+    name = ENV['CBO_API_USER']
+    password = ENV['CBO_API_PASS']
     request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(name,password)
   end
 

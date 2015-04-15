@@ -4,8 +4,11 @@
   = link_to 'Archived claims', case_workers_claims_path(params.merge(tab: 'archive'))
 
 %h1
-  Current claims (#{@claims.count})
-
+  - if params[:tab] == 'archive'
+    Archived claims
+  - else
+    Current claims
+  (#{@claims.count})
 
 %p
   Sort by:

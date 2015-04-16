@@ -2,6 +2,7 @@ module Api
   module Advocates
 
     class ClaimsController < ActionController::Base
+      protect_from_forgery with: :null_session
       http_basic_authenticate_with name: ENV['CBO_API_USER'], password: ENV['CBO_API_PASS']
       respond_to :json
 
@@ -27,7 +28,7 @@ module Api
          :offence_class,
          :additional_information,
          :vat_required,
-         defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_ref_nos, :_destroy],
+         defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
          claim_fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
          expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy]
         )

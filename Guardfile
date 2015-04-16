@@ -6,7 +6,6 @@
 
 ## Uncomment to clear the screen before every task
 clearing :on
-## notification :growl
 
 ## Guard internally checks for changes in the Guardfile and exits.
 ## If you want Guard to automatically start up again, run guard in a

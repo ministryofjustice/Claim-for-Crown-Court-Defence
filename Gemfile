@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.1'
 
-gem 'aws-sdk'
+gem 'aws-sdk-v1'
 gem 'breakpoint'
 gem 'cancan'
 gem 'cocoon'

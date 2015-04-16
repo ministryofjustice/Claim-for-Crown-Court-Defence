@@ -74,6 +74,38 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
+  describe "GET #allocate" do
+    subject { create(:case_worker) }
+
+    before { get :allocate, id: subject }
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns @user' do
+      expect(assigns(:user)).to eq(subject)
+    end
+
+    context 'for case worker' do
+      it 'assigns @claims' do
+        expect(assigns(:claims)).to eq(Claim.all)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:allocate)
+      end
+    end
+
+    context 'for non case worker' do
+      subject { create(:advocate) }
+
+      it 'redirects to admin users path' do
+        expect(response).to redirect_to(admin_users_url)
+      end
+    end
+  end
+
   describe "POST #create" do
     context 'when valid' do
       it 'creates a user' do
@@ -129,6 +161,16 @@ RSpec.describe Admin::UsersController, type: :controller do
 
       it 'renders the edit template' do
         expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'allocating claims' do
+      let(:claims) { create_list(:submitted_claim, 3) }
+
+      it 'allocates claims to case worker' do
+        put :update, id: subject, user: { claims_to_manage_ids: [claims.first.id, claims.second.id] }
+        subject.reload
+        expect(subject.claims_to_manage).to match_array([claims.first, claims.second])
       end
     end
   end

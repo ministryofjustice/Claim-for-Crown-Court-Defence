@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :allocate, :update, :destroy]
 
   def index
     @users = User.all
@@ -8,6 +8,14 @@ class Admin::UsersController < Admin::ApplicationController
   def show; end
 
   def edit; end
+
+  def allocate
+    if @user.case_worker?
+      @claims = Claim.all
+    else
+      redirect_to admin_users_url, notice: 'Only case workers may have claims allocated to them'
+    end
+  end
 
   def new
     @user = User.new
@@ -47,7 +55,8 @@ class Admin::UsersController < Admin::ApplicationController
      :email,
      :password,
      :password_confirmation,
-     :role
+     :role,
+     claims_to_manage_ids: []
     )
   end
 end

@@ -1,9 +1,37 @@
-%h1 Claims
+%div
+  = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
+  |
+  = link_to 'Archived claims', case_workers_claims_path(params.merge(tab: 'archive'))
 
-- if @claims.none?
-  %p No claims found
-- else
-  %ul
-    - @claims.each do |claim|
-      %li{id: dom_id(claim)}
-        = link_to claim.created_at, case_workers_claim_path(claim)
+%h1
+  - if params[:tab] == 'archive'
+    Archived claims
+  - else
+    Current claims
+  (#{@claims.count})
+
+%p
+  Sort by:
+  = link_to 'Oldest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'asc'))
+  |
+  = link_to 'Newest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'desc'))
+  |
+  = link_to 'Value - Highest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'desc'))
+  |
+  = link_to 'Value - Lowest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'asc'))
+%p
+  = form_tag case_workers_claims_path, method: :get do
+    = hidden_field_tag :tab, params[:tab]
+    = hidden_field_tag :sort, params[:sort]
+    = hidden_field_tag :direction, params[:direction]
+    = text_field_tag :search, params[:search], placeholder: 'MAAT reference no.'
+    = submit_tag 'Search'
+%ul
+  - if @claims.none?
+    %p
+      - if params[:search].present?
+        No claims found matching MAAT reference "#{params[:search]}"
+      - else
+        No claims found
+  - else
+    = render @claims

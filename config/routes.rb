@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'users#index'
 
-    resources :users
+    resources :users do
+      get 'allocate', on: :member
+    end
   end
 end

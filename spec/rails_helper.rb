@@ -67,4 +67,6 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  WebMock.disable_net_connect!(allow: /codeclimate/)
 end

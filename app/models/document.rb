@@ -1,5 +1,7 @@
 class Document < ActiveRecord::Base
-  has_attached_file :document
+  has_attached_file :document,
+    storage: :s3,
+    s3_credentials: 'config/aws.yml'
 
   validates_attachment :document,
     presence: true,
@@ -13,7 +15,6 @@ class Document < ActiveRecord::Base
 
     belongs_to :claim
 
-    #validates :claim, presence: true
-    #validates :description, presence: true
-    #validates :document, presence: true
+    validates :claim, presence: true
+    validates :description, presence: true
 end

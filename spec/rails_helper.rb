@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'simplecov'
 require 'paperclip/matchers'
+require 'webmock/rspec'
 
 SimpleCov.start
 

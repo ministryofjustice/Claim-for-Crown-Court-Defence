@@ -4,11 +4,9 @@ ruby '2.2.1'
 gem 'aws-sdk'
 gem 'breakpoint'
 gem 'cancan'
-gem 'carrierwave'
 gem 'cocoon'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'devise'
-gem 'fog' # Make it explicit for other Amazon services later.
 gem 'govuk_frontend_toolkit'
 gem 'haml'
 gem 'haml-rails'
@@ -17,6 +15,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'moj_template'
 gem 'newrelic_rpm'
+gem 'paperclip'
 gem 'pg'
 gem 'rails', '4.1.8'
 gem 'responder'
@@ -68,6 +67,7 @@ group :test do
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
   gem 'timecop'
+  gem 'vcr'
 end
 
 group :doc do

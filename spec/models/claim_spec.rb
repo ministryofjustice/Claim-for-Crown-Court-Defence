@@ -28,6 +28,34 @@ RSpec.describe Claim, type: :model do
 
   subject { create(:claim) }
 
+  describe '.find_by_maat_reference' do
+    let!(:other_claim) { create(:claim) }
+
+    before do
+      create(:defendant, maat_reference: '111111', claim_id: subject.id)
+      create(:defendant, maat_reference: '222222', claim_id: subject.id)
+      create(:defendant, maat_reference: '333333', claim_id: other_claim.id)
+      subject.reload
+      other_claim.reload
+    end
+
+    it 'finds the claim by MAAT reference "111111"' do
+      expect(Claim.find_by_maat_reference('111111')).to eq([subject])
+    end
+
+    it 'finds the claim by MAAT reference "222222"' do
+      expect(Claim.find_by_maat_reference('222222')).to eq([subject])
+    end
+
+    it 'finds the claim by MAAT reference "333333"' do
+      expect(Claim.find_by_maat_reference('333333')).to eq([other_claim])
+    end
+
+    it 'does not find a claim with MAAT reference "444444"' do
+      expect(Claim.find_by_maat_reference('444444')).to be_empty
+    end
+  end
+
   context 'fees total' do
     let(:fee) { create(:fee) }
 

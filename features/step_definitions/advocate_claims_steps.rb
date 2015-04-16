@@ -17,6 +17,7 @@ When(/^I select a court and fill in the defendant details$/) do
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'
+  fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
 end
 
 When(/^I submit the form$/) do

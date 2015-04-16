@@ -4,5 +4,5 @@ When(/^I upload an example document$/) do
 end
 
 Then(/^The example document should exist on the system$/) do
-  pending
+  expect(Document.find_by(document_file_name: 'shorter_lorem.docx')).to be_present
 end

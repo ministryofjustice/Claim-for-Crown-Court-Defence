@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 20150331133748) do
     t.datetime "date_of_birth"
     t.datetime "representation_order_date"
     t.boolean  "order_for_judicial_apportionment"
-    t.string   "maat_ref_nos"
+    t.string   "maat_reference"
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"

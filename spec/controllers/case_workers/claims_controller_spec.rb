@@ -21,7 +21,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(case_worker.claims_to_manage.order(submitted_at: :desc))
+      expect(assigns(:claims)).to eq(case_worker.claims_to_manage.order(submitted_at: :asc))
     end
 
     it 'only includes claims associated with the case worker' do

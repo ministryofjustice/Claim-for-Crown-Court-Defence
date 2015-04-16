@@ -49,7 +49,7 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
-  gem 'ruby_gntp'
+  gem 'terminal-notifier-guard'
 end
 
 group :test do

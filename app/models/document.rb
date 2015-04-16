@@ -1,5 +1,6 @@
 class Document < ActiveRecord::Base
-  mount_uploader :document, DocumentUploader
+  has_attached_file :document
+
 
   belongs_to :claim
 

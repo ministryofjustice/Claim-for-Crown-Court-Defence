@@ -49,7 +49,6 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
-  gem 'terminal-notifier-guard'
 end
 
 group :test do
@@ -66,6 +65,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
+  gem 'terminal-notifier-guard'
   gem 'timecop'
   gem 'webmock'
 end

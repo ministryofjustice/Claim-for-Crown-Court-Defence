@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Document, :vcr, type: :model do
+RSpec.describe Document, type: :model do
   it { should belong_to(:claim) }
 
   #it { should validate_presence_of(:claim) }

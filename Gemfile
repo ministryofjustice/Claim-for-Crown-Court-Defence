@@ -49,7 +49,7 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
-  gem 'growl'
+  gem 'ruby_gntp'
 end
 
 group :test do
@@ -67,7 +67,7 @@ group :test do
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
   gem 'timecop'
-  gem 'vcr'
+  gem 'webmock'
 end
 
 group :doc do

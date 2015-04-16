@@ -10,6 +10,6 @@
 
   = f.label :claims_to_manage_ids, 'Claims'
   %br
-  = f.collection_select :claims_to_manage_ids, @claims, :id, :case_number, { prompt: true }, { multiple: true }
+  = f.collection_select :claims_to_manage_ids, @claims, :id, :case_number, { prompt: true }, { multiple: true, style: 'width: 100%;' }
   %br
   = f.submit

@@ -33,3 +33,9 @@
     clear: both;
   }
 }
+a.detail-link {
+  border: 1px solid $button-colour;
+  color: $button-colour;
+  padding: 0.5rem;
+  text-decoration: none;
+}

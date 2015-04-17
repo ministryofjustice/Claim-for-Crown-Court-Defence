@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.2.1'
 
 gem 'aws-sdk'
+gem 'bourbon'
 gem 'breakpoint'
 gem 'cancan'
 gem 'carrierwave'
@@ -15,6 +16,7 @@ gem 'high_voltage', '~> 2.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'moj_template'
+gem 'neat'
 gem 'newrelic_rpm'
 gem 'pg'
 gem 'rails', '4.1.8'
@@ -22,11 +24,11 @@ gem 'responder'
 gem 'paperclip', '~> 4.2'
 gem 'sass-rails', '~> 4.0.3'
 gem 'simple_form'
+gem 'susy'
 gem 'state_machine'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'unicorn-rails'
-
 gem 'rails_12factor', group: :production
 
 group :development, :test do

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :documents
+  resources :documents do
+    get 'download', on: :member
+  end
 
   namespace :advocates do
     root to: 'claims#index'

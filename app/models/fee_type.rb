@@ -1,5 +1,10 @@
 class FeeType < ActiveRecord::Base
-  has_many :fees, dependent: :destroy
+  belongs_to :fee_category
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  has_many :fees, dependent: :destroy
+  has_many :claims, through: :fees
+
+  validates :fee_category, presence: true
+  validates :description, presence: true, uniqueness: { case_sensitive: false }
+  validates :code, presence: true, uniqueness: { case_sensitive: false }
 end

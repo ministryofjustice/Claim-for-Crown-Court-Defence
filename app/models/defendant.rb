@@ -5,4 +5,7 @@ class Defendant < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :date_of_birth, presence: true
+  validates :maat_reference, presence: true, uniqueness: { case_sensitive: false, scope: :claim_id }
+
+  before_save { |defendant| defendant.maat_reference = defendant.maat_reference.downcase }
 end

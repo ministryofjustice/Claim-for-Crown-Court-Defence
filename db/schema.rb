@@ -89,6 +89,11 @@ ActiveRecord::Schema.define(version: 20150416144357) do
     t.string   "state"
     t.string   "case_type"
     t.string   "offence_class"
+    t.datetime "submitted_at"
+    t.string   "case_number"
+    t.decimal  "fees_total",             default: 0.0
+    t.decimal  "expenses_total",         default: 0.0
+    t.decimal  "total",                  default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.datetime "created_at"
@@ -115,7 +120,7 @@ ActiveRecord::Schema.define(version: 20150416144357) do
     t.datetime "date_of_birth"
     t.datetime "representation_order_date"
     t.boolean  "order_for_judicial_apportionment"
-    t.string   "maat_ref_nos"
+    t.string   "maat_reference"
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"

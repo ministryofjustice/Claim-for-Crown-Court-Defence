@@ -106,11 +106,13 @@ ActiveRecord::Schema.define(version: 20150331133748) do
   create_table "courts", force: true do |t|
     t.string   "code"
     t.string   "name"
+    t.string   "court_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "courts", ["code"], name: "index_courts_on_code", using: :btree
+  add_index "courts", ["court_type"], name: "index_courts_on_court_type", using: :btree
   add_index "courts", ["name"], name: "index_courts_on_name", using: :btree
 
   create_table "defendants", force: true do |t|

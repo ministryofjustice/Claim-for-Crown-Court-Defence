@@ -1,5 +1,5 @@
 %w(
-  fee_types
+  fee_categories
   fees
   expense_types
   admins

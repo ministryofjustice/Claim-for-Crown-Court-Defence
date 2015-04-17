@@ -1,0 +1,29 @@
+#list-controls {
+  
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  margin: 1em 0;
+  padding:0.5em 0;
+  nav {
+    width:auto;
+      h3{
+        display:inline-block;
+      }
+      ul{
+        display: inline-block;
+        margin-left: 0.5rem;
+        li{
+          margin-right: 1rem;
+          &.active{
+            border-bottom: 3px solid $orange;
+          }
+          a{
+            color:$black;
+          }
+        }
+      }
+  }
+  form{
+    float:right;
+  }
+}

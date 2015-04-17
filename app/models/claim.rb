@@ -9,7 +9,7 @@ class Claim < ActiveRecord::Base
   has_many :case_worker_claims, dependent: :destroy
   has_many :case_workers, through: :case_worker_claims, source: :case_worker
   has_many :claim_fees, dependent: :destroy, inverse_of: :claim
-  has_many :fees, through: :claim_fees
+  has_many :fee_types, through: :claim_fees
   has_many :expenses, dependent: :destroy, inverse_of: :claim
   has_many :defendants, dependent: :destroy, inverse_of: :claim
   has_many :documents, dependent: :destroy, inverse_of: :claim

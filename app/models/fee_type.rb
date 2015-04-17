@@ -1,4 +1,4 @@
-class Fee < ActiveRecord::Base
+class FeeType < ActiveRecord::Base
   belongs_to :fee_category
 
   has_many :claim_fees, dependent: :destroy

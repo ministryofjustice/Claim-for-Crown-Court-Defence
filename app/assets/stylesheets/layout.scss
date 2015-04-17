@@ -1,6 +1,9 @@
 
- #wrapper {
+ #wrapper, #global-header-bar {
     @include outer-container;
+ }
+ #global-header-bar .inner-block{
+  padding:0;
  }
  // ==========================================================================
    // Phase banner
@@ -8,3 +11,11 @@
  .phase-banner  {
    @include phase-banner(alpha);
  }  
+#fixed-header{
+  margin:1em 0;
+}
+section{
+  display: block
+}
+@import "navigation";
+@import "list-controls";

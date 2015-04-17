@@ -1,4 +1,4 @@
-class ClaimFee < ActiveRecord::Base
+class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type
 

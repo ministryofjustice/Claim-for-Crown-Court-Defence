@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   respond_to :html
-  before_action :set_document, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 
   def new
     @document = Document.new
@@ -13,6 +13,10 @@ class DocumentsController < ApplicationController
   end
 
   def show
+  end
+
+  def download
+    redirect_to @document.document.expiring_url(30)
   end
 
   def update

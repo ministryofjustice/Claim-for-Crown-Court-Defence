@@ -1,7 +1,6 @@
 default: &default
   access_key_id:      <%= ENV['cbo_aws_access_key'] %>
   secret_access_key:  <%= ENV['cbo_secret_access_key'] %>
-  s3_permissions: :private
   bucket: <%= ENV['cbo_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
 
 production:

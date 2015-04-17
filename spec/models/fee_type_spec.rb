@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Fee, type: :model do
+RSpec.describe FeeType, type: :model do
   it { should belong_to(:fee_category) }
   it { should have_many(:claim_fees) }
   it { should have_many(:claims) }

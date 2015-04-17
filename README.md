@@ -15,11 +15,10 @@ branch.
 
 ## S3 for document storage
 
-AWS S3 the **default** docuemnt storage mechanism for production mode.  To enable it
-for use in any other mode, set the following environment variables:
+AWS S3 the **default** docuemnt storage mechanism. It is stubbed out
+using webmock for all tests, but active in development mode.
 
 ```
-cbo_use_s3            = true              # Activates S3 for selected mode.
 cbo_aws_access_key    = <AWS access key>  # Required
 cbo_secret_access_key = <AWS secret key>  # Required
 cbo_bucket_name       = <AWS bucket name> # Optional

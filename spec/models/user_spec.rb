@@ -7,11 +7,23 @@ RSpec.describe User, type: :model do
   it { should have_many(:claims_to_manage) }
 
   it { should validate_presence_of(:role) }
-  it { should validate_inclusion_of(:role).in_array(%w( advocate case_worker )) }
+  it { should validate_inclusion_of(:role).in_array(%w( admin advocate case_worker )) }
 
   describe 'ROLES' do
     it 'should have "advocate" and "case_worker"' do
-      expect(User::ROLES).to match_array(%w( advocate case_worker ))
+      expect(User::ROLES).to match_array(%w( admin advocate case_worker ))
+    end
+  end
+
+  describe '.admin' do
+    before do
+      create(:admin)
+      create(:advocate)
+      create(:case_worker)
+    end
+
+    it 'only returns users with role "admin"' do
+      expect(User.admin.count).to eq(1)
     end
   end
 
@@ -42,6 +54,7 @@ RSpec.describe User, type: :model do
   describe 'roles' do
     let(:advocate) { create(:advocate) }
     let(:case_worker) { create(:case_worker) }
+    let(:admin) { create(:admin) }
 
     describe '#is?' do
       context 'given advocate' do
@@ -56,6 +69,12 @@ RSpec.describe User, type: :model do
             expect(case_worker.is? :advocate).to eq(false)
           end
         end
+
+        context 'for an admin' do
+          it 'returns false' do
+            expect(admin.is? :advocate).to eq(false)
+          end
+        end
       end
 
       context 'given case worker' do
@@ -68,6 +87,32 @@ RSpec.describe User, type: :model do
         context 'for an advocate' do
           it 'returns false' do
             expect(advocate.is? :case_worker).to eq(false)
+          end
+        end
+
+        context 'for an admin' do
+          it 'returns false' do
+            expect(admin.is? :case_worker).to eq(false)
+          end
+        end
+      end
+
+      context 'given admin' do
+        context 'for an admin' do
+          it 'returns true' do
+            expect(admin.is? :admin).to eq(true)
+          end
+        end
+
+        context 'for an advocate' do
+          it 'returns false' do
+            expect(advocate.is? :admin).to eq(false)
+          end
+        end
+
+        context 'for a case worker' do
+          it 'returns false' do
+            expect(case_worker.is? :admin).to eq(false)
           end
         end
       end
@@ -85,6 +130,12 @@ RSpec.describe User, type: :model do
           expect(case_worker.advocate?).to eq(false)
         end
       end
+
+      context 'for an admin' do
+        it 'returns false' do
+          expect(admin.advocate?).to eq(false)
+        end
+      end
     end
 
     describe '#case_worker?' do
@@ -97,6 +148,32 @@ RSpec.describe User, type: :model do
       context 'for an advocate' do
         it 'returns false' do
           expect(advocate.case_worker?).to eq(false)
+        end
+      end
+
+      context 'for an admin' do
+        it 'returns false' do
+          expect(admin.case_worker?).to eq(false)
+        end
+      end
+    end
+
+    describe '#admin?' do
+      context 'for an admin' do
+        it 'returns true' do
+          expect(admin.admin?).to eq(true)
+        end
+      end
+
+      context 'for an advocate' do
+        it 'returns false' do
+          expect(advocate.admin?).to eq(false)
+        end
+      end
+
+      context 'for a case worker' do
+        it 'returns false' do
+          expect(case_worker.admin?).to eq(false)
         end
       end
     end

@@ -10,9 +10,14 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe '#submit' do
       context 'when draft' do
+        before { subject.submit! }
+
         it 'should transition to "submitted"' do
-          subject.submit!
           expect(subject).to be_submitted
+        end
+
+        it 'should set submitted_at' do
+          expect(subject.submitted_at).to_not be_nil
         end
       end
 
@@ -21,6 +26,15 @@ RSpec.describe Claims::StateMachine, type: :model do
 
         it 'should not raise error' do
           expect{subject.submit!}.to_not raise_error
+        end
+      end
+    end
+
+    describe '#set_submission_date!' do
+      it 'sets the submission date/time to now' do
+        Timecop.freeze(Time.now) do
+          subject.send(:set_submission_date!)
+          expect(subject.submitted_at.to_time).to eq(Time.now)
         end
       end
     end

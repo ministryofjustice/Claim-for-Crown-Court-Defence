@@ -4,4 +4,14 @@ class Expense < ActiveRecord::Base
 
   validates :expense_type, presence: true
   validates :claim, presence: true
+
+  after_save do
+    claim.update_expenses_total
+    claim.update_total
+  end
+
+  after_destroy do
+    claim.update_expenses_total
+    claim.update_total
+  end
 end

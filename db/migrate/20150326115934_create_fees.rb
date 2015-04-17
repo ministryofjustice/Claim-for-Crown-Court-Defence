@@ -1,6 +1,6 @@
-class CreateClaimFees < ActiveRecord::Migration
+class CreateFees < ActiveRecord::Migration
   def change
-    create_table :claim_fees do |t|
+    create_table :fees do |t|
       t.references :claim, index: true
       t.references :fee_type, index: true
 

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :claim_fee do
+  factory :fee do
     claim
     fee_type
     quantity 1

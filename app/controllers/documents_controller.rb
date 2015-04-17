@@ -7,7 +7,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = Document.create!(document_params)
+    @document = Document.create(document_params)
 
     respond_with @document
   end
@@ -33,7 +33,8 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-      :document
+      :document,
+      :description
     )
   end
 end

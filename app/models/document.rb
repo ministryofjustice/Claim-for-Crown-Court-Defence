@@ -6,7 +6,6 @@ class Document < ActiveRecord::Base
       'x-amz-meta-Cache-Control' => 'no-cache',
       'Expires' => 3.months.from_now.httpdate
     },
-    # s3_host_name: "moj-cbo-documents-#{Rails.env.to_s}.s3.amazonaws.com",
     s3_permissions: :private,
     s3_region: 'eu-west-1',
     path: "documents/:id_partition/:filename"
@@ -23,6 +22,5 @@ class Document < ActiveRecord::Base
 
     belongs_to :claim
 
-    #validates :claim, presence: true
-    #validates :description, presence: true
+    validates :description, presence: true
 end

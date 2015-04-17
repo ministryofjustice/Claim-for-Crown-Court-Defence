@@ -1,16 +1,16 @@
 namespace :claims do
 
-  desc "Generate claims with state: SUBMITTED"
+  desc "Create submitted claims"
   task :submitted, [:number] => :environment do |task, args|
     args[:number].to_i.times { FactoryGirl.create(:submitted_claim) }
   end
 
-  desc "Generate claims with state: DRAFT"
+  desc "Create draft claims"
   task :draft, [:no_to_create] => :environment do |task, args|
     args[:number].to_i.times { FactoryGirl.create(:claim) }
   end
 
-  desc "Generate claims and ALLOCATE ALL to caseworker@example.com"
+  desc "Create claims and allocate all to caseworker@example.com"
   task :allocated, [:number] => :environment do |task, args|
     args[:number].to_i.times { FactoryGirl.create(:submitted_claim) }
     claims_to_allocate = Claim.last(args[:number])
@@ -20,7 +20,7 @@ namespace :claims do
     end
   end
 
-  desc "Generate claims of DRAFT, SUBMITTED and ALLOCATED states"
+  desc "Create claims of draft, submitted and allocated states - same number of each"
   task :all_states, [:number] => [:environment, :submitted, :draft, :allocated] do |task, args|
   end
 

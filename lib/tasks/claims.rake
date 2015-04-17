@@ -6,7 +6,7 @@ namespace :claims do
   end
 
   desc "Create draft claims"
-  task :draft, [:no_to_create] => :environment do |task, args|
+  task :draft, [:number] => :environment do |task, args|
     args[:number].to_i.times { FactoryGirl.create(:claim) }
   end
 

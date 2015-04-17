@@ -18,7 +18,7 @@
     %h3
       Sort by:
     %ul
-      %li{class: ('active' if params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
+      %li{class: ('active' if params[:sort].blank? && params[:direction].blank?) || (params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
         = link_to 'Oldest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'asc'))
       %li{class: ('active' if params[:sort] == 'submitted_at' && params[:direction] == 'desc')}
         = link_to 'Newest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'desc'))

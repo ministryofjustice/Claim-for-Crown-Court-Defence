@@ -33,13 +33,13 @@
       = hidden_field_tag :direction, params[:direction]
       = text_field_tag :search, params[:search], placeholder: 'MAAT reference no.'
       = submit_tag 'Search', class: 'button'
-%ul
-  - if @claims.none?
-    %p
-      - if params[:search].present?
-        No claims found matching MAAT reference "#{params[:search]}"
-      - else
-        No claims found
-  - else
+- if @claims.none?
+  %p
+    - if params[:search].present?
+      No claims found matching MAAT reference "#{params[:search]}"
+    - else
+      No claims found
+- else
+  %ul#claims-list
     = render @claims
 

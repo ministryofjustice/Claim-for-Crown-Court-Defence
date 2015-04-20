@@ -1,6 +1,20 @@
-%h1= @claim.created_at
-
-%p
-  Court:
-  = @claim.court.name
-
+%h1
+  Claim 
+  = @claim.case_number
+//= @claim.inspect
+#claim-accordian
+  %h2.open
+    Claim based information
+  = render @claim, locals: {hide_totals: true}
+  %h2
+    Claim payment
+  %h2
+    Representation order
+  %h2
+    Ecidence list
+  %h2
+    AdvoNote
+  %h2
+    Claim notes
+  %h2
+    Update status of claim

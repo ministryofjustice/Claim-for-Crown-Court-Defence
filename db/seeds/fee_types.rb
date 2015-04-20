@@ -6,7 +6,7 @@ FeeType.find_or_create_by(fee_category: basic, description: 'Number of cases upl
 
 fixed = FeeCategory.find_or_create_by(name: 'Fixed Fees (amount excluding VAT)')
 
-FeeType.find_or_create_by(fee_category fixed, description: 'Appeals to the Crown Court against Conviction', code: 'ACV')
+FeeType.find_or_create_by(fee_category: fixed, description: 'Appeals to the Crown Court against Conviction', code: 'ACV')
 
 misc = FeeCategory.find_or_create_by(name: 'Miscellaneous Fees (amount excluding VAT)')
 

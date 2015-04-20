@@ -1,10 +1,86 @@
 %li{ id: dom_id(claim) }
-  Case number: #{claim.case_number}
-  %br
-  Court: #{claim.court.name}
-  %br
-  Case type: #{claim.case_type.humanize}
-  %br
-  Submission date: #{claim.submitted_at}
-  %span.value= claim.total
-  = link_to 'Detail', case_workers_claim_path(claim)
+  %ul.case-data
+    %li
+      %h2
+        Case
+      %dl
+        %dt
+          Case number
+        %dd
+          #{claim.case_number}
+        %dt
+          Case Type
+        %dd
+          Guilty trial
+        %dt
+          Case submitted
+        %dd
+          #{claim.submitted_at}
+        %dt
+          Case Worker
+        %dd
+          H. Mandalia
+        %dt
+          MATT no
+        %dd
+          1234OP98
+        %dt
+          Defendant name
+        %dd
+          Rigby
+        %dt
+          Offence
+        %dd
+          DV
+        %dt
+          Offence class
+        %dd
+          3
+    %li
+      %h2
+        Court
+      %dl
+        %dt
+          Court
+        %dd
+          Wandsworth county
+        %dt
+          Court type
+        %dd
+          Magistrate Court
+        %dt
+          Prosecuting authority
+        %dd
+          CPS
+        %dt
+          Hearing
+        %dd
+          15/04/2 7
+        %dt
+          Advocate
+        %dd
+          Don Johnson
+        %dt
+          Advocate no
+        %dd
+          SUP125HYT**
+    %li
+      %h2
+        Case Value
+      %dl
+        %dt
+          Expenses
+        %dd
+          &pound;
+        %dt
+          Fee
+        %dd
+          &pound;
+        %dt
+          VAT
+        %dd
+          TOTAL
+        %dt
+          %span.value= claim.total
+  .claim-controls
+    = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'

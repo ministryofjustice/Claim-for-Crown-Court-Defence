@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
   it { should belong_to(:court) }
-  it { should have_many(:claim_fees) }
   it { should have_many(:fees) }
+  it { should have_many(:fee_types) }
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
   it { should have_many(:documents) }
@@ -22,7 +22,7 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:offence_class) }
   it { should validate_inclusion_of(:offence_class).in_array(('A'..'J').to_a) }
 
-  it { should accept_nested_attributes_for(:claim_fees) }
+  it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
 
@@ -57,12 +57,12 @@ RSpec.describe Claim, type: :model do
   end
 
   context 'fees total' do
-    let(:fee) { create(:fee) }
+    let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 5.0)
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 2.0)
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
       subject.reload
     end
 
@@ -78,14 +78,14 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
 
       it 'updates total when claim fee destroyed' do
-        claim_fee = subject.claim_fees.first
-        claim_fee.destroy
+        fee = subject.fees.first
+        fee.destroy
         subject.reload
         expect(subject.fees_total).to eq(3.0)
       end
@@ -127,12 +127,12 @@ RSpec.describe Claim, type: :model do
   end
 
   context 'total' do
-    let(:fee) { create(:fee) }
+    let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 5.0)
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 2.0)
-      create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
 
       create(:expense, claim_id: subject.id, amount: 3.5)
       create(:expense, claim_id: subject.id, amount: 1.0)
@@ -149,16 +149,16 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:claim_fee, fee_id: fee, claim_id: subject.id, amount: 1.0)
+        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
         subject.reload
         expect(subject.total).to eq(158.5)
       end
 
       it 'updates total when expense/fee destroyed' do
         expense = subject.expenses.first
-        claim_fee = subject.claim_fees.first
+        fee = subject.fees.first
         expense.destroy
-        claim_fee.destroy
+        fee.destroy
         subject.reload
         expect(subject.total).to eq(146.0)
       end

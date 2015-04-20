@@ -70,19 +70,6 @@ ActiveRecord::Schema.define(version: 20150331133748) do
 
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
 
-  create_table "claim_fees", force: true do |t|
-    t.integer  "claim_id"
-    t.integer  "fee_id"
-    t.integer  "quantity"
-    t.decimal  "rate"
-    t.decimal  "amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "claim_fees", ["claim_id"], name: "index_claim_fees_on_claim_id", using: :btree
-  add_index "claim_fees", ["fee_id"], name: "index_claim_fees_on_fee_id", using: :btree
-
   create_table "claims", force: true do |t|
     t.text     "additional_information"
     t.boolean  "vat_required"
@@ -106,11 +93,13 @@ ActiveRecord::Schema.define(version: 20150331133748) do
   create_table "courts", force: true do |t|
     t.string   "code"
     t.string   "name"
+    t.string   "court_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "courts", ["code"], name: "index_courts_on_code", using: :btree
+  add_index "courts", ["court_type"], name: "index_courts_on_court_type", using: :btree
   add_index "courts", ["name"], name: "index_courts_on_name", using: :btree
 
   create_table "defendants", force: true do |t|
@@ -163,24 +152,37 @@ ActiveRecord::Schema.define(version: 20150331133748) do
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
 
-  create_table "fee_types", force: true do |t|
+  create_table "fee_categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "fee_types", ["name"], name: "index_fee_types_on_name", using: :btree
+  add_index "fee_categories", ["name"], name: "index_fee_categories_on_name", using: :btree
 
-  create_table "fees", force: true do |t|
+  create_table "fee_types", force: true do |t|
     t.string   "description"
     t.string   "code"
-    t.integer  "fee_type_id"
+    t.integer  "fee_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "fees", ["code"], name: "index_fees_on_code", using: :btree
-  add_index "fees", ["description"], name: "index_fees_on_description", using: :btree
+  add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree
+  add_index "fee_types", ["description"], name: "index_fee_types_on_description", using: :btree
+  add_index "fee_types", ["fee_category_id"], name: "index_fee_types_on_fee_category_id", using: :btree
+
+  create_table "fees", force: true do |t|
+    t.integer  "claim_id"
+    t.integer  "fee_type_id"
+    t.integer  "quantity"
+    t.decimal  "rate"
+    t.decimal  "amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
   create_table "users", force: true do |t|

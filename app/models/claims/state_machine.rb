@@ -6,10 +6,15 @@ module Claims::StateMachine
       event :submit do
         transition [:draft, :submitted] => :submitted
       end
+
+      event :complete do
+        transition [:submitted] => :completed
+      end
     end
 
     klass.scope :draft, -> { klass.where(state: 'draft') }
     klass.scope :submitted, -> { klass.where(state: 'submitted') }
+    klass.scope :completed, -> { klass.where(state: 'completed') }
   end
 
   private

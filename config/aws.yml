@@ -10,7 +10,9 @@ development:
   <<: *default
 
 test:
-  <<: *default
+  access_key_id:      xxxxxxxx
+  secret_access_key:  xxxxxxxxxxxxx
+  bucket: <%= ENV['cbo_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
 
 develop:
   <<: *default

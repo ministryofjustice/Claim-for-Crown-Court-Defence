@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :fee do
-    claim
     fee_type
     quantity 1
     rate "9.99"
@@ -11,6 +10,6 @@ FactoryGirl.define do
       rate { rand(1.0..9.99) }
       amount { quantity * rate }
     end
-
   end
+
 end

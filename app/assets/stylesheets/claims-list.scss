@@ -22,6 +22,7 @@
   }
   dl{
     margin: 0;
+    word-break: break-word;
   }
   dt, dd {
     @include span-columns(2 of 4);

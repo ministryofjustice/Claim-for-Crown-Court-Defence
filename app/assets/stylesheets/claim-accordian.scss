@@ -9,8 +9,32 @@
       margin-bottom: 1em;
     }
   }
-  .case-data{
+  ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
+    li {
+      @include span-columns(6);
+    }
+  }
+  #payments{
+    padding: 0;
+    li{
+      @include span-columns(3);
+      padding-bottom: 1em;
+      text-align: center;
+      padding-left: 0;
+      div{
+        border:1px solid $black;
+        margin-bottom: 1em;
+        min-height: 12em;
+        h3{
+          line-height: 3;
+          margin-bottom: 2em;
+        }
+      }
+      &:first-child{
+        //@include alpha;
+      }
+    }
   }
 }

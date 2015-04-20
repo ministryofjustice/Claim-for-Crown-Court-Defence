@@ -1,11 +1,11 @@
 %h1
-  Claim 
+  Claim
   = @claim.case_number
 //= @claim.inspect
 #claim-accordian
   %h2.open
     Claim based information
-  = render @claim, locals: {hide_totals: true}
+  = render @claim, locals: { hide_totals: true }
   %h2
     Claim payment
   %h2

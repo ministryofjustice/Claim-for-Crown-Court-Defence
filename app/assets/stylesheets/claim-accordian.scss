@@ -1,0 +1,16 @@
+#claim-accordian{
+  h2{
+    background-color: $cabinet-office;
+    clear: both;
+    color: $white;
+    display: block;
+    padding: 0.5em;
+    &.open{
+      margin-bottom: 1em;
+    }
+  }
+  .case-data{
+    overflow: hidden;
+    padding-bottom: 1em;
+  }
+}

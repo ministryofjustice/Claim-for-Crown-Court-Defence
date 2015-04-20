@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150331133748) do
+ActiveRecord::Schema.define(version: 20150416144357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,13 +120,17 @@ ActiveRecord::Schema.define(version: 20150331133748) do
   create_table "documents", force: true do |t|
     t.integer  "claim_id"
     t.string   "description"
-    t.string   "document"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
   end
 
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
   add_index "documents", ["description"], name: "index_documents_on_description", using: :btree
+  add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
 
   create_table "expense_types", force: true do |t|
     t.string   "name"

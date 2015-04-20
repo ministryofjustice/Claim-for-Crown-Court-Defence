@@ -8,4 +8,8 @@ class Defendant < ActiveRecord::Base
   validates :maat_reference, presence: true, uniqueness: { case_sensitive: false, scope: :claim_id }
 
   before_save { |defendant| defendant.maat_reference = defendant.maat_reference.downcase }
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end

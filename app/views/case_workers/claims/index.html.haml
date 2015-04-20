@@ -42,5 +42,7 @@
       No claims found
 - else
   %ul#claims-list
-    = render @claims
+    - @claims.each do |claim|
+      %li{ id: dom_id(claim) }
+        = render claim
 

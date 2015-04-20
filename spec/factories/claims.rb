@@ -15,5 +15,9 @@ FactoryGirl.define do
       submitted_at { Time.now }
     end
 
+    factory :completed_claim do
+      state 'completed'
+    end
+
   end
 end

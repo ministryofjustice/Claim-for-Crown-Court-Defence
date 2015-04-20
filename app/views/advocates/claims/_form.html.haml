@@ -41,17 +41,17 @@
   %fieldset
     %legend
       Fees
-    #claim_fees
-      = f.fields_for :claim_fees do |claim_fee|
-        = render 'claim_fee_fields', f: claim_fee
+    #fees
+      = f.fields_for :fees do |fee|
+        = render 'fee_fields', f: fee
         .links
-          = link_to_add_association 'Add Fee', f, :claim_fees, class: 'button'
+          = link_to_add_association 'Add Fee', f, :fees, class: 'button'
   %br
 
   %fieldset
     %legend
       Expenses
-    #claim_fees
+    #expenses
       = f.fields_for :expenses do |expense|
         = render 'expense_fields', f: expense
         .links

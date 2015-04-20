@@ -1,6 +1,6 @@
 %w(
+  fee_categories
   fee_types
-  fees
   expense_types
   admins
   case_workers

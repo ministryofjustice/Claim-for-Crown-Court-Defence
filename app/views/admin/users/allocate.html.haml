@@ -1,0 +1,15 @@
+%h1
+  Allocate claims to #{@user.email}
+
+= form_for [:admin, @user] do |f|
+  - if @user.errors.any?
+    %h2= "#{pluralize(@user.errors.count, 'error')} prohibited this claim from being saved:"
+    %ul
+      - @user.errors.full_messages.each do |msg|
+        %li= msg
+
+  = f.label :claims_to_manage_ids, 'Claims'
+  %br
+  = f.collection_select :claims_to_manage_ids, @claims, :id, :case_number, { prompt: true }, { multiple: true, style: 'width: 100%;' }
+  %br
+  = f.submit

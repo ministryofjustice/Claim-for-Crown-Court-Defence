@@ -1,10 +1,14 @@
 class Fee < ActiveRecord::Base
+  belongs_to :claim
   belongs_to :fee_type
 
-  has_many :claim_fees, dependent: :destroy
-  has_many :claims, through: :claim_fees
+  after_save do
+    claim.update_fees_total
+    claim.update_total
+  end
 
-  validates :fee_type, presence: true
-  validates :description, presence: true, uniqueness: { case_sensitive: false }
-  validates :code, presence: true, uniqueness: { case_sensitive: false }
+  after_destroy do
+    claim.update_fees_total
+    claim.update_total
+  end
 end

@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   root to: 'high_voltage/pages#show', id: 'home'
 
+  namespace :api, format: :json do
+    namespace :advocates do
+      resources :claims
+    end
+  end
+
   devise_for :users
 
   namespace :advocates do
@@ -21,6 +27,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'users#index'
 
-    resources :users
+    resources :users do
+      get 'allocate', on: :member
+    end
   end
 end

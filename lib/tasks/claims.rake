@@ -32,6 +32,11 @@ namespace :claims do
     end
   end
 
+  desc "Create claims, with random fees, and mark as completed"
+  task :completed, [:number] => :environment do |task, args|
+    
+  end
+
   desc "Create claims of draft, submitted and allocated states - same number of each, all with random fees"
   task :all_states, [:number] => [:environment, :submitted, :draft, :allocated] do |task, args|
   end

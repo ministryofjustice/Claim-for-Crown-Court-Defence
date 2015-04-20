@@ -85,3 +85,18 @@ Then(/^I should only see claims matching the MAAT reference$/) do
   expect(page).to have_content("Current claims (1)")
   expect(page).to have_selector("#claim_#{@claims.first.id}")
 end
+
+Given(/^I have completed claims$/) do
+  case_worker = User.first
+  @claims = create_list(:completed_claim, 5)
+  @other_claims = create_list(:completed_claim, 3)
+  @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
+  @claims.each { |claim| claim.case_workers << case_worker }
+  create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
+  create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+end
+
+When(/^I click on the Completed Claims tab$/) do
+  click_on 'Completed claims'
+  save_and_open_page
+end

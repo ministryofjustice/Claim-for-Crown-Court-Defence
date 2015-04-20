@@ -2,13 +2,14 @@
   %ul
     %li{class: ('active' if params[:tab] == 'current')}
       = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
-    %li{class: ('active' if params[:tab] == 'archive')}
-      = link_to 'Archived claims', case_workers_claims_path(params.merge(tab: 'archive'))
+    %li{class: ('active' if params[:tab] == 'completed')}
+      = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
 
 %section
   %h1
-    - if params[:tab] == 'archive'
-      Archived claims
+    - if params[:tab] == 'completed'
+      Completed claims
+      (#{@claims.count})
     - else
       Current claims
       (#{@claims.count})

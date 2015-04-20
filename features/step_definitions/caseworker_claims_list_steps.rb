@@ -98,5 +98,4 @@ end
 
 When(/^I click on the Completed Claims tab$/) do
   click_on 'Completed claims'
-  save_and_open_page
 end

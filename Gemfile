@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
 ruby '2.2.1'
 
-gem 'aws-sdk'
+gem 'aws-sdk-v1'
 gem 'bourbon'
 gem 'breakpoint'
 gem 'cancan'
-gem 'carrierwave'
 gem 'cocoon'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'devise'
@@ -18,10 +17,10 @@ gem 'jquery-rails'
 gem 'moj_template'
 gem 'neat'
 gem 'newrelic_rpm'
+gem 'paperclip'
 gem 'pg'
 gem 'rails', '4.1.8'
 gem 'responder'
-gem 'paperclip', '~> 4.2'
 gem 'sass-rails', '~> 4.0.3'
 gem 'simple_form'
 gem 'susy'
@@ -52,7 +51,6 @@ group :development, :test do
   gem 'rb-inotify', require: false
   gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
-  gem 'ruby_gntp'
 end
 
 group :test do
@@ -69,7 +67,9 @@ group :test do
   gem 'simplecov', require: false
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
+  gem 'terminal-notifier-guard'
   gem 'timecop'
+  gem 'webmock'
 end
 
 group :doc do

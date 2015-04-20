@@ -5,9 +5,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = case tab
       when 'current'
-        current_user.claims_to_manage
-      when 'archive'
-        Claim.all
+        current_user.claims_to_manage.submitted
+      when 'completed'
+        current_user.claims_to_manage.completed
     end
 
     if params[:search].present?
@@ -26,7 +26,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def tab
-    %w(current archive).include?(params[:tab]) ? params[:tab] : 'current'
+    %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
   end
 
   def sort_column

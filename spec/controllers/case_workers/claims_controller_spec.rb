@@ -14,14 +14,25 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe "GET #index" do
-    before { get :index }
+    let(:tab) { nil }
+    before { get :index, tab: tab }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(case_worker.claims_to_manage.order(submitted_at: :asc))
+    context 'current claims' do
+      it 'assigns submitted @claims' do
+        expect(assigns(:claims)).to eq(case_worker.claims_to_manage.submitted)
+      end
+    end
+
+    context 'completed claims' do
+      let(:tab) { 'completed' }
+
+      it 'assigns completed @claims' do
+        expect(assigns(:claims)).to eq(case_worker.claims_to_manage.completed)
+      end
     end
 
     it 'only includes claims associated with the case worker' do

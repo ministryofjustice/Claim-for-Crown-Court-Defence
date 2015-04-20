@@ -6,6 +6,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id) }
+      claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
     end
   end
 
@@ -15,6 +16,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id) }
+      claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
     end
   end
 
@@ -26,6 +28,7 @@ namespace :claims do
     claims_to_allocate.each do |claim|
       rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id) }
       case_worker.claims_to_manage << claim
+      claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
     end
   end
 

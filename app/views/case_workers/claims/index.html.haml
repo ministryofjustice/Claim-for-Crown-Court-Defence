@@ -1,6 +1,6 @@
 %nav.dashboard-tabs
   %ul
-    %li{class: ('active' if params[:tab] == 'current')}
+    %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}
       = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
     %li{class: ('active' if params[:tab] == 'archive')}
       = link_to 'Archived claims', case_workers_claims_path(params.merge(tab: 'archive'))

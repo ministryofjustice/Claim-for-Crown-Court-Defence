@@ -9,6 +9,9 @@
       margin-bottom: 1em;
     }
   }
+  h3{
+    line-height: 2;
+  }
   ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
@@ -48,6 +51,24 @@
         h3{
           line-height: 3;
           margin-bottom: 2em;
+        }
+      }
+    }
+  }
+  #evidence-list{
+    padding:0;
+    li{
+      background-color: $grey-3;
+      line-height: 3;
+      list-style-type: decimal;
+      list-style-position: inside;
+      margin-bottom: 0.5em;
+      padding: 0 1em;
+      div{
+        float: right;
+        a{
+          display: inline-block;
+          margin-left: 1em;
         }
       }
     }

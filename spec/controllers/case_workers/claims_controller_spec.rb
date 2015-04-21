@@ -15,7 +15,8 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
   describe "GET #index" do
     let(:tab) { nil }
-    before { get :index, tab: tab }
+    let(:search) { nil }
+    before { get :index, tab: tab, search: search }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -32,6 +33,17 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
       it 'assigns completed @claims' do
         expect(assigns(:claims)).to eq(case_worker.claims_to_manage.completed)
+      end
+    end
+
+    context 'search' do
+      let(:search) { '12345' }
+      before do
+        create(:defendant, claim_id: case_worker.claims_to_manage.first.id, maat_reference: '12345')
+      end
+
+      it 'finds the claims with MAAT reference "12345"' do
+        expect(assigns(:claims)).to eq([case_worker.claims_to_manage.first])
       end
     end
 

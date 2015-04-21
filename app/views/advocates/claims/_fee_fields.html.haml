@@ -1,6 +1,6 @@
 .nested-fields
   = f.label :fee_type
-  = f.grouped_collection_select :fee_type, FeeCategory.all, :fee_types, :name, :id, :description, prompt: true
+  = f.grouped_collection_select :fee_type, FeeCategory.includes(:fee_types), :fee_types, :name, :id, :description, prompt: true
   = f.label :quantity
   = f.number_field :quantity
   = f.label :rate

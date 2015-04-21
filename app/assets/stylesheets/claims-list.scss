@@ -40,3 +40,16 @@ a.detail-link {
   padding: 0.5rem;
   text-decoration: none;
 }
+.claim-controls{
+  .toggle{
+    background-image: url(  list-toggle.png);
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    width:42px;
+    margin: 0 0 1em 2px;
+    &.expanded{
+      background-position: 0 -48px;
+    }
+  }
+}

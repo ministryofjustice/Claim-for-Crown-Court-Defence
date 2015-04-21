@@ -1,21 +1,22 @@
-%form#claim-status
-  %div
-    %label
-      %input{type: 'radio', name: 'payment-status'}
-      Paid in full
-    %label
-      %input{type: 'radio', name: 'payment-status'}
-      Part paid
-    %label
-      %input{type: 'radio', name: 'payment-status'}
-      Not paid
+%section 
+  %form#claim-status
+    %div
+      %label
+        %input{type: 'radio', name: 'payment-status'}
+        Paid in full
+      %label
+        %input{type: 'radio', name: 'payment-status'}
+        Part paid
+      %label
+        %input{type: 'radio', name: 'payment-status'}
+        Not paid
 
-  %textarea{placeholder: 'Reason/ description'}
+    %textarea{placeholder: 'Reason/ description'}
 
-  .actions
-    %button
-      Request inforamtion
-    %button
-      Save draft
-    %button.button
-      Complete
+    .actions
+      %button
+        Request inforamtion
+      %button
+        Save draft
+      %button.button
+        Complete

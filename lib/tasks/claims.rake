@@ -2,11 +2,11 @@ namespace :claims do
 
   desc "Create submitted claims with random fees, random expenses and one defendant"
   task :submitted, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:submitted_claim) }
+    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court_id: Court.all.sample(1)[0].id) }
     claims = Claim.last(args[:number])
     claims.each do |claim|
-      rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id) }
-      rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim_id: claim.id) }
+      rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id, fee_type_id: FeeType.all.sample(1)[0].id) }
+      rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim_id: claim.id, expense_type_id: ExpenseType.all.sample(1)[0].id) }
       claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
     end
   end

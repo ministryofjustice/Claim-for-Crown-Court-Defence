@@ -61,5 +61,18 @@
   = f.label :vat_required, 'VAT on Fees & Expenses (please tick if required)'
   = f.check_box :vat_required
 
+  %br
+  %br
+
+  %fieldset
+    %legend
+      Supporting evidence documents
+    #documents
+      = f.fields_for :documents do |document|
+        = render 'document_fields', f: document
+        .links
+          = link_to_add_association 'Add Document', f, :documents, class: 'button'
+  %br
+
   %p
     = f.submit 'Submit', class: 'button'

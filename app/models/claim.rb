@@ -23,6 +23,7 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :fees, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :defendants, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :documents, reject_if: :all_blank, allow_destroy: true
 
   class << self
     def find_by_maat_reference(maat_reference)

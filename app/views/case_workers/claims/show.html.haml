@@ -1,7 +1,6 @@
 %h1
   Claim
   = @claim.case_number
-//= @claim.inspect
 #claim-accordian
   %h2.open
     Claim based information
@@ -11,8 +10,9 @@
   = render partial: 'payments'
   %h2
     Representation order
+  = render partial: 'representation_order'
   %h2
-    Ecidence list
+    Evidence list
   %h2
     AdvoNote
   %h2

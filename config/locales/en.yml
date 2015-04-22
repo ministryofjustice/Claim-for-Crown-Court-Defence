@@ -20,6 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  number:
+    currency:
+       format:
+         unit: '£'
+         delimiter: ','
+         separator: '.'
+         precision: 2
+         format: '%u%n'
   upload: "Upload"
   documents:
     form:

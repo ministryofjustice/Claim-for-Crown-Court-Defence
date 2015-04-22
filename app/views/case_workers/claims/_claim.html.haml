@@ -1,4 +1,4 @@
-%section 
+%section
   %ul.case-data
     %li
       %h3
@@ -73,18 +73,18 @@
           %dt.quickview
             Expenses
           %dd.quickview
-            &pound;#{claim.expenses_total}
+            = number_to_currency(claim.expenses_total)
           %dt.quickview
             Fees
           %dd.quickview
-            &pound;#{claim.fees_total}
+            = number_to_currency(claim.fees_total)
           %dt
             VAT
           %dd
             TOTAL
           %dt
             %span.value
-              &pound;#{claim.total}
+              = number_to_currency(claim.total)
 
   - unless controller.action_name == 'show'
     .claim-controls

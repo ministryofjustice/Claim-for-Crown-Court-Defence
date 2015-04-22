@@ -31,3 +31,4 @@ $('#claim-accordian h2').each(function(){
     $(this).toggleClass('open').next('section').slideToggle('slow');
   });
 });
+$('#claim-accordian h2:first-of-type').addClass('open').next('section').show();

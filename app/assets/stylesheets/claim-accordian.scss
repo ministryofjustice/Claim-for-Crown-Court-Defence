@@ -3,7 +3,7 @@
     background-color: $cabinet-office;
     background-image: url(accordian-toggle.png);
     background-repeat: no-repeat;
-    background-position: right top;
+    background-position: right bottom;
     cursor:pointer;
     clear: both;
     color: $white;
@@ -12,7 +12,7 @@
     margin-bottom: 1px;
     &.open{
       margin-bottom: 1em;
-      background-position: right bottom;
+      background-position: right top;
     }
   }
   h3{
@@ -140,5 +140,13 @@
       width:100%;
       margin:1em 0;
       min-height: 200px;
+    }
+    .draft {
+      background-color: $white;
+      border: 1px solid $button-colour;
+      color: $button-colour;
+
+      padding: 0.5rem;
+      text-decoration: none;
     }
 }

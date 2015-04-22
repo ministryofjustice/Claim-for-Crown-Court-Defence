@@ -1,24 +1,12 @@
-// todo:
-// add claim number ti claim input
 %section#advonote
   %form
-    %textarea{placeholder: 'Short description of request'}
-    %input{type: 'text', disabled: 'disabled', value: 'Claim'}
-    %input{type: 'text', placeholder: 'Summary/ title'}
-    %select
-      %option
-        Select note type
-      %option{value: 'request'}
-        Request
-      %option{value: 'question'}
-        Question
-      %option{value: 'problem'}
-        Problem
+    %input{type: 'text', placeholder: 'Subject'}
+    %textarea{placeholder: 'Message'}
     %button.button
       Submit
   .timeline
     %h4
-      Past questions &amp; requests
+      Past messages
     %ul
       %li
         %header

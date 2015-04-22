@@ -15,3 +15,19 @@
 //= require turbolinks
 //= require cocoon
 //= require_tree .
+$('#claims-list dd, dt').not('.quickview').each(function() {
+  $(this).hide();
+});
+
+$('#claims-list .toggle').each(function(){
+   $(this).click(function() {
+    $(this).toggleClass('expanded').closest('li').find('dd, dt').not('.quickview').slideToggle('slow');   
+  });
+});
+
+$('#claim-accordian h2').each(function(){
+  $(this).next('section').hide();
+  $(this).click(function(){
+    $(this).toggleClass('open').next('section').slideToggle('slow');
+  });
+});

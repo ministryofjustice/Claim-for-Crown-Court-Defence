@@ -1,90 +1,92 @@
-%ul.case-data
-  %li
-    %h3
-      Case
-    %dl
-      %dt
-        Case number
-      %dd
-        #{claim.case_number}
-      %dt
-        Case Type
-      %dd
-        #{claim.case_type.humanize}
-      %dt
-        Case submitted
-      %dd
-        #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
-      %dt
-        Case Worker
-      %dd
-        #{claim.case_workers.map(&:email).join(', ')}
-      %dt
-        MATT no
-      %dd
-        #{claim.defendants.map(&:maat_reference).join(', ')}
-      %dt
-        Defendant name
-      %dd
-        #{claim.defendants.map(&:name).join(', ')}
-      %dt
-        Offence
-      %dd
-
-      %dt
-        Offence class
-      %dd
-        #{claim.offence_class}
-  %li
-    %h3
-      Court
-    %dl
-      %dt
-        Court
-      %dd
-        #{claim.court.name}
-      %dt
-        Court type
-      %dd
-        #{claim.court.court_type.humanize}
-      %dt
-        Prosecuting authority
-      %dd
-        CPS
-      %dt
-        Hearing
-      %dd
-        15/04/2 7
-      %dt
-        Advocate
-      %dd
-        #{claim.advocate.email}
-      %dt
-        Advocate no
-      %dd
-        SUP125HYT**
-
-  - unless controller.action_name == 'show'
+%section
+  %ul.case-data
     %li
       %h3
-        Case Value
+        Case
       %dl
+        %dt.quickview
+          Case number
+        %dd.quickview
+          #{claim.case_number}
+        %dt.quickview
+          Case Type
+        %dd.quickview
+          #{claim.case_type.humanize}
         %dt
-          Expenses
+          Case submitted
         %dd
-          &pound;#{claim.expenses_total}
+          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
         %dt
-          Fees
+          Case Worker
         %dd
-          &pound;#{claim.fees_total}
+          #{claim.case_workers.map(&:email).join(', ')}
         %dt
-          VAT
+          MATT no
         %dd
-          TOTAL
+          #{claim.defendants.map(&:maat_reference).join(', ')}
         %dt
-          %span.value
-            &pound;#{claim.total}
+          Defendant name
+        %dd
+          #{claim.defendants.map(&:name).join(', ')}
+        %dt
+          Offence
+        %dd
 
-- unless controller.action_name == 'show'
-  .claim-controls
-    = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'
+        %dt
+          Offence class
+        %dd
+          #{claim.offence_class}
+    %li
+      %h3
+        Court
+      %dl
+        %dt.quickview
+          Court
+        %dd.quickview
+          #{claim.court.name}
+        %dt.quickview
+          Court type
+        %dd.quickview
+          #{claim.court.court_type.humanize}
+        %dt
+          Prosecuting authority
+        %dd
+          CPS
+        %dt
+          Hearing
+        %dd
+          15/04/2 7
+        %dt
+          Advocate
+        %dd
+          #{claim.advocate.email}
+        %dt
+          Advocate no
+        %dd
+          SUP125HYT**
+
+    - unless controller.action_name == 'show'
+      %li
+        %h3
+          Case Value
+        %dl
+          %dt.quickview
+            Expenses
+          %dd.quickview
+            = number_to_currency(claim.expenses_total)
+          %dt.quickview
+            Fees
+          %dd.quickview
+            = number_to_currency(claim.fees_total)
+          %dt
+            VAT
+          %dd
+            TOTAL
+          %dt
+            %span.value
+              = number_to_currency(claim.total)
+
+  - unless controller.action_name == 'show'
+    .claim-controls
+      %span.toggle
+      = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'

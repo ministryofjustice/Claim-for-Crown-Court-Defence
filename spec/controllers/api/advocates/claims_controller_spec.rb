@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::Advocates::ClaimsController, type: :controller do
+RSpec.describe Api::Advocates::ClaimsController, type: :controller, api_turned_off: true do
   let(:new_claim)          { build(:claim)                         }
   let(:invalid_new_claim)  { build(:invalid_claim)                 }
   let(:params)             { {claim: new_claim.attributes}         }

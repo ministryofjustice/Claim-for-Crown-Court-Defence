@@ -1,20 +1,25 @@
 %h1
   Claim
   = @claim.case_number
-//= @claim.inspect
 #claim-accordian
-  %h2.open
+  %h2
     Claim based information
   = render @claim, locals: { hide_totals: true }
   %h2
     Claim payment
+  = render partial: 'payments'
   %h2
     Representation order
+  = render partial: 'representation_order'
   %h2
-    Ecidence list
+    Evidence list
+  = render partial: 'evidence_list'
   %h2
     AdvoNote
+  = render partial: 'advonote'
   %h2
     Claim notes
+  = render partial: 'case_notes'
   %h2
     Update status of claim
+  = render partial: 'claim_status'

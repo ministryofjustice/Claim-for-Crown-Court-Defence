@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416144357) do
+ActiveRecord::Schema.define(version: 20150423142919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 20150416144357) do
     t.boolean  "vat_required"
     t.string   "state"
     t.string   "case_type"
-    t.string   "offence_class"
     t.datetime "submitted_at"
     t.string   "case_number"
     t.decimal  "fees_total",             default: 0.0
@@ -83,12 +82,14 @@ ActiveRecord::Schema.define(version: 20150416144357) do
     t.decimal  "total",                  default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
+    t.integer  "offence_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
+  add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
 
   create_table "courts", force: true do |t|
     t.string   "code"
@@ -188,6 +189,13 @@ ActiveRecord::Schema.define(version: 20150416144357) do
 
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
+
+  create_table "offences", force: true do |t|
+    t.string   "description"
+    t.string   "offence_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

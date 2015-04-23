@@ -21,9 +21,9 @@
     %br
     = f.text_field :case_number
     %br
-    = f.label :offence_class
+    = f.label :offence
     %br
-    = f.collection_select :offence_class, Claim::OFFENCE_CLASSES, :to_s, :to_s, prompt: true
+    = f.collection_select :offence_id, Offence.all, :id, :description, prompt: true
 
     %p Defendants
     #defendants

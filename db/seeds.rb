@@ -1,4 +1,5 @@
 %w(
+  offences
   fee_categories
   fee_types
   expense_types

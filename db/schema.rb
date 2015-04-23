@@ -64,11 +64,13 @@ ActiveRecord::Schema.define(version: 20150423142919) do
 
   create_table "chambers", force: true do |t|
     t.string   "name"
+    t.string   "supplier_no"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
+  add_index "chambers", ["supplier_no"], name: "index_chambers_on_supplier_no", using: :btree
 
   create_table "claims", force: true do |t|
     t.text     "additional_information"

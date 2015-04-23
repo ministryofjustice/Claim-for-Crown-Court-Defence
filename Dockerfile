@@ -6,3 +6,5 @@ ADD ./ /rails
 WORKDIR /rails
 
 EXPOSE 80
+
+CMD ./run.sh

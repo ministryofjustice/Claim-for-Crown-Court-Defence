@@ -1,3 +1,5 @@
+@stub_s3_upload
+
 Feature: Advocate claims
   Scenario: Fill in claim form
     Given I am a signed in advocate

@@ -1,7 +1,11 @@
 .nested-fields
-  = f.label :description
+  = f.label :document_type
   %br
-  = f.text_field :description
+  = f.collection_select :document_type_id, DocumentType.all, :id, :description, prompt: true
+  %br
+  = f.label :notes
+  %br
+  = f.text_area :notes
   %br
   = f.label :document
   %br

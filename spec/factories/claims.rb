@@ -4,7 +4,7 @@ FactoryGirl.define do
     case_number { Faker::Number.number(10) }
     advocate
     case_type 'trial'
-    offence_class 'A'
+    offence
 
     factory :invalid_claim do
       case_type 'invalid case type'

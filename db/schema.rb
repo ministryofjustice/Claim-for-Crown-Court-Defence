@@ -203,6 +203,13 @@ ActiveRecord::Schema.define(version: 20150424102029) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
+  create_table "offences", force: true do |t|
+    t.string   "description"
+    t.string   "offence_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false

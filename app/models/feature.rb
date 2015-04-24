@@ -13,7 +13,6 @@ class Feature < ActiveRecord::Base
   #   description: "Take over the world."
 
   feature :api,
-    default: false,
-    description: "basic api to for consumption by a commercial CMS (case management system)"
-
+    default: false, #change to true to switch the api on
+    description: "Basic api to for consumption by a commercial CMS (case management system)"
 end

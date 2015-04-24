@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416144357) do
+ActiveRecord::Schema.define(version: 20150424102029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,9 +117,16 @@ ActiveRecord::Schema.define(version: 20150416144357) do
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
+  create_table "document_types", force: true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "documents", force: true do |t|
     t.integer  "claim_id"
-    t.string   "description"
+    t.integer  "document_type_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "document_file_name"
@@ -129,8 +136,8 @@ ActiveRecord::Schema.define(version: 20150416144357) do
   end
 
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
-  add_index "documents", ["description"], name: "index_documents_on_description", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
+  add_index "documents", ["document_type_id"], name: "index_documents_on_document_type_id", using: :btree
 
   create_table "expense_types", force: true do |t|
     t.string   "name"
@@ -155,6 +162,13 @@ ActiveRecord::Schema.define(version: 20150416144357) do
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
+
+  create_table "features", force: true do |t|
+    t.string   "key",                        null: false
+    t.boolean  "enabled",    default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "fee_categories", force: true do |t|
     t.string   "name"

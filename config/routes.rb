@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Flip::Engine => "/flip"
   root to: 'high_voltage/pages#show', id: 'home'
 
   #namespace :api, format: :json do

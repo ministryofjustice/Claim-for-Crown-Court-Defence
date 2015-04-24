@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Document, type: :model do
+  it { should belong_to(:document_type) }
+
   it { should belong_to(:claim) }
-  it { should validate_presence_of(:description) }
+  it { should validate_presence_of(:document_type) }
 
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }

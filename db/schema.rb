@@ -120,9 +120,16 @@ ActiveRecord::Schema.define(version: 20150423142919) do
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
+  create_table "document_types", force: true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "documents", force: true do |t|
     t.integer  "claim_id"
-    t.string   "description"
+    t.integer  "document_type_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "document_file_name"
@@ -132,8 +139,8 @@ ActiveRecord::Schema.define(version: 20150423142919) do
   end
 
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
-  add_index "documents", ["description"], name: "index_documents_on_description", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
+  add_index "documents", ["document_type_id"], name: "index_documents_on_document_type_id", using: :btree
 
   create_table "expense_types", force: true do |t|
     t.string   "name"

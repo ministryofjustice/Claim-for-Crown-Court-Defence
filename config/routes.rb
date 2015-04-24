@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   mount Flip::Engine => "/flip"
   root to: 'high_voltage/pages#show', id: 'home'
 
-  #namespace :api, format: :json do
-  #  namespace :advocates do
-  #    resources :claims
-  #  end
-  #end
+  namespace :api, format: :json do
+    namespace :advocates do
+      resources :claims
+    end
+  end
 
   devise_for :users
 

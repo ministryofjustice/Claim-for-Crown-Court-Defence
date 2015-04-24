@@ -64,18 +64,19 @@ ActiveRecord::Schema.define(version: 20150424102029) do
 
   create_table "chambers", force: true do |t|
     t.string   "name"
+    t.string   "supplier_no"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
+  add_index "chambers", ["supplier_no"], name: "index_chambers_on_supplier_no", using: :btree
 
   create_table "claims", force: true do |t|
     t.text     "additional_information"
     t.boolean  "vat_required"
     t.string   "state"
     t.string   "case_type"
-    t.string   "offence_class"
     t.datetime "submitted_at"
     t.string   "case_number"
     t.decimal  "fees_total",             default: 0.0
@@ -83,12 +84,14 @@ ActiveRecord::Schema.define(version: 20150424102029) do
     t.decimal  "total",                  default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
+    t.integer  "offence_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
+  add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
 
   create_table "courts", force: true do |t|
     t.string   "code"

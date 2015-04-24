@@ -2,7 +2,8 @@
   = f.error_notification
 
   .form-inputs
+    = f.association :document_type, label_method: :description
     = f.input :document, label: t('.upload'), as: :file
-    = f.input :description
+    = f.input :notes
   .form-actions
     = f.button :submit, t('upload')

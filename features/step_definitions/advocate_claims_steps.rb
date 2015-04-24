@@ -6,6 +6,7 @@ end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
+  create(:offence, offence_class: 'A', description: 'Murder')
   create(:document_type, description: 'Other')
   visit new_advocates_claim_path
 end
@@ -13,8 +14,8 @@ end
 When(/^I select a court and fill in the defendant details$/) do
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'
+  select('Murder', from: 'claim_offence_id')
   select('Guilty', from: 'claim_case_type')
-  select('A', from: 'claim_offence_class')
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'

@@ -5,7 +5,6 @@ class CreateClaims < ActiveRecord::Migration
       t.boolean :vat_required
       t.string :state, index: true
       t.string :case_type, index: true
-      t.string :offence_class, index: true
       t.datetime :submitted_at
       t.string :case_number, index: true
 
@@ -15,6 +14,7 @@ class CreateClaims < ActiveRecord::Migration
 
       t.references :advocate, index: true
       t.references :court, index: true
+      t.references :offence, index: true
 
       t.timestamps
     end

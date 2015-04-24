@@ -20,7 +20,8 @@ class Document < ActiveRecord::Base
                      'text/rtf',
                      'application/rtf']}
 
-    belongs_to :claim
+  belongs_to :claim
+  belongs_to :document_type
 
-    validates :description, presence: true
+  validates :document_type, presence: true
 end

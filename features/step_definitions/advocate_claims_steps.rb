@@ -6,6 +6,7 @@ end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
+  create(:document_type, description: 'Other')
   visit new_advocates_claim_path
 end
 
@@ -18,6 +19,9 @@ When(/^I select a court and fill in the defendant details$/) do
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'
   fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
+  select 'Other', from: 'claim_documents_attributes_0_document_type_id'
+  fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
+  attach_file(:claim_documents_attributes_0_document, 'features/examples/shorter_lorem.docx')
 end
 
 When(/^I submit the form$/) do

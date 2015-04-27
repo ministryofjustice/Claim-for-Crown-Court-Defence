@@ -14,6 +14,9 @@ require 'simplecov'
 require 'paperclip/matchers'
 require 'webmock/rspec'
 
+require 'flip'
+Feature.feature(:api, default: true) #ensures api is switched on for rspec suite
+
 SimpleCov.start
 
 include ActionDispatch::TestProcess # requried for fixture_file_upload

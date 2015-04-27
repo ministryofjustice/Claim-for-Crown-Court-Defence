@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Advocates::ClaimsController, type: :controller do
   let(:advocate) { create(:advocate) }
 
-  before { sign_in advocate }
+  before { sign_in advocate.user }
 
   describe "GET #index" do
     before { get :index }
@@ -14,7 +14,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
     it 'assigns @claims' do
       create(:claim, advocate: advocate)
-      expect(assigns(:claims)).to eq(advocate.reload.claims_created.order(created_at: :desc))
+      expect(assigns(:claims)).to eq(advocate.reload.claims.order(created_at: :desc))
     end
 
     it 'renders the template' do

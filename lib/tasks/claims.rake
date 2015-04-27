@@ -1,5 +1,10 @@
 namespace :claims do
 
+  desc "Delete all dummy docs after dropping the DB"
+  task :delete_docs do
+    FileUtils.rm_rf('./features/examples/000')
+  end
+
   desc "Create submitted claims with random fees, random expenses and one defendant"
   task :submitted, [:number] => :environment do |task, args|
     args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court_id: random_court_id) }

@@ -1,14 +1,13 @@
 class Document < ActiveRecord::Base
+
   has_attached_file :document,
-    storage: :s3,
-    s3_credentials: 'config/aws.yml',
-    s3_headers: {
+    { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
       'Expires' => 3.months.from_now.httpdate
     },
     s3_permissions: :private,
-    s3_region: 'eu-west-1',
-    path: "documents/:id_partition/:filename"
+    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+
 
   validates_attachment :document,
     presence: true,

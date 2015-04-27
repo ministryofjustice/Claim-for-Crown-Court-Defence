@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Admin::UsersController, type: :controller do
+RSpec.describe CaseWorkers::Admin::UsersController, type: :controller do
   let(:admin) { create(:admin) }
 
-  before { sign_in admin }
+  before { sign_in admin.user }
 
   describe "GET #index" do
     before { get :index }
@@ -31,7 +31,7 @@ RSpec.describe Admin::UsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @user' do
+    it 'assigns @case_worker' do
       expect(assigns(:user)).to eq(subject)
     end
 
@@ -87,22 +87,12 @@ RSpec.describe Admin::UsersController, type: :controller do
       expect(assigns(:user)).to eq(subject)
     end
 
-    context 'for case worker' do
-      it 'assigns @claims' do
-        expect(assigns(:claims)).to eq(Claim.all)
-      end
-
-      it 'renders the template' do
-        expect(response).to render_template(:allocate)
-      end
+    it 'assigns @claims' do
+      expect(assigns(:claims)).to eq(Claim.all)
     end
 
-    context 'for non case worker' do
-      subject { create(:advocate) }
-
-      it 'redirects to admin users path' do
-        expect(response).to redirect_to(admin_users_url)
-      end
+    it 'renders the template' do
+      expect(response).to render_template(:allocate)
     end
   end
 
@@ -110,25 +100,25 @@ RSpec.describe Admin::UsersController, type: :controller do
     context 'when valid' do
       it 'creates a user' do
         expect {
-          post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', role: 'case_worker' }
+          post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'case_worker' }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to users index' do
-        post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', role: 'case_worker' }
-        expect(response).to redirect_to(admin_users_url)
+        post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'case_worker' }
+        expect(response).to redirect_to(case_workers_admin_users_url)
       end
     end
 
     context 'when invalid' do
       it 'does not create a user' do
         expect {
-          post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+          post :create, case_worker: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, user: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+        post :create, case_worker: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
         expect(response).to render_template(:new)
       end
     end
@@ -138,20 +128,20 @@ RSpec.describe Admin::UsersController, type: :controller do
     subject { create(:case_worker) }
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, user: { email: 'email@example.com' } }
+      before(:each) { put :update, id: subject, case_worker: { role: 'admin' } }
 
       it 'updates a user' do
         subject.reload
-        expect(subject.email).to eq('email@example.com')
+        expect(subject.reload.role).to eq('admin')
       end
 
       it 'redirects to users index' do
-        expect(response).to redirect_to(admin_users_url)
+        expect(response).to redirect_to(case_workers_admin_users_url)
       end
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, user: { email: 'emailexample.com', role: 'admin' } }
+      before(:each) { put :update, id: subject, case_worker: { role: 'foo' } }
 
       it 'does not update user' do
         subject.reload
@@ -168,9 +158,9 @@ RSpec.describe Admin::UsersController, type: :controller do
       let(:claims) { create_list(:submitted_claim, 3) }
 
       it 'allocates claims to case worker' do
-        put :update, id: subject, user: { claims_to_manage_ids: [claims.first.id, claims.second.id] }
+        put :update, id: subject, case_worker: { claim_ids: [claims.first.id, claims.second.id] }
         subject.reload
-        expect(subject.claims_to_manage).to match_array([claims.first, claims.second])
+        expect(subject.claims).to match_array([claims.first, claims.second])
       end
     end
   end
@@ -181,11 +171,11 @@ RSpec.describe Admin::UsersController, type: :controller do
     before { delete :destroy, id: subject }
 
     it 'destroys the user' do
-      expect(User.count).to eq(1)
+      expect(CaseWorker.count).to eq(1)
     end
 
-    it 'redirects to advocates root url' do
-      expect(response).to redirect_to(admin_users_url)
+    it 'redirects to admin root url' do
+      expect(response).to redirect_to(case_workers_admin_users_url)
     end
   end
 end

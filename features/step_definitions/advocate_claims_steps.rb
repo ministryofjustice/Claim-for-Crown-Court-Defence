@@ -1,7 +1,7 @@
 Given(/^I am a signed in advocate$/) do
-  advocate = create(:advocate, password: 'password', password_confirmation: 'password')
+  advocate = create(:advocate)
   visit new_user_session_path
-  sign_in(advocate, 'password')
+  sign_in(advocate.user, 'password')
 end
 
 Given(/^I am on the new claim page$/) do
@@ -74,7 +74,7 @@ Then(/^I should be on the claim summary page$/) do
 end
 
 Given(/^a claim exists$/) do
-  create(:claim, advocate_id: User.first.id)
+  create(:claim, advocate_id: Advocate.first.id)
 end
 
 When(/^I am on the claim edit page$/) do

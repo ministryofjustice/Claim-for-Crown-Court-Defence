@@ -53,8 +53,7 @@ namespace :claims do
   end
 
   def allocate(claim, caseworker_email)
-    caseworker = User.find_by(email: caseworker_email)
-    caseworker.claims_to_manage << claim
+    caseworker = User.find_by(email: caseworker_email).rolable
+    caseworker.claims << claim
   end
-
 end

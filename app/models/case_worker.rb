@@ -1,7 +1,7 @@
 class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
 
-  has_one :user, as: :persona, dependent: :destroy
+  has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :case_worker_claims, dependent: :destroy
   has_many :claims, through: :case_worker_claims
 
@@ -11,7 +11,7 @@ class CaseWorker < ActiveRecord::Base
   validates :user, presence: true
   validates :role, presence: true, inclusion: { in: ROLES }
 
-  accepts_nested_attributes_for :user, reject_if: :all_blank
+  accepts_nested_attributes_for :user
 
   delegate :email, to: :user
 

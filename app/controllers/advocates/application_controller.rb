@@ -4,7 +4,7 @@ class Advocates::ApplicationController < ApplicationController
   private
 
   def authenticate_advocate!
-    unless user_signed_in? && current_user.rolable.is_a?(Advocate)
+    unless user_signed_in? && current_user.persona.is_a?(Advocate)
       redirect_to root_url, alert: 'Must be signed in as an advocate'
     end
   end

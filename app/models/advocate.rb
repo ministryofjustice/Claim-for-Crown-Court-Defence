@@ -1,6 +1,6 @@
 class Advocate < ActiveRecord::Base
   belongs_to :chamber
-  has_one :user, as: :rolable, dependent: :destroy
+  has_one :user, as: :persona, dependent: :destroy
   has_many :claims, dependent: :destroy
 
   validates :user, presence: true

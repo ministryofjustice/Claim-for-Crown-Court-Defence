@@ -197,8 +197,8 @@ ActiveRecord::Schema.define(version: 20150424140231) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.integer  "rolable_id"
-    t.string   "rolable_type"
+    t.integer  "persona_id"
+    t.string   "persona_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

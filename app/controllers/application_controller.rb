@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def after_sign_in_path_for(resource)
-    case current_user.rolable_type
+    case current_user.persona_type
       when 'Advocate'
         advocates_root_url
       when 'CaseWorker'
-        case current_user.rolable.role
+        case current_user.persona.role
           when 'case_worker'
             case_workers_root_url
           when 'admin'

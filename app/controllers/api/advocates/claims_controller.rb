@@ -28,6 +28,7 @@ module Api
          :case_number,
          :case_type,
          :offence_id,
+         :advocate_category,
          :additional_information,
          :vat_required,
          defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],

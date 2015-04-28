@@ -3,7 +3,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
   def index
-    @claims = current_user.persona.claims.order(created_at: :desc)
+    @claims = current_user.claims.order(created_at: :desc)
   end
 
   def show; end

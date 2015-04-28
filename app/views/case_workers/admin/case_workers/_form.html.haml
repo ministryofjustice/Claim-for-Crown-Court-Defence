@@ -1,22 +1,22 @@
-= form_for [:case_workers, :admin, @case_worker], url: case_workers_admin_case_worker_path do |f|
+= form_for [:case_workers, :admin, @case_worker] do |f|
   - if @case_worker.errors.any?
     %h2= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this claim from being saved:"
     %ul
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
 
-  = f.fields_for :case_worker do |case_worker_fields|
-    = case_worker_fields.label :email
+  = f.fields_for :user do |user_fields|
+    = user_fields.label :email
     %br
-    = case_worker_fields.email_field :email
+    = user_fields.email_field :email
     %br
-    = case_worker_fields.label :password
+    = user_fields.label :password
     %br
-    = case_worker_fields.password_field :password
+    = user_fields.password_field :password
     %br
-    = case_worker_fields.label :password_confirmation
+    = user_fields.label :password_confirmation
     %br
-    = case_worker_fields.password_field :password_confirmation
+    = user_fields.password_field :password_confirmation
   %br
   = f.label :role
   %br

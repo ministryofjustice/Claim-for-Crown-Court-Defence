@@ -3,7 +3,7 @@
 
 = form_for [:case_workers, :admin, @case_worker] do |f|
   - if @case_worker.errors.any?
-    %h2= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this claim from being saved:"
+    %h2= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this allocation from being saved:"
     %ul
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg

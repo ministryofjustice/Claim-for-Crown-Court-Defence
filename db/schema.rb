@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150428123404) do
     t.string   "case_type"
     t.datetime "submitted_at"
     t.string   "case_number"
+    t.string   "advocate_category"
     t.decimal  "fees_total",             default: 0.0
     t.decimal  "expenses_total",         default: 0.0
     t.decimal  "total",                  default: 0.0

@@ -82,17 +82,17 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
         it 'creates a claim' do
           expect {
-            post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+            post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345', advocate_category: 'qc_alone' }
           }.to change(Claim, :count).by(1)
         end
 
         it 'redirects to claim summary' do
-          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345', advocate_category: 'qc_alone' }
           expect(response).to redirect_to(summary_advocates_claim_path(Claim.first))
         end
 
         it 'sets the created claim\'s advocate to the signed in advocate' do
-          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345', advocate_category: 'qc_alone' }
           expect(Claim.first.advocate).to eq(advocate)
         end
       end

@@ -5,6 +5,7 @@ FactoryGirl.define do
     advocate
     case_type 'trial'
     offence
+    advocate_category 'qc_alone'
 
     factory :invalid_claim do
       case_type 'invalid case type'

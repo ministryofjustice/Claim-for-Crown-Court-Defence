@@ -16,6 +16,7 @@ When(/^I select a court and fill in the defendant details$/) do
   fill_in 'Case number', with: '123456'
   select('Murder', from: 'claim_offence_id')
   select('Guilty', from: 'claim_case_type')
+  select('Qc alone', from: 'claim_advocate_category')
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'

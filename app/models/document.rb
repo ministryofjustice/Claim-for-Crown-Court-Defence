@@ -1,6 +1,6 @@
 class Document < ActiveRecord::Base
 
-  has_attached_file :document,
+  has_attached_file :file,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
       'Expires' => 3.months.from_now.httpdate
@@ -9,7 +9,7 @@ class Document < ActiveRecord::Base
     s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
 
 
-  validates_attachment :document,
+  validates_attachment :file,
     presence: true,
     content_type: {
       content_type: ['application/pdf',

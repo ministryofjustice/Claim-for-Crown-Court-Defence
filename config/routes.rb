@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     resources :claims, only: [:index, :show]
 
     namespace :admin do
-      root to: 'users#index'
+      root to: 'case_workers#index'
 
       resources :case_workers do
         get 'allocate', on: :member

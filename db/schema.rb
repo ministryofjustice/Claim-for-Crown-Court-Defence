@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424102029) do
+ActiveRecord::Schema.define(version: 20150428123404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,12 +206,24 @@ ActiveRecord::Schema.define(version: 20150424102029) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
-  create_table "offences", force: true do |t|
+  create_table "offence_classes", force: true do |t|
+    t.string   "class_letter"
     t.string   "description"
-    t.string   "offence_class"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "offence_classes", ["class_letter"], name: "index_offence_classes_on_class_letter", using: :btree
+  add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
+
+  create_table "offences", force: true do |t|
+    t.string   "description"
+    t.integer  "offence_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

@@ -6,7 +6,7 @@ end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
-  create(:offence, offence_class: 'A', description: 'Murder')
+  create(:offence, description: 'Murder')
   create(:document_type, description: 'Other')
   visit new_advocates_claim_path
 end

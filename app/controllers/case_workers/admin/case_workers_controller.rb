@@ -15,6 +15,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def new
     @case_worker = CaseWorker.new
+    @case_worker.build_user
   end
 
   def create

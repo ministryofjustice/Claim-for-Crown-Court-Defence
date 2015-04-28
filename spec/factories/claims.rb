@@ -5,7 +5,7 @@ FactoryGirl.define do
     advocate
     case_type 'trial'
     offence
-    documents { example_document }
+    document
 
     factory :invalid_claim do
       case_type 'invalid case type'
@@ -20,6 +20,11 @@ FactoryGirl.define do
       state 'completed'
       submitted_at { Time.now }
     end
+
+    trait :real_file do
+      documents { example_document }
+    end
+
   end
 
 end

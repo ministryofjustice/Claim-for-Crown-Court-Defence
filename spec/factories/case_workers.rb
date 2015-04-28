@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     role 'case_worker'
 
-    factory :admin do
+    trait :admin do
       role 'admin'
     end
   end

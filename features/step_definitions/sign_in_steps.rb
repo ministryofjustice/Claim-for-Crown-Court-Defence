@@ -1,6 +1,13 @@
 Given(/^an? "(.*?)" user account exists$/) do |role|
   @password = 'password'
-  create(role.gsub(/\s/, '_').to_sym)
+  case role
+    when 'advocate'
+      create(:advocate)
+    when 'case worker'
+      create(:case_worker)
+    when 'admin'
+      create(:case_worker, :admin)
+  end
 end
 
 When(/^I vist the user sign in page$/) do

@@ -4,7 +4,7 @@ RSpec.describe ApplicationController, type: :controller do
   describe '#after_sign_in_path_for' do
     let(:advocate) { create(:advocate) }
     let(:case_worker) { create(:case_worker) }
-    let(:admin) { create(:admin) }
+    let(:admin) { create(:case_worker, :admin) }
 
     context 'given an advocate' do
       before { sign_in advocate.user }

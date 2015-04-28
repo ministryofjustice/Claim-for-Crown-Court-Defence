@@ -20,7 +20,7 @@ RSpec.describe CaseWorker, type: :model do
 
   describe '.admin' do
     before do
-      create(:admin)
+      create(:case_worker, :admin)
       create(:case_worker)
     end
 
@@ -31,8 +31,8 @@ RSpec.describe CaseWorker, type: :model do
 
   describe '.case_workers' do
     before do
-      create(:admin)
-      create(:admin)
+      create(:case_worker, :admin)
+      create(:case_worker, :admin)
       create(:case_worker)
     end
 
@@ -42,7 +42,7 @@ RSpec.describe CaseWorker, type: :model do
   end
 
   describe 'roles' do
-    let(:admin) { create(:admin) }
+    let(:admin) { create(:case_worker, :admin) }
     let(:case_worker) { create(:case_worker) }
 
     describe '#is?' do

@@ -1,5 +1,5 @@
 Given(/^I am a signed in admin$/) do
-  admin = create(:admin)
+  admin = create(:case_worker, :admin)
   visit new_user_session_path
   sign_in(admin, 'password')
 end
@@ -13,7 +13,7 @@ Given(/^submitted claims exist$/) do
 end
 
 When(/^I visit the case worker allocation page$/) do
-  visit allocate_case_workers_admin_user_path(@case_worker)
+  visit allocate_case_workers_admin_case_worker_path(@case_worker)
 end
 
 When(/^I allocate claims$/) do

@@ -34,10 +34,6 @@ Rails.application.routes.draw do
       resources :case_workers do
         get 'allocate', on: :member
       end
-
-      resources :users do
-        get 'allocate', on: :member
-      end
     end
   end
 end

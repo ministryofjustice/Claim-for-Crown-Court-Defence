@@ -5,4 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :persona, polymorphic: true
+
+  delegate :claims, to: :persona
 end

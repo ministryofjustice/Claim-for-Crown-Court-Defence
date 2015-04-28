@@ -5,9 +5,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = case tab
       when 'current'
-        current_user.persona.claims.submitted
+        current_user.claims.submitted
       when 'completed'
-        current_user.persona.claims.completed
+        current_user.claims.completed
     end
 
     if params[:search].present?

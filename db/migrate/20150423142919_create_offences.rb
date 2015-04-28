@@ -2,7 +2,7 @@ class CreateOffences < ActiveRecord::Migration
   def change
     create_table :offences do |t|
       t.string :description
-      t.string :offence_class
+      t.references :offence_class, index: true
 
       t.timestamps
     end

@@ -23,7 +23,7 @@
     %br
     = f.label :offence
     %br
-    = f.collection_select :offence_id, Offence.all, :id, :description, prompt: true
+    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :description, :id, :description, prompt: true
 
     %p Defendants
     #defendants

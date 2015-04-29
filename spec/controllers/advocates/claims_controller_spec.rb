@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Advocates::ClaimsController, type: :controller do
-  let(:advocate) { create(:advocate) }
+  let(:advocate) { create(:advocate, chamber: create(:chamber)) }
 
   before { sign_in advocate.user }
 
@@ -23,7 +23,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :show, id: subject }
 
@@ -57,7 +57,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :edit, id: subject }
 

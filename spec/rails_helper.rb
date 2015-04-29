@@ -16,10 +16,8 @@ require 'webmock/rspec'
 
 require 'flip'
 Feature.feature(:api, default: true) #ensures api is switched on for rspec suite
-
+include ActionDispatch::TestProcess #required for fixture_file_upload
 SimpleCov.start
-
-include ActionDispatch::TestProcess # requried for fixture_file_upload
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

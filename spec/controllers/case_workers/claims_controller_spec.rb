@@ -10,7 +10,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       claim.case_workers << case_worker
     end
 
-    sign_in case_worker
+    sign_in case_worker.user
   end
 
   describe "GET #index" do
@@ -24,7 +24,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'current claims' do
       it 'assigns submitted @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims_to_manage.submitted)
+        expect(assigns(:claims)).to eq(case_worker.claims.submitted)
       end
     end
 
@@ -32,18 +32,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       let(:tab) { 'completed' }
 
       it 'assigns completed @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims_to_manage.completed)
+        expect(assigns(:claims)).to eq(case_worker.claims.completed)
       end
     end
 
     context 'search' do
       let(:search) { '12345' }
       before do
-        create(:defendant, claim_id: case_worker.claims_to_manage.first.id, maat_reference: '12345')
+        create(:defendant, claim_id: case_worker.claims.first.id, maat_reference: '12345')
       end
 
       it 'finds the claims with MAAT reference "12345"' do
-        expect(assigns(:claims)).to eq([case_worker.claims_to_manage.first])
+        expect(assigns(:claims)).to eq([case_worker.claims.first])
       end
     end
 

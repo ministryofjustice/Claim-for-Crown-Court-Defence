@@ -27,6 +27,9 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:advocate_category) }
   it { should validate_inclusion_of(:advocate_category).in_array(%w( qc_alone led_junior leading_junior junior_alone )) }
 
+  it { should validate_numericality_of(:estimated_trial_length) }
+  it { should validate_numericality_of(:actual_trial_length) }
+
   it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }

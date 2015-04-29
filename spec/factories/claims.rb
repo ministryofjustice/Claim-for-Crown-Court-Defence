@@ -5,6 +5,9 @@ FactoryGirl.define do
     advocate
     case_type 'trial'
     offence
+    advocate_category 'qc_alone'
+    sequence(:indictment_number) { |n| "12345-#{n}" }
+    prosecuting_authority 'cps'
 
     factory :invalid_claim do
       case_type 'invalid case type'

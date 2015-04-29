@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424140231) do
+ActiveRecord::Schema.define(version: 20150428123404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,21 +44,25 @@ ActiveRecord::Schema.define(version: 20150424140231) do
 
   create_table "chambers", force: true do |t|
     t.string   "name"
-    t.string   "supplier_no"
+    t.string   "account_number"
+    t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "chambers", ["account_number"], name: "index_chambers_on_account_number", using: :btree
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
-  add_index "chambers", ["supplier_no"], name: "index_chambers_on_supplier_no", using: :btree
 
   create_table "claims", force: true do |t|
     t.text     "additional_information"
-    t.boolean  "vat_required"
+    t.boolean  "apply_vat"
     t.string   "state"
     t.string   "case_type"
     t.datetime "submitted_at"
     t.string   "case_number"
+    t.string   "advocate_category"
+    t.string   "prosecuting_authority"
+    t.string   "indictment_number"
     t.decimal  "fees_total",             default: 0.0
     t.decimal  "expenses_total",         default: 0.0
     t.decimal  "total",                  default: 0.0
@@ -186,12 +190,24 @@ ActiveRecord::Schema.define(version: 20150424140231) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
-  create_table "offences", force: true do |t|
+  create_table "offence_classes", force: true do |t|
+    t.string   "class_letter"
     t.string   "description"
-    t.string   "offence_class"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "offence_classes", ["class_letter"], name: "index_offence_classes_on_class_letter", using: :btree
+  add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
+
+  create_table "offences", force: true do |t|
+    t.string   "description"
+    t.integer  "offence_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

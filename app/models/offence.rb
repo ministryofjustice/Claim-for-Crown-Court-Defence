@@ -1,8 +1,7 @@
 class Offence < ActiveRecord::Base
-  OFFENCE_CLASSES = ('A'..'J').to_a
-
+  belongs_to :offence_class
   has_many :claims, dependent: :nullify
 
+  validates :offence_class, presence: true
   validates :description, presence: true, uniqueness: { case_sensitive: false }
-  validates :offence_class, presence: true, inclusion: { in: OFFENCE_CLASSES }
 end

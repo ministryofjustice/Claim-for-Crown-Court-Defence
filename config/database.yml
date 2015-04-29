@@ -4,6 +4,11 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
+  host: <%= ENV['CBO_BASE_DATABASE_HOST'] || 'localhost' %>
+
+user_credentials: &user_credentials
+  username: <%= ENV['CBO_BASE_DATABASE_USERNAME'] || 'postgres' %>
+  password: <%= ENV['CBO_BASE_DATABASE_PASSWORD'] || 'postgres' %>
 
 development:
   <<: *default
@@ -11,19 +16,17 @@ development:
 
 test: &test
   <<: *default
-  database: cbo_test
+  database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] || 'cbo_test' %>
 
 develop:
   <<: *default
+  <<: *user_credentials
   database: cbo_develop
 
 production:
   <<: *default
+  <<: *user_credentials
   database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] %>
-  username: <%= ENV['CBO_BASE_DATABASE_USERNAME'] %>
-  password: <%= ENV['CBO_BASE_DATABASE_PASSWORD'] %>
-  host: <%= ENV['CBO_BASE_DATABASE_HOST'] %>
 
 cucumber:
   <<: *test
-

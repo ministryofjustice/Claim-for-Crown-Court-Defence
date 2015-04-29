@@ -5,7 +5,6 @@ FactoryGirl.define do
     advocate
     case_type 'trial'
     offence
-    documents { example_document }
     advocate_category 'qc_alone'
     sequence(:indictment_number) { |n| "12345-#{n}" }
     prosecuting_authority 'cps'
@@ -25,17 +24,4 @@ FactoryGirl.define do
     end
   end
 
-end
-
-def example_document
-  puts "*" *20
-  puts "called #example_document"
-  puts "*" *20
-  file = File.open('./features/examples/shorter_lorem.docx')
-  doc = Document.new(claim_id: 1, document_type_id: 1)
-  doc.document = file
-  puts "*" *20
-  puts doc.document_type
-  puts "*" *20
-  [doc]
 end

@@ -11,6 +11,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
+      add_document(claim)
     end
   end
 
@@ -55,6 +56,10 @@ namespace :claims do
     rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id, fee_type_id: FeeType.all.sample(1)[0].id) }
     rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim_id: claim.id, expense_type_id: ExpenseType.all.sample(1)[0].id) }
     claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
+  end
+
+  def add_document(claim)
+    Document.new(document_type_id: 1, document_content_type: 'application/msword', claim_id: claim.id)
   end
 
   def allocate(claim, caseworker_email)

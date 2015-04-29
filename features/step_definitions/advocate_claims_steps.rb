@@ -11,11 +11,13 @@ Given(/^I am on the new claim page$/) do
   visit new_advocates_claim_path
 end
 
-When(/^I select a court and fill in the defendant details$/) do
+When(/^I fill in the claim details$/) do
+  select('Guilty', from: 'claim_case_type')
+  select('CPS', from: 'claim_prosecuting_authority')
+  fill_in 'Indictment number', with: '123456'
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'
   select('Murder', from: 'claim_offence_id')
-  select('Guilty', from: 'claim_case_type')
   select('Qc alone', from: 'claim_advocate_category')
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
@@ -43,7 +45,7 @@ Given(/^I am on the claim summary page$/) do
   steps <<-STEPS
     Given I am a signed in advocate
       And I am on the new claim page
-     When I select a court and fill in the defendant details
+     When I fill in the claim details
       And I submit the form
      Then I should be redirected to the claim summary page
       And I should see the claim total

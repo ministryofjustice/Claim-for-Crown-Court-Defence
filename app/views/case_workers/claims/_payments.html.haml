@@ -14,7 +14,7 @@
         = number_to_currency(@claim.fees_total)
       %a
         Details
-    - if @claim.vat_required?
+    - if @claim.apply_vat?
       %li
         %div
           %h3

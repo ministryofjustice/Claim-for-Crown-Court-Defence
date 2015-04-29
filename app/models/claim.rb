@@ -3,6 +3,7 @@ class Claim < ActiveRecord::Base
 
   CASE_TYPES = %w( guilty trial retrial cracked_retrial )
   ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
+  PROSECUTING_AUTHORITIES = %W( cps )
 
   belongs_to :court
   belongs_to :offence
@@ -21,6 +22,9 @@ class Claim < ActiveRecord::Base
   validates :case_number, presence: true
   validates :case_type, presence: true, inclusion: { in: CASE_TYPES }
   validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :prosecuting_authority, presence: true, inclusion: { in: PROSECUTING_AUTHORITIES }
+  validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :indictment_number, presence: true
 
   accepts_nested_attributes_for :fees, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true

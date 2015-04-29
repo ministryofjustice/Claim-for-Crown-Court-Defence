@@ -17,9 +17,15 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:court) }
   it { should validate_presence_of(:offence) }
   it { should validate_presence_of(:case_number) }
+  it { should validate_presence_of(:prosecuting_authority) }
+  it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
+  it { should validate_presence_of(:indictment_number) }
 
   it { should validate_presence_of(:case_type) }
   it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }
+
+  it { should validate_presence_of(:advocate_category) }
+  it { should validate_inclusion_of(:advocate_category).in_array(%w( qc_alone led_junior leading_junior junior_alone )) }
 
   it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }

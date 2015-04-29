@@ -1,0 +1,8 @@
+OffenceClass.find_or_create_by(class_letter: 'A', description: 'Homicide and related grave offences')
+OffenceClass.find_or_create_by(class_letter: 'B', description: 'Offences involving serious violence or damage and serious drug offences')
+OffenceClass.find_or_create_by(class_letter: 'C', description: 'Lesser offences involving violence or damage and less serious drug offences')
+OffenceClass.find_or_create_by(class_letter: 'D', description: 'Serious sexual offences and offences against children')
+OffenceClass.find_or_create_by(class_letter: 'E', description: 'Burglary')
+OffenceClass.find_or_create_by(class_letter: 'F', description: 'Other offences of dishonesty')
+OffenceClass.find_or_create_by(class_letter: 'G', description: 'Other offences of dishonesty')
+OffenceClass.find_or_create_by(class_letter: 'H', description: 'Miscellaneous other offences')

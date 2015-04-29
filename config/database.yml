@@ -5,6 +5,8 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
   host: <%= ENV['CBO_BASE_DATABASE_HOST'] || 'localhost' %>
+
+user_credentials: &user_credentials
   username: <%= ENV['CBO_BASE_DATABASE_USERNAME'] || 'postgres' %>
   password: <%= ENV['CBO_BASE_DATABASE_PASSWORD'] || 'postgres' %>
 
@@ -18,10 +20,12 @@ test: &test
 
 develop:
   <<: *default
+  <<: *user_credentials
   database: cbo_develop
 
 production:
   <<: *default
+  <<: *user_credentials
   database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] %>
 
 cucumber:

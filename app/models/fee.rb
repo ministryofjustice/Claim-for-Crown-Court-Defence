@@ -1,7 +1,8 @@
 class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type
-  validates_presence_of :amount, :quantity, :rate
+
+  validates :amount, :quantity, :rate, presence: true, numericality: true
 
   after_save do
     claim.update_fees_total

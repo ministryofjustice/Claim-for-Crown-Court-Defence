@@ -4,13 +4,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def after_sign_in_path_for(resource)
-    case resource.role
-      when 'advocate'
+    case current_user.persona_type
+      when 'Advocate'
         advocates_root_url
-      when 'case_worker'
-        case_workers_root_url
-      when 'admin'
-        admin_root_url
+      when 'CaseWorker'
+        case current_user.persona.role
+          when 'case_worker'
+            case_workers_root_url
+          when 'admin'
+            case_workers_admin_root_url
+        end
       else
         raise 'Invalid or missing role'
     end

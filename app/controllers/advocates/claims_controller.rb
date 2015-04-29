@@ -3,7 +3,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
   def index
-    @claims = current_user.claims_created.order(created_at: :desc)
+    @claims = current_user.claims.order(created_at: :desc)
   end
 
   def show; end
@@ -20,7 +20,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
+    @claim = Claim.new(claim_params.merge(advocate_id: current_user.persona.id))
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }

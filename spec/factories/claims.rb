@@ -6,7 +6,6 @@ FactoryGirl.define do
     case_type 'trial'
     offence
     advocate_category 'qc_alone'
-    representation_order_date { Time.now.to_date }
     sequence(:indictment_number) { |n| "12345-#{n}" }
     prosecuting_authority 'cps'
 

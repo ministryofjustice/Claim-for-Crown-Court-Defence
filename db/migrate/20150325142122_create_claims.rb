@@ -9,8 +9,6 @@ class CreateClaims < ActiveRecord::Migration
       t.string :case_number, index: true
       t.string :advocate_category
       t.string :prosecuting_authority
-      t.boolean :order_for_judicial_apportionment
-      t.date :representation_order_date
       t.string :indictment_number
 
       t.decimal :fees_total, default: 0

@@ -21,6 +21,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
+      add_document(claim)
     end
   end
 
@@ -30,6 +31,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
+      add_document(claim)
       allocate(claim, 'caseworker@example.com')
     end
   end
@@ -40,6 +42,7 @@ namespace :claims do
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
+      add_document(claim)
       allocate(claim, 'caseworker@example.com')
     end
   end
@@ -59,7 +62,8 @@ namespace :claims do
   end
 
   def add_document(claim)
-    Document.new(document_type_id: 1, document_content_type: 'application/msword', claim_id: claim.id)
+    file = File.open("./features/examples/shorter_lorem.docx")
+    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/msword' )
   end
 
   def allocate(claim, caseworker_email)

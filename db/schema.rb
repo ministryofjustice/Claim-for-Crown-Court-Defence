@@ -62,12 +62,10 @@ ActiveRecord::Schema.define(version: 20150428123404) do
     t.string   "case_number"
     t.string   "advocate_category"
     t.string   "prosecuting_authority"
-    t.boolean  "order_for_judicial_apportionment"
-    t.date     "representation_order_date"
     t.string   "indictment_number"
-    t.decimal  "fees_total",                       default: 0.0
-    t.decimal  "expenses_total",                   default: 0.0
-    t.decimal  "total",                            default: 0.0
+    t.decimal  "fees_total",             default: 0.0
+    t.decimal  "expenses_total",         default: 0.0
+    t.decimal  "total",                  default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.integer  "offence_id"

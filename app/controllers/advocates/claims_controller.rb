@@ -60,8 +60,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :additional_information,
      :prosecuting_authority,
      :indictment_number,
-     :order_for_judicial_apportionment,
-     :representation_order_date,
      :apply_vat,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
      fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],

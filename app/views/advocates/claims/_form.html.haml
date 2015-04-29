@@ -17,17 +17,9 @@
     %br
     = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, prompt: true
     %br
-    = f.label :order_for_judicial_apportionment
-    %br
-    = f.check_box :order_for_judicial_apportionment
-    %br
     = f.label :indictment_number
     %br
     = f.text_field :indictment_number
-    %br
-    = f.label :representation_order_date
-    %br
-    = f.date_field :representation_order_date
     %br
     = f.label :court
     %br

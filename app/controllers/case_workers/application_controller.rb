@@ -4,7 +4,7 @@ class CaseWorkers::ApplicationController < ApplicationController
   private
 
   def authenticate_case_worker!
-    unless user_signed_in? && current_user.case_worker?
+    unless user_signed_in? && current_user.persona.is_a?(CaseWorker)
       redirect_to root_url, alert: 'Must be signed in as a case worker'
     end
   end

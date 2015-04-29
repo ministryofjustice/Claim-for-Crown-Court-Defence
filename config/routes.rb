@@ -28,13 +28,13 @@ Rails.application.routes.draw do
     root to: 'claims#index'
 
     resources :claims, only: [:index, :show]
-  end
 
-  namespace :admin do
-    root to: 'users#index'
+    namespace :admin do
+      root to: 'case_workers#index'
 
-    resources :users do
-      get 'allocate', on: :member
+      resources :case_workers do
+        get 'allocate', on: :member
+      end
     end
   end
 end

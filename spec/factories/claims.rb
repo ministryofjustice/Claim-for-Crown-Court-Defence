@@ -5,7 +5,7 @@ FactoryGirl.define do
     advocate
     case_type 'trial'
     offence
-    document
+    documents { example_document }
 
     factory :invalid_claim do
       case_type 'invalid case type'
@@ -20,19 +20,19 @@ FactoryGirl.define do
       state 'completed'
       submitted_at { Time.now }
     end
-
-    trait :real_file do
-      documents { example_document }
-    end
-
   end
 
 end
 
 def example_document
+  puts "*" *20
+  puts "called #example_document"
+  puts "*" *20
   file = File.open('./features/examples/shorter_lorem.docx')
   doc = Document.new(claim_id: 1, document_type_id: 1)
   doc.document = file
-  doc.document_content_type = 'application/msword'
+  puts "*" *20
+  puts doc.document_type
+  puts "*" *20
   [doc]
 end

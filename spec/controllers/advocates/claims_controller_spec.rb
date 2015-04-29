@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Advocates::ClaimsController, type: :controller do
   let(:advocate) { create(:advocate) }
 
-  before { sign_in advocate }
+  before { sign_in advocate.user }
 
   describe "GET #index" do
     before { get :index }
@@ -14,7 +14,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
     it 'assigns @claims' do
       create(:claim, advocate: advocate)
-      expect(assigns(:claims)).to eq(advocate.reload.claims_created.order(created_at: :desc))
+      expect(assigns(:claims)).to eq(advocate.reload.claims.order(created_at: :desc))
     end
 
     it 'renders the template' do
@@ -79,20 +79,32 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
       context 'and the input is valid' do
         let(:court) { create(:court) }
         let(:offence) { create(:offence) }
+        let(:claim_params) do
+          {
+             additional_information: 'foo',
+             court_id: court,
+             case_type: 'trial',
+             offence_id: offence,
+             case_number: '12345',
+             advocate_category: 'qc_alone',
+             prosecuting_authority: 'cps',
+             indictment_number: '12345'
+          }
+        end
 
         it 'creates a claim' do
           expect {
-            post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+            post :create, claim: claim_params
           }.to change(Claim, :count).by(1)
         end
 
         it 'redirects to claim summary' do
-          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+          post :create, claim: claim_params
           expect(response).to redirect_to(summary_advocates_claim_path(Claim.first))
         end
 
         it 'sets the created claim\'s advocate to the signed in advocate' do
-          post :create, claim: { additional_information: 'foo', court_id: court, case_type: 'trial', offence_id: offence, case_number: '12345' }
+          post :create, claim: claim_params
           expect(Claim.first.advocate).to eq(advocate)
         end
       end

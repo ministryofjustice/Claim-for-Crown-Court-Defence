@@ -1,11 +1,11 @@
 Given(/^I am a signed in case worker$/) do
-  case_worker = create(:case_worker, password: 'password', password_confirmation: 'password')
+  case_worker = create(:case_worker)
   visit new_user_session_path
-  sign_in(case_worker, 'password')
+  sign_in(case_worker.user, 'password')
 end
 
 Given(/^claims have been assigned to me$/) do
-  case_worker = User.first
+  case_worker = CaseWorker.first
   @claims = create_list(:submitted_claim, 5)
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
@@ -87,7 +87,7 @@ Then(/^I should only see claims matching the MAAT reference$/) do
 end
 
 Given(/^I have completed claims$/) do
-  case_worker = User.first
+  case_worker = CaseWorker.first
   @claims = create_list(:completed_claim, 5)
   @other_claims = create_list(:completed_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }

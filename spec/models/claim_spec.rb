@@ -35,7 +35,7 @@ RSpec.describe Claim, type: :model do
   subject { create(:claim) }
 
   describe '.find_by_maat_reference' do
-    let!(:other_claim) { create(:claim) }
+    let!(:other_claim) { create(:claim, advocate: create(:advocate, chamber: (create(:chamber)))) }
 
     before do
       create(:defendant, maat_reference: '111111', claim_id: subject.id)

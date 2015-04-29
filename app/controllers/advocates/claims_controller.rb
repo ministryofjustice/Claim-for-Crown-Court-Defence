@@ -3,7 +3,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
   def index
-    @claims = current_user.claims_created.order(created_at: :desc)
+    @claims = current_user.claims.order(created_at: :desc)
   end
 
   def show; end
@@ -20,7 +20,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(advocate_id: current_user.id))
+    @claim = Claim.new(claim_params.merge(advocate_id: current_user.persona.id))
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
@@ -56,8 +56,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :case_number,
      :case_type,
      :offence_id,
+     :advocate_category,
      :additional_information,
-     :vat_required,
+     :prosecuting_authority,
+     :indictment_number,
+     :apply_vat,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
      fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy],

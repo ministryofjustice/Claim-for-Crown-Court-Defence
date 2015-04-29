@@ -4,7 +4,7 @@ class Expense < ActiveRecord::Base
 
   validates :expense_type, presence: true
   validates :claim, presence: true
-  validates_presence_of :quantity, :rate, :hours, :amount
+  validates :quantity, :rate, :hours, :amount, presence: true, numericality: true
 
   after_save do
     claim.update_expenses_total

@@ -1,13 +1,15 @@
 class Claim < ActiveRecord::Base
   include Claims::StateMachine
 
-  CASE_TYPES = %w{ guilty trial retrial cracked_retrial }
+  CASE_TYPES = %w( guilty trial retrial cracked_retrial )
+  ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
+  PROSECUTING_AUTHORITIES = %W( cps )
 
   belongs_to :court
   belongs_to :offence
-  belongs_to :advocate, class_name: 'User', inverse_of: :claims_created
+  belongs_to :advocate
   has_many :case_worker_claims, dependent: :destroy
-  has_many :case_workers, through: :case_worker_claims, source: :case_worker
+  has_many :case_workers, through: :case_worker_claims
   has_many :fees, dependent: :destroy, inverse_of: :claim
   has_many :fee_types, through: :fees
   has_many :expenses, dependent: :destroy, inverse_of: :claim
@@ -19,6 +21,10 @@ class Claim < ActiveRecord::Base
   validates :court, presence: true
   validates :case_number, presence: true
   validates :case_type, presence: true, inclusion: { in: CASE_TYPES }
+  validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :prosecuting_authority, presence: true, inclusion: { in: PROSECUTING_AUTHORITIES }
+  validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :indictment_number, presence: true
 
   accepts_nested_attributes_for :fees, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true

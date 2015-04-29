@@ -1,10 +1,10 @@
 %w(
+  offence_classes
   offences
   document_types
   fee_categories
   fee_types
   expense_types
-  admins
   case_workers
   advocates
   courts

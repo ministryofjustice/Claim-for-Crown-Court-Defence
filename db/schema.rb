@@ -11,28 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424102029) do
+ActiveRecord::Schema.define(version: 20150428123404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "advocates", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
+    t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "advocates", ["email"], name: "index_advocates_on_email", unique: true, using: :btree
-  add_index "advocates", ["reset_password_token"], name: "index_advocates_on_reset_password_token", unique: true, using: :btree
+  add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
 
   create_table "case_worker_claims", force: true do |t|
     t.integer  "case_worker_id"
@@ -45,40 +35,34 @@ ActiveRecord::Schema.define(version: 20150424102029) do
   add_index "case_worker_claims", ["claim_id"], name: "index_case_worker_claims_on_claim_id", using: :btree
 
   create_table "case_workers", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
+    t.string   "role"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "case_workers", ["email"], name: "index_case_workers_on_email", unique: true, using: :btree
-  add_index "case_workers", ["reset_password_token"], name: "index_case_workers_on_reset_password_token", unique: true, using: :btree
+  add_index "case_workers", ["role"], name: "index_case_workers_on_role", using: :btree
 
   create_table "chambers", force: true do |t|
     t.string   "name"
-    t.string   "supplier_no"
+    t.string   "account_number"
+    t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "chambers", ["account_number"], name: "index_chambers_on_account_number", using: :btree
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
-  add_index "chambers", ["supplier_no"], name: "index_chambers_on_supplier_no", using: :btree
 
   create_table "claims", force: true do |t|
     t.text     "additional_information"
-    t.boolean  "vat_required"
+    t.boolean  "apply_vat"
     t.string   "state"
     t.string   "case_type"
     t.datetime "submitted_at"
     t.string   "case_number"
+    t.string   "advocate_category"
+    t.string   "prosecuting_authority"
+    t.string   "indictment_number"
     t.decimal  "fees_total",             default: 0.0
     t.decimal  "expenses_total",         default: 0.0
     t.decimal  "total",                  default: 0.0
@@ -206,12 +190,24 @@ ActiveRecord::Schema.define(version: 20150424102029) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
-  create_table "offences", force: true do |t|
+  create_table "offence_classes", force: true do |t|
+    t.string   "class_letter"
     t.string   "description"
-    t.string   "offence_class"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "offence_classes", ["class_letter"], name: "index_offence_classes_on_class_letter", using: :btree
+  add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
+
+  create_table "offences", force: true do |t|
+    t.string   "description"
+    t.integer  "offence_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -224,14 +220,13 @@ ActiveRecord::Schema.define(version: 20150424102029) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.integer  "chamber_id"
-    t.string   "role"
+    t.integer  "persona_id"
+    t.string   "persona_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
 end

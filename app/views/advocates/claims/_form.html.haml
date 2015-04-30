@@ -11,11 +11,11 @@
 
     = f.label :case_type
     %br
-    = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, prompt: true
+    = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
     %br
     = f.label :prosecuting_authority
     %br
-    = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, prompt: true
+    = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
     %br
     = f.label :indictment_number
     %br
@@ -23,7 +23,7 @@
     %br
     = f.label :court
     %br
-    = f.collection_select :court_id, Court.all, :id, :name, prompt: true
+    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
     %br
     = f.label :case_number
     %br
@@ -31,11 +31,11 @@
     %br
     = f.label :advocate_category
     %br
-    = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, prompt: true
+    = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
     %br
     = f.label :offence
     %br
-    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :description, :id, :description, prompt: true
+    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :letter_and_description, :id, :description, { prompt: true }, { class: 'select2', style: 'width: 100%;' }
     %br
     = f.label :first_day_of_trial
     %br

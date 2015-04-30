@@ -1,4 +1,4 @@
-if User.find_by(email: 'admin@example.com').blank?
+if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(
     email: 'advocate@example.com',
     password: ENV['ADVOCATE_PASSWORD'],

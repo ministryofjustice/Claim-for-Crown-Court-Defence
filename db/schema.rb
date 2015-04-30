@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428123404) do
+ActiveRecord::Schema.define(version: 20150430115328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20150428123404) do
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.integer  "offence_id"
+    t.integer  "scheme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150428123404) do
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
+  add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
 
   create_table "courts", force: true do |t|
     t.string   "code"
@@ -213,6 +215,14 @@ ActiveRecord::Schema.define(version: 20150428123404) do
   end
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
+
+  create_table "schemes", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schemes", ["name"], name: "index_schemes_on_name", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

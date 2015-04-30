@@ -4,6 +4,7 @@ RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
+  it { should belong_to(:scheme) }
   it { should have_many(:fees) }
   it { should have_many(:fee_types) }
   it { should have_many(:expenses) }

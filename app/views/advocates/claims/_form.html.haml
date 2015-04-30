@@ -35,7 +35,7 @@
     %br
     = f.label :offence
     %br
-    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :description, :id, :description, { prompt: true }, { class: 'select2', style: 'width: 100%;' }
+    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :letter_and_description, :id, :description, { prompt: true }, { class: 'select2', style: 'width: 100%;' }
 
     %p Defendants
     #defendants

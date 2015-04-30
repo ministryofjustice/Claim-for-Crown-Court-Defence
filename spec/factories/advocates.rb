@@ -4,6 +4,6 @@ FactoryGirl.define do
       advocate.user ||= build(:user, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')
     end
 
-    chamber { Chamber.find(rand(1..2)) }
+    chamber
   end
 end

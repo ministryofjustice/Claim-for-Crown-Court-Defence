@@ -36,6 +36,19 @@
     = f.label :offence
     %br
     = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :description, :id, :description, prompt: true
+    %br
+    = f.label :first_day_of_trial
+    %br
+    = f.date_field :first_day_of_trial
+    %br
+    = f.label :estimated_trial_length
+    %br
+    = f.number_field :estimated_trial_length
+    %br
+    = f.label :actual_trial_length
+    %br
+    = f.number_field :actual_trial_length
+    %br
 
     %p Defendants
     #defendants

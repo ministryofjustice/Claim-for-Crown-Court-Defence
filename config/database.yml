@@ -30,3 +30,4 @@ production:
 
 cucumber:
   <<: *test
+  <<: *user_credentials

@@ -33,7 +33,7 @@ class Claim < ActiveRecord::Base
 
   class << self
     def find_by_maat_reference(maat_reference)
-      joins(:defendants).where('defendants.maat_reference = ?', maat_reference.downcase.strip)
+      joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
     end
   end
 

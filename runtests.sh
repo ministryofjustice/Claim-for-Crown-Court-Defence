@@ -5,4 +5,4 @@ rake db:migrate
 rake db:seed
 rake claims:allocated[38]
 rake claims:completed[10]
-rspec
+rake test

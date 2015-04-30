@@ -21,6 +21,7 @@ class CreateClaims < ActiveRecord::Migration
       t.references :advocate, index: true
       t.references :court, index: true
       t.references :offence, index: true
+      t.references :scheme, index: true
 
       t.timestamps
     end

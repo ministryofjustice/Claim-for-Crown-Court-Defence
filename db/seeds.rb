@@ -1,4 +1,5 @@
 %w(
+  schemes
   offence_classes
   offences
   document_types

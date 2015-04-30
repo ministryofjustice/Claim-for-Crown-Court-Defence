@@ -10,6 +10,9 @@ class CreateClaims < ActiveRecord::Migration
       t.string :advocate_category
       t.string :prosecuting_authority
       t.string :indictment_number
+      t.date :first_day_of_trial
+      t.integer :estimated_trial_length, default: 0
+      t.integer :actual_trial_length, default: 0
 
       t.decimal :fees_total, default: 0
       t.decimal :expenses_total, default: 0

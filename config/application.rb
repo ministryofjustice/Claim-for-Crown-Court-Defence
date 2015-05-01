@@ -39,5 +39,7 @@ module CrimeBillingOnline
     config.feedback_url = 'not_set'
     # Google Analytics ID (Tracking ID for the service)
     config.ga_id = 'not_set'
+
+    
   end
 end

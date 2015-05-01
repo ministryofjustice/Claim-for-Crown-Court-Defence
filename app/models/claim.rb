@@ -35,6 +35,14 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :defendants, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :documents, reject_if: :all_blank, allow_destroy: true
 
+  def has_doctype?(doc_type)
+    documents.pluck(:document_type_id).include?(doc_type.id) #returns boolean
+  end
+
+  def doc_of_type(doc_type)
+    documents.where(:document_type_id == doc_type.id)[0] #returns an actual document
+  end
+
   class << self
     def find_by_maat_reference(maat_reference)
       joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)

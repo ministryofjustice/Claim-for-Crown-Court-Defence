@@ -9,6 +9,7 @@
   case_workers
   advocates
   courts
+  chambers
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

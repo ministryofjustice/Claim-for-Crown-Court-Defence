@@ -23,4 +23,5 @@ FactoryGirl.define do
       submitted_at { Time.now }
     end
   end
+
 end

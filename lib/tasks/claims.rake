@@ -62,8 +62,8 @@ namespace :claims do
   end
 
   def add_document(claim)
-    file = File.open("./features/examples/shorter_lorem.docx")
-    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/msword' )
+    file = File.open("./features/examples/longer_lorem.pdf")
+    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
   end
 
   def allocate(claim, caseworker_email)

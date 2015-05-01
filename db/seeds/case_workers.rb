@@ -10,9 +10,9 @@ if User.find_by(email: 'caseworker@example.com').blank?
   case_worker.save!
 end
 
-if User.find_by(email: 'admin@example.com').blank?
+if User.find_by(email: 'caseworkeradmin@example.com').blank?
   user = User.create!(
-    email: 'admin@example.com',
+    email: 'caseworkeradmin@example.com',
     password: ENV['ADMIN_PASSWORD'],
     password_confirmation: ENV['ADMIN_PASSWORD']
   )

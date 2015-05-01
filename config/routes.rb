@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   root to: 'high_voltage/pages#show', id: 'home'
 
   namespace :api, format: :json do
@@ -22,6 +22,12 @@ Rails.application.routes.draw do
       get 'confirmation', on: :member
     end
 
+
+    namespace :admin do
+      root to: 'advocates#index'
+
+      resources :advocates
+    end
   end
 
   namespace :case_workers do

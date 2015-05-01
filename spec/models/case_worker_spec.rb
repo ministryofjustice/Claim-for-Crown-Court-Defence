@@ -18,14 +18,14 @@ RSpec.describe CaseWorker, type: :model do
     end
   end
 
-  describe '.admin' do
+  describe '.admins' do
     before do
       create(:case_worker, :admin)
       create(:case_worker)
     end
 
     it 'only returns case workers with role "admin"' do
-      expect(CaseWorker.admin.count).to eq(1)
+      expect(CaseWorker.admins.count).to eq(1)
     end
   end
 

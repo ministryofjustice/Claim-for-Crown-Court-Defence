@@ -2,6 +2,22 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    persona = user.persona
+
+    if persona.is_a? Advocate
+      if persona.admin?
+        can :manage, :all
+      else
+        can :manage, Claim
+      end
+    elsif persona.is_a? CaseWorker
+      if persona.admin?
+        can :manage, :all
+      else
+        can :manage, Claim
+      end
+    end
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

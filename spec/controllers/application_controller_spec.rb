@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe ApplicationController, type: :controller do
   describe '#after_sign_in_path_for' do
     let(:advocate) { create(:advocate) }
+    let(:advocate_admin) { create(:advocate, :admin) }
     let(:case_worker) { create(:case_worker) }
-    let(:admin) { create(:case_worker, :admin) }
+    let(:case_worker_admin) { create(:case_worker, :admin) }
 
     context 'given an advocate' do
       before { sign_in advocate.user }
@@ -22,11 +23,19 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
+    context 'given an admin advocate' do
+      before { sign_in advocate_admin.user }
+
+      it 'returns advocates admin root url ' do
+        expect(subject.after_sign_in_path_for(advocate_admin.user)).to eq(advocates_admin_root_url)
+      end
+    end
+
     context 'given an admin case worker' do
-      before { sign_in admin.user }
+      before { sign_in case_worker_admin.user }
 
       it 'returns case workers root url ' do
-        expect(subject.after_sign_in_path_for(case_worker.user)).to eq(case_workers_admin_root_url)
+        expect(subject.after_sign_in_path_for(case_worker_admin.user)).to eq(case_workers_admin_root_url)
       end
     end
 

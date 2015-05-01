@@ -6,7 +6,12 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     case current_user.persona_type
       when 'Advocate'
-        advocates_root_url
+        case current_user.persona.role
+          when 'advocate'
+            advocates_root_url
+          when 'admin'
+            advocates_admin_root_url
+        end
       when 'CaseWorker'
         case current_user.persona.role
           when 'case_worker'

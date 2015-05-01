@@ -1,0 +1,34 @@
+= form_for [:advocates, :admin, @advocate] do |f|
+  - if @advocate.errors.any?
+    %h2= "#{pluralize(@advocate.errors.count, 'error')} prohibited this advocate from being saved:"
+    %ul
+      - @advocate.errors.full_messages.each do |msg|
+        %li= msg
+
+  = f.fields_for :user do |user_fields|
+    = user_fields.label :email
+    %br
+    = user_fields.email_field :email
+    %br
+    = user_fields.label :password
+    %br
+    = user_fields.password_field :password
+    %br
+    = user_fields.label :password_confirmation
+    %br
+    = user_fields.password_field :password_confirmation
+
+  %br
+  = f.label :first_name
+  %br
+  = f.text_field :first_name
+  %br
+  = f.label :last_name
+  %br
+  = f.text_field :last_name
+  %br
+  = f.label :role
+  %br
+  = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
+  %br
+  = f.submit

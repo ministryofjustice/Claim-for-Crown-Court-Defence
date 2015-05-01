@@ -3,9 +3,11 @@ Given(/^an? "(.*?)" user account exists$/) do |role|
   case role
     when 'advocate'
       create(:advocate)
+    when 'advocate admin'
+      create(:advocate, :admin)
     when 'case worker'
       create(:case_worker)
-    when 'admin'
+    when 'case worker admin'
       create(:case_worker, :admin)
   end
 end
@@ -24,6 +26,8 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
   case namespace.gsub(/\s/, '_')
   when 'advocates'
     expect(current_url).to eq(advocates_root_url)
+  when 'advocates admin'
+    expect(current_url).to eq(advocates_admin_root_url)
   when 'case workers'
     expect(current_url).to eq(case_workers_root_url)
   when 'case workers admin'

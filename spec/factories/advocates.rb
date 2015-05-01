@@ -7,5 +7,11 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     chamber
+
+    role 'advocate'
+
+    trait :admin do
+      role 'admin'
+    end
   end
 end

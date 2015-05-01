@@ -1,0 +1,14 @@
+%h1
+  Advocates
+
+%ul
+  - @advocates.each do |advocate|
+    %li
+      = link_to "#{advocate.email} (#{advocate.role.humanize})", advocates_admin_advocate_path(advocate)
+      |
+      = link_to 'Edit', edit_advocates_admin_advocate_path(advocate)
+      |
+      = link_to 'Delete', advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+
+%p
+  = link_to 'New advocate', new_advocates_admin_advocate_path, class: 'button'

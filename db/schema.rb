@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20150430115328) do
   enable_extension "plpgsql"
 
   create_table "advocates", force: true do |t|
+    t.string   "role"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "chamber_id"
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150430115328) do
   end
 
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
+  add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
 
   create_table "case_worker_claims", force: true do |t|
     t.integer  "case_worker_id"

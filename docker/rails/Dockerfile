@@ -9,4 +9,7 @@ WORKDIR /rails
 
 EXPOSE 80
 
+#SECRET_TOKEN set here because otherwise devise blows up during the precompile.
+RUN bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=blah
+
 CMD /rails/run.sh

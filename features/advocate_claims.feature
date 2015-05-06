@@ -9,6 +9,13 @@ Feature: Advocate claims
      Then I should be redirected to the claim summary page
       And I should see the claim total
 
+  Scenario: Change offence class
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I select offence class "A: Homicide and related grave offences"
+     Then the Offence category does NOT contain "Activities relating to opium"
+     Then the Offence category does contain "Murder"
+
   Scenario: Claim summary page
     Given I am on the claim summary page
      When I submit the form

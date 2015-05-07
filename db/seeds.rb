@@ -1,9 +1,15 @@
 %w(
+  schemes
+  offence_classes
+  offences
+  document_types
+  fee_categories
   fee_types
-  fees
   expense_types
   case_workers
   advocates
+  courts
+  chambers
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

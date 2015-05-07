@@ -30,3 +30,5 @@
 *.orig
 
 public/paperclip
+public/uploads
+features/examples/000

@@ -9,9 +9,50 @@
     %legend
       Section 1: Case, Instructed Advocate & Offence
 
+    = f.label :scheme
+    %br
+    = f.collection_select :scheme_id, Scheme.all, :id, :name, prompt: true
+    %br
+    = f.label :case_type
+    %br
+    = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
+    %br
+    = f.label :prosecuting_authority
+    %br
+    = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
+    %br
+    = f.label :indictment_number
+    %br
+    = f.text_field :indictment_number
+    %br
     = f.label :court
     %br
-    = f.collection_select :court_id, Court.all, :id, :name, prompt: true
+    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+    %br
+    = f.label :case_number
+    %br
+    = f.text_field :case_number
+    %br
+    = f.label :advocate_category
+    %br
+    = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
+    %br
+    = f.label :offence
+    %br
+    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :letter_and_description, :id, :description, { prompt: true }, { class: 'select2', style: 'width: 100%;' }
+    %br
+    = f.label :first_day_of_trial
+    %br
+    = f.date_field :first_day_of_trial
+    %br
+    = f.label :estimated_trial_length
+    %br
+    = f.number_field :estimated_trial_length
+    %br
+    = f.label :actual_trial_length
+    %br
+    = f.number_field :actual_trial_length
+    %br
 
     %p Defendants
     #defendants
@@ -29,25 +70,38 @@
   %fieldset
     %legend
       Fees
-    #claim_fees
-      = f.fields_for :claim_fees do |claim_fee|
-        = render 'claim_fee_fields', f: claim_fee
+    #fees
+      = f.fields_for :fees do |fee|
+        = render 'fee_fields', f: fee
         .links
-          = link_to_add_association 'Add Fee', f, :claim_fees, class: 'button'
+          = link_to_add_association 'Add Fee', f, :fees, class: 'button'
   %br
 
   %fieldset
     %legend
       Expenses
-    #claim_fees
+    #expenses
       = f.fields_for :expenses do |expense|
         = render 'expense_fields', f: expense
         .links
           = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
   %br
 
-  = f.label :vat_required, 'VAT on Fees & Expenses (please tick if required)'
-  = f.check_box :vat_required
+  = f.label :apply_vat, 'VAT on Fees & Expenses (please tick if required)'
+  = f.check_box :apply_vat
+
+  %br
+  %br
+
+  %fieldset
+    %legend
+      Supporting evidence documents
+    #documents
+      = f.fields_for :documents do |document|
+        = render 'document_fields', f: document
+        .links
+          = link_to_add_association 'Add Document', f, :documents, class: 'button'
+  %br
 
   %p
     = f.submit 'Submit', class: 'button'

@@ -12,6 +12,7 @@ namespace :claims do
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
+      report_created(:submitted, claim)
     end
   end
 
@@ -22,6 +23,7 @@ namespace :claims do
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
+      report_created(:draft, claim)
     end
   end
 
@@ -32,7 +34,8 @@ namespace :claims do
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
-      allocate(claim, 'caseworker@example.com')
+      allocate_claim(claim, 'caseworker@example.com')
+      report_created(:allocated, claim)
     end
   end
 
@@ -43,12 +46,17 @@ namespace :claims do
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
-      allocate(claim, 'caseworker@example.com')
+      allocate_claim(claim, 'caseworker@example.com')
+      report_created(:completed, claim)
     end
   end
 
   desc "Create draft, submitted, allocated and completed claims with random fees, random expenses and one defendant"
   task :all_states, [:number] => [:submitted, :draft, :allocated, :completed] do |task, args|
+  end
+
+  def report_created(claim_type, claim)
+    printf("Created %s claim: %s\n", claim_type.to_s, [claim.id, claim.state].join(', '))
   end
 
   def add_fees_expenses_and_defendant(claim)
@@ -62,7 +70,7 @@ namespace :claims do
     Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/msword' )
   end
 
-  def allocate(claim, caseworker_email)
+  def allocate_claim(claim, caseworker_email)
     caseworker = User.find_by(email: caseworker_email).persona
     caseworker.claims << claim
   end

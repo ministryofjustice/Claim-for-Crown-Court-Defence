@@ -24,7 +24,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'current claims' do
       it 'assigns submitted @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims.submitted)
+        expect(assigns(:claims)).to eq(case_worker.claims.submitted.order(:submitted_at, :id))
       end
     end
 

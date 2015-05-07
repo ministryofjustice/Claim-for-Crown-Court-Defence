@@ -7,21 +7,12 @@
 = content_for :content_override do
   = csrf_meta_tags
 
-  #wrapper.group
-    .phase-banner
-      %p
-        %strong.phase-tag= config_item(:phase)
-        %span
-          This is a new service – your
-          %a{href: "#"} feedback
-          will help us to improve it.
-    %section#content{role: 'main'}
-      %header.page-header.group.tribunal-header
-        #fixed-header
-          - if user_signed_in?
-            = render 'layouts/user'
-      .container
-        = render partial: 'layouts/flashes' unless flash.empty?
-        = yield
-
-= render template: "layouts/moj_template"
+#wrapper.group
+  %section#content{role: 'main'}
+    %header.page-header.group.tribunal-header
+      #fixed-header
+        - if user_signed_in?
+          = render 'layouts/user'
+    .container
+      = render partial: 'layouts/flashes' unless flash.empty?
+      = yield

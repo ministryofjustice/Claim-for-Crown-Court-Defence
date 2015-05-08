@@ -21,7 +21,7 @@
         %dd
           #{claim.case_workers.map(&:email).join(', ')}
         %dt
-          MATT no
+          #{t('maat_reference_number')}
         %dd
           #{claim.defendants.map(&:maat_reference).join(', ')}
         %dt

@@ -72,12 +72,26 @@ Then(/^I should be on the claim edit form$/) do
 end
 
 Then(/^I should be on the claim summary page$/) do
-  claim = Claim.first
+  claim = @claim || Claim.first
   expect(page.current_path).to eq(summary_advocates_claim_path(claim))
 end
 
 Given(/^a claim exists$/) do
   create(:claim, advocate_id: Advocate.first.id)
+end
+
+Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
+  @claim = case claim_state
+           when "draft"
+             create(:claim, advocate_id: Advocate.first.id)
+           else
+             create(:claim, advocate_id: Advocate.first.id)
+           end
+end
+
+Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
+  @claim.reload
+  expect(@claim.state).to eq(claim_state)
 end
 
 When(/^I am on the claim edit page$/) do

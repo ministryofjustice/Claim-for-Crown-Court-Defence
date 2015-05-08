@@ -15,7 +15,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def edit; end
 
-  def summary; end
+  def summary
+    session[:summary] = true
+  end
 
   def confirmation; end
 
@@ -31,11 +33,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def update
-    if @claim.update(claim_params) && @claim.submit!
-      respond_with @claim, { location: update_redirect_location, notice: 'Claim successfully updated' }
-    else
-      render action: :edit
-    end
+    @claim.submit! if session.delete(:summary) && @claim.draft?
+
+    @claim.update(claim_params)
+    respond_with @claim, { location: update_redirect_location, notice: 'Claim successfully updated' }
   end
 
   def destroy

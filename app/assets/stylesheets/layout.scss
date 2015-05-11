@@ -1,13 +1,19 @@
 
- #wrapper, #global-header-bar {
-    
- }
- #global-header-bar .inner-block{
-  padding:0;
- }
-
-#fixed-header{
-  margin:1em 0;
+.navbar{
+  margin-bottom: 0;
+}
+.aside{
+  position: absolute;
+  width:220px;
+  .sidebar-nav.well{
+    border-left: 0;
+    border-radius: 0;
+    border-top: 0;
+  }
+}
+.section{
+  margin-left: 220px;
+  position: relative;
 }
 section{
   display: block

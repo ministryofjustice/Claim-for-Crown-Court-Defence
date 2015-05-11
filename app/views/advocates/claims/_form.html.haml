@@ -11,7 +11,7 @@
 
     = f.label :scheme
     %br
-    = f.collection_select :scheme_id, Scheme.all, :id, :name, prompt: true
+    = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
     %br
     = f.label :case_type
     %br

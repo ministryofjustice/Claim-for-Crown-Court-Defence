@@ -12,9 +12,23 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @claims' do
-      create(:claim, advocate: advocate)
-      expect(assigns(:claims)).to eq(advocate.reload.claims.order(created_at: :desc))
+    context 'advocate' do
+      it 'assigns @claims' do
+        create(:claim, advocate: advocate)
+        expect(assigns(:claims)).to eq(advocate.reload.claims.order(created_at: :desc))
+      end
+    end
+
+    context 'advocate admin' do
+      let(:chamber) { create(:chamber) }
+      let(:advocate_admin) { create(:advocate, :admin, chamber_id: chamber.id) }
+      before { sign_in advocate_admin.user }
+
+      it 'assigns @claims' do
+        advocate.update_column(:chamber_id, chamber.id)
+        create(:claim, advocate: advocate.reload)
+        expect(assigns(:claims)).to eq(advocate_admin.reload.chamber.claims.order(created_at: :desc))
+      end
     end
 
     it 'renders the template' do

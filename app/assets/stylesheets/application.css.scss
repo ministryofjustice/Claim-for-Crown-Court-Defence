@@ -1,6 +1,11 @@
 //= require select2
+@import url(http://fonts.googleapis.com/css?family=Fira+Sans:500,700,500italic);
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700);
+@import "fonts";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
 
+@import "typography";
 @import "layout";
+

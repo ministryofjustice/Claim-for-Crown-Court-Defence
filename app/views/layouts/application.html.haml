@@ -4,9 +4,10 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    %title= content_for?(:title) ? yield(:title) : "<%= app_name %>"
+    %title= content_for?(:title) ? yield(:title) : Rails.application.config.app_title
     = csrf_meta_tags
     = stylesheet_link_tag "application", :media => "all"
+    = yeild :application_stylesheet
     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
     = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
@@ -20,12 +21,13 @@
 
   %body
     .navbar.navbar-default.navbar-static-top
-      .container
+      .container-fluid
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse")
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand(href="#") <%= app_name %>
+        %a.navbar-brand(href="#") 
+          = Rails.application.config.app_title
         -#
           .navbar-collapse.collapse.navbar-responsive-collapse
             %ul.nav.navbar-nav
@@ -33,20 +35,20 @@
               %li= link_to "Link 2", "/path2"
               %li= link_to "Link 3", "/path3"
               %li= link_to "Link 3", "/path3"
-
-    .container
-      .row
-        .col-lg-9
-          = render partial: 'layouts/flashes' unless flash.empty?
-          = yield
-        -#  
-          .col-lg-3
-            .well.sidebar-nav
-              %h3 Sidebar
-              %ul.nav.nav-list
-                %li.nav-header Sidebar
-                %li= link_to "Link 1", "/path1"
-                %li= link_to "Link 2", "/path2"
-                %li= link_to "Link 3", "/path3"
+    %aside.aside
+      .aside-inner
+        .sidebar-nav.well
+          %h3 Menu
+          %ul.nav.nav-list
+            %li.nav-header Dashboard
+            %li= link_to "Link 1", "/path1"
+            %li= link_to "Link 2", "/path2"
+            %li= link_to "Link 3", "/path3"
+    %section.section
+      .container-fluid
+        .row
+          .col-lg-9
+            = render partial: 'layouts/flashes' unless flash.empty?
+            = yield
       %footer
         %p &copy; Company <%= Date.today.year %>

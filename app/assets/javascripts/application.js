@@ -16,11 +16,6 @@
 //= require cocoon
 //= require_tree .
 
-function loadSelect2() {
-  $('.select2').select2();
-}
-
-$(document).ready(loadSelect2());
 
 $('#claims-list dd, dt').not('.quickview').each(function() {
   $(this).hide();
@@ -39,3 +34,12 @@ $('#claim-accordian h2').each(function(){
   });
 });
 $('#claim-accordian h2:first-of-type').addClass('open').next('section').show();
+
+function initialise(){
+	$('.select2').select2();
+	cbo.newClaim.init();
+}
+
+$( document ).ready(function() {
+	initialise();
+});

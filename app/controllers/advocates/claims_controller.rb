@@ -1,6 +1,9 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
+  layout 'application_advocate'
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+
+
 
   def index
     @claims = current_user.claims.order(created_at: :desc)

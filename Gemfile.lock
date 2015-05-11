@@ -29,6 +29,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.7)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (5.1.11)
+      execjs
+      json
     awesome_print (1.6.1)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
@@ -40,9 +43,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bourbon (3.2.4)
-      sass (~> 3.2)
-      thor
+    bootstrap-sass (3.3.4.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     breakpoint (2.0.7)
       compass (>= 0.12.1)
       sass (>= 3.2.0)
@@ -192,9 +195,6 @@ GEM
     minitest (5.5.1)
     multi_json (1.11.0)
     multi_test (0.1.2)
-    neat (1.5.1)
-      bourbon (>= 3.1)
-      sass (~> 3.2.19)
     nenv (0.2.0)
     newrelic_rpm (3.11.1.284)
     nokogiri (1.6.6.2)
@@ -357,7 +357,7 @@ DEPENDENCIES
   aws-sdk-v1
   better_errors
   binding_of_caller
-  bourbon
+  bootstrap-sass
   breakpoint
   byebug
   cancancan (~> 1.10)
@@ -385,7 +385,6 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen
-  neat
   newrelic_rpm
   paperclip
   pg

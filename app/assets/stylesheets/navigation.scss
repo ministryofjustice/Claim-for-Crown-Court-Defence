@@ -18,28 +18,28 @@
 
 
  nav.dashboard-tabs{
-        @include span-columns(12);
+        //@include span-columns(12);
         margin:1em 0;
         ul{
-          border-bottom: 1px solid $orange;
+          border-bottom: 1px solid $gray-dark;
           float: left;
           width: 100%;
         }
         li{
-          @include span-columns(4 of 12);
+          //@include span-columns(4 of 12);
           line-height: 2.5;
           padding-bottom: 1px;
           &.active{
-            background-color: $white;
-            border: 1px solid $orange;
-            border-bottom: $white;
+            background-color: $body-bg;
+            border: 1px solid $gray-dark;
+            border-bottom: $body-bg;
             bottom: -1px;
             padding-bottom: 0;
             position: relative;
           }
           a {
             font-weight: bold;
-            color: $black;
+            color: $gray-base;
           }
         }
  }

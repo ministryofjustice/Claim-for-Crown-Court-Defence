@@ -1,6 +1,8 @@
 class Claim < ActiveRecord::Base
   include Claims::StateMachine
 
+  attr_reader :offence_class_id
+
   CASE_TYPES = %w( guilty trial retrial cracked_retrial )
   ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
   PROSECUTING_AUTHORITIES = %W( cps )

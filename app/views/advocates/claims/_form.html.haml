@@ -11,7 +11,7 @@
 
     = f.label :scheme
     %br
-    = f.collection_select :scheme_id, Scheme.all, :id, :name, prompt: true
+    = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
     %br
     = f.label :case_type
     %br
@@ -36,10 +36,7 @@
     = f.label :advocate_category
     %br
     = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
-    %br
-    = f.label :offence
-    %br
-    = f.grouped_collection_select :offence_id, OffenceClass.includes(:offences), :offences, :letter_and_description, :id, :description, { prompt: true }, { class: 'select2', style: 'width: 100%;' }
+    = render 'dynamic_offence_fields', f: f
     %br
     = f.label :first_day_of_trial
     %br

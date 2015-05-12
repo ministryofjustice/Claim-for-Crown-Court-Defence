@@ -19,6 +19,8 @@ FactoryGirl.define do
 
     factory :completed_claim do
       after(:create) { |claim| claim.submit! }
+      after(:create) { |claim| claim.allocate! }
+      after(:create) { |claim| claim.pay! }
       after(:create) { |claim| claim.complete! }
     end
   end

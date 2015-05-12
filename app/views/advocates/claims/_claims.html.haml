@@ -1,0 +1,29 @@
+- if claims.none?
+  %p No claims found
+- else
+  %table
+    %thead
+      %th
+        CMS Number
+      %th
+        Advocate
+      %th
+        Submission date
+      %th
+        Paid date
+      %th
+        Balance
+      %th
+    %tbody
+    - claims.each do |claim|
+      %tr{id: dom_id(claim)}
+        %td
+
+        %td
+          = claim.advocate.name
+        %td
+          = claim.submitted_at.strftime('%d/%m/%Y')
+        %td
+
+        %td
+          = link_to 'Edit', edit_advocates_claim_path(claim)

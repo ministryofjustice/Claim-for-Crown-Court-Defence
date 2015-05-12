@@ -9,7 +9,7 @@
           %span.icon-bar
           %span.icon-bar
         %a.navbar-brand(href="#") 
-          = Rails.application.config.app_title
+          = "#{Rails.application.config.app_title} - Case Worker"
           .navbar-collapse.collapse.navbar-responsive-collapse
             %ul.nav.navbar-nav
               %li= link_to "Link 1", "/path1"
@@ -30,7 +30,7 @@
     %section.section
       .container-fluid
         .row
-          %div
+          .col-lg-9
             = render partial: 'layouts/flashes' unless flash.empty?
             = yield
         = render 'layouts/footer'

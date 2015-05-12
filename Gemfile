@@ -29,7 +29,6 @@ gem 'select2-rails'
 gem 'simple_form'
 gem 'susy'
 gem 'state_machine'
-gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'unicorn-rails'
 gem 'rails_12factor', group: :production

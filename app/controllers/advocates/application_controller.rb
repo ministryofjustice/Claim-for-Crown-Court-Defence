@@ -1,5 +1,7 @@
 class Advocates::ApplicationController < ApplicationController
-  before_action :authenticate_advocate!
+
+	before_action :authenticate_advocate!
+	layout 'advocate'
 
   private
 

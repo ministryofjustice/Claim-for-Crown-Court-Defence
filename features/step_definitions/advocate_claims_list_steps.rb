@@ -1,7 +1,7 @@
 Given(/^I have claims$/) do
   advocate = Advocate.first
-  @claims = create_list(:claim, 5)
-  @other_claims = create_list(:claim, 3)
+  @claims = create_list(:submitted_claim, 5)
+  @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)

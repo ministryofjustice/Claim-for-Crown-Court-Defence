@@ -1,32 +1,18 @@
 %h1 Claims
 
 %p
-  = link_to 'New Claim', new_advocates_claim_path, class: 'button'
+  = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
 
-%hr
+%p
+  = form_tag case_workers_claims_path, method: :get do
+    = text_field_tag :search, params[:search], placeholder: 'Advocate'
+    = submit_tag 'Search', class: 'button'
 
-%h2 Claims
-- if @claims.none?
-  %p No claims found
-- else
-  %table
-    %thead
-      %th
-        Advocate
-      %th
-        Created at
-      %th
-        Status
-      %th
-        Actions
-    %tbody
-    - @claims.each do |claim|
-      %tr{id: dom_id(claim)}
-        %td
-          = claim.advocate.name
-        %td
-          = link_to claim.created_at.strftime('%d/%m/%Y %H:%M'), advocates_claim_path(claim)
-        %td
-          = claim.state.capitalize
-        %td
-          = link_to 'Edit', edit_advocates_claim_path(claim)
+%h2 Current claims (#{@current_claims.count})
+= render partial: 'claims', locals: { claims: @current_claims }
+
+%h2 Completed claims (#{@completed_claims.count})
+= render partial: 'claims', locals: { claims: @completed_claims }
+
+%h2 Draft claims (#{@draft_claims.count})
+= render partial: 'claims', locals: { claims: @draft_claims }

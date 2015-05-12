@@ -20,4 +20,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  number:
+    currency:
+       format:
+         unit: '£'
+         delimiter: ','
+         separator: '.'
+         precision: 2
+         format: '%u%n'
+  upload: "Upload"
+  documents:
+    form:
+      upload: "Choose file to upload"
+  maat_reference_number: "MAAT Reference"

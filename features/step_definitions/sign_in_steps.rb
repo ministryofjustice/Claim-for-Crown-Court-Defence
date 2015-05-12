@@ -1,6 +1,15 @@
 Given(/^an? "(.*?)" user account exists$/) do |role|
   @password = 'password'
-  create(role.gsub(/\s/, '_').to_sym, password: @password, password_confirmation: @password)
+  case role
+    when 'advocate'
+      create(:advocate)
+    when 'advocate admin'
+      create(:advocate, :admin)
+    when 'case worker'
+      create(:case_worker)
+    when 'case worker admin'
+      create(:case_worker, :admin)
+  end
 end
 
 When(/^I vist the user sign in page$/) do
@@ -17,7 +26,11 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
   case namespace.gsub(/\s/, '_')
   when 'advocates'
     expect(current_url).to eq(advocates_root_url)
-  when 'case_workers'
+  when 'advocates admin'
+    expect(current_url).to eq(advocates_admin_root_url)
+  when 'case workers'
     expect(current_url).to eq(case_workers_root_url)
+  when 'case workers admin'
+    expect(current_url).to eq(case_workers_admin_root_url)
   end
 end

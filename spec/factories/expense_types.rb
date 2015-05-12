@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :expense_type do
-    name { Faker::Lorem.word }
+    sequence(:name) { |n| "#{Faker::Lorem.word}-#{n}" }
   end
 end

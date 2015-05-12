@@ -23,8 +23,8 @@
   %br
   = f.check_box :order_for_judicial_apportionment
   %br
-  = f.label :maat_ref_nos
+  = f.label :maat_reference, t('maat_reference_number')
   %br
-  = f.text_field :maat_ref_nos
+  = f.text_field :maat_reference
   %p
     = link_to_remove_association 'Remove defendant', f

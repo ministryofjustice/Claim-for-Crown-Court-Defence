@@ -1,10 +1,16 @@
 FactoryGirl.define do
   factory :fee do
-    description { Faker::Lorem.word }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    claim
+    fee_type
     quantity 1
     rate "9.99"
     amount "9.99"
-    fee_type
+
+    trait :random_values do
+      quantity { rand(1..10) }
+      rate { rand(1.0..9.99) }
+      amount { quantity * rate }
+    end
   end
+
 end

@@ -1,0 +1,12 @@
+OffenceClass.find_or_create_by(class_letter: 'A', description: 'Homicide and related grave offences')
+OffenceClass.find_or_create_by(class_letter: 'B', description: 'Offences involving serious violence or damage and serious drug offences')
+OffenceClass.find_or_create_by(class_letter: 'C', description: 'Lesser offences involving violence or damage and less serious drug offences')
+OffenceClass.find_or_create_by(class_letter: 'D', description: 'Serious sexual offences and offences against children')
+OffenceClass.find_or_create_by(class_letter: 'E', description: 'Burglary')
+OffenceClass.find_or_create_by(class_letter: 'F', description: 'Other offences of dishonesty up to £30,000')
+OffenceClass.find_or_create_by(class_letter: 'G', description: 'Other offences of dishonesty between £30,001 and £100,000 ')
+OffenceClass.find_or_create_by(class_letter: 'H', description: 'Miscellaneous lesser offences')
+OffenceClass.find_or_create_by(class_letter: 'I', description: 'Offences against public justice and similar offences')
+OffenceClass.find_or_create_by(class_letter: 'J', description: 'Serious sexual offences, offences against children')
+OffenceClass.find_or_create_by(class_letter: 'K', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000')
+

@@ -1,19 +1,45 @@
 Given(/^I am a signed in advocate$/) do
-  advocate = create(:advocate, password: 'password', password_confirmation: 'password')
+  advocate = create(:advocate)
   visit new_user_session_path
-  sign_in(advocate, 'password')
+  sign_in(advocate.user, 'password')
 end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
+  create(:offence_class, description: 'A: Homicide and related grave offences')
+  create(:offence, description: 'Murder')
+  create(:document_type, description: 'Other')
   visit new_advocates_claim_path
 end
 
-When(/^I select a court and fill in the defendant details$/) do
+When(/^I fill in the claim details$/) do
+  select('Guilty', from: 'claim_case_type')
+  select('CPS', from: 'claim_prosecuting_authority')
+  fill_in 'Indictment number', with: '123456'
   select('some court', from: 'claim_court_id')
+  fill_in 'Case number', with: '123456'
+  select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
+  select('Murder', from: 'claim_offence_id')
+  select('Qc alone', from: 'claim_advocate_category')
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'
+  fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
+  select 'Other', from: 'claim_documents_attributes_0_document_type_id'
+  fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
+  attach_file(:claim_documents_attributes_0_document, 'features/examples/shorter_lorem.docx')
+end
+
+When(/^I select offence class "(.*?)"$/) do |offence_class|
+  select(offence_class, from: 'claim_offence_class_id')
+end
+
+Then(/^the Offence category does NOT contain "(.*?)"$/) do |invalid_offence_category|
+  expect(page).not_to have_content(invalid_offence_category)
+end
+
+Then(/^the Offence category does contain "(.*?)"$/) do |valid_offence_category|
+  expect(page).to have_content(valid_offence_category)
 end
 
 When(/^I submit the form$/) do
@@ -33,7 +59,7 @@ Given(/^I am on the claim summary page$/) do
   steps <<-STEPS
     Given I am a signed in advocate
       And I am on the new claim page
-     When I select a court and fill in the defendant details
+     When I fill in the claim details
       And I submit the form
      Then I should be redirected to the claim summary page
       And I should see the claim total
@@ -65,7 +91,7 @@ Then(/^I should be on the claim summary page$/) do
 end
 
 Given(/^a claim exists$/) do
-  create(:claim, advocate_id: User.first.id)
+  create(:claim, advocate_id: Advocate.first.id)
 end
 
 When(/^I am on the claim edit page$/) do

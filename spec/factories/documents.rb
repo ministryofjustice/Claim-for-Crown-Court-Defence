@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :document do
+    document { fixture_file_upload(Rails.root + 'features/examples/shorter_lorem.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', :binary) }
+    document_type
     claim
-    description 'Document description'
-    document 'sample.docx'
+    notes { Faker::Lorem.sentence }
   end
 end

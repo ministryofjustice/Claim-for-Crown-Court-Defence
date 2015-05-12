@@ -20,8 +20,8 @@
         #fixed-header
           - if user_signed_in?
             = render 'layouts/user'
-        .container
-          = render partial: 'layouts/flashes' unless flash.empty?
-          = yield
+      .container
+        = render partial: 'layouts/flashes' unless flash.empty?
+        = yield
 
 = render template: "layouts/moj_template"

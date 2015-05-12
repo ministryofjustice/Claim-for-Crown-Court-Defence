@@ -5,6 +5,7 @@ RSpec.describe Advocate, type: :model do
   it { should have_one(:user) }
   it { should have_many(:claims) }
 
+  it { should validate_presence_of(:chamber) }
   it { should validate_presence_of(:first_name) }
   it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:user) }

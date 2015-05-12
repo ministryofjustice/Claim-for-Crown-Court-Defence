@@ -1,106 +1,102 @@
 require 'rails_helper'
 
 RSpec.describe Claims::StateMachine, type: :model do
-  context 'states' do
-    subject { create(:claim) }
+  subject { build(:claim) }
 
-    it 'should have an initial state of "draft"' do
-      expect(subject.state).to eq('draft')
+  describe 'all available states' do
+    let(:states) do
+      [:allocated, :appealed, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
+       :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted]
     end
 
-    describe '#submit' do
-      context 'when draft' do
-        before { subject.submit! }
-
-        it 'should transition to "submitted"' do
-          expect(subject).to be_submitted
-        end
-
-        it 'should set submitted_at' do
-          expect(subject.submitted_at).to_not be_nil
-        end
-      end
-
-      context 'when submitted' do
-        before { subject.submit! }
-
-        it 'should not raise error' do
-          expect{subject.submit!}.to_not raise_error
-        end
-      end
-
-      context 'when completed' do
-        before do
-          subject.submit!
-          subject.complete!
-        end
-
-        it 'should raise error' do
-          expect{subject.submit!}.to raise_error
-        end
-      end
-    end
-
-    describe '#complete' do
-      subject { create(:submitted_claim) }
-
-      context 'when submitted' do
-        before { subject.complete! }
-
-        it 'should transition to "completed"' do
-          expect(subject).to be_completed
-        end
-      end
-
-      context 'when draft' do
-        subject { create(:claim) }
-
-        it 'should raise error' do
-          expect{subject.complete!}.to raise_error
-        end
-      end
-
-      context 'when completed' do
-        before { subject.complete! }
-
-        it 'should raise error' do
-          expect{subject.complete!}.to raise_error
-        end
-      end
-    end
-
-    describe '#set_submission_date!' do
-      it 'sets the submission date/time to now' do
-        Timecop.freeze(Time.now) do
-          subject.send(:set_submission_date!)
-          expect(subject.submitted_at.to_time).to eq(Time.now)
-        end
-      end
-    end
+    it('exist')       { expect(Claim.state_machine.states.map(&:name).sort).to eq(states.sort) }
+    it('are valid')   { states.each { |s| subject.state = s; expect(subject).to be_valid } }
   end
 
-  context 'scopes' do
-    let!(:claim_1) { create(:claim) }
-    let!(:claim_2) { claim = create(:claim); claim.submit!; claim }
-    let!(:claim_3) { create(:claim) }
-    let!(:claim_4) { create(:completed_claim) }
-
-    describe '.draft' do
-      it 'only returns draft claims' do
-        expect(Claim.draft).to match_array([claim_1, claim_3])
-      end
+  describe 'valid transitions' do
+    describe 'from allocated' do
+      before { subject.submit!; subject.allocate! }
+      it { expect{ subject.reject! }.to                 change{ subject.state }.to('rejected') }
+      it { allow(subject).to receive(:complete!);       expect{ subject.refuse! }.to change{ subject.state }.to('refused') }
+      it { expect{ subject.pay_part! }.to               change{ subject.state }.to('part_paid') }
+      it { expect{ subject.pay! }.to                    change{ subject.state }.to('paid') }
+      it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
     end
 
-    describe '.submitted' do
-      it 'only returns submitted claims' do
-        expect(Claim.submitted).to match_array([claim_2])
-      end
+    describe 'from appealed' do
+      before { subject.submit!; subject.allocate!; subject.pay_part!; subject.reject_parts!; subject.appeal! }
+      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.pay! }.to      change{ subject.state }.to('paid') }
     end
 
-    describe '.completed' do
-      it 'only returns completed claims' do
-        expect(Claim.completed).to match_array([claim_4])
-      end
+    describe 'from awaiting_further_info' do
+      before { subject.submit!; subject.allocate!; subject.pay_part!; subject.await_further_info! }
+      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.draft! }.to    change{ subject.state }.to('draft') }
     end
-  end
+
+    describe 'from draft' do
+      it { expect{ subject.submit! }.to change{ subject.state }.to('submitted') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
+    end
+
+    describe 'from paid' do
+      before { subject.submit!; subject.allocate!; subject.pay! }
+      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+    end
+
+    describe 'from part_paid' do
+      before { subject.submit!; subject.allocate!; subject.pay_part! }
+      it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
+      it { expect{ subject.reject_parts! }.to          change{ subject.state }.to('parts_rejected') }
+    end
+
+    describe 'from parts_rejected' do
+      before { subject.submit!; subject.allocate!; subject.pay_part!; subject.reject_parts! }
+      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.appeal! }.to   change{ subject.state }.to('appealed') }
+    end
+
+    describe 'from refused' do
+      before { subject.submit!; subject.allocate!; }
+      describe 'note refused state and automatically move to completed' do
+        it { expect(subject).to receive(:complete!); subject.refuse! }
+      end
+      it { expect{ subject.update_column(:state, 'refused'); subject.complete! }.to change{ subject.state }.to('completed') }
+    end
+
+    describe 'from rejected' do
+      before { subject.submit!; subject.allocate!; subject.reject! }
+      it { expect{ subject.draft! }.to change{ subject.state }.to('draft') }
+    end
+
+    describe 'from submitted' do
+      before { subject.submit! }
+      it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
+    end
+  end # describe 'valid transitions'
+
+  describe 'set triggers' do
+    before { Timecop.freeze(Time.now) }
+    after  { Timecop.return }
+
+    describe 'make appeal valid for 21 days' do
+      before { subject.submit!; subject.allocate!; subject.pay_part!; subject.reject_parts! }
+      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.appeal! }
+    end
+
+    describe 'make awaiting_furhter_info valid for 21 days' do
+      before { subject.submit!; subject.allocate!; subject.pay_part! }
+      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.await_further_info! }
+    end
+
+    describe 'make parts_rejected valid for 21 days' do
+      before { subject.submit!; subject.allocate!; subject.pay_part! }
+      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.reject_parts! }
+    end
+
+    describe 'make archive_pending_delete valid for 180 days' do
+      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
+    end
+  end # describe 'set triggers'
 end

@@ -12,6 +12,7 @@ seed)
     echo "running seed"
     bundle exec rake db:migrate
     bundle exec rake db:seed
+    bundle exec rake claims:all_states[25]
     ;;
 esac
 exec bundle exec unicorn -p 80

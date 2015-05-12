@@ -188,6 +188,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
       context 'and submitted' do
         before do
+          get :summary, id: subject
           put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
         end
 

@@ -9,10 +9,13 @@
     = submit_tag 'Search', class: 'button'
 
 %h2 Current claims (#{@current_claims.count})
-= render partial: 'claims', locals: { claims: @current_claims }
+#current
+  = render partial: 'claims', locals: { claims: @current_claims }
 
 %h2 Completed claims (#{@completed_claims.count})
-= render partial: 'claims', locals: { claims: @completed_claims }
+#completed
+  = render partial: 'claims', locals: { claims: @completed_claims }
 
 %h2 Draft claims (#{@draft_claims.count})
-= render partial: 'claims', locals: { claims: @draft_claims }
+#draft
+  = render partial: 'claims', locals: { claims: @draft_claims }

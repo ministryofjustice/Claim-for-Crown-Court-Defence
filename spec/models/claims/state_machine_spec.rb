@@ -99,4 +99,16 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
     end
   end # describe 'set triggers'
+
+  describe 'scopes' do
+    describe '.pending' do
+      let(:submitted_claim) { create(:submitted_claim) }
+      let(:allocated_claim) { create(:allocated_claim) }
+      let(:claim) { create(:claim) }
+
+      it 'returns only "allocated" or "submitted" claims' do
+        expect(Claim.pending).to match_array([submitted_claim, allocated_claim])
+      end
+    end
+  end # describe 'scopes'
 end

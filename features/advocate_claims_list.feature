@@ -16,9 +16,15 @@ Feature: Advocate claims list
 
   Scenario: View current claims
     Given I am a signed in advocate admin
-      And my chamber has 5 "current" claims
+      And my chamber has 5 "submitted" claims
      When I visit the advocates dashboard
-     Then I should see my chamber's 5 "current" claims
+     Then I should see my chamber's 5 "submitted" claims
+
+  Scenario: View pending claims
+    Given I am a signed in advocate admin
+      And my chamber has 5 "allocated" claims
+     When I visit the advocates dashboard
+     Then I should see my chamber's 5 "allocated" claims
 
   Scenario: View completed claims
     Given I am a signed in advocate admin

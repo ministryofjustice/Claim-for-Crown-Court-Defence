@@ -4,8 +4,8 @@ $laa-gray:#bdbbbb;
 
 $body-bg:#F6F6F6;
 $list-item-bg:#fff;
-$section_colour: #006d55;
-$section_highlight_colour: #34b233;
+$section-colour: #006d55;
+$section-highlight-colour: #34b233;
 $navbar-text:#fff;
 $sidebar-bg:#fff;
 // this stuff should be shared
@@ -27,7 +27,7 @@ body{
 }
 .navbar.navbar-default.navbar-static-top{
   background-color: $laa-gray;
-  border-bottom: 3px solid $section_colour;
+  border-bottom: 3px solid $section-colour;
   .navbar-brand{
     color:$navbar-text;
   }
@@ -37,11 +37,15 @@ $sidebar-bg:#fff;
   background-color: $sidebar-bg;
   border-radius:0;
   border: 0 none;
-  border-bottom: 3px solid $section_colour;
-  border-top: 3px solid $section_colour;
+  border-bottom: 3px solid $section-colour;
+  border-top: 3px solid $section-colour;
   padding:0;
   -webkit-box-shadow: none;
   box-shadow: none;
+  color: $section-colour;
+  h3{
+    padding-left: 15px;
+  }
   ul{
     margin:0;
     padding: 0;
@@ -49,10 +53,21 @@ $sidebar-bg:#fff;
   li {
     list-style-type: none;
     padding-left: 15px;
+    color: $section-colour;
     &.selected{
       background-color: $body-bg;
       padding: 15px;
     }
   }
-  
+  .nav li a {
+    color:$text-color;
+    font-weight: normal;
+    line-height: 2;
+    padding: 0;
+    
+
+  }
+  .nav > li > a {
+    color: $section-colour;
+  }
 }

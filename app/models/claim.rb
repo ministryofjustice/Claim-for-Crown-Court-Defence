@@ -42,6 +42,11 @@ class Claim < ActiveRecord::Base
     def find_by_maat_reference(maat_reference)
       joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
     end
+
+    def find_by_advocate_name(advocate_name)
+      joins(:advocate)
+        .where("lower(first_name || ' ' || last_name) LIKE ?", "%#{advocate_name.downcase}%")
+    end
   end
 
   def calculate_fees_total

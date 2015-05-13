@@ -52,3 +52,31 @@ Then(/^I should see my chamber's claims$/) do
     expect(page).to_not have_selector("##{dom_id}")
   end
 end
+
+Given(/^my chamber has (\d) "(.*?)" claims$/) do |number, state|
+  advocate = Advocate.first
+  chamber = Chamber.first
+  chamber.advocates << advocate
+
+  @claims = case state
+    when 'draft'
+      create_list(:claim, number.to_i)
+    when 'submitted'
+      create_list(:submitted_claim, number.to_i)
+  end
+
+  @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
+end
+
+Then(/^I should see my chamber's (\d) "(.*?)" claims$/) do |number, state|
+  chamber = Chamber.first
+  claim_dom_ids = chamber.claims.send(state.to_sym).map { |c| "claim_#{c.id}" }
+
+  expect(claim_dom_ids.size).to eq(number.to_i)
+
+  within "##{state}" do
+    claim_dom_ids.each do |dom_id|
+      expect(page).to have_selector("##{dom_id}")
+    end
+  end
+end

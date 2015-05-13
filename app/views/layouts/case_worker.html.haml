@@ -15,19 +15,7 @@
           = "#{Rails.application.config.app_title} - Case Worker"
         - if user_signed_in?
           = render 'layouts/user'
-    %aside.aside.col-md-3
-      .aside-inner
-        .sidebar-nav.well
-          %h3 Menu
-          %ul.nav.nav-list
-            %li.selected 
-              Dashboard
-              %ul
-                %li= link_to "Link 1", "/path1"
-                %li= link_to "Link 2", "/path2"
-            %li= link_to "Link 1", "/path1"
-            %li= link_to "Link 2", "/path2"
-            %li= link_to "Link 3", "/path3"
+    = render 'layouts/sidebar'
     %section.section.col-md-9
       .container-fluid
         .row

@@ -1,9 +1,4 @@
-%nav.dashboard-tabs
-  %ul
-    %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}
-      = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
-    %li{class: ('active' if params[:tab] == 'completed')}
-      = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
+= render "claims_sidebar"
 
 %section
   %h1

@@ -1,0 +1,12 @@
+= content_for :sidebar do
+  %ul.nav.nav-list
+    %li.selected 
+      = link_to "Dashboard", "/path1"
+      %ul
+        %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}
+          = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
+        %li{class: ('active' if params[:tab] == 'completed')}
+          = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
+    %li= link_to "Payments", "/path1"
+    %li= link_to "Advocate details", "/path2"
+    %li= link_to "Reporting tool", "/path3"

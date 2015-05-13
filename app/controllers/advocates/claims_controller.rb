@@ -9,6 +9,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       current_user.claims.order(created_at: :desc)
     end
 
+    claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
+
     @current_claims = claims.submitted
     @completed_claims = claims.completed
     @draft_claims = claims.draft

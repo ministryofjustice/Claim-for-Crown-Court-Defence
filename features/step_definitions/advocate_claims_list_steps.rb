@@ -53,7 +53,7 @@ Then(/^I should see my chamber's claims$/) do
   end
 end
 
-Given(/^my chamber has (\d) "(.*?)" claims$/) do |number, state|
+Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   advocate = Advocate.first
   chamber = Chamber.first
   chamber.advocates << advocate
@@ -70,7 +70,7 @@ Given(/^my chamber has (\d) "(.*?)" claims$/) do |number, state|
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
 end
 
-Then(/^I should see my chamber's (\d) "(.*?)" claims$/) do |number, state|
+Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
   chamber = Chamber.first
 
   scope = case state
@@ -91,4 +91,29 @@ Then(/^I should see my chamber's (\d) "(.*?)" claims$/) do |number, state|
       expect(page).to have_selector("##{dom_id}")
     end
   end
+end
+
+When(/^I search by the advocate name "(.*?)"$/) do |name|
+  fill_in 'search', with: name
+  click_button 'Search'
+end
+
+Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
+  expect(page).to have_content(name, count: number.to_i)
+end
+
+Then(/^I should not see the advocate search field$/) do
+  expect(page).to_not have_selector('#search')
+end
+
+Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
+  advocate = Advocate.first
+  first_name = advocate_name.split.first
+  last_name = advocate_name.split.last
+  claim_advocate = create(:advocate, first_name: first_name, last_name: last_name)
+  chamber = create(:chamber)
+  chamber.advocates << advocate
+  chamber.advocates << claim_advocate
+  @claims = create_list(:claim, number.to_i)
+  @claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
 end

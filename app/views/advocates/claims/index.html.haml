@@ -3,10 +3,11 @@
 %p
   = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
 
-%p
-  = form_tag advocates_claims_path, method: :get do
-    = text_field_tag :search, params[:search], placeholder: 'Advocate'
-    = submit_tag 'Search', class: 'button'
+- if current_user.persona.admin?
+  %p
+    = form_tag advocates_claims_path, method: :get do
+      = text_field_tag :search, params[:search], placeholder: 'Advocate'
+      = submit_tag 'Search', class: 'button'
 
 %h2 Current claims (#{@current_claims.count})
 #current

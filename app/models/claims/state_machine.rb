@@ -15,7 +15,7 @@ module Claims::StateMachine
          :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted
 
       event :allocate do
-        transition [:submitted] => :allocated
+        transition [:submitted, :awaiting_info_from_court] => :allocated
       end
 
       event :appeal do

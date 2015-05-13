@@ -1,6 +1,6 @@
 @stub_s3_upload
 
-Feature: Advocate claims
+Feature: Advocate new claim
   Scenario: Fill in claim form
     Given I am a signed in advocate
       And I am on the new claim page

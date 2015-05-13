@@ -9,7 +9,7 @@ class Advocate < ActiveRecord::Base
   default_scope { includes(:user) }
 
   validates :user, presence: true
-  validates :first_name, :last_name, presence: true
+  validates :chamber, :first_name, :last_name, presence: true
 
   accepts_nested_attributes_for :user
 

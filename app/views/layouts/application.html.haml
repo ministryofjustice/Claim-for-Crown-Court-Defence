@@ -16,8 +16,8 @@
               %li= link_to "Link 2", "/path2"
               %li= link_to "Link 3", "/path3"
               %li= link_to "Link 4", "/path4"
-              - if user_signed_in?
-                %li= render 'layouts/user'
+            - if user_signed_in?
+              render 'layouts/user'
     %aside.aside
       .aside-inner
         .sidebar-nav.well

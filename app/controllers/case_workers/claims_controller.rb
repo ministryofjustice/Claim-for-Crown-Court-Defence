@@ -1,6 +1,5 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   respond_to :html
-  layout 'application_case_worker'
   before_action :set_claim, only: [:show]
 
   def index

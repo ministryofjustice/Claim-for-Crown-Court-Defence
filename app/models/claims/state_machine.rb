@@ -71,8 +71,6 @@ module Claims::StateMachine
     klass.state_machine.states.map(&:name).each do |s|
       klass.scope s, -> { klass.where(state: s) }
     end
-
-    klass.scope :pending, -> { klass.where(state: ['allocated', 'submitted']) }
   end
 
   private

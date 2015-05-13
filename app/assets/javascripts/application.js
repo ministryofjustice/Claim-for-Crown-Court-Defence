@@ -12,12 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require select2
 //= require cocoon
 //= require_tree .
 
-$(document).ready(function() { $('.select2').select2(); });
 
 $('#claims-list dd, dt').not('.quickview').each(function() {
   $(this).hide();
@@ -36,3 +34,12 @@ $('#claim-accordian h2').each(function(){
   });
 });
 $('#claim-accordian h2:first-of-type').addClass('open').next('section').show();
+
+function initialise(){
+	$('.select2').select2();
+	cbo.newClaim.init();
+}
+
+$( document ).ready(function() {
+	initialise();
+});

@@ -4,7 +4,7 @@
   = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
 
 %p
-  = form_tag case_workers_claims_path, method: :get do
+  = form_tag advocates_claims_path, method: :get do
     = text_field_tag :search, params[:search], placeholder: 'Advocate'
     = submit_tag 'Search', class: 'button'
 

@@ -21,6 +21,17 @@ class Claim < ActiveRecord::Base
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
 
+  default_scope do
+    includes(:advocate,
+             :case_workers,
+             :court,
+             :defendants,
+             :documents,
+             :expenses,
+             :fee_types,
+             offence: :offence_class)
+  end
+
   validates :offence,                 presence: true
   validates :advocate,                presence: true
   validates :court,                   presence: true

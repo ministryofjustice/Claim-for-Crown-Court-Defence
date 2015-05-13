@@ -1,4 +1,5 @@
 class Claim < ActiveRecord::Base
+  has_paper_trail
   include Claims::StateMachine
 
   attr_reader :offence_class_id
@@ -12,34 +13,50 @@ class Claim < ActiveRecord::Base
   belongs_to :advocate
   belongs_to :scheme
 
-  has_many :case_worker_claims, dependent: :destroy
-  has_many :case_workers, through: :case_worker_claims
-  has_many :fees, dependent: :destroy, inverse_of: :claim
-  has_many :fee_types, through: :fees
-  has_many :expenses, dependent: :destroy, inverse_of: :claim
-  has_many :defendants, dependent: :destroy, inverse_of: :claim
-  has_many :documents, dependent: :destroy, inverse_of: :claim
+  has_many :case_worker_claims,       dependent: :destroy
+  has_many :case_workers,             through: :case_worker_claims
+  has_many :fees,                     dependent: :destroy,          inverse_of: :claim
+  has_many :fee_types,                through: :fees
+  has_many :expenses,                 dependent: :destroy,          inverse_of: :claim
+  has_many :defendants,               dependent: :destroy,          inverse_of: :claim
+  has_many :documents,                dependent: :destroy,          inverse_of: :claim
 
-  validates :offence, presence: true
-  validates :advocate, presence: true
-  validates :court, presence: true
-  validates :case_number, presence: true
-  validates :case_type, presence: true, inclusion: { in: CASE_TYPES }
-  validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :prosecuting_authority, presence: true, inclusion: { in: PROSECUTING_AUTHORITIES }
-  validates :advocate_category, presence: true, inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :indictment_number, presence: true
-  validates :estimated_trial_length, numericality: true
-  validates :actual_trial_length, numericality: true
+  default_scope do
+    includes(:advocate,
+             :case_workers,
+             :court,
+             :defendants,
+             :documents,
+             :expenses,
+             :fee_types,
+             offence: :offence_class)
+  end
 
-  accepts_nested_attributes_for :fees, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :expenses, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :defendants, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :documents, reject_if: :all_blank, allow_destroy: true
+  validates :offence,                 presence: true
+  validates :advocate,                presence: true
+  validates :court,                   presence: true
+  validates :case_number,             presence: true
+  validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }
+  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
+  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
+  validates :indictment_number,       presence: true
+  validates :estimated_trial_length,  numericality: true
+  validates :actual_trial_length,     numericality: true
+
+  accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :defendants,  reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :documents,   reject_if: :all_blank,  allow_destroy: true
 
   class << self
     def find_by_maat_reference(maat_reference)
       joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
+    end
+
+    def find_by_advocate_name(advocate_name)
+      joins(:advocate)
+        .where("lower(advocates.first_name || ' ' || advocates.last_name) LIKE ?", "%#{advocate_name.downcase}%")
     end
   end
 

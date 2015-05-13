@@ -13,3 +13,9 @@ Feature: Advocate claims list
       And my chamber has claims
      When I visit the advocates dashboard
      Then I should see my chamber's claims
+
+  Scenario: View draft claims
+    Given I am a signed in advocate admin
+      And my chamber has 5 "draft" claims
+     When I visit the advocates dashboard
+     Then I should see my chamber's 5 "draft" claims

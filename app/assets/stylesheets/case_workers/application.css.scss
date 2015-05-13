@@ -1,0 +1,58 @@
+// Caseworker
+//= require select2
+$laa-gray:#bdbbbb;
+
+$body-bg:#F6F6F6;
+$list-item-bg:#fff;
+$section_colour: #006d55;
+$section_highlight_colour: #34b233;
+$navbar-text:#fff;
+$sidebar-bg:#fff;
+// this stuff should be shared
+@import url(http://fonts.googleapis.com/css?family=Fira+Sans:500,700,500italic);
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700);
+@import "fonts";
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "typography";
+@import "layout";
+// end shared stuff
+
+
+
+body{
+  background-color: $body-bg;
+}
+.navbar.navbar-default.navbar-static-top{
+  background-color: $laa-gray;
+  border-bottom: 3px solid $section_colour;
+  .navbar-brand{
+    color:$navbar-text;
+  }
+}
+.sidebar-nav.well{
+$sidebar-bg:#fff;
+  background-color: $sidebar-bg;
+  border-radius:0;
+  border: 0 none;
+  border-bottom: 3px solid $section_colour;
+  border-top: 3px solid $section_colour;
+  padding:0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  ul{
+    margin:0;
+    padding: 0;
+  }
+  li {
+    list-style-type: none;
+    padding-left: 15px;
+    &.selected{
+      background-color: $body-bg;
+      padding: 15px;
+    }
+  }
+  
+}

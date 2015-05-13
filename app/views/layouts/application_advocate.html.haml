@@ -1,5 +1,7 @@
 !!! 5
 %html(lang="en")
+  = content_for :additional_css do
+    = stylesheet_link_tag "advocates/application", :media => "all"
   = render 'layouts/header'
   %body
     .navbar.navbar-default.navbar-static-top
@@ -16,15 +18,19 @@
               %li= link_to "Link 2", "/path2"
               %li= link_to "Link 3", "/path3"
               %li= link_to "Link 4", "/path4"
-              - if user_signed_in?
-                %li= render 'layouts/user'
+            - if user_signed_in?
+              = render 'layouts/user'
               
     %aside.aside
       .aside-inner
         .sidebar-nav.well
           %h3 Menu
           %ul.nav.nav-list
-            %li.nav-header Dashboard
+            %li 
+              Dashboard
+              %ul
+                %li= link_to "Link 1", "/path1"
+                %li= link_to "Link 2", "/path2"
             %li= link_to "Link 1", "/path1"
             %li= link_to "Link 2", "/path2"
             %li= link_to "Link 3", "/path3"

@@ -13,16 +13,65 @@ FactoryGirl.define do
       case_type 'invalid case type'
     end
 
-    factory :submitted_claim do
-      after(:create) { |claim| claim.submit! }
+    factory :draft_claim do
+      # do nothing as default state is draft
+      # only here for iteration of all states in 
+      # rake task
+    end
+
+    # 
+    # states: initial/default state is draft
+    # - alphabetical list
+    # 
+    factory :allocated_claim do
+      after(:create) { |c| c.submit!; c.allocate!; }
+    end
+
+    factory :appealed_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.reject_parts!; c.appeal! }
+    end
+
+    factory :archived_pending_delete_claim do
+      after(:create) { |c| c.archive_pending_delete! }
+    end
+
+    factory :awaiting_further_info_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.await_further_info!  }
+    end
+
+    factory :awaiting_info_from_court_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.await_info_from_court!  }
     end
 
     factory :completed_claim do
-      after(:create) { |claim| claim.submit! }
-      after(:create) { |claim| claim.allocate! }
-      after(:create) { |claim| claim.pay! }
-      after(:create) { |claim| claim.complete! }
+      after(:create) { |c| c.submit!; c.allocate!; c.pay!; c.complete!; }
     end
+
+    factory :paid_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.pay! }
+    end
+
+    factory :part_paid_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.pay_part! }
+    end
+
+    factory :parts_rejected_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.reject_parts!  }
+    end
+
+    factory :refused_claim do
+      # TODO: check this 13/5/15. js??
+      after(:create) { |c| c.submit!; c.allocate!; c.refuse! }
+    end
+
+    factory :rejected_claim do
+      after(:create) { |c| c.submit!; c.allocate!; c.reject! }
+    end
+
+    factory :submitted_claim do
+      after(:create) { |c| c.submit! }
+    end
+
   end
 
 end

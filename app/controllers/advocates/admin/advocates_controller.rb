@@ -15,7 +15,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   end
 
   def create
-    @advocate = Advocate.new(advocate_params)
+    @advocate = Advocate.new(advocate_params.merge(chamber_id: current_user.persona.chamber.id))
 
     if @advocate.save
       redirect_to advocates_admin_advocates_url, notice: 'Advocate successfully created'

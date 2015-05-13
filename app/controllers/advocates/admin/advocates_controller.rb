@@ -2,7 +2,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   before_action :set_advocate, only: [:show, :edit, :update, :destroy]
 
   def index
-    @advocates = Advocate.all
+    @advocates = current_user.persona.chamber.advocates
   end
 
   def show; end

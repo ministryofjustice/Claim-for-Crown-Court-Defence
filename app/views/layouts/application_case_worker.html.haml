@@ -13,8 +13,8 @@
           %span.icon-bar
         %a.navbar-brand(href="#") 
           = "#{Rails.application.config.app_title} - Case Worker"
-          - if user_signed_in?
-            = render 'layouts/user'
+        - if user_signed_in?
+          = render 'layouts/user'
     %aside.aside.col-md-3
       .aside-inner
         .sidebar-nav.well

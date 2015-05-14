@@ -21,12 +21,13 @@ Feature: Advocate claims list
      Then I should see my chamber's <number> <state> claims
 
      Examples:
-       | state       | number |
-       | "submitted" | 5      |
-       | "allocated" | 5      |
-       | "rejected"  | 5      |
-       | "completed" | 5      |
-       | "draft"     | 5      |
+       | state        | number |
+       | "submitted"  | 5      |
+       | "allocated"  | 5      |
+       | "rejected"   | 5      |
+       | "part_paid"  | 5      |
+       | "completed"  | 5      |
+       | "draft"      | 5      |
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin

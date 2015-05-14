@@ -32,6 +32,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
         expect(assigns(:allocated_claims)).to eq(advocate.reload.claims.allocated.order(created_at: :desc))
       end
 
+      it 'assigns @part_paid_claims' do
+        expect(assigns(:part_paid_claims)).to eq(advocate.reload.claims.part_paid.order(created_at: :desc))
+      end
+
       it 'assigns @completed_claims' do
         expect(assigns(:completed_claims)).to eq(advocate.reload.claims.completed.order(created_at: :desc))
       end
@@ -66,6 +70,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
       it 'assigns @allocated_claims' do
         expect(assigns(:allocated_claims)).to eq(advocate.reload.chamber.claims.allocated.order(created_at: :desc))
+      end
+
+      it 'assigns @part_paid_claims' do
+        expect(assigns(:part_paid_claims)).to eq(advocate.reload.chamber.claims.part_paid.order(created_at: :desc))
       end
 
       it 'assigns @completed_claims' do

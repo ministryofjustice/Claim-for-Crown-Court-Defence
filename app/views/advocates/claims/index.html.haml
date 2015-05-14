@@ -25,6 +25,10 @@
 #allocated
   = render partial: 'claims', locals: { claims: @allocated_claims }
 
+%h2 Part paid claims (#{@part_paid_claims.count})
+#part_paid
+  = render partial: 'claims', locals: { claims: @part_paid_claims }
+
 %h2 Completed claims (#{@completed_claims.count})
 #completed
   = render partial: 'claims', locals: { claims: @completed_claims }

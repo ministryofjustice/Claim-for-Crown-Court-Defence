@@ -18,7 +18,7 @@
     - claims.each do |claim|
       %tr{id: dom_id(claim)}
         %td
-
+          = claim.cms_number
         %td
           = claim.advocate.name
         %td

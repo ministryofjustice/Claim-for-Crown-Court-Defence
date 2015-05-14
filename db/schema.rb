@@ -86,10 +86,7 @@ ActiveRecord::Schema.define(version: 20150511152610) do
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
-<<<<<<< HEAD
-=======
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
->>>>>>> develop
 
   create_table "courts", force: true do |t|
     t.string   "code"

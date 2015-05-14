@@ -13,10 +13,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
+    send_file @document.document.path, type: @document.document_content_type, disposition: 'inline'
   end
 
   def download
-    redirect_to @document.document.expiring_url(30)
+    send_file @document.document.path, type: @document.document_content_type, x_sendfile: true
   end
 
   def update

@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  PAPERCLIP_STORAGE_OPTIONS = {storage: :s3, s3_credentials: 'config/aws.yml', path: "documents/:id_partition/:filename"}
+
+  PAPERCLIP_STORAGE_OPTIONS = {
+    storage: :s3,
+    s3_credentials: 'config/aws.yml',
+    path: "documents/:id_partition/:filename",
+    url: "documents/:id_partition/:filename",
+  }
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

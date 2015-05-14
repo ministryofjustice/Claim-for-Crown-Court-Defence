@@ -17,7 +17,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
-  def show; end
+  def show
+    @doc_types = DocumentType.all
+  end
 
   private
 

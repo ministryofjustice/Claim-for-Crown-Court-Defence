@@ -1,58 +1,12 @@
 %section 
   %ol#evidence-list
-    %li
-      The front sheet(s) from the commital bundle
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      A copy of the indictment
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Order in respect of Judicial appointment
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Invoices / reciepts for accomodation and travel expenses
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Hardship supporting evidence
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Details of any and all fee advancements made previously
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Other supporting evidence. A list of acceptable evidence
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
-    %li
-      Supporting evidence deemed unsuitable for summary trial
-      .item-controls
-        %a.view
-          View
-        %a.download
-          Download
+    - @doc_types.each do |doc_type|
+      %li
+        = doc_type.description
+        - if @claim.has_doctype?(doc_type)
+          - document = @claim.doc_of_type(doc_type)
+          .item-controls
+            %a.view
+              = link_to 'View', document_path(document), target: '_blank'
+            %a.download
+              = link_to 'Download', download_document_path(document)

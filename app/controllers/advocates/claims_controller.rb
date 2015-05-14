@@ -13,7 +13,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
     @submitted_claims = claims.submitted
+    @rejected_claims = claims.rejected
     @allocated_claims = claims.allocated
+    @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
   end

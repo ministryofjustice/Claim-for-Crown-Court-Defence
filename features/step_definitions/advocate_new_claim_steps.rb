@@ -6,6 +6,7 @@ end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
+  create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
   create(:document_type, description: 'Other')
   visit new_advocates_claim_path
@@ -17,6 +18,7 @@ When(/^I fill in the claim details$/) do
   fill_in 'Indictment number', with: '123456'
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'
+  select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
   select('Murder', from: 'claim_offence_id')
   select('Qc alone', from: 'claim_advocate_category')
   fill_in 'First name', with: 'Foo'
@@ -26,6 +28,18 @@ When(/^I fill in the claim details$/) do
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'
   fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
   attach_file(:claim_documents_attributes_0_document, 'features/examples/shorter_lorem.docx')
+end
+
+When(/^I select offence class "(.*?)"$/) do |offence_class|
+  select(offence_class, from: 'claim_offence_class_id')
+end
+
+Then(/^the Offence category does NOT contain "(.*?)"$/) do |invalid_offence_category|
+  expect(page).not_to have_content(invalid_offence_category)
+end
+
+Then(/^the Offence category does contain "(.*?)"$/) do |valid_offence_category|
+  expect(page).to have_content(valid_offence_category)
 end
 
 When(/^I submit the form$/) do
@@ -72,12 +86,26 @@ Then(/^I should be on the claim edit form$/) do
 end
 
 Then(/^I should be on the claim summary page$/) do
-  claim = Claim.first
+  claim = @claim || Claim.first
   expect(page.current_path).to eq(summary_advocates_claim_path(claim))
 end
 
 Given(/^a claim exists$/) do
   create(:claim, advocate_id: Advocate.first.id)
+end
+
+Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
+  @claim = case claim_state
+           when "draft"
+             create(:claim, advocate_id: Advocate.first.id)
+           else
+             create(:claim, advocate_id: Advocate.first.id)
+           end
+end
+
+Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
+  @claim.reload
+  expect(@claim.state).to eq(claim_state)
 end
 
 When(/^I am on the claim edit page$/) do

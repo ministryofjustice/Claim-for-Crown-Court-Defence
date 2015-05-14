@@ -1,6 +1,6 @@
 @stub_s3_upload
 
-Feature: Advocate claims
+Feature: Advocate new claim
   Scenario: Fill in claim form
     Given I am a signed in advocate
       And I am on the new claim page
@@ -8,6 +8,13 @@ Feature: Advocate claims
       And I submit the form
      Then I should be redirected to the claim summary page
       And I should see the claim total
+
+  Scenario: Change offence class
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I select offence class "A: Homicide and related grave offences"
+     Then the Offence category does NOT contain "Activities relating to opium"
+     Then the Offence category does contain "Murder"
 
   Scenario: Claim summary page
     Given I am on the claim summary page
@@ -24,9 +31,11 @@ Feature: Advocate claims
 
   Scenario: Edit existing claim
     Given I am a signed in advocate
-      And a claim exists
+      And a claim exists with state "draft"
      When I am on the claim edit page
       And I submit the form
      Then I should be on the claim summary page
+      And the claim should be in state "draft"
      When I submit the form
-     Then I should be on the claim confirmation page
+     Then the claim should be in state "submitted"
+      And I should be on the claim confirmation page

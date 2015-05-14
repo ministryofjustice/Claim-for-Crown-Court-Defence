@@ -27,13 +27,13 @@ $('#claims-list .toggle').each(function(){
   });
 });
 
-$('#claim-accordian h2').each(function(){
+$('#claim-accordion h2').each(function(){
   $(this).next('section').hide();
   $(this).click(function(){
     $(this).toggleClass('open').next('section').slideToggle('slow');
   });
 });
-$('#claim-accordian h2:first-of-type').addClass('open').next('section').show();
+$('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
 function initialise(){
 	$('.select2').select2();

@@ -13,6 +13,10 @@
 #draft
   = render partial: 'claims', locals: { claims: @draft_claims }
 
+%h2 Rejected claims (#{@rejected_claims.count})
+#rejected
+  = render partial: 'claims', locals: { claims: @rejected_claims }
+
 %h2 Submitted claims (#{@submitted_claims.count})
 #submitted
   = render partial: 'claims', locals: { claims: @submitted_claims }

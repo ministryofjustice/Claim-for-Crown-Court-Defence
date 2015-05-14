@@ -14,17 +14,23 @@ Feature: Advocate claims list
      When I visit the advocates dashboard
      Then I should see my chamber's claims
 
-  Scenario: View current claims
+  Scenario: View submitted claims
     Given I am a signed in advocate admin
       And my chamber has 5 "submitted" claims
      When I visit the advocates dashboard
      Then I should see my chamber's 5 "submitted" claims
 
-  Scenario: View pending claims
+  Scenario: View allocated claims
     Given I am a signed in advocate admin
       And my chamber has 5 "allocated" claims
      When I visit the advocates dashboard
      Then I should see my chamber's 5 "allocated" claims
+
+  Scenario: View rejected claims
+    Given I am a signed in advocate admin
+      And my chamber has 5 "rejected" claims
+     When I visit the advocates dashboard
+     Then I should see my chamber's 5 "rejected" claims
 
   Scenario: View completed claims
     Given I am a signed in advocate admin

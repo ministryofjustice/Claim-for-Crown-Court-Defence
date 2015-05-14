@@ -8,11 +8,14 @@ namespace :claims do
   desc "Create demo claim data for all states, allocating to case work as required"
   task :demo_data => :environment do
 
+    ADVOCATE_COUNT = 4
+    CLAIMS_PER_ADVOCATE_PER_STATE = 3
+
     example_advocate = Advocate.find(1)
     example_case_worker = CaseWorker.find(1)
 
-    create_claims_for(example_advocate,example_case_worker)
-    create_advocates_for(example_advocate.chamber)
+    create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_ADVOCATE_PER_STATE)
+    create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_ADVOCATE_PER_STATE)
 
   end
 
@@ -27,8 +30,9 @@ namespace :claims do
     Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
   end
 
+
   #
-  # create 3 claims of each state (execept deleted)
+  # create specified (default:3) claims of each state (except deleted)
   # for demo advocate.
   # i.e. John Smith: advocate@eample.com (id of 1)
   #
@@ -51,13 +55,22 @@ namespace :claims do
   end
 
   #
-  # create n to n+10 random advocates BUT for the same firm as the
-  # that of the example advocate above i.e.'Test chamber/firm'
+  # create random advocates BUT for the same firm as the
+  # that of the example advocate and advocate-admin
+  # above (i.e.'Test chamber/firm') and optionally
+  # specify number of claims per advocate and number
+  # of states per claim to generate and for each advocate
   #
-  def create_advocates_for(chamber,minimum=20)
-    rand(minimum..minimum+10).times do
-        a = FactoryGirl.create(:advocate, chamber: chamber)
-        puts(" - created advocate #{a.first_name} #{a.last_name}, login: #{a.user.email}/#{a.user.password}")
+  def create_advocates_and_claims_for(chamber, case_worker, advocate_count=3, max_claims_per_advocate_per_state=2)
+    advocate_count.times do
+        advocate = FactoryGirl.create(:advocate, chamber: chamber)
+        puts(" - created advocate #{advocate.first_name} #{advocate.last_name}, login: #{advocate.user.email}/#{advocate.user.password}")
+
+        random = rand(0..max_claims_per_advocate_per_state)
+        random.times do
+          create_claims_for(advocate,case_worker,random)
+        end
+
     end
   end
 

@@ -58,17 +58,7 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   chamber = Chamber.first
   chamber.advocates << advocate
 
-  @claims = case state
-    when 'draft'
-      create_list(:claim, number.to_i)
-    when 'submitted'
-      create_list(:submitted_claim, number.to_i)
-    when 'allocated'
-      create_list(:allocated_claim, number.to_i)
-    when 'completed'
-      create_list(:completed_claim, number.to_i)
-  end
-
+  @claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
 end
 

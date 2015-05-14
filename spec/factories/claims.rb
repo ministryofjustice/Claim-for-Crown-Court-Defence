@@ -14,13 +14,19 @@ FactoryGirl.define do
     end
 
     factory :submitted_claim do
-      state 'submitted'
-      submitted_at { Time.now }
+      after(:create) { |claim| claim.submit! }
+    end
+
+    factory :allocated_claim do
+      after(:create) { |claim| claim.submit! }
+      after(:create) { |claim| claim.allocate! }
     end
 
     factory :completed_claim do
-      state 'completed'
-      submitted_at { Time.now }
+      after(:create) { |claim| claim.submit! }
+      after(:create) { |claim| claim.allocate! }
+      after(:create) { |claim| claim.pay! }
+      after(:create) { |claim| claim.complete! }
     end
   end
 

@@ -66,6 +66,29 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '.find_by_advocate_name' do
+    let!(:other_claim) { create(:claim) }
+
+    before do
+      subject.advocate = create(:advocate, first_name: 'John', last_name: 'Smith')
+      other_claim.advocate = create(:advocate, first_name: 'Bob', last_name: 'Hoskins')
+      subject.save!
+      other_claim.save!
+    end
+
+    it 'finds the claim by advocate name "John Smith"' do
+      expect(Claim.find_by_advocate_name('John Smith')).to eq([subject])
+    end
+
+    it 'finds the claim by advocate name "Bob Hoskins"' do
+      expect(Claim.find_by_advocate_name('Bob Hoskins')).to eq([other_claim])
+    end
+
+    it 'does not find a claim with advocate name "Foo Bar"' do
+      expect(Claim.find_by_advocate_name('Foo Bar')).to be_empty
+    end
+  end
+
   context 'fees total' do
     let(:fee_type) { create(:fee_type) }
 

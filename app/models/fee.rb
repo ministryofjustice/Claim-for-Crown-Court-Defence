@@ -2,6 +2,8 @@ class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type
 
+  default_scope { includes(:fee_type) }
+
   validates :amount, :quantity, :rate, presence: true, numericality: true
 
   after_save do

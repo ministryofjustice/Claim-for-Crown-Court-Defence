@@ -12,9 +12,62 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @claims' do
-      create(:claim, advocate: advocate)
-      expect(assigns(:claims)).to eq(advocate.reload.claims.order(created_at: :desc))
+    context 'advocate' do
+      before do
+        create(:claim, advocate: advocate)
+        create(:submitted_claim, advocate: advocate)
+        create(:completed_claim, advocate: advocate)
+      end
+
+      it 'assigns @submitted_claims' do
+        expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @allocated_claims' do
+        expect(assigns(:allocated_claims)).to eq(advocate.reload.claims.allocated.order(created_at: :desc))
+      end
+
+      it 'assigns @completed_claims' do
+        expect(assigns(:completed_claims)).to eq(advocate.reload.claims.completed.order(created_at: :desc))
+      end
+
+      it 'assigns @draft_claims' do
+        expect(assigns(:draft_claims)).to eq(advocate.reload.claims.draft.order(created_at: :desc))
+      end
+    end
+
+    context 'advocate admin' do
+      let(:chamber) { create(:chamber) }
+      let(:advocate_admin) { create(:advocate, :admin, chamber_id: chamber.id) }
+
+
+
+      before do
+        create(:claim, advocate: advocate)
+        create(:submitted_claim, advocate: advocate)
+        create(:completed_claim, advocate: advocate)
+
+        advocate.update_column(:chamber_id, chamber.id)
+        create(:claim, advocate: advocate.reload)
+
+        sign_in advocate_admin.user
+      end
+
+      it 'assigns @submitted_claims' do
+        expect(assigns(:submitted_claims)).to eq(advocate.reload.chamber.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @allocated_claims' do
+        expect(assigns(:allocated_claims)).to eq(advocate.reload.chamber.claims.allocated.order(created_at: :desc))
+      end
+
+      it 'assigns @completed_claims' do
+        expect(assigns(:completed_claims)).to eq(advocate.reload.chamber.claims.completed.order(created_at: :desc))
+      end
+
+      it 'assigns @draft_claims' do
+        expect(assigns(:draft_claims)).to eq(advocate.reload.chamber.claims.draft.order(created_at: :desc))
+      end
     end
 
     it 'renders the template' do
@@ -143,6 +196,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
       context 'and submitted' do
         before do
+          get :summary, id: subject
           put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
         end
 

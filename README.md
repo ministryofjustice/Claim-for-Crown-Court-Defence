@@ -4,14 +4,20 @@
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/crime-billing-online/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/crime-billing-online)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/crime-billing-online/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/crime-billing-online)
 
-## Development currently syncs with Heroku
+## Development and Demo Currently Sync with Heroku
 
-This occurs only if
+Both run in `production` mode and a push will only happen if
 [Travis](https://travis-ci.org/ministryofjustice/crime-billing-online)
 passes.
 
 In order to deploy, just push your passing changes to the `develop`
-branch.
+branch. It is served from
+[http://crime-billing-online-dev.herokuapp.com/](http://crime-billing-online-dev.herokuapp.com/). This push is triggered from travis and the details can be found in `travis.yml`.  The db is cleared each time and migrations and seeding occur automatically.
+
+The `master` branch is served from
+[http://crime-billing-online.herokuapp.com/](http://crime-billing-online.herokuapp.com/) and tracks github. This is triggered from heroku. See the `Deploy` tab in the heroku web console. The db is maintained between pushes.  New migrations will have to be manually run using the heroku toolbelt.
+
+
 
 ## S3 for document storage
 

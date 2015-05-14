@@ -13,7 +13,8 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     end
 
     it 'assigns @advocates' do
-      advocate = create(:advocate)
+      advocate = create(:advocate, chamber: admin.chamber)
+      other_chamber_advocate = create(:advocate)
       expect(assigns(:advocates)).to match_array([admin, advocate])
     end
 

@@ -5,45 +5,49 @@ namespace :claims do
     FileUtils.rm_rf('./features/examples/000')
   end
 
-  desc "Create submitted claims with random fees, random expenses and one defendant"
+  desc "Create submitted claims with random fees, expenses, offence and one defendant"
   task :submitted, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court_id: random_court_id) }
+    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court: Court.all.sample, offence: Offence.all.sample) }
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
+      report_created(:submitted, claim)
     end
   end
 
-  desc "Create draft claims with random fees, random expenses and one defendant"
+  desc "Create draft claims with random fees, expenses, offence and one defendant"
   task :draft, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:claim, court_id: random_court_id) }
+    args[:number].to_i.times { FactoryGirl.create(:claim, court: Court.all.sample, offence: Offence.all.sample) }
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
+      report_created(:draft, claim)
     end
   end
 
-  desc "Create claims allocated to caseworker@example.com, with random fees, random expenses and one defendant"
+  desc "Create claims allocated to caseworker@example.com, with random fees, expenses, offence and one defendant"
   task :allocated, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court_id: random_court_id) }
+    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court: Court.all.sample, offence: Offence.all.sample ) }
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
-      allocate(claim, 'caseworker@example.com')
+      allocate_claim(claim, 'caseworker@example.com')
+      report_created(:allocated, claim)
     end
   end
 
-  desc "Create completed claims, with random fees, random expenses and one defendant"
+  desc "Create completed claims, with random fees, expenses, offence and one defendant"
   task :completed, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:completed_claim, court_id: random_court_id) }
+    args[:number].to_i.times { FactoryGirl.create(:completed_claim, court: Court.all.sample, offence: Offence.all.sample) }
     claims = Claim.last(args[:number])
     claims.each do |claim|
       add_fees_expenses_and_defendant(claim)
       add_document(claim)
-      allocate(claim, 'caseworker@example.com')
+      allocate_claim(claim, 'caseworker@example.com')
+      report_created(:completed, claim)
     end
   end
 
@@ -51,8 +55,8 @@ namespace :claims do
   task :all_states, [:number] => [:submitted, :draft, :allocated, :completed] do |task, args|
   end
 
-  def random_court_id
-    Court.all.sample(1)[0].id
+  def report_created(claim_type, claim)
+    printf("Created %s claim: %s\n", claim_type.to_s, [claim.id, claim.state].join(', '))
   end
 
   def add_fees_expenses_and_defendant(claim)
@@ -66,7 +70,7 @@ namespace :claims do
     Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
   end
 
-  def allocate(claim, caseworker_email)
+  def allocate_claim(claim, caseworker_email)
     caseworker = User.find_by(email: caseworker_email).persona
     caseworker.claims << claim
   end

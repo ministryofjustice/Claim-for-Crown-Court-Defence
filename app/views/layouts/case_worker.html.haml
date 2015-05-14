@@ -6,7 +6,7 @@
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     %title= content_for?(:title) ? yield(:title) : Rails.application.config.app_title
     = csrf_meta_tags
-    = stylesheet_link_tag "application", :media => "all"
+    = stylesheet_link_tag "case_workers/application", :media => "all"
     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
     = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
@@ -26,20 +26,13 @@
           %span.icon-bar
           %span.icon-bar
         %a.navbar-brand(href="#") 
-          = Rails.application.config.app_title
-          .navbar-collapse.collapse.navbar-responsive-collapse
-            %ul.nav.navbar-nav
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
-              %li= link_to "Link 4", "/path4"
-            - if user_signed_in?
-              render 'layouts/user'
-    = render 'layouts/sidebar'
-    %section.section
+          = "#{Rails.application.config.app_title} - Case Worker"
+        - if user_signed_in?
+          = render 'layouts/user'
+    =yield :sidebar
+    %section.section.col-md-9
       .container-fluid
         .row
-          %div
-            = render partial: 'layouts/flashes' unless flash.empty?
-            = yield
+          = render partial: 'layouts/flashes' unless flash.empty?
+          = yield
         = render 'layouts/footer'

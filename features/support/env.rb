@@ -4,6 +4,13 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+end
+
 require 'cucumber/rails'
 Feature.feature(:api, default: true) #turns api on for cucumber tests
 
@@ -56,4 +63,10 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+Around('@webmock_allow_net_connect') do |scenario, block|
+  WebMock.allow_net_connect!
+  block.call
+end
+
 

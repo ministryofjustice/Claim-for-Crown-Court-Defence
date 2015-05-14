@@ -1,7 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  PAPERCLIP_STORAGE_OPTIONS = {storage: :filesystem,
-    path: "./features/examples/:id_partition/:filename"}
+
+  PAPERCLIP_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "public/assets/dev/images/:id_partition/:filename", 
+    url: "assets/dev/images/:id_partition/:filename"
+  }
+
+  config.action_controller.asset_host = "http://localhost:3000"
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.

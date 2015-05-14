@@ -5,58 +5,15 @@ namespace :claims do
     FileUtils.rm_rf('./features/examples/000')
   end
 
-  desc "Create submitted claims with random fees, expenses, offence and one defendant"
-  task :submitted, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court: Court.all.sample, offence: Offence.all.sample) }
-    claims = Claim.last(args[:number])
-    claims.each do |claim|
-      add_fees_expenses_and_defendant(claim)
-      add_document(claim)
-      report_created(:submitted, claim)
-    end
-  end
+  desc "Create demo claim data for all states, allocating to case work as required"
+  task :demo_data => :environment do
 
-  desc "Create draft claims with random fees, expenses, offence and one defendant"
-  task :draft, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:claim, court: Court.all.sample, offence: Offence.all.sample) }
-    claims = Claim.last(args[:number])
-    claims.each do |claim|
-      add_fees_expenses_and_defendant(claim)
-      add_document(claim)
-      report_created(:draft, claim)
-    end
-  end
+    example_advocate = Advocate.find(1)
+    example_case_worker = CaseWorker.find(1)
 
-  desc "Create claims allocated to caseworker@example.com, with random fees, expenses, offence and one defendant"
-  task :allocated, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:submitted_claim, court: Court.all.sample, offence: Offence.all.sample ) }
-    claims = Claim.last(args[:number])
-    claims.each do |claim|
-      add_fees_expenses_and_defendant(claim)
-      add_document(claim)
-      allocate_claim(claim, 'caseworker@example.com')
-      report_created(:allocated, claim)
-    end
-  end
+    create_claims_for(example_advocate,example_case_worker)
+    create_advocates_for(example_advocate.chamber)
 
-  desc "Create completed claims, with random fees, expenses, offence and one defendant"
-  task :completed, [:number] => :environment do |task, args|
-    args[:number].to_i.times { FactoryGirl.create(:completed_claim, court: Court.all.sample, offence: Offence.all.sample) }
-    claims = Claim.last(args[:number])
-    claims.each do |claim|
-      add_fees_expenses_and_defendant(claim)
-      add_document(claim)
-      allocate_claim(claim, 'caseworker@example.com')
-      report_created(:completed, claim)
-    end
-  end
-
-  desc "Create draft, submitted, allocated and completed claims with random fees, random expenses and one defendant"
-  task :all_states, [:number] => [:submitted, :draft, :allocated, :completed] do |task, args|
-  end
-
-  def report_created(claim_type, claim)
-    printf("Created %s claim: %s\n", claim_type.to_s, [claim.id, claim.state].join(', '))
   end
 
   def add_fees_expenses_and_defendant(claim)
@@ -70,8 +27,38 @@ namespace :claims do
     Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/msword' )
   end
 
-  def allocate_claim(claim, caseworker_email)
-    caseworker = User.find_by(email: caseworker_email).persona
-    caseworker.claims << claim
+  #
+  # create 3 claims of each state (execept deleted)
+  # for demo advocate.
+  # i.e. John Smith: advocate@eample.com (id of 1)
+  #
+  def create_claims_for(advocate,case_worker,claims_per_state=3)
+    Claim.state_machine.states.map(&:name).each do |s|
+      next if s == :deleted
+      claims_per_state.times do
+          claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
+          puts(" - created #{s} claim for advocate #{advocate.first_name} #{advocate.last_name}")
+          add_fees_expenses_and_defendant(claim)
+          add_document(claim)
+
+          # all states but those below require allocation to case worker
+          unless [:draft,:archived_pending_delete].include?(s)
+            case_worker.claims << claim
+            puts "  - allocating to #{case_worker.user.email}"
+          end
+      end
+    end
   end
+
+  #
+  # create n to n+10 random advocates BUT for the same firm as the
+  # that of the example advocate above i.e.'Test chamber/firm'
+  #
+  def create_advocates_for(chamber,minimum=20)
+    rand(minimum..minimum+10).times do
+        a = FactoryGirl.create(:advocate, chamber: chamber)
+        puts(" - created advocate #{a.first_name} #{a.last_name}, login: #{a.user.email}/#{a.user.password}")
+    end
+  end
+
 end

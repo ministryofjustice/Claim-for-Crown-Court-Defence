@@ -25,10 +25,9 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand(href="#") 
+        %a.navbar-brand(href="#")
           = "#{Rails.application.config.app_title} - Case Worker"
-        - if user_signed_in?
-          = render 'layouts/user'
+          = render 'layouts/user' if user_signed_in?
     =yield :sidebar
     %section.section.col-md-9
       .container-fluid

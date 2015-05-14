@@ -17,7 +17,8 @@ class Document < ActiveRecord::Base
                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                      'application/vnd.oasis.opendocument.text',
                      'text/rtf',
-                     'application/rtf']}
+                     'application/rtf',
+                     'image/png']}
 
   belongs_to :claim
   belongs_to :document_type

@@ -59,9 +59,11 @@ group :test do
   gem 'fuubar'
   gem 'fuubar-cucumber'
   gem 'launchy'
+  gem 'poltergeist'
   gem 'rspec-mocks'
   gem 'ruby-progressbar', '< 1.7.4'
   gem 'shoulda-matchers', require: false
+  gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false

@@ -17,10 +17,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
         create(:claim, advocate: advocate)
         create(:submitted_claim, advocate: advocate)
         create(:completed_claim, advocate: advocate)
+        create(:rejected_claim, advocate: advocate)
       end
 
       it 'assigns @submitted_claims' do
         expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @rejected_claims' do
+        expect(assigns(:rejected_claims)).to eq(advocate.reload.claims.rejected.order(created_at: :desc))
       end
 
       it 'assigns @allocated_claims' do
@@ -40,8 +45,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
       let(:chamber) { create(:chamber) }
       let(:advocate_admin) { create(:advocate, :admin, chamber_id: chamber.id) }
 
-
-
       before do
         create(:claim, advocate: advocate)
         create(:submitted_claim, advocate: advocate)
@@ -55,6 +58,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
       it 'assigns @submitted_claims' do
         expect(assigns(:submitted_claims)).to eq(advocate.reload.chamber.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @rejected_claims' do
+        expect(assigns(:rejected_claims)).to eq(advocate.reload.chamber.claims.rejected.order(created_at: :desc))
       end
 
       it 'assigns @allocated_claims' do

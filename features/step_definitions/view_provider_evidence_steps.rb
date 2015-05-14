@@ -24,8 +24,8 @@ Then(/^I should get a download with the filename "(.*)"$/) do |filename|
   page.driver.response.headers['Content-Disposition'].should include("filename=\"#{filename}\"")
 end
 
-Then(/^I see "longer_lorem.pdf" in my browser$/) do
-  expect(page.body).to match(/.*PDF.*/i)
+Then(/^I see "(.*)" in my browser$/) do |filename|
+  page.driver.response.headers['Content-Disposition'].should include("inline; filename=\"#{filename}\"")
 end
 
 Then(/^a new tab opens$/) do

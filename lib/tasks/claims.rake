@@ -2,11 +2,15 @@ namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
   task :delete_docs do
-    FileUtils.rm_rf('./features/examples/000')
+    FileUtils.rm_rf('./public/assets/dev/images/')
+    FileUtils.rm_rf('./public/assets/test/images/')
   end
 
   desc "Create demo claim data for all states, allocating to case work as required"
   task :demo_data => :environment do
+
+    ADVOCATE_COUNT = 2
+    CLAIMS_PER_ADVOCATE_PER_STATE = 2
 
     example_advocate = Advocate.find(1)
     example_case_worker = CaseWorker.find(1)
@@ -23,8 +27,8 @@ namespace :claims do
   end
 
   def add_document(claim)
-    file = File.open("./features/examples/longer_lorem.pdf")
-    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
+    file = File.open("./features/examples/shorter_lorem.docx")
+    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/msword' )
   end
 
   #

@@ -16,10 +16,10 @@ cbo.newClaim = {
     });
   },
   cascadeOffenceClassChange : function() {
-    offenceClassLabel = cbo.newClaim.$offenceClassSelect.find('option:selected').text();
+    var offenceClassLabel = cbo.newClaim.$offenceClassSelect.find('option:selected').text();
     if (offenceClassLabel){
       $(cbo.newClaim.$offenceSelect.children('optgroup').select2("container")).removeClass("show-optgroup").addClass("hide-optgroup");
-      cbo.newClaim.$offenceSelect.val("");
+      cbo.newClaim.$offenceSelect.select2("val", "");
       $(cbo.newClaim.$offenceSelect.children('optgroup[label="' + offenceClassLabel + '"]').select2("container")).removeClass("hide-optgroup").addClass("show-optgroup");
     }
   }

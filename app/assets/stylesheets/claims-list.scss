@@ -7,39 +7,39 @@
   }
 }
 #claims-list > li {
-  background-color: $grey-4;
+  background-color: $list-item-bg;
+  margin-bottom: 2px;
   overflow: hidden;
   padding: 1rem;
-  &:nth-child(even){
-    background-color: $grey-3;
-  }
+  
 
 }
 .case-data li {
+  float: left;
+  width:30%;
+  margin-right: 15px;
   h3{
     font-weight: bold;
   }
-  @include span-columns(4);
-  &:last-child{
-    @include span-columns(3);
-  }
+  
   dl{
     margin: 0;
     word-break: break-word;
   }
   dt, dd {
-    @include span-columns(2 of 4);
+    float: left;
     list-style-type: none;
     margin: 0;
     padding: 0;
+    width:50%;
   }
   dt{
     clear: both;
   }
 }
 a.detail-link {
-  border: 1px solid $button-colour;
-  color: $button-colour;
+  border: 1px solid $gray-dark;
+  color: $gray-dark;
   padding: 0.5rem;
   text-decoration: none;
 }

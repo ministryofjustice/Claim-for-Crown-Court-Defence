@@ -35,6 +35,11 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect{ subject.draft! }.to    change{ subject.state }.to('draft') }
     end
 
+    describe 'from awaiting_further_info_from_court' do
+      before { subject.submit!; subject.allocate!; subject.await_info_from_court! }
+      it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
+    end
+
     describe 'from draft' do
       it { expect{ subject.submit! }.to change{ subject.state }.to('submitted') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }

@@ -1,6 +1,5 @@
-%div
-  %h2
-    Signed in as:
-    %strong
-      = link_to current_user.email, '#'
-      = link_to 'Sign out', destroy_user_session_path, method: :delete
+%p
+  Signed in as:
+  %strong
+    = link_to current_user.email, '#'
+    = link_to 'Sign out', destroy_user_session_path, method: :delete

@@ -9,9 +9,13 @@
       = text_field_tag :search, params[:search], placeholder: 'Advocate'
       = submit_tag 'Search', class: 'button'
 
-%h2 Current claims (#{@current_claims.count})
-#current
-  = render partial: 'claims', locals: { claims: @current_claims }
+%h2 Submitted claims (#{@submitted_claims.count})
+#submitted
+  = render partial: 'claims', locals: { claims: @submitted_claims }
+
+%h2 Allocated claims (#{@allocated_claims.count})
+#allocated
+  = render partial: 'claims', locals: { claims: @allocated_claims }
 
 %h2 Completed claims (#{@completed_claims.count})
 #completed

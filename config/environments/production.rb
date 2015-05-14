@@ -4,8 +4,8 @@ Rails.application.configure do
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :s3,
     s3_credentials: 'config/aws.yml',
-    path: "documents/:id_partition/:filename"
-    url: "documents/:id_partition/:filename"
+    path: "documents/:id_partition/:filename",
+    url: "documents/:id_partition/:filename",
   }
 
   # Code is not reloaded between requests.

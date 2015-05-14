@@ -2,6 +2,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
+
   def index
     claims = if current_user.persona.admin?
       current_user.persona.chamber.claims.order(created_at: :desc)
@@ -11,7 +12,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
-    @current_claims = claims.submitted
+    @submitted_claims = claims.submitted
+    @allocated_claims = claims.allocated
     @completed_claims = claims.completed
     @draft_claims = claims.draft
   end

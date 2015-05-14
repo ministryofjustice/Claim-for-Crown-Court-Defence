@@ -27,6 +27,7 @@ Then(/^the case worker should have claims allocated to them$/) do
 end
 
 Then(/^the claims should be visible on the case worker's dashboard$/) do
+  visit case_workers_root_path
   click_on 'Sign out'
   visit new_user_session_path
   sign_in(@case_worker, 'password')

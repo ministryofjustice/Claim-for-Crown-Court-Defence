@@ -15,7 +15,7 @@ module Claims::StateMachine
          :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted
 
       event :allocate do
-        transition [:submitted] => :allocated
+        transition [:submitted, :awaiting_info_from_court] => :allocated
       end
 
       event :appeal do
@@ -71,7 +71,6 @@ module Claims::StateMachine
     klass.state_machine.states.map(&:name).each do |s|
       klass.scope s, -> { klass.where(state: s) }
     end
-
   end
 
   private

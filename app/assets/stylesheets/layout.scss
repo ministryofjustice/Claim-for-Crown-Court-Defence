@@ -1,23 +1,65 @@
-
- #wrapper, #global-header-bar {
-    @include outer-container;
- }
- #global-header-bar .inner-block{
-  padding:0;
- }
- // ==========================================================================
-   // Phase banner
- // ==========================================================================
- .phase-banner  {
-   @include phase-banner(alpha);
- }  
-#fixed-header{
-  margin:1em 0;
-}
-section{
-  display: block
-}
 @import "navigation";
 @import "list-controls";
 @import "claims-list";
 @import "claim-accordian";
+
+
+
+body{
+  background-color: $body-bg;
+}
+.navbar.navbar-default.navbar-static-top{
+  background-color: $laa-gray;
+  border-bottom: 3px solid $section-colour;
+  .navbar-brand{
+    color:$navbar-text;
+    font-size: 2em;
+  }
+    p{
+    color:$navbar-text;
+    float: right;
+    line-height: 3;
+    a {
+      color:$navbar-text;
+    }
+  }
+}
+.sidebar-nav.well{
+$sidebar-bg:#fff;
+  background-color: $sidebar-bg;
+  border-radius:0;
+  border: 0 none;
+  border-bottom: 3px solid $section-colour;
+  border-top: 3px solid $section-colour;
+  padding:0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: $section-colour;
+  h3{
+    padding-left: 15px;
+  }
+  ul{
+    margin:0;
+    padding: 0;
+  }
+  li {
+    list-style-type: none;
+    padding-left: 15px;
+    color: $section-colour;
+    &.selected{
+      background-color: $body-bg;
+      padding: 15px;
+    }
+  }
+  .nav li a {
+    color:$text-color;
+    font-weight: normal;
+    line-height: 2.5;
+    padding: 0;
+    
+
+  }
+  .nav > li > a {
+    color: $section-colour;
+  }
+}

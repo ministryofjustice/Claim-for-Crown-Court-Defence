@@ -19,8 +19,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
         create(:completed_claim, advocate: advocate)
       end
 
-      it 'assigns @current_claims' do
-        expect(assigns(:current_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
+      it 'assigns @submitted_claims' do
+        expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @allocated_claims' do
+        expect(assigns(:allocated_claims)).to eq(advocate.reload.claims.allocated.order(created_at: :desc))
       end
 
       it 'assigns @completed_claims' do
@@ -49,8 +53,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
         sign_in advocate_admin.user
       end
 
-      it 'assigns @current_claims' do
-        expect(assigns(:current_claims)).to eq(advocate.reload.chamber.claims.submitted.order(created_at: :desc))
+      it 'assigns @submitted_claims' do
+        expect(assigns(:submitted_claims)).to eq(advocate.reload.chamber.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @allocated_claims' do
+        expect(assigns(:allocated_claims)).to eq(advocate.reload.chamber.claims.allocated.order(created_at: :desc))
       end
 
       it 'assigns @completed_claims' do

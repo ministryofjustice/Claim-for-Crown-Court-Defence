@@ -43,6 +43,11 @@ FactoryGirl.define do
       after(:create) { |c| c.submit!; c.allocate!; c.await_info_from_court!  }
     end
 
+    factory :allocated_claim do
+      after(:create) { |claim| claim.submit! }
+      after(:create) { |claim| claim.allocate! }
+    end
+
     factory :completed_claim do
       after(:create) { |c| c.submit!; c.allocate!; c.pay!; c.complete!; }
     end

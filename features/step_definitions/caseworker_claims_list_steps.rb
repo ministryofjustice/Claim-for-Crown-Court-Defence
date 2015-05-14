@@ -15,11 +15,10 @@ Given(/^claims have been assigned to me$/) do
 end
 
 Given(/^I have been assigned claims with evidence attached$/) do
-  @claims.each do |claim|
     DocumentType.find_or_create_by(description: 'The front sheet(s) from the commital bundle')
-    file = File.open('./features/examples/longer_lorem.pdf')
-    claim.documents << Document.create!(claim_id: claim.id, document: file, document_content_type: 'application/pdf', document_type_id: DocumentType.first.id)
-  end
+    file = File.open('./features/examples/shorter_lorem.docx')
+    claim = @claims.first
+    claim.documents << Document.create!(claim_id: claim.id, document: file, document_content_type: 'application/msword', document_type_id: DocumentType.first.id)
 end
 
 When(/^I visit my dashboard$/) do

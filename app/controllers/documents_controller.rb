@@ -13,7 +13,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file @document.document.path, type: @document.document_content_type, disposition: 'inline'
+    send_file renamed_file, type: 'application/pdf', disposition: 'inline'
   end
 
   def download
@@ -39,4 +39,9 @@ class DocumentsController < ApplicationController
       :document_type_id
     )
   end
+
+  def renamed_file
+    @document.document.path.split('.')[0] + '.pdf'
+  end
+
 end

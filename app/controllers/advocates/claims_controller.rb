@@ -2,7 +2,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
-
   def index
     claims = if current_user.persona.admin?
       current_user.persona.chamber.claims.order(created_at: :desc)
@@ -96,5 +95,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       summary_advocates_claim_path(@claim)
     end
   end
-
 end

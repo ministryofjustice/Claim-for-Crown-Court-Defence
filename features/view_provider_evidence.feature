@@ -12,14 +12,14 @@ Feature: Using provider evidence to process a claim
       And I have been assigned claims with evidence attached
     When I visit the detailed view for a claim
       And click on a link to download some evidence
-    Then I should get a download with the filename "longer_lorem.pdf"
+    Then I should get a download with the filename "shorter_lorem.docx"
 
   Scenario: 'View' link displays evidence in my browser
     Given I am signed in and on the case worker dashboard
       And I have been assigned claims with evidence attached
     When I visit the detailed view for a claim
       And click on a link to view some evidence
-    Then I see "longer_lorem.pdf" in my browser
+    Then I see "shorter_lorem.pdf" in my browser
 
 @javascript @webmock_allow_net_connect
   Scenario: Evidence is displayed in a new tab

@@ -32,10 +32,10 @@ namespace :claims do
   # for demo advocate.
   # i.e. John Smith: advocate@eample.com (id of 1)
   #
-  def create_claims_for(advocate,case_worker,no_per_state=3)
+  def create_claims_for(advocate,case_worker,claims_per_state=3)
     Claim.state_machine.states.map(&:name).each do |s|
-      if s == :deleted then next end
-      no_per_state.times do
+      next if s == :deleted
+      claims_per_state.times do
           claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
           puts(" - created #{s} claim for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
@@ -51,7 +51,7 @@ namespace :claims do
   end
 
   #
-  # create 20 to 30 random advocates BUT for the same firm as the
+  # create n to n+10 random advocates BUT for the same firm as the
   # that of the example advocate above i.e.'Test chamber/firm'
   #
   def create_advocates_for(chamber,minimum=20)
@@ -60,6 +60,5 @@ namespace :claims do
         puts(" - created advocate #{a.first_name} #{a.last_name}, login: #{a.user.email}/#{a.user.password}")
     end
   end
-
 
 end

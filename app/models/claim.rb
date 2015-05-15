@@ -91,4 +91,8 @@ class Claim < ActiveRecord::Base
   def update_total
     update_column(:total, fees_total + expenses_total)
   end
+
+  def description
+    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
+  end
 end

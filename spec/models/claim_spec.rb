@@ -197,4 +197,14 @@ RSpec.describe Claim, type: :model do
       end
     end
   end
+
+  describe '#description' do
+    let(:expected_output) do
+      "#{subject.court.code}-#{subject.case_number} #{subject.advocate.name} (#{subject.advocate.chamber.name})"
+    end
+
+    it 'returns a formatted description string containing claim information' do
+      expect(subject.description).to eq(expected_output)
+    end
+  end
 end

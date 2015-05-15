@@ -10,7 +10,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def edit; end
 
   def allocate
-    @claims = Claim.all
+    @claims = Claim.non_draft
   end
 
   def new
@@ -30,6 +30,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def update
     if @case_worker.update(case_worker_params)
+      @case_worker.claims.each { |claim| claim.allocate! if claim.submitted? }
       redirect_to case_workers_admin_case_workers_url, notice: 'Case worker successfully updated'
     else
       render :edit

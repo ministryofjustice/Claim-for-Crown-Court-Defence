@@ -24,13 +24,13 @@ end
 
 Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
   case namespace.gsub(/\s/, '_')
-  when 'advocates'
-    expect(current_url).to eq(advocates_root_url)
-  when 'advocates admin'
-    expect(current_url).to eq(advocates_admin_root_url)
-  when 'case workers'
-    expect(current_url).to eq(case_workers_root_url)
-  when 'case workers admin'
-    expect(current_url).to eq(case_workers_admin_root_url)
+    when 'case workers'
+      expect(current_url).to eq(case_workers_root_url)
+    when 'case workers admin'
+      expect(current_url).to eq(case_workers_admin_root_url)
   end
+end
+
+Then(/^I should be redirected to the advocates landing url$/) do
+  expect(current_url).to eq(advocates_landing_url)
 end

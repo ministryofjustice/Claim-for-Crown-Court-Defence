@@ -5,6 +5,18 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
   before { sign_in advocate.user }
 
+  describe 'GET #landing' do
+    before { get :landing }
+
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'renders the template' do
+      expect(response).to render_template(:landing)
+    end
+  end
+
   describe "GET #index" do
     before { get :index }
 

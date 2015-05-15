@@ -5,18 +5,33 @@ namespace :claims do
     FileUtils.rm_rf('./features/examples/000')
   end
 
+  task :seed_data => :environment do
+    # NOTE: seed data SHOULD be idempotent
+    begin
+      env_seed_file = File.join(Rails.root, 'db', 'seeds.rb')
+      load(env_seed_file) if File.exist?(env_seed_file)
+    rescue Exception => e
+      puts "ERROR: seed_data task raise error - #{e.message}"
+      raise e
+    end
+  end
+
   desc "Create demo claim data for all states, allocating to case work as required"
-  task :demo_data => :environment do
+  task :demo_data => [:environment, :seed_data] do
+      begin
+        ADVOCATE_COUNT = 4
+        CLAIMS_PER_ADVOCATE_PER_STATE = 3
 
-    ADVOCATE_COUNT = 4
-    CLAIMS_PER_ADVOCATE_PER_STATE = 3
+        example_advocate = Advocate.find(1)
+        example_case_worker = CaseWorker.find(1)
 
-    example_advocate = Advocate.find(1)
-    example_case_worker = CaseWorker.find(1)
-
-    create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_ADVOCATE_PER_STATE)
-    create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_ADVOCATE_PER_STATE)
-
+        create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_ADVOCATE_PER_STATE)
+        create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_ADVOCATE_PER_STATE)
+        
+      rescue Exception => e
+        puts "ERROR: demo_data task raised an error - #{e.message}"
+        raise e
+      end
   end
 
   def add_fees_expenses_and_defendant(claim)
@@ -40,7 +55,9 @@ namespace :claims do
     Claim.state_machine.states.map(&:name).each do |s|
       next if s == :deleted
       claims_per_state.times do
+          
           claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
+
           puts(" - created #{s} claim for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
           add_document(claim)

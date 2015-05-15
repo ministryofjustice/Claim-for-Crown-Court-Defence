@@ -1,4 +1,6 @@
-= render "claims_sidebar"
+%p
+  = link_to 'Back', case_workers_claims_path, class: 'button'
+
 %h1
   Claim
   = @claim.case_number

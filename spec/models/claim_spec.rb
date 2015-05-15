@@ -28,8 +28,8 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:advocate_category) }
   it { should validate_inclusion_of(:advocate_category).in_array(%w( qc_alone led_junior leading_junior junior_alone )) }
 
-  it { should validate_numericality_of(:estimated_trial_length) }
-  it { should validate_numericality_of(:actual_trial_length) }
+  it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+  it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }
@@ -93,9 +93,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
       subject.reload
     end
 
@@ -111,7 +111,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -163,9 +163,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
 
       create(:expense, claim_id: subject.id, amount: 3.5)
       create(:expense, claim_id: subject.id, amount: 1.0)
@@ -182,7 +182,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
         subject.reload
         expect(subject.total).to eq(158.5)
       end
@@ -195,6 +195,16 @@ RSpec.describe Claim, type: :model do
         subject.reload
         expect(subject.total).to eq(146.0)
       end
+    end
+  end
+
+  describe '#description' do
+    let(:expected_output) do
+      "#{subject.court.code}-#{subject.case_number} #{subject.advocate.name} (#{subject.advocate.chamber.name})"
+    end
+
+    it 'returns a formatted description string containing claim information' do
+      expect(subject.description).to eq(expected_output)
     end
   end
 end

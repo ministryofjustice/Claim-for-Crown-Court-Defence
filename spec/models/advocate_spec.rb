@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Advocate, type: :model do
   it { should belong_to(:chamber) }
-  it { should have_one(:user) }
   it { should have_many(:claims) }
+  it { should have_many(:documents) }
+  it { should have_one(:user) }
 
   it { should validate_presence_of(:chamber) }
   it { should validate_presence_of(:first_name) }

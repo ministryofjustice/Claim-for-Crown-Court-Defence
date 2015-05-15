@@ -1,5 +1,6 @@
 class Document < ActiveRecord::Base
 
+  after_save :duplicate_attachment_as_pdf
   has_attached_file :document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -20,8 +21,43 @@ class Document < ActiveRecord::Base
                      'application/rtf',
                      'image/png']}
 
+  belongs_to :advocate
   belongs_to :claim
   belongs_to :document_type
+  delegate   :chamber_id, to: :advocate
 
   validates :document_type, presence: true
+
+  def duplicate_attachment_as_pdf
+    unless File.extname(document_file_name).downcase == '.pdf'
+      begin
+        Libreconv.convert(original_path, "#{target_path}/#{new_filename}") # Libreoffice exe must be in PATH
+      rescue IOError => e # raised if Libreoffice exe is not in PATH
+        # log the error somehow?
+      end
+    end
+  end
+
+  def original_path
+    Paperclip.io_adapters.for(self.document).path
+  end
+
+  def target_path
+    path = document.path.slice(/(^.*\/)/)
+    system 'mkdir', '-p', path
+    return path 
+  end
+
+  def new_filename
+    document_file_name.split('.')[0] + '.pdf'
+  end
+
+  def path_to_pdf_duplicate
+    document.path.split('.')[0] + '.pdf'
+  end
+
+  def has_pdf_duplicate?
+    File.exist?(path_to_pdf_duplicate)
+  end
+
 end

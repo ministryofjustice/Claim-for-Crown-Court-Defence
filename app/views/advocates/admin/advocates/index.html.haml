@@ -1,5 +1,9 @@
-%h1
-  Advocates
+= render 'advocates/claims/nav_tabs'
+
+%header.page-title
+  %h1
+    Advocates
+  = link_to 'Add Advocate', new_advocates_admin_advocate_path, class: 'button'
 
 %ul
   - @advocates.each do |advocate|
@@ -10,5 +14,3 @@
       |
       = link_to 'Delete', advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
 
-%p
-  = link_to 'New advocate', new_advocates_admin_advocate_path, class: 'button'

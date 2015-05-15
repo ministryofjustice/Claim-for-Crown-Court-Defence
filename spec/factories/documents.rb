@@ -3,6 +3,11 @@ FactoryGirl.define do
     document { File.open(Rails.root + 'features/examples/longer_lorem.pdf') }
     document_type
     claim
+    advocate
     notes { Faker::Lorem.sentence }
+
+    trait :docx do
+      document { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
+    end
   end
 end

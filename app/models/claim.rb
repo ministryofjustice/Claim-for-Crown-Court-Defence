@@ -32,6 +32,9 @@ class Claim < ActiveRecord::Base
              offence: :offence_class)
   end
 
+  scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
+  scope :authorised, -> { where(state: 'paid') }
+
   validates :offence,                 presence: true
   validates :advocate,                presence: true
   validates :court,                   presence: true
@@ -41,8 +44,8 @@ class Claim < ActiveRecord::Base
   validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :indictment_number,       presence: true
-  validates :estimated_trial_length,  numericality: true
-  validates :actual_trial_length,     numericality: true
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
 
   accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
@@ -69,11 +72,11 @@ class Claim < ActiveRecord::Base
   end
 
   def calculate_fees_total
-    fees.sum(:amount)
+    fees.reload.map(&:amount).sum
   end
 
   def calculate_expenses_total
-    expenses.sum(:amount)
+    expenses.reload.map(&:amount).sum
   end
 
   def calculate_total
@@ -90,5 +93,9 @@ class Claim < ActiveRecord::Base
 
   def update_total
     update_column(:total, fees_total + expenses_total)
+  end
+
+  def description
+    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
   end
 end

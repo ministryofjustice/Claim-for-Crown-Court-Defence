@@ -2,14 +2,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
+  def landing; end
 
   def index
-    claims = if current_user.persona.admin?
-      current_user.persona.chamber.claims.order(created_at: :desc)
-    else
-      current_user.claims.order(created_at: :desc)
-    end
+    # parent can be a chamber or an advocate
+    parent = current_user.persona.admin? ? current_user.persona.chamber : current_user
 
+    claims = parent.claims.order(created_at: :desc)
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
     @submitted_claims = claims.submitted
@@ -18,6 +17,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
+    @claims_summary  = Claims::Summary.new(parent)
   end
 
   def show; end
@@ -72,14 +72,17 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :case_number,
      :case_type,
      :offence_id,
+     :first_day_of_trial,
+     :estimated_trial_length,
+     :actual_trial_length,
      :advocate_category,
      :additional_information,
      :prosecuting_authority,
      :indictment_number,
      :apply_vat,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
-     fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
-     expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy],
+     fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
+     expenses_attributes: [:id, :claim_id, :expense_type_id, :location, :quantity, :rate, :hours, :amount, :_destroy],
      documents_attributes: [:id, :claim_id, :document_type_id, :document, :description]
     )
   end
@@ -98,5 +101,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       summary_advocates_claim_path(@claim)
     end
   end
-
 end

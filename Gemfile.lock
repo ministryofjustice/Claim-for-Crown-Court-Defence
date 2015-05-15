@@ -29,9 +29,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.7)
     arel (5.0.1.20140414130214)
-    autoprefixer-rails (5.1.11)
-      execjs
-      json
     awesome_print (1.6.1)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
@@ -43,9 +40,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.4.1)
-      autoprefixer-rails (>= 5.0.0.1)
-      sass (>= 3.2.19)
+    bourbon (3.2.4)
+      sass (~> 3.2)
+      thor
     breakpoint (2.0.7)
       compass (>= 0.12.1)
       sass (>= 3.2.0)
@@ -133,6 +130,9 @@ GEM
       ruby-progressbar (~> 1.2)
     gherkin (2.12.2)
       multi_json (~> 1.3)
+    govuk_frontend_toolkit (3.3.0)
+      rails (>= 3.1.0)
+      sass (>= 3.2.0)
     guard (2.12.5)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -185,6 +185,8 @@ GEM
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
+    libreconv (0.9.0)
+      spoon
     listen (2.10.0)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -196,8 +198,13 @@ GEM
     mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.5.1)
+    moj_template (0.23.0)
+      rails (>= 3.1)
     multi_json (1.11.0)
     multi_test (0.1.2)
+    neat (1.5.1)
+      bourbon (>= 3.1)
+      sass (~> 3.2.19)
     nenv (0.2.0)
     newrelic_rpm (3.11.1.284)
     nokogiri (1.6.6.2)
@@ -329,6 +336,8 @@ GEM
     simplecov-html (0.9.0)
     simplecov-multi (0.0.1)
     slop (3.6.0)
+    spoon (0.0.4)
+      ffi
     sprockets (2.11.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -339,6 +348,9 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     state_machine (1.2.0)
+    susy (1.0.9)
+      compass (>= 0.12.2)
+      sass (>= 3.2.0)
     terminal-notifier-guard (1.6.4)
     thor (0.19.1)
     thread_safe (0.3.5)
@@ -378,7 +390,7 @@ DEPENDENCIES
   aws-sdk-v1
   better_errors
   binding_of_caller
-  bootstrap-sass
+  bourbon
   breakpoint
   byebug
   cancancan (~> 1.10)
@@ -394,6 +406,7 @@ DEPENDENCIES
   flip
   fuubar
   fuubar-cucumber
+  govuk_frontend_toolkit
   guard
   guard-bundler
   guard-cucumber
@@ -405,7 +418,10 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   launchy
+  libreconv
   listen
+  moj_template
+  neat
   newrelic_rpm
   paper_trail (~> 4.0.0.rc)
   paperclip
@@ -434,6 +450,7 @@ DEPENDENCIES
   simplecov-csv
   simplecov-multi
   state_machine
+  susy
   terminal-notifier-guard
   timecop
   uglifier (>= 1.3.0)

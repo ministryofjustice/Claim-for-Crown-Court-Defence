@@ -1,18 +1,20 @@
 - if claims.none?
   %p No claims found
 - else
-  %table
+  %table.claims_table
     %thead
       - if current_user.persona.admin?
         %th
           Advocate name
+      %th
+        Defendants
       %th
         CMS Number
       %th
         Submission date
       %th
         Paid date
-      %th
+      %th.currency
         Total
       %th
     %tbody
@@ -22,10 +24,14 @@
           %td
             = claim.advocate.name
         %td
+          = claim.defendants.map(&:name).join(', ')
+        %td
           = claim.cms_number
         %td
           = claim.submitted_at.strftime('%d/%m/%Y') unless claim.submitted_at.nil?
         %td
-
+          = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
+        %td.currency
+          = number_to_currency(claim.total)
         %td
           = link_to 'Edit', edit_advocates_claim_path(claim)

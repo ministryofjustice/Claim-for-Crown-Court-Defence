@@ -7,7 +7,7 @@ Feature: Advocate new claim
      When I fill in the claim details
       And I submit the form
      Then I should be redirected to the claim summary page
-      And I should see the claim total
+      And I should see the claim totals
 
   Scenario: Change offence class
     Given I am a signed in advocate

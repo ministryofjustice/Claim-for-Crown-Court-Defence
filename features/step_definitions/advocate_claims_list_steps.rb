@@ -7,8 +7,8 @@ Given(/^I have claims$/) do
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
   create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
 end
-
 When(/^I visit the advocates dashboard$/) do
+
   visit advocates_claims_path
 end
 

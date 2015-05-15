@@ -9,6 +9,8 @@ Given(/^I am on the new claim page$/) do
   create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
   create(:document_type, description: 'Other')
+  create(:fee_type, description: 'Basic Fee')
+  create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
 
@@ -21,13 +23,31 @@ When(/^I fill in the claim details$/) do
   select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
   select('Murder', from: 'claim_offence_id')
   select('Qc alone', from: 'claim_advocate_category')
+
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
   fill_in 'Date of birth', with: '04/10/1980'
   fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
+
+  within '#fees' do
+    select 'Basic Fee', from: 'claim_fees_attributes_0_fee_type_id'
+    fill_in 'Quantity', with: 1
+    fill_in 'Rate', with: 1
+    fill_in 'Amount', with: 20
+  end
+
+  within '#expenses' do
+    select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
+    fill_in 'Location', with: 'London'
+    fill_in 'Quantity', with: 1
+    fill_in 'Rate', with: 1
+    fill_in 'Hours', with: 1
+    fill_in 'Amount', with: 40
+  end
+
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'
   fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
-  attach_file(:claim_documents_attributes_0_document, 'features/examples/shorter_lorem.docx')
+  attach_file(:claim_documents_attributes_0_document, 'features/examples/longer_lorem.pdf')
 end
 
 When(/^I select offence class "(.*?)"$/) do |offence_class|
@@ -51,8 +71,10 @@ Then(/^I should be redirected to the claim summary page$/) do
   expect(page.current_path).to eq(summary_advocates_claim_path(claim))
 end
 
-Then(/^I should see the claim total$/) do
-  expect(page).to have_content('Total')
+Then(/^I should see the claim totals$/) do
+  expect(page).to have_content("Fees total: £20.00")
+  expect(page).to have_content("Expenses total: £40.00")
+  expect(page).to have_content("Total: £60.00")
 end
 
 Given(/^I am on the claim summary page$/) do
@@ -62,7 +84,7 @@ Given(/^I am on the claim summary page$/) do
      When I fill in the claim details
       And I submit the form
      Then I should be redirected to the claim summary page
-      And I should see the claim total
+      And I should see the claim totals
   STEPS
 end
 

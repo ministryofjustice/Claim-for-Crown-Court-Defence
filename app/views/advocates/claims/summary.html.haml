@@ -2,16 +2,16 @@
   Claim summary
 
 %p
-  Fees total: xxx.xx
+  Fees total:
+  = number_to_currency(@claim.fees_total)
 
 %p
-  Expenses total: xxx.xx
+  Expenses total:
+  = number_to_currency(@claim.expenses_total)
 
 %h2
-  Total: xxxxx.xx
-
-%p
-  Attach documents here...
+  Total:
+  = number_to_currency(@claim.total)
 
 = form_for [:advocates, @claim] do |f|
   - if @claim.errors.any?

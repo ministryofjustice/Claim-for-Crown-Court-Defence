@@ -103,5 +103,15 @@ RSpec.describe Claims::StateMachine, type: :model do
     describe 'make archive_pending_delete valid for 180 days' do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
     end
+
+    describe 'make submitted_at attribute equal now' do
+      it {  expect(subject).to receive(:update_column).with(:submitted_at,Time.now); subject.submit!; }
+    end
+
+    describe 'make paid_at attribute equal now' do
+      before { subject.submit!; subject.allocate! }
+      it {  expect(subject).to receive(:update_column).with(:paid_at,Time.now); subject.pay!; }
+    end
+
   end # describe 'set triggers'
 end

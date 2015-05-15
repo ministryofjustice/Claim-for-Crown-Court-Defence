@@ -1,14 +1,29 @@
-Given(/^an? "(.*?)" user account exists$/) do |role|
+def make_accounts(role, number = 1)
   @password = 'password'
   case role
     when 'advocate'
-      create(:advocate)
+      @advocates = create_list(:advocate, number)
     when 'advocate admin'
       create(:advocate, :admin)
     when 'case worker'
-      create(:case_worker)
+      create_list(:case_worker, number)
     when 'case worker admin'
       create(:case_worker, :admin)
+  end
+end
+
+
+Given(/an "(.*?)" user account exists$/) do |role|
+  make_accounts(role)
+end
+
+Given(/^(\d+) "(.*?)" user accounts exist who work for (the same|different) chambers?$/) do |number, role, chambers|
+  make_accounts(role, number.to_i)
+  if chambers == 'the same'
+    the_chamber = create(:chamber)
+    @advocates.each { |a| a.chamber = the_chamber; a.save }
+  else
+    @advocates.each { |a| a.chamber = create(:chamber); a.save }
   end
 end
 

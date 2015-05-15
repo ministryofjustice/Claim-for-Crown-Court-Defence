@@ -72,6 +72,8 @@ module Claims::StateMachine
     klass.state_machine.states.map(&:name).each do |s|
       klass.scope s, -> { klass.where(state: s) }
     end
+
+    klass.scope :non_draft, -> { klass.where.not(state: 'draft') }
   end
 
   private

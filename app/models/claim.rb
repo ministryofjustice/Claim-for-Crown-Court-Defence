@@ -32,6 +32,9 @@ class Claim < ActiveRecord::Base
              offence: :offence_class)
   end
 
+  scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
+  scope :authorised, -> { where(state: 'paid') }
+
   validates :offence,                 presence: true
   validates :advocate,                presence: true
   validates :court,                   presence: true
@@ -90,5 +93,9 @@ class Claim < ActiveRecord::Base
 
   def update_total
     update_column(:total, fees_total + expenses_total)
+  end
+
+  def description
+    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
   end
 end

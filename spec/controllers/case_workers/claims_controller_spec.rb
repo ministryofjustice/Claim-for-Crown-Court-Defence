@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   let!(:case_worker) { create(:case_worker) }
-  let!(:claims) { create_list(:submitted_claim, 5) }
+  let!(:claims) { create_list(:allocated_claim, 5) }
   let!(:other_claim) { create(:submitted_claim) }
 
   before do
@@ -23,8 +23,8 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'current claims' do
-      it 'assigns submitted @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims.submitted.order(:submitted_at, :id))
+      it 'assigns allocated @claims' do
+        expect(assigns(:claims)).to eq(case_worker.claims.allocated)
       end
     end
 

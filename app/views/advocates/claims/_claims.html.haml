@@ -3,27 +3,31 @@
 - else
   %table
     %thead
+      - if current_user.persona.admin?
+        %th
+          Advocate name
       %th
         CMS Number
-      %th
-        Advocate
       %th
         Submission date
       %th
         Paid date
       %th
-        Balance
+        Total
       %th
     %tbody
     - claims.each do |claim|
       %tr{id: dom_id(claim)}
+        - if current_user.persona.admin?
+          %td
+            = claim.advocate.name
         %td
-
-        %td
-          = claim.advocate.name
+          = claim.cms_number
         %td
           = claim.submitted_at.strftime('%d/%m/%Y') unless claim.submitted_at.nil?
         %td
-
+          = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
+        %td
+          = number_to_currency(claim.total)
         %td
           = link_to 'Edit', edit_advocates_claim_path(claim)

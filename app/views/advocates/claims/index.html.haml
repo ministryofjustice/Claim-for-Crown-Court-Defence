@@ -5,9 +5,24 @@
 
 - if current_user.persona.admin?
   %p
+    = link_to 'Manage Advocates', advocates_admin_advocates_path
+
+#summary
+  = render partial: 'summary', locals: { claims_summary: @claims_summary }
+
+- if current_user.persona.admin?
+  %p
     = form_tag advocates_claims_path, method: :get do
       = text_field_tag :search, params[:search], placeholder: 'Advocate'
       = submit_tag 'Search', class: 'button'
+
+%h2 Draft claims (#{@draft_claims.count})
+#draft
+  = render partial: 'claims', locals: { claims: @draft_claims }
+
+%h2 Rejected claims (#{@rejected_claims.count})
+#rejected
+  = render partial: 'claims', locals: { claims: @rejected_claims }
 
 %h2 Submitted claims (#{@submitted_claims.count})
 #submitted
@@ -17,10 +32,10 @@
 #allocated
   = render partial: 'claims', locals: { claims: @allocated_claims }
 
+%h2 Part paid claims (#{@part_paid_claims.count})
+#part_paid
+  = render partial: 'claims', locals: { claims: @part_paid_claims }
+
 %h2 Completed claims (#{@completed_claims.count})
 #completed
   = render partial: 'claims', locals: { claims: @completed_claims }
-
-%h2 Draft claims (#{@draft_claims.count})
-#draft
-  = render partial: 'claims', locals: { claims: @draft_claims }

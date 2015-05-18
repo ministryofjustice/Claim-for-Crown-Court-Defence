@@ -5,7 +5,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = case tab
       when 'current'
-        current_user.claims.submitted
+        current_user.claims.allocated
       when 'completed'
         current_user.claims.completed
     end

@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20150515082101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
 
   create_table "advocates", force: true do |t|
     t.string   "role"

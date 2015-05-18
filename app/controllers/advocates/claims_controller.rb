@@ -5,12 +5,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def landing; end
 
   def index
-    claims = if current_user.persona.admin?
-      current_user.persona.chamber.claims.order(created_at: :desc)
-    else
-      current_user.claims.order(created_at: :desc)
-    end
+    # parent can be a chamber or an advocate
+    parent = current_user.persona.admin? ? current_user.persona.chamber : current_user
 
+    claims = parent.claims.order(created_at: :desc)
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
     @submitted_claims = claims.submitted
@@ -19,6 +17,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
+    @claims_summary  = Claims::Summary.new(parent)
   end
 
   def show; end

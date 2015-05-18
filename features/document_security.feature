@@ -6,7 +6,7 @@ Feature: Documents are only accessible to the correct authorised users
 
   Scenario: The general public cannot access any documents
     Given an "advocate" user account exists
-    When the advocate uploads a document
+    When a document exists that belongs to the advocate
     Then an anonymous user cannot access the document
 
   Scenario: The advocate who uploaded the document can access it

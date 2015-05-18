@@ -7,6 +7,8 @@
         %th
           Advocate name
       %th
+        Defendents
+      %th
         CMS Number
       %th
         Submission date
@@ -21,6 +23,8 @@
         - if current_user.persona.admin?
           %td
             = claim.advocate.name
+        %td
+          = claim.defendants.map(&:name).join(', ')
         %td
           = claim.cms_number
         %td

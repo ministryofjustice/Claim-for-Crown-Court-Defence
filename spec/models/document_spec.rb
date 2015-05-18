@@ -57,4 +57,15 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  context 'attachment conversion' do
+
+    subject { build(:document) }
+
+    it 'is triggered by document#save' do
+      expect(subject).to receive(:duplicate_attachment_as_pdf).and_return(nil)
+      subject.save!
+    end
+
+  end
+
 end

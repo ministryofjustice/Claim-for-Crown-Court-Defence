@@ -16,9 +16,9 @@ end
 
 Given(/^I have been assigned claims with evidence attached$/) do
     DocumentType.find_or_create_by(description: 'The front sheet(s) from the commital bundle')
-    file = File.open('./features/examples/shorter_lorem.docx')
+    file = File.open('./features/examples/longer_lorem.pdf')
     claim = @claims.first
-    claim.documents << Document.create!(claim_id: claim.id, document: file, document_content_type: 'application/msword', document_type_id: DocumentType.first.id)
+    claim.documents << Document.create!(claim_id: claim.id, document: file, document_content_type: 'application/pdf', document_type_id: DocumentType.first.id)
 end
 
 When(/^I visit my dashboard$/) do

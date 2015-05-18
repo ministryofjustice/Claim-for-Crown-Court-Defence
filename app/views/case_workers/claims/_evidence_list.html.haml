@@ -6,7 +6,6 @@
         - if @claim.has_doctype?(doc_type)
           - document = @claim.doc_of_type(doc_type)
           .item-controls
-            %a.view
+            - if document.has_pdf_duplicate?
               = link_to 'View', document_path(document), target: '_blank'
-            %a.download
-              = link_to 'Download', download_document_path(document)
+            = link_to 'Download', download_document_path(document)

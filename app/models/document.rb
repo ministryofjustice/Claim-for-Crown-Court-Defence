@@ -28,7 +28,11 @@ class Document < ActiveRecord::Base
 
   def duplicate_attachment_as_pdf
     unless File.extname(document_file_name).downcase == '.pdf'
-      Libreconv.convert(original_path, "#{target_path}/#{new_filename}")
+      begin
+        Libreconv.convert(original_path, "#{target_path}/#{new_filename}") # Libreoffice exe must be in PATH
+      rescue IOError => e # raised if Libreoffice exe is not in PATH
+        # log the error somehow?
+      end
     end
   end
 
@@ -44,6 +48,14 @@ class Document < ActiveRecord::Base
 
   def new_filename
     document_file_name.split('.')[0] + '.pdf'
+  end
+
+  def path_to_pdf_duplicate
+    document.path.split('.')[0] + '.pdf'
+  end
+
+  def has_pdf_duplicate?
+    File.exist?(path_to_pdf_duplicate)
   end
 
 end

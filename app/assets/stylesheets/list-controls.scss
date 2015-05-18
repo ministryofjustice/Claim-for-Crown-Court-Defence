@@ -15,10 +15,10 @@
         li{
           margin-right: 1rem;
           &.active{
-            border-bottom: 3px solid $gray-dark;
+            border-bottom: 3px solid $orange;
           }
           a{
-            color:$gray-base;
+            color:$text-colour;
           }
         }
       }

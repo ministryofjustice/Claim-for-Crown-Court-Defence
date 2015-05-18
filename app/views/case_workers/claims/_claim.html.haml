@@ -80,11 +80,15 @@
             = number_to_currency(claim.fees_total)
           %dt
             VAT
-          %dd
-            TOTAL
           %dt
+            TOTAL
+          %dd
             %span.value
               = number_to_currency(claim.total)
+          %dt
+            Paid on
+          %dd
+            = "#{claim.paid_at.strftime('%d/%m/%Y %H:%M')}" unless claim.paid_at.nil?
 
   - unless controller.action_name == 'show'
     .claim-controls

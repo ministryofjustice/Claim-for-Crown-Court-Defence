@@ -7,7 +7,7 @@ class Advocate < ActiveRecord::Base
   has_many :claims, dependent: :destroy
   has_many :documents # Do not destroy - ultimately belong to chambers.
 
-  default_scope { includes(:user) }
+  default_scope { includes(:user, :chamber) }
 
   validates :user, presence: true
   validates :chamber, :first_name, :last_name, presence: true

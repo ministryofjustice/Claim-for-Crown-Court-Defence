@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   namespace :advocates do
     root to: 'claims#index'
 
+    get 'landing', to: 'claims#landing'
+
     resources :claims do
       get 'summary', on: :member
       get 'confirmation', on: :member
@@ -24,7 +26,7 @@ Rails.application.routes.draw do
 
 
     namespace :admin do
-      root to: 'advocates#index'
+      root to: 'claims#index'
 
       resources :advocates
     end

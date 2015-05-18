@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
       when 'Advocate'
         case current_user.persona.role
           when 'advocate'
-            advocates_root_url
+            advocates_landing_url
           when 'admin'
-            advocates_admin_root_url
+            advocates_landing_url
         end
       when 'CaseWorker'
         case current_user.persona.role

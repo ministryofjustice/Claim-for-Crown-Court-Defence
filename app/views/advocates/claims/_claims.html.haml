@@ -26,6 +26,8 @@
         %td
           = claim.submitted_at.strftime('%d/%m/%Y') unless claim.submitted_at.nil?
         %td
-
+          = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
+        %td
+          = number_to_currency(claim.total)
         %td
           = link_to 'Edit', edit_advocates_claim_path(claim)

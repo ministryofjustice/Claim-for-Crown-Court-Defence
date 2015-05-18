@@ -1,4 +1,5 @@
 #!/bin/bash
 set -ex
 # Script executing all the test tasks.
-bundle exec rake db:migrate test
+bundle exec rake db:migrate
+bundle exec rake

@@ -27,7 +27,7 @@ class Document < ActiveRecord::Base
   validates :document_type, presence: true
 
   def duplicate_attachment_as_pdf
-    unless File.extname(document_file_name).downcase == '.pdf' ||
+    unless File.extname(document_file_name).downcase == '.pdf'
       Libreconv.convert(original_path, "#{target_path}/#{new_filename}")
     end
   end

@@ -1,13 +1,27 @@
-Given(/^document types exist$/) do
-  create(:document_type, description: 'Other')
-end
-
-When(/^I upload an example document$/) do
+def upload_a_document
   @notes = SecureRandom.uuid
   select 'Other', from: 'document_document_type_id'
   attach_file(:document_document, 'features/examples/shorter_lorem.docx')
   fill_in('Notes', with: @notes)
   click_on('Upload')
+end
+
+
+Given(/^document types exist$/) do
+  create(:document_type, description: 'Other')
+end
+
+When(/^I upload an example document$/) do
+  upload_a_document
+end
+
+When(/^a document exists that belongs to the advocate$/) do
+  @document = create(:document, advocate: @advocates.first)
+end
+
+Then(/^an anonymous user cannot access the document$/) do
+  click 'Sign out' rescue nil
+
 end
 
 Then(/^The example document should exist on the system$/) do

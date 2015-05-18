@@ -1,7 +1,7 @@
 Given(/^I am a signed in advocate$/) do
-  advocate = create(:advocate)
+  @advocate = create(:advocate)
   visit new_user_session_path
-  sign_in(advocate.user, 'password')
+  sign_in(@advocate.user, 'password')
 end
 
 Given(/^I am on the new claim page$/) do

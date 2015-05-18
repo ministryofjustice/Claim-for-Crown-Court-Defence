@@ -1,0 +1,6 @@
+%h1 Outstanding Claims
+
+%h2 #{@claims.count} claims with a total value of #{number_to_currency(@total_value)}
+
+#details
+    = render partial: 'claims', locals: { claims: @claims }

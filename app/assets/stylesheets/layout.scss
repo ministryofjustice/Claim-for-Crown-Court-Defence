@@ -13,6 +13,19 @@
 #fixed-header{
   margin:1em 0;
 }
+header.page-title{
+  width: 100%;
+  float: left;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid $ministry-of-justice;
+  h1{
+    display: inline-block;
+  }
+  .button{
+    float: right;
+  }
+}
 section{
   display: block
 }

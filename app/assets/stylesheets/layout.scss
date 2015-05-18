@@ -1,3 +1,10 @@
+ #proposition_links {
+  color: $white;
+  float:right;
+  a{
+    color: $white;
+  }
+ }
  #wrapper, #global-header-bar {
     @include outer-container;
  }

@@ -1,14 +1,13 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_context, only: [:index, :outstanding, :authorised ]
+  before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
 
   def landing; end
 
   def index
-    # parent can be a chamber or an advocate
-    parent = current_user.persona.admin? ? current_user.persona.chamber : current_user
-
-    claims = parent.claims.order(created_at: :desc)
+    claims = @context.claims.order(created_at: :desc)
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
     @submitted_claims = claims.submitted
@@ -17,7 +16,16 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
-    @claims_summary  = Claims::Summary.new(parent)
+  end
+
+  def outstanding
+    @claims = @financial_summary.outstanding_claims
+    @total_value = @financial_summary.total_outstanding_claim_value
+  end
+
+  def authorised
+    @claims = @financial_summary.authorised_claims
+    @total_value = @financial_summary.total_authorised_claim_value
   end
 
   def show; end
@@ -60,8 +68,20 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   private
 
+  def set_context
+    if current_user.persona.admin? && current_user.persona.chamber
+      @context = current_user.persona.chamber
+    else 
+      @context = current_user
+    end
+  end
+
   def set_claim
     @claim = Claim.find(params[:id])
+  end
+
+  def set_financial_summary
+    @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
   def claim_params

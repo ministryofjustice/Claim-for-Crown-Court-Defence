@@ -1,3 +1,7 @@
+- if current_user.persona.admin?
+  %p
+    = link_to 'Manage case workers', case_workers_admin_case_workers_path
+
 %nav.dashboard-tabs
   %ul
     %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}

@@ -1,0 +1,26 @@
+.claims_table{
+  width:100%;
+  border-collapse: collapse;
+    tr{
+      background-color: $grey-4;
+      line-height: 2;
+      border-bottom: 5px solid #fff;
+      overflow: hidden;
+      padding: 1rem;
+      &:nth-child(even){
+        background-color: $grey-3;
+      }
+    }
+    thead tr {
+      background-color: transparent;
+    }
+    th, td{
+      padding:0 0.5em;
+    }
+    th{
+      text-align: left;
+    }
+    .currency{
+      text-align: right;
+    }
+}

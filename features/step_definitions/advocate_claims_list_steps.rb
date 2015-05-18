@@ -25,9 +25,9 @@ Then(/^I should see only claims that I have created$/) do
 end
 
 Given(/^I am a signed in advocate admin$/) do
-  advocate = create(:advocate, :admin)
+  @advocate = create(:advocate, :admin)
   visit new_user_session_path
-  sign_in(advocate.user, 'password')
+  sign_in(@advocate.user, 'password')
 end
 
 Given(/^my chamber has claims$/) do

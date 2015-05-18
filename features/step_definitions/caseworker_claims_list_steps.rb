@@ -6,8 +6,8 @@ end
 
 Given(/^claims have been assigned to me$/) do
   case_worker = CaseWorker.first
-  @claims = create_list(:submitted_claim, 5)
-  @other_claims = create_list(:submitted_claim, 3)
+  @claims = create_list(:allocated_claim, 5)
+  @other_claims = create_list(:allocated_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)

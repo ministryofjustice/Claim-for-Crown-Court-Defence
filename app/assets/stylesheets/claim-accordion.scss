@@ -1,12 +1,12 @@
-#claim-accordion{
+#claim-accordian{
   h2{
-    background-color: $brand-primary;
-    background-image: url(../accordion-toggle.png);
+    background-color: $cabinet-office;
+    background-image: url(accordian-toggle.png);
     background-repeat: no-repeat;
     background-position: right bottom;
     cursor:pointer;
     clear: both;
-    color: $body-bg;
+    color: $white;
     display: block;
     padding: 0.5em;
     margin-bottom: 1px;
@@ -22,18 +22,18 @@
     overflow: hidden;
     padding-bottom: 1em;
     li {
-      //@include span-columns(6);
+      @include span-columns(6);
     }
   }
   #payments{
     padding: 0;
     li{
-      //@include span-columns(3);
+      @include span-columns(3);
       padding-bottom: 1em;
       text-align: center;
       padding-left: 0;
       div{
-        border:1px solid $gray-base;
+        border:1px solid $black;
         margin-bottom: 1em;
         min-height: 12em;
         h3{
@@ -46,12 +46,12 @@
   #representation-order{
     padding: 0;
     li{
-      //@include span-columns(4);
+      @include span-columns(4);
       padding-bottom: 1em;
       text-align: center;
       padding-left: 0;
       div{
-        border:1px solid $gray-base;
+        border:1px solid $black;
         margin-bottom: 1em;
         min-height: 12em;
         h3{
@@ -64,7 +64,7 @@
   #evidence-list{
     padding:0;
     li{
-      background-color: $gray-light;
+      background-color: $grey-3;
       line-height: 3;
       list-style-type: decimal;
       list-style-position: inside;
@@ -89,10 +89,10 @@
   }
   #claim-status{
     label{
-      //@include span-columns(4);
+      @include span-columns(4);
       line-height: 4;
       text-align: center;
-      border:1px solid $gray-base;
+      border:1px solid $black;
       margin-top: 1em;
     }
     .actions{
@@ -104,18 +104,18 @@
     margin-bottom: 1em;
     width: 100%;
     form{
-      //@include span-columns(4);
+      @include span-columns(4);
       input[type="text"], select{
         width:100%;
       }
     }
     .timeline{
-      //@include span-columns(8);
+      @include span-columns(8);
       ul{
         padding: 0;
         li{
           padding: 0 0 1em 0;
-          border-bottom: 1px solid $gray-light;
+          border-bottom: 1px solid $grey-2;
           list-style-type: none;
           margin-bottom: 1em;
           header{
@@ -130,7 +130,7 @@
           .type{
             clear: both;
             display: block;
-            color:$gray-dark;
+            color:$grey-1;
           }
         }
       }
@@ -142,9 +142,9 @@
       min-height: 200px;
     }
     .draft {
-      background-color: $body-bg;
-      border: 1px solid $gray-dark;
-      color: $gray-dark;
+      background-color: $white;
+      border: 1px solid $button-colour;
+      color: $button-colour;
       padding: 0 0.5rem;
       position: relative;
       top:1px;

@@ -6,7 +6,7 @@ class Advocate < ActiveRecord::Base
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :claims, dependent: :destroy
 
-  default_scope { includes(:user) }
+  default_scope { includes(:user, :chamber) }
 
   validates :user, presence: true
   validates :chamber, :first_name, :last_name, presence: true

@@ -4,5 +4,9 @@ FactoryGirl.define do
     document_type
     claim
     notes { Faker::Lorem.sentence }
+
+    trait :docx do
+      document { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
+    end
   end
 end

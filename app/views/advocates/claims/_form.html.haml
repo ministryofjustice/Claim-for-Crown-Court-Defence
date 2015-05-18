@@ -1,104 +1,107 @@
-= form_for [:advocates, @claim] do |f|
-  - if @claim.errors.any?
-    %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
-    %ul
-      - @claim.errors.full_messages.each do |msg|
-        %li= msg
+#claim-form
+  = form_for [:advocates, @claim] do |f|
+    - if @claim.errors.any?
+      %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
+      %ul
+        - @claim.errors.full_messages.each do |msg|
+          %li= msg
+    %h2
+      Section 1:
+    %fieldset
+      %legend
+        Case, Instructed Advocate & Offence
 
-  %fieldset
-    %legend
-      Section 1: Case, Instructed Advocate & Offence
+      = f.label :scheme
+      
+      = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
+      
+      = f.label :case_type
+      
+      = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
+      
+      = f.label :prosecuting_authority
+      
+      = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
+      
+      = f.label :indictment_number
+      
+      = f.text_field :indictment_number
+      
+      = f.label :court
+      
+      = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+      
+      = f.label :case_number
+      
+      = f.text_field :case_number
+      
+      = f.label :advocate_category
+      
+      = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
+      = render 'dynamic_offence_fields', f: f
+      %span.auto-width
+        = f.label :first_day_of_trial
+        
+        = f.date_field :first_day_of_trial
+      %span.auto-width
+        = f.label :estimated_trial_length
+        
+        = f.number_field :estimated_trial_length
+      %span.auto-width
+        = f.label :actual_trial_length
+        
+        = f.number_field :actual_trial_length
+      
+    %fieldset
+      %legend Defendants
+      #defendants
+        = f.fields_for :defendants do |defendant|
+          = render 'defendant_fields', f: defendant
+          %div
+            = link_to_add_association 'Add Defendant', f, :defendants, class: 'button'
 
-    = f.label :scheme
-    %br
-    = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
-    %br
-    = f.label :case_type
-    %br
-    = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
-    %br
-    = f.label :prosecuting_authority
-    %br
-    = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
-    %br
-    = f.label :indictment_number
-    %br
-    = f.text_field :indictment_number
-    %br
-    = f.label :court
-    %br
-    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-    %br
-    = f.label :case_number
-    %br
-    = f.text_field :case_number
-    %br
-    = f.label :advocate_category
-    %br
-    = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
-    = render 'dynamic_offence_fields', f: f
-    %br
-    = f.label :first_day_of_trial
-    %br
-    = f.date_field :first_day_of_trial
-    %br
-    = f.label :estimated_trial_length
-    %br
-    = f.number_field :estimated_trial_length
-    %br
-    = f.label :actual_trial_length
-    %br
-    = f.number_field :actual_trial_length
-    %br
-
-    %p Defendants
-    #defendants
-      = f.fields_for :defendants do |defendant|
-        = render 'defendant_fields', f: defendant
-        .links
-          = link_to_add_association 'Add Defendant', f, :defendants, class: 'button'
-
-  %br
-  %fieldset
-    %legend
-      Section 2: Additional Information
-    = f.text_area :additional_information, rows: 10, style: 'width: 100%'
-
-  %fieldset
-    %legend
-      Fees
-    #fees
-      = f.fields_for :fees do |fee|
-        = render 'fee_fields', f: fee
+    %h2
+      Section 2:
+    %fieldset
+      = f.label :additional_information
+      = f.text_area :additional_information, rows: 10
+    %fieldset
+      %legend
+        Fees
+      #fees
+        = f.fields_for :fees do |fee|
+          = render 'fee_fields', f: fee
         .links
           = link_to_add_association 'Add Fee', f, :fees, class: 'button'
-  %br
+    
 
-  %fieldset
-    %legend
-      Expenses
-    #expenses
-      = f.fields_for :expenses do |expense|
-        = render 'expense_fields', f: expense
-        .links
-          = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
-  %br
+    %fieldset
+      %legend
+        Expenses
+      #expenses
+        = f.fields_for :expenses do |expense|
+          = render 'expense_fields', f: expense
+      .links
+        = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
+    
 
-  = f.label :apply_vat, 'VAT on Fees & Expenses (please tick if required)'
-  = f.check_box :apply_vat
+      %label
+        = f.check_box :apply_vat
+        VAT on Fees & Expenses (please tick if required)'
+      
 
-  %br
-  %br
+    
+    
 
-  %fieldset
-    %legend
-      Supporting evidence documents
-    #documents
-      = f.fields_for :documents do |document|
-        = render 'document_fields', f: document
-        .links
-          = link_to_add_association 'Add Document', f, :documents, class: 'button'
-  %br
+    %fieldset
+      %legend
+        Supporting evidence documents
+      #documents
+        = f.fields_for :documents do |document|
+          = render 'document_fields', f: document
+          .links
+            = link_to_add_association 'Add Document', f, :documents, class: 'button'
+    
 
-  %p
-    = f.submit 'Submit', class: 'button'
+    %p
+      = f.submit 'Submit', class: 'button'

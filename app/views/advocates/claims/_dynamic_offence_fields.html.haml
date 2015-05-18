@@ -1,15 +1,15 @@
-%br
+
 = f.label :offence_class
-%br
+
 = f.collection_select :offence_class_id,
                       OffenceClass.all,
                       :id,
                       :letter_and_description,
                       options = { prompt: ' -- Please select offence class to filter offences -- ' },
-                      html_options = { class: 'select2', style: 'width: 75%;' }
-%br
+                      html_options = { class: 'select2' }
+
 = f.label :offence_category
-%br
+
 = f.grouped_collection_select :offence_id,
                               OffenceClass.includes(:offences),
                               :offences,
@@ -17,4 +17,4 @@
                               :id,
                               :description,
                               options = { prompt:  ' -- Please select offence category (based on class above) -- ' },
-                              html_options = {  class: 'select2', style: 'width: 75%;' }
+                              html_options = {  class: 'select2' }

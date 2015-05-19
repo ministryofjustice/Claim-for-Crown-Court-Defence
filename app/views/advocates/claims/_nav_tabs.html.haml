@@ -1,0 +1,6 @@
+%nav.dashboard-tabs
+  %ul
+    %li{class: ( 'active' if controller.controller_name == 'claims' ) }
+      = link_to 'Dashboard', advocates_claims_path
+    %li{class: ( 'active' if controller.controller_name == 'advocates' ) }
+      = link_to 'Advocates', advocates_admin_advocates_path

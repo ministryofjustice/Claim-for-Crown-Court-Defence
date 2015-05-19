@@ -1,5 +1,6 @@
-%p
-  Signed in as:
-  %strong
-    = link_to current_user.email, '#'
-    = link_to 'Sign out', destroy_user_session_path, method: :delete
+= content_for :proposition_links do
+  #proposition_links
+    Signed in as:
+    %strong
+      = link_to current_user.email, '#'
+      = link_to 'Sign out', destroy_user_session_path, method: :delete

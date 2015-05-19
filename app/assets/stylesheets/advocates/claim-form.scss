@@ -1,0 +1,43 @@
+#claim-form{
+  h2{
+    margin-top: 1em;
+  }
+  fieldset{
+      margin:1em 0;
+      padding:1em 0;
+      border-bottom: 1px solid $grey-2;
+      legend{
+        font-weight: bold;
+
+      }
+      label{
+        display: block;
+        margin-top: 1em;
+      }
+      input,
+      select,
+      textarea,
+      .select2-container{
+        width:100%;
+        font-size: 1em;
+        &[type="radio"],&[type="checkbox"]{
+          width:auto;
+          display: inline-block;
+        }
+      }
+  }
+  h2 + fieldset{
+      margin-top: 0;
+      padding-top: 0;
+    }
+  span.auto-width{
+    width:auto;
+    display: inline-block;
+    margin-right: 1em;
+  }
+  .nested-fields{
+    padding: 15px;
+    background-color: $grey-4;
+    margin-bottom: 1em;
+  }
+}

@@ -1,30 +1,27 @@
 .nested-fields
-  = f.label :first_name
-  %br
-  = f.text_field :first_name
-  %br
-  = f.label :middle_name
-  %br
-  = f.text_field :middle_name
-  %br
-  = f.label :last_name
-  %br
-  = f.text_field :last_name
-  %br
-  = f.label :date_of_birth
-  %br
-  = f.date_field :date_of_birth
-  %br
-  = f.label :representation_order_date
-  %br
-  = f.date_field :representation_order_date
-  %br
-  = f.label :order_for_judicial_apportionment
-  %br
-  = f.check_box :order_for_judicial_apportionment
-  %br
+  %span.auto-width
+    = f.label :first_name
+    = f.text_field :first_name
+  %span.auto-width
+    = f.label :middle_name
+    = f.text_field :middle_name
+  %span.auto-width
+    = f.label :last_name
+    = f.text_field :last_name
+  %span.auto-width
+    = f.label :date_of_birth
+    = f.date_field :date_of_birth
+  %span.auto-width
+    = f.label :representation_order_date
+    = f.date_field :representation_order_date
+  %label
+    = f.check_box :order_for_judicial_apportionment
+    Order for judicial apportionment
+  
   = f.label :maat_reference, t('maat_reference_number')
-  %br
-  = f.text_field :maat_reference
+  %span.auto-width
+    = f.text_field :maat_reference
   %p
     = link_to_remove_association 'Remove defendant', f
+
+  

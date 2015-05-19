@@ -1,13 +1,5 @@
-- if current_user.persona.admin?
-  %p
-    = link_to 'Manage case workers', case_workers_admin_case_workers_path
+= render 'nav_tabs'
 
-%nav.dashboard-tabs
-  %ul
-    %li{class: ('active' if params[:tab] == 'current' || params[:tab].blank?)}
-      = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
-    %li{class: ('active' if params[:tab] == 'completed')}
-      = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
 
 %section
   %h1

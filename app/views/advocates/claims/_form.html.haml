@@ -12,46 +12,46 @@
         Case, Instructed Advocate & Offence
 
       = f.label :scheme
-      
+
       = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
-      
+
       = f.label :case_type
-      
+
       = f.collection_select :case_type, Claim::CASE_TYPES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
-      
+
       = f.label :prosecuting_authority
-      
+
       = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
-      
+
       = f.label :indictment_number
-      
+
       = f.text_field :indictment_number
-      
+
       = f.label :court
-      
+
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-      
+
       = f.label :case_number
-      
+
       = f.text_field :case_number
-      
+
       = f.label :advocate_category
-      
+
       = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :humanize, { prompt: true }, { class: 'select2' }
       = render 'dynamic_offence_fields', f: f
       %span.auto-width
         = f.label :first_day_of_trial
-        
+
         = f.date_field :first_day_of_trial
       %span.auto-width
         = f.label :estimated_trial_length
-        
+
         = f.number_field :estimated_trial_length
       %span.auto-width
         = f.label :actual_trial_length
-        
+
         = f.number_field :actual_trial_length
-      
+
     %fieldset
       %legend Defendants
       #defendants
@@ -73,7 +73,7 @@
           = render 'fee_fields', f: fee
         .links
           = link_to_add_association 'Add Fee', f, :fees, class: 'button'
-    
+
 
     %fieldset
       %legend
@@ -83,15 +83,15 @@
           = render 'expense_fields', f: expense
       .links
         = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
-    
+
 
       %label
         = f.check_box :apply_vat
         VAT on Fees & Expenses (please tick if required)'
-      
 
-    
-    
+
+
+
 
     %fieldset
       %legend
@@ -101,7 +101,8 @@
           = render 'document_fields', f: document
           .links
             = link_to_add_association 'Add Document', f, :documents, class: 'button'
-    
+
 
     %p
       = f.submit 'Submit', class: 'button'
+      = link_to 'Back', advocates_claims_path, class: 'button'

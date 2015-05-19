@@ -24,7 +24,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'current claims' do
       it 'assigns allocated @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims.allocated)
+        expect(assigns(:claims)).to match_array(case_worker.claims.allocated)
       end
     end
 

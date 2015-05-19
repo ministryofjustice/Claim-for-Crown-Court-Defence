@@ -1,0 +1,156 @@
+#claim-accordion{
+  h2{
+    background-color: $cabinet-office;
+    background-image: url(../accordion-toggle.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    cursor:pointer;
+    clear: both;
+    color: $white;
+    display: block;
+    padding: 0.5em;
+    margin-bottom: 1px;
+    &.open{
+      margin-bottom: 1em;
+      background-position: right top;
+    }
+  }
+  h3{
+    line-height: 2;
+  }
+  ul.case-data{
+    overflow: hidden;
+    padding-bottom: 1em;
+    li {
+      @include span-columns(6);
+    }
+  }
+  #representation-order{
+    padding: 0;
+    li{
+      @include span-columns(4);
+      padding-bottom: 1em;
+      text-align: center;
+      padding-left: 0;
+      div{
+        border:1px solid $black;
+        margin-bottom: 1em;
+        min-height: 12em;
+        h3{
+          line-height: 3;
+          margin-bottom: 2em;
+        }
+      }
+    }
+  }
+  #evidence-list{
+    padding:0;
+    li{
+      background-color: $grey-3;
+      line-height: 3;
+      list-style-type: decimal;
+      list-style-position: inside;
+      margin-bottom: 0.5em;
+      padding: 0 1em;
+      div{
+        float: right;
+        a{
+          display: inline-block;
+          margin-left: 1em;
+        }
+      }
+    }
+  }
+  #case-notes{
+    float: left;
+    width: 100%;
+    padding-bottom: 1em;
+    button{
+      float: right;
+    }
+  }
+  #claim-status{
+    label{
+      @include span-columns(4);
+      line-height: 4;
+      text-align: center;
+      border:1px solid $black;
+      margin-top: 1em;
+    }
+    .actions{
+      float:right;
+    }
+  }
+  #advonote{
+    float: left;
+    margin-bottom: 1em;
+    width: 100%;
+    form{
+      @include span-columns(4);
+      input[type="text"], select{
+        width:100%;
+      }
+    }
+    .timeline{
+      @include span-columns(8);
+      ul{
+        padding: 0;
+        li{
+          padding: 0 0 1em 0;
+          border-bottom: 1px solid $grey-2;
+          list-style-type: none;
+          margin-bottom: 1em;
+          header{
+            width:100%;
+          }
+          h5{
+            display: inline-block;
+          }
+          .timeago{
+            float: right;
+          }
+          .type{
+            clear: both;
+            display: block;
+            color:$grey-1;
+          }
+        }
+      }
+    }
+  }
+   textarea{
+      width:100%;
+      margin:1em 0;
+      min-height: 200px;
+    }
+    .draft {
+      background-color: $white;
+      border: 1px solid $button-colour;
+      color: $button-colour;
+      padding: 0 0.5rem;
+      position: relative;
+      top:1px;
+      margin-right: 1em;
+      font-size: 1em;
+      line-height: 1.8;
+      text-decoration: none;
+    }
+}
+#payments{
+  padding: 0;
+  li{
+    @include span-columns(3);
+    padding-bottom: 1em;
+    text-align: center;
+    padding-left: 0;
+    div{
+      border:1px solid $black;
+      margin-bottom: 1em;
+      min-height: 12em;
+      h3{
+        line-height: 3;
+        margin-bottom: 2em;
+      }
+    }
+  }
+}

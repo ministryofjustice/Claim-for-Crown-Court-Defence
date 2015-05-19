@@ -14,23 +14,20 @@ Feature: Advocate claims list
      When I visit the advocates dashboard
      Then I should see my chamber's claims
 
-  Scenario: View current claims
+  Scenario Outline: View claims
     Given I am a signed in advocate admin
-      And my chamber has 5 "current" claims
+      And my chamber has <number> <state> claims
      When I visit the advocates dashboard
-     Then I should see my chamber's 5 "current" claims
+     Then I should see my chamber's <number> <state> claims
 
-  Scenario: View completed claims
-    Given I am a signed in advocate admin
-      And my chamber has 5 "completed" claims
-     When I visit the advocates dashboard
-     Then I should see my chamber's 5 "completed" claims
-
-  Scenario: View draft claims
-    Given I am a signed in advocate admin
-      And my chamber has 5 "draft" claims
-     When I visit the advocates dashboard
-     Then I should see my chamber's 5 "draft" claims
+     Examples:
+       | state        | number |
+       | "submitted"  | 5      |
+       | "allocated"  | 5      |
+       | "rejected"   | 5      |
+       | "part_paid"  | 5      |
+       | "completed"  | 5      |
+       | "draft"      | 5      |
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin

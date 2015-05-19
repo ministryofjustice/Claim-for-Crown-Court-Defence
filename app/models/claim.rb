@@ -32,6 +32,9 @@ class Claim < ActiveRecord::Base
              offence: :offence_class)
   end
 
+  scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
+  scope :authorised, -> { where(state: 'paid') }
+
   validates :offence,                 presence: true
   validates :advocate,                presence: true
   validates :court,                   presence: true
@@ -48,6 +51,14 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :defendants,  reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :documents,   reject_if: :all_blank,  allow_destroy: true
+
+  def has_doctype?(doc_type)
+    documents.pluck(:document_type_id).include?(doc_type.id) #returns boolean
+  end
+
+  def doc_of_type(doc_type)
+    documents.where(:document_type_id == doc_type.id)[0] #returns an actual document
+  end
 
   class << self
     def find_by_maat_reference(maat_reference)
@@ -82,5 +93,9 @@ class Claim < ActiveRecord::Base
 
   def update_total
     update_column(:total, fees_total + expenses_total)
+  end
+
+  def description
+    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
   end
 end

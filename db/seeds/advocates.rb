@@ -1,4 +1,4 @@
-chamber = Chamber.create!(name: 'Test chamber/firm', account_number: 'A1234567')
+chamber = Chamber.find_or_create_by!(name: 'Test chamber/firm', account_number: 'A1234567')
 
 if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(

@@ -5,7 +5,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = case tab
       when 'current'
-        current_user.claims.submitted
+        current_user.claims.allocated
       when 'completed'
         current_user.claims.completed
     end
@@ -17,7 +17,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
-  def show; end
+  def show
+    @doc_types = DocumentType.all
+  end
 
   private
 

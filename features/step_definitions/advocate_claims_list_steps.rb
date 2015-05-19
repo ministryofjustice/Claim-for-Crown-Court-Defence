@@ -58,31 +58,14 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   chamber = Chamber.first
   chamber.advocates << advocate
 
-  @claims = case state
-    when 'draft'
-      create_list(:claim, number.to_i)
-    when 'current'
-      create_list(:submitted_claim, number.to_i)
-    when 'completed'
-      create_list(:completed_claim, number.to_i)
-  end
-
+  @claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
 end
 
 Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
   chamber = Chamber.first
 
-  scope = case state
-    when 'draft'
-      :draft
-    when 'current'
-      :submitted
-    when 'completed'
-      :completed
-  end
-
-  claim_dom_ids = chamber.claims.send(scope).map { |c| "claim_#{c.id}" }
+  claim_dom_ids = chamber.claims.send(state.to_sym).map { |c| "claim_#{c.id}" }
 
   expect(claim_dom_ids.size).to eq(number.to_i)
 

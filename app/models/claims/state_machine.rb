@@ -5,6 +5,7 @@ module Claims::StateMachine
   def self.included(klass)
     klass.state_machine :state,                      initial: :draft do
       after_transition on: :submit,                  do: :set_submission_date!
+      after_transition on: :pay,                     do: :set_paid_date!
       after_transition on: :appeal,                  do: :set_valid_until!
       after_transition on: :await_further_info,      do: :set_valid_until!
       after_transition on: :reject_parts,            do: :set_valid_until!
@@ -15,7 +16,7 @@ module Claims::StateMachine
          :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted
 
       event :allocate do
-        transition [:submitted] => :allocated
+        transition [:submitted, :awaiting_info_from_court] => :allocated
       end
 
       event :appeal do
@@ -72,12 +73,17 @@ module Claims::StateMachine
       klass.scope s, -> { klass.where(state: s) }
     end
 
+    klass.scope :non_draft, -> { klass.where.not(state: 'draft') }
   end
 
   private
 
   def set_submission_date!
     update_column(:submitted_at, Time.now)
+  end
+
+  def set_paid_date!
+    update_column(:paid_at, Time.now)
   end
 
   def set_valid_until!(transition)

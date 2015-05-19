@@ -1,17 +1,14 @@
-//= require select2
+// default
 
-@import "bourbon";
-@import "neat";
+$laa-gray:#bdbbbb;
 
-@import "colours";
-@import "measurements";
-@import "conditionals";
-@import "shims";
-@import "typography";
-@import "css3";
-@import "design-patterns/alpha-beta";
-@import "design-patterns/buttons";
+$body-bg:#F6F6F6;
+$list-item-bg:#fff;
+$section-colour: #999;
+$section-highlight-colour: #CCC;
+$navbar-text:#fff;
+$sidebar-bg:#fff;
 
-@import "new_claim";
+@import "imports";
 
-@import "layout";
+

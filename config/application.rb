@@ -26,9 +26,9 @@ module CrimeBillingOnline
     end
 
     # Application Title (Populates <title>)
-    config.app_title = 'Crime Billing Online'
+    config.app_title = 'Advocate Defence Payments'
     # Proposition Title (Populates proposition header)
-    config.proposition_title = 'Crime Billing Online'
+    config.proposition_title = 'Advocate Defence Payments'
     # Current Phase (Sets the current phase and the colour of phase tags)
     # Presumed values: alpha, beta, live
     config.phase = 'alpha'
@@ -39,5 +39,7 @@ module CrimeBillingOnline
     config.feedback_url = 'not_set'
     # Google Analytics ID (Tracking ID for the service)
     config.ga_id = 'not_set'
+
+
   end
 end

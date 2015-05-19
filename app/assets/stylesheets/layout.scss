@@ -1,4 +1,10 @@
-
+ #proposition_links {
+  color: $white;
+  float:right;
+  a{
+    color: $white;
+  }
+ }
  #wrapper, #global-header-bar {
     @include outer-container;
  }
@@ -14,10 +20,77 @@
 #fixed-header{
   margin:1em 0;
 }
+header.page-title{
+  width: 100%;
+  float: left;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid $ministry-of-justice;
+  h1{
+    display: inline-block;
+  }
+  .button{
+    float: right;
+  }
+}
+#login{
+  width:30%;
+  max-width:500px;
+  margin: auto;
+  padding:1em;
+  border:1px solid $ministry-of-justice;
+  label{
+    display: block;
+  }
+  input[type="email"],
+  input[type="password"]{
+    font-size: 1em;
+    width:100%;
+  }
+  div{
+    margin-bottom: 1em;
+  }
+}
 section{
   display: block
+}
+.advocate-loggedin-actions {
+  display: block;
+  margin: 2em auto;
+  padding: 0;
+  li{
+    border: 1px solid;
+    border-radius: 3px;
+    display: inline-block;
+    list-style-type: none;
+    font-size: 2em;
+    line-height: 2.5em;
+    margin-right: 1em;
+    a {
+      text-decoration: none;
+      color: $white;
+      padding:0 2.5em;
+    
+    }
+    &.new{
+      
+      background-color: $mainstream-brand;
+      border-color: $mainstream-brand;
+    }
+    &.view{
+      background-color: $grey-3;
+      border-color: $grey-3;
+      a{
+        color:$ministry-of-justice;
+      }
+    }
+  }
 }
 @import "navigation";
 @import "list-controls";
 @import "claims-list";
-@import "claim-accordian";
+@import "claim-accordion";
+
+
+
+

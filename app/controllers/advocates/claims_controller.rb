@@ -2,18 +2,22 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
 
-  def index
-    claims = if current_user.persona.admin?
-      current_user.persona.chamber.claims.order(created_at: :desc)
-    else
-      current_user.claims.order(created_at: :desc)
-    end
+  def landing; end
 
+  def index
+    # parent can be a chamber or an advocate
+    parent = current_user.persona.admin? ? current_user.persona.chamber : current_user
+
+    claims = parent.claims.order(created_at: :desc)
     claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
 
-    @current_claims = claims.submitted
+    @submitted_claims = claims.submitted
+    @rejected_claims = claims.rejected
+    @allocated_claims = claims.allocated
+    @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
+    @claims_summary  = Claims::Summary.new(parent)
   end
 
   def show; end

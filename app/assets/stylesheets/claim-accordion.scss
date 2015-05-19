@@ -1,7 +1,7 @@
-#claim-accordian{
+#claim-accordion{
   h2{
     background-color: $cabinet-office;
-    background-image: url(accordian-toggle.png);
+    background-image: url(../accordion-toggle.png);
     background-repeat: no-repeat;
     background-position: right bottom;
     cursor:pointer;
@@ -23,24 +23,6 @@
     padding-bottom: 1em;
     li {
       @include span-columns(6);
-    }
-  }
-  #payments{
-    padding: 0;
-    li{
-      @include span-columns(3);
-      padding-bottom: 1em;
-      text-align: center;
-      padding-left: 0;
-      div{
-        border:1px solid $black;
-        margin-bottom: 1em;
-        min-height: 12em;
-        h3{
-          line-height: 3;
-          margin-bottom: 2em;
-        }
-      }
     }
   }
   #representation-order{
@@ -153,4 +135,22 @@
       line-height: 1.8;
       text-decoration: none;
     }
+}
+#payments{
+  padding: 0;
+  li{
+    @include span-columns(3);
+    padding-bottom: 1em;
+    text-align: center;
+    padding-left: 0;
+    div{
+      border:1px solid $black;
+      margin-bottom: 1em;
+      min-height: 12em;
+      h3{
+        line-height: 3;
+        margin-bottom: 2em;
+      }
+    }
+  }
 }

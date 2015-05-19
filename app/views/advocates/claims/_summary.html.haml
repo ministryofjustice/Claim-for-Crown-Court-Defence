@@ -1,9 +1,12 @@
-%br Total Outstanding Claims:
+%ul#payments
+  %li
+    %div 
+      %h3
+        Total Outstanding Claims:
+      = number_to_currency(claims_summary.total_outstanding_claim_value)
 
-#outstanding_claims
-  = number_to_currency(claims_summary.total_outstanding_claim_value)
-
-%br Total Authorised Claims:
-
-#authorised_claims
-  = number_to_currency(claims_summary.total_authorised_claim_value)
+  %li
+    %div 
+      %h3
+        Total Authorised Claims:
+      = number_to_currency(claims_summary.total_authorised_claim_value)

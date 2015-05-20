@@ -13,11 +13,17 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(@document.document).path, type: @document.document_content_type, disposition: 'inline'
+    send_file Paperclip.io_adapters.for(@document.document).path,
+      type:        @document.document_content_type,
+      filename:    @document.document_file_name,
+      disposition: 'inline'
   end
 
   def download
-    send_file Paperclip.io_adapters.for(@document.document).path, type: @document.document_content_type, x_sendfile: true
+    send_file Paperclip.io_adapters.for(@document.document).path,
+      type:        @document.document_content_type,
+      filename:    @document.document_file_name,
+      x_sendfile:  true
   end
 
   def update

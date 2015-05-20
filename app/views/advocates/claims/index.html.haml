@@ -1,10 +1,10 @@
-%header.page-title
-  %h1 Claims
-  = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
-
 - if current_user.persona.admin?
-  %p
-    = link_to 'Manage Advocates', advocates_admin_advocates_path
+  = render 'nav_tabs'
+
+%header.page-title
+  %h1
+    Claims
+  = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
 
 #summary
   = render partial: 'summary', locals: { claims_summary: @claims_summary }

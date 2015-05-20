@@ -72,11 +72,11 @@ class Claim < ActiveRecord::Base
   end
 
   def calculate_fees_total
-    fees.sum(:amount)
+    fees.reload.map(&:amount).sum
   end
 
   def calculate_expenses_total
-    expenses.sum(:amount)
+    expenses.reload.map(&:amount).sum
   end
 
   def calculate_total

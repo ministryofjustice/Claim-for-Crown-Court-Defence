@@ -27,7 +27,7 @@ Then(/^an anonymous user cannot access the document$/) do
 end
 
 Then(/^the advocate can download the document$/) do
-  visit document_url(@document)
+  visit download_document_url(@document)
   expect(page.status_code).to eq(200)
 end
 

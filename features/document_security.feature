@@ -1,4 +1,3 @@
-@focus
 Feature: Documents are only accessible to the correct authorised users
   As a user
   I want to know that only those authorised to view certain documents are able to do so
@@ -9,6 +8,7 @@ Feature: Documents are only accessible to the correct authorised users
     When a document exists that belongs to the advocate
     Then an anonymous user cannot access the document
 
+  @focus
   Scenario: The advocate who uploaded the document can access it
     Given an "advocate" user account exists
     And that advocate signs in

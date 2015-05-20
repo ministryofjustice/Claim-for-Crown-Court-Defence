@@ -5,11 +5,11 @@ class Claims::FinancialSummary
   end
 
   def outstanding_claims
-    @context.claims.outstanding
+    @context.claims.unscope(:includes).outstanding
   end
 
   def authorised_claims
-    @context.claims.authorised
+    @context.claims.unscope(:includes).authorised
   end
 
   def total_outstanding_claim_value

@@ -27,14 +27,21 @@ Given(/^(\d+) "(.*?)" user accounts exist who work for (the same|different) cham
   end
 end
 
-When(/^I vist the user sign in page$/) do
+When(/^I visit the user sign in page$/) do
   visit new_user_session_path
 end
 
+Given(/^that advocate signs in$/) do
+  @user = @advocates.first.user
+  step "I visit the user sign in page"
+  step "I enter my email, password and click log in"
+end
+
 When(/^I enter my email, password and click log in$/) do
-  fill_in 'Email', with: User.first.email
+  fill_in 'Email', with: (@user || User.first).email
   fill_in 'Password', with: @password
   click_on 'Log in'
+  expect(page).to have_content('Sign out')
 end
 
 Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|

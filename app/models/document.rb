@@ -23,6 +23,7 @@ class Document < ActiveRecord::Base
   belongs_to :advocate
   belongs_to :claim
   belongs_to :document_type
+  delegate   :chamber_id, to: :advocate
 
   validates :document_type, presence: true
 end

@@ -8,25 +8,28 @@ Feature: Documents are only accessible to the correct authorised users
     When a document exists that belongs to the advocate
     Then an anonymous user cannot access the document
 
-  @focus
   Scenario: The advocate who uploaded the document can access it
     Given an "advocate" user account exists
     And that advocate signs in
     When a document exists that belongs to the advocate
-    Then the advocate can download the document
+    Then the advocate can access the document
 
   Scenario: Advocates from the same chamber can access each others documents
     Given 2 "advocate" user accounts exist who work for the same chamber
-    When the first advocate uploads a document
-    Then the second advocate can download that document
+    When a document exists that belongs to the 1st advocate
+    And the 2nd advocate signs in
+    Then that advocate can access the document
 
   Scenario: Advocates from different chambers cannot access each others documents
     Given 2 "advocate" user accounts exist who work for different chambers
-    When the first advocate uploads a document
-    Then the second advocate cannot download that document
+    When a document exists that belongs to the 1st advocate
+    And the 2nd advocate signs in
+    Then that advocate cannot access the document
 
   Scenario: Case worker can access all documents
     Given 2 "advocate" user accounts exist who work for different chambers
-    And a caseworker exists
-    When the both advocates upload documents
-    Then the caseworker can access both documents
+    And a "case worker" user account exists
+    When a document exists that belongs to the 1st advocate
+    When a document exists that belongs to the 2nd advocate
+    And that case worker signs in
+    Then the case worker can access all documents

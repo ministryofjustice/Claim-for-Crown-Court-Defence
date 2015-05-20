@@ -1,9 +1,9 @@
+@focus
 Feature: Documents are only accessible to the correct authorised users
   As a user
   I want to know that only those authorised to view certain documents are able to do so
   so that security concerns are minimised and bill documentation does not become confused.
 
-  @focus
   Scenario: The general public cannot access any documents
     Given an "advocate" user account exists
     When a document exists that belongs to the advocate
@@ -11,7 +11,8 @@ Feature: Documents are only accessible to the correct authorised users
 
   Scenario: The advocate who uploaded the document can access it
     Given an "advocate" user account exists
-    When the advocate uploads a document
+    And that advocate signs in
+    When a document exists that belongs to the advocate
     Then the advocate can download the document
 
   Scenario: Advocates from the same chamber can access each others documents

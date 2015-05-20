@@ -22,8 +22,13 @@ end
 Then(/^an anonymous user cannot access the document$/) do
   click 'Sign out' rescue nil
   visit document_url(@document)
-  expect(current_url).to eq(root_url)
-  expect(page).to have_content(/denied/i)
+  expect(page.status_code).to eq(500)
+  expect(page).to have_content(/not authorized/i)
+end
+
+Then(/^the advocate can download the document$/) do
+  visit document_url(@document)
+  expect(page.status_code).to eq(200)
 end
 
 Then(/^The example document should exist on the system$/) do

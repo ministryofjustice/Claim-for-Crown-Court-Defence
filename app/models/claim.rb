@@ -44,8 +44,8 @@ class Claim < ActiveRecord::Base
   validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :indictment_number,       presence: true
-  validates :estimated_trial_length,  numericality: true
-  validates :actual_trial_length,     numericality: true
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
 
   accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true

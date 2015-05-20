@@ -1,5 +1,4 @@
 class DocumentsController < ApplicationController
-  load_and_authorize_resource
   respond_to :html
   before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 
@@ -14,11 +13,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file @document.document.path, type: @document.document_content_type, disposition: 'inline'
+    send_file Paperclip.io_adapters.for(@document.document).path, type: @document.document_content_type, disposition: 'inline'
   end
 
   def download
-    send_file @document.document.path, type: @document.document_content_type, x_sendfile: true
+    send_file Paperclip.io_adapters.for(@document.document).path, type: @document.document_content_type, x_sendfile: true
   end
 
   def update

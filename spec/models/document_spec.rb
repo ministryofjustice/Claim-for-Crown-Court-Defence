@@ -4,6 +4,7 @@ RSpec.describe Document, type: :model do
   it { should belong_to(:document_type) }
 
   it { should belong_to(:advocate) }
+  it { should delegate_method(:chamber_id).to(:advocate) }
   it { should belong_to(:claim) }
   it { should validate_presence_of(:document_type) }
 

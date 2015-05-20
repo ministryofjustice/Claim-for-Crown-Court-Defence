@@ -6,14 +6,14 @@ def make_accounts(role, number = 1)
     when 'advocate admin'
       create(:advocate, :admin)
     when 'case worker'
-      create_list(:case_worker, number)
+      @case_workers = create_list(:case_worker, number)
     when 'case worker admin'
       create(:case_worker, :admin)
   end
 end
 
 
-Given(/an "(.*?)" user account exists$/) do |role|
+Given(/an? "(.*?)" user account exists$/) do |role|
   make_accounts(role)
 end
 
@@ -31,8 +31,16 @@ When(/^I visit the user sign in page$/) do
   visit new_user_session_path
 end
 
-Given(/^that advocate signs in$/) do
-  @user = @advocates.first.user
+Given(/^(?:the|that)(?: (\d+)\w+)? advocate signs in$/) do |cardinality|
+  card = cardinality.nil? ? 1 : cardinality
+  @user = @advocates[card.to_i-1].user
+  step "I visit the user sign in page"
+  step "I enter my email, password and click log in"
+end
+
+Given(/^(?:the|that)(?: (\d+)\w+)? case worker signs in$/) do |cardinality|
+  card = cardinality.nil? ? 1 : cardinality
+  @user = @case_workers[card.to_i-1].user
   step "I visit the user sign in page"
   step "I enter my email, password and click log in"
 end

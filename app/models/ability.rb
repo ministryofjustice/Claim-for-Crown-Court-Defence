@@ -8,13 +8,14 @@ class Ability
       if persona.admin?
         can :manage, :all
       else
-        can :manage, [Claim, Document]
+        can :manage, Claim
+        can :manage, Document, chamber_id: persona.chamber_id
       end
     elsif persona.is_a? CaseWorker
       if persona.admin?
         can :manage, :all
       else
-        can :manage, Claim
+        can :manage, [Claim, Document]
       end
     end
   end

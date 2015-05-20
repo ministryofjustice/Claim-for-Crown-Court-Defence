@@ -15,8 +15,9 @@ When(/^I upload an example document$/) do
   upload_a_document
 end
 
-When(/^a document exists that belongs to the advocate$/) do
-  @document = create(:document, advocate: @advocates.first)
+When(/^a document exists that belongs to the(?: (\d+)\w+)? advocate$/) do |cardinality|
+  card = cardinality.nil? ? 0 : cardinality.to_i - 1
+  @document = create(:document, advocate: @advocates[card])
 end
 
 Then(/^an anonymous user cannot access the document$/) do
@@ -26,9 +27,21 @@ Then(/^an anonymous user cannot access the document$/) do
   expect(page).to have_content(/not authorized/i)
 end
 
-Then(/^the advocate can download the document$/) do
+Then(/^(?:the|that) advocate can(not)? access the document$/) do |cannot_access|
+  expected_status = cannot_access.present? ? 500 : 200
   visit download_document_url(@document)
-  expect(page.status_code).to eq(200)
+  expect(page.status_code).to eq(expected_status)
+  visit document_url(@document)
+  expect(page.status_code).to eq(expected_status)
+end
+
+Then(/^(?:the|that) case worker can access all documents$/) do
+  Document.all.each do |document|
+    visit download_document_url(document)
+    expect(page.status_code).to eq(200)
+    visit document_url(document)
+    expect(page.status_code).to eq(200)
+  end
 end
 
 Then(/^The example document should exist on the system$/) do

@@ -51,7 +51,7 @@ class Document < ActiveRecord::Base
   end
 
   def path_to_pdf_duplicate
-    document.path.split('.')[0] + '.pdf'
+    Paperclip.io_adapters.for(self.document).path.split('.')[0] + '.pdf'
   end
 
   def has_pdf_duplicate?

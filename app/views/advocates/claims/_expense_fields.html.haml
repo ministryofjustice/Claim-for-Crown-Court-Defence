@@ -1,6 +1,6 @@
 .nested-fields
   %span.auto-width
-    = f.label :expense_type
+    = f.label :expense_type_id
     = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, prompt: true
   %span.auto-width
     = f.label :location

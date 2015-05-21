@@ -4,6 +4,7 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
+  validates :fee_type, presence: true
   validates :amount, :quantity, :rate, presence: true, numericality: true
 
   after_save do

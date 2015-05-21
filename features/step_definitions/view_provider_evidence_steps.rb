@@ -13,6 +13,7 @@ Then(/^I see links to view\/download each document submitted with the claim$/) d
 end
 
 When(/^click on a link to (download|view) some evidence$/) do |link|
+  find('h2', text: 'Evidence list').click
   first('.item-controls').click_link(link.titlecase)
 end
 

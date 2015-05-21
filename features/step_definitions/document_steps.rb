@@ -2,10 +2,10 @@ Given(/^document types exist$/) do
   create(:document_type, description: 'Other')
 end
 
-When(/^I upload an example document$/) do
+When(/^I upload an example document "longer_lorem.pdf"$/) do
   @notes = SecureRandom.uuid
   select 'Other', from: 'document_document_type_id'
-  attach_file(:document_document, 'features/examples/shorter_lorem.docx')
+  attach_file(:document_document, 'features/examples/longer_lorem.pdf')
   fill_in('Notes', with: @notes)
   click_on('Upload')
 end

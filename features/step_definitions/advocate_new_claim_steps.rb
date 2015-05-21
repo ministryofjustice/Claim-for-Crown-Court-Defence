@@ -47,7 +47,7 @@ When(/^I fill in the claim details$/) do
 
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'
   fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
-  attach_file(:claim_documents_attributes_0_document, 'features/examples/shorter_lorem.docx')
+  attach_file(:claim_documents_attributes_0_document, 'features/examples/longer_lorem.pdf')
 end
 
 When(/^I select offence class "(.*?)"$/) do |offence_class|

@@ -49,7 +49,7 @@ Then(/^(?:the|that) case worker can access all documents$/) do
 end
 
 Then(/^The example document should exist on the system$/) do
-  expect(@doc_duplicate).to be_present
+  expect(Document.find_by(notes: @notes)).to be_present
 end
 
 Then(/^I should be told I need to select a claim first$/) do

@@ -7,5 +7,5 @@
           - document = @claim.doc_of_type(doc_type)
           .item-controls
             - if document.has_pdf_duplicate?
-            = link_to 'View', document_path(document), target: '_blank', class: 'view'
-            = link_to 'Download', download_document_path(document), class: 'download'
+              = link_to 'View', document_path(document), target: '_blank', class: 'view'
+              = link_to 'Download', download_document_path(document), class: 'download'

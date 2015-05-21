@@ -30,6 +30,16 @@
       = hidden_field_tag :direction, params[:direction]
       = text_field_tag :search, params[:search], placeholder: 'MAAT reference no.'
       = submit_tag 'Search', class: 'button'
+%ul.case-data-headings
+  %li
+    %h3
+      Case
+  %li
+    %h3
+      Court 
+  %li
+    %h3
+      Case value
 - if @claims.none?
   %p
     - if params[:search].present?

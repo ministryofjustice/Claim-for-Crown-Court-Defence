@@ -15,6 +15,15 @@
   }
 
 }
+
+.case-data-headings{
+  margin:0;
+  padding:0;
+   li {
+     @include span-columns(4);
+     list-style-type: none; 
+  }
+}
 .case-data li {
   h3{
       display: block;

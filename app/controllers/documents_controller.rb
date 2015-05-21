@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 
   def new
-    @document = Document.new
+    @document = Document.new(advocate_id: current_user.persona.id)
   end
 
   def create

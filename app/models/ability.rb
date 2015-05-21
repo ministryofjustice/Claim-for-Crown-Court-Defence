@@ -9,7 +9,8 @@ class Ability
         can :manage, :all
       else
         can :manage, Claim
-        can :manage, Document, chamber_id: persona.chamber_id
+        can :create, Document
+        can [:update, :read, :destroy, :download], Document, chamber_id: persona.chamber_id
       end
     elsif persona.is_a? CaseWorker
       if persona.admin?

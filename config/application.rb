@@ -40,6 +40,6 @@ module CrimeBillingOnline
     # Google Analytics ID (Tracking ID for the service)
     config.ga_id = 'not_set'
 
-
+    config.assets.enabled = true
   end
 end

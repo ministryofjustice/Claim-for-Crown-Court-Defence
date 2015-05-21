@@ -2,7 +2,8 @@ namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
   task :delete_docs do
-    FileUtils.rm_rf('./features/examples/000')
+    FileUtils.rm_rf('./public/assets/dev/images/')
+    FileUtils.rm_rf('./public/assets/test/images/')
   end
 
   desc "seed data - a dependency of the demo_data task"

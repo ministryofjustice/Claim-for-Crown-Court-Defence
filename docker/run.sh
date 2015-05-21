@@ -1,7 +1,5 @@
 #!/bin/bash
 set -e
-echo "inside run.sh"
-cd /rails
 
 case ${DOCKER_STATE} in
 migrate)

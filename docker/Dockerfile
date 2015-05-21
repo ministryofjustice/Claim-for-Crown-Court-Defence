@@ -1,8 +1,5 @@
 FROM ministryofjustice/ruby:2-webapp-onbuild
 
-ENV APP_HOME /rails
-
-ADD ./ /rails
 ADD ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
 WORKDIR $APPHOME

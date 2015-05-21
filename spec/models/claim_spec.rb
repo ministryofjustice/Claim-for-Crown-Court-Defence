@@ -93,9 +93,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
       subject.reload
     end
 
@@ -111,7 +111,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -163,9 +163,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
 
       create(:expense, claim_id: subject.id, amount: 3.5)
       create(:expense, claim_id: subject.id, amount: 1.0)
@@ -182,7 +182,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
         subject.reload
         expect(subject.total).to eq(158.5)
       end

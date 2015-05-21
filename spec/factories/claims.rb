@@ -61,7 +61,6 @@ FactoryGirl.define do
     end
 
     factory :refused_claim do
-      # TODO: check this 13/5/15. js??
       after(:create) { |c| c.submit!; c.allocate!; c.refuse! }
     end
 

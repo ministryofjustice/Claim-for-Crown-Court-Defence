@@ -4,7 +4,8 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
-  validates :amount, :quantity, :rate, presence: true, numericality: true
+  validates :fee_type, presence: true
+  validates :amount, :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   after_save do
     claim.update_fees_total

@@ -1,7 +1,7 @@
-def upload_a_document
+def upload_a_document(document_filename = 'shorter_lorem.docx')
   @notes = SecureRandom.uuid
   select 'Other', from: 'document_document_type_id'
-  attach_file(:document_document, 'features/examples/shorter_lorem.docx')
+  attach_file(:document_document, "features/examples/#{document_filename}")
   fill_in('Notes', with: @notes)
   click_on('Upload')
 end
@@ -13,6 +13,10 @@ end
 
 When(/^I upload an example document$/) do
   upload_a_document
+end
+
+When(/^I upload an example document "(.*?)"$/) do |document_filename|
+  upload_a_document(document_filename)
 end
 
 When(/^a document exists that belongs to the(?: (\d+)\w+)? advocate$/) do |cardinality|

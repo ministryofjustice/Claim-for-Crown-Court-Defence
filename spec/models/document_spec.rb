@@ -24,6 +24,7 @@ RSpec.describe Document, type: :model do
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
+      before { allow(subject).to receive(:duplicate_attachment_as_pdf).and_return(nil)}
 
       it 'saves the original' do
         stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
@@ -53,6 +54,59 @@ RSpec.describe Document, type: :model do
 
         expect{ subject.save! }.not_to raise_error
       end
+    end
+  end
+
+  context 'attachment conversion' do
+
+    subject { build(:document, :docx, document_content_type: 'application/msword') }
+
+    it 'is triggered by document#save when the attachment is not a pdf' do
+      expect(subject).to receive(:duplicate_attachment_as_pdf).and_return(nil)
+      subject.save!
+    end
+
+    it 'does not prevent document save if Libreconv is not found' do
+      expect(Libreconv).to receive(:convert).and_raise(IOError) # stub method call and raise IOError
+      expect{ subject.save! }.to change{ Document.count }.by(1) # error caught by begin|rescue|end in document model
+    end
+
+  end
+
+  context '#new_filename' do
+
+    subject { build(:document, :docx, document_content_type: 'application/msword') }
+
+    it 'specifies file name of converted attachment, with .pdf extension' do
+      expect(subject.new_filename).to eq 'shorter_lorem.pdf'
+    end
+  end
+
+  context '#path_to_pdf_duplicate' do
+
+    subject { create(:document) }
+
+    it 'returns the path to .pdf copy of attachment' do
+      expect(subject.path_to_pdf_duplicate).to match /public\/assets\/test\/images\/\d*\/\d*\/\d*\/longer_lorem.pdf/
+    end
+  end
+
+  context 'attachment is present as a pdf / pdf duplicate' do
+
+    subject { create(:document) }
+
+    it '#has_pdf_duplicate? returns true' do
+      expect(subject.has_pdf_duplicate?).to eq true
+    end
+  end
+
+  context 'attachment is not present as a pdf / pdf duplicate' do
+
+    before { allow(Libreconv).to receive(:convert).and_raise(IOError) } #stub call to convert so the pdf is not generated
+    subject { create(:document, :docx, document_content_type: 'application/msword') } # create a doc with docx attachment
+
+    it '#has_pdf_duplicate? returns false' do
+      expect(subject.has_pdf_duplicate?).to eq false # pdf is not available
     end
   end
 

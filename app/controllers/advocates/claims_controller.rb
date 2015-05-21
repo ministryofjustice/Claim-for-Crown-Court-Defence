@@ -101,5 +101,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       summary_advocates_claim_path(@claim)
     end
   end
-
 end

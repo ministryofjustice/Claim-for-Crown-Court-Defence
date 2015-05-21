@@ -6,10 +6,6 @@
     Claims
   = link_to 'Add Claim', new_advocates_claim_path, class: 'button'
 
-- if current_user.persona.admin?
-  %p
-    = link_to 'Manage Advocates', advocates_admin_advocates_path
-
 #summary
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
 

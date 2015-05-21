@@ -22,8 +22,9 @@ Rails.application.routes.draw do
     resources :claims do
       get 'summary', on: :member
       get 'confirmation', on: :member
+      get 'outstanding', on: :collection
+      get 'authorised', on: :collection
     end
-
 
     namespace :admin do
       root to: 'claims#index'

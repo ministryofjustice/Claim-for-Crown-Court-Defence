@@ -1,8 +1,18 @@
 class Document < ActiveRecord::Base
 
-  before_save :duplicate_attachment_as_pdf
-  after_save :add_converted_preview_document
-  has_attached_file :converted_preview_document
+  attr_accessor :pdf_tmpfile
+
+  before_save :generate_pdf_tmpfile
+  before_save :add_converted_preview_document
+  
+  has_attached_file :converted_preview_document,
+    { s3_headers: {
+      'x-amz-meta-Cache-Control' => 'no-cache',
+      'Expires' => 3.months.from_now.httpdate
+    },
+    s3_permissions: :private,
+    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+
   has_attached_file :document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -31,42 +41,23 @@ class Document < ActiveRecord::Base
   validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   validates :document_type, presence: true
 
-  def duplicate_attachment_as_pdf
-    unless File.extname(document_file_name).downcase == '.pdf'
-      begin
-        Libreconv.convert(original_path, "#{target_path}/#{new_filename}") # Libreoffice exe must be in PATH
-      rescue IOError => e # raised if Libreoffice exe is not in PATH
-        # log the error somehow?
-      end
+  def generate_pdf_tmpfile
+    if File.extname(document_file_name).downcase == '.pdf'
+      self.pdf_tmpfile = document # if original document is PDF, make tmpfile from original doc
+    else
+      convert_and_assign_document     
+    end
+  end
+
+  def convert_and_assign_document # Libreconvert performs both action sin one call
+    begin
+      self.pdf_tmpfile = File.new("#{Dir.mktmpdir}/#{self.document_file_name}.pdf", 'wb+')
+      Libreconv.convert(Paperclip.io_adapters.for(self.document).path, self.pdf_tmpfile) # Libreoffice exe must be in PATH
+    rescue IOError => e # raised if Libreoffice exe is not in PATH
     end
   end
 
   def add_converted_preview_document
-    if self.has_pdf_duplicate?
-      self.converted_preview_document = File.open(path_to_pdf_duplicate)
-    end
+    self.converted_preview_document = self.pdf_tmpfile
   end
-
-  def original_path
-    Paperclip.io_adapters.for(self.document).path
-  end
-
-  def target_path
-    path = document.path.slice(/(^.*\/)/)
-    system 'mkdir', '-p', path
-    return path 
-  end
-
-  def new_filename
-    document_file_name.split('.')[0] + '.pdf'
-  end
-
-  def path_to_pdf_duplicate
-    Paperclip.io_adapters.for(self.document).path.split('.')[0] + '.pdf'
-  end
-
-  def has_pdf_duplicate?
-    File.exist?(path_to_pdf_duplicate)
-  end
-
 end

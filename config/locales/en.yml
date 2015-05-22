@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
   number:
     currency:
        format:

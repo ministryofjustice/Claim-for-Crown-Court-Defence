@@ -13,6 +13,8 @@ class Claim < ActiveRecord::Base
   belongs_to :advocate
   belongs_to :scheme
 
+  delegate   :chamber_id, to: :advocate
+
   has_many :case_worker_claims,       dependent: :destroy
   has_many :case_workers,             through: :case_worker_claims
   has_many :fees,                     dependent: :destroy,          inverse_of: :claim

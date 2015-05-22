@@ -15,9 +15,20 @@
   }
 
 }
+
+.case-data-headings{
+  margin:0;
+  padding:0;
+   li {
+     @include span-columns(4);
+     list-style-type: none; 
+  }
+}
 .case-data li {
   h3{
-    font-weight: bold;
+      display: block;
+      overflow: hidden;
+      text-indent: -999em;
   }
   @include span-columns(4);
   &:last-child{

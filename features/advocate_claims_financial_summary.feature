@@ -5,7 +5,7 @@ Feature: Advocate Claims Financial Summary
   Scenario: View summary of outstanding claims as an advocate
     Given I am a signed in advocate
       And I have claims
-     When I visit the advocates dashboard
+      When I visit the advocates dashboard
      Then I should see my total value of outstanding claims
 
   Scenario: View summary of outstanding claims as an advocate admin

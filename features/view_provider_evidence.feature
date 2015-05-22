@@ -21,7 +21,7 @@ Feature: Using provider evidence to process a claim
       And click on a link to view some evidence
     Then I see "longer_lorem.pdf" in my browser
 
-  @focus @javascript @webmock_allow_net_connect @failing-environment-specific
+  @javascript @webmock_allow_net_connect @failing-environment-specific
   Scenario: Evidence is displayed in a new tab
     Given I am signed in and on the case worker dashboard
       And I have been assigned claims with evidence attached

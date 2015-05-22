@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Advocates::ClaimsController, type: :controller do
-  let(:advocate) { create(:advocate) }
+RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
+  let!(:advocate) { create(:advocate) }
 
   before { sign_in advocate.user }
 
@@ -26,10 +26,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
     context 'advocate' do
       before do
-        create(:claim, advocate: advocate)
-        create(:submitted_claim, advocate: advocate)
-        create(:completed_claim, advocate: advocate)
-        create(:rejected_claim, advocate: advocate)
+        create(:claim,            advocate: advocate)
+        create(:submitted_claim,  advocate: advocate)
+        create(:completed_claim,  advocate: advocate)
+        create(:rejected_claim,   advocate: advocate)
       end
 
       it 'assigns @submitted_claims' do
@@ -103,7 +103,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :show, id: subject }
 
@@ -137,7 +137,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :edit, id: subject }
 
@@ -205,7 +205,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     context 'when valid' do
       context 'and draft' do
@@ -258,7 +258,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { delete :destroy, id: subject }
 

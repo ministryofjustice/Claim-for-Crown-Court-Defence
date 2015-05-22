@@ -87,7 +87,7 @@ RSpec.describe Document, type: :model do
     subject { create(:document) }
 
     it 'returns the path to .pdf copy of attachment' do
-      expect(subject.path_to_pdf_duplicate).to match /public\/assets\/test\/images\/\d*\/\d*\/\d*\/longer_lorem.pdf/
+      expect(File.exist?(subject.path_to_pdf_duplicate)).to eq true
     end
   end
 

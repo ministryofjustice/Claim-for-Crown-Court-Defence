@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Document, type: :model do
   it { should belong_to(:document_type) }
 
+  it { should belong_to(:advocate) }
+  it { should delegate_method(:chamber_id).to(:advocate) }
   it { should belong_to(:claim) }
   it { should validate_presence_of(:document_type) }
 
@@ -76,7 +78,8 @@ RSpec.describe Document, type: :model do
     end
 
     it 'creates a new paperclip attachment called converted_preview_document' do
-      allow(Libreconv).to receive(:convert).and_return(File.open('./features/examples/shorter_lorem.pdf'))
+      allow(Libreconv).to receive(:convert).and_return(nil)
+      allow(subject).to receive(:path_to_pdf_duplicate).and_return('./features/examples/shorter_lorem.pdf')
       subject.save!
       expect(subject.converted_preview_document_content_type).to eq 'application/pdf'
     end
@@ -97,7 +100,7 @@ RSpec.describe Document, type: :model do
     subject { create(:document) }
 
     it 'returns the path to .pdf copy of attachment' do
-      expect(subject.path_to_pdf_duplicate).to match /public\/assets\/test\/images\/\d*\/\d*\/\d*\/longer_lorem.pdf/
+      expect(File.exist?(subject.path_to_pdf_duplicate)).to eq true
     end
   end
 

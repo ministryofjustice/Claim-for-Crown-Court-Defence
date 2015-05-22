@@ -9,6 +9,9 @@ RSpec.describe Document, type: :model do
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }
 
+  it { should have_attached_file(:converted_preview_document) }
+  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
+
   it do
     should validate_attachment_content_type(:document).
       allowing('application/pdf',
@@ -59,6 +62,7 @@ RSpec.describe Document, type: :model do
 
   context 'attachment conversion' do
 
+    let(:pdf) { double 'converted_preview_document', content_type: 'application/pdf' }
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
     it 'is triggered by document#save when the attachment is not a pdf' do
@@ -69,6 +73,12 @@ RSpec.describe Document, type: :model do
     it 'does not prevent document save if Libreconv is not found' do
       expect(Libreconv).to receive(:convert).and_raise(IOError) # stub method call and raise IOError
       expect{ subject.save! }.to change{ Document.count }.by(1) # error caught by begin|rescue|end in document model
+    end
+
+    it 'creates a new paperclip attachment called converted_preview_document' do
+      allow(Libreconv).to receive(:convert).and_return(File.open('./features/examples/shorter_lorem.pdf'))
+      subject.save!
+      expect(subject.converted_preview_document_content_type).to eq 'application/pdf'
     end
 
   end

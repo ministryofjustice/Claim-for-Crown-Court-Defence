@@ -1,6 +1,8 @@
 class Document < ActiveRecord::Base
 
-  after_save :duplicate_attachment_as_pdf
+  before_save :duplicate_attachment_as_pdf
+  after_save :add_converted_preview_document
+  has_attached_file :converted_preview_document
   has_attached_file :document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -24,6 +26,7 @@ class Document < ActiveRecord::Base
   belongs_to :claim
   belongs_to :document_type
 
+  validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   validates :document_type, presence: true
 
   def duplicate_attachment_as_pdf
@@ -34,6 +37,10 @@ class Document < ActiveRecord::Base
         # log the error somehow?
       end
     end
+  end
+
+  def add_converted_preview_document
+    converted_preview_document = File.open("#{target_path}/#{new_filename}")
   end
 
   def original_path

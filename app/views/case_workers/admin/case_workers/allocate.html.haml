@@ -11,7 +11,11 @@
         %li= msg
 
   = f.label :claim_ids, 'Claims'
-  %br
-  = f.collection_select :claim_ids, @claims, :id, :description, { prompt: true }, { multiple: true, style: 'width: 100%;' }
-  %br
+  %fieldset
+    %ul.allocation-list
+      = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
+        %li
+          = b.label do
+            = b.check_box
+            = b.object.description
   = f.submit

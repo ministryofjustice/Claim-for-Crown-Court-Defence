@@ -15,9 +15,20 @@
   }
 
 }
+
+.case-data-headings{
+  margin:0;
+  padding:0;
+   li {
+     @include span-columns(4);
+     list-style-type: none; 
+  }
+}
 .case-data li {
   h3{
-    font-weight: bold;
+      display: block;
+      overflow: hidden;
+      text-indent: -999em;
   }
   @include span-columns(4);
   &:last-child{
@@ -54,6 +65,23 @@ a.detail-link {
     margin: 0 0 1em 2px;
     &.expanded{
       background-position: 0 0;
+    }
+  }
+}
+.allocation-list{
+  border:1px solid $grey-2;
+  max-height: 500px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  li{
+    display: block;
+    list-style: none;
+    line-height: 2;
+    border-bottom:1px solid $grey-3;
+    padding: 0 15px;
+    label{
+      margin-top: 0;
     }
   }
 }

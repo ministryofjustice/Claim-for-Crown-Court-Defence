@@ -23,8 +23,10 @@ class Document < ActiveRecord::Base
                      'application/rtf',
                      'image/png']}
 
+  belongs_to :advocate
   belongs_to :claim
   belongs_to :document_type
+  delegate   :chamber_id, to: :advocate
 
   validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   validates :document_type, presence: true
@@ -40,7 +42,9 @@ class Document < ActiveRecord::Base
   end
 
   def add_converted_preview_document
-    converted_preview_document = File.open("#{target_path}/#{new_filename}")
+    if self.has_pdf_duplicate?
+      self.converted_preview_document = File.open(path_to_pdf_duplicate)
+    end
   end
 
   def original_path
@@ -58,7 +62,7 @@ class Document < ActiveRecord::Base
   end
 
   def path_to_pdf_duplicate
-    document.path.split('.')[0] + '.pdf'
+    Paperclip.io_adapters.for(self.document).path.split('.')[0] + '.pdf'
   end
 
   def has_pdf_duplicate?

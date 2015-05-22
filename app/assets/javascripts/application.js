@@ -16,6 +16,7 @@
 //= require cocoon
 //= require_tree .
 
+moj.Modules.devs.init = function(){} 
 
 $('#claims-list dd, dt').not('.quickview').each(function() {
   $(this).hide();

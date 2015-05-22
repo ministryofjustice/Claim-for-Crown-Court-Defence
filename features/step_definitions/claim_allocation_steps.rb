@@ -17,8 +17,8 @@ When(/^I visit the case worker allocation page$/) do
 end
 
 When(/^I allocate claims$/) do
-  select @claims.first.case_number, from: 'case_worker_claim_ids'
-  select @claims.second.case_number, from: 'case_worker_claim_ids'
+  check(@claims.first.description)
+  check(@claims.second.description)
   click_on 'Update Case worker'
 end
 

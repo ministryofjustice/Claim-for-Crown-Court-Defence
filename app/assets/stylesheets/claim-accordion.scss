@@ -16,12 +16,18 @@
     }
   }
   h3{
-    line-height: 2;
+    overflow: hidden;
+    text-indent: -999em;
   }
   ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
     li {
+      h3{
+        display: block;
+        overflow: hidden;
+        text-indent: -999em;
+      }
       @include span-columns(6);
     }
   }

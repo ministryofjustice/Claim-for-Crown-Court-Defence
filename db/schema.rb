@@ -134,11 +134,11 @@ ActiveRecord::Schema.define(version: 20150522134938) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
+    t.integer  "advocate_id"
     t.string   "converted_preview_document_file_name"
     t.string   "converted_preview_document_content_type"
     t.integer  "converted_preview_document_file_size"
     t.datetime "converted_preview_document_updated_at"
-    t.integer  "advocate_id"
   end
 
   add_index "documents", ["advocate_id"], name: "index_documents_on_advocate_id", using: :btree
@@ -228,16 +228,6 @@ ActiveRecord::Schema.define(version: 20150522134938) do
   end
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
-
-  create_table "payments", force: true do |t|
-    t.integer  "claim_id"
-    t.decimal  "amount"
-    t.datetime "paid_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "payments", ["claim_id"], name: "index_payments_on_claim_id", using: :btree
 
   create_table "schemes", force: true do |t|
     t.string   "name"

@@ -58,6 +58,19 @@ a.detail-link {
   }
 }
 .allocation-list{
+  border:1px solid $grey-2;
   max-height: 500px;
   overflow: auto;
+  margin: 0;
+  padding: 0;
+  li{
+    display: block;
+    list-style: none;
+    line-height: 2;
+    border-bottom:1px solid $grey-3;
+    padding: 0 15px;
+    label{
+      margin-top: 0;
+    }
+  }
 }

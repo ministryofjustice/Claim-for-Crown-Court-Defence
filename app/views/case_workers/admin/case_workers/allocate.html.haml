@@ -9,8 +9,6 @@
     %ul
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
-
-  = f.label :claim_ids, 'Claims'
   %fieldset
     %ul.allocation-list
       = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
@@ -18,4 +16,4 @@
           = b.label do
             = b.check_box
             = b.object.description
-  = f.submit
+  = f.submit class: "button"

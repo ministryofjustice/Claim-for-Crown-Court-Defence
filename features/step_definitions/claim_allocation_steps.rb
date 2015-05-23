@@ -20,6 +20,9 @@ When(/^I allocate claims$/) do
   check(@claims.first.description)
   check(@claims.second.description)
   click_on 'Update Case worker'
+
+  @allocated_claim_1 = @claims.first
+  @allocated_claim_2 = @claims.second
 end
 
 Then(/^the case worker should have claims allocated to them$/) do
@@ -35,4 +38,20 @@ Then(/^the claims should be visible on the case worker's dashboard$/) do
   claim_dom_ids.each do |dom_id|
     expect(page).to have_selector(dom_id)
   end
+end
+
+When(/^I remove the caseworker$/) do
+  visit case_workers_admin_case_workers_path
+  within "#case_worker_#{@case_worker.id}" do
+    click_on 'Delete'
+  end
+end
+
+Then(/^the claims should not be assigned to any case workers$/) do
+  expect(@claims.map(&:case_workers).flatten).to be_empty
+end
+
+Then(/^the claims should be in an allocated state$/) do
+  expect(@allocated_claim_1.reload).to be_allocated
+  expect(@allocated_claim_2.reload).to be_allocated
 end

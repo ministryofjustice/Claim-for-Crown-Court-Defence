@@ -28,14 +28,18 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
-  def show; end
+  def show
+    @doc_types = DocumentType.all
+  end
 
   def new
     @claim = Claim.new
     build_nested_resources
   end
 
-  def edit; end
+  def edit
+    redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
+  end
 
   def summary
     session[:summary] = true

@@ -5,12 +5,13 @@
     Advocates
   = link_to 'Add Advocate', new_advocates_admin_advocate_path, class: 'button'
 
-%ul
+%ul#assignee-list
   - @advocates.each do |advocate|
     %li
       = link_to "#{advocate.email} (#{advocate.role.humanize})", advocates_admin_advocate_path(advocate)
-      |
-      = link_to 'Edit', edit_advocates_admin_advocate_path(advocate)
-      |
-      = link_to 'Delete', advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+      %ul.actions
+        %li
+          = link_to 'Edit', edit_advocates_admin_advocate_path(advocate)
+        %li
+          = link_to 'Delete', advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
 

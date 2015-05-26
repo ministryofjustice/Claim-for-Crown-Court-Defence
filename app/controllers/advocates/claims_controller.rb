@@ -62,8 +62,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def destroy
-    @claim.destroy
-    respond_with @claim, { location: advocates_root_url, notice: 'Claim deleted' }
+    if @claim.draft?
+      @claim.destroy
+      respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
+    else
+      redirect_to advocates_claims_url, alert: 'Cannot destroy non-draft claim'
+    end
   end
 
   private
@@ -71,7 +75,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def set_context
     if current_user.persona.admin? && current_user.persona.chamber
       @context = current_user.persona.chamber
-    else 
+    else
       @context = current_user
     end
   end

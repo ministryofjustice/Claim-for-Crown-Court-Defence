@@ -268,16 +268,30 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:claim) }
-
     before { delete :destroy, id: subject }
 
-    it 'destroys the claim' do
-      expect(Claim.count).to eq(0)
+    context 'draft claim' do
+      subject { create(:claim) }
+
+      it 'destroys the claim' do
+        expect(Claim.count).to eq(0)
+      end
+
+      it 'redirects to advocates root url' do
+        expect(response).to redirect_to(advocates_claims_url)
+      end
     end
 
-    it 'redirects to advocates root url' do
-      expect(response).to redirect_to(advocates_root_url)
+    context 'non-draft claim' do
+      subject { create(:submitted_claim) }
+
+      it 'does not destroy the claim' do
+        expect(Claim.first).to eq(subject)
+      end
+
+      it 'redirects to advocates root url' do
+        expect(response).to redirect_to(advocates_claims_url)
+      end
     end
   end
 end

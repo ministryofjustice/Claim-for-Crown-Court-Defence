@@ -18,6 +18,7 @@
   = render partial: 'representation_order'
   %h2
     Evidence list
+  = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence"
   = render partial: 'evidence_list'
   %h2
     Messages

@@ -137,20 +137,30 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:claim) }
-
     before { get :edit, id: subject }
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+    context 'editable claim' do
+      subject { create(:claim) }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to eq(subject)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:edit)
+      end
     end
 
-    it 'assigns @claim' do
-      expect(assigns(:claim)).to eq(subject)
-    end
+    context 'uneditable claim' do
+      subject { create(:allocated_claim) }
 
-    it 'renders the template' do
-      expect(response).to render_template(:edit)
+      it 'redirects to advocates claims index' do
+        expect(response).to redirect_to(advocates_claims_url)
+      end
     end
   end
 

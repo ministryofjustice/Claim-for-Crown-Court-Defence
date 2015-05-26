@@ -29,6 +29,7 @@
 /*.REMOTE.*
 *.orig
 
+public/system/documents
 public/paperclip
 public/uploads
 public/assets/test

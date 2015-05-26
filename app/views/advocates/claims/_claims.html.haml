@@ -34,6 +34,9 @@
         %td.currency
           = number_to_currency(claim.total)
         %td
-          = link_to 'Edit', edit_advocates_claim_path(claim)
+          = link_to 'View', advocates_claim_path(claim)
+          - if claim.editable?
+            |
+            = link_to 'Edit', edit_advocates_claim_path(claim)
           - if claim.draft?
             = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }

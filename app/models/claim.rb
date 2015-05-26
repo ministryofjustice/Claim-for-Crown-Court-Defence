@@ -98,4 +98,8 @@ class Claim < ActiveRecord::Base
   def description
     "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
   end
+
+  def editable?
+    draft? || submitted?
+  end
 end

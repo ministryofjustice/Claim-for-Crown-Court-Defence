@@ -207,4 +207,22 @@ RSpec.describe Claim, type: :model do
       expect(subject.description).to eq(expected_output)
     end
   end
+
+  describe '#editable?' do
+    let(:draft) { create(:claim) }
+    let(:submitted) { create(:submitted_claim) }
+    let(:allocated) { create(:allocated_claim) }
+
+    it 'should be editable when draft' do
+      expect(draft.editable?).to eq(true)
+    end
+
+    it 'should be editable when submitted' do
+      expect(submitted.editable?).to eq(true)
+    end
+
+    it 'should not be editable when allocated' do
+      expect(allocated.editable?).to eq(false)
+    end
+  end
 end

@@ -43,4 +43,5 @@ function initialise(){
 
 $( document ).ready(function() {
 	initialise();
+  //moj.Modules.fileUpload.init();
 });

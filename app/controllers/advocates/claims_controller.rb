@@ -28,7 +28,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
-  def show; end
+  def show
+    @doc_types = DocumentType.all
+  end
 
   def new
     @claim = Claim.new
@@ -71,7 +73,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def set_context
     if current_user.persona.admin? && current_user.persona.chamber
       @context = current_user.persona.chamber
-    else 
+    else
       @context = current_user
     end
   end

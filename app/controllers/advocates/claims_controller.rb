@@ -37,7 +37,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     build_nested_resources
   end
 
-  def edit; end
+  def edit
+    redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
+  end
 
   def summary
     session[:summary] = true

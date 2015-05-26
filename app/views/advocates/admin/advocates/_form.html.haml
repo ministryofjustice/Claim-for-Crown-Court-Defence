@@ -4,31 +4,18 @@
     %ul
       - @advocate.errors.full_messages.each do |msg|
         %li= msg
-
-  = f.fields_for :user do |user_fields|
-    = user_fields.label :email
-    %br
-    = user_fields.email_field :email
-    %br
-    = user_fields.label :password
-    %br
-    = user_fields.password_field :password
-    %br
-    = user_fields.label :password_confirmation
-    %br
-    = user_fields.password_field :password_confirmation
-
-  %br
-  = f.label :first_name
-  %br
-  = f.text_field :first_name
-  %br
-  = f.label :last_name
-  %br
-  = f.text_field :last_name
-  %br
-  = f.label :role
-  %br
-  = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
-  %br
-  = f.submit
+  %fieldset
+    = f.fields_for :user do |user_fields|
+      = user_fields.label :email
+      = user_fields.email_field :email
+      = user_fields.label :password
+      = user_fields.password_field :password
+      = user_fields.label :password_confirmation
+      = user_fields.password_field :password_confirmation
+      = f.label :first_name
+      = f.text_field :first_name
+      = f.label :last_name
+      = f.text_field :last_name
+      = f.label :role
+      = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
+  = f.submit class: "button"

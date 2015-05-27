@@ -1,5 +1,6 @@
 %section
-  = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence"
+  - if @claim.editable?
+    = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence"
   %ol#evidence-list
     - @doc_types.each do |doc_type|
       %li

@@ -1,7 +1,7 @@
 #claim-accordion{
   h2{
     background-color: $cabinet-office;
-    background-image: url(../accordion-toggle.png);
+    background-image: image-url('accordion-toggle.png');
     background-repeat: no-repeat;
     background-position: right bottom;
     cursor:pointer;

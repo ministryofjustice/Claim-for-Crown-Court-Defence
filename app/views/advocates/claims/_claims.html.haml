@@ -39,4 +39,5 @@
             |
             = link_to 'Edit', edit_advocates_claim_path(claim)
           - if claim.draft?
+            |
             = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }

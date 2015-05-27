@@ -10,6 +10,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def show
     @doc_types = DocumentType.all
+    @messages = @claim.messages.most_recent_first
+    @message = @claim.messages.build
   end
 
   private

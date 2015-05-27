@@ -18,15 +18,6 @@
 
 moj.Modules.devs.init = function(){} 
 
-$('#claims-list dd, dt').not('.quickview').each(function() {
-  $(this).hide();
-});
-
-$('#claims-list .toggle').each(function(){
-   $(this).click(function() {
-    $(this).toggleClass('expanded').closest('li').find('dd, dt').not('.quickview').slideToggle('slow');
-  });
-});
 
 $('#claim-accordion h2').each(function(){
   $(this).next('section').hide();
@@ -35,6 +26,7 @@ $('#claim-accordion h2').each(function(){
   });
 });
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
+
 
 function initialise(){
 	$('.select2').select2();

@@ -20,8 +20,8 @@
     Evidence list
   = render partial: 'evidence_list'
   %h2
-    Messages
-  = render partial: 'advonote'
+    Messages (#{@messages.count})
+  = render partial: 'shared/messages'
   %h2
     Claim notes
   = render partial: 'case_notes'

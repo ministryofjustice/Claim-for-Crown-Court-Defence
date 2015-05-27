@@ -1,0 +1,22 @@
+%section#messages
+  = simple_form_for @message do |f|
+    = f.input :claim_id, value: @claim.id, as: :hidden
+    = f.input :subject, placeholder: 'Subject', label: false
+    = f.input :body, placeholder: 'Message', label: false
+    = f.submit 'Post', class: 'button'
+  .timeline
+    %h4
+    - if @messages.none?
+      No messages found
+    - else
+      Past messages
+      %ul
+        - @messages.each do |message|
+          %li{id: dom_id(message)}
+            %header
+              %h5
+                = message.subject
+              %span.timeago
+                = distance_of_time_in_words_to_now(message.created_at)
+                ago
+            = message.body

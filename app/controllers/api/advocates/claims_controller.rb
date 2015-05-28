@@ -24,6 +24,7 @@ module Api
       def claim_params
         params.require(:claim).permit(
          :advocate_id,
+         :creator_id,
          :court_id,
          :scheme_id,
          :case_number,

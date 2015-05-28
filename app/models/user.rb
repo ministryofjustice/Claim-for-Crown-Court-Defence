@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :persona, polymorphic: true
+  has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
 
   validates :first_name, :last_name, presence: true
 

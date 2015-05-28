@@ -13,6 +13,12 @@
       = user_fields.password_field :password
       = user_fields.label :password_confirmation
       = user_fields.password_field :password_confirmation
+
+      = user_fields.label :first_name
+      = user_fields.text_field :first_name
+      = user_fields.label :last_name
+      = user_fields.text_field :last_name
+
       = f.label :role
       = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, prompt: true
   = f.submit class: "button"

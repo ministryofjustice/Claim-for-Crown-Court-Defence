@@ -6,5 +6,11 @@ class User < ActiveRecord::Base
 
   belongs_to :persona, polymorphic: true
 
+  validates :first_name, :last_name, presence: true
+
   delegate :claims, to: :persona
+
+  def name
+    [first_name, last_name] * ' '
+  end
 end

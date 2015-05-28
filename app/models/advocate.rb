@@ -9,14 +9,12 @@ class Advocate < ActiveRecord::Base
 
   default_scope { includes(:user, :chamber) }
 
-  validates :user, presence: true
-  validates :chamber, :first_name, :last_name, presence: true
+  validates :user, :chamber, presence: true
 
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user
-
-  def name
-    [first_name, last_name] * ' '
-  end
+  delegate :first_name, to: :user
+  delegate :last_name, to: :user
+  delegate :name, to: :user
 end

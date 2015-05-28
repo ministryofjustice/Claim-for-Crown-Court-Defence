@@ -70,9 +70,18 @@ RSpec.describe Claim, type: :model do
     let!(:other_claim) { create(:claim) }
 
     before do
-      subject.advocate = create(:advocate, first_name: 'John', last_name: 'Smith')
-      other_claim.advocate = create(:advocate, first_name: 'Bob', last_name: 'Hoskins')
+      subject.advocate = create(:advocate)
+      other_claim.advocate = create(:advocate)
+      subject.advocate.user.first_name = 'John'
+      subject.advocate.user.last_name = 'Smith'
+      subject.advocate.user.save!
+
       subject.save!
+
+      other_claim.advocate.user.first_name = 'Bob'
+      other_claim.advocate.user.last_name = 'Hoskins'
+      other_claim.advocate.user.save!
+
       other_claim.save!
     end
 

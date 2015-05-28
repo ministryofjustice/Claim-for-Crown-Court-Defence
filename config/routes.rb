@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
+  resources :messages, only: [:create]
+
   namespace :advocates do
     root to: 'claims#index'
 

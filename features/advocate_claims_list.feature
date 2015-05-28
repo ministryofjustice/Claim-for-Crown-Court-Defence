@@ -23,7 +23,6 @@ Feature: Advocate claims list
      Examples:
        | state        | number |
        | "submitted"  | 5      |
-       | "allocated"  | 5      |
        | "rejected"   | 5      |
        | "part_paid"  | 5      |
        | "completed"  | 5      |

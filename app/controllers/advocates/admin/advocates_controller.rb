@@ -47,7 +47,8 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
     params.require(:advocate).permit(
       :first_name,
       :last_name,
-     :role,
+      :role,
+      :account_number,
       user_attributes: [:email, :password, :password_confirmation]
     )
   end

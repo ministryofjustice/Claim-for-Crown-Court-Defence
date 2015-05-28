@@ -15,26 +15,26 @@
       = text_field_tag :search, params[:search], placeholder: 'Advocate'
       = submit_tag 'Search', class: 'button'
 #claim-accordion
-  %h2 Draft claims (#{@draft_claims.count})
+  %h2 Draft (#{@draft_claims.count})
   %section#draft
     = render partial: 'claims', locals: { claims: @draft_claims }
 
-  %h2 Rejected claims (#{@rejected_claims.count})
+  %h2 Rejected (#{@rejected_claims.count})
   %section#rejected
     = render partial: 'claims', locals: { claims: @rejected_claims }
 
-  %h2 Submitted claims (#{@submitted_claims.count})
+  %h2 Submitted to LAA (#{@submitted_claims.count})
   %section#submitted
     = render partial: 'claims', locals: { claims: @submitted_claims }
 
-  %h2 Allocated claims (#{@allocated_claims.count})
+  %h2 Allocated to LAA Caseworker (#{@allocated_claims.count})
   %section#allocated
     = render partial: 'claims', locals: { claims: @allocated_claims }
 
-  %h2 Part paid claims (#{@part_paid_claims.count})
+  %h2 Part paid (#{@part_paid_claims.count})
   %section#part_paid
     = render partial: 'claims', locals: { claims: @part_paid_claims }
 
-  %h2 Completed claims (#{@completed_claims.count})
+  %h2 Completed (#{@completed_claims.count})
   %section#completed
     = render partial: 'claims', locals: { claims: @completed_claims }

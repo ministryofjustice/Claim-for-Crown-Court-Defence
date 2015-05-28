@@ -74,7 +74,7 @@ module Claims::StateMachine
     end
 
     klass.scope :non_draft, -> { klass.where.not(state: 'draft') }
-    # klass.scope :submitted_or_allocated, -> { klass.where(state: %w( allocated submitted )) }
+    klass.scope :submitted_or_allocated, -> { klass.where(state: %w( allocated submitted ) ) }
   end
 
   private

@@ -14,9 +14,9 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(@document.document).path.gsub(/\..*$/i, '.pdf'),
-      type:        'application/pdf',
-      filename:    @document.new_filename,
+    send_file Paperclip.io_adapters.for(@document.converted_preview_document).path,
+      type:        @document.converted_preview_document_content_type,
+      filename:    @document.converted_preview_document_file_name,
       disposition: 'inline'
   end
 

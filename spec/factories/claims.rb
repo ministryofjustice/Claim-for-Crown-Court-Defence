@@ -6,7 +6,6 @@ FactoryGirl.define do
     case_type 'trial'
     offence
     advocate_category 'qc_alone'
-    sequence(:indictment_number) { |n| "12345-#{n}" }
     prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 

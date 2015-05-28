@@ -43,7 +43,6 @@ class Claim < ActiveRecord::Base
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :indictment_number,       presence: true
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
 

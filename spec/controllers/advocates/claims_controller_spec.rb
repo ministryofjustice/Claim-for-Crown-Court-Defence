@@ -178,7 +178,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
              case_number: '12345',
              advocate_category: 'qc_alone',
              prosecuting_authority: 'cps',
-             indictment_number: '12345'
           }
         end
 

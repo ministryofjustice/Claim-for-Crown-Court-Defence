@@ -17,7 +17,6 @@ end
 When(/^I fill in the claim details$/) do
   select('Guilty', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')
-  fill_in 'Indictment number', with: '123456'
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'
   select('A: Homicide and related grave offences', from: 'claim_offence_class_id')

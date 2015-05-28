@@ -93,7 +93,10 @@ Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate
   advocate = Advocate.first
   first_name = advocate_name.split.first
   last_name = advocate_name.split.last
-  claim_advocate = create(:advocate, first_name: first_name, last_name: last_name)
+  claim_advocate = create(:advocate)
+  claim_advocate.user.first_name = first_name
+  claim_advocate.user.last_name = last_name
+  claim_advocate.user.save!
   chamber = create(:chamber)
   chamber.advocates << advocate
   chamber.advocates << claim_advocate

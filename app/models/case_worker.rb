@@ -13,4 +13,7 @@ class CaseWorker < ActiveRecord::Base
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user
+  delegate :first_name, to: :user
+  delegate :last_name, to: :user
+  delegate :name, to: :user
 end

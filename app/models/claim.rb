@@ -67,8 +67,8 @@ class Claim < ActiveRecord::Base
     end
 
     def find_by_advocate_name(advocate_name)
-      joins(:advocate)
-        .where("lower(advocates.first_name || ' ' || advocates.last_name) LIKE ?", "%#{advocate_name.downcase}%")
+      joins(advocate: :user)
+        .where("lower(users.first_name || ' ' || users.last_name) LIKE ?", "%#{advocate_name.downcase}%")
     end
   end
 

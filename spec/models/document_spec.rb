@@ -11,6 +11,9 @@ RSpec.describe Document, type: :model do
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }
 
+  it { should have_attached_file(:converted_preview_document) }
+  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
+
   it do
     should validate_attachment_content_type(:document).
       allowing('application/pdf',
@@ -26,7 +29,7 @@ RSpec.describe Document, type: :model do
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
-      before { allow(subject).to receive(:duplicate_attachment_as_pdf).and_return(nil)}
+      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil)}
 
       it 'saves the original' do
         stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
@@ -59,57 +62,83 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context 'attachment conversion' do
+  context '#generate_pdf_tmpfile' do
+
+    context 'when the original attachment is a .docx' do
+
+      subject { build(:document, :docx, document_content_type: 'application/msword') }
+
+      it 'called by a before_save hook' do
+        expect(subject).to receive(:generate_pdf_tmpfile)
+        subject.save!
+      end
+
+      it 'calls document#convert_and_assign_document' do
+        expect(subject).to receive(:convert_and_assign_document)
+        subject.generate_pdf_tmpfile
+      end
+
+    end
+
+    context 'when the original attachment is a .pdf' do
+
+      subject { build(:document) }
+
+      it 'is still called by a before_save hook' do
+        expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
+        subject.save!
+      end
+
+      it 'does not call document#convert_and_assign_document' do
+        expect(subject).to_not receive(:convert_and_assign_document)
+        subject.generate_pdf_tmpfile
+      end
+
+      it 'assigns original document to document#pdf_tmpfile' do
+        subject.save!
+        expect(subject.pdf_tmpfile).to eq subject.document
+      end
+
+    end
+
+  end
+
+  context '#convert_and_assign_document' do
 
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
-    it 'is triggered by document#save when the attachment is not a pdf' do
-      expect(subject).to receive(:duplicate_attachment_as_pdf).and_return(nil)
+    it 'depends on the Libreconv gem' do
+      expect(Libreconv).to receive(:convert)
       subject.save!
     end
 
-    it 'does not prevent document save if Libreconv is not found' do
-      expect(Libreconv).to receive(:convert).and_raise(IOError) # stub method call and raise IOError
-      expect{ subject.save! }.to change{ Document.count }.by(1) # error caught by begin|rescue|end in document model
+    it 'handles IOError when Libreconv is not in PATH' do
+      allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
+      expect{ subject.save! }.to change{ Document.count }.by(1) # error handled and document is still saved
     end
 
   end
 
-  context '#new_filename' do
+  context '#add_converted_preview_document' do
 
-    subject { build(:document, :docx, document_content_type: 'application/msword') }
+    subject { build(:document) }
 
-    it 'specifies file name of converted attachment, with .pdf extension' do
-      expect(subject.new_filename).to eq 'shorter_lorem.pdf'
+    before { allow(Libreconv).to receive(:convert) }
+
+    it 'is triggered by document#save' do
+      expect(subject).to receive(:add_converted_preview_document)
+      subject.save!
     end
-  end
 
-  context '#path_to_pdf_duplicate' do
-
-    subject { create(:document) }
-
-    it 'returns the path to .pdf copy of attachment' do
-      expect(File.exist?(subject.path_to_pdf_duplicate)).to eq true
+    it 'assigns converted_preview_document a file' do
+      expect(subject.converted_preview_document.present?).to be false
+      subject.save!
+      expect(subject.converted_preview_document.present?).to be true
     end
-  end
 
-  context 'attachment is present as a pdf / pdf duplicate' do
-
-    subject { create(:document) }
-
-    it '#has_pdf_duplicate? returns true' do
-      expect(subject.has_pdf_duplicate?).to eq true
-    end
-  end
-
-  context 'attachment is not present as a pdf / pdf duplicate' do
-
-    before { allow(Libreconv).to receive(:convert).and_raise(IOError) } #stub call to convert so the pdf is not generated
-    subject { create(:document, :docx, document_content_type: 'application/msword') } # create a doc with docx attachment
-
-    it '#has_pdf_duplicate? returns false' do
-      expect(subject.has_pdf_duplicate?).to eq false # pdf is not available
-    end
   end
 
 end
+
+
+

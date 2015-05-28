@@ -16,6 +16,9 @@
             %header
               %h5
                 = message.subject
+                |
+                = message.sender.name
+                (#{message.sender.persona.class.to_s.humanize})
               %span.timeago
                 = distance_of_time_in_words_to_now(message.created_at)
                 ago

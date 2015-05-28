@@ -23,10 +23,6 @@
 
       = f.collection_select :prosecuting_authority, Claim::PROSECUTING_AUTHORITIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
 
-      = f.label :indictment_number
-
-      = f.text_field :indictment_number
-
       = f.label :court
 
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }

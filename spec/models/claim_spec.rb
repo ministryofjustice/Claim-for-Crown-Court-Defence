@@ -10,6 +10,7 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
   it { should have_many(:documents) }
+  it { should have_many(:messages) }
 
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
@@ -20,7 +21,6 @@ RSpec.describe Claim, type: :model do
   it { should validate_presence_of(:case_number) }
   it { should validate_presence_of(:prosecuting_authority) }
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
-  it { should validate_presence_of(:indictment_number) }
 
   it { should validate_presence_of(:case_type) }
   it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }

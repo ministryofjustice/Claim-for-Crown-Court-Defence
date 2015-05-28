@@ -20,6 +20,7 @@ class Claim < ActiveRecord::Base
   has_many :expenses,                 dependent: :destroy,          inverse_of: :claim
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
+  has_many :messages,                 dependent: :destroy,          inverse_of: :claim
 
   default_scope do
     includes(:advocate,
@@ -29,6 +30,7 @@ class Claim < ActiveRecord::Base
              :documents,
              :expenses,
              :fee_types,
+             :messages,
              offence: :offence_class)
   end
 
@@ -43,7 +45,6 @@ class Claim < ActiveRecord::Base
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :indictment_number,       presence: true
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
 

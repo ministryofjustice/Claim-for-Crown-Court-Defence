@@ -52,7 +52,7 @@ namespace :claims do
 
   def add_document(claim)
     file = File.open("./features/examples/longer_lorem.pdf")
-    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
+    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf', advocate: Advocate.find(1) )
   end
 
   def parse_states_from_string(states_delimited_string)

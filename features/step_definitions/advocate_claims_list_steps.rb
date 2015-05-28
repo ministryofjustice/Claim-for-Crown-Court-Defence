@@ -1,6 +1,9 @@
 Given(/^I have claims$/) do
   advocate = Advocate.first
   @claims = create_list(:submitted_claim, 5)
+  @claims.each do |claim|
+    claim.documents << create(:document, advocate: advocate)
+  end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }

@@ -4,7 +4,11 @@ RSpec.describe CaseWorker, type: :model do
   it { should have_one(:user) }
   it { should have_many(:case_worker_claims) }
   it { should have_many(:claims) }
+
   it { should delegate_method(:email).to(:user) }
+  it { should delegate_method(:first_name).to(:user) }
+  it { should delegate_method(:last_name).to(:user) }
+  it { should delegate_method(:name).to(:user) }
 
   it { should accept_nested_attributes_for(:user) }
 

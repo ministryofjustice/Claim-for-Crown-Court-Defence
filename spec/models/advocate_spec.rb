@@ -7,23 +7,16 @@ RSpec.describe Advocate, type: :model do
   it { should have_one(:user) }
 
   it { should validate_presence_of(:chamber) }
-  it { should validate_presence_of(:first_name) }
-  it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:user) }
 
   it { should accept_nested_attributes_for(:user) }
 
   it { should delegate_method(:email).to(:user) }
+  it { should delegate_method(:first_name).to(:user) }
+  it { should delegate_method(:last_name).to(:user) }
+  it { should delegate_method(:name).to(:user) }
 
   it { should validate_inclusion_of(:role).in_array(%w( admin advocate )) }
-
-  describe '#name' do
-    subject { create(:advocate) }
-
-    it 'returns the first and last names' do
-      expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")
-    end
-  end
 
   describe 'ROLES' do
     it 'should have "admin" and "advocate"' do

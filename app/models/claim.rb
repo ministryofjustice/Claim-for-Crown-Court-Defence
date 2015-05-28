@@ -20,6 +20,7 @@ class Claim < ActiveRecord::Base
   has_many :expenses,                 dependent: :destroy,          inverse_of: :claim
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
+  has_many :messages,                 dependent: :destroy,          inverse_of: :claim
 
   default_scope do
     includes(:advocate,
@@ -29,6 +30,7 @@ class Claim < ActiveRecord::Base
              :documents,
              :expenses,
              :fee_types,
+             :messages,
              offence: :offence_class)
   end
 

@@ -36,6 +36,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
+    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
   end
 
@@ -50,7 +51,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(creator_id: current_user.persona.id, advocate_id: current_user.persona.id))
+    form_params = claim_params
+    form_params[:advocate_id] ||= current_user.persona.id
+    form_params[:creator_id] = current_user.persona.id
+    @claim = Claim.new(form_params)
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }

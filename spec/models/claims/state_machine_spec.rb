@@ -21,23 +21,27 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect{ subject.pay_part! }.to               change{ subject.state }.to('part_paid') }
       it { expect{ subject.pay! }.to                    change{ subject.state }.to('paid') }
       it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from appealed' do
       before { subject.submit!; subject.allocate!; subject.pay_part!; subject.reject_parts!; subject.appeal! }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.pay! }.to      change{ subject.state }.to('paid') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from awaiting_further_info' do
       before { subject.submit!; subject.allocate!; subject.pay_part!; subject.await_further_info! }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.draft! }.to    change{ subject.state }.to('draft') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from awaiting_further_info_from_court' do
       before { subject.submit!; subject.allocate!; subject.await_info_from_court! }
       it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from draft' do
@@ -48,18 +52,21 @@ RSpec.describe Claims::StateMachine, type: :model do
     describe 'from paid' do
       before { subject.submit!; subject.allocate!; subject.pay! }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from part_paid' do
       before { subject.submit!; subject.allocate!; subject.pay_part! }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
       it { expect{ subject.reject_parts! }.to          change{ subject.state }.to('parts_rejected') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from parts_rejected' do
       before { subject.submit!; subject.allocate!; subject.pay_part!; subject.reject_parts! }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.appeal! }.to   change{ subject.state }.to('appealed') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from refused' do
@@ -68,16 +75,19 @@ RSpec.describe Claims::StateMachine, type: :model do
         it { expect(subject).to receive(:complete!); subject.refuse! }
       end
       it { expect{ subject.update_column(:state, 'refused'); subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from rejected' do
       before { subject.submit!; subject.allocate!; subject.reject! }
       it { expect{ subject.draft! }.to change{ subject.state }.to('draft') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from submitted' do
       before { subject.submit! }
       it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
+      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
   end # describe 'valid transitions'
 

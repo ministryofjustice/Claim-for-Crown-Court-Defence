@@ -5,6 +5,8 @@ FactoryGirl.define do
     end
 
     chamber
+    sequence(:account_number, 100) { |n| "AC#{n}" }
+
 
     role 'advocate'
 

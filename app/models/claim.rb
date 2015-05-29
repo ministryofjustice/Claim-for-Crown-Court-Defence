@@ -32,7 +32,7 @@ class Claim < ActiveRecord::Base
              :expenses,
              :fee_types,
              :messages,
-             offence: :offence_class)
+             offence: :offence_class).not_deleted
   end
 
   scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }

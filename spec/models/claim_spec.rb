@@ -32,6 +32,7 @@ RSpec.describe Claim, type: :model do
 
   it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
   it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+  it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }

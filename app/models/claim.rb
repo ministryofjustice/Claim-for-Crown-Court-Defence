@@ -11,6 +11,7 @@ class Claim < ActiveRecord::Base
   belongs_to :court
   belongs_to :offence
   belongs_to :advocate
+  belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
   belongs_to :scheme
 
   has_many :case_worker_claims,       dependent: :destroy
@@ -39,6 +40,7 @@ class Claim < ActiveRecord::Base
 
   validates :offence,                 presence: true
   validates :advocate,                presence: true
+  validates :creator,                 presence: true
   validates :court,                   presence: true
   validates :case_number,             presence: true
   validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }
@@ -67,8 +69,8 @@ class Claim < ActiveRecord::Base
     end
 
     def find_by_advocate_name(advocate_name)
-      joins(:advocate)
-        .where("lower(advocates.first_name || ' ' || advocates.last_name) LIKE ?", "%#{advocate_name.downcase}%")
+      joins(advocate: :user)
+        .where("lower(users.first_name || ' ' || users.last_name) LIKE ?", "%#{advocate_name.downcase}%")
     end
   end
 

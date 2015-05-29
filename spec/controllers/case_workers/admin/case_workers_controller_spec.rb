@@ -100,12 +100,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when valid' do
       it 'creates a case_worker' do
         expect {
-          post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'case_worker' }
+          post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' }, role: 'case_worker' }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to case workers index' do
-        post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'case_worker' }
+        post :create, case_worker: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' }, role: 'case_worker' }
         expect(response).to redirect_to(case_workers_admin_case_workers_url)
       end
     end

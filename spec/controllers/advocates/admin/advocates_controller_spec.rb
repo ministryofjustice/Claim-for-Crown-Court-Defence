@@ -79,12 +79,16 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     context 'when valid' do
       it 'creates a advocate' do
         expect {
-          post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'advocate', first_name: 'John', last_name: 'Smith' }
+          post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' },
+                                    role: 'advocate',
+                                    account_number: 'AB124' }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to advocates index' do
-        post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password' }, role: 'advocate', first_name: 'John', last_name: 'Smith' }
+        post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'},
+                                  role: 'advocate',
+                                  account_number: 'XY123'  }
         expect(response).to redirect_to(advocates_admin_advocates_url)
       end
     end
@@ -92,12 +96,12 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     context 'when invalid' do
       it 'does not create a advocate' do
         expect {
-          post :create, advocate: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'advocate' }
+          post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, role: 'advocate' }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, advocate: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'advocate' }
+        post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, role: 'advocate' }
         expect(response).to render_template(:new)
       end
     end

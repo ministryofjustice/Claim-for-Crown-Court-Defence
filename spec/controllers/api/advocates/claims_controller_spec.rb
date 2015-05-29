@@ -4,7 +4,7 @@ require 'flip'
 RSpec.describe Api::Advocates::ClaimsController, type: :controller do
   let(:new_claim)          { build(:claim)                         }
   let(:invalid_new_claim)  { build(:invalid_claim)                 }
-  let(:params)             { {claim: new_claim.attributes}         }
+  let(:params)             { {claim: new_claim.attributes.merge(creator_id: new_claim.advocate.id)}         }
   let(:invalid_params)     { {claim: invalid_new_claim.attributes} }
 
   before do

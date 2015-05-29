@@ -24,7 +24,7 @@ module Claims::StateMachine
       end
 
       event :archive_pending_delete do
-        transition [:draft] => :archived_pending_delete
+        transition all => :archived_pending_delete
       end
 
       event :await_info_from_court do

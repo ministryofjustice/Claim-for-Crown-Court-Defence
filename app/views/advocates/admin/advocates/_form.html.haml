@@ -12,10 +12,14 @@
       = user_fields.password_field :password
       = user_fields.label :password_confirmation
       = user_fields.password_field :password_confirmation
-      = f.label :first_name
-      = f.text_field :first_name
-      = f.label :last_name
-      = f.text_field :last_name
+
+      = user_fields.label :first_name
+      = user_fields.text_field :first_name
+      = user_fields.label :last_name
+      = user_fields.text_field :last_name
+
+      = f.label :account_number
+      = f.text_field :account_number
       = f.label :role
       = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
   = f.submit class: "button"

@@ -3,6 +3,11 @@ FactoryGirl.define do
     court
     case_number { Faker::Number.number(10) }
     advocate
+
+    after(:build) do |claim|
+      claim.creator_id = claim.advocate.id
+    end
+
     case_type 'trial'
     offence
     advocate_category 'qc_alone'
@@ -15,14 +20,14 @@ FactoryGirl.define do
 
     factory :draft_claim do
       # do nothing as default state is draft
-      # only here for iteration of all states in 
+      # only here for iteration of all states in
       # rake task
     end
 
-    # 
+    #
     # states: initial/default state is draft
     # - alphabetical list
-    # 
+    #
     factory :allocated_claim do
       after(:create) { |c| c.submit!; c.allocate!; }
     end

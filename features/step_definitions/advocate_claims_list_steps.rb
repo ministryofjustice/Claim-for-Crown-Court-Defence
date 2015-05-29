@@ -1,6 +1,9 @@
 Given(/^I have claims$/) do
   advocate = Advocate.first
   @claims = create_list(:submitted_claim, 5)
+  @claims.each do |claim|
+    claim.documents << create(:document, advocate: advocate)
+  end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
@@ -93,7 +96,10 @@ Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate
   advocate = Advocate.first
   first_name = advocate_name.split.first
   last_name = advocate_name.split.last
-  claim_advocate = create(:advocate, first_name: first_name, last_name: last_name)
+  claim_advocate = create(:advocate)
+  claim_advocate.user.first_name = first_name
+  claim_advocate.user.last_name = last_name
+  claim_advocate.user.save!
   chamber = create(:chamber)
   chamber.advocates << advocate
   chamber.advocates << claim_advocate

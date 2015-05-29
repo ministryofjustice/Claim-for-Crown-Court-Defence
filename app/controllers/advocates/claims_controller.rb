@@ -51,7 +51,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(advocate_id: current_user.persona.id))
+    @claim = Claim.new(claim_params.merge(creator_id: current_user.persona.id, advocate_id: current_user.persona.id))
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }

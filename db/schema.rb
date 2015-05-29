@@ -11,20 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527131251) do
+ActiveRecord::Schema.define(version: 20150528152825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "advocates", force: true do |t|
     t.string   "role"
-    t.string   "first_name"
-    t.string   "last_name"
     t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "account_number"
   end
 
+  add_index "advocates", ["account_number"], name: "index_advocates_on_account_number", using: :btree
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
   add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
 
@@ -82,11 +82,13 @@ ActiveRecord::Schema.define(version: 20150527131251) do
     t.datetime "valid_until"
     t.string   "cms_number"
     t.datetime "paid_at"
+    t.integer  "creator_id"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
   add_index "claims", ["cms_number"], name: "index_claims_on_cms_number", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
+  add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
@@ -181,6 +183,7 @@ ActiveRecord::Schema.define(version: 20150527131251) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "abbreviation"
   end
 
   add_index "fee_categories", ["name"], name: "index_fee_categories_on_name", using: :btree
@@ -264,6 +267,8 @@ ActiveRecord::Schema.define(version: 20150527131251) do
     t.string   "persona_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

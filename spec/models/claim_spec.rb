@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
+  it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
   it { should belong_to(:scheme) }
@@ -16,6 +17,7 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_workers) }
 
   it { should validate_presence_of(:advocate) }
+  it { should validate_presence_of(:creator) }
   it { should validate_presence_of(:court) }
   it { should validate_presence_of(:offence) }
   it { should validate_presence_of(:case_number) }
@@ -70,9 +72,18 @@ RSpec.describe Claim, type: :model do
     let!(:other_claim) { create(:claim) }
 
     before do
-      subject.advocate = create(:advocate, first_name: 'John', last_name: 'Smith')
-      other_claim.advocate = create(:advocate, first_name: 'Bob', last_name: 'Hoskins')
+      subject.advocate = create(:advocate)
+      other_claim.advocate = create(:advocate)
+      subject.advocate.user.first_name = 'John'
+      subject.advocate.user.last_name = 'Smith'
+      subject.advocate.user.save!
+
       subject.save!
+
+      other_claim.advocate.user.first_name = 'Bob'
+      other_claim.advocate.user.last_name = 'Hoskins'
+      other_claim.advocate.user.save!
+
       other_claim.save!
     end
 

@@ -6,7 +6,6 @@
 
 = content_for :content_override do
   = csrf_meta_tags
-
   #wrapper.group
     .phase-banner
       %p
@@ -22,6 +21,11 @@
             = render 'layouts/user'
       .container
         = render partial: 'layouts/flashes' unless flash.empty?
-        = yield
+        %aside.aside-navigation
+          &nbsp;
+        %main.main-content
+          = yield
+        %aside.aside-help
+          &nbsp;
 
 = render template: "layouts/moj_template"

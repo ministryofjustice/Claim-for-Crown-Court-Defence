@@ -16,10 +16,23 @@
   padding:0;
  }
  // ==========================================================================
+ // Override gov uk widths
+ // ==========================================================================
+#content,
+#wrapper,
+#global-header .header-wrapper,
+#global-header-bar,
+#header-bar {
+  max-width: 100%;
+}
+
+ // ==========================================================================
    // Phase banner
  // ==========================================================================
  .phase-banner  {
    @include phase-banner(alpha);
+   padding-left: 15px;
+   padding-right: 15px;
  }  
 #fixed-header{
   margin:1em 0;
@@ -37,6 +50,18 @@ header.page-title{
     float: right;
   }
 }
+
+#content {
+  aside{
+    @include grid-column( 1/6 );
+  }
+  main {
+    @include grid-column( 2/3 );
+  }
+}
+
+
+
 #login{
   width:30%;
   max-width:500px;

@@ -9,7 +9,7 @@ if User.find_by(email: 'advocate@example.com').blank?
     password_confirmation: ENV['ADVOCATE_PASSWORD']
   )
 
-  advocate = Advocate.new(role: 'advocate', chamber_id: chamber.id, account_number: 'ABC-1234')
+  advocate = Advocate.new(role: 'advocate', chamber_id: chamber.id, account_number: 'AB234')
   advocate.user = user
   advocate.save!
 end
@@ -23,7 +23,7 @@ if User.find_by(email: 'advocateadmin@example.com').blank?
     password_confirmation: ENV['ADMIN_PASSWORD']
   )
 
-  advocate = Advocate.new(role: 'admin', chamber_id: chamber.id, account_number: 'XYZ-1234')
+  advocate = Advocate.new(role: 'admin', chamber_id: chamber.id, account_number: 'XY234')
   advocate.user = user
   advocate.save!
 end

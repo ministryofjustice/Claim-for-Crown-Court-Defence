@@ -269,28 +269,18 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   describe "DELETE #destroy" do
     before { delete :destroy, id: subject }
 
-    context 'draft claim' do
-      subject { create(:claim) }
+    subject { create(:claim) }
 
-      it 'destroys the claim' do
-        expect(Claim.count).to eq(0)
-      end
-
-      it 'redirects to advocates root url' do
-        expect(response).to redirect_to(advocates_claims_url)
-      end
+    it 'deletes the claim' do
+      expect(Claim.count).to eq(0)
     end
 
-    context 'non-draft claim' do
-      subject { create(:submitted_claim) }
+    it "sets the claim's state to 'archived_pending_delete'" do
+      expect(subject.reload).to be_archived_pending_delete
+    end
 
-      it 'does not destroy the claim' do
-        expect(Claim.first).to eq(subject)
-      end
-
-      it 'redirects to advocates root url' do
-        expect(response).to redirect_to(advocates_claims_url)
-      end
+    it 'redirects to advocates root url' do
+      expect(response).to redirect_to(advocates_claims_url)
     end
   end
 end

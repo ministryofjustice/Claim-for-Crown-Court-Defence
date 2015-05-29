@@ -52,6 +52,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create
     @claim = Claim.new(claim_params.merge(creator_id: current_user.persona.id, advocate_id: current_user.persona.id))
+    @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
@@ -114,7 +115,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
      fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :location, :quantity, :rate, :hours, :amount, :_destroy],
-     documents_attributes: [:id, :claim_id, :document_type_id, :document, :description]
+     documents_attributes: [:id, :advocate_id, :claim_id, :document_type_id, :document, :description]
     )
   end
 

@@ -4,7 +4,7 @@ class Document < ActiveRecord::Base
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
-  
+
   has_attached_file :converted_preview_document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -33,6 +33,7 @@ class Document < ActiveRecord::Base
                      'application/rtf',
                      'image/png']}
 
+
   belongs_to :advocate
   belongs_to :claim
   belongs_to :document_type
@@ -40,12 +41,13 @@ class Document < ActiveRecord::Base
 
   validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   validates :document_type, presence: true
+  validates :advocate_id, presence: true
 
   def generate_pdf_tmpfile
     if File.extname(document_file_name).downcase == '.pdf'
       self.pdf_tmpfile = document # if original document is PDF, make tmpfile from original doc
     else
-      convert_and_assign_document     
+      convert_and_assign_document
     end
   end
 

@@ -8,7 +8,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = Document.create(document_params)
+    @document = Document.create(document_params.merge(advocate_id: current_user.persona.id))
 
     respond_with @document
   end

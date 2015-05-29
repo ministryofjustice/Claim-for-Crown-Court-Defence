@@ -6,6 +6,11 @@
 %h1
   Claim
   = @claim.case_number
+
+%P
+  Created by:
+  = @claim.creator.name
+
 #claim-accordion
   %h2
     Claim based information

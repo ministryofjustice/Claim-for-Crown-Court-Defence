@@ -49,6 +49,7 @@ class Claim < ActiveRecord::Base
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
+  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true

@@ -3,7 +3,6 @@ FactoryGirl.define do
     court
     case_number { Faker::Number.number(10) }
     advocate
-
     after(:build) do |claim|
       claim.creator_id = claim.advocate.id
     end

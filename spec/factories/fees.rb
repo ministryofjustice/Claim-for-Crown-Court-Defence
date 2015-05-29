@@ -11,6 +11,7 @@ FactoryGirl.define do
       rate { rand(1.0..9.99) }
       amount { quantity * rate }
     end
+
   end
 
 end

@@ -1,0 +1,73 @@
+CATEGORY,FEE TYPE,CODE
+BASIC,Basic Fee,BAF
+BASIC,Number of Defendants uplift,NDR
+BASIC,Number of Cases uplift,NOC
+BASIC,Number of Prosecution Witnesses,NPW
+BASIC,Pages of Prosecution Evidence,PPE
+BASIC,Daily Attendance Fee,DAF
+BASIC,Daily Attendance Fee (41 to 50),DAH
+BASIC,Daily Attendance Fee (51+),DAJ
+BASIC,Plea and Case Management Hearing,PCM
+FIXED,Appeals to the Crown Court against Conviction,ACV
+FIXED,Appeals to the Crown Court against Conviction Uplift,ACU
+FIXED,Appeals to the Crown Court against Sentence,ASE
+FIXED,Appeals to the Crown Court against Sentence Uplift,ASU
+FIXED,Breach of a Crown Court order,CBR
+FIXED,Breach of a Crown Court order Uplift,CBU
+FIXED,Contempt hearings,CON
+FIXED,Committal for Sentence Hearings,CSE
+FIXED,Committal for Sentence Hearings Uplift,CSU
+FIXED,Cracked case discontinued,CCD
+FIXED,Cracked case discontinued Uplift,CDU
+FIXED,Elected case not proceeded,ENP
+FIXED,Elected case not proceeded uplift,ENU
+MISC,Abuse of Process Hearings (Half Day),APH
+MISC,Abuse of Process Hearings (Whole Day),APW
+MISC,Abuse of Process Hearings (Half Day Uplift),AHU
+MISC,Abuse of Process Hearings (Whole Day Uplift),AWU
+MISC,Adjourned appeals,SAF
+MISC,Application to dismiss a charge day 2 onwards (Half Day),PAH
+MISC,Application to dismiss a charge day 2 onwards (Whole Day),PAW
+MISC,Application to dismiss a charge day 2 onwards (Half Day Uplift),PHU
+MISC,Application to dismiss a charge day 2 onwards (Whole Day Uplift),PWU
+MISC,Conferences and Views,CAV
+MISC,Confiscation hearings (Half Day),DTH
+MISC,Confiscation hearings (Whole Day),DTW
+MISC,Confiscation hearings (Half Day Uplift),DHU
+MISC,Confiscation hearings (Whole Day Uplift),DWU
+MISC,Deferred Sentence Hearings,DSE
+MISC,Deferred Sentence Hearings Uplift,DSU
+MISC,Hearings relating to admissibility of Evidence (Half Day),AEH
+MISC,Hearings relating to admissibility of Evidence (Whole Day),AEW
+MISC,Hearings relating to admissibility of Evidence (Half Day Uplift),EHU
+MISC,Hearings relating to admissibility of Evidence (Whole Day Uplift),EWU
+MISC,Hearings relating to Disclosure (Half Day),HDH
+MISC,Hearings relating to Disclosure (Whole Day),HDW
+MISC,Hearings relating to Disclosure (Half Day Uplift),HHU
+MISC,Hearings relating to Disclosure (Whole Day Uplift),HWU
+MISC,Noting Brief Fee,NBR
+MISC,Paper Plea & Case management,PPC
+MISC,Paper Plea & Case management uplift,PCU
+MISC,Proceeds of Crime hearings (Half Day),PCH
+MISC,Proceeds of Crime hearings (Whole Day),PCW
+MISC,Proceeds of Crime hearings (Half Day Uplift),CHU
+MISC,Proceeds of Crime hearings (Whole Day Uplift),CHW
+MISC,Public Interest Immunity hearings (Half Day),PAH
+MISC,Public Interest Immunity hearings (Whole Day),PAW
+MISC,Public Interest Immunity hearings (Half Day Uplift),PHU
+MISC,Public Interest Immunity hearings (Whole Day Uplift),PWU
+MISC,Research of very unusual or Novel Factual issue,RNF
+MISC,Research of very unusual or Novel point of Law,RNL
+MISC,Standard Appearance Fee,SAF
+MISC,Standard Appearance fee Uplift,SAU
+MISC,Sentence Hearings,SHR
+MISC,Sentence Hearings Uplift,SHU
+MISC,Special Preparation Fee,SPF
+MISC,Trial Not Proceed,TNP
+MISC,Trial Not Proceed Uplift,TNU
+MISC,Unsuccessful application to vacate a guilty plea (Half Day),PAH
+MISC,Unsuccessful application to vacate a guilty plea (Whole Day),PAW
+MISC,Unsuccessful application to vacate a guilty plea (Half Day Uplift),PHU
+MISC,Unsuccessful application to vacate a guilty plea (Whole Day Uplift),PWU
+MISC,Written / Oral Advice,WOA
+MISC,Wasted Preparation Fee,WPF

@@ -1,14 +1,18 @@
-basic = FeeCategory.find_or_create_by(name: 'Basic Fee & Enhancements (amount excluding VAT)')
+require 'csv'
 
-FeeType.find_or_create_by(fee_category: basic, description: 'Basic Fee', code: 'BAF')
-FeeType.find_or_create_by(fee_category: basic, description: 'Number of defendents uplift', code: 'NDR')
-FeeType.find_or_create_by(fee_category: basic, description: 'Number of cases uplift', code: 'NOC')
+fee_categories = {}
+FeeCategory.all.each do |rec|
+  fee_categories[rec.abbreviation] = rec
+end
 
-fixed = FeeCategory.find_or_create_by(name: 'Fixed Fees (amount excluding VAT)')
+FeeType.delete_all
 
-FeeType.find_or_create_by(fee_category: fixed, description: 'Appeals to the Crown Court against Conviction', code: 'ACV')
+file_path = Rails.root.join('lib', 'assets', 'data', 'fee_types.csv')
+data = CSV.read(file_path)
+data.shift
 
-misc = FeeCategory.find_or_create_by(name: 'Miscellaneous Fees (amount excluding VAT)')
-
-FeeType.find_or_create_by(fee_category: misc, description: 'Abuse of Process Hearings (Half Day)', code: 'APH')
-FeeType.find_or_create_by(fee_category: misc, description: 'Abuse of Process Hearings (Whole Day)', code: 'APW')
+data.each do |row|
+  cat, description, code = row
+  FeeType.create!(fee_category: fee_categories[cat], description: description, code: code)
+end
+  

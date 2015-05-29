@@ -23,7 +23,6 @@ Feature: Advocate claims list
      Examples:
        | state        | number |
        | "submitted"  | 5      |
-       | "allocated"  | 5      |
        | "rejected"   | 5      |
        | "part_paid"  | 5      |
        | "completed"  | 5      |
@@ -40,3 +39,16 @@ Feature: Advocate claims list
     Given I am a signed in advocate
      When I visit the advocates dashboard
      Then I should not see the advocate search field
+
+  Scenario Outline: Claims section titles
+    Given I am a signed in advocate
+     When I visit the advocates dashboard
+     Then I should see section titles of <title>
+
+     Examples:
+      | title              |
+      | "Draft"            |
+      | "Rejected"         |
+      | "Submitted to LAA" |
+      | "Part paid"        |
+      | "Completed"        |

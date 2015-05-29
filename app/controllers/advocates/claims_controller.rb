@@ -37,10 +37,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
+    load_advocates_in_chamber
+    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
   end
 
   def edit
+    load_advocates_in_chamber
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 
@@ -51,7 +54,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(creator_id: current_user.persona.id, advocate_id: current_user.persona.id))
+    form_params = claim_params
+    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
+    form_params[:creator_id] = current_user.persona.id
+    @claim = Claim.new(form_params)
+    load_advocates_in_chamber
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
@@ -62,6 +69,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def update
+    load_advocates_in_chamber
     @claim.submit! if session.delete(:summary) && @claim.draft?
 
     @claim.update(claim_params)
@@ -74,6 +82,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   private
+
+  def load_advocates_in_chamber
+    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
+  end
 
   def set_context
     if current_user.persona.admin? && current_user.persona.chamber

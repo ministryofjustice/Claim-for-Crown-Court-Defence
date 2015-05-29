@@ -147,4 +147,51 @@ RSpec.describe Advocate, type: :model do
       end
     end
   end
+
+  describe '#name_and_number' do
+    it 'should print last name, first name and account number' do
+      a = FactoryGirl.create(:advocate, account_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
+      expect(a.name_and_number).to eq "Smith, John: XX878"
+    end
+  end
+
+  describe '#advocates_in_chamber' do
+
+    it 'should raise and exception if called on a advocate who isnt an admin' do
+      advocate = FactoryGirl.create :advocate
+      expect {
+        advocate.advocates_in_chamber
+      }.to raise_error RuntimeError, "Cannot call #advocates_in_chamber on advocates who are not admins"
+    end
+
+
+    it 'should return a collection of advocates in same chamber in alphabetic order' do
+
+      chamber1      = FactoryGirl.create :chamber
+      chamber2      = FactoryGirl.create :chamber
+
+      admin1_ch1    = create_admin chamber1, 'Lucy', 'Zebra'
+      advocate1_ch1 = create_advocate chamber1, 'Miranda', 'Bison'
+      advocate3_ch1 = create_advocate chamber1, 'Geoff', 'Elephant'
+
+      admin1_ch2    = create_admin chamber2, 'Martin', 'Tiger'
+      admin2_ch2    = create_admin chamber2, 'Robert', 'Lion'
+      advocate1_ch2 = create_advocate chamber2, 'Mary', 'Hippo'
+      advocate2_ch2 = create_advocate chamber2, 'Anna', 'Wildebeest'
+      advocate3_ch2 = create_advocate chamber2, 'George', 'Meerkat'
+
+      advocates = admin2_ch2.advocates_in_chamber
+      expect(advocates.map(&:user).map(&:last_name)).to eq ( [ 'Hippo', 'Meerkat', 'Wildebeest'] )
+    
+    end
+  end
+end
+
+
+def create_admin(chamber, first_name, last_name)
+  FactoryGirl.create :advocate, :admin, chamber: chamber, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
+end
+
+def create_advocate(chamber, first_name, last_name)
+  FactoryGirl.create :advocate, chamber: chamber, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
 end

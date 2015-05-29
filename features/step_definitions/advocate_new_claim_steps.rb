@@ -4,6 +4,18 @@ Given(/^I am a signed in advocate$/) do
   sign_in(@advocate.user, 'password')
 end
 
+Given(/^There are other advocates in my chamber$/) do
+  FactoryGirl.create(:advocate, 
+        chamber: @advocate.chamber, 
+        user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
+        account_number: 'AC135')
+  FactoryGirl.create(:advocate, 
+        chamber: @advocate.chamber, 
+        user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
+        account_number: 'XY455')
+end
+
+
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
@@ -70,6 +82,13 @@ Then(/^I should be redirected to the claim summary page$/) do
   expect(page.current_path).to eq(summary_advocates_claim_path(claim))
 end
 
+Then(/^I should be redirected back to the claim form with error$/) do
+  expect(page).to have_content('Claim for Advocate Graduated Fees')
+  expect(page).to have_content('1 error prohibited this claim from being saved:')
+  expect(page).to have_content("Advocate can't be blank")
+end
+
+
 Then(/^I should see the claim totals$/) do
   expect(page).to have_content("Fees total: £20.00")
   expect(page).to have_content("Expenses total: £40.00")
@@ -133,3 +152,15 @@ When(/^I am on the claim edit page$/) do
   claim = Claim.first
   visit edit_advocates_claim_path(claim)
 end
+
+
+Then(/^I can view a select of all advocates in my chamber$/) do
+  expect(page).to have_selector('select#claim_advocate_id')
+  expect(page).to have_content('Doe, John: AC135')
+  expect(page).to have_content('Blow, Joe: XY455')
+end
+
+When(/^I select Advocate name "(.*?)"$/) do |advocate_name|
+  select(advocate_name, from: 'claim_advocate_id')
+end
+

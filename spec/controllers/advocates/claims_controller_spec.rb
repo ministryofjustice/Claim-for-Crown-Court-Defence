@@ -36,6 +36,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
         expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
       end
 
+      it 'assigns @submitted_or_allocated_claims' do
+        expect(assigns(:submitted_or_allocated_claims)).to eq(advocate.reload.claims.submitted_or_allocated.order(created_at: :desc))
+      end
+
       it 'assigns @rejected_claims' do
         expect(assigns(:rejected_claims)).to eq(advocate.reload.claims.rejected.order(created_at: :desc))
       end

@@ -106,3 +106,9 @@ Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate
   @claims = create_list(:claim, number.to_i)
   @claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
 end
+
+
+Given(/^I should see section titles of "(.*?)"$/) do |section_title|
+  expect(page).to have_selector('h2', text: section_title)
+end
+

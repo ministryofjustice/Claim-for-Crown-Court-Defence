@@ -69,12 +69,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def destroy
-    if @claim.draft?
-      @claim.destroy
-      respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
-    else
-      redirect_to advocates_claims_url, alert: 'Cannot destroy non-draft claim'
-    end
+    @claim.archive_pending_delete!
+    respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
   end
 
   private

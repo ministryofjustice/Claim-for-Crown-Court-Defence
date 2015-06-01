@@ -28,6 +28,18 @@ Feature: Advocate claims list
        | "completed"  | 5      |
        | "draft"      | 5      |
 
+  Scenario Outline: View amount assessed
+    Given I am a signed in advocate admin
+      And my chamber has <number> <state> claims
+    When I visit the advocates dashboard
+    Then I see a column containing the amount assesed for <state> claims
+      And a figure representing the amount assessed for <state> claims
+
+    Examples:
+       | state        | number |
+       | "part_paid"  | 5      |
+       | "completed"  | 5      |
+       
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
       And my chamber has 4 claims for advocate "John Smith"

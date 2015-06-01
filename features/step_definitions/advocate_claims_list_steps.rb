@@ -62,7 +62,32 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   chamber.advocates << advocate
 
   @claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
-  @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
+  @claims.each do |claim|
+    claim.update_column(:advocate_id, advocate.id)
+    claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
+    if claim.state == 'completed'
+      claim.update_column(:amount_assessed, claim.total)
+    elsif claim.state == 'part_paid'
+      claim.update_column(:amount_assessed, claim.total/2) # arbitrarily pay half the total for part-paid
+    end
+  end
+end
+
+Then(/^I see a column containing the amount assesed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to have_content("Amount assessed")
+  end
+end
+
+Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state|
+    within("##{state}") do
+      rows = all('tr')
+      rows.each do |row|
+        claim = Claim.find_by(cms_number: row.text.split(' ')[3]) # find claim which corresponds to |row|
+        expect(row.text.include?(claim.cms_number)).to be true # check that the correct claim was found
+        expect(row.text.include?(claim.amount_assessed.round(2).to_s)).to be true
+      end
+    end
 end
 
 Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|

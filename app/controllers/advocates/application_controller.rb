@@ -1,13 +1,10 @@
 class Advocates::ApplicationController < ApplicationController
-
-	before_action :authenticate_advocate!
+  load_and_authorize_resource
 	layout 'advocate'
 
   private
 
-  def authenticate_advocate!
-    unless user_signed_in? && current_user.persona.is_a?(Advocate)
-      redirect_to root_url, alert: 'Must be signed in as an advocate'
-    end
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: t('requires_advocate_authorisation')
   end
 end

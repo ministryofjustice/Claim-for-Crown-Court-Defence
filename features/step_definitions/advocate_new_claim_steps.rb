@@ -1,9 +1,3 @@
-Given(/^I am a signed in advocate$/) do
-  @advocate = create(:advocate)
-  visit new_user_session_path
-  sign_in(@advocate.user, 'password')
-end
-
 Given(/^There are other advocates in my chamber$/) do
   FactoryGirl.create(:advocate,
         chamber: @advocate.chamber,
@@ -14,7 +8,6 @@ Given(/^There are other advocates in my chamber$/) do
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
         account_number: 'XY455')
 end
-
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')

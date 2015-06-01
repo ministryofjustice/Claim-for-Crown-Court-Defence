@@ -20,8 +20,9 @@
     text-indent: -999em;
   }
   ul.case-data{
-    overflow: hidden;
+    overflow: auto;
     padding-bottom: 1em;
+    max-height: 300px;
     li {
       h3{
         display: block;

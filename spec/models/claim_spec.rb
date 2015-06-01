@@ -36,6 +36,8 @@ require 'rails_helper'
 RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
   it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
+  it { should delegate_method(:chamber_id).to(:advocate) }
+
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
   it { should belong_to(:scheme) }

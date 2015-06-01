@@ -33,11 +33,12 @@
 
 FactoryGirl.define do
   factory :claim do
+
     court
     case_number { Faker::Number.number(10) }
     advocate
     after(:build) do |claim|
-      claim.creator_id = claim.advocate.id
+      claim.creator = claim.advocate
     end
 
     case_type 'trial'
@@ -45,6 +46,14 @@ FactoryGirl.define do
     advocate_category 'qc_alone'
     prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
+
+    trait :admin_creator do
+      after(:build) do |claim|
+        advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
+        advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
+        claim.creator = advocate_admin
+      end
+    end
 
     factory :invalid_claim do
       case_type 'invalid case type'

@@ -28,17 +28,29 @@ Feature: Advocate claims list
        | "completed"  | 5      |
        | "draft"      | 5      |
 
-  Scenario Outline: View amount assessed
+  Scenario Outline: View amount assessed for paid and part_paid claims
     Given I am a signed in advocate admin
       And my chamber has <number> <state> claims
     When I visit the advocates dashboard
-    Then I see a column containing the amount assesed for <state> claims
-      And a figure representing the amount assessed for <state> claims
+    Then I see a column called amount assesed for <state> claims
+      And I see a figure representing the amount assessed for <state> claims
 
     Examples:
        | state        | number |
        | "part_paid"  | 5      |
        | "completed"  | 5      |
+
+  Scenario Outline: Do not view amount assessed for draft, submitted or rejected claims
+    Given I am a signed in advocate admin
+      And my chamber has <number> <state> claims
+    When I visit the advocates dashboard
+    Then I do not see a column called amount assesed for <state> claims
+
+    Examples:
+       | state        | number |
+       | "submitted"  | 5      |
+       | "rejected"   | 5      |
+       | "draft"      | 5      |
        
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin

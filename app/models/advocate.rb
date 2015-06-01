@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: advocates
+#
+#  id             :integer          not null, primary key
+#  role           :string(255)
+#  chamber_id     :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  account_number :string(255)
+#
+
 class Advocate < ActiveRecord::Base
   ROLES = %w{ admin advocate }
   include UserRoles

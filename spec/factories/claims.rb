@@ -1,3 +1,36 @@
+# == Schema Information
+#
+# Table name: claims
+#
+#  id                     :integer          not null, primary key
+#  additional_information :text
+#  apply_vat              :boolean
+#  state                  :string(255)
+#  case_type              :string(255)
+#  submitted_at           :datetime
+#  case_number            :string(255)
+#  advocate_category      :string(255)
+#  prosecuting_authority  :string(255)
+#  indictment_number      :string(255)
+#  first_day_of_trial     :date
+#  estimated_trial_length :integer          default(0)
+#  actual_trial_length    :integer          default(0)
+#  fees_total             :decimal(, )      default(0.0)
+#  expenses_total         :decimal(, )      default(0.0)
+#  total                  :decimal(, )      default(0.0)
+#  advocate_id            :integer
+#  court_id               :integer
+#  offence_id             :integer
+#  scheme_id              :integer
+#  created_at             :datetime
+#  updated_at             :datetime
+#  valid_until            :datetime
+#  cms_number             :string(255)
+#  paid_at                :datetime
+#  creator_id             :integer
+#  amount_assessed        :decimal(, )
+#
+
 FactoryGirl.define do
   factory :claim do
     court

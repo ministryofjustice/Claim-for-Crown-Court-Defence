@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: fees
+#
+#  id          :integer          not null, primary key
+#  claim_id    :integer
+#  fee_type_id :integer
+#  quantity    :integer
+#  rate        :decimal(, )
+#  amount      :decimal(, )
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type

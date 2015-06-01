@@ -28,6 +28,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.7)
+    annotate (2.6.10)
+      activerecord (>= 3.2, <= 4.3)
+      rake (~> 10.4)
     arel (5.0.1.20140414130214)
     awesome_print (1.6.1)
     aws-sdk-v1 (1.64.0)
@@ -386,6 +389,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   awesome_print
   aws-sdk-v1
   better_errors

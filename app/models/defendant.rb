@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: defendants
+#
+#  id                               :integer          not null, primary key
+#  first_name                       :string(255)
+#  middle_name                      :string(255)
+#  last_name                        :string(255)
+#  date_of_birth                    :datetime
+#  representation_order_date        :datetime
+#  order_for_judicial_apportionment :boolean
+#  maat_reference                   :string(255)
+#  claim_id                         :integer
+#  created_at                       :datetime
+#  updated_at                       :datetime
+#
+
 class Defendant < ActiveRecord::Base
   belongs_to :claim
 

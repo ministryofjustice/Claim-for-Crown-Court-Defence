@@ -1,5 +1,5 @@
 #claim-form
-  = form_for [:advocates, @claim] do |f|
+  = form_for [:advocates, @claim], html: { novalidate: true } do |f|
     - if @claim.errors.any?
       %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
       %ul
@@ -13,7 +13,7 @@
 
       - if current_user.persona.admin?
         = f.label :advocate
-        = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'} 
+        = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
 
       = f.label :scheme
 

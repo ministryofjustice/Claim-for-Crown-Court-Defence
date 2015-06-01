@@ -2,7 +2,7 @@ chamber = Chamber.find_or_create_by!(name: 'Test chamber/firm', account_number: 
 
 if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(
-    first_name: 'John',
+    first_name: 'Bob',
     last_name: 'Smith',
     email: 'advocate@example.com',
     password: ENV['ADVOCATE_PASSWORD'],

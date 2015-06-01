@@ -7,8 +7,7 @@ Feature: Sign in
 
   Scenario: Sign in as an advocate admin
     Given an "advocate admin" user account exists
-     When I visit the user sign in page
-      And I enter my email, password and click log in
+    When that advocate admin signs in
      Then I should be redirected to the advocates landing url
 
   Scenario: Sign in as a case worker

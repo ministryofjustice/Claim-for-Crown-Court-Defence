@@ -44,7 +44,7 @@ namespace :claims do
       end
   end
 
-  def add_fees_expenses_and_defendant(claim)
+  def add_fees_expenses_and_defendant(claim)    
     rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample) }
     rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)

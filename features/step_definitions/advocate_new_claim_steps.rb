@@ -5,12 +5,12 @@ Given(/^I am a signed in advocate$/) do
 end
 
 Given(/^There are other advocates in my chamber$/) do
-  FactoryGirl.create(:advocate, 
-        chamber: @advocate.chamber, 
+  FactoryGirl.create(:advocate,
+        chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
         account_number: 'AC135')
-  FactoryGirl.create(:advocate, 
-        chamber: @advocate.chamber, 
+  FactoryGirl.create(:advocate,
+        chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
         account_number: 'XY455')
 end
@@ -84,7 +84,7 @@ end
 
 Then(/^I should be redirected back to the claim form with error$/) do
   expect(page).to have_content('Claim for Advocate Graduated Fees')
-  expect(page).to have_content('1 error prohibited this claim from being saved:')
+  expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
   expect(page).to have_content("Advocate can't be blank")
 end
 

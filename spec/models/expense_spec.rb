@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: expenses
+#
+#  id              :integer          not null, primary key
+#  expense_type_id :integer
+#  claim_id        :integer
+#  date            :datetime
+#  location        :string(255)
+#  quantity        :integer
+#  rate            :decimal(, )
+#  hours           :decimal(, )
+#  amount          :decimal(, )
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe Expense, type: :model do

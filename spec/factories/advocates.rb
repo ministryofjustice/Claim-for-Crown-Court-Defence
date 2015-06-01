@@ -17,7 +17,7 @@ FactoryGirl.define do
     end
 
     chamber
-    sequence(:account_number, 100) { |n| "AC#{n}" }
+    account_number  { generate_unique_account_number }
 
 
     role 'advocate'
@@ -26,4 +26,12 @@ FactoryGirl.define do
       role 'admin'
     end
   end
+end
+
+
+def generate_unique_account_number
+  alpha_part = ""
+  2.times{alpha_part  << (65 + rand(25)).chr}
+  numeric_part = rand(999)
+  "#{alpha_part}#{sprintf('%03d', numeric_part)}"
 end

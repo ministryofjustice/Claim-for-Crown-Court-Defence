@@ -18,8 +18,9 @@
         Paid date
       %th.currency
         Claim total
-      %th.currency
-        Amount assessed
+      - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']
+        %th.currency
+          Amount assessed
       %th
     %tbody
     - claims.each do |claim|

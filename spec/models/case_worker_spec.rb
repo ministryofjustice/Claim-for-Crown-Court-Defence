@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: case_workers
+#
+#  id         :integer          not null, primary key
+#  role       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe CaseWorker, type: :model do

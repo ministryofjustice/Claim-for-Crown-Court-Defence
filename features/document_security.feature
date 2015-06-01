@@ -8,7 +8,6 @@ Feature: Documents are only accessible to the correct authorised users
     When a document exists that belongs to the advocate
     Then an anonymous user cannot access the document
 
-  @focus
   Scenario: The advocate who uploaded the document can access it
     Given an "advocate" user account exists
     And that advocate signs in

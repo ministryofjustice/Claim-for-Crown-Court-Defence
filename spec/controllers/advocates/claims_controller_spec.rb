@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Advocates::ClaimsController, type: :controller do
-  let(:advocate) { create(:advocate) }
+RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
+  let!(:advocate) { create(:advocate) }
 
   before { sign_in advocate.user }
 
@@ -26,10 +26,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
     context 'advocate' do
       before do
-        create(:claim, advocate: advocate)
-        create(:submitted_claim, advocate: advocate)
-        create(:completed_claim, advocate: advocate)
-        create(:rejected_claim, advocate: advocate)
+        create(:claim,            advocate: advocate)
+        create(:submitted_claim,  advocate: advocate)
+        create(:completed_claim,  advocate: advocate)
+        create(:rejected_claim,   advocate: advocate)
       end
 
       it 'assigns @submitted_claims' do
@@ -107,7 +107,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :show, id: subject }
 
@@ -144,7 +144,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
     before { get :edit, id: subject }
 
     context 'editable claim' do
-      subject { create(:claim) }
+      subject { create(:claim, advocate: advocate) }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -160,7 +160,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
     end
 
     context 'uneditable claim' do
-      subject { create(:allocated_claim) }
+      subject { create(:allocated_claim, advocate: advocate) }
 
       it 'redirects to advocates claims index' do
         expect(response).to redirect_to(advocates_claims_url)
@@ -218,7 +218,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     context 'when valid' do
       context 'and draft' do
@@ -273,7 +273,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   describe "DELETE #destroy" do
     before { delete :destroy, id: subject }
 
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     it 'deletes the claim' do
       expect(Claim.count).to eq(0)

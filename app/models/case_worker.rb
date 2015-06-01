@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: case_workers
+#
+#  id         :integer          not null, primary key
+#  role       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
   include UserRoles

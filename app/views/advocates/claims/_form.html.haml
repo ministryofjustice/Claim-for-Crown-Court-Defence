@@ -11,6 +11,10 @@
       %legend
         Case, Instructed Advocate & Offence
 
+      - if current_user.persona.admin?
+        = f.label :advocate
+        = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'} 
+
       = f.label :scheme
 
       = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }

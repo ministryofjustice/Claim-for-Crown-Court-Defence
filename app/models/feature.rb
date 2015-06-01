@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: features
+#
+#  id         :integer          not null, primary key
+#  key        :string(255)      not null
+#  enabled    :boolean          default(FALSE), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Feature < ActiveRecord::Base
   extend Flip::Declarable
 

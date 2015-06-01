@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: fee_types
+#
+#  id              :integer          not null, primary key
+#  description     :string(255)
+#  code            :string(255)
+#  fee_category_id :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class FeeType < ActiveRecord::Base
   belongs_to :fee_category
 

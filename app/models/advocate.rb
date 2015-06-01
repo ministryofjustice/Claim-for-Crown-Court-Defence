@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: advocates
+#
+#  id             :integer          not null, primary key
+#  role           :string(255)
+#  chamber_id     :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  account_number :string(255)
+#
+
 class Advocate < ActiveRecord::Base
   ROLES = %w{ admin advocate }
   include UserRoles
@@ -20,4 +32,18 @@ class Advocate < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+
+
+
+  def advocates_in_chamber
+    raise "Cannot call #advocates_in_chamber on advocates who are not admins" unless self.is?('admin')
+    Advocate.where('chamber_id = ? and role = ?', self.chamber_id, 'advocate').order('users.last_name')
+  end
+
+
+  def name_and_number
+    "#{self.user.last_name}, #{self.user.first_name}: #{self.account_number}"
+  end
+
+
 end

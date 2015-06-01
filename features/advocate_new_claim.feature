@@ -39,3 +39,21 @@ Feature: Advocate new claim
      When I submit the form
      Then the claim should be in state "submitted"
       And I should be on the claim confirmation page
+
+  Scenario: Admin specifies advocate name
+    Given I am a signed in advocate admin
+      And There are other advocates in my chamber
+      And I am on the new claim page
+     Then I can view a select of all advocates in my chamber
+     When I select Advocate name "Doe, John: AC135"
+      And I fill in the claim details
+      And I submit the form
+     Then I should be redirected to the claim summary page
+      And I should see the claim totals
+
+  Scenario: Admin fails to specify advocate name
+    Given I am a signed in advocate admin
+      And I am on the new claim page
+      And I fill in the claim details
+      And I submit the form
+     Then I should be redirected back to the claim form with error

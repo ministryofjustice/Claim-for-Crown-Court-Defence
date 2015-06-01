@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: messages
+#
+#  id         :integer          not null, primary key
+#  subject    :string(255)
+#  body       :text
+#  claim_id   :integer
+#  sender_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 FactoryGirl.define do
   factory :message do
     subject { Faker::Lorem.sentence }

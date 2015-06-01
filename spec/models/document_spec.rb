@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                                      :integer          not null, primary key
+#  claim_id                                :integer
+#  document_type_id                        :integer
+#  notes                                   :text
+#  created_at                              :datetime
+#  updated_at                              :datetime
+#  document_file_name                      :string(255)
+#  document_content_type                   :string(255)
+#  document_file_size                      :integer
+#  document_updated_at                     :datetime
+#  advocate_id                             :integer
+#  converted_preview_document_file_name    :string(255)
+#  converted_preview_document_content_type :string(255)
+#  converted_preview_document_file_size    :integer
+#  converted_preview_document_updated_at   :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe Document, type: :model do

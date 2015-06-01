@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: courts
+#
+#  id         :integer          not null, primary key
+#  code       :string(255)
+#  name       :string(255)
+#  court_type :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Court < ActiveRecord::Base
   COURT_TYPES = %w( crown magistrate )
 

@@ -1,0 +1,70 @@
+%section#summary
+  %h1
+    Fees
+  %table
+    %thead
+      %th
+        Fee Category
+      %th
+        Fee Type
+      %th
+        Quantity
+      %th
+        Rate
+      %th
+        Amount
+    %tbody
+      - @claim.fees.each do |fee|
+        %tr
+          %td
+            = fee.fee_type.fee_category.name
+          %td
+            = fee.fee_type.description
+          %td
+            = fee.quantity
+          %td
+            = '%.2f' % fee.rate
+          %td
+            = number_to_currency(fee.amount)
+  %p
+    Fees total:
+    = number_to_currency(@claim.fees_total)
+
+  %h1
+    Expenses
+  %table
+    %thead
+      %th
+        Expense type
+      %th
+        Location
+      %th
+        Quantity
+      %th
+        Rate
+      %th
+        Hours
+      %th
+        Amount
+    %tbody
+      - @claim.expenses.each do |expense|
+        %tr
+          %td
+            = expense.expense_type.name
+          %td
+            = expense.location
+          %td
+            = expense.quantity
+          %td
+            = '%.2f' % expense.rate
+          %td
+            = '%.2f' % expense.hours
+          %td
+            = number_to_currency(expense.amount)
+  %p
+    Expenses total:
+    = number_to_currency(@claim.expenses_total)
+
+  %p
+    Claim total:
+    = number_to_currency(@claim.total)

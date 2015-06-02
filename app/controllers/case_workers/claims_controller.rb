@@ -14,7 +14,21 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @message = @claim.messages.build
   end
 
+  def update
+    @claim = Claim.find(params[:id])
+    @messages = @claim.messages.most_recent_first
+    @doc_types = DocumentType.all
+
+    @claim.update(claim_params)
+    @message = @claim.messages.build
+    render action: :show
+  end
+
   private
+
+  def claim_params
+    params.require(:claim).permit(:payment_status, :amount_assessed, :additional_information)
+  end
 
   def set_claims
     @claims = case tab

@@ -74,6 +74,8 @@ RSpec.describe Claim, type: :model do
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }
 
+  it { should validate_inclusion_of(:payment_status).in_array( %w{ unassessed paid_in_full part_paid not_paid } ) } 
+
   subject { create(:claim) }
 
   describe '.find_by_maat_reference' do

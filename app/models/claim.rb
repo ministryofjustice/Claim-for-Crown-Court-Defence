@@ -85,6 +85,7 @@ class Claim < ActiveRecord::Base
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :payment_status,          inclusion: { in: %w( unassessed paid_in_full part_paid not_paid ), message: "%{value} is not a valid payment status" } 
 
   accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true

@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   namespace :case_workers do
     root to: 'claims#index'
 
-    resources :claims, only: [:index, :show]
+    resources :claims, only: [:index, :show, :update]
 
     namespace :admin do
       root to: 'case_workers#index'

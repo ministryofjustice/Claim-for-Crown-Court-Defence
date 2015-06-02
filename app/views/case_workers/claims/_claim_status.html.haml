@@ -1,20 +1,31 @@
 %section 
-  %form#claim-status
-    %div
-      %label
-        %input{type: 'radio', name: 'payment-status'}
-        Paid in full
-      %label
-        %input{type: 'radio', name: 'payment-status'}
-        Part paid
-      %label
-        %input{type: 'radio', name: 'payment-status'}
-        Not paid
 
-    %textarea{placeholder: 'Reason/ description'}
+  - if @claim.errors.any?
+    %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+    %ul
+      - @claim.errors.full_messages.each do |msg|
+        %li= msg
 
-    .actions
-      %button.draft
-        Save draft
-      %button.button
-        Complete
+  = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
+    = f.radio_button :payment_status, 'unassessed'
+    = label :payment_status, 'Unassessed'
+
+    = f.radio_button :payment_status, "part_paid"
+    = label :payment_status, 'Part paid' 
+
+    = f.radio_button :payment_status, "paid_in_full"
+    = f.label :payment_status, 'Paid in full'
+
+    = f.radio_button :payment_status, 'not_paid'
+    = f.label :payment_status, 'Not Paid'
+
+    %p
+    = f.label :amount_assessed, 'Amount assessed'
+    = f.text_field :amount_assessed
+
+    %p
+    = f.label :additional_information, "Remarks"
+    = f.text_area :additional_information
+
+    %p
+    = f.submit 'Submit', class: 'button'

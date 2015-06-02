@@ -59,6 +59,34 @@ Feature: Advocate claims list
       And I search by the advocate name "John Smith"
      Then I should only see the 4 claims for the advocate "John Smith"
 
+  Scenario: Search claims by defendant name
+    Given I am a signed in advocate
+      And I have 2 claims involving defendant "Joe Bloggs" amongst others
+      And I have 3 claims involving defendant "Fred Bloggs" amongst others
+     When I visit the advocates dashboard
+      And I search by the defendant name "Joe Bloggs"
+     Then I should only see the 2 claims involving defendant "Joe Bloggs"
+      And I search by the defendant name "Fred Bloggs"
+     Then I should only see the 3 claims involving defendant "Fred Bloggs"
+      And I search by the defendant name "Bloggs"
+     Then I should only see the 5 claims involving defendant "Bloggs"
+
+ Scenario Outline: Search claims by advocate and defendant name
+  Given I am a signed in advocate admin
+    And signed in advocate's chamber has 2 claims for advocate "Fred Dibna" with defendant "Fred Bloggs"
+    And signed in advocate's chamber has 3 claims for advocate "Joe Adlott" with defendant "Joe Bloggs"
+   When I visit the advocates dashboard
+    And I enter advocate name of <advocate_name>
+    And I enter defendant name of <defendant_name>
+    And I hit search button
+   Then I should only see the <claim_count> claims involving defendant <defendant_name>
+
+   Examples:
+      | advocate_name | defendant_name | claim_count |
+      | "Fred Dibna"  | "Joe Bloggs"   | 0           |
+      | "Fred Dibna"  | "Fred Bloggs"  | 2           |
+      | "Joe Adlott"  | "Joe Bloggs"   | 3           |
+
   Scenario: No search by advocate name for non-admin
     Given I am a signed in advocate
      When I visit the advocates dashboard

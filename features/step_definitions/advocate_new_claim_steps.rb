@@ -20,7 +20,7 @@ Given(/^I am on the new claim page$/) do
 end
 
 When(/^I fill in the claim details$/) do
-  select('Guilty', from: 'claim_case_type')
+  select('Guilty plea', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'

@@ -8,7 +8,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     claims = @context.claims.order(created_at: :desc)
-    claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
+    claims = claims.find_by_advocate_name(params[:search_advocate]) if params[:search_advocate].present?
+    claims = claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
 
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected

@@ -60,7 +60,21 @@ RSpec.describe Claim, type: :model do
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
   it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }
+  it { should validate_inclusion_of(:case_type).in_array(%w( 
+                                                            appeal_against_conviction
+                                                            appeal_against_sentence
+                                                            breach_of_crown_court_order
+                                                            commital_for_sentence
+                                                            contempt
+                                                            cracked_trial
+                                                            cracked_before_retrial
+                                                            discontinuance
+                                                            elected_cases_not_proceeded
+                                                            guilty_plea
+                                                            retrial
+                                                            trial
+                                                            ))
+      }
 
   it { should validate_presence_of(:advocate_category) }
   it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
@@ -102,6 +116,37 @@ RSpec.describe Claim, type: :model do
     it 'does not find a claim with MAAT reference "444444"' do
       expect(Claim.find_by_maat_reference('444444')).to be_empty
     end
+  end
+
+  describe '.find_by_defendant_name' do
+    let!(:other_claim) { create(:claim) }
+    let!(:current_advocate) { create(:advocate) }
+    let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+
+    before do
+      subject.advocate = current_advocate
+      other_claim.advocate = other_advocate
+      subject.save!
+      other_claim.save!
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
+      create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
+      subject.reload
+      other_claim.reload
+    end
+
+    it 'finds all claims involving specified defendant' do
+      expect(Claim.find_by_defendant_name('Joe Bloggs').count).to eq(2)
+    end
+
+    it 'finds claim involving other specified defendant' do
+      expect(Claim.find_by_defendant_name('Hart')).to eq([other_claim])
+    end
+
+    it 'does not find claims involving non-existent defendant"' do
+      expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
+    end
+
   end
 
   describe '.find_by_advocate_name' do

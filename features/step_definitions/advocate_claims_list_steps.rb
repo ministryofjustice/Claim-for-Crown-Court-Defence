@@ -71,7 +71,19 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   end
 end
 
-Then(/^I see a column containing the amount assesed for "(.*?)" claims$/) do |state|
+Then(/^I see a column called amount assesed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to have_content("Amount assessed")
+  end
+end
+
+Then(/^I do not see a column called amount assesed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to_not have_content("Amount assessed")
+  end
+end
+
+Then(/^I see a figure representing the amount assessed for "(.*?)" claims$/) do |state|
   within("##{state}") do
     expect(page).to have_content("Amount assessed")
   end

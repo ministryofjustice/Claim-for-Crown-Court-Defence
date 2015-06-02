@@ -18,8 +18,9 @@
         Paid date
       %th.currency
         Claim total
-      %th.currency
-        Amount assessed
+      - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']
+        %th.currency
+          Amount assessed
       %th
     %tbody
     - claims.each do |claim|
@@ -39,8 +40,9 @@
           = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
         %td.currency
           = number_to_currency(claim.total)
-        %td.currency
-          = number_to_currency(claim.amount_assessed)
+        - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']
+          %td.currency
+            = number_to_currency(claim.amount_assessed)
         %td
           = link_to 'View', advocates_claim_path(claim)
           - if claim.editable?

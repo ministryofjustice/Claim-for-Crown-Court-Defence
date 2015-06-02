@@ -35,27 +35,22 @@ Then(/^I should see only my claims$/) do
   end
 end
 
-Then(/^the claims should be sorted by oldest first$/) do
-  claim_dom_ids = @claims.sort_by(&:submitted_at).map { |c| "claim_#{c.id}" }
-  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
-end
-
 Given(/^I am signed in and on the case worker dashboard$/) do
   steps <<-STEPS
     Given I am a signed in case worker
       And claims have been assigned to me
      When I visit my dashboard
      Then I should see only my claims
-      And the claims should be sorted by oldest first
+      And I should see the claims sorted by oldest first
   STEPS
 end
 
-When(/^I sort the the claims by newest first$/) do
-  click_on 'Newest'
+When(/^I sort the claims by oldest first$/) do
+  click_on 'Oldest'
 end
 
-Then(/^I should see the claims sorted by newest first$/) do
-  claim_dom_ids = @claims.sort_by(&:submitted_at).reverse.map { |c| "claim_#{c.id}" }
+Then(/^I should see the claims sorted by oldest first$/) do
+  claim_dom_ids = @claims.sort_by(&:submitted_at).map { |c| "claim_#{c.id}" }
   expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
 end
 

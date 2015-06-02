@@ -45,8 +45,13 @@ namespace :claims do
   end
 
   def add_fees_expenses_and_defendant(claim)
-    rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample) }
-    rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+    fees = []
+    rand(1..10).times { fees << FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample) }
+    claim.fees = fees
+
+    expenses = []
+    rand(1..10).times { expenses << FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+    claim.expenses = expenses
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)
   end
 
@@ -92,9 +97,15 @@ namespace :claims do
     states_to_add.each do |s|
       next if s == :deleted
       claims_per_state.times do
-          
-          claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
-          puts("   - created #{s} claim for advocate #{advocate.first_name} #{advocate.last_name}")
+
+          # randomise creator
+          if rand(2) == 1          
+            claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
+          else
+            claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample )
+          end
+
+          puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
           add_document(claim)
 

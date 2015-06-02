@@ -26,7 +26,7 @@ When(/^I fill in the claim details$/) do
   fill_in 'Case number', with: '123456'
   select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
   select('Murder', from: 'claim_offence_id')
-  select('Qc alone', from: 'claim_advocate_category')
+  select('QC', from: 'claim_advocate_category')
 
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'

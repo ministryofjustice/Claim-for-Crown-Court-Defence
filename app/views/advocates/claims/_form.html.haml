@@ -31,7 +31,7 @@
       = f.text_field :case_number
 
       = f.label :advocate_category
-      = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :upcase, { prompt: true }, { class: 'select2' }
+      = f.collection_select :advocate_category, Claim::ADVOCATE_CATEGORIES, :to_s, :to_s, { prompt: true }, { class: 'select2' }
 
       = render 'dynamic_offence_fields', f: f
       %span.auto-width

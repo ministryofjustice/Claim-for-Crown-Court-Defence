@@ -21,7 +21,7 @@
 
     %p
     = f.label :amount_assessed, 'Amount assessed'
-    = f.text_field :amount_assessed
+    = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2)
 
     %p
     = f.label :additional_information, "Remarks"

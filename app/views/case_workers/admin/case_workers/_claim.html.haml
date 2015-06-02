@@ -1,0 +1,90 @@
+%section
+  %ul.case-data
+    %li
+      %h3
+        Case
+      %dl
+        %dt.quickview
+          Case number
+        %dd.quickview
+          #{claim.case_number}
+        %dt.quickview
+          Case Type
+        %dd.quickview
+          #{claim.case_type.humanize}
+        %dt
+          Case submitted
+        %dd
+          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
+        %dt
+          Case Worker
+        %dd
+          #{claim.case_workers.map(&:email).join(', ')}
+        %dt
+          #{t('maat_reference_number')}
+        %dd
+          #{claim.defendants.map(&:maat_reference).join(', ')}
+        %dt
+          Defendant name
+        %dd
+          #{claim.defendants.map(&:name).join(', ')}
+        %dt
+          Offence
+        %dd
+          #{claim.offence.description}
+        %dt
+          Offence class
+        %dd
+          #{claim.offence.offence_class}
+    %li
+      %h3
+        Court
+      %dl
+        %dt.quickview
+          Court
+        %dd.quickview
+          #{claim.court.name}
+        %dt.quickview
+          Court type
+        %dd.quickview
+          #{claim.court.court_type.humanize}
+        %dt
+          Prosecuting authority
+        %dd
+          CPS
+        %dt
+          Hearing
+        %dd
+          15/04/2 7
+        %dt
+          Advocate
+        %dd
+          #{claim.advocate.email}
+        %dt
+          Advocate no
+        %dd
+          SUP125HYT**
+
+    %li
+      %h3
+        Case Value
+      %dl
+        %dt.quickview
+          Expenses
+        %dd.quickview
+          = number_to_currency(claim.expenses_total)
+        %dt.quickview
+          Fees
+        %dd.quickview
+          = number_to_currency(claim.fees_total)
+        %dt
+          VAT
+        %dt
+          TOTAL
+        %dd
+          %span.value
+            = number_to_currency(claim.total)
+        %dt
+          Paid on
+        %dd
+          = "#{claim.paid_at.strftime('%d/%m/%Y %H:%M')}" unless claim.paid_at.nil?

@@ -14,6 +14,6 @@
       = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
         %li
           = b.label do
+            = render partial: 'claim', locals: { claim: b.object }
             = b.check_box
-            = b.object.description
   = f.submit class: "button"

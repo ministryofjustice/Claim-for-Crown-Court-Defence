@@ -8,7 +8,7 @@ Feature: Caseworker claims list
       And claims have been assigned to me
      When I visit my dashboard
      Then I should see only my claims
-      And the claims should be sorted by oldest first
+      And I should see the claims sorted by oldest first
 
   Scenario: View completed claims
     Given I am a signed in case worker
@@ -16,12 +16,12 @@ Feature: Caseworker claims list
      When I visit my dashboard
       And I click on the Completed Claims tab
      Then I should see only my claims
-      And the claims should be sorted by oldest first
+      And I should see the claims sorted by oldest first
 
-  Scenario: Sort current claims by newest first
+  Scenario: Sort current claims by oldest first
     Given I am signed in and on the case worker dashboard
-     When I sort the the claims by newest first
-     Then I should see the claims sorted by newest first
+     When I sort the claims by oldest first
+     Then I should see the claims sorted by oldest first
 
   Scenario: Sort current claims by highest value
     Given I am signed in and on the case worker dashboard

@@ -120,16 +120,66 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :prosecuting_authority,
      :indictment_number,
      :apply_vat,
-     defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
-     fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
-     expenses_attributes: [:id, :claim_id, :expense_type_id, :location, :quantity, :rate, :hours, :amount, :_destroy],
-     documents_attributes: [:id, :advocate_id, :claim_id, :document_type_id, :document, :description]
+     defendants_attributes: [
+       :id,
+       :claim_id,
+       :first_name,
+       :middle_name,
+       :last_name,
+       :date_of_birth,
+       :representation_order_date,
+       :order_for_judicial_apportionment,
+       :maat_reference,
+       :_destroy
+     ],
+     fees_attributes: [
+       :id,
+       :claim_id,
+       :fee_type_id,
+       :fee_id,
+       :quantity,
+       :rate,
+       :amount,
+       :_destroy,
+       dates_attended_attributes: [
+          :id,
+          :fee_id,
+          :date,
+          :date_to,
+          :_destroy
+        ]
+      ],
+     expenses_attributes: [
+       :id,
+       :claim_id,
+       :expense_type_id,
+       :location,
+       :quantity,
+       :rate,
+       :hours,
+       :amount,
+       :_destroy
+     ],
+     documents_attributes: [
+       :id,
+       :advocate_id,
+       :claim_id,
+       :document_type_id,
+       :document,
+       :description
+     ]
     )
   end
 
   def build_nested_resources
+    if @claim.fees.none?
+      @claim.fees.build
+      @claim.fees.each do |fee|
+        fee.dates_attended.build if fee.dates_attended.none?
+      end
+    end
+
     @claim.defendants.build if @claim.defendants.none?
-    @claim.fees.build if @claim.fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
   end

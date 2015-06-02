@@ -37,7 +37,20 @@ class Claim < ActiveRecord::Base
 
   attr_reader :offence_class_id
 
-  CASE_TYPES = %w( guilty trial retrial cracked_retrial )
+  CASE_TYPES = %w( 
+                  appeal_against_conviction
+                  appeal_against_sentence
+                  breach_of_crown_court_order
+                  commital_for_sentence
+                  contempt
+                  cracked_trial
+                  cracked_before_retrial
+                  discontinuance
+                  elected_cases_not_proceeded
+                  guilty_plea
+                  retrial
+                  trial
+                  )
   ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
   PROSECUTING_AUTHORITIES = %W( cps )
 

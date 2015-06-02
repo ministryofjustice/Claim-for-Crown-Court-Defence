@@ -51,7 +51,9 @@ class Claim < ActiveRecord::Base
                   retrial
                   trial
                   )
-  ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
+
+  ADVOCATE_CATEGORIES = ['QC', 'Led Junior', 'Leading junior', 'Junior alone']
+
   PROSECUTING_AUTHORITIES = %W( cps )
 
   belongs_to :court

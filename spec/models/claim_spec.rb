@@ -60,7 +60,21 @@ RSpec.describe Claim, type: :model do
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
   it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }
+  it { should validate_inclusion_of(:case_type).in_array(%w( 
+                                                            appeal_against_conviction
+                                                            appeal_against_sentence
+                                                            breach_of_crown_court_order
+                                                            commital_for_sentence
+                                                            contempt
+                                                            cracked_trial
+                                                            cracked_before_retrial
+                                                            discontinuance
+                                                            elected_cases_not_proceeded
+                                                            guilty_plea
+                                                            retrial
+                                                            trial
+                                                            ))
+      }
 
   it { should validate_presence_of(:advocate_category) }
   it { should validate_inclusion_of(:advocate_category).in_array(%w( qc_alone led_junior leading_junior junior_alone )) }

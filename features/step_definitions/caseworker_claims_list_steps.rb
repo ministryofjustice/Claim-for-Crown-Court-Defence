@@ -1,7 +1,7 @@
 Given(/^I am a signed in case worker$/) do
-  case_worker = create(:case_worker)
+  @case_worker = create(:case_worker)
   visit new_user_session_path
-  sign_in(case_worker.user, 'password')
+  sign_in(@case_worker.user, 'password')
 end
 
 Given(/^claims have been assigned to me$/) do
@@ -12,6 +12,19 @@ Given(/^claims have been assigned to me$/) do
   @claims.each { |claim| claim.case_workers << case_worker }
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
   create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+end
+
+Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)" amongst others$/) do |number,state,defendant_name|
+  claims = create_list("#{state}_claim".to_sym, number.to_i)
+  claims.each do |claim|
+    create(:defendant, claim: claim, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+  end
+  @case_worker.claims << claims
+  claims = create_list("#{state}_claim".to_sym, number.to_i)
+  claims.each do |claim|
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+  end
+  @case_worker.claims << claims
 end
 
 Given(/^I have been assigned claims with evidence attached$/) do
@@ -54,7 +67,7 @@ Then(/^I should see the claims sorted by oldest first$/) do
   expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
 end
 
-When(/^I sort the the claims by highest value first$/) do
+When(/^I sort the claims by highest value first$/) do
   click_on 'Value - Highest first'
 end
 
@@ -63,7 +76,7 @@ Then(/^I should see the claims sorted by highest value first$/) do
   expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
 end
 
-When(/^I sort the the claims by lowest value first$/) do
+When(/^I sort the claims by lowest value first$/) do
   click_on 'Value - Lowest first'
 end
 
@@ -76,8 +89,17 @@ Then(/^I should see the claims count$/) do
   expect(page).to have_content("Current claims (#{@claims.size})")
 end
 
+When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
+  fill_in 'search_defendant', with: defendant_name
+  click_button 'Search'
+end
+
+Then(/^I should only see (\d+) "(.*?)" claims$/) do |number, state_name|
+  expect(page).to have_content("#{state_name} claims (#{number})")
+end
+
 When(/^I search for a claim by MAAT reference$/) do
-  fill_in 'search', with: 'AA1245'
+  fill_in 'search_maat', with: 'AA1245'
   click_button 'Search'
 end
 

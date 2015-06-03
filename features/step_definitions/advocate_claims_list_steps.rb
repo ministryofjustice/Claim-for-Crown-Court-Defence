@@ -133,7 +133,6 @@ When(/^I search by the defendant name "(.*?)"$/) do |name|
 end
 
 Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  # expect(page).to have_content(name, count: number.to_i)
   expect(page).to have_content(name, count: number.to_i)
 end
 

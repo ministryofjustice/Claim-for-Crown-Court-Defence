@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Claims::FinancialSummary, type: :model do
   let!(:submitted_claim) { create(:claim, state: 'submitted', total: 103.56) }
   let!(:allocated_claim) { create(:claim, state: 'allocated', total: 56.21) }
-  let!(:paid_claim) { create(:claim, state: 'paid', total: 89) }
+  # let!(:paid_claim) { create(:claim, state: 'paid', total: 89) }
+  let!(:paid_claim)   {claim = FactoryGirl.create(:paid_claim, total: 89) }
   let(:advocate) { create(:advocate) }
 
   context 'by advocate' do
@@ -48,7 +49,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     let!(:another_submitted_claim) { create(:claim, state: 'submitted', total: 33.56) }
     let!(:another_allocated_claim) { create(:claim, state: 'allocated', total: 66.21) }
-    let!(:another_paid_claim) { create(:claim, state: 'paid', total: 29.6) }
+    let!(:another_paid_claim)      { FactoryGirl.create :paid_claim, total: 29.6 }
 
     before do
       advocate.chamber = chamber

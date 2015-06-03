@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20150602101638) do
     t.datetime "paid_at"
     t.integer  "creator_id"
     t.decimal  "amount_assessed",        default: 0.0
-    t.string   "payment_status",         default: "unassessed"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree

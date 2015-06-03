@@ -115,8 +115,8 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 end
 
 When(/^I search by the advocate name "(.*?)"$/) do |name|
-  fill_in 'search', with: name
-  click_button 'Search'
+  fill_in 'search_advocate', with: name
+  click_button 'search'
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
@@ -124,7 +124,17 @@ Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number
 end
 
 Then(/^I should not see the advocate search field$/) do
-  expect(page).to_not have_selector('#search')
+  expect(page).to_not have_selector('#search_advocate')
+end
+
+When(/^I search by the defendant name "(.*?)"$/) do |name|
+  fill_in 'search_defendant', with: name
+  click_button 'search'
+end
+
+Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
+  # expect(page).to have_content(name, count: number.to_i)
+  expect(page).to have_content(name, count: number.to_i)
 end
 
 Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
@@ -142,8 +152,41 @@ Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate
   @claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
 end
 
+Given(/^I have (\d+) claims involving defendant "(.*?)" amongst others$/) do |number,defendant_name|
+  @claims = create_list(:draft_claim, number.to_i, advocate: @advocate)
+  @claims.each do |claim|
+    create(:defendant, claim: claim, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+  end
+  @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
+  @claims.each do |claim|
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+  end
+end
 
 Given(/^I should see section titles of "(.*?)"$/) do |section_title|
   expect(page).to have_selector('h2', text: section_title)
 end
 
+Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with defendant "(.*?)"$/) do |number, advocate_name, defendant_name|
+  new_advocate = create(:advocate, chamber: @advocate.chamber)
+  new_advocate.user.first_name = advocate_name.split.first
+  new_advocate.user.last_name = advocate_name.split.last
+  new_advocate.user.save!
+
+  claims = create_list(:submitted_claim, number.to_i, advocate: new_advocate )
+  claims.each do |claim|
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+  end
+end
+
+When(/^I enter advocate name of "(.*?)"$/) do |name|
+  fill_in 'search_advocate', with: name
+end
+
+When(/^I enter defendant name of "(.*?)"$/) do |name|
+  fill_in 'search_defendant', with: name
+end
+
+When (/^I hit search button$/) do
+  click_button 'search'
+end

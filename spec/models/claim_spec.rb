@@ -118,6 +118,37 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '.find_by_defendant_name' do
+    let!(:other_claim) { create(:claim) }
+    let!(:current_advocate) { create(:advocate) }
+    let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+
+    before do
+      subject.advocate = current_advocate
+      other_claim.advocate = other_advocate
+      subject.save!
+      other_claim.save!
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
+      create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
+      subject.reload
+      other_claim.reload
+    end
+
+    it 'finds all claims involving specified defendant' do
+      expect(Claim.find_by_defendant_name('Joe Bloggs').count).to eq(2)
+    end
+
+    it 'finds claim involving other specified defendant' do
+      expect(Claim.find_by_defendant_name('Hart')).to eq([other_claim])
+    end
+
+    it 'does not find claims involving non-existent defendant"' do
+      expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
+    end
+
+  end
+
   describe '.find_by_advocate_name' do
     let!(:other_claim) { create(:claim) }
 

@@ -68,3 +68,8 @@
   %p
     Claim total:
     = number_to_currency(@claim.total)
+
+  - if @claim.apply_vat?
+    %p
+      %strong
+        VAT applies to claim

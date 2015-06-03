@@ -65,7 +65,7 @@ FactoryGirl.define do
     end
 
     factory :appealed_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.reject_parts!; c.appeal! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part!; c.reject_parts!; c.appeal! }
     end
 
     factory :archived_pending_delete_claim do
@@ -73,7 +73,7 @@ FactoryGirl.define do
     end
 
     factory :awaiting_further_info_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.await_further_info!  }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part!; c.await_further_info!  }
     end
 
     factory :awaiting_info_from_court_claim do
@@ -81,19 +81,19 @@ FactoryGirl.define do
     end
 
     factory :completed_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay!; c.complete!; }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.complete!; }
     end
 
     factory :paid_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay! }
     end
 
     factory :part_paid_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay_part! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part! }
     end
 
     factory :parts_rejected_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.pay_part!; c.reject_parts!  }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part!; c.reject_parts!  }
     end
 
     factory :refused_claim do
@@ -110,4 +110,9 @@ FactoryGirl.define do
 
   end
 
+end
+
+
+def set_amount_assessed(claim)
+  claim.update_attribute(:amount_assessed, rand(0.0..999.99).round(2))
 end

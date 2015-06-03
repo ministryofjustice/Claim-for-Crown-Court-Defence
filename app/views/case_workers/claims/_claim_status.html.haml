@@ -7,25 +7,27 @@
         %li= msg
 
   = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
-    = f.radio_button :payment_status, 'unassessed'
-    = label :payment_status, 'Unassessed'
+  
+    = f.radio_button :state_for_form, "part_paid", disabled: f.object.disable_payment_status_radio_buttons?
+    = label :state_for_form, 'Part paid' 
 
-    = f.radio_button :payment_status, "part_paid"
-    = label :payment_status, 'Part paid' 
+    = f.radio_button :state_for_form, "paid", disabled: f.object.disable_payment_status_radio_buttons?
+    = f.label :state_for_form, 'Paid in full'
 
-    = f.radio_button :payment_status, "paid_in_full"
-    = f.label :payment_status, 'Paid in full'
+    = f.radio_button :state_for_form, 'refused', disabled: f.object.disable_payment_status_radio_buttons?
+    = f.label :state_for_form, 'Refused'
 
-    = f.radio_button :payment_status, 'not_paid'
-    = f.label :payment_status, 'Not Paid'
+    = f.radio_button :state_for_form, 'rejected', disabled: f.object.disable_payment_status_radio_buttons?
+    = f.label :state_for_form, 'Rejected'
+
 
     %p
     = f.label :amount_assessed, 'Amount assessed'
-    = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2)
+    = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: f.object.disable_payment_status_radio_buttons?
 
     %p
     = f.label :additional_information, "Remarks"
     = f.text_area :additional_information
 
     %p
-    = f.submit 'Submit', class: 'button'
+    = f.submit 'Update', class: 'button'

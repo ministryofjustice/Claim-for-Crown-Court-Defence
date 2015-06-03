@@ -18,8 +18,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_first
     @doc_types = DocumentType.all
-
-    @claim.update(claim_params)
+    begin
+      @claim.update(claim_params)
+    rescue StateMachine::InvalidTransition => err
+    end
     @message = @claim.messages.build
     render action: :show
   end
@@ -27,15 +29,15 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   private
 
   def claim_params
-    params.require(:claim).permit(:payment_status, :amount_assessed, :additional_information)
+    params.require(:claim).permit(:state_for_form, :amount_assessed, :additional_information)
   end
 
   def set_claims
     @claims = case tab
-      when 'current'
-        current_user.claims.allocated
-      when 'completed'
-        current_user.claims.completed
+    when 'current'
+      current_user.claims.allocated
+    when 'completed'
+      current_user.claims.completed
     end
   end
 

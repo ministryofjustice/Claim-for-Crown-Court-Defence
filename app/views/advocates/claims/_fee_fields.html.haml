@@ -11,7 +11,7 @@
   %span.auto-width
     = f.label :amount
     = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2)
-  %span.auto-width
+  %div
     = f.fields_for :dates_attended do |date_attended|
       = render 'date_attended_fields', f: date_attended
     .links

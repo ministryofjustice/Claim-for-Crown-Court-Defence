@@ -172,13 +172,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def build_nested_resources
-    if @claim.fees.none?
-      @claim.fees.build
-      @claim.fees.each do |fee|
-        fee.dates_attended.build if fee.dates_attended.none?
-      end
-    end
-
+    @claim.fees.build if @claim.fees.none?
     @claim.defendants.build if @claim.defendants.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?

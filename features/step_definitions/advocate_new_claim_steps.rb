@@ -67,7 +67,7 @@ Then(/^the Offence category does contain "(.*?)"$/) do |valid_offence_category|
 end
 
 When(/^I submit the form$/) do
-  click_on 'Submit'
+  find('input[name="commit"]').click
 end
 
 Then(/^I should be redirected to the claim summary page$/) do

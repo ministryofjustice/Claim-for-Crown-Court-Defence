@@ -92,5 +92,5 @@
 
 
     %p
-      = f.submit 'Submit', class: 'button'
+      = f.submit (@claim.new_record? ? 'Save draft' : 'Save'), class: 'button'
       = link_to 'Back', advocates_claims_path, class: 'button'

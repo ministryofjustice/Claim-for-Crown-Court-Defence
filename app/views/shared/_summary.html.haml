@@ -13,6 +13,10 @@
         Rate
       %th
         Amount
+      - if @claim.apply_vat?
+        %th
+          VAT (at 20%)
+      %th
     %tbody
       - @claim.fees.each do |fee|
         %tr
@@ -26,9 +30,13 @@
             = '%.2f' % fee.rate
           %td
             = number_to_currency(fee.amount)
+          - if @claim.apply_vat?
+            %th
+              = number_to_currency(fee.amount * 0.2)
   %p
     Fees total:
     = number_to_currency(@claim.fees_total)
+    (excluding VAT)
 
   %h1
     Expenses
@@ -46,6 +54,9 @@
         Hours
       %th
         Amount
+      - if @claim.apply_vat?
+        %th
+          VAT (at 20%)
     %tbody
       - @claim.expenses.each do |expense|
         %tr
@@ -61,10 +72,15 @@
             = '%.2f' % expense.hours
           %td
             = number_to_currency(expense.amount)
+          - if @claim.apply_vat?
+            %th
+              = number_to_currency(expense.amount * 0.2)
   %p
     Expenses total:
     = number_to_currency(@claim.expenses_total)
+    (excluding VAT)
 
   %p
     Claim total:
     = number_to_currency(@claim.total)
+    (excluding VAT)

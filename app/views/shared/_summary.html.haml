@@ -36,8 +36,7 @@
   %p
     Fees total:
     = number_to_currency(@claim.fees_total)
-    - if @claim.apply_vat?
-      VAT (at 20%): #{number_to_currency(@claim.fees_total * 0.2)}
+    (excluding VAT)
 
   %h1
     Expenses
@@ -79,11 +78,9 @@
   %p
     Expenses total:
     = number_to_currency(@claim.expenses_total)
-    - if @claim.apply_vat?
-      VAT (at 20%): #{number_to_currency(@claim.expenses_total * 0.2)}
+    (excluding VAT)
 
   %p
     Claim total:
     = number_to_currency(@claim.total)
-    - if @claim.apply_vat?
-      VAT (at 20%): #{ number_to_currency(@claim.total * 0.2)}
+    (excluding VAT)

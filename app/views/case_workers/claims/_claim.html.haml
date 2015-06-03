@@ -11,7 +11,7 @@
         %dt
           Rep order date
         %dd
-          #{claim.defendants.first.representation_order_date.strftime('%d/%m/%Y')}
+          #{claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') }.join(', ')}
         %dt
           Supplier account number
         %dd

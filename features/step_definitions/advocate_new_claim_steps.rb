@@ -20,13 +20,13 @@ Given(/^I am on the new claim page$/) do
 end
 
 When(/^I fill in the claim details$/) do
-  select('Guilty', from: 'claim_case_type')
+  select('Guilty plea', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
   fill_in 'Case number', with: '123456'
   select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
   select('Murder', from: 'claim_offence_id')
-  select('Qc alone', from: 'claim_advocate_category')
+  select('QC', from: 'claim_advocate_category')
 
   fill_in 'First name', with: 'Foo'
   fill_in 'Last name', with: 'Bar'
@@ -67,7 +67,7 @@ Then(/^the Offence category does contain "(.*?)"$/) do |valid_offence_category|
 end
 
 When(/^I submit the form$/) do
-  click_on 'Submit'
+  find('input[name="commit"]').click
 end
 
 Then(/^I should be redirected to the claim summary page$/) do

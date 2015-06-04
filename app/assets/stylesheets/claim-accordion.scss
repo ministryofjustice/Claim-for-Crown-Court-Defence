@@ -15,18 +15,14 @@
       background-position: right top;
     }
   }
-  h3{
-    overflow: hidden;
-    text-indent: -999em;
-  }
   ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
     li {
-      h3{
-        display: block;
+      h3.repeated{
+        position: absolute;
         overflow: hidden;
-        text-indent: -999em;
+        left: -999em;
       }
       @include span-columns(6);
     }

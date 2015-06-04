@@ -37,8 +37,23 @@ class Claim < ActiveRecord::Base
 
   attr_reader :offence_class_id
 
-  CASE_TYPES = %w( guilty trial retrial cracked_retrial )
-  ADVOCATE_CATEGORIES = %w( qc_alone led_junior leading_junior junior_alone )
+  CASE_TYPES = %w(
+                  appeal_against_conviction
+                  appeal_against_sentence
+                  breach_of_crown_court_order
+                  commital_for_sentence
+                  contempt
+                  cracked_trial
+                  cracked_before_retrial
+                  discontinuance
+                  elected_cases_not_proceeded
+                  guilty_plea
+                  retrial
+                  trial
+                )
+
+  ADVOCATE_CATEGORIES = ['QC', 'Led Junior', 'Leading junior', 'Junior alone']
+
   PROSECUTING_AUTHORITIES = %W( cps )
 
   belongs_to :court
@@ -100,6 +115,7 @@ class Claim < ActiveRecord::Base
   end
 
   class << self
+
     def find_by_maat_reference(maat_reference)
       joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
     end
@@ -108,6 +124,12 @@ class Claim < ActiveRecord::Base
       joins(advocate: :user)
         .where("lower(users.first_name || ' ' || users.last_name) LIKE ?", "%#{advocate_name.downcase}%")
     end
+
+    def find_by_defendant_name(defendant_name)
+      joins(:defendants)
+        .where("lower(defendants.first_name || ' ' || defendants.last_name) LIKE ?","%#{defendant_name.downcase}%")
+    end
+
   end
 
   def calculate_fees_total
@@ -141,4 +163,5 @@ class Claim < ActiveRecord::Base
   def editable?
     draft? || submitted?
   end
+
 end

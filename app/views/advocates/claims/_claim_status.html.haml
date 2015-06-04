@@ -7,17 +7,19 @@
         %li= msg
 
   = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
-    = f.radio_button :payment_status, 'unassessed', disabled:true
-    = label :payment_status, 'Unassessed'
-
-    = f.radio_button :payment_status, "part_paid", disabled:true
-    = label :payment_status, 'Part paid' 
-
-    = f.radio_button :payment_status, "paid_in_full", disabled:true
-    = f.label :payment_status, 'Paid in full'
-
-    = f.radio_button :payment_status, 'not_paid', disabled:true
-    = f.label :payment_status, 'Not Paid'
+    %fieldset#claim-status 
+      %label.container
+        Part paid
+        = f.radio_button :state_for_form, "part_paid", disabled: true
+      %label.container
+        Paid in full
+        = f.radio_button :state_for_form, "paid", disabled: true
+      %label.container
+        Refused
+        = f.radio_button :state_for_form, 'refused', disabled: true
+      %label.container
+        Rejected
+        = f.radio_button :state_for_form, 'rejected', disabled: true
 
     %p
     = f.label :amount_assessed, 'Amount assessed'

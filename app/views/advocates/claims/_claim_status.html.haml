@@ -21,12 +21,14 @@
         Rejected
         = f.radio_button :state_for_form, 'rejected', disabled: true
 
-    %p
-    = f.label :amount_assessed, 'Amount assessed'
-    = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: true
-
-    %p
-    = f.label :additional_information, "Remarks"
-    = f.text_area :additional_information, disabled: true
+    %fieldset
+      #amountAssessed
+        = f.label :amount_assessed, 'Amount assessed'
+        .currency
+          %span.currency-symbol
+            &pound;
+          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: true
+      = f.label :additional_information, "Remarks"
+      = f.text_area :additional_information, disabled: true
 
     

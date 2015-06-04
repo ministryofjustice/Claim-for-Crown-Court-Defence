@@ -31,6 +31,13 @@ Given(/^I am a signed in advocate admin$/) do
   sign_in(@advocate.user, 'password')
 end
 
+Given(/^There are basic and non-basic fee types$/) do
+  create :fee_type, :basic
+  create :fee_type, :misc
+  create :fee_type, :fixed
+  create :fee_type, :basic
+end
+
 Given(/^my chamber has claims$/) do
   advocate = Advocate.first
   another_advocate = create(:advocate)

@@ -72,7 +72,10 @@ class Claim < ActiveRecord::Base
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
-
+  
+  has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
+  has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
+  
   default_scope do
     includes(:advocate,
              :case_workers,
@@ -101,10 +104,32 @@ class Claim < ActiveRecord::Base
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
-  accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :defendants,  reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :documents,   reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  accepts_nested_attributes_for :expenses,          reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :defendants,        reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :documents,         reject_if: :all_blank,  allow_destroy: true
+
+  # after_initialize :instantiate_basic_fees
+
+
+  def self.attrs_blank?(attributes)
+    attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
+  end
+
+
+  def basic_fees
+    fees.select { |f| f.is_basic? }.sort{ |a, b| a.description <=> b.description }
+  end
+
+  def instantiate_basic_fees(params = nil)
+    return unless self.new_record?
+    if params.nil?
+      FeeType.basic.each { |fee_type| fees << Fee.new_blank(self, fee_type) }
+    else
+      Fee.new_collection_from_form_params(self, params)
+    end
+  end
 
   def has_doctype?(doc_type)
     documents.pluck(:document_type_id).include?(doc_type.id) #returns boolean
@@ -153,7 +178,7 @@ class Claim < ActiveRecord::Base
   end
 
   def update_total
-    update_column(:total, fees_total + expenses_total)
+    update_column(:total, calculate_total)
   end
 
   def description

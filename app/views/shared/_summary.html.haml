@@ -14,7 +14,7 @@
       %th
         Amount
     %tbody
-      - @claim.fees.each do |fee|
+      - @claim.fees.select(&:present?).each do |fee|
         %tr
           %td
             = fee.fee_type.fee_category.name

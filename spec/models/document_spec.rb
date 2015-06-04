@@ -1,13 +1,40 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                                      :integer          not null, primary key
+#  claim_id                                :integer
+#  document_type_id                        :integer
+#  notes                                   :text
+#  created_at                              :datetime
+#  updated_at                              :datetime
+#  document_file_name                      :string(255)
+#  document_content_type                   :string(255)
+#  document_file_size                      :integer
+#  document_updated_at                     :datetime
+#  advocate_id                             :integer
+#  converted_preview_document_file_name    :string(255)
+#  converted_preview_document_content_type :string(255)
+#  converted_preview_document_file_size    :integer
+#  converted_preview_document_updated_at   :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe Document, type: :model do
   it { should belong_to(:document_type) }
 
+  it { should belong_to(:advocate) }
+  it { should delegate_method(:chamber_id).to(:advocate) }
   it { should belong_to(:claim) }
+  it { should validate_presence_of(:advocate_id) }
   it { should validate_presence_of(:document_type) }
 
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }
+
+  it { should have_attached_file(:converted_preview_document) }
+  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
 
   it do
     should validate_attachment_content_type(:document).
@@ -24,6 +51,7 @@ RSpec.describe Document, type: :model do
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
+      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil)}
 
       it 'saves the original' do
         stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
@@ -56,4 +84,83 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  context '#generate_pdf_tmpfile' do
+
+    context 'when the original attachment is a .docx' do
+
+      subject { build(:document, :docx, document_content_type: 'application/msword') }
+
+      it 'called by a before_save hook' do
+        expect(subject).to receive(:generate_pdf_tmpfile)
+        subject.save!
+      end
+
+      it 'calls document#convert_and_assign_document' do
+        expect(subject).to receive(:convert_and_assign_document)
+        subject.generate_pdf_tmpfile
+      end
+
+    end
+
+    context 'when the original attachment is a .pdf' do
+
+      subject { build(:document) }
+
+      it 'is still called by a before_save hook' do
+        expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
+        subject.save!
+      end
+
+      it 'does not call document#convert_and_assign_document' do
+        expect(subject).to_not receive(:convert_and_assign_document)
+        subject.generate_pdf_tmpfile
+      end
+
+      it 'assigns original document to document#pdf_tmpfile' do
+        subject.save!
+        expect(subject.pdf_tmpfile).to eq subject.document
+      end
+
+    end
+
+  end
+
+  context '#convert_and_assign_document' do
+
+    subject { build(:document, :docx, document_content_type: 'application/msword') }
+
+    it 'depends on the Libreconv gem' do
+      expect(Libreconv).to receive(:convert)
+      subject.save!
+    end
+
+    it 'handles IOError when Libreconv is not in PATH' do
+      allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
+      expect{ subject.save! }.to change{ Document.count }.by(1) # error handled and document is still saved
+    end
+
+  end
+
+  context '#add_converted_preview_document' do
+
+    subject { build(:document) }
+
+    before { allow(Libreconv).to receive(:convert) }
+
+    it 'is triggered by document#save' do
+      expect(subject).to receive(:add_converted_preview_document)
+      subject.save!
+    end
+
+    it 'assigns converted_preview_document a file' do
+      expect(subject.converted_preview_document.present?).to be false
+      subject.save!
+      expect(subject.converted_preview_document.present?).to be true
+    end
+
+  end
+
 end
+
+
+

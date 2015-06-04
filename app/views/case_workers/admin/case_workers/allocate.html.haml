@@ -9,9 +9,22 @@
     %ul
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
-
-  = f.label :claim_ids, 'Claims'
-  %br
-  = f.collection_select :claim_ids, @claims, :id, :description, { prompt: true }, { multiple: true, style: 'width: 100%;' }
-  %br
-  = f.submit
+  %fieldset
+    %table.allocate
+      %thead
+        %tr
+          %th
+            Defendant
+          %th
+            Case number
+          %th
+            Advocate
+          %th
+            Court
+          %th
+            &nbsp;
+      %tbody
+      = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
+        %tr
+          = render partial: 'claim', locals: { claim: b.object, b: b }
+  = f.submit class: "button"

@@ -1,33 +1,52 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_context, only: [:index, :outstanding, :authorised ]
+  before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
 
   def landing; end
 
   def index
-    # parent can be a chamber or an advocate
-    parent = current_user.persona.admin? ? current_user.persona.chamber : current_user
-
-    claims = parent.claims.order(created_at: :desc)
-    claims = claims.find_by_advocate_name(params[:search]) if params[:search].present?
+    claims = @context.claims.order(created_at: :desc)
+    claims = claims.find_by_advocate_name(params[:search_advocate]) if params[:search_advocate].present?
+    claims = claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
 
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected
     @allocated_claims = claims.allocated
+    @submitted_or_allocated_claims = claims.submitted_or_allocated
     @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft
-    @claims_summary  = Claims::Summary.new(parent)
   end
 
-  def show; end
+  def outstanding
+    @claims = @financial_summary.outstanding_claims
+    @total_value = @financial_summary.total_outstanding_claim_value
+  end
+
+  def authorised
+    @claims = @financial_summary.authorised_claims
+    @total_value = @financial_summary.total_authorised_claim_value
+  end
+
+  def show
+    @doc_types = DocumentType.all
+    @messages = @claim.messages.most_recent_first
+    @message = @claim.messages.build
+  end
 
   def new
     @claim = Claim.new
+    load_advocates_in_chamber
+    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
   end
 
-  def edit; end
+  def edit
+    load_advocates_in_chamber
+    redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
+  end
 
   def summary
     session[:summary] = true
@@ -36,7 +55,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(claim_params.merge(advocate_id: current_user.persona.id))
+    form_params = claim_params
+    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
+    form_params[:creator_id] = current_user.persona.id
+    @claim = Claim.new(form_params)
+    @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
+    load_advocates_in_chamber
 
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
@@ -47,6 +71,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def update
+    load_advocates_in_chamber
     @claim.submit! if session.delete(:summary) && @claim.draft?
 
     @claim.update(claim_params)
@@ -54,14 +79,30 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def destroy
-    @claim.destroy
-    respond_with @claim, { location: advocates_root_url, notice: 'Claim deleted' }
+    @claim.archive_pending_delete!
+    respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
   end
 
   private
 
+  def load_advocates_in_chamber
+    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
+  end
+
+  def set_context
+    if current_user.persona.admin? && current_user.persona.chamber
+      @context = current_user.persona.chamber
+    else
+      @context = current_user
+    end
+  end
+
   def set_claim
     @claim = Claim.find(params[:id])
+  end
+
+  def set_financial_summary
+    @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
   def claim_params
@@ -72,21 +113,68 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :case_number,
      :case_type,
      :offence_id,
+     :first_day_of_trial,
+     :estimated_trial_length,
+     :actual_trial_length,
      :advocate_category,
      :additional_information,
      :prosecuting_authority,
      :indictment_number,
      :apply_vat,
-     defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
-     fees_attributes: [:id, :claim_id, :fee_id, :quantity, :rate, :amount, :_destroy],
-     expenses_attributes: [:id, :claim_id, :expense_type_id, :quantity, :rate, :hours, :amount, :_destroy],
-     documents_attributes: [:id, :claim_id, :document_type_id, :document, :description]
+     defendants_attributes: [
+       :id,
+       :claim_id,
+       :first_name,
+       :middle_name,
+       :last_name,
+       :date_of_birth,
+       :representation_order_date,
+       :order_for_judicial_apportionment,
+       :maat_reference,
+       :_destroy
+     ],
+     fees_attributes: [
+       :id,
+       :claim_id,
+       :fee_type_id,
+       :fee_id,
+       :quantity,
+       :rate,
+       :amount,
+       :_destroy,
+       dates_attended_attributes: [
+          :id,
+          :fee_id,
+          :date,
+          :date_to,
+          :_destroy
+        ]
+      ],
+     expenses_attributes: [
+       :id,
+       :claim_id,
+       :expense_type_id,
+       :location,
+       :quantity,
+       :rate,
+       :hours,
+       :amount,
+       :_destroy
+     ],
+     documents_attributes: [
+       :id,
+       :advocate_id,
+       :claim_id,
+       :document_type_id,
+       :document,
+       :description
+     ]
     )
   end
 
   def build_nested_resources
-    @claim.defendants.build if @claim.defendants.none?
     @claim.fees.build if @claim.fees.none?
+    @claim.defendants.build if @claim.defendants.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
   end
@@ -98,5 +186,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       summary_advocates_claim_path(@claim)
     end
   end
-
 end

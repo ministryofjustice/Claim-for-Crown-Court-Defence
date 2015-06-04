@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: expenses
+#
+#  id              :integer          not null, primary key
+#  expense_type_id :integer
+#  claim_id        :integer
+#  date            :datetime
+#  location        :string(255)
+#  quantity        :integer
+#  rate            :decimal(, )
+#  hours           :decimal(, )
+#  amount          :decimal(, )
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 FactoryGirl.define do
   factory :expense do
     expense_type

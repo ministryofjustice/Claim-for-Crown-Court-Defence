@@ -2,7 +2,8 @@ namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
   task :delete_docs do
-    FileUtils.rm_rf('./features/examples/000')
+    FileUtils.rm_rf('./public/assets/dev/images/')
+    FileUtils.rm_rf('./public/assets/test/images/')
   end
 
   desc "seed data - a dependency of the demo_data task"
@@ -44,14 +45,15 @@ namespace :claims do
   end
 
   def add_fees_expenses_and_defendant(claim)
-    rand(1..10).times { claim.fees << FactoryGirl.create(:fee, :random_values, claim_id: claim.id, fee_type_id: FeeType.all.sample(1)[0].id) }
-    rand(1..10).times { claim.expenses << FactoryGirl.create(:expense, :random_values, claim_id: claim.id, expense_type_id: ExpenseType.all.sample(1)[0].id) }
-    claim.defendants << FactoryGirl.create(:defendant, claim_id: claim.id)
+    rand(1..10).times { FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample) }
+    rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+
+    claim.defendants << FactoryGirl.create(:defendant, claim: claim)
   end
 
   def add_document(claim)
     file = File.open("./features/examples/longer_lorem.pdf")
-    Document.create!(claim_id: claim.id, document_type_id: 1, document: file, document_content_type: 'application/pdf' )
+    Document.create!(claim: claim, document_type: DocumentType.all.sample, document: file, document_content_type: 'application/pdf', advocate: Advocate.find(1) )
   end
 
   def parse_states_from_string(states_delimited_string)
@@ -91,10 +93,15 @@ namespace :claims do
     states_to_add.each do |s|
       next if s == :deleted
       claims_per_state.times do
-          
-          claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
 
-          puts("   - created #{s} claim for advocate #{advocate.first_name} #{advocate.last_name}")
+          # randomise creator
+          if rand(2) == 1          
+            claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
+          else
+            claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample )
+          end
+
+          puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
           add_document(claim)
 

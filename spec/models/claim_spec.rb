@@ -1,7 +1,43 @@
+# == Schema Information
+#
+# Table name: claims
+#
+#  id                     :integer          not null, primary key
+#  additional_information :text
+#  apply_vat              :boolean
+#  state                  :string(255)
+#  case_type              :string(255)
+#  submitted_at           :datetime
+#  case_number            :string(255)
+#  advocate_category      :string(255)
+#  prosecuting_authority  :string(255)
+#  indictment_number      :string(255)
+#  first_day_of_trial     :date
+#  estimated_trial_length :integer          default(0)
+#  actual_trial_length    :integer          default(0)
+#  fees_total             :decimal(, )      default(0.0)
+#  expenses_total         :decimal(, )      default(0.0)
+#  total                  :decimal(, )      default(0.0)
+#  advocate_id            :integer
+#  court_id               :integer
+#  offence_id             :integer
+#  scheme_id              :integer
+#  created_at             :datetime
+#  updated_at             :datetime
+#  valid_until            :datetime
+#  cms_number             :string(255)
+#  paid_at                :datetime
+#  creator_id             :integer
+#  amount_assessed        :decimal(, )
+#
+
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
+  it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
+  it { should delegate_method(:chamber_id).to(:advocate) }
+
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
   it { should belong_to(:scheme) }
@@ -10,26 +46,42 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
   it { should have_many(:documents) }
+  it { should have_many(:messages) }
 
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
   it { should validate_presence_of(:advocate) }
+  it { should validate_presence_of(:creator) }
   it { should validate_presence_of(:court) }
   it { should validate_presence_of(:offence) }
   it { should validate_presence_of(:case_number) }
   it { should validate_presence_of(:prosecuting_authority) }
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
-  it { should validate_presence_of(:indictment_number) }
 
   it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w( guilty trial retrial cracked_retrial )) }
+  it { should validate_inclusion_of(:case_type).in_array(%w( 
+                                                            appeal_against_conviction
+                                                            appeal_against_sentence
+                                                            breach_of_crown_court_order
+                                                            commital_for_sentence
+                                                            contempt
+                                                            cracked_trial
+                                                            cracked_before_retrial
+                                                            discontinuance
+                                                            elected_cases_not_proceeded
+                                                            guilty_plea
+                                                            retrial
+                                                            trial
+                                                            ))
+      }
 
   it { should validate_presence_of(:advocate_category) }
-  it { should validate_inclusion_of(:advocate_category).in_array(%w( qc_alone led_junior leading_junior junior_alone )) }
+  it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
 
-  it { should validate_numericality_of(:estimated_trial_length) }
-  it { should validate_numericality_of(:actual_trial_length) }
+  it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+  it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+  it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:fees) }
   it { should accept_nested_attributes_for(:expenses) }
@@ -66,13 +118,53 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '.find_by_defendant_name' do
+    let!(:other_claim) { create(:claim) }
+    let!(:current_advocate) { create(:advocate) }
+    let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+
+    before do
+      subject.advocate = current_advocate
+      other_claim.advocate = other_advocate
+      subject.save!
+      other_claim.save!
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
+      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
+      create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
+      subject.reload
+      other_claim.reload
+    end
+
+    it 'finds all claims involving specified defendant' do
+      expect(Claim.find_by_defendant_name('Joe Bloggs').count).to eq(2)
+    end
+
+    it 'finds claim involving other specified defendant' do
+      expect(Claim.find_by_defendant_name('Hart')).to eq([other_claim])
+    end
+
+    it 'does not find claims involving non-existent defendant"' do
+      expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
+    end
+
+  end
+
   describe '.find_by_advocate_name' do
     let!(:other_claim) { create(:claim) }
 
     before do
-      subject.advocate = create(:advocate, first_name: 'John', last_name: 'Smith')
-      other_claim.advocate = create(:advocate, first_name: 'Bob', last_name: 'Hoskins')
+      subject.advocate = create(:advocate)
+      other_claim.advocate = create(:advocate)
+      subject.advocate.user.first_name = 'John'
+      subject.advocate.user.last_name = 'Smith'
+      subject.advocate.user.save!
+
       subject.save!
+
+      other_claim.advocate.user.first_name = 'Bob'
+      other_claim.advocate.user.last_name = 'Hoskins'
+      other_claim.advocate.user.save!
+
       other_claim.save!
     end
 
@@ -93,9 +185,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
       subject.reload
     end
 
@@ -111,7 +203,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -163,9 +255,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
 
       create(:expense, claim_id: subject.id, amount: 3.5)
       create(:expense, claim_id: subject.id, amount: 1.0)
@@ -182,7 +274,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type_id: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
         subject.reload
         expect(subject.total).to eq(158.5)
       end
@@ -205,6 +297,24 @@ RSpec.describe Claim, type: :model do
 
     it 'returns a formatted description string containing claim information' do
       expect(subject.description).to eq(expected_output)
+    end
+  end
+
+  describe '#editable?' do
+    let(:draft) { create(:claim) }
+    let(:submitted) { create(:submitted_claim) }
+    let(:allocated) { create(:allocated_claim) }
+
+    it 'should be editable when draft' do
+      expect(draft.editable?).to eq(true)
+    end
+
+    it 'should be editable when submitted' do
+      expect(submitted.editable?).to eq(true)
+    end
+
+    it 'should not be editable when allocated' do
+      expect(allocated.editable?).to eq(false)
     end
   end
 end

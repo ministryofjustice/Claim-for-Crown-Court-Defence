@@ -1,6 +1,35 @@
-%h1= @claim.created_at
-
 %p
-  Court:
-  = @claim.court.name
+  = link_to 'Back', advocates_claims_path, class: 'button'
+  - if @claim.editable?
+    = link_to 'Edit', edit_advocates_claim_path(@claim), class: 'button'
 
+%h1
+  Claim
+  = @claim.case_number
+
+%P
+  Created by:
+  = @claim.creator.name
+
+#claim-accordion
+  %h2
+    Claim based information
+  = render @claim, locals: { hide_totals: true }
+  %h2
+    Claim summary
+  = render partial: 'shared/summary'
+  %h2
+    Representation order
+  = render partial: 'representation_order'
+  %h2
+    Evidence list
+  = render partial: 'evidence_list'
+  %h2
+    Messages (#{@messages.count})
+  = render partial: 'shared/messages'
+  %h2
+    Claim notes
+  = render partial: 'case_notes'
+  %h2
+    Status of claim
+  = render partial: 'claim_status'

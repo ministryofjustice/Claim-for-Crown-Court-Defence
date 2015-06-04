@@ -17,6 +17,7 @@ gem 'haml-rails'
 gem 'high_voltage', '~> 2.2.1'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
+gem 'libreconv'
 gem 'moj_template'
 gem 'neat'
 gem 'newrelic_rpm'
@@ -35,6 +36,7 @@ gem 'unicorn-rails'
 gem 'rails_12factor', group: :production
 
 group :development, :test do
+  gem 'annotate'
   gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'

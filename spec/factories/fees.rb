@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: fees
+#
+#  id          :integer          not null, primary key
+#  claim_id    :integer
+#  fee_type_id :integer
+#  quantity    :integer
+#  rate        :decimal(, )
+#  amount      :decimal(, )
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 FactoryGirl.define do
   factory :fee do
     claim
@@ -11,6 +25,7 @@ FactoryGirl.define do
       rate { rand(1.0..9.99) }
       amount { quantity * rate }
     end
+
   end
 
 end

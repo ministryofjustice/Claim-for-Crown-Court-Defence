@@ -16,16 +16,8 @@
 //= require cocoon
 //= require_tree .
 
+moj.Modules.devs.init = function(){} 
 
-$('#claims-list dd, dt').not('.quickview').each(function() {
-  $(this).hide();
-});
-
-$('#claims-list .toggle').each(function(){
-   $(this).click(function() {
-    $(this).toggleClass('expanded').closest('li').find('dd, dt').not('.quickview').slideToggle('slow');
-  });
-});
 
 $('#claim-accordion h2').each(function(){
   $(this).next('section').hide();
@@ -42,4 +34,5 @@ function initialise(){
 
 $( document ).ready(function() {
 	initialise();
+  //moj.Modules.fileUpload.init();
 });

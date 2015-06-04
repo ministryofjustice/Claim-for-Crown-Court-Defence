@@ -15,9 +15,20 @@
   }
 
 }
+
+.case-data-headings{
+  margin:0;
+  padding:0;
+   li {
+     @include span-columns(4);
+     list-style-type: none; 
+  }
+}
 .case-data li {
-  h3{
-    font-weight: bold;
+  h3.repeated{
+      position: absolute;
+      overflow: hidden;
+      left: -999em;
   }
   @include span-columns(4);
   &:last-child{
@@ -54,6 +65,29 @@ a.detail-link {
     margin: 0 0 1em 2px;
     &.expanded{
       background-position: 0 0;
+    }
+  }
+}
+table.allocate{
+  width:100%;
+  border-collapse: collapse;
+  th{
+    text-align: left;
+    padding: 0 15px;
+    background-color: $grey-3;
+  }
+  tr{
+    line-height: 2;
+    &:nth-child(even){
+      background-color: $grey-4;
+    }
+    label{
+      margin:0;
+      padding: 0 15px;
+    }
+    td input {
+      display: block;
+      margin:auto;
     }
   }
 }

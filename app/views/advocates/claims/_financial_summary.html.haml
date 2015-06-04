@@ -1,0 +1,16 @@
+%ul#payments
+  %li
+    %div 
+      %h3
+        Total Outstanding Claims:
+      = number_to_currency(financial_summary.total_outstanding_claim_value)
+      %br
+      = link_to 'View Details', outstanding_advocates_claims_path, id: "outstanding_claim_details"
+
+  %li
+    %div 
+      %h3
+        Total Authorised Claims:
+      = number_to_currency(financial_summary.total_authorised_claim_value)
+      %br
+      = link_to 'View Details', authorised_advocates_claims_path, id: "authorised_claim_details"

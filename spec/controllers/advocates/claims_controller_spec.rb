@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Advocates::ClaimsController, type: :controller do
-  let(:advocate) { create(:advocate) }
+RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
+  let!(:advocate) { create(:advocate) }
 
   before { sign_in advocate.user }
 
@@ -26,14 +26,18 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
 
     context 'advocate' do
       before do
-        create(:claim, advocate: advocate)
-        create(:submitted_claim, advocate: advocate)
-        create(:completed_claim, advocate: advocate)
-        create(:rejected_claim, advocate: advocate)
+        create(:claim,            advocate: advocate)
+        create(:submitted_claim,  advocate: advocate)
+        create(:completed_claim,  advocate: advocate)
+        create(:rejected_claim,   advocate: advocate)
       end
 
       it 'assigns @submitted_claims' do
         expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
+      end
+
+      it 'assigns @submitted_or_allocated_claims' do
+        expect(assigns(:submitted_or_allocated_claims)).to eq(advocate.reload.claims.submitted_or_allocated.order(created_at: :desc))
       end
 
       it 'assigns @rejected_claims' do
@@ -103,7 +107,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     before { get :show, id: subject }
 
@@ -137,20 +141,30 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:claim) }
-
     before { get :edit, id: subject }
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+    context 'editable claim' do
+      subject { create(:claim, advocate: advocate) }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to eq(subject)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:edit)
+      end
     end
 
-    it 'assigns @claim' do
-      expect(assigns(:claim)).to eq(subject)
-    end
+    context 'uneditable claim' do
+      subject { create(:allocated_claim, advocate: advocate) }
 
-    it 'renders the template' do
-      expect(response).to render_template(:edit)
+      it 'redirects to advocates claims index' do
+        expect(response).to redirect_to(advocates_claims_url)
+      end
     end
   end
 
@@ -166,9 +180,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
              case_type: 'trial',
              offence_id: offence,
              case_number: '12345',
-             advocate_category: 'qc_alone',
+             advocate_category: 'QC',
              prosecuting_authority: 'cps',
-             indictment_number: '12345'
           }
         end
 
@@ -205,7 +218,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:claim) }
+    subject { create(:claim, advocate: advocate) }
 
     context 'when valid' do
       context 'and draft' do
@@ -258,16 +271,20 @@ RSpec.describe Advocates::ClaimsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:claim) }
-
     before { delete :destroy, id: subject }
 
-    it 'destroys the claim' do
+    subject { create(:claim, advocate: advocate) }
+
+    it 'deletes the claim' do
       expect(Claim.count).to eq(0)
     end
 
+    it "sets the claim's state to 'archived_pending_delete'" do
+      expect(subject.reload).to be_archived_pending_delete
+    end
+
     it 'redirects to advocates root url' do
-      expect(response).to redirect_to(advocates_root_url)
+      expect(response).to redirect_to(advocates_claims_url)
     end
   end
 end

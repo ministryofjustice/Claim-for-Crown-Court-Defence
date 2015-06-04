@@ -1,7 +1,7 @@
 #claim-accordion{
   h2{
     background-color: $cabinet-office;
-    background-image: url(../accordion-toggle.png);
+    background-image: image-url('accordion-toggle.png');
     background-repeat: no-repeat;
     background-position: right bottom;
     cursor:pointer;
@@ -15,13 +15,15 @@
       background-position: right top;
     }
   }
-  h3{
-    line-height: 2;
-  }
   ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
     li {
+      h3.repeated{
+        position: absolute;
+        overflow: hidden;
+        left: -999em;
+      }
       @include span-columns(6);
     }
   }
@@ -81,7 +83,7 @@
       float:right;
     }
   }
-  #advonote{
+  #messages {
     float: left;
     margin-bottom: 1em;
     width: 100%;

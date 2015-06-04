@@ -1,6 +1,5 @@
 = render 'nav_tabs'
 
-
 %section
   %h1
     - if params[:tab] == 'completed'
@@ -10,6 +9,9 @@
       Current claims
       (#{@claims.count})
 
+#search-options
+  = render partial: 'search_options'
+
 #list-controls
   %nav
     %h3
@@ -17,19 +19,21 @@
     %ul
       %li{class: ('active' if params[:sort].blank? && params[:direction].blank?) || (params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
         = link_to 'Oldest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'asc'))
-      %li{class: ('active' if params[:sort] == 'submitted_at' && params[:direction] == 'desc')}
-        = link_to 'Newest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'desc'))
       %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'desc')}
         = link_to 'Value - Highest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'desc'))
       %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'asc')}
         = link_to 'Value - Lowest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'asc'))
 
-    = form_tag case_workers_claims_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
-      = hidden_field_tag :sort, params[:sort]
-      = hidden_field_tag :direction, params[:direction]
-      = text_field_tag :search, params[:search], placeholder: 'MAAT reference no.'
-      = submit_tag 'Search', class: 'button'
+%ul.case-data-headings
+  %li
+    %h3
+      Case
+  %li
+    %h3
+      Court 
+  %li
+    %h3
+      Case value
 - if @claims.none?
   %p
     - if params[:search].present?

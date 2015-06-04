@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: case_workers
+#
+#  id         :integer          not null, primary key
+#  role       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
   include UserRoles
@@ -13,4 +23,7 @@ class CaseWorker < ActiveRecord::Base
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user
+  delegate :first_name, to: :user
+  delegate :last_name, to: :user
+  delegate :name, to: :user
 end

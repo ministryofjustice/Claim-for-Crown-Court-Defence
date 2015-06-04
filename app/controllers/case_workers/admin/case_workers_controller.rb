@@ -51,7 +51,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def case_worker_params
     params.require(:case_worker).permit(
      :role,
-      user_attributes: [:email, :password, :password_confirmation],
+      user_attributes: [:email, :password, :password_confirmation, :first_name, :last_name],
      claim_ids: []
     )
   end

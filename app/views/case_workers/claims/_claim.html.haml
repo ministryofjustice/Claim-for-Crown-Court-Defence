@@ -1,82 +1,96 @@
 %section
   %ul.case-data
     %li
-      %h3
+      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
         Case
       %dl
-        %dt.quickview
-          Case number
-        %dd.quickview
-          #{claim.case_number}
-        %dt.quickview
-          Case Type
-        %dd.quickview
-          #{claim.case_type.humanize}
-        %dt
-          Case submitted
-        %dd
-          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
-        %dt
-          Case Worker
-        %dd
-          #{claim.case_workers.map(&:email).join(', ')}
-        %dt
-          #{t('maat_reference_number')}
-        %dd
-          #{claim.defendants.map(&:maat_reference).join(', ')}
         %dt
           Defendant name
         %dd
           #{claim.defendants.map(&:name).join(', ')}
         %dt
-          Offence
+          Rep order date
         %dd
-          #{claim.offence.description}
+          #{claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') }.join(', ')}
         %dt
-          Offence class
+          Supplier account number
         %dd
-          #{claim.offence.offence_class}
+          #{claim.advocate.account_number}
+        %dt
+          Case submitted
+        %dd
+          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
+        - if controller.action_name == 'show'
+          %dt
+            Case number
+          %dd
+            #{claim.case_number}
+          %dt
+            Case Type
+          %dd
+            #{claim.case_type.humanize}
+          %dt
+            Case Worker
+          %dd
+            #{claim.case_workers.map(&:email).join(', ')}
+          %dt
+            #{t('maat_reference_number')}
+          %dd
+            #{claim.defendants.map(&:maat_reference).join(', ')}
+          %dt
+            Offence
+          %dd
+            #{claim.offence.description}
+          %dt
+            Offence class
+          %dd
+            #{claim.offence.offence_class}
     %li
-      %h3
+      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
         Court
       %dl
-        %dt.quickview
-          Court
-        %dd.quickview
+        %dt
+          Crown Court
+        %dd
           #{claim.court.name}
-        %dt.quickview
-          Court type
-        %dd.quickview
-          #{claim.court.court_type.humanize}
         %dt
           Prosecuting authority
         %dd
           CPS
         %dt
-          Hearing
+          Retrial?
         %dd
-          15/04/2 7
+          No
         %dt
-          Advocate
+          Judicial Apportionment
         %dd
-          #{claim.advocate.email}
-        %dt
-          Advocate no
-        %dd
-          SUP125HYT**
+          No
+        - if controller.action_name == 'show'
+          %dt
+            Hearing
+          %dd
+            15/04/2 7
+          %dt
+            Advocate
+          %dd
+            #{claim.advocate.email}
+          %dt
+            Advocate no
+          %dd
+            SUP125HYT**
 
     - unless controller.action_name == 'show'
       %li
-        %h3
+        %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
           Case Value
         %dl
-          %dt.quickview
+          %dt
             Expenses
-          %dd.quickview
+          %dd
             = number_to_currency(claim.expenses_total)
-          %dt.quickview
+          %dt
             Fees
-          %dd.quickview
+          %dd
             = number_to_currency(claim.fees_total)
           %dt
             VAT
@@ -90,7 +104,7 @@
           %dd
             = "#{claim.paid_at.strftime('%d/%m/%Y %H:%M')}" unless claim.paid_at.nil?
 
+
   - unless controller.action_name == 'show'
     .claim-controls
-      %span.toggle
       = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'

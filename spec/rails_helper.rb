@@ -73,6 +73,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
+  config.after(:suite) do
+    FileUtils.rm_rf('./public/assets/test/images/') #to delete files from filesystem that were generated during rspec tests
+  end
+
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
       example.run

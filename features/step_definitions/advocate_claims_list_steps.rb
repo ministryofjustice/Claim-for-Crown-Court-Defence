@@ -1,9 +1,10 @@
 Given(/^I have claims$/) do
-  advocate = Advocate.first
-  @claims = create_list(:submitted_claim, 5)
+  @claims = create_list(:submitted_claim, 5, advocate: @advocate)
+  @claims.each do |claim|
+    claim.documents << create(:document, advocate: @advocate)
+  end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
-  @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
   create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
 end
@@ -25,9 +26,9 @@ Then(/^I should see only claims that I have created$/) do
 end
 
 Given(/^I am a signed in advocate admin$/) do
-  advocate = create(:advocate, :admin)
+  @advocate = create(:advocate, :admin)
   visit new_user_session_path
-  sign_in(advocate.user, 'password')
+  sign_in(@advocate.user, 'password')
 end
 
 Given(/^my chamber has claims$/) do
@@ -59,7 +60,44 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   chamber.advocates << advocate
 
   @claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
-  @claims.each { |claim| claim.update_column(:advocate_id, advocate.id) }
+  @claims.each do |claim|
+    claim.update_column(:advocate_id, advocate.id)
+    claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
+    if claim.state == 'completed'
+      claim.update_column(:amount_assessed, claim.total)
+    elsif claim.state == 'part_paid'
+      claim.update_column(:amount_assessed, claim.total/2) # arbitrarily pay half the total for part-paid
+    end
+  end
+end
+
+Then(/^I see a column called amount assesed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to have_content("Amount assessed")
+  end
+end
+
+Then(/^I do not see a column called amount assesed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to_not have_content("Amount assessed")
+  end
+end
+
+Then(/^I see a figure representing the amount assessed for "(.*?)" claims$/) do |state|
+  within("##{state}") do
+    expect(page).to have_content("Amount assessed")
+  end
+end
+
+Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state|
+    within("##{state}") do
+      rows = all('tr')
+      rows.each do |row|
+        claim = Claim.find_by(cms_number: row.text.split(' ')[3]) # find claim which corresponds to |row|
+        expect(row.text.include?(claim.cms_number)).to be true # check that the correct claim was found
+        expect(row.text.include?(claim.amount_assessed.round(2).to_s)).to be true
+      end
+    end
 end
 
 Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
@@ -77,8 +115,8 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 end
 
 When(/^I search by the advocate name "(.*?)"$/) do |name|
-  fill_in 'search', with: name
-  click_button 'Search'
+  fill_in 'search_advocate', with: name
+  click_button 'search'
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
@@ -86,17 +124,68 @@ Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number
 end
 
 Then(/^I should not see the advocate search field$/) do
-  expect(page).to_not have_selector('#search')
+  expect(page).to_not have_selector('#search_advocate')
+end
+
+When(/^I search by the defendant name "(.*?)"$/) do |name|
+  fill_in 'search_defendant', with: name
+  click_button 'search'
+end
+
+Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
+  expect(page).to have_content(name, count: number.to_i)
 end
 
 Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
   advocate = Advocate.first
   first_name = advocate_name.split.first
   last_name = advocate_name.split.last
-  claim_advocate = create(:advocate, first_name: first_name, last_name: last_name)
+  claim_advocate = create(:advocate)
+  claim_advocate.user.first_name = first_name
+  claim_advocate.user.last_name = last_name
+  claim_advocate.user.save!
   chamber = create(:chamber)
   chamber.advocates << advocate
   chamber.advocates << claim_advocate
   @claims = create_list(:claim, number.to_i)
   @claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
+end
+
+Given(/^I have (\d+) claims involving defendant "(.*?)" amongst others$/) do |number,defendant_name|
+  @claims = create_list(:draft_claim, number.to_i, advocate: @advocate)
+  @claims.each do |claim|
+    create(:defendant, claim: claim, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+  end
+  @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
+  @claims.each do |claim|
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+  end
+end
+
+Given(/^I should see section titles of "(.*?)"$/) do |section_title|
+  expect(page).to have_selector('h2', text: section_title)
+end
+
+Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with defendant "(.*?)"$/) do |number, advocate_name, defendant_name|
+  new_advocate = create(:advocate, chamber: @advocate.chamber)
+  new_advocate.user.first_name = advocate_name.split.first
+  new_advocate.user.last_name = advocate_name.split.last
+  new_advocate.user.save!
+
+  claims = create_list(:submitted_claim, number.to_i, advocate: new_advocate )
+  claims.each do |claim|
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+  end
+end
+
+When(/^I enter advocate name of "(.*?)"$/) do |name|
+  fill_in 'search_advocate', with: name
+end
+
+When(/^I enter defendant name of "(.*?)"$/) do |name|
+  fill_in 'search_defendant', with: name
+end
+
+When (/^I hit search button$/) do
+  click_button 'search'
 end

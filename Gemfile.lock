@@ -28,6 +28,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.7)
+    annotate (2.6.10)
+      activerecord (>= 3.2, <= 4.3)
+      rake (~> 10.4)
     arel (5.0.1.20140414130214)
     awesome_print (1.6.1)
     aws-sdk-v1 (1.64.0)
@@ -185,6 +188,8 @@ GEM
     kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
+    libreconv (0.9.0)
+      spoon
     listen (2.10.0)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -334,6 +339,8 @@ GEM
     simplecov-html (0.9.0)
     simplecov-multi (0.0.1)
     slop (3.6.0)
+    spoon (0.0.4)
+      ffi
     sprockets (2.11.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -382,6 +389,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   awesome_print
   aws-sdk-v1
   better_errors
@@ -414,6 +422,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   launchy
+  libreconv
   listen
   moj_template
   neat

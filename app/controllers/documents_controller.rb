@@ -1,23 +1,30 @@
 class DocumentsController < ApplicationController
+  load_and_authorize_resource
   respond_to :html
   before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 
   def new
-    @document = Document.new
+    @document = Document.new(advocate_id: current_user.persona.id)
   end
 
   def create
-    @document = Document.create(document_params)
+    @document = Document.create(document_params.merge(advocate_id: current_user.persona.id))
 
     respond_with @document
   end
 
   def show
-    send_file @document.document.path, type: @document.document_content_type, disposition: 'inline'
+    send_file Paperclip.io_adapters.for(@document.converted_preview_document).path,
+      type:        @document.converted_preview_document_content_type,
+      filename:    @document.converted_preview_document_file_name,
+      disposition: 'inline'
   end
 
   def download
-    send_file @document.document.path, type: @document.document_content_type, x_sendfile: true
+    send_file Paperclip.io_adapters.for(@document.document).path,
+      type:        @document.document_content_type,
+      filename:    @document.document_file_name,
+      x_sendfile:  true
   end
 
   def update
@@ -39,4 +46,5 @@ class DocumentsController < ApplicationController
       :document_type_id
     )
   end
+
 end

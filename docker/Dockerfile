@@ -1,10 +1,12 @@
 FROM ministryofjustice/ruby:2-webapp-onbuild
 
-ENV APP_HOME /rails
-
-ADD ./ /rails
 ADD ./docker/run.sh $APP_HOME/run.sh
 RUN chmod 777 $APP_HOME/run.sh
+RUN apt-get update &&  \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install libreoffice && \
+    apt-get clean && \
+    rm /var/lib/apt/lists/*_*
+
 WORKDIR $APPHOME
 
 EXPOSE 80

@@ -4,13 +4,18 @@
 %h1
   Claim
   = @claim.case_number
+
+%P
+  Created by:
+  = @claim.creator.name
+
 #claim-accordion
   %h2
     Claim based information
   = render @claim, locals: { hide_totals: true }
   %h2
     Claim summary
-  = render partial: 'payments'
+  = render partial: 'shared/summary'
   %h2
     Representation order
   = render partial: 'representation_order'
@@ -18,8 +23,8 @@
     Evidence list
   = render partial: 'evidence_list'
   %h2
-    Messages
-  = render partial: 'advonote'
+    Messages (#{@messages.count})
+  = render partial: 'shared/messages'
   %h2
     Claim notes
   = render partial: 'case_notes'

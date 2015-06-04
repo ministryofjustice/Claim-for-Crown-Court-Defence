@@ -3,16 +3,17 @@
 %h1
   Case workers
 
-%ul
+%ul#assignee-list
   - @case_workers.each do |case_worker|
-    %li
-      = link_to "#{case_worker.email} (#{case_worker.role.humanize})", case_workers_admin_case_worker_path(case_worker)
-      |
-      = link_to 'Allocate claims', allocate_case_workers_admin_case_worker_path(case_worker)
-      |
-      = link_to 'Edit', edit_case_workers_admin_case_worker_path(case_worker)
-      |
-      = link_to 'Delete', case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
+    %li{id: dom_id(case_worker)}
+      = link_to "#{case_worker.name} - #{case_worker.email} (#{case_worker.role.humanize})", case_workers_admin_case_worker_path(case_worker)
+      %ul.actions
+        %li
+          = link_to 'Allocate claims', allocate_case_workers_admin_case_worker_path(case_worker)
+        %li
+          = link_to 'Edit', edit_case_workers_admin_case_worker_path(case_worker)
+        %li
+          = link_to 'Delete', case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
 
 %p
   = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button'

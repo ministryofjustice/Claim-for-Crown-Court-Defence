@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
+  resources :messages, only: [:create]
+
   namespace :advocates do
     root to: 'claims#index'
 
@@ -22,8 +24,9 @@ Rails.application.routes.draw do
     resources :claims do
       get 'summary', on: :member
       get 'confirmation', on: :member
+      get 'outstanding', on: :collection
+      get 'authorised', on: :collection
     end
-
 
     namespace :admin do
       root to: 'claims#index'

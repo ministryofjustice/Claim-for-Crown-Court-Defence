@@ -24,11 +24,12 @@
 
 
     %fieldset
-      = f.label :amount_assessed, 'Amount assessed'
-      .currency
-        %span.currency-symbol
-          &pound;
-        = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: f.object.disable_payment_status_radio_buttons?
+      #amountAssessed
+        = f.label :amount_assessed, 'Amount assessed'
+        .currency
+          %span.currency-symbol
+            &pound;
+          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: f.object.disable_payment_status_radio_buttons?
       = f.label :additional_information, "Remarks"
       = f.text_area :additional_information
 

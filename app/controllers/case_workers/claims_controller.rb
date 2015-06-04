@@ -4,7 +4,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claim, only: [:show]
 
   def index
-    @claims = @claims.find_by_maat_reference(params[:search]) if params[:search].present?
+    @claims = @claims.find_by_maat_reference(params[:search_maat]) if params[:search_maat].present?
+    @claims = @claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 

@@ -10,10 +10,21 @@
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
   %fieldset
-    %ul.allocation-list
+    %table.allocate
+      %thead
+        %tr
+          %th
+            Defendant
+          %th
+            Case number
+          %th
+            Advocate
+          %th
+            Court
+          %th
+            &nbsp;
+      %tbody
       = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
-        %li
-          = b.label do
-            = render partial: 'claim', locals: { claim: b.object }
-            = b.check_box
+        %tr
+          = render partial: 'claim', locals: { claim: b.object, b: b }
   = f.submit class: "button"

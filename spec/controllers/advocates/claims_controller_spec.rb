@@ -180,7 +180,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
              case_type: 'trial',
              offence_id: offence,
              case_number: '12345',
-             advocate_category: 'qc_alone',
+             advocate_category: 'QC',
              prosecuting_authority: 'cps',
           }
         end

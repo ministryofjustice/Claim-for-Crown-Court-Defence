@@ -1,0 +1,5 @@
+= form_tag advocates_claims_path, method: :get do
+  - if current_user.persona.admin?
+    = text_field_tag :search_advocate, params[:search_advocate], placeholder: 'Advocate'
+  = text_field_tag :search_defendant, params[:search_defendant], placeholder: 'Defendant'
+  = submit_tag 'Search', id: 'search', class: 'button'

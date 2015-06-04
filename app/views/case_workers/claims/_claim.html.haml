@@ -5,18 +5,30 @@
         Case
       %dl
         %dt
-          Case number
+          Defendant name
         %dd
-          #{claim.case_number}
+          #{claim.defendants.map(&:name).join(', ')}
         %dt
-          Case Type
+          Rep order date
         %dd
-          #{claim.case_type.humanize}
+          #{claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') }.join(', ')}
+        %dt
+          Supplier account number
+        %dd
+          #{claim.advocate.account_number}
+        %dt
+          Case submitted
+        %dd
+          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
         - if controller.action_name == 'show'
           %dt
-            Case submitted
+            Case number
           %dd
-            #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
+            #{claim.case_number}
+          %dt
+            Case Type
+          %dd
+            #{claim.case_type.humanize}
           %dt
             Case Worker
           %dd
@@ -25,10 +37,6 @@
             #{t('maat_reference_number')}
           %dd
             #{claim.defendants.map(&:maat_reference).join(', ')}
-          %dt
-            Defendant name
-          %dd
-            #{claim.defendants.map(&:name).join(', ')}
           %dt
             Offence
           %dd
@@ -42,18 +50,22 @@
         Court
       %dl
         %dt
-          Court
+          Crown Court
         %dd
           #{claim.court.name}
         %dt
-          Court type
+          Prosecuting authority
         %dd
-          #{claim.court.court_type.humanize}
+          CPS
+        %dt
+          Retrial?
+        %dd
+          No
+        %dt
+          Judicial Apportionment
+        %dd
+          No
         - if controller.action_name == 'show'
-          %dt
-            Prosecuting authority
-          %dd
-            CPS
           %dt
             Hearing
           %dd

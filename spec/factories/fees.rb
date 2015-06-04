@@ -26,6 +26,24 @@ FactoryGirl.define do
       amount { quantity * rate }
     end
 
+    trait :basic do
+      fee_type        { FactoryGirl.create :fee_type, :basic }
+    end
+
+    trait :misc do
+      fee_type        { FactoryGirl.create :fee_type, :misc }
+    end
+
+    trait :fixed do
+      fee_type        { FactoryGirl.create :fee_type, :fixed }
+    end
+
+    trait :all_zero do
+      quantity 0
+      rate 0
+      amount 0
+    end
+
   end
 
 end

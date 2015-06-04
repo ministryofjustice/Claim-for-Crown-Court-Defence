@@ -83,12 +83,58 @@ RSpec.describe Claim, type: :model do
   it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
   it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
 
-  it { should accept_nested_attributes_for(:fees) }
+  it { should accept_nested_attributes_for(:basic_fees) }
+  it { should accept_nested_attributes_for(:non_basic_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }
 
   subject { create(:claim) }
+
+
+  context 'basic fees' do
+    before(:each) do
+      @bft1 = FactoryGirl.create :fee_type, :basic,  description: 'ZZZZ'
+      @mft1 = FactoryGirl.create :fee_type, :misc,   description: 'CCCC'
+      @fft1 = FactoryGirl.create :fee_type, :fixed,  description: 'DDDD'
+      @bft2 = FactoryGirl.create :fee_type, :basic,  description: 'AAAA'
+      @mft2 = FactoryGirl.create :fee_type, :misc,   description: 'EEEE'
+      @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB'
+    end
+
+    describe '#instantiate_basic_fees' do
+      it 'should create a fee record for every basic fee type' do
+        # Given three basic fee types and some other non-basic fee types
+        # when I instantiate a new claim
+        claim = FactoryGirl.build :claim
+        claim.instantiate_basic_fees
+
+        # it should also instantiate an emtpy fee for every basic fee type and not for the  other fee types
+        expect(claim.fees.size).to eq 3
+        claim.fees.each do |fee|
+          expect(fee.fee_type.fee_category.abbreviation).to eq 'BASIC'
+        end  
+
+        # and all fees should be blank
+        claim.fees.each { |fee| expect(fee).to be_blank }
+      end
+    end
+
+    describe '#basic_fees' do
+      it 'should return a fee for every basic fee sorted alphabetically in order of fee type description' do
+        # Given three basic fee types and some other non-basic fee types and a claim
+        claim = FactoryGirl.build :claim
+        claim.instantiate_basic_fees
+
+        # when I call basic_fees
+        fees = claim.basic_fees
+
+        # it should return the three basic fees sorted in order of fee type description
+        expect(fees.map(&:description)).to eq( ['AAAA', 'BBBB', 'ZZZZ'])
+      end
+    end
+  end
+
 
   describe '.find_by_maat_reference' do
     let!(:other_claim) { create(:claim) }

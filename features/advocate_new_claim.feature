@@ -53,6 +53,7 @@ Feature: Advocate new claim
 
   Scenario: Admin fails to specify advocate name
     Given I am a signed in advocate admin
+      And There are basic and non-basic fee types
       And I am on the new claim page
       And I fill in the claim details
       And I submit the form

@@ -1,7 +1,7 @@
 .nested-fields
   %span.auto-width
     = f.label :fee_type_id
-    = f.grouped_collection_select :fee_type_id, FeeCategory.includes(:fee_types), :fee_types, :name, :id, :description, prompt: true
+    = f.grouped_collection_select :fee_type_id, FeeCategory.non_basic.includes(:fee_types), :fee_types, :name, :id, :description, prompt: true
   %span.auto-width
     = f.label :quantity
     = f.number_field :quantity

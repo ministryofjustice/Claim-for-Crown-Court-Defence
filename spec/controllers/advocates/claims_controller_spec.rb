@@ -214,6 +214,73 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           expect(response).to render_template(:new)
         end
       end
+
+      context 'basic and non-basic fees' do
+        let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1' }
+        let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2' }
+        let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3' }
+        let!(:basic_fee_type_4)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 4' }
+        let!(:misc_fee_type_1)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 1' }
+        let!(:misc_fee_type_2)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 2' }
+        let!(:fixed_fee_type_1)         { FactoryGirl.create :fee_type, :fixed, description: 'Fixed Fee Type 1' }
+
+        let(:court)                     { create(:court) }
+        let(:offence)                   { create(:offence) }
+        let(:claim_params)              { full_valid_params }
+        let(:invalid_claim_params)      { full_valid_params.reject{ |k,v| k == 'prosecuting_authority'} } 
+        
+        context 'valid params' do
+          it 'should create a claim with all basic fees and the specified non-basic fees' do
+            post :create, claim: claim_params
+            claim = assigns(:claim)
+            
+            expect(claim.basic_fees.size).to eq 4             # one record for every basic fee regardless of whether blank or not
+            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000.0
+            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
+            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+
+            expect(claim.non_basic_fees.size).to eq 2
+            expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+            expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
+
+            expect(claim.reload.fees_total).to eq 12_875.45
+          end
+        end
+
+        context 'invalid params' do
+          render_views
+          it 'shuould redisplay the page with error messages and all the entered data in basic and non basic fees' do
+            post :create, claim: invalid_claim_params
+            expect(response.status).to eq 200
+            expect(response).to render_template(:new)
+            expect(response.body).to have_content("Prosecuting authority can't be blank")
+            claim = assigns(:claim)
+            expect(claim.basic_fees.size).to eq 4
+            expect(claim.non_basic_fees.size).to eq 2
+            
+            bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
+            expect(bf1.quantity).to eq 10
+            expect(bf1.rate).to eq 100
+            expect(bf1.amount).to eq 1000
+            
+            bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
+            expect(bf2.quantity).to eq 0
+            expect(bf2.rate).to eq 0
+            expect(bf2.amount).to eq 0
+
+            bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
+            expect(bf3.quantity).to eq 30
+            expect(bf3.rate).to eq 300
+            expect(bf3.amount.to_f).to eq 9000.45
+
+            bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
+            expect(bf4.quantity).to eq 5
+            expect(bf4.rate).to eq 25
+            expect(bf4.amount).to eq 125
+          end
+        end
+      end
     end
   end
 
@@ -288,3 +355,49 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 end
+
+
+def full_valid_params
+    {"advocate_id" => "4",
+     "scheme_id" => "2",
+     "case_type" => "appeal_against_sentence",
+     "prosecuting_authority" => "cps",
+     "court_id" => court.id.to_s,
+     "case_number" => "CASE98989",
+     "advocate_category" => "QC",
+     "offence_class_id" => "2",
+     "offence_id" => offence.id.to_s,
+     "first_day_of_trial" => "2015-05-13",
+     "estimated_trial_length" => "2",
+     "actual_trial_length" => "2",
+     "defendants_attributes"=>
+      {"0"=>
+        {"first_name" => "Stephen",
+         "middle_name" => "",
+         "last_name" => "Richards",
+         "date_of_birth" => "1966-08-13",
+         "representation_order_date" => "2015-05-13",
+         "order_for_judicial_apportionment" => "0",
+         "maat_reference" => "MAAT2015",
+         "_destroy" => "false"}
+      },
+     "additional_information" => "",
+     "basic_fees_attributes"=>
+      {
+        "0"=>{"quantity" => "10", "rate" => "100", "amount" => "1000.0", "fee_type_id" => basic_fee_type_1.id.to_s},
+        "1"=>{"quantity" => "0", "rate" => "0.00", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
+        "2"=>{"quantity" => "30", "rate" => "300", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
+        "3"=>{"quantity" => "5", "rate" => "25", "amount" => "125", "fee_type_id" => basic_fee_type_4.id.to_s}
+        },
+     "non_basic_fees_attributes"=>
+      {
+        "0"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "25", "rate" => "45", "amount" => "250", "_destroy" => "false"},
+        "1"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "45", "amount" => "2500", "_destroy" => "false"}
+      },
+     "expenses_attributes"=>
+     {
+      "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "hours" => "", "amount" => "", "_destroy" => "false"}
+     },
+     "apply_vat" => "0"}
+end
+

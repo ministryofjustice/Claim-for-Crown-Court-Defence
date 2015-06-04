@@ -9,12 +9,14 @@ Given(/^There are other advocates in my chamber$/) do
         account_number: 'XY455')
 end
 
+
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
   create(:document_type, description: 'Other')
-  create(:fee_type, description: 'Basic Fee')
+  create(:fee_type, :basic, description: 'Basic Fee')
+  create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
@@ -33,11 +35,10 @@ When(/^I fill in the claim details$/) do
   fill_in 'Date of birth', with: '04/10/1980'
   fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
 
-  within '#fees' do
-    select 'Basic Fee', from: 'claim_fees_attributes_0_fee_type_id'
-    fill_in 'Quantity', with: 1
-    fill_in 'Rate', with: 1
-    fill_in 'Amount', with: 20
+  within '#basic_fees' do
+    fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
+    fill_in 'claim_basic_fees_attributes_0_rate', with: 1
+    fill_in 'claim_basic_fees_attributes_0_amount', with: 20
   end
 
   within '#expenses' do

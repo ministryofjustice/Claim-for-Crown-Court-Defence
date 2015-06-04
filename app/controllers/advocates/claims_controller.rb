@@ -38,6 +38,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
+    @claim.instantiate_basic_fees
     load_advocates_in_chamber
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
@@ -65,6 +66,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if @claim.save
       respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
     else
+      @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
       build_nested_resources
       render action: :new
     end
@@ -122,7 +124,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :indictment_number,
      :apply_vat,
      defendants_attributes: [:id, :claim_id, :first_name, :middle_name, :last_name, :date_of_birth, :representation_order_date, :order_for_judicial_apportionment, :maat_reference, :_destroy],
-     fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
+     basic_fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
+     non_basic_fees_attributes: [:id, :claim_id, :fee_type_id, :fee_id, :quantity, :rate, :amount, :_destroy],
      expenses_attributes: [:id, :claim_id, :expense_type_id, :location, :quantity, :rate, :hours, :amount, :_destroy],
      documents_attributes: [:id, :advocate_id, :claim_id, :document_type_id, :document, :description]
     )
@@ -130,7 +133,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def build_nested_resources
     @claim.defendants.build if @claim.defendants.none?
-    @claim.fees.build if @claim.fees.none?
+    @claim.non_basic_fees.build if @claim.non_basic_fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
   end

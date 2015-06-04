@@ -11,5 +11,10 @@
   %span.auto-width
     = f.label :amount
     = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2)
+  %div
+    = f.fields_for :dates_attended do |date_attended|
+      = render 'date_attended_fields', f: date_attended
+    .links
+      = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button'
   %p
     = link_to_remove_association 'Remove fee', f

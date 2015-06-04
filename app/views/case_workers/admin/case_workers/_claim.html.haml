@@ -1,17 +1,14 @@
-%dl
-  %dt
-    Advocate
-  %dd
-    #{claim.advocate.email}
-  %dt
-    Defendant name
-  %dd
+%td.defendants
+  = b.label do
     #{claim.defendants.map(&:name).join(', ')}
-  %dt
-    Case number
-  %dd
+%td.case_number
+  = b.label do
     #{claim.case_number}
-  %dt
-    Court
-  %dd
+%td.advocate
+  = b.label do
+    #{claim.advocate.email}
+%td.court_name
+  = b.label do
     #{claim.court.name}
+%td
+  = b.check_box

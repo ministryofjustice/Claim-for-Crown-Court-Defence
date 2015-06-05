@@ -77,6 +77,19 @@ RSpec.describe Claim, type: :model do
 
   subject { create(:claim) }
 
+
+  describe '#update_model_and_transition_state' do
+    it 'should update the model then transition state to prevent state transition validation errors' do
+      # given
+      claim = FactoryGirl.create :allocated_claim
+      claim_params = {"state_for_form"=>"part_paid", "amount_assessed"=>"88.55", "additional_information"=>""}
+      # when
+      claim.update_model_and_transition_state(claim_params)
+      #then
+      expect(claim.reload.state).to eq 'part_paid'
+    end
+  end
+
   context 'amount_assessed validation' do
     context 'paid and part paid' do
       it 'should be invalid if amount assessed = 0 for state paid' do

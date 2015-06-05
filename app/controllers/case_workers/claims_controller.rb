@@ -19,7 +19,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @messages = @claim.messages.most_recent_first
     @doc_types = DocumentType.all
     begin
-      @claim.update(claim_params)
+      @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err
     end
     @message = @claim.messages.build

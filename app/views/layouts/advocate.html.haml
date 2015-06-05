@@ -1,4 +1,5 @@
-- content_for :stylesheets do
+- @disable_logo_link  = true
+- content_for :head do
   = stylesheet_link_tag "advocates/application", media: "all"
 
 - content_for :javascripts do
@@ -24,4 +25,4 @@
         = render partial: 'layouts/flashes' unless flash.empty?
         = yield
 
-= render template: "layouts/moj_template"
+= render template: 'layouts/moj_internal_template'

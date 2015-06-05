@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 
   belongs_to :persona, polymorphic: true
   has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
+  has_many :user_message_statuses, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
 

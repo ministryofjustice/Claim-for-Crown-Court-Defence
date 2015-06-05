@@ -23,9 +23,11 @@
         = render partial: 'layouts/flashes' unless flash.empty?
         %aside.aside-navigation
           = yield :aside_navigation
+          &nbsp;
         %main.main-content
           = yield
         %aside.aside-help
           = yield :aside_help
+          &nbsp;
 
 = render template: "layouts/moj_template"

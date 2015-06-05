@@ -167,6 +167,12 @@ class Claim < ActiveRecord::Base
     %w{ paid part_paid rejected refused }.include?(self.state)
   end
 
+  def update_model_and_transition_state(params)
+    new_state = params.delete('state_for_form')
+    self.update(params)
+    self.state_for_form = new_state
+  end
+
   private
 
 def amount_assessed_and_state

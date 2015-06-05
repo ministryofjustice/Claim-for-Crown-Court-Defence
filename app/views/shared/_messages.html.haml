@@ -11,15 +11,4 @@
     - else
       Past messages
       %ul
-        - @messages.each do |message|
-          %li{id: dom_id(message)}
-            %header
-              %h5
-                = message.subject
-                |
-                = message.sender.name
-                (#{message.sender.persona.class.to_s.humanize})
-              %span.timeago
-                = distance_of_time_in_words_to_now(message.created_at)
-                ago
-            = message.body
+        = render partial: 'shared/message', collection: @messages

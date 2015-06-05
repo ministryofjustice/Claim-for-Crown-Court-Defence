@@ -105,9 +105,6 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'from refused' do
       before { subject.submit!; subject.allocate!; }
-      describe 'note refused state and automatically move to completed' do
-        it { expect(subject).to receive(:complete!); subject.refuse! }
-      end
       it { expect{ subject.update_column(:state, 'refused'); subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end

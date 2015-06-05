@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
-    if @message.save!
+    if @message.save
       notification = { notice: 'Message successfully sent' }
     else
       notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }

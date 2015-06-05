@@ -32,7 +32,7 @@ Feature: Advocate claims list
     Given I am a signed in advocate admin
       And my chamber has <number> <state> claims
     When I visit the advocates dashboard
-    Then I see a column containing the amount assesed for <state> claims
+    Then I see a column containing the amount assessed for <state> claims
       And a figure representing the amount assessed for <state> claims
 
     Examples:

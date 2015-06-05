@@ -27,7 +27,7 @@ When(/^I leave a message$/) do
   end
 end
 
-Then(/^I should see the my message at the top of the message list$/) do
+Then(/^I should see my message at the top of the message list$/) do
   within '#messages' do
     within '.timeline' do
       li = page.first(:css, 'li')

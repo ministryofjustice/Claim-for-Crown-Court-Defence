@@ -55,7 +55,7 @@ RSpec.describe Message, type: :model do
       subject.claim.case_workers << case_worker
     end
 
-    it 'creates unread user message status for the claim advocate and case workers' do
+    it 'creates unread user message status for all relevant users' do
       subject.reload
       expect(UserMessageStatus.where(read: false).count).to eq(2)
     end

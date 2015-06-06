@@ -7,6 +7,11 @@ class UserMessageStatusesController < ApplicationController
 
   def update
     @user_message_status.update(read: true)
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   private

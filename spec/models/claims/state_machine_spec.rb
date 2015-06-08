@@ -136,7 +136,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.appeal! }
     end
 
-    describe 'make awaiting_furhter_info valid for 21 days' do
+    describe 'make awaiting_further_info valid for 21 days' do
       before { 
         subject.submit! 
         subject.allocate! 
@@ -163,12 +163,21 @@ RSpec.describe Claims::StateMachine, type: :model do
       it {  expect(subject).to receive(:update_column).with(:submitted_at,Time.now); subject.submit!; }
     end
 
-    describe 'make paid_at attribute equal now' do
+    describe 'pay! makes paid_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
       it {  
         expect(subject).to receive(:update_column).with(:paid_at,Time.now); 
         subject.update_attribute(:amount_assessed, 123.45); 
         subject.pay!; 
+      }
+    end
+
+    describe 'pay_part! makes paid_at attribute equal now' do
+      before { subject.submit!; subject.allocate! }
+      it {
+        expect(subject).to receive(:update_column).with(:paid_at,Time.now);
+        subject.update_attribute(:amount_assessed, 123.45);
+        subject.pay_part!;
       }
     end
 

@@ -32,8 +32,8 @@ Feature: Advocate claims list
     Given I am a signed in advocate admin
       And my chamber has <number> <state> claims
     When I visit the advocates dashboard
-    Then I see a column called amount assesed for <state> claims
-      And I see a figure representing the amount assessed for <state> claims
+    Then I see a column containing the amount assessed for <state> claims
+      And a figure representing the amount assessed for <state> claims
 
     Examples:
        | state        | number |
@@ -51,7 +51,7 @@ Feature: Advocate claims list
        | "submitted"  | 5      |
        | "rejected"   | 5      |
        | "draft"      | 5      |
-       
+
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
       And my chamber has 4 claims for advocate "John Smith"

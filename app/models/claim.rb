@@ -99,7 +99,9 @@ class Claim < ActiveRecord::Base
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
-  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }
+
+  validate :amount_assessed_and_state
 
   accepts_nested_attributes_for :fees,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
@@ -130,6 +132,25 @@ class Claim < ActiveRecord::Base
         .where("lower(defendants.first_name || ' ' || defendants.last_name) LIKE ?","%#{defendant_name.downcase}%")
     end
 
+  end
+
+  def state_for_form
+    self.state
+  end
+
+  def state_for_form=(new_state)
+    case new_state
+    when 'paid'
+      pay!
+    when 'part_paid'
+      pay_part!
+    when 'rejected'
+      reject!
+    when 'refused'
+      refuse!
+    else
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
+    end
   end
 
   def calculate_fees_total
@@ -164,4 +185,28 @@ class Claim < ActiveRecord::Base
     draft? || submitted?
   end
 
+  def disable_payment_status_radio_buttons?
+    %w{ paid part_paid rejected refused }.include?(self.state)
+  end
+
+  def update_model_and_transition_state(params)
+    new_state = params.delete('state_for_form')
+    self.update(params)
+    self.state_for_form = new_state
+  end
+
+  private
+
+def amount_assessed_and_state
+  case self.state
+    when 'paid', 'part_paid'
+      if self.amount_assessed == 0
+        errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
+      end
+    when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+    if self.amount_assessed != 0
+        errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
+      end
+    end
+  end
 end

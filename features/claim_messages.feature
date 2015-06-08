@@ -14,7 +14,7 @@ Feature: Claim messages
       And a claim with messages exists that I have been assigned to
      When I visit that claim's "case worker" detail page
       And I leave a message
-     Then I should see the my message at the top of the message list
+     Then I should see my message at the top of the message list
 
   Scenario: View messages as an advocate
     Given I am a signed in advocate
@@ -27,4 +27,4 @@ Feature: Claim messages
       And I have a submitted claim with messages
      When I visit that claim's "advocate" detail page
       And I leave a message
-     Then I should see the my message at the top of the message list
+     Then I should see my message at the top of the message list

@@ -1,0 +1,20 @@
+%h1
+  Message notifications
+
+%table
+  %thead
+    %th
+      Subject
+    %th
+      Date
+    %th
+      Claim
+  %tbody
+    - @user_message_statuses.each do |user_message_status|
+      %tr
+        %td
+          = user_message_status.message.subject
+        %td
+          = user_message_status.message.created_at.strftime('%d/%m/%y %H:%M')
+        %td
+          = link_to 'View claim', eval("#{current_user.persona.class.to_s.pluralize.underscore}_claim_path(user_message_status.message.claim)") + "#messages"

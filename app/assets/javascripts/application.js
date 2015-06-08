@@ -14,9 +14,10 @@
 //= require jquery_ujs
 //= require select2
 //= require cocoon
+//= require moj
 //= require_tree .
+var moj = moj || {};
 
-moj.Modules.devs.init = function(){} 
 
 
 $('#claim-accordion h2').each(function(){

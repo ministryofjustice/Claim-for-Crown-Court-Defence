@@ -15,7 +15,6 @@
   }
 
 }
-
 .case-data-headings{
   margin:0;
   padding:0;
@@ -67,6 +66,10 @@ a.detail-link {
       background-position: 0 0;
     }
   }
+}
+.status-indicator {
+  width: 20px;
+  height: 20px;
 }
 table.allocate{
   width:100%;

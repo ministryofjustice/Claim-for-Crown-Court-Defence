@@ -1,0 +1,26 @@
+%section
+
+  - if @claim.errors.any?
+    %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+    %ul
+      - @claim.errors.full_messages.each do |msg|
+        %li= msg
+
+  = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
+    %fieldset#claim-status
+      = f.label :status
+      = f.collection_select :state_for_form, Claim::STATES_FOR_FORM, :first, :last, { prompt: true }, { class: 'select2', disabled: disabled}
+
+    %fieldset
+      #amountAssessed
+        = f.label :amount_assessed, 'Amount assessed'
+        .currency
+          %span.currency-symbol
+            &pound;
+          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: disabled
+      = f.label :additional_information, "Remarks"
+      = f.text_area :additional_information, disabled: disabled
+
+    - unless disabled
+      %p
+      = f.submit 'Update', class: 'button'

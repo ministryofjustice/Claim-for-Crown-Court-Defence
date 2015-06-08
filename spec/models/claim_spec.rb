@@ -446,10 +446,27 @@ RSpec.describe Claim, type: :model do
       expect(subject).to receive(:refuse!)
       subject.state_for_form = 'refused'
     end
+    it 'should call await_info_from_court! if awaiting_info_from_court' do
+      expect(subject).to receive(:await_info_from_court!)
+      subject.state_for_form = 'awaiting_info_from_court'
+    end
     it 'should raise an exception if anything else' do
       expect{
         subject.state_for_form = 'allocated'
       }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
     end
   end
+
+  describe 'STATES_FOR_FORM' do
+    it "should have constant values" do
+    expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
+                                          paid: "Paid in full",
+                                          rejected: "Rejected",
+                                          refused: "Refused",
+                                          awaiting_info_from_court: "Awaiting info from court"
+                                         })
+  end
+
+  end
+
 end

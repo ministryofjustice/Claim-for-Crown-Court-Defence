@@ -19,7 +19,7 @@
 
 var moj = moj || {};
 
-moj.Modules.devs.init = function(){} 
+moj.Modules.devs.init = function(){}
 
 
 $('#claim-accordion h2').each(function(){
@@ -35,6 +35,7 @@ function initialise(){
 	cbo.newClaim.init();
 	cbo.feeCalculator.init('fees');
 	cbo.feeCalculator.init('expenses');
+	moj.Modules.amountAssessed.init();
 }
 
 $( document ).ready(function() {

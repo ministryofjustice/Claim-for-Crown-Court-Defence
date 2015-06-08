@@ -12,15 +12,15 @@
         Defendants
       %th
         CMS Number
-      - if claims.map(&:state).uniq != ['draft']
+      - unless includes_state?(claims,'draft')
         %th
           Submission date
-      - if claims.map(&:state).uniq != ['draft'] && claims.map(&:state).uniq != ['rejected'] && claims.map(&:state).uniq != ['submitted','allocated']
+      - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
         %th
           Paid date
       %th.currency
         Claim total
-      - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']
+      - if includes_state?(claims,'part_paid,completed')
         %th.currency
           Amount assessed
       %th
@@ -36,15 +36,15 @@
           = claim.defendants.map(&:name).join(', ')
         %td
           = claim.cms_number
-        - if claims.map(&:state).uniq != ['draft']
+        - unless includes_state?(claims,'draft')
           %td
             = claim.submitted_at.strftime('%d/%m/%Y') unless claim.submitted_at.nil?
-        - if claims.map(&:state).uniq != ['draft'] && claims.map(&:state).uniq != ['rejected'] && claims.map(&:state).uniq != ['submitted','allocated']
+        - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
           %td
             = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
         %td.currency
           = number_to_currency(claim.total)
-        - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']
+        - if includes_state?(claims,'part_paid,completed')
           %td.currency
             = number_to_currency(claim.amount_assessed)
         %td
@@ -54,3 +54,6 @@
             = link_to 'Edit', edit_advocates_claim_path(claim)
           |
           = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
+        %td
+          - if claim.state == 'awaiting_info_from_court'
+            = image_tag "#{claim.state.gsub('_','-')}.png", alt: claim.state.humanize, class: "status-indicator", title: claim.state.humanize

@@ -33,5 +33,5 @@ cbo.newClaim = {
       $(cbo.newClaim.$offenceSelect.children('optgroup[label="' + offenceClassLabel + '"]').select2("container")).removeClass("hide-optgroup").addClass("show-optgroup");
     }
   }
-  
+
 }

@@ -9,8 +9,8 @@ cbo.feeCalculator = {
   addChangeEvent: function(container_id) {
     $('#' + container_id).on('change', '.quantity, .rate', function(e) {
       var wrapper = $(e.target).closest('.nested-fields');
-      var quantity = parseInt(wrapper.find('.quantity').val());
-      var rate = parseInt(wrapper.find('.rate').val());
+      var quantity = parseFloat(wrapper.find('.quantity').val());
+      var rate = parseFloat(wrapper.find('.rate').val());
       var total = (rate * quantity).toFixed(2);
       wrapper.find('.amount').val(total);
     });

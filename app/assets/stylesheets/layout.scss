@@ -53,10 +53,12 @@ header.page-title{
 
 #content {
   aside{
-    @include grid-column( 1/6 );
+    width:16.6667%;
+    display:inline-block;
   }
   main {
-    @include grid-column( 2/3 );
+    width:66.6667%;
+    display:inline-block;
   }
 }
 

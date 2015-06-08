@@ -106,3 +106,16 @@ Feature: Advocate claims list
       | "Submitted to LAA" |
       | "Part paid"        |
       | "Completed"        |
+
+  Scenario Outline: Only relevant columns visible
+    Given I am a signed in advocate
+      And I have 1 claims of each state
+     When I visit the advocates dashboard
+     Then I should NOT see column <column_name> under section id <section_id>
+
+    Examples:
+      | column_name       | section_id  |
+      | "Submission date" | "draft"     |
+      | "Paid date"       | "draft"     |
+      | "Paid date"       | "rejected"  |
+      | "Paid date"       | "submitted" |

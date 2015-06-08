@@ -12,10 +12,12 @@
         Defendants
       %th
         CMS Number
-      %th
-        Submission date
-      %th
-        Paid date
+      - if claims.map(&:state).uniq != ['draft']
+        %th
+          Submission date
+      - if claims.map(&:state).uniq != ['draft'] && claims.map(&:state).uniq != ['rejected'] && claims.map(&:state).uniq != ['submitted','allocated']
+        %th
+          Paid date
       %th.currency
         Claim total
       - if claims.map(&:state).uniq == ['part_paid'] || claims.map(&:state).uniq == ['completed']

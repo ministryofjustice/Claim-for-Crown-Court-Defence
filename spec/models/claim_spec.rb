@@ -88,7 +88,68 @@ RSpec.describe Claim, type: :model do
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }
 
+
   subject { create(:claim) }
+
+
+  describe '#update_model_and_transition_state' do
+    it 'should update the model then transition state to prevent state transition validation errors' do
+      # given
+      claim = FactoryGirl.create :allocated_claim
+      claim_params = {"state_for_form"=>"part_paid", "amount_assessed"=>"88.55", "additional_information"=>""}
+      # when
+      claim.update_model_and_transition_state(claim_params)
+      #then
+      expect(claim.reload.state).to eq 'part_paid'
+    end
+  end
+
+  context 'amount_assessed validation' do
+    context 'paid and part paid' do
+      it 'should be invalid if amount assessed = 0 for state paid' do
+        claim = FactoryGirl.create :paid_claim
+        claim.amount_assessed = 0
+        expect(claim).not_to be_valid
+        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
+      end
+
+      it 'should be invalid if amount assessed = 0 for state part_paid' do
+        claim = FactoryGirl.create :part_paid_claim
+        claim.amount_assessed = 0
+        expect(claim).not_to be_valid
+        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
+      end
+
+      it 'should be valid if amount assesssed > 0 and state paid' do
+        claim = FactoryGirl.create  :paid_claim
+        expect(claim).to be_valid
+      end
+
+      it 'should be valid if amount_assessed > 0 and state part_paid' do
+        claim = FactoryGirl.create  :part_paid_claim
+        expect(claim).to be_valid
+      end
+    end
+
+    context 'states demanding zero value for amount assessed' do
+      it 'should be valid if amount assessed is zero' do
+        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+          factory_name = "#{state}_claim".to_sym
+          claim = FactoryGirl.create factory_name, amount_assessed: 0
+          expect(claim).to be_valid
+        end
+      end
+
+      it 'should be invalid if amount assessed is not zero' do
+        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+          factory_name = "#{state}_claim".to_sym
+          expect {
+            claim = FactoryGirl.create factory_name, amount_assessed: 356.31
+          }.to raise_error ActiveRecord::RecordInvalid
+        end
+      end
+    end
+  end
 
   describe '.find_by_maat_reference' do
     let!(:other_claim) { create(:claim) }
@@ -317,4 +378,46 @@ RSpec.describe Claim, type: :model do
       expect(allocated.editable?).to eq(false)
     end
   end
+
+  describe '#state_for_form' do
+    it 'should return the state' do
+      expect(subject).to receive(:state)
+      subject.state_for_form
+    end
+  end
+
+  describe '#state_for_form=' do
+    it 'should call pay! if paid' do
+      expect(subject).to receive(:pay!)
+      subject.state_for_form = 'paid'
+    end
+    it 'should call pay_part! if part_paid' do
+      expect(subject).to receive(:pay_part!)
+      subject.state_for_form = 'part_paid'
+    end
+    it 'should call reject! if rejected' do
+      expect(subject).to receive(:reject!)
+      subject.state_for_form = 'rejected'
+    end
+    it 'should call refuse! if refused' do
+      expect(subject).to receive(:refuse!)
+      subject.state_for_form = 'refused'
+    end
+    it 'should raise an exception if anything else' do
+      expect{
+        subject.state_for_form = 'allocated'
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
+    end
+    
+  end
 end
+
+
+
+
+
+
+
+
+
+

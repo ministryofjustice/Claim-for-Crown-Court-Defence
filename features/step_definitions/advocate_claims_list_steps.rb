@@ -83,7 +83,7 @@ Then(/^I do not see a column called amount assesed for "(.*?)" claims$/) do |sta
   end
 end
 
-Then(/^I see a figure representing the amount assessed for "(.*?)" claims$/) do |state|
+Then(/^I see a column containing the amount assessed for "(.*?)" claims$/) do |state|
   within("##{state}") do
     expect(page).to have_content("Amount assessed")
   end
@@ -188,4 +188,18 @@ end
 
 When (/^I hit search button$/) do
   click_button 'search'
+end
+
+Given(/^I have (\d+) claims of each state$/) do | claims_per_state |
+  # create n claims for all states except deleted and archived_pending_delete
+  states = Claim.state_machine.states.map(&:name)
+  states = states.map { |s| if s != :deleted && s != :archived_pending_delete then  s; end; }.compact
+  states.each do | state |
+    claims = create_list("#{state}_claim".to_sym, claims_per_state.to_i, advocate: @advocate)
+  end
+end
+
+Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|
+  node = find("section##{section_id}").find('.claims_table')
+  expect(node).not_to have_selector('th', text: column_name)
 end

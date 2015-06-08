@@ -1,10 +1,11 @@
-- content_for :stylesheets do
+- @disable_logo_link  = true
+- content_for :head do
   = stylesheet_link_tag "advocates/application", media: "all"
 
-- content_for :javascripts do
+- content_for :body_end do
   = javascript_include_tag "application"
 
-= content_for :content_override do
+= content_for :content do
   = csrf_meta_tags
 
   #wrapper.group
@@ -22,6 +23,13 @@
             = render 'layouts/user'
       .container
         = render partial: 'layouts/flashes' unless flash.empty?
-        = yield
+        %aside.aside-navigation
+          = yield :aside_navigation
+          &nbsp;
+        %main.main-content
+          = yield
+        %aside.aside-help
+          = yield :aside_help
+          &nbsp;
 
-= render template: "layouts/moj_template"
+= render template: 'layouts/moj_internal_template'

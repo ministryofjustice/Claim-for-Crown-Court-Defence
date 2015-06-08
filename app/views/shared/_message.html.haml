@@ -1,0 +1,20 @@
+%li{id: dom_id(message)}
+  %span.message-from
+    = message.sender.name
+    (#{message.sender.persona.class.to_s.humanize})
+  %span.message
+    %div
+      %strong
+        = message.subject
+    %div
+      = message.body
+  %span.message-time
+    = message.created_at.strftime('%d %b')
+    %span.time-ago
+      = distance_of_time_in_words_to_now(message.created_at)
+      ago
+    %div
+      - status = message.user_message_statuses.find_by(user_id: current_user.id)
+      - if status && !status.read
+        Unread
+        = button_to 'Mark as read', user_message_status_path(message.user_message_statuses.find_by(user_id: current_user.id)), method: :put, remote: true

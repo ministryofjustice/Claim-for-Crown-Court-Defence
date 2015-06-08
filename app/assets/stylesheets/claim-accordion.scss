@@ -8,12 +8,21 @@
     clear: both;
     color: $white;
     display: block;
+    font-size: 24px;
     padding: 0.5em;
     margin-bottom: 1px;
     &.open{
       margin-bottom: 1em;
       background-position: right top;
     }
+  }
+  h3{
+    overflow: hidden;
+    text-indent: -999em;
+  }
+  h4{
+    font-size: 1.4em;
+    font-weight: bold;
   }
   ul.case-data{
     overflow: hidden;
@@ -72,8 +81,8 @@
     }
   }
   #claim-status{
-    label{
-      @include span-columns(4);
+    label.container{
+      @include span-columns(3);
       line-height: 4;
       text-align: center;
       border:1px solid $black;
@@ -83,43 +92,7 @@
       float:right;
     }
   }
-  #messages {
-    float: left;
-    margin-bottom: 1em;
-    width: 100%;
-    form{
-      @include span-columns(4);
-      input[type="text"], select{
-        width:100%;
-      }
-    }
-    .timeline{
-      @include span-columns(8);
-      ul{
-        padding: 0;
-        li{
-          padding: 0 0 1em 0;
-          border-bottom: 1px solid $grey-2;
-          list-style-type: none;
-          margin-bottom: 1em;
-          header{
-            width:100%;
-          }
-          h5{
-            display: inline-block;
-          }
-          .timeago{
-            float: right;
-          }
-          .type{
-            clear: both;
-            display: block;
-            color:$grey-1;
-          }
-        }
-      }
-    }
-  }
+
    textarea{
       width:100%;
       margin:1em 0;
@@ -154,5 +127,13 @@
         margin-bottom: 2em;
       }
     }
+  }
+}
+.currency{
+  position: relative;
+  padding-left:1em;
+  .currency-symbol{
+    position: absolute;
+    left:0;
   }
 }

@@ -6,10 +6,10 @@ module Claims::StateMachine
     klass.state_machine :state,                      initial: :draft do
       after_transition on: :submit,                  do: :set_submission_date!
       after_transition on: :pay,                     do: :set_paid_date!
+      after_transition on: :pay_part,                do: :set_paid_date!
       after_transition on: :appeal,                  do: :set_valid_until!
       after_transition on: :await_further_info,      do: :set_valid_until!
       after_transition on: :reject_parts,            do: :set_valid_until!
-      after_transition on: :refuse,                  do: :complete!
       after_transition on: :archive_pending_delete,  do: :set_valid_until!
 
       state :allocated, :appealed, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,

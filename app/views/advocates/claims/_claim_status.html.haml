@@ -1,11 +1,34 @@
-%section
-  %form#claim-status
-    %div
-      %label
-        Paid in full
-      %label
-        Part paid
-      %label
-        Not paid
+%section 
 
-    %textarea{placeholder: 'Reason / description', disabled: true}
+  - if @claim.errors.any?
+    %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+    %ul
+      - @claim.errors.full_messages.each do |msg|
+        %li= msg
+
+  = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
+    %fieldset#claim-status 
+      %label.container
+        Part paid
+        = f.radio_button :state_for_form, "part_paid", disabled: true
+      %label.container
+        Paid in full
+        = f.radio_button :state_for_form, "paid", disabled: true
+      %label.container
+        Refused
+        = f.radio_button :state_for_form, 'refused', disabled: true
+      %label.container
+        Rejected
+        = f.radio_button :state_for_form, 'rejected', disabled: true
+
+    %fieldset
+      #amountAssessed
+        = f.label :amount_assessed, 'Amount assessed'
+        .currency
+          %span.currency-symbol
+            &pound;
+          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: true
+      = f.label :additional_information, "Remarks"
+      = f.text_area :additional_information, disabled: true
+
+    

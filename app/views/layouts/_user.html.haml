@@ -1,6 +1,11 @@
-= content_for :proposition_links do
+= content_for :log_in_out do
   #proposition_links
     Signed in as:
     %strong
       = link_to current_user.email, '#'
       = link_to 'Sign out', destroy_user_session_path, method: :delete
+      |
+      = link_to user_message_statuses_path do
+        Messages:
+        %span#message_count
+          = current_user_messages_count

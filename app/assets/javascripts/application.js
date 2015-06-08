@@ -16,7 +16,7 @@
 //= require cocoon
 //= require_tree .
 
-moj.Modules.devs.init = function(){} 
+moj.Modules.devs.init = function(){}
 
 
 $('#claim-accordion h2').each(function(){
@@ -30,6 +30,8 @@ $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 function initialise(){
 	$('.select2').select2();
 	cbo.newClaim.init();
+	cbo.feeCalculator.init('fees');
+	cbo.feeCalculator.init('expenses');
 }
 
 $( document ).ready(function() {

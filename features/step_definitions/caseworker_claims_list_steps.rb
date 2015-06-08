@@ -95,7 +95,7 @@ When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
 end
 
 Then(/^I should only see (\d+) "(.*?)" claims$/) do |number, state_name|
-  expect(page).to have_content("#{state_name} claims (#{number})")
+  expect(page).to have_content(/#{number} claim?s matching/)
 end
 
 When(/^I search for a claim by MAAT reference$/) do
@@ -104,7 +104,7 @@ When(/^I search for a claim by MAAT reference$/) do
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-  expect(page).to have_content("Current claims (1)")
+  expect(page).to have_content("1 claim matching MAAT reference \"AA1245\"")
   expect(page).to have_selector("#claim_#{@claims.first.id}")
 end
 

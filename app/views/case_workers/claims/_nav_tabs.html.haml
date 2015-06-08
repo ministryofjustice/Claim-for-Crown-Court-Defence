@@ -1,9 +1,9 @@
 %nav.dashboard-tabs
   %ul
     %li{class: ( 'active' if params[:tab] == 'current' || (params[:tab].blank? && controller.controller_name == 'claims')) }
-      = link_to 'Current claims', case_workers_claims_path(params.merge(tab: 'current'))
+      = link_to "Current claims (#{current_claims_count})", case_workers_claims_path(params.merge(tab: 'current'))
     %li{class: ('active' if params[:tab] == 'completed')}
-      = link_to 'Completed claims', case_workers_claims_path(params.merge(tab: 'completed'))
+      = link_to "Completed claims (#{completed_claims_count})", case_workers_claims_path(params.merge(tab: 'completed'))
     - if current_user.persona.admin?
       %li{class: ('active' if controller.controller_name == 'case_workers')}
         = link_to 'Case Workers', case_workers_admin_case_workers_path

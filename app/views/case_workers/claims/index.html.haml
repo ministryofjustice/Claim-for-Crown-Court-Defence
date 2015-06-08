@@ -2,12 +2,12 @@
 
 %section
   %h1
-    - if params[:tab] == 'completed'
-      Completed claims
-      (#{@claims.count})
-    - else
-      Current claims
-      (#{@claims.count})
+    - if params[:search_maat].present?
+      %p
+        #{pluralize(@claims.count, 'claim')} matching MAAT reference "#{params[:search_maat]}"
+    - if params[:search_defendant].present?
+      %p
+        #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search_defendant]}"
 
 #search-options
   = render partial: 'search_options'
@@ -30,7 +30,7 @@
       Case
   %li
     %h3
-      Court 
+      Court
   %li
     %h3
       Case value

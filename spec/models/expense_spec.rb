@@ -40,7 +40,7 @@ RSpec.describe Expense, type: :model do
       end
     end
 
-    context 'for an existing existing' do
+    context 'for an existing' do
       before do
         subject.save!
         subject.rate = 3;

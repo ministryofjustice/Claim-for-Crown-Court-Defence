@@ -49,4 +49,78 @@ RSpec.describe Fee, type: :model do
       end
     end
   end
+
+  describe '.new_blank' do
+    it 'should instantiate but not save a fee with all zero values belonging to the claim and fee type' do
+      fee_type = FactoryGirl.build :fee_type
+      claim = FactoryGirl.build :claim
+
+      fee = Fee.new_blank(claim, fee_type)
+      expect(fee.fee_type).to eq fee_type
+      expect(fee.claim).to eq claim
+      expect(fee.quantity).to eq 0
+      expect(fee.rate).to eq 0
+      expect(fee.amount).to eq 0
+      expect(fee).to be_new_record
+    end
+  end
+
+
+  describe '#blank?' do
+    it 'should return true if all value fields are zero' do
+      fee = FactoryGirl.create :fee, :all_zero
+      expect(fee.blank?).to be true
+    end
+    it 'should return false if any value fields are non zero' do
+      fee = FactoryGirl.create :fee
+      expect(fee.blank?).to be false
+    end
+  end
+
+
+  describe '#present?' do
+    it 'should return false if all value fields are zero' do
+      fee = FactoryGirl.create :fee, :all_zero
+      expect(fee.present?).to be false
+    end
+    it 'should return true if any value fields are non zero' do
+      fee = FactoryGirl.create :fee
+      expect(fee.present?).to be true
+    end
+  end
+
+  describe '#category' do
+    it 'should return the abbreviateion of the fee type category' do
+      cat = FactoryGirl.create :fee_category
+      ft  = FactoryGirl.create :fee_type, fee_category: cat
+      fee = FactoryGirl.create :fee, fee_type: ft
+      expect(fee.category).to eq cat.abbreviation
+    end
+  end
+
+
+  describe '.new_from_form_params' do
+    it 'should build a new record and attach it to the claim' do
+      claim = FactoryGirl.create :claim
+      ft = FactoryGirl.create :fee_type
+      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "rate"=>"45", "amount"=>"250", "_destroy"=>"false"}
+      fee = Fee.new_from_form_params(claim, params)
+      expect(fee).to be_new_record
+      expect(fee.claim).to eq claim
+      expect(fee.fee_type).to eq ft
+      expect(fee.quantity).to eq 25
+      expect(fee.rate).to eq 45
+      expect(fee.amount).to eq 250
+    end
+
+    describe '.new_collection_from_form_params' do
+      it 'should call Fee.new_from_form_params for every instance in the form params' do
+        claim = double claim
+        params = { '0' => 'first lot', '1' => 'second lot'}
+        expect(Fee).to receive(:new_from_form_params).with(claim, 'first lot')
+        expect(Fee).to receive(:new_from_form_params).with(claim, 'second lot')
+        Fee.new_collection_from_form_params(claim, params)
+      end
+    end
+  end
 end

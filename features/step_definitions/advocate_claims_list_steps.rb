@@ -189,3 +189,17 @@ end
 When (/^I hit search button$/) do
   click_button 'search'
 end
+
+Given(/^I have (\d+) claims of each state$/) do | claims_per_state |
+  # create n claims for all states except deleted and archived_pending_delete
+  states = Claim.state_machine.states.map(&:name)
+  states = states.map { |s| if s != :deleted && s != :archived_pending_delete then  s; end; }.compact
+  states.each do | state |
+    claims = create_list("#{state}_claim".to_sym, claims_per_state.to_i, advocate: @advocate)
+  end
+end
+
+Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|
+  node = find("section##{section_id}").find('.claims_table')
+  expect(node).not_to have_selector('th', text: column_name)
+end

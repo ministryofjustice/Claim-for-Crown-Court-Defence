@@ -1,0 +1,37 @@
+require 'rails_helper'
+
+RSpec.describe UserMessageStatusesController, type: :controller do
+  describe 'GET #index' do
+    let(:user) { create(:user) }
+
+    before do
+      create(:message)
+      sign_in user
+      get :index
+    end
+
+    it 'assigns @user_message_statuses for the current user' do
+      expect(assigns(:user_message_statuses)).to eq(UserMessageStatus.for(user).not_marked_as_read)
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:index)
+    end
+  end
+
+  describe 'PUT #update' do
+    let(:user) { create(:user) }
+    let(:message) { create(:message) }
+
+    before do
+      create(:message)
+      sign_in user
+      request.env['HTTP_REFERER'] = 'redirect-to-page'
+      put :update, id: message.user_message_statuses.first
+    end
+
+    it 'marks the message as read' do
+      expect(message.user_message_statuses.first).to be_read
+    end
+  end
+end

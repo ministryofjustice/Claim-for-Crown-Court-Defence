@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   resources :messages, only: [:create]
+  resources :user_message_statuses, only: [:index, :update]
 
   namespace :advocates do
     root to: 'claims#index'

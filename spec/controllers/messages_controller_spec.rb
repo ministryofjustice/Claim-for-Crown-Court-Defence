@@ -7,7 +7,7 @@ RSpec.describe MessagesController, type: :controller do
     sign_in sender.user
   end
 
-  describe "GET #create" do
+  describe "POST #create" do
     let(:claim) { create(:claim) }
     let(:message_params) do
       {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604143054) do
+ActiveRecord::Schema.define(version: 20150608154716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,20 @@ ActiveRecord::Schema.define(version: 20150604143054) do
   end
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
+
+  create_table "representation_orders", force: true do |t|
+    t.integer  "defendant_id"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
+    t.string   "converted_preview_document_file_name"
+    t.string   "converted_preview_document_content_type"
+    t.integer  "converted_preview_document_file_size"
+    t.datetime "converted_preview_document_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "schemes", force: true do |t|
     t.string   "name"

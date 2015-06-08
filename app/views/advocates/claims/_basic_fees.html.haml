@@ -1,16 +1,7 @@
-.nested-fields
-  %table.table
-    %thead 
-      %tr
-        %th Fee Type
-        %th Quantity
-        %th Rate
-        %th Amount
-    %tbody
-      %tr
-        %td= f.text_field :description, value: f.object.description, disabled: true
-        %td= f.number_field :quantity, value: f.object.quantity
-        %td= f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2)
-        %td= f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2)
-        = f.hidden_field :fee_type_id, value: f.object.fee_type_id
+%tr
+  %td= f.text_field :description, value: f.object.description, disabled: true
+  %td= f.number_field :quantity, value: f.object.quantity
+  %td= f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2)
+  %td= f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2)
+  = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 

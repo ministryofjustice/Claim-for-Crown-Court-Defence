@@ -60,7 +60,7 @@ RSpec.describe Claim, type: :model do
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
   it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w( 
+  it { should validate_inclusion_of(:case_type).in_array(%w(
                                                             appeal_against_conviction
                                                             appeal_against_sentence
                                                             breach_of_crown_court_order
@@ -246,9 +246,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
       subject.reload
     end
 
@@ -264,7 +264,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -280,9 +280,9 @@ RSpec.describe Claim, type: :model do
 
   context 'expenses total' do
     before do
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
+      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
       subject.reload
     end
 
@@ -298,7 +298,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
+        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
         subject.reload
         expect(subject.expenses_total).to eq(149.5)
       end
@@ -316,13 +316,13 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
 
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
+      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
       subject.reload
     end
 
@@ -334,8 +334,8 @@ RSpec.describe Claim, type: :model do
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
         subject.reload
         expect(subject.total).to eq(158.5)
       end
@@ -408,7 +408,7 @@ RSpec.describe Claim, type: :model do
         subject.state_for_form = 'allocated'
       }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
     end
-    
+
   end
 end
 

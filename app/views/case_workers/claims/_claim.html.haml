@@ -19,7 +19,7 @@
         %dt
           Case submitted
         %dd
-          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M')}
+          #{claim.submitted_at.strftime('%d/%m/%Y %H:%M') unless claim.draft?}
         - if controller.action_name == 'show'
           %dt
             Case number

@@ -29,6 +29,27 @@ RSpec.describe Expense, type: :model do
   it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
   it { should validate_presence_of(:hours) }
   it { should validate_numericality_of(:hours).is_greater_than_or_equal_to(0) }
-  it { should validate_presence_of(:amount) }
-  it { should validate_numericality_of(:amount).is_greater_than_or_equal_to(0) }
+
+  describe 'set and update amount' do
+    subject { build(:expense, rate: 2.5, quantity: 3, amount: 0) }
+
+    context 'for a new expense' do
+      it 'sets the expense amount equal to rate x quantity' do
+        subject.save!
+        expect(subject.amount).to eq(7.5)
+      end
+    end
+
+    context 'for an existing existing' do
+      before do
+        subject.save!
+        subject.rate = 3;
+        subject.save!
+      end
+
+      it 'updates the amount to be equal to the new rate x quantity' do
+        expect(subject.amount).to eq(9.0)
+      end
+    end
+  end
 end

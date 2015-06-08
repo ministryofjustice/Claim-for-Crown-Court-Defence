@@ -4,13 +4,13 @@
     = f.grouped_collection_select :fee_type_id, FeeCategory.includes(:fee_types), :fee_types, :name, :id, :description, prompt: true
   %span.auto-width
     = f.label :quantity
-    = f.number_field :quantity
+    = f.number_field :quantity, class: 'quantity'
   %span.auto-width
     = f.label :rate
-    = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2)
+    = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
   %span.auto-width
     = f.label :amount
-    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2)
+    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', disabled: true
   %div
     = f.fields_for :dates_attended do |date_attended|
       = render 'date_attended_fields', f: date_attended

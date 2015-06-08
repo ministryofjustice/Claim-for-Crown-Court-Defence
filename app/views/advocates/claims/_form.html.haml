@@ -72,8 +72,8 @@
       #expenses
         = f.fields_for :expenses do |expense|
           = render 'expense_fields', f: expense
-      .links
-        = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
+        .links
+          = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
 
 
       %label

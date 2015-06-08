@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
   subject { create(:claim) }
-  let(:fees)     { [5.0, 2.0, 1.0].each { |amount| create(:fee, fee_type: fee_type, claim_id: subject.id, amount: amount) } }
-  let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount) } }
+  let(:fees)     { [5.0, 2.0, 1.0].each { |rate| create(:fee, fee_type: fee_type, claim_id: subject.id, quantity: 1, rate: rate) } }
+  let(:expenses) { [3.5, 1.0, 142.0].each { |rate| create(:expense, claim_id: subject.id, quantity: 1, rate: rate) } }
 
   context 'fees total' do
     let(:fee_type) { create(:fee_type) }
@@ -21,7 +21,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, quantity: 1, rate: 2.0)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -49,7 +49,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
+        create(:expense, claim_id: subject.id, quantity: 3, rate: 1)
         subject.reload
         expect(subject.expenses_total).to eq(149.5)
       end
@@ -75,8 +75,8 @@ RSpec.describe Claim, type: :model do
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:expense, claim_id: subject.id, quantity: 3, rate: 1)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, quantity: 1, rate: 1)
         subject.reload
         expect(subject.total).to eq(158.5)
       end

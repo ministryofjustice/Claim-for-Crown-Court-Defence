@@ -26,11 +26,11 @@
           padding: 0;
           .message-from,
           .message-time {
-            @include grid-column( 1/6 );
+            //@include grid-column( 1/6 );
             padding: 0;
           }
           .message{
-            @include grid-column( 4/6 );
+            //@include grid-column( 4/6 );
           }
           .time-ago{
             display: inline-block;

@@ -12,4 +12,16 @@
 class CaseWorkerClaim < ActiveRecord::Base
   belongs_to :case_worker
   belongs_to :claim
+
+  after_create :generate_message_statuses
+
+  private
+
+  def generate_message_statuses
+    messages = claim.messages
+    user = case_worker.user
+    messages.each do |message|
+      UserMessageStatus.create!(user_id: user.id, message_id: message.id)
+    end
+  end
 end

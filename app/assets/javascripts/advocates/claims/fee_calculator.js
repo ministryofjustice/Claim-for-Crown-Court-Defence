@@ -4,9 +4,9 @@ var cbo = cbo || {}
 
 cbo.feeCalculator = {
   init : function(container_id) {
-    this.addKeyUp(container_id);
+    this.addChangeEvent(container_id);
   },
-  addKeyUp: function(container_id) {
+  addChangeEvent: function(container_id) {
     $('#' + container_id).on('change', '.quantity, .rate', function(e) {
       var wrapper = $(e.target).closest('.nested-fields');
       var quantity = parseInt(wrapper.find('.quantity').val());

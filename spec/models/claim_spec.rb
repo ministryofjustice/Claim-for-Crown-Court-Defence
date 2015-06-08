@@ -28,7 +28,7 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )
+#  amount_assessed        :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'

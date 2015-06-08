@@ -24,5 +24,7 @@ FactoryGirl.define do
     representation_order_date { Time.now.to_date }
     order_for_judicial_apportionment false
     maat_reference { Faker::Number.number(10) }
+    representation_orders { [ FactoryGirl.create(:representation_order) ] }
   end
+  
 end

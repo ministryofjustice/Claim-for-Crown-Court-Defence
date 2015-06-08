@@ -22,6 +22,12 @@
   %span.auto-width
     = f.text_field :maat_reference
   %p
+    #documents
+      = f.fields_for :representation_orders do |repo_form|
+        = render 'representation_order_fields', f: repo_form
+
+
+  %p
     = link_to_remove_association 'Remove defendant', f
 
   

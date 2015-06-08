@@ -72,8 +72,8 @@
     }
   }
   #claim-status{
-    label{
-      @include span-columns(4);
+    label.container{
+      @include span-columns(3);
       line-height: 4;
       text-align: center;
       border:1px solid $black;
@@ -154,5 +154,13 @@
         margin-bottom: 2em;
       }
     }
+  }
+}
+.currency{
+  position: relative;
+  padding-left:1em;
+  .currency-symbol{
+    position: absolute;
+    left:0;
   }
 }

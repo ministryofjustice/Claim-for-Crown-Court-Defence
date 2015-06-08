@@ -83,7 +83,7 @@ Then(/^I do not see a column called amount assesed for "(.*?)" claims$/) do |sta
   end
 end
 
-Then(/^I see a figure representing the amount assessed for "(.*?)" claims$/) do |state|
+Then(/^I see a column containing the amount assessed for "(.*?)" claims$/) do |state|
   within("##{state}") do
     expect(page).to have_content("Amount assessed")
   end

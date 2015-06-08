@@ -62,17 +62,16 @@
       %legend
         Basic Fees
       #basic_fees
-        .nested-fields
-          %table.table
-            %thead 
-              %tr
-                %th Fee Type
-                %th Quantity
-                %th Rate
-                %th Amount
-            %tbody
-              = f.fields_for :basic_fees do |basic_fee_form|
-                = render 'basic_fees', f: basic_fee_form, basic_fees: f.object.basic_fees
+        %table.table
+          %thead
+            %tr
+              %th Fee Type
+              %th Quantity
+              %th Rate
+              %th Amount
+          %tbody
+            = f.fields_for :basic_fees do |basic_fee_form|
+              = render 'basic_fees', f: basic_fee_form, basic_fees: f.object.basic_fees
 
     %fieldset
       %legend
@@ -90,7 +89,7 @@
         = f.fields_for :expenses do |expense|
           = render 'expense_fields', f: expense
         .links
-          = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button'
+          = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary'
 
       %label
         = f.check_box :apply_vat

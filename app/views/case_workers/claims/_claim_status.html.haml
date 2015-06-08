@@ -1,20 +1,35 @@
-%section 
-  %form#claim-status
-    %div
-      %label
-        %input{type: 'radio', name: 'payment-status'}
-        Paid in full
-      %label
-        %input{type: 'radio', name: 'payment-status'}
+%section
+
+  - if @claim.errors.any?
+    %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+    %ul
+      - @claim.errors.full_messages.each do |msg|
+        %li= msg
+
+  = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
+    %fieldset#claim-status 
+      %label.container
         Part paid
-      %label
-        %input{type: 'radio', name: 'payment-status'}
-        Not paid
+        = f.radio_button :state_for_form, "part_paid"
+      %label.container
+        Paid in full
+        = f.radio_button :state_for_form, "paid"
+      %label.container
+        Refused
+        = f.radio_button :state_for_form, 'refused'
+      %label.container
+        Rejected
+        = f.radio_button :state_for_form, 'rejected'
 
-    %textarea{placeholder: 'Reason/ description'}
+    %fieldset
+      #amountAssessed
+        = f.label :amount_assessed, 'Amount assessed'
+        .currency
+          %span.currency-symbol
+            &pound;
+          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: f.object.disable_payment_status_radio_buttons?
+      = f.label :additional_information, "Remarks"
+      = f.text_area :additional_information
 
-    .actions
-      %button.draft
-        Save draft
-      %button.button
-        Complete
+    %p
+    = f.submit 'Update', class: 'button'

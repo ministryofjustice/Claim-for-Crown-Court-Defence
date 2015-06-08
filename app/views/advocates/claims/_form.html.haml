@@ -50,7 +50,7 @@
         = f.fields_for :defendants do |defendant|
           = render 'defendant_fields', f: defendant
           %div
-            = link_to_add_association 'Add Defendant', f, :defendants, class: 'button'
+            = link_to_add_association 'Add Another Defendant', f, :defendants, class: 'button-secondary'
 
     %h2
       Section 2:
@@ -64,7 +64,7 @@
         = f.fields_for :fees do |fee|
           = render 'fee_fields', f: fee
         .links
-          = link_to_add_association 'Add Fee', f, :fees, class: 'button'
+          = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary'
 
     %fieldset
       %legend
@@ -73,7 +73,7 @@
         = f.fields_for :expenses do |expense|
           = render 'expense_fields', f: expense
       .links
-        = link_to_add_association 'Add Expense', f, :expenses, class: 'button'
+        = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary'
 
 
       %label
@@ -88,7 +88,7 @@
         = f.fields_for :documents do |document|
           = render 'document_fields', f: document
           .links
-            = link_to_add_association 'Add Document', f, :documents, class: 'button'
+            = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
 
 
     %p

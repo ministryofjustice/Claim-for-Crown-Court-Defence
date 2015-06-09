@@ -6,14 +6,11 @@
     = f.label :location
     = f.text_field :location
   %span.auto-width
-    = f.label :quantity
+    = f.label :quantity, 'Quantity/Hours'
     = f.number_field :quantity, class: 'quantity'
   %span.auto-width
     = f.label :rate
     = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-  %span.auto-width
-    = f.label :hours
-    = f.number_field :hours, value: number_with_precision(f.object.hours, precision: 2), class: 'hours'
   %span.auto-width
     = f.label :amount
     = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), disabled: true, class: 'amount'

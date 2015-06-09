@@ -396,7 +396,7 @@ def full_valid_params
       },
      "expenses_attributes"=>
      {
-      "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "hours" => "", "amount" => "", "_destroy" => "false"}
+      "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
      },
      "apply_vat" => "0"}
 end

@@ -2,17 +2,17 @@
   .timeline
     %h4
       Communication tool
-    - if @messages.none?
-      %span
-        No messages found
-    - else
       %ul.days
         %li
           %ul
-            = render partial: 'shared/message', collection: @messages
+            - if @messages.none?
+              %span
+                No messages found
+            - else
+              = render partial: 'shared/message', collection: @messages
 
-      = simple_form_for @message do |f|
-        = f.input :claim_id, value: @claim.id, as: :hidden
-        = f.input :subject, placeholder: 'Subject', label: false
-        = f.input :body, placeholder: 'Message', label: false
-        = f.submit 'Post', class: 'button'
+    = simple_form_for @message do |f|
+      = f.input :claim_id, value: @claim.id, as: :hidden
+      = f.input :subject, placeholder: 'Subject', label: false
+      = f.input :body, placeholder: 'Message', label: false
+      = f.submit 'Post', class: 'button'

@@ -39,7 +39,9 @@ When(/^I fill in the claim details$/) do
 
   within '#basic_fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_0_rate', with: 1
+    fill_in 'claim_basic_fees_attributes_0_rate', with: 0.5
+    fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
+    fill_in 'claim_basic_fees_attributes_1_rate', with: 0.5
   end
 
   within '#expenses' do

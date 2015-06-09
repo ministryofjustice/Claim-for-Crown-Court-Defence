@@ -133,7 +133,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :representation_order_date,
        :order_for_judicial_apportionment,
        :maat_reference,
-       :_destroy
+       :_destroy,
+       representation_orders_attributes: [ :document ]
      ],
      basic_fees_attributes: [
        :id,
@@ -178,17 +179,20 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      ],
      documents_attributes: [
        :id,
+       :notes,
        :advocate_id,
        :claim_id,
        :document_type_id,
        :document,
-       :description
+       :description,
+       :_destroy
      ]
     )
   end
 
   def build_nested_resources
     @claim.defendants.build if @claim.defendants.none?
+    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }  
     @claim.non_basic_fees.build if @claim.non_basic_fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?

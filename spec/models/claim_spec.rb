@@ -60,7 +60,7 @@ RSpec.describe Claim, type: :model do
   it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
   it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w( 
+  it { should validate_inclusion_of(:case_type).in_array(%w(
                                                             appeal_against_conviction
                                                             appeal_against_sentence
                                                             breach_of_crown_court_order
@@ -83,14 +83,14 @@ RSpec.describe Claim, type: :model do
   it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
   it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
 
-  it { should accept_nested_attributes_for(:fees) }
+  it { should accept_nested_attributes_for(:basic_fees) }
+  it { should accept_nested_attributes_for(:non_basic_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }
 
 
   subject { create(:claim) }
-
 
   describe '#update_model_and_transition_state' do
     it 'should update the model then transition state to prevent state transition validation errors' do
@@ -147,6 +147,49 @@ RSpec.describe Claim, type: :model do
             claim = FactoryGirl.create factory_name, amount_assessed: 356.31
           }.to raise_error ActiveRecord::RecordInvalid
         end
+      end
+    end
+  end
+
+  context 'basic fees' do
+    before(:each) do
+      @bft1 = FactoryGirl.create :fee_type, :basic,  description: 'ZZZZ'
+      @mft1 = FactoryGirl.create :fee_type, :misc,   description: 'CCCC'
+      @fft1 = FactoryGirl.create :fee_type, :fixed,  description: 'DDDD'
+      @bft2 = FactoryGirl.create :fee_type, :basic,  description: 'AAAA'
+      @mft2 = FactoryGirl.create :fee_type, :misc,   description: 'EEEE'
+      @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB'
+    end
+
+    describe '#instantiate_basic_fees' do
+      it 'should create a fee record for every basic fee type' do
+        # Given three basic fee types and some other non-basic fee types
+        # when I instantiate a new claim
+        claim = FactoryGirl.build :claim
+        claim.instantiate_basic_fees
+
+        # it should also instantiate an emtpy fee for every basic fee type and not for the  other fee types
+        expect(claim.fees.size).to eq 3
+        claim.fees.each do |fee|
+          expect(fee.fee_type.fee_category.abbreviation).to eq 'BASIC'
+        end
+
+        # and all fees should be blank
+        claim.fees.each { |fee| expect(fee).to be_blank }
+      end
+    end
+
+    describe '#basic_fees' do
+      it 'should return a fee for every basic fee sorted alphabetically in order of fee type description' do
+        # Given three basic fee types and some other non-basic fee types and a claim
+        claim = FactoryGirl.build :claim
+        claim.instantiate_basic_fees
+
+        # when I call basic_fees
+        fees = claim.basic_fees
+
+        # it should return the three basic fees sorted in order of fee type description
+        expect(fees.map(&:description)).to eq( ['AAAA', 'BBBB', 'ZZZZ'])
       end
     end
   end
@@ -246,9 +289,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
       subject.reload
     end
 
@@ -264,7 +307,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -280,9 +323,9 @@ RSpec.describe Claim, type: :model do
 
   context 'expenses total' do
     before do
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
+      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
       subject.reload
     end
 
@@ -298,7 +341,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
+        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
         subject.reload
         expect(subject.expenses_total).to eq(149.5)
       end
@@ -316,13 +359,13 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 5.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.0)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
 
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
+      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
       subject.reload
     end
 
@@ -334,8 +377,8 @@ RSpec.describe Claim, type: :model do
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.0)
+        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
         subject.reload
         expect(subject.total).to eq(158.5)
       end
@@ -408,16 +451,5 @@ RSpec.describe Claim, type: :model do
         subject.state_for_form = 'allocated'
       }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
     end
-    
   end
 end
-
-
-
-
-
-
-
-
-
-

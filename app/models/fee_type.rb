@@ -19,4 +19,10 @@ class FeeType < ActiveRecord::Base
   validates :fee_category, presence: true
   validates :description, presence: true, uniqueness: { case_sensitive: false }
   validates :code, presence: true
+
+
+  def self.basic
+    self.joins(:fee_category).where('fee_categories.abbreviation = ?', "BASIC").order(:description)
+  end
+
 end

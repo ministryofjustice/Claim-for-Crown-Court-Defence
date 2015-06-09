@@ -262,22 +262,22 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
             expect(bf1.quantity).to eq 10
             expect(bf1.rate).to eq 100
-            expect(bf1.amount).to eq nil
+            expect(bf1.amount).to eq 1000
 
             bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
             expect(bf2.quantity).to eq 0
             expect(bf2.rate).to eq 0
-            expect(bf2.amount).to eq nil
+            expect(bf2.amount).to eq 0
 
             bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
             expect(bf3.quantity).to eq 1
             expect(bf3.rate.to_f).to eq 9000.45
-            expect(bf3.amount).to eq nil
+            expect(bf3.amount.to_f).to eq 9000.45
 
             bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
             expect(bf4.quantity).to eq 5
             expect(bf4.rate).to eq 25
-            expect(bf4.amount).to eq nil
+            expect(bf4.amount).to eq 125
           end
         end
       end

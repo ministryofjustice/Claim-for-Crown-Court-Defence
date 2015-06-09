@@ -44,5 +44,5 @@
   %ul#claims-list
     - @claims.each do |claim|
       %li{ id: dom_id(claim) }
-        = render claim
+        = render partial: 'shared/claim', locals: {claim: claim}
 

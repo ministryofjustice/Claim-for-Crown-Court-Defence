@@ -9,6 +9,12 @@ Rails.application.configure do
     url: "assets/test/images/:id_partition/:filename"
   }
 
+  REPORDER_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "public/assets/test/images/:id_partition/reporders/:id/:filename", 
+    url: "assets/test/images/:id_partition/reporders/:id/:filename"
+  }
+
   config.action_controller.asset_host = "http://localhost:3000"
 
   # The test environment is used exclusively to run your application's

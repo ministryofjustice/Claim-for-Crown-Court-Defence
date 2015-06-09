@@ -3,15 +3,15 @@ class DocumentsController < ApplicationController
   respond_to :html
   before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 
-  def new
-    @document = Document.new(advocate_id: current_user.persona.id)
-  end
+  # def new
+  #   @document = Document.new(advocate_id: current_user.persona.id)
+  # end
 
-  def create
-    @document = Document.create(document_params.merge(advocate_id: current_user.persona.id))
+  # def create
+  #   @document = Document.create(document_params.merge(advocate_id: current_user.persona.id))
 
-    respond_with @document
-  end
+  #   respond_with @document
+  # end
 
   def show
     send_file Paperclip.io_adapters.for(@document.converted_preview_document).path,

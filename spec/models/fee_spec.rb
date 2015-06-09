@@ -103,14 +103,14 @@ RSpec.describe Fee, type: :model do
     it 'should build a new record and attach it to the claim' do
       claim = FactoryGirl.create :claim
       ft = FactoryGirl.create :fee_type
-      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "rate"=>"45", "amount"=>"250", "_destroy"=>"false"}
+      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "rate"=>"45", "_destroy"=>"false"}
       fee = Fee.new_from_form_params(claim, params)
       expect(fee).to be_new_record
       expect(fee.claim).to eq claim
       expect(fee.fee_type).to eq ft
       expect(fee.quantity).to eq 25
       expect(fee.rate).to eq 45
-      expect(fee.amount).to eq 250
+      expect(fee.amount).to eq 1125
     end
 
     describe '.new_collection_from_form_params' do

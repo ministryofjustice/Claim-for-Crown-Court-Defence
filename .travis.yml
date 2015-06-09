@@ -14,7 +14,7 @@ deploy:
     secure: XLE9lmmig5XRSZPIxQF7lVuDYyDeC5sabWWUkr0rQihOK5UHumURuw444eaaaHYbr8cGK+SxptOlTaO94pSvQtbvYrAzEgzSKOwRQ2sah6VePTHiww0nKVOHSIVplrJ64fJBu3I/OPaSLkkoRMWDSKU8beWJKVZvDco37YZcRmI=
   app: crime-billing-online-dev
   on:
-    repo: ministryofjustice/crime-billing-online
+    repo: ministryofjustice/advocate-defence-payments
     branch: develop
   run:
     - "rake db:clear"

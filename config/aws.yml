@@ -1,7 +1,7 @@
 default: &default
-  access_key_id:      <%= ENV['cbo_aws_access_key'] %>
-  secret_access_key:  <%= ENV['cbo_secret_access_key'] %>
-  bucket: <%= ENV['cbo_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
+  access_key_id:      <%= ENV['adp_aws_access_key'] %>
+  secret_access_key:  <%= ENV['adp_secret_access_key'] %>
+  bucket: <%= ENV['adp_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
 
 production:
   <<: *default
@@ -12,7 +12,7 @@ development:
 test:
   access_key_id:      xxxxxxxx
   secret_access_key:  xxxxxxxxxxxxx
-  bucket: <%= ENV['cbo_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
+  bucket: <%= ENV['adp_bucket_name'] || "moj-cbo-documents-#{Rails.env}" %>
 
 develop:
   <<: *default

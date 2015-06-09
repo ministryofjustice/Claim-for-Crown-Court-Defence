@@ -25,7 +25,11 @@ class Fee < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank,  allow_destroy: true
 
   before_validation do
-    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
+    self.amount = calculate_amount
+  end
+
+  after_initialize do
+    self.amount = calculate_amount
   end
 
   after_save do
@@ -50,11 +54,10 @@ class Fee < ActiveRecord::Base
   end
 
   def self.new_from_form_params(claim, params)
-    Fee.new(claim: claim, 
+    Fee.new(claim: claim,
             fee_type: FeeType.find(params['fee_type_id']),
             quantity: params['quantity'],
-            rate: params['rate'],
-            amount: params['amount'])
+            rate: params['rate'])
   end
 
   def blank?
@@ -77,4 +80,9 @@ class Fee < ActiveRecord::Base
     fee_type.fee_category.abbreviation
   end
 
+  private
+
+  def calculate_amount
+    ((self.rate || 0) * (self.quantity || 0)).abs
+  end
 end

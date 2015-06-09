@@ -14,7 +14,7 @@
 #claim-accordion
   %h2
     Claim based information
-  = render @claim, locals: { hide_totals: true }
+  = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
   %h2
     Claim summary
   = render partial: 'shared/summary'

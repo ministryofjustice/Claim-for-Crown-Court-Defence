@@ -5,7 +5,7 @@ module Api
       include Flip::ControllerFilters
       require_feature :api #404 is returned when something hits this controller, but the feature is switched off
       protect_from_forgery with: :null_session
-      http_basic_authenticate_with name: ENV['CBO_API_USER'], password: ENV['CBO_API_PASS']
+      http_basic_authenticate_with name: ENV['ADP_API_USER'], password: ENV['ADP_API_PASS']
       respond_to :json
 
       def create

@@ -1,8 +1,8 @@
 "use strict";
 
-var cbo = cbo || {}
+var adp = adp || {}
 
-cbo.feeCalculator = {
+adp.feeCalculator = {
   init : function(container_id) {
     this.addChangeEvent(container_id);
   },

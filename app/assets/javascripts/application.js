@@ -32,10 +32,10 @@ $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
 function initialise(){
 	$('.select2').select2();
-	cbo.newClaim.init();
-	cbo.feeCalculator.init('fees');
-	cbo.feeCalculator.init('basic_fees');
-	cbo.feeCalculator.init('expenses');
+	adp.newClaim.init();
+	adp.feeCalculator.init('fees');
+	adp.feeCalculator.init('basic_fees');
+	adp.feeCalculator.init('expenses');
 }
 
 $( document ).ready(function() {

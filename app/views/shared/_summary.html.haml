@@ -43,11 +43,9 @@
       %th
         Location
       %th
-        Quantity
+        Quantity/Hours
       %th
         Rate
-      %th
-        Hours
       %th
         Amount
     %tbody
@@ -61,8 +59,6 @@
             = expense.quantity
           %td
             = '%.2f' % expense.rate
-          %td
-            = '%.2f' % expense.hours
           %td
             = number_to_currency(expense.amount)
   %p

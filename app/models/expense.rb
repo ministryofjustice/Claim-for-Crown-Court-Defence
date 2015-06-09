@@ -9,7 +9,6 @@
 #  location        :string(255)
 #  quantity        :integer
 #  rate            :decimal(, )
-#  hours           :decimal(, )
 #  amount          :decimal(, )
 #  created_at      :datetime
 #  updated_at      :datetime
@@ -21,7 +20,7 @@ class Expense < ActiveRecord::Base
 
   validates :expense_type, presence: true
   validates :claim, presence: true
-  validates :quantity, :rate, :hours, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   before_validation do
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs

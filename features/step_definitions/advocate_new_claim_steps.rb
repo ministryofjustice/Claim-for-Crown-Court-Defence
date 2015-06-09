@@ -45,9 +45,8 @@ When(/^I fill in the claim details$/) do
   within '#expenses' do
     select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
     fill_in 'Location', with: 'London'
-    fill_in 'Quantity', with: 1
+    fill_in 'Quantity/Hours', with: 1
     fill_in 'Rate', with: 40
-    fill_in 'Hours', with: 1
   end
 
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'

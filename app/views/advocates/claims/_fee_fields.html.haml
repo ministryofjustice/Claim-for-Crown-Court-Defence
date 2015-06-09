@@ -15,6 +15,6 @@
     = f.fields_for :dates_attended do |date_attended|
       = render 'date_attended_fields', f: date_attended
     .links
-      = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button'
+      = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button-secondary'
   %p
     = link_to_remove_association 'Remove fee', f

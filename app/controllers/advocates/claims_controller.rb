@@ -174,7 +174,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :location,
        :quantity,
        :rate,
-       :hours,
        :_destroy
      ],
      documents_attributes: [

@@ -9,7 +9,6 @@
 #  location        :string(255)
 #  quantity        :integer
 #  rate            :decimal(, )
-#  hours           :decimal(, )
 #  amount          :decimal(, )
 #  created_at      :datetime
 #  updated_at      :datetime
@@ -27,8 +26,6 @@ RSpec.describe Expense, type: :model do
   it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
   it { should validate_presence_of(:rate) }
   it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
-  it { should validate_presence_of(:hours) }
-  it { should validate_numericality_of(:hours).is_greater_than_or_equal_to(0) }
 
   describe 'set and update amount' do
     subject { build(:expense, rate: 2.5, quantity: 3, amount: 0) }

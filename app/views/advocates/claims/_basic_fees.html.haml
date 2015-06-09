@@ -2,10 +2,10 @@
   %td
     = f.text_field :description, value: f.object.description, disabled: true
   %td
-    = f.number_field :quantity, value: @claim.new_record? ? nil : f.object.quantity, class: 'quantity'
+    = f.number_field :quantity, value: f.object.quantity, class: 'quantity'
   %td
-    = f.number_field :rate, value: @claim.new_record? ? nil : number_with_precision(f.object.rate, precision: 2), class: 'rate'
+    = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
   %td
-    = f.number_field :amount, value: @claim.new_record? ? nil : number_with_precision(f.object.amount, precision: 2), class: 'amount', disabled: true
+    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', disabled: true
 
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id

@@ -18,13 +18,25 @@
 class Defendant < ActiveRecord::Base
   belongs_to :claim
 
+  has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  # This is really a has_one, but needs to be has_many for cocoon
+
   validates :claim, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :date_of_birth, presence: true
   validates :maat_reference, presence: true, uniqueness: { case_sensitive: false, scope: :claim_id }
+  validate  :one_representation_order
 
   before_save { |defendant| defendant.maat_reference = defendant.maat_reference.upcase }
+
+  accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
+
+
+  def one_representation_order
+    if representation_orders.size != 1
+      errors[:representation_order] << "There must be exactly one per defendant"
+    end
+  end
 
   def name
     [first_name, last_name].join(' ')

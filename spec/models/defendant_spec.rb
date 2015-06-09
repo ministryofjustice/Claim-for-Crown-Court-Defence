@@ -37,6 +37,35 @@ RSpec.describe Defendant, type: :model do
     end
   end
 
+  context 'representation orders' do
+
+    let(:defendant)  { FactoryGirl.create :defendant, claim: FactoryGirl.create(:claim) }
+    
+    it 'should be valid if there is one representation order that isnt blank' do
+      expect(defendant).to be_valid
+    end
+
+    it 'should not be valid if there are more than one representation order' do
+      defendant.representation_orders << FactoryGirl.create(:representation_order)
+      expect(defendant).not_to be_valid
+      expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+    end
+
+    it 'should not be valid if there are no representation orders' do
+      defendant.representation_orders = []
+      expect(defendant).not_to be_valid
+      expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+    end
+
+    it 'should not be valid if there is one representation order which is blank' do
+      defendant = FactoryGirl.build :defendant
+      defendant.representation_orders = [ RepresentationOrder.new ]
+      expect(defendant).not_to be_valid
+      expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
+      expect(defendant.errors.full_messages.include?("Claim can't be blank")).to be true
+    end
+  end
+
   describe '#name' do
     let(:claim) { create(:claim) }
     subject { create(:defendant, first_name: 'John', last_name: 'Smith', claim_id: claim.id) }

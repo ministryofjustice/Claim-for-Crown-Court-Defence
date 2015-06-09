@@ -230,7 +230,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:invalid_claim_params)      { full_valid_params.reject{ |k,v| k == 'prosecuting_authority'} }
 
         context 'valid params' do
-          skip 'SKIP until merged with develop branch' do
           it 'should create a claim with all basic fees and the specified non-basic fees' do
             post :create, claim: claim_params
             claim = assigns(:claim)
@@ -245,8 +244,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
             expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
 
-              expect(claim.reload.fees_total).to eq 12_875.45
-          end
+            expect(claim.reload.fees_total).to eq 12_875.45
           end
         end
 
@@ -381,7 +379,12 @@ def full_valid_params
          "representation_order_date" => "2015-05-13",
          "order_for_judicial_apportionment" => "0",
          "maat_reference" => "MAAT2015",
-         "_destroy" => "false"}
+         "_destroy" => "false",
+         "representation_orders_attributes"=>{
+           "0"=>{
+           "document"=> mock_uploaded_file}
+          }
+        }
       },
      "additional_information" => "",
      "basic_fees_attributes"=>
@@ -402,4 +405,16 @@ def full_valid_params
      },
      "apply_vat" => "0"}
 end
+
+def mock_uploaded_file
+  ActionDispatch::Http::UploadedFile.new(tempfile: Tempfile.new('abc.txt'), 
+      filename: File.basename('/repo_order.pdf'), 
+      original_filename: 'repo_order_2.pdf',
+      type: "application/pdf",
+      content_type: 'application/pdf',
+      headers: "Content-Disposition: form-data; name=\"claim[defendants_attributes][0][representation_orders_attributes][0][document]\"; filename=\"repo_order_2.pdf\"\r\nContent-Type: application/pdf\r\n"
+      )        
+end
+
+
 

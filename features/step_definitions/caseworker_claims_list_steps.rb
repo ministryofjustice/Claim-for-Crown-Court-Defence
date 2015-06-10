@@ -4,6 +4,12 @@ Given(/^I am a signed in case worker$/) do
   sign_in(@case_worker.user, 'password')
 end
 
+Given(/^I am a signed in case worker admin$/) do
+  @case_worker = create(:case_worker, :admin)
+  visit new_user_session_path
+  sign_in(@case_worker.user, 'password')
+end
+
 Given(/^claims have been assigned to me$/) do
   case_worker = CaseWorker.first
   @claims = create_list(:allocated_claim, 5)
@@ -12,6 +18,24 @@ Given(/^claims have been assigned to me$/) do
   @claims.each { |claim| claim.case_workers << case_worker }
   create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
   create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+end
+
+Given(/^there are allocated claims$/) do
+  @claims = create_list(:allocated_claim, 5)
+end
+
+Given(/^there are unallocated claims$/) do
+  @claims = create_list(:submitted_claim, 5)
+end
+
+Then(/^I should see the allocated claims$/) do
+  click_on "Allocated claims (#{@claims.count})"
+  expect(page).to have_content("Allocated claims (#{@claims.count})")
+end
+
+Then(/^I should see the unallocated claims$/) do
+  click_on "Unallocated claims (#{@claims.count})"
+  expect(page).to have_content("Unallocated claims (#{@claims.count})")
 end
 
 Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)" amongst others$/) do |number,state,defendant_name|

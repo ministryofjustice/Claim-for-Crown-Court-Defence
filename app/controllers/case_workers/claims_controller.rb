@@ -34,16 +34,29 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    @claims = case tab
-    when 'current'
-      current_user.claims.allocated
-    when 'completed'
-      current_user.claims.completed
+    if current_user.persona.admin?
+      @claims = case tab
+        when 'allocated'
+          Claim.allocated
+        when 'unallocated'
+          Claim.submitted
+      end
+    else
+      @claims = case tab
+        when 'current'
+          current_user.claims.allocated
+        when 'completed'
+          current_user.claims.completed
+      end
     end
   end
 
   def tab
-    %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
+    if current_user.persona.admin?
+      %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'allocated'
+    else
+      %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
+    end
   end
 
   def sort_column

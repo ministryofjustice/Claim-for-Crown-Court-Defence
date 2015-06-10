@@ -1,13 +1,13 @@
 var moj = moj || {};
-moj.Modules.amountAssesed = {
+moj.Modules.amountAssessed = {
   init: function(){
-    moj.Modules.amountAssesed.state();
-    $('#claim-status input').change(function(){
-      moj.Modules.amountAssesed.state();
+    moj.Modules.amountAssessed.state();
+    $('#claim_state_for_form').change(function(){
+      moj.Modules.amountAssessed.state();
     });
   },
   state: function(){
-    var v = $('#claim-status input:checked').val();
+    var v = $('#claim_state_for_form option:selected').val();
     if (v == 'part_paid' || v == 'paid' ){
       $('#amountAssessed').slideDown('slow');
     }

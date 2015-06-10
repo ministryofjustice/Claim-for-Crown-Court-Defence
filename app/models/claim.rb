@@ -56,6 +56,13 @@ class Claim < ActiveRecord::Base
 
   PROSECUTING_AUTHORITIES = %W( cps )
 
+  STATES_FOR_FORM = {part_paid: "Part paid",
+                    paid: "Paid in full",
+                    rejected: "Rejected",
+                    refused: "Refused",
+                    awaiting_info_from_court: "Awaiting info from court"
+                   }
+
   belongs_to :court
   belongs_to :offence
   belongs_to :advocate
@@ -173,6 +180,8 @@ class Claim < ActiveRecord::Base
       reject!
     when 'refused'
       refuse!
+    when 'awaiting_info_from_court'
+      await_info_from_court!
     else
       raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
     end
@@ -208,10 +217,6 @@ class Claim < ActiveRecord::Base
 
   def editable?
     draft? || submitted?
-  end
-
-  def disable_payment_status_radio_buttons?
-    %w{ paid part_paid rejected refused }.include?(self.state)
   end
 
   def update_model_and_transition_state(params)

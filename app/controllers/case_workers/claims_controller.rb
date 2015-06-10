@@ -6,6 +6,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = @claims.find_by_maat_reference(params[:search_maat]) if params[:search_maat].present?
     @claims = @claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
+    @claims = @claims.find_by_case_worker_name_or_email(params[:search_case_worker]) if params[:search_case_worker].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 

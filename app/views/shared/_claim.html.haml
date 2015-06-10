@@ -1,4 +1,9 @@
 %section
+  - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
+    %p
+      %strong
+        Assigned to:
+      = claim.case_workers.map(&:name).join(', ')
   %ul.case-data
     %li
       %h3{ class: controller.action_name == 'show' ? "" : "repeated" }

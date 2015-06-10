@@ -233,6 +233,11 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           it 'should create a claim with all basic fees and the specified non-basic fees' do
             post :create, claim: claim_params
             claim = assigns(:claim)
+            puts ">>>>>>>>>>>>>>>> DEBUG message    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+            ap claim, plain: true
+            puts ">>>>>>>>>>>>>>>> DEBUG errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+            ap claim.errors.full_messages
+
 
             expect(claim.basic_fees.size).to eq 4             # one record for every basic fee regardless of whether blank or not
             expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000.0

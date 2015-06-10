@@ -1,6 +1,17 @@
 .nested-fields
   %br
-  = f.label :document, "Representation Order"
-  %br
+  %h4 Representation Order
+
+  - unless f.object.id.nil? || f.object.document_file_name.nil?
+    File already uploaded: 
+    = f.object.document_file_name
+    &nbsp;
+    = link_to 'View', representation_order_path(f.object), target: '_blank', class: 'view'
+    &nbsp;
+    = link_to 'Download', download_representation_order_path(f.object), class: 'download'
+
+    %p
+    Choosing another file below will replace the existing file that has been uploaded for the representation order
+  
   = f.file_field :document
   

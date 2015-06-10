@@ -250,7 +250,6 @@ RSpec.describe Claim, type: :model do
     it 'does not find claims involving non-existent defendant"' do
       expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
     end
-
   end
 
   describe '.find_by_advocate_name' do
@@ -282,6 +281,29 @@ RSpec.describe Claim, type: :model do
 
     it 'does not find a claim with advocate name "Foo Bar"' do
       expect(Claim.find_by_advocate_name('Foo Bar')).to be_empty
+    end
+  end
+
+  describe '.find_by_case_worker_name_or_email' do
+    let!(:other_claim) { create(:claim) }
+    let!(:case_worker) { create(:case_worker) }
+    let!(:other_case_worker) { create(:case_worker) }
+
+    before do
+      subject.case_workers << case_worker
+      other_claim.case_workers << other_case_worker
+    end
+
+    it 'finds the claim by case_worker name' do
+      expect(Claim.find_by_case_worker_name_or_email(case_worker.name)).to eq([subject])
+    end
+
+    it 'finds the other claim by case worker name' do
+      expect(Claim.find_by_case_worker_name_or_email(other_case_worker.name)).to eq([other_claim])
+    end
+
+    it 'does not find a claim with a non existent case worker' do
+      expect(Claim.find_by_case_worker_name_or_email('Foo Bar')).to be_empty
     end
   end
 

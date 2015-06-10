@@ -36,6 +36,7 @@ function initialise(){
 	adp.feeCalculator.init('fees');
 	adp.feeCalculator.init('basic_fees');
 	adp.feeCalculator.init('expenses');
+  moj.Modules.amountAssessed.init();
 }
 
 $( document ).ready(function() {

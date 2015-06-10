@@ -400,6 +400,7 @@ def full_valid_params
      {
       "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
      },
-     "apply_vat" => "0"}
+     "apply_vat" => "0"
+   }
 end
 

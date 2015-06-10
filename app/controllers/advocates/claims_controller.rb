@@ -59,6 +59,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     form_params = claim_params
     form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
     form_params[:creator_id] = current_user.persona.id
+
     @claim = Claim.new(form_params)
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
     load_advocates_in_chamber
@@ -186,7 +187,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :document,
        :description,
        :_destroy
-     ]
+     ],
+     evidence_list_item_ids: []
     )
   end
 

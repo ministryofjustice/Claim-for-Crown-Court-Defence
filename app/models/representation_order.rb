@@ -16,8 +16,6 @@
 #  updated_at                              :datetime
 #
 
-
-
 class RepresentationOrder < ActiveRecord::Base
 
   attr_accessor :pdf_tmpfile

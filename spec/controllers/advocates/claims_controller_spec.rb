@@ -236,15 +236,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
         context 'valid params' do
           it 'should create a claim with all basic fees and the specified non-basic fees' do
-            puts ">>>>>>>>>>>>>>>> DEBUG message    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-            ap claim_params
             post :create, claim: claim_params
             claim = assigns(:claim)
-            puts ">>>>>>>>>>>>>>>> DEBUG message    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-            ap claim, plain: true
-            puts ">>>>>>>>>>>>>>>> DEBUG errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
-            ap claim.errors.full_messages
-
 
             expect(claim.basic_fees.size).to eq 4             # one record for every basic fee regardless of whether blank or not
             expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000.0
@@ -417,16 +410,5 @@ def full_valid_params
      },
      "apply_vat" => "0"}
 end
-
-# def mock_uploaded_file
-#   ActionDispatch::Http::UploadedFile.new(tempfile: Tempfile.new('abc.txt'), 
-#       filename: File.basename('/repo_order.pdf'), 
-#       original_filename: 'repo_order_2.pdf',
-#       type: "application/pdf",
-#       content_type: 'application/pdf',
-#       headers: "Content-Disposition: form-data; name=\"claim[defendants_attributes][0][representation_orders_attributes][0][document]\"; filename=\"repo_order_2.pdf\"\r\nContent-Type: application/pdf\r\n"
-#       )        
-# end
-
 
 

@@ -72,10 +72,10 @@ class Claim < ActiveRecord::Base
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
-  
+
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
-  
+
   default_scope do
     includes(:advocate,
              :case_workers,
@@ -155,6 +155,11 @@ class Claim < ActiveRecord::Base
     def find_by_defendant_name(defendant_name)
       joins(:defendants)
         .where("lower(defendants.first_name || ' ' || defendants.last_name) LIKE ?","%#{defendant_name.downcase}%")
+    end
+
+    def find_by_case_worker_name_or_email(caseworker_name_or_email)
+      joins(case_workers: :user)
+        .where("lower(users.first_name || ' ' || users.last_name) LIKE ? OR lower(users.email) LIKE ?", "%#{caseworker_name_or_email.downcase}%", "%#{caseworker_name_or_email.downcase}%")
     end
 
   end

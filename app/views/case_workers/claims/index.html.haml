@@ -8,9 +8,12 @@
     - if params[:search_defendant].present?
       %p
         #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search_defendant]}"
+    - if params[:search_case_worker].present?
+      %p
+        #{pluralize(@claims.count, 'claim')} matching case worker(s) "#{params[:search_case_workers]}"
 
 #search-options
-  = render partial: 'search_options'
+  = render 'search_form'
 
 #list-controls
   %nav
@@ -44,5 +47,4 @@
   %ul#claims-list
     - @claims.each do |claim|
       %li{ id: dom_id(claim) }
-        = render partial: 'shared/claim', locals: {claim: claim}
-
+        = render partial: 'shared/claim', locals: { claim: claim }

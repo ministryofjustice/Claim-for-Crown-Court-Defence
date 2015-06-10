@@ -4,4 +4,5 @@
   = hidden_field_tag :direction, params[:direction]
   = text_field_tag :search_maat, params[:search_maat], placeholder: 'MAAT reference no.'
   = text_field_tag :search_defendant, params[:search_defendant], placeholder: 'Defendant'
+  = text_field_tag :search_case_worker, params[:search_case_worker], placeholder: 'Case worker name or email'
   = submit_tag 'Search', class: 'button'

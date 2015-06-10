@@ -79,10 +79,10 @@ class Claim < ActiveRecord::Base
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
-  
+
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
-  
+
   default_scope do
     includes(:advocate,
              :case_workers,

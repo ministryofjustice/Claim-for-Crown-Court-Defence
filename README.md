@@ -1,6 +1,6 @@
 # Advocate Defence Payments
 
-[![Build Status](https://travis-ci.org/ministryofjustice/crime-billing-online.svg)](https://travis-ci.org/ministryofjustice/crime-billing-online)
+[![Build Status](https://travis-ci.org/ministryofjustice/advocate-defence-payments.svg)](https://travis-ci.org/ministryofjustice/advocate-defence-payments)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/crime-billing-online/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/crime-billing-online)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/crime-billing-online/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/crime-billing-online)
 

@@ -36,6 +36,7 @@ function initialise(){
 	cbo.feeCalculator.init('fees');
 	cbo.feeCalculator.init('basic_fees');
 	cbo.feeCalculator.init('expenses');
+  moj.Modules.judicialApportionment.init()
 }
 
 $( document ).ready(function() {

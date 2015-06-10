@@ -1,6 +1,7 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_search_options, only: [:index]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
 
@@ -8,8 +9,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     claims = @context.claims.order(created_at: :desc)
-    claims = claims.find_by_advocate_name(params[:search_advocate]) if params[:search_advocate].present?
-    claims = claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
+    claims = claims.find_by_advocate_name(params[:search]) if ['All', 'Advocate'].include?(params[:search_field])
+    claims = claims.find_by_defendant_name(params[:search]) if ['All', 'Defendant'].include?(params[:search_field])
 
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected
@@ -192,7 +193,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def build_nested_resources
     @claim.defendants.build if @claim.defendants.none?
-    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }  
+    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }
     @claim.non_basic_fees.build if @claim.non_basic_fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
@@ -203,6 +204,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       confirmation_advocates_claim_path(@claim)
     else
       summary_advocates_claim_path(@claim)
+    end
+  end
+
+  def set_search_options
+    if current_user.persona.admin?
+      @search_options = ['All', 'Advocate', 'Defendant']
+    else
+      @search_options = ['All', 'Defendant']
     end
   end
 end

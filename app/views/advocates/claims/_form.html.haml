@@ -95,6 +95,11 @@
         = f.check_box :apply_vat
         VAT on Fees & Expenses (please tick if required)'
 
+    %fieldset{id: 'evidence-checklist'}
+      %legend
+        Supporting evidence checklist
+      #evidence-checklist
+        = render 'evidence_list_item_fields', f: f
 
     %fieldset{id: 'evidence'}
       %legend
@@ -104,7 +109,6 @@
           = render 'document_fields', f: document
           .links
             = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
-
 
     %p
       = f.submit (@claim.new_record? ? 'Save draft' : 'Save'), class: 'button'

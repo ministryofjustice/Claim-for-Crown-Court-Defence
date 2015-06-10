@@ -80,7 +80,7 @@ module Claims::StateMachine
     klass.scope :not_deleted, -> { klass.where.not(state: 'archived_pending_delete') }
     klass.scope :non_draft, -> { klass.where(state: ['allocated', 'appealed', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
          'deleted', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted']) }
-    klass.scope :submitted_or_allocated, -> { klass.where(state: %w( allocated submitted ) ) }
+    klass.scope :submitted_to_LAA, -> { klass.where(state: %w( allocated submitted awaiting_info_from_court ) ) }
   end
 
   private

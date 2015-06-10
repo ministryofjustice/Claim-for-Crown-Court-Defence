@@ -6,6 +6,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     @claims = @claims.find_by_maat_reference(params[:search_maat]) if params[:search_maat].present?
     @claims = @claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
+    @claims = @claims.find_by_case_worker_name_or_email(params[:search_case_worker]) if params[:search_case_worker].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
@@ -34,16 +35,29 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    @claims = case tab
-    when 'current'
-      current_user.claims.allocated
-    when 'completed'
-      current_user.claims.completed
+    if current_user.persona.admin?
+      @claims = case tab
+        when 'allocated'
+          Claim.allocated
+        when 'unallocated'
+          Claim.submitted
+      end
+    else
+      @claims = case tab
+        when 'current'
+          current_user.claims.allocated
+        when 'completed'
+          current_user.claims.completed
+      end
     end
   end
 
   def tab
-    %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
+    if current_user.persona.admin?
+      %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'allocated'
+    else
+      %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
+    end
   end
 
   def sort_column

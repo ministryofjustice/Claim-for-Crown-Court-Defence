@@ -1,9 +1,14 @@
 %nav.dashboard-tabs
   %ul
-    %li{class: ( 'active' if params[:tab] == 'current' || (params[:tab].blank? && controller.controller_name == 'claims')) }
-      = link_to "Current claims (#{current_claims_count})", case_workers_claims_path(params.merge(tab: 'current'))
-    %li{class: ('active' if params[:tab] == 'completed')}
-      = link_to "Completed claims (#{completed_claims_count})", case_workers_claims_path(params.merge(tab: 'completed'))
     - if current_user.persona.admin?
+      %li{class: ( 'active' if params[:tab] == 'allocated' || (params[:tab].blank? && controller.controller_name == 'claims')) }
+        = link_to "Allocated claims (#{allocated_claims_count})", case_workers_claims_path(params.merge(tab: 'allocated'))
+      %li{class: ('active' if params[:tab] == 'unallocated')}
+        = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_claims_path(params.merge(tab: 'unallocated'))
       %li{class: ('active' if controller.controller_name == 'case_workers')}
-        = link_to 'Case Workers', case_workers_admin_case_workers_path
+        = link_to "Case Workers (#{CaseWorker.count})", case_workers_admin_case_workers_path
+    - else
+      %li{class: ( 'active' if params[:tab] == 'current' || (params[:tab].blank? && controller.controller_name == 'claims')) }
+        = link_to "Current claims (#{current_claims_count})", case_workers_claims_path(params.merge(tab: 'current'))
+      %li{class: ('active' if params[:tab] == 'completed')}
+        = link_to "Completed claims (#{completed_claims_count})", case_workers_claims_path(params.merge(tab: 'completed'))

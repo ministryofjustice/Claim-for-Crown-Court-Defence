@@ -16,6 +16,7 @@ moj.Modules.fileUpload = {
           $(that).addClass('has-file');
           $(that).show();
           $(that).prev('label.button-secondary').remove();
+          $(that).prev('.file-exists').find('a.view').before('<small>(Will be replaced)</small>   ');
         }
         else{
           $(that).removeClass('has-file');

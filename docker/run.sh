@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+[ -e ping_data.sh ] && source ping_data.sh
+echo "DEBUG:run.sh:BUILD_NUMBER:${BUILD_NUMBER}"
+echo "DEBUG:run.sh:GIT_COMMIT:${GIT_COMMIT}"
+
 case ${DOCKER_STATE} in
 migrate)
     echo "running migrate"

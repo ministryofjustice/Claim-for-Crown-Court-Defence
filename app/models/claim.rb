@@ -150,6 +150,11 @@ class Claim < ActiveRecord::Base
 
   class << self
 
+    def search(query)
+      joins(:defendants, advocate: :user)
+        .where("lower(users.first_name || ' ' || users.last_name) LIKE :q OR lower(defendants.first_name || ' ' || defendants.last_name) LIKE :q", q: "%#{query.downcase}%")
+    end
+
     def find_by_maat_reference(maat_reference)
       joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
     end

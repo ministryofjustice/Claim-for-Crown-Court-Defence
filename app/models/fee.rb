@@ -25,6 +25,8 @@ class Fee < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank,  allow_destroy: true
 
   before_validation do
+    self.quantity = 0 if self.quantity.blank?
+    self.rate = 0 if self.rate.blank?
     self.amount = calculate_amount
   end
 

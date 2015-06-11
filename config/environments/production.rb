@@ -10,8 +10,8 @@ Rails.application.configure do
 
   REPORDER_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "documents/:id_partition/reporders/:id/:filename", 
-    url: "documents/:id_partition/reporders/:id/:filename"
+    path: "reporders/:id_partition/:filename", 
+    url: "reporders/:id_partition/:filename"
   }
 
 

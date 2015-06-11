@@ -1,18 +1,20 @@
 var moj = moj || {};
 moj.Modules.judicialApportionment = {
+  reminder: 'Remember: You must attach the Order for judicial apportionment in the Supporting evidence documents section',
   init: function(){
-    moj.Modules.judicialApportionment.state();
-    $('#claim_defendants_attributes_0_order_for_judicial_apportionment').change(function(){
-      moj.Modules.judicialApportionment.state();
+    $('#claim-form').on('click', 'input[id$="judicial_apportionment"]', function(){
+      var whut = $(this).attr('id');
+      moj.Modules.judicialApportionment.state(whut);
     });
   },
-  state: function(){
-    var v = $('#claim-status input:checked').val();
-    if (v == 'part_paid' || v == 'paid' ){
-      $('#amountAssessed').slideDown('slow');
+  state: function(whut){
+    if ($('#' + whut).is(':checked')){
+      // show reminder
+      $('#' + whut).parent('label').append('<span class="reminder">' + moj.Modules.judicialApportionment.reminder +'</span>')
     }
     else{
-      $('#amountAssessed').slideUp('slow');
+      // hide reminder
+      $('#' + whut).parent('label').find('.reminder').remove();
     }
   }
 };

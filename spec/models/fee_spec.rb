@@ -20,12 +20,22 @@ RSpec.describe Fee, type: :model do
   it { should have_many(:dates_attended) }
 
   it { should validate_presence_of(:fee_type) }
-  it { should validate_presence_of(:quantity) }
+  # it { should validate_presence_of(:quantity) }
   it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
-  it { should validate_presence_of(:rate) }
+  # it { should validate_presence_of(:rate) }
   it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:dates_attended) }
+
+  describe 'blank rate and quantity should be set to zero' do
+    it 'should replace blank rates with zero before save' do
+      fee = FactoryGirl.build :fee, rate: nil, quantity: nil
+      expect(fee).to be_valid
+      expect(fee.rate).to eq 0
+      expect(fee.quantity).to eq 0
+    end
+  end
+
 
   describe 'set and update amount' do
     subject { build(:fee, rate: 2.5, quantity: 3, amount: 0) }

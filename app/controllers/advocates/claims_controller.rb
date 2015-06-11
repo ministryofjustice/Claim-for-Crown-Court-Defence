@@ -3,13 +3,25 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
+  before_action :set_search_options, only: [:index]
 
   def landing; end
 
   def index
     claims = @context.claims.order(created_at: :desc)
-    claims = claims.find_by_advocate_name(params[:search_advocate]) if params[:search_advocate].present?
-    claims = claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
+
+    params[:search_field] ||= 'Defendant'
+
+    if params[:search].present?
+      claims = case params[:search_field]
+        when 'All'
+          claims.search(params[:search])
+        when 'Advocate'
+          claims.find_by_advocate_name(params[:search])
+        when 'Defendant'
+          claims.find_by_defendant_name(params[:search])
+      end
+    end
 
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected
@@ -192,7 +204,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def build_nested_resources
     @claim.defendants.build if @claim.defendants.none?
-    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }  
+    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }
     @claim.non_basic_fees.build if @claim.non_basic_fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
@@ -203,6 +215,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       confirmation_advocates_claim_path(@claim)
     else
       summary_advocates_claim_path(@claim)
+    end
+  end
+
+  def set_search_options
+    if current_user.persona.admin?
+      @search_options = ['All', 'Advocate', 'Defendant']
+    else
+      @search_options = ['All', 'Defendant']
     end
   end
 end

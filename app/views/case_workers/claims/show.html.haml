@@ -11,7 +11,7 @@
 
 #claim-accordion
   %h2
-    Basic Claim Informatio
+    Basic Claim Information
   = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
   %h2
     Claim summary
@@ -30,4 +30,4 @@
   = render partial: 'case_notes'
   %h2
     Update status of claim
-  = render partial: 'claim_status'
+  = render partial: 'shared/claim_status', locals: { disabled: false }

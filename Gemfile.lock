@@ -235,6 +235,8 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    polyamorous (1.1.0)
+      activerecord (>= 3.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -354,6 +356,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    squeel (1.2.3)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      polyamorous (~> 1.1.0)
     state_machine (1.2.0)
     susy (1.0.9)
       compass (>= 0.12.2)
@@ -458,6 +464,7 @@ DEPENDENCIES
   simplecov
   simplecov-csv
   simplecov-multi
+  squeel
   state_machine
   susy
   terminal-notifier-guard

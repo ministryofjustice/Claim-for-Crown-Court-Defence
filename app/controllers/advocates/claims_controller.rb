@@ -14,7 +14,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected
     @allocated_claims = claims.allocated
-    @submitted_or_allocated_claims = claims.submitted_or_allocated
+    @submitted_to_LAA_claims = claims.submitted_to_LAA
     @part_paid_claims = claims.part_paid
     @completed_claims = claims.completed
     @draft_claims = claims.draft

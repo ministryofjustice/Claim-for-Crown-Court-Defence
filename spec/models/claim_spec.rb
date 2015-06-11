@@ -250,7 +250,6 @@ RSpec.describe Claim, type: :model do
     it 'does not find claims involving non-existent defendant"' do
       expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
     end
-
   end
 
   describe '.find_by_advocate_name' do
@@ -282,6 +281,29 @@ RSpec.describe Claim, type: :model do
 
     it 'does not find a claim with advocate name "Foo Bar"' do
       expect(Claim.find_by_advocate_name('Foo Bar')).to be_empty
+    end
+  end
+
+  describe '.find_by_case_worker_name_or_email' do
+    let!(:other_claim) { create(:claim) }
+    let!(:case_worker) { create(:case_worker) }
+    let!(:other_case_worker) { create(:case_worker) }
+
+    before do
+      subject.case_workers << case_worker
+      other_claim.case_workers << other_case_worker
+    end
+
+    it 'finds the claim by case_worker name' do
+      expect(Claim.find_by_case_worker_name_or_email(case_worker.name)).to eq([subject])
+    end
+
+    it 'finds the other claim by case worker name' do
+      expect(Claim.find_by_case_worker_name_or_email(other_case_worker.name)).to eq([other_claim])
+    end
+
+    it 'does not find a claim with a non existent case worker' do
+      expect(Claim.find_by_case_worker_name_or_email('Foo Bar')).to be_empty
     end
   end
 
@@ -446,10 +468,27 @@ RSpec.describe Claim, type: :model do
       expect(subject).to receive(:refuse!)
       subject.state_for_form = 'refused'
     end
+    it 'should call await_info_from_court! if awaiting_info_from_court' do
+      expect(subject).to receive(:await_info_from_court!)
+      subject.state_for_form = 'awaiting_info_from_court'
+    end
     it 'should raise an exception if anything else' do
       expect{
         subject.state_for_form = 'allocated'
       }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
     end
   end
+
+  describe 'STATES_FOR_FORM' do
+    it "should have constant values" do
+    expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
+                                          paid: "Paid in full",
+                                          rejected: "Rejected",
+                                          refused: "Refused",
+                                          awaiting_info_from_court: "Awaiting info from court"
+                                         })
+  end
+
+  end
+
 end

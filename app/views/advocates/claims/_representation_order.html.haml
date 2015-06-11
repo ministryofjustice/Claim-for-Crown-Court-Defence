@@ -5,7 +5,7 @@
         Representation order for defendant:
         &nbsp; 
         = defendant.name
-        &nbsp;
-        = link_to 'View', representation_order_path(defendant.representation_order), target: '_blank', class: 'view'
-        &nbsp;
-        = link_to 'Download', download_representation_order_path(defendant.representation_order), class: 'download'
+        .item-controls
+            = link_to 'View', representation_order_path(defendant.representation_order), target: '_blank', class: 'view'
+            &nbsp;
+            = link_to 'Download', download_representation_order_path(defendant.representation_order), class: 'download'

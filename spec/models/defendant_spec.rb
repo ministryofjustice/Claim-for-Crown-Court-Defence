@@ -25,7 +25,25 @@ RSpec.describe Defendant, type: :model do
   it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:date_of_birth) }
   it { should validate_presence_of(:maat_reference) }
-  it { should validate_uniqueness_of(:maat_reference).scoped_to(:claim_id) }
+
+
+  context 'validate uniqueness of maat_reference scoped by claim_id' do
+    it 'should be valid if unique within claim id' do
+      claim_1 = FactoryGirl.create :claim
+      claim_2 = FactoryGirl.create :claim
+      defendant_1 = FactoryGirl.build :defendant, claim: claim_1, maat_reference: 'ABC1234'
+      defendant_2 = FactoryGirl.build :defendant, claim: claim_2, maat_reference: 'ABC1234'
+      expect(defendant_1).to be_valid
+    end
+    it 'should not be valid if not unique within claim id' do
+      claim_1 = FactoryGirl.create :claim
+      defendant_1 = FactoryGirl.create :defendant, claim: claim_1, maat_reference: 'ABC1234'
+      defendant_2 = FactoryGirl.build :defendant, claim: claim_1, maat_reference: 'ABC1234'
+      expect(defendant_2).not_to be_valid
+      expect(defendant_2.errors[:maat_reference]). to eq( ['has already been taken'] )
+    end
+  end
+
 
   context 'MAAT reference number after save' do
     let(:claim) { create(:claim) }
@@ -63,6 +81,12 @@ RSpec.describe Defendant, type: :model do
       expect(defendant).not_to be_valid
       expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
       expect(defendant.errors.full_messages.include?("Claim can't be blank")).to be true
+    end
+
+    describe '#representation_order' do
+      it 'should return the representation order object' do
+        expect(defendant.representation_order).to be_instance_of(RepresentationOrder)
+      end
     end
   end
 

@@ -31,12 +31,24 @@ class Defendant < ActiveRecord::Base
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
 
+  after_initialize :build_representation_order
 
   def one_representation_order
     if representation_orders.size != 1
       errors[:representation_order] << "There must be exactly one per defendant"
     end
   end
+
+  def representation_order
+    representation_orders.first
+  end
+
+  def build_representation_order
+    if representation_orders.nil? || representation_orders.none?
+      representation_orders.build
+    end
+  end
+
 
   def name
     [first_name, last_name].join(' ')

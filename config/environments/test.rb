@@ -11,9 +11,10 @@ Rails.application.configure do
 
   REPORDER_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/test/images/:id_partition/reporders/:id/:filename", 
-    url: "assets/test/images/:id_partition/reporders/:id/:filename"
+    path: "public/assets/test/images/reporders/:id_partition/:filename", 
+    url: "assets/test/images/reporders/:id_partition/:filename"
   }
+
 
   config.action_controller.asset_host = "http://localhost:3000"
 

@@ -2,14 +2,14 @@ var moj = moj || {};
 moj.Modules.fileUpload = {
   init: function(){
     $('input[type="file"]').each(function(){
-      $(this).change(function(){
-          moj.Modules.fileUpload.state($(this));
-        });
       if($(parent).find('.file-exists')){
         $(this).hide();
         moj.Modules.fileUpload.chooseAlternative($(this));
         }
-      }); 
+      });
+    $('form').on('change', 'input[type="file"]', function(){
+      moj.Modules.fileUpload.state($(this));
+    })
   },
   state: function(that){
     if($(that).val()){

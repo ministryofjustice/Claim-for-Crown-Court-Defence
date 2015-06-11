@@ -16,8 +16,6 @@
 #  updated_at                              :datetime
 #
 
-
-
 class RepresentationOrder < ActiveRecord::Base
 
   attr_accessor :pdf_tmpfile
@@ -25,13 +23,15 @@ class RepresentationOrder < ActiveRecord::Base
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
 
+  belongs_to :defendant
+
   has_attached_file :converted_preview_document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
       'Expires' => 3.months.from_now.httpdate
     },
     s3_permissions: :private,
-    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+    s3_region: 'eu-west-1'}.merge(REPORDER_STORAGE_OPTIONS)
 
   has_attached_file :document,
     { s3_headers: {
@@ -39,7 +39,7 @@ class RepresentationOrder < ActiveRecord::Base
       'Expires' => 3.months.from_now.httpdate
     },
     s3_permissions: :private,
-    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+    s3_region: 'eu-west-1'}.merge(REPORDER_STORAGE_OPTIONS)
 
 
   validates_attachment :document,

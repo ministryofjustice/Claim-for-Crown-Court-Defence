@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
+  resources :representation_orders do
+    get 'download', on: :member
+  end
+
   resources :messages, only: [:create]
   resources :user_message_statuses, only: [:index, :update]
 

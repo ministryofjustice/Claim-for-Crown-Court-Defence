@@ -6,17 +6,8 @@ def upload_a_document(document_filename = 'shorter_lorem.docx')
   click_on('Upload')
 end
 
-
-Given(/^document types exist$/) do
-  create(:document_type, description: 'Other')
-end
-
 Then(/^the document should have a duplicate pdf version$/) do
   upload_a_document
-end
-
-When(/^I upload an example document "(.*?)"$/) do |document_filename|
-  upload_a_document(document_filename)
 end
 
 When(/^a document exists that belongs to the(?: (\d+)\w+)? advocate$/) do |cardinality|
@@ -46,10 +37,6 @@ Then(/^(?:the|that) case worker can access all documents$/) do
     visit document_url(document)
     expect(page.status_code).to eq(200)
   end
-end
-
-Then(/^The example document should exist on the system$/) do
-  expect(Document.find_by(notes: @notes)).to be_present
 end
 
 Then(/^I should be told I need to select a claim first$/) do

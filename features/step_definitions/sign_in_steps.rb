@@ -74,6 +74,11 @@ Then(/^I should be redirected to the advocates landing url$/) do
   expect(current_url).to eq(advocates_landing_url)
 end
 
+Then(/^I should be redirected to the advocates root url$/) do
+  expect(current_url).to eq(advocates_root_url)
+end
+
+
 Given(/^I am a signed in advocate$/) do
   step %Q{an "advocate" user account exists}
   @advocate = @advocates.first

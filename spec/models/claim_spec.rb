@@ -194,6 +194,28 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '.search' do
+    before do
+      create(:defendant, first_name: 'Aardvark', last_name: 'Payments', maat_reference: '111111', claim_id: subject.id)
+      subject.advocate.user.first_name = 'John'
+      subject.advocate.user.last_name = 'Smith'
+      subject.advocate.user.save!
+      subject.reload
+    end
+
+    it 'finds the claim by advocate name' do
+      expect(Claim.search('John Smith').to_a).to eq([subject])
+    end
+
+    it 'finds the claim by defendant name' do
+      expect(Claim.search('Aardvark Payments').to_a).to eq([subject])
+    end
+
+    it 'does not find any claims when advocate or defendants do not exist' do
+      expect(Claim.search('foobar')).to be_empty
+    end
+  end
+
   describe '.find_by_maat_reference' do
     let!(:other_claim) { create(:claim) }
 

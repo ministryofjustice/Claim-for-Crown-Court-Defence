@@ -37,6 +37,7 @@ function initialise(){
 	adp.feeCalculator.init('basic_fees');
 	adp.feeCalculator.init('expenses');
 	moj.Modules.fileUpload.init();
+  moj.Modules.judicialApportionment.init()
 }
 
 $( document ).ready(function() {

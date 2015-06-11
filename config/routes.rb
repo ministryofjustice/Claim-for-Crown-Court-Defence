@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
-  root to: 'high_voltage/pages#show', id: 'home'
+  get 'ping' => 'ping#index'
 
+  root to: 'high_voltage/pages#show', id: 'home'
+  
   namespace :api, format: :json do
     namespace :advocates do
       resources :claims

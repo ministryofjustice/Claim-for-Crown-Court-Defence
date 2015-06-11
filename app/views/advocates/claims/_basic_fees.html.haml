@@ -1,11 +1,11 @@
 %tr.nested-fields
   %td
-    = f.text_field :description, value: f.object.description, disabled: true
+    = f.object.description
   %td
-    = f.number_field :quantity, value: f.object.quantity, class: 'quantity'
+    = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity'
   %td
-    = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-  %td
-    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', disabled: true
+    = f.number_field :rate, value: number_with_precision_or_blank(f.object.rate, precision: 2), class: 'rate'
+  %td.amount
+    = number_with_precision_or_blank(f.object.amount, precision: 2)
 
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id

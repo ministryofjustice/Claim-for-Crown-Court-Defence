@@ -15,13 +15,15 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if params[:search].present?
       claims = case params[:search_field]
         when 'All'
-          claims.search(params[:search])
+          claims.search(:advocate_name, :defendant_name, params[:search])
         when 'Advocate'
-          claims.find_by_advocate_name(params[:search])
+          claims.search(:advocate_name, params[:search])
         when 'Defendant'
-          claims.find_by_defendant_name(params[:search])
+          claims.search(:defendant_name, params[:search])
       end
     end
+
+    @claims = claims
 
     @submitted_claims = claims.submitted
     @rejected_claims = claims.rejected

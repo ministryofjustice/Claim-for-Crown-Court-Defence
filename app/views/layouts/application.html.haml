@@ -8,13 +8,6 @@
 = content_for :content do
   = csrf_meta_tags
   #wrapper.group
-    .phase-banner
-      %p
-        %strong.phase-tag= config_item(:phase)
-        %span
-          This is a new service – your
-          %a{href: "#"} feedback
-          will help us to improve it.
     %section#content{role: 'main'}
       %header.page-header.group.tribunal-header
         #fixed-header

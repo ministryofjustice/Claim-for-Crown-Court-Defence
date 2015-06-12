@@ -1,13 +1,17 @@
  *{
   box-sizing:border-box;
  }
-
- #proposition_links {
-  color: $white;
-  float:right;
-  a{
-    color: $white;
-  }
+#global-header-bar{
+  border-bottom: 1px solid $ministry-of-justice;
+}
+#user_links {
+float:right;
+line-height: 3;
+a{
+  color: $ministry-of-justice;
+  display: inline-block;
+  margin-right: 15px;
+}
  }
  #wrapper, #global-header-bar {
     @include outer-container;

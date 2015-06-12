@@ -25,13 +25,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     @claims = claims
 
-    @submitted_claims = claims.submitted
-    @rejected_claims = claims.rejected
-    @allocated_claims = claims.allocated
-    @submitted_to_LAA_claims = claims.submitted_to_LAA
-    @part_paid_claims = claims.part_paid
-    @completed_claims = claims.completed
-    @draft_claims = claims.draft
+    @draft_claims     = claims.advocate_dashboard_draft
+    @rejected_claims  = claims.advocate_dashboard_rejected
+    @submitted_claims = claims.advocate_dashboard_submitted
+    @part_paid_claims = claims.advocate_dashboard_part_paid
+    @completed_claims = claims.advocate_dashboard_completed
   end
 
   def outstanding

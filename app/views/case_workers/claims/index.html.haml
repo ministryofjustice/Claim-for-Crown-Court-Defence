@@ -1,19 +1,20 @@
 = render 'nav_tabs'
 
-%section
-  %h1
-    - if params[:search_maat].present?
-      %p
-        #{pluralize(@claims.count, 'claim')} matching MAAT reference "#{params[:search_maat]}"
-    - if params[:search_defendant].present?
-      %p
-        #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search_defendant]}"
-    - if params[:search_case_worker].present?
-      %p
-        #{pluralize(@claims.count, 'claim')} matching case worker(s) "#{params[:search_case_workers]}"
-
 #search-options
   = render 'search_form'
+
+%section
+  %h1
+    - if params[:search].present?
+      %p
+      - if params[:search_field] == 'All'
+        #{pluralize(@claims.count, 'claim')} matching search term "#{params[:search]}"
+      - if params[:search_field] == 'MAAT Reference'
+        #{pluralize(@claims.count, 'claim')} matching MAAT reference "#{params[:search]}"
+      - if params[:search_field] == 'Defendant'
+        #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search]}"
+      - if params[:search_field] == 'Case worker'
+        #{pluralize(@claims.count, 'claim')} matching case worker(s) "#{params[:search]}"
 
 #list-controls
   %nav

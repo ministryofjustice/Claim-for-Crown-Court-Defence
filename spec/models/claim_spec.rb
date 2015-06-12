@@ -195,137 +195,121 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '.search' do
-    before do
-      create(:defendant, first_name: 'Aardvark', last_name: 'Payments', maat_reference: '111111', claim_id: subject.id)
-      subject.advocate.user.first_name = 'John'
-      subject.advocate.user.last_name = 'Smith'
-      subject.advocate.user.save!
-      subject.reload
-    end
-
-    it 'finds the claim by advocate name' do
-      expect(Claim.search('John Smith').to_a).to eq([subject])
-    end
-
-    it 'finds the claim by defendant name' do
-      expect(Claim.search('Aardvark Payments').to_a).to eq([subject])
-    end
-
-    it 'does not find any claims when advocate or defendants do not exist' do
-      expect(Claim.search('foobar')).to be_empty
-    end
-  end
-
-  describe '.find_by_maat_reference' do
     let!(:other_claim) { create(:claim) }
 
-    before do
-      create(:defendant, maat_reference: '111111', claim_id: subject.id)
-      create(:defendant, maat_reference: '222222', claim_id: subject.id)
-      create(:defendant, maat_reference: '333333', claim_id: other_claim.id)
-      subject.reload
-      other_claim.reload
+    context 'find by MAAT reference' do
+      before do
+        create(:defendant, maat_reference: '111111', claim_id: subject.id)
+        create(:defendant, maat_reference: '222222', claim_id: subject.id)
+        create(:defendant, maat_reference: '333333', claim_id: other_claim.id)
+        subject.reload
+        other_claim.reload
+      end
+
+      it 'finds the claim by MAAT reference "111111"' do
+        expect(Claim.search(:maat_reference, '111111')).to eq([subject])
+      end
+
+      it 'finds the claim by MAAT reference "222222"' do
+        expect(Claim.search(:maat_reference, '222222')).to eq([subject])
+      end
+
+      it 'finds the claim by MAAT reference "333333"' do
+        expect(Claim.search(:maat_reference, '333333')).to eq([other_claim])
+      end
+
+      it 'does not find a claim with MAAT reference "444444"' do
+        expect(Claim.search(:maat_reference, '444444')).to be_empty
+      end
     end
 
-    it 'finds the claim by MAAT reference "111111"' do
-      expect(Claim.find_by_maat_reference('111111')).to eq([subject])
+    context 'find by Defendant name' do
+      let!(:current_advocate) { create(:advocate) }
+      let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+
+      before do
+        subject.advocate = current_advocate
+        other_claim.advocate = other_advocate
+        subject.save!
+        other_claim.save!
+        create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
+        create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
+        create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
+        subject.reload
+        other_claim.reload
+      end
+
+      it 'finds all claims involving specified defendant' do
+        expect(Claim.search(:defendant_name, 'Joe Bloggs').count).to eq(2)
+      end
+
+      it 'finds claim involving other specified defendant' do
+        expect(Claim.search(:defendant_name, 'Hart')).to eq([other_claim])
+      end
+
+      it 'does not find claims involving non-existent defendant"' do
+        expect(Claim.search(:defendant_name, 'Foo Bar')).to be_empty
+      end
     end
 
-    it 'finds the claim by MAAT reference "222222"' do
-      expect(Claim.find_by_maat_reference('222222')).to eq([subject])
+    context 'find by Advocate name' do
+      before do
+        subject.advocate = create(:advocate)
+        other_claim.advocate = create(:advocate)
+        subject.advocate.user.first_name = 'John'
+        subject.advocate.user.last_name = 'Smith'
+        subject.advocate.user.save!
+
+        subject.save!
+
+        other_claim.advocate.user.first_name = 'Bob'
+        other_claim.advocate.user.last_name = 'Hoskins'
+        other_claim.advocate.user.save!
+
+        other_claim.save!
+      end
+
+      it 'finds the claim by advocate name "John Smith"' do
+        expect(Claim.search(:advocate_name, 'John Smith')).to eq([subject])
+      end
+
+      it 'finds the claim by advocate name "Bob Hoskins"' do
+        expect(Claim.search(:advocate_name, 'Bob Hoskins')).to eq([other_claim])
+      end
+
+      it 'does not find a claim with advocate name "Foo Bar"' do
+        expect(Claim.search(:advocate_name, 'Foo Bar')).to be_empty
+      end
     end
 
-    it 'finds the claim by MAAT reference "333333"' do
-      expect(Claim.find_by_maat_reference('333333')).to eq([other_claim])
+    context 'find by case worker name or email' do
+      let!(:case_worker) { create(:case_worker) }
+      let!(:other_case_worker) { create(:case_worker) }
+
+      before do
+        subject.case_workers << case_worker
+        other_claim.case_workers << other_case_worker
+      end
+
+      it 'finds the claim by case_worker name' do
+        expect(Claim.search(:case_worker_name_or_email, case_worker.name)).to eq([subject])
+      end
+
+      it 'finds the other claim by case worker name' do
+        expect(Claim.search(:case_worker_name_or_email, other_case_worker.name)).to eq([other_claim])
+      end
+
+      it 'does not find a claim with a non existent case worker' do
+        expect(Claim.search(:case_worker_name_or_email, 'Foo Bar')).to be_empty
+      end
     end
 
-    it 'does not find a claim with MAAT reference "444444"' do
-      expect(Claim.find_by_maat_reference('444444')).to be_empty
-    end
-  end
-
-  describe '.find_by_defendant_name' do
-    let!(:other_claim) { create(:claim) }
-    let!(:current_advocate) { create(:advocate) }
-    let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
-
-    before do
-      subject.advocate = current_advocate
-      other_claim.advocate = other_advocate
-      subject.save!
-      other_claim.save!
-      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
-      create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
-      create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
-      subject.reload
-      other_claim.reload
-    end
-
-    it 'finds all claims involving specified defendant' do
-      expect(Claim.find_by_defendant_name('Joe Bloggs').count).to eq(2)
-    end
-
-    it 'finds claim involving other specified defendant' do
-      expect(Claim.find_by_defendant_name('Hart')).to eq([other_claim])
-    end
-
-    it 'does not find claims involving non-existent defendant"' do
-      expect(Claim.find_by_defendant_name('Foo Bar')).to be_empty
-    end
-  end
-
-  describe '.find_by_advocate_name' do
-    let!(:other_claim) { create(:claim) }
-
-    before do
-      subject.advocate = create(:advocate)
-      other_claim.advocate = create(:advocate)
-      subject.advocate.user.first_name = 'John'
-      subject.advocate.user.last_name = 'Smith'
-      subject.advocate.user.save!
-
-      subject.save!
-
-      other_claim.advocate.user.first_name = 'Bob'
-      other_claim.advocate.user.last_name = 'Hoskins'
-      other_claim.advocate.user.save!
-
-      other_claim.save!
-    end
-
-    it 'finds the claim by advocate name "John Smith"' do
-      expect(Claim.find_by_advocate_name('John Smith')).to eq([subject])
-    end
-
-    it 'finds the claim by advocate name "Bob Hoskins"' do
-      expect(Claim.find_by_advocate_name('Bob Hoskins')).to eq([other_claim])
-    end
-
-    it 'does not find a claim with advocate name "Foo Bar"' do
-      expect(Claim.find_by_advocate_name('Foo Bar')).to be_empty
-    end
-  end
-
-  describe '.find_by_case_worker_name_or_email' do
-    let!(:other_claim) { create(:claim) }
-    let!(:case_worker) { create(:case_worker) }
-    let!(:other_case_worker) { create(:case_worker) }
-
-    before do
-      subject.case_workers << case_worker
-      other_claim.case_workers << other_case_worker
-    end
-
-    it 'finds the claim by case_worker name' do
-      expect(Claim.find_by_case_worker_name_or_email(case_worker.name)).to eq([subject])
-    end
-
-    it 'finds the other claim by case worker name' do
-      expect(Claim.find_by_case_worker_name_or_email(other_case_worker.name)).to eq([other_claim])
-    end
-
-    it 'does not find a claim with a non existent case worker' do
-      expect(Claim.find_by_case_worker_name_or_email('Foo Bar')).to be_empty
+    context 'find by invalid option' do
+      it 'raises error for invalid option' do
+        expect{
+          Claim.search(:case_worker_name_or_email, :foo, 'foo')
+        }.to raise_error
+      end
     end
   end
 

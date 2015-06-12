@@ -114,7 +114,8 @@ Then(/^I should see the claims count$/) do
 end
 
 When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
-  fill_in 'search_defendant', with: defendant_name
+  fill_in 'search', with: defendant_name
+  select 'Defendant', from: 'search_field'
   click_button 'Search'
 end
 
@@ -123,13 +124,14 @@ Then(/^I should only see (\d+) "(.*?)" claims$/) do |number, state_name|
 end
 
 When(/^I search for a claim by MAAT reference$/) do
-  fill_in 'search_maat', with: 'AA1245'
+  fill_in 'search', with: 'AA1245'
+  select 'MAAT Reference', from: 'search_field'
   click_button 'Search'
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-  expect(page).to have_content("1 claim matching MAAT reference \"AA1245\"")
   expect(page).to have_selector("#claim_#{@claims.first.id}")
+  expect(@claims.first.defendants.first.maat_reference).to match(page.find('#search').text)
 end
 
 Given(/^I have completed claims$/) do

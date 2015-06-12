@@ -10,23 +10,36 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    case current_user.persona_type
-      when 'Advocate'
-        case current_user.persona.role
-          when 'advocate'
-            advocates_landing_url
-          when 'admin'
-            advocates_landing_url
-        end
-      when 'CaseWorker'
-        case current_user.persona.role
-          when 'case_worker'
-            case_workers_root_url
-          when 'admin'
-            case_workers_admin_root_url
-        end
-      else
-        raise 'Invalid or missing role'
+    method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.downcase}"
+    send(method_name)
+  end
+
+  private
+
+  def after_sign_in_path_for_advocate
+    case current_user.persona.role
+    when 'advocate'
+      advocates_landing_url
+    when 'admin'
+      advocates_root_url
     end
   end
+
+
+  def after_sign_in_path_for_caseworker
+    case current_user.persona.role
+    when 'case_worker'
+      case_workers_root_url
+    when 'admin'
+      case_workers_admin_root_url
+    end
+  end
+
+  def method_missing(method, *args)
+    if method.to_s =~ /after_sign_in_path_for_(.*)/
+      raise "Unrecognised user type #{$1}"
+    end
+    super
+  end
+
 end

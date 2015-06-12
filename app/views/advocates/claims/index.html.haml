@@ -32,9 +32,9 @@
   %section#rejected
     = render partial: 'claims', locals: { claims: @rejected_claims }
 
-  %h2 Submitted to LAA (#{@submitted_to_LAA_claims.count})
+  %h2 Submitted to LAA (#{@submitted_claims.count})
   %section#submitted
-    = render partial: 'claims', locals: { claims: @submitted_to_LAA_claims }
+    = render partial: 'claims', locals: { claims: @submitted_claims }
 
   %h2 Part paid (#{@part_paid_claims.count})
   %section#part_paid

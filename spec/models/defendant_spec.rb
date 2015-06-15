@@ -20,12 +20,23 @@ require 'rails_helper'
 RSpec.describe Defendant, type: :model do
   it { should belong_to(:claim) }
 
-  it { should validate_presence_of(:claim) }
-  it { should validate_presence_of(:first_name) }
-  it { should validate_presence_of(:last_name) }
-  it { should validate_presence_of(:date_of_birth) }
-  it { should validate_presence_of(:maat_reference) }
+  describe 'validations' do
+    context 'draft claim' do
+      before { subject.claim = create(:claim) }
 
+      it { should validate_presence_of(:claim) }
+    end
+
+    context 'non-draft claim' do
+      before { subject.claim = create(:submitted_claim) }
+
+      it { should validate_presence_of(:claim) }
+      it { should validate_presence_of(:first_name) }
+      it { should validate_presence_of(:last_name) }
+      it { should validate_presence_of(:date_of_birth) }
+      it { should validate_presence_of(:maat_reference) }
+    end
+  end
 
   context 'validate uniqueness of maat_reference scoped by claim_id' do
     it 'should be valid if unique within claim id' do
@@ -35,6 +46,7 @@ RSpec.describe Defendant, type: :model do
       defendant_2 = FactoryGirl.build :defendant, claim: claim_2, maat_reference: 'ABC1234'
       expect(defendant_1).to be_valid
     end
+
     it 'should not be valid if not unique within claim id' do
       claim_1 = FactoryGirl.create :claim
       defendant_1 = FactoryGirl.create :defendant, claim: claim_1, maat_reference: 'ABC1234'
@@ -58,29 +70,43 @@ RSpec.describe Defendant, type: :model do
   context 'representation orders' do
 
     let(:defendant)  { FactoryGirl.create :defendant, claim: FactoryGirl.create(:claim) }
-    
+
     it 'should be valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid
     end
 
-    it 'should not be valid if there are more than one representation order' do
-      defendant.representation_orders << FactoryGirl.create(:representation_order)
-      expect(defendant).not_to be_valid
-      expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+    context 'draft claim' do
+      it 'should be valid if there is more than one representation order' do
+        defendant.representation_orders << FactoryGirl.create(:representation_order)
+        expect(defendant).to be_valid
+      end
     end
 
-    it 'should not be valid if there are no representation orders' do
-      defendant.representation_orders = []
-      expect(defendant).not_to be_valid
-      expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
-    end
+    context 'submitted claim' do
+      before do
+        defendant.claim = create(:submitted_claim)
+        defendant.save
+      end
 
-    it 'should not be valid if there is one representation order which is blank' do
-      defendant = FactoryGirl.build :defendant
-      defendant.representation_orders = [ RepresentationOrder.new ]
-      expect(defendant).not_to be_valid
-      expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
-      expect(defendant.errors.full_messages.include?("Claim can't be blank")).to be true
+      it 'should not be valid if there is more than one representation order' do
+        defendant.representation_orders << FactoryGirl.create(:representation_order)
+        expect(defendant).not_to be_valid
+        expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+      end
+
+      it 'should not be valid if there are no representation orders' do
+        defendant.representation_orders = []
+        expect(defendant).not_to be_valid
+        expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+      end
+
+      it 'should not be valid if there is one representation order which is blank' do
+        defendant = FactoryGirl.build :defendant
+        defendant.claim = create(:submitted_claim)
+        defendant.representation_orders = [ RepresentationOrder.new ]
+        expect(defendant).not_to be_valid
+        expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
+      end
     end
 
     describe '#representation_order' do

@@ -98,18 +98,18 @@ class Claim < ActiveRecord::Base
   scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
   scope :authorised, -> { where(state: 'paid') }
 
-  validates :offence,                 presence: true
   validates :advocate,                presence: true
-  validates :creator,                 presence: true
-  validates :court,                   presence: true
-  validates :case_number,             presence: true
-  validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }
-  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
-  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }
-  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }
+  validates :offence,                 presence: true, unless: :draft?
+  validates :creator,                 presence: true, unless: :draft?
+  validates :court,                   presence: true, unless: :draft?
+  validates :case_number,             presence: true, unless: :draft?
+  validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }, unless: :draft?
+  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }, unless: :draft?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }, unless: :draft?
+  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }, unless: :draft?
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
+  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
 
   validate :amount_assessed_and_state
 
@@ -240,14 +240,14 @@ class Claim < ActiveRecord::Base
 
   private
 
-def amount_assessed_and_state
-  case self.state
-    when 'paid', 'part_paid'
-      if self.amount_assessed == 0
-        errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
-      end
-    when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-    if self.amount_assessed != 0
+  def amount_assessed_and_state
+    case self.state
+      when 'paid', 'part_paid'
+        if self.amount_assessed == 0
+          errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
+        end
+      when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+      if self.amount_assessed != 0
         errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
       end
     end

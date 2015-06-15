@@ -109,5 +109,7 @@
 
 
     %p
-      = f.submit (@claim.new_record? ? 'Save draft' : 'Save'), class: 'button'
-      = link_to 'Back', advocates_claims_path, class: 'button'
+      = f.submit 'Submit to LAA', class: 'button'
+      - if @claim.draft?
+        = f.submit 'Save to drafts', class: 'button'
+      = link_to 'Clear form', new_advocates_claim_path, class: 'button'

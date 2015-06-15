@@ -157,6 +157,10 @@ class Claim < ActiveRecord::Base
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end
 
+  def is_allocated_to_case_worker?(cw)
+    self.case_workers.include?(cw)
+  end
+
 
   def basic_fees
     fees.select { |f| f.is_basic? }.sort{ |a, b| a.description <=> b.description }

@@ -14,4 +14,14 @@ module ClaimsHelper
     end
   end
 
+
+  def claim_allocation_checkbox_helper(claim, case_worker)
+    checked = claim.is_allocated_to_case_worker?(case_worker) ? %q(checked="checked") : nil
+    %Q(<input #{checked} id="case_worker_claim_ids_#{claim.id}" name="case_worker[claim_ids][]" type="checkbox" value="#{claim.id}">).html_safe
+  end
+
+  def caseworker_claim_id_helper(claim)
+    "claim_ids_#{claim.id}"
+  end
+
 end

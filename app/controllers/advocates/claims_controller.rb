@@ -1,6 +1,6 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
@@ -61,10 +61,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 
-  def summary
-    session[:summary] = true
-  end
-
   def confirmation; end
 
   def create
@@ -75,21 +71,48 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
     load_advocates_in_chamber
 
-    if @claim.save
-      respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
-    else
-      @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
-      build_nested_resources
-      render action: :new
+    case params[:commit]
+      when 'Submit to LAA'
+        begin
+          @claim.submit!
+          @claim.save
+          redirect_to confirmation_advocates_claim_path(@claim)
+        rescue
+          @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+          build_nested_resources
+          render action: :new
+        end
+      else
+        if @claim.save
+          redirect_to advocates_claims_path, notice: 'Draft claim saved'
+        else
+          @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+          build_nested_resources
+          render action: :new
+        end
     end
   end
 
   def update
     load_advocates_in_chamber
-    @claim.submit! if session.delete(:summary) && @claim.draft?
 
-    @claim.update(claim_params)
-    respond_with @claim, { location: update_redirect_location, notice: 'Claim successfully updated' }
+    case params[:commit]
+      when 'Submit to LAA'
+        @claim.update(claim_params)
+
+        begin
+          @claim.submit!
+          redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+        rescue
+          render action: :edit
+        end
+      else
+        if @claim.update(claim_params)
+          redirect_to advocates_claims_path, notice: 'Draft claim saved'
+        else
+          render action: :edit
+        end
+    end
   end
 
   def destroy
@@ -208,14 +231,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.non_basic_fees.build if @claim.non_basic_fees.none?
     @claim.expenses.build if @claim.expenses.none?
     @claim.documents.build if @claim.documents.none?
-  end
-
-  def update_redirect_location
-    if params[:summary]
-      confirmation_advocates_claim_path(@claim)
-    else
-      summary_advocates_claim_path(@claim)
-    end
   end
 
   def set_search_options

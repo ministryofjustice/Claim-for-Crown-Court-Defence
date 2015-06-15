@@ -27,7 +27,6 @@ Rails.application.routes.draw do
     get 'landing', to: 'claims#landing'
 
     resources :claims do
-      get 'summary', on: :member
       get 'confirmation', on: :member
       get 'outstanding', on: :collection
       get 'authorised', on: :collection

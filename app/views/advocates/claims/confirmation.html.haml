@@ -4,6 +4,21 @@
 %p
   Your claim will be processed shortly
 
+%h2
+  Claim summary
+
+%p
+  Fees total:
+  = number_to_currency(@claim.fees_total)
+
+%p
+  Expenses total:
+  = number_to_currency(@claim.expenses_total)
+
+%h2
+  Total:
+  = number_to_currency(@claim.total)
+
 %p
   = link_to 'File another claim', new_advocates_claim_path, class: 'button'
   &nbsp;

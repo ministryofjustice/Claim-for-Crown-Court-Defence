@@ -49,6 +49,16 @@ Feature: Advocate new claim
      Then I should see errors
       And the claim should be in state "draft"
 
+  Scenario: Edit existing submitted claim
+    Given I am a signed in advocate
+      And a claim exists with state "submitted"
+     When I am on the claim edit page
+      And I change the case number
+      And I submit to LAA
+     Then I should be on the claim confirmation page
+      And the claim should be in state "submitted"
+      And the case number should reflect the change
+
   Scenario: Change offence class
     Given I am a signed in advocate
       And I am on the new claim page

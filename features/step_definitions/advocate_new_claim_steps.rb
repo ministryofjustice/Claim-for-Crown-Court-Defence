@@ -188,3 +188,12 @@ end
 Then(/^no claim should be created$/) do
   expect(Claim.count).to be_zero
 end
+
+When(/^I change the case number$/) do
+  fill_in 'Case number', with: '543211234'
+end
+
+Then(/^the case number should reflect the change$/) do
+  claim = Claim.first
+  expect(claim.case_number).to eq('543211234')
+end

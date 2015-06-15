@@ -8,6 +8,13 @@ Rails.application.configure do
     url: "documents/:id_partition/:filename",
   }
 
+  REPORDER_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "reporders/:id_partition/:filename", 
+    url: "reporders/:id_partition/:filename"
+  }
+
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

@@ -16,8 +16,7 @@ form{
       }
       input,
       select,
-      textarea,
-      .select2-container{
+      textarea{
         width:100%;
         font-size: 1em;
         &[type="radio"],&[type="checkbox"]{
@@ -52,4 +51,12 @@ form{
       font-weight: bold;
     }
   }
+      .select2 {
+      width:500px;
+    }
+}
+.reminder{
+  display: block;
+  padding: 15px;
+  border:1px solid  $ministry-of-justice;
 }

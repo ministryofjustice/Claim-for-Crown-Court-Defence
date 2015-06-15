@@ -8,7 +8,16 @@
   = f.text_area :notes
   %br
   = f.label :document
-  %br
+  - unless f.object.id.nil? || f.object.document_file_name.nil?
+    .note.file-exists
+      File already uploaded: 
+      = f.object.document_file_name
+      &nbsp;
+      = link_to 'View', document_path(f.object), target: '_blank', class: 'view'
+      &nbsp;
+      = link_to 'Download', download_document_path(f.object), class: 'download'
+      &nbsp;
+      = link_to_remove_association 'Remove document', f
+
   = f.file_field :document
-  %p
-    = link_to_remove_association 'Remove document', f
+    

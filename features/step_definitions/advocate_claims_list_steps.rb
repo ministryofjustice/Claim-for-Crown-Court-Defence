@@ -122,12 +122,13 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 end
 
 When(/^I search by the advocate name "(.*?)"$/) do |name|
-  fill_in 'search_advocate', with: name
-  click_button 'search'
+  select 'Advocate', from: 'search_field'
+  fill_in 'search', with: name
+  click_button 'Search'
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
-  expect(page).to have_content(name, count: number.to_i)
+  expect(page).to have_content(/#{number} claims? matching advocate name "#{name}"/)
 end
 
 Then(/^I should not see the advocate search field$/) do
@@ -135,12 +136,18 @@ Then(/^I should not see the advocate search field$/) do
 end
 
 When(/^I search by the defendant name "(.*?)"$/) do |name|
-  fill_in 'search_defendant', with: name
-  click_button 'search'
+  select 'Defendant', from: 'search_field'
+  fill_in 'search', with: name
+  click_button 'Search'
+end
+
+When(/^I search by the name "(.*?)"$/) do |name|
+  fill_in 'search', with: name
+  click_button 'Search'
 end
 
 Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  expect(page).to have_content(name, count: number.to_i)
+  expect(page).to have_content(/#{number} claims? matching defendant\(s\) "#{name}"/)
 end
 
 Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
@@ -186,15 +193,17 @@ Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with 
 end
 
 When(/^I enter advocate name of "(.*?)"$/) do |name|
-  fill_in 'search_advocate', with: name
+  select 'Advocate', from: 'search_field'
+  fill_in 'search', with: name
 end
 
 When(/^I enter defendant name of "(.*?)"$/) do |name|
-  fill_in 'search_defendant', with: name
+  select 'Defendant', from: 'search_field'
+  fill_in 'search', with: name
 end
 
 When (/^I hit search button$/) do
-  click_button 'search'
+  click_button 'Search'
 end
 
 Given(/^I have (\d+) claims of each state$/) do | claims_per_state |

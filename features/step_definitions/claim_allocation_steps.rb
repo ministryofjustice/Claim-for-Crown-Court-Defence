@@ -55,3 +55,11 @@ Then(/^the claims should be in an allocated state$/) do
   expect(@allocated_claim_1.reload).to be_allocated
   expect(@allocated_claim_2.reload).to be_allocated
 end
+
+Given(/^a new claim has been submitted$/) do
+  @claim = create(:submitted_claim)
+end
+
+Then(/^I should see the new claim at the bottom of the list$/) do
+  expect(all("input[type='checkbox']").last[:id]).to eq("case_worker_claim_ids_#{@claim.id}")
+end

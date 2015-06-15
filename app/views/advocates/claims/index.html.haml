@@ -10,7 +10,18 @@
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
 
 #search-options
-  = render partial: 'search_options'
+  = render partial: 'search_form'
+
+%section
+  %h1
+    - if params[:search].present?
+      %p
+      - if params[:search_field] == 'All'
+        #{pluralize(@claims.count, 'claim')} matching search term "#{params[:search]}"
+      - if params[:search_field] == 'Advocate'
+        #{pluralize(@claims.count, 'claim')} matching advocate name "#{params[:search]}"
+      - if params[:search_field] == 'Defendant'
+        #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search]}"
 
 #claim-accordion
   %h2 Draft (#{@draft_claims.count})
@@ -21,9 +32,9 @@
   %section#rejected
     = render partial: 'claims', locals: { claims: @rejected_claims }
 
-  %h2 Submitted to LAA (#{@submitted_to_LAA_claims.count})
+  %h2 Submitted to LAA (#{@submitted_claims.count})
   %section#submitted
-    = render partial: 'claims', locals: { claims: @submitted_to_LAA_claims }
+    = render partial: 'claims', locals: { claims: @submitted_claims }
 
   %h2 Part paid (#{@part_paid_claims.count})
   %section#part_paid

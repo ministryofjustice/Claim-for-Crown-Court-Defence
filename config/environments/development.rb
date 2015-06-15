@@ -3,9 +3,16 @@ Rails.application.configure do
 
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/dev/images/:id_partition/:filename", 
-    url: "assets/dev/images/:id_partition/:filename"
+    path: "public/assets/dev/images/docs/:id_partition/:filename", 
+    url: "assets/dev/images/docs/:id_partition/:filename"
   }
+
+  REPORDER_STORAGE_OPTIONS = {
+    storage: :filesystem,
+    path: "public/assets/dev/images/reporders/:id_partition/:filename", 
+    url: "assets/dev/images/reporders/:id_partition/:filename"
+  }
+
 
   config.action_controller.asset_host = "http://localhost:3000"
 

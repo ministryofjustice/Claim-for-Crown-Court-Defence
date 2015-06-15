@@ -86,17 +86,17 @@ class Claim < ActiveRecord::Base
   has_many :evidence_list_item_claims, dependent: :destroy
   has_many :evidence_list_items,      through: :evidence_list_item_claims
 
-  default_scope do
-    includes(:advocate,
-             :case_workers,
-             :court,
-             :defendants,
-             :documents,
-             :expenses,
-             :fee_types,
-             :messages,
-             offence: :offence_class).not_deleted
-  end
+default_scope do
+  includes(:advocate,
+           :case_workers,
+           :court,
+           :defendants,
+           :documents,
+           :expenses,
+           :fee_types,
+           :messages,
+           offence: :offence_class)
+end
 
   scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
   scope :authorised, -> { where(state: 'paid') }
@@ -124,6 +124,37 @@ class Claim < ActiveRecord::Base
   # after_initialize :instantiate_basic_fees
 
 
+  class << self
+
+    def search(*options, term)
+      query_mappings = {
+        defendant_name: {
+          joins: :defendants,
+          query: "(lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term)"
+        },
+        advocate_name: {
+          joins: { advocate: :user },
+          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term)"
+        },
+        maat_reference: {
+          joins: :defendants, query: "(defendants.maat_reference ILIKE :term)"
+        },
+        case_worker_name_or_email: {
+          joins: { case_workers: :user },
+          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term OR lower(users.email) ILIKE :term)"
+        }
+      }
+
+      raise 'Invalid search option' if (options - query_mappings.keys).any?
+
+      sql = options.inject([]) { |r, o| r << query_mappings[o][:query] }.join(' OR ')
+      relation = options.inject(all) { |r, o| r = r.joins(query_mappings[o][:joins]) }
+
+      relation.where(sql, term: "%#{term.downcase}%")
+    end
+
+  end
+
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end
@@ -148,24 +179,6 @@ class Claim < ActiveRecord::Base
 
   def doc_of_type(doc_type)
     documents.where(:document_type_id == doc_type.id)[0] #returns an actual document
-  end
-
-  class << self
-
-    def find_by_maat_reference(maat_reference)
-      joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
-    end
-
-    def find_by_advocate_name(advocate_name)
-      joins(advocate: :user)
-        .where("lower(users.first_name || ' ' || users.last_name) LIKE ?", "%#{advocate_name.downcase}%")
-    end
-
-    def find_by_defendant_name(defendant_name)
-      joins(:defendants)
-        .where("lower(defendants.first_name || ' ' || defendants.last_name) LIKE ?","%#{defendant_name.downcase}%")
-    end
-
   end
 
   def state_for_form

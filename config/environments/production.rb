@@ -9,7 +9,8 @@ Rails.application.configure do
   }
 
   REPORDER_STORAGE_OPTIONS = {
-    storage: :filesystem,
+    storage: :s3,
+    s3_credentials: 'config/aws.yml',
     path: "reporders/:id_partition/:filename", 
     url: "reporders/:id_partition/:filename"
   }

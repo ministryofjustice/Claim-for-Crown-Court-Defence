@@ -2,6 +2,6 @@
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :sort, params[:sort]
   = hidden_field_tag :direction, params[:direction]
-  = text_field_tag :search_maat, params[:search_maat], placeholder: 'MAAT reference no.'
-  = text_field_tag :search_defendant, params[:search_defendant], placeholder: 'Defendant'
+  = text_field_tag :search, params[:search], placeholder: 'Search'
+  = select_tag :search_field, options_for_select(@search_options, params[:search_field])
   = submit_tag 'Search', class: 'button'

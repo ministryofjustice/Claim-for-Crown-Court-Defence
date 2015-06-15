@@ -36,10 +36,14 @@ function initialise(){
 	adp.feeCalculator.init('fees');
 	adp.feeCalculator.init('basic_fees');
 	adp.feeCalculator.init('expenses');
-  moj.Modules.amountAssessed.init();
+	moj.Modules.fileUpload.init();
+  moj.Modules.judicialApportionment.init();
+  $('#fees').on('cocoon:after-insert', function(e,insertedItem) {
+    $(insertedItem).find('.select2').select2();
+  })
 }
+
 
 $( document ).ready(function() {
 	initialise();
-  //moj.Modules.fileUpload.init();
 });

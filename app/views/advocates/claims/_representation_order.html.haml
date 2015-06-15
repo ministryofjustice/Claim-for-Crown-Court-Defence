@@ -1,17 +1,9 @@
 %section 
-  //= @claim.inspect
-  %h3
-    MAAT123456
-  %ul#representation-order
-    %li
-      %div
-        %h3
-          Preview
-        %a
-          View full screen
-    %li
-      %div
-        %h3
-          Download
-        %a
-          Download PDF
+  %ul#evidence-list
+    - @claim.defendants.each do |defendant|
+      %li 
+        Representation order for defendant:
+        = defendant.name
+        .item-controls
+          = link_to 'View', representation_order_path(defendant.representation_order), target: '_blank', class: 'view'
+          = link_to 'Download', download_representation_order_path(defendant.representation_order), class: 'download'

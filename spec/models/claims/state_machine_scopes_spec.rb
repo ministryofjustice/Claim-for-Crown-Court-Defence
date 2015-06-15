@@ -25,11 +25,5 @@ RSpec.describe Claims::StateMachine, type: :model do
         expect(Claim.non_draft).to match_array([allocated_claim, submitted_claim])
       end
     end
-
-    describe '.not_deleted' do
-      it 'does not include deleted claims' do
-        expect(Claim.not_deleted).to match_array([draft_claim, allocated_claim, submitted_claim])
-      end
-    end
   end
 end

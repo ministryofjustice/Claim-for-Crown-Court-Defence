@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'custom_matchers'
 
 RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   let!(:advocate) { create(:advocate) }
@@ -18,90 +19,96 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   end
 
   describe "GET #index" do
-    before { get :index }
-
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+    before(:each) do 
+      @allocated_claim                = FactoryGirl.create :allocated_claim, advocate: advocate
+      @appealed_claim                 = FactoryGirl.create :appealed_claim, advocate: advocate
+      @archived_pending_delete_claim  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate
+      @awaiting_further_info_claim    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate
+      @awaiting_info_from_court_claim = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate
+      @completed_claim                = FactoryGirl.create :completed_claim, advocate: advocate
+      @draft_claim                    = FactoryGirl.create :draft_claim, advocate: advocate
+      @part_paid_claim                = FactoryGirl.create :part_paid_claim, advocate: advocate
+      @parts_rejected_claim           = FactoryGirl.create :parts_rejected_claim, advocate: advocate
+      @refused_claim                  = FactoryGirl.create :refused_claim, advocate: advocate
+      @rejected_claim                 = FactoryGirl.create :rejected_claim, advocate: advocate
+      @submitted_claim                = FactoryGirl.create :submitted_claim, advocate: advocate
     end
 
     context 'advocate' do
-      before do
-        create(:claim,            advocate: advocate)
-        create(:submitted_claim,  advocate: advocate)
-        create(:completed_claim,  advocate: advocate)
-        create(:rejected_claim,   advocate: advocate)
-      end
+      it 'should categorise the claims' do
+        get :index
 
-      it 'assigns @submitted_claims' do
-        expect(assigns(:submitted_claims)).to eq(advocate.reload.claims.submitted.order(created_at: :desc))
-      end
-
-      it 'assigns @submitted_to_LAA_claims' do
-        expect(assigns(:submitted_to_LAA_claims)).to eq(advocate.reload.claims.submitted_to_LAA.order(created_at: :desc))
-      end
-
-      it 'assigns @rejected_claims' do
-        expect(assigns(:rejected_claims)).to eq(advocate.reload.claims.rejected.order(created_at: :desc))
-      end
-
-      it 'assigns @allocated_claims' do
-        expect(assigns(:allocated_claims)).to eq(advocate.reload.claims.allocated.order(created_at: :desc))
-      end
-
-      it 'assigns @part_paid_claims' do
-        expect(assigns(:part_paid_claims)).to eq(advocate.reload.claims.part_paid.order(created_at: :desc))
-      end
-
-      it 'assigns @completed_claims' do
-        expect(assigns(:completed_claims)).to eq(advocate.reload.claims.completed.order(created_at: :desc))
-      end
-
-      it 'assigns @draft_claims' do
-        expect(assigns(:draft_claims)).to eq(advocate.reload.claims.draft.order(created_at: :desc))
+        expect(response).to have_http_status(:success)
+        expect(assigns(:draft_claims)).to contain_claims( @draft_claim )
+        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim )
+        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim, 
+                                                              @submitted_claim,
+                                                              @awaiting_info_from_court_claim,
+                                                              @awaiting_further_info_claim)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim, 
+                                                              @appealed_claim, 
+                                                              @parts_rejected_claim) 
+        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
 
+
     context 'advocate admin' do
-      let(:chamber) { create(:chamber) }
-      let(:advocate_admin) { create(:advocate, :admin, chamber_id: chamber.id) }
+      let(:other_chamber)                   { create(:chamber) }
+      let(:advocate_admin)                  { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
+      let(:advocate_in_same_chamber)        { create(:advocate, chamber_id: advocate.chamber.id) }
+      let(:advocate_in_different_chamber)   { create(:advocate, :admin, chamber_id: other_chamber.id) }
 
-      before do
-        create(:claim, advocate: advocate)
-        create(:submitted_claim, advocate: advocate)
-        create(:completed_claim, advocate: advocate)
+      before(:each) do
+        @allocated_claim_2                = FactoryGirl.create :allocated_claim, advocate: advocate_in_same_chamber
+        @appealed_claim_2                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_same_chamber
+        @archived_pending_delete_claim_2  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_same_chamber
+        @awaiting_further_info_claim_2    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_same_chamber
+        @awaiting_info_from_court_claim_2 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_same_chamber
+        @completed_claim_2                = FactoryGirl.create :completed_claim, advocate: advocate_in_same_chamber
+        @draft_claim_2                    = FactoryGirl.create :draft_claim, advocate: advocate_in_same_chamber
+        @part_paid_claim_2                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_same_chamber
+        @parts_rejected_claim_2           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_same_chamber
+        @refused_claim_2                  = FactoryGirl.create :refused_claim, advocate: advocate_in_same_chamber
+        @rejected_claim_2                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_same_chamber
+        @submitted_claim_2                = FactoryGirl.create :submitted_claim, advocate: advocate_in_same_chamber
 
-        advocate.update_column(:chamber_id, chamber.id)
-        create(:claim, advocate: advocate.reload)
+        @allocated_claim_3                = FactoryGirl.create :allocated_claim, advocate: advocate_in_different_chamber
+        @appealed_claim_3                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_different_chamber
+        @archived_pending_delete_claim_3  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_different_chamber
+        @awaiting_further_info_claim_3    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_different_chamber
+        @awaiting_info_from_court_claim_3 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_different_chamber
+        @completed_claim_3                = FactoryGirl.create :completed_claim, advocate: advocate_in_different_chamber
+        @draft_claim_3                    = FactoryGirl.create :draft_claim, advocate: advocate_in_different_chamber
+        @part_paid_claim_3                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_different_chamber
+        @parts_rejected_claim_3           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_different_chamber
+        @refused_claim_3                  = FactoryGirl.create :refused_claim, advocate: advocate_in_different_chamber
+        @rejected_claim_3                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_different_chamber
+        @submitted_claim_3                = FactoryGirl.create :submitted_claim, advocate: advocate_in_different_chamber
 
         sign_in advocate_admin.user
       end
 
-      it 'assigns @submitted_claims' do
-        expect(assigns(:submitted_claims)).to eq(advocate.reload.chamber.claims.submitted.order(created_at: :desc))
-      end
+      it 'should categorise claims from the same chamber and exclude those from another chamber' do
+        get :index
 
-      it 'assigns @rejected_claims' do
-        expect(assigns(:rejected_claims)).to eq(advocate.reload.chamber.claims.rejected.order(created_at: :desc))
-      end
+        expect(response).to have_http_status(:success)
 
-      it 'assigns @allocated_claims' do
-        expect(assigns(:allocated_claims)).to eq(advocate.reload.chamber.claims.allocated.order(created_at: :desc))
-      end
-
-      it 'assigns @part_paid_claims' do
-        expect(assigns(:part_paid_claims)).to eq(advocate.reload.chamber.claims.part_paid.order(created_at: :desc))
-      end
-
-      it 'assigns @completed_claims' do
-        expect(assigns(:completed_claims)).to eq(advocate.reload.chamber.claims.completed.order(created_at: :desc))
-      end
-
-      it 'assigns @draft_claims' do
-        expect(assigns(:draft_claims)).to eq(advocate.reload.chamber.claims.draft.order(created_at: :desc))
+        expect(assigns(:draft_claims)).to contain_claims( @draft_claim, @draft_claim_2 )
+        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim, @rejected_claim_2 )
+        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim, @allocated_claim_2,
+                                                              @submitted_claim, @submitted_claim_2,
+                                                              @awaiting_info_from_court_claim, @awaiting_info_from_court_claim_2,
+                                                              @awaiting_further_info_claim, @awaiting_further_info_claim_2)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim, @part_paid_claim_2,
+                                                              @appealed_claim, @appealed_claim_2,
+                                                              @parts_rejected_claim, @parts_rejected_claim_2) 
+        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @completed_claim_2, @refused_claim, @refused_claim_2 )
       end
     end
 
     it 'renders the template' do
+      get :index
       expect(response).to render_template(:index)
     end
   end
@@ -216,6 +223,11 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       end
 
       context 'basic and non-basic fees' do
+
+        before(:each) do
+          @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
+        end
+
         let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1' }
         let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2' }
         let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3' }
@@ -230,7 +242,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:invalid_claim_params)      { full_valid_params.reject{ |k,v| k == 'prosecuting_authority'} }
 
         context 'valid params' do
-          skip 'SKIP until merged with develop branch' do
           it 'should create a claim with all basic fees and the specified non-basic fees' do
             post :create, claim: claim_params
             claim = assigns(:claim)
@@ -245,8 +256,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
             expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
 
-              expect(claim.reload.fees_total).to eq 12_875.45
-          end
+            expect(claim.reload.fees_total).to eq 12_875.45
           end
         end
 
@@ -345,7 +355,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     subject { create(:claim, advocate: advocate) }
 
     it 'deletes the claim' do
-      expect(Claim.count).to eq(0)
+      expect(Claim.count).to eq(1)
+      claim = Claim.first
+      expect(claim.state).to eq 'archived_pending_delete'
     end
 
     it "sets the claim's state to 'archived_pending_delete'" do
@@ -381,7 +393,12 @@ def full_valid_params
          "representation_order_date" => "2015-05-13",
          "order_for_judicial_apportionment" => "0",
          "maat_reference" => "MAAT2015",
-         "_destroy" => "false"}
+         "_destroy" => "false",
+         "representation_orders_attributes"=>{
+           "0"=>{
+           "document"=> @file}
+          }
+        }
       },
      "additional_information" => "",
      "basic_fees_attributes"=>
@@ -403,4 +420,5 @@ def full_valid_params
      "apply_vat" => "0"
    }
 end
+
 

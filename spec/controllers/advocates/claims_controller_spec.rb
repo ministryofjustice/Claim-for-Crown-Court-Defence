@@ -19,7 +19,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   end
 
   describe "GET #index" do
-    before(:each) do 
+    before(:each) do
       @allocated_claim                = FactoryGirl.create :allocated_claim, advocate: advocate
       @appealed_claim                 = FactoryGirl.create :appealed_claim, advocate: advocate
       @archived_pending_delete_claim  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate
@@ -51,7 +51,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
-
 
     context 'advocate admin' do
       let(:other_chamber)                   { create(:chamber) }
@@ -238,8 +237,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
-        let(:claim_params)              { full_valid_params }
-        let(:invalid_claim_params)      { full_valid_params.reject{ |k,v| k == 'prosecuting_authority'} }
+        let(:claim_params)              { valid_claim_fee_params }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'prosecuting_authority'} }
 
         context 'valid params' do
           it 'should create a claim with all basic fees and the specified non-basic fees' do
@@ -293,6 +292,31 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           end
         end
       end
+
+      context 'evidence checklist' do
+        let(:court) { create(:court) }
+        let(:offence) { create(:offence) }
+        let(:evidence_list_item) { create(:evidence_list_item) }
+        let(:claim_params) do
+          {
+             additional_information: 'foo',
+             court_id: court,
+             case_type: 'trial',
+             offence_id: offence,
+             case_number: '12345',
+             advocate_category: 'QC',
+             prosecuting_authority: 'cps',
+             evidence_list_item_ids: [evidence_list_item.id.to_s]
+          }
+        end
+
+        it 'should create a claim with evidence list items' do
+          post :create, claim: claim_params
+          claim = assigns(:claim)
+          expect(claim.evidence_list_items.count).to eql(1)
+        end
+      end
+
     end
   end
 
@@ -371,7 +395,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 end
 
 
-def full_valid_params
+def valid_claim_fee_params
     {"advocate_id" => "4",
      "scheme_id" => "2",
      "case_type" => "appeal_against_sentence",

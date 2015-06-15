@@ -4,6 +4,7 @@ moj.Modules.fileUpload = {
     $('input[type="file"]').each(function(){
       if($(this).parent().find('.file-exists').length > 0){
         $(this).hide();
+        $(this).next(".granting_body").hide();
         moj.Modules.fileUpload.chooseAlternative($(this));
         }
       });
@@ -15,6 +16,7 @@ moj.Modules.fileUpload = {
     if($(that).val()){
           $(that).addClass('has-file');
           $(that).show();
+          $(that).next(".granting_body").show();
           $(that).prev('label.button-secondary').remove();
           $(that).prev('.file-exists').find('a.view').before('<small>(Will be replaced)</small>   ');
         }

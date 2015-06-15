@@ -396,7 +396,8 @@ def full_valid_params
          "_destroy" => "false",
          "representation_orders_attributes"=>{
            "0"=>{
-           "document"=> @file}
+           "document"=> @file,
+           "granting_body"=> 'crown'}
           }
         }
       },

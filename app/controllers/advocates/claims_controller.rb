@@ -104,12 +104,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
           @claim.submit!
           redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
         rescue
+          build_nested_resources
           render action: :edit
         end
       else
         if @claim.update(claim_params)
           redirect_to advocates_claims_path, notice: 'Draft claim saved'
         else
+          build_nested_resources
           render action: :edit
         end
     end

@@ -86,17 +86,17 @@ class Claim < ActiveRecord::Base
   has_many :evidence_list_item_claims, dependent: :destroy
   has_many :evidence_list_items,      through: :evidence_list_item_claims
 
-default_scope do
-  includes(:advocate,
-           :case_workers,
-           :court,
-           :defendants,
-           :documents,
-           :expenses,
-           :fee_types,
-           :messages,
-           offence: :offence_class)
-end
+  default_scope do
+    includes(:advocate,
+             :case_workers,
+             :court,
+             :defendants,
+             :documents,
+             :expenses,
+             :fee_types,
+             :messages,
+             offence: :offence_class)
+  end
 
   scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
   scope :authorised, -> { where(state: 'paid') }

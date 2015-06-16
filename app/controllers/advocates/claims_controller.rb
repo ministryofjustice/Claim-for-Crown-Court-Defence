@@ -15,21 +15,21 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if params[:search].present?
       claims = case params[:search_field]
         when 'All'
-          claims.search(params[:search])
+          claims.search(:advocate_name, :defendant_name, params[:search])
         when 'Advocate'
-          claims.find_by_advocate_name(params[:search])
+          claims.search(:advocate_name, params[:search])
         when 'Defendant'
-          claims.find_by_defendant_name(params[:search])
+          claims.search(:defendant_name, params[:search])
       end
     end
 
-    @submitted_claims = claims.submitted
-    @rejected_claims = claims.rejected
-    @allocated_claims = claims.allocated
-    @submitted_to_LAA_claims = claims.submitted_to_LAA
-    @part_paid_claims = claims.part_paid
-    @completed_claims = claims.completed
-    @draft_claims = claims.draft
+    @claims = claims
+
+    @draft_claims     = claims.advocate_dashboard_draft
+    @rejected_claims  = claims.advocate_dashboard_rejected
+    @submitted_claims = claims.advocate_dashboard_submitted
+    @part_paid_claims = claims.advocate_dashboard_part_paid
+    @completed_claims = claims.advocate_dashboard_completed
   end
 
   def outstanding
@@ -71,6 +71,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     form_params = claim_params
     form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
     form_params[:creator_id] = current_user.persona.id
+
     @claim = Claim.new(form_params)
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
     load_advocates_in_chamber
@@ -146,7 +147,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :order_for_judicial_apportionment,
        :maat_reference,
        :_destroy,
-       representation_orders_attributes: [ :document ]
+       representation_orders_attributes: [ :document, :granting_body ]
      ],
      basic_fees_attributes: [
        :id,
@@ -198,7 +199,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :document,
        :description,
        :_destroy
-     ]
+     ],
+     evidence_list_item_ids: []
     )
   end
 

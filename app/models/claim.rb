@@ -83,6 +83,9 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
 
+  has_many :evidence_list_item_claims, dependent: :destroy
+  has_many :evidence_list_items,      through: :evidence_list_item_claims
+
   default_scope do
     includes(:advocate,
              :case_workers,
@@ -92,7 +95,7 @@ class Claim < ActiveRecord::Base
              :expenses,
              :fee_types,
              :messages,
-             offence: :offence_class).not_deleted
+             offence: :offence_class)
   end
 
   scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
@@ -104,7 +107,6 @@ class Claim < ActiveRecord::Base
   validates :court,                   presence: true
   validates :case_number,             presence: true
   validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }
-  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }
   validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }
@@ -121,6 +123,37 @@ class Claim < ActiveRecord::Base
 
   # after_initialize :instantiate_basic_fees
 
+
+  class << self
+
+    def search(*options, term)
+      query_mappings = {
+        defendant_name: {
+          joins: :defendants,
+          query: "(lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term)"
+        },
+        advocate_name: {
+          joins: { advocate: :user },
+          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term)"
+        },
+        maat_reference: {
+          joins: :defendants, query: "(defendants.maat_reference ILIKE :term)"
+        },
+        case_worker_name_or_email: {
+          joins: { case_workers: :user },
+          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term OR lower(users.email) ILIKE :term)"
+        }
+      }
+
+      raise 'Invalid search option' if (options - query_mappings.keys).any?
+
+      sql = options.inject([]) { |r, o| r << query_mappings[o][:query] }.join(' OR ')
+      relation = options.inject(all) { |r, o| r = r.joins(query_mappings[o][:joins]) }
+
+      relation.where(sql, term: "%#{term.downcase}%")
+    end
+
+  end
 
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
@@ -146,34 +179,6 @@ class Claim < ActiveRecord::Base
 
   def doc_of_type(doc_type)
     documents.where(:document_type_id == doc_type.id)[0] #returns an actual document
-  end
-
-  class << self
-
-    def search(query)
-      joins(:defendants, advocate: :user)
-        .where("lower(users.first_name || ' ' || users.last_name) LIKE :q OR lower(defendants.first_name || ' ' || defendants.last_name) LIKE :q", q: "%#{query.downcase}%")
-    end
-
-    def find_by_maat_reference(maat_reference)
-      joins(:defendants).where('defendants.maat_reference = ?', maat_reference.upcase.strip)
-    end
-
-    def find_by_advocate_name(advocate_name)
-      joins(advocate: :user)
-        .where("lower(users.first_name || ' ' || users.last_name) LIKE ?", "%#{advocate_name.downcase}%")
-    end
-
-    def find_by_defendant_name(defendant_name)
-      joins(:defendants)
-        .where("lower(defendants.first_name || ' ' || defendants.last_name) LIKE ?","%#{defendant_name.downcase}%")
-    end
-
-    def find_by_case_worker_name_or_email(caseworker_name_or_email)
-      joins(case_workers: :user)
-        .where("lower(users.first_name || ' ' || users.last_name) LIKE ? OR lower(users.email) LIKE ?", "%#{caseworker_name_or_email.downcase}%", "%#{caseworker_name_or_email.downcase}%")
-    end
-
   end
 
   def state_for_form

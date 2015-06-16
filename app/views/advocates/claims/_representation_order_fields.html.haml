@@ -12,4 +12,10 @@
       = link_to 'Download', download_representation_order_path(f.object), class: 'download'
   
   = f.file_field :document
+  %div.granting_body
+    = f.label 'Granting Body'
+    Crown
+    = f.radio_button :granting_body, 'crown', id: 'crown'
+    Magistrate
+    = f.radio_button :granting_body, 'magistrate', id: 'magistrate'
   

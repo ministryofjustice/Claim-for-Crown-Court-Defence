@@ -51,21 +51,44 @@ namespace :claims do
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)
   end
 
-  def add_document(claim)
-    file = File.open("./features/examples/longer_lorem.pdf")
-    Document.create!(claim: claim, document_type: DocumentType.all.sample, document: file, document_content_type: 'application/pdf', advocate: Advocate.find(1) )
+  def add_documentary_evidence(claim,doc_count=2)
+    
+    #
+    # Attach example document <doc_count> times
+    # but set type to be unique document type
+    # (specified by id i) upto maximum no. of
+    # unique types available.
+    #
+    # NOTE: cannot use random doc type due to composite unique constraints
+    #
+    doc_count = doc_count <= DocumentType.maximum(:id) ? doc_count : DocumentType.maximum(:id)
+
+    doc_count.times do |i|
+      file = File.open("./features/examples/longer_lorem.pdf")
+      id = i+1
+      document_type = DocumentType.where(id: id).first
+      evidence_list_item = EvidenceListItem.where(id: id).first
+      FactoryGirl.create(:document,
+                          claim: claim,
+                          document_type: document_type,
+                          document: file,
+                          document_content_type: 'application/pdf',
+                          advocate: claim.advocate
+                        )
+      FactoryGirl.create(:evidence_list_item_claim,claim: claim, evidence_list_item: evidence_list_item)
+    end
   end
 
   def parse_states_from_string(states_delimited_string)
-    # 
+    #
     # if states string is 'all' or blank use all valid states
     # otherwise check and remove any invalid states
-    # 
+    #
     states = []
     all_valid_states = Claim.state_machine.states.map(&:name)
 
-    if states_delimited_string == 'all' || states_delimited_string.blank? 
-      states = all_valid_states          
+    if states_delimited_string == 'all' || states_delimited_string.blank?
+      states = all_valid_states
     else
       states = states_delimited_string.gsub(/\s+/,'').split(';').map { |s| s.to_sym }
   
@@ -103,7 +126,7 @@ namespace :claims do
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
-          add_document(claim)
+          add_documentary_evidence(claim,2)
 
           # all states but those below require allocation to case worker
           unless [:draft,:archived_pending_delete].include?(s)

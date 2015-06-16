@@ -18,6 +18,7 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:expense_type, name: 'Travel')
+  create(:evidence_list_item, id: 1, description: 'Representation Order')
   visit new_advocates_claim_path
 end
 
@@ -30,12 +31,14 @@ When(/^I fill in the claim details$/) do
   select('Murder', from: 'claim_offence_id')
   select('QC', from: 'claim_advocate_category')
 
-  fill_in 'First name', with: 'Foo'
-  fill_in 'Last name', with: 'Bar'
-  fill_in 'Date of birth', with: '04/10/1980'
-  fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
-  attach_file(:claim_defendants_attributes_0_representation_orders_attributes_0_document, 'features/examples/longer_lorem.pdf')
-
+  within '#defendants' do
+    fill_in 'First name', with: 'Foo'
+    fill_in 'Last name', with: 'Bar'
+    fill_in 'Date of birth', with: '04/10/1980'
+    fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
+    fill_in 'claim_defendants_attributes_0_representation_order_date', with: rand(1..10).days.ago
+    attach_file(:claim_defendants_attributes_0_representation_orders_attributes_0_document, 'features/examples/longer_lorem.pdf')
+  end
 
   within '#basic_fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
@@ -46,9 +49,13 @@ When(/^I fill in the claim details$/) do
 
   within '#expenses' do
     select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
-    fill_in 'Location', with: 'London'
-    fill_in 'Quantity/Hours', with: 1
-    fill_in 'Rate', with: 40
+    fill_in 'claim_expenses_attributes_0_location', with: 'London'
+    fill_in 'claim_expenses_attributes_0_quantity', with: 1
+    fill_in 'claim_expenses_attributes_0_rate', with: 40
+  end
+
+  within 'table#evidence-checklist' do
+    check 'claim_evidence_list_item_ids_1'
   end
 
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'

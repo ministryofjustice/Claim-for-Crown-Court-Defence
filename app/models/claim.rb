@@ -83,6 +83,9 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
 
+  has_many :evidence_list_item_claims, dependent: :destroy
+  has_many :evidence_list_items,      through: :evidence_list_item_claims
+
   default_scope do
     includes(:advocate,
              :case_workers,
@@ -155,6 +158,10 @@ class Claim < ActiveRecord::Base
 
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
+  end
+
+  def is_allocated_to_case_worker?(cw)
+    self.case_workers.include?(cw)
   end
 
 

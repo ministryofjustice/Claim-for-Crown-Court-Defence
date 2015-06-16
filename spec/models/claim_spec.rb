@@ -51,6 +51,9 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
+  it { should have_many(:evidence_list_item_claims) }
+  it { should have_many(:evidence_list_items) }
+
   describe 'validations' do
 
     context 'draft' do
@@ -105,6 +108,23 @@ RSpec.describe Claim, type: :model do
 
 
   subject { create(:claim) }
+
+
+  describe 'is_allocated_to_case_worker' do
+    let(:case_worker_1)        { FactoryGirl.create :case_worker }
+    let(:case_worker_2)        { FactoryGirl.create :case_worker }
+
+    it 'should return true if allocated to the specified case_worker' do
+      subject.case_workers << case_worker_1
+      subject.case_workers << case_worker_2
+      expect(subject.is_allocated_to_case_worker?(case_worker_1)).to be true
+    end
+
+    it 'should return false if not allocated to the specified case_worker' do
+      subject.case_workers << case_worker_1
+      expect(subject.is_allocated_to_case_worker?(case_worker_2)).to be false
+    end
+  end
 
   describe '#update_model_and_transition_state' do
     it 'should update the model then transition state to prevent state transition validation errors' do

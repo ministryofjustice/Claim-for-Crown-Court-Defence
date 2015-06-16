@@ -9,7 +9,7 @@ RSpec.describe EvidenceListItem, type: :model do
  	it { should have_many :evidence_list_item_claims }
 
 	it "has a valid factory" do
-		create(:evidence_list_item_claim).should be_valid
+		expect(create(:evidence_list_item)).to be_valid
 	end
 
 	context "description" do

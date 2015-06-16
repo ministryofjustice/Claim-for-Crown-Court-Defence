@@ -67,25 +67,16 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
 
     if submitting_to_laa?
-      if @claim.submit && @claim.save
-        redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
-      else
-        render_new_with_resources
-      end
+      create_and_submit
     else
-      if @claim.save
-        redirect_to advocates_claims_path, notice: 'Draft claim saved'
-      else
-        render_new_with_resources
-      end
+      create_draft
     end
   end
 
   def update
     if @claim.update(claim_params)
       if submitting_to_laa?
-        @claim.submit! rescue return render_edit_with_resources
-        redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+        submit_claim_to_laa
       else
         redirect_to advocates_claims_path, notice: 'Draft claim saved'
       end
@@ -244,5 +235,30 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
     form_params[:creator_id] = current_user.persona.id
     form_params
+  end
+
+  def create_draft
+    if @claim.save
+      redirect_to advocates_claims_path, notice: 'Draft claim saved'
+    else
+      render_new_with_resources
+    end
+  end
+
+  def create_and_submit
+    if @claim.submit && @claim.save
+      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    else
+      render_new_with_resources
+    end
+  end
+
+  def submit_claim_to_laa
+    begin
+      @claim.submit!
+      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    rescue
+      render_edit_with_resources
+    end
   end
 end

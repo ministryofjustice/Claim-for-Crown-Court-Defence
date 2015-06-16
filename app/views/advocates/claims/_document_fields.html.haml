@@ -10,7 +10,7 @@
   = f.label :document
   - unless f.object.id.nil? || f.object.document_file_name.nil?
     .note.file-exists
-      File already uploaded: 
+      File already uploaded:
       = f.object.document_file_name
       &nbsp;
       = link_to 'View', document_path(f.object), target: '_blank', class: 'view'
@@ -20,4 +20,3 @@
       = link_to_remove_association 'Remove document', f
 
   = f.file_field :document
-    

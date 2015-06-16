@@ -5,8 +5,8 @@
     = f.number_field :quantity, class: 'quantity'
   %td
     = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-  %td
-    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', disabled: true
+  %td.amount
+    &nbsp; 
   %td
     = f.fields_for :dates_attended do |date_attended|
       = render 'date_attended_fields', f: date_attended

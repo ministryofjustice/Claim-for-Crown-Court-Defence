@@ -22,6 +22,7 @@ Feature: Advocate new claim
      Then I should be on the claim confirmation page
       And the claim should be submitted
 
+  @wip
   Scenario: Return to claim form and re-submit
     Given I am on the claim summary page
      When I click the back button

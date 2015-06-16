@@ -25,6 +25,8 @@ class RepresentationOrder < ActiveRecord::Base
 
   belongs_to :defendant
 
+  validates_presence_of :granting_body
+
   has_attached_file :converted_preview_document,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',

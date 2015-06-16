@@ -18,3 +18,9 @@ Feature: Claim allocation
       And I allocate claims
      When I remove the caseworker
      Then the claims should not be assigned to any case workers
+
+  Scenario: Newly submitted claims are added to the bottom of the allocation list
+    Given a new claim has been submitted
+     When I visit the case worker allocation page
+     Then I should see the new claim at the bottom of the list
+

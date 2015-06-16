@@ -1,9 +1,10 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :summary, :update, :destroy]
+  before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
+  before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
 
   def landing; end
 
@@ -51,46 +52,37 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def new
     @claim = Claim.new
     @claim.instantiate_basic_fees
-    load_advocates_in_chamber
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
   end
 
   def edit
-    load_advocates_in_chamber
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
-  end
-
-  def summary
-    session[:summary] = true
   end
 
   def confirmation; end
 
   def create
-    form_params = claim_params
-    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
-    form_params[:creator_id] = current_user.persona.id
-
-    @claim = Claim.new(form_params)
+    @claim = Claim.new(params_with_advocate_and_creator)
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
-    load_advocates_in_chamber
 
-    if @claim.save
-      respond_with @claim, { location: summary_advocates_claim_path(@claim), notice: 'Claim successfully created' }
+    if submitting_to_laa?
+      create_and_submit
     else
-      @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
-      build_nested_resources
-      render action: :new
+      create_draft
     end
   end
 
   def update
-    load_advocates_in_chamber
-    @claim.submit! if session.delete(:summary) && @claim.draft?
-
-    @claim.update(claim_params)
-    respond_with @claim, { location: update_redirect_location, notice: 'Claim successfully updated' }
+    if @claim.update(claim_params)
+      if submitting_to_laa?
+        submit_claim_to_laa
+      else
+        redirect_to advocates_claims_path, notice: 'Draft claim saved'
+      end
+    else
+      render_edit_with_resources
+    end
   end
 
   def destroy
@@ -212,19 +204,62 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.documents.build if @claim.documents.none?
   end
 
-  def update_redirect_location
-    if params[:summary]
-      confirmation_advocates_claim_path(@claim)
-    else
-      summary_advocates_claim_path(@claim)
-    end
-  end
-
   def set_search_options
     if current_user.persona.admin?
       @search_options = ['All', 'Advocate', 'Defendant']
     else
       @search_options = ['All', 'Defendant']
+    end
+  end
+
+  def saving_to_draft?
+    params[:commit] == 'Save to drafts'
+  end
+
+  def submitting_to_laa?
+    params[:commit] == 'Submit to LAA'
+  end
+
+  def render_edit_with_resources
+    build_nested_resources
+    render action: :edit
+  end
+
+  def render_new_with_resources
+    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+    build_nested_resources
+    render action: :new
+  end
+
+  def params_with_advocate_and_creator
+    form_params = claim_params
+    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
+    form_params[:creator_id] = current_user.persona.id
+    form_params
+  end
+
+  def create_draft
+    if @claim.save
+      redirect_to advocates_claims_path, notice: 'Draft claim saved'
+    else
+      render_new_with_resources
+    end
+  end
+
+  def create_and_submit
+    if @claim.submit && @claim.save
+      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    else
+      render_new_with_resources
+    end
+  end
+
+  def submit_claim_to_laa
+    begin
+      @claim.submit!
+      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    rescue
+      render_edit_with_resources
     end
   end
 end

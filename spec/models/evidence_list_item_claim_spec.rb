@@ -6,7 +6,7 @@ RSpec.describe EvidenceListItemClaim, type: :model do
   let(:evidence_list_item_claim_dup) { evidence_list_item_claim.dup }
 
   it "has a valid factory" do
-    create(:evidence_list_item_claim).should be_valid
+    expect(create(:evidence_list_item_claim)).to be_valid
   end
 
   it { should belong_to :claim }

@@ -18,10 +18,6 @@
         %dd
           #{claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') }.join(', ')}
         %dt
-          Granting body
-        %dd
-          #{claim.defendants.map { |d| d.representation_order.granting_body }.join(', ')}
-        %dt
           Supplier account number
         %dd
           #{claim.advocate.account_number}

@@ -19,6 +19,5 @@
 FactoryGirl.define do
   factory :representation_order do
     document { File.open(Rails.root + 'features/examples/longer_lorem.pdf') }
-    granting_body { ['crown', 'magistrate'].sample }
   end  
 end

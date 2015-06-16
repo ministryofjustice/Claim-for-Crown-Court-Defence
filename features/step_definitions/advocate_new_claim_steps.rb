@@ -37,8 +37,7 @@ When(/^I fill in the claim details$/) do
     fill_in 'Date of birth', with: '04/10/1980'
     fill_in 'claim_defendants_attributes_0_maat_reference', with: 'aaa1111'
     fill_in 'claim_defendants_attributes_0_representation_order_date', with: rand(1..10).days.ago
-    attach_file(:claim_defendants_attributes_0_representation_orders_attributes_0_document, 'features/examples/longer_lorem.pdf') # attach rep order
-    choose 'crown'
+    attach_file(:claim_defendants_attributes_0_representation_orders_attributes_0_document, 'features/examples/longer_lorem.pdf')
   end
 
   within '#basic_fees' do

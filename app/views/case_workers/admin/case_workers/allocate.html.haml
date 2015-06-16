@@ -24,7 +24,7 @@
           %th
             &nbsp;
       %tbody
-      = f.collection_check_boxes :claim_ids, @claims, :id, :description do |b|
-        %tr
-          = render partial: 'claim', locals: { claim: b.object, b: b }
+        = render partial: 'claim', locals: {claims: @claims, case_worker: @case_worker, f: f }
+
+
   = f.submit class: "button"

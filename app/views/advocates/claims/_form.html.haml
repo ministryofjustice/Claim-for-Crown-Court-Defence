@@ -79,24 +79,48 @@
       %legend
         Fixed and Miscellaneous Fees
       #fees
-        = f.fields_for :non_basic_fees do |fee|
-          = render 'fee_fields', f: fee
-        .links
-          = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary'
+        %table.table
+          %thead
+            %tr
+              %th Fee Type
+              %th Quantity
+              %th Rate
+              %th Amount
+              %td
+              %td
+            = f.fields_for :non_basic_fees do |fee|
+              = render 'fee_fields', f: fee
+
+        = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
       %legend
         Expenses
       #expenses
-        = f.fields_for :expenses do |expense|
-          = render 'expense_fields', f: expense
-        .links
-          = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary'
+        %table.table
+          %thead
+            %tr
+              %th Expense Type
+              %th Location
+              %th Quantity/Hours
+              %th Rate
+              %th Amount
+              %td
+              = f.fields_for :expenses do |expense|
+                = render 'expense_fields', f: expense
+
+
+        = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
       %label
         = f.check_box :apply_vat
         VAT on Fees & Expenses (please tick if required)'
 
+    %fieldset{id: 'evidence-checklist'}
+      %legend
+        Supporting evidence checklist
+      #evidence-checklist
+        = render 'evidence_list_item_fields', f: f
 
     %fieldset{id: 'evidence'}
       %legend
@@ -106,7 +130,6 @@
           = render 'document_fields', f: document
           .links
             = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
-
 
     %p
       = f.submit 'Submit to LAA', class: 'button'

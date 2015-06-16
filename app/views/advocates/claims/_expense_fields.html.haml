@@ -1,6 +1,6 @@
 %tr.nested-fields.exepense-fee
   %td
-    = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, prompt: true
+    = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2'}
   %td#expense_location
     = f.text_field :location
   %td

@@ -12,7 +12,12 @@ adp.feeCalculator = {
       var quantity = parseFloat(wrapper.find('.quantity').val());
       var rate = parseFloat(wrapper.find('.rate').val());
       var total = (rate * quantity).toFixed(2);
-      wrapper.find('.amount').text(total);
+      if (isNaN(total) ){
+        wrapper.find('.amount').text(' ');
+      }
+      else{
+        wrapper.find('.amount').text('£ '+ total);
+      }
     });
   }
 }

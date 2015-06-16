@@ -4,6 +4,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
+  before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
 
   def landing; end
 
@@ -51,69 +52,45 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def new
     @claim = Claim.new
     @claim.instantiate_basic_fees
-    load_advocates_in_chamber
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     build_nested_resources
   end
 
   def edit
-    load_advocates_in_chamber
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 
   def confirmation; end
 
   def create
-    form_params = claim_params
-    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
-    form_params[:creator_id] = current_user.persona.id
-    @claim = Claim.new(form_params)
+    @claim = Claim.new(params_with_advocate_and_creator)
     @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
-    load_advocates_in_chamber
 
-    case params[:commit]
-      when 'Submit to LAA'
-        begin
-          @claim.submit!
-          @claim.save
-          redirect_to confirmation_advocates_claim_path(@claim)
-        rescue
-          @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
-          build_nested_resources
-          render action: :new
-        end
+    if submitting_to_laa?
+      if @claim.submit && @claim.save
+        redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
       else
-        if @claim.save
-          redirect_to advocates_claims_path, notice: 'Draft claim saved'
-        else
-          @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
-          build_nested_resources
-          render action: :new
-        end
+        render_new_with_resources
+      end
+    else
+      if @claim.save
+        redirect_to advocates_claims_path, notice: 'Draft claim saved'
+      else
+        render_new_with_resources
+      end
     end
   end
 
   def update
-    load_advocates_in_chamber
-
-    case params[:commit]
-      when 'Submit to LAA'
-        @claim.update(claim_params)
-
-        begin
-          @claim.submit!
-          redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
-        rescue
-          build_nested_resources
-          render action: :edit
-        end
+    if @claim.update(claim_params)
+      if submitting_to_laa?
+        @claim.submit! rescue return render_edit_with_resources
+        redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
       else
-        if @claim.update(claim_params)
-          redirect_to advocates_claims_path, notice: 'Draft claim saved'
-        else
-          build_nested_resources
-          render action: :edit
-        end
+        redirect_to advocates_claims_path, notice: 'Draft claim saved'
+      end
+    else
+      render_edit_with_resources
     end
   end
 
@@ -241,5 +218,31 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     else
       @search_options = ['All', 'Defendant']
     end
+  end
+
+  def saving_to_draft?
+    params[:commit] == 'Save to drafts'
+  end
+
+  def submitting_to_laa?
+    params[:commit] == 'Submit to LAA'
+  end
+
+  def render_edit_with_resources
+    build_nested_resources
+    render action: :edit
+  end
+
+  def render_new_with_resources
+    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+    build_nested_resources
+    render action: :new
+  end
+
+  def params_with_advocate_and_creator
+    form_params = claim_params
+    form_params[:advocate_id] = current_user.persona.id unless current_user.persona.admin?
+    form_params[:creator_id] = current_user.persona.id
+    form_params
   end
 end

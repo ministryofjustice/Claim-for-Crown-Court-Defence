@@ -420,8 +420,7 @@ def valid_claim_fee_params
          "_destroy" => "false",
          "representation_orders_attributes"=>{
            "0"=>{
-           "document"=> @file,
-           "granting_body"=> 'crown'}
+           "document"=> @file}
           }
         }
       },

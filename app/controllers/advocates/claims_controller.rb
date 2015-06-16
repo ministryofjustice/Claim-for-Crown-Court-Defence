@@ -147,7 +147,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :order_for_judicial_apportionment,
        :maat_reference,
        :_destroy,
-       representation_orders_attributes: [ :document, :granting_body ]
+       representation_orders_attributes: [ :document ]
      ],
      basic_fees_attributes: [
        :id,

@@ -54,37 +54,51 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:evidence_list_item_claims) }
   it { should have_many(:evidence_list_items) }
 
-  it { should validate_presence_of(:advocate) }
-  it { should validate_presence_of(:creator) }
-  it { should validate_presence_of(:court) }
-  it { should validate_presence_of(:offence) }
-  it { should validate_presence_of(:case_number) }
-  it { should validate_presence_of(:prosecuting_authority) }
-  it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
+  describe 'validations' do
 
-  it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w(
-                                                            appeal_against_conviction
-                                                            appeal_against_sentence
-                                                            breach_of_crown_court_order
-                                                            commital_for_sentence
-                                                            contempt
-                                                            cracked_trial
-                                                            cracked_before_retrial
-                                                            discontinuance
-                                                            elected_cases_not_proceeded
-                                                            guilty_plea
-                                                            retrial
-                                                            trial
-                                                            ))
-      }
+    context 'draft' do
+      before { allow(subject).to receive(:draft?).and_return(true) }
 
-  it { should validate_presence_of(:advocate_category) }
-  it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
+      it { should validate_presence_of(:advocate) }
+    end
 
-  it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-  it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-  it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
+    context 'non-draft' do
+      before { allow(subject).to receive(:draft?).and_return(false) }
+
+      it { should validate_presence_of(:advocate) }
+      it { should validate_presence_of(:creator) }
+      it { should validate_presence_of(:court) }
+      it { should validate_presence_of(:offence) }
+      it { should validate_presence_of(:case_number) }
+      it { should validate_presence_of(:prosecuting_authority) }
+      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
+
+      it { should validate_presence_of(:case_type) }
+      it { should validate_inclusion_of(:case_type).in_array(%w(
+                                                                appeal_against_conviction
+                                                                appeal_against_sentence
+                                                                breach_of_crown_court_order
+                                                                commital_for_sentence
+                                                                contempt
+                                                                cracked_trial
+                                                                cracked_before_retrial
+                                                                discontinuance
+                                                                elected_cases_not_proceeded
+                                                                guilty_plea
+                                                                retrial
+                                                                trial
+                                                                ))
+          }
+
+      it { should validate_presence_of(:advocate_category) }
+      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
+
+      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
+    end
+  end
+
 
   it { should accept_nested_attributes_for(:basic_fees) }
   it { should accept_nested_attributes_for(:non_basic_fees) }
@@ -94,8 +108,8 @@ RSpec.describe Claim, type: :model do
 
 
   subject { create(:claim) }
-  
-  
+
+
   describe 'is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
     let(:case_worker_2)        { FactoryGirl.create :case_worker }
@@ -105,7 +119,7 @@ RSpec.describe Claim, type: :model do
       subject.case_workers << case_worker_2
       expect(subject.is_allocated_to_case_worker?(case_worker_1)).to be true
     end
-      
+
     it 'should return false if not allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
       expect(subject.is_allocated_to_case_worker?(case_worker_2)).to be false

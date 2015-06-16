@@ -11,10 +11,11 @@ module Api
       def create
         @claim = Claim.new(claim_params)
 
-        if @claim.save
+        begin
           @claim.submit!
+          @claim.save
           render json: @claim, status: :created
-        else
+        rescue
           render json: { errors: @claim.errors.full_messages }, status: :unprocessable_entity
         end
       end

@@ -21,11 +21,12 @@ class Defendant < ActiveRecord::Base
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  # This is really a has_one, but needs to be has_many for cocoon
 
   validates :claim, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :date_of_birth, presence: true
-  validates :maat_reference, presence: true, uniqueness: { case_sensitive: false, scope: :claim_id }
-  validate  :one_representation_order
+  validates :first_name, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates :last_name, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates :date_of_birth, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates :maat_reference, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates :maat_reference, uniqueness: { case_sensitive: false, scope: :claim_id }
+  validate  :one_representation_order, unless: -> { self.claim.nil? || self.claim.draft? }
 
   before_save { |defendant| defendant.maat_reference = defendant.maat_reference.upcase }
 

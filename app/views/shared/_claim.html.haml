@@ -20,7 +20,7 @@
         %dt
           Granting body
         %dd
-          #{claim.defendants.map { |d| d.representation_order.granting_body.titlecase }.join(', ')}
+          #{claim.defendants.map { |d| d.representation_order.granting_body }.join(', ')}
         %dt
           Supplier account number
         %dd

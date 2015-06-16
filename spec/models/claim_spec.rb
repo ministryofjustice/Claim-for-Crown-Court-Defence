@@ -51,8 +51,8 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
-  it { should have_many(:evidence_list_item_claims) }
-  it { should have_many(:evidence_list_items) }
+  it { should have_many(:document_type_claims) }
+  it { should have_many(:document_types) }
 
   it { should validate_presence_of(:advocate) }
   it { should validate_presence_of(:creator) }

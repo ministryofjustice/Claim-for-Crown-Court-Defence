@@ -128,7 +128,7 @@ When(/^I search by the advocate name "(.*?)"$/) do |name|
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
-  expect(page).to have_content(name, count: number.to_i)
+  expect(page).to have_content(/#{number} claims? matching advocate name "#{name}"/)
 end
 
 Then(/^I should not see the advocate search field$/) do
@@ -147,7 +147,7 @@ When(/^I search by the name "(.*?)"$/) do |name|
 end
 
 Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  expect(page).to have_content(name, count: number.to_i)
+  expect(page).to have_content(/#{number} claims? matching defendant\(s\) "#{name}"/)
 end
 
 Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|

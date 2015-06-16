@@ -1,3 +1,4 @@
+DocumentType.find_or_create_by(description: 'Representation Order')
 DocumentType.find_or_create_by(description: 'The front sheet(s) from the commital bundle')
 DocumentType.find_or_create_by(description: 'A copy of the indictment')
 DocumentType.find_or_create_by(description: 'Order in respect of Judicial appointment')

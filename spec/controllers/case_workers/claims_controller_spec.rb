@@ -15,9 +15,9 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
   describe "GET #index" do
     let(:tab) { nil }
-    let(:maat_search_param) { nil }
-    let(:defendant_search_param) { nil }
-    before { get :index, tab: tab, search_maat: maat_search_param, search_defendant: defendant_search_param }
+    let(:search) { nil }
+    let(:search_field) { nil }
+    before { get :index, tab: tab, search: search, search_field: search_field }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -38,7 +38,9 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'search by maat' do
-      let(:maat_search_param) { '12345' }
+      let(:search) { '12345' }
+      let(:search_field) { 'MAAT Reference' }
+
       before do
         create(:defendant, claim: case_worker.claims.first, maat_reference: '12345')
       end
@@ -49,7 +51,9 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'search by defendant' do
-      let(:defendant_search_param) { 'Joe Bloggs' }
+      let(:search) { 'Joe Bloggs' }
+      let(:search_field) { 'Defendant' }
+
       before do
         create(:defendant, claim: case_worker.claims.first, first_name: 'Joe', last_name: 'Bloggs')
       end

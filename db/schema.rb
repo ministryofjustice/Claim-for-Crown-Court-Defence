@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609093857) do
+ActiveRecord::Schema.define(version: 20150615132927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,25 @@ ActiveRecord::Schema.define(version: 20150609093857) do
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
   add_index "documents", ["document_type_id"], name: "index_documents_on_document_type_id", using: :btree
 
+  create_table "evidence_list_item_claims", force: true do |t|
+    t.integer  "claim_id",              null: false
+    t.integer  "evidence_list_item_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "evidence_list_item_claims", ["claim_id", "evidence_list_item_id"], name: "evidence_list_item_claims_claim_id_evidence_list_item_id", unique: true, using: :btree
+  add_index "evidence_list_item_claims", ["claim_id"], name: "index_evidence_list_item_claims_on_claim_id", using: :btree
+  add_index "evidence_list_item_claims", ["evidence_list_item_id"], name: "index_evidence_list_item_claims_on_evidence_list_item_id", using: :btree
+
+  create_table "evidence_list_items", force: true do |t|
+    t.string  "description", null: false
+    t.integer "item_order",  null: false
+  end
+
+  add_index "evidence_list_items", ["description"], name: "evidence_list_items_description_uni", unique: true, using: :btree
+  add_index "evidence_list_items", ["item_order"], name: "evidence_list_items_item_order_uni", unique: true, using: :btree
+
   create_table "expense_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -266,6 +285,7 @@ ActiveRecord::Schema.define(version: 20150609093857) do
     t.datetime "converted_preview_document_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "granting_body"
   end
 
   create_table "schemes", force: true do |t|

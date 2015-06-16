@@ -88,7 +88,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(Claim.non_draft)
+      expect(assigns(:claims)).to eq(Claim.non_draft.order(created_at: :asc))
     end
 
     it 'renders the template' do

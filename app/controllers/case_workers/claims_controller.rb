@@ -2,11 +2,26 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   respond_to :html
   before_action :set_claims, only: [:index]
   before_action :set_claim, only: [:show]
+  before_action :set_search_options, only: [:index]
 
   def index
-    @claims = @claims.find_by_maat_reference(params[:search_maat]) if params[:search_maat].present?
-    @claims = @claims.find_by_defendant_name(params[:search_defendant]) if params[:search_defendant].present?
-    @claims = @claims.find_by_case_worker_name_or_email(params[:search_case_worker]) if params[:search_case_worker].present?
+    params[:search_field] ||= 'All'
+
+    if params[:search].present?
+      @claims = case params[:search_field]
+        when 'All'
+          options = [:maat_reference, :defendant_name]
+          options << :case_worker_name_or_email if current_user.persona.admin?
+          @claims.search(*options,  params[:search])
+        when 'MAAT Reference'
+          @claims.search(:maat_reference, params[:search])
+        when 'Defendant'
+          @claims.search(:defendant_name, params[:search])
+        when 'Case worker'
+          @claims.search(:case_worker_name_or_email, params[:search])
+      end
+    end
+
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
@@ -70,5 +85,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def set_claim
     @claim = Claim.find(params[:id])
+  end
+
+  def set_search_options
+    if current_user.persona.admin?
+      @search_options = ['All', 'MAAT Reference', 'Defendant', 'Case worker']
+    else
+      @search_options = ['All', 'MAAT Reference', 'Defendant']
+    end
   end
 end

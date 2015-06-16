@@ -10,6 +10,7 @@
   advocates
   courts
   chambers
+  evidence_list_items
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

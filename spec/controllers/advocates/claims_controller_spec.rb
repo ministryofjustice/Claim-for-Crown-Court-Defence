@@ -323,10 +323,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         end
       end
 
-      context 'evidence checklist' do
+      context 'document checklist' do
         let(:court) { create(:court) }
         let(:offence) { create(:offence) }
-        let(:evidence_list_item) { create(:evidence_list_item) }
+        let(:document_type) { create(:document_type) }
         let(:claim_params) do
           {
              additional_information: 'foo',
@@ -336,14 +336,14 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
              case_number: '12345',
              advocate_category: 'QC',
              prosecuting_authority: 'cps',
-             evidence_list_item_ids: [evidence_list_item.id.to_s]
+             document_type_ids: [document_type.id.to_s]
           }
         end
 
-        it 'should create a claim with evidence list items' do
+        it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
           claim = assigns(:claim)
-          expect(claim.evidence_list_items.count).to eql(1)
+          expect(claim.document_types.count).to eql(1)
         end
       end
 

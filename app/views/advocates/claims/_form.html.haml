@@ -79,19 +79,38 @@
       %legend
         Fixed and Miscellaneous Fees
       #fees
-        = f.fields_for :non_basic_fees do |fee|
-          = render 'fee_fields', f: fee
-        .links
-          = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary'
+        %table.table
+          %thead
+            %tr
+              %th Fee Type
+              %th Quantity
+              %th Rate
+              %th Amount
+              %td
+              %td
+            = f.fields_for :non_basic_fees do |fee|
+              = render 'fee_fields', f: fee
+
+        = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
       %legend
         Expenses
       #expenses
-        = f.fields_for :expenses do |expense|
-          = render 'expense_fields', f: expense
-        .links
-          = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary'
+        %table.table
+          %thead
+            %tr
+              %th Expense Type
+              %th Location
+              %th Quantity/Hours
+              %th Rate
+              %th Amount
+              %td
+              = f.fields_for :expenses do |expense|
+                = render 'expense_fields', f: expense
+
+
+        = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
       %label
         = f.check_box :apply_vat
@@ -113,5 +132,7 @@
             = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
 
     %p
-      = f.submit (@claim.new_record? ? 'Save draft' : 'Save'), class: 'button'
-      = link_to 'Back', advocates_claims_path, class: 'button'
+      = f.submit 'Submit to LAA', class: 'button'
+      - if @claim.draft?
+        = f.submit 'Save to drafts', class: 'button'
+      = link_to 'Clear form', new_advocates_claim_path, class: 'button'

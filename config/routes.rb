@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'ping'               => 'ping#index'
+
   root to: 'high_voltage/pages#show', id: 'home'
 
   namespace :api, format: :json do
@@ -27,7 +29,6 @@ Rails.application.routes.draw do
     get 'landing', to: 'claims#landing'
 
     resources :claims do
-      get 'summary', on: :member
       get 'confirmation', on: :member
       get 'outstanding', on: :collection
       get 'authorised', on: :collection

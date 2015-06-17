@@ -39,6 +39,28 @@ form{
     background-color: $grey-4;
     margin-bottom: 1em;
   }
+  .table {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #bfc1c3;
+  }
+  .nested-fields{
+    td, th{
+      border-bottom: 0;
+      border-top: 1px solid #bfc1c3;
+    }
+    &.extra-data{
+      th, td{
+        border-top: 0;
+        border-bottom: 1px solid #bfc1c3;
+
+      }
+    }
+  }
+
+  .table tr th:first-child,
+  .table tr td:first-child{
+    padding-left: 15px;
+  }
   input[type="file"]{
     // TODO: come up with some better colours for this
     padding:15px;

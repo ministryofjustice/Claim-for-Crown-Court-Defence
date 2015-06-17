@@ -1,18 +1,13 @@
-.nested-fields
-  %span.auto-width
-    = f.label :expense_type_id
-    = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, prompt: true
-  %span.auto-width
-    = f.label :location
+%tr.nested-fields.expense-fee
+  %td
+    = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2'}
+  %td#expense_location
     = f.text_field :location
-  %span.auto-width
-    = f.label :quantity, 'Quantity/Hours'
+  %td
     = f.number_field :quantity, class: 'quantity'
-  %span.auto-width
-    = f.label :rate
+  %td
     = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-  %span.auto-width
-    = f.label :amount
-    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), disabled: true, class: 'amount'
-  %p
-    = link_to_remove_association 'Remove expense', f
+  %td.amount
+    &nbsp;
+  %td
+    = link_to_remove_association 'Remove', f

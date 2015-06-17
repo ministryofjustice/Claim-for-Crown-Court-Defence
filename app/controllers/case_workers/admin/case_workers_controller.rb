@@ -10,7 +10,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def edit; end
 
   def allocate
-    @claims = Claim.non_draft.order(created_at: :asc)
+    @claims = Claim.unscope(:includes).includes([:defendants, :advocate, :court, :case_workers]).non_draft.order(created_at: :asc)
   end
 
   def new

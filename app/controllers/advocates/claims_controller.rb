@@ -192,7 +192,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :description,
        :_destroy
      ],
-     evidence_list_item_ids: []
+     document_type_ids: []
     )
   end
 

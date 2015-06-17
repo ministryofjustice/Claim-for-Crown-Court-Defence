@@ -7,7 +7,7 @@
         %th
           Provided
     %tbody
-    = f.collection_check_boxes :evidence_list_item_ids, EvidenceListItem.all.order(item_order: :asc), :id, :description do |b|
+    = f.collection_check_boxes :document_type_ids, DocumentType.all.order(id: :asc), :id, :description do |b|
       %tr
         %td
           = b.label

@@ -5,6 +5,7 @@ set -e
 echo "DEBUG:run.sh:BUILD_NUMBER:${BUILD_NUMBER}"
 echo "DEBUG:run.sh:GIT_COMMIT:${GIT_COMMIT}"
 echo "DEBUG:run.sh:BUILD_ID:${BUILD_ID}"
+echo "DEBUG:run.sh:BUILD_DATE:${BUILD_DATE}"
 
 case ${DOCKER_STATE} in
 migrate)

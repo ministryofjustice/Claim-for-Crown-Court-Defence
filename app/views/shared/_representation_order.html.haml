@@ -1,0 +1,13 @@
+%section
+  %ul#evidence-list
+    - @claim.defendants.each do |defendant|
+      %li
+        Representation order for defendant:
+        = defendant.name
+        .item-controls
+          - defendant.representation_orders.each do |r|
+            = r.document_file_name
+            = link_to 'View', representation_order_path(r), target: '_blank', class: 'view'
+            = link_to 'Download', download_representation_order_path(r), class: 'download'
+
+

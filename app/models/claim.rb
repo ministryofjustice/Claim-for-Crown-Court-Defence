@@ -156,6 +156,18 @@ class Claim < ActiveRecord::Base
 
   end
 
+  # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
+  def method_missing(method, *args)
+    if Claims::StateMachine.has_state?(method)
+      Claims::StateMachine.is_in_state?(method, self)
+    else
+      super
+    end
+  end
+
+
+
+
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end

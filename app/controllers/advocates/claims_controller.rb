@@ -10,7 +10,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     claims = @context.claims.order(created_at: :desc)
-
     params[:search_field] ||= 'Defendant'
 
     if params[:search].present?
@@ -23,14 +22,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
           claims.search(:defendant_name, params[:search])
       end
     end
-
     @claims = claims
-
-    @draft_claims     = claims.advocate_dashboard_draft
-    @rejected_claims  = claims.advocate_dashboard_rejected
-    @submitted_claims = claims.advocate_dashboard_submitted
-    @part_paid_claims = claims.advocate_dashboard_part_paid
-    @completed_claims = claims.advocate_dashboard_completed
+    @draft_claims = @claims.select(&:advocate_dashboard_draft?)
+    @rejected_claims = @claims.select(&:advocate_dashboard_rejected?)
+    @submitted_claims = @claims.select(&:advocate_dashboard_submitted?)
+    @part_paid_claims = @claims.select(&:advocate_dashboard_part_paid?)
+    @completed_claims = @claims.select(&:advocate_dashboard_completed?)
   end
 
   def outstanding

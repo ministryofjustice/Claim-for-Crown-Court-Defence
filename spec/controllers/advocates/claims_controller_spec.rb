@@ -32,6 +32,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       @refused_claim                  = build_claim_in_state(:refused)
       @rejected_claim                 = build_claim_in_state(:rejected)
       @submitted_claim                = build_claim_in_state(:submitted)
+
+      allow_any_instance_of(Claim).to receive(:id).and_return(777)
+      allow_any_instance_of(Claims::FinancialSummary).to receive(:total_authorised_claim_value).and_return( 45454.45 )
+      allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
     let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim, 
@@ -43,7 +47,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       it 'should categorise the claims for the advocate' do
         query_result = double 'QueryResult'
         expect(controller.current_user).to receive(:claims).and_return(query_result)
-        allow(query_result).to receive(:order).and_return(full_collection)
+        allow(query_result).to receive(:order).and_return(full_collection) 
+        allow(query_result).to receive(:unscope).and_return(full_collection)
 
         get :index
 
@@ -70,6 +75,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         query_result = double 'QueryResult'
         expect(controller.current_user.persona.chamber).to receive(:claims).and_return(query_result)
         allow(query_result).to receive(:order).and_return(full_collection)
+        allow(query_result).to receive(:unscope).and_return(full_collection)
       
         get :index
 

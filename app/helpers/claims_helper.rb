@@ -5,7 +5,6 @@ module ClaimsHelper
 		claims.map(&:state).uniq.any? { |s| states.include?(s) }
 	end
 
-
   def number_with_precision_or_blank(number, options = {})
     if options.has_key?(:precision)
       number == 0 ? '' : number_with_precision(number, options)
@@ -13,7 +12,6 @@ module ClaimsHelper
       number == 0 ? '' : number.to_s
     end
   end
-
 
   def claim_allocation_checkbox_helper(claim, case_worker)
     checked = claim.is_allocated_to_case_worker?(case_worker) ? %q(checked="checked") : nil

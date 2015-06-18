@@ -26,34 +26,35 @@
       %th
     %tbody
     - claims.each do |claim|
-      %tr{id: dom_id(claim)}
-        %td
-          = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"
-        - if current_user.persona.admin?
+      - present(claim) do |claim_presenter|
+        %tr{id: dom_id(claim)}
           %td
-            = claim.advocate.name
-        %td
-          = claim.defendants.map(&:name).join(', ')
-        %td
-          = claim.cms_number
-        - unless includes_state?(claims,'draft')
+            = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"
+          - if current_user.persona.admin?
+            %td
+              = claim.advocate.name
           %td
-            = claim.submitted_at.strftime('%d/%m/%Y') unless claim.submitted_at.nil?
-        - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
+            = claim_presenter.defendant_names
           %td
-            = claim.paid_at.strftime('%d/%m/%Y') unless claim.paid_at.nil?
-        %td.currency
-          = number_to_currency(claim.total)
-        - if includes_state?(claims,'part_paid,completed')
+            = claim.cms_number
+          - unless includes_state?(claims,'draft')
+            %td
+              = claim_presenter.submitted_at
+          - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
+            %td
+              = claim_presenter.paid_at
           %td.currency
-            = number_to_currency(claim.amount_assessed)
-        %td
-          = link_to 'View', advocates_claim_path(claim)
-          - if claim.editable?
+            = claim_presenter.total
+          - if includes_state?(claims,'part_paid,completed')
+            %td.currency
+              = claim_presenter.amount_assessed
+          %td
+            = link_to 'View', advocates_claim_path(claim)
+            - if claim.editable?
+              |
+              = link_to 'Edit', edit_advocates_claim_path(claim)
             |
-            = link_to 'Edit', edit_advocates_claim_path(claim)
-          |
-          = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
-        %td
-          - if claim.state == 'awaiting_info_from_court'
-            = image_tag "#{claim.state.gsub('_','-')}.png", alt: claim.state.humanize, class: "status-indicator", title: claim.state.humanize
+            = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
+          %td
+            - if claim.state == 'awaiting_info_from_court'
+              = claim_presenter.status_image class: 'status-indicator'

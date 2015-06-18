@@ -55,6 +55,12 @@ FactoryGirl.define do
       end
     end
 
+    factory :unpersisted_claim do
+      court         { FactoryGirl.build :court }
+      advocate      { FactoryGirl.build :advocate, chamber: FactoryGirl.build(:chamber) }
+      offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
+    end
+
     factory :invalid_claim do
       case_type 'invalid case type'
     end

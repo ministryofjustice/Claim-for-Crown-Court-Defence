@@ -18,24 +18,33 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before(:each) do
-      @allocated_claim                = FactoryGirl.create :allocated_claim, advocate: advocate
-      @appealed_claim                 = FactoryGirl.create :appealed_claim, advocate: advocate
-      @archived_pending_delete_claim  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate
-      @awaiting_further_info_claim    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate
-      @awaiting_info_from_court_claim = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate
-      @completed_claim                = FactoryGirl.create :completed_claim, advocate: advocate
-      @draft_claim                    = FactoryGirl.create :draft_claim, advocate: advocate
-      @part_paid_claim                = FactoryGirl.create :part_paid_claim, advocate: advocate
-      @parts_rejected_claim           = FactoryGirl.create :parts_rejected_claim, advocate: advocate
-      @refused_claim                  = FactoryGirl.create :refused_claim, advocate: advocate
-      @rejected_claim                 = FactoryGirl.create :rejected_claim, advocate: advocate
-      @submitted_claim                = FactoryGirl.create :submitted_claim, advocate: advocate
+      @allocated_claim                = build_claim_in_state(:allocated)
+      @appealed_claim                 = build_claim_in_state(:appealed)
+      @archived_pending_delete_claim  = build_claim_in_state(:archived_pending_delete)
+      @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
+      @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
+      @completed_claim                = build_claim_in_state(:completed)
+      @draft_claim                    = build_claim_in_state(:draft)
+      @part_paid_claim                = build_claim_in_state(:part_paid)
+      @parts_rejected_claim           = build_claim_in_state(:parts_rejected)
+      @refused_claim                  = build_claim_in_state(:refused)
+      @rejected_claim                 = build_claim_in_state(:rejected)
+      @submitted_claim                = build_claim_in_state(:submitted)
     end
 
+    let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim, 
+                                @awaiting_further_info_claim, @awaiting_info_from_court_claim, @completed_claim,
+                                @draft_claim, @part_paid_claim, @parts_rejected_claim, @refused_claim, 
+                                @rejected_claim, @submitted_claim ] }
+
     context 'advocate' do
-      it 'should categorise the claims' do
+      it 'should categorise the claims for the advocate' do
+        query_result = double 'QueryResult'
+        expect(controller.current_user).to receive(:claims).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(full_collection)
+
         get :index
 
         expect(response).to have_http_status(:success)
@@ -53,56 +62,28 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
 
     context 'advocate admin' do
-      let(:other_chamber)                   { create(:chamber) }
+
       let(:advocate_admin)                  { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
-      let(:advocate_in_same_chamber)        { create(:advocate, chamber_id: advocate.chamber.id) }
-      let(:advocate_in_different_chamber)   { create(:advocate, :admin, chamber_id: other_chamber.id) }
 
-      before(:each) do
-        @allocated_claim_2                = FactoryGirl.create :allocated_claim, advocate: advocate_in_same_chamber
-        @appealed_claim_2                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_same_chamber
-        @archived_pending_delete_claim_2  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_same_chamber
-        @awaiting_further_info_claim_2    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_same_chamber
-        @awaiting_info_from_court_claim_2 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_same_chamber
-        @completed_claim_2                = FactoryGirl.create :completed_claim, advocate: advocate_in_same_chamber
-        @draft_claim_2                    = FactoryGirl.create :draft_claim, advocate: advocate_in_same_chamber
-        @part_paid_claim_2                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_same_chamber
-        @parts_rejected_claim_2           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_same_chamber
-        @refused_claim_2                  = FactoryGirl.create :refused_claim, advocate: advocate_in_same_chamber
-        @rejected_claim_2                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_same_chamber
-        @submitted_claim_2                = FactoryGirl.create :submitted_claim, advocate: advocate_in_same_chamber
-
-        @allocated_claim_3                = FactoryGirl.create :allocated_claim, advocate: advocate_in_different_chamber
-        @appealed_claim_3                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_different_chamber
-        @archived_pending_delete_claim_3  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_different_chamber
-        @awaiting_further_info_claim_3    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_different_chamber
-        @awaiting_info_from_court_claim_3 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_different_chamber
-        @completed_claim_3                = FactoryGirl.create :completed_claim, advocate: advocate_in_different_chamber
-        @draft_claim_3                    = FactoryGirl.create :draft_claim, advocate: advocate_in_different_chamber
-        @part_paid_claim_3                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_different_chamber
-        @parts_rejected_claim_3           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_different_chamber
-        @refused_claim_3                  = FactoryGirl.create :refused_claim, advocate: advocate_in_different_chamber
-        @rejected_claim_3                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_different_chamber
-        @submitted_claim_3                = FactoryGirl.create :submitted_claim, advocate: advocate_in_different_chamber
-
+      it 'should categorise claims for the chamber' do
         sign_in advocate_admin.user
-      end
-
-      it 'should categorise claims from the same chamber and exclude those from another chamber' do
+        query_result = double 'QueryResult'
+        expect(controller.current_user.persona.chamber).to receive(:claims).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(full_collection)
+      
         get :index
 
         expect(response).to have_http_status(:success)
-
-        expect(assigns(:draft_claims)).to contain_claims( @draft_claim, @draft_claim_2 )
-        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim, @rejected_claim_2 )
-        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim, @allocated_claim_2,
-                                                              @submitted_claim, @submitted_claim_2,
-                                                              @awaiting_info_from_court_claim, @awaiting_info_from_court_claim_2,
-                                                              @awaiting_further_info_claim, @awaiting_further_info_claim_2)
-        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim, @part_paid_claim_2,
-                                                              @appealed_claim, @appealed_claim_2,
-                                                              @parts_rejected_claim, @parts_rejected_claim_2)
-        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @completed_claim_2, @refused_claim, @refused_claim_2 )
+        expect(assigns(:draft_claims)).to contain_claims( @draft_claim )
+        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim )
+        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim,
+                                                              @submitted_claim,
+                                                              @awaiting_info_from_court_claim,
+                                                              @awaiting_further_info_claim)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim,
+                                                              @appealed_claim,
+                                                              @parts_rejected_claim)
+        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
 
@@ -499,5 +480,14 @@ def valid_claim_fee_params
      "apply_vat" => "0"
    }
 end
+
+
+
+def build_claim_in_state(state)
+  claim = FactoryGirl.build :unpersisted_claim
+  allow(claim).to receive(:state).and_return(state.to_s)
+  claim
+end
+
 
 

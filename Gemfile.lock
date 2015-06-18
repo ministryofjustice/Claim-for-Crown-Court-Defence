@@ -464,3 +464,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unicorn-rails
   webmock
+
+BUNDLED WITH
+   1.10.3

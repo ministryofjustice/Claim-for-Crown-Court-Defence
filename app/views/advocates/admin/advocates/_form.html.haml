@@ -1,9 +1,11 @@
 = form_for [:advocates, :admin, @advocate] do |f|
   - if @advocate.errors.any?
-    %h2= "#{pluralize(@advocate.errors.count, 'error')} prohibited this advocate from being saved:"
-    %ul
-      - @advocate.errors.full_messages.each do |msg|
-        %li= msg
+    .validation-summary 
+      %h2.heading-small= "#{pluralize(@advocate.errors.count, 'error')} prohibited this advocate from being saved:"
+      %ul
+        - @advocate.errors.full_messages.each do |msg|
+          %li= msg
+    
   %fieldset
     = f.fields_for :user do |user_fields|
       = user_fields.label :email

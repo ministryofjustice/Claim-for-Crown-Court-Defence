@@ -35,7 +35,12 @@ gem 'state_machine'
 gem 'susy'
 gem 'uglifier', '>= 1.3.0'
 gem 'webrick'
-gem 'rails_12factor', group: :production
+
+
+group :production do
+  gem 'rails_12factor', group: :production
+  gem 'unicorn-rails'
+end
 
 group :development, :test do
   gem 'annotate'

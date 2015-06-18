@@ -6,20 +6,30 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   before { sign_in admin.user }
 
   describe "GET #index" do
-    before { get :index }
+    # before { get :index }
 
     it "returns http success" do
+      get :index
       expect(response).to have_http_status(:success)
     end
 
     it 'assigns @advocates' do
       advocate = create(:advocate, chamber: admin.chamber)
       other_chamber_advocate = create(:advocate)
+      get :index
       expect(assigns(:advocates)).to match_array([admin, advocate])
     end
 
     it 'renders the template' do
+      get :index
       expect(response).to render_template(:index)
+    end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      get :index
+      expect(response.body).to match(/Dashboard.*Advocates/)
     end
   end
 
@@ -39,6 +49,12 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      expect(response.body).to match(/Dashboard.*Advocates.*#{subject.name}/)
+    end
   end
 
   describe "GET #new" do
@@ -54,6 +70,12 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:new)
+    end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      expect(response.body).to match(/Dashboard.*Advocates.*New advocate/)
     end
   end
 
@@ -72,6 +94,12 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:edit)
+    end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      expect(response.body).to match(/Dashboard.*Advocates.*#{subject.name}.*Edit/)
     end
   end
 

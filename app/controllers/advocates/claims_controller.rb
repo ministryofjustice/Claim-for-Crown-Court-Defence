@@ -278,7 +278,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def submit_claim_to_laa
     begin
-      @claim.submit!
+      @claim.submit! unless @claim.submitted?
       redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
     rescue
       render_edit_with_resources

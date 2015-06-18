@@ -1,10 +1,11 @@
 #claim-form
   = form_for [:advocates, @claim], html: { novalidate: true } do |f|
     - if @claim.errors.any?
-      %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
-      %ul
-        - @claim.errors.full_messages.each do |msg|
-          %li= msg
+      .validation-summary 
+        %h2.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
+        %ul
+          - @claim.errors.full_messages.each do |msg|
+            %li= msg
     %h2
       Section 1:
     %fieldset
@@ -120,7 +121,7 @@
       %legend
         Supporting evidence checklist
       #evidence-checklist
-        = render 'evidence_list_item_fields', f: f
+        = render 'document_type_fields', f: f
 
     %fieldset{id: 'evidence'}
       %legend
@@ -132,5 +133,7 @@
             = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
 
     %p
-      = f.submit (@claim.new_record? ? 'Save draft' : 'Save'), class: 'button'
-      = link_to 'Back', advocates_claims_path, class: 'button'
+      = f.submit 'Submit to LAA', class: 'button'
+      - if @claim.draft?
+        = f.submit 'Save to drafts', class: 'button'
+      = link_to 'Clear form', new_advocates_claim_path, class: 'button'

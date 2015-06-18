@@ -52,12 +52,12 @@ namespace :claims do
   end
 
   def add_documentary_evidence(claim,doc_count=2)
-    
     #
     # Attach example document <doc_count> times
     # but set type to be unique document type
     # (specified by id i) upto maximum no. of
-    # unique types available.
+    # unique types available. add checklist entry
+    # matching that document
     #
     # NOTE: cannot use random doc type due to composite unique constraints
     #
@@ -65,9 +65,8 @@ namespace :claims do
 
     doc_count.times do |i|
       file = File.open("./features/examples/longer_lorem.pdf")
-      id = i+1
-      document_type = DocumentType.where(id: id).first
-      evidence_list_item = EvidenceListItem.where(id: id).first
+      document_type = DocumentType.where(id: i+1).first
+
       FactoryGirl.create(:document,
                           claim: claim,
                           document_type: document_type,
@@ -75,8 +74,10 @@ namespace :claims do
                           document_content_type: 'application/pdf',
                           advocate: claim.advocate
                         )
-      FactoryGirl.create(:evidence_list_item_claim,claim: claim, evidence_list_item: evidence_list_item)
+
+      FactoryGirl.create(:document_type_claim,claim: claim, document_type: document_type)
     end
+
   end
 
   def parse_states_from_string(states_delimited_string)
@@ -91,7 +92,7 @@ namespace :claims do
       states = all_valid_states
     else
       states = states_delimited_string.gsub(/\s+/,'').split(';').map { |s| s.to_sym }
-  
+
       # must loop through a non-changing array as delete will effect looping
       invalid_states = []
       states.each do |s|

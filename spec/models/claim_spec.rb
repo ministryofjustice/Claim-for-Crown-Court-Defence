@@ -51,40 +51,149 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
-  it { should have_many(:evidence_list_item_claims) }
-  it { should have_many(:evidence_list_items) }
+  it { should have_many(:document_type_claims) }
+  it { should have_many(:document_types) }
 
-  it { should validate_presence_of(:advocate) }
-  it { should validate_presence_of(:creator) }
-  it { should validate_presence_of(:court) }
-  it { should validate_presence_of(:offence) }
-  it { should validate_presence_of(:case_number) }
-  it { should validate_presence_of(:prosecuting_authority) }
-  it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
-  it { should validate_presence_of(:case_type) }
-  it { should validate_inclusion_of(:case_type).in_array(%w(
-                                                            appeal_against_conviction
-                                                            appeal_against_sentence
-                                                            breach_of_crown_court_order
-                                                            commital_for_sentence
-                                                            contempt
-                                                            cracked_trial
-                                                            cracked_before_retrial
-                                                            discontinuance
-                                                            elected_cases_not_proceeded
-                                                            guilty_plea
-                                                            retrial
-                                                            trial
-                                                            ))
-      }
 
-  it { should validate_presence_of(:advocate_category) }
-  it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
+  context 'State Machine meta states magic methods' do
+    let(:claim)       { FactoryGirl.build :claim }
+    let(:all_states)  { [  'allocated', 'appealed', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
+                           'deleted', 'draft', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted' ] }
 
-  it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-  it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-  it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
+    context 'advocate_dashboard_draft?' do
+      before(:each)     { allow(claim).to receive(:state).and_return('draft') }
+
+      it 'should respond true in draft' do
+        allow(claim).to receive(:state).and_return('draft')
+        expect(claim.advocate_dashboard_draft?).to be true
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - ['draft']).each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_draft?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_rejected?' do
+      before(:each)     { allow(claim).to receive(:state).and_return('rejected') }
+      it 'should respond true' do
+        allow(claim).to receive(:state).and_return('rejected')
+        expect(claim.advocate_dashboard_rejected?).to be true
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - ['rejected']).each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_rejected?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_submitted?' do
+      it 'should respond true' do
+        [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ].each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_submitted?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_submitted?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_part_paid' do
+      it 'should respond true' do
+        [ 'part_paid', 'appealed', 'parts_rejected' ].each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_part_paid?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'part_paid', 'appealed', 'parts_rejected' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_part_paid?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_completed_states' do
+      it 'should respond true' do
+        [ 'completed', 'refused' ].each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_completed?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'completed', 'refused' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_completed?).to be false
+        end
+      end
+    end
+
+    context 'unrecognised state' do
+      it 'should raise NoMethodError' do
+        expect {
+          claim.other_unknown_state?
+        }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
+      end
+    end
+  end
+
+  describe 'validations' do
+
+    context 'draft' do
+      before { allow(subject).to receive(:draft?).and_return(true) }
+
+      it { should validate_presence_of(:advocate) }
+    end
+
+    context 'non-draft' do
+      before { allow(subject).to receive(:draft?).and_return(false) }
+
+      it { should validate_presence_of(:advocate) }
+      it { should validate_presence_of(:creator) }
+      it { should validate_presence_of(:court) }
+      it { should validate_presence_of(:offence) }
+      it { should validate_presence_of(:case_number) }
+      it { should validate_presence_of(:prosecuting_authority) }
+      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
+
+      it { should validate_presence_of(:case_type) }
+      it { should validate_inclusion_of(:case_type).in_array(%w(
+                                                                appeal_against_conviction
+                                                                appeal_against_sentence
+                                                                breach_of_crown_court_order
+                                                                commital_for_sentence
+                                                                contempt
+                                                                cracked_trial
+                                                                cracked_before_retrial
+                                                                discontinuance
+                                                                elected_cases_not_proceeded
+                                                                guilty_plea
+                                                                retrial
+                                                                trial
+                                                                ))
+          }
+
+      it { should validate_presence_of(:advocate_category) }
+      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
+
+      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
+    end
+  end
+
 
   it { should accept_nested_attributes_for(:basic_fees) }
   it { should accept_nested_attributes_for(:non_basic_fees) }
@@ -94,8 +203,8 @@ RSpec.describe Claim, type: :model do
 
 
   subject { create(:claim) }
-  
-  
+
+
   describe 'is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
     let(:case_worker_2)        { FactoryGirl.create :case_worker }
@@ -105,7 +214,7 @@ RSpec.describe Claim, type: :model do
       subject.case_workers << case_worker_2
       expect(subject.is_allocated_to_case_worker?(case_worker_1)).to be true
     end
-      
+
     it 'should return false if not allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
       expect(subject.is_allocated_to_case_worker?(case_worker_2)).to be false

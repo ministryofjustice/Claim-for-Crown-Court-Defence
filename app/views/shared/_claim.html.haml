@@ -16,9 +16,10 @@
         %dt
           Rep order date
         %dd
-          #{claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') }.join(', ')}
+          - if claim.defendants.any?
+            = claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') if d.representation_order_date }.join(', ')
         %dt
-          Supplier account number
+          Advocate account number
         %dd
           #{claim.advocate.account_number}
         %dt
@@ -45,11 +46,13 @@
           %dt
             Offence
           %dd
-            #{claim.offence.description}
+            - if claim.offence
+              = claim.offence.description
           %dt
             Offence class
           %dd
-            #{claim.offence.offence_class}
+            - if claim.offence
+              = claim.offence.offence_class
     %li
       %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
         Court
@@ -57,7 +60,8 @@
         %dt
           Crown Court
         %dd
-          #{claim.court.name}
+          - if claim.court
+            = claim.court.name
         %dt
           Prosecuting authority
         %dd

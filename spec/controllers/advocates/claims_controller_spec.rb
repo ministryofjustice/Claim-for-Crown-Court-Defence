@@ -18,97 +18,85 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before(:each) do
-      @allocated_claim                = FactoryGirl.create :allocated_claim, advocate: advocate
-      @appealed_claim                 = FactoryGirl.create :appealed_claim, advocate: advocate
-      @archived_pending_delete_claim  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate
-      @awaiting_further_info_claim    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate
-      @awaiting_info_from_court_claim = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate
-      @completed_claim                = FactoryGirl.create :completed_claim, advocate: advocate
-      @draft_claim                    = FactoryGirl.create :draft_claim, advocate: advocate
-      @part_paid_claim                = FactoryGirl.create :part_paid_claim, advocate: advocate
-      @parts_rejected_claim           = FactoryGirl.create :parts_rejected_claim, advocate: advocate
-      @refused_claim                  = FactoryGirl.create :refused_claim, advocate: advocate
-      @rejected_claim                 = FactoryGirl.create :rejected_claim, advocate: advocate
-      @submitted_claim                = FactoryGirl.create :submitted_claim, advocate: advocate
+      @allocated_claim                = build_claim_in_state(:allocated)
+      @appealed_claim                 = build_claim_in_state(:appealed)
+      @archived_pending_delete_claim  = build_claim_in_state(:archived_pending_delete)
+      @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
+      @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
+      @completed_claim                = build_claim_in_state(:completed)
+      @draft_claim                    = build_claim_in_state(:draft)
+      @part_paid_claim                = build_claim_in_state(:part_paid)
+      @parts_rejected_claim           = build_claim_in_state(:parts_rejected)
+      @refused_claim                  = build_claim_in_state(:refused)
+      @rejected_claim                 = build_claim_in_state(:rejected)
+      @submitted_claim                = build_claim_in_state(:submitted)
     end
 
+    let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim, 
+                                @awaiting_further_info_claim, @awaiting_info_from_court_claim, @completed_claim,
+                                @draft_claim, @part_paid_claim, @parts_rejected_claim, @refused_claim, 
+                                @rejected_claim, @submitted_claim ] }
+
     context 'advocate' do
-      it 'should categorise the claims' do
+      it 'should categorise the claims for the advocate' do
+        query_result = double 'QueryResult'
+        expect(controller.current_user).to receive(:claims).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(full_collection)
+
         get :index
 
         expect(response).to have_http_status(:success)
         expect(assigns(:draft_claims)).to contain_claims( @draft_claim )
         expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim )
-        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim, 
+        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim,
                                                               @submitted_claim,
                                                               @awaiting_info_from_court_claim,
                                                               @awaiting_further_info_claim)
-        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim, 
-                                                              @appealed_claim, 
-                                                              @parts_rejected_claim) 
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim,
+                                                              @appealed_claim,
+                                                              @parts_rejected_claim)
         expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
 
     context 'advocate admin' do
-      let(:other_chamber)                   { create(:chamber) }
+
       let(:advocate_admin)                  { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
-      let(:advocate_in_same_chamber)        { create(:advocate, chamber_id: advocate.chamber.id) }
-      let(:advocate_in_different_chamber)   { create(:advocate, :admin, chamber_id: other_chamber.id) }
 
-      before(:each) do
-        @allocated_claim_2                = FactoryGirl.create :allocated_claim, advocate: advocate_in_same_chamber
-        @appealed_claim_2                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_same_chamber
-        @archived_pending_delete_claim_2  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_same_chamber
-        @awaiting_further_info_claim_2    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_same_chamber
-        @awaiting_info_from_court_claim_2 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_same_chamber
-        @completed_claim_2                = FactoryGirl.create :completed_claim, advocate: advocate_in_same_chamber
-        @draft_claim_2                    = FactoryGirl.create :draft_claim, advocate: advocate_in_same_chamber
-        @part_paid_claim_2                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_same_chamber
-        @parts_rejected_claim_2           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_same_chamber
-        @refused_claim_2                  = FactoryGirl.create :refused_claim, advocate: advocate_in_same_chamber
-        @rejected_claim_2                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_same_chamber
-        @submitted_claim_2                = FactoryGirl.create :submitted_claim, advocate: advocate_in_same_chamber
-
-        @allocated_claim_3                = FactoryGirl.create :allocated_claim, advocate: advocate_in_different_chamber
-        @appealed_claim_3                 = FactoryGirl.create :appealed_claim, advocate: advocate_in_different_chamber
-        @archived_pending_delete_claim_3  = FactoryGirl.create :archived_pending_delete_claim, advocate: advocate_in_different_chamber
-        @awaiting_further_info_claim_3    = FactoryGirl.create :awaiting_further_info_claim, advocate: advocate_in_different_chamber
-        @awaiting_info_from_court_claim_3 = FactoryGirl.create :awaiting_info_from_court_claim, advocate: advocate_in_different_chamber
-        @completed_claim_3                = FactoryGirl.create :completed_claim, advocate: advocate_in_different_chamber
-        @draft_claim_3                    = FactoryGirl.create :draft_claim, advocate: advocate_in_different_chamber
-        @part_paid_claim_3                = FactoryGirl.create :part_paid_claim, advocate: advocate_in_different_chamber
-        @parts_rejected_claim_3           = FactoryGirl.create :parts_rejected_claim, advocate: advocate_in_different_chamber
-        @refused_claim_3                  = FactoryGirl.create :refused_claim, advocate: advocate_in_different_chamber
-        @rejected_claim_3                 = FactoryGirl.create :rejected_claim, advocate: advocate_in_different_chamber
-        @submitted_claim_3                = FactoryGirl.create :submitted_claim, advocate: advocate_in_different_chamber
-
+      it 'should categorise claims for the chamber' do
         sign_in advocate_admin.user
-      end
-
-      it 'should categorise claims from the same chamber and exclude those from another chamber' do
+        query_result = double 'QueryResult'
+        expect(controller.current_user.persona.chamber).to receive(:claims).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(full_collection)
+      
         get :index
 
         expect(response).to have_http_status(:success)
-
-        expect(assigns(:draft_claims)).to contain_claims( @draft_claim, @draft_claim_2 )
-        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim, @rejected_claim_2 )
-        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim, @allocated_claim_2,
-                                                              @submitted_claim, @submitted_claim_2,
-                                                              @awaiting_info_from_court_claim, @awaiting_info_from_court_claim_2,
-                                                              @awaiting_further_info_claim, @awaiting_further_info_claim_2)
-        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim, @part_paid_claim_2,
-                                                              @appealed_claim, @appealed_claim_2,
-                                                              @parts_rejected_claim, @parts_rejected_claim_2) 
-        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @completed_claim_2, @refused_claim, @refused_claim_2 )
+        expect(assigns(:draft_claims)).to contain_claims( @draft_claim )
+        expect(assigns(:rejected_claims)).to contain_claims( @rejected_claim )
+        expect(assigns(:submitted_claims)).to contain_claims( @allocated_claim,
+                                                              @submitted_claim,
+                                                              @awaiting_info_from_court_claim,
+                                                              @awaiting_further_info_claim)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim,
+                                                              @appealed_claim,
+                                                              @parts_rejected_claim)
+        expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
 
     it 'renders the template' do
       get :index
       expect(response).to render_template(:index)
+    end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      get :index
+      expect(response.body).to match(/Dashboard/)
     end
   end
 
@@ -128,6 +116,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      expect(response.body).to match(/Dashboard.*Claim: #{subject.case_number}/)
+    end
   end
 
   describe "GET #new" do
@@ -143,6 +137,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     it 'renders the template' do
       expect(response).to render_template(:new)
+    end
+
+    render_views
+
+    it 'renders breadcrumbs' do
+      expect(response.body).to match(/Dashboard.*New claim/)
     end
   end
 
@@ -162,6 +162,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
       it 'renders the template' do
         expect(response).to render_template(:edit)
+      end
+
+      render_views
+
+      it 'renders breadcrumbs' do
+        expect(response.body).to match(/Dashboard.*Claim: #{subject.case_number}.*Edit/)
       end
     end
 
@@ -191,32 +197,62 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           }
         end
 
-        it 'creates a claim' do
-          expect {
-            post :create, claim: claim_params
-          }.to change(Claim, :count).by(1)
+        context 'submit to LAA' do
+          it 'creates a claim' do
+            expect {
+              post :create, commit: 'Submit to LAA', claim: claim_params
+            }.to change(Claim, :count).by(1)
+          end
+
+          it 'redirects to claim confirmation' do
+            post :create, claim: claim_params, commit: 'Submit to LAA'
+            expect(response).to redirect_to(confirmation_advocates_claim_path(Claim.first))
+          end
+
+          it 'sets the created claim\'s advocate to the signed in advocate' do
+            post :create, claim: claim_params, commit: 'Submit to LAA'
+            expect(Claim.first.advocate).to eq(advocate)
+          end
+
+          it 'sets the claim\'s state to "submitted"' do
+            post :create, claim: claim_params, commit: 'Submit to LAA'
+            expect(Claim.first).to be_submitted
+          end
         end
 
-        it 'redirects to claim summary' do
-          post :create, claim: claim_params
-          expect(response).to redirect_to(summary_advocates_claim_path(Claim.first))
-        end
+        context 'create draft' do
+          it 'creates a claim' do
+            expect {
+              post :create, commit: 'Save to drafts', claim: claim_params
+            }.to change(Claim, :count).by(1)
+          end
 
-        it 'sets the created claim\'s advocate to the signed in advocate' do
-          post :create, claim: claim_params
-          expect(Claim.first.advocate).to eq(advocate)
+          it 'redirects to claims list' do
+            post :create, claim: claim_params, commit: 'Save to drafts'
+            expect(response).to redirect_to(advocates_claims_path)
+          end
+
+          it 'sets the created claim\'s advocate to the signed in advocate' do
+            post :create, claim: claim_params, commit: 'Save to drafts'
+            expect(Claim.first.advocate).to eq(advocate)
+          end
+
+          it 'sets the claim\'s state to "draft"' do
+            post :create, claim: claim_params, commit: 'Save to drafts'
+            expect(Claim.first).to be_draft
+          end
         end
       end
 
-      context 'and the input is invalid' do
+      context 'submit to LAA with incomplete/invalid params' do
         it 'does not create a claim' do
           expect {
-            post :create, claim: { additional_information: 'foo' }
+            post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
           }.to_not change(Claim, :count)
         end
 
-        it 'render new template' do
-          post :create, claim: { additional_information: 'foo' }
+        it 'renders the new template' do
+          post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
           expect(response).to render_template(:new)
         end
       end
@@ -262,7 +298,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         context 'invalid params' do
           render_views
           it 'should redisplay the page with error messages and all the entered data in basic and non basic fees' do
-            post :create, claim: invalid_claim_params
+            post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
             expect(response.status).to eq 200
             expect(response).to render_template(:new)
             expect(response.body).to have_content("Prosecuting authority can't be blank")
@@ -293,10 +329,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         end
       end
 
-      context 'evidence checklist' do
+      context 'document checklist' do
         let(:court) { create(:court) }
         let(:offence) { create(:offence) }
-        let(:evidence_list_item) { create(:evidence_list_item) }
+        let(:document_type) { create(:document_type) }
         let(:claim_params) do
           {
              additional_information: 'foo',
@@ -306,14 +342,14 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
              case_number: '12345',
              advocate_category: 'QC',
              prosecuting_authority: 'cps',
-             evidence_list_item_ids: [evidence_list_item.id.to_s]
+             document_type_ids: [document_type.id.to_s]
           }
         end
 
-        it 'should create a claim with evidence list items' do
+        it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
           claim = assigns(:claim)
-          expect(claim.evidence_list_items.count).to eql(1)
+          expect(claim.document_types.count).to eql(1)
         end
       end
 
@@ -324,23 +360,23 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     subject { create(:claim, advocate: advocate) }
 
     context 'when valid' do
-      context 'and draft' do
+      context 'and saving to draft' do
         it 'updates a claim' do
-          put :update, id: subject, claim: { additional_information: 'foo' }
+          put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts'
           subject.reload
           expect(subject.additional_information).to eq('foo')
         end
 
-        it 'redirects to claim summary path' do
+        it 'redirects to claims list path' do
           put :update, id: subject, claim: { additional_information: 'foo' }
-          expect(response).to redirect_to(summary_advocates_claim_path(subject))
+          expect(response).to redirect_to(advocates_claims_path)
         end
       end
 
-      context 'and submitted' do
+      context 'and submitted to LAA' do
         before do
-          get :summary, id: subject
-          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true
+          get :edit, id: subject
+          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA'
         end
 
         it 'redirects to the claim confirmation path' do
@@ -359,15 +395,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       end
     end
 
-    context 'when invalid' do
-      it 'does not update claim' do
-        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }
+    context 'when submitted to LAA and invalid ' do
+      it 'does not set claim to submitted' do
+        put :update, id: subject, claim: { court_id: nil }, commit: 'Submit to LAA'
         subject.reload
-        expect(subject.additional_information).to be_nil
+        expect(subject).to_not be_submitted
       end
 
       it 'renders edit template' do
-        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }
+        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit: 'Submit to LAA'
         expect(response).to render_template(:edit)
       end
     end
@@ -444,5 +480,14 @@ def valid_claim_fee_params
      "apply_vat" => "0"
    }
 end
+
+
+
+def build_claim_in_state(state)
+  claim = FactoryGirl.build :unpersisted_claim
+  allow(claim).to receive(:state).and_return(state.to_s)
+  claim
+end
+
 
 

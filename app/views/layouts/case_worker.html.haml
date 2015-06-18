@@ -27,6 +27,7 @@
           = yield :aside_navigation
           &nbsp;
         %main.main-content
+          = render_breadcrumbs
           = yield
         %aside.aside-help
           = yield :aside_help

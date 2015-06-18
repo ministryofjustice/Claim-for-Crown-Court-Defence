@@ -9,7 +9,10 @@
 #
 
 class DocumentType < ActiveRecord::Base
-  has_many :documents, dependent: :nullify
+
+  has_many :document_type_claims, dependent: :nullify
+  has_many :claims, through: :document_type_claims
 
   validates :description, presence: true, uniqueness: { case_sensitive: false }
+
 end

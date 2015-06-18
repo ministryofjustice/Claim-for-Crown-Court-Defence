@@ -14,15 +14,9 @@ form{
         display: block;
         margin-top: 1em;
       }
-      input,
-      select,
       textarea{
         width:100%;
         font-size: 1em;
-        &[type="radio"],&[type="checkbox"]{
-          width:auto;
-          display: inline-block;
-        }
       }
   }
   h2 + fieldset{
@@ -41,19 +35,22 @@ form{
   }
   .table {
     margin-bottom: 1em;
+    border-bottom: 1px solid #bfc1c3;
   }
-  .exepense-fee{
-    &.nested-fields{
+  .nested-fields{
+    td, th{
+      border-bottom: 0;
+      border-top: 1px solid #bfc1c3;
+    }
+    &.extra-data{
       th, td{
-        border-bottom: 0;
-        border-top: 1px solid #bfc1c3;
+        border-top: 0;
+        border-bottom: 1px solid #bfc1c3;
 
       }
     }
   }
-  .extra-data{
-    background-color: #f8f8f8;
-  }
+
   .table tr th:first-child,
   .table tr td:first-child{
     padding-left: 15px;

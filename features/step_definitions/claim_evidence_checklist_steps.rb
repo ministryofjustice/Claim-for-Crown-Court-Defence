@@ -1,5 +1,5 @@
 Given(/^evidence checklist entries exist$/) do
-  @first_eli = create(:evidence_list_item, description: 'Evidence list item 1')
+  @document_type = create(:document_type, description: 'Evidence list item 1')
 end
 
 Then(/^I should see an evidence checklist section$/) do
@@ -7,7 +7,7 @@ Then(/^I should see an evidence checklist section$/) do
 end
 
 Then(/^I check the first checkbox$/) do
-  check @first_eli.description
+  check @document_type.description
 end
 
 Then(/^I visit the claim show page$/) do

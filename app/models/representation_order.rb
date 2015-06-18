@@ -20,8 +20,8 @@ class RepresentationOrder < ActiveRecord::Base
 
   attr_accessor :pdf_tmpfile
 
-  before_save :generate_pdf_tmpfile
-  before_save :add_converted_preview_document
+  before_save :generate_pdf_tmpfile, unless: -> { self.defendant.nil? || self.defendant.claim.draft? }
+  before_save :add_converted_preview_document, unless: -> { self.defendant.nil? || self.defendant.claim.draft? }
 
   belongs_to :defendant
 
@@ -44,6 +44,7 @@ class RepresentationOrder < ActiveRecord::Base
 
   validates_attachment :document,
     presence: true,
+    unless: -> { self.defendant.nil? || self.defendant.claim.nil? || self.defendant.claim.draft? },
     content_type: {
       content_type: ['application/pdf',
                      'application/msword',

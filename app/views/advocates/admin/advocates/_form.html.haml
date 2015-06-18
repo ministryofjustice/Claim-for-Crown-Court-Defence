@@ -4,6 +4,7 @@
     %ul
       - @advocate.errors.full_messages.each do |msg|
         %li= msg
+
   %fieldset
     = f.fields_for :user do |user_fields|
       = user_fields.label :email

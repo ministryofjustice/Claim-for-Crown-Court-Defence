@@ -13,7 +13,7 @@ Feature: Claim evidence checklist
      When I am on the claim edit page
      Then I should see an evidence checklist section
       And I check the first checkbox
-      And I submit the form
+      And I submit to LAA
       And I visit the claim show page
      Then I should see a list item for "Evidence list item 1" evidence
 
@@ -22,6 +22,6 @@ Feature: Claim evidence checklist
      When I am on the new claim page
      Then I should see an evidence checklist section
       And I fill in the claim details
-      And I submit the form
+      And I submit to LAA
       And I visit the claim show page
      Then I should see a list item for "Representation Order" evidence

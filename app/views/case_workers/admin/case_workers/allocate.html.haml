@@ -6,10 +6,10 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
   - if @case_worker.errors.any?
     .validation-summary 
-        %h2.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this allocation from being saved:"
-        %ul
-          - @case_worker.errors.full_messages.each do |msg|
-            %li= msg
+      %h2.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this allocation from being saved:"
+      %ul
+        - @case_worker.errors.full_messages.each do |msg|
+          %li= msg
   %fieldset
     %table.allocate
       %thead

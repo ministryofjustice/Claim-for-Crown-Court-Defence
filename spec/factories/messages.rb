@@ -21,4 +21,11 @@ FactoryGirl.define do
       message.sender_id = create(:user, email: Faker::Internet.email, password: 'password', password_confirmation: 'password').id
     end
   end
+
+  factory :unpersisted_message, class: Message do
+    subject         { Faker::Lorem.sentence }
+    body            { Faker::Lorem.paragraph }
+    claim           { FactoryGirl.build :unpersisted_claim }
+    sender          { FactoryGirl.build :user }
+  end
 end

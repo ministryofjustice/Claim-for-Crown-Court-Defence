@@ -34,3 +34,10 @@ en:
     form:
       upload: "Choose file to upload"
   maat_reference_number: "MAAT Reference"
+  advocates:
+    admin:
+      advocates:
+        new:
+          new_advocate: "New advocate"
+        form:
+          errors: "prohibited this advocate from being saved:"

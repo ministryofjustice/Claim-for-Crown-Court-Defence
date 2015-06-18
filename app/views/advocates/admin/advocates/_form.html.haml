@@ -1,6 +1,6 @@
 = form_for [:advocates, :admin, @advocate] do |f|
   - if @advocate.errors.any?
-    %h2= "#{pluralize(@advocate.errors.count, 'error')} prohibited this advocate from being saved:"
+    %h2= "#{pluralize(@advocate.errors.count, 'error')} " + t("advocates.admin.advocates.form.errors")
     %ul
       - @advocate.errors.full_messages.each do |msg|
         %li= msg

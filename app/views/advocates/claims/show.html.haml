@@ -28,8 +28,5 @@
     Messages (#{@messages.count})
   = render partial: 'shared/messages'
   %h2
-    Claim notes
-  = render partial: 'case_notes'
-  %h2
     Status of claim
   = render partial: 'shared/claim_status', locals: { disabled: true }

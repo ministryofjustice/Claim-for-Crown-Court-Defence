@@ -626,4 +626,13 @@ RSpec.describe Claim, type: :model do
 
   end
 
+  describe 'allocate claim when assigning to case worker' do
+    subject { create(:submitted_claim) }
+    let(:case_worker) { create(:case_worker) }
+
+    it 'set the claim to "allocated" when assigned to case worker' do
+      subject.case_workers << case_worker
+      expect(subject.reload).to be_allocated
+    end
+  end
 end

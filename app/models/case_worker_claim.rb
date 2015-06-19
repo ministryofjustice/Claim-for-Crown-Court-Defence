@@ -14,6 +14,7 @@ class CaseWorkerClaim < ActiveRecord::Base
   belongs_to :claim
 
   after_create :generate_message_statuses
+  after_create :set_claim_allocated!
 
   private
 
@@ -23,5 +24,9 @@ class CaseWorkerClaim < ActiveRecord::Base
     messages.each do |message|
       UserMessageStatus.create!(user_id: user.id, message_id: message.id)
     end
+  end
+
+  def set_claim_allocated!
+    claim.allocate! if claim.submitted?
   end
 end

@@ -38,16 +38,16 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
-    let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim, 
+    let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim,
                                 @awaiting_further_info_claim, @awaiting_info_from_court_claim, @completed_claim,
-                                @draft_claim, @part_paid_claim, @parts_rejected_claim, @refused_claim, 
+                                @draft_claim, @part_paid_claim, @parts_rejected_claim, @refused_claim,
                                 @rejected_claim, @submitted_claim ] }
 
     context 'advocate' do
       it 'should categorise the claims for the advocate' do
         query_result = double 'QueryResult'
         expect(controller.current_user).to receive(:claims).and_return(query_result)
-        allow(query_result).to receive(:order).and_return(full_collection) 
+        allow(query_result).to receive(:order).and_return(full_collection)
         allow(query_result).to receive(:unscope).and_return(full_collection)
 
         get :index
@@ -76,7 +76,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         expect(controller.current_user.persona.chamber).to receive(:claims).and_return(query_result)
         allow(query_result).to receive(:order).and_return(full_collection)
         allow(query_result).to receive(:unscope).and_return(full_collection)
-      
+
         get :index
 
         expect(response).to have_http_status(:success)
@@ -127,6 +127,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     it 'renders breadcrumbs' do
       expect(response.body).to match(/Dashboard.*Claim: #{subject.case_number}/)
+    end
+
+    it 'does not display claim notes' do
+      expect(response.body).to_not include('Add note')
     end
   end
 

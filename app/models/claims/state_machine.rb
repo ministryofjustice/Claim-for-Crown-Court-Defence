@@ -6,7 +6,7 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_REJECTED_STATES      = [ 'rejected' ]
   ADVOCATE_DASHBOARD_SUBMITTED_STATES     = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
   ADVOCATE_DASHBOARD_PART_PAID_STATES     = [ 'part_paid', 'appealed', 'parts_rejected' ]
-  ADVOCATE_DASHBOARD_COMPLETED_STATES     = [ 'completed', 'refused' ]
+  ADVOCATE_DASHBOARD_COMPLETED_STATES     = [ 'completed', 'refused', 'paid' ]
 
 
   # will return true if there is a constant defined in this class with the same name in upper case as method with the trailing question mark removed

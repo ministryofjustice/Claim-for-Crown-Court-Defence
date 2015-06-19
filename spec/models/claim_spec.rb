@@ -133,7 +133,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'completed', 'refused' ]).each do |claim_state|
+        (all_states - [ 'completed', 'refused', 'paid' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_completed?).to be false
         end

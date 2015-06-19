@@ -1,26 +1,26 @@
 = form_for [:advocates, :admin, @advocate] do |f|
   - if @advocate.errors.any?
-    %h2= "#{pluralize(@advocate.errors.count, 'error')} " + t("advocates.admin.advocates.form.errors")
+    %h2= "#{pluralize(@advocate.errors.count, 'error')} " + t("admin.form.errors")
     %ul
       - @advocate.errors.full_messages.each do |msg|
         %li= msg
 
   %fieldset
     = f.fields_for :user do |user_fields|
-      = user_fields.label :email
+      = user_fields.label t("admin.form.user_email")
       = user_fields.email_field :email
-      = user_fields.label :password
+      = user_fields.label t("admin.form.user_password")
       = user_fields.password_field :password
-      = user_fields.label :password_confirmation
+      = user_fields.label t("admin.form.user_password_confirmation")
       = user_fields.password_field :password_confirmation
 
-      = user_fields.label :first_name
+      = user_fields.label t("admin.form.user_first_name")
       = user_fields.text_field :first_name
-      = user_fields.label :last_name
+      = user_fields.label t("admin.form.user_last_name")
       = user_fields.text_field :last_name
 
-      = f.label :account_number
+      = f.label t("admin.form.user_account_number")
       = f.text_field :account_number
-      = f.label :role
+      = f.label t("admin.form.user_role")
       = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
-  = f.submit class: "button"
+  = f.submit t("admin.form.submit"), class: "button"

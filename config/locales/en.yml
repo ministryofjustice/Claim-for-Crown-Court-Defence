@@ -20,6 +20,57 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  dictionary:
+    errors: 
+      blank: &blank "can't be blank"
+    users:
+      role: &role "Role"
+      email: &email "Email"
+      password: &password "Password"
+      password_confirmation: &password_confirmation "Password confirmation"
+      first_name: &first_name "First name"
+      lasst_name: &last_name "Last name"
+  activerecord:
+    models:
+      advocate: 'Advocate'
+      claim: "Claim"
+    attributes:
+      advocate:
+        role: *role
+        account_number: "Account number"
+      user:
+        email: *email
+        password: *password
+        first_name: *first_name
+        last_name: *last_name
+      claim:
+        messages: "Messages"
+        defendants: "Defendants"
+        cms_number: "CMS Number"
+        submission_date: "Submission Date"
+        paid_date: "Paid Date"
+        claim_total: "Claim Total"
+        amount_assessed: "Amount Assessed"
+    errors:
+      models:
+        advocate:
+          attributes:
+            role:
+              blank: *blank
+              inclusion: "is not included in the list"
+            account_number:
+              blank: *blank
+              invalid: "must be 5 alhpa-numeric characters"
+        user:
+          attributes:
+            email:
+              blank: *blank
+            password:
+              blank: *blank
+            first_name:
+              blank: *blank
+            last_name:
+              blank: *blank
   requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
   number:
     currency:
@@ -34,10 +85,24 @@ en:
     form:
       upload: "Choose file to upload"
   maat_reference_number: "MAAT Reference"
-  advocates:
-    admin:
-      advocates:
-        new:
-          new_advocate: "New advocate"
-        form:
-          errors: "prohibited this advocate from being saved:"
+  admin:
+    index:
+      advocates: "Advocates"
+      add_advocate: "Add Advocate"
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Are you sure?"
+    new:
+      new_advocate: "New Advocate"
+    edit:
+      edit_advocate: "Edit Advocate"
+    form:
+      errors: "prohibited this advocate from being saved:"
+      user_email: *email
+      user_password: *password
+      user_password_confirmation: *password_confirmation
+      user_first_name: *first_name
+      user_last_name: *last_name
+      user_account_number: 'Account number'
+      user_role: *role
+      submit: 'Create Advocate'

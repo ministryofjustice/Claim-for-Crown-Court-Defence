@@ -4,25 +4,25 @@
   %table.claims_table
     %thead
       %th
-        Messages
+        = t("activerecord.attributes.claim.messages")
       - if current_user.persona.admin?
         %th
-          Advocate
+          = t("activerecord.models.advocate")
       %th
-        Defendants
+        = t("activerecord.attributes.claim.defendants")
       %th
-        CMS Number
+        = t("activerecord.attributes.claim.cms_number")
       - unless includes_state?(claims,'draft')
         %th
-          Submission date
+          = t("activerecord.attributes.claim.submission_date")
       - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
         %th
-          Paid date
+          = t("activerecord.attributes.claim.paid_date")
       %th.currency
-        Claim total
+        = t("activerecord.attributes.claim.total")
       - if includes_state?(claims,'part_paid,completed')
         %th.currency
-          Amount assessed
+          = t("activerecord.attributes.claim.amount_assessed")
       %th
     %tbody
     - claims.each do |claim|

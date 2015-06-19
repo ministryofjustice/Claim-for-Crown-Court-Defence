@@ -4,9 +4,10 @@ class PingController  < ApplicationController
   def index
       respond_with(
         {
-          'Build Number' => ENV['BUILD_NUMBER'] || "Not Avaialble",
-          'Build Date'   => ENV['BUILD_DATE'] || 'Not Available',
-          'Commit SHA'   => ENV['GIT_COMMIT'] || 'Not Available'
+          'version_number'  => ENV['VERSION_NUMBER'] || "Not Avaialble",
+          'build_date'      => ENV['BUILD_DATE'] || 'Not Available',
+          'commit_id'       => ENV['COMMIT_ID'] || 'Not Available',
+          'build_tag'       => ENV['BUILD_TAG'] || "Not Available"
         }
       )
   end

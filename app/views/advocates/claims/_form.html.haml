@@ -1,10 +1,11 @@
 #claim-form
   = form_for [:advocates, @claim], html: { novalidate: true } do |f|
     - if @claim.errors.any?
-      %h2= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
-      %ul
-        - @claim.errors.full_messages.each do |msg|
-          %li= msg
+      .validation-summary 
+        %h2.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
+        %ul
+          - @claim.errors.full_messages.each do |msg|
+            %li= msg
     %h2
       Section 1:
     %fieldset

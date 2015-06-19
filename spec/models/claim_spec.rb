@@ -54,6 +54,101 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:document_type_claims) }
   it { should have_many(:document_types) }
 
+
+
+  context 'State Machine meta states magic methods' do
+    let(:claim)       { FactoryGirl.build :claim }
+    let(:all_states)  { [  'allocated', 'appealed', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
+                           'deleted', 'draft', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted' ] }
+
+    context 'advocate_dashboard_draft?' do
+      before(:each)     { allow(claim).to receive(:state).and_return('draft') }
+
+      it 'should respond true in draft' do
+        allow(claim).to receive(:state).and_return('draft')
+        expect(claim.advocate_dashboard_draft?).to be true
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - ['draft']).each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_draft?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_rejected?' do
+      before(:each)     { allow(claim).to receive(:state).and_return('rejected') }
+      it 'should respond true' do
+        allow(claim).to receive(:state).and_return('rejected')
+        expect(claim.advocate_dashboard_rejected?).to be true
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - ['rejected']).each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_rejected?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_submitted?' do
+      it 'should respond true' do
+        [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ].each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_submitted?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_submitted?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_part_paid' do
+      it 'should respond true' do
+        [ 'part_paid', 'appealed', 'parts_rejected' ].each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_part_paid?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'part_paid', 'appealed', 'parts_rejected' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_part_paid?).to be false
+        end
+      end
+    end
+
+    context 'advocate_dashboard_completed_states' do
+      it 'should respond true' do
+        [ 'completed', 'refused', 'paid' ].each do |state|
+          allow(claim).to receive(:state).and_return(state)
+          expect(claim.advocate_dashboard_completed?).to be true
+        end
+      end
+
+      it 'should respond false to anything else' do
+        (all_states - [ 'completed', 'refused', 'paid' ]).each do |claim_state|
+          allow(claim).to receive(:state).and_return(claim_state)
+          expect(claim.advocate_dashboard_completed?).to be false
+        end
+      end
+    end
+
+    context 'unrecognised state' do
+      it 'should raise NoMethodError' do
+        expect {
+          claim.other_unknown_state?
+        }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
+      end
+    end
+  end
+
   describe 'validations' do
 
     context 'draft' do
@@ -531,4 +626,13 @@ RSpec.describe Claim, type: :model do
 
   end
 
+  describe 'allocate claim when assigning to case worker' do
+    subject { create(:submitted_claim) }
+    let(:case_worker) { create(:case_worker) }
+
+    it 'set the claim to "allocated" when assigned to case worker' do
+      subject.case_workers << case_worker
+      expect(subject.reload).to be_allocated
+    end
+  end
 end

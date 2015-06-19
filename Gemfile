@@ -34,8 +34,13 @@ gem 'squeel'
 gem 'state_machine'
 gem 'susy'
 gem 'uglifier', '>= 1.3.0'
-gem 'unicorn-rails'
-gem 'rails_12factor', group: :production
+gem 'webrick'
+
+
+group :production do
+  gem 'rails_12factor', group: :production
+  gem 'unicorn-rails'
+end
 
 group :development, :test do
   gem 'annotate'

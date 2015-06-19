@@ -126,7 +126,7 @@ RSpec.describe Claim, type: :model do
 
     context 'advocate_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'completed', 'refused' ].each do |state|
+        [ 'completed', 'refused', 'paid' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.advocate_dashboard_completed?).to be true
         end

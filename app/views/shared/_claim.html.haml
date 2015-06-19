@@ -1,10 +1,10 @@
-- present(claim) do |claim_presenter|
+- present(claim) do |claim|
   %section
     - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
       %p
         %strong
           Assigned to:
-        = claim_presenter.case_worker_names
+        = claim.case_worker_names
     %ul.case-data
       %li
         %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
@@ -13,12 +13,12 @@
           %dt
             Defendant name
           %dd
-            = claim_presenter.defendant_names
+            = claim.defendant_names
           %dt
             Rep order date
           %dd
             - if claim.defendants.any?
-              = claim_presenter.representation_order_dates
+              = claim.representation_order_dates
           %dt
             Advocate account number
           %dd
@@ -26,7 +26,7 @@
           %dt
             Case submitted
           %dd
-            = claim_presenter.submitted_at(include_time: true) unless claim.draft?
+            = claim.submitted_at(include_time: true) unless claim.draft?
           - if controller.action_name == 'show'
             %dt
               Case number
@@ -39,11 +39,11 @@
             %dt
               Case Worker
             %dd
-              = claim_presenter.case_worker_email_addresses
+              = claim.case_worker_email_addresses
             %dt
               = t('maat_reference_number')
             %dd
-              = claim_presenter.maat_references
+              = claim.maat_references
             %dt
               Offence
             %dd
@@ -97,22 +97,22 @@
             %dt
               Expenses
             %dd
-              = claim_presenter.expenses_total
+              = claim.expenses_total
             %dt
               Fees
             %dd
-              = claim_presenter.fees_total
+              = claim.fees_total
             %dt
               VAT
             %dt
               TOTAL
             %dd
               %span.value
-                = claim_presenter.total
+                = claim.total
             %dt
               Paid on
             %dd
-              = claim_presenter.paid_at(include_time: true)
+              = claim.paid_at(include_time: true)
 
 
     - unless controller.action_name == 'show'

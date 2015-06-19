@@ -25,8 +25,8 @@
           Amount assessed
       %th
     %tbody
-    - claims.each do |claim|
-      - present(claim) do |claim_presenter|
+    - claims.each do |claim_object|
+      - present(claim_object) do |claim|
         %tr{id: dom_id(claim)}
           %td
             = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"
@@ -34,20 +34,20 @@
             %td
               = claim.advocate.name
           %td
-            = claim_presenter.defendant_names
+            = claim.defendant_names
           %td
             = claim.cms_number
           - unless includes_state?(claims,'draft')
             %td
-              = claim_presenter.submitted_at
+              = claim.submitted_at
           - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
             %td
-              = claim_presenter.paid_at
+              = claim.paid_at
           %td.currency
-            = claim_presenter.total
+            = claim.total
           - if includes_state?(claims,'part_paid,completed')
             %td.currency
-              = claim_presenter.amount_assessed
+              = claim.amount_assessed
           %td
             = link_to 'View', advocates_claim_path(claim)
             - if claim.editable?
@@ -57,4 +57,4 @@
             = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
           %td
             - if claim.state == 'awaiting_info_from_court'
-              = claim_presenter.status_image class: 'status-indicator'
+              = claim.status_image_tag class: 'status-indicator'

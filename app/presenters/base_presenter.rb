@@ -17,9 +17,4 @@ private
     @view
   end
 
-  # hand off undefined methods to the view template
-  def method_missing(*args, &block)
-    @view.send(*args, &block)
-  end
-
 end

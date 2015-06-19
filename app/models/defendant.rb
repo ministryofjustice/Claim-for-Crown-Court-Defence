@@ -26,23 +26,14 @@ class Defendant < ActiveRecord::Base
   validates :date_of_birth, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
   validates :maat_reference, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
   validates :maat_reference, uniqueness: { case_sensitive: false, scope: :claim_id }
-  validate  :one_representation_order, unless: -> { self.claim.nil? || self.claim.draft? }
+
+  validate  :has_at_least_one_representation_order_unless_draft
 
   before_save { |defendant| defendant.maat_reference = defendant.maat_reference.upcase }
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
 
   after_initialize :build_representation_order
-
-  def one_representation_order
-    if representation_orders.size != 1
-      errors[:representation_order] << "There must be exactly one per defendant"
-    end
-  end
-
-  def representation_order
-    representation_orders.first
-  end
 
   def build_representation_order
     if representation_orders.nil? || representation_orders.none?
@@ -53,5 +44,14 @@ class Defendant < ActiveRecord::Base
 
   def name
     [first_name, last_name].join(' ')
+  end
+
+  private
+
+  def has_at_least_one_representation_order_unless_draft
+    return if self.claim.nil? || self.claim.draft?
+    if self.representation_orders.none?
+      errors[:representation_orders] << "There must be at least one representation order per defendant"
+    end
   end
 end

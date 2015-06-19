@@ -13,8 +13,6 @@ RSpec.describe ClaimPresenter do
 
   after { Timecop.return }
 
-  # it { expect(subject).to receive(:paid_at) }
-
   it '#defendant_names' do
     expect(subject.defendant_names).to eql('Adam Smith, John Smith')
   end
@@ -72,8 +70,8 @@ RSpec.describe ClaimPresenter do
   end
 
   it '#case_worker_email_addresses' do
-    cw1 = create(:case_worker)
-    cw2 = create(:case_worker)
+    cw1 = build(:case_worker)
+    cw2 = build(:case_worker)
     cw1.user.email = 'john@bigblackhole.com'
     cw2.user.email = 'bob@bigblackhole.com'
     claim.case_workers << cw1

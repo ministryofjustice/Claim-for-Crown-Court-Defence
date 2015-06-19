@@ -124,6 +124,10 @@ class Claim < ActiveRecord::Base
 
   # after_initialize :instantiate_basic_fees
 
+  before_validation do
+    documents.each { |d| d.advocate_id = self.advocate_id }
+  end
+
 
   class << self
 

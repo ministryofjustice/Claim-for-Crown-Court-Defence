@@ -468,3 +468,6 @@ DEPENDENCIES
   unicorn-rails
   webmock
   webrick
+
+BUNDLED WITH
+   1.10.4

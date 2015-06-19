@@ -63,3 +63,7 @@ end
 Then(/^I should see an image tag with source "(.*?)" against that claim$/) do |image_source|
 	expect(find('.status-indicator')['src'].include?(image_source)).to eql(true)
 end
+
+When(/^the claim state should be allocated$/) do
+  expect(Claim.all.pluck(:state).uniq).to eq(['allocated'])
+end

@@ -8,7 +8,7 @@ class Ability
         can :create, [Claim, Document]
         can :landing, Claim
         can [:update, :read, :destroy, :download,
-             :confirmation, :outstanding], [Claim, Document], chamber_id: persona.chamber_id
+             :confirmation, :outstanding, :authorised], [Claim, Document], chamber_id: persona.chamber_id
       if persona.admin?
         # Placeholder for Advocate admin
       end

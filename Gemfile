@@ -3,6 +3,7 @@ ruby '2.2.1'
 
 gem 'aws-sdk-v1'
 gem 'bourbon'
+gem 'breadcrumbs_on_rails'
 gem 'breakpoint'
 gem 'cancancan', '~> 1.10'
 gem 'cocoon'
@@ -33,8 +34,13 @@ gem 'squeel'
 gem 'state_machine'
 gem 'susy'
 gem 'uglifier', '>= 1.3.0'
-gem 'unicorn-rails'
-gem 'rails_12factor', group: :production
+gem 'webrick'
+
+
+group :production do
+  gem 'rails_12factor', group: :production
+  gem 'unicorn-rails'
+end
 
 group :development, :test do
   gem 'annotate'

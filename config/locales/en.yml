@@ -43,14 +43,6 @@ en:
         password: *password
         first_name: *first_name
         last_name: *last_name
-      claim:
-        messages: "Messages"
-        defendants: "Defendants"
-        cms_number: "CMS Number"
-        submission_date: "Submission Date"
-        paid_date: "Paid Date"
-        claim_total: "Claim Total"
-        amount_assessed: "Amount Assessed"
     errors:
       models:
         advocate:
@@ -85,24 +77,40 @@ en:
     form:
       upload: "Choose file to upload"
   maat_reference_number: "MAAT Reference"
-  admin:
-    index:
-      advocates: "Advocates"
-      add_advocate: "Add Advocate"
-      edit: "Edit"
-      delete: "Delete"
-      confirm_delete: "Are you sure?"
-    new:
-      new_advocate: "New Advocate"
-    edit:
-      edit_advocate: "Edit Advocate"
-    form:
-      errors: "prohibited this advocate from being saved:"
-      user_email: *email
-      user_password: *password
-      user_password_confirmation: *password_confirmation
-      user_first_name: *first_name
-      user_last_name: *last_name
-      user_account_number: 'Account number'
-      user_role: *role
-      submit: 'Create Advocate'
+  advocates:
+    admin:
+      advocates:
+        index:
+          advocates: "Advocates"
+          add_advocate: "Add Advocate"
+          edit: "Edit"
+          delete: "Delete"
+          confirm_delete: "Are you sure?"
+        new:
+          new_advocate: "New Advocate"
+        edit:
+          edit_advocate: "Edit Advocate"
+        form:
+          errors_heading: "prohibited this advocate from being saved:"
+          email: *email
+          password: *password
+          password_confirmation: *password_confirmation
+          first_name: *first_name
+          last_name: *last_name
+          account_number: 'Account number'
+          role: *role
+          submit: 'Create Advocate'
+    claims:
+      claims:
+        no_claims_found: "No claims found"
+        messages: "Messages"
+        defendants: "Defendants"
+        cms_number: "CMS Number"
+        submission_date: "Submission date"
+        paid_date: "Paid date"
+        total: "Claim total"
+        amount_assessed: "Amount assessed"
+        view: "View"
+        edit: "Edit"
+        delete: "Delete"
+        confirm_delete: "Are you sure?"

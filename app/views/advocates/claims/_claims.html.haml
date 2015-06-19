@@ -1,28 +1,29 @@
 - if claims.none?
-  %p No claims found
+  %p
+    = t(".no_claims_found")
 - else
   %table.claims_table
     %thead
       %th
-        = t("activerecord.attributes.claim.messages")
+        = t(".messages")
       - if current_user.persona.admin?
         %th
-          = t("activerecord.models.advocate")
+          = t(".advocate")
       %th
-        = t("activerecord.attributes.claim.defendants")
+        = t(".defendants")
       %th
-        = t("activerecord.attributes.claim.cms_number")
+        = t(".cms_number")
       - unless includes_state?(claims,'draft')
         %th
-          = t("activerecord.attributes.claim.submission_date")
+          = t(".submission_date")
       - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
         %th
-          = t("activerecord.attributes.claim.paid_date")
+          = t(".paid_date")
       %th.currency
-        = t("activerecord.attributes.claim.total")
+        = t(".total")
       - if includes_state?(claims,'part_paid,completed')
         %th.currency
-          = t("activerecord.attributes.claim.amount_assessed")
+          = t(".amount_assessed")
       %th
     %tbody
     - claims.each do |claim|
@@ -48,12 +49,12 @@
           %td.currency
             = number_to_currency(claim.amount_assessed)
         %td
-          = link_to 'View', advocates_claim_path(claim)
+          = link_to t(".view"), advocates_claim_path(claim)
           - if claim.editable?
             |
-            = link_to 'Edit', edit_advocates_claim_path(claim)
+            = link_to t('.edit'), edit_advocates_claim_path(claim)
           |
-          = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to t('.delete'), advocates_claim_path(claim), method: :delete, data: { confirm: t('.confirm_delete') }
         %td
           - if claim.state == 'awaiting_info_from_court'
             = image_tag "#{claim.state.gsub('_','-')}.png", alt: claim.state.humanize, class: "status-indicator", title: claim.state.humanize

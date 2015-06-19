@@ -14,15 +14,9 @@ form{
         display: block;
         margin-top: 1em;
       }
-      input,
-      select,
       textarea{
         width:100%;
         font-size: 1em;
-        &[type="radio"],&[type="checkbox"]{
-          width:auto;
-          display: inline-block;
-        }
       }
   }
   h2 + fieldset{

@@ -2,6 +2,32 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY = 180.days
   STANDARD_VALIDITY = 21.days
 
+  ADVOCATE_DASHBOARD_DRAFT_STATES         = [ 'draft' ]
+  ADVOCATE_DASHBOARD_REJECTED_STATES      = [ 'rejected' ]
+  ADVOCATE_DASHBOARD_SUBMITTED_STATES     = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
+  ADVOCATE_DASHBOARD_PART_PAID_STATES     = [ 'part_paid', 'appealed', 'parts_rejected' ]
+  ADVOCATE_DASHBOARD_COMPLETED_STATES     = [ 'completed', 'refused', 'paid' ]
+
+
+  # will return true if there is a constant defined in this class with the same name in upper case as method with the trailing question mark removed
+  def self.has_state?(method)
+    return false unless method =~ /\?$/
+    const_defined?("#{method.to_s.chop.upcase}_STATES")
+  end
+
+
+  def self.is_in_state?(method, claim)
+    begin
+      konstant_name = "Claims::StateMachine::#{method.to_s.chop.upcase}_STATES".constantize
+      konstant_name.include?(claim.state)
+    rescue NameError
+      return false
+    end
+
+  end
+
+
+
   def self.included(klass)
     klass.state_machine :state,                      initial: :draft do
       after_transition on: :submit,                  do: :set_submission_date!
@@ -83,11 +109,11 @@ module Claims::StateMachine
     klass.scope :non_draft, -> { klass.where(state: ['allocated', 'appealed', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
          'deleted', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted']) }
 
-    klass.scope :advocate_dashboard_draft,      -> { klass.where(state: 'draft') }
-    klass.scope :advocate_dashboard_rejected,   -> { klass.where(state: 'rejected') }
-    klass.scope :advocate_dashboard_submitted,  -> { klass.where(state: ['allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info']) }
-    klass.scope :advocate_dashboard_part_paid,  -> { klass.where(state: ['part_paid', 'appealed', 'parts_rejected']) }
-    klass.scope :advocate_dashboard_completed,  -> { klass.where(state: ['completed', 'refused' ]) }
+    klass.scope :advocate_dashboard_draft,      -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES ) }
+    klass.scope :advocate_dashboard_rejected,   -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES ) }
+    klass.scope :advocate_dashboard_submitted,  -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES ) }
+    klass.scope :advocate_dashboard_part_paid,  -> { klass.where(state: ADVOCATE_DASHBOARD_PART_PAID_STATES ) }
+    klass.scope :advocate_dashboard_completed,  -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES ) }
 
   end
 

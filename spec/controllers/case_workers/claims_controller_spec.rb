@@ -112,7 +112,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
 
       it 'displays claim notes' do
-        expect(response.body).to include('Post Note')
+        expect(response.body).to include('Update note')
       end
     end
   end

@@ -19,7 +19,7 @@
           - if claim.defendants.any?
             = claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') if d.representation_order_date }.join(', ')
         %dt
-          Supplier account number
+          Advocate account number
         %dd
           #{claim.advocate.account_number}
         %dt

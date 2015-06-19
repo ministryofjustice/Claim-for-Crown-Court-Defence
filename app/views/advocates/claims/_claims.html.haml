@@ -1,28 +1,29 @@
 - if claims.none?
-  %p No claims found
+  %p
+    = t(".no_claims_found")
 - else
   %table.claims_table
     %thead
       %th
-        Messages
+        = t(".messages")
       - if current_user.persona.admin?
         %th
-          Advocate
+          = t(".advocate")
       %th
-        Defendants
+        = t(".defendants")
       %th
-        CMS Number
+        = t(".cms_number")
       - unless includes_state?(claims,'draft')
         %th
-          Submission date
+          = t(".submission_date")
       - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
         %th
-          Paid date
+          = t(".paid_date")
       %th.currency
-        Claim total
+        = t(".total")
       - if includes_state?(claims,'part_paid,completed')
         %th.currency
-          Amount assessed
+          = t(".amount_assessed")
       %th
     %tbody
     - claims.each do |claim_object|
@@ -54,7 +55,7 @@
               |
               = link_to 'Edit', edit_advocates_claim_path(claim)
             |
-            = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to 'Delete', advocates_claim_path(claim), method: :delete, data: { confirm: t('.confirm_delete') }
           %td
             - if claim.state == 'awaiting_info_from_court'
               = claim.status_image_tag class: 'status-indicator'

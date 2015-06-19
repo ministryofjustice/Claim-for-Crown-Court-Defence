@@ -51,7 +51,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   private
 
   def claim_params
-    params.require(:claim).permit(:state_for_form, :amount_assessed, :additional_information)
+    params.require(:claim).permit(
+      :state_for_form,
+      :amount_assessed,
+      :additional_information,
+      :notes
+    )
   end
 
   def set_claims

@@ -254,7 +254,7 @@ class Claim < ActiveRecord::Base
   def update_model_and_transition_state(params)
     new_state = params.delete('state_for_form')
     self.update(params)
-    self.state_for_form = new_state
+    self.state_for_form = new_state unless self.state_for_form == new_state || new_state.blank?
   end
 
   private

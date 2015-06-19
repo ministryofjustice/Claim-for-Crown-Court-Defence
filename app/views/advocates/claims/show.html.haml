@@ -27,10 +27,6 @@
   %h2
     Messages (#{@messages.count})
   = render partial: 'shared/messages'
-  - if current_user.persona == CaseWorker
-    %h2
-      Claim notes
-    = render partial: 'shared/case_notes'
   %h2
     Status of claim
   = render partial: 'shared/claim_status', locals: { disabled: true }

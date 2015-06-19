@@ -231,6 +231,20 @@ RSpec.describe Claim, type: :model do
       #then
       expect(claim.reload.state).to eq 'part_paid'
     end
+
+    it 'should not transition when "state_for_form" is the same as the claim\'s state' do
+      claim = FactoryGirl.create :paid_claim
+      claim_params = {"state_for_form"=>"paid", "amount_assessed"=>"88.55", "additional_information"=>""}
+      claim.update_model_and_transition_state(claim_params)
+      expect(claim.reload.state).to eq('paid')
+    end
+
+    it 'should not transition when "state_for_form" is blank' do
+      claim = FactoryGirl.create :paid_claim
+      claim_params = {"state_for_form"=>"", "amount_assessed"=>"88.55", "additional_information"=>""}
+      claim.update_model_and_transition_state(claim_params)
+      expect(claim.reload.state).to eq('paid')
+    end
   end
 
   context 'amount_assessed validation' do

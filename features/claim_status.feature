@@ -25,6 +25,16 @@ Scenario Outline: Update claim status
       | "Rejected"  		| "" 		 	 | "Rejected remark" 	   |
       | "Awaiting info from court"      | ""       | "Awaiting info from Court remark" |
 
+Scenario: Update claim remark without updating status
+  Given I am a signed in case worker
+    And claims have been assigned to me
+   When I visit my dashboard
+    And I view status details for a claim
+    And I enter remark "Test remark"
+    And I press update button
+    And I should see "enabled" remark "Test remark"
+    And the claim state should be allocated
+
 Scenario Outline: View claim status
     Given I am a signed in advocate
       And I have 3 allocated claims whos status is <status> with amount assessed of <amount> and remark of <remark>

@@ -24,7 +24,7 @@ class Advocate < ActiveRecord::Base
 
   validates :user, :chamber, presence: true
   validates :chamber, presence: true
-  validates :account_number, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]{5}\z/, message: "must be 5 alhpa-numeric characters" }
+  validates :account_number, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]{5}\z/ }
 
   accepts_nested_attributes_for :user
 

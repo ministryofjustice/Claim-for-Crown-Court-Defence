@@ -104,11 +104,15 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       expect(response).to render_template(:show)
     end
 
-    context 'breadcrumbs' do
+    context 'breadcrumbs and notes (render views)' do
       render_views
 
       it 'renders breadcrumbs' do
         expect(response.body).to match(/Dashboard.*Claim: #{subject.case_number}/)
+      end
+
+      it 'displays claim notes' do
+        expect(response.body).to include('Add note')
       end
     end
   end

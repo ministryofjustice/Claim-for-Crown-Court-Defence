@@ -126,14 +126,14 @@ RSpec.describe Claim, type: :model do
 
     context 'advocate_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'completed', 'refused' ].each do |state|
+        [ 'completed', 'refused', 'paid' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.advocate_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'completed', 'refused' ]).each do |claim_state|
+        (all_states - [ 'completed', 'refused', 'paid' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_completed?).to be false
         end
@@ -626,4 +626,13 @@ RSpec.describe Claim, type: :model do
 
   end
 
+  describe 'allocate claim when assigning to case worker' do
+    subject { create(:submitted_claim) }
+    let(:case_worker) { create(:case_worker) }
+
+    it 'set the claim to "allocated" when assigned to case worker' do
+      subject.case_workers << case_worker
+      expect(subject.reload).to be_allocated
+    end
+  end
 end

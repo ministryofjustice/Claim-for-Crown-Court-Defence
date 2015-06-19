@@ -8,6 +8,7 @@
 }
 #claims-list > li {
   background-color: $grey-4;
+  clear:both;
   overflow: hidden;
   padding: 1rem;
   &:nth-child(even){

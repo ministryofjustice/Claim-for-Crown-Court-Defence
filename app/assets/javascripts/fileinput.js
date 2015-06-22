@@ -1,7 +1,7 @@
 var moj = moj || {};
 moj.Modules.fileUpload = {
   init: function(){
-    $('input[type="file"]').each(function(){
+    $('.rep_order').each(function(){
       if($(this).parent().find('.file-exists').length > 0){
         $(this).hide();
         moj.Modules.fileUpload.chooseAlternative($(this));

@@ -25,8 +25,8 @@
     #documents
       = f.fields_for :representation_orders do |repo_form|
         = render 'representation_order_fields', f: repo_form
-        .links
-          = link_to_add_association 'Add another representaion order', f, :representation_orders, class: 'button-secondary'
+    .links
+      = link_to_add_association 'Add another representaion order', f, :representation_orders, class: 'button-secondary'
 
   %p
     = link_to_remove_association 'Remove defendant', f

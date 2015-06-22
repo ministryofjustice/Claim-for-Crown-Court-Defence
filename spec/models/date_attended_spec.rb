@@ -21,7 +21,7 @@ RSpec.describe DateAttended, type: :model do
       subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: Date.parse('5/1/2015')) }
 
       it 'formats the date and date_to' do
-        expect(subject.to_s).to eq('01/01/15 - 05/01/15')
+        expect(subject.to_s).to eq('01/01/2015 - 05/01/2015')
       end
     end
 
@@ -29,7 +29,7 @@ RSpec.describe DateAttended, type: :model do
       subject { create(:date_attended, date: Date.parse('1/1/2015')) }
 
       it 'formats the date' do
-        expect(subject.to_s).to eq('01/01/15')
+        expect(subject.to_s).to eq('01/01/2015')
       end
     end
   end

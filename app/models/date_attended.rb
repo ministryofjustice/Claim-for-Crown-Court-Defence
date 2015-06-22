@@ -17,9 +17,9 @@ class DateAttended < ActiveRecord::Base
 
   def to_s
     unless date_to.nil?
-      "#{date.strftime('%d/%m/%y')} - #{date_to.strftime('%d/%m/%y')}"
+      "#{date.strftime('%d/%m/%Y')} - #{date_to.strftime('%d/%m/%Y')}"
     else
-      "#{date.strftime('%d/%m/%y')}"
+      "#{date.strftime('%d/%m/%Y')}"
     end
   end
 end

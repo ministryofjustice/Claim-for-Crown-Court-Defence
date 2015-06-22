@@ -11,7 +11,10 @@
       &nbsp;
       = link_to 'Download', download_representation_order_path(f.object), class: 'download'
 
-  = f.file_field :document
+  %div.rep_order
+    = f.file_field :document
+    %br
+    = link_to_remove_association 'Remove representation order', f
 
 
 

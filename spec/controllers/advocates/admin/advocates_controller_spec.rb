@@ -53,7 +53,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*Advocates.*#{subject.name}/)
+      expect(response.body).to match(/Dashboard.*Advocates.*#{Regexp.quote(subject.name)}/)
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*Advocates.*#{subject.name}.*Edit/)
+      expect(response.body).to match(/Dashboard.*Advocates.*#{Regexp.quote(subject.name)}.*Edit/)
     end
   end
 

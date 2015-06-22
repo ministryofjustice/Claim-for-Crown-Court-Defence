@@ -45,7 +45,10 @@ namespace :claims do
   end
 
   def add_fees_expenses_and_defendant(claim)
-    rand(1..10).times { FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample) }
+    rand(1..10).times do
+      fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample)
+      FactoryGirl.create(:date_attended, fee: fee)
+    end
     rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
 
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)
@@ -119,7 +122,7 @@ namespace :claims do
       claims_per_state.times do
 
           # randomise creator
-          if rand(2) == 1          
+          if rand(2) == 1
             claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
           else
             claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample )

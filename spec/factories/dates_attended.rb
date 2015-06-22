@@ -10,9 +10,10 @@
 #  date_to    :datetime
 #
 
+
 FactoryGirl.define do
   factory :date_attended do
-    date "2015-06-02 14:11:28"
+    date { Time.current - rand(0..10).days }
     fee
   end
 end

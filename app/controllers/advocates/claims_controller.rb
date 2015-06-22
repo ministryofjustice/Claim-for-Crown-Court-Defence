@@ -72,6 +72,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
     add_breadcrumb "Edit", edit_advocates_claim_path(@claim)
 
+    build_nested_resources
+
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 

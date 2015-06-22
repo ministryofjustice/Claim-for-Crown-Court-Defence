@@ -37,25 +37,6 @@ class Claim < ActiveRecord::Base
 
   attr_reader :offence_class_id
 
-  CASE_TYPES = %w(
-                  appeal_against_conviction
-                  appeal_against_sentence
-                  breach_of_crown_court_order
-                  commital_for_sentence
-                  contempt
-                  cracked_trial
-                  cracked_before_retrial
-                  discontinuance
-                  elected_cases_not_proceeded
-                  guilty_plea
-                  retrial
-                  trial
-                )
-
-  ADVOCATE_CATEGORIES = ['QC', 'Led Junior', 'Leading junior', 'Junior alone']
-
-  PROSECUTING_AUTHORITIES = %W( cps )
-
   STATES_FOR_FORM = {part_paid: "Part paid",
                     paid: "Paid in full",
                     rejected: "Rejected",
@@ -106,10 +87,9 @@ class Claim < ActiveRecord::Base
   validates :creator,                 presence: true, unless: :draft?
   validates :court,                   presence: true, unless: :draft?
   validates :case_number,             presence: true, unless: :draft?
-  validates :case_type,               presence: true,     inclusion: { in: CASE_TYPES }, unless: :draft?
-  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }, unless: :draft?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: PROSECUTING_AUTHORITIES }, unless: :draft?
-  validates :advocate_category,       presence: true,     inclusion: { in: ADVOCATE_CATEGORIES }, unless: :draft?
+  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :draft?
+  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :draft?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :draft?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?

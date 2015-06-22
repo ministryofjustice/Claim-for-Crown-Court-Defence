@@ -19,5 +19,10 @@ FactoryGirl.define do
     trait :read do
       read true
     end
+
+    trait :unpersisted do
+      user            { FactoryGirl.build :user }
+      message         { FactoryGirl.build :unpersisted_message }
+    end
   end
 end

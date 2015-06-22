@@ -5,6 +5,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_search_options, only: [:index]
 
   def index
+    add_breadcrumb 'Dashboard', case_workers_root_path
+
     params[:search_field] ||= 'All'
 
     if params[:search].present?
@@ -26,6 +28,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def show
+    add_breadcrumb 'Dashboard', case_workers_root_path
+    add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
+
     @doc_types = DocumentType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
@@ -46,7 +51,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   private
 
   def claim_params
-    params.require(:claim).permit(:state_for_form, :amount_assessed, :additional_information)
+    params.require(:claim).permit(
+      :state_for_form,
+      :amount_assessed,
+      :additional_information,
+      :notes
+    )
   end
 
   def set_claims

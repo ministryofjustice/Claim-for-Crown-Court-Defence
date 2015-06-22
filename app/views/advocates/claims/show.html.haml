@@ -20,16 +20,13 @@
   = render partial: 'shared/summary'
   %h2
     Representation order
-  = render partial: 'representation_order'
+  = render partial: 'shared/representation_order'
   %h2
     Evidence list
   = render partial: 'shared/evidence_list'
   %h2
     Messages (#{@messages.count})
   = render partial: 'shared/messages'
-  %h2
-    Claim notes
-  = render partial: 'case_notes'
   %h2
     Status of claim
   = render partial: 'shared/claim_status', locals: { disabled: true }

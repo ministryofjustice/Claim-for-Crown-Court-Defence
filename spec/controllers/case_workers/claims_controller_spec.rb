@@ -17,7 +17,10 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     let(:tab) { nil }
     let(:search) { nil }
     let(:search_field) { nil }
-    before { get :index, tab: tab, search: search, search_field: search_field }
+
+    before do
+      get :index, tab: tab, search: search, search_field: search_field
+    end
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -74,6 +77,14 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:index)
     end
+
+    context 'breadcrumbs' do
+      render_views
+
+      it 'renders breadcrumbs' do
+        expect(response.body).to match(/Dashboard/)
+      end
+    end
   end
 
   describe "GET #show" do
@@ -91,6 +102,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:show)
+    end
+
+    context 'breadcrumbs and notes (render views)' do
+      render_views
+
+      it 'renders breadcrumbs' do
+        expect(response.body).to match(/Dashboard.*Claim: #{subject.case_number}/)
+      end
+
+      it 'displays claim notes' do
+        expect(response.body).to include('Update note')
+      end
     end
   end
 end

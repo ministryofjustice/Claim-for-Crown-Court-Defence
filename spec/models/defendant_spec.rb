@@ -88,16 +88,10 @@ RSpec.describe Defendant, type: :model do
         defendant.save
       end
 
-      it 'should not be valid if there is more than one representation order' do
-        defendant.representation_orders << FactoryGirl.create(:representation_order)
-        expect(defendant).not_to be_valid
-        expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
-      end
-
       it 'should not be valid if there are no representation orders' do
         defendant.representation_orders = []
         expect(defendant).not_to be_valid
-        expect(defendant.errors[:representation_order]).to eq [ 'There must be exactly one per defendant' ]
+        expect(defendant.errors[:representation_orders]).to eq [ 'There must be at least one representation order per defendant' ]
       end
 
       it 'should not be valid if there is one representation order which is blank' do
@@ -106,12 +100,6 @@ RSpec.describe Defendant, type: :model do
         defendant.representation_orders = [ RepresentationOrder.new ]
         expect(defendant).not_to be_valid
         expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
-      end
-    end
-
-    describe '#representation_order' do
-      it 'should return the representation order object' do
-        expect(defendant.representation_order).to be_instance_of(RepresentationOrder)
       end
     end
   end

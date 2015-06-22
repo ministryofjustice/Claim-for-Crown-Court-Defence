@@ -124,6 +124,10 @@ class Claim < ActiveRecord::Base
 
   # after_initialize :instantiate_basic_fees
 
+  before_validation do
+    documents.each { |d| d.advocate_id = self.advocate_id }
+  end
+
 
   class << self
 
@@ -155,6 +159,18 @@ class Claim < ActiveRecord::Base
     end
 
   end
+
+  # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
+  def method_missing(method, *args)
+    if Claims::StateMachine.has_state?(method)
+      Claims::StateMachine.is_in_state?(method, self)
+    else
+      super
+    end
+  end
+
+
+
 
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
@@ -242,7 +258,7 @@ class Claim < ActiveRecord::Base
   def update_model_and_transition_state(params)
     new_state = params.delete('state_for_form')
     self.update(params)
-    self.state_for_form = new_state
+    self.state_for_form = new_state unless self.state_for_form == new_state || new_state.blank?
   end
 
   private

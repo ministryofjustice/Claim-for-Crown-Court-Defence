@@ -1,0 +1,13 @@
+case_types:
+  - appeal_against_conviction
+  - appeal_against_sentence
+  - breach_of_crown_court_order
+  - commital_for_sentence
+  - contempt
+  - cracked_trial
+  - cracked_before_retrial
+  - discontinuance
+  - elected_cases_not_proceeded
+  - guilty_plea
+  - retrial
+  - trial

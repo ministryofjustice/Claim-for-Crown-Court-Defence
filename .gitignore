@@ -35,3 +35,6 @@ public/uploads
 public/assets/test
 public/assets/dev
 features/examples/000
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

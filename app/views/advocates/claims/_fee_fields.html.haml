@@ -8,9 +8,9 @@
   %td.amount
     &nbsp; 
   %td
-    = f.fields_for :dates_attended do |date_attended|
-      = render 'date_attended_fields', f: date_attended
     = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-
   %td
     = link_to_remove_association 'Remove', f
+    
+  = f.fields_for :dates_attended do |date_attended|
+    = render 'date_attended_fields', f: date_attended

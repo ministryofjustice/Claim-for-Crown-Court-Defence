@@ -22,20 +22,20 @@ FactoryGirl.define do
 
     trait :random_values do
       quantity { rand(1..10) }
-      rate { rand(1.0..9.99).round(2) }
-      amount { quantity * rate }
+      rate     { rand(1.0..9.99).round(2) }
+      amount   { quantity * rate }
     end
 
     trait :basic do
-      fee_type        { FactoryGirl.create :fee_type, :basic }
+      fee_type { FactoryGirl.create :fee_type, :basic }
     end
 
     trait :misc do
-      fee_type        { FactoryGirl.create :fee_type, :misc }
+      fee_type { FactoryGirl.create :fee_type, :misc }
     end
 
     trait :fixed do
-      fee_type        { FactoryGirl.create :fee_type, :fixed }
+      fee_type { FactoryGirl.create :fee_type, :fixed }
     end
 
     trait :all_zero do

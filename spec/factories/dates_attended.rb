@@ -12,8 +12,11 @@
 
 
 FactoryGirl.define do
+
   factory :date_attended do
-    date { Time.current - rand(0..10).days }
     fee
+    date    { Time.current - rand(0..10).days }
+    date_to { rand(2) == 1 ? date + rand(1..3).days : nil }
   end
+
 end

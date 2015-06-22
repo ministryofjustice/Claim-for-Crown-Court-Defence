@@ -45,12 +45,17 @@ namespace :claims do
   end
 
   def add_fees_expenses_and_defendant(claim)
+    #
+    # 1 to 10 fees per claim
+    # and of those some should have a date attended FROM
+    # NOTE: some of these will be given a date attended TO
+    # by the factory
+    #
     rand(1..10).times do
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample)
-      FactoryGirl.create(:date_attended, fee: fee)
+      FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
     end
     rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
-
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)
   end
 

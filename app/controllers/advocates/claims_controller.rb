@@ -223,11 +223,15 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def build_nested_resources
-    @claim.defendants.build if @claim.defendants.none?
-    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }
-    @claim.non_basic_fees.build if @claim.non_basic_fees.none?
-    @claim.expenses.build if @claim.expenses.none?
-    @claim.documents.build if @claim.documents.none?
+    [:defendants, :non_basic_fees, :expenses, :documents].each do |association|
+      build_nested_resource(@claim, association)
+    end
+
+    @claim.defendants.each { |d| build_nested_resource(d, :representation_orders) }
+  end
+
+  def build_nested_resource(object, association)
+    object.send(association).build if object.send(association).none?
   end
 
   def set_search_options

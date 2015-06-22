@@ -20,8 +20,8 @@ RSpec.describe UserMessageStatus, type: :model do
   it { should validate_presence_of(:message) }
 
   describe '.marked_as_read' do
-    let!(:read_statuses) { create_list(:user_message_status, 5, :read) }
-    let!(:unread_statuses) { create_list(:user_message_status, 5) }
+    let!(:read_statuses) { create_list(:user_message_status, 5, :read, :unpersisted) }
+    let!(:unread_statuses) { create_list(:user_message_status, 5, :unpersisted) }
 
     it 'only returns read statuses' do
       expect(UserMessageStatus.marked_as_read.pluck(:read).uniq).to match_array([true])
@@ -29,8 +29,8 @@ RSpec.describe UserMessageStatus, type: :model do
   end
 
   describe '.not_marked_as_read' do
-    let!(:read_statuses) { create_list(:user_message_status, 5, :read) }
-    let!(:unread_statuses) { create_list(:user_message_status, 5) }
+    let!(:read_statuses) { create_list(:user_message_status, 5, :read, :unpersisted) }
+    let!(:unread_statuses) { create_list(:user_message_status, 5, :unpersisted) }
 
     it 'only returns unread statuses' do
       expect(UserMessageStatus.not_marked_as_read.pluck(:read).uniq).to match_array([false])

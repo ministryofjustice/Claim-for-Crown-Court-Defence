@@ -11,3 +11,12 @@ case_types:
   - guilty_plea
   - retrial
   - trial
+
+advocate_categories:
+  - QC
+  - Led junior
+  - Leading junior
+  - Junior alone
+
+prosecuting_authorites:
+  - cps

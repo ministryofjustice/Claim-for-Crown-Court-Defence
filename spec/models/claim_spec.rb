@@ -186,7 +186,7 @@ RSpec.describe Claim, type: :model do
           }
 
       it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led Junior', 'Leading junior', 'Junior alone']) }
+      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
       it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }

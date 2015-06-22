@@ -5,7 +5,7 @@
         Representation order for defendant:
         = defendant.name
         %ul.rep-orders
-          - defendant.representation_orders.each do |r|
+          - defendant.representation_orders.select(&:present?).each do |r|
             %li
               = r.document_file_name
               .item-controls

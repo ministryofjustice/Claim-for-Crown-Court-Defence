@@ -36,7 +36,7 @@ class Defendant < ActiveRecord::Base
   after_initialize :build_representation_order
 
   def build_representation_order
-    if new_record?
+    if representation_orders.nil? || representation_orders.none?
       representation_orders.build
     end
   end

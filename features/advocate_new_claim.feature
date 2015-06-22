@@ -32,6 +32,19 @@ Feature: Advocate new claim
       And I clear the form
      Then I should be redirected to the new claim page
 
+  Scenario: Add mulitple rep orders for a single defendant
+    Given I am a signed in advocate
+      And I am on the new claim page
+    When I click Add another representation order
+      Then I see 2 fields for attaching a rep order
+
+  Scenario: Add too many rep orders for a single defendant and remove one
+    Given I am a signed in advocate
+      And I am on the new claim page
+    When I click Add another representation order
+      And I then choose to remove the additional rep order
+    Then I see 1 field for attaching a rep order
+
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate
       And a claim exists with state "draft"

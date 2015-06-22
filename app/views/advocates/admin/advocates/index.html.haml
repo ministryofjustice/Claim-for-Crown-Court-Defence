@@ -2,8 +2,8 @@
 
 %header.page-title
   %h1
-    Advocates
-  = link_to 'Add Advocate', new_advocates_admin_advocate_path, class: 'button'
+    = t("admin.index.advocates")
+  = link_to t('admin.index.add_advocate'), new_advocates_admin_advocate_path, class: 'button'
 
 %ul#assignee-list
   - @advocates.each do |advocate|
@@ -11,7 +11,7 @@
       = link_to "#{advocate.email} (#{advocate.role.humanize})", advocates_admin_advocate_path(advocate)
       %ul.actions
         %li
-          = link_to 'Edit', edit_advocates_admin_advocate_path(advocate)
+          = link_to t('admin.index.edit'), edit_advocates_admin_advocate_path(advocate)
         %li
-          = link_to 'Delete', advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to t('admin.index.delete'), advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: ('admin.index.confirm_delete') }
 

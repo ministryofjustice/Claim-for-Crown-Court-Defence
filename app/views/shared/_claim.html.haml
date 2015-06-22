@@ -1,123 +1,120 @@
-%section
-  - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
-    %p
-      %strong
-        Assigned to:
-      = claim.case_workers.map(&:name).join(', ')
-  %ul.case-data
-    %li
-      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-        Case
-      %dl
-        %dt
-          Defendant name
-        %dd
-          #{claim.defendants.map(&:name).join(', ')}
-        %dt
-          Rep order date
-        %dd
-          - if claim.defendants.any?
-            = claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') if d.representation_order_date }.join(', ')
-        %dt
-          Advocate account number
-        %dd
-          #{claim.advocate.account_number}
-        %dt
-          Case submitted
-        %dd
-          = claim.submitted_at.strftime('%d/%m/%Y %H:%M') unless claim.draft?
-        - if controller.action_name == 'show'
-          %dt
-            Case number
-          %dd
-            #{claim.case_number}
-          %dt
-            Case Type
-          %dd
-            #{claim.case_type.humanize}
-          %dt
-            Case Worker
-          %dd
-            #{claim.case_workers.map(&:email).join(', ')}
-          %dt
-            #{t('maat_reference_number')}
-          %dd
-            #{claim.defendants.map(&:maat_reference).join(', ')}
-          %dt
-            Offence
-          %dd
-            - if claim.offence
-              = claim.offence.description
-          %dt
-            Offence class
-          %dd
-            - if claim.offence
-              = claim.offence.offence_class
-    %li
-      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-        Court
-      %dl
-        %dt
-          Crown Court
-        %dd
-          - if claim.court
-            = claim.court.name
-        %dt
-          Prosecuting authority
-        %dd
-          CPS
-        %dt
-          Retrial?
-        %dd
-          No
-        %dt
-          Judicial Apportionment
-        %dd
-          No
-        - if controller.action_name == 'show'
-          %dt
-            Hearing
-          %dd
-            15/04/2 7
-          %dt
-            Advocate
-          %dd
-            #{claim.advocate.email}
-          %dt
-            Advocate Category
-          %dd
-            #{claim.advocate_category}
-          %dt
-            Advocate no
-          %dd
-            SUP125HYT**
-
-    - unless controller.action_name == 'show'
+- present(claim) do |claim|
+  %section
+    - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
+      %p
+        %strong
+          Assigned to:
+        = claim.case_worker_names
+    %ul.case-data
       %li
         %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-          Case Value
+          Case
         %dl
           %dt
-            Expenses
+            Defendant name
           %dd
-            = number_to_currency(claim.expenses_total)
+            = claim.defendant_names
           %dt
-            Fees
+            Rep order date
           %dd
-            = number_to_currency(claim.fees_total)
+            - if claim.defendants.any?
+              = claim.representation_order_dates
           %dt
-            VAT
-          %dt
-            TOTAL
+            Advocate account number
           %dd
-            %span.value
-              = number_to_currency(claim.total)
+            = claim.advocate.account_number
           %dt
-            Paid on
+            Case submitted
           %dd
-            = "#{claim.paid_at.strftime('%d/%m/%Y %H:%M')}" unless claim.paid_at.nil?
+            = claim.submitted_at(include_time: true) unless claim.draft?
+          - if controller.action_name == 'show'
+            %dt
+              Case number
+            %dd
+              = claim.case_number
+            %dt
+              Case Type
+            %dd
+              = claim.case_type.humanize
+            %dt
+              Case Worker
+            %dd
+              = claim.case_worker_email_addresses
+            %dt
+              = t('maat_reference_number')
+            %dd
+              = claim.maat_references
+            %dt
+              Offence
+            %dd
+              - if claim.offence
+                = claim.offence.description
+            %dt
+              Offence class
+            %dd
+              - if claim.offence
+                = claim.offence.offence_class
+      %li
+        %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+          Court
+        %dl
+          %dt
+            Crown Court
+          %dd
+            - if claim.court
+              = claim.court.name
+          %dt
+            Prosecuting authority
+          %dd
+            CPS
+          %dt
+            Retrial?
+          %dd
+            No
+          %dt
+            Judicial Apportionment
+          %dd
+            No
+          - if controller.action_name == 'show'
+            %dt
+              Hearing
+            %dd
+              15/04/2 7
+            %dt
+              Advocate
+            %dd
+              = claim.advocate.email
+            %dt
+              Advocate Category
+            %dd
+              = claim.advocate_category
+
+      - unless controller.action_name == 'show'
+        %li
+          %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+            Case Value
+          %dl
+            %dt
+              Expenses
+            %dd
+              = claim.expenses_total
+            %dt
+              Fees
+            %dd
+              = claim.fees_total
+            %dt
+              VAT
+            %dt
+              TOTAL
+            %dd
+              %span.value
+                = claim.total
+            %dt
+              Paid on
+            %dd
+              = claim.paid_at(include_time: true)
 
 
-  - unless controller.action_name == 'show'
-    .claim-controls
-      = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'
+    - unless controller.action_name == 'show'
+      .claim-controls
+        = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'

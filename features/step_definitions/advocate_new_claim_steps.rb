@@ -22,6 +22,20 @@ Given(/^I am on the new claim page$/) do
   visit new_advocates_claim_path
 end
 
+When(/^I click Add another representation order$/) do
+  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representaion order"}.first.click
+end
+
+Then(/^I see (\d+) fields? for attaching a rep order$/) do |number|
+  page.all('.rep_order').count == number
+end
+
+When(/^I then choose to remove the additional rep order$/) do
+  within page.all('.rep_order').last do
+    click_link "Remove representation order"
+  end
+end
+
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')

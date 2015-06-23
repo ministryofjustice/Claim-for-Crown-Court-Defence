@@ -34,6 +34,25 @@ When(/^I then choose to remove the additional rep order$/) do
   page.all('a', text: "Remove representation order").last.click
 end
 
+Given(/^I am creating a new claim$/) do
+  visit new_advocates_claim_path
+end
+
+When(/^I add some dates attended for one of my fixed fees$/) do
+  2.times { click_on "Add Date Attended" }
+  expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 2
+end
+
+When(/^I remove the fee$/) do
+  within('#fees') do
+    page.all('a', text: "Remove").first.click
+  end
+end
+
+Then(/^the dates attended are also removed$/) do
+  expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
+end
+
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')

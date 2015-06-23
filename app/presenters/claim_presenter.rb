@@ -3,7 +3,7 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
   def defendant_names
-    claim.defendants.map(&:name).join(', ')
+    claim.defendants.order('id ASC').map(&:name).join(', ')
   end
 
   def submitted_at(options={})
@@ -45,14 +45,6 @@ class ClaimPresenter < BasePresenter
 
   def case_worker_names
     claim.case_workers.map(&:name).join(', ')
-  end
-
-  def representation_order_dates
-    claim.defendants.map { |d| d.representation_order_date.strftime('%d/%m/%Y') if d.representation_order_date }.join(', ')
-  end
-
-  def maat_references
-    claim.defendants.map(&:maat_reference).join(', ')
   end
 
   def case_worker_email_addresses

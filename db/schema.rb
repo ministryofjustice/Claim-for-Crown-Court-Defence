@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619123014) do
+ActiveRecord::Schema.define(version: 20150623101845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,9 +122,7 @@ ActiveRecord::Schema.define(version: 20150619123014) do
     t.string   "middle_name"
     t.string   "last_name"
     t.datetime "date_of_birth"
-    t.datetime "representation_order_date"
     t.boolean  "order_for_judicial_apportionment"
-    t.string   "maat_reference"
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -279,6 +277,8 @@ ActiveRecord::Schema.define(version: 20150619123014) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "granting_body"
+    t.string   "maat_reference"
+    t.date     "representation_order_date"
   end
 
   create_table "schemes", force: true do |t|

@@ -80,11 +80,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def update
     if @claim.update(claim_params)
-      if submitting_to_laa?
-        submit_claim_to_laa
-      else
-        redirect_to advocates_claims_path, notice: 'Draft claim saved'
-      end
+      submit_if_required_and_redirect
     else
       render_edit_with_resources
     end
@@ -96,6 +92,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   private
+
+  def submit_if_required_and_redirect
+    if submitting_to_laa?
+      submit_claim_to_laa
+    else
+      redirect_to advocates_claims_path, notice: 'Draft claim saved'
+    end
+  end
 
   def search
     params[:search_field] ||= 'Defendant'
@@ -161,11 +165,15 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :middle_name,
        :last_name,
        :date_of_birth,
-       :representation_order_date,
        :order_for_judicial_apportionment,
-       :maat_reference,
        :_destroy,
-       representation_orders_attributes: [ :document ]
+       representation_orders_attributes: [
+         :id,
+         :document,
+         :maat_reference,
+         :representation_order_date,
+         :granting_body
+        ]
      ],
      basic_fees_attributes: [
        :id,

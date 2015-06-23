@@ -2,6 +2,24 @@
   %br
   %h4 Representation Order
 
+  %span.auto-width
+    = t('.granting_body')
+    %span{display: 'inline'}
+      - Settings.court_types.each do |court_type|
+        = f.label :granting_body, court_type, value: court_type do
+          = f.radio_button :granting_body, court_type
+          = court_type
+
+  %div
+
+  %span.auto-width
+    = f.label :representation_order_date
+    = f.date_field :representation_order_date
+
+  %span.auto-width
+    = f.label :maat_reference, t('maat_reference_number')
+    = f.text_field :maat_reference
+
   - unless f.object.id.nil? || f.object.document_file_name.nil?
     .note.file-exists
       File already uploaded:
@@ -11,11 +29,13 @@
       &nbsp;
       = link_to 'Download', download_representation_order_path(f.object), class: 'download'
 
+  %b
+
   %div.rep_order
     = f.file_field :document
-  %br 
+  %br
   = link_to_remove_association 'Remove representation order', f
-    
+
 
 
 

@@ -1,0 +1,7 @@
+%section
+  %h1
+    %p
+    - if params[:search_field] == 'All'
+      #{pluralize(@claims.count, 'claim')} matching search term "#{params[:search]}"
+    - else
+      #{pluralize(@claims.count, 'claim')} matching #{params[:search_field]} "#{params[:search]}"

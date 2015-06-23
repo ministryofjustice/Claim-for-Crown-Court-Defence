@@ -87,10 +87,10 @@
               %th Quantity
               %th Rate
               %th Amount
-              %td
-              %td
-            = f.fields_for :non_basic_fees do |fee|
-              = render 'fee_fields', f: fee
+              %th
+              %th
+          = f.fields_for :non_basic_fees do |fee|
+            = render 'fee_fields', f: fee
 
         = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 

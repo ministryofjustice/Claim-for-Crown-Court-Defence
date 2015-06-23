@@ -3,30 +3,12 @@
 #search-options
   = render 'search_form'
 
-%section
-  %h1
-    - if params[:search].present?
-      %p
-      - if params[:search_field] == 'All'
-        #{pluralize(@claims.count, 'claim')} matching search term "#{params[:search]}"
-      - if params[:search_field] == 'MAAT Reference'
-        #{pluralize(@claims.count, 'claim')} matching MAAT reference "#{params[:search]}"
-      - if params[:search_field] == 'Defendant'
-        #{pluralize(@claims.count, 'claim')} matching defendant(s) "#{params[:search]}"
-      - if params[:search_field] == 'Case worker'
-        #{pluralize(@claims.count, 'claim')} matching case worker(s) "#{params[:search]}"
+#search-summary
+  - if params[:search].present?
+    = render partial: 'shared/search_summary'
 
 #list-controls
-  %nav
-    %h3
-      Sort by:
-    %ul
-      %li{class: ('active' if params[:sort].blank? && params[:direction].blank?) || (params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
-        = link_to 'Oldest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'asc'))
-      %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'desc')}
-        = link_to 'Value - Highest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'desc'))
-      %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'asc')}
-        = link_to 'Value - Lowest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'asc'))
+  = render partial: 'list_controls'
 
 %ul.case-data-headings
   %li
@@ -40,10 +22,7 @@
       Case value
 - if @claims.none?
   %p
-    - if params[:search].present?
-      No claims found matching MAAT reference "#{params[:search]}"
-    - else
-      No claims found
+    No claims found
 - else
   %ul#claims-list
     - @claims.each do |claim|

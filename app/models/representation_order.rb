@@ -78,4 +78,13 @@ class RepresentationOrder < ActiveRecord::Base
   def add_converted_preview_document
     self.converted_preview_document = self.pdf_tmpfile
   end
+
+
+  def blank?
+    self.document_file_name.blank?
+  end
+
+  def present?
+    !self.blank?
+  end
 end

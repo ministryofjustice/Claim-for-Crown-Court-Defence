@@ -11,25 +11,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def index
     add_breadcrumb 'Dashboard', advocates_root_path
 
-    claims = @context.claims.order(created_at: :desc)
-    params[:search_field] ||= 'Defendant'
-
-    if params[:search].present?
-      claims = case params[:search_field]
-        when 'All'
-          claims.search(:advocate_name, :defendant_name, params[:search])
-        when 'Advocate'
-          claims.search(:advocate_name, params[:search])
-        when 'Defendant'
-          claims.search(:defendant_name, params[:search])
-      end
-    end
-    @claims = claims
-    @draft_claims = @claims.select(&:advocate_dashboard_draft?)
-    @rejected_claims = @claims.select(&:advocate_dashboard_rejected?)
-    @submitted_claims = @claims.select(&:advocate_dashboard_submitted?)
-    @part_paid_claims = @claims.select(&:advocate_dashboard_part_paid?)
-    @completed_claims = @claims.select(&:advocate_dashboard_completed?)
+    @claims = @context.claims.order(created_at: :desc)
+    search if params[:search].present?
+    set_state_claims
   end
 
   def outstanding
@@ -112,6 +96,27 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   private
+
+  def search
+    params[:search_field] ||= 'Defendant'
+
+    @claims = case params[:search_field]
+      when 'All'
+        @claims.search(:advocate_name, :defendant_name, params[:search])
+      when 'Advocate'
+        @claims.search(:advocate_name, params[:search])
+      when 'Defendant'
+        @claims.search(:defendant_name, params[:search])
+    end
+  end
+
+  def set_state_claims
+    @draft_claims = @claims.select(&:advocate_dashboard_draft?)
+    @rejected_claims = @claims.select(&:advocate_dashboard_rejected?)
+    @submitted_claims = @claims.select(&:advocate_dashboard_submitted?)
+    @part_paid_claims = @claims.select(&:advocate_dashboard_part_paid?)
+    @completed_claims = @claims.select(&:advocate_dashboard_completed?)
+  end
 
   def load_advocates_in_chamber
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
@@ -218,11 +223,15 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def build_nested_resources
-    @claim.defendants.build if @claim.defendants.none?
-    @claim.defendants.each { |d| d.representation_orders.build if d.representation_orders.none? }
-    @claim.non_basic_fees.build if @claim.non_basic_fees.none?
-    @claim.expenses.build if @claim.expenses.none?
-    @claim.documents.build if @claim.documents.none?
+    [:defendants, :non_basic_fees, :expenses, :documents].each do |association|
+      build_nested_resource(@claim, association)
+    end
+
+    @claim.defendants.each { |d| build_nested_resource(d, :representation_orders) }
+  end
+
+  def build_nested_resource(object, association)
+    object.send(association).build if object.send(association).none?
   end
 
   def set_search_options

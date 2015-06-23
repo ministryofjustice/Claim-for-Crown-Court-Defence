@@ -21,7 +21,7 @@
 
 en:
   dictionary:
-    errors: 
+    errors:
       blank: &blank "can't be blank"
     users:
       role: &role "Role"
@@ -114,3 +114,10 @@ en:
         edit: "Edit"
         delete: "Delete"
         confirm_delete: "Are you sure?"
+      representation_order_fields:
+        granting_body: "Issued by:"
+
+
+
+
+

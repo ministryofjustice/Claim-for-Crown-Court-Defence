@@ -14,14 +14,23 @@
 #  converted_preview_document_updated_at   :datetime
 #  created_at                              :datetime
 #  updated_at                              :datetime
+#  granting_body                           :string(255)
+#  maat_reference                          :string(255)
+#  representation_order_date               :date
 #
 
 class RepresentationOrder < ActiveRecord::Base
 
   attr_accessor :pdf_tmpfile
 
-  before_save :generate_pdf_tmpfile, unless: -> { self.defendant.nil? || self.defendant.claim.draft? }
-  before_save :add_converted_preview_document, unless: -> { self.defendant.nil? || self.defendant.claim.draft? }
+  before_save :generate_pdf_tmpfile, unless: -> { self.claim.nil? || self.document_file_name.nil? }
+  before_save :add_converted_preview_document, unless: -> {  self.claim.nil? }
+  before_save :upcase_maat_ref
+
+  validates   :granting_body, presence: true, inclusion: { in: Settings.court_types }, unless: -> {self.claim.nil? || self.claim.draft? }
+  validates   :maat_reference, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates   :maat_reference, uniqueness: { case_sensitive: false }
+
 
   belongs_to :defendant
 
@@ -44,7 +53,7 @@ class RepresentationOrder < ActiveRecord::Base
 
   validates_attachment :document,
     presence: true,
-    unless: -> { self.defendant.nil? || self.defendant.claim.nil? || self.defendant.claim.draft? },
+    unless: -> { self.claim.nil? || self.claim.draft? },
     content_type: {
       content_type: ['application/pdf',
                      'application/msword',
@@ -58,6 +67,14 @@ class RepresentationOrder < ActiveRecord::Base
   belongs_to :defendant
 
   validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
+
+  def claim
+    self.defendant.try(:claim)
+  end
+
+  def upcase_maat_ref
+    self.maat_reference.upcase! unless self.maat_reference.blank?
+  end
 
   def generate_pdf_tmpfile
     if File.extname(document_file_name).downcase == '.pdf'
@@ -76,15 +93,6 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def add_converted_preview_document
-    self.converted_preview_document = self.pdf_tmpfile
-  end
-
-
-  def blank?
-    self.document_file_name.blank?
-  end
-
-  def present?
-    !self.blank?
+    self.converted_preview_document = self.pdf_tmpfile unless self.pdf_tmpfile.nil?
   end
 end

@@ -5,8 +5,8 @@ Given(/^I have claims$/) do
   end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
-  create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
-  create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'AA1245') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
 end
 
 When(/^I visit the advocates dashboard$/) do

@@ -29,6 +29,7 @@
 #  paid_at                :datetime
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
+#  notes                  :text
 #
 
 class Claim < ActiveRecord::Base
@@ -122,7 +123,7 @@ class Claim < ActiveRecord::Base
           query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term)"
         },
         maat_reference: {
-          joins: :defendants, query: "(defendants.maat_reference ILIKE :term)"
+          joins: {:defendants => :representation_orders}, query: "(representation_orders.maat_reference ILIKE :term)"
         },
         case_worker_name_or_email: {
           joins: { case_workers: :user },
@@ -149,7 +150,9 @@ class Claim < ActiveRecord::Base
     end
   end
 
-
+  def representation_order_dates
+    defendants.map(&:representation_order_dates).flatten
+  end
 
 
   def self.attrs_blank?(attributes)

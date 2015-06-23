@@ -14,7 +14,7 @@ RSpec.describe ClaimPresenter do
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql('Adam Smith, John Smith')
+    expect(subject.defendant_names).to eql('John Smith, Adam Smith')
   end
 
   it '#submitted_at' do
@@ -57,16 +57,6 @@ RSpec.describe ClaimPresenter do
     c = claim
     c.submit!; c.allocate!; c.await_info_from_court!
     expect(subject.status_image_tag).to include("alt=\"Awaiting info from court\"")
-  end
-
-  it '#representation_order_dates' do
-    claim.defendants.map { |d| d.representation_order_date = Time.current }
-    expect(subject.representation_order_dates).to eql(Time.current.strftime('%d/%m/%Y') << ', ' << Time.current.strftime('%d/%m/%Y'))
-  end
-
-  it '#maat_references' do
-    claim.defendants.map { |d| d.maat_reference ='MAAT4321' }
-    expect(subject.maat_references).to eql('MAAT4321, MAAT4321')
   end
 
   it '#case_worker_email_addresses' do

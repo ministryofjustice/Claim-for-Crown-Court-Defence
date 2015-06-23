@@ -45,6 +45,14 @@ Feature: Advocate new claim
       And I then choose to remove the additional rep order
     Then I see 1 field for attaching a rep order
 
+  @javascript @webmock_allow_net_connect
+  Scenario: Add fee with dates attended then remove fee
+    Given I am a signed in advocate
+      And I am creating a new claim
+    When I add some dates attended for one of my fixed fees
+      And I remove the fee
+    Then the dates attended are also removed
+
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate
       And a claim exists with state "draft"

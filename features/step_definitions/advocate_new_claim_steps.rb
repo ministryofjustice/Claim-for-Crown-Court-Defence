@@ -18,7 +18,7 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:expense_type, name: 'Travel')
-  create(:document_type, id: 1, description: 'Representation Order')
+  create(:document_type, description: 'Representation Order')
   visit new_advocates_claim_path
 end
 
@@ -67,7 +67,9 @@ When(/^I fill in the claim details$/) do
   end
 
   within 'table#evidence-checklist' do
-    check 'claim_document_type_ids_1'
+    element = find('td label', text: "Representation Order")
+    checkbox_id = element[:for]
+    check checkbox_id
   end
 
   select 'Other', from: 'claim_documents_attributes_0_document_type_id'

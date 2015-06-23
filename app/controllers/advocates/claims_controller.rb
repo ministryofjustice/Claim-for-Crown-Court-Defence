@@ -13,7 +13,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     @claims = @context.claims.order(created_at: :desc)
     search if params[:search].present?
-    set_state_claims(:draft, :rejected, :submitted, :part_paid, :completed)
+    set_state_claims
   end
 
   def outstanding
@@ -110,12 +110,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  def set_state_claims(*states)
-    states.each do |state|
-      variable = "@#{state}_claims"
-      selector = "advocate_dashboard_#{state}?"
-      instance_variable_set(variable, @claims.select(&selector.to_sym))
-    end
+  def set_state_claims
+    @draft_claims = @claims.select(&:advocate_dashboard_draft?)
+    @rejected_claims = @claims.select(&:advocate_dashboard_rejected?)
+    @submitted_claims = @claims.select(&:advocate_dashboard_submitted?)
+    @part_paid_claims = @claims.select(&:advocate_dashboard_part_paid?)
+    @completed_claims = @claims.select(&:advocate_dashboard_completed?)
   end
 
   def load_advocates_in_chamber

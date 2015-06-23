@@ -50,7 +50,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*#{subject.name}/)
+      expect(response.body).to match(/Dashboard.*#{Regexp.quote(subject.name)}/)
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*#{subject.name}.*Edit/)
+      expect(response.body).to match(/Dashboard.*#{Regexp.quote(subject.name)}.*Edit/)
     end
   end
 
@@ -124,7 +124,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*#{subject.name}.*Allocate/)
+      expect(response.body).to match(/Dashboard.*#{Regexp.quote(subject.name)}.*Allocate/)
     end
   end
 

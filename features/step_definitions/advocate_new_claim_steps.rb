@@ -31,9 +31,7 @@ Then(/^I see (\d+) fields? for attaching a rep order$/) do |number|
 end
 
 When(/^I then choose to remove the additional rep order$/) do
-  within page.all('.rep_order').last do
-    click_link "Remove representation order"
-  end
+  page.all('a', text: "Remove representation order").last.click
 end
 
 When(/^I fill in the claim details$/) do

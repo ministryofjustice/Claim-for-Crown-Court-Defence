@@ -1,16 +1,17 @@
-%tr.nested-fields.exepense-fee
-  %td
-    = f.grouped_collection_select :fee_type_id, FeeCategory.non_basic.includes(:fee_types), :fee_types, :name, :id, :description, {prompt: true}, {class: 'select2'}
-  %td
-    = f.number_field :quantity, class: 'quantity'
-  %td
-    = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-  %td.amount
-    &nbsp; 
-  %td
-    = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-  %td
-    = link_to_remove_association 'Remove', f
-    
-  = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended
+%tbody.expense-fee-group
+  %tr.nested-fields.expense-fee
+    %td
+      = f.grouped_collection_select :fee_type_id, FeeCategory.non_basic.includes(:fee_types), :fee_types, :name, :id, :description, {prompt: true}, {class: 'select2'}
+    %td
+      = f.number_field :quantity, class: 'quantity'
+    %td
+      = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
+    %td.amount
+      &nbsp; 
+    %td
+      = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
+    %td
+      = link_to_remove_association 'Remove', f, { wrapper_class: 'expense-fee-group' }
+      
+    = f.fields_for :dates_attended do |date_attended|
+      = render 'date_attended_fields', f: date_attended

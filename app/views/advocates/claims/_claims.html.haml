@@ -16,12 +16,12 @@
       - unless includes_state?(claims,'draft')
         %th
           = t(".submission_date")
-      - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
+      - if claims.map(&:has_paid_state?).any?
         %th
           = t(".paid_date")
       %th.currency
         = t(".total")
-      - if includes_state?(claims,'part_paid,completed')
+      - if claims.map(&:has_paid_state?).any?
         %th.currency
           = t(".amount_assessed")
       %th
@@ -41,12 +41,12 @@
           - unless includes_state?(claims,'draft')
             %td
               = claim.submitted_at
-          - unless includes_state?(claims,'draft,rejected,submitted,allocated,awaiting_info_from_court')
+          - if claims.map(&:has_paid_state?).any?
             %td
               = claim.paid_at
           %td.currency
             = claim.total
-          - if includes_state?(claims,'part_paid,completed')
+          - if claims.map(&:has_paid_state?).any?
             %td.currency
               = claim.amount_assessed
           %td

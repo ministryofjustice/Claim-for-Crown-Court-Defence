@@ -27,7 +27,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
     add_breadcrumb @case_worker.name, case_workers_admin_case_worker_path(@case_worker)
     add_breadcrumb 'Allocate', allocate_case_workers_admin_case_worker_path(@case_worker)
 
-    @claims = Claim.unscope(:includes).includes([:defendants, :advocate, :court, :case_workers]).non_draft.order(created_at: :asc)
+    @claims = Claim.unscope(:includes).includes( [ {:defendants => :representation_orders}, :advocate, :court, :case_workers ] ).non_draft.order(created_at: :asc)
   end
 
   def new

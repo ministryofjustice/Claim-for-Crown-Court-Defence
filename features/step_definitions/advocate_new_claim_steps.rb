@@ -40,6 +40,9 @@ end
 
 When(/^I add some dates attended for one of my fixed fees$/) do
   2.times { click_on "Add Date Attended" }
+
+  sleep 1
+
   expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 2
 end
 

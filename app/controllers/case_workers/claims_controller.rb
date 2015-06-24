@@ -7,23 +7,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def index
     add_breadcrumb 'Dashboard', case_workers_root_path
 
-    params[:search_field] ||= 'All'
-
-    if params[:search].present?
-      @claims = case params[:search_field]
-        when 'All'
-          options = [:maat_reference, :defendant_name]
-          options << :case_worker_name_or_email if current_user.persona.admin?
-          @claims.search(*options,  params[:search])
-        when 'MAAT Reference'
-          @claims.search(:maat_reference, params[:search])
-        when 'Defendant'
-          @claims.search(:defendant_name, params[:search])
-        when 'Case worker'
-          @claims.search(:case_worker_name_or_email, params[:search])
-      end
-    end
-
+    search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
@@ -49,6 +33,24 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   private
+
+  def search
+    params[:search_field] ||= 'All'
+    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
+  end
+
+  def search_option_mappings
+    option_mappings = {
+      'All' => [:maat_reference, :defendant_name],
+      'MAAT Reference' => [:maat_reference],
+      'Defendant' => [:defendant_name],
+      'Case worker' => [:case_worker_name_or_email]
+    }
+
+    option_mappings['All'] << :case_worker_name_or_email if current_user.persona.admin?
+
+    option_mappings
+  end
 
   def claim_params
     params.require(:claim).permit(

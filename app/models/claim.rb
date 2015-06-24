@@ -34,16 +34,19 @@
 
 class Claim < ActiveRecord::Base
   has_paper_trail
+
   include Claims::StateMachine
+  extend Claims::Search
 
   attr_reader :offence_class_id
 
-  STATES_FOR_FORM = {part_paid: "Part paid",
-                    paid: "Paid in full",
-                    rejected: "Rejected",
-                    refused: "Refused",
-                    awaiting_info_from_court: "Awaiting info from court"
-                   }
+  STATES_FOR_FORM = {
+    part_paid: "Part paid",
+    paid: "Paid in full",
+    rejected: "Rejected",
+    refused: "Refused",
+    awaiting_info_from_court: "Awaiting info from court"
+  }
 
   belongs_to :court
   belongs_to :offence
@@ -80,8 +83,8 @@ class Claim < ActiveRecord::Base
              offence: :offence_class)
   end
 
-  scope :outstanding, -> { where("state = 'submitted' or state = 'allocated'") }
-  scope :authorised, -> { where(state: 'paid') }
+  scope :outstanding, -> { where(state: ['submitted','allocated']) }
+  scope :authorised,  -> { where(state: 'paid') }
 
   validates :advocate,                presence: true
   validates :offence,                 presence: true, unless: :draft?
@@ -103,42 +106,8 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :defendants,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :documents,         reject_if: :all_blank,  allow_destroy: true
 
-  # after_initialize :instantiate_basic_fees
-
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
-  end
-
-
-  class << self
-
-    def search(*options, term)
-      query_mappings = {
-        defendant_name: {
-          joins: :defendants,
-          query: "(lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term)"
-        },
-        advocate_name: {
-          joins: { advocate: :user },
-          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term)"
-        },
-        maat_reference: {
-          joins: {:defendants => :representation_orders}, query: "(representation_orders.maat_reference ILIKE :term)"
-        },
-        case_worker_name_or_email: {
-          joins: { case_workers: :user },
-          query: "(lower(users.first_name || ' ' || users.last_name) ILIKE :term OR lower(users.email) ILIKE :term)"
-        }
-      }
-
-      raise 'Invalid search option' if (options - query_mappings.keys).any?
-
-      sql = options.inject([]) { |r, o| r << query_mappings[o][:query] }.join(' OR ')
-      relation = options.inject(all) { |r, o| r = r.joins(query_mappings[o][:joins]) }
-
-      relation.where(sql, term: "%#{term.downcase}%")
-    end
-
   end
 
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
@@ -149,11 +118,6 @@ class Claim < ActiveRecord::Base
       super
     end
   end
-
-  def representation_order_dates
-    defendants.map(&:representation_order_dates).flatten
-  end
-
 
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
@@ -179,6 +143,11 @@ class Claim < ActiveRecord::Base
 
   def has_doctype?(doc_type)
     documents.pluck(:document_type_id).include?(doc_type.id) #returns boolean
+  end
+
+  def has_paid_state?
+    paid_states = Claims::StateMachine::ADVOCATE_DASHBOARD_COMPLETED_STATES + Claims::StateMachine::ADVOCATE_DASHBOARD_PART_PAID_STATES
+    paid_states.include?(self.state)
   end
 
   def doc_of_type(doc_type)

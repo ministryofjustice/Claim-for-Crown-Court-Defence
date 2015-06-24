@@ -670,6 +670,35 @@ RSpec.describe Claim, type: :model do
                                                         defendant_2.representation_orders[1].representation_order_date ] )
     end
   end
-end
 
+  describe  '#has_paid_state?' do
+   let(:claim) { create(:draft_claim) }
 
+   def expect_has_paid_state_to_be(bool)
+     expect(claim.has_paid_state?).to eql(bool)
+   end
+
+   it 'should return false for draft, submitted, allocated, "awaiting info from court" and rejected claims' do
+     expect_has_paid_state_to_be false
+     claim.submit
+     expect_has_paid_state_to_be false
+     claim.allocate
+     expect_has_paid_state_to_be false
+     claim.await_info_from_court
+     expect_has_paid_state_to_be false
+     claim.reject
+     expect_has_paid_state_to_be false
+   end
+
+   it 'should return true for part_paid, paid and completed claims' do
+     claim.submit
+     claim.allocate
+     claim.amount_assessed = 100.01
+     claim.pay_part
+     expect_has_paid_state_to_be true
+     claim.pay
+     expect_has_paid_state_to_be true
+     claim.complete
+     expect_has_paid_state_to_be true
+   end
+ end

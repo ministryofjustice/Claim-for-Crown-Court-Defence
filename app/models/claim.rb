@@ -119,6 +119,10 @@ class Claim < ActiveRecord::Base
     end
   end
 
+  def representation_order_dates
+    defendants.map(&:representation_order_dates).flatten
+  end
+
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end

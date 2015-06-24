@@ -61,22 +61,6 @@ describe RepresentationOrder do
     end
   end
 
-  describe '#blank? and #present?' do
-
-    let(:repo)          { FactoryGirl.build :representation_order }
-
-    it 'should be true if document file name absent' do
-      repo.document_file_name = nil
-      expect(repo.blank?).to be true
-      expect(repo.present?).to be false
-    end
-
-    it 'should be false if document file name present' do
-      expect(repo.blank?).to be false
-      expect(repo.present?).to be true
-    end
-  end
-
   context 'maat_reference' do
     it 'should upcase maat reference on save' do
       ro = FactoryGirl.build :representation_order, maat_reference: 'abcdef34rt'

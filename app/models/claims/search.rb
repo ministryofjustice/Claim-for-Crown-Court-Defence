@@ -9,7 +9,7 @@ module Claims::Search
       query: "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     },
     maat_reference: {
-      joins: :defendants, query: "defendants.maat_reference ILIKE :term"
+      joins: {:defendants => :representation_orders}, query: "representation_orders.maat_reference ILIKE :term"
     },
     case_worker_name_or_email: {
       joins: { case_workers: :user },

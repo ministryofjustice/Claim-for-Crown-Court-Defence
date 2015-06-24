@@ -108,7 +108,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       render_views
 
       it 'renders breadcrumbs' do
-        expect(response.body).to match(/Dashboard.*Claim: #{Regexp.escape(subject.case_number)}/)
+        expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(subject.case_number)}})
       end
 
       it 'displays claim notes' do

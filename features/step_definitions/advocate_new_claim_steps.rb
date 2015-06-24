@@ -42,6 +42,8 @@ When(/^I add (\d+) dates? attended for one of my fixed fees$/) do |number|
   number.to_i.times { click_on "Add Date Attended" }
 
   within '#fees' do
+    expect(page).to have_selector('.extra-data')
+
     index = 0
 
     all(:css, '.extra-data').each do |extra_data|

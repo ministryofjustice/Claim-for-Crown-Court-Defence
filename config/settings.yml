@@ -20,3 +20,7 @@ advocate_categories:
 
 prosecuting_authorites:
   - cps
+
+court_types:
+   - Magistrate's Court
+   - Crown Court

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: document_type_claims
+#
+#  id               :integer          not null, primary key
+#  claim_id         :integer          not null
+#  document_type_id :integer          not null
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe DocumentTypeClaim, type: :model do

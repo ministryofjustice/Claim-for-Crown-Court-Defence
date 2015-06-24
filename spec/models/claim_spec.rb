@@ -29,6 +29,7 @@
 #  paid_at                :datetime
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
+#  notes                  :text
 #
 
 require 'rails_helper'
@@ -342,9 +343,9 @@ RSpec.describe Claim, type: :model do
 
     context 'find by MAAT reference' do
       before do
-        create(:defendant, maat_reference: '111111', claim_id: subject.id)
-        create(:defendant, maat_reference: '222222', claim_id: subject.id)
-        create(:defendant, maat_reference: '333333', claim_id: other_claim.id)
+        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '111111') ]
+        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '222222') ]
+        create :defendant, claim: other_claim, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '333333') ]
         subject.reload
         other_claim.reload
       end
@@ -630,14 +631,13 @@ RSpec.describe Claim, type: :model do
 
   describe 'STATES_FOR_FORM' do
     it "should have constant values" do
-    expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
-                                          paid: "Paid in full",
-                                          rejected: "Rejected",
-                                          refused: "Refused",
-                                          awaiting_info_from_court: "Awaiting info from court"
-                                         })
-  end
-
+      expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
+                                            paid: "Paid in full",
+                                            rejected: "Rejected",
+                                            refused: "Refused",
+                                            awaiting_info_from_court: "Awaiting info from court"
+                                           })
+    end
   end
 
   describe 'allocate claim when assigning to case worker' do
@@ -650,36 +650,56 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe 'representation_order_dates' do
+    it 'should return a flattened array of all the dates' do
+      claim = FactoryGirl.build :unpersisted_claim
+
+      defendant_1 = FactoryGirl.build :defendant
+      defendant_2 = FactoryGirl.build :defendant
+      Timecop.freeze 5.days.ago do
+        defendant_1.representation_orders << FactoryGirl.build(:representation_order)
+      end
+      Timecop.freeze 2.days.ago do
+        defendant_2.representation_orders << FactoryGirl.build(:representation_order)
+      end
+      claim.defendants << defendant_1
+      claim.defendants << defendant_2
+      expect(claim.representation_order_dates).to eq( [ defendant_1.representation_orders[0].representation_order_date,
+                                                        defendant_1.representation_orders[1].representation_order_date,
+                                                        defendant_2.representation_orders[0].representation_order_date,
+                                                        defendant_2.representation_orders[1].representation_order_date ] )
+    end
+  end
+
   describe  '#has_paid_state?' do
     let(:claim) { create(:draft_claim) }
 
     def expect_has_paid_state_to_be(bool)
-      expect(claim.has_paid_state?).to eql(bool)
+     expect(claim.has_paid_state?).to eql(bool)
     end
 
     it 'should return false for draft, submitted, allocated, "awaiting info from court" and rejected claims' do
-      expect_has_paid_state_to_be false
-      claim.submit
-      expect_has_paid_state_to_be false
-      claim.allocate
-      expect_has_paid_state_to_be false
-      claim.await_info_from_court
-      expect_has_paid_state_to_be false
-      claim.reject
-      expect_has_paid_state_to_be false
+     expect_has_paid_state_to_be false
+     claim.submit
+     expect_has_paid_state_to_be false
+     claim.allocate
+     expect_has_paid_state_to_be false
+     claim.await_info_from_court
+     expect_has_paid_state_to_be false
+     claim.reject
+     expect_has_paid_state_to_be false
     end
 
     it 'should return true for part_paid, paid and completed claims' do
-      claim.submit
-      claim.allocate
-      claim.amount_assessed = 100.01
-      claim.pay_part
-      expect_has_paid_state_to_be true
-      claim.pay
-      expect_has_paid_state_to_be true
-      claim.complete
-      expect_has_paid_state_to_be true
+     claim.submit
+     claim.allocate
+     claim.amount_assessed = 100.01
+     claim.pay_part
+     expect_has_paid_state_to_be true
+     claim.pay
+     expect_has_paid_state_to_be true
+     claim.complete
+     expect_has_paid_state_to_be true
     end
-
   end
 end

@@ -45,7 +45,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       let(:search_field) { 'MAAT Reference' }
 
       before do
-        create(:defendant, claim: case_worker.claims.first, maat_reference: '12345')
+        create :defendant, claim: case_worker.claims.first, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '12345') ]
       end
 
       it 'finds the claims with MAAT reference "12345"' do

@@ -59,16 +59,6 @@ RSpec.describe ClaimPresenter do
     expect(subject.status_image_tag).to include("alt=\"Awaiting info from court\"")
   end
 
-  it '#representation_order_dates' do
-    claim.defendants.map { |d| d.representation_order_date = Time.current }
-    expect(subject.representation_order_dates).to eql(Time.current.strftime('%d/%m/%Y') << ', ' << Time.current.strftime('%d/%m/%Y'))
-  end
-
-  it '#maat_references' do
-    claim.defendants.map { |d| d.maat_reference ='MAAT4321' }
-    expect(subject.maat_references).to eql('MAAT4321, MAAT4321')
-  end
-
   it '#case_worker_email_addresses' do
     cw1 = build(:case_worker)
     cw2 = build(:case_worker)

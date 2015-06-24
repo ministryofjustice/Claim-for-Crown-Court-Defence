@@ -16,8 +16,8 @@ Given(/^claims have been assigned to me$/) do
   @other_claims = create_list(:allocated_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
-  create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
-  create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'AA1245') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
 end
 
 Given(/^there are allocated claims$/) do
@@ -131,7 +131,7 @@ end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
   expect(page).to have_selector("#claim_#{@claims.first.id}")
-  expect(@claims.first.defendants.first.maat_reference).to match(page.find('#search').text)
+  expect(@claims.first.defendants.first.representation_orders.first.maat_reference).to match(page.find('#search').text)
 end
 
 Given(/^I have completed claims$/) do
@@ -140,8 +140,9 @@ Given(/^I have completed claims$/) do
   @other_claims = create_list(:completed_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
-  create(:defendant, maat_reference: 'AA1245', claim_id: @claims.first.id)
-  create(:defendant, maat_reference: 'BB1245', claim_id: @claims.second.id)
+
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'AA1245') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
 end
 
 When(/^I click on the Completed Claims tab$/) do

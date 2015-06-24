@@ -2,14 +2,14 @@
   %ul#evidence-list
     - @claim.defendants.each do |defendant|
       %li
-        Representation order for defendant:
         = defendant.name
         %ul.rep-orders
-          - defendant.representation_orders.select(&:present?).each do |r|
-            %li
-              = r.document_file_name
-              .item-controls
-                = link_to 'View', representation_order_path(r), target: '_blank', class: 'view'
-                = link_to 'Download', download_representation_order_path(r), class: 'download'
+          - defendant.representation_orders.each do |r|
+            - present(r) do |representation_order|
+              %li
+                = representation_order.summary
+                .item-controls
+                  = link_to 'View', representation_order_path(r), target: '_blank', class: 'view'
+                  = link_to 'Download', download_representation_order_path(r), class: 'download'
 
 

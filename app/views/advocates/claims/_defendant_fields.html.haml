@@ -11,22 +11,17 @@
   %span.auto-width
     = f.label :date_of_birth
     = f.date_field :date_of_birth
-  %span.auto-width
-    = f.label :representation_order_date
-    = f.date_field :representation_order_date
+
   %label
     = f.check_box :order_for_judicial_apportionment
     Order for judicial apportionment
 
-  = f.label :maat_reference, t('maat_reference_number')
-  %span.auto-width
-    = f.text_field :maat_reference
   %p
     #documents
       = f.fields_for :representation_orders do |repo_form|
         = render 'representation_order_fields', f: repo_form
     .links
-      = link_to_add_association 'Add another representaion order', f, :representation_orders, class: 'button-secondary'
+      = link_to_add_association 'Add another representation order', f, :representation_orders, class: 'button-secondary'
 
   %p
     = link_to_remove_association 'Remove defendant', f

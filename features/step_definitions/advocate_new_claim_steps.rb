@@ -40,6 +40,11 @@ end
 
 When(/^I add some dates attended for one of my fixed fees$/) do
   2.times { click_on "Add Date Attended" }
+
+  Timeout.timeout(Capybara.default_wait_time) do
+    loop until page.evaluate_script('jQuery.active').zero?
+  end
+
   expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 2
 end
 

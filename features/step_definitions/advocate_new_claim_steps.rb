@@ -38,12 +38,21 @@ Given(/^I am creating a new claim$/) do
   visit new_advocates_claim_path
 end
 
-When(/^I add some dates attended for one of my fixed fees$/) do
-  2.times { click_on "Add Date Attended" }
+When(/^I add (\d+) dates? attended for one of my fixed fees$/) do |number|
+  number.to_i.times { click_on "Add Date Attended" }
 
-  sleep 1
+  within '#fees' do
+    index = 0
 
-  expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 2
+    all(:css, '.extra-data').each do |extra_data|
+      within extra_data do
+        expect(page).to have_content('Date attended (from)')
+        expect(page).to have_selector('input')
+        index += 1
+      end
+    end
+    expect(index).to eq(number.to_i)
+  end
 end
 
 When(/^I remove the fee$/) do

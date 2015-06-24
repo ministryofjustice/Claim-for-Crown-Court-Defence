@@ -49,9 +49,9 @@ Feature: Advocate new claim
   Scenario: Add fee with dates attended then remove fee
     Given I am a signed in advocate
       And I am creating a new claim
-    When I add some dates attended for one of my fixed fees
+     When I add 5 dates attended for one of my fixed fees
       And I remove the fee
-    Then the dates attended are also removed
+     Then the dates attended are also removed
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate

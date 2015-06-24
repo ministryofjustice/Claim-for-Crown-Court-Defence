@@ -1,4 +1,5 @@
 module Claims::Search
+
   QUERY_MAPPINGS_FOR_SEARCH = {
     defendant_name: {
       joins: :defendants,
@@ -23,6 +24,6 @@ module Claims::Search
     sql = options.inject([]) { |r, o| r << "(#{QUERY_MAPPINGS_FOR_SEARCH[o][:query]})" }.join(' OR ')
     relation = options.inject(all) { |r, o| r = r.joins(QUERY_MAPPINGS_FOR_SEARCH[o][:joins]) }
 
-    relation.where(sql, term: "%#{term.downcase}%")
+    relation.where(sql, term: "%#{term.downcase}%").where(state: Claims::StateMachine.advocate_dashboard_states)
   end
 end

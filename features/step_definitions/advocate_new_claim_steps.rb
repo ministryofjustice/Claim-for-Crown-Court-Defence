@@ -39,6 +39,8 @@ Given(/^I am creating a new claim$/) do
 end
 
 When(/^I add (\d+) dates? attended for one of my fixed fees$/) do |number|
+  pending
+
   number.to_i.times { click_on "Add Date Attended" }
 
   within '#fees' do

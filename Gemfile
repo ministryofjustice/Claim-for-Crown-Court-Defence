@@ -48,38 +48,42 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'guard'
-  gem 'guard-bundler'
-  gem 'guard-cucumber'
-  gem 'guard-rspec'
-  gem 'guard-rails'
-  gem 'listen'
+  gem 'guard',          '~> 2.12.5'
+  gem 'guard-bundler',  '~> 2.1.0'
+  gem 'guard-cucumber', '~> 1.5.4'
+  gem 'guard-rspec',    '~> 4.5.2'
+  gem 'guard-rails',    '~> 0.7.1'
+  gem 'listen',         '~> 2.10.0'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'quiet_assets'
-  gem 'rspec-rails', '~> 3.0'
-  gem 'webrick', '~> 1.3'
+  gem 'rb-fchange',     require: false # the rb-* gems are guard related
+  gem 'rb-fsevent',     require: false
+  gem 'rb-inotify',     require: false
+  gem 'rb-readline'
+  gem 'rspec-rails',    '~> 3.0'
+  gem 'webrick',        '~> 1.3'
 end
 
 group :test do
-  gem 'capybara'
-  gem 'codeclimate-test-reporter',  require: nil
+  gem 'capybara',                   '~> 2.4'
+  gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
-  gem 'database_cleaner'
+  gem 'database_cleaner',           '~> 1.4.1'
   gem 'fuubar'
   gem 'fuubar-cucumber'
-  gem 'launchy'
-  gem 'poltergeist'
-  gem 'rspec-mocks'
-  gem 'ruby-progressbar', '< 1.7.4'
-  gem 'shoulda-matchers',     require: false
+  gem 'launchy',                    '~> 2.4.3'
+  gem 'poltergeist',                '~> 1.6.0'
+  gem 'rspec-mocks',                '~> 3.2.1'
+  gem 'ruby-progressbar',           '< 1.7.4'
+  gem 'shoulda-matchers',           '~> 2.8.0', require: false
   gem 'selenium-webdriver'
-  gem 'simplecov',            require: false
-  gem 'simplecov-csv',        require: false
-  gem 'simplecov-multi',      require: false
-  gem 'terminal-notifier-guard'
-  gem 'timecop'
-  gem 'webmock'
+  gem 'simplecov',                  require: false
+  gem 'simplecov-csv',              require: false
+  gem 'simplecov-multi',            require: false
+  gem 'terminal-notifier-guard',    '~> 1.6.4'
+  gem 'timecop',                    '~> 0.7.4'
+  gem 'webmock',                    '~> 1.21.0'
 end
 
 group :doc do

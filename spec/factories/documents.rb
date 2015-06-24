@@ -32,5 +32,19 @@ FactoryGirl.define do
       document_content_type { 'application/msword' }
     end
 
+    trait :representation_order do
+      document_type          { DocumentType.find_by(description: 'Representation Order') || FactoryGirl.create(:document_type, :representation_order) }
+    end
+
+    trait :invoice do
+      document_type          { DocumentType.find_by(description: 'Invoice') || FactoryGirl.create(:document_type, :invoice) }
+    end
+
+    trait :indictment do
+      document_type           { DocumentType.find_by(description: 'Indictment') || FactoryGirl.create(:document_type, :indictment) }
+    end
+
   end
+
+
 end

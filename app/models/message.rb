@@ -37,11 +37,12 @@ class Message < ActiveRecord::Base
   private
 
   def generate_statuses
-    users = self.claim.advocate.chamber.advocates.map(&:user)
-    users += self.claim.case_workers.map(&:user)
-
-    users.each do |user|
+    users_for_statuses.each do |user|
       UserMessageStatus.create!(user_id: user.id, message_id: self.id, read: user == sender)
     end
+  end
+
+  def users_for_statuses
+    self.claim.advocate.chamber.advocates.map(&:user) + self.claim.case_workers.map(&:user)
   end
 end

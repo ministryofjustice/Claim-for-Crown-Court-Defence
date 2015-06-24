@@ -7,7 +7,7 @@
       %li
         = doc_type.description
         - if @claim.has_doctype?(doc_type)
-          - document = @claim.doc_of_type(doc_type)
+          - document = @claim.first_doc_of_type(doc_type)
           .item-controls
             - if document.converted_preview_document.present?
               = link_to 'View', document_path(document), target: '_blank', class: 'view'

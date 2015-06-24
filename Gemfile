@@ -57,18 +57,14 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'quiet_assets'
-  gem 'rb-fchange', require: false
-  gem 'rb-fsevent', require: false
-  gem 'rb-inotify', require: false
-  gem 'rb-readline'
   gem 'rspec-rails', '~> 3.0'
   gem 'webrick', '~> 1.3'
 end
 
 group :test do
   gem 'capybara'
-  gem 'codeclimate-test-reporter', require: nil
-  gem 'cucumber-rails', require: false
+  gem 'codeclimate-test-reporter',  require: nil
+  gem 'cucumber-rails',             require: false
   gem 'database_cleaner'
   gem 'fuubar'
   gem 'fuubar-cucumber'
@@ -76,11 +72,11 @@ group :test do
   gem 'poltergeist'
   gem 'rspec-mocks'
   gem 'ruby-progressbar', '< 1.7.4'
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda-matchers',     require: false
   gem 'selenium-webdriver'
-  gem 'simplecov', require: false
-  gem 'simplecov-csv', require: false
-  gem 'simplecov-multi', require: false
+  gem 'simplecov',            require: false
+  gem 'simplecov-csv',        require: false
+  gem 'simplecov-multi',      require: false
   gem 'terminal-notifier-guard'
   gem 'timecop'
   gem 'webmock'

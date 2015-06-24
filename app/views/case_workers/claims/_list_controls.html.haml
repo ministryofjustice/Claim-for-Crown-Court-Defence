@@ -1,0 +1,10 @@
+%nav
+  %h3
+    Sort by:
+  %ul
+    %li{class: ('active' if params[:sort].blank? && params[:direction].blank?) || (params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
+      = link_to 'Oldest', case_workers_claims_path(params.merge(sort: 'submitted_at', direction: 'asc'))
+    %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'desc')}
+      = link_to 'Value - Highest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'desc'))
+    %li{class: ('active' if params[:sort] == 'total' && params[:direction] == 'asc')}
+      = link_to 'Value - Lowest first', case_workers_claims_path(params.merge(sort: 'total', direction: 'asc'))

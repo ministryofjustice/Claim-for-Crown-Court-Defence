@@ -7,9 +7,7 @@
 #  middle_name                      :string(255)
 #  last_name                        :string(255)
 #  date_of_birth                    :datetime
-#  representation_order_date        :datetime
 #  order_for_judicial_apportionment :boolean
-#  maat_reference                   :string(255)
 #  claim_id                         :integer
 #  created_at                       :datetime
 #  updated_at                       :datetime
@@ -34,38 +32,10 @@ RSpec.describe Defendant, type: :model do
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
       it { should validate_presence_of(:date_of_birth) }
-      it { should validate_presence_of(:maat_reference) }
-    end
-  end
-
-  context 'validate uniqueness of maat_reference scoped by claim_id' do
-    it 'should be valid if unique within claim id' do
-      claim_1 = FactoryGirl.create :claim
-      claim_2 = FactoryGirl.create :claim
-      defendant_1 = FactoryGirl.build :defendant, claim: claim_1, maat_reference: 'ABC1234'
-      defendant_2 = FactoryGirl.build :defendant, claim: claim_2, maat_reference: 'ABC1234'
-      expect(defendant_1).to be_valid
-    end
-
-    it 'should not be valid if not unique within claim id' do
-      claim_1 = FactoryGirl.create :claim
-      defendant_1 = FactoryGirl.create :defendant, claim: claim_1, maat_reference: 'ABC1234'
-      defendant_2 = FactoryGirl.build :defendant, claim: claim_1, maat_reference: 'ABC1234'
-      expect(defendant_2).not_to be_valid
-      expect(defendant_2.errors[:maat_reference]). to eq( ['has already been taken'] )
     end
   end
 
 
-  context 'MAAT reference number after save' do
-    let(:claim) { create(:claim) }
-    subject { create(:defendant, first_name: 'John', last_name: 'Smith', claim_id: claim.id, maat_reference: 'abc123') }
-
-
-    it 'makes MAAT reference name uppercase' do
-      expect(subject.maat_reference).to eq('ABC123')
-    end
-  end
 
   context 'representation orders' do
 

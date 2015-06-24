@@ -29,6 +29,7 @@
 #  paid_at                :datetime
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
+#  notes                  :text
 #
 
 FactoryGirl.define do

@@ -45,7 +45,7 @@ Feature: Advocate new claim
       And I then choose to remove the additional rep order
     Then I see 1 field for attaching a rep order
 
-  @javascript @webmock_allow_net_connect
+  @javascript @webmock_allow_net_connect @wip
   Scenario: Add fee with dates attended then remove fee
     Given I am a signed in advocate
       And I am creating a new claim

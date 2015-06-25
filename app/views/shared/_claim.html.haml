@@ -15,10 +15,9 @@
           %dd
             = claim.defendant_names
           %dt
-            Rep order date
+            Representation order(s)
           %dd
-            - if claim.defendants.any?
-              = claim.representation_order_dates
+            = claim.representation_order_details
           %dt
             Advocate account number
           %dd

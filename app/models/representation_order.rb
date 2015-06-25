@@ -37,4 +37,8 @@ class RepresentationOrder < ActiveRecord::Base
     self.maat_reference.upcase! unless self.maat_reference.blank?
   end
 
+  def detail
+    "#{self.granting_body} #{self.representation_order_date.strftime(Settings.date_format)}"
+  end
+
 end

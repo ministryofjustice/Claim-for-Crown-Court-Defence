@@ -23,7 +23,6 @@ module Claims::StateMachine
     rescue NameError
       return false
     end
-
   end
 
 

@@ -53,7 +53,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(subject.name)}})
+      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{CGI.escapeHTML(Regexp.escape(subject.name))}})
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(subject.name)}.*Edit})
+      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{CGI.escapeHTML(Regexp.escape(subject.name))}.*Edit})
     end
   end
 

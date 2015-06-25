@@ -1,8 +1,3 @@
-Given(/^I am a signed in admin$/) do
-  admin = create(:case_worker, :admin)
-  visit new_user_session_path
-  sign_in(admin, 'password')
-end
 
 Given(/^a case worker exists$/) do
   @case_worker = create(:case_worker)

@@ -1,21 +1,4 @@
-def make_accounts(role, number = 1)
-  @password = 'password'
-  case role
-    when 'advocate'
-      @advocates = create_list(:advocate, number)
-    when 'advocate admin'
-      @advocate_admins = create_list(:advocate, number, :admin)
-    when 'case worker'
-      @case_workers = create_list(:case_worker, number)
-    when 'case worker admin'
-      create(:case_worker, :admin)
-  end
-end
 
-
-Given(/an? "(.*?)" user account exists$/) do |role|
-  make_accounts(role)
-end
 
 Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) chambers?$/) do |number, role, chambers|
   make_accounts(role, number.to_i)
@@ -76,15 +59,6 @@ end
 
 Then(/^I should be redirected to the advocates root url$/) do
   expect(current_url).to eq(advocates_root_url)
-end
-
-
-Given(/^I am a signed in advocate$/) do
-  step %Q{an "advocate" user account exists}
-  @advocate = @advocates.first
-  @user     = @advocate.user
-  step "I visit the user sign in page"
-  step "I enter my email, password and click log in"
 end
 
 

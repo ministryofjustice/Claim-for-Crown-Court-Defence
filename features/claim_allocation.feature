@@ -2,7 +2,7 @@ Feature: Claim allocation
   Background:
     As an admin I would like to allocate claims to case workers
 
-    Given I am a signed in admin
+    Given I am a signed in case worker admin
       And a case worker exists
       And submitted claims exist
 

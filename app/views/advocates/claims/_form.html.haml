@@ -117,12 +117,6 @@
         = f.check_box :apply_vat
         VAT on Fees & Expenses (please tick if required)'
 
-    %fieldset{id: 'evidence-checklist'}
-      %legend
-        Supporting evidence checklist
-      #evidence-checklist
-        = render 'document_type_fields', f: f
-
     %fieldset{id: 'evidence'}
       %legend
         Supporting evidence documents
@@ -131,6 +125,12 @@
           = render 'document_fields', f: document
           .links
             = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
+
+    %fieldset{id: 'evidence-checklist'}
+      %legend
+        Supporting evidence checklist
+      #evidence-checklist
+        = render 'evidence_checklist', f: f
 
     %p
       = f.submit 'Submit to LAA', class: 'button'

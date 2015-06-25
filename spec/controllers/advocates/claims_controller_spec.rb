@@ -342,7 +342,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       context 'document checklist' do
         let(:court) { create(:court) }
         let(:offence) { create(:offence) }
-        let(:document_type) { create(:document_type) }
         let(:claim_params) do
           {
              additional_information: 'foo',
@@ -352,14 +351,14 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
              case_number: '12345',
              advocate_category: 'QC',
              prosecuting_authority: 'cps',
-             document_type_ids: [document_type.id.to_s]
+             evidence_checklist_ids:  ['2', '3', '']
           }
         end
 
         it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
           claim = assigns(:claim)
-          expect(claim.document_types.count).to eql(1)
+          expect(claim.evidence_checklist_ids).to eql( [ 2, 3 ] )
         end
       end
 
@@ -454,6 +453,7 @@ def valid_claim_fee_params
      "first_day_of_trial" => "2015-05-13",
      "estimated_trial_length" => "2",
      "actual_trial_length" => "2",
+     "evidence_checklist_ids" => ["1", "5", ""],
      "defendants_attributes"=>
       {"0"=>
         {"first_name" => "Stephen",

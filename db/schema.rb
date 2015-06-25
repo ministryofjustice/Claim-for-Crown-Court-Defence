@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625090816) do
+ActiveRecord::Schema.define(version: 20150625125502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,8 @@ ActiveRecord::Schema.define(version: 20150625090816) do
     t.integer  "creator_id"
     t.decimal  "amount_assessed",        default: 0.0
     t.text     "notes"
+    t.string   "evidence_notes"
+    t.string   "evidence_checklist_ids"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
@@ -130,27 +132,8 @@ ActiveRecord::Schema.define(version: 20150625090816) do
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
-  create_table "document_type_claims", force: true do |t|
-    t.integer  "claim_id",         null: false
-    t.integer  "document_type_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "document_type_claims", ["claim_id", "document_type_id"], name: "document_type_claims_claim_id_document_type_id", unique: true, using: :btree
-  add_index "document_type_claims", ["claim_id"], name: "index_document_type_claims_on_claim_id", using: :btree
-  add_index "document_type_claims", ["document_type_id"], name: "index_document_type_claims_on_document_type_id", using: :btree
-
-  create_table "document_types", force: true do |t|
-    t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "documents", force: true do |t|
     t.integer  "claim_id"
-    t.integer  "document_type_id"
-    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "document_file_name"
@@ -167,7 +150,6 @@ ActiveRecord::Schema.define(version: 20150625090816) do
   add_index "documents", ["advocate_id"], name: "index_documents_on_advocate_id", using: :btree
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
-  add_index "documents", ["document_type_id"], name: "index_documents_on_document_type_id", using: :btree
 
   create_table "expense_types", force: true do |t|
     t.string   "name"

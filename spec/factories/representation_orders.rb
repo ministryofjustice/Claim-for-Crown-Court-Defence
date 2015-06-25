@@ -2,21 +2,13 @@
 #
 # Table name: representation_orders
 #
-#  id                                      :integer          not null, primary key
-#  defendant_id                            :integer
-#  document_file_name                      :string(255)
-#  document_content_type                   :string(255)
-#  document_file_size                      :integer
-#  document_updated_at                     :datetime
-#  converted_preview_document_file_name    :string(255)
-#  converted_preview_document_content_type :string(255)
-#  converted_preview_document_file_size    :integer
-#  converted_preview_document_updated_at   :datetime
-#  created_at                              :datetime
-#  updated_at                              :datetime
-#  granting_body                           :string(255)
-#  maat_reference                          :string(255)
-#  representation_order_date               :date
+#  id                        :integer          not null, primary key
+#  defendant_id              :integer
+#  created_at                :datetime
+#  updated_at                :datetime
+#  granting_body             :string(255)
+#  maat_reference            :string(255)
+#  representation_order_date :date
 #
 
 FactoryGirl.define do

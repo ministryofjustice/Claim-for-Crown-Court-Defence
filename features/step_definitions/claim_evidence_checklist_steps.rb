@@ -1,13 +1,9 @@
-Given(/^evidence checklist entries exist$/) do
-  @document_type = create(:document_type, description: 'Evidence list item 1')
-end
-
 Then(/^I should see an evidence checklist section$/) do
   expect(page).to have_selector('fieldset#evidence-checklist')
 end
 
 Then(/^I check the first checkbox$/) do
-  check @document_type.description
+  check DocType.all.first.name
 end
 
 Then(/^I visit the claim show page$/) do

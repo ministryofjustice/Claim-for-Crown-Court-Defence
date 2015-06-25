@@ -15,7 +15,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     add_breadcrumb 'Dashboard', case_workers_root_path
     add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
 
-    @doc_types = DocumentType.all
+    @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
   end
@@ -23,7 +23,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def update
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_first
-    @doc_types = DocumentType.all
+    @doc_types = DocType.all
     begin
       @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err

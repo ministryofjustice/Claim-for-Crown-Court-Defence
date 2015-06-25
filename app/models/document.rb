@@ -4,8 +4,6 @@
 #
 #  id                                      :integer          not null, primary key
 #  claim_id                                :integer
-#  document_type_id                        :integer
-#  notes                                   :text
 #  created_at                              :datetime
 #  updated_at                              :datetime
 #  document_file_name                      :string(255)
@@ -24,9 +22,7 @@ class Document < ActiveRecord::Base
 
   belongs_to :advocate
   belongs_to :claim
-  belongs_to :document_type
 
-  validates :document_type, presence: true
   validates :advocate_id, presence: true
 
   validates_attachment :document,

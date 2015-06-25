@@ -461,12 +461,12 @@ def valid_claim_fee_params
          "last_name" => "Richards",
          "date_of_birth" => "1966-08-13",
          "representation_order_date" => "2015-05-13",
-         "order_for_judicial_apportionment" => "0",
-         "maat_reference" => "MAAT2015",
          "_destroy" => "false",
          "representation_orders_attributes"=>{
            "0"=>{
-           "document"=> @file}
+             "representation_order_date" => "2015-05-13",
+             "maat_reference" => "MAAT2015",
+             "granting_body" => "Crown Court"}
           }
         }
       },

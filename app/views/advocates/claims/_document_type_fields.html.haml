@@ -3,9 +3,9 @@
     %thead
       %tr
         %th
-          Description
+          = t('.description')
         %th
-          Provided
+          = t('.provided')
     %tbody
     = f.collection_check_boxes :document_type_ids, DocumentType.all.order(id: :asc), :id, :description do |b|
       %tr

@@ -9,9 +9,9 @@
     %td.amount
       &nbsp; 
     %td
-      = link_to_add_association 'Add Date Attended', f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
     %td
-      = link_to_remove_association 'Remove', f, { wrapper_class: 'expense-fee-group' }
+      = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-fee-group' }
       
     = f.fields_for :dates_attended do |date_attended|
       = render 'date_attended_fields', f: date_attended

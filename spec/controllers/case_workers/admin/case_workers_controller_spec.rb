@@ -50,7 +50,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{CGI.escapeHTML(Regexp.escape(subject.name))}})
+      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}})
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{CGI.escapeHTML(Regexp.escape(subject.name))}.*Edit})
+      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Edit})
     end
   end
 
@@ -124,7 +124,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{CGI.escapeHTML(Regexp.escape(subject.name))}.*Allocate})
+      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Allocate})
     end
   end
 

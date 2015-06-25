@@ -138,7 +138,7 @@ namespace :claims do
           add_documentary_evidence(claim,2)
 
           # all states but those below require allocation to case worker
-          unless [:draft,:archived_pending_delete].include?(s)
+          unless [:draft,:archived_pending_delete,:submitted].include?(s)
             case_worker.claims << claim
             puts "     - allocating to #{case_worker.user.email}"
           end

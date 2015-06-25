@@ -146,7 +146,7 @@ class Claim < ActiveRecord::Base
   end
 
   def has_doctype?(doc_type)
-    documents.pluck(:document_type_id).include?(doc_type.id) #returns boolean
+    documents.map(&:document_type_id).include?(doc_type.id) #returns boolean
   end
 
   def has_paid_state?
@@ -154,8 +154,8 @@ class Claim < ActiveRecord::Base
     paid_states.include?(self.state)
   end
 
-  def doc_of_type(doc_type)
-    documents.where(:document_type_id == doc_type.id)[0] #returns an actual document
+  def first_doc_of_type(doc_type)
+    documents.detect { |d|  d.document_type == doc_type }     #returns an actual document
   end
 
   def state_for_form

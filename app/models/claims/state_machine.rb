@@ -32,8 +32,6 @@ module Claims::StateMachine
     end
   end
 
-
-
   def self.included(klass)
     klass.state_machine :state,                      initial: :draft do
       after_transition on: :submit,                  do: :set_submission_date!

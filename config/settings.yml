@@ -24,3 +24,6 @@ prosecuting_authorites:
 court_types:
    - Magistrate's Court
    - Crown Court
+
+date_format: "%d/%m/%Y"
+date_time_format: "%d/%m/%Y %H:%M"

@@ -63,14 +63,6 @@ RSpec.describe Defendant, type: :model do
         expect(defendant).not_to be_valid
         expect(defendant.errors[:representation_orders]).to eq [ 'There must be at least one representation order per defendant' ]
       end
-
-      it 'should not be valid if there is one representation order which is blank' do
-        defendant = FactoryGirl.build :defendant
-        defendant.claim = create(:submitted_claim)
-        defendant.representation_orders = [ RepresentationOrder.new ]
-        expect(defendant).not_to be_valid
-        expect(defendant.errors.full_messages.include?("Representation orders document can't be blank")).to be true
-      end
     end
   end
 

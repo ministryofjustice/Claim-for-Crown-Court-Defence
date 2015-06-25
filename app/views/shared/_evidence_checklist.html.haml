@@ -1,16 +1,16 @@
 #evidence-checklist-read-only
   - if current_user == @claim.advocate.user && @claim.editable?
     = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence-checklist"
-  - if @claim.document_types.empty?
+  - if @claim.evidence_checklist_ids.empty?
     %p
       No documentary evidence specified as having been provided.
   - else
     %p
       Author has specified that the following documentary evidence has been provided:
       %ul#evidence-checklist
-        - @claim.document_types.each do |dt|
+        - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
           %li
-            = dt.description
+            = dt.name
     %p
     %p
       Please note that if insufficient documentary evidence is provided your claim may be rejected, slowing the claim process and any eventual payment.

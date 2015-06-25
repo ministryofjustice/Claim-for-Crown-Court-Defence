@@ -14,11 +14,9 @@ Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
-  create(:document_type, description: 'Other')
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:expense_type, name: 'Travel')
-  create(:document_type, description: 'Representation Order')
   visit new_advocates_claim_path
 end
 
@@ -105,8 +103,6 @@ When(/^I fill in the claim details$/) do
     check checkbox_id
   end
 
-  select 'Other', from: 'claim_documents_attributes_0_document_type_id'
-  fill_in 'claim_documents_attributes_0_notes', with: 'Notes'
   attach_file(:claim_documents_attributes_0_document, 'features/examples/longer_lorem.pdf')
 end
 

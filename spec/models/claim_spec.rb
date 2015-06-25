@@ -30,6 +30,8 @@
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
+#  evidence_notes         :string(255)
+#  evidence_checklist_ids :string(255)
 #
 
 require 'rails_helper'
@@ -52,9 +54,20 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
-  it { should have_many(:document_type_claims) }
-  it { should have_many(:document_types) }
+  context 'validation of evidence_checklist_ids' do
+    let(:claim)           { FactoryGirl.build :unpersisted_claim }
 
+    it 'should reject non numeric values' do
+      claim.evidence_checklist_ids = [ 'aa', '2']
+      expect(claim).not_to be_valid
+      expect(claim.errors[:evidence_checklist_ids]).to eq(['Invalid'])
+    end
+
+    it 'should not reject string integers' do
+      claim.evidence_checklist_ids = [ '33', '2', '']
+      expect(claim).to be_valid
+    end
+  end
 
 
   context 'State Machine meta states magic methods' do
@@ -704,37 +717,24 @@ RSpec.describe Claim, type: :model do
   end
 
 
-  context 'doc_types' do
-    let(:claim)                   { FactoryGirl.build :unpersisted_claim }
-    let(:invoice)                 { FactoryGirl.create :document, :invoice }
-    let(:indictment)              { FactoryGirl.create :document, :indictment }
-    let(:representation_order)    { FactoryGirl.create :document, :representation_order }
-
-    before(:each) do
-      claim.documents << invoice
-      claim.documents << representation_order
+  describe 'evidence_checklist_ids' do
+    it 'should serialize and de-serialize' do
+      claim  = FactoryGirl.build :unpersisted_claim
+      claim.evidence_checklist_ids = [1,5,15,37]
+      claim.save!
+      claim2 = Claim.find claim.id
+      expect(claim2.evidence_checklist_ids).to eq( [1,5,15,37] )
     end
 
-    describe '#has_doctype?' do
-      it 'should return true if doctype exists in documents collection' do
-        expect(claim.has_doctype?(invoice.document_type)).to be true
-      end
-
-      it 'should return false if doctype does not exist in documents collection' do
-        expect(claim.has_doctype?(indictment.document_type)).to be false
-      end
-    end
-
-    describe '#first_doc_of_type' do
-      it 'should return a document of the requested type if in the collection' do
-        expect(claim.first_doc_of_type(representation_order.document_type)).to eq representation_order
-      end
-
-      it 'should return nil if there is no document of the requested type' do
-        expect(claim.first_doc_of_type(indictment.document_type)).to be nil
-      end
+    it 'should throw an execption if anything other than an array' do
+      claim  = FactoryGirl.build :unpersisted_claim
+      claim.evidence_checklist_ids = '1, 45, 457'
+      expect {
+        claim.save!
+      }.to raise_error ActiveRecord::SerializationTypeMismatch, %q{Attribute was supposed to be a Array, but was a String.}
     end
   end
+
 end
 
 

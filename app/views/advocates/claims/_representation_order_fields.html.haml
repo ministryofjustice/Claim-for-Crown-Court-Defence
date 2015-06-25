@@ -20,22 +20,6 @@
     = f.label :maat_reference, t('maat_reference_number')
     = f.text_field :maat_reference
 
-  - unless f.object.id.nil? || f.object.document_file_name.nil?
-    .note.file-exists
-      File already uploaded:
-      = f.object.document_file_name
-      &nbsp;
-      = link_to 'View', representation_order_path(f.object), target: '_blank', class: 'view'
-      &nbsp;
-      = link_to 'Download', download_representation_order_path(f.object), class: 'download'
-
-  %b
-
-  %div.rep_order
-    = f.file_field :document
+  %br
   %br
   = link_to_remove_association 'Remove representation order', f
-
-
-
-

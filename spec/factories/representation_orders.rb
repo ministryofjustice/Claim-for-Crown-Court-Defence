@@ -21,7 +21,7 @@
 
 FactoryGirl.define do
   factory :representation_order do
-    document                            { File.open(Rails.root + 'features/examples/longer_lorem.pdf') }
+    # document                            { File.open(Rails.root + 'features/examples/longer_lorem.pdf') }
     representation_order_date           { Time.now }
     maat_reference                      { Faker::Lorem.characters(10).upcase }
     granting_body                       { Settings.court_types[ randomly_0_or_1 ] }

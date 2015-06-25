@@ -73,4 +73,10 @@ RSpec.describe ClaimPresenter do
     expect(subject.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
   end
 
+
+  it '#representation_order_dates' do
+    allow(claim).to receive(:representation_order_dates).and_return( [ Date.new(2015, 2, 2), Date.new(2014, 12, 31) ] )
+    expect(subject.representation_order_dates).to eq "02/02/2015, 31/12/2014"
+  end
+
 end

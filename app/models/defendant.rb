@@ -30,8 +30,8 @@ class Defendant < ActiveRecord::Base
     [first_name, last_name].join(' ')
   end
 
-  def representation_order_dates
-    representation_orders.map(&:representation_order_date)
+  def representation_order_details
+    representation_orders.map(&:detail)
   end
 
   private

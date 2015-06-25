@@ -55,8 +55,8 @@ class ClaimPresenter < BasePresenter
     "claim_ids_#{claim.id}"
   end
 
-  def representation_order_dates
-    claim.representation_order_dates.map{ |d| d.strftime(Settings.date_format) }.join(', ')
+  def representation_order_details
+    claim.representation_order_details.join('<br/>').html_safe
   end
 
 end

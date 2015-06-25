@@ -61,7 +61,7 @@ RSpec.describe Defendant, type: :model do
       it 'should not be valid if there are no representation orders' do
         defendant.representation_orders = []
         expect(defendant).not_to be_valid
-        expect(defendant.errors[:representation_orders]).to eq [ 'There must be at least one representation order per defendant' ]
+        expect(defendant.errors[:representation_orders]).to eq [ " - there must be at least one representation order per defendant" ]
       end
     end
   end

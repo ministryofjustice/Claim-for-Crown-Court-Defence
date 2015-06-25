@@ -126,7 +126,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     render_views
 
     it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(subject.case_number)}})
+      expect(response.body).to match(%Q{Dashboard.*Claim: #{CGI.escapeHTML(Regexp.escape(subject.case_number))}})
     end
 
     it 'does not display claim notes' do
@@ -177,7 +177,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       render_views
 
       it 'renders breadcrumbs' do
-        expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(subject.case_number)}.*Edit})
+        expect(response.body).to match(%Q{Dashboard.*Claim: #{CGI.escapeHTML(Regexp.escape(subject.case_number))}.*Edit})
       end
     end
 

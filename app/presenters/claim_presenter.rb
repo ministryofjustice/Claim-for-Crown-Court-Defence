@@ -8,13 +8,13 @@ class ClaimPresenter < BasePresenter
 
   def submitted_at(options={})
     options.assert_valid_keys(:include_time)
-    format = options[:include_time] ? '%d/%m/%Y %H:%M' : '%d/%m/%Y'
+    format = options[:include_time] ? Settings.date_time_format : Settings.date_format
     claim.submitted_at.strftime(format) unless claim.submitted_at.nil?
   end
 
   def paid_at (options={})
     options.assert_valid_keys(:include_time)
-    format = options[:include_time] ? '%d/%m/%Y %H:%M' : '%d/%m/%Y'
+    format = options[:include_time] ? Settings.date_time_format : Settings.date_format
     claim.paid_at.strftime(format) unless claim.paid_at.nil?
   end
 
@@ -53,6 +53,10 @@ class ClaimPresenter < BasePresenter
 
   def caseworker_claim_id
     "claim_ids_#{claim.id}"
+  end
+
+  def representation_order_dates
+    claim.representation_order_dates.map{ |d| d.strftime(Settings.date_format) }.join(', ')
   end
 
 end

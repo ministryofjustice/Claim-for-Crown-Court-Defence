@@ -702,4 +702,40 @@ RSpec.describe Claim, type: :model do
      expect_has_paid_state_to_be true
     end
   end
+
+
+  context 'doc_types' do
+    let(:claim)                   { FactoryGirl.build :unpersisted_claim }
+    let(:invoice)                 { FactoryGirl.create :document, :invoice }
+    let(:indictment)              { FactoryGirl.create :document, :indictment }
+    let(:representation_order)    { FactoryGirl.create :document, :representation_order }
+
+    before(:each) do
+      claim.documents << invoice
+      claim.documents << representation_order
+    end
+
+    describe '#has_doctype?' do
+      it 'should return true if doctype exists in documents collection' do
+        expect(claim.has_doctype?(invoice.document_type)).to be true
+      end
+
+      it 'should return false if doctype does not exist in documents collection' do
+        expect(claim.has_doctype?(indictment.document_type)).to be false
+      end
+    end
+
+    describe '#first_doc_of_type' do
+      it 'should return a document of the requested type if in the collection' do
+        expect(claim.first_doc_of_type(representation_order.document_type)).to eq representation_order
+      end
+
+      it 'should return nil if there is no document of the requested type' do
+        expect(claim.first_doc_of_type(indictment.document_type)).to be nil
+      end
+    end
+  end
 end
+
+
+

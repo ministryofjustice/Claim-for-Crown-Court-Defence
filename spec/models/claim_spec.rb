@@ -699,17 +699,17 @@ RSpec.describe Claim, type: :model do
       defendant_1 = FactoryGirl.build :defendant
       defendant_2 = FactoryGirl.build :defendant
       Timecop.freeze 5.days.ago do
-        defendant_1.representation_orders << FactoryGirl.build(:representation_order)
+        defendant_1.representation_orders = [
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court"),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court"),
+        ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders << FactoryGirl.build(:representation_order)
+        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
       end
       claim.defendants << defendant_1
       claim.defendants << defendant_2
-      expect(claim.representation_order_dates).to eq( [ defendant_1.representation_orders[0].representation_order_date,
-                                                        defendant_1.representation_orders[1].representation_order_date,
-                                                        defendant_2.representation_orders[0].representation_order_date,
-                                                        defendant_2.representation_orders[1].representation_order_date ] )
+      expect(claim.representation_order_details).to eq( ["Crown Court 01/03/2015", "Magistrate's Court 13/08/2015", "Magistrate's Court 01/03/2015"] )
     end
   end
 

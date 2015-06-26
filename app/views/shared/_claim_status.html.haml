@@ -1,7 +1,7 @@
 %section
 
   - if @claim.errors.any?
-    .validation-summary 
+    .validation-summary
       %h2.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
       %ul
         - @claim.errors.full_messages.each do |msg|

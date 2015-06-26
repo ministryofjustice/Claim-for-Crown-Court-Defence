@@ -127,7 +127,11 @@ en:
     form:
       upload: 'Choose file to upload'
   maat_reference_number: 'MAAT Reference'
+
+# en.common
   common:
+    court: Court
+    crown_court: Crown Court
     or: or
     search: Search
   link:
@@ -137,6 +141,8 @@ en:
     remove_rep_order: Remove representation order
     start_claim: Start a new claim
     view_claim: View your claims
+
+# en.advocates
   advocates:
     admin:
       advocates:
@@ -289,5 +295,25 @@ en:
 
 
 
+# en.shared
+  shared:
+    claim:
+      adv_acc_no: Advocate account number
+      assignee: "Assigned to:"
+      case: Case
+      case_num: Case number
+      case_type: Case Type
+      case_worker: Case Worker
+      defendant: Defendant name(s)
+      j_a: Judicial Apportionment
+      offence: Offence
+      offence_class: Offence class
+      prosecuting_auth: Prosecuting authority
+      q:
+        retrial: "Retrial?"
+      reporders: Representation order(s)
+      submit_date: Case submitted
 
-#advocates.claims.confirmation.thanks
+
+
+

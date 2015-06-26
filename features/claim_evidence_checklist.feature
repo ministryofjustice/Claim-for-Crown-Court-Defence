@@ -8,14 +8,13 @@ Feature: Claim evidence checklist
 
   Scenario: Edit claim checklist
     Given I am a signed in advocate
-      And evidence checklist entries exist
       And a claim exists with state "draft"
      When I am on the claim edit page
      Then I should see an evidence checklist section
       And I check the first checkbox
       And I submit to LAA
       And I visit the claim show page
-     Then I should see a list item for "Evidence list item 1" evidence
+     Then I should see a list item for "Representation Order" evidence
 
   Scenario: New claim checklist
     Given I am a signed in advocate

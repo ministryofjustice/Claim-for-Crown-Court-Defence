@@ -4,8 +4,6 @@
 #
 #  id                                      :integer          not null, primary key
 #  claim_id                                :integer
-#  document_type_id                        :integer
-#  notes                                   :text
 #  created_at                              :datetime
 #  updated_at                              :datetime
 #  document_file_name                      :string(255)
@@ -23,12 +21,10 @@ require 'rails_helper'
 
 RSpec.describe Document, type: :model do
 
-  it { should belong_to(:document_type) }
   it { should belong_to(:advocate) }
   it { should belong_to(:claim) }
   it { should delegate_method(:chamber_id).to(:advocate) }
   it { should validate_presence_of(:advocate_id) }
-  it { should validate_presence_of(:document_type) }
 
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }

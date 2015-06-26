@@ -69,21 +69,16 @@ namespace :claims do
     #
     # NOTE: cannot use random doc type due to composite unique constraints
     #
-    doc_count = doc_count <= DocumentType.maximum(:id) ? doc_count : DocumentType.maximum(:id)
 
     doc_count.times do |i|
       file = File.open("./features/examples/longer_lorem.pdf")
-      document_type = DocumentType.where(id: i+1).first
 
       FactoryGirl.create(:document,
                           claim: claim,
-                          document_type: document_type,
                           document: file,
                           document_content_type: 'application/pdf',
                           advocate: claim.advocate
                         )
-
-      FactoryGirl.create(:document_type_claim,claim: claim, document_type: document_type)
     end
 
   end

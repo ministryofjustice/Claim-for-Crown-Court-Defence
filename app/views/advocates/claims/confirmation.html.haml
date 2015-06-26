@@ -1,27 +1,27 @@
 %h1
-  Thank you for submitting your claim!
+  = t('.thanks')
 
 %p
-  Your claim will be processed shortly
+  = t('.will_be_processed')
 
 %h2
-  Claim summary
+  =t('.claim_summary')
 
 %p
-  Fees total:
+  =t('.fees_summary')
   = number_to_currency(@claim.fees_total)
 
 %p
-  Expenses total:
+  =t('.expenses_total')
   = number_to_currency(@claim.expenses_total)
 
 %h2
-  Total:
+  = t('.total')
   = number_to_currency(@claim.total)
 
 %p
-  = link_to 'File another claim', new_advocates_claim_path, class: 'button'
+  = link_to t('link.file_another_claim'), new_advocates_claim_path, class: 'button'
   &nbsp;
-  or
+  = t('.common.or')
   &nbsp;
-  = link_to 'View your claims', advocates_root_url, class: 'button'
+  = link_to t('.link.view_claim'), advocates_root_url, class: 'button'

@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20150625125502) do
     t.integer  "creator_id"
     t.decimal  "amount_assessed",        default: 0.0
     t.text     "notes"
-    t.string   "evidence_notes"
+    t.text     "evidence_notes"
     t.string   "evidence_checklist_ids"
   end
 

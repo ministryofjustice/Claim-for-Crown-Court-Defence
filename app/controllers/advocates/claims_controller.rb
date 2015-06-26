@@ -36,7 +36,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     add_breadcrumb 'Dashboard', advocates_root_path
     add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
 
-    @doc_types = DocumentType.all
+    @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
   end
@@ -161,6 +161,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :prosecuting_authority,
      :indictment_number,
      :apply_vat,
+     :evidence_checklist_ids => [],
      defendants_attributes: [
        :id,
        :claim_id,
@@ -221,15 +222,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      ],
      documents_attributes: [
        :id,
-       :notes,
+       :document,
        :advocate_id,
        :claim_id,
-       :document_type_id,
-       :document,
-       :description,
        :_destroy
-     ],
-     document_type_ids: []
+     ]
     )
   end
 

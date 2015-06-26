@@ -30,10 +30,14 @@
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
+#  evidence_notes         :string(255)
+#  evidence_checklist_ids :string(255)
 #
 
 class Claim < ActiveRecord::Base
   has_paper_trail
+
+  serialize :evidence_checklist_ids, Array
 
   include Claims::StateMachine
   extend Claims::Search
@@ -68,8 +72,6 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
 
-  has_many :document_type_claims, dependent: :destroy
-  has_many :document_types,       through: :document_type_claims
 
   default_scope do
     includes(:advocate,
@@ -100,6 +102,7 @@ class Claim < ActiveRecord::Base
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
 
   validate :amount_assessed_and_state
+  validate :evidence_checklist_all_integers
 
   accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
@@ -146,17 +149,9 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def has_doctype?(doc_type)
-    documents.map(&:document_type_id).include?(doc_type.id) #returns boolean
-  end
-
   def has_paid_state?
     paid_states = Claims::StateMachine::ADVOCATE_DASHBOARD_COMPLETED_STATES + Claims::StateMachine::ADVOCATE_DASHBOARD_PART_PAID_STATES
     paid_states.include?(self.state)
-  end
-
-  def first_doc_of_type(doc_type)
-    documents.detect { |d|  d.document_type == doc_type }     #returns an actual document
   end
 
   def state_for_form
@@ -219,6 +214,15 @@ class Claim < ActiveRecord::Base
   end
 
   private
+
+  def evidence_checklist_all_integers
+    raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.") unless self.evidence_checklist_ids.is_a?(Array)
+    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?)
+    self.evidence_checklist_ids = self.evidence_checklist_ids.map(&:to_i)
+    if self.evidence_checklist_ids.include?(0)
+      errors[:evidence_checklist_ids] << "Invalid"
+    end
+  end
 
   def amount_assessed_and_state
     case self.state

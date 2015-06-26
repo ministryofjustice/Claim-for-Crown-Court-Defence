@@ -131,11 +131,6 @@
         = f.check_box :apply_vat
         = t('.vat_required')
 
-    %fieldset{id: 'evidence-checklist'}
-      %legend
-        = t('.supporting_evidence_checklist')
-      #evidence-checklist
-        = render 'document_type_fields', f: f
 
     %fieldset{id: 'evidence'}
       %legend
@@ -145,6 +140,12 @@
           = render 'document_fields', f: document
           .links
             = link_to_add_association t('.add_another_doc'), f, :documents, class: 'button-secondary'
+
+    %fieldset{id: 'evidence-checklist'}
+      %legend
+        Supporting evidence checklist
+      #evidence-checklist
+        = render 'evidence_checklist', f: f
 
     %p
       = f.submit t('.submit_to_laa'), class: 'button'

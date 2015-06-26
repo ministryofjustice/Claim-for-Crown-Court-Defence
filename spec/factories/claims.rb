@@ -30,6 +30,8 @@
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
+#  evidence_notes         :string(255)
+#  evidence_checklist_ids :string(255)
 #
 
 FactoryGirl.define do

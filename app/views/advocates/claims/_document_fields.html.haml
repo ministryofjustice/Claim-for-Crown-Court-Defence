@@ -1,13 +1,5 @@
 .nested-fields
-  = f.label t('.document_type')
-  %br
-  = f.collection_select :document_type_id, DocumentType.all, :id, :description, {prompt: true}, {class: 'select2'}
-  %br
-  = f.label t('.notes')
-  %br
-  = f.text_area :notes
-  %br
-  = f.label t('.document')
+  = f.label :document
   - unless f.object.id.nil? || f.object.document_file_name.nil?
     .note.file-exists
       = t('.file_exists')

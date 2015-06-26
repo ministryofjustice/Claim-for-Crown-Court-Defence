@@ -2,138 +2,152 @@
   = form_for [:advocates, @claim], html: { novalidate: true } do |f|
     - if @claim.errors.any?
       .validation-summary
-        %h2.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved:"
+        %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
         %ul
           - @claim.errors.full_messages.each do |msg|
             %li= msg
     %h2
-      Section 1:
+      = t('.section_one')
     %fieldset
       %legend
-        Case, Instructed Advocate & Offence
+        = t('.case_advocate_offence')
 
       - if current_user.persona.admin?
-        = f.label :advocate
+        = f.label t('.advocate')
         = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
 
-      = f.label :scheme
+      = f.label t('.scheme')
       = f.collection_select :scheme_id, Scheme.all, :id, :name, { prompt: true }, { class: 'select2' }
 
-      = f.label :case_type
+      = f.label t('.case_type')
       = f.collection_select :case_type, Settings.case_types, :to_s, :humanize, { prompt: true }, { class: 'select2' }
 
-      = f.label :prosecuting_authority
+      = f.label t('.prosecuting_authority')
       = f.collection_select :prosecuting_authority, Settings.prosecuting_authorites, :to_s, :upcase, { prompt: true }, { class: 'select2' }
 
-      = f.label :court
+      = f.label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
 
-      = f.label :case_number
+      = f.label t('.case_number')
       = f.text_field :case_number
 
-      = f.label :advocate_category
+      = f.label t('.advocate_category')
       = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2' }
 
       = render 'dynamic_offence_fields', f: f
       %span.auto-width
-        = f.label :first_day_of_trial
+        = f.label t('.first_day_of_trial')
         = f.date_field :first_day_of_trial
       %span.auto-width
-        = f.label :estimated_trial_length
+        = f.label t('.estimated_length')
         = f.number_field :estimated_trial_length
       %span.auto-width
-        = f.label :actual_trial_length
+        = f.label t('.actual_length')
         = f.number_field :actual_trial_length
 
     %fieldset
-      %legend Defendants
+      %legend
+        = t('.defendants')
       #defendants
         = f.fields_for :defendants do |defendant|
           = render 'defendant_fields', f: defendant
           %div
-            = link_to_add_association 'Add Another Defendant', f, :defendants, class: 'button-secondary'
+            = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
 
     %h2
-      Section 2:
+      = t('.section_two')
     %fieldset
-      = f.label :additional_information
+      = f.label t('.additional_information')
       = f.text_area :additional_information, rows: 10
 
     %fieldset
       %legend
-        Basic Fees
+        = t('.basic_fees')
       #basic_fees
         %p
-          Manually enter the quantity and the rate and the amount will automatically calculate the total for you
+          = t('.quantity_and_rate_prompt')
         %table.table
           %thead
             %tr
-              %th Fee Type
-              %th Quantity
-              %th Rate
-              %th Amount
+              %th
+                = t('.fee_type')
+              %th
+                = t('.quantity')
+              %th
+                = t('.rate')
+              %th
+                = t('.amount')
           %tbody
             = f.fields_for :basic_fees do |basic_fee_form|
               = render 'basic_fees', f: basic_fee_form, basic_fees: f.object.basic_fees
 
     %fieldset
       %legend
-        Fixed and Miscellaneous Fees
+        = t('.fixed_and_misc_fees')
       #fees
         %table.table
           %thead
             %tr
-              %th Fee Type
-              %th Quantity
-              %th Rate
-              %th Amount
+              %th
+                = t('.fee_type')
+              %th
+                = t('.quantity')
+              %th
+                = t('.rate')
+              %th
+                = t('.amount')
               %th
               %th
           = f.fields_for :non_basic_fees do |fee|
             = render 'fee_fields', f: fee
 
-        = link_to_add_association 'Add Another Fee', f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_another_fee'), f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
       %legend
-        Expenses
+        = t('.expenses')
       #expenses
         %table.table
           %thead
             %tr
-              %th Expense Type
-              %th Location
-              %th Quantity/Hours
-              %th Rate
-              %th Amount
+              %th
+                = t('.expense_type')
+              %th
+                = t('.location')
+              %th
+                = t('.quantity_hours')
+              %th
+                = t('.rate')
+              %th
+                = t('.amount')
               %td
               = f.fields_for :expenses do |expense|
                 = render 'expense_fields', f: expense
 
 
-        = link_to_add_association 'Add Another Expense', f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_another_expense'), f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
       %label
         = f.check_box :apply_vat
-        VAT on Fees & Expenses (please tick if required)'
+        = t('.vat_required')
 
     %fieldset{id: 'evidence-checklist'}
       %legend
-        Supporting evidence checklist
+        = t('.supporting_evidence_checklist')
       #evidence-checklist
         = render 'document_type_fields', f: f
 
     %fieldset{id: 'evidence'}
       %legend
-        Supporting evidence documents
+        = t('.supporting_evidence_docs')
       #documents
         = f.fields_for :documents do |document|
           = render 'document_fields', f: document
           .links
-            = link_to_add_association 'Add Another Document', f, :documents, class: 'button-secondary'
+            = link_to_add_association t('.add_another_doc'), f, :documents, class: 'button-secondary'
 
     %p
-      = f.submit 'Submit to LAA', class: 'button'
+      = f.submit t('.submit_to_laa'), class: 'button'
       - if @claim.draft?
-        = f.submit 'Save to drafts', class: 'button'
-      = link_to 'Clear form', new_advocates_claim_path, class: 'button'
+        = f.submit t('.save_to_drafts'), class: 'button'
+      = link_to t('.clear_form'), new_advocates_claim_path, class: 'button'

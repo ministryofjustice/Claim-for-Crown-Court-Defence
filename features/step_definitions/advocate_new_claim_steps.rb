@@ -71,15 +71,15 @@ When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type')
   select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
-  fill_in 'Case number', with: '123456'
+  fill_in 'claim_case_number', with: '123456'
   select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
   select('Murder', from: 'claim_offence_id')
   select('QC', from: 'claim_advocate_category')
 
   within '#defendants' do
-    fill_in 'First name', with: 'Foo'
-    fill_in 'Last name', with: 'Bar'
-    fill_in 'Date of birth', with: '04/10/1980'
+    fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'
+    fill_in 'claim_defendants_attributes_0_last_name', with: 'Bar'
+    fill_in 'claim_defendants_attributes_0_date_of_birth', with: '04/10/1980'
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_maat_reference', with: 'aaa1111'
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date', with: rand(1..10).days.ago
     choose 'Crown Court'
@@ -111,7 +111,7 @@ When(/^I fill in the claim details$/) do
 end
 
 When(/^I make the claim invalid$/) do
-  fill_in 'Case number', with: ''
+  fill_in 'claim_case_number', with: ''
 end
 
 When(/^I select offence class "(.*?)"$/) do |offence_class|
@@ -244,7 +244,7 @@ Then(/^no claim should be created$/) do
 end
 
 When(/^I change the case number$/) do
-  fill_in 'Case number', with: '543211234'
+  fill_in 'claim_case_number', with: '543211234'
 end
 
 Then(/^the case number should reflect the change$/) do

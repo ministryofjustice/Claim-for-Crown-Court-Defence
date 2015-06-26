@@ -39,7 +39,7 @@ class Defendant < ActiveRecord::Base
   def has_at_least_one_representation_order_unless_draft
     return if self.claim.nil? || self.claim.draft?
     if self.representation_orders.none?
-      errors[:representation_orders] << "There must be at least one representation order per defendant"
+      errors[:representation_orders] << I18n.t("activerecord.errors.models.defendant.attributes.representation_orders.blank")
     end
   end
 end

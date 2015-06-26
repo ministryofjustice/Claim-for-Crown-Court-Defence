@@ -64,16 +64,16 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     if current_user.persona.admin?
       @claims = case tab
         when 'allocated'
-          Claim.allocated
+          Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
           Claim.submitted
       end
     else
       @claims = case tab
         when 'current'
-          current_user.claims.allocated
+          current_user.claims.caseworker_dashboard_under_assessment
         when 'completed'
-          current_user.claims.completed
+          current_user.claims.caseworker_dashboard_completed
       end
     end
   end

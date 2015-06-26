@@ -6,8 +6,7 @@ end
 Then(/^an anonymous user cannot access the claim$/) do
   click 'Sign out' rescue nil
   visit advocates_claim_url(@claim)
-  expect(page.current_url).to eq(root_url)
-  expect(page).to have_content(/must be signed in/i)
+  expect(page).to have_content(/unauthorised/i)
 end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) can (?:access|manage) the claim$/) do
@@ -17,13 +16,12 @@ end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) cannot (?:access|manage) the claim$/) do
   visit edit_advocates_claim_url(@claim)
-  expect(page).not_to have_content(/Edit claim/)
+  expect(page).to have_content(/unauthorised/i)
 end
 
 Then(/^the case worker can access all claims$/) do
-  expected_copy = 'Edit claim'
   Claim.all.each do |claim|
-    visit edit_advocates_claim_url(claim)
-    expect(page).to have_content(/#{expected_copy}/)
+    visit case_workers_claim_path(claim)
+    expect(page).to have_content(/#{claim.case_number}/)
   end
 end

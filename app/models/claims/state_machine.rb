@@ -2,11 +2,13 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY = 180.days
   STANDARD_VALIDITY = 21.days
 
-  ADVOCATE_DASHBOARD_DRAFT_STATES         = [ 'draft' ]
-  ADVOCATE_DASHBOARD_REJECTED_STATES      = [ 'rejected' ]
-  ADVOCATE_DASHBOARD_SUBMITTED_STATES     = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
-  ADVOCATE_DASHBOARD_PART_PAID_STATES     = [ 'part_paid', 'appealed', 'parts_rejected' ]
-  ADVOCATE_DASHBOARD_COMPLETED_STATES     = [ 'completed', 'refused', 'paid' ]
+  ADVOCATE_DASHBOARD_DRAFT_STATES             = [ 'draft' ]
+  ADVOCATE_DASHBOARD_REJECTED_STATES          = [ 'rejected' ]
+  ADVOCATE_DASHBOARD_SUBMITTED_STATES         = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
+  ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid', 'appealed', 'parts_rejected' ]
+  ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
+  CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'parts_rejected', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ] # 'appealed' not included for now
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
@@ -113,11 +115,13 @@ module Claims::StateMachine
     klass.scope :non_draft, -> { klass.where(state: ['allocated', 'appealed', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
          'deleted', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted']) }
 
-    klass.scope :advocate_dashboard_draft,      -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES ) }
-    klass.scope :advocate_dashboard_rejected,   -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES ) }
-    klass.scope :advocate_dashboard_submitted,  -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES ) }
-    klass.scope :advocate_dashboard_part_paid,  -> { klass.where(state: ADVOCATE_DASHBOARD_PART_PAID_STATES ) }
-    klass.scope :advocate_dashboard_completed,  -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES ) }
+    klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
+    klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }
+    klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )       }
+    klass.scope :advocate_dashboard_part_paid,            -> { klass.where(state: ADVOCATE_DASHBOARD_PART_PAID_STATES )       }
+    klass.scope :advocate_dashboard_completed,            -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES )       }
+    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)      }
+    klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES)}
 
   end
 

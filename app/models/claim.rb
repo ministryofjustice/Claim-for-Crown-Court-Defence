@@ -83,6 +83,7 @@ class Claim < ActiveRecord::Base
              offence: :offence_class)
   end
 
+  # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }
   scope :authorised,  -> { where(state: 'paid') }
 

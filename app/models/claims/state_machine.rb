@@ -8,6 +8,13 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_PART_PAID_STATES     = [ 'part_paid', 'appealed', 'parts_rejected' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES     = [ 'completed', 'refused', 'paid' ]
 
+  def self.dashboard_displayable_states
+    ADVOCATE_DASHBOARD_DRAFT_STATES +
+    ADVOCATE_DASHBOARD_REJECTED_STATES +
+    ADVOCATE_DASHBOARD_SUBMITTED_STATES +
+    ADVOCATE_DASHBOARD_PART_PAID_STATES +
+    ADVOCATE_DASHBOARD_COMPLETED_STATES
+  end
 
   # will return true if there is a constant defined in this class with the same name in upper case as method with the trailing question mark removed
   def self.has_state?(method)
@@ -23,10 +30,7 @@ module Claims::StateMachine
     rescue NameError
       return false
     end
-
   end
-
-
 
   def self.included(klass)
     klass.state_machine :state,                      initial: :draft do

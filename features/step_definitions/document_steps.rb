@@ -18,23 +18,21 @@ end
 Then(/^an anonymous user cannot access the document$/) do
   click 'Sign out' rescue nil
   visit document_url(@document)
-  expect(page.status_code).to eq(500)
-  expect(page).to have_content(/not authorized/i)
+  expect(page).to have_content(/unauthorised/i)
 end
 
 Then(/^(?:the|that) advocate can(not)? access the document$/) do |cannot_access|
-  expected_status = cannot_access.present? ? 500 : 200
   visit download_document_url(@document)
-  expect(page.status_code).to eq(expected_status)
-  visit document_url(@document)
-  expect(page.status_code).to eq(expected_status)
+  if cannot_access.present?
+    expect(page).to have_content(/unauthorised/i)
+  else
+    expect(current_url).to eq(download_document_url(@document))
+  end
 end
 
 Then(/^(?:the|that) case worker can access all documents$/) do
   Document.all.each do |document|
     visit download_document_url(document)
-    expect(page.status_code).to eq(200)
-    visit document_url(document)
     expect(page.status_code).to eq(200)
   end
 end

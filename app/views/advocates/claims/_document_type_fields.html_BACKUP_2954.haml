@@ -1,0 +1,15 @@
+.nested-fields
+  %table#evidence-checklist
+    %thead
+      %tr
+        %th
+          = t('.description')
+        %th
+          = t('.provided')
+    %tbody
+    = f.collection_check_boxes :document_type_ids, DocumentType.all.order(id: :asc), :id, :description do |b|
+      %tr
+        %td
+          = b.label
+        %td
+          = b.check_box

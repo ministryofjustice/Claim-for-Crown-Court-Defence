@@ -18,26 +18,26 @@ RSpec.describe Claims::StateMachine, type: :model do
       before { subject.submit!; subject.allocate! }
       it { expect{ subject.reject! }.to                 change{ subject.state }.to('rejected') }
       it { allow(subject).to receive(:complete!);       expect{ subject.refuse! }.to change{ subject.state }.to('refused') }
-      it { 
+      it {
         expect{ subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part! 
+        subject.pay_part!
       }.to change{ subject.state }.to('part_paid') }
-      it { expect{ 
+      it { expect{
         subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay! 
+        subject.pay!
       }.to change{ subject.state }.to('paid') }
       it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from appealed' do
-      before { 
-        subject.submit! 
+      before {
+        subject.submit!
         subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
         subject.pay_part!
         subject.reject_parts!
-        subject.appeal! 
+        subject.appeal!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.pay! }.to      change{ subject.state }.to('paid') }
@@ -45,12 +45,12 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe 'from awaiting_further_info when part_paid' do
-      before { 
+      before {
         subject.submit!
         subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
         subject.pay_part!
-        subject.await_further_info! 
+        subject.await_further_info!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
@@ -68,22 +68,22 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe 'from paid' do
-      before { 
+      before {
         subject.submit!
         subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay! 
+        subject.pay!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from part_paid' do
-      before { 
+      before {
         subject.submit!
         subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part! 
+        subject.pay_part!
       }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
       it { expect{ subject.reject_parts! }.to          change{ subject.state }.to('parts_rejected') }
@@ -91,12 +91,12 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe 'from parts_rejected' do
-      before { 
+      before {
         subject.submit!
         subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
         subject.pay_part!
-        subject.reject_parts! 
+        subject.reject_parts!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
       it { expect{ subject.appeal! }.to   change{ subject.state }.to('appealed') }
@@ -127,29 +127,29 @@ RSpec.describe Claims::StateMachine, type: :model do
     after  { Timecop.return }
 
     describe 'make appeal valid for 21 days' do
-      before { 
-        subject.submit! 
-        subject.allocate! 
+      before {
+        subject.submit!
+        subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!; subject.reject_parts! 
+        subject.pay_part!; subject.reject_parts!
       }
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.appeal! }
     end
 
     describe 'make awaiting_further_info valid for 21 days' do
-      before { 
-        subject.submit! 
-        subject.allocate! 
-        subject.update_attribute(:amount_assessed, 123.45) 
-        subject.pay_part! 
+      before {
+        subject.submit!
+        subject.allocate!
+        subject.update_attribute(:amount_assessed, 123.45)
+        subject.pay_part!
       }
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.await_further_info! }
     end
 
     describe 'make parts_rejected valid for 21 days' do
-      before { 
-        subject.submit! 
-        subject.allocate! 
+      before {
+        subject.submit!
+        subject.allocate!
         subject.update_attribute(:amount_assessed, 123.45)
         subject.pay_part! }
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.reject_parts! }
@@ -165,10 +165,10 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'pay! makes paid_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
-      it {  
-        expect(subject).to receive(:update_column).with(:paid_at,Time.now); 
-        subject.update_attribute(:amount_assessed, 123.45); 
-        subject.pay!; 
+      it {
+        expect(subject).to receive(:update_column).with(:paid_at,Time.now);
+        subject.update_attribute(:amount_assessed, 123.45);
+        subject.pay!;
       }
     end
 
@@ -180,6 +180,27 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay_part!;
       }
     end
-
   end # describe 'set triggers'
+
+
+  describe '.is_in_state?' do
+    let(:claim)         { FactoryGirl.build :unpersisted_claim }
+
+    it 'should be true if state is in ADVOCATE_DASHBOARD_SUBMITTED_STATES' do
+      allow(claim).to receive(:state).and_return('allocated')
+      expect(Claims::StateMachine.is_in_state?(:advocate_dashboard_submitted?, claim)).to be true
+    end
+
+    it 'should return false if the state is not one of the ADVOCATE_DASHBOARD_SUBMITTED_STATES' do
+      allow(claim).to receive(:state).and_return('draft')
+      expect(Claims::StateMachine.is_in_state?(:advocate_dashboard_submitted?, claim)).to be false
+    end
+
+    it 'should return false if the method name is not recognised' do
+      allow(claim).to receive(:state).and_return('draft')
+      expect(Claims::StateMachine.is_in_state?(:advocate_rubbish_submitted?, claim)).to be false
+    end
+  end
 end
+
+

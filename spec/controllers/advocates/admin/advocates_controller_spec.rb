@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
-  let(:admin) { create(:advocate, :admin) }
+  let(:chamber) { create(:chamber) }
+  let(:admin) { create(:advocate, :admin, chamber: chamber) }
 
   before { sign_in admin.user }
 
@@ -34,7 +35,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:advocate) }
+    subject { create(:advocate, chamber: chamber) }
 
     before { get :show, id: subject }
 
@@ -80,7 +81,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:advocate) }
+    subject { create(:advocate, chamber: chamber) }
 
     before { get :edit, id: subject }
 
@@ -136,7 +137,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:advocate) }
+    subject { create(:advocate, chamber: chamber) }
 
     context 'when valid' do
       before(:each) { put :update, id: subject, advocate: { role: 'admin' } }
@@ -167,7 +168,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:advocate) }
+    subject { create(:advocate, chamber: chamber) }
 
     before { delete :destroy, id: subject }
 

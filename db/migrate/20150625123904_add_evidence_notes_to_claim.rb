@@ -1,6 +1,6 @@
 class AddEvidenceNotesToClaim < ActiveRecord::Migration
   def up
-    add_column :claims, :evidence_notes, :string
+    add_column :claims, :evidence_notes, :text
     remove_column :documents, :notes
     remove_column :documents, :document_type_id
   end

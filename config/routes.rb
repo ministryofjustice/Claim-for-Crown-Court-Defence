@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   get 'ping'               => 'ping#index'
 
-  root to: 'high_voltage/pages#show', id: 'home'
 
   namespace :api, format: :json do
     namespace :advocates do

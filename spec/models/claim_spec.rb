@@ -692,6 +692,37 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe 'move claim to "submitted" when case worker removed' do
+    subject { create(:submitted_claim) }
+    let(:case_worker) { create(:case_worker) }
+    let(:other_case_worker) { create(:case_worker) }
+
+    before do
+      case_worker.claims << subject
+      other_case_worker.claims << subject
+      subject.reload
+    end
+
+    it 'should be "allocated"' do
+      expect(subject).to be_allocated
+    end
+
+    context 'when case worker unassigned and other case workers remain' do
+      it 'should be "allocated"' do
+        case_worker.claims.destroy(subject)
+        expect(subject.reload).to be_allocated
+      end
+    end
+
+    context 'when all case workers unassigned' do
+      it 'should be "submitted"' do
+        case_worker.claims.destroy(subject)
+        other_case_worker.claims.destroy(subject)
+        expect(subject.reload).to be_submitted
+      end
+    end
+  end
+
   describe 'representation_order_dates' do
     it 'should return a flattened array of all the dates' do
       claim = FactoryGirl.build :unpersisted_claim

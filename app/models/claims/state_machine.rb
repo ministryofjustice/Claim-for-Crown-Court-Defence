@@ -96,7 +96,7 @@ module Claims::StateMachine
       end
 
       event :submit do
-        transition [:draft] => :submitted
+        transition [:draft, :allocated] => :submitted
       end
 
     end

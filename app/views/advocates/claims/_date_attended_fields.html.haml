@@ -1,10 +1,10 @@
 %tr.extra-data.nested-fields
   %td{colspan: "4"}
     %span.auto-width
-      = f.label :date, 'Date attended (from)'
+      = f.label :date, t('.date_from')
       = f.date_field :date
     %span.auto-width
-      = f.label :date, 'Date attended (to - optional)'
+      = f.label :date, t('.date_to')
       = f.date_field :date_to
   %td{colspan: "2"}
-    = link_to_remove_association 'Remove Date Attended', f
+    = link_to_remove_association t('.remove_date'), f

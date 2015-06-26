@@ -103,15 +103,18 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def search
     params[:search_field] ||= 'Defendant'
+    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
+  end
 
-    @claims = case params[:search_field]
-      when 'All'
-        @claims.search(:advocate_name, :defendant_name, params[:search])
-      when 'Advocate'
-        @claims.search(:advocate_name, params[:search])
-      when 'Defendant'
-        @claims.search(:defendant_name, params[:search])
-    end
+  def search_option_mappings
+    option_mappings = {
+      'All'       => [:defendant_name],
+      'Advocate'  => [:advocate_name],
+      'Defendant' => [:defendant_name]
+    }
+
+    option_mappings['All'] << :advocate_name if current_user.persona.admin?
+    option_mappings
   end
 
   def set_state_claims

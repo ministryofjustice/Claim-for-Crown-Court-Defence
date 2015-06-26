@@ -48,7 +48,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     }
 
     option_mappings['All'] << :case_worker_name_or_email if current_user.persona.admin?
-
     option_mappings
   end
 

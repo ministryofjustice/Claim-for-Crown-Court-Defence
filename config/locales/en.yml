@@ -23,36 +23,55 @@ en:
   dictionary:
     errors:
       blank: &blank "can't be blank"
-    users:
-      role: &role "Role"
-      email: &email "Email"
-      password: &password "Password"
-      password_confirmation: &password_confirmation "Password confirmation"
-      first_name: &first_name "First name"
-      lasst_name: &last_name "Last name"
+      inclusion: &inclusion 'is not included in the list'
+    actions:
+      edit: &edit 'Edit'
+      delete: &delete 'Delete'
+      remove: &remove 'Remove'
+      view: &view 'View'
+    models:
+      advocate: &advocate 'Advocate'
+    attributes:
+      users:
+        role: &role 'Role'
+        email: &email 'Email'
+        password: &password 'Password'
+        password_confirmation: &password_confirmation 'Password confirmation'
+        first_name: &first_name 'First name'
+        middle_name: &middle_name 'Middle name'
+        lasst_name: &last_name 'Last name'
   activerecord:
     models:
-      advocate: 'Advocate'
-      claim: "Claim"
+      advocate: *advocate
+      claim: 'Claim'
+      defendant: 'Defendant'
     attributes:
       advocate:
         role: *role
-        account_number: "Account number"
+        account_number: 'Account number'
       user:
         email: *email
         password: *password
         first_name: *first_name
         last_name: *last_name
+      claim:
+        advocate: *advocate
+        offence: 'Offence'
+        court: 'Court'
+        case_number: 'Case number'
+        case_type: 'Case type'
+        advocate_category: 'Avocate category'
+        prosecuting_authority: 'Prosecuting authority'
     errors:
       models:
         advocate:
           attributes:
             role:
               blank: *blank
-              inclusion: "is not included in the list"
+              inclusion: *inclusion
             account_number:
               blank: *blank
-              invalid: "must be 5 alhpa-numeric characters"
+              invalid: 'must be 5 alhpa-numeric characters'
         user:
           attributes:
             email:
@@ -63,6 +82,36 @@ en:
               blank: *blank
             last_name:
               blank: *blank
+        claim:
+          attributes:
+            advocate:
+              blank: *blank
+            offence:
+              blank: *blank
+            court:
+              blank: *blank
+            case_number:
+              blank: *blank
+            case_type:
+              blank: *blank
+              inclusion: *inclusion
+            advocate_category:
+              blank: *blank
+              inclusion: *inclusion
+            prosecuting_authority:
+              blank: *blank
+              inclusion: *inclusion
+        defendant:
+          attributes:
+            first_name:
+              blank: *blank
+            last_name:
+              blank: *blank
+            date_of_birth:
+              blank: *blank
+            representation_orders:
+              blank: ' - there must be at least one representation order per defendant'
+
   requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
   number:
     currency:
@@ -72,26 +121,27 @@ en:
          separator: '.'
          precision: 2
          format: '%u%n'
-  upload: "Upload"
+  upload: 'Upload'
   documents:
     form:
-      upload: "Choose file to upload"
-  maat_reference_number: "MAAT Reference"
+      upload: 'Choose file to upload'
+  maat_reference_number: 'MAAT Reference'
   advocates:
     admin:
       advocates:
         index:
-          advocates: "Advocates"
-          add_advocate: "Add Advocate"
-          edit: "Edit"
-          delete: "Delete"
-          confirm_delete: "Are you sure?"
+          advocates: 'Advocates'
+          add_advocate: 'Add Advocate'
+          edit: *edit
+          delete: *delete
+          confirm_delete: 'Are you sure?'
         new:
-          new_advocate: "New Advocate"
+          new_advocate: 'New Advocate'
         edit:
-          edit_advocate: "Edit Advocate"
+          edit_advocate: 'Edit Advocate'
         form:
-          errors_heading: "prohibited this advocate from being saved:"
+          error: 'error'
+          prohibited_save: 'prohibited this advocate from being saved:'
           email: *email
           password: *password
           password_confirmation: *password_confirmation
@@ -102,20 +152,98 @@ en:
           submit: 'Create Advocate'
     claims:
       claims:
-        no_claims_found: "No claims found"
-        messages: "Messages"
-        defendants: "Defendants"
-        cms_number: "CMS Number"
-        submission_date: "Submission date"
-        paid_date: "Paid date"
-        total: "Claim total"
-        amount_assessed: "Amount assessed"
-        view: "View"
-        edit: "Edit"
-        delete: "Delete"
-        confirm_delete: "Are you sure?"
+        no_claims_found: 'No claims found'
+        messages: 'Messages'
+        defendants: 'Defendants'
+        cms_number: 'CMS Number'
+        submission_date: 'Submission date'
+        paid_date: 'Paid date'
+        total: 'Claim total'
+        amount_assessed: 'Amount assessed'
+        view: *view
+        edit: *edit
+        delete: *delete
+        confirm_delete: 'Are you sure?'
+      date_attended_fields:
+        date_from: 'Date attended (from)'
+        date_to: 'Date attended (to - optional)'
+        remove_date: 'Remove Date Attended'
+      defendant_fields:
+        first_name: *first_name
+        middle_name: *middle_name
+        last_name: *last_name
+        date_of_birth: 'Date of birth'
+        order_for_judicial_apportionment: 'Order for judicial apportionment'
+        add_another_rep_order: 'Add another representation order'
+        remove_defendant: 'Remove defendant'
+      document_fields:
+        document_type: 'Document type'
+        notes: 'Notes'
+        document: 'Document'
+        file_exists: 'File already uploaded:'
+        view: *view
+        download: 'Download'
+        remove: 'Remove document'
+      document_type_fields:
+        description: 'Description'
+        provided: 'Provided'
+      dynamic_offence_fields:
+        offence_class: 'Offence class'
+        offence_category: 'Offence category'
+        select_to_filter: ' -- Please select offence class to filter offences -- '
+        select_category: ' -- Please select offence class to filter offences -- '
+      expense_fields:
+        remove: *remove
+      fee_fields:
+        add_date_attended: 'Add Date Attended'
+        remove: *remove
+      financial_summary:
+        total_outstanding: 'Total Outstanding Claims:'
+        total_authorised: 'Total Authorised Claims:'
+        view_details: 'View Details'
+      form:
+        error: 'error'
+        prohibited_save: 'prohibited this claim from being saved:'
+        section_one: 'Section 1:'
+        case_advocate_offence: 'Case, Instructed Advocate & Offence'
+        advocate: *advocate
+        scheme: 'Scheme'
+        case_type: 'Case type'
+        prosecuting_authority: 'Prosecuting authority'
+        court: 'Court'
+        case_number: 'Case number'
+        advocate_category: 'Advocate category' 
+        first_day_of_trial: 'First day of trial'
+        estimated_length: 'Estimated trial length'
+        actual_length: 'Actual trial length'
+        defendants: 'Defendants'
+        add_another_defendant: 'Add Another Defendant'
+        section_two: 'Section 2:'
+        additional_information: 'Additional information'
+        basic_fees: 'Basic Fees'
+        quantity_and_rate_prompt: 'Manually enter the quantity and the rate and the amount will automatically calculate the total for you'
+        fee_type: 'Fee Type'
+        quantity: 'Quantity'
+        rate: 'Rate'
+        amount: 'Amount'
+        fixed_and_misc_fees: 'Fixed and Miscellaneous Fees'
+        add_another_fee: 'Add Another Fee'
+        expenses: 'Expenses'
+        expense_type: 'Expense Type'
+        location: 'Location'
+        quantity_hours: 'Quantity/Hours'
+        rate: 'Rate'
+        amount: 'Amount'
+        add_another_expense: 'Add Another Expense'
+        vat_required: 'VAT on Fees & Expenses (please tick if required)'
+        supporting_evidence_checklist: 'Supporting evidence checklist'
+        supporting_evidence_docs: 'Supporting evidence documents'
+        add_another_doc: 'Add Another Document'
+        submit_to_laa: 'Submit to LAA'
+        save_to_drafts: 'Save to drafts'
+        clear_form: 'Clear form'
       representation_order_fields:
-        granting_body: "Issued by:"
+        granting_body: 'Issued by:'
 
 
 

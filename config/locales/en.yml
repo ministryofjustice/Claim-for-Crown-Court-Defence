@@ -64,6 +64,7 @@ en:
             last_name:
               blank: *blank
   requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
+  requires_case_worker_authorisation: 'You must be signed in as a case worker or case worker admin'
   number:
     currency:
        format:

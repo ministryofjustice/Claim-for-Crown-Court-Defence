@@ -1,5 +1,4 @@
 class DocumentsController < ApplicationController
-  load_and_authorize_resource
   respond_to :html
   before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
 

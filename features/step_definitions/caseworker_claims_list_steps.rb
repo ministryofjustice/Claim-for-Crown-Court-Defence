@@ -52,8 +52,8 @@ Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)" amongst others$/
 end
 
 Given(/^I have been assigned claims with evidence attached$/) do
-    claim = @claims.first
-    claim.documents << create(:document)
+  claim = @claims.first
+  claim.documents << create(:document)
 end
 
 When(/^I visit my dashboard$/) do

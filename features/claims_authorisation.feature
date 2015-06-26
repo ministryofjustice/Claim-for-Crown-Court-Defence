@@ -45,11 +45,11 @@ Feature: claims are only accessible to the correct authorised users
     And that advocate admin signs in
     Then the advocate admin cannot manage the claim
 
-  Scenario: Advocates from the same chamber can access each others claims
+  Scenario: Advocates from the same chamber cannot access each others claims
     Given 2 "advocate" user accounts exist who work for the same chamber
     When a claim exists that belongs to the 1st advocate
     And the 2nd advocate signs in
-    Then that advocate can access the claim
+    Then that advocate cannot access the claim
 
   Scenario: Advocates from different chambers cannot access each others claims
     Given 2 "advocate" user accounts exist who work for different chambers

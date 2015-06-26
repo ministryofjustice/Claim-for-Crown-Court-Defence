@@ -5,8 +5,23 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user_messages_count
 
+  load_and_authorize_resource
+
   def current_user_messages_count
     UserMessageStatus.for(current_user).not_marked_as_read.count
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path_url_for_user, alert: 'Unauthorised'
+  end
+
+  def root_path_url_for_user
+    if current_user
+      method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.downcase}"
+      send(method_name)
+    else
+      new_user_session_url
+    end
   end
 
   def after_sign_in_path_for(resource)

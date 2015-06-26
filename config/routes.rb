@@ -2,14 +2,27 @@ Rails.application.routes.draw do
 
   get 'ping'               => 'ping#index'
 
+  devise_for :users, controllers: { sessions: 'sessions' }
+
+  authenticated :user, -> (u) { u.persona.is_a?(Advocate) } do
+    root to: 'advocates/claims#index', as: :advocates_home
+  end
+
+  authenticated :user, -> (u) { u.persona.is_a?(CaseWorker) } do
+    root to: 'case_workers/claims#index', as: :case_workers_home
+  end
+
+  devise_scope :user do
+    unauthenticated :user do
+      root 'sessions#new', as: :unauthenticated_root
+    end
+  end
 
   namespace :api, format: :json do
     namespace :advocates do
       resources :claims
     end
   end
-
-  devise_for :users
 
   resources :documents do
     get 'download', on: :member

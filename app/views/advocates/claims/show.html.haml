@@ -1,29 +1,30 @@
 %p
-  = link_to 'Back', advocates_claims_path, class: 'button'
+  = link_to t('link.back'), advocates_claims_path, class: 'button'
   - if @claim.editable?
-    = link_to 'Edit', edit_advocates_claim_path(@claim), class: 'button'
+    = link_to t('link.edit'), edit_advocates_claim_path(@claim), class: 'button'
 
 %h1
-  Claim
+  = t('.heading')
   = @claim.case_number
 
 %P
-  Created by:
+  = t('.created_by')
   = @claim.creator.name
 
 #claim-accordion
   %h2
-    Basic Claim Information
+    = t(".h2_basic_info")
   = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
   %h2
-    Claim summary
+    = t('.h2_summary')
   = render partial: 'shared/summary'
   %h2
-    Evidence list
+    = t('.h2_evidence')
   = render partial: 'shared/evidence_list'
   %h2
-    Messages (#{@messages.count})
+    = t('.h2_messages')
+    (#{@messages.count})
   = render partial: 'shared/messages'
   %h2
-    Status of claim
+    = t('.h2_status')
   = render partial: 'shared/claim_status', locals: { disabled: true }

@@ -37,11 +37,11 @@ When(/^click on a link to (download|view) some evidence$/) do |link|
 end
 
 Then(/^I should get a download with the filename "(.*)"$/) do |filename|
-  page.driver.response.headers['Content-Disposition'].should include("filename=\"#{filename}\"")
+  expect(page.driver.response.headers['Content-Disposition']).to include("filename=\"#{filename}\"")
 end
 
 Then(/^I see "(.*)" in my browser$/) do |filename|
-  page.driver.response.headers['Content-Disposition'].should include("inline; filename=\"#{filename}\"")
+  expect(page.driver.response.headers['Content-Disposition']).to include("inline; filename=\"#{filename}\"")
 end
 
 Then(/^a new tab opens$/) do

@@ -27,7 +27,7 @@ class Defendant < ActiveRecord::Base
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
 
   def name
-    [first_name, last_name].join(' ')
+      [first_name, middle_name, last_name].join(' ')
   end
 
   def representation_order_details

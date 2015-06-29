@@ -68,10 +68,10 @@ RSpec.describe Defendant, type: :model do
 
   describe '#name' do
     let(:claim) { create(:claim) }
-    subject { create(:defendant, first_name: 'John', last_name: 'Smith', claim_id: claim.id) }
+    subject { create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim_id: claim.id) }
 
     it 'joins first name and last name together' do
-      expect(subject.name).to eq('John Smith')
+      expect(subject.name).to eq('John Robert Smith')
     end
   end
 end

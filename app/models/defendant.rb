@@ -27,7 +27,7 @@ class Defendant < ActiveRecord::Base
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
 
   def name
-      [first_name, middle_name, last_name].join(' ')
+      [first_name, middle_name, last_name].join(' ').gsub("  ", " ") # when no middle name is provided, two spaces appear in between fist and last names - gsub resolves this
   end
 
   def representation_order_details

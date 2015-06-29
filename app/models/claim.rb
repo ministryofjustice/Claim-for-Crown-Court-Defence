@@ -147,8 +147,7 @@ class Claim < ActiveRecord::Base
   end
 
   def has_paid_state?
-    paid_states = Claims::StateMachine::ADVOCATE_DASHBOARD_COMPLETED_STATES + Claims::StateMachine::ADVOCATE_DASHBOARD_PART_PAID_STATES
-    paid_states.include?(self.state)
+    Claims::StateMachine::PAID_STATES.include?(self.state)
   end
 
   def state_for_form
@@ -170,10 +169,6 @@ class Claim < ActiveRecord::Base
     else
       raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
     end
-  end
-
-  def description
-    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
   end
 
   def editable?

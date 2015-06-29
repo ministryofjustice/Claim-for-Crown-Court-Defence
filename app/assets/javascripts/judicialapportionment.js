@@ -10,7 +10,7 @@ moj.Modules.judicialApportionment = {
   state: function(whut){
     if ($('#' + whut).is(':checked')){
       // show reminder
-      $('#' + whut).parent('label').append('<span class="reminder">' + moj.Modules.judicialApportionment.reminder +'</span>')
+      $('#' + whut).parent('label').append('<span class="reminder">' + moj.Modules.judicialApportionment.reminder +'</span>');
     }
     else{
       // hide reminder

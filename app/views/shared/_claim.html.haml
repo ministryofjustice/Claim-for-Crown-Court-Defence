@@ -3,71 +3,72 @@
     - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
       %p
         %strong
-          Assigned to:
+          =t ('.assignee')
         = claim.case_worker_names
     %ul.case-data
       %li
         %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+          = t('.case')
           Case
         %dl
           %dt
-            Defendant name
+            =t('.defendant')
           %dd
             = claim.defendant_names
           %dt
-            Representation order(s)
+            = t('.reporders')
           %dd
             = claim.representation_order_details
           %dt
-            Advocate account number
+            =t('.adv_acc_no')
           %dd
             = claim.advocate.account_number
           %dt
-            Case submitted
+            =t('.submit_date')
           %dd
             = claim.submitted_at(include_time: true) unless claim.draft?
           - if controller.action_name == 'show'
             %dt
-              Case number
+              =t('.case_num')
             %dd
               = claim.case_number
             %dt
-              Case Type
+              = t('.case_type')
             %dd
               = claim.case_type.humanize
             %dt
-              Case Worker
+              =t('.caseworker')
             %dd
               = claim.case_worker_email_addresses
             %dt
-              Offence
+              =t('.offence')
             %dd
               - if claim.offence
                 = claim.offence.description
             %dt
-              Offence class
+              =t('.offence_class')
             %dd
               - if claim.offence
                 = claim.offence.offence_class
       %li
         %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-          Court
+          =t('common.court')
         %dl
           %dt
-            Crown Court
+            =t('common.crown_cout')
           %dd
             - if claim.court
               = claim.court.name
           %dt
-            Prosecuting authority
+            =t('.prosecuting_auth')
           %dd
             CPS
           %dt
-            Retrial?
+            =t('.q.retrial')
           %dd
             No
           %dt
-            Judicial Apportionment
+            =t('.j_a')
           %dd
             No
           - if controller.action_name == 'show'

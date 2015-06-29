@@ -1,8 +1,8 @@
 %h1
-  Welcome
-  
+  = t('.welcome')
+
 %ul.advocate-loggedin-actions
   %li.view
-    = link_to 'View your claims', advocates_claims_path
+    = link_to t('link.view_claim'), advocates_claims_path
   %li.new
-    = link_to 'Start a new claim', new_advocates_claim_path
+    = link_to t('link.start_claim'), new_advocates_claim_path

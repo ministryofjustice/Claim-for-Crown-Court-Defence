@@ -102,7 +102,8 @@ class Claim < ActiveRecord::Base
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
 
   validate :amount_assessed_and_state
-  validate :evidence_checklist_all_integers
+  validate :evidence_checklist_is_array
+  validate :evidence_checklist_ids_all_numeric_strings
 
   accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
@@ -215,13 +216,22 @@ class Claim < ActiveRecord::Base
 
   private
 
-  def evidence_checklist_all_integers
-    raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.") unless self.evidence_checklist_ids.is_a?(Array)
-    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?)
-    self.evidence_checklist_ids = self.evidence_checklist_ids.map(&:to_i)
+  def evidence_checklist_ids_all_numeric_strings
+    format_evidence_ids # non-numeric strings will yield a value of 0 and subsequent validation will fail
     if self.evidence_checklist_ids.include?(0)
       errors[:evidence_checklist_ids] << "Invalid"
     end
+  end
+
+  def evidence_checklist_is_array
+    unless self.evidence_checklist_ids.is_a?(Array)
+      raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.")
+    end
+  end
+
+  def format_evidence_ids
+    # remove blanks and convert strings to integers
+    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?).map(&:to_i)
   end
 
   def amount_assessed_and_state

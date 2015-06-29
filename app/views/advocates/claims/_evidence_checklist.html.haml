@@ -1,0 +1,9 @@
+.nested-fields
+  %table#evidence-checklist
+    %tbody
+    = f.collection_check_boxes :evidence_checklist_ids, DocType.all, :id, :name do |b|
+      %tr
+        %td
+          = b.label
+        %td
+          = b.check_box

@@ -127,6 +127,22 @@ en:
     form:
       upload: 'Choose file to upload'
   maat_reference_number: 'MAAT Reference'
+
+# en.common
+  common:
+    court: Court
+    crown_court: Crown Court
+    or: or
+    search: Search
+  link:
+    add_claim: Add Claim
+    back: Back
+    file_another_claim: File another claim
+    remove_rep_order: Remove representation order
+    start_claim: Start a new claim
+    view_claim: View your claims
+
+# en.advocates
   advocates:
     admin:
       advocates:
@@ -165,6 +181,13 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
+      confirmation:
+        claim_summary: Claim summary
+        expenses_total: "Expenses total:"
+        fees_summary: "Fees total:"
+        thanks: Thank you for submitting your claim!
+        total: "Total:"
+        will_be_processed: Your claim will be processed shortly
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
@@ -193,6 +216,8 @@ en:
         offence_category: 'Offence category'
         select_to_filter: ' -- Please select offence class to filter offences -- '
         select_category: ' -- Please select offence class to filter offences -- '
+      edit:
+        edit: Edit claim
       expense_fields:
         remove: *remove
       fee_fields:
@@ -213,7 +238,7 @@ en:
         prosecuting_authority: 'Prosecuting authority'
         court: 'Court'
         case_number: 'Case number'
-        advocate_category: 'Advocate category' 
+        advocate_category: 'Advocate category'
         first_day_of_trial: 'First day of trial'
         estimated_length: 'Estimated trial length'
         actual_length: 'Actual trial length'
@@ -243,9 +268,51 @@ en:
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'
         clear_form: 'Clear form'
+      index:
+        claims: Claims
+        completed: Completed
+        draft: Draft
+        part_paid: Part paid
+        rejected: Rejected
+        submitted: Submitted to LAA
+      landing:
+        welcome: Welcome
+      new:
+        heading: Claim for Advocate Graduated Fees
+      outstanding:
+        heading: Outstanding Claims
+        claims_value: claims with a total value of
       representation_order_fields:
         granting_body: 'Issued by:'
+      show:
+        created_by: "Created by:"
+        h2_basic_info: Basic Claim Information
+        h2_evidence: Evidence list
+        h2_messages: Messages
+        h2_status: Status of claim
+        h2_summary: Claim summary
+        heading: Claim
 
+
+
+# en.shared
+  shared:
+    claim:
+      adv_acc_no: Advocate account number
+      assignee: "Assigned to:"
+      case: Case
+      case_num: Case number
+      case_type: Case Type
+      case_worker: Case Worker
+      defendant: Defendant name(s)
+      j_a: Judicial Apportionment
+      offence: Offence
+      offence_class: Offence class
+      prosecuting_auth: Prosecuting authority
+      q:
+        retrial: "Retrial?"
+      reporders: Representation order(s)
+      submit_date: Case submitted
 
 
 

@@ -7,14 +7,14 @@ RSpec.describe ClaimPresenter do
 
   before do
     Timecop.freeze(Time.current)
-    create(:defendant, first_name: 'John', last_name: 'Smith', claim: claim)
-    create(:defendant, first_name: 'Adam', last_name: 'Smith', claim: claim)
+    create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim: claim)
+    create(:defendant, first_name: 'Adam', middle_name: '', last_name: 'Smith', claim: claim)
   end
 
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql('John Smith, Adam Smith')
+    expect(subject.defendant_names).to eql('John Robert Smith, Adam Smith')
   end
 
   it '#submitted_at' do

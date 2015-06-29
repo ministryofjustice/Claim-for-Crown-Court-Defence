@@ -41,6 +41,7 @@ class Claim < ActiveRecord::Base
 
   include Claims::StateMachine
   extend Claims::Search
+  include Claims::Calculations
 
   attr_reader :offence_class_id
 
@@ -124,10 +125,6 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def representation_order_details
-    defendants.map(&:representation_order_details).flatten
-  end
-
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end
@@ -135,7 +132,6 @@ class Claim < ActiveRecord::Base
   def is_allocated_to_case_worker?(cw)
     self.case_workers.include?(cw)
   end
-
 
   def basic_fees
     fees.select { |f| f.is_basic? }.sort{ |a, b| a.description <=> b.description }
@@ -174,30 +170,6 @@ class Claim < ActiveRecord::Base
     else
       raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
     end
-  end
-
-  def calculate_fees_total
-    fees.reload.map(&:amount).sum
-  end
-
-  def calculate_expenses_total
-    expenses.reload.map(&:amount).sum
-  end
-
-  def calculate_total
-    calculate_fees_total + calculate_expenses_total
-  end
-
-  def update_fees_total
-    update_column(:fees_total, calculate_fees_total)
-  end
-
-  def update_expenses_total
-    update_column(:expenses_total, calculate_expenses_total)
-  end
-
-  def update_total
-    update_column(:total, calculate_total)
   end
 
   def description

@@ -56,7 +56,7 @@ class ClaimPresenter < BasePresenter
   end
 
   def representation_order_details
-    claim.representation_order_details.join('<br/>').html_safe
+    claim.defendants.map(&:representation_order_details).flatten.join('<br/>').html_safe
   end
 
 end

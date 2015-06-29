@@ -217,7 +217,7 @@ en:
         select_to_filter: ' -- Please select offence class to filter offences -- '
         select_category: ' -- Please select offence class to filter offences -- '
       edit:
-        edit: Edit
+        edit: Edit claim
       expense_fields:
         remove: *remove
       fee_fields:

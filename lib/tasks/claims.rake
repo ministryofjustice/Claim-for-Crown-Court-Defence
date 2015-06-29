@@ -1,3 +1,21 @@
+# EXAMPLE_DOC_TYPES is a hash of example files (locates in spec/fixtures/files) and their doctype
+#
+EXAMPLE_DOC_TYPES = {
+  'repo_order_1.pdf'                      => 1,
+  'repo_order_2.pdf'                      => 1,
+  'repo_order_3.pdf'                      => 1,
+  'LAC_1.pdf'                             => 2,
+  'commital_bundle.pdf'                   => 3,
+  'indictment.pdf'                        => 4,
+  'judicial_appointment_order.pdf'        => 5,
+  'invoices.pdf'                          => 6,
+  'hardship.pdf'                          => 7,
+  'previous_fee_advancements.pdf'         => 8,
+  'other_supporting_evidence.pdf'         => 9,
+  'justification_for_late_submission.pdf' => 10
+}
+
+
 namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
@@ -60,18 +78,18 @@ namespace :claims do
   end
 
   def add_documentary_evidence(claim,doc_count=2)
-    #
-    # Attach example document <doc_count> times
-    # but set type to be unique document type
-    # (specified by id i) upto maximum no. of
-    # unique types available. add checklist entry
-    # matching that document
-    #
-    # NOTE: cannot use random doc type due to composite unique constraints
+
+    # Attach example evidence <doc_count> times.  Randomly choose a document to add and
+    # check the appropriate evidence checklist checkbox
     #
 
+    checklist_ids = []
+
     doc_count.times do |i|
-      file = File.open("./features/examples/longer_lorem.pdf")
+      pdf_name = EXAMPLE_DOC_TYPES.keys[rand(EXAMPLE_DOC_TYPES.size)]
+      checklist_ids << EXAMPLE_DOC_TYPES[pdf_name]
+      filename = "#{Rails.root}/spec/fixtures/files/#{pdf_name}"
+      file = File.open(filename)
 
       FactoryGirl.create(:document,
                           claim: claim,
@@ -80,7 +98,7 @@ namespace :claims do
                           advocate: claim.advocate
                         )
     end
-
+    checklist_ids
   end
 
   def parse_states_from_string(states_delimited_string)
@@ -122,6 +140,7 @@ namespace :claims do
       claims_per_state.times do
 
           # randomise creator
+          claim = nil
           if rand(2) == 1
             claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
           else
@@ -130,7 +149,8 @@ namespace :claims do
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_fees_expenses_and_defendant(claim)
-          add_documentary_evidence(claim,2)
+          checklist_ids = add_documentary_evidence(claim, 1 + rand(6) )
+          claim.update_attribute(:evidence_checklist_ids, checklist_ids)
 
           # all states but those below require allocation to case worker
           unless [:draft,:archived_pending_delete,:submitted].include?(s)

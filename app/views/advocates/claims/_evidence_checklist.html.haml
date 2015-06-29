@@ -1,4 +1,6 @@
 .nested-fields
+  %p
+    Please note that if insufficient documentary evidence is provided your claim may be rejected, slowing the claim process and any eventual payment.
   %table#evidence-checklist
     %tbody
     = f.collection_check_boxes :evidence_checklist_ids, DocType.all, :id, :name do |b|

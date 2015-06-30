@@ -14,7 +14,7 @@ class CaseWorker < ActiveRecord::Base
 
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :case_worker_claims, dependent: :destroy
-  has_many :claims, through: :case_worker_claims
+  has_many :claims, through: :case_worker_claims, after_remove: :unallocate!
 
   default_scope { includes(:user) }
 
@@ -26,4 +26,10 @@ class CaseWorker < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+
+  protected
+
+  def unallocate!(record)
+    record.submit! if record.allocated? && (record.case_workers - [self]).none?
+  end
 end

@@ -699,13 +699,13 @@ RSpec.describe Claim, type: :model do
     subject { create(:submitted_claim) }
     let(:case_worker) { create(:case_worker) }
 
-    it 'set the claim to "allocated" when assigned to case worker' do
+    it 'moves to "allocated" state when assigned to case worker' do
       subject.case_workers << case_worker
       expect(subject.reload).to be_allocated
     end
   end
 
-  describe 'move claim to "submitted" when case worker removed' do
+  describe 'moves to "submitted" state when case worker removed' do
     subject { create(:submitted_claim) }
     let(:case_worker) { create(:case_worker) }
     let(:other_case_worker) { create(:case_worker) }

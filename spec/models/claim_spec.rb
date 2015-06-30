@@ -621,16 +621,6 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '#description' do
-    let(:expected_output) do
-      "#{subject.court.code}-#{subject.case_number} #{subject.advocate.name} (#{subject.advocate.chamber.name})"
-    end
-
-    it 'returns a formatted description string containing claim information' do
-      expect(subject.description).to eq(expected_output)
-    end
-  end
-
   describe '#editable?' do
     let(:draft) { create(:claim) }
     let(:submitted) { create(:submitted_claim) }
@@ -733,27 +723,6 @@ RSpec.describe Claim, type: :model do
         other_case_worker.claims.destroy(subject)
         expect(subject.reload).to be_submitted
       end
-    end
-  end
-
-  describe 'representation_order_dates' do
-    it 'should return a flattened array of all the dates' do
-      claim = FactoryGirl.build :unpersisted_claim
-
-      defendant_1 = FactoryGirl.build :defendant
-      defendant_2 = FactoryGirl.build :defendant
-      Timecop.freeze 5.days.ago do
-        defendant_1.representation_orders = [
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court"),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court"),
-        ]
-      end
-      Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
-      end
-      claim.defendants << defendant_1
-      claim.defendants << defendant_2
-      expect(claim.representation_order_details).to eq( ["Crown Court 01/03/2015", "Magistrate's Court 13/08/2015", "Magistrate's Court 01/03/2015"] )
     end
   end
 

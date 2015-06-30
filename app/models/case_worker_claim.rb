@@ -16,8 +16,6 @@ class CaseWorkerClaim < ActiveRecord::Base
   after_create :generate_message_statuses
   after_create :set_claim_allocated!
 
-  after_destroy :set_claim_submitted!
-
   private
 
   def generate_message_statuses
@@ -30,9 +28,5 @@ class CaseWorkerClaim < ActiveRecord::Base
 
   def set_claim_allocated!
     claim.allocate! if claim.submitted?
-  end
-
-  def set_claim_submitted!
-    claim.submit! if claim.allocated? && claim.case_workers.none?
   end
 end

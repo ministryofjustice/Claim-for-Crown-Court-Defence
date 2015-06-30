@@ -154,7 +154,17 @@ class Claim < ActiveRecord::Base
     self.state
   end
 
-  def form_input_to_state_transition
+  def form_input_invalid?(form_input)
+    if form_input.blank?
+      true
+    elsif form_input_to_event[form_input] == nil
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court')
+    else
+      false
+    end
+  end
+
+  def form_input_to_event
     { "paid"                     => :pay!,
       "part_paid"                => :pay_part!,
       "rejected"                 => :reject!,
@@ -162,14 +172,19 @@ class Claim < ActiveRecord::Base
       "awaiting_info_from_court" => :await_info_from_court!}
   end
 
-  def editable?
-    draft? || submitted?
+  def transition_state(form_input)
+    event = form_input_to_event[form_input]
+    self.send(event) unless form_input == self.state || form_input_invalid?(form_input)
   end
 
   def update_model_and_transition_state(params)
     form_input = params.delete('state_for_form') # assign param to variable and remove from those used for updating the model
     self.update(params)
-    self.send(self.form_input_to_state_transition[form_input]) unless form_input == self.state || form_input.blank?
+    self.transition_state(form_input)
+  end
+
+  def editable?
+    draft? || submitted?
   end
 
   private

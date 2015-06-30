@@ -162,23 +162,6 @@ class Claim < ActiveRecord::Base
       "awaiting_info_from_court" => :await_info_from_court!}
   end
 
-  def state_for_form=(new_state)
-    case new_state
-    when 'paid'
-      pay!
-    when 'part_paid'
-      pay_part!
-    when 'rejected'
-      reject!
-    when 'refused'
-      refuse!
-    when 'awaiting_info_from_court'
-      await_info_from_court!
-    else
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
-    end
-  end
-
   def editable?
     draft? || submitted?
   end

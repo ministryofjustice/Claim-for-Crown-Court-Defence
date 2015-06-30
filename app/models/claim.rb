@@ -154,6 +154,14 @@ class Claim < ActiveRecord::Base
     self.state
   end
 
+  def form_input_to_state_transition
+    { "paid"                     => :pay!,
+      "part_paid"                => :pay_part!,
+      "rejected"                 => :reject!,
+      "refused"                  => :refuse!,
+      "awaiting_info_from_court" => :await_info_from_court!}
+  end
+
   def state_for_form=(new_state)
     case new_state
     when 'paid'
@@ -176,9 +184,9 @@ class Claim < ActiveRecord::Base
   end
 
   def update_model_and_transition_state(params)
-    new_state = params.delete('state_for_form')
+    form_input = params.delete('state_for_form') # assign param to variable and remove from those used for updating the model
     self.update(params)
-    self.state_for_form = new_state unless self.state_for_form == new_state || new_state.blank?
+    self.send(self.form_input_to_state_transition[form_input]) unless form_input == self.state || form_input.blank?
   end
 
   private

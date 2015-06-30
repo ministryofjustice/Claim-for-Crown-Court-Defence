@@ -639,38 +639,31 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '#state_for_form' do
-    it 'should return the state' do
-      expect(subject).to receive(:state)
-      subject.state_for_form
-    end
-  end
-
-  describe '#state_for_form=' do
+  describe '#transition_state' do
     it 'should call pay! if paid' do
       expect(subject).to receive(:pay!)
-      subject.state_for_form = 'paid'
+      subject.transition_state('paid')
     end
     it 'should call pay_part! if part_paid' do
       expect(subject).to receive(:pay_part!)
-      subject.state_for_form = 'part_paid'
+      subject.transition_state('part_paid')
     end
     it 'should call reject! if rejected' do
       expect(subject).to receive(:reject!)
-      subject.state_for_form = 'rejected'
+      subject.transition_state('rejected')
     end
     it 'should call refuse! if refused' do
       expect(subject).to receive(:refuse!)
-      subject.state_for_form = 'refused'
+      subject.transition_state('refused')
     end
     it 'should call await_info_from_court! if awaiting_info_from_court' do
       expect(subject).to receive(:await_info_from_court!)
-      subject.state_for_form = 'awaiting_info_from_court'
+      subject.transition_state('awaiting_info_from_court')
     end
     it 'should raise an exception if anything else' do
       expect{
-        subject.state_for_form = 'allocated'
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused'
+        subject.transition_state('allocated')
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court'
     end
   end
 

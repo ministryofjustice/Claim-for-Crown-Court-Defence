@@ -188,6 +188,12 @@ en:
         thanks: Thank you for submitting your claim!
         total: "Total:"
         will_be_processed: Your claim will be processed shortly
+      cracked_trial_fields:
+        cracked_trial_detail: Cracked Trial Detail
+        trial_fixed_notice_at: 'Notice of 1st Fixed/Warned issued'
+        trial_fixed_at: '1st Fixed/Warned trial'
+        trial_cracked_at: 'Case cracked'
+        trial_cracked_at_third: 'Case cracked in'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
@@ -235,6 +241,7 @@ en:
         advocate: *advocate
         scheme: 'Scheme'
         case_type: 'Case type'
+        cracked_trial_detail: 'Cracked Trial Detail'
         prosecuting_authority: 'Prosecuting authority'
         court: 'Court'
         case_number: 'Case number'

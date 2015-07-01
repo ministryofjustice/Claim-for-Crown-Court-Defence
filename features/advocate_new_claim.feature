@@ -35,15 +35,15 @@ Feature: Advocate new claim
   Scenario: Add mulitple rep orders for a single defendant
     Given I am a signed in advocate
       And I am on the new claim page
-    When I click Add another representation order
-      Then I see 2 fields for attaching a rep order
+     When I click Add another representation order
+     Then I see 2 fields for adding a rep order
 
   Scenario: Add too many rep orders for a single defendant and remove one
     Given I am a signed in advocate
       And I am on the new claim page
-    When I click Add another representation order
+     When I click Add another representation order
       And I then choose to remove the additional rep order
-    Then I see 1 field for attaching a rep order
+     Then I see 1 field for adding a rep order
 
   @javascript @webmock_allow_net_connect @wip
   Scenario: Add fee with dates attended then remove fee

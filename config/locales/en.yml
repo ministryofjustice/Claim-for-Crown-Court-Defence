@@ -242,6 +242,7 @@ en:
         first_day_of_trial: 'First day of trial'
         estimated_length: 'Estimated trial length'
         actual_length: 'Actual trial length'
+        trial_concluded_at: 'Trial concluded on'
         defendants: 'Defendants'
         add_another_defendant: 'Add Another Defendant'
         section_two: 'Section 2:'

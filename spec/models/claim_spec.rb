@@ -15,6 +15,7 @@
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
+#  trial_concluded_at     :date
 #  fees_total             :decimal(, )      default(0.0)
 #  expenses_total         :decimal(, )      default(0.0)
 #  total                  :decimal(, )      default(0.0)

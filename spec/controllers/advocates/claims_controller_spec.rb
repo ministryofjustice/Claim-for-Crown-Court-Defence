@@ -453,6 +453,7 @@ def valid_claim_fee_params
      "first_day_of_trial" => "2015-05-13",
      "estimated_trial_length" => "2",
      "actual_trial_length" => "2",
+     "trial_concluded_at" => "2015-05-15",
      "evidence_checklist_ids" => ["1", "5", ""],
      "defendants_attributes"=>
       {"0"=>

@@ -156,6 +156,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :first_day_of_trial,
      :estimated_trial_length,
      :actual_trial_length,
+     :trial_concluded_at,
      :advocate_category,
      :additional_information,
      :prosecuting_authority,

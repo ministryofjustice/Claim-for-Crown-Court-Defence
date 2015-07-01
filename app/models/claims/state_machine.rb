@@ -9,6 +9,7 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'parts_rejected', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
   CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ] # 'appealed' not included for now
+  PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +

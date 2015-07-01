@@ -41,6 +41,7 @@ class Claim < ActiveRecord::Base
 
   include Claims::StateMachine
   extend Claims::Search
+  include Claims::Calculations
 
   attr_reader :offence_class_id
 
@@ -102,7 +103,8 @@ class Claim < ActiveRecord::Base
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
 
   validate :amount_assessed_and_state
-  validate :evidence_checklist_all_integers
+  validate :evidence_checklist_is_array
+  validate :evidence_checklist_ids_all_numeric_strings
 
   accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
@@ -123,10 +125,6 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def representation_order_details
-    defendants.map(&:representation_order_details).flatten
-  end
-
   def self.attrs_blank?(attributes)
     attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
   end
@@ -134,7 +132,6 @@ class Claim < ActiveRecord::Base
   def is_allocated_to_case_worker?(cw)
     self.case_workers.include?(cw)
   end
-
 
   def basic_fees
     fees.select { |f| f.is_basic? }.sort{ |a, b| a.description <=> b.description }
@@ -150,78 +147,64 @@ class Claim < ActiveRecord::Base
   end
 
   def has_paid_state?
-    paid_states = Claims::StateMachine::ADVOCATE_DASHBOARD_COMPLETED_STATES + Claims::StateMachine::ADVOCATE_DASHBOARD_PART_PAID_STATES
-    paid_states.include?(self.state)
+    Claims::StateMachine::PAID_STATES.include?(self.state)
   end
 
   def state_for_form
     self.state
   end
 
-  def state_for_form=(new_state)
-    case new_state
-    when 'paid'
-      pay!
-    when 'part_paid'
-      pay_part!
-    when 'rejected'
-      reject!
-    when 'refused'
-      refuse!
-    when 'awaiting_info_from_court'
-      await_info_from_court!
+  def form_input_invalid?(form_input)
+    if form_input.blank?
+      true
+    elsif form_input_to_event[form_input] == nil
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court')
     else
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused')
+      false
     end
   end
 
-  def calculate_fees_total
-    fees.reload.map(&:amount).sum
+  def form_input_to_event
+    { "paid"                     => :pay!,
+      "part_paid"                => :pay_part!,
+      "rejected"                 => :reject!,
+      "refused"                  => :refuse!,
+      "awaiting_info_from_court" => :await_info_from_court!}
   end
 
-  def calculate_expenses_total
-    expenses.reload.map(&:amount).sum
+  def transition_state(form_input)
+    event = form_input_to_event[form_input]
+    self.send(event) unless form_input == self.state || form_input_invalid?(form_input)
   end
 
-  def calculate_total
-    calculate_fees_total + calculate_expenses_total
-  end
-
-  def update_fees_total
-    update_column(:fees_total, calculate_fees_total)
-  end
-
-  def update_expenses_total
-    update_column(:expenses_total, calculate_expenses_total)
-  end
-
-  def update_total
-    update_column(:total, calculate_total)
-  end
-
-  def description
-    "#{court.code}-#{case_number} #{advocate.name} (#{advocate.chamber.name})"
+  def update_model_and_transition_state(params)
+    form_input = params.delete('state_for_form') # assign param to variable and remove from those used for updating the model
+    self.update(params)
+    self.transition_state(form_input)
   end
 
   def editable?
     draft? || submitted?
   end
 
-  def update_model_and_transition_state(params)
-    new_state = params.delete('state_for_form')
-    self.update(params)
-    self.state_for_form = new_state unless self.state_for_form == new_state || new_state.blank?
-  end
-
   private
 
-  def evidence_checklist_all_integers
-    raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.") unless self.evidence_checklist_ids.is_a?(Array)
-    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?)
-    self.evidence_checklist_ids = self.evidence_checklist_ids.map(&:to_i)
+  def evidence_checklist_ids_all_numeric_strings
+    format_evidence_ids # non-numeric strings will yield a value of 0 and subsequent validation will fail
     if self.evidence_checklist_ids.include?(0)
       errors[:evidence_checklist_ids] << "Invalid"
     end
+  end
+
+  def evidence_checklist_is_array
+    unless self.evidence_checklist_ids.is_a?(Array)
+      raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.")
+    end
+  end
+
+  def format_evidence_ids
+    # remove blanks and convert strings to integers
+    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?).map(&:to_i)
   end
 
   def amount_assessed_and_state

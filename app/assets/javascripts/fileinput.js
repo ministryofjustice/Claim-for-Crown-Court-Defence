@@ -9,7 +9,7 @@ moj.Modules.fileUpload = {
       });
     $('form').on('change', 'input[type="file"]', function(){
       moj.Modules.fileUpload.state($(this));
-    })
+    });
   },
   state: function(that){
     if($(that).val()){
@@ -23,7 +23,7 @@ moj.Modules.fileUpload = {
         }
   },
   chooseAlternative: function(that){
-    var message = "<label for='" + $(that).attr('id') +"' class='button-secondary'>Upload an alternative file</label>"
+    var message = "<label for='" + $(that).attr('id') +"' class='button-secondary'>Upload an alternative file</label>";
     $(that).before(message);
   }
 

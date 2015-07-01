@@ -19,7 +19,7 @@
 
 var moj = moj || {};
 
-moj.Modules.devs.init = function(){}
+moj.Modules.devs.init = function(){};
 
 
 $('#claim-accordion h2').each(function(){
@@ -41,7 +41,7 @@ function initialise(){
   moj.Modules.amountAssessed.init();
   $('#fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
     $(insertedItem).find('.select2').select2();
-  })
+  });
 }
 
 

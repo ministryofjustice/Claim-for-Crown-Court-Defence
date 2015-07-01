@@ -1,6 +1,6 @@
 "use strict";
 
-var adp = adp || {}
+var adp = adp || {};
 
 adp.newClaim = {
 
@@ -34,4 +34,4 @@ adp.newClaim = {
     }
   }
 
-}
+};

@@ -1,6 +1,6 @@
 "use strict";
 
-var adp = adp || {}
+var adp = adp || {};
 
 adp.feeCalculator = {
   init : function(container_id) {
@@ -20,4 +20,4 @@ adp.feeCalculator = {
       }
     });
   }
-}
+};

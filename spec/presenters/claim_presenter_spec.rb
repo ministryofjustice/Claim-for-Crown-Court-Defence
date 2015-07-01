@@ -73,9 +73,28 @@ RSpec.describe ClaimPresenter do
     expect(subject.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
   end
 
-  it '#representation_order_details' do
-    allow(claim).to receive(:representation_order_details).and_return( [ "First line", "Second line" ] )
-    expect(subject.representation_order_details).to eq "First line<br/>Second line"
+  describe '#representation_order_details' do
+
+    claim = FactoryGirl.build :unpersisted_claim
+    subject { ClaimPresenter.new(claim, view) } 
+
+    it 'should return an html safe string of all the dates and granting bodies' do
+
+      defendant_1 = FactoryGirl.build :defendant
+      defendant_2 = FactoryGirl.build :defendant
+      Timecop.freeze 5.days.ago do
+        defendant_1.representation_orders = [
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court"),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court"),
+        ]
+      end
+      Timecop.freeze 2.days.ago do
+        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
+      end
+      claim.defendants << defendant_1
+      claim.defendants << defendant_2
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015<br/>Magistrate's Court 13/08/2015<br/>Magistrate's Court 01/03/2015" )
+    end
   end
 
   it '#case_worker_names' do

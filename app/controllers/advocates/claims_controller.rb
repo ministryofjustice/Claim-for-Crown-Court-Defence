@@ -1,10 +1,14 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
+  include DateParamProcessor
+
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
+
+  date_field_params :first_day_of_trial
 
   def landing; end
 

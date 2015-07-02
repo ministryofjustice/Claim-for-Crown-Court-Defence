@@ -25,11 +25,6 @@ Then(/^I should see only claims that I have created$/) do
   end
 end
 
-Given(/^I am a signed in advocate admin$/) do
-  @advocate = create(:advocate, :admin)
-  visit new_user_session_path
-  sign_in(@advocate.user, 'password')
-end
 
 Given(/^There are basic and non-basic fee types$/) do
   create :fee_type, :basic

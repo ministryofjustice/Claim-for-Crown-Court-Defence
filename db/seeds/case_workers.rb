@@ -9,6 +9,7 @@ if User.find_by(email: 'caseworker@example.com').blank?
 
   case_worker = CaseWorker.new(role: 'case_worker')
   case_worker.user = user
+  case_worker.location = Location.find_or_create_by!(name: 'Nottingham')
   case_worker.save!
 end
 
@@ -23,5 +24,6 @@ if User.find_by(email: 'caseworkeradmin@example.com').blank?
 
   case_worker = CaseWorker.new(role: 'admin')
   case_worker.user = user
+  case_worker.location = Location.find_or_create_by!(name: 'Nottingham')
   case_worker.save!
 end

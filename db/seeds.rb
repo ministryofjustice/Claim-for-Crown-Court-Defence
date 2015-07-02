@@ -5,6 +5,7 @@
   fee_categories
   fee_types
   expense_types
+  locations
   case_workers
   advocates
   courts

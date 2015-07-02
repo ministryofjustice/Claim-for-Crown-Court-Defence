@@ -6,7 +6,7 @@
 %ul#assignee-list
   - @case_workers.each do |case_worker|
     %li{id: dom_id(case_worker)}
-      = link_to "#{case_worker.name} - #{case_worker.email} (#{case_worker.role.humanize})", case_workers_admin_case_worker_path(case_worker)
+      = link_to "#{case_worker.name} - #{case_worker.email} (#{case_worker.role.humanize} - #{case_worker.location})", case_workers_admin_case_worker_path(case_worker)
       %ul.actions
         %li
           = link_to 'Allocate claims', allocate_case_workers_admin_case_worker_path(case_worker)

@@ -1,5 +1,5 @@
 #claim-form
-  = form_for [:advocates, @claim], html: { novalidate: true } do |f|
+  = form_for [:advocates, @claim], builder: AdpFormBuilder, html: { novalidate: true } do |f|
     - if @claim.errors.any?
       .validation-summary
         %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
@@ -37,7 +37,7 @@
       = render 'dynamic_offence_fields', f: f
       %span.auto-width
         = f.label t('.first_day_of_trial')
-        = f.date_field :first_day_of_trial
+        = f.adp_date_fields :first_day_of_trial
       %span.auto-width
         = f.label t('.estimated_length')
         = f.number_field :estimated_trial_length

@@ -1,4 +1,7 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
+  # This performs magic
+  include DateParamProcessor
+
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]

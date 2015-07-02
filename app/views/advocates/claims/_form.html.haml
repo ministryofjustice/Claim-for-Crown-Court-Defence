@@ -46,6 +46,9 @@
       %span.auto-width
         = f.label t('.actual_length')
         = f.number_field :actual_trial_length
+      %span.auto-width
+        = f.label t('.trial_concluded_at')
+        = f.date_field :trial_concluded_at
 
     %fieldset
       %legend

@@ -23,7 +23,7 @@ When(/^I click Add another representation order$/) do
   page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
 end
 
-Then(/^I see (\d+) fields? for attaching a rep order$/) do |number|
+Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
   page.all('.rep_order').count == number
 end
 

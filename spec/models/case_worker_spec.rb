@@ -11,6 +11,7 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorker, type: :model do
+  it { should belong_to(:location) }
   it { should have_one(:user) }
   it { should have_many(:case_worker_claims) }
   it { should have_many(:claims) }
@@ -22,6 +23,7 @@ RSpec.describe CaseWorker, type: :model do
 
   it { should accept_nested_attributes_for(:user) }
 
+  it { should validate_presence_of(:location) }
   it { should validate_presence_of(:user) }
   it { should validate_presence_of(:role) }
   it { should validate_inclusion_of(:role).in_array(%w( admin case_worker )) }

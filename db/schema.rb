@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20150701154619) do
     t.text     "notes"
     t.text     "evidence_notes"
     t.string   "evidence_checklist_ids"
+    t.date     "trial_concluded_at"
     t.date     "trial_fixed_notice_at"
     t.date     "trial_fixed_at"
     t.date     "trial_cracked_at"

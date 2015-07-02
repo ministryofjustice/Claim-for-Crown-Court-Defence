@@ -27,6 +27,13 @@ RSpec.describe Fee, type: :model do
 
   it { should accept_nested_attributes_for(:dates_attended) }
 
+  it 'should be invalid when fee_type is "Basic Fee" and quantity is greater than 1' do
+    # basic_fee has id of 1
+    fee_type = FactoryGirl.build(:fee_type, description: 'Basic Fee')
+    fee = FactoryGirl.build(:fee, rate: 1, fee_type: fee_type, quantity: 2)
+    expect(fee.save).to eq false
+  end
+
   describe 'blank rate and quantity should be set to zero' do
     it 'should replace blank rates with zero before save' do
       fee = FactoryGirl.build :fee, rate: nil, quantity: nil

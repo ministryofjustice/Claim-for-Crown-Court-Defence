@@ -1,14 +1,3 @@
-Given(/^I am a signed in case worker$/) do
-  @case_worker = create(:case_worker)
-  visit new_user_session_path
-  sign_in(@case_worker.user, 'password')
-end
-
-Given(/^I am a signed in case worker admin$/) do
-  @case_worker = create(:case_worker, :admin)
-  visit new_user_session_path
-  sign_in(@case_worker.user, 'password')
-end
 
 Given(/^claims have been assigned to me$/) do
   case_worker = CaseWorker.first

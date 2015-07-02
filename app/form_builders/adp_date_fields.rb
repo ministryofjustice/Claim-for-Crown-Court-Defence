@@ -5,9 +5,10 @@ class AdpDateFields
     year: '1i'
   }
 
-  def initialize(form, object, attribute)
+  def initialize(form, object_name, attribute)
     @form = form
-    @object = object
+    @object = form.object
+    @object_name = object_name
     @attribute = attribute
   end
 
@@ -26,15 +27,11 @@ class AdpDateFields
   private
 
   def html_id(date_segment)
-    "#{object_name}_#{@attribute}_#{DATE_SEGMENTS[date_segment]}"
+    html_name(date_segment).gsub(/\]\[|\[|\]|\(/, '_').gsub(/\_\z/, '').gsub(/\)/, '')
   end
 
   def html_name(date_segment)
-    "#{object_name}[#{@attribute}(#{DATE_SEGMENTS[date_segment]})]"
-  end
-
-  def object_name
-    @object.class.to_s.underscore
+    "#{@object_name}[#{@attribute}(#{DATE_SEGMENTS[date_segment]})]"
   end
 
   def field_options(value, id, name, placeholder, size)

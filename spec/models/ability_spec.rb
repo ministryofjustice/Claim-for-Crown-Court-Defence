@@ -168,6 +168,12 @@ describe Ability do
         it { should_not be_able_to(action, CaseWorker.new) }
       end
     end
+
+    context 'cannot allocate claims' do
+      [:new, :create].each do |action|
+        it { should_not be_able_to(action, Allocation.new) }
+      end
+    end
   end
 
   context 'case worker admin' do
@@ -187,6 +193,12 @@ describe Ability do
     context 'can manage case workers' do
       [:index, :show, :new, :create, :edit, :allocate, :update, :destroy].each do |action|
         it { should be_able_to(action, CaseWorker.new) }
+      end
+    end
+
+    context 'can allocate claims' do
+      [:new, :create].each do |action|
+        it { should be_able_to(action, Allocation.new) }
       end
     end
   end

@@ -27,6 +27,7 @@ class Ability
         can [:show, :download], Document
         can [:index, :new, :create], CaseWorker
         can [:show, :edit, :allocate, :update, :destroy], CaseWorker
+        can [:new, :create], Allocation
       else
         can [:index, :show], Claim
         can [:update], Claim do |claim|

@@ -12,6 +12,11 @@ case_types:
   - retrial
   - trial
 
+trial_cracked_at_third:
+  - first_third
+  - second_third
+  - final_third
+
 advocate_categories:
   - QC
   - Led junior

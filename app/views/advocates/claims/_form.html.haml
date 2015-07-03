@@ -22,6 +22,8 @@
       = f.label t('.case_type')
       = f.collection_select :case_type, Settings.case_types, :to_s, :humanize, { prompt: true }, { class: 'select2' }
 
+      = render 'cracked_trial_fields', f: f
+
       = f.label t('.prosecuting_authority')
       = f.collection_select :prosecuting_authority, Settings.prosecuting_authorites, :to_s, :upcase, { prompt: true }, { class: 'select2' }
 

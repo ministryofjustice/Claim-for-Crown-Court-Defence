@@ -31,12 +31,13 @@ $('#claim-accordion h2').each(function(){
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
 function initialise(){
-	$('.select2').select2();
-	adp.newClaim.init();
-	adp.feeCalculator.init('fees');
-	adp.feeCalculator.init('basic_fees');
-	adp.feeCalculator.init('expenses');
-	moj.Modules.fileUpload.init();
+  $('.select2').select2();
+  adp.newClaim.init();
+  adp.crackedTrial.init();
+  adp.feeCalculator.init('fees');
+  adp.feeCalculator.init('basic_fees');
+  adp.feeCalculator.init('expenses');
+  moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();
   moj.Modules.amountAssessed.init();
   $('#fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
@@ -46,5 +47,5 @@ function initialise(){
 
 
 $( document ).ready(function() {
-	initialise();
+  initialise();
 });

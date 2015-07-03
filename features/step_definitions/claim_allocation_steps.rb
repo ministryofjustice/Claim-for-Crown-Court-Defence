@@ -1,60 +1,44 @@
 
-Given(/^a case worker exists$/) do
-  @case_worker = create(:case_worker)
+Given(/^case workers exists$/) do
+  @case_workers = create_list(:case_worker, 5)
 end
 
 Given(/^submitted claims exist$/) do
   @claims = create_list(:submitted_claim, 5)
 end
 
-When(/^I visit the case worker allocation page$/) do
-  visit allocate_case_workers_admin_case_worker_path(@case_worker)
+When(/^I visit the allocation page$/) do
+  visit case_workers_admin_allocations_path
 end
 
-When(/^I allocate claims$/) do
+When(/^I select claims$/) do
   check(@claims.first.case_number)
   check(@claims.second.case_number)
-  click_on 'Update Case worker'
-
-  @allocated_claim_1 = @claims.first
-  @allocated_claim_2 = @claims.second
 end
 
-Then(/^the case worker should have claims allocated to them$/) do
-  expect(@case_worker.claims).to match_array([@claims.first, @claims.second])
+When(/^I select a case worker$/) do
+  select @case_workers.first.name, from: 'allocation_case_worker_id'
 end
 
-Then(/^the claims should be visible on the case worker's dashboard$/) do
-  visit case_workers_root_path
-  click_on 'Sign out'
-  visit new_user_session_path
-  sign_in(@case_worker, 'password')
-  claim_dom_ids = @case_worker.claims.map { |claim| "#claim_#{claim.id}" }
-  claim_dom_ids.each do |dom_id|
-    expect(page).to have_selector(dom_id)
+Then(/^the claims should be allocated to the case worker$/) do
+  expect(@case_workers.first.claims).to match_array([@claims.first, @claims.second])
+end
+
+When(/^I click Allocate$/) do
+  click_on('Allocate', match: :first)
+end
+
+Then(/^the allocated claims should no longer be displayed$/) do
+  @claims[0..1].each do |claim|
+    expect(page).to_not have_selector("#claim_#{claim.id}")
   end
 end
 
-When(/^I remove the caseworker$/) do
-  visit case_workers_admin_case_workers_path
-  within "#case_worker_#{@case_worker.id}" do
-    click_on 'Delete'
+Then(/^I should see a summary of the claims that were allocated$/) do
+  within '.allocated-summary' do
+    expect(page).to have_content(/\d+ claims? allocated to #{@case_workers.first.name}/)
+    @claims[0..1].each do |claim|
+      expect(page).to have_content("Case number: #{claim.case_number}")
+    end
   end
-end
-
-Then(/^the claims should not be assigned to any case workers$/) do
-  expect(@claims.map(&:case_workers).flatten).to be_empty
-end
-
-Then(/^the claims should be in an allocated state$/) do
-  expect(@allocated_claim_1.reload).to be_allocated
-  expect(@allocated_claim_2.reload).to be_allocated
-end
-
-Given(/^a new claim has been submitted$/) do
-  @claim = create(:submitted_claim)
-end
-
-Then(/^I should see the new claim at the bottom of the list$/) do
-  expect(all("input[type='checkbox']").last[:id]).to eq("case_worker_claim_ids_#{@claim.id}")
 end

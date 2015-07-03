@@ -60,6 +60,10 @@ Rails.application.routes.draw do
       resources :case_workers do
         get 'allocate', on: :member
       end
+
+      resources :allocations, only: [:new, :create] do
+        get '/', to: 'allocations#new', on: :collection
+      end
     end
   end
 end

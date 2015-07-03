@@ -37,14 +37,19 @@
           %td
             = b.check_box
           %td
-            = b.object.case_number
+            = b.label do
+              = b.object.case_number
           %td
-            = b.object.advocate.name
+            = b.label do
+              = b.object.advocate.name
           %td
-            = b.object.case_type
+            = b.label do
+              = b.object.case_type
           %td
-            = b.object.submitted_at.strftime(Settings.date_format)
+            = b.label do
+              = b.object.submitted_at.strftime(Settings.date_format)
           %td
-            = number_to_currency(b.object.total)
+            = b.label do
+              = number_to_currency(b.object.total)
   %p
     = f.submit 'Allocate', class: 'button'

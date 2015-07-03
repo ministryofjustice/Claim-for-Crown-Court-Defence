@@ -44,7 +44,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
     context 'when valid' do
       it 'allocates claims to case worker' do
-        expect(case_worker.claims).to eq(claims)
+        expect(case_worker.claims).to match_array(claims)
       end
 
       it 'redirects to new allocation' do

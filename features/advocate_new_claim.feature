@@ -105,12 +105,3 @@ Feature: Advocate new claim
       And I fill in the claim details
       And I submit to LAA
      Then I should be redirected back to the claim form with error
-
-  @javascript @webmock_allow_net_connect @wip
-  Scenario: Cracked trial conditional fields
-    Given I am a signed in advocate
-      And I am on the new claim page
-      And I select2 "Cracked trial" from "claim_case_type"
-     Then I should see any Cracked Trial fields
-      And I select2 "Contempt" from "claim_case_type"
-     Then I should NOT see any Cracked Trial fields

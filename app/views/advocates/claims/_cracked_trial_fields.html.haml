@@ -5,13 +5,13 @@
     .nested-fields
       %span.auto-width
         = f.label t('.trial_fixed_notice_at')
-        = f.date_field :trial_fixed_notice_at
+        = f.adp_date_fields :trial_fixed_notice_at
       %span.auto-width
         = f.label t('.trial_fixed_at')
-        = f.date_field :trial_fixed_at
+        = f.adp_date_fields :trial_fixed_at
       %span.auto-width
         = f.label t('.trial_cracked_at')
-        = f.date_field :trial_cracked_at
+        = f.adp_date_fields :trial_cracked_at
 
       = f.label t('.trial_cracked_at_third')
       = f.collection_select :trial_cracked_at_third, Settings.trial_cracked_at_third, :humanize, :humanize, { prompt: true }, { class: 'select2' }

@@ -1,0 +1,55 @@
+%h1
+  Claim allocation
+
+= form_for [:case_workers, :admin, @allocation] do |f|
+  - if @allocation.errors.any?
+    .validation-summary
+      %h2.heading-small
+        = "#{pluralize(@allocation.errors.count, 'error')}"
+        prohibited save
+      %ul
+        - @allocation.errors.full_messages.each do |msg|
+          %li= msg
+
+  %p
+    = f.label :case_worker_id
+    = f.collection_select :case_worker_id, @case_workers, :id, :name, prompt: true
+
+    = f.submit 'Allocate', class: 'button'
+
+  %table
+    %thead
+      %th
+        Select all
+      %th
+        Case number
+      %th
+        Advocate
+      %th
+        Type
+      %th
+        Submission date
+      %th
+        Value
+    %tbody
+      = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
+        %tr
+          %td
+            = b.check_box
+          %td
+            = b.label do
+              = b.object.case_number
+          %td
+            = b.label do
+              = b.object.advocate.name
+          %td
+            = b.label do
+              = b.object.case_type
+          %td
+            = b.label do
+              = b.object.submitted_at.strftime(Settings.date_format)
+          %td
+            = b.label do
+              = number_to_currency(b.object.total)
+  %p
+    = f.submit 'Allocate', class: 'button'

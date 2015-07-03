@@ -9,7 +9,6 @@ Given(/^There are other advocates in my chamber$/) do
         account_number: 'XY455')
 end
 
-
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
@@ -255,4 +254,16 @@ end
 Then(/^the case number should reflect the change$/) do
   claim = Claim.first
   expect(claim.case_number).to eq('543211234')
+end
+
+Then(/^I select2 "([^"]*)" from "([^"]*)"$/) do |value, select_id|
+  select2 value, from: select_id
+end
+
+Then(/^I should( not)? see any Cracked Trial fields$/i) do |negation|
+  does = negation.nil? ? 'to' : negation.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
+  trial_field_labels = ['Notice of 1st fixed/warned issued','1st fixed/warned trial','Case cracked','Case cracked in']
+  trial_field_labels.each do |label_text|
+    expect(page).method(does).call have_content(label_text)
+  end
 end

@@ -90,6 +90,10 @@ ActiveRecord::Schema.define(version: 20150702131548) do
     t.text     "evidence_notes"
     t.string   "evidence_checklist_ids"
     t.date     "trial_concluded_at"
+    t.date     "trial_fixed_notice_at"
+    t.date     "trial_fixed_at"
+    t.date     "trial_cracked_at"
+    t.string   "trial_cracked_at_third"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree

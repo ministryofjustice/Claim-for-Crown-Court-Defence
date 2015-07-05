@@ -311,12 +311,12 @@ RSpec.describe Claim, type: :model do
 
   context 'basic fees' do
     before(:each) do
-      @bft1 = FactoryGirl.create :fee_type, :basic,  description: 'ZZZZ'
-      @mft1 = FactoryGirl.create :fee_type, :misc,   description: 'CCCC'
-      @fft1 = FactoryGirl.create :fee_type, :fixed,  description: 'DDDD'
-      @bft2 = FactoryGirl.create :fee_type, :basic,  description: 'AAAA'
-      @mft2 = FactoryGirl.create :fee_type, :misc,   description: 'EEEE'
-      @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB'
+      @bft1 = FactoryGirl.create :fee_type, :basic,  description: 'ZZZZ', id: 1
+      @mft1 = FactoryGirl.create :fee_type, :misc,   description: 'CCCC', id: 2
+      @fft1 = FactoryGirl.create :fee_type, :fixed,  description: 'DDDD', id: 3
+      @bft2 = FactoryGirl.create :fee_type, :basic,  description: 'AAAA', id: 4
+      @mft2 = FactoryGirl.create :fee_type, :misc,   description: 'EEEE', id: 5
+      @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB', id: 6
     end
 
     describe '#instantiate_basic_fees' do
@@ -338,7 +338,7 @@ RSpec.describe Claim, type: :model do
     end
 
     describe '#basic_fees' do
-      it 'should return a fee for every basic fee sorted alphabetically in order of fee type description' do
+      it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
         # Given three basic fee types and some other non-basic fee types and a claim
         claim = FactoryGirl.build :claim
         claim.instantiate_basic_fees
@@ -346,8 +346,8 @@ RSpec.describe Claim, type: :model do
         # when I call basic_fees
         fees = claim.basic_fees
 
-        # it should return the three basic fees sorted in order of fee type description
-        expect(fees.map(&:description)).to eq( ['AAAA', 'BBBB', 'ZZZZ'])
+        # it should return the three basic fees sorted in order of fee type id
+        expect(fees.map(&:fee_type_id)).to eq( [1, 4, 6])
       end
     end
   end

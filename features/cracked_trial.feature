@@ -1,7 +1,7 @@
 Feature: Cracked trial
   Background:
     As an advocate i want to see cracked trial detail fields for
-    cracked trial case types
+    cracked trial case types only
 
   @javascript @webmock_allow_net_connect @wip
   Scenario: Cracked trial conditional fields

@@ -38,26 +38,49 @@ RSpec.describe Fee, type: :model do
 
 
   describe 'set and update amount' do
-    subject { build(:fee, rate: 2.5, quantity: 3, amount: 0) }
+
+    let(:fee)            { build(:fee, rate: 2.5, quantity: 3, amount: 0) }
+    let(:basic_fee_type) { build :fee_type, :basic, description: 'Basic Fee Type 1', quantity_modifier: -2 }
+    let(:basic_fee)      { build(:fee, fee_type: basic_fee_type, rate: 2.5, quantity: 3, amount: 0) }
 
     context 'for a new fee' do
+
       it 'sets the fee amount equal to rate x quantity' do
-        subject.save!
-        expect(subject.amount).to eq(7.5)
+        fee.save!
+        expect(fee.amount).to eq(7.5)
       end
     end
 
     context 'for an existing fee' do
       before do
-        subject.save!
-        subject.rate = 3;
-        subject.save!
+        fee.save!
+        fee.rate = 3;
+        fee.save!
       end
 
       it 'updates the amount to be equal to the new rate x quantity' do
-        expect(subject.amount).to eq(9.0)
+        expect(fee.amount).to eq(9.0)
       end
     end
+
+    context 'for a new fee with quantity modifier' do
+        it 'updates the amount to be equal to the new rate x (quantity - modifier)' do
+          basic_fee.save!
+          expect(basic_fee.amount).to eq(2.5)
+        end
+    end
+
+    context 'for an existing fee with quantity modifier' do
+        before do
+          fee.save!
+          fee.fee_type.quantity_modifier = -1
+          fee.save!
+        end
+        it 'updates the amount to be equal to the new rate x (quantity - modifier)' do
+          expect(fee.amount).to eq(5)
+        end
+    end
+
   end
 
   describe '.new_blank' do

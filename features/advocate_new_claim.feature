@@ -46,12 +46,17 @@ Feature: Advocate new claim
      Then I see 1 field for adding a rep order
 
   @javascript @webmock_allow_net_connect @wip
-  Scenario: Add fee with dates attended then remove fee
+  Scenario Outline: Add fees with dates attended then remove fee
     Given I am a signed in advocate
-      And I am creating a new claim
-     When I add 5 dates attended for one of my fixed fees
+      And I am on the new claim page
+     When I add <number> dates attended for one of my <fee_type> fees
       And I remove the fee
      Then the dates attended are also removed
+
+  Examples:
+    | number | fee_type |
+    | 2      |  "basic" |
+    | 5      |  "fixed" |
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate

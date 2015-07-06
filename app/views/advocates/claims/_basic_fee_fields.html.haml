@@ -1,0 +1,20 @@
+%tbody.basic-fee-group
+  %tr.nested-fields
+    %td
+      = f.object.description
+    %td
+      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity'
+    %td.quantity-modifier
+      = f.object.quantity_modifier
+    %td
+      = f.number_field :rate, value: number_with_precision_or_blank(f.object.rate, precision: 2), class: 'rate'
+    %td.amount
+      = number_to_currency(f.object.amount)
+    %td.add-basic-fee-date-attended
+      - if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(f.object.fee_type.code)
+        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
+
+    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
+
+  = f.fields_for :dates_attended do |date_attended|
+    = render 'date_attended_fields', f: date_attended

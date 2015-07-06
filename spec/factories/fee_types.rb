@@ -18,10 +18,6 @@ FactoryGirl.define do
 
     trait :basic do
       fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
-
-       # NOTE: not all basic fees have a quantity modifier but to avoid possible
-       #       flickering tests they are all given one here
-      quantity_modifier { rand(-4..-1) }
     end
 
     trait :misc do

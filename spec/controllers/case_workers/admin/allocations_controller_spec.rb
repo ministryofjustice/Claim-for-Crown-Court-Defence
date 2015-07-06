@@ -48,7 +48,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
 
       it 'redirects to new allocation' do
-        expect(response).to redirect_to(case_workers_admin_allocations_path)
+        expect(response).to redirect_to(case_workers_admin_allocations_path(allocation_params))
       end
     end
 

@@ -27,7 +27,7 @@
             =t('.submit_date')
           %dd
             = claim.submitted_at(include_time: true) unless claim.draft?
-          - if controller.action_name == 'show'
+          - if controller.action_name == 'show' || controller.action_name == 'update'
             %dt
               =t('.case_num')
             %dd
@@ -71,7 +71,7 @@
             =t('.j_a')
           %dd
             No
-          - if controller.action_name == 'show'
+          - if controller.action_name == 'show' || controller.action_name == 'update'
             %dt
               Hearing
             %dd
@@ -85,7 +85,7 @@
             %dd
               = claim.advocate_category
 
-      - unless controller.action_name == 'show'
+      - unless controller.action_name == 'show' || controller.action_name == 'update'
         %li
           %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
             Case Value

@@ -105,3 +105,12 @@ Feature: Advocate new claim
       And I fill in the claim details
       And I submit to LAA
      Then I should be redirected back to the claim form with error
+
+  Scenario: Add Initial fee type with modifier
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I fill in the claim details
+      And I fill in an additional fee type that is subjected to a modifer
+      And I submit to LAA
+     Then I should be redirected to the claim confirmation page
+      And I should see the claim totals accounting for modifier

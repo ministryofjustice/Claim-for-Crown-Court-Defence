@@ -5,6 +5,7 @@ BASIC,Daily Attendance Fee (41 to 50),DAH
 BASIC,Daily Attendance Fee (51+),DAJ
 BASIC,Standard Appearance Fee,SAF,-4
 BASIC,Plea and Case Management Hearing,PCM,-1
+BASIC,Conferences and Views,CAV,-3
 BASIC,Number of Defendants uplift,NDR
 BASIC,Number of Cases uplift,NOC
 BASIC,Number of Prosecution Witnesses,NPW,-10
@@ -31,7 +32,6 @@ MISC,Application to dismiss a charge day 2 onwards (Half Day),PAH
 MISC,Application to dismiss a charge day 2 onwards (Whole Day),PAW
 MISC,Application to dismiss a charge day 2 onwards (Half Day Uplift),PHU
 MISC,Application to dismiss a charge day 2 onwards (Whole Day Uplift),PWU
-MISC,Conferences and Views,CAV
 MISC,Confiscation hearings (Half Day),DTH
 MISC,Confiscation hearings (Whole Day),DTW
 MISC,Confiscation hearings (Half Day Uplift),DHU

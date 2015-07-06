@@ -771,7 +771,47 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe 'Case type scopes' do
+    let!(:trials)           { create_list(:submitted_claim, 5, case_type: 'trial') }
+    let!(:retrials)         { create_list(:submitted_claim, 5, case_type: 'retrial') }
+    let!(:cracked_trials)   { create_list(:submitted_claim, 5, case_type: 'cracked_trial') }
+    let!(:cracked_retrials) { create_list(:submitted_claim, 5, case_type: 'cracked_before_retrial') }
+    let!(:guilty_pleas)     { create_list(:submitted_claim, 5, case_type: 'guilty_plea') }
+
+    describe '.trial' do
+      it 'returns trials and retrials' do
+        expect(Claim.trial).to match_array(trials + retrials)
+      end
+    end
+
+    describe '.cracked' do
+      it 'returns cracked trials and retrials' do
+        expect(Claim.cracked).to match_array(cracked_trials + cracked_retrials)
+      end
+    end
+
+    describe '.guilty_plea' do
+      it 'returns guilty pleas' do
+        expect(Claim.guilty_plea).to match_array(guilty_pleas)
+      end
+    end
+  end
+
+  describe '.fixed_fee' do
+    let!(:fixed_fee_claims) do
+      claims = create_list(:submitted_claim, 5)
+      claims.each { |c| c.fees << create(:fee, :fixed) }
+      claims
+    end
+
+    let(:non_fixed_fee_claims) do
+      claims = create_list(:submitted_claim, 5)
+      claims.each { |c| c.fees << create(:fee, :basic) }
+      claims
+    end
+
+    it 'only returns claims with fixed fees' do
+      expect(Claim.fixed_fee).to match_array(fixed_fee_claims)
+    end
+  end
 end
-
-
-

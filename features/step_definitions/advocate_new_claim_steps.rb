@@ -16,6 +16,7 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:fee_type, :basic, description: 'Basic Fee with Modifer', quantity_modifier: -4)
+  create(:fee_type, :basic, description: 'Basic Fee with dates attended required', quantity_modifier: -2, code: 'SAF')
   create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
@@ -36,14 +37,21 @@ Given(/^I am creating a new claim$/) do
   visit new_advocates_claim_path
 end
 
-When(/^I add (\d+) dates? attended for one of my fixed fees$/) do |number|
-  number.to_i.times { click_on "Add Date Attended" }
+# NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
+When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type |
 
-  within '#fees' do
+  save_and_open_page
+  div_id = fee_type.downcase == "fixed" ? 'fees' : 'basic_fees'
+
+  number.to_i.times do
+  within "##{div_id}" do
+    click_on "Add Date Attended"
+  end
+ end
+
+  within "##{div_id}" do
     expect(page).to have_selector('.extra-data')
-
     index = 0
-
     all(:css, '.extra-data').each do |extra_data|
       within extra_data do
         expect(page).to have_content('Date attended (from)')

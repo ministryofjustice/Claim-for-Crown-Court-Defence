@@ -255,7 +255,7 @@ en:
         section_two: 'Section 2:'
         additional_information: 'Additional information'
         basic_fees: 'Initial Fees'
-        quantity_and_rate_prompt: 'Manually enter the quantity and rate and the amount will automatically be calculated the total for you. Note, that the modifer will reduce the quantity based on those fees that form a part of the basic fee.'
+        quantity_and_rate_prompt: 'Manually enter the quantity and rate to have the amount automatically calculated for you. Note that the modifer will reduce the quantity you specify for particular fees that are included as part of the basic fee.'
         fee_type: 'Fee Type'
         quantity: 'Quantity'
         quantity_modifier: 'Modifier'

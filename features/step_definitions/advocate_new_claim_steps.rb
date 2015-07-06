@@ -15,6 +15,7 @@ Given(/^I am on the new claim page$/) do
   create(:offence, description: 'Murder')
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
+  create(:fee_type, :basic, description: 'Basic Fee with Modifer', quantity_modifier: -4)
   create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
@@ -204,7 +205,6 @@ When(/^I am on the claim edit page$/) do
   visit edit_advocates_claim_path(claim)
 end
 
-
 Then(/^I can view a select of all advocates in my chamber$/) do
   expect(page).to have_selector('select#claim_advocate_id')
   expect(page).to have_content('Doe, John: AC135')
@@ -254,4 +254,17 @@ end
 Then(/^the case number should reflect the change$/) do
   claim = Claim.first
   expect(claim.case_number).to eq('543211234')
+end
+
+When(/^I fill in an additional fee type that is subjected to a modifer$/) do
+  within '#basic_fees' do
+    fill_in 'claim_basic_fees_attributes_2_quantity', with: 6
+    fill_in 'claim_basic_fees_attributes_2_rate', with: 1
+  end
+end
+
+Then(/^I should see the claim totals accounting for modifier$/) do
+  expect(page).to have_content("Fees total: £3.00")
+  expect(page).to have_content("Expenses total: £40.00")
+  expect(page).to have_content("Total: £43.00")
 end

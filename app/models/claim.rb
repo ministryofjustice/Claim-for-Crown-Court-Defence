@@ -135,7 +135,7 @@ class Claim < ActiveRecord::Base
   end
 
   def basic_fees
-    fees.select { |f| f.is_basic? }.sort{ |a, b| a.description <=> b.description }
+    fees.select { |f| f.is_basic? }.sort{ |a, b| a.fee_type_id <=> b.fee_type_id }
   end
 
   def instantiate_basic_fees(params = nil)

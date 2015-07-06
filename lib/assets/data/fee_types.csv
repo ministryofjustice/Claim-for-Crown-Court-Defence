@@ -1,13 +1,14 @@
 CATEGORY,FEE TYPE,CODE
 BASIC,Basic Fee,BAF
-BASIC,Number of Defendants uplift,NDR
-BASIC,Number of Cases uplift,NOC
-BASIC,Number of Prosecution Witnesses,NPW
-BASIC,Pages of Prosecution Evidence,PPE
-BASIC,Daily Attendance Fee,DAF
+BASIC,Daily Attendance Fee (3 to 40),DAF,-2
 BASIC,Daily Attendance Fee (41 to 50),DAH
 BASIC,Daily Attendance Fee (51+),DAJ
-BASIC,Plea and Case Management Hearing,PCM
+BASIC,Standard Appearance Fee,SAF,-4
+BASIC,Plea and Case Management Hearing,PCM,-1
+BASIC,Number of Defendants uplift,NDR
+BASIC,Number of Cases uplift,NOC
+BASIC,Number of Prosecution Witnesses,NPW,-10
+BASIC,Pages of Prosecution Evidence,PPE,-50
 FIXED,Appeals to the Crown Court against Conviction,ACV
 FIXED,Appeals to the Crown Court against Conviction Uplift,ACU
 FIXED,Appeals to the Crown Court against Sentence,ASE
@@ -58,7 +59,6 @@ MISC,Public Interest Immunity hearings (Half Day Uplift),PHU
 MISC,Public Interest Immunity hearings (Whole Day Uplift),PWU
 MISC,Research of very unusual or Novel Factual issue,RNF
 MISC,Research of very unusual or Novel point of Law,RNL
-MISC,Standard Appearance Fee,SAF
 MISC,Standard Appearance fee Uplift,SAU
 MISC,Sentence Hearings,SHR
 MISC,Sentence Hearings Uplift,SHU

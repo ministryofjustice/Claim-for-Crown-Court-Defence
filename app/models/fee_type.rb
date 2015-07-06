@@ -1,4 +1,4 @@
-# == Schema Information
+  # == Schema Information
 #
 # Table name: fee_types
 #
@@ -19,7 +19,7 @@ class FeeType < ActiveRecord::Base
   validates :fee_category, presence: true
   validates :description, presence: true, uniqueness: { case_sensitive: false }
   validates :code, presence: true
-
+  validates :quantity_modifier, numericality: { only_integer: true, less_than_or_equal_to: 0 }, unless: 'quantity_modifier.nil?'
 
   def self.basic
     self.joins(:fee_category).where('fee_categories.abbreviation = ?', "BASIC").order(:description)

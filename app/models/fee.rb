@@ -22,7 +22,7 @@ class Fee < ActiveRecord::Base
   validates :fee_type, presence: true
   validates :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  accepts_nested_attributes_for :dates_attended, reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
     self.quantity = 0 if self.quantity.blank?
@@ -47,7 +47,6 @@ class Fee < ActiveRecord::Base
   def self.new_blank(claim, fee_type)
     Fee.new(claim: claim, fee_type: fee_type, quantity: 0, rate: 0, amount: 0)
   end
-
 
   def self.new_collection_from_form_params(claim, form_params)
     collection = []
@@ -78,6 +77,10 @@ class Fee < ActiveRecord::Base
     fee_type.description
   end
 
+  def quantity_modifier
+    fee_type.quantity_modifier.nil? ? 0 : fee_type.quantity_modifier rescue 0
+  end
+
   def category
     fee_type.fee_category.abbreviation
   end
@@ -85,6 +88,10 @@ class Fee < ActiveRecord::Base
   private
 
   def calculate_amount
-    ((self.rate || 0) * (self.quantity || 0)).abs
+    r = (self.rate || 0)
+    q = (self.quantity || 0) + quantity_modifier
+    q = q < 0 ? 0 : q
+    ( r * q ).abs
   end
+
 end

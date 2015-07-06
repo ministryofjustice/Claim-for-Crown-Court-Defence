@@ -12,6 +12,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def create
+    process_claim_ids
+
     @allocation = Allocation.new(allocation_params)
 
     if @allocation.save
@@ -22,6 +24,13 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   private
+
+  def process_claim_ids
+    if params[:quantity_to_allocate].present? && params[:quantity_to_allocate].to_i.is_a?(Integer)
+      quantity_to_allocate = params[:quantity_to_allocate].to_i
+      params[:allocation][:claim_ids] = @claims.limit(quantity_to_allocate).map(&:id).map(&:to_s)
+    end
+  end
 
   def set_case_workers
     @case_workers = CaseWorker.all

@@ -15,8 +15,9 @@
           %li= msg
 
   %p
-    = f.label :case_worker_id
-    = f.collection_select :case_worker_id, @case_workers, :id, :name, prompt: true
+    = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'display: inline-block; width: 200px;' }
+
+    = number_field_tag :quantity_to_allocate, nil, placeholder: 'Number to allocate'
 
     = f.submit 'Allocate', class: 'button'
 
@@ -54,5 +55,4 @@
           %td
             = b.label do
               = number_to_currency(b.object.total)
-  %p
-    = f.submit 'Allocate', class: 'button'
+

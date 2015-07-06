@@ -43,6 +43,7 @@ function initialise(){
   $('#fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
     $(insertedItem).find('.select2').select2();
   });
+  moj.Modules.selectAll.init();
 }
 
 

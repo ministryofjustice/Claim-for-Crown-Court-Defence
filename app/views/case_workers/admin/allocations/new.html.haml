@@ -1,6 +1,9 @@
 %h1
   Claim allocation
 
+- if @allocated_claims
+  = render 'allocated_summary'
+
 = form_for [:case_workers, :admin, @allocation] do |f|
   - if @allocation.errors.any?
     .validation-summary
@@ -34,7 +37,7 @@
         Value
     %tbody
       = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
-        %tr
+        %tr{id: dom_id(b.object)}
           %td
             = b.check_box
           %td

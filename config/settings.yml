@@ -32,3 +32,5 @@ court_types:
 
 date_format: "%d/%m/%Y"
 date_time_format: "%d/%m/%Y %H:%M"
+
+high_value_claim_threshold: 20000

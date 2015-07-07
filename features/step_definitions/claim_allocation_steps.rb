@@ -72,6 +72,10 @@ Then(/^all the claims should be selected$/) do
   end
 
   expect(@claims.count).to eq(count)
+
+  within '.claim-count' do
+    expect(page).to have_content(/#{count} claims?/)
+  end
 end
 
 Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
@@ -109,4 +113,30 @@ Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, 
   end
 
   expect(claims.count).to eq(number)
+
+  within '.claim-count' do
+    expect(page).to have_content(/#{number} claims?/)
+  end
+end
+
+Given(/^high value claims exist$/) do
+  @claims[0..4].each do |claim|
+    claim.update_column(:total, Settings.high_value_claim_threshold)
+  end
+end
+
+Then(/^I should only see high value claims$/) do
+  @claims[0..4].each do |claim|
+    expect(page).to have_selector("#claim_#{claim.id}")
+  end
+
+  within '.claim-count' do
+    expect(page).to have_content(/5 claims/)
+  end
+end
+
+Then(/^I should see all claims$/) do
+  @claims.each do |claim|
+    expect(page).to have_selector("#claim_#{claim.id}")
+  end
 end

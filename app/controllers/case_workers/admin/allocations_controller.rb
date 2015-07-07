@@ -44,9 +44,16 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_claims
     @claims = Claim.submitted
+    filter_claims
+  end
 
+  def filter_claims
     if ['fixed_fee', 'cracked', 'trial', 'guilty_plea'].include?(params[:filter])
       @claims = @claims.send(params[:filter].to_sym)
+    end
+
+    if params[:high_value].present? && params[:high_value] == 'true'
+      @claims = @claims.total_greater_than_or_equal_to(Settings.high_value_claim_threshold)
     end
   end
 

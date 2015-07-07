@@ -814,4 +814,30 @@ RSpec.describe Claim, type: :model do
       expect(Claim.fixed_fee).to match_array(fixed_fee_claims)
     end
   end
+
+  describe '.total_greater_than_or_equal_to' do
+    let(:not_greater_than_400) do
+      claims = []
+
+      [100, 200, 399, 2].each do |value|
+        claims << create(:submitted_claim, total: value)
+      end
+
+      claims
+    end
+
+    let(:greater_than_400) do
+      claims = []
+
+      [400, 10_000, 566, 1_000].each do |value|
+        claims << create(:submitted_claim, total: value)
+      end
+
+      claims
+    end
+
+    it 'only returns claims with total value greater than the specified value' do
+      expect(Claim.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
+    end
+  end
 end

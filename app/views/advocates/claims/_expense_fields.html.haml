@@ -8,6 +8,6 @@
   %td
     = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
   %td.amount
-    &nbsp;
+    = number_to_currency(f.object.amount)
   %td
     = link_to_remove_association t('.remove'), f

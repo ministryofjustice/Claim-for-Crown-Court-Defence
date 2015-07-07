@@ -29,6 +29,7 @@ $('#claim-accordion h2').each(function(){
   });
 });
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
+$('#claim-accordion h2:last-of-type').addClass('open').next('section').show();
 
 function initialise(){
   $('.select2').select2();

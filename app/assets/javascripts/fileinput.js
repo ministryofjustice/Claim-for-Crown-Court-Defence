@@ -1,7 +1,7 @@
 var moj = moj || {};
 moj.Modules.fileUpload = {
   init: function(){
-    $('.rep_order').each(function(){
+    $('.supporting_evidence_upload').each(function(){
       if($(this).parent().find('.file-exists').length > 0){
         $(this).hide();
         moj.Modules.fileUpload.chooseAlternative($(this));

@@ -144,8 +144,8 @@
       #documents
         = f.fields_for :documents do |document|
           = render 'document_fields', f: document
-          .links
-            = link_to_add_association t('.add_another_doc'), f, :documents, class: 'button-secondary'
+        .links
+          = link_to_add_association t('.add_another_doc'), f, :documents, class: 'button-secondary'
 
     %fieldset{id: 'evidence-checklist'}
       %legend

@@ -63,3 +63,50 @@ Then(/^the first (\d+) claims should no longer be displayed$/) do |quantity|
     expect(page).to_not have_selector("#claim_#{claim.id}")
   end
 end
+
+Then(/^all the claims should be selected$/) do
+  count = 0
+  all('input[type="checkbox"]').each do |input|
+    expect(input).to be_checked
+    count += 1
+  end
+
+  expect(@claims.count).to eq(count)
+end
+
+Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
+  Claim.destroy_all
+
+  number = quantity.to_i
+
+  case type
+    when 'all'
+      create_list(:submitted_claim, number)
+    when 'fixed_fee'
+      claims = create_list(:submitted_claim, number)
+      claims.each { |c| c.fees << create(:fee, :fixed) }
+    when 'trial'
+      create_list(:submitted_claim, number, case_type: 'trial')
+    when 'cracked'
+      create_list(:submitted_claim, number, case_type: 'cracked_trial')
+    when 'guilty_plea'
+      create_list(:submitted_claim, number, case_type: 'guilty_plea')
+  end
+end
+
+When(/^I filter by "(.*?)"$/) do |filter|
+  choose filter.humanize
+  click_on 'Filter'
+end
+
+Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, type|
+  number = quantity.to_i
+
+  claims = type == 'all' ? Claim.all : Claim.send(type.to_sym)
+
+  claims.each do |claim|
+    expect(page).to have_selector("#claim_#{claim.id}")
+  end
+
+  expect(claims.count).to eq(number)
+end

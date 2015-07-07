@@ -44,6 +44,10 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_claims
     @claims = Claim.submitted
+
+    if ['fixed_fee', 'cracked', 'trial', 'guilty_plea'].include?(params[:filter])
+      @claims = @claims.send(params[:filter].to_sym)
+    end
   end
 
   def allocation_params

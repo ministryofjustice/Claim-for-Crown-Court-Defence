@@ -33,11 +33,20 @@
 
     != "&nbsp";
 
+    = hidden_field_tag :high_value, params[:high_value]
+
     = submit_tag 'Filter'
 
     != "&nbsp";
 
-    = pluralize(@claims.count, 'claim')
+    %span.claim-count
+      = pluralize(@claims.count, 'claim')
+
+  %p
+    - if params[:high_value].blank? || params[:high_value] == 'false'
+      = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.merge(high_value: true))
+    - else
+      = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.merge(high_value: false))
 
 - if @allocated_claims
   = render 'allocated_summary'
@@ -57,7 +66,8 @@
 
     = number_field_tag :quantity_to_allocate, nil, placeholder: 'Number to allocate'
 
-    = hidden_field_tag 'filter', params[:filter]
+    = hidden_field_tag :filter, params[:filter]
+    = hidden_field_tag :high_value, params[:high_value]
 
     = f.submit 'Allocate', class: 'button'
 

@@ -98,6 +98,8 @@ class Claim < ActiveRecord::Base
 
   scope :fixed_fee, -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED') }
 
+  scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
+
   validates :advocate,                presence: true
   validates :offence,                 presence: true, unless: :draft?
   validates :creator,                 presence: true, unless: :draft?

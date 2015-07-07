@@ -64,34 +64,34 @@ namespace :claims do
 
   def add_basic_fees(claim)
     #
-    # add all basic fee types with random values (incl none)
-    # to some
-    # NOTE: at time of writing a claim has all initial fees"
+    # NOTE: at time of writing a claim has all "initial fees"
     #       instatiated at point of new claim creation.
     #
-
     FeeType.basic.each do |fee_type|
       q = 0
       r = 0
       if rand(3) != 0
-        q = rand(1..100)
-        r = rand(1.00..40.00).round(2)
+        q = rand(1..15)
+        r = rand(10.00..400.00).round(2)
       end
       fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
-      FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
+      if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
+        FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
       end
     end
+
   end
 
   def add_fixed_misc_fees(claim)
     #
-    # 1 to 5 fixed/misc fees per claim
+    # 1 to 6 fixed and/or misc fees per claim
     # and of those some should have a date attended FROM
     # NOTE: some of these will be given a date attended TO
     # by the factory
     #
-    rand(1..5).times do
-        fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type:)
+    rand(1..6).times do
+      fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
+      fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
     end
 

@@ -43,7 +43,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = Claim.submitted
+    @claims = Claim.submitted.order(submitted_at: :asc)
     filter_claims
   end
 

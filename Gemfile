@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.1'
+ruby '2.2.2'
 
 gem 'aws-sdk-v1',           '1.64.0'
 gem 'bourbon',              '~> 3.2.4'

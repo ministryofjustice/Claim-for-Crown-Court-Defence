@@ -86,9 +86,13 @@ class Fee < ActiveRecord::Base
   private
 
   def basic_fee_quantity
-    if fee_type.description == 'Basic Fee' && quantity > 1
+    if fee_type.present? && more_than_one_basic_fee? # fee_spec.rb:22/24/26 fail unless this fee_type.present? is used here
       errors[:quantity] << '- only one basic fee can be claimed per case'
     end
+  end
+
+  def more_than_one_basic_fee?
+    fee_type.description == 'Basic Fee' && quantity > 1
   end
 
   def calculate_amount

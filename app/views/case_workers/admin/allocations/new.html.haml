@@ -1,6 +1,44 @@
 %h1
   Claim allocation
 
+%p
+  = form_tag case_workers_admin_allocations_path, method: :get do
+    = label_tag do
+      = radio_button_tag :filter, 'all', params[:filter].blank? || params[:filter] == 'all'
+      All
+
+    != "&nbsp";
+
+    = label_tag do
+      = radio_button_tag :filter, 'fixed_fee', params[:filter] == 'fixed_fee'
+      Fixed fee
+
+    != "&nbsp";
+
+    = label_tag do
+      = radio_button_tag :filter, 'cracked', params[:filter] == 'cracked'
+      Cracked
+
+    != "&nbsp";
+
+    = label_tag do
+      = radio_button_tag :filter, 'trial', params[:filter] == 'trial'
+      Trial
+
+    != "&nbsp";
+
+    = label_tag do
+      = radio_button_tag :filter, 'guilty_plea', params[:filter] == 'guilty_plea'
+      Guilty plea
+
+    != "&nbsp";
+
+    = submit_tag 'Filter'
+
+    != "&nbsp";
+
+    = pluralize(@claims.count, 'claim')
+
 - if @allocated_claims
   = render 'allocated_summary'
 
@@ -19,12 +57,14 @@
 
     = number_field_tag :quantity_to_allocate, nil, placeholder: 'Number to allocate'
 
+    = hidden_field_tag 'filter', params[:filter]
+
     = f.submit 'Allocate', class: 'button'
 
   %table
     %thead
       %th
-        Select all
+        = link_to 'Select all', '#', class: 'select-all'
       %th
         Case number
       %th

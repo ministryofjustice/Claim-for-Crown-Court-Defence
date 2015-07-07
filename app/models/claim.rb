@@ -91,6 +91,13 @@ class Claim < ActiveRecord::Base
   scope :outstanding, -> { where(state: ['submitted','allocated']) }
   scope :authorised,  -> { where(state: 'paid') }
 
+  # Trial type scopes
+  scope :cracked, -> { where(case_type: ['cracked_trial', 'cracked_before_retrial']) }
+  scope :trial, -> { where(case_type: ['trial', 'retrial']) }
+  scope :guilty_plea, -> { where(case_type: ['guilty_plea']) }
+
+  scope :fixed_fee, -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED') }
+
   validates :advocate,                presence: true
   validates :offence,                 presence: true, unless: :draft?
   validates :creator,                 presence: true, unless: :draft?

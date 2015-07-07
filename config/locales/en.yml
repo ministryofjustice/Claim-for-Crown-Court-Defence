@@ -20,6 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+  datetime:
+    formats:
+      default: "%d/%m/%Y %H:%M"
   dictionary:
     errors:
       blank: &blank "can't be blank"

@@ -1,4 +1,6 @@
 class PingController  < ApplicationController
+  skip_load_and_authorize_resource only: [:index]
+
   respond_to :json
 
   def index

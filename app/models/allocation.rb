@@ -14,7 +14,11 @@ class Allocation
   def save
     return false unless valid?
 
-    claims.each { |claim| claim.case_workers << case_worker }
+    claims.each do |claim|
+      claim.case_workers.destroy_all
+      claim.case_workers << case_worker
+    end
+
     true
   end
 

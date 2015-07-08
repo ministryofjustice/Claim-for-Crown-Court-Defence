@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     resources :claims, only: [:index, :show, :update]
 
     namespace :admin do
-      root to: 'case_workers#index'
+      root to: 'allocations#new'
 
       resources :case_workers do
         get 'allocate', on: :member

@@ -1,5 +1,15 @@
+%nav.dashboard-tabs
+  %ul
+    %li{class: ( 'active' if params[:tab] == 'unallocated' || (params[:tab].blank? && controller.controller_name == 'allocations')) }
+      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.merge(tab: 'unallocated'))
+    %li{class: ('active' if params[:tab] == 'allocated')}
+      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.merge(tab: 'allocated'))
+
 %h1
-  Claim allocation
+  - if params[:tab] == 'unallocated'
+    Claim allocation
+  - else
+    Allocated claims
 
 %p
   = form_tag case_workers_admin_allocations_path, method: :get do
@@ -34,6 +44,7 @@
     != "&nbsp";
 
     = hidden_field_tag :high_value, params[:high_value]
+    = hidden_field_tag :tab, params[:tab]
 
     = submit_tag 'Filter'
 
@@ -64,12 +75,13 @@
   %p
     = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'display: inline-block; width: 200px;' }
 
-    = number_field_tag :quantity_to_allocate, nil, placeholder: 'Number to allocate'
+    = number_field_tag :quantity_to_allocate, nil, placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate'
 
     = hidden_field_tag :filter, params[:filter]
     = hidden_field_tag :high_value, params[:high_value]
+    = hidden_field_tag :tab, params[:tab]
 
-    = f.submit 'Allocate', class: 'button'
+    = f.submit params[:tab] == 'allocated' ? 'Re-allocate' : 'Allocate', class: 'button'
 
   %table
     %thead
@@ -85,6 +97,9 @@
         Submission date
       %th
         Value
+      - if params[:tab] == 'allocated'
+        %th
+          Allocated to
     %tbody
       = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
         %tr{id: dom_id(b.object)}
@@ -105,4 +120,7 @@
           %td
             = b.label do
               = number_to_currency(b.object.total)
-
+          - if params[:tab] == 'allocated'
+            %td
+              = b.label do
+                = b.object.case_workers.map(&:name).join(', ')

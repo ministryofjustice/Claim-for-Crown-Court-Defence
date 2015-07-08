@@ -28,7 +28,7 @@ Then(/^the claims should be allocated to the case worker$/) do
 end
 
 When(/^I click Allocate$/) do
-  click_on('Allocate', match: :first)
+  click_on('Allocate', match: :smart)
 end
 
 Then(/^the allocated claims should no longer be displayed$/) do

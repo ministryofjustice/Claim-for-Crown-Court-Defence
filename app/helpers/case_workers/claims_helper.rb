@@ -4,7 +4,11 @@ module CaseWorkers::ClaimsHelper
   end
 
   def completed_claims_count
-    current_user.claims.caseworker_dashboard_completed.count
+    if current_user.persona.admin?
+      Claim.caseworker_dashboard_completed.count
+    else
+      current_user.claims.caseworker_dashboard_completed.count
+    end
   end
 
   def allocated_claims_count

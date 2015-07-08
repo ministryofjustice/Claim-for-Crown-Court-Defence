@@ -17,6 +17,10 @@ Given(/^there are unallocated claims$/) do
   @claims = create_list(:submitted_claim, 5)
 end
 
+Given(/^there are completed claims$/) do
+  @claims = create_list(:completed_claim, 5)
+end
+
 Then(/^I should see the allocated claims$/) do
   click_on "Allocated claims (#{@claims.count})"
   expect(page).to have_content("Allocated claims (#{@claims.count})")
@@ -26,6 +30,25 @@ Then(/^I should see the unallocated claims$/) do
   click_on "Unallocated claims (#{@claims.count})"
   expect(page).to have_content("Unallocated claims (#{@claims.count})")
 end
+
+Then(/^I should see the completed claims$/) do
+  click_on "Completed claims (#{@claims.count})"
+  expect(page).to have_content("Completed claims (#{@claims.count})")
+end
+
+# logging in creates an additional case worker (hence +1)
+Then(/^I should see a case worker link including count$/) do
+  expect(page).to have_selector('a', text: "Case Workers (#{@case_workers.count+1})")
+end
+
+Then(/^I click the case worker link$/) do
+  find('a', text: "Case Worker").click
+end
+
+Then(/^I should be taken to the case worker admin page$/) do
+  expect(page).to have_selector('h1', text: "Case workers")
+end
+
 
 Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)" amongst others$/) do |number,state,defendant_name|
   claims = create_list("#{state}_claim".to_sym, number.to_i)

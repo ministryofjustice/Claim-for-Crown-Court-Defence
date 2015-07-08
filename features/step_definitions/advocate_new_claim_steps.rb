@@ -39,8 +39,6 @@ end
 
 # NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
 When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type |
-
-  save_and_open_page
   div_id = fee_type.downcase == "fixed" ? 'fees' : 'basic_fees'
 
   number.to_i.times do

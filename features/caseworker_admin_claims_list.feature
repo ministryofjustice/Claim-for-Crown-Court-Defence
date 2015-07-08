@@ -15,3 +15,18 @@ Feature: Caseworker claims list
      When I visit my dashboard
      Then I should see the unallocated claims
       And I should see the claims sorted by oldest first
+
+  Scenario: View completed claims
+    Given I am a signed in case worker admin
+      And there are completed claims
+     When I visit my dashboard
+     Then I should see the completed claims
+      And I should see the claims sorted by oldest first
+
+Scenario: View case workers
+    Given I am a signed in case worker admin
+      And 2 case workers exist
+     When I visit my dashboard
+     Then I should see a case worker link including count
+     When I click the case worker link
+      And I should be taken to the case worker admin page

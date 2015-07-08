@@ -67,6 +67,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
           Claim.submitted
+        when 'completed'
+          Claim.caseworker_dashboard_completed
       end
     else
       @claims = case tab
@@ -80,7 +82,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def tab
     if current_user.persona.admin?
-      %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'allocated'
+      %w(allocated unallocated completed).include?(params[:tab]) ? params[:tab] : 'allocated'
     else
       %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
     end

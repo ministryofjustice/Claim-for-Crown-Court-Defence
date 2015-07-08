@@ -5,6 +5,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
   def new
+    add_breadcrumb 'Dashboard', case_workers_root_path
+    add_breadcrumb 'Allocations', case_workers_admin_allocations_path
+
     @allocation = Allocation.new
   end
 
@@ -12,7 +15,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     @allocation = Allocation.new(allocation_params)
 
     if @allocation.save
-      redirect_to case_workers_admin_allocations_path(allocation_params), notice: "Successfully allocated #{@allocation.claim_ids.size} claims"
+      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab])), notice: "Successfully allocated #{@allocation.claim_ids.size} claims"
     else
       render :new
     end
@@ -27,6 +30,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def set_summary_values
     @case_worker = CaseWorker.find(params[:case_worker_id])
     @allocated_claims = Claim.find(params[:claim_ids].reject(&:blank?))
+    params.delete(:case_worker_id)
+    params.delete(:claim_ids)
   end
 
   def quantity_allocation?
@@ -43,8 +48,13 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = Claim.submitted.order(submitted_at: :asc)
+    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted
+    @claims = @claims.order(submitted_at: :asc)
     filter_claims
+  end
+
+  def tab
+    %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
   end
 
   def filter_claims

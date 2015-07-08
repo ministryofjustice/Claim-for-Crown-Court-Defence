@@ -31,7 +31,7 @@ namespace :claims do
       env_seed_file = File.join(Rails.root, 'db', 'seeds.rb')
       load(env_seed_file) if File.exist?(env_seed_file)
     rescue Exception => e
-      puts "ERROR: seed_data task raise error - #{e.message}"
+      puts "ERROR: seed_data task raised error - #{e.message}"
       raise e
     end
   end
@@ -62,24 +62,60 @@ namespace :claims do
       end
   end
 
-  def add_fees_expenses_and_defendant(claim)
+  def add_basic_fees(claim)
     #
-    # 1 to 10 fees per claim
+    # NOTE: at time of writing a claim has all "initial fees"
+    #       instatiated at point of new claim creation.
+    #
+    FeeType.basic.each do |fee_type|
+      q = 0
+      r = 0
+      if rand(3) != 0
+        q = rand(1..15)
+        r = rand(10.00..400.00).round(2)
+      end
+      fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
+      if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
+        FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
+      end
+    end
+
+  end
+
+  def add_fixed_misc_fees(claim)
+    #
+    # 1 to 6 fixed and/or misc fees per claim
     # and of those some should have a date attended FROM
     # NOTE: some of these will be given a date attended TO
     # by the factory
     #
-    rand(1..10).times do
-      fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: FeeType.all.sample)
+    rand(1..6).times do
+      fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
+      fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
     end
+
+  end
+
+  def add_expenses(claim)
     rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+  end
+
+  def add_defendants(claim)
     claim.defendants << FactoryGirl.create(:defendant, claim: claim)
+  end
+
+  def add_other_data(claim)
+    add_basic_fees(claim)
+    add_fixed_misc_fees(claim)
+    add_expenses(claim)
+    add_defendants(claim)
   end
 
   def add_documentary_evidence(claim,doc_count=2)
 
-    # Attach example evidence <doc_count> times.  Randomly choose a document to add and
+    #
+    # Attach example evidence <doc_count> times. Randomly choose a document to add and
     # check the appropriate evidence checklist checkbox
     #
 
@@ -148,7 +184,7 @@ namespace :claims do
           end
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
-          add_fees_expenses_and_defendant(claim)
+          add_other_data(claim)
           checklist_ids = add_documentary_evidence(claim, 1 + rand(6) )
           claim.update_attribute(:evidence_checklist_ids, checklist_ids)
 

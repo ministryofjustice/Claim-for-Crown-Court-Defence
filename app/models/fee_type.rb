@@ -22,7 +22,21 @@ class FeeType < ActiveRecord::Base
   validates :quantity_modifier, numericality: { only_integer: true, less_than_or_equal_to: 0 }, unless: 'quantity_modifier.nil?'
 
   def self.basic
-    self.joins(:fee_category).where('fee_categories.abbreviation = ?', "BASIC").order(:description)
+    self.by_fee_category("BASIC")
+  end
+
+  def self.fixed
+    self.by_fee_category("FIXED")
+  end
+
+  def self.misc
+    self.by_fee_category("MISC")
+  end
+
+private
+
+  def self.by_fee_category(category)
+    self.joins(:fee_category).where('fee_categories.abbreviation = ?', category.upcase).order(:description)
   end
 
 end

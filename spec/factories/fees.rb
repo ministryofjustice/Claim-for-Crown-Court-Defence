@@ -22,7 +22,7 @@ FactoryGirl.define do
 
     trait :random_values do
       quantity { rand(1..10) }
-      rate     { rand(1.0..9.99).round(2) }
+      rate     { rand(1.0..99.99).round(2) }
       amount   { quantity * rate }
     end
 

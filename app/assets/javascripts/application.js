@@ -45,6 +45,7 @@ function initialise(){
     $(insertedItem).find('.select2').select2();
   });
   moj.Modules.selectAll.init();
+  moj.Modules.allocationFilterSubmit.init();
 }
 
 

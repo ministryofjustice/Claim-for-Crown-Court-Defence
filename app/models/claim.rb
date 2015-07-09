@@ -96,7 +96,7 @@ class Claim < ActiveRecord::Base
   scope :trial, -> { where(case_type: ['trial', 'retrial']) }
   scope :guilty_plea, -> { where(case_type: ['guilty_plea']) }
 
-  scope :fixed_fee, -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED') }
+  scope :fixed_fee, -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED').uniq }
 
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 

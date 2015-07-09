@@ -1,9 +1,9 @@
 %nav.dashboard-tabs
   %ul
     %li{class: ( 'active' if params[:tab] == 'unallocated' || (params[:tab].blank? && controller.controller_name == 'allocations')) }
-      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter).merge(tab: 'unallocated'))
+      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter, :search).merge(tab: 'unallocated'))
     %li{class: ('active' if params[:tab] == 'allocated')}
-      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter).merge(tab: 'allocated'))
+      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter, :search).merge(tab: 'allocated'))
 
 - unless params[:tab] == 'allocated'
   %p
@@ -58,9 +58,9 @@
 
 %p
   - if params[:high_value].blank? || params[:high_value] == 'false'
-    = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.merge(high_value: true))
+    = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.except(:search, :filter).merge(high_value: true))
   - else
-    = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.merge(high_value: false))
+    = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.except(:search, :filter).merge(high_value: false))
 
 - if @allocated_claims
   = render 'allocated_summary'

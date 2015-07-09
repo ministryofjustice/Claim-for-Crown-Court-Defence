@@ -15,7 +15,6 @@ EXAMPLE_DOC_TYPES = {
   'justification_for_late_submission.pdf' => 10
 }
 
-
 namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
@@ -37,13 +36,15 @@ namespace :claims do
   end
 
   desc "Create demo claim data for specified states (default: all, delimited by ;), allocating to case work as required"
-  task :demo_data, [:advocate_count, :claims_per_state, :states_to_add ] => [:environment, :seed_data] do |task, args|
+  task :demo_data, [:additional_advocates, :claims_per_state, :states_to_add, :additional_caseworkers] => [:environment, :seed_data] do |task, args|
       begin
-        args.with_defaults(:advocate_count => 4, :claims_per_state => 3, :states_to_add => 'all')
+        args.with_defaults(:additional_advocates => 4, :claims_per_state => 3, :states_to_add => 'all', :additional_caseworkers => 55)
 
-        ADVOCATE_COUNT = args[:advocate_count].to_i
+        ADVOCATE_COUNT = args[:additional_advocates].to_i
         CLAIMS_PER_STATE = args[:claims_per_state].to_i
+        CASEWORKER_COUNT = args[:additional_caseworkers].to_i
 
+        caseworker_count_per_location = (CASEWORKER_COUNT/2).round(0)
         states = parse_states_from_string(args[:states_to_add])
 
         puts "CREATING: creating #{ADVOCATE_COUNT} additional advocate(s) and #{CLAIMS_PER_STATE} claims per state (below)"
@@ -52,6 +53,9 @@ namespace :claims do
 
         example_advocate = Advocate.find(1)
         example_case_worker = CaseWorker.find(1)
+
+        create_dummy_caseworkers(caseworker_count_per_location,Location.first)
+        create_dummy_caseworkers(caseworker_count_per_location,Location.second)
 
         create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_STATE,states)
         create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_STATE,states)
@@ -62,7 +66,16 @@ namespace :claims do
       end
   end
 
-# adds all basic fees, Basic fee qauntity one always,
+# add case workers at a specific location with email reflecting name and location
+def create_dummy_caseworkers(caseworkers_to_add, location)
+  caseworkers_to_add.times do
+    cw = FactoryGirl.create(:case_worker, location: location)
+    puts "+ created case worker #{cw.first_name} #{cw.last_name} with email #{cw.email} for location #{location.name}"
+  end
+end
+
+
+  # adds all basic fees, Basic fee qauntity one always,
   # others random q and r and dates only for those applicable.
   #
   # NOTE: at time of writing a claim has all "initial fees"
@@ -72,7 +85,7 @@ namespace :claims do
     FeeType.basic.each do |fee_type|
       q = 0
       r = 0
-      
+
       if fee_type.code == 'BAF'
         q = 1; r = rand(350.00..450.00).round(2);
       else
@@ -82,7 +95,7 @@ namespace :claims do
       end
 
       fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
-      
+
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
       end

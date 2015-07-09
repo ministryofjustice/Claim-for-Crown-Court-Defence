@@ -21,6 +21,7 @@ class Fee < ActiveRecord::Base
 
   validates :fee_type, presence: true
   validates :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validate :basic_fee_quantity
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
@@ -86,6 +87,16 @@ class Fee < ActiveRecord::Base
   end
 
   private
+
+  def basic_fee_quantity
+    if fee_type.present? && more_than_one_basic_fee? # fee_spec.rb:22/24/26 fail unless this fee_type.present? is used here
+      errors[:quantity] << '- only one basic fee can be claimed per case'
+    end
+  end
+
+  def more_than_one_basic_fee?
+    fee_type.description == 'Basic Fee' && quantity > 1
+  end
 
   def calculate_amount
     r = (self.rate || 0)

@@ -113,7 +113,7 @@ end
         r = rand(80.00..90.00)
       else
         q = rand(1..15);
-        r = rand(10.00..100.00)
+        r = rand(10.00..199.00)
     end
 
     return q, r.round(2)
@@ -123,7 +123,6 @@ end
 
     FeeType.basic.each do |fee_type|
       q, r = random_basic_fee_quantity_rate_by_type(fee_type)
-      # puts "creating basic for #{fee_type.code} with q #{q} and r #{r}"
       unless fee_type.code == 'BAF'
         q = 0; r = 0 if rand(2) == 0
       end

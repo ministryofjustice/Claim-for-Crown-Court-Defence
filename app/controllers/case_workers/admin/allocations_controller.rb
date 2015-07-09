@@ -50,11 +50,19 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def set_claims
     @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted
     @claims = @claims.order(submitted_at: :asc)
+
+    search_claims
     filter_claims
   end
 
   def tab
     %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
+  end
+
+  def search_claims
+    if params[:search].present?
+      @claims = @claims.search(:case_worker_name_or_email, params[:search])
+    end
   end
 
   def filter_claims

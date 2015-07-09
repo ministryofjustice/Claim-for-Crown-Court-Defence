@@ -15,7 +15,6 @@ EXAMPLE_DOC_TYPES = {
   'justification_for_late_submission.pdf' => 10
 }
 
-
 namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
@@ -37,13 +36,15 @@ namespace :claims do
   end
 
   desc "Create demo claim data for specified states (default: all, delimited by ;), allocating to case work as required"
-  task :demo_data, [:advocate_count, :claims_per_state, :states_to_add ] => [:environment, :seed_data] do |task, args|
+  task :demo_data, [:additional_advocates, :claims_per_state, :states_to_add, :additional_caseworkers] => [:environment, :seed_data] do |task, args|
       begin
-        args.with_defaults(:advocate_count => 4, :claims_per_state => 3, :states_to_add => 'all')
+        args.with_defaults(:additional_advocates => 4, :claims_per_state => 3, :states_to_add => 'all', :additional_caseworkers => 55)
 
-        ADVOCATE_COUNT = args[:advocate_count].to_i
+        ADVOCATE_COUNT = args[:additional_advocates].to_i
         CLAIMS_PER_STATE = args[:claims_per_state].to_i
+        CASEWORKER_COUNT = args[:additional_caseworkers].to_i
 
+        caseworker_count_per_location = (CASEWORKER_COUNT/2).round(0)
         states = parse_states_from_string(args[:states_to_add])
 
         puts "CREATING: creating #{ADVOCATE_COUNT} additional advocate(s) and #{CLAIMS_PER_STATE} claims per state (below)"
@@ -52,6 +53,10 @@ namespace :claims do
 
         example_advocate = Advocate.find(1)
         example_case_worker = CaseWorker.find(1)
+
+        # removed as adding seeds of real case workers instead - could be used in addition to this in future
+        # create_dummy_caseworkers(caseworker_count_per_location,Location.first)
+        # create_dummy_caseworkers(caseworker_count_per_location,Location.second)
 
         create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_STATE,states)
         create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_STATE,states)
@@ -62,38 +67,79 @@ namespace :claims do
       end
   end
 
-# adds all basic fees, Basic fee qauntity one always,
+# add case workers at a specific location with email reflecting name and location
+def create_dummy_caseworkers(caseworkers_to_add, location)
+  caseworkers_to_add.times do
+    cw = FactoryGirl.create(:case_worker, location: location)
+    puts "+ created case worker #{cw.first_name} #{cw.last_name} with email #{cw.email} for location #{location.name}"
+  end
+end
+
+
+  # adds all basic fees, Basic fee qauntity one always,
   # others random q and r and dates only for those applicable.
   #
   # NOTE: at time of writing a claim has all "initial fees"
   #       instantiated at point of new claim creation.
+
+ def random_basic_fee_quantity_rate_by_type(fee_type)
+    case fee_type.code
+      when 'BAF'
+        q = 1
+        r = rand(1500..3000)
+      when 'DAF'
+        q = rand(3..40)
+        r = rand(200..500)
+      when 'DAH'
+        q = rand(41..50)
+        r = rand(200..300)
+      when 'DAJ'
+        q = rand(51..99)
+        r = rand(200..300)
+      when 'PCM'
+        q = rand(2..10)
+        r = rand(100..300)
+      when 'PPE'
+        q = rand(50..200)
+        r = rand(0.50..1.00)
+      when 'CAV'
+        q = rand(3..20)
+        r = rand(40.00..50.00)
+      when 'NPW'
+        q = rand(11..300)
+        r = rand(3.00..4.00)
+      when 'SAF'
+        q = rand(5..15)
+        r = rand(80.00..90.00)
+      else
+        q = rand(1..15);
+        r = rand(10.00..100.00)
+    end
+
+    return q, r.round(2)
+ end
+
   def add_basic_fees(claim)
 
     FeeType.basic.each do |fee_type|
-      q = 0
-      r = 0
-      
-      if fee_type.code == 'BAF'
-        q = 1; r = rand(350.00..450.00).round(2);
-      else
-        if rand(2) != 0
-          q = rand(1..15); r = rand(10.00..400.00).round(2);
-        end
+      q, r = random_basic_fee_quantity_rate_by_type(fee_type)
+      # puts "creating basic for #{fee_type.code} with q #{q} and r #{r}"
+      unless fee_type.code == 'BAF'
+        q = 0; r = 0 if rand(2) == 0
       end
 
       fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
-      
+
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
       end
 
     end
-
   end
 
   # add 1 to 6 fixed/misc fees, some with dates
   def add_fixed_misc_fees(claim)
-    rand(1..6).times do
+    rand(2..8).times do
       fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0

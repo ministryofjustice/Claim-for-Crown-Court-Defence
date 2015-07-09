@@ -25,7 +25,6 @@ Then(/^I should see only claims that I have created$/) do
   end
 end
 
-
 Given(/^There are basic and non-basic fee types$/) do
   create :fee_type, :basic
   create :fee_type, :misc
@@ -97,7 +96,7 @@ Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state
       rows.each do |row|
         claim = Claim.find_by(cms_number: row.text.split(' ')[3]) # find claim which corresponds to |row|
         expect(row.text.include?(claim.cms_number)).to be true # check that the correct claim was found
-        expect(row.text.include?(claim.amount_assessed.round(2).to_s)).to be true
+        expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.amount_assessed))).to be true
       end
     end
 end

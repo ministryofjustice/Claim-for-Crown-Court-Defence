@@ -1,63 +1,58 @@
 %nav.dashboard-tabs
   %ul
     %li{class: ( 'active' if params[:tab] == 'unallocated' || (params[:tab].blank? && controller.controller_name == 'allocations')) }
-      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.merge(tab: 'unallocated'))
+      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter).merge(tab: 'unallocated'))
     %li{class: ('active' if params[:tab] == 'allocated')}
-      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.merge(tab: 'allocated'))
+      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter).merge(tab: 'allocated'))
 
-%h1
-  - if params[:tab] == 'unallocated'
-    Claim allocation
-  - else
-    Allocated claims
+- unless params[:tab] == 'allocated'
+  %p
+    = form_tag case_workers_admin_allocations_path, method: :get, class: 'allocation-filter-form' do
+      = label_tag do
+        = radio_button_tag :filter, 'all', params[:filter].blank? || params[:filter] == 'all'
+        All
+
+      != "&nbsp";
+
+      = label_tag do
+        = radio_button_tag :filter, 'fixed_fee', params[:filter] == 'fixed_fee'
+        Fixed fee
+
+      != "&nbsp";
+
+      = label_tag do
+        = radio_button_tag :filter, 'cracked', params[:filter] == 'cracked'
+        Cracked
+
+      != "&nbsp";
+
+      = label_tag do
+        = radio_button_tag :filter, 'trial', params[:filter] == 'trial'
+        Trial
+
+      != "&nbsp";
+
+      = label_tag do
+        = radio_button_tag :filter, 'guilty_plea', params[:filter] == 'guilty_plea'
+        Guilty plea
+
+      != "&nbsp";
+
+      = hidden_field_tag :high_value, params[:high_value]
+      = hidden_field_tag :tab, params[:tab]
+
+      = submit_tag 'Filter'
+
+      != "&nbsp";
+
+      %span.claim-count
+        = pluralize(@claims.count, 'claim')
 
 %p
-  = form_tag case_workers_admin_allocations_path, method: :get do
-    = label_tag do
-      = radio_button_tag :filter, 'all', params[:filter].blank? || params[:filter] == 'all'
-      All
-
-    != "&nbsp";
-
-    = label_tag do
-      = radio_button_tag :filter, 'fixed_fee', params[:filter] == 'fixed_fee'
-      Fixed fee
-
-    != "&nbsp";
-
-    = label_tag do
-      = radio_button_tag :filter, 'cracked', params[:filter] == 'cracked'
-      Cracked
-
-    != "&nbsp";
-
-    = label_tag do
-      = radio_button_tag :filter, 'trial', params[:filter] == 'trial'
-      Trial
-
-    != "&nbsp";
-
-    = label_tag do
-      = radio_button_tag :filter, 'guilty_plea', params[:filter] == 'guilty_plea'
-      Guilty plea
-
-    != "&nbsp";
-
-    = hidden_field_tag :high_value, params[:high_value]
-    = hidden_field_tag :tab, params[:tab]
-
-    = submit_tag 'Filter'
-
-    != "&nbsp";
-
-    %span.claim-count
-      = pluralize(@claims.count, 'claim')
-
-  %p
-    - if params[:high_value].blank? || params[:high_value] == 'false'
-      = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.merge(high_value: true))
-    - else
-      = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.merge(high_value: false))
+  - if params[:high_value].blank? || params[:high_value] == 'false'
+    = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.merge(high_value: true))
+  - else
+    = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.merge(high_value: false))
 
 - if @allocated_claims
   = render 'allocated_summary'
@@ -75,7 +70,8 @@
   %p
     = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'display: inline-block; width: 200px;' }
 
-    = number_field_tag :quantity_to_allocate, nil, placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate'
+    - unless params[:tab] == 'allocated'
+      = number_field_tag :quantity_to_allocate, nil, placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate'
 
     = hidden_field_tag :filter, params[:filter]
     = hidden_field_tag :high_value, params[:high_value]
@@ -86,7 +82,7 @@
   %table
     %thead
       %th
-        = link_to 'Select all', '#', class: 'select-all'
+        = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
       %th
         Case number
       %th

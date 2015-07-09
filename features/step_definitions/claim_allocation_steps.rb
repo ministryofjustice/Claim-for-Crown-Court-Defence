@@ -37,12 +37,9 @@ Then(/^the allocated claims should no longer be displayed$/) do
   end
 end
 
-Then(/^I should see a summary of the claims that were allocated$/) do
+Then(/^I should see a notification of the claims that were allocated$/) do
   within '.allocated-summary' do
-    expect(page).to have_content(/\d+ claims? allocated to #{@case_workers.first.name}/)
-    @claims[0..1].each do |claim|
-      expect(page).to have_content("Case number: #{claim.case_number}")
-    end
+    expect(page).to have_content(/#{Claim.allocated.count} claims? allocated to #{@case_workers.first.name}/)
   end
 end
 

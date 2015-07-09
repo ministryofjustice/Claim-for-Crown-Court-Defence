@@ -13,7 +13,7 @@ Feature: Claim allocation
       And I click Allocate
      Then the claims should be allocated to the case worker
       And the allocated claims should no longer be displayed
-      And I should see a summary of the claims that were allocated
+      And I should see a notification of the claims that were allocated
 
   Scenario: Allocate by specifying quantity
     When I visit the allocation page

@@ -15,6 +15,15 @@ EXAMPLE_DOC_TYPES = {
   'justification_for_late_submission.pdf' => 10
 }
 
+STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
+                              'submitted',
+                              'completed',
+                              'paid',
+                              'part_paid',
+                              'parts_rejected',
+                              'awaiting_further_info',
+                              'awaiting_info_from_court']
+
 namespace :claims do
 
   desc "Delete all dummy docs after dropping the DB"
@@ -159,15 +168,16 @@ end
     add_fixed_misc_fees(claim)
     add_expenses(claim)
     add_defendants(claim)
+    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)
   end
 
   def add_documentary_evidence(claim,doc_count=2)
-
     #
-    # Attach example evidence <doc_count> times. Randomly choose a document to add and
+    # Attach example evidence <doc_count> times but only for
+    # particular states. Randomly choose a document to add and
     # check the appropriate evidence checklist checkbox
     #
-
+    return unless STATES_TO_ADD_EVIDENCE_FOR.include?(claim.state)
     checklist_ids = []
 
     doc_count.times do |i|
@@ -183,7 +193,9 @@ end
                           advocate: claim.advocate
                         )
     end
-    checklist_ids
+    
+    claim.update_attribute(:evidence_checklist_ids, checklist_ids)
+
   end
 
   def parse_states_from_string(states_delimited_string)
@@ -234,8 +246,6 @@ end
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_other_data(claim)
-          checklist_ids = add_documentary_evidence(claim, 1 + rand(6) )
-          claim.update_attribute(:evidence_checklist_ids, checklist_ids)
 
           # all states but those below require allocation to case worker
           unless [:draft,:archived_pending_delete,:submitted].include?(s)

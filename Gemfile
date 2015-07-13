@@ -37,6 +37,7 @@ gem 'uglifier',             '>= 1.3.0'
 gem 'grape',                '>= 0.12'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'grape-swagger',        '>= 0.10.1'
+gem 'grape-swagger-rails',   '>= 0.1.0'
 
 
 group :production do

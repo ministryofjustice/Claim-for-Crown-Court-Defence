@@ -150,6 +150,9 @@ GEM
     grape-swagger (0.10.1)
       grape (>= 0.8.0)
       grape-entity
+    grape-swagger-rails (0.1.0)
+      grape-swagger (>= 0.7.2)
+      railties (>= 3.2.12)
     haml (4.0.6)
       tilt
     haml-rails (0.9.0)
@@ -406,6 +409,7 @@ DEPENDENCIES
   govuk_template (~> 0.8.1)
   grape (>= 0.12)
   grape-swagger (>= 0.10.1)
+  grape-swagger-rails (>= 0.1.0)
   haml (~> 4.0.6)
   haml-rails (~> 0.9.0)
   hashie-forbidden_attributes (>= 0.1.1)

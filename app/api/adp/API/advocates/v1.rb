@@ -6,6 +6,7 @@ module ADP
       version 'v1', using: :header, vendor: 'Advocate Defence Payments'
       format :json
       prefix 'api/advocates'
+      content_type :json, 'application/json'
 
       resource :claims do
         desc "Create a claim."

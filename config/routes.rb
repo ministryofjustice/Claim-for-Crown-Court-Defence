@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   mount ADP::API::Advocates::Root => '/'
+  mount GrapeSwaggerRails::Engine => '/api/documentation'
 
   namespace :api, format: :json do
     namespace :advocates do

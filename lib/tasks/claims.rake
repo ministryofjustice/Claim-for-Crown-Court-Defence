@@ -95,16 +95,16 @@ end
     case fee_type.code
       when 'BAF'
         q = 1
-        r = rand(1500..3000)
+        r = rand(1500.00..3000.00)
       when 'DAF'
-        q = rand(3..40)
+        q = rand(1..15)
         r = rand(200..500)
       when 'DAH'
-        q = rand(41..50)
-        r = rand(200..300)
+        q = rand(0..20)
+        r = rand(200.00..300.00)
       when 'DAJ'
-        q = rand(51..99)
-        r = rand(200..300)
+        q = rand(0..10)
+        r = rand(200.00..300.00)
       when 'PCM'
         q = rand(2..10)
         r = rand(100..300)
@@ -133,7 +133,10 @@ end
     FeeType.basic.each do |fee_type|
       q, r = random_basic_fee_quantity_rate_by_type(fee_type)
       unless fee_type.code == 'BAF'
-        q = 0; r = 0 if rand(2) == 0
+        if rand(2) == 0
+          q = 0
+          r = 0
+        end
       end
 
       fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
@@ -146,17 +149,23 @@ end
   end
 
   # add 1 to 6 fixed/misc fees, some with dates
-  def add_fixed_misc_fees(claim)
-    rand(2..8).times do
+  def add_fixed_misc_fees(claim, fee_count=nil)
+    fee_count = fee_count.nil? ? rand(2..8) : fee_count
+    fee_count.times do
       fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
     end
-
   end
 
   def add_expenses(claim)
     rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+  end
+
+  def push_fees_over_threshold(claim)
+    until claim.calculate_total.to_f >= 20000.00
+      add_fixed_misc_fees(claim, 1)
+    end
   end
 
   def add_defendants(claim)
@@ -167,6 +176,10 @@ end
     add_basic_fees(claim)
     add_fixed_misc_fees(claim)
     add_expenses(claim)
+
+    #attempt to force ~33%% of claims to have random values over 20k threshold
+    push_fees_over_threshold(claim) if rand(3) == 1
+
     add_defendants(claim)
     add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)
   end
@@ -193,7 +206,7 @@ end
                           advocate: claim.advocate
                         )
     end
-    
+
     claim.update_attribute(:evidence_checklist_ids, checklist_ids)
 
   end

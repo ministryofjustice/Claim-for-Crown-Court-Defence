@@ -34,6 +34,9 @@ gem 'squeel',               '~> 1.2.3'
 gem 'state_machine',        '~> 1.2.0'
 # gem 'susy',                 '~> 1.0.9'
 gem 'uglifier',             '>= 1.3.0'
+gem 'grape',                '>= 0.12'
+gem 'hashie-forbidden_attributes', '>= 0.1.1'
+gem 'grape-swagger',        '>= 0.10.1'
 
 
 group :production do

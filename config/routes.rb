@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  mount ADP::API::Advocates::Root => '/'
+
   namespace :api, format: :json do
     namespace :advocates do
       resources :claims

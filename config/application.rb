@@ -41,5 +41,8 @@ module AdvocateDefencePayments
     config.ga_id = 'not_set'
 
     config.assets.enabled = true
+
+    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
   end
 end

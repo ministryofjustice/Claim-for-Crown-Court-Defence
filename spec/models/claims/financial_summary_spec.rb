@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FinancialSummary, type: :model do
-  let!(:submitted_claim) { create(:claim, state: 'submitted', total: 103.56) }
-  let!(:allocated_claim) { create(:claim, state: 'allocated', total: 56.21) }
+  let!(:submitted_claim) { create(:submitted_claim, total: 103.56) }
+  let!(:allocated_claim) { create(:allocated_claim, total: 56.21) }
   # let!(:paid_claim) { create(:claim, state: 'paid', total: 89) }
   let!(:paid_claim)   {claim = FactoryGirl.create(:paid_claim, total: 89) }
   let(:advocate) { create(:advocate) }
@@ -47,8 +47,8 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let!(:chamber) { create(:chamber) }
     let(:another_advocate) { create(:advocate, chamber: chamber) }
 
-    let!(:another_submitted_claim) { create(:claim, state: 'submitted', total: 33.56) }
-    let!(:another_allocated_claim) { create(:claim, state: 'allocated', total: 66.21) }
+    let!(:another_submitted_claim) { create(:submitted_claim, total: 33.56) }
+    let!(:another_allocated_claim) { create(:allocated_claim, total: 66.21) }
     let!(:another_paid_claim)      { FactoryGirl.create :paid_claim, total: 29.6 }
 
     before do
@@ -105,12 +105,12 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       #  > fs.outstanding_claims.sum(:total).to_s
       # => "248508.33982225015947"
 
-      bd1 = create(:claim, state: 'submitted', total: 908.71971356268547)
-      bd2 = create(:claim, state: 'submitted', total: 1825.02462504223905)
-      bd3 = create(:claim, state: 'submitted', total: 1818.65467216296309)
-      bd4 = create(:claim, state: 'submitted', total: 2073.64615377261145)
-      bd5 = create(:claim, state: 'submitted', total: 418.13695517587028)
-      bd6 = create(:claim, state: 'submitted', total: 1917.5556319890992)
+      bd1 = create(:submitted_claim, total: 908.71971356268547)
+      bd2 = create(:submitted_claim, total: 1825.02462504223905)
+      bd3 = create(:submitted_claim, total: 1818.65467216296309)
+      bd4 = create(:submitted_claim, total: 2073.64615377261145)
+      bd5 = create(:submitted_claim, total: 418.13695517587028)
+      bd6 = create(:submitted_claim, total: 1917.5556319890992)
 
       advocate.claims << [bd1, bd2, bd3, bd4, bd5, bd6]
 

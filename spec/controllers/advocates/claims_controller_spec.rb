@@ -195,15 +195,29 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       context 'and the input is valid' do
         let(:court) { create(:court) }
         let(:offence) { create(:offence) }
+        let(:scheme) { create(:scheme) }
         let(:claim_params) do
           {
-             additional_information: 'foo',
-             court_id: court,
-             case_type: 'trial',
-             offence_id: offence,
-             case_number: '12345',
-             advocate_category: 'QC',
-             prosecuting_authority: 'cps',
+            additional_information: 'foo',
+            court_id: court,
+            case_type: 'trial',
+            offence_id: offence,
+            case_number: '12345',
+            advocate_category: 'QC',
+            prosecuting_authority: 'cps',
+            defendants_attributes: [
+              { first_name: 'John',
+                last_name: 'Smith',
+                date_of_birth: '1980-10-04',
+                representation_order_attributes: [
+                  {
+                    representation_order_date: scheme.start_date,
+                    granting_body: 'Crown Court',
+                    maat_reference: '111AAA222BB'
+                  }
+                ]
+              }
+            ]
           }
         end
 

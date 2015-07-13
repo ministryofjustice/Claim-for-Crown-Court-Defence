@@ -49,6 +49,7 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:fee_types) }
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
+  it { should have_many(:representation_orders) }
   it { should have_many(:documents) }
   it { should have_many(:messages) }
 
@@ -206,6 +207,11 @@ RSpec.describe Claim, type: :model do
       it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
+
+      it 'should validate presence of scheme' do
+        subject.scheme = create(:scheme)
+        expect(subject).to be_valid
+      end
     end
   end
 

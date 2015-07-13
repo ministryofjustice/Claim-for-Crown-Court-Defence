@@ -76,7 +76,7 @@ RSpec.describe ClaimPresenter do
   describe '#representation_order_details' do
 
     claim = FactoryGirl.build :unpersisted_claim
-    subject { ClaimPresenter.new(claim, view) } 
+    subject { ClaimPresenter.new(claim, view) }
 
     it 'should return an html safe string of all the dates and granting bodies' do
 

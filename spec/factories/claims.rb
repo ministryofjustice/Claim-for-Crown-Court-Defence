@@ -39,6 +39,7 @@ FactoryGirl.define do
   factory :claim do
 
     court
+    scheme
     case_number { Faker::Number.number(10) }
     advocate
     after(:build) do |claim|
@@ -50,6 +51,13 @@ FactoryGirl.define do
     advocate_category 'QC'
     prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
+
+    after(:create) do |claim|
+      defendant = create(:defendant, claim: claim)
+      create(:representation_order, defendant: defendant, representation_order_date: Date.parse('01/01/2012'))
+      claim.scheme.start_date = Date.parse('31/12/2011')
+      claim.scheme.end_date = nil
+    end
 
     trait :admin_creator do
       after(:build) do |claim|

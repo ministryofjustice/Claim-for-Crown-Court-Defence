@@ -35,6 +35,8 @@ class User < ActiveRecord::Base
 
   delegate :claims, to: :persona
 
+  scope :advocates, -> { where(persona_type: 'Advocate') }
+
   def name
     [first_name, last_name] * ' '
   end

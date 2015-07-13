@@ -11,12 +11,12 @@ module ADP
         desc "Create a claim."
 
         params do
-          requires :email, type: String, desc: "Your email."
+          requires :advocate_id, type: String, desc: "Your unique identifier as an adavocate."
         end
 
         post do
           Claim.create!({
-            email: params[:email]
+            advocate_id: params[:advocate_id]
           })
         end
       end

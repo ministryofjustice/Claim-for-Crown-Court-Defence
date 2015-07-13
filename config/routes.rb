@@ -18,11 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api, format: :json do
-    namespace :advocates do
-      resources :claims
-    end
-  end
+  mount API::Root => '/'
+  mount GrapeSwaggerRails::Engine => '/api/documentation'
 
   resources :documents do
     get 'download', on: :member

@@ -34,7 +34,10 @@ gem 'squeel',               '~> 1.2.3'
 gem 'state_machine',        '~> 1.2.0'
 # gem 'susy',                 '~> 1.0.9'
 gem 'uglifier',             '>= 1.3.0'
-
+gem 'grape',                '>= 0.12'
+gem 'hashie-forbidden_attributes', '>= 0.1.1'
+gem 'grape-swagger',        '>= 0.10.1'
+gem 'grape-swagger-rails',   '>= 0.1.0'
 
 group :production do
   gem 'rails_12factor', '0.0.3'
@@ -83,6 +86,7 @@ group :test do
   # gem 'terminal-notifier-guard',    '~> 1.6.4'
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
+  gem 'airborne'
 end
 
 group :doc do

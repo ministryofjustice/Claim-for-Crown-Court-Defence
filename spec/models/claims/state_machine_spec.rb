@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claims::StateMachine, type: :model do
-  subject { build(:claim) }
+  subject { create(:claim) }
 
   describe 'all available states' do
     let(:states) do
@@ -185,7 +185,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
 
   describe '.is_in_state?' do
-    let(:claim)         { FactoryGirl.build :unpersisted_claim }
+    let(:claim)         { build :unpersisted_claim }
 
     it 'should be true if state is in ADVOCATE_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')

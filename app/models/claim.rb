@@ -68,6 +68,7 @@ class Claim < ActiveRecord::Base
   has_many :fee_types,                through: :fees
   has_many :expenses,                 dependent: :destroy,          inverse_of: :claim
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
+  has_many :representation_orders,    through: :defendants
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
 
@@ -101,16 +102,17 @@ class Claim < ActiveRecord::Base
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
   validates :advocate,                presence: true
-  validates :offence,                 presence: true, unless: :draft?
-  validates :creator,                 presence: true, unless: :draft?
-  validates :court,                   presence: true, unless: :draft?
-  validates :case_number,             presence: true, unless: :draft?
-  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :draft?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :draft?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :draft?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
-  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :draft?
+  validates :offence,                 presence: true, unless: :do_not_validate?
+  validates :creator,                 presence: true, unless: :do_not_validate?
+  validates :court,                   presence: true, unless: :do_not_validate?
+  validates :scheme,                  presence: true, unless: :do_not_validate?
+  validates :case_number,             presence: true, unless: :do_not_validate?
+  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :do_not_validate?
+  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :do_not_validate?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :do_not_validate?
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
+  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
 
   validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
@@ -125,6 +127,8 @@ class Claim < ActiveRecord::Base
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
+
+  before_validation :set_scheme, unless: :do_not_validate?
 
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
   def method_missing(method, *args)
@@ -197,7 +201,30 @@ class Claim < ActiveRecord::Base
     draft? || submitted?
   end
 
+  def do_not_validate?
+    draft? || archived_pending_delete?
+  end
+
   private
+
+  def set_scheme
+    rep_order = self.representation_orders.order(representation_order_date: :asc).first
+
+    if rep_order.nil?
+      errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
+      return
+    else
+      earliest_rep_order_date = rep_order.representation_order_date
+
+      scheme = Scheme.where('start_date >= :date AND (end_date <= :date OR end_date IS NULL)', date: earliest_rep_order_date).first
+      if scheme.nil?
+        errors[:scheme] << 'No fee scheme found for entered representation order dates'
+        return
+      else
+        self.scheme_id = scheme.id
+      end
+    end
+  end
 
   def evidence_checklist_ids_all_numeric_strings
     format_evidence_ids # non-numeric strings will yield a value of 0 and subsequent validation will fail

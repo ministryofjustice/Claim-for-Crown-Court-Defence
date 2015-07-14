@@ -10,14 +10,10 @@ namespace :db do
     end
   end
 
-  desc 'clear the database, run migrations and seeds'
-  task :reseed => [:clear, 'db:migrate', 'db:seed'] do
+  desc 'ADP task: clear the database, run migrations and seeds'
+  task :reseed => [:environment, :clear, 'db:migrate', 'db:seed'] {}
 
-  end
-
-  desc 'clear the database, run migrations, seeds and reloads demo data'
-  task :reload => [:clear, 'db:migrate', 'claims:demo_data'] do
-
-  end
+  desc 'ADP task: clear the database, run migrations, seeds and reloads demo data'
+  task :reload => [:environment, :clear, 'db:migrate', 'claims:demo_data'] {}
 
 end

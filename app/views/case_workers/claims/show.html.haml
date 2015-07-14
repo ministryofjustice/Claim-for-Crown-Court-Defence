@@ -1,6 +1,13 @@
 %p
   = link_to 'Back', case_workers_claims_path, class: 'button'
 
+  - if @claim.errors.any?
+    .validation-summary
+      %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+      %ul
+        - @claim.errors.full_messages.each do |msg|
+          %li= msg
+
 %h1
   Claim
   = @claim.case_number

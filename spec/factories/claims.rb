@@ -39,7 +39,7 @@ FactoryGirl.define do
   factory :claim do
 
     court
-    scheme
+    scheme      { random_scheme }
     case_number { Faker::Number.number(10) }
     advocate
     after(:build) do |claim|
@@ -71,6 +71,9 @@ FactoryGirl.define do
       court         { FactoryGirl.build :court }
       advocate      { FactoryGirl.build :advocate, chamber: FactoryGirl.build(:chamber) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
+      after(:build) do |claim|
+        claim.defendants << build(:defendant, claim: claim)
+      end
     end
 
     factory :invalid_claim do
@@ -137,6 +140,11 @@ FactoryGirl.define do
 
   end
 
+end
+
+
+def random_scheme
+  Scheme.all.sample || FactoryGirl.build(:scheme)
 end
 
 

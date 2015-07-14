@@ -68,7 +68,6 @@ class Claim < ActiveRecord::Base
   has_many :fee_types,                through: :fees
   has_many :expenses,                 dependent: :destroy,          inverse_of: :claim
   has_many :defendants,               dependent: :destroy,          inverse_of: :claim
-  has_many :representation_orders,    through: :defendants
   has_many :documents,                dependent: :destroy,          inverse_of: :claim
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
 
@@ -129,6 +128,15 @@ class Claim < ActiveRecord::Base
   end
 
   before_validation :set_scheme, unless: :do_not_validate?
+
+  def representation_orders
+    self.defendants.map(&:representation_orders).flatten
+  end
+
+  def earliest_representation_order
+    representation_orders.sort{ |a, b| a.representation_order_date <=> b.representation_order_date }.first
+  end
+
 
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
   def method_missing(method, *args)
@@ -208,7 +216,7 @@ class Claim < ActiveRecord::Base
   private
 
   def set_scheme
-    rep_order = self.representation_orders.order(representation_order_date: :asc).first
+    rep_order = self.earliest_representation_order
 
     if rep_order.nil?
       errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'

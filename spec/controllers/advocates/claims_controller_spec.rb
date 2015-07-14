@@ -209,7 +209,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               { first_name: 'John',
                 last_name: 'Smith',
                 date_of_birth: '1980-10-04',
-                representation_order_attributes: [
+                representation_orders_attributes: [
                   {
                     representation_order_date: scheme.start_date,
                     granting_body: 'Crown Court',
@@ -240,6 +240,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
           it 'sets the claim\'s state to "submitted"' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
+            expect(response).to have_http_status(:redirect)
             expect(Claim.first).to be_submitted
           end
         end

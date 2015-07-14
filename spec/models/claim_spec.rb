@@ -49,7 +49,6 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:fee_types) }
   it { should have_many(:expenses) }
   it { should have_many(:defendants) }
-  it { should have_many(:representation_orders) }
   it { should have_many(:documents) }
   it { should have_many(:messages) }
 
@@ -224,6 +223,32 @@ RSpec.describe Claim, type: :model do
 
 
   subject { create(:claim) }
+
+
+  describe 'earliest_representation_order' do
+    let(:claim)         { FactoryGirl.build :unpersisted_claim }
+    let(:early_date)    { 2.years.ago.to_date }
+
+    before(:each) do
+      # add a second defendant
+      claim.defendants << FactoryGirl.build(:defendant, claim: claim)
+
+      # add a second rep order to the first defendant
+      claim.defendants.first.representation_orders << FactoryGirl.build(:representation_order, representation_order_date: early_date)
+    end
+
+    it 'should pick the earliest reporder' do
+      # given a claim with two defendants and three rep orders
+      expect(claim.defendants).to have_exactly(2).items
+      expect(claim.representation_orders).to have_exactly(3).items
+
+      # when I get the earliest rep order
+      rep_order = claim.earliest_representation_order
+
+      # it should have a date of 
+      expect(rep_order.representation_order_date).to eq early_date
+    end
+  end
 
 
   describe 'is_allocated_to_case_worker' do
@@ -778,11 +803,11 @@ RSpec.describe Claim, type: :model do
   end
 
   describe 'Case type scopes' do
-    let!(:trials)           { create_list(:submitted_claim, 5, case_type: 'trial') }
-    let!(:retrials)         { create_list(:submitted_claim, 5, case_type: 'retrial') }
-    let!(:cracked_trials)   { create_list(:submitted_claim, 5, case_type: 'cracked_trial') }
-    let!(:cracked_retrials) { create_list(:submitted_claim, 5, case_type: 'cracked_before_retrial') }
-    let!(:guilty_pleas)     { create_list(:submitted_claim, 5, case_type: 'guilty_plea') }
+    let!(:trials)           { create_list(:submitted_claim, 2, case_type: 'trial') }
+    let!(:retrials)         { create_list(:submitted_claim, 2, case_type: 'retrial') }
+    let!(:cracked_trials)   { create_list(:submitted_claim, 2, case_type: 'cracked_trial') }
+    let!(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: 'cracked_before_retrial') }
+    let!(:guilty_pleas)     { create_list(:submitted_claim, 2, case_type: 'guilty_plea') }
 
     describe '.trial' do
       it 'returns trials and retrials' do
@@ -805,13 +830,13 @@ RSpec.describe Claim, type: :model do
 
   describe '.fixed_fee' do
     let!(:fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 5)
+      claims = create_list(:submitted_claim, 2)
       claims.each { |c| c.fees << create(:fee, :fixed) }
       claims
     end
 
     let(:non_fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 5)
+      claims = create_list(:submitted_claim, 2)
       claims.each { |c| c.fees << create(:fee, :basic) }
       claims
     end

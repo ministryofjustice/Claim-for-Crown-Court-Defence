@@ -30,10 +30,6 @@ $('#claim-accordion h2').each(function(){
 });
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
-// note: this is a dirty workaround for the fact that status update errors only appear in
-//       the status claim accordion section
-$('h2#claim-status').addClass('open').next('section').show();
-
 function initialise(){
   $('.select2').select2();
   adp.newClaim.init();

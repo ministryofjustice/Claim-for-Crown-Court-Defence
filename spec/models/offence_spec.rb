@@ -16,5 +16,4 @@ RSpec.describe Offence, type: :model do
 
   it { should validate_presence_of(:offence_class) }
   it { should validate_presence_of(:description) }
-  it { should validate_uniqueness_of(:description) }
 end

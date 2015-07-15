@@ -6,7 +6,6 @@ module ADP
     module Advocates
       class Root < Grape::API
         mount ADP::API::Advocates::V1
-        add_swagger_documentation
       end
     end
   end

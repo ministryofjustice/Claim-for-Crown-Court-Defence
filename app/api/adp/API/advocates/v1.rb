@@ -18,6 +18,17 @@ module ADP
             requires :case_type, type: String, desc: "The case type i.e trial"
             optional :cms_number, type: String, desc: "The CMS number"
           end
+
+          def args
+            {
+              advocate_id: params[:advocate_id],
+              creator_id: params[:creator_id],
+              case_number: params[:case_number],
+              case_type: params[:case_type],
+              cms_number: params[:cms_number]
+            }
+          end
+
         end
 
         desc "Create a claim."
@@ -27,13 +38,7 @@ module ADP
         end
 
         post do
-          Claim.create!({
-            advocate_id: params[:advocate_id],
-            creator_id: params[:creator_id],
-            case_number: params[:case_number],
-            case_type: params[:case_type],
-            cms_number: params[:cms_number]
-          })
+          Claim.create!(args)
         end
 
         desc "Validate a claim."
@@ -43,14 +48,9 @@ module ADP
         end
 
         post '/validate' do
-          Claim.new({
-            advocate_id: params[:advocate_id],
-            creator_id: params[:creator_id],
-            case_number: params[:case_number],
-            case_type: params[:case_type],
-            cms_number: params[:cms_number]
-          }).valid?
+          Claim.new(args).valid?
         end
+
       end
 
       add_swagger_documentation

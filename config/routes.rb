@@ -18,14 +18,16 @@ Rails.application.routes.draw do
     end
   end
 
-  mount ADP::API::Advocates::Root => '/'
+  mount API::Advocates::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
 
+=begin
   namespace :api, format: :json do
     namespace :advocates do
       resources :claims
     end
   end
+=end
 
   resources :documents do
     get 'download', on: :member

@@ -3,6 +3,7 @@
 Feature: Advocate new claim
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate
+      And There are fee schemes in place 
       And I am on the new claim page
      When I fill in the claim details
       And I submit to LAA
@@ -60,6 +61,7 @@ Feature: Advocate new claim
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate
+      And There are fee schemes in place
       And a claim exists with state "draft"
      When I am on the claim edit page
       And I submit to LAA
@@ -77,6 +79,7 @@ Feature: Advocate new claim
 
   Scenario: Edit existing submitted claim
     Given I am a signed in advocate
+      And There are fee schemes in place
       And a claim exists with state "submitted"
      When I am on the claim edit page
       And I change the case number
@@ -87,6 +90,7 @@ Feature: Advocate new claim
 
   Scenario: Change offence class
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I am on the new claim page
      When I select offence class "A: Homicide and related grave offences"
      Then the Offence category does NOT contain "Activities relating to opium"
@@ -94,6 +98,7 @@ Feature: Advocate new claim
 
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And There are other advocates in my chamber
       And I am on the new claim page
      Then I can view a select of all advocates in my chamber
@@ -105,6 +110,7 @@ Feature: Advocate new claim
 
   Scenario: Admin fails to specify advocate name
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And There are basic and non-basic fee types
       And I am on the new claim page
       And I fill in the claim details
@@ -113,6 +119,7 @@ Feature: Advocate new claim
 
   Scenario: Add Initial fee type with modifier
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I am on the new claim page
      When I fill in the claim details
       And I fill in an additional fee type that is subjected to a modifer

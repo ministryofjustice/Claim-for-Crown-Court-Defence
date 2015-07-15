@@ -15,7 +15,6 @@
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
-#  trial_concluded_at     :date
 #  fees_total             :decimal(, )      default(0.0)
 #  expenses_total         :decimal(, )      default(0.0)
 #  total                  :decimal(, )      default(0.0)
@@ -31,8 +30,13 @@
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
-#  evidence_notes         :string(255)
+#  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
+#  trial_concluded_at     :date
+#  trial_fixed_notice_at  :date
+#  trial_fixed_at         :date
+#  trial_cracked_at       :date
+#  trial_cracked_at_third :string(255)
 #
 
 class Claim < ActiveRecord::Base
@@ -223,8 +227,7 @@ class Claim < ActiveRecord::Base
       return
     else
       earliest_rep_order_date = rep_order.representation_order_date
-
-      scheme = Scheme.where('start_date >= :date AND (end_date <= :date OR end_date IS NULL)', date: earliest_rep_order_date).first
+      scheme = Scheme.for_date(earliest_rep_order_date)
       if scheme.nil?
         errors[:scheme] << 'No fee scheme found for entered representation order dates'
         return

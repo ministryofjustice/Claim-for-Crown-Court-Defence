@@ -6,6 +6,8 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  start_date :datetime
+#  end_date   :datetime
 #
 
 FactoryGirl.define do
@@ -17,5 +19,11 @@ FactoryGirl.define do
       Time.at(from + rand * (to - from))
     end
     end_date { nil }
+
+    factory :older_scheme do
+      sequence(:name) { |n| "AGFS Older Fee Scheme #{n}" }
+      start_date   10.years.ago
+      end_date     nil
+    end
   end
 end

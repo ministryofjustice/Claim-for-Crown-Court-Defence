@@ -4,6 +4,7 @@ Feature: Caseworker claims list
 
   Scenario: View allocated claims
     Given I am a signed in case worker admin
+      And There are fee schemes in place 
       And there are allocated claims
      When I visit my dashboard
      Then I should see the allocated claims
@@ -11,6 +12,7 @@ Feature: Caseworker claims list
 
   Scenario: View unallocated claims
     Given I am a signed in case worker admin
+      And There are fee schemes in place
       And there are unallocated claims
      When I visit my dashboard
      Then I should see the unallocated claims
@@ -18,6 +20,7 @@ Feature: Caseworker claims list
 
   Scenario: View completed claims
     Given I am a signed in case worker admin
+      And There are fee schemes in place
       And there are completed claims
      When I visit my dashboard
      Then I should see the completed claims
@@ -25,6 +28,7 @@ Feature: Caseworker claims list
 
 Scenario: View case workers
     Given I am a signed in case worker admin
+      And There are fee schemes in place
       And 2 case workers exist
      When I visit my dashboard
      Then I should see a case worker link including count

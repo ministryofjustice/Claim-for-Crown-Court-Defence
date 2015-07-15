@@ -94,9 +94,12 @@ Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state
     within("##{state}") do
       rows = all('tr')
       rows.each do |row|
-        claim = Claim.find_by(cms_number: row.text.split(' ')[3]) # find claim which corresponds to |row|
-        expect(row.text.include?(claim.cms_number)).to be true # check that the correct claim was found
-        expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.amount_assessed))).to be true
+        within(row) do
+          cms = all('td')[3].text
+          claim = Claim.find_by(cms_number: cms) # find claim which corresponds to |row|
+          expect(claim.cms_number).to eq cms # check that the correct claim was found
+          expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.amount_assessed))).to be true
+        end
       end
     end
 end

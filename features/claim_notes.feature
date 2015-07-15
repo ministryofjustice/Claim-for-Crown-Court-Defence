@@ -2,6 +2,8 @@ Feature: Claim notes
   Background:
     As a case worker I want to be able to update the notes on a claim.
 
+    Given There are fee schemes in place
+
   Scenario: Claim notes not available to advocates
     Given I am a signed in advocate
       And I have a claim

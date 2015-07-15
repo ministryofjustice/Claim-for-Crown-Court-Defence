@@ -1,6 +1,7 @@
 module API
+  module V1
   module Advocates
-    class V1 < Grape::API
+    class Claim < Grape::API
 
     version 'v1', using: :header, vendor: 'Advocate Defence Payments'
     format :json
@@ -37,7 +38,7 @@ module API
       end
 
       post do
-        Claim.create!(args)
+        ::Claim.create!(args)
       end
 
       desc "Validate a claim."
@@ -47,12 +48,13 @@ module API
       end
 
       post '/validate' do
-        Claim.new(args).valid?
+        ::Claim.new(args).valid?
       end
 
     end
 
     add_swagger_documentation
     end
+  end
   end
 end

@@ -88,6 +88,7 @@ group :test do
   # gem 'terminal-notifier-guard',    '~> 1.6.4'
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
+  gem 'airborne'
 end
 
 group :doc do

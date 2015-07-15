@@ -48,6 +48,8 @@ module API
         end
 
         post '/validate' do
+          status 200
+
           ::Claim.new(args).valid?
         end
 

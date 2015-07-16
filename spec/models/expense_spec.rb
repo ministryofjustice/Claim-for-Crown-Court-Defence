@@ -27,6 +27,8 @@ RSpec.describe Expense, type: :model do
   it { should validate_presence_of(:rate) }
   it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
 
+
+
   describe 'set and update amount' do
     subject { build(:expense, rate: 2.5, quantity: 3, amount: 0) }
 

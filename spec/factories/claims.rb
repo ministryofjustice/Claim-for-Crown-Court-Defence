@@ -15,7 +15,6 @@
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
-#  trial_concluded_at     :date
 #  fees_total             :decimal(, )      default(0.0)
 #  expenses_total         :decimal(, )      default(0.0)
 #  total                  :decimal(, )      default(0.0)
@@ -31,14 +30,20 @@
 #  creator_id             :integer
 #  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
-#  evidence_notes         :string(255)
+#  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
+#  trial_concluded_at     :date
+#  trial_fixed_notice_at  :date
+#  trial_fixed_at         :date
+#  trial_cracked_at       :date
+#  trial_cracked_at_third :string(255)
 #
 
 FactoryGirl.define do
   factory :claim do
 
     court
+    scheme      { random_scheme }
     case_number { Faker::Number.number(10) }
     advocate
     after(:build) do |claim|
@@ -50,6 +55,13 @@ FactoryGirl.define do
     advocate_category 'QC'
     prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
+
+    after(:create) do |claim|
+      defendant = create(:defendant, claim: claim)
+      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
+      claim.scheme.start_date = Date.parse('31/12/2011')
+      claim.scheme.end_date = nil
+    end
 
     trait :admin_creator do
       after(:build) do |claim|
@@ -63,6 +75,9 @@ FactoryGirl.define do
       court         { FactoryGirl.build :court }
       advocate      { FactoryGirl.build :advocate, chamber: FactoryGirl.build(:chamber) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
+      after(:build) do |claim|
+        claim.defendants << build(:defendant, claim: claim)
+      end
     end
 
     factory :invalid_claim do
@@ -104,7 +119,7 @@ FactoryGirl.define do
     end
 
     factory :paid_claim do
-      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay! }
+      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay! }
     end
 
     factory :part_paid_claim do
@@ -129,6 +144,11 @@ FactoryGirl.define do
 
   end
 
+end
+
+
+def random_scheme
+  Scheme.all.sample || FactoryGirl.create(:older_scheme)
 end
 
 

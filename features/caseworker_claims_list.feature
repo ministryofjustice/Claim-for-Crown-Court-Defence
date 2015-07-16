@@ -5,6 +5,7 @@ Feature: Caseworker claims list
 
   Scenario: View current claims
     Given I am a signed in case worker
+      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
      Then I should see only my claims
@@ -12,6 +13,7 @@ Feature: Caseworker claims list
 
   Scenario: View completed claims
     Given I am a signed in case worker
+      And There are fee schemes in place
       And I have completed claims
      When I visit my dashboard
       And I click on the Completed Claims tab

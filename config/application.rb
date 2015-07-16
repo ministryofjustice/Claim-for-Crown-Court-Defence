@@ -42,7 +42,7 @@ module AdvocateDefencePayments
 
     config.assets.enabled = true
 
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    config.paths.add File.join('app', 'interfaces'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
   end
 end

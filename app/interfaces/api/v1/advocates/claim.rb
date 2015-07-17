@@ -39,23 +39,28 @@ module API
             end
           end
 
-          # return true, false or http response for api errors
+          # return true, http response for api arg errors or array of hashed errors from model
           def claim_args_valid?
             begin
-              ::Claim.new(args).valid?
+              claim = ::Claim.new(args)
+              if claim.valid?
+                true
+              else
+                # contruct array of error message hashes from model
+                error_messages = []
+                claim.errors.full_messages.each do |error_message|
+                  error_messages.push({ error: error_message })
+                end
+                { status: 400, body: error_messages }
+              end
             rescue API::V1::ArgumentError => ae
-              arg_errors_response(ae)
+              if ae.message.include?('advocate_email')
+                return { status: 400, body: { error: ae.message } }
+              else
+                raise
+              end
             end
           end
-
-          def arg_errors_response(e)
-            if e.message.include?('advocate_email')
-              return { status: 400, body: { error: e.message } }
-            else
-              raise
-            end
-          end
-
         end
 
         desc "Create a claim."
@@ -82,12 +87,12 @@ module API
 
         post '/validate' do
           arg_response = claim_args_valid?
-          if arg_response.is_a?(Hash)
-            status arg_response[:status]
-            arg_response[:body]
-          else
+          if arg_response == true
             status 200
             arg_response
+          else
+            status arg_response[:status]
+            arg_response[:body]
           end
         end
 

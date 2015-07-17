@@ -20,13 +20,17 @@ module API
 
           def args
             user = User.advocates.find_by(email: params[:advocate_email])
-            {
-              advocate_id: user.persona_id,
-              creator_id:  user.persona_id,
-              case_number: params[:case_number],
-              case_type:   params[:case_type],
-              cms_number:  params[:cms_number]
-            }
+            if user.blank?
+              raise ArgumentError, 'advocate_email is invalid'
+            else
+              {
+                advocate_id: user.persona_id,
+                creator_id:  user.persona_id,
+                case_number: params[:case_number],
+                case_type:   params[:case_type],
+                cms_number:  params[:cms_number]
+              }
+            end
           end
 
           def claim_valid?
@@ -42,7 +46,19 @@ module API
         end
 
         post do
-          ::Claim.create!(args)
+
+          begin
+            claim_valid?
+            ::Claim.create!(args)
+          rescue ArgumentError => ae
+            if ae.message.include?('advocate_email')
+              status 400
+              { error: ae.message }
+            else
+              raise
+            end
+          end
+
         end
 
         desc "Validate a claim."
@@ -53,7 +69,18 @@ module API
 
         post '/validate' do
           status 200
-          claim_valid?
+
+          begin
+            claim_valid?
+          rescue ArgumentError => ae
+            if ae.message.include?('advocate_email')
+              status 400
+              { error: ae.message }
+            else
+              raise
+            end
+          end
+
         end
 
       end

@@ -176,9 +176,7 @@ RSpec.describe Advocate, type: :model do
       }.to raise_error RuntimeError, "Cannot call #advocates_in_chamber on advocates who are not admins"
     end
 
-
     it 'should return a collection of advocates in same chamber in alphabetic order' do
-
       chamber1      = FactoryGirl.create :chamber
       chamber2      = FactoryGirl.create :chamber
 
@@ -194,8 +192,8 @@ RSpec.describe Advocate, type: :model do
 
       advocates = admin2_ch2.advocates_in_chamber
       expect(advocates.map(&:user).map(&:last_name)).to eq ( [ 'Hippo', 'Meerkat', 'Wildebeest'] )
-    
     end
+
   end
 end
 

@@ -12,21 +12,25 @@ module API
 
         helpers do
           params :claim_creation do
-            requires :advocate_id, type: Integer, desc: "Your unique identifier as an adavocate."
-            requires :creator_id, type: Integer, desc: "Your unique identifier as a creator of the claim."
+            requires :advocate_email, type: String, desc: "Your ADP account email address that uniquely identifies you."
             requires :case_number, type: String, desc: "The case number"
             requires :case_type, type: String, desc: "The case type i.e trial"
             optional :cms_number, type: String, desc: "The CMS number"
           end
 
           def args
+            user = User.advocates.find_by(email: params[:advocate_email])
             {
-              advocate_id: params[:advocate_id],
-              creator_id: params[:creator_id],
+              advocate_id: user.persona_id,
+              creator_id:  user.persona_id,
               case_number: params[:case_number],
-              case_type: params[:case_type],
-              cms_number: params[:cms_number]
+              case_type:   params[:case_type],
+              cms_number:  params[:cms_number]
             }
+          end
+
+          def claim_valid?
+            ::Claim.new(args).valid?
           end
 
         end
@@ -49,8 +53,7 @@ module API
 
         post '/validate' do
           status 200
-
-          ::Claim.new(args).valid?
+          claim_valid?
         end
 
       end

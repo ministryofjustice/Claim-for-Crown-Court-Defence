@@ -1,12 +1,18 @@
 module API
   module V1
+
+    # ceate our own rescuable namespaced errors
+    class Error < StandardError; end
+    class ArgumentError < Error; end
+
     module Advocates
+      
       class Claim < Grape::API
 
-      version 'v1', using: :header, vendor: 'Advocate Defence Payments'
-      format :json
-      prefix 'api/advocates'
-      content_type :json, 'application/json'
+        version 'v1', using: :header, vendor: 'Advocate Defence Payments'
+        format :json
+        prefix 'api/advocates'
+        content_type :json, 'application/json'
 
       resource :claims do
 
@@ -21,7 +27,7 @@ module API
           def args
             user = User.advocates.find_by(email: params[:advocate_email])
             if user.blank?
-              raise ArgumentError, 'advocate_email is invalid'
+              raise API::V1::ArgumentError, 'advocate_email is invalid'
             else
               {
                 advocate_id: user.persona_id,
@@ -33,8 +39,21 @@ module API
             end
           end
 
-          def claim_valid?
-            ::Claim.new(args).valid?
+          # return true, false or http response for api errors
+          def claim_args_valid?
+            begin
+              ::Claim.new(args).valid?
+            rescue API::V1::ArgumentError => ae
+              arg_errors_response(ae)
+            end
+          end
+
+          def arg_errors_response(e)
+            if e.message.include?('advocate_email')
+              return { status: 400, body: { error: e.message } }
+            else
+              raise
+            end
           end
 
         end
@@ -46,19 +65,13 @@ module API
         end
 
         post do
-
-          begin
-            claim_valid?
+          arg_response = claim_args_valid?
+          if arg_response == true
             ::Claim.create!(args)
-          rescue ArgumentError => ae
-            if ae.message.include?('advocate_email')
-              status 400
-              { error: ae.message }
-            else
-              raise
-            end
+          else
+            status arg_response[:status]
+            arg_response[:body]
           end
-
         end
 
         desc "Validate a claim."
@@ -68,19 +81,14 @@ module API
         end
 
         post '/validate' do
-          status 200
-
-          begin
-            claim_valid?
-          rescue ArgumentError => ae
-            if ae.message.include?('advocate_email')
-              status 400
-              { error: ae.message }
-            else
-              raise
-            end
+          arg_response = claim_args_valid?
+          if arg_response.is_a?(Hash)
+            status arg_response[:status]
+            arg_response[:body]
+          else
+            status 200
+            arg_response
           end
-
         end
 
       end

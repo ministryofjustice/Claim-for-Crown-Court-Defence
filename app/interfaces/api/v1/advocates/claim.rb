@@ -19,14 +19,18 @@ module API
           end
 
           def args
-            advocate = User.advocates.find_by(email: params[:advocate_email])
+            user = User.advocates.find_by(email: params[:advocate_email])
             {
-              advocate_id: advocate.id,
-              creator_id:  advocate.id,
+              advocate_id: user.persona_id,
+              creator_id:  user.persona_id,
               case_number: params[:case_number],
               case_type:   params[:case_type],
-              cms_number:   params[:cms_number]
+              cms_number:  params[:cms_number]
             }
+          end
+
+          def claim_valid?
+            ::Claim.new(args).valid?
           end
 
         end
@@ -49,8 +53,7 @@ module API
 
         post '/validate' do
           status 200
-
-          ::Claim.new(args).valid?
+          claim_valid?
         end
 
       end

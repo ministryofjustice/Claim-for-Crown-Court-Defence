@@ -68,13 +68,13 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
 end
 
 When(/^I remove the fee$/) do
-  within('#fees') do
+  within('#fixed-fees') do
     page.all('a', text: "Remove").first.click
   end
 end
 
 Then(/^the dates attended are also removed$/) do
-  expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
+  expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
 When(/^I fill in the claim details$/) do

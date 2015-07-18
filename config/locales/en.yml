@@ -268,6 +268,8 @@ en:
         rate: 'Rate'
         amount: 'Amount'
         fixed_and_misc_fees: 'Fixed and Miscellaneous Fees'
+        fixed_fees: 'Fixed Fees'
+        misc_fees: 'Miscellaneous Fees'
         add_another_fee: 'Add Another Fee'
         expenses: 'Expenses'
         expense_type: 'Expense Type'

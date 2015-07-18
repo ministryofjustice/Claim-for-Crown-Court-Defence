@@ -77,6 +77,8 @@ class Claim < ActiveRecord::Base
 
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
   has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
+  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'FIXED'") }, class_name: 'Fee'
+  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'MISC'") }, class_name: 'Fee'
 
 
   default_scope do
@@ -123,6 +125,8 @@ class Claim < ActiveRecord::Base
 
   accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  accepts_nested_attributes_for :fixed_fees,        reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  accepts_nested_attributes_for :misc_fees,         reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
   accepts_nested_attributes_for :expenses,          reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :defendants,        reject_if: :all_blank,  allow_destroy: true
   accepts_nested_attributes_for :documents,         reject_if: :all_blank,  allow_destroy: true

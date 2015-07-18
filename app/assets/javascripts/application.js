@@ -40,7 +40,7 @@ function initialise(){
   moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();
   moj.Modules.amountAssessed.init();
-  $('#fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
+  $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
     $(insertedItem).find('.select2').select2();
   });
   moj.Modules.selectAll.init();

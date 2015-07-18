@@ -222,6 +222,8 @@ RSpec.describe Claim, type: :model do
 
   it { should accept_nested_attributes_for(:basic_fees) }
   it { should accept_nested_attributes_for(:non_basic_fees) }
+  it { should accept_nested_attributes_for(:fixed_fees) }
+  it { should accept_nested_attributes_for(:misc_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }

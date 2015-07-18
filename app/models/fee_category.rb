@@ -15,18 +15,20 @@ class FeeCategory < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :abbreviation, presence: true, uniqueness: {case_sensitive: false}
 
-  scope :non_basic, -> { where('abbreviation != ?', 'BASIC').order(:name) }
+  scope :non_basic, -> { where('abbreviation != ?', 'BASIC').order(:name) } #may not need any longer
+  scope :fixed,     -> { where('abbreviation = ?', 'FIXED').order(:name) }
+  scope :misc,      -> { where('abbreviation = ?', 'MISC').order(:name) }
 
-  def self.basic 
+  def self.basic
     FeeCategory.where('abbreviation = ?', 'BASIC').first
   end
 
-  def self.misc 
+  def self.misc
     FeeCategory.where('abbreviation = ?', 'MISC').first
   end
 
 
-  def self.fixed 
+  def self.fixed
     FeeCategory.where('abbreviation = ?', 'FIXED').first
   end
 

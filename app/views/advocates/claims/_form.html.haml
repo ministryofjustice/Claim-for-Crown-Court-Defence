@@ -87,8 +87,8 @@
 
     %fieldset
       %legend
-        = t('.fixed_and_misc_fees')
-      #fees
+        = t('.fixed_fees')
+      #fixed-fees
         %table.table
           %thead
             %tr
@@ -102,10 +102,32 @@
                 = t('.amount')
               %th
               %th
-          = f.fields_for :non_basic_fees do |fee|
-            = render 'fee_fields', f: fee
+          = f.fields_for :fixed_fees do |fee|
+            = render 'fixed_fee_fields', f: fee
 
-        = link_to_add_association t('.add_another_fee'), f, :fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_another_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+
+    %fieldset
+      %legend
+        = t('.misc_fees')
+      #misc-fees
+        %table.table
+          %thead
+            %tr
+              %th
+                = t('.fee_type')
+              %th
+                = t('.quantity')
+              %th
+                = t('.rate')
+              %th
+                = t('.amount')
+              %th
+              %th
+          = f.fields_for :misc_fees do |fee|
+            = render 'misc_fee_fields', f: fee
+
+        = link_to_add_association t('.add_another_fee'), f, :misc_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
       %legend

@@ -27,8 +27,8 @@ Given(/^There are fee schemes in place$/) do
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 9', start_date: Date.parse('01/04/2012'), end_date: nil)
 end
 
-When(/^I click Add another representation order$/) do
-  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+When(/^I click Add Another Representation Order$/) do
+  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add Another Representation Order"}.first.click
 end
 
 Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
@@ -104,7 +104,7 @@ When(/^I fill in the claim details$/) do
     choose 'Crown Court'
   end
 
-  within '#basic_fees' do
+  within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
     fill_in 'claim_basic_fees_attributes_0_rate', with: 0.5
     fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
@@ -269,7 +269,7 @@ Then(/^the case number should reflect the change$/) do
 end
 
 When(/^I fill in an additional fee type that is subjected to a modifer$/) do
-  within '#basic_fees' do
+  within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_2_quantity', with: 6
     fill_in 'claim_basic_fees_attributes_2_rate', with: 1
   end

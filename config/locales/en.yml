@@ -210,7 +210,7 @@ en:
         last_name: *last_name
         date_of_birth: 'Date of birth'
         order_for_judicial_apportionment: 'Order for judicial apportionment'
-        add_another_rep_order: 'Add another representation order'
+        add_another_rep_order: 'Add Another Representation Order'
         remove_defendant: 'Remove defendant'
       document_fields:
         document_type: 'Document type'
@@ -267,10 +267,10 @@ en:
         quantity_modifier: 'Modifier'
         rate: 'Rate'
         amount: 'Amount'
-        fixed_and_misc_fees: 'Fixed and Miscellaneous Fees'
         fixed_fees: 'Fixed Fees'
         misc_fees: 'Miscellaneous Fees'
-        add_another_fee: 'Add Another Fee'
+        add_fixed_fee: 'Add Another Fixed Fee'
+        add_misc_fee: 'Add Another Miscellaneous Fee'
         expenses: 'Expenses'
         expense_type: 'Expense Type'
         location: 'Location'

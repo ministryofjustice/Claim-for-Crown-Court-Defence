@@ -3,7 +3,7 @@
 Feature: Advocate new claim
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate
-      And There are fee schemes in place 
+      And There are fee schemes in place
       And I am on the new claim page
      When I fill in the claim details
       And I submit to LAA
@@ -36,13 +36,13 @@ Feature: Advocate new claim
   Scenario: Add mulitple rep orders for a single defendant
     Given I am a signed in advocate
       And I am on the new claim page
-     When I click Add another representation order
+     When I click Add Another Representation Order
      Then I see 2 fields for adding a rep order
 
   Scenario: Add too many rep orders for a single defendant and remove one
     Given I am a signed in advocate
       And I am on the new claim page
-     When I click Add another representation order
+     When I click Add Another Representation Order
       And I then choose to remove the additional rep order
      Then I see 1 field for adding a rep order
 

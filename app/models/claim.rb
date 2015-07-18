@@ -77,9 +77,9 @@ class Claim < ActiveRecord::Base
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
 
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'") }, class_name: 'Fee'
-  has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
-  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'FIXED'") }, class_name: 'Fee'
-  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'MISC'") }, class_name: 'Fee'
+  # has_many :non_basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation != 'BASIC'") }, class_name: 'Fee'
+  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
+  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
 
 
   default_scope do
@@ -125,7 +125,7 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_ids_all_numeric_strings
 
   accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  # accepts_nested_attributes_for :non_basic_fees,    reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
   accepts_nested_attributes_for :misc_fees,         reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
   accepts_nested_attributes_for :expenses,          reject_if: :all_blank,  allow_destroy: true

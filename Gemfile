@@ -73,7 +73,6 @@ group :test do
   gem 'simplecov-multi',            require: false
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
-  gem 'airborne'
 end
 
 group :doc do

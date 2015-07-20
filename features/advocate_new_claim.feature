@@ -126,3 +126,23 @@ Feature: Advocate new claim
       And I submit to LAA
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for modifier
+
+  Scenario: Add Fixed Fee type
+    Given I am a signed in advocate
+      And There are fee schemes in place
+      And I am on the new claim page
+     When I fill in the claim details
+      And I add a fixed fee
+      And I submit to LAA
+     Then I should be redirected to the claim confirmation page
+      And I should see the claim totals accounting for the fixed fee
+
+  Scenario: Add Miscellaneous Fee type
+    Given I am a signed in advocate
+      And There are fee schemes in place
+      And I am on the new claim page
+     When I fill in the claim details
+      And I add a miscellaneous fee
+      And I submit to LAA
+     Then I should be redirected to the claim confirmation page
+      And I should see the claim totals accounting for the miscellaneous fee

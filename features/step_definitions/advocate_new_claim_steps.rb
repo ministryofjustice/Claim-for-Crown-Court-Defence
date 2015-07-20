@@ -17,6 +17,8 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:fee_type, :basic, description: 'Basic Fee with Modifer', quantity_modifier: -4)
   create(:fee_type, :basic, description: 'Basic Fee with dates attended required', quantity_modifier: -2, code: 'SAF')
+  create(:fee_type, :fixed, description: 'Fixed Fee example')
+  create(:fee_type, :misc,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
@@ -279,4 +281,28 @@ Then(/^I should see the claim totals accounting for modifier$/) do
   expect(page).to have_content("Fees total: £3.00")
   expect(page).to have_content("Expenses total: £40.00")
   expect(page).to have_content("Total: £43.00")
+end
+
+When(/^I add a fixed fee$/) do
+    within '#fixed-fees' do
+      fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
+      fill_in 'claim_fixed_fees_attributes_0_rate', with: 100.01
+      select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
+    end
+end
+
+Then(/^I should see the claim totals accounting for the fixed fee$/) do
+  expect(page).to have_content("Fees total: £101.01")
+end
+
+When(/^I add a miscellaneous fee$/) do
+    within '#misc-fees' do
+      fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
+      fill_in 'claim_misc_fees_attributes_0_rate', with: 200.01
+      select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
+    end
+end
+
+Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
+  expect(page).to have_content("Fees total: £201.01")
 end

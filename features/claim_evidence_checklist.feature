@@ -6,6 +6,8 @@ Feature: Claim evidence checklist
     editable claims allowing me to specify which documents I
     have provided
 
+    Given There are fee schemes in place
+
   Scenario: Edit claim checklist
     Given I am a signed in advocate
       And a claim exists with state "draft"

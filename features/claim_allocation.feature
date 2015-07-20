@@ -3,6 +3,7 @@ Feature: Claim allocation
     As a case worker admin I would like to allocate claims to case workers
 
     Given I am a signed in case worker admin
+      And There are fee schemes in place
       And 2 case workers exist
       And 10 submitted claims exist
 

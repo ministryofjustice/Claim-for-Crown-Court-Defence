@@ -4,18 +4,21 @@ Feature: Advocate claims list
 
   Scenario: View claims as an advocate
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I have claims
      When I visit the advocates dashboard
      Then I should see only claims that I have created
 
   Scenario: View claims as an advocate admin
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And my chamber has claims
      When I visit the advocates dashboard
      Then I should see my chamber's claims
 
   Scenario Outline: View claims
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And my chamber has <number> <state> claims
      When I visit the advocates dashboard
      Then I should see my chamber's <number> <state> claims
@@ -30,6 +33,7 @@ Feature: Advocate claims list
 
   Scenario Outline: View amount assessed for paid and part_paid claims
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And my chamber has <number> <state> claims
     When I visit the advocates dashboard
     Then I see a column containing the amount assessed for <state> claims
@@ -38,10 +42,11 @@ Feature: Advocate claims list
     Examples:
        | state        | number |
        | "part_paid"  | 5      |
-       | "completed"  | 5      |
+       # | "completed"  | 5      |
 
   Scenario Outline: Do not view amount assessed for draft, submitted or rejected claims
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And my chamber has <number> <state> claims
     When I visit the advocates dashboard
     Then I do not see a column called amount assesed for <state> claims
@@ -54,6 +59,7 @@ Feature: Advocate claims list
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
+      And There are fee schemes in place
       And my chamber has 4 claims for advocate "John Smith"
      When I visit the advocates dashboard
       And I search by the advocate name "John Smith"
@@ -61,6 +67,7 @@ Feature: Advocate claims list
 
   Scenario Outline: Search claims by defendant name
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I have 2 claims involving defendant "Joe Bloggs" amongst others
       And I have 3 claims involving defendant "Fred Bloggs" amongst others
      When I visit the advocates dashboard
@@ -75,11 +82,13 @@ Feature: Advocate claims list
 
   Scenario: No search by advocate name for non-admin
     Given I am a signed in advocate
+      And There are fee schemes in place
      When I visit the advocates dashboard
      Then I should not see the advocate search field
 
   Scenario Outline: Claims section titles
     Given I am a signed in advocate
+      And There are fee schemes in place
      When I visit the advocates dashboard
      Then I should see section titles of <title>
 
@@ -93,6 +102,7 @@ Feature: Advocate claims list
 
   Scenario Outline: Only relevant columns visible
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I have 1 claims of each state
      When I visit the advocates dashboard
      Then I should NOT see column <column_name> under section id <section_id>

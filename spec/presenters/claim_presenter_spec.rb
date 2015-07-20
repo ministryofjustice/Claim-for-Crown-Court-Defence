@@ -7,6 +7,7 @@ RSpec.describe ClaimPresenter do
 
   before do
     Timecop.freeze(Time.current)
+    @first_defendant = claim.defendants.first
     create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim: claim)
     create(:defendant, first_name: 'Adam', middle_name: '', last_name: 'Smith', claim: claim)
   end
@@ -14,7 +15,7 @@ RSpec.describe ClaimPresenter do
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql('John Robert Smith, Adam Smith')
+    expect(subject.defendant_names).to eql("#{@first_defendant.name}, John Robert Smith, Adam Smith")
   end
 
   it '#submitted_at' do
@@ -76,7 +77,7 @@ RSpec.describe ClaimPresenter do
   describe '#representation_order_details' do
 
     claim = FactoryGirl.build :unpersisted_claim
-    subject { ClaimPresenter.new(claim, view) } 
+    subject { ClaimPresenter.new(claim, view) }
 
     it 'should return an html safe string of all the dates and granting bodies' do
 
@@ -91,8 +92,7 @@ RSpec.describe ClaimPresenter do
       Timecop.freeze 2.days.ago do
         defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
       end
-      claim.defendants << defendant_1
-      claim.defendants << defendant_2
+      claim.defendants = [ defendant_1, defendant_2 ]
       expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015<br/>Magistrate's Court 13/08/2015<br/>Magistrate's Court 01/03/2015" )
     end
   end

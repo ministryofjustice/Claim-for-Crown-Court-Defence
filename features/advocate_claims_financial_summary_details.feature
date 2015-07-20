@@ -4,6 +4,7 @@ Feature: Advocate Claims Financial Summary Details
 
   Scenario: View summary of outstanding claims as an advocate
     Given I am a signed in advocate
+      And There are fee schemes in place
       And I have claims
      When I visit the advocates dashboard
       And click on the link to view the details of outstanding claims
@@ -12,6 +13,7 @@ Feature: Advocate Claims Financial Summary Details
 
   Scenario: View summary of outstanding claims as an advocate admin
     Given I am a signed in advocate admin
+    And There are fee schemes in place
       And my chamber has claims
      When I visit the advocates dashboard
       And click on the link to view the details of outstanding claims
@@ -19,6 +21,7 @@ Feature: Advocate Claims Financial Summary Details
 
   Scenario: View summary of authorised claims as an advocate
     Given I am a signed in advocate
+    And There are fee schemes in place
       And I have claims
      When I visit the advocates dashboard
       And click on the link to view the details of authorised claims
@@ -26,6 +29,7 @@ Feature: Advocate Claims Financial Summary Details
 
   Scenario: View summary of authorised claims as an advocate admin
     Given I am a signed in advocate admin
+    And There are fee schemes in place
       And my chamber has claims
      When I visit the advocates dashboard
       And click on the link to view the details of authorised claims

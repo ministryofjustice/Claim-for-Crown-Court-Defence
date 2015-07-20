@@ -15,6 +15,14 @@ EXAMPLE_DOC_TYPES = {
   'justification_for_late_submission.pdf' => 10
 }
 
+STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
+                              'submitted',
+                              'completed',
+                              'paid',
+                              'part_paid',
+                              'parts_rejected',
+                              'awaiting_further_info',
+                              'awaiting_info_from_court']
 
 namespace :claims do
 
@@ -37,13 +45,15 @@ namespace :claims do
   end
 
   desc "Create demo claim data for specified states (default: all, delimited by ;), allocating to case work as required"
-  task :demo_data, [:advocate_count, :claims_per_state, :states_to_add ] => [:environment, :seed_data] do |task, args|
+  task :demo_data, [:additional_advocates, :claims_per_state, :states_to_add, :additional_caseworkers] => [:environment, :seed_data] do |task, args|
       begin
-        args.with_defaults(:advocate_count => 4, :claims_per_state => 3, :states_to_add => 'all')
+        args.with_defaults(:additional_advocates => 4, :claims_per_state => 3, :states_to_add => 'all', :additional_caseworkers => 55)
 
-        ADVOCATE_COUNT = args[:advocate_count].to_i
+        ADVOCATE_COUNT = args[:additional_advocates].to_i
         CLAIMS_PER_STATE = args[:claims_per_state].to_i
+        CASEWORKER_COUNT = args[:additional_caseworkers].to_i
 
+        caseworker_count_per_location = (CASEWORKER_COUNT/2).round(0)
         states = parse_states_from_string(args[:states_to_add])
 
         puts "CREATING: creating #{ADVOCATE_COUNT} additional advocate(s) and #{CLAIMS_PER_STATE} claims per state (below)"
@@ -52,6 +62,10 @@ namespace :claims do
 
         example_advocate = Advocate.find(1)
         example_case_worker = CaseWorker.find(1)
+
+        # removed as adding seeds of real case workers instead - could be used in addition to this in future
+        # create_dummy_caseworkers(caseworker_count_per_location,Location.first)
+        # create_dummy_caseworkers(caseworker_count_per_location,Location.second)
 
         create_claims_for(example_advocate,example_case_worker,CLAIMS_PER_STATE,states)
         create_advocates_and_claims_for(example_advocate.chamber,example_case_worker,ADVOCATE_COUNT,CLAIMS_PER_STATE,states)
@@ -62,47 +76,96 @@ namespace :claims do
       end
   end
 
-# adds all basic fees, Basic fee qauntity one always,
+# add case workers at a specific location with email reflecting name and location
+def create_dummy_caseworkers(caseworkers_to_add, location)
+  caseworkers_to_add.times do
+    cw = FactoryGirl.create(:case_worker, location: location)
+    puts "+ created case worker #{cw.first_name} #{cw.last_name} with email #{cw.email} for location #{location.name}"
+  end
+end
+
+
+  # adds all basic fees, Basic fee qauntity one always,
   # others random q and r and dates only for those applicable.
   #
   # NOTE: at time of writing a claim has all "initial fees"
   #       instantiated at point of new claim creation.
+
+ def random_basic_fee_quantity_rate_by_type(fee_type)
+    case fee_type.code
+      when 'BAF'
+        q = 1
+        r = rand(1500.00..3000.00)
+      when 'DAF'
+        q = rand(1..15)
+        r = rand(200..500)
+      when 'DAH'
+        q = rand(0..20)
+        r = rand(200.00..300.00)
+      when 'DAJ'
+        q = rand(0..10)
+        r = rand(200.00..300.00)
+      when 'PCM'
+        q = rand(2..10)
+        r = rand(100..300)
+      when 'PPE'
+        q = rand(50..200)
+        r = rand(0.50..1.00)
+      when 'CAV'
+        q = rand(3..20)
+        r = rand(40.00..50.00)
+      when 'NPW'
+        q = rand(11..300)
+        r = rand(3.00..4.00)
+      when 'SAF'
+        q = rand(5..15)
+        r = rand(80.00..90.00)
+      else
+        q = rand(1..15);
+        r = rand(10.00..199.00)
+    end
+
+    return q, r.round(2)
+ end
+
   def add_basic_fees(claim)
 
     FeeType.basic.each do |fee_type|
-      q = 0
-      r = 0
-      
-      if fee_type.code == 'BAF'
-        q = 1; r = rand(350.00..450.00).round(2);
-      else
-        if rand(2) != 0
-          q = rand(1..15); r = rand(10.00..400.00).round(2);
+      q, r = random_basic_fee_quantity_rate_by_type(fee_type)
+      unless fee_type.code == 'BAF'
+        if rand(2) == 0
+          q = 0
+          r = 0
         end
       end
 
       fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
-      
+
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
       end
 
     end
-
   end
 
   # add 1 to 6 fixed/misc fees, some with dates
-  def add_fixed_misc_fees(claim)
-    rand(1..6).times do
+  def add_fixed_misc_fees(claim, fee_count=nil)
+    fee_count = fee_count.nil? ? rand(2..8) : fee_count
+    fee_count.times do
       fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
     end
-
   end
 
   def add_expenses(claim)
     rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+  end
+
+  def push_fees_over_threshold(claim)
+    until claim.calculate_total.to_f >= 20000.00
+      add_fixed_misc_fees(claim, 1)
+    end
   end
 
   def add_defendants(claim)
@@ -113,16 +176,21 @@ namespace :claims do
     add_basic_fees(claim)
     add_fixed_misc_fees(claim)
     add_expenses(claim)
+
+    #attempt to force ~33%% of claims to have random values over 20k threshold
+    push_fees_over_threshold(claim) if rand(3) == 1
+
     add_defendants(claim)
+    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)
   end
 
   def add_documentary_evidence(claim,doc_count=2)
-
     #
-    # Attach example evidence <doc_count> times. Randomly choose a document to add and
+    # Attach example evidence <doc_count> times but only for
+    # particular states. Randomly choose a document to add and
     # check the appropriate evidence checklist checkbox
     #
-
+    return unless STATES_TO_ADD_EVIDENCE_FOR.include?(claim.state)
     checklist_ids = []
 
     doc_count.times do |i|
@@ -138,7 +206,9 @@ namespace :claims do
                           advocate: claim.advocate
                         )
     end
-    checklist_ids
+
+    claim.update_attribute(:evidence_checklist_ids, checklist_ids)
+
   end
 
   def parse_states_from_string(states_delimited_string)
@@ -182,15 +252,13 @@ namespace :claims do
           # randomise creator
           claim = nil
           if rand(2) == 1
-            claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample)
+            claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample, scheme: Scheme.all.sample)
           else
             claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample )
           end
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
           add_other_data(claim)
-          checklist_ids = add_documentary_evidence(claim, 1 + rand(6) )
-          claim.update_attribute(:evidence_checklist_ids, checklist_ids)
 
           # all states but those below require allocation to case worker
           unless [:draft,:archived_pending_delete,:submitted].include?(s)

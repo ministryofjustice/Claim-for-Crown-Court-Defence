@@ -20,7 +20,6 @@ gem 'jquery-rails',         '~> 3.1.2'
 gem 'libreconv',            '~> 0.9.0'
 gem 'moj_internal_template','~> 0.1.9'
 gem 'neat',                 '~> 1.5.1'
-# gem 'newrelic_rpm',         '~> 3.12.0.288'
 gem 'paperclip',            '~> 4.2.1'
 gem 'paper_trail',          '~> 4.0.0.rc'
 gem 'pg',                   '~> 0.18.2'
@@ -32,7 +31,6 @@ gem 'select2-rails',        '~> 3.5.9.3'
 gem 'simple_form',          '~> 3.1.0'
 gem 'squeel',               '~> 1.2.3'
 gem 'state_machine',        '~> 1.2.0'
-# gem 'susy',                 '~> 1.0.9'
 gem 'uglifier',             '>= 1.3.0'
 gem 'grape',                '>= 0.12'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
@@ -50,21 +48,14 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
-  # gem 'guard',          '~> 2.12.5'
-  # gem 'guard-bundler',  '~> 2.1.0'
-  # gem 'guard-cucumber', '~> 1.5.4'
-  # gem 'guard-rspec',    '~> 4.5.2'
-  # gem 'guard-rails',    '~> 0.7.1'
   gem 'listen',         '~> 2.10.0'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'quiet_assets'
-  # gem 'rb-fchange',     require: false # the rb-* gems are guard related
-  # gem 'rb-fsevent',     require: false
-  # gem 'rb-inotify',     require: false
-  # gem 'rb-readline'
   gem 'rspec-rails',    '~> 3.0'
   gem 'webrick',        '~> 1.3'
+  gem 'rspec-collection_matchers'
+
 end
 
 group :test do
@@ -72,18 +63,14 @@ group :test do
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
   gem 'database_cleaner',           '~> 1.4.1'
-  # gem 'fuubar'
-  # gem 'fuubar-cucumber'
   gem 'launchy',                    '~> 2.4.3'
   gem 'poltergeist',                '~> 1.6.0'
   gem 'rspec-mocks',                '~> 3.2.1'
-  # gem 'ruby-progressbar',           '< 1.7.4'
   gem 'shoulda-matchers',           '~> 2.8.0', require: false
   gem 'selenium-webdriver'
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false
-  # gem 'terminal-notifier-guard',    '~> 1.6.4'
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
   gem 'airborne'

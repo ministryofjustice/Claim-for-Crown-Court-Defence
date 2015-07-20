@@ -14,5 +14,5 @@ class Offence < ActiveRecord::Base
   has_many :claims, dependent: :nullify
 
   validates :offence_class, presence: true
-  validates :description, presence: true, uniqueness: { case_sensitive: false }
+  validates :description, presence: true
 end

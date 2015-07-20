@@ -302,7 +302,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'prosecuting_authority'} }
 
         context 'valid params' do
-          it 'should create a claim with all basic fees and the specified non-basic fees' do
+          it 'should create a claim with all basic fees and the specified miscellaneous and fixed fees' do
             post :create, claim: claim_params
             claim = assigns(:claim)
 
@@ -312,10 +312,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
             expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
             expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
-
-            # expect(claim.non_basic_fees.size).to eq 2
-            # expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
-            # expect(claim.non_basic_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
 
             expect(claim.fixed_fees.size).to eq 1
             expect(claim.fixed_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
@@ -329,14 +325,13 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
         context 'invalid params' do
           render_views
-          it 'should redisplay the page with error messages and all the entered data in basic and non basic fees' do
+          it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
             post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
             expect(response.status).to eq 200
             expect(response).to render_template(:new)
             expect(response.body).to have_content("Prosecuting authority can't be blank")
             claim = assigns(:claim)
             expect(claim.basic_fees.size).to eq 4
-            # expect(claim.non_basic_fees.size).to eq 2
             expect(claim.fixed_fees.size).to eq 1
             expect(claim.misc_fees.size).to eq 1
 
@@ -503,11 +498,6 @@ def valid_claim_fee_params
         "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
         "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
         },
-     # "non_basic_fees_attributes"=>
-     #  {
-     #    "0"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
-     #    "1"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
-     #  },
       "fixed_fees_attributes"=>
       {
         "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}

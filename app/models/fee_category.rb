@@ -15,31 +15,30 @@ class FeeCategory < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :abbreviation, presence: true, uniqueness: {case_sensitive: false}
 
-  scope :non_basic, -> { where('abbreviation != ?', 'BASIC').order(:name) } #may not need any longer
-  scope :fixed,     -> { where('abbreviation = ?', 'FIXED').order(:name) }
-  scope :misc,      -> { where('abbreviation = ?', 'MISC').order(:name) }
-
+  # NOTE: there is only one category of each type so SCOPES (that always return a relation)
+  #       are less useful here.
   def self.basic
-    FeeCategory.where('abbreviation = ?', 'BASIC').first
+    FeeCategory.find_by(abbreviation: 'BASIC')
   end
 
   def self.misc
-    FeeCategory.where('abbreviation = ?', 'MISC').first
+    FeeCategory.find_by(abbreviation: 'MISC')
   end
-
 
   def self.fixed
-    FeeCategory.where('abbreviation = ?', 'FIXED').first
+    FeeCategory.find_by(abbreviation: 'FIXED')
   end
-
-  def self.non_basic
-    FeeCategory.where('abbreviation != ?', 'BASIC')
-  end
-
 
   def is_basic?
     self.abbreviation == 'BASIC'
   end
 
+  def is_misc?
+    self.abbreviation == 'MISC'
+  end
+
+  def is_fixed?
+    self.abbreviation == 'FIXED'
+  end
 
 end

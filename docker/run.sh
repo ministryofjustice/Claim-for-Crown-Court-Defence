@@ -22,4 +22,5 @@ esac
 if [ -n "$SLEEP_TIME" ]; then
   sleep $SLEEP_TIME
 fi
+
 exec bundle exec unicorn -p 80

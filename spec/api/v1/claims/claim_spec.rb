@@ -4,8 +4,8 @@ require 'spec_helper'
 describe API::V1::Advocates::Claim do
   include Rack::Test::Methods
 
-  VALIDATE_ENDPOINT = "/api/advocates/claims/validate"
-  CREATE_ENDPOINT = "/api/advocates/claims"
+  VALIDATE_CLAIM_ENDPOINT = "/api/advocates/claims/validate"
+  CREATE_CLAIM_ENDPOINT = "/api/advocates/claims"
 
   let!(:current_advocate) { create(:advocate) }
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
@@ -21,7 +21,7 @@ describe API::V1::Advocates::Claim do
   describe "POST /api/advocates/claims/validate" do
 
     def post_to_validate_endpoint
-      post VALIDATE_ENDPOINT, claim_params, format: :json
+      post VALIDATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
     it "returns 200 and String true for valid request" do
@@ -52,7 +52,7 @@ describe API::V1::Advocates::Claim do
   describe "POST /api/advocates/claims" do
 
     def post_to_create_endpoint
-      post CREATE_ENDPOINT, claim_params, format: :json
+      post CREATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
     it "returns 201, claim JSON and creates claim " do

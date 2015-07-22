@@ -64,7 +64,6 @@ module API
                   trial_cracked_at_third:   params[:trial_cracked_at_third],
                 }
               end
-
             end
 	  end
 
@@ -126,7 +125,6 @@ module API
 
         end
 
-        add_swagger_documentation hide_documentation_path: true
       end
     end
   end

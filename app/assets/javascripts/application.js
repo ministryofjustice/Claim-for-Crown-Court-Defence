@@ -34,13 +34,14 @@ function initialise(){
   $('.select2').select2();
   adp.newClaim.init();
   adp.crackedTrial.init();
-  adp.feeCalculator.init('fees');
-  adp.feeCalculator.init('basic_fees');
+  adp.feeCalculator.init('basic-fees');
+  adp.feeCalculator.init('fixed-fees');
+  adp.feeCalculator.init('misc-fees');
   adp.feeCalculator.init('expenses');
   moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();
   moj.Modules.amountAssessed.init();
-  $('#fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
+  $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {
     $(insertedItem).find('.select2').select2();
   });
   moj.Modules.selectAll.init();

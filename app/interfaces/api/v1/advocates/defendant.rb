@@ -47,7 +47,6 @@ module API
 
         end
 
-        add_swagger_documentation hide_documentation_path: true
 
       end
 

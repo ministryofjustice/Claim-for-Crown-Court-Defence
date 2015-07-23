@@ -3,7 +3,6 @@ require 'grape-swagger'
 
 module API
   class Root < Grape::API
-    mount API::V1::Advocates::Claim
-    mount API::V1::Advocates::Defendant
+    mount API::V1::Advocates::Root
   end
 end

@@ -53,6 +53,23 @@ module API
             ::Fee.create!(args)
           end
 
+
+          desc "Validate a fee."
+
+          params do
+            use :fee_creation
+          end
+
+          post '/validate' do
+            fee = ::Fee.new(args)
+            if fee.valid?
+              status 200
+              true
+            else
+              false
+            end
+          end
+
         end
 
 

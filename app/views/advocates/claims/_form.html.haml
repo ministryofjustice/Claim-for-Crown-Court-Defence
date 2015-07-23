@@ -65,6 +65,7 @@
     %fieldset
       %legend
         = t('.basic_fees')
+        = @claim.fees.size
       #basic-fees
         %p
           = t('.quantity_and_rate_prompt')
@@ -82,8 +83,8 @@
               %th
                 = t('.amount')
               %th
-            = f.fields_for :basic_fees do |basic_fee|
-              = render 'basic_fee_fields', f: basic_fee
+            = f.fields_for :basic_fees do |basic_fee_fields|
+              = render 'basic_fee_fields', f: basic_fee_fields
 
     %fieldset
       %legend
@@ -102,8 +103,8 @@
                 = t('.amount')
               %th
               %th
-          = f.fields_for :misc_fees do |misc_fee|
-            = render 'misc_fee_fields', f: misc_fee
+          = f.fields_for :misc_fees do |misc_fee_fields|
+            = render 'misc_fee_fields', f: misc_fee_fields
 
         = link_to_add_association t('.add_misc_fee'), f, :misc_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
@@ -124,8 +125,8 @@
                 = t('.amount')
               %th
               %th
-          = f.fields_for :fixed_fees do |fixed_fee|
-            = render 'fixed_fee_fields', f: fixed_fee
+          = f.fields_for :fixed_fees do |fixed_fee_fields|
+            = render 'fixed_fee_fields', f: fixed_fee_fields
 
         = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 

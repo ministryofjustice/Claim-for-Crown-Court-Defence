@@ -149,6 +149,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def claim_params
+
     params.require(:claim).permit(
      :advocate_id,
      :court_id,
@@ -251,6 +252,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :_destroy
      ]
     )
+
   end
 
   def build_nested_resources
@@ -323,4 +325,5 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       render_edit_with_resources
     end
   end
+
 end

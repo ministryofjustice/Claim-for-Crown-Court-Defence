@@ -291,8 +291,8 @@ When(/^I add a fixed fee$/) do
     end
 end
 
-Then(/^I should see the claim totals accounting for the fixed fee$/) do
-  expect(page).to have_content("Fees total: £101.01")
+Then(/^I should see the claim totals accounting for only the fixed fee$/) do
+  expect(page).to have_content("Fees total: £100.01")
 end
 
 When(/^I add a miscellaneous fee$/) do
@@ -305,4 +305,61 @@ end
 
 Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
   expect(page).to have_content("Fees total: £201.01")
+end
+
+
+When(/^I select a Case Type of "(.*?)"$/) do |case_type|
+  select case_type, from: 'claim_case_type'
+end
+
+Then(/^There should not be any Initial Fees saved$/) do
+  # note: cannot rely on size/count since all basic fees are
+  #       instantiated as empty but existing records per claim.
+  expect(Claim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
+end
+
+Then(/^There should not be any Miscellaneous Fees Saved$/) do
+  expect(Claim.last.misc_fees.size).to eql(0)
+end
+
+Then(/^There should not be any Fixed Fees saved$/) do
+  expect(Claim.last.fixed_fees.size).to eql(0)
+end
+
+Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
+  to_or_not_to = have.nil? ? 'to' : have.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
+  expect(page).method(to_or_not_to).call have_content(content)
+end
+
+Then(/^I should be warned that "(.*?)" will be deleted$/) do |content|
+  expect(page).to have_selector('#fee-deletion-warning', text: content)
+end
+
+Given(/^I fill in an Initial Fee$/) do
+  within '#basic-fees' do
+    fill_in 'claim_basic_fees_attributes_0_quantity', with: 2
+    fill_in 'claim_basic_fees_attributes_0_rate', with: 1.5
+  end
+end
+
+Given(/^I fill in a Miscellaneous Fee$/) do
+  within '#misc-fees' do
+    select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
+    fill_in 'claim_misc_fees_attributes_0_quantity', with: 2
+    fill_in 'claim_misc_fees_attributes_0_rate', with: 1.5
+  end
+end
+
+Given(/^I fill in a Fixed Fee$/) do
+  within '#fixed-fees' do
+    select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
+    fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
+    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.5
+  end
+end
+
+Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
+  claim = create(:submitted_claim, case_type: 'trial', advocate_id: Advocate.first.id)
+  create(:fee, :basic, claim: claim, quantity: 3, rate: 2.5, amount: 7.5)
+  create(:fee, :misc,  claim: claim, quantity: 2, rate: 2.5, amount: 5.0)
 end

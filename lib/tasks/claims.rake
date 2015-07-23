@@ -129,6 +129,7 @@ end
  end
 
   def add_basic_fees(claim)
+    return if claim.case_type == "fixed_fee"
 
     FeeType.basic.each do |fee_type|
       q, r = random_basic_fee_quantity_rate_by_type(fee_type)
@@ -148,14 +149,14 @@ end
     end
   end
 
-  # add 1 to 6 fixed/misc fees, some with dates
+  # add 1 to 6 fixed/misc fees, some with date
   def add_fixed_misc_fees(claim, fee_count=nil)
     fee_count = fee_count.nil? ? rand(1..6) : fee_count
     fee_count.times do
-      fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
+      fee_type = claim.case_type == "fixed_fee" ? FeeType.fixed.sample : FeeType.misc.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
-      puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
+      # puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
     end
   end
 
@@ -250,12 +251,19 @@ end
       next if s == :deleted
       claims_per_state.times do
 
-          # randomise creator
           claim = nil
+          claim = FactoryGirl.create("#{s}_claim".to_sym,
+                                      advocate:    advocate,
+                                      court:      Court.all.sample,
+                                      offence:    Offence.all.sample,
+                                      scheme:     Scheme.all.sample,
+                                      case_type:  Settings.case_types.sample)
+
+          # randomise creator
           if rand(2) == 1
-            claim = FactoryGirl.create("#{s}_claim".to_sym, :admin_creator, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample, scheme: Scheme.all.sample)
-          else
-            claim = FactoryGirl.create("#{s}_claim".to_sym, advocate: advocate, court: Court.all.sample, offence: Offence.all.sample )
+            advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
+            advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
+            claim.creator = advocate_admin
           end
 
           puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")

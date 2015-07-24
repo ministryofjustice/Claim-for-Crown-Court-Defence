@@ -14,7 +14,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-      resource :claims do
+        resource :claims do
 
         helpers do
           params :claim_creation do
@@ -63,42 +63,42 @@ module API
           end
         end
 
-        desc "Create a claim."
+          desc "Create a claim."
 
-        params do
-          use :claim_creation
-        end
-
-        post do
-          arg_response = claim_args_valid?
-          if arg_response == true
-            ::Claim.create!(args)
-          else
-            status arg_response[:status]
-            arg_response[:body]
+          params do
+            use :claim_creation
           end
-        end
 
-        desc "Validate a claim."
-
-        params do
-          use :claim_creation
-        end
-
-        post '/validate' do
-          arg_response = claim_args_valid?
-          if arg_response == true
-            status 200
-            arg_response
-          else
-            status arg_response[:status]
-            arg_response[:body]
+          post do
+            arg_response = claim_args_valid?
+            if arg_response == true
+              ::Claim.create!(args)
+            else
+              status arg_response[:status]
+              arg_response[:body]
+            end
           end
+
+          desc "Validate a claim."
+
+          params do
+            use :claim_creation
+          end
+
+          post '/validate' do
+            arg_response = claim_args_valid?
+            if arg_response == true
+              status 200
+              arg_response
+            else
+              status arg_response[:status]
+              arg_response[:body]
+            end
+          end
+
         end
 
-      end
-
-      add_swagger_documentation hide_documentation_path: true
+        
       end
     end
   end

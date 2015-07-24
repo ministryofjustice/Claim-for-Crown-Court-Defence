@@ -202,7 +202,23 @@ class Advocates::ClaimsController < Advocates::ApplicationController
           :_destroy
         ]
      ],
-     non_basic_fees_attributes: [
+      fixed_fees_attributes: [
+       :id,
+       :claim_id,
+       :fee_type_id,
+       :fee_id,
+       :quantity,
+       :rate,
+       :_destroy,
+       dates_attended_attributes: [
+          :id,
+          :fee_id,
+          :date,
+          :date_to,
+          :_destroy
+        ]
+      ],
+      misc_fees_attributes: [
        :id,
        :claim_id,
        :fee_type_id,
@@ -238,7 +254,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def build_nested_resources
-    [:defendants, :non_basic_fees, :expenses, :documents].each do |association|
+    [:defendants, :fixed_fees, :misc_fees, :expenses, :documents].each do |association|
       build_nested_resource(@claim, association)
     end
 

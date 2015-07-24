@@ -150,11 +150,12 @@ end
 
   # add 1 to 6 fixed/misc fees, some with dates
   def add_fixed_misc_fees(claim, fee_count=nil)
-    fee_count = fee_count.nil? ? rand(2..8) : fee_count
+    fee_count = fee_count.nil? ? rand(1..6) : fee_count
     fee_count.times do
       fee_type = rand(2) == 1 ? FeeType.misc.sample : FeeType.fixed.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
+      puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
     end
   end
 
@@ -177,8 +178,8 @@ end
     add_fixed_misc_fees(claim)
     add_expenses(claim)
 
-    #attempt to force ~33%% of claims to have random values over 20k threshold
-    push_fees_over_threshold(claim) if rand(3) == 1
+    #attempt to force ~25%% of claims to have random values over 20k threshold
+    push_fees_over_threshold(claim) if rand(4) == 1
 
     add_defendants(claim)
     add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)

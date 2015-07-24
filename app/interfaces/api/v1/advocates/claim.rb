@@ -16,52 +16,52 @@ module API
 
         resource :claims do
 
-          helpers do
-            params :claim_creation do
-              requires :advocate_email, type: String, desc: "Your ADP account email address that uniquely identifies you."
-              requires :case_number, type: String, desc: "The case number"
-              requires :case_type, type: String, desc: "The case type i.e trial"
-              optional :cms_number, type: String, desc: "The CMS number"
-            end
+        helpers do
+          params :claim_creation do
+            requires :advocate_email, type: String, desc: "Your ADP account email address that uniquely identifies you."
+            requires :case_number, type: String, desc: "The case number"
+            requires :case_type, type: String, values: Settings.case_types, desc: "The case type i.e trial"
+            optional :cms_number, type: String, desc: "The CMS number"
+          end
 
-            def args
-              user = User.advocates.find_by(email: params[:advocate_email])
-              if user.blank?
-                raise API::V1::ArgumentError, 'advocate_email is invalid'
+          def args
+            user = User.advocates.find_by(email: params[:advocate_email])
+            if user.blank?
+              raise API::V1::ArgumentError, 'advocate_email is invalid'
+            else
+              {
+                advocate_id: user.persona_id,
+                creator_id:  user.persona_id,
+                case_number: params[:case_number],
+                case_type:   params[:case_type],
+                cms_number:  params[:cms_number]
+              }
+            end
+          end
+
+          # return true, http response for api arg errors or array of hashed errors from model
+          def claim_args_valid?
+            begin
+              claim = ::Claim.new(args)
+              if claim.valid?
+                true
               else
-                {
-                  advocate_id: user.persona_id,
-                  creator_id:  user.persona_id,
-                  case_number: params[:case_number],
-                  case_type:   params[:case_type],
-                  cms_number:  params[:cms_number]
-                }
+                # contruct array of error message hashes from model
+                error_messages = []
+                claim.errors.full_messages.each do |error_message|
+                  error_messages.push({ error: error_message })
+                end
+                { status: 400, body: error_messages }
               end
-            end
-
-            # return true, http response for api arg errors or array of hashed errors from model
-            def claim_args_valid?
-              begin
-                claim = ::Claim.new(args)
-                if claim.valid?
-                  true
-                else
-                  # contruct array of error message hashes from model
-                  error_messages = []
-                  claim.errors.full_messages.each do |error_message|
-                    error_messages.push({ error: error_message })
-                  end
-                  { status: 400, body: error_messages }
-                end
-              rescue API::V1::ArgumentError => ae
-                if ae.message.include?('advocate_email')
-                  return { status: 400, body: { error: ae.message } }
-                else
-                  raise
-                end
+            rescue API::V1::ArgumentError => ae
+              if ae.message.include?('advocate_email')
+                return { status: 400, body: { error: ae.message } }
+              else
+                raise
               end
             end
           end
+        end
 
           desc "Create a claim."
 

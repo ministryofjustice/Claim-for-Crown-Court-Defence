@@ -33,7 +33,7 @@ module API
               }
             end
 
-            class BasicFeeMax < Grape::Validations::Base
+            class BasicFeeMax < Grape::Validations::Base # TODO: move into validations folder once the branch with that change has been merged
               def validate_param!(attr_name, params)
                 if params[:fee_type_id] == 1 && params[:quantity].to_i > 1
                   fail Grape::Exceptions::Validation, params: [@scope.full_name(attr_name)], message: "There can only be 1 basic fee (fee_type_id: 1) per claim"

@@ -17,6 +17,8 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:fee_type, :basic, description: 'Basic Fee with Modifer', quantity_modifier: -4)
   create(:fee_type, :basic, description: 'Basic Fee with dates attended required', quantity_modifier: -2, code: 'SAF')
+  create(:fee_type, :fixed, description: 'Fixed Fee example')
+  create(:fee_type, :misc,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
   visit new_advocates_claim_path
 end
@@ -27,8 +29,8 @@ Given(/^There are fee schemes in place$/) do
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 9', start_date: Date.parse('01/04/2012'), end_date: nil)
 end
 
-When(/^I click Add another representation order$/) do
-  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+When(/^I click Add Another Representation Order$/) do
+  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add Another Representation Order"}.first.click
 end
 
 Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
@@ -68,13 +70,13 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
 end
 
 When(/^I remove the fee$/) do
-  within('#fees') do
+  within('#fixed-fees') do
     page.all('a', text: "Remove").first.click
   end
 end
 
 Then(/^the dates attended are also removed$/) do
-  expect(within('#fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
+  expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
 When(/^I fill in the claim details$/) do
@@ -104,7 +106,7 @@ When(/^I fill in the claim details$/) do
     choose 'Crown Court'
   end
 
-  within '#basic_fees' do
+  within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
     fill_in 'claim_basic_fees_attributes_0_rate', with: 0.5
     fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
@@ -269,7 +271,7 @@ Then(/^the case number should reflect the change$/) do
 end
 
 When(/^I fill in an additional fee type that is subjected to a modifer$/) do
-  within '#basic_fees' do
+  within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_2_quantity', with: 6
     fill_in 'claim_basic_fees_attributes_2_rate', with: 1
   end
@@ -279,4 +281,28 @@ Then(/^I should see the claim totals accounting for modifier$/) do
   expect(page).to have_content("Fees total: £3.00")
   expect(page).to have_content("Expenses total: £40.00")
   expect(page).to have_content("Total: £43.00")
+end
+
+When(/^I add a fixed fee$/) do
+    within '#fixed-fees' do
+      fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
+      fill_in 'claim_fixed_fees_attributes_0_rate', with: 100.01
+      select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
+    end
+end
+
+Then(/^I should see the claim totals accounting for the fixed fee$/) do
+  expect(page).to have_content("Fees total: £101.01")
+end
+
+When(/^I add a miscellaneous fee$/) do
+    within '#misc-fees' do
+      fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
+      fill_in 'claim_misc_fees_attributes_0_rate', with: 200.01
+      select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
+    end
+end
+
+Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
+  expect(page).to have_content("Fees total: £201.01")
 end

@@ -1,17 +1,17 @@
-%tbody.misc-fee-group
+%tbody.fixed-fee-group
   %tr.nested-fields
     %td
-      = f.grouped_collection_select :fee_type_id, FeeCategory.non_basic.includes(:fee_types), :fee_types, :name, :id, :description, {prompt: true}, {class: 'select2'}
+      = f.collection_select :fee_type_id, FeeType.fixed, :id, :description, {prompt: true}, {class: 'select2'}
     %td
       = f.number_field :quantity, class: 'quantity'
     %td
       = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
     %td.amount
       = number_to_currency(f.object.amount)
-    %td.add-misc-fee-date-attended
+    %td.add-fixed-fee-date-attended
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-    %td.remove-misc-fee
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+    %td.remove-fixed-fee
+      = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group' }
 
   = f.fields_for :dates_attended do |date_attended|
     = render 'date_attended_fields', f: date_attended

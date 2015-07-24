@@ -218,18 +218,16 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-
   it { should accept_nested_attributes_for(:basic_fees) }
-  it { should accept_nested_attributes_for(:non_basic_fees) }
+  it { should accept_nested_attributes_for(:fixed_fees) }
+  it { should accept_nested_attributes_for(:misc_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
   it { should accept_nested_attributes_for(:documents) }
 
-
   subject { create(:claim) }
 
-
-  describe 'earliest_representation_order' do
+  describe '.earliest_representation_order' do
     let(:claim)         { FactoryGirl.build :unpersisted_claim }
     let(:early_date)    { 2.years.ago.to_date }
 
@@ -249,13 +247,13 @@ RSpec.describe Claim, type: :model do
       # when I get the earliest rep order
       rep_order = claim.earliest_representation_order
 
-      # it should have a date of 
+      # it should have a date of
       expect(rep_order.representation_order_date).to eq early_date
     end
   end
 
 
-  describe 'is_allocated_to_case_worker' do
+  describe '.is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
     let(:case_worker_2)        { FactoryGirl.create :case_worker }
 
@@ -271,7 +269,7 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '#update_model_and_transition_state' do
+  describe '.update_model_and_transition_state' do
     it 'should update the model then transition state to prevent state transition validation errors' do
       # given
       claim = FactoryGirl.create :allocated_claim
@@ -354,7 +352,7 @@ RSpec.describe Claim, type: :model do
       @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB', id: 6
     end
 
-    describe '#instantiate_basic_fees' do
+    describe '.instantiate_basic_fees' do
       it 'should create a fee record for every basic fee type' do
         # Given three basic fee types and some other non-basic fee types
         # when I instantiate a new claim
@@ -372,7 +370,7 @@ RSpec.describe Claim, type: :model do
       end
     end
 
-    describe '#basic_fees' do
+    describe '.basic_fees' do
       it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
         # Given three basic fee types and some other non-basic fee types and a claim
         claim = FactoryGirl.build :claim

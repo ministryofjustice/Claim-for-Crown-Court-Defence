@@ -247,6 +247,7 @@ RSpec.describe Claim, type: :model do
 
       # when I get the earliest rep order
       rep_order = claim.earliest_representation_order
+<<<<<<< HEAD
 
       # it should have a date of
       expect(rep_order.representation_order_date).to eq early_date
@@ -254,6 +255,15 @@ RSpec.describe Claim, type: :model do
   end
 
 
+=======
+
+      # it should have a date of
+      expect(rep_order.representation_order_date).to eq early_date
+    end
+  end
+
+
+>>>>>>> develop
   describe '.is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
     let(:case_worker_2)        { FactoryGirl.create :case_worker }

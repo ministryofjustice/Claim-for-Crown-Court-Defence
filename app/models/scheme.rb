@@ -6,8 +6,8 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  start_date :date
-#  end_date   :date
+#  start_date :datetime
+#  end_date   :datetime
 #
 
 class Scheme < ActiveRecord::Base

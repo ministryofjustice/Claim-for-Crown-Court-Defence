@@ -51,6 +51,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim = Claim.new
     @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
+    load_offences
+    
     build_nested_resources
   end
 
@@ -60,6 +62,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     add_breadcrumb "Edit", edit_advocates_claim_path(@claim)
 
     build_nested_resources
+    load_offences
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
@@ -95,6 +98,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   private
+
+  def load_offences
+    @offence_classes = OffenceClass.all
+    @offences = OffenceClass.includes(:offences)
+  end
 
   def submit_if_required_and_redirect
     if submitting_to_laa?
@@ -283,12 +291,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def render_edit_with_resources
     build_nested_resources
+    load_offences
     render action: :edit
   end
 
   def render_new_with_resources
     @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
     build_nested_resources
+    load_offences
     render action: :new
   end
 

@@ -37,6 +37,7 @@
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
+#  source                 :string(255)
 #
 
 FactoryGirl.define do

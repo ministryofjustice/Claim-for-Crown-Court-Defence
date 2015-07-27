@@ -8,10 +8,10 @@ describe API::V1::Advocates::Fee do
   CREATE_FEE_ENDPOINT = "/api/advocates/fees"
   VALIDATE_FEE_ENDPOINT = "/api/advocates/fees/validate"
 
-  let!(:fee_type)    { create(:fee_type, id: 2) }
-  let!(:claim)       { create(:claim) }
-  let!(:valid_fee_params)  { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 2, rate: 54321} }
-  let!(:invalid_fee_params)  { {claim_id: claim.id, fee_type_id: 1, quantity: 2, rate: 54321} }
+  let!(:fee_type)            { create(:fee_type, id: 2) }
+  let!(:claim)               { create(:claim) }
+  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 2, rate: 54321} }
+  let!(:invalid_fee_params)  { {claim_id: nil, fee_type_id: nil, quantity: nil, rate: nil} }
 
   describe 'POST api/advocates/fees' do
 

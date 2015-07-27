@@ -113,7 +113,7 @@
               = b.object.advocate.name
           %td
             = b.label do
-              = b.object.case_type
+              = b.object.case_type.humanize
           %td
             = b.label do
               = b.object.submitted_at.strftime(Settings.date_format)

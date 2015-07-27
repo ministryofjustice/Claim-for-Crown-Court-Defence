@@ -3,7 +3,7 @@ Feature: Cracked trial
     As an advocate i want to see cracked trial detail fields for
     cracked trial case types only
 
-  @javascript @webmock_allow_net_connect @wip
+@javascript @webmock_allow_net_connect @wip
   Scenario: Cracked trial conditional fields
     Given I am a signed in advocate
       And I am on the new claim page

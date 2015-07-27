@@ -34,6 +34,7 @@ function initialise(){
   $('.select2').select2();
   adp.newClaim.init();
   adp.crackedTrial.init();
+  adp.feeSectionDisplay.init();
   adp.feeCalculator.init('basic-fees');
   adp.feeCalculator.init('fixed-fees');
   adp.feeCalculator.init('misc-fees');

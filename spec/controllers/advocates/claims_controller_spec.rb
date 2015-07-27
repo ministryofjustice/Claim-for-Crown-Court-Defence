@@ -284,10 +284,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
       context 'basic and non-basic fees' do
 
-        before(:each) do
-          @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
-        end
-
         let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1', quantity_modifier: 0 }
         let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2', quantity_modifier: 0 }
         let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3', quantity_modifier: 0 }
@@ -301,61 +297,91 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:claim_params)              { valid_claim_fee_params }
         let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'prosecuting_authority'} }
 
-        context 'valid params' do
-          it 'should create a claim with all basic fees and the specified miscellaneous and fixed fees' do
-            post :create, claim: claim_params
-            claim = assigns(:claim)
+        context 'non fixed fee case types' do
+          before(:each) do
+            @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
+          end
 
-            # one record for every basic fee regardless of whether blank or not
-            expect(claim.basic_fees.size).to eq 4
-            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
-            expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+          context 'valid params' do
+            it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
+              post :create, claim: claim_params
+              claim = assigns(:claim)
 
-            expect(claim.fixed_fees.size).to eq 1
-            expect(claim.fixed_fees.detect{ |f| f.fee_type_id == fixed_fee_type_1.id }.amount.to_f ).to eq 2500.0
+              # one record for every basic fee regardless of whether blank or not
+              expect(claim.basic_fees.size).to eq 4
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
-            expect(claim.misc_fees.size).to eq 1
-            expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+              # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
+              expect(claim.fixed_fees.size).to eq 0
 
-            expect(claim.reload.fees_total).to eq 12_875.45
+              expect(claim.misc_fees.size).to eq 1
+              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+
+              expect(claim.reload.fees_total).to eq 10_375.45
+            end
+          end
+
+          context 'invalid params' do
+            render_views
+            it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
+              post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
+              expect(response.status).to eq 200
+              expect(response).to render_template(:new)
+              expect(response.body).to have_content("Prosecuting authority can't be blank")
+              claim = assigns(:claim)
+              expect(claim.basic_fees.size).to eq 4
+              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.misc_fees.size).to eq 1
+
+              bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
+              expect(bf1.quantity).to eq 10
+              expect(bf1.rate).to eq 100
+              expect(bf1.amount).to eq 1000
+
+              bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
+              expect(bf2.quantity).to eq 0
+              expect(bf2.rate).to eq 0
+              expect(bf2.amount).to eq 0
+
+              bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
+              expect(bf3.quantity).to eq 1
+              expect(bf3.rate.to_f).to eq 9000.45
+              expect(bf3.amount.to_f).to eq 9000.45
+
+              bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
+              expect(bf4.quantity).to eq 5
+              expect(bf4.rate).to eq 25
+              expect(bf4.amount).to eq 125
+            end
           end
         end
 
-        context 'invalid params' do
-          render_views
-          it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
-            post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
-            expect(response.status).to eq 200
-            expect(response).to render_template(:new)
-            expect(response.body).to have_content("Prosecuting authority can't be blank")
-            claim = assigns(:claim)
-            expect(claim.basic_fees.size).to eq 4
-            expect(claim.fixed_fees.size).to eq 1
-            expect(claim.misc_fees.size).to eq 1
+        context 'fixed fee case types' do
+          context 'valid params' do
+            it 'should create a claim with fixed fees ONLY' do
+              claim_params['case_type'] = "fixed_fee"
 
-            bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
-            expect(bf1.quantity).to eq 10
-            expect(bf1.rate).to eq 100
-            expect(bf1.amount).to eq 1000
+              post :create, claim: claim_params
+              claim = assigns(:claim)
 
-            bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
-            expect(bf2.quantity).to eq 0
-            expect(bf2.rate).to eq 0
-            expect(bf2.amount).to eq 0
+              # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
+              expect(claim.basic_fees.size).to eq 4
+              expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
 
-            bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
-            expect(bf3.quantity).to eq 1
-            expect(bf3.rate.to_f).to eq 9000.45
-            expect(bf3.amount.to_f).to eq 9000.45
+              # miscellaneous fees are destroyed implicitly by claim model for fixed-fee case types
+              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.fixed_fees.map(&:amount).sum).to eql 2500.00
+              expect(claim.misc_fees.size).to eq 0
 
-            bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
-            expect(bf4.quantity).to eq 5
-            expect(bf4.rate).to eq 25
-            expect(bf4.amount).to eq 125
+              expect(claim.reload.fees_total).to eq 2500.00
+            end
           end
+
         end
+
       end
 
       context 'document checklist' do
@@ -460,6 +486,7 @@ end
 
 
 def valid_claim_fee_params
+  HashWithIndifferentAccess.new(
     {"advocate_id" => "4",
      "scheme_id" => "2",
      "case_type" => "appeal_against_sentence",
@@ -512,6 +539,7 @@ def valid_claim_fee_params
      },
      "apply_vat" => "0"
    }
+   )
 end
 
 

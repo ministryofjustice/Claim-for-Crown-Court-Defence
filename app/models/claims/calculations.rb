@@ -1,7 +1,12 @@
 module Claims::Calculations
 
-  def calculate_fees_total
-    fees.reload.map(&:amount).sum
+  def calculate_fees_total(category=nil)
+    fees.reload
+    if category.blank?
+      fees.map(&:amount).sum
+    else
+      __send__("#{category.downcase}_fees").map(&:amount).sum
+    end
   end
 
   def calculate_expenses_total

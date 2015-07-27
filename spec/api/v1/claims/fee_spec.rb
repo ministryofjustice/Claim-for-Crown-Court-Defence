@@ -30,7 +30,7 @@ describe API::V1::Advocates::Fee do
 
   end
 
-  describe "POST /api/advocates/claims/validate" do
+  describe "POST /api/advocates/fees/validate" do
 
     def post_to_validate_endpoint(params)
       post VALIDATE_FEE_ENDPOINT, params, format: :json

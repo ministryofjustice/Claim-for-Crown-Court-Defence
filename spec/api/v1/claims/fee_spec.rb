@@ -38,6 +38,7 @@ describe API::V1::Advocates::Fee do
 
     it 'returns 200 when the params are valid' do
         response = post_to_validate_endpoint(valid_fee_params)
+        puts response.body
         expect(response.status).to eq 200
     end
 

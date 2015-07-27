@@ -2,7 +2,7 @@
 = f.label t('.offence_class')
 
 = f.collection_select :offence_class_id,
-                      OffenceClass.all,
+                      offence_classes,
                       :id,
                       :letter_and_description,
                       options = { prompt: t('.select_to_filter') },
@@ -11,10 +11,11 @@
 = f.label t('.offence_category')
 
 = f.grouped_collection_select :offence_id,
-                              OffenceClass.includes(:offences),
+                              offences,
                               :offences,
                               :letter_and_description,
                               :id,
                               :description,
                               options = { prompt:  t('.select_category') },
                               html_options = {  class: 'select2' }
+

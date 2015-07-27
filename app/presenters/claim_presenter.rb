@@ -18,6 +18,18 @@ class ClaimPresenter < BasePresenter
     claim.paid_at.strftime(format) unless claim.paid_at.nil?
   end
 
+  def retrial
+    claim.case_type.match(/retrial/i) ? 'Yes' : 'No'
+  end
+
+  def any_judicial_apportionments
+    claim.defendants.map(&:order_for_judicial_apportionment).include?(true) ? 'Yes' : 'No'
+  end
+
+  def trial_concluded
+    claim.trial_concluded_at.blank? ? 'not specified' : claim.trial_concluded_at.strftime(Settings.date_format)
+  end
+
   def total
     h.number_to_currency(claim.total)
   end

@@ -327,7 +327,7 @@ en:
       offence_class: Offence class
       prosecuting_auth: Prosecuting authority
       q:
-        retrial: "Retrial?"
+        retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
 

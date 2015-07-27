@@ -33,24 +33,6 @@ module API
               }
             end
 
-            def fee_args_valid?
-              begin
-                fee = ::Fee.new(args)
-                if fee.valid?
-                  true
-                else
-                  # contruct array of error message hashes from model
-                  error_messages = []
-                  fee.errors.full_messages.each do |error_message|
-                    error_messages.push({ error: error_message })
-                  end
-                  { status: 400, body: error_messages }
-                end
-              rescue API::V1::ArgumentError => ae
-                return { status: 400, body: { error: ae.message } }
-              end
-            end
-
           end
 
           desc "Create a fee."
@@ -71,14 +53,16 @@ module API
           end
 
           post '/validate' do
-            arg_response = fee_args_valid?
-            if arg_response == true
-              status 200
-              arg_response
-            else
-              status arg_response[:status]
-              arg_response[:body]
+            fee = ::Fee.new(args)
+
+            if !fee.valid?
+                    error = ErrorResponse.new(fee)
+              status error.status
+              return error.body
             end
+
+            status 200
+            { valid: true }
           end
 
         end

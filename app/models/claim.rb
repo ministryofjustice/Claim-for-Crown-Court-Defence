@@ -80,17 +80,7 @@ class Claim < ActiveRecord::Base
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
 
- default_scope do
-    includes(:advocate,
-             :case_workers,
-             :court,
-             :defendants,
-             :documents,
-             :expenses,
-             :fee_types,
-             :messages,
-             offence: :offence_class)
-  end
+  
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }

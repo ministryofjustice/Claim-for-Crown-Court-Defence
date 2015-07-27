@@ -12,12 +12,12 @@ module API
           when ::Claim
             @claim = object
             build_claim_error_response
-	  when API::V1::ArgumentError
+          when API::V1::ArgumentError
             @body = { error: object.message }
-	    @status = 400
-	  else
+            @status = 400
+          else
             raise "Unable to generate an error response for the class #{object.class}"
-	  end
+          end
         end
 
         def build_claim_error_response
@@ -29,16 +29,14 @@ module API
               error_messages.push({ error: error_message })
             end
 
-            @body = error_messages 
+            @body = error_messages
             @status = 400
 
-	   else
+          else
              raise "unable to build error response as no errors were found"
            end
         end
-
       end
-
     end
   end
 end

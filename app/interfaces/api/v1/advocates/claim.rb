@@ -5,7 +5,7 @@ module API
     class ArgumentError < Error; end
 
     module Advocates
-      
+
       class Claim < Grape::API
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
@@ -65,7 +65,7 @@ module API
                 }
               end
             end
-	  end
+          end
 
           desc "Create a claim."
 
@@ -74,21 +74,21 @@ module API
           end
 
           post do
-	    begin
-  	      arguements = build_arguements
-	    rescue => error
-	      arguements_error = ErrorResponse.new(error)
-	      status arguements_error.status
-	      return arguements_error.body
-	    end
+            begin
+              arguements = build_arguements
+            rescue => error
+              arguements_error = ErrorResponse.new(error)
+              status arguements_error.status
+              return arguements_error.body
+            end
 
             claim = ::Claim.create(arguements)
 
-	    if !claim.errors.empty?
-              error = ErrorResponse.new(claim)
-	      status error.status
-	      return error.body
-	    end
+            if !claim.errors.empty?
+                    error = ErrorResponse.new(claim)
+              status error.status
+              return error.body
+            end
 
             status 201
             api_response = { 'id' => claim.id }.merge!(declared(params))
@@ -103,28 +103,26 @@ module API
           end
 
           post '/validate' do
-	    begin
-  	      arguements = build_arguements
-	    rescue => error
-	      arguements_error = ErrorResponse.new(error)
-	      status arguements_error.status
-	      return arguements_error.body
-	    end
+            begin
+                arguements = build_arguements
+            rescue => error
+              arguements_error = ErrorResponse.new(error)
+              status arguements_error.status
+              return arguements_error.body
+            end
 
             claim = ::Claim.new(arguements)
 
-	    if !claim.valid?
-              error = ErrorResponse.new(claim)
-	      status error.status
-	      return error.body
-	    end
+            if !claim.valid?
+                    error = ErrorResponse.new(claim)
+              status error.status
+              return error.body
+            end
 
             status 200
             { valid: true }
           end
-
         end
-
       end
     end
   end

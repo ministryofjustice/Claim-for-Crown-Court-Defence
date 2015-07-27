@@ -33,7 +33,7 @@
       = f.label t('.advocate_category')
       = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2' }
 
-      = render 'dynamic_offence_fields', f: f
+      = render 'dynamic_offence_fields', f: f, offence_classes: @offence_classes, offences: @offences
       %span.auto-width
         = f.label t('.first_day_of_trial')
         = f.adp_date_fields :first_day_of_trial
@@ -82,8 +82,8 @@
               %th
                 = t('.amount')
               %th
-            = f.fields_for :basic_fees do |basic_fee|
-              = render 'basic_fee_fields', f: basic_fee
+            = f.fields_for :basic_fees do |basic_fee_fields|
+              = render 'basic_fee_fields', f: basic_fee_fields
 
     %fieldset
       %legend
@@ -102,8 +102,8 @@
                 = t('.amount')
               %th
               %th
-          = f.fields_for :misc_fees do |misc_fee|
-            = render 'misc_fee_fields', f: misc_fee
+          = f.fields_for :misc_fees do |misc_fee_fields|
+            = render 'misc_fee_fields', f: misc_fee_fields
 
         = link_to_add_association t('.add_misc_fee'), f, :misc_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
@@ -124,8 +124,8 @@
                 = t('.amount')
               %th
               %th
-          = f.fields_for :fixed_fees do |fixed_fee|
-            = render 'fixed_fee_fields', f: fixed_fee
+          = f.fields_for :fixed_fees do |fixed_fee_fields|
+            = render 'fixed_fee_fields', f: fixed_fee_fields
 
         = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 

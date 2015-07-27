@@ -8,6 +8,7 @@ case_types:
   - cracked_before_retrial
   - discontinuance
   - elected_cases_not_proceeded
+  - fixed_fee
   - guilty_plea
   - retrial
   - trial

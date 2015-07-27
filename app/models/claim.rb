@@ -37,6 +37,7 @@
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
+#  source                 :string(255)
 #
 
 class Claim < ActiveRecord::Base
@@ -79,17 +80,7 @@ class Claim < ActiveRecord::Base
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
 
- default_scope do
-    includes(:advocate,
-             :case_workers,
-             :court,
-             :defendants,
-             :documents,
-             :expenses,
-             :fee_types,
-             :messages,
-             offence: :offence_class)
-  end
+  
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }
@@ -121,18 +112,21 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
-  accepts_nested_attributes_for :basic_fees,        reject_if:  :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :fixed_fees,        reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
-  accepts_nested_attributes_for :misc_fees,         reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
-  accepts_nested_attributes_for :expenses,          reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :defendants,        reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :documents,         reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :basic_fees,  allow_destroy: true
+  accepts_nested_attributes_for :fixed_fees,  reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  accepts_nested_attributes_for :misc_fees,   reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
+  accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :defendants,  reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :documents,   reject_if: :all_blank,  allow_destroy: true
 
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
   before_validation :set_scheme, unless: :do_not_validate?
+  before_validation :destroy_all_invalid_fee_types
+
+  before_save :default_values
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -160,8 +154,12 @@ class Claim < ActiveRecord::Base
     self.case_workers.include?(cw)
   end
 
+  # This method overides the basic_fees association getter method
+  # to enable the display of persisted OR unpersisted data (incl. sorting).
+  # Required because basic fee instantiation for new claims
+  # is unpersisted at render of page (but persisted for edit action)
   def basic_fees
-    fees.select { |f| f.is_basic? }.sort{ |a, b| a.fee_type_id <=> b.fee_type_id }
+    super.empty? ? fees.select { |f| f.is_basic? }.sort{ |a, b| a.fee_type_id <=> b.fee_type_id } : super
   end
 
   def instantiate_basic_fees(params = nil)
@@ -268,4 +266,18 @@ class Claim < ActiveRecord::Base
       end
     end
   end
+
+  def destroy_all_invalid_fee_types
+    if case_type.present? && case_type == 'fixed_fee'
+      basic_fees.each { |bf| bf.quantity = nil; bf.rate = nil; }
+      misc_fees.destroy_all  unless misc_fees.empty?
+    else
+      fixed_fees.destroy_all unless fixed_fees.empty?
+    end
+  end
+
+  def default_values
+    self.source ||= 'web'
+  end
+
 end

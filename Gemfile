@@ -55,7 +55,6 @@ group :development, :test do
   gem 'rspec-rails',    '~> 3.0'
   gem 'webrick',        '~> 1.3'
   gem 'rspec-collection_matchers'
-
 end
 
 group :test do

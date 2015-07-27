@@ -37,6 +37,7 @@
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
+#  source                 :string(255)
 #
 
 require 'rails_helper'
@@ -251,7 +252,6 @@ RSpec.describe Claim, type: :model do
       expect(rep_order.representation_order_date).to eq early_date
     end
   end
-
 
   describe '.is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
@@ -547,18 +547,27 @@ RSpec.describe Claim, type: :model do
   end
 
   context 'fees total' do
-    let(:fee_type) { create(:fee_type) }
+    let(:basic_fee) { create(:fee_type, :basic) }
+    let(:fixed_fee) { create(:fee_type, :fixed) }
+    let(:misc_fee)  { create(:fee_type, :misc)  }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 5.0, quantity: 1)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.0, quantity: 1)
+      create(:fee, fee_type: fixed_fee, claim_id: subject.id, rate: 0.5, quantity: 1)
+      create(:fee, fee_type: misc_fee,  claim_id: subject.id, rate: 0.5, quantity: 1)
       subject.reload
     end
 
     describe '#calculate_fees_total' do
       it 'calculates the fees total' do
         expect(subject.calculate_fees_total).to eq(8.0)
+      end
+
+      it 'calculates fee totals by category too' do
+        expect(subject.calculate_fees_total(:basic)).to eq(7.0)
+        expect(subject.calculate_fees_total(:misc)).to eq(0.5)
+        expect(subject.calculate_fees_total(:fixed)).to eq(0.5)
       end
     end
 
@@ -568,7 +577,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
+        create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.0, quantity: 1)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -873,4 +882,48 @@ RSpec.describe Claim, type: :model do
       expect(Claim.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
     end
   end
+
+  describe '.destroy_all_invalid_fee_types' do
+
+    let(:claim_with_all_fee_types) do
+      claim = FactoryGirl.create :draft_claim
+      FactoryGirl.create(:fee, :basic, claim: claim)
+      FactoryGirl.create(:fee, :fixed, claim: claim)
+      FactoryGirl.create(:fee, :misc, claim: claim)
+      claim
+    end
+
+    it 'destroys fixed fees for non fixed case types' do
+      claim_with_all_fee_types.save
+      expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 9.99
+      expect(claim_with_all_fee_types.fixed_fees.size).to eql 0
+      expect(claim_with_all_fee_types.misc_fees.size).to eql 1
+    end
+
+    it 'clears basic fees and destroys miscelllaneous fees for Fixed Fee case types' do
+      claim_with_all_fee_types.case_type = 'fixed_fee'
+      claim_with_all_fee_types.save
+      expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
+      expect(claim_with_all_fee_types.fixed_fees.size).to eql 1
+      expect(claim_with_all_fee_types.misc_fees.size).to eql 0
+    end
+
+  end
+
+  describe 'sets the source field before saving a claim' do
+    let(:claim)       { FactoryGirl.build :claim }
+
+    it 'sets the source to web by default if unset' do
+      expect(claim.save).to eq(true)
+      expect(claim.source).to  eq('web')
+    end
+
+    it 'does not change the source if set' do
+      claim.source = 'test'
+      expect(claim.save).to eq(true)
+      expect(claim.source).to  eq('test')
+    end
+
+  end
+
 end

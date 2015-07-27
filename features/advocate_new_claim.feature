@@ -132,10 +132,11 @@ Feature: Advocate new claim
       And There are fee schemes in place
       And I am on the new claim page
      When I fill in the claim details
+      And I select a Case Type of "Fixed fee"
       And I add a fixed fee
       And I submit to LAA
      Then I should be redirected to the claim confirmation page
-      And I should see the claim totals accounting for the fixed fee
+      And I should see the claim totals accounting for only the fixed fee
 
   Scenario: Add Miscellaneous Fee type
     Given I am a signed in advocate
@@ -146,3 +147,60 @@ Feature: Advocate new claim
       And I submit to LAA
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for the miscellaneous fee
+
+Scenario: Fixed Fee case type does not save Initial/Misc Fees
+   Given I am a signed in advocate
+     And There are fee schemes in place
+     And I am on the new claim page
+    When I fill in the claim details
+     And I fill in a Miscellaneous Fee
+     And I select a Case Type of "Fixed fee"
+     And I submit to LAA
+    Then There should not be any Initial Fees saved
+     And There should not be any Miscellaneous Fees Saved
+
+Scenario: Non-Fixed Fee case type does not save Fixed Fees
+   Given I am a signed in advocate
+     And There are fee schemes in place
+     And I am on the new claim page
+    When I fill in the claim details
+     And I fill in a Fixed Fee
+     And I select a Case Type of "Trial"
+     And I submit to LAA
+    Then There should not be any Fixed Fees saved
+
+@focus @javascript @webmock_allow_net_connect @wip
+Scenario: Fixed Fee case types do not display other fee sections
+   Given I am a signed in advocate
+     And There are fee schemes in place
+     And I am on the new claim page
+    When I select2 "Fixed fee" from "claim_case_type"
+    Then I should NOT be able to view "Initial Fees"
+     And I should be able to view "Fixed Fees"
+     And I should NOT be able to view "Miscellaneous Fees"
+   Given I fill in a Fixed Fee
+    When I select2 "Contempt" from "claim_case_type"
+    Then I should be warned that "Fixed fees" will be deleted
+
+@focus @javascript @webmock_allow_net_connect @wip
+Scenario: Non-Fixed Fee case types do not display Fixed Fee sections
+   Given I am a signed in advocate
+     And There are fee schemes in place
+     And I am on the new claim page
+    When I select2 "Contempt" from "claim_case_type"
+    Then I should be able to view "Initial Fees"
+     And I should NOT be able to view "Fixed Fees"
+     And I should be able to view "Miscellaneous Fees"
+   Given I fill in an Initial Fee
+    When I select2 "Fixed fee" from "claim_case_type"
+    Then I should be warned that "Initial and Miscellaneous fees" will be deleted
+
+  Scenario: Edit existing non-Fixed case type to be Fixed
+    Given I am a signed in advocate
+      And There are fee schemes in place
+      And a non-fixed-fee claim exists with basic and miscellaneous fees
+     When I am on the claim edit page
+      And I select a Case Type of "Fixed fee"
+      And I submit to LAA
+     Then There should not be any Initial Fees saved
+      And There should not be any Miscellaneous Fees Saved

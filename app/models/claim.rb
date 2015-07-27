@@ -37,6 +37,7 @@
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
+#  source                 :string(255)
 #
 
 class Claim < ActiveRecord::Base
@@ -134,6 +135,8 @@ class Claim < ActiveRecord::Base
 
   before_validation :set_scheme, unless: :do_not_validate?
   before_validation :destroy_all_invalid_fee_types
+
+  before_save :default_values
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -281,6 +284,10 @@ class Claim < ActiveRecord::Base
     else
       fixed_fees.destroy_all unless fixed_fees.empty?
     end
+  end
+
+  def default_values
+    self.source ||= 'web'
   end
 
 end

@@ -37,6 +37,7 @@
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
+#  source                 :string(255)
 #
 
 require 'rails_helper'
@@ -251,7 +252,6 @@ RSpec.describe Claim, type: :model do
       expect(rep_order.representation_order_date).to eq early_date
     end
   end
-
 
   describe '.is_allocated_to_case_worker' do
     let(:case_worker_1)        { FactoryGirl.create :case_worker }
@@ -906,6 +906,22 @@ RSpec.describe Claim, type: :model do
       expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
       expect(claim_with_all_fee_types.fixed_fees.size).to eql 1
       expect(claim_with_all_fee_types.misc_fees.size).to eql 0
+    end
+
+  end
+
+  describe 'sets the source field before saving a claim' do
+    let(:claim)       { FactoryGirl.build :claim }
+
+    it 'sets the source to web by default if unset' do
+      expect(claim.save).to eq(true)
+      expect(claim.source).to  eq('web')
+    end
+
+    it 'does not change the source if set' do
+      claim.source = 'test'
+      expect(claim.save).to eq(true)
+      expect(claim.source).to  eq('test')
     end
 
   end

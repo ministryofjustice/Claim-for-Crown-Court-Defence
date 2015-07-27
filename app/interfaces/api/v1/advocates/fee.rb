@@ -32,7 +32,7 @@ module API
                 rate: params[:rate]
               }
             end
-
+            
           end
 
           desc "Create a fee."
@@ -58,6 +58,7 @@ module API
               status 200
               true
             else
+              status 400
               false
             end
           end

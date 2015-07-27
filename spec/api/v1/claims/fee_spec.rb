@@ -7,6 +7,7 @@ describe API::V1::Advocates::Fee do
 
   CREATE_FEE_ENDPOINT = "/api/advocates/fees"
   VALIDATE_FEE_ENDPOINT = "/api/advocates/fees/validate"
+
   let!(:fee_type)    { create(:fee_type, id: 2) }
   let!(:claim)       { create(:claim) }
   let!(:valid_fee_params)  { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 2, rate: 54321} }
@@ -38,13 +39,12 @@ describe API::V1::Advocates::Fee do
 
     it 'returns 200 when the params are valid' do
         response = post_to_validate_endpoint(valid_fee_params)
-        puts response.body
         expect(response.status).to eq 200
     end
 
     it 'returns 400 when the params are invalid' do
-        response = post_to_validate_endpoint(invalid_fee_params)
-        expect(response.status).to eq 400
+        invalid_response = post_to_validate_endpoint(invalid_fee_params)
+        expect(invalid_response.status).to eq 400
     end
 
   end

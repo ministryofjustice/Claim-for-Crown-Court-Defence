@@ -21,7 +21,6 @@ describe API::V1::Advocates::Defendant do
 
       it 'returns 201 and creates a new defendant record' do
         response = post_to_create_endpoint(valid_defendant_params)
-        puts response.body
         expect(response.status).to eq 201
       end
 

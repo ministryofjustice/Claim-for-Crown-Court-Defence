@@ -16,7 +16,7 @@ class Advocate < ActiveRecord::Base
 
   belongs_to :chamber
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
-  has_many :claims, dependent: :destroy
+  has_many :claims,  -> { includes :fee_types }, dependent: :destroy
   has_many :claims_created, dependent: :nullify, class_name: 'Claim', foreign_key: 'creator_id', inverse_of: :creator
   has_many :documents # Do not destroy - ultimately belong to chambers.
 

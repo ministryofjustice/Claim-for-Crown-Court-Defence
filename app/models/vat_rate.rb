@@ -26,13 +26,13 @@ class VatRate < ActiveRecord::Base
 
   class << self
 
-    def instantiate_rates
+    def load_rates
       @@rates = VatRate.all.order('effective_date DESC')
     end
 
 
     def for_date(date)
-      instantiate_rates if @@rates.nil?
+      load_rates if @@rates.nil?
       rate_for_date(date)
     end
 

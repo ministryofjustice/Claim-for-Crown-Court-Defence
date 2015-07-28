@@ -1,15 +1,15 @@
 CATEGORY,FEE TYPE,CODE
 BASIC,Basic Fee,BAF
-BASIC,Daily Attendance Fee (3 to 40),DAF,-2
+BASIC,Daily Attendance Fee (3 to 40),DAF
 BASIC,Daily Attendance Fee (41 to 50),DAH
 BASIC,Daily Attendance Fee (51+),DAJ
-BASIC,Standard Appearance Fee,SAF,-4
-BASIC,Plea and Case Management Hearing,PCM,-1
-BASIC,Conferences and Views,CAV,-3
+BASIC,Standard Appearance Fee,SAF
+BASIC,Plea and Case Management Hearing,PCM
+BASIC,Conferences and Views,CAV
 BASIC,Number of Defendants uplift,NDR
 BASIC,Number of Cases uplift,NOC
-BASIC,Number of Prosecution Witnesses,NPW,-10
-BASIC,Pages of Prosecution Evidence,PPE,-50
+BASIC,Number of Prosecution Witnesses,NPW
+BASIC,Pages of Prosecution Evidence,PPE
 FIXED,Appeals to the Crown Court against Conviction,ACV
 FIXED,Appeals to the Crown Court against Conviction Uplift,ACU
 FIXED,Appeals to the Crown Court against Sentence,ASE

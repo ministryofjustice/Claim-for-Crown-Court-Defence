@@ -12,6 +12,6 @@ data = CSV.read(file_path)
 data.shift
 
 data.each do |row|
-  cat, description, code, modifier = row
-  FeeType.find_or_create_by!(fee_category: fee_categories[cat], description: description, code: code, quantity_modifier: modifier)
+  cat, description, code = row
+  FeeType.find_or_create_by!(fee_category: fee_categories[cat], description: description, code: code)
 end

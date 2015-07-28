@@ -15,8 +15,7 @@ Given(/^I am on the new claim page$/) do
   create(:offence, description: 'Murder')
   create(:fee_type, :basic, description: 'Basic Fee')
   create(:fee_type, :basic, description: 'Other Basic Fee')
-  create(:fee_type, :basic, description: 'Basic Fee with Modifer', quantity_modifier: -4)
-  create(:fee_type, :basic, description: 'Basic Fee with dates attended required', quantity_modifier: -2, code: 'SAF')
+  create(:fee_type, :basic, description: 'Basic Fee with dates attended required', code: 'SAF')
   create(:fee_type, :fixed, description: 'Fixed Fee example')
   create(:fee_type, :misc,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
@@ -47,7 +46,7 @@ end
 
 # NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
 When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type |
-  div_id = fee_type.downcase == "fixed" ? 'fees' : 'basic_fees'
+  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'basic-fees'
 
   number.to_i.times do
   within "##{div_id}" do
@@ -108,9 +107,9 @@ When(/^I fill in the claim details$/) do
 
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_0_rate', with: 0.5
+    fill_in 'claim_basic_fees_attributes_0_amount', with: 0.5
     fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_1_rate', with: 0.5
+    fill_in 'claim_basic_fees_attributes_1_amount', with: 0.5
   end
 
   within '#expenses' do
@@ -270,23 +269,10 @@ Then(/^the case number should reflect the change$/) do
   expect(claim.case_number).to eq('543211234')
 end
 
-When(/^I fill in an additional fee type that is subjected to a modifer$/) do
-  within '#basic-fees' do
-    fill_in 'claim_basic_fees_attributes_2_quantity', with: 6
-    fill_in 'claim_basic_fees_attributes_2_rate', with: 1
-  end
-end
-
-Then(/^I should see the claim totals accounting for modifier$/) do
-  expect(page).to have_content("Fees total: £3.00")
-  expect(page).to have_content("Expenses total: £40.00")
-  expect(page).to have_content("Total: £43.00")
-end
-
 When(/^I add a fixed fee$/) do
     within '#fixed-fees' do
       fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_fixed_fees_attributes_0_rate', with: 100.01
+      fill_in 'claim_fixed_fees_attributes_0_amount', with: 100.01
       select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     end
 end
@@ -298,7 +284,7 @@ end
 When(/^I add a miscellaneous fee$/) do
     within '#misc-fees' do
       fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_misc_fees_attributes_0_rate', with: 200.01
+      fill_in 'claim_misc_fees_attributes_0_amount', with: 200.01
       select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     end
 end
@@ -338,7 +324,7 @@ end
 Given(/^I fill in an Initial Fee$/) do
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_basic_fees_attributes_0_rate', with: 1.5
+    fill_in 'claim_basic_fees_attributes_0_amount', with: 1.5
   end
 end
 
@@ -346,7 +332,7 @@ Given(/^I fill in a Miscellaneous Fee$/) do
   within '#misc-fees' do
     select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     fill_in 'claim_misc_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_misc_fees_attributes_0_rate', with: 1.5
+    fill_in 'claim_misc_fees_attributes_0_amount', with: 3.00
   end
 end
 
@@ -354,12 +340,20 @@ Given(/^I fill in a Fixed Fee$/) do
   within '#fixed-fees' do
     select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.5
+    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
+  end
+end
+
+Given(/^I fill in a Fixed Fee using select2$/) do
+  within '#fixed-fees' do
+    # select2 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id' # does not work
+    fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
+    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
   end
 end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
   claim = create(:submitted_claim, case_type: 'trial', advocate_id: Advocate.first.id)
-  create(:fee, :basic, claim: claim, quantity: 3, rate: 2.5, amount: 7.5)
-  create(:fee, :misc,  claim: claim, quantity: 2, rate: 2.5, amount: 5.0)
+  create(:fee, :basic, claim: claim, quantity: 3, amount: 7.5)
+  create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end

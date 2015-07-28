@@ -6,7 +6,6 @@
 #  claim_id    :integer
 #  fee_type_id :integer
 #  quantity    :integer
-#  rate        :decimal(, )
 #  amount      :decimal(, )
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -17,13 +16,11 @@ FactoryGirl.define do
     claim
     fee_type
     quantity 1
-    rate "9.99"
     amount "9.99"
 
     trait :random_values do
       quantity { rand(1..15) }
-      rate     { rand(10.0..399.99).round(2) }
-      amount   { quantity * rate }
+      amount   { rand(100.00..9999.99).round(2) }
     end
 
     trait :basic do
@@ -40,7 +37,6 @@ FactoryGirl.define do
 
     trait :all_zero do
       quantity 0
-      rate 0
       amount 0
     end
 

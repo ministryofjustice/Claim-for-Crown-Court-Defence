@@ -85,62 +85,62 @@ def create_dummy_caseworkers(caseworkers_to_add, location)
 end
 
 
-  # adds all basic fees, Basic fee qauntity one always,
-  # others random q and r and dates only for those applicable.
+  # adds all initial fees, "Basic Fee" qauntity is always 1,
+  # others random q and a and dates only for those applicable.
   #
   # NOTE: at time of writing a claim has all "initial fees"
   #       instantiated at point of new claim creation.
 
- def random_basic_fee_quantity_rate_by_type(fee_type)
+ def random_basic_fee_quantity_and_amount_by_type(fee_type)
     case fee_type.code
       when 'BAF'
         q = 1
-        r = rand(1500.00..3000.00)
+        a = rand(1500.00..3000.00)
       when 'DAF'
         q = rand(1..15)
-        r = rand(200..500)
+        a = rand(200..2500)
       when 'DAH'
         q = rand(0..20)
-        r = rand(200.00..300.00)
+        a = rand(200.00..3000.00)
       when 'DAJ'
         q = rand(0..10)
-        r = rand(200.00..300.00)
+        a = rand(200.00..800.00)
       when 'PCM'
         q = rand(2..10)
-        r = rand(100..300)
+        a = rand(200..600)
       when 'PPE'
         q = rand(50..200)
-        r = rand(0.50..1.00)
+        a = rand(0.50..400.00)
       when 'CAV'
         q = rand(3..20)
-        r = rand(40.00..50.00)
+        a = rand(40.00..500.00)
       when 'NPW'
         q = rand(11..300)
-        r = rand(3.00..4.00)
+        a = rand(30.00..400.00)
       when 'SAF'
         q = rand(5..15)
-        r = rand(80.00..90.00)
+        a = rand(380.00..900.00)
       else
         q = rand(1..15);
-        r = rand(10.00..199.00)
+        a = rand(10.00..1199.00)
     end
 
-    return q, r.round(2)
+    return q, a.round(2)
  end
 
   def add_basic_fees(claim)
     return if claim.case_type == "fixed_fee"
 
     FeeType.basic.each do |fee_type|
-      q, r = random_basic_fee_quantity_rate_by_type(fee_type)
+      q, a = random_basic_fee_quantity_and_amount_by_type(fee_type)
       unless fee_type.code == 'BAF'
         if rand(2) == 0
           q = 0
-          r = 0
+          a = 0
         end
       end
 
-      fee = FactoryGirl.create(:fee, quantity: q, rate: r , claim: claim, fee_type: fee_type)
+      fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0

@@ -67,7 +67,8 @@
         = t('.basic_fees')
       #basic-fees
         %p
-          = t('.quantity_and_rate_prompt')
+          = t('.fee_prompt_text')
+          %a{:href => "https://www.gov.uk/government/publications/graduated-fee-calculators", :target => "_blank"} Graduated Fee Calculators
         %table.table
           %thead
             %tr
@@ -76,11 +77,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.quantity_modifier')
-              %th
-                = t('.rate')
-              %th
-                = t('.amount')
+                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
               %th
             = f.fields_for :basic_fees do |basic_fee_fields|
               = render 'basic_fee_fields', f: basic_fee_fields
@@ -97,9 +94,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.rate')
-              %th
-                = t('.amount')
+                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
               %th
               %th
           = f.fields_for :misc_fees do |misc_fee_fields|
@@ -119,9 +114,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.rate')
-              %th
-                = t('.amount')
+                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
               %th
               %th
           = f.fields_for :fixed_fees do |fixed_fee_fields|

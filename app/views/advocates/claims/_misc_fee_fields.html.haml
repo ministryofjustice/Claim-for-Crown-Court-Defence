@@ -5,9 +5,7 @@
     %td
       = f.number_field :quantity, class: 'quantity'
     %td
-      = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
-    %td.amount
-      = number_to_currency(f.object.amount)
+      = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', placeholder: t('number.currency.format.unit')
     %td.add-misc-fee-date-attended
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
     %td.remove-misc-fee

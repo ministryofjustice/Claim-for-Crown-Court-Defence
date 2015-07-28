@@ -552,10 +552,10 @@ RSpec.describe Claim, type: :model do
     let(:misc_fee)  { create(:fee_type, :misc)  }
 
     before do
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 5.0, quantity: 1)
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.0, quantity: 1)
-      create(:fee, fee_type: fixed_fee, claim_id: subject.id, rate: 0.5, quantity: 1)
-      create(:fee, fee_type: misc_fee,  claim_id: subject.id, rate: 0.5, quantity: 1)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 4.00)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 3.00)
+      create(:fee, fee_type: fixed_fee, claim_id: subject.id, amount: 0.50)
+      create(:fee, fee_type: misc_fee,  claim_id: subject.id, amount: 0.50)
       subject.reload
     end
 
@@ -577,7 +577,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.0, quantity: 1)
+        create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 2.00)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -586,7 +586,7 @@ RSpec.describe Claim, type: :model do
         fee = subject.fees.first
         fee.destroy
         subject.reload
-        expect(subject.fees_total).to eq(3.0)
+        expect(subject.fees_total).to eq(4.0)
       end
     end
   end
@@ -629,9 +629,9 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 5.0, quantity: 1)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.0, quantity: 1)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 3.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.00)
 
       create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
       create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
@@ -641,16 +641,16 @@ RSpec.describe Claim, type: :model do
 
     describe '#calculate_total' do
       it 'calculates the fees and expenses total' do
-        expect(subject.calculate_total).to eq(154.5)
+        expect(subject.calculate_total).to eq(152.5)
       end
     end
 
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.0, quantity: 1)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 0.5)
         subject.reload
-        expect(subject.total).to eq(158.5)
+        expect(subject.total).to eq(156.00)
       end
 
       it 'updates total when expense/fee destroyed' do
@@ -659,7 +659,7 @@ RSpec.describe Claim, type: :model do
         expense.destroy
         fee.destroy
         subject.reload
-        expect(subject.total).to eq(146.0)
+        expect(subject.total).to eq(146.00)
       end
     end
   end
@@ -887,9 +887,9 @@ RSpec.describe Claim, type: :model do
 
     let(:claim_with_all_fee_types) do
       claim = FactoryGirl.create :draft_claim
-      FactoryGirl.create(:fee, :basic, claim: claim)
-      FactoryGirl.create(:fee, :fixed, claim: claim)
-      FactoryGirl.create(:fee, :misc, claim: claim)
+      FactoryGirl.create(:fee, :basic, claim: claim, amount: 9.99)
+      FactoryGirl.create(:fee, :fixed, claim: claim, amount: 9.99)
+      FactoryGirl.create(:fee, :misc, claim: claim, amount: 9.99)
       claim
     end
 

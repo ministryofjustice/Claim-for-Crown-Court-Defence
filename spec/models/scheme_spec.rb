@@ -6,8 +6,8 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  start_date :datetime
-#  end_date   :datetime
+#  start_date :date
+#  end_date   :date
 #
 
 require 'rails_helper'

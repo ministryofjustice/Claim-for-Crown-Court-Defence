@@ -60,22 +60,22 @@
             - if claim.court
               = claim.court.name
           %dt
-            =t('.prosecuting_auth')
+            = t('.prosecuting_auth')
           %dd
-            CPS
+            = claim.prosecuting_authority.titleize
           %dt
-            =t('.q.retrial')
+            = t('.q.retrial')
           %dd
-            No
+            = claim.retrial
           %dt
             =t('.j_a')
           %dd
-            No
+            = claim.any_judicial_apportionments
           - if controller.action_name == 'show' || controller.action_name == 'update'
             %dt
-              Hearing
+              Trial Concluded
             %dd
-              27/04/2015
+              = claim.trial_concluded
             %dt
               Advocate
             %dd

@@ -36,6 +36,21 @@ class VatRate < ActiveRecord::Base
       rate_for_date(date)
     end
 
+    # Calculate VAT amount for amount_excluding_vat on a given date
+    def vat_amount(amount_excluding_vat, date)
+      rate = VatRate.for_date(date)
+      (amount_excluding_vat * rate / 10000.0).round(2)
+    end
+
+
+    # returns "22.25%", "17/5%', 8%", etc
+    def pretty_rate(date)
+      rate = rate_for_date(date) / 100.0
+
+      # transform to integer if whole number to supress printing of .0 
+      rate = rate.to_i if rate - rate.to_i == 0
+      sprintf("%s%%", rate.to_s)
+    end
  
     private
 

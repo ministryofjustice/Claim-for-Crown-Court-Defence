@@ -7,6 +7,8 @@ module API
       class Root < Grape::API
         mount API::V1::Advocates::Claim
         mount API::V1::Advocates::Defendant
+        mount API::V1::Advocates::Fee
+        mount API::V1::Advocates::Expense
         add_swagger_documentation(
           api_version: "v1",
           hide_documentation_path: true,

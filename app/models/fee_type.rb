@@ -30,7 +30,7 @@ class FeeType < ActiveRecord::Base
   has_many :claims, through: :fees
 
   validates :fee_category, presence: true
-  validates :description, presence: true, uniqueness: { case_sensitive: false }
+  validates :description, presence: true, uniqueness: { case_sensitive: false, scope: :fee_category }
   validates :code, presence: true
   validates :quantity_modifier, numericality: { only_integer: true, less_than_or_equal_to: 0 }, unless: 'quantity_modifier.nil?'
 

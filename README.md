@@ -27,4 +27,20 @@ adp_bucket_name       = <AWS bucket name> # Optional
 The bucket name will default to `moj_cbo_documents_#{Rails.env}` if
 `adp_bucket_name` is not set.
 
+## Setting up development enviroment
 
+Install gems
+
+```
+bundle install
+```
+Setup dummy users and data:
+
+```
+CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data[1,1]
+```
+Run the application:
+
+```
+rails server
+```

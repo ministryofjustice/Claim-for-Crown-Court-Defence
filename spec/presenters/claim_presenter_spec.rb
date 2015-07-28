@@ -8,8 +8,8 @@ RSpec.describe ClaimPresenter do
   before do
     Timecop.freeze(Time.current)
     @first_defendant = claim.defendants.first
-    create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim: claim)
-    create(:defendant, first_name: 'Adam', middle_name: '', last_name: 'Smith', claim: claim)
+    create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
+    create(:defendant, first_name: 'Adam', middle_name: '', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
   end
 
   after { Timecop.return }
@@ -29,7 +29,35 @@ RSpec.describe ClaimPresenter do
     expect(subject.paid_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.paid_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.paid_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{ subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
+    expect{subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
+  end
+
+  describe '#retrial' do
+
+    it 'returns yes for case types like retrial' do
+      claim.case_type = 'retrial'
+      expect(subject.retrial).to eql 'Yes'
+    end
+
+    it 'returns no for case types NOT like retrial' do
+      claim.case_type = 'contempt'
+      expect(subject.retrial).to eql 'No'
+    end
+
+  end
+
+  describe '#any_judicial_apportionments' do
+
+    it "returns yes if any defendants have an order for judicial apportionment" do
+      @first_defendant.update_attribute(:order_for_judicial_apportionment,true)
+      expect(subject.any_judicial_apportionments).to eql 'Yes'
+    end
+
+    it "returns no if no defendants have an order for judicial apportionment" do
+      @first_defendant.update_attribute(:order_for_judicial_apportionment,false)
+      expect(subject.any_judicial_apportionments).to eql 'No'
+    end
+
   end
 
   # TODO: do currency converters need internationalisation??

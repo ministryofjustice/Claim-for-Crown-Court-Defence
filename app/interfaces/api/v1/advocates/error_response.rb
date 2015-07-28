@@ -8,11 +8,10 @@ module API
         attr :status
 
         def initialize(object)
-          case object
-          when ::Claim
-            @claim = object
-            build_claim_error_response
-          when API::V1::ArgumentError
+          if models.include? object
+            @model = object
+            build_error_response
+          elsif object.class == API::V1::ArgumentError
             @body = { error: object.message }
             @status = 400
           else
@@ -20,12 +19,16 @@ module API
           end
         end
 
-        def build_claim_error_response
-          if !@claim.errors.empty?
+        def models
+          [::Fee, ::Expense, ::Claim]
+        end
+
+        def build_error_response
+          if !@model.errors.empty?
 
             error_messages = []
 
-            @claim.errors.full_messages.each do |error_message|
+            @model.errors.full_messages.each do |error_message|
               error_messages.push({ error: error_message })
             end
 

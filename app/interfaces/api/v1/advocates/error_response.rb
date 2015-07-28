@@ -8,7 +8,7 @@ module API
         attr :status
 
         def initialize(object)
-          if models.include? object
+          if models.include? object.class
             @model = object
             build_error_response
           elsif object.class == API::V1::ArgumentError
@@ -20,7 +20,7 @@ module API
         end
 
         def models
-          [::Fee, ::Expense, ::Claim]
+          [::Fee, ::Expense, ::Claim, ::Defendant]
         end
 
         def build_error_response

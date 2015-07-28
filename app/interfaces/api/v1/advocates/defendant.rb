@@ -19,19 +19,11 @@ module API
           helpers do
             params :defendant_creation do
               requires :claim_id, type: Integer, desc: "Unique identifier for the claim associated with this defendant."
-              requires :first_name, type: String, not_blank: :true, desc: "First name of the defedant."
+              requires :first_name, type: String, desc: "First name of the defedant."
               optional :middle_name, type: String, desc: "Middle name of the defendant."
-              requires :last_name, type: String, not_blank: :true, desc: "Last name of the defendant."
-              requires :date_of_birth, type: DateTime, not_blank: :true, desc: "Defendant's date of birth."
+              requires :last_name, type: String, desc: "Last name of the defendant."
+              requires :date_of_birth, type: DateTime, desc: "Defendant's date of birth."
               optional :order_for_judicial_apportionment, type: Boolean
-            end
-
-            class NotBlank < Grape::Validations::Base
-             def validate_param!(attr_name, params)
-                if params[attr_name.to_sym].blank?
-                  fail Grape::Exceptions::Validation, params: [@scope.full_name(attr_name)], message: "cannot be blank"
-                end
-              end
             end
 
             def args
@@ -55,6 +47,24 @@ module API
 
           post do
             ::Defendant.create!(args)
+          end
+
+          desc "Validate a defendant."
+
+          params do
+            use :defendant_creation
+          end
+
+          post '/validate' do
+            defendant = ::Defendant.new(args)
+            if !defendant.valid?
+                    error = ErrorResponse.new(defendant)
+              status error.status
+              return error.body
+            end
+
+            status 200
+            { valid: true }
           end
 
         end

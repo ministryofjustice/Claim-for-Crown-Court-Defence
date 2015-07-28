@@ -1,6 +1,5 @@
 language: ruby
 cache: bundler
-sudo: true
 addons:
   postgresql: '9.3'
 before_script:

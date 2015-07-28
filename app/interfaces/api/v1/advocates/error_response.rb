@@ -8,16 +8,19 @@ module API
         attr :status
 
         def initialize(object)
-          case object
-          when ::Claim || ::Fee
+          if models.include? object
             @model = object
             build_error_response
-          when API::V1::ArgumentError
+          elsif object.class == API::V1::ArgumentError
             @body = { error: object.message }
             @status = 400
           else
             raise "Unable to generate an error response for the class #{object.class}"
           end
+        end
+
+        def models
+          [::Fee, ::Expense, ::Claim]
         end
 
         def build_error_response

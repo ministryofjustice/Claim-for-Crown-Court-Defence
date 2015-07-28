@@ -18,4 +18,3 @@ deploy:
   run:
     - "rake db:clear"
     - "rake db:migrate"
-    - "rake db:seed"

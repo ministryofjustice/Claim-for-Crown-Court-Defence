@@ -39,5 +39,11 @@ describe VatRate do
   end
  
 
+  describe '.rate_for_date' do
+    it 'should be private' do
+      VatRate.for_date(Date.today)
+    end
+  end
+
   
 end

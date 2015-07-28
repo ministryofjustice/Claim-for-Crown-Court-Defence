@@ -24,29 +24,32 @@ class VatRate < ActiveRecord::Base
 
   @@rates = nil
 
-  def self.instantiate_rates
-    @@rates = VatRate.all.order('effective_date DESC')
-  end
+  class << self
 
-
-  def self.for_date(date)
-    instantiate_rates if @@rates.nil?
-    rate_for_date(date)
-  end
-
-
-  def self.rate_for_date(date)
-    result = nil
-    @@rates.each do | rec |
-      unless date < rec.effective_date
-        result = rec
-        break
-      end
+    def instantiate_rates
+      @@rates = VatRate.all.order('effective_date DESC')
     end
-    raise ::VatRate::MissingVatRateError.new("There is no VAT rate for date #{date.strftime(Settings.date_format)}") if result.nil?
-    result.rate_base_points
+
+
+    def for_date(date)
+      instantiate_rates if @@rates.nil?
+      rate_for_date(date)
+    end
+
+ 
+    private
+
+    def rate_for_date(date)
+      result = nil
+      @@rates.each do | rec |
+        unless date < rec.effective_date
+          result = rec
+          break
+        end
+      end
+      raise ::VatRate::MissingVatRateError.new("There is no VAT rate for date #{date.strftime(Settings.date_format)}") if result.nil?
+      result.rate_base_points
+    end
+
   end
-
-  private_class_method :rate_for_date
-
 end

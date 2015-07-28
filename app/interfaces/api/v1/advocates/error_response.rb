@@ -9,9 +9,9 @@ module API
 
         def initialize(object)
           case object
-          when ::Claim
-            @claim = object
-            build_claim_error_response
+          when ::Claim || ::Fee
+            @model = object
+            build_error_response
           when API::V1::ArgumentError
             @body = { error: object.message }
             @status = 400
@@ -20,12 +20,12 @@ module API
           end
         end
 
-        def build_claim_error_response
-          if !@claim.errors.empty?
+        def build_error_response
+          if !@model.errors.empty?
 
             error_messages = []
 
-            @claim.errors.full_messages.each do |error_message|
+            @model.errors.full_messages.each do |error_message|
               error_messages.push({ error: error_message })
             end
 

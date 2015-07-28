@@ -44,6 +44,7 @@ module Claims::StateMachine
       after_transition on: :await_further_info,      do: :set_valid_until!
       after_transition on: :reject_parts,            do: :set_valid_until!
       after_transition on: :archive_pending_delete,  do: :set_valid_until!
+      before_transition any => any,  do: :set_paper_trail_event!
 
       state :allocated, :appealed, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
          :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted
@@ -138,4 +139,7 @@ module Claims::StateMachine
     update_column(:valid_until, Time.now + validity)
   end
 
+  def set_paper_trail_event!
+    self.paper_trail_event = 'State change'
+  end
 end

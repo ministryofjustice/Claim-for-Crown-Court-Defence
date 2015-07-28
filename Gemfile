@@ -33,9 +33,10 @@ gem 'squeel',               '~> 1.2.3'
 gem 'state_machine',        '~> 1.2.0'
 gem 'uglifier',             '>= 1.3.0'
 gem 'grape',                '>= 0.12'
-gem 'hashie-forbidden_attributes', '>= 0.1.1'
+gem 'grape-papertrail'
 gem 'grape-swagger',        '>= 0.10.1'
 gem 'grape-swagger-rails',   '>= 0.1.0'
+gem 'hashie-forbidden_attributes', '>= 0.1.1'
 
 group :production do
   gem 'rails_12factor', '0.0.3'

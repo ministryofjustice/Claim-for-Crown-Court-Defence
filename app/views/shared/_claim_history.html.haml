@@ -1,0 +1,31 @@
+%section#claim-history
+  %table
+    %thead
+      %th
+        Date/time
+      %th
+        Action
+      %th
+        Owner
+      %th
+        Changes
+    %tbody
+      - @claim.versions.reverse.each do |version|
+        %tr
+          %td
+            = version.created_at
+          %td
+            = version.event.humanize
+          %td
+            = version.whodunnit || 'Unknown'
+          %td
+            %ul
+              - version.changeset.each do |attribute, changes|
+                %li
+                  - unless changes.first.blank? || changes.last.blank?
+                    Changed
+                    "#{attribute.humanize}"
+                    from
+                    "#{changes.first}"
+                    to
+                    "#{changes.last}"

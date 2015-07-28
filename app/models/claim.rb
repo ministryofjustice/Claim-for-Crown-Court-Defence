@@ -41,8 +41,6 @@
 #
 
 class Claim < ActiveRecord::Base
-  has_paper_trail
-
   serialize :evidence_checklist_ids, Array
 
   include Claims::StateMachine
@@ -80,7 +78,7 @@ class Claim < ActiveRecord::Base
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
 
-  
+  has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }

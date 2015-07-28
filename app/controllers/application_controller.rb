@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
+  def user_for_paper_trail
+    current_user.nil? ? 'Unknown': current_user.persona.class.to_s.humanize
+  end
+
   def current_user_messages_count
     UserMessageStatus.for(current_user).not_marked_as_read.count
   end

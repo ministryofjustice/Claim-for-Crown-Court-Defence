@@ -21,6 +21,7 @@ module API
               requires :claim_id, type: Integer
               requires :fee_type_id, type: Integer
               requires :quantity, type: Integer
+              requires :amount, type: Float
             end
 
             def args

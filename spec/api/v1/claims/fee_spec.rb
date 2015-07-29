@@ -10,7 +10,7 @@ describe API::V1::Advocates::Fee do
 
   let!(:fee_type)            { create(:fee_type, id: 1) }
   let!(:claim)               { create(:claim) }
-  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 3} }
+  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 3, amount: 10.00 } }
   let!(:invalid_fee_params)  { {claim_id: claim.id} }
 
   describe 'POST api/advocates/fees' do

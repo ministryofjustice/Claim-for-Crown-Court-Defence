@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'ping'               => 'ping#index'
+  get 'ping'                => 'ping#index'
+  get 'vat'                 => "vat_rates#index"
 
   devise_for :users, controllers: { sessions: 'sessions' }
 

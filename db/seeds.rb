@@ -10,6 +10,7 @@
   advocates
   courts
   chambers
+  vat_rates
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

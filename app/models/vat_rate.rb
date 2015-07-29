@@ -45,6 +45,7 @@ class VatRate < ActiveRecord::Base
 
     # returns "22.25%", "17/5%', 8%", etc
     def pretty_rate(date)
+      load_rates if @@rates.nil?
       rate = rate_for_date(date) / 100.0
 
       # transform to integer if whole number to supress printing of .0 

@@ -60,6 +60,8 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
 
+  it { should have_many(:claim_state_transitions) }
+
   context 'validation of evidence_checklist_ids' do
     let(:claim)           { FactoryGirl.build :unpersisted_claim }
 

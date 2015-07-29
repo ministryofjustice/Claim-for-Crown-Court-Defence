@@ -9,6 +9,7 @@ module API
         mount API::V1::Advocates::Defendant
         mount API::V1::Advocates::Fee
         mount API::V1::Advocates::Expense
+        mount API::V1::Advocates::DateAttended
         add_swagger_documentation(
           api_version: "v1",
           hide_documentation_path: true,

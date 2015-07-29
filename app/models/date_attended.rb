@@ -14,6 +14,7 @@ class DateAttended < ActiveRecord::Base
   belongs_to :fee
 
   validates :date, presence: true
+  validates :fee, presence:  true
 
   def to_s
     unless date_to.nil?

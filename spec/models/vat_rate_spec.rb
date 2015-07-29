@@ -17,10 +17,12 @@ describe VatRate do
     FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
     FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
     FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
+    # reload rates into the class variable to prevent stale rates from previous tests being used.
+    VatRate.load_rates     
   end
 
   after(:all) do
-    VatRate.destroy_all
+    VatRate.delete_all
   end
 
   describe '.for_date' do

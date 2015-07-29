@@ -15,9 +15,11 @@ class RepresentationOrder < ActiveRecord::Base
 
   before_save :upcase_maat_ref
 
-  validates   :granting_body, presence: true, inclusion: { in: Settings.court_types }, unless: -> {self.claim.nil? || self.claim.draft? }
+  validates   :granting_body, presence: true, unless: -> {self.claim.nil? || self.claim.draft? }
+  validates   :granting_body, inclusion: { in: Settings.court_types }
   validates   :maat_reference, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
   validates   :maat_reference, uniqueness: { case_sensitive: false }
+  validates   :representation_order_date, presence: true  
 
   belongs_to :defendant
 

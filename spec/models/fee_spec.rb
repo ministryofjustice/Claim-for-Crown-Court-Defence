@@ -31,10 +31,18 @@ RSpec.describe Fee, type: :model do
   end
 
   describe 'blank quantity should be set to zero' do
-    it 'should replace blank rates with zero before save' do
+    it 'should replace blank quantities with zero before save' do
       fee = FactoryGirl.build :fee, quantity: nil
       expect(fee).to be_valid
       expect(fee.quantity).to eq 0
+    end
+  end
+
+ describe 'blank amount should be set to zero' do
+    it 'should replace blank amounts with zero before save' do
+      fee = FactoryGirl.build :fee, amount: nil
+      expect(fee).to be_valid
+      expect(fee.amount).to eq 0
     end
   end
 
@@ -85,7 +93,6 @@ RSpec.describe Fee, type: :model do
     end
   end
 
-
   describe '.new_from_form_params' do
     it 'should build a new record and attach it to the claim' do
       claim = FactoryGirl.create :claim
@@ -98,15 +105,25 @@ RSpec.describe Fee, type: :model do
       expect(fee.quantity).to eq 25
       expect(fee.amount.to_f).to eq 1125
     end
+  end
 
-    describe '.new_collection_from_form_params' do
-      it 'should call Fee.new_from_form_params for every instance in the form params' do
-        claim = double claim
-        params = { '0' => 'first lot', '1' => 'second lot'}
-        expect(Fee).to receive(:new_from_form_params).with(claim, 'first lot')
-        expect(Fee).to receive(:new_from_form_params).with(claim, 'second lot')
-        Fee.new_collection_from_form_params(claim, params)
-      end
+  describe '.new_collection_from_form_params' do
+    it 'should call Fee.new_from_form_params for every instance in the form params' do
+      claim = double claim
+      params = { '0' => 'first lot', '1' => 'second lot'}
+      expect(Fee).to receive(:new_from_form_params).with(claim, 'first lot')
+      expect(Fee).to receive(:new_from_form_params).with(claim, 'second lot')
+      Fee.new_collection_from_form_params(claim, params)
     end
   end
+
+  describe '#clear' do
+    it 'should set fee amount and quantity to nil' do
+      fee = FactoryGirl.build :fee, quantity: 1, amount: 9.99
+      fee.clear
+      expect(fee.quantity).to eql nil
+      expect(fee.amount).to eql nil
+    end
+  end
+
 end

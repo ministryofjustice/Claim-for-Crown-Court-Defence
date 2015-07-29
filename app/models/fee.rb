@@ -78,6 +78,11 @@ class Fee < ActiveRecord::Base
     fee_type.fee_category.abbreviation
   end
 
+  def clear
+    self.quantity = nil;
+    self.amount = nil;
+  end
+
   private
 
   def basic_fee_quantity

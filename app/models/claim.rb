@@ -111,12 +111,12 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
-  accepts_nested_attributes_for :basic_fees,  allow_destroy: true
-  accepts_nested_attributes_for :fixed_fees,  reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
-  accepts_nested_attributes_for :misc_fees,   reject_if:  proc { |attributes|attrs_blank?(attributes) },  allow_destroy: true
-  accepts_nested_attributes_for :expenses,    reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :defendants,  reject_if: :all_blank,  allow_destroy: true
-  accepts_nested_attributes_for :documents,   reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :basic_fees,  reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :fixed_fees,  reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :misc_fees,   reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :expenses,    reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
 
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
@@ -135,7 +135,6 @@ class Claim < ActiveRecord::Base
     representation_orders.sort{ |a, b| a.representation_order_date <=> b.representation_order_date }.first
   end
 
-
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
   def method_missing(method, *args)
     if Claims::StateMachine.has_state?(method)
@@ -143,10 +142,6 @@ class Claim < ActiveRecord::Base
     else
       super
     end
-  end
-
-  def self.attrs_blank?(attributes)
-    attributes['quantity'].blank? && attributes['amount'].blank?
   end
 
   def is_allocated_to_case_worker?(cw)
@@ -268,8 +263,8 @@ class Claim < ActiveRecord::Base
 
   def destroy_all_invalid_fee_types
     if case_type.present? && case_type == 'fixed_fee'
-      basic_fees.each { |bf| bf.quantity = nil; bf.amount = nil; }
-      misc_fees.destroy_all  unless misc_fees.empty?
+      basic_fees.map(&:clear) unless basic_fees.blank?
+      misc_fees.destroy_all   unless misc_fees.empty?
     else
       fixed_fees.destroy_all unless fixed_fees.empty?
     end

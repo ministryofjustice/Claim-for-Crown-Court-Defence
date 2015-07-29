@@ -125,7 +125,7 @@ class Claim < ActiveRecord::Base
   before_validation :set_scheme, unless: :do_not_validate?
   before_validation :destroy_all_invalid_fee_types
 
-  before_save :default_values
+  before_save :default_values, :calculate_vat
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -277,6 +277,14 @@ class Claim < ActiveRecord::Base
 
   def default_values
     self.source ||= 'web'
+  end
+
+  def calculate_vat
+    if self.submitted_at.present? && self.apply_vat?
+      self.vat_amount = VatRate.vat_amount(self.fees_total + self.expenses_total, self.submitted_at)
+    else
+      self.vat_amount = 0.0
+    end
   end
 
 end

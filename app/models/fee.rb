@@ -20,6 +20,7 @@ class Fee < ActiveRecord::Base
 
   validates :fee_type, presence: true
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :basic_fee_quantity
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true

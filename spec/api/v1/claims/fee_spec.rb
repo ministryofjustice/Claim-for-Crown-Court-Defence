@@ -10,7 +10,7 @@ describe API::V1::Advocates::Fee do
 
   let!(:fee_type)            { create(:fee_type, id: 1) }
   let!(:claim)               { create(:claim) }
-  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 3} }
+  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 3, amount: 10.00 } }
   let!(:invalid_fee_params)  { {claim_id: claim.id} }
 
   describe 'POST api/advocates/fees' do
@@ -21,10 +21,18 @@ describe API::V1::Advocates::Fee do
 
     context 'when fee params are valid' do
 
-      it 'returns 201 and creates a new fee record' do
+      it 'returns status of 201' do
         response = post_to_create_endpoint
         expect(response.status).to eq 201
-        expect(Fee.last.quantity).to eq 3
+      end
+
+      it 'creates a new fee record with all provided attributes' do
+        response = post_to_create_endpoint
+        fee = Fee.last
+        expect(fee.claim).to eq claim
+        expect(fee.fee_type).to eq fee_type
+        expect(fee.quantity).to eq 3
+        expect(fee.amount).to eq 10.00
       end
 
     end

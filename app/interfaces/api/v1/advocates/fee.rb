@@ -1,7 +1,6 @@
 module API
   module V1
 
-    
     class Error < StandardError; end
     class ArgumentError < Error; end
 
@@ -29,6 +28,7 @@ module API
                 claim_id: params[:claim_id],
                 fee_type_id: params[:fee_type_id],
                 quantity: params[:quantity],
+                amount: params[:amount]
               }
             end
 

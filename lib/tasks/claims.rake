@@ -20,7 +20,6 @@ STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
                               'completed',
                               'paid',
                               'part_paid',
-                              'parts_rejected',
                               'awaiting_further_info',
                               'awaiting_info_from_court']
 

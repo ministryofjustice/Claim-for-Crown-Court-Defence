@@ -5,10 +5,10 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_DRAFT_STATES             = [ 'draft' ]
   ADVOCATE_DASHBOARD_REJECTED_STATES          = [ 'rejected' ]
   ADVOCATE_DASHBOARD_SUBMITTED_STATES         = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
-  ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid', 'appealed', 'parts_rejected' ]
+  ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
-  CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'parts_rejected', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ] # 'appealed' not included for now
+  CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
@@ -42,21 +42,15 @@ module Claims::StateMachine
       after_transition on: :submit,                  do: :set_submission_date!
       after_transition on: :pay,                     do: :set_paid_date!
       after_transition on: :pay_part,                do: :set_paid_date!
-      after_transition on: :appeal,                  do: :set_valid_until!
       after_transition on: :await_further_info,      do: :set_valid_until!
-      after_transition on: :reject_parts,            do: :set_valid_until!
       after_transition on: :archive_pending_delete,  do: :set_valid_until!
       before_transition any => any,  do: :set_paper_trail_event!
 
-      state :allocated, :appealed, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-         :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted
+      state :allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
+         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted
 
       event :allocate do
         transition [:submitted, :awaiting_info_from_court] => :allocated
-      end
-
-      event :appeal do
-        transition [:parts_rejected] => :appealed
       end
 
       event :archive_pending_delete do
@@ -72,7 +66,7 @@ module Claims::StateMachine
       end
 
       event :complete do
-        transition [:appealed, :awaiting_further_info, :paid, :parts_rejected, :refused] => :completed
+        transition [:awaiting_further_info, :paid, :refused] => :completed
       end
 
       event :draft do
@@ -84,7 +78,7 @@ module Claims::StateMachine
       end
 
       event :pay do
-        transition [:allocated, :appealed] => :paid
+        transition [:allocated] => :paid
       end
 
       event :refuse do
@@ -93,10 +87,6 @@ module Claims::StateMachine
 
       event :reject do
         transition [:allocated] => :rejected
-      end
-
-      event :reject_parts do
-        transition [:part_paid] => :parts_rejected
       end
 
       event :submit do
@@ -113,8 +103,8 @@ module Claims::StateMachine
       end
     end
 
-    klass.scope :non_draft, -> { klass.where(state: ['allocated', 'appealed', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
-         'deleted', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted']) }
+    klass.scope :non_draft, -> { klass.where(state: ['allocated', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
+         'deleted', 'paid', 'part_paid', 'refused', 'rejected', 'submitted']) }
 
     klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
     klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }

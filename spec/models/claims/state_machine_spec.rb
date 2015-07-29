@@ -5,8 +5,8 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   describe 'all available states' do
     let(:states) do
-      [:allocated, :appealed, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-       :deleted, :draft, :paid, :part_paid, :parts_rejected, :refused, :rejected, :submitted]
+      [:allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
+       :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted]
     end
 
     it('exist')       { expect(Claim.state_machine.states.map(&:name).sort).to eq(states.sort) }
@@ -28,20 +28,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay!
       }.to change{ subject.state }.to('paid') }
       it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-    end
-
-    describe 'from appealed' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!
-        subject.reject_parts!
-        subject.appeal!
-      }
-      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
-      it { expect{ subject.pay! }.to      change{ subject.state }.to('paid') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
@@ -87,20 +73,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay_part!
       }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
-      it { expect{ subject.reject_parts! }.to          change{ subject.state }.to('parts_rejected') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-    end
-
-    describe 'from parts_rejected' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!
-        subject.reject_parts!
-      }
-      it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
-      it { expect{ subject.appeal! }.to   change{ subject.state }.to('appealed') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
@@ -127,16 +99,6 @@ RSpec.describe Claims::StateMachine, type: :model do
     before { Timecop.freeze(Time.now) }
     after  { Timecop.return }
 
-    describe 'make appeal valid for 21 days' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!; subject.reject_parts!
-      }
-      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.appeal! }
-    end
-
     describe 'make awaiting_further_info valid for 21 days' do
       before {
         subject.submit!
@@ -145,15 +107,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay_part!
       }
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.await_further_info! }
-    end
-
-    describe 'make parts_rejected valid for 21 days' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part! }
-      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.reject_parts! }
     end
 
     describe 'make archive_pending_delete valid for 180 days' do

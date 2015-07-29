@@ -21,14 +21,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   describe 'GET #index' do
     before(:each) do
       @allocated_claim                = build_claim_in_state(:allocated)
-      @appealed_claim                 = build_claim_in_state(:appealed)
       @archived_pending_delete_claim  = build_claim_in_state(:archived_pending_delete)
       @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
       @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
       @completed_claim                = build_claim_in_state(:completed)
       @draft_claim                    = build_claim_in_state(:draft)
       @part_paid_claim                = build_claim_in_state(:part_paid)
-      @parts_rejected_claim           = build_claim_in_state(:parts_rejected)
       @refused_claim                  = build_claim_in_state(:refused)
       @rejected_claim                 = build_claim_in_state(:rejected)
       @submitted_claim                = build_claim_in_state(:submitted)
@@ -38,9 +36,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
-    let(:full_collection)  { [  @allocated_claim, @appealed_claim, @archived_pending_delete_claim,
+    let(:full_collection)  { [  @allocated_claim, @archived_pending_delete_claim,
                                 @awaiting_further_info_claim, @awaiting_info_from_court_claim, @completed_claim,
-                                @draft_claim, @part_paid_claim, @parts_rejected_claim, @refused_claim,
+                                @draft_claim, @part_paid_claim, @refused_claim,
                                 @rejected_claim, @submitted_claim ] }
 
     context 'advocate' do
@@ -59,9 +57,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                                               @submitted_claim,
                                                               @awaiting_info_from_court_claim,
                                                               @awaiting_further_info_claim)
-        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim,
-                                                              @appealed_claim,
-                                                              @parts_rejected_claim)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim)
         expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end
@@ -86,9 +82,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                                               @submitted_claim,
                                                               @awaiting_info_from_court_claim,
                                                               @awaiting_further_info_claim)
-        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim,
-                                                              @appealed_claim,
-                                                              @parts_rejected_claim)
+        expect(assigns(:part_paid_claims)).to contain_claims( @part_paid_claim )
         expect(assigns(:completed_claims)).to contain_claims( @completed_claim, @refused_claim )
       end
     end

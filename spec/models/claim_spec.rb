@@ -80,8 +80,8 @@ RSpec.describe Claim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
-    let(:all_states)  { [  'allocated', 'appealed', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
-                           'deleted', 'draft', 'paid', 'part_paid', 'parts_rejected', 'refused', 'rejected', 'submitted' ] }
+    let(:all_states)  { [  'allocated', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
+                           'deleted', 'draft', 'paid', 'part_paid', 'refused', 'rejected', 'submitted' ] }
 
     context 'advocate_dashboard_draft?' do
       before(:each)     { allow(claim).to receive(:state).and_return('draft') }
@@ -132,14 +132,14 @@ RSpec.describe Claim, type: :model do
 
     context 'advocate_dashboard_part_paid' do
       it 'should respond true' do
-        [ 'part_paid', 'appealed', 'parts_rejected' ].each do |state|
+        [ 'part_paid' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.advocate_dashboard_part_paid?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'part_paid', 'appealed', 'parts_rejected' ]).each do |claim_state|
+        (all_states - [ 'part_paid' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_part_paid?).to be false
         end

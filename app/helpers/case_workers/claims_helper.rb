@@ -16,6 +16,6 @@ module CaseWorkers::ClaimsHelper
   end
 
   def unallocated_claims_count
-    Claim.submitted.count # doesn't include appealed claims
+    Claim.submitted.count
   end
 end

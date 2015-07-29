@@ -6,7 +6,6 @@
 #  claim_id    :integer
 #  fee_type_id :integer
 #  quantity    :integer
-#  rate        :decimal(, )
 #  amount      :decimal(, )
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -20,74 +19,23 @@ RSpec.describe Fee, type: :model do
   it { should have_many(:dates_attended) }
 
   it { should validate_presence_of(:fee_type) }
-  # it { should validate_presence_of(:quantity) }
   it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
-  # it { should validate_presence_of(:rate) }
-  it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:dates_attended) }
 
   it 'should be invalid when fee_type is "Basic Fee" and quantity is greater than 1' do
     # basic_fee has id of 1
     fee_type = FactoryGirl.build(:fee_type, description: 'Basic Fee')
-    fee = FactoryGirl.build(:fee, rate: 1, fee_type: fee_type, quantity: 2)
+    fee = FactoryGirl.build(:fee, fee_type: fee_type, quantity: 2)
     expect(fee.save).to eq false
   end
 
-  describe 'blank rate and quantity should be set to zero' do
+  describe 'blank quantity should be set to zero' do
     it 'should replace blank rates with zero before save' do
-      fee = FactoryGirl.build :fee, rate: nil, quantity: nil
+      fee = FactoryGirl.build :fee, quantity: nil
       expect(fee).to be_valid
-      expect(fee.rate).to eq 0
       expect(fee.quantity).to eq 0
     end
-  end
-
-
-  describe 'set and update amount' do
-
-    let(:fee)            { build(:fee, rate: 2.5, quantity: 3, amount: 0) }
-    let(:basic_fee_type) { build :fee_type, :basic, description: 'Basic Fee Type 1', quantity_modifier: -2 }
-    let(:basic_fee)      { build(:fee, fee_type: basic_fee_type, rate: 2.5, quantity: 3, amount: 0) }
-
-    context 'for a new fee' do
-
-      it 'sets the fee amount equal to rate x quantity' do
-        fee.save!
-        expect(fee.amount).to eq(7.5)
-      end
-    end
-
-    context 'for an existing fee' do
-      before do
-        fee.save!
-        fee.rate = 3;
-        fee.save!
-      end
-
-      it 'updates the amount to be equal to the new rate x quantity' do
-        expect(fee.amount).to eq(9.0)
-      end
-    end
-
-    context 'for a new fee with quantity modifier' do
-        it 'updates the amount to be equal to the new rate x (quantity - modifier)' do
-          basic_fee.save!
-          expect(basic_fee.amount).to eq(2.5)
-        end
-    end
-
-    context 'for an existing fee with quantity modifier' do
-        before do
-          fee.save!
-          fee.fee_type.quantity_modifier = -1
-          fee.save!
-        end
-        it 'updates the amount to be equal to the new rate x (quantity - modifier)' do
-          expect(fee.amount).to eq(5)
-        end
-    end
-
   end
 
   describe '.new_blank' do
@@ -99,7 +47,6 @@ RSpec.describe Fee, type: :model do
       expect(fee.fee_type).to eq fee_type
       expect(fee.claim).to eq claim
       expect(fee.quantity).to eq 0
-      expect(fee.rate).to eq 0
       expect(fee.amount).to eq 0
       expect(fee).to be_new_record
     end
@@ -143,14 +90,13 @@ RSpec.describe Fee, type: :model do
     it 'should build a new record and attach it to the claim' do
       claim = FactoryGirl.create :claim
       ft = FactoryGirl.create :fee_type
-      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "rate"=>"45", "_destroy"=>"false"}
+      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "amount"=>"1125", "_destroy"=>"false"}
       fee = Fee.new_from_form_params(claim, params)
       expect(fee).to be_new_record
       expect(fee.claim).to eq claim
       expect(fee.fee_type).to eq ft
       expect(fee.quantity).to eq 25
-      expect(fee.rate).to eq 45
-      expect(fee.amount).to eq 1125
+      expect(fee.amount.to_f).to eq 1125
     end
 
     describe '.new_collection_from_form_params' do

@@ -11,8 +11,6 @@
         %th
           Quantity
         %th
-          Rate
-        %th
           Amount
       %tbody
         - claim.fees.select(&:present?).each do |fee_object|
@@ -28,8 +26,6 @@
                 = fee.fee_type.description
               %td
                 = fee.quantity
-              %td
-                = '%.2f' % fee.rate
               %td
                 = fee.amount
     %p

@@ -2,13 +2,12 @@
 #
 # Table name: fee_types
 #
-#  id                :integer          not null, primary key
-#  description       :string(255)
-#  code              :string(255)
-#  fee_category_id   :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  quantity_modifier :integer
+#  id              :integer          not null, primary key
+#  description     :string(255)
+#  code            :string(255)
+#  fee_category_id :integer
+#  created_at      :datetime
+#  updated_at      :datetime
 #
 
 require 'rails_helper'
@@ -29,7 +28,6 @@ RSpec.describe FeeType, type: :model do
 
   it { should respond_to(:code) }
   it { should respond_to(:description) }
-  it { should respond_to(:quantity_modifier) }
 
   describe '.basic' do
     it 'should return fee types belonging to category basic only' do

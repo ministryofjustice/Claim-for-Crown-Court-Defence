@@ -35,9 +35,6 @@ function initialise(){
   adp.newClaim.init();
   adp.crackedTrial.init();
   adp.feeSectionDisplay.init();
-  adp.feeCalculator.init('basic-fees');
-  adp.feeCalculator.init('fixed-fees');
-  adp.feeCalculator.init('misc-fees');
   adp.feeCalculator.init('expenses');
   moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();

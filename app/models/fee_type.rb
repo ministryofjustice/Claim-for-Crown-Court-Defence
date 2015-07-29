@@ -2,13 +2,12 @@
 #
 # Table name: fee_types
 #
-#  id                :integer          not null, primary key
-#  description       :string(255)
-#  code              :string(255)
-#  fee_category_id   :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  quantity_modifier :integer
+#  id              :integer          not null, primary key
+#  description     :string(255)
+#  code            :string(255)
+#  fee_category_id :integer
+#  created_at      :datetime
+#  updated_at      :datetime
 #
 
   # == Schema Information
@@ -32,7 +31,6 @@ class FeeType < ActiveRecord::Base
   validates :fee_category, presence: true
   validates :description, presence: true, uniqueness: { case_sensitive: false, scope: :fee_category }
   validates :code, presence: true
-  validates :quantity_modifier, numericality: { only_integer: true, less_than_or_equal_to: 0 }, unless: 'quantity_modifier.nil?'
 
   def self.basic
     self.by_fee_category("BASIC")

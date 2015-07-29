@@ -21,7 +21,6 @@ module API
               requires :claim_id, type: Integer
               requires :fee_type_id, type: Integer
               requires :quantity, type: Integer
-              requires :rate, type: Integer
             end
 
             def args
@@ -29,7 +28,6 @@ module API
                 claim_id: params[:claim_id],
                 fee_type_id: params[:fee_type_id],
                 quantity: params[:quantity],
-                rate: params[:rate]
               }
             end
 

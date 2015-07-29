@@ -6,7 +6,6 @@
 #  claim_id    :integer
 #  fee_type_id :integer
 #  quantity    :integer
-#  rate        :decimal(, )
 #  amount      :decimal(, )
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -20,19 +19,14 @@ class Fee < ActiveRecord::Base
   default_scope { includes(:fee_type) }
 
   validates :fee_type, presence: true
-  validates :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :basic_fee_quantity
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
     self.quantity = 0 if self.quantity.blank?
-    self.rate = 0 if self.rate.blank?
-    self.amount = calculate_amount
-  end
-
-  after_initialize do
-    self.amount = calculate_amount
+    self.amount = 0 if self.amount.blank?
   end
 
   after_save do
@@ -46,7 +40,7 @@ class Fee < ActiveRecord::Base
   end
 
   def self.new_blank(claim, fee_type)
-    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, rate: 0, amount: 0)
+    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
   end
 
   def self.new_collection_from_form_params(claim, form_params)
@@ -59,11 +53,12 @@ class Fee < ActiveRecord::Base
     Fee.new(claim: claim,
             fee_type: FeeType.find(params['fee_type_id']),
             quantity: params['quantity'],
-            rate: params['rate'])
+            amount: params['amount']
+            )
   end
 
   def blank?
-    self.quantity == 0 && self.rate == 0 && self.amount == 0
+    self.quantity == 0 && self.amount == 0
   end
 
   def present?
@@ -76,10 +71,6 @@ class Fee < ActiveRecord::Base
 
   def description
     fee_type.description
-  end
-
-  def quantity_modifier
-    fee_type.quantity_modifier.nil? ? 0 : fee_type.quantity_modifier rescue 0
   end
 
   def category
@@ -96,13 +87,6 @@ class Fee < ActiveRecord::Base
 
   def more_than_one_basic_fee?
     fee_type.description == 'Basic Fee' && quantity > 1
-  end
-
-  def calculate_amount
-    r = (self.rate || 0)
-    q = (self.quantity || 0) + quantity_modifier
-    q = q < 0 ? 0 : q
-    ( r * q ).abs
   end
 
 end

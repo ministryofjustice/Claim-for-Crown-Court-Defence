@@ -284,10 +284,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
       context 'basic and non-basic fees' do
 
-        let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1', quantity_modifier: 0 }
-        let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2', quantity_modifier: 0 }
-        let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3', quantity_modifier: 0 }
-        let!(:basic_fee_type_4)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 4', quantity_modifier: 0 }
+        let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1' }
+        let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2' }
+        let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3' }
+        let!(:basic_fee_type_4)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 4' }
         let!(:misc_fee_type_1)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 1' }
         let!(:misc_fee_type_2)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 2' }
         let!(:fixed_fee_type_1)         { FactoryGirl.create :fee_type, :fixed, description: 'Fixed Fee Type 1' }
@@ -338,22 +338,18 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
               bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
               expect(bf1.quantity).to eq 10
-              expect(bf1.rate).to eq 100
               expect(bf1.amount).to eq 1000
 
               bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
               expect(bf2.quantity).to eq 0
-              expect(bf2.rate).to eq 0
               expect(bf2.amount).to eq 0
 
               bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
               expect(bf3.quantity).to eq 1
-              expect(bf3.rate.to_f).to eq 9000.45
               expect(bf3.amount.to_f).to eq 9000.45
 
               bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
               expect(bf4.quantity).to eq 5
-              expect(bf4.rate).to eq 25
               expect(bf4.amount).to eq 125
             end
           end
@@ -372,9 +368,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
 
               # miscellaneous fees are destroyed implicitly by claim model for fixed-fee case types
+              expect(claim.misc_fees.size).to eq 0
               expect(claim.fixed_fees.size).to eq 1
               expect(claim.fixed_fees.map(&:amount).sum).to eql 2500.00
-              expect(claim.misc_fees.size).to eq 0
 
               expect(claim.reload.fees_total).to eq 2500.00
             end
@@ -520,18 +516,18 @@ def valid_claim_fee_params
      "additional_information" => "",
      "basic_fees_attributes"=>
       {
-        "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
-        "1"=>{"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-        "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
-        "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
+        "0"=>{"quantity" => "10", "amount" => "1000", "fee_type_id" => basic_fee_type_1.id.to_s},
+        "1"=>{"quantity" => "0", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
+        "2"=>{"quantity" => "1", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
+        "3"=>{"quantity" => "5", "amount" => "125", "fee_type_id" => basic_fee_type_4.id.to_s}
         },
       "fixed_fees_attributes"=>
       {
-        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
+        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "amount" => "2500", "_destroy" => "false"}
       },
       "misc_fees_attributes"=>
       {
-        "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
+        "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "amount" => "250", "_destroy" => "false"},
       },
      "expenses_attributes"=>
      {

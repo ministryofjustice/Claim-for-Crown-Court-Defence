@@ -78,6 +78,7 @@ class Claim < ActiveRecord::Base
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
 
+
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
   # advocate-relevant scopes
@@ -145,7 +146,7 @@ class Claim < ActiveRecord::Base
   end
 
   def self.attrs_blank?(attributes)
-    attributes['quantity'].blank? && attributes['rate'].blank? && attributes['amount'].blank?
+    attributes['quantity'].blank? && attributes['amount'].blank?
   end
 
   def is_allocated_to_case_worker?(cw)
@@ -267,7 +268,7 @@ class Claim < ActiveRecord::Base
 
   def destroy_all_invalid_fee_types
     if case_type.present? && case_type == 'fixed_fee'
-      basic_fees.each { |bf| bf.quantity = nil; bf.rate = nil; }
+      basic_fees.each { |bf| bf.quantity = nil; bf.amount = nil; }
       misc_fees.destroy_all  unless misc_fees.empty?
     else
       fixed_fees.destroy_all unless fixed_fees.empty?

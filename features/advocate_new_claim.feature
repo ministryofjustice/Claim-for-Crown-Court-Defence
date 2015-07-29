@@ -117,16 +117,6 @@ Feature: Advocate new claim
       And I submit to LAA
      Then I should be redirected back to the claim form with error
 
-  Scenario: Add Initial fee type with modifier
-    Given I am a signed in advocate
-      And There are fee schemes in place
-      And I am on the new claim page
-     When I fill in the claim details
-      And I fill in an additional fee type that is subjected to a modifer
-      And I submit to LAA
-     Then I should be redirected to the claim confirmation page
-      And I should see the claim totals accounting for modifier
-
   Scenario: Add Fixed Fee type
     Given I am a signed in advocate
       And There are fee schemes in place
@@ -178,7 +168,7 @@ Scenario: Fixed Fee case types do not display other fee sections
     Then I should NOT be able to view "Initial Fees"
      And I should be able to view "Fixed Fees"
      And I should NOT be able to view "Miscellaneous Fees"
-   Given I fill in a Fixed Fee
+   Given I fill in a Fixed Fee using select2
     When I select2 "Contempt" from "claim_case_type"
     Then I should be warned that "Fixed fees" will be deleted
 

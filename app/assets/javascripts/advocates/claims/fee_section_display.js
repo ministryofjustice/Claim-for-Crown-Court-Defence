@@ -34,8 +34,11 @@ adp.feeSectionDisplay = {
   applyWarning : function (warningText, isFixedFee) {
 
     function feeExists (container) {
-      // NOTE: this needs to use translations for unit really
-      return $(container + " .amount:not(:contains('£0.00'))").length > 0;
+        // if there is 1 or more amount input elements with value attribute containing digits 1 to 9
+        return $(container).find('.amount')
+                  .filter( function (index, el) {
+                    return /[1-9]/.test($(el).val());
+                  }).length > 0;
     }
 
     var warningId   = 'fee-deletion-warning';

@@ -20,7 +20,7 @@ module API
         end
 
         def models
-          [::Fee, ::Expense, ::Claim, ::Defendant]
+          [::Fee, ::Expense, ::Claim, ::Defendant, ::DateAttended]
         end
 
         def build_error_response

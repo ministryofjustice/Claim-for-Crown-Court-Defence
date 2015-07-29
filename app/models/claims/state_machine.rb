@@ -37,6 +37,8 @@ module Claims::StateMachine
 
   def self.included(klass)
     klass.state_machine :state,                      initial: :draft do
+      audit_trail
+
       after_transition on: :submit,                  do: :set_submission_date!
       after_transition on: :pay,                     do: :set_paid_date!
       after_transition on: :pay_part,                do: :set_paid_date!

@@ -202,6 +202,26 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(Claims::StateMachine.is_in_state?(:advocate_rubbish_submitted?, claim)).to be false
     end
   end
+
+  describe 'state transition audit trail' do
+    let!(:claim) { create(:claim) }
+    let!(:expected) do
+      {
+        event: 'submit',
+        from: 'draft',
+        to: 'submitted'
+      }
+    end
+
+    it 'should log state transitions' do
+      expect { claim.submit! }.to change(ClaimStateTransition, :count).by(1)
+    end
+
+    it 'the log transition should reflect the state transition/change' do
+      claim.submit!
+      expect(ClaimStateTransition.last.event).to eq(expected[:event])
+      expect(ClaimStateTransition.last.from).to eq(expected[:from])
+      expect(ClaimStateTransition.last.to).to eq(expected[:to])
+    end
+  end
 end
-
-

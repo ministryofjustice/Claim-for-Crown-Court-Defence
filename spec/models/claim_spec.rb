@@ -512,7 +512,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'does not find claims that do not match the name' do
-        expect(Claim.search(:advocate_name, :defendant_name, 'Xavier').count).to eq(0)
+        expect(Claim.search(:advocate_name, :defendant_name, 'Xavierxxxx').count).to eq(0)
       end
 
     end
@@ -927,5 +927,43 @@ RSpec.describe Claim, type: :model do
     end
 
   end
+
+
+  describe 'calculate_vat' do
+
+    it 'should calaculate vat before saving if vat is applied' do
+      expect(VatRate).to receive(:vat_amount).and_return(99.44)
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, submitted_at: Date.today
+      claim.save!
+      expect(claim.vat_amount).to eq 99.44
+    end
+
+    it 'should zeroise the vat amount if vat is not applied' do
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22, submitted_at: Date.today
+      claim.save!
+      expect(claim.vat_amount).to eq 0.0
+    end
+
+    it 'should zeroise the vat amount if submitted at date is blank' do
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22
+      claim.save!
+      expect(claim.vat_amount).to eq 0.0
+    end
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end

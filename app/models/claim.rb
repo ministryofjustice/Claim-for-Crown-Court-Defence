@@ -38,6 +38,7 @@
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
 #  source                 :string(255)
+#  vat_amount             :decimal(, )      default(0.0)
 #
 
 class Claim < ActiveRecord::Base
@@ -211,6 +212,14 @@ class Claim < ActiveRecord::Base
     draft? || archived_pending_delete?
   end
 
+  def vat_date
+    (self.submitted_at || Date.today).to_date
+  end
+
+  def pretty_vat_rate
+    VatRate.pretty_rate(self.vat_date)
+  end
+
   private
 
   def set_scheme
@@ -276,8 +285,8 @@ class Claim < ActiveRecord::Base
   end
 
   def calculate_vat
-    if self.submitted_at.present? && self.apply_vat?
-      self.vat_amount = VatRate.vat_amount(self.fees_total + self.expenses_total, self.submitted_at)
+    if self.apply_vat?
+      self.vat_amount = VatRate.vat_amount(self.total, self.vat_date)
     else
       self.vat_amount = 0.0
     end

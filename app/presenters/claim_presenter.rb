@@ -30,6 +30,14 @@ class ClaimPresenter < BasePresenter
     claim.trial_concluded_at.blank? ? 'not specified' : claim.trial_concluded_at.strftime(Settings.date_format)
   end
 
+  def vat_date
+    claim.vat_date.strftime(Settings.date_format)
+  end
+
+  def vat_amount
+    h.number_to_currency(claim.vat_amount)
+  end
+
   def total
     h.number_to_currency(claim.total)
   end

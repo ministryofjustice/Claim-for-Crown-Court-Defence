@@ -99,12 +99,17 @@
             %dd
               = claim.fees_total
             %dt
-              VAT
-            %dt
-              TOTAL
+              TOTAL (excl. VAT)
             %dd
               %span.value
                 = claim.total
+            %dt
+              VAT
+            %dd
+              - if claim.apply_vat?
+                = claim.vat_amount
+              - else
+                N/A
             %dt
               Paid on
             %dd

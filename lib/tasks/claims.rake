@@ -273,7 +273,8 @@ end
           puts "     - allocating to #{case_worker.user.email}"
         end
 
-        claim.update_attribute(:apply_vat, false) if claim.id % 3 == 0
+        claim.apply_vat = false if claim.id % 3 == 0
+        claim.save!
       end
     end
   end

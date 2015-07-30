@@ -97,17 +97,17 @@ class Claim < ActiveRecord::Base
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
   validates :advocate,                presence: true
-  validates :offence,                 presence: true, unless: :do_not_validate?
-  validates :creator,                 presence: true, unless: :do_not_validate?
-  validates :court,                   presence: true, unless: :do_not_validate?
-  validates :scheme,                  presence: true, unless: :do_not_validate?
-  validates :case_number,             presence: true, unless: :do_not_validate?
-  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :do_not_validate?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :do_not_validate?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :do_not_validate?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
-  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
+  validates :offence,                 presence: true, unless: :web_draft_or_pending_delete?
+  validates :creator,                 presence: true, unless: :web_draft_or_pending_delete?
+  validates :court,                   presence: true, unless: :web_draft_or_pending_delete?
+  validates :scheme,                  presence: true, unless: :web_draft_api_draft_or_pending_delete?
+  validates :case_number,             presence: true, unless: :web_draft_or_pending_delete?
+  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :web_draft_or_pending_delete?
+  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :web_draft_or_pending_delete?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :web_draft_or_pending_delete?
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
+  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
 
   validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
@@ -124,7 +124,7 @@ class Claim < ActiveRecord::Base
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :set_scheme, unless: :do_not_validate?
+  before_validation :set_scheme, unless: :web_draft_api_draft_or_pending_delete?
   before_validation :destroy_all_invalid_fee_types
 
   before_save :default_values, :calculate_vat
@@ -208,8 +208,20 @@ class Claim < ActiveRecord::Base
     draft? || submitted?
   end
 
-  def do_not_validate?
-    draft? || archived_pending_delete?
+  def web_draft_or_pending_delete?
+    web_draft? || archived_pending_delete?
+  end
+
+  def web_draft_api_draft_or_pending_delete?
+    web_draft? || api_draft? || archived_pending_delete?
+  end
+
+  def web_draft?
+    draft? && source != 'api' # changed from == 'web' to allow use of 'test' source in spec without triggering all validations
+  end
+
+  def api_draft?
+    draft? && source == 'api'
   end
 
   def vat_date

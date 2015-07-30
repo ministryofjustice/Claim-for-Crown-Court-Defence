@@ -125,9 +125,9 @@ class Claim < ActiveRecord::Base
   end
 
   before_validation :set_scheme, unless: :web_draft_api_draft_or_pending_delete?
-  before_validation :destroy_all_invalid_fee_types
+  before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
-  before_save :default_values, :calculate_vat
+  after_initialize :default_values
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -217,7 +217,7 @@ class Claim < ActiveRecord::Base
   end
 
   def web_draft?
-    draft? && source != 'api' # changed from == 'web' to allow use of 'test' source in spec without triggering all validations
+    draft? && source == 'web'
   end
 
   def api_draft?

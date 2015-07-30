@@ -65,20 +65,26 @@ Feature: Advocate claims list
       And I search by the advocate name "John Smith"
      Then I should only see the 4 claims for the advocate "John Smith"
 
-  Scenario Outline: Search claims by defendant name
+  Scenario Outline: Search claims by defendant name (with optional middlename)
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have 2 claims involving defendant "Joe Bloggs" amongst others
       And I have 3 claims involving defendant "Fred Bloggs" amongst others
+      And I have 1 claims involving defendant "Fred Joe Bloggs" amongst others
+      And I have 1 claims involving defendant "Joe Fred Bloggs" amongst others
      When I visit the advocates dashboard
       And I search by the name <defendant_name>
      Then I should only see the <number> claims involving defendant <defendant_name>
 
      Examples:
-        | defendant_name | number |
-        | "Joe Bloggs"   | 2      |
-        | "Fred Bloggs"  | 3      |
-        | "Bloggs"       | 5      |
+        | defendant_name    | number  |
+        | "Joe Bloggs"      | 4       |
+        | "Fred Bloggs"     | 5       |
+        | "Joe"             | 4       |
+        | "Bloggs"          | 7       |
+        | "Fred Joe Bloggs" | 1       |
+        | "Joe Fred Bloggs" | 1       |
+
 
   Scenario: No search by advocate name for non-admin
     Given I am a signed in advocate

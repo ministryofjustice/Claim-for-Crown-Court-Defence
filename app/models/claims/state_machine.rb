@@ -10,6 +10,7 @@ module Claims::StateMachine
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
   CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
+  VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
@@ -47,7 +48,11 @@ module Claims::StateMachine
       before_transition any => any,  do: :set_paper_trail_event!
 
       state :allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted
+         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination
+
+      event :redetermine do
+        transition [:paid, :part_paid, :refused] => :redetermination
+      end
 
       event :allocate do
         transition [:submitted, :awaiting_info_from_court] => :allocated
@@ -58,35 +63,31 @@ module Claims::StateMachine
       end
 
       event :await_info_from_court do
-        transition [:allocated] => :awaiting_info_from_court
+        transition [:allocated, :redetermination] => :awaiting_info_from_court
       end
 
       event :await_further_info do
-        transition [:part_paid] => :awaiting_further_info
+        transition [:part_paid, :redetermination] => :awaiting_further_info
       end
 
       event :complete do
         transition [:awaiting_further_info, :paid, :refused] => :completed
       end
 
-      event :draft do
-        transition [:awaiting_further_info, :rejected] => :draft
-      end
-
       event :pay_part do
-        transition [:allocated] => :part_paid
+        transition [:allocated, :redetermination] => :part_paid
       end
 
       event :pay do
-        transition [:allocated] => :paid
+        transition [:allocated, :redetermination] => :paid
       end
 
       event :refuse do
-        transition [:allocated] => :refused
+        transition [:allocated, :redetermination] => :refused
       end
 
       event :reject do
-        transition [:allocated] => :rejected
+        transition [:allocated, :redetermination] => :rejected
       end
 
       event :submit do

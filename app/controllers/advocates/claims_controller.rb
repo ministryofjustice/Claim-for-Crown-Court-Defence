@@ -3,7 +3,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DateParamProcessor
 
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :set_claim, only: [:show, :edit, :update, :transition_state, :destroy]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
@@ -52,7 +52,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     load_offences
-    
+
     build_nested_resources
   end
 
@@ -90,6 +90,17 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     else
       render_edit_with_resources
     end
+  end
+
+  def transition_state
+    @messages = @claim.messages.most_recent_first
+    @doc_types = DocType.all
+    begin
+      @claim.update_model_and_transition_state(claim_params)
+    rescue StateMachine::InvalidTransition => err
+    end
+    @message = @claim.messages.build
+    render action: :show
   end
 
   def destroy
@@ -157,8 +168,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def claim_params
-
     params.require(:claim).permit(
+     :state_for_form,
      :advocate_id,
      :court_id,
      :case_number,
@@ -260,7 +271,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :_destroy
      ]
     )
-
   end
 
   def build_nested_resources

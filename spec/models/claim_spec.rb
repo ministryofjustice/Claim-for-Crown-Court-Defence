@@ -701,6 +701,10 @@ RSpec.describe Claim, type: :model do
       expect(subject).to receive(:refuse!)
       subject.transition_state('refused')
     end
+    it 'should call redetermine! if redetermination' do
+      expect(subject).to receive(:redetermine!)
+      subject.transition_state('redetermination')
+    end
     it 'should call await_info_from_court! if awaiting_info_from_court' do
       expect(subject).to receive(:await_info_from_court!)
       subject.transition_state('awaiting_info_from_court')
@@ -708,7 +712,7 @@ RSpec.describe Claim, type: :model do
     it 'should raise an exception if anything else' do
       expect{
         subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court'
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination'
     end
   end
 

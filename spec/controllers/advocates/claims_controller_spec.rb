@@ -453,6 +453,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 
+  describe "PATCH #transition_state" do
+
+  end
+
   describe "DELETE #destroy" do
     before { delete :destroy, id: subject }
 

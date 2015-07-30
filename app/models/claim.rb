@@ -178,7 +178,7 @@ class Claim < ActiveRecord::Base
     if form_input.blank?
       true
     elsif form_input_to_event[form_input] == nil
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court')
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination')
     else
       false
     end
@@ -189,6 +189,7 @@ class Claim < ActiveRecord::Base
       "part_paid"                => :pay_part!,
       "rejected"                 => :reject!,
       "refused"                  => :refuse!,
+      "redetermination"          => :redetermine!,
       "awaiting_info_from_court" => :await_info_from_court!}
   end
 

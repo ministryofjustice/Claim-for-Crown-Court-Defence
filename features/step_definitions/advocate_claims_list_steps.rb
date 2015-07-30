@@ -1,4 +1,5 @@
 Given(/^I have claims$/) do
+  FactoryGirl.create :vat_rate
   @claims = create_list(:submitted_claim, 5, advocate: @advocate)
   @claims.each do |claim|
     claim.documents << create(:document, advocate: @advocate)

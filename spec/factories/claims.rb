@@ -48,6 +48,7 @@ FactoryGirl.define do
     scheme      { random_scheme }
     case_number { Faker::Number.number(10) }
     advocate
+    apply_vat  true
     after(:build) do |claim|
       claim.creator = claim.advocate
     end

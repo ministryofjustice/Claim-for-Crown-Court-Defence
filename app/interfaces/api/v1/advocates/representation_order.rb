@@ -20,7 +20,7 @@ module API
               requires :defendant_id, type: Integer, desc: 'ID of the defendant'
               requires :granting_body, type: String, desc: "The court which granted this representation order (Crown Court or Magistrate's Court)"
               requires :maat_reference, type: String, desc: "The unique identifier for this representation order"
-              requires :representation_order_date, type: Date, desc: "The date on which this representation order was granted"
+              requires :representation_order_date, type: Date, desc: "The date on which this representation order was granted (YYYY/MM/DD)"
             end
 
             def args

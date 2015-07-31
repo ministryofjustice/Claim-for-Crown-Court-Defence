@@ -19,7 +19,7 @@ module API
             params :claim_parameters do
               requires :advocate_email, type: String, desc: "Your ADP account email address that uniquely identifies you."
               requires :case_number, type: String, desc: "The case number"
-              requires :case_type, type: String, desc: "The case type i.e trial"
+              requires :case_type, type: String, values: Settings.case_types, desc: "The case type i.e trial"
               requires :indictment_number, type: String, desc: "The indictment number"
               requires :first_day_of_trial, type: Date, desc: "The first day of the trial"
               requires :estimated_trial_length, type: Integer, desc: "The estimated trial length in days"

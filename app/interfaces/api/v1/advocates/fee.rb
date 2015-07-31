@@ -17,10 +17,10 @@ module API
 
           helpers do
             params :fee_creation do
-              requires :claim_id, type: Integer
-              requires :fee_type_id, type: Integer
-              requires :quantity, type: Integer
-              requires :amount, type: Float
+              requires :claim_id, type: Integer, desc: 'The unique identifier for the corresponding claim.'
+              requires :fee_type_id, type: Integer, desc: 'The unique identifier for the corresponding FeeType'
+              requires :quantity, type: Integer, desc: 'The number of Fees being claimed for of this FeeType and Rate'
+              requires :amount, type: Float, desc: 'Total value.'
             end
 
             def args

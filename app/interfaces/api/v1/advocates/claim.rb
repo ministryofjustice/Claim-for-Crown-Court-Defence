@@ -36,7 +36,7 @@ module API
               optional :trial_fixed_notice_at, type: Date, desc: "YYYY/MM/DD"
               optional :trial_fixed_at, type: Date, desc: "YYYY/MM/DD"
               optional :trial_cracked_at, type: Date, desc: "YYYY/MM/DD"
-              optional :trial_cracked_at_third, type: Date, desc: "YYYY/MM/DD"
+              optional :trial_cracked_at_third, type: String, values: Settings.trial_cracked_at_third, desc: "The third in which this case was cracked."
             end
 
             def build_arguements

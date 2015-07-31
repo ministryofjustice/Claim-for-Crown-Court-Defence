@@ -8,6 +8,8 @@ describe API::V1::Advocates::Claim do
   CREATE_CLAIM_ENDPOINT = "/api/advocates/claims"
 
   let!(:current_advocate) { create(:advocate) }
+  let!(:offence)          { create(:offence)}
+  let!(:court)            { create(:court)}
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
                           :case_type => 'trial',
                           :case_number => '12345',
@@ -15,8 +17,11 @@ describe API::V1::Advocates::Claim do
                           :estimated_trial_length => 10,
                           :actual_trial_length => 9,
                           :trial_concluded_at => Date.today - 91.days,
-                          :advocate_category => 'Junior',
-                          :indictment_number => 1234} }
+                          :advocate_category => 'Led junior',
+                          :indictment_number => 1234,
+                          :offence_id => offence.id,
+                          :court_id => court.id,
+                          :prosecuting_authority => 'cps'} }
 
   describe "POST /api/advocates/claims/validate" do
 

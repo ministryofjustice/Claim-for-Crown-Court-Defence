@@ -25,12 +25,14 @@ module API
               requires :estimated_trial_length, type: Integer, desc: "The estimated trial length in days"
               requires :actual_trial_length, type: Integer, desc: "The actual trial length in days"
               requires :trial_concluded_at, type: Date, desc: "The the trial concluded"
-              requires :advocate_category, type: String, desc: "The category of the advocate"
+              requires :advocate_category, type: String, values: Settings.advocate_categories, desc: "The category of the advocate"
+              requires :prosecuting_authority, type: String, desc: "The prosecuting authority"
+              requires :offence_id, type: Integer, desc: "The unique identifier for this offence"
+              requires :court_id, type: Integer, desc: "The unique identifier for this court"
 
               optional :cms_number, type: String, desc: "The CMS number"
               optional :additional_information , type: String, desc: "Any additional information"
               optional :apply_vat , type: Boolean, desc: "Include VAT (True or False)"
-              optional :prosecuting_authority, type: String, desc: "The prosecuting authority"
               optional :trial_fixed_notice_at, type: Date, desc: "The trial fixed notice date"
               optional :trial_fixed_at, type: Date, desc: "The trial fixed date"
               optional :trial_cracked_at, type: Date, desc: "The trial cracked date"
@@ -62,6 +64,8 @@ module API
                   trial_fixed_at:           params[:trial_fixed_at],
                   trial_cracked_at:         params[:trial_cracked_at],
                   trial_cracked_at_third:   params[:trial_cracked_at_third],
+                  offence_id:               params[:offence_id],
+                  court_id:                 params[:court_id], 
                 }
               end
             end

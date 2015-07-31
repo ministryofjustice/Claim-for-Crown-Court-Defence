@@ -33,11 +33,9 @@ a{
  // ==========================================================================
    // Phase banner
  // ==========================================================================
- .phase-banner  {
-   @include phase-banner(alpha);
-   padding-left: 15px;
-   padding-right: 15px;
- }  
+ .phase-tag  {
+   @include phase-tag(beta);
+ }
 #fixed-header{
   margin:1em 0;
 }
@@ -105,10 +103,10 @@ section{
       text-decoration: none;
       color: $white;
       padding:0 2.5em;
-    
+
     }
     &.new{
-      
+
       background-color: $mainstream-brand;
       border-color: $mainstream-brand;
     }
@@ -125,7 +123,3 @@ section{
 @import "list-controls";
 @import "claims-list";
 @import "claim-accordion";
-
-
-
-

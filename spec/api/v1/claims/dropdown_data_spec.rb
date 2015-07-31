@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'spec_helper'
 
-describe API::V1::Advocates::Seed do
+describe API::V1::DropdownData do
 
   include Rack::Test::Methods
 
@@ -15,7 +15,7 @@ describe API::V1::Advocates::Seed do
   OFFENCE_ENDPOINT        = "api/offences"
   FEE_CATEGORY_ENDPOINT   = "/api/fee_categories"
   FEE_TYPE_ENDPOINT       = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
+  EXPENSE_TYPE_ENDPOINT   = "/api/expense_types"
 
   context 'GET api/case_types' do
 

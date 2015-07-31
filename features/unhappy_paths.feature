@@ -2,10 +2,10 @@ Feature: Unhappy paths
   Background:
     As an advocate saving drafts and submitting claims I want to be sure that error messages are displayed if I do something wrong
 
-  Scenario: Attempt to log in with wrong password
-    Given I attempt to log in with an incorrect password
-    Then I should be redirected back to the login page
-    And I should see a login error message
+  Scenario: Attempt to sign in with wrong password
+    Given I attempt to sign in with an incorrect password
+    Then I should be redirected back to the sign in page
+    And I should see a sign in error message
 
   Scenario: Attempt to save draft claim as advocate admin without specifying the advocate
     Given I am a signed in advocate admin
@@ -22,5 +22,3 @@ Feature: Unhappy paths
     And I attempt to submit to LAA without specifying all the details
     Then I should be redirected back to the create claim page
     And I should see the error message "Case number can't be blank"
-
-

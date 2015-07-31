@@ -14,7 +14,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :defendants do
+        resource :defendants, desc: 'Create or Validate' do
 
           helpers do
             params :defendant_creation do

@@ -14,7 +14,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :expenses do
+        resource :expenses, desc: 'Create or Validate' do
 
           helpers do
             params :expense_creation do

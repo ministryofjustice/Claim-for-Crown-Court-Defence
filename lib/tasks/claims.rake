@@ -249,30 +249,32 @@ end
     states_to_add.each do |s|
       next if s == :deleted
       claims_per_state.times do
+        claim = nil
+        claim = FactoryGirl.create("#{s}_claim".to_sym,
+                                    advocate:    advocate,
+                                    court:      Court.all.sample,
+                                    offence:    Offence.all.sample,
+                                    scheme:     Scheme.all.sample,
+                                    case_type:  Settings.case_types.sample)
+        
+        # randomise creator
+        if rand(2) == 1
+          advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
+          advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
+          claim.creator = advocate_admin
+        end
 
-          claim = nil
-          claim = FactoryGirl.create("#{s}_claim".to_sym,
-                                      advocate:    advocate,
-                                      court:      Court.all.sample,
-                                      offence:    Offence.all.sample,
-                                      scheme:     Scheme.all.sample,
-                                      case_type:  Settings.case_types.sample)
+        puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
+        add_other_data(claim)
 
-          # randomise creator
-          if rand(2) == 1
-            advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
-            advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
-            claim.creator = advocate_admin
-          end
+        # all states but those below require allocation to case worker
+        unless [:draft,:archived_pending_delete,:submitted].include?(s)
+          case_worker.claims << claim
+          puts "     - allocating to #{case_worker.user.email}"
+        end
 
-          puts("   - created #{s} claim as #{claim.creator.first_name} #{claim.creator.last_name} for advocate #{advocate.first_name} #{advocate.last_name}")
-          add_other_data(claim)
-
-          # all states but those below require allocation to case worker
-          unless [:draft,:archived_pending_delete,:submitted].include?(s)
-            case_worker.claims << claim
-            puts "     - allocating to #{case_worker.user.email}"
-          end
+        claim.apply_vat = false if claim.id % 3 == 0
+        claim.save!
       end
     end
   end

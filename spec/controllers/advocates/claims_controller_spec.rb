@@ -354,7 +354,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             it 'should create a claim with fixed fees ONLY' do
               claim_params['case_type'] = "fixed_fee"
 
-              post :create, claim: claim_params
+              response = post :create, claim: claim_params
               claim = assigns(:claim)
 
               # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
@@ -477,7 +477,9 @@ end
 
 def valid_claim_fee_params
   HashWithIndifferentAccess.new(
-    {"advocate_id" => "4",
+    {
+     "source" => 'web',
+     "advocate_id" => "4",
      "scheme_id" => "2",
      "case_type" => "appeal_against_sentence",
      "prosecuting_authority" => "cps",
@@ -539,6 +541,3 @@ def build_claim_in_state(state)
   allow(claim).to receive(:state).and_return(state.to_s)
   claim
 end
-
-
-

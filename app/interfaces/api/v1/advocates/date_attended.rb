@@ -14,7 +14,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :dates_attended do
+        resource :dates_attended, desc: 'Create or Validate' do
 
           helpers do
             params :date_attended_creation do

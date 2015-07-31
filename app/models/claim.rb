@@ -212,6 +212,13 @@ class Claim < ActiveRecord::Base
     draft? || archived_pending_delete?
   end
 
+  def opened_for_redetermination?
+    return true if self.redetermination?
+
+    transition = claim_state_transitions.order(created_at: :asc).last
+    transition && transition.from == 'redetermination'
+  end
+
   private
 
   def set_scheme

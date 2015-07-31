@@ -1,5 +1,5 @@
 %section
-  - if @claim.redetermination?
+  - if @claim.opened_for_redetermination?
     %p
       Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').last.created_at} (see messages/notes for further details).
 

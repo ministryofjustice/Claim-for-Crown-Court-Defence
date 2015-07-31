@@ -8,7 +8,7 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated', 'redetermination' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
   VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
@@ -56,7 +56,7 @@ module Claims::StateMachine
       end
 
       event :allocate do
-        transition [:submitted, :awaiting_info_from_court] => :allocated
+        transition [:submitted, :awaiting_info_from_court, :redetermination] => :allocated
       end
 
       event :archive_pending_delete do
@@ -64,11 +64,11 @@ module Claims::StateMachine
       end
 
       event :await_info_from_court do
-        transition [:allocated, :redetermination] => :awaiting_info_from_court
+        transition [:allocated] => :awaiting_info_from_court
       end
 
       event :await_further_info do
-        transition [:part_paid, :redetermination] => :awaiting_further_info
+        transition [:part_paid] => :awaiting_further_info
       end
 
       event :complete do
@@ -76,19 +76,19 @@ module Claims::StateMachine
       end
 
       event :pay_part do
-        transition [:allocated, :redetermination] => :part_paid
+        transition [:allocated] => :part_paid
       end
 
       event :pay do
-        transition [:allocated, :redetermination] => :paid
+        transition [:allocated] => :paid
       end
 
       event :refuse do
-        transition [:allocated, :redetermination] => :refused
+        transition [:allocated] => :refused
       end
 
       event :reject do
-        transition [:allocated, :redetermination] => :rejected
+        transition [:allocated] => :rejected
       end
 
       event :submit do
@@ -138,6 +138,6 @@ module Claims::StateMachine
   end
 
   def set_amount_assessed_zero!
-    update_column(:amount_assessed, 0) if self.state == 'redetermination'
+    update_column(:amount_assessed, 0) if self.state == 'allocated'
   end
 end

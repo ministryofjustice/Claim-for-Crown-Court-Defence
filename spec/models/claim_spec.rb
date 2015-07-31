@@ -955,19 +955,42 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '#opened_for_redetermination?' do
+    let(:claim) { create(:claim) }
 
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.refuse!
+    end
 
+    context 'when transitioned to redetermination' do
+      before do
+        claim.redetermine!
+      end
 
+      it 'should be in an redetermination state' do
+        expect(claim).to be_redetermination
+      end
 
+      it 'should be open for redetermination' do
+        expect(claim.opened_for_redetermination?).to eq(true)
+      end
+    end
 
+    context 'when transitioned to allocated' do
+      before do
+        claim.redetermine!
+        claim.allocate!
+      end
 
+      it 'should be in an allocated state' do
+        expect(claim).to be_allocated
+      end
 
-
-
-
-
-
-
-
-
+      it 'should have been opened for redetermination before being allocated' do
+        expect(claim.opened_for_redetermination?).to eq(true)
+      end
+    end
+  end
 end

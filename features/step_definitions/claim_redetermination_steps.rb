@@ -42,3 +42,7 @@ Then(/^the claim should be in the "(.*?)" state$/) do |state|
   @claim.reload
   expect(@claim.state).to eq(state)
 end
+
+Then(/^the claim should no longer be open for redetermination$/) do
+  expect(@claim.opened_for_redetermination?).to eq(false)
+end

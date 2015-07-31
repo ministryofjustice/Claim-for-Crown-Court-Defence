@@ -14,6 +14,69 @@ module API
           prefix 'api/seeds'
           content_type :json, 'application/json'
 
+          resource :case_types do
+            desc "Return all Case Types"
+            get do
+              Settings.case_types
+            end
+          end
+
+          resource :courts do
+            desc "Return all Courts"
+            get do
+              Court.all
+            end
+          end
+
+          resource :advocate_categories do
+            desc "Return all Advocate Categories"
+            get do
+              Settings.advocate_categories
+            end
+          end
+
+          resource :prosecuting_authorities do
+            desc "Return all Prosecuting Auhtorities"
+            get do
+              Settings.prosecuting_authorities
+            end
+          end
+
+          resource :trial_cracked_at_thirds do
+            desc "Return all Trial Cracked at Third values (i.e. first, second, final)"
+            get do
+              Settings.trial_cracked_at_third
+            end
+          end
+
+          resource :granting_body_types do
+            desc "Return all granting body types (as used to specify which court issued a defendants Rep. Order)"
+            get do
+              Settings.court_types
+            end
+          end
+
+          resource :offence_classes do
+            desc "Return all Offence Class Types."
+            get do
+              ::OffenceClass.all
+            end
+          end
+
+          resource :offences do
+            desc "Return all Offence Types."
+            get do
+              ::Offence.all
+            end
+          end
+
+          resource :fee_categories do
+            desc "Return all Fee Categories"
+            get do
+              FeeCategory.all
+            end
+          end
+
           resource :fee_types do
 
             helpers do
@@ -42,17 +105,10 @@ module API
 
           end
 
-          resource :offence_classes do
-            desc "Return all Offence Class Types."
+          resource :expense_types do
+            desc "Return all Expense Types."
             get do
-              ::OffenceClass.all
-            end
-          end
-
-          resource :offences do
-            desc "Return all Offence Types."
-            get do
-              ::Offence.all
+              ::ExpenseType.all
             end
           end
 

@@ -104,7 +104,7 @@ class Claim < ActiveRecord::Base
   validates :case_number,             presence: true, unless: :do_not_validate?
   validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :do_not_validate?
   validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :do_not_validate?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :do_not_validate?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :do_not_validate?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :do_not_validate?

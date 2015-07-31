@@ -13,7 +13,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :fees do
+        resource :fees, desc: 'Create or Validate' do
 
           helpers do
             params :fee_creation do

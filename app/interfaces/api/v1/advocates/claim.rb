@@ -13,7 +13,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :claims do
+        resource :claims, desc: 'Create or Validate' do
 
           helpers do
             params :claim_parameters do

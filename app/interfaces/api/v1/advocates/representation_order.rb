@@ -13,7 +13,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :representation_orders do
+        resource :representation_orders, desc: 'Create or Validate' do
 
           helpers do
             params :representation_order_creation do

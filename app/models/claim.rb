@@ -104,7 +104,7 @@ class Claim < ActiveRecord::Base
   validates :case_number,             presence: true, unless: :web_draft_or_pending_delete?
   validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :web_draft_or_pending_delete?
   validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :web_draft_or_pending_delete?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorites }, unless: :web_draft_or_pending_delete?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :web_draft_or_pending_delete?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
   validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?

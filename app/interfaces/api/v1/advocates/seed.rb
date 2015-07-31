@@ -11,7 +11,7 @@ module API
 
           version 'v1', using: :header, vendor: 'Advocate Defence Payments'
           format :json
-          prefix 'api/seeds'
+          prefix 'api'
           content_type :json, 'application/json'
 
           resource :case_types do

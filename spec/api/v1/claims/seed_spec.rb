@@ -5,19 +5,19 @@ describe API::V1::Advocates::Seed do
 
   include Rack::Test::Methods
 
-  CASE_TYPE_ENDPOINT      = "/api/seeds/case_types"
-  COURT_ENDPOINT          = "/api/seeds/courts"
-  ADVOCATE_CATEGORY_ENDPOINT  = "/api/seeds/advocate_categories"
-  PROSECUTING_AUTHORITY_ENDPOINT  = "/api/seeds/prosecuting_authorities"
-  CRACKED_THIRD_ENDPOINT  = "/api/seeds/trial_cracked_at_thirds"
-  GRANTING_BODY_ENDPOINT  = "/api/seeds/granting_body_types"
-  OFFENCE_CLASS_ENDPOINT  = "api/seeds/offence_classes"
-  OFFENCE_ENDPOINT        = "api/seeds/offences"
-  FEE_CATEGORY_ENDPOINT   = "/api/seeds/fee_categories"
-  FEE_TYPE_ENDPOINT       = "/api/seeds/fee_types"
-  EXPENSE_TYPE_ENDPOINT       = "/api/seeds/expense_types"
+  CASE_TYPE_ENDPOINT      = "/api/case_types"
+  COURT_ENDPOINT          = "/api/courts"
+  ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
+  PROSECUTING_AUTHORITY_ENDPOINT  = "/api/prosecuting_authorities"
+  CRACKED_THIRD_ENDPOINT  = "/api/trial_cracked_at_thirds"
+  GRANTING_BODY_ENDPOINT  = "/api/granting_body_types"
+  OFFENCE_CLASS_ENDPOINT  = "api/offence_classes"
+  OFFENCE_ENDPOINT        = "api/offences"
+  FEE_CATEGORY_ENDPOINT   = "/api/fee_categories"
+  FEE_TYPE_ENDPOINT       = "/api/fee_types"
+  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
 
-  context 'GET api/seeds/case_types' do
+  context 'GET api/case_types' do
 
     it 'should return a status of 200' do
       response = get CASE_TYPE_ENDPOINT, format: :json
@@ -31,7 +31,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/courts' do
+  context 'GET api/courts' do
 
     before { create_list(:court,2) }
     let!(:court) { create(:court) }
@@ -51,7 +51,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/advocates_categories' do
+  context 'GET api/advocates_categories' do
 
     it 'should return a status of 200' do
       response = get ADVOCATE_CATEGORY_ENDPOINT, format: :json
@@ -65,7 +65,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/prosecuting_authorities' do
+  context 'GET api/prosecuting_authorities' do
 
     it 'should return a status of 200' do
       response = get PROSECUTING_AUTHORITY_ENDPOINT, format: :json
@@ -79,7 +79,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/trial_cracked_at_thirds' do
+  context 'GET api/trial_cracked_at_thirds' do
 
      it 'should return a status of 200' do
       response = get CRACKED_THIRD_ENDPOINT, format: :json
@@ -93,7 +93,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/granting_body_types' do
+  context 'GET api/granting_body_types' do
 
     it 'should return a status of 200' do
       response = get GRANTING_BODY_ENDPOINT, format: :json
@@ -107,7 +107,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/offence_classes' do
+  context 'GET api/offence_classes' do
 
     let!(:offence_class) { create(:offence_class) }
 
@@ -130,7 +130,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/offences' do
+  context 'GET api/offences' do
 
     let!(:offence) { create(:offence) }
 
@@ -153,7 +153,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/fee_categories' do
+  context 'GET api/fee_categories' do
 
     let!(:basic_category) { create(:basic_fee_category) }
     let!(:fixed_category) { create(:fixed_fee_category) }
@@ -178,7 +178,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/fee_types/[:category]' do
+  context 'GET api/fee_types/[:category]' do
 
     let!(:basic_fee_type) { create(:fee_type, :basic, id: 1) }
     let!(:misc_fee_type)  { create(:fee_type, :misc, id: 2) }
@@ -209,7 +209,7 @@ describe API::V1::Advocates::Seed do
 
   end
 
-  context 'GET api/seeds/expense_types' do
+  context 'GET api/expense_types' do
 
     let!(:expense_type) { create(:expense_type, name: 'my example expense type') }
 

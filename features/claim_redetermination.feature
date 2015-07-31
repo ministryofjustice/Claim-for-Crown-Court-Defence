@@ -41,8 +41,18 @@ Feature: Claim redetermination
      Then the claim should be in the redetermination state
       And a notice should be present in the claim status panel
 
-  Scenario: Handle redetermination claims
+  Scenario Outline: Handle redetermination claims
     Given I am a signed in case worker
       And a redetermined claim is assigned to me
      When I visit the claim's case worker detail page
      Then a notice should be present in the claim status panel
+      And when I select a state of "<form_state>" and update the claim
+     Then the claim should be in the "<state>" state
+
+    Examples:
+      | form_state                | state                    |
+      | Part paid                 | part_paid                |
+      | Paid in full              | paid                     |
+      | Rejected                  | rejected                 |
+      | Refused                   | refused                  |
+      | Awaiting info from court  | awaiting_info_from_court |

@@ -257,9 +257,9 @@ class Claim < ActiveRecord::Base
           errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
         end
       when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-      if self.amount_assessed != 0
-        errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
-      end
+        if self.amount_assessed != 0
+          errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
+        end
     end
   end
 

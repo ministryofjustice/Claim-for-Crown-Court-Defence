@@ -17,23 +17,11 @@ RSpec.describe Claims::StateMachine, type: :model do
     describe 'from redetermination' do
       before { subject.submit!; subject.allocate!; subject.update_attribute(:amount_assessed, 123.45); subject.pay!; subject.redetermine! }
 
-      it {
-        expect{ subject.update_attribute(:amount_assessed, 0.0)
-        subject.await_info_from_court!
-      }.to change{ subject.state }.to('awaiting_info_from_court') }
+      it { expect{ subject.await_info_from_court! }.to change{ subject.state }.to('awaiting_info_from_court') }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
-      it {
-        expect{ subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!
-      }.to change{ subject.state }.to('part_paid') }
-      it { expect{
-        subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay!
-      }.to change{ subject.state }.to('paid') }
-      it {
-        expect{ subject.update_attribute(:amount_assessed, 0.0)
-        subject.refuse!
-      }.to change{ subject.state }.to('refused') }
+      it { expect{ subject.pay_part! }.to change{ subject.state }.to('part_paid') }
+      it { expect{ subject.pay! }.to change{ subject.state }.to('paid') }
+      it { expect{ subject.refuse! }.to change{ subject.state }.to('refused') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 

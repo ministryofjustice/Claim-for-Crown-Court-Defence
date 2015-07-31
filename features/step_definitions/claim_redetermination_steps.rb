@@ -32,3 +32,13 @@ Given(/^a redetermined claim is assigned to me$/) do
   @claim = create(:redetermination_claim)
   @claim.case_workers << @case_worker
 end
+
+Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
+  select form_state, from: 'claim_state_for_form'
+  click_button 'Update'
+end
+
+Then(/^the claim should be in the "(.*?)" state$/) do |state|
+  @claim.reload
+  expect(@claim.state).to eq(state)
+end

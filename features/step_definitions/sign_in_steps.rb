@@ -20,27 +20,27 @@ Given(/^(?:the|that)(?: (\d+)\w+)? advocate admin signs in$/) do |cardinality|
   card = cardinality.nil? ? 1 : cardinality
   @user = @advocate_admins[card.to_i-1].user
   step "I visit the user sign in page"
-  step "I enter my email, password and click log in"
+  step "I enter my email, password and click sign in"
 end
 
 Given(/^(?:the|that)(?: (\d+)\w+)? advocate signs in$/) do |cardinality|
   card = cardinality.nil? ? 1 : cardinality
   @user = @advocates[card.to_i-1].user
   step "I visit the user sign in page"
-  step "I enter my email, password and click log in"
+  step "I enter my email, password and click sign in"
 end
 
 Given(/^(?:the|that)(?: (\d+)\w+)? case worker signs in$/) do |cardinality|
   card = cardinality.nil? ? 1 : cardinality
   @user = @case_workers[card.to_i-1].user
   step "I visit the user sign in page"
-  step "I enter my email, password and click log in"
+  step "I enter my email, password and click sign in"
 end
 
-When(/^I enter my email, password and click log in$/) do
+When(/^I enter my email, password and click sign in$/) do
   fill_in 'Email', with: (@user || User.first).email
   fill_in 'Password', with: @password || 'password'
-  click_on 'Log in'
+  click_on 'Sign in'
   expect(page).to have_content('Sign out')
 end
 
@@ -60,5 +60,3 @@ end
 Then(/^I should be redirected to the advocates root url$/) do
   expect(current_url).to eq(advocates_root_url)
 end
-
-

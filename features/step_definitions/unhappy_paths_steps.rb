@@ -1,16 +1,16 @@
-Given(/^I attempt to log in with an incorrect password$/) do
+Given(/^I attempt to sign in with an incorrect password$/) do
   @advocate = create(:advocate, :admin)
   visit new_user_session_path
   sign_in(@advocate.user, 'passwordXXXXX')
 end
 
 
-Given(/^I should be redirected back to the login page$/) do
+Given(/^I should be redirected back to the sign in page$/) do
   expect(current_path).to eq '/users/sign_in'
 end
 
 
-Given(/^I should see a login error message$/) do
+Given(/^I should see a sign in error message$/) do
   expect(page).to have_content('Invalid email or password')
 end
 

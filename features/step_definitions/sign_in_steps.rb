@@ -83,5 +83,5 @@ end
 
 Then(/^I should see the advocates Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
-  pending #expect(find('h1')).to have_content('Claim for Advocate Graduated Fees')
+  expect(find('.page-title')).to have_content('Advocates')
 end

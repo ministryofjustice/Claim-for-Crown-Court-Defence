@@ -4,7 +4,7 @@
       = link_to 'Home', advocates_root_path
       = link_to "New Claim", new_advocates_claim_path, title: "Start a new claim"
       - if current_user.persona.admin?
-        = link_to 'Admin', advocates_admin_root_path
+        = link_to 'Admin', advocates_admin_advocates_path
     - else
       = "Error"
   = render partial: 'layouts/user'

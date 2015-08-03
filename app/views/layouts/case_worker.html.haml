@@ -8,29 +8,22 @@
 = content_for :content do
   = csrf_meta_tags
 
-  #wrapper.group
-    .phase-banner
-      %p
-        %strong.phase-tag= config_item(:phase)
-        %span
-          This is a new service – your
-          %a{href: "#"} feedback
-          will help us to improve it.
-    %section#content{role: 'main'}
-      %header.page-header.group.tribunal-header
-        #fixed-header
-          - if user_signed_in?
-            = render 'layouts/user'
+  .outer-block
+    .inner-block
+      #primary-nav-bar
+        - if user_signed_in?
+          = render partial: 'layouts/primary_navigation'
+      .phase-banner
+        %p
+          %strong.phase-tag= config_item(:phase)
+          %span
+            This is a new service – your
+            %a{href: "#"} feedback
+            will help us to improve it.
       .container
         = render partial: 'layouts/flashes' unless flash.empty?
-        %aside.aside-navigation
-          = yield :aside_navigation
-          &nbsp;
         %main.main-content
           = render_breadcrumbs
           = yield
-        %aside.aside-help
-          = yield :aside_help
-          &nbsp;
 
 = render template: 'layouts/moj_internal_template'

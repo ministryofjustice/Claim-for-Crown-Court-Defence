@@ -3,18 +3,18 @@ Rails.application.configure do
 
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/dev/images/docs/:id_partition/:filename", 
+    path: "public/assets/dev/images/docs/:id_partition/:filename",
     url: "assets/dev/images/docs/:id_partition/:filename"
   }
 
   REPORDER_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/dev/images/reporders/:id_partition/:filename", 
+    path: "public/assets/dev/images/reporders/:id_partition/:filename",
     url: "assets/dev/images/reporders/:id_partition/:filename"
   }
 
-
-  config.action_controller.asset_host = "http://localhost:3000"
+  #Removed to allow for remote device testing (Ipad or other tablets)
+  #config.action_controller.asset_host = "http://localhost:3000"
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

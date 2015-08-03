@@ -6,7 +6,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe 'all available states' do
     let(:states) do
       [:allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-       :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted]
+       :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination]
     end
 
     it('exist')       { expect(Claim.state_machine.states.map(&:name).sort).to eq(states.sort) }
@@ -14,6 +14,12 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe 'valid transitions' do
+    describe 'from redetermination' do
+      before { subject.submit! }
+
+      it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
+    end
+
     describe 'from allocated' do
       before { subject.submit!; subject.allocate! }
       it { expect{ subject.reject! }.to                 change{ subject.state }.to('rejected') }
@@ -62,6 +68,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
@@ -73,18 +80,19 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay_part!
       }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
+      it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from refused' do
-      before { subject.submit!; subject.allocate!; }
+      before { subject.submit!; subject.allocate!; subject.refuse! }
       it { expect{ subject.update_column(:state, 'refused'); subject.complete! }.to change{ subject.state }.to('completed') }
+      it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from rejected' do
       before { subject.submit!; subject.allocate!; subject.reject! }
-      it { expect{ subject.draft! }.to change{ subject.state }.to('draft') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 

@@ -8,8 +8,9 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated', 'redetermination' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
+  VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
@@ -44,13 +45,18 @@ module Claims::StateMachine
       after_transition on: :pay_part,                do: :set_paid_date!
       after_transition on: :await_further_info,      do: :set_valid_until!
       after_transition on: :archive_pending_delete,  do: :set_valid_until!
+      before_transition on: [:await_info_from_court, :reject, :refuse], do: :set_amount_assessed_zero!
       before_transition any => any,  do: :set_paper_trail_event!
 
       state :allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted
+         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination
+
+      event :redetermine do
+        transition [:paid, :part_paid, :refused] => :redetermination
+      end
 
       event :allocate do
-        transition [:submitted, :awaiting_info_from_court] => :allocated
+        transition [:submitted, :awaiting_info_from_court, :redetermination] => :allocated
       end
 
       event :archive_pending_delete do
@@ -67,10 +73,6 @@ module Claims::StateMachine
 
       event :complete do
         transition [:awaiting_further_info, :paid, :refused] => :completed
-      end
-
-      event :draft do
-        transition [:awaiting_further_info, :rejected] => :draft
       end
 
       event :pay_part do
@@ -133,5 +135,9 @@ module Claims::StateMachine
 
   def set_paper_trail_event!
     self.paper_trail_event = 'State change'
+  end
+
+  def set_amount_assessed_zero!
+    update_column(:amount_assessed, 0) if self.state == 'allocated'
   end
 end

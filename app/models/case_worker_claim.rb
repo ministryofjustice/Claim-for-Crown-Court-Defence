@@ -27,6 +27,6 @@ class CaseWorkerClaim < ActiveRecord::Base
   end
 
   def set_claim_allocated!
-    claim.allocate! if claim.submitted?
+    claim.allocate! if claim.submitted? || claim.redetermination?
   end
 end

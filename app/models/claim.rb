@@ -179,7 +179,7 @@ class Claim < ActiveRecord::Base
     if form_input.blank?
       true
     elsif form_input_to_event[form_input] == nil
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court')
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination')
     else
       false
     end
@@ -190,6 +190,7 @@ class Claim < ActiveRecord::Base
       "part_paid"                => :pay_part!,
       "rejected"                 => :reject!,
       "refused"                  => :refuse!,
+      "redetermination"          => :redetermine!,
       "awaiting_info_from_court" => :await_info_from_court!}
   end
 
@@ -230,6 +231,13 @@ class Claim < ActiveRecord::Base
 
   def pretty_vat_rate
     VatRate.pretty_rate(self.vat_date)
+  end
+
+  def opened_for_redetermination?
+    return true if self.redetermination?
+
+    transition = claim_state_transitions.order(created_at: :asc).last
+    transition && transition.from == 'redetermination'
   end
 
   private
@@ -277,9 +285,9 @@ class Claim < ActiveRecord::Base
           errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
         end
       when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-      if self.amount_assessed != 0
-        errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
-      end
+        if self.amount_assessed != 0
+          errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
+        end
     end
   end
 

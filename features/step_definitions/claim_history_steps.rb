@@ -1,4 +1,4 @@
-Given(/^I have a draft claim$/) do
+Given(/^I have a claim in draft state$/) do
   @claim = create(:claim, advocate: @advocate)
 end
 

@@ -1,4 +1,13 @@
 %section
+  - if @claim.opened_for_redetermination?
+    %p
+      Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').last.created_at} (see messages/notes for further details).
+
+  - if current_user.persona.is_a?(Advocate)
+    - if Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
+      = form_for(@claim, url: transition_state_advocates_claim_path(@claim)) do |f|
+        = f.hidden_field :state_for_form, value: 'redetermination'
+        = f.submit 'Request redetermination', class: 'button', id: 'button'
 
   = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
     %fieldset#claim-status

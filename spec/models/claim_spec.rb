@@ -741,6 +741,10 @@ RSpec.describe Claim, type: :model do
       expect(subject).to receive(:refuse!)
       subject.transition_state('refused')
     end
+    it 'should call redetermine! if redetermination' do
+      expect(subject).to receive(:redetermine!)
+      subject.transition_state('redetermination')
+    end
     it 'should call await_info_from_court! if awaiting_info_from_court' do
       expect(subject).to receive(:await_info_from_court!)
       subject.transition_state('awaiting_info_from_court')
@@ -748,7 +752,7 @@ RSpec.describe Claim, type: :model do
     it 'should raise an exception if anything else' do
       expect{
         subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court'
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination'
     end
   end
 
@@ -991,19 +995,42 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '#opened_for_redetermination?' do
+    let(:claim) { create(:claim) }
 
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.refuse!
+    end
 
+    context 'when transitioned to redetermination' do
+      before do
+        claim.redetermine!
+      end
 
+      it 'should be in an redetermination state' do
+        expect(claim).to be_redetermination
+      end
 
+      it 'should be open for redetermination' do
+        expect(claim.opened_for_redetermination?).to eq(true)
+      end
+    end
 
+    context 'when transitioned to allocated' do
+      before do
+        claim.redetermine!
+        claim.allocate!
+      end
 
+      it 'should be in an allocated state' do
+        expect(claim).to be_allocated
+      end
 
-
-
-
-
-
-
-
-
+      it 'should have been opened for redetermination before being allocated' do
+        expect(claim.opened_for_redetermination?).to eq(true)
+      end
+    end
+  end
 end

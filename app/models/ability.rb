@@ -12,13 +12,13 @@ class Ability
     if persona.is_a? Advocate
       if persona.admin?
         can [:index, :landing, :outstanding, :authorised, :new, :create], Claim
-        can [:show, :edit, :update, :confirmation, :destroy], Claim, chamber_id: persona.chamber_id
+        can [:show, :edit, :update, :transition_state, :confirmation, :destroy], Claim, chamber_id: persona.chamber_id
         can [:show, :download], Document, chamber_id: persona.chamber_id
         can [:index, :new, :create], Advocate
         can [:show, :edit, :update, :destroy], Advocate, chamber_id: persona.chamber_id
       else
         can [:index, :landing, :outstanding, :authorised, :new, :create], Claim
-        can [:show, :edit, :update, :confirmation, :destroy], Claim, advocate_id: persona.id
+        can [:show, :edit, :update, :transition_state, :confirmation, :destroy], Claim, advocate_id: persona.id
         can [:show, :download], Document, advocate_id: persona.id
       end
     elsif persona.is_a? CaseWorker

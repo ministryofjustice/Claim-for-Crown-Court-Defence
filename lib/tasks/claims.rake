@@ -256,7 +256,7 @@ end
                                     offence:    Offence.all.sample,
                                     scheme:     Scheme.all.sample,
                                     case_type:  Settings.case_types.sample)
-        
+
         # randomise creator
         if rand(2) == 1
           advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
@@ -273,7 +273,7 @@ end
           puts "     - allocating to #{case_worker.user.email}"
         end
 
-        claim.apply_vat = false if claim.id % 3 == 0
+        claim.apply_vat = !(claim.id % 3 == 0)
         claim.save!
       end
     end

@@ -60,3 +60,28 @@ end
 Then(/^I should be redirected to the advocates root url$/) do
   expect(current_url).to eq(advocates_root_url)
 end
+
+Then(/^I should see the advocates correct working primary navigation$/) do
+  step "I should see the advocates Home link and it should work"
+  step "I should see the advocates New Claim link and it should work"
+end
+
+Then(/^I should see the admin advocates correct working primary navigation$/) do
+  step "I should see the advocates correct working primary navigation"
+  step "I should see the advocates Admin link and it should work"
+end
+
+Then(/^I should see the advocates Home link and it should work$/) do
+  find('#primary-nav').click_link('Home')
+  expect(find('.page-title')).to have_content('Claims')
+end
+
+Then(/^I should see the advocates New Claim link and it should work$/) do
+  find('#primary-nav').click_link('New Claim')
+  expect(find('h1')).to have_content('Claim for Advocate Graduated Fees')
+end
+
+Then(/^I should see the advocates Admin link and it should work$/) do
+  find('#primary-nav').click_link('Admin')
+  expect(find('.page-title')).to have_content('Advocates')
+end

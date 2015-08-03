@@ -14,32 +14,60 @@
       }
     }
   }
- }
+}
 
+nav.dashboard-tabs{
+  @include span-columns(12);
+  margin:1em 0;
+  ul{
+    border-bottom: 1px solid $orange;
+    float: left;
+    width: 100%;
+  }
+  li{
+    @include span-columns(4 of 12);
+    line-height: 2.5;
+    padding-bottom: 1px;
+    &.active{
+      background-color: $white;
+      border: 1px solid $orange;
+      border-bottom: $white;
+      bottom: -1px;
+      padding-bottom: 0;
+      position: relative;
+    }
+    a {
+      font-weight: bold;
+      color: $black;
+    }
+  }
+}
 
- nav.dashboard-tabs{
-        @include span-columns(12);
-        margin:1em 0;
-        ul{
-          border-bottom: 1px solid $orange;
-          float: left;
-          width: 100%;
-        }
-        li{
-          @include span-columns(4 of 12);
-          line-height: 2.5;
-          padding-bottom: 1px;
-          &.active{
-            background-color: $white;
-            border: 1px solid $orange;
-            border-bottom: $white;
-            bottom: -1px;
-            padding-bottom: 0;
-            position: relative;
-          }
-          a {
-            font-weight: bold;
-            color: $black;
-          }
-        }
- }
+#primary-nav{
+  float:left;
+  a{
+    margin-right:1em;
+    color: $white;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}
+
+#user_links {
+  float:right;
+  a{
+    color: $white;
+    margin-left: 1em;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  & a:first-child{
+    margin-left:0.2em;
+  }
+}

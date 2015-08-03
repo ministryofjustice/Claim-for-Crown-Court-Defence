@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   get 'ping'                => 'ping#index'
   get 'vat'                 => "vat_rates#index"
 
+  get '/404', to: 'errors#not_found', as: :error_404
+  get '/500', to: 'errors#internal_server_error', as: :error_500
+
   devise_for :users, controllers: { sessions: 'sessions' }
 
   authenticated :user, -> (u) { u.persona.is_a?(Advocate) } do

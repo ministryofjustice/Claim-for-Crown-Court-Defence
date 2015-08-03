@@ -170,6 +170,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def claim_params
     params.require(:claim).permit(
      :state_for_form,
+     :source,
      :advocate_id,
      :court_id,
      :case_number,

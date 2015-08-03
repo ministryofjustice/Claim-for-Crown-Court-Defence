@@ -14,12 +14,12 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :expenses do
+        resource :expenses, desc: 'Create or Validate' do
 
           helpers do
             params :expense_creation do
               requires :claim_id, type: Integer, desc: "Unique identifier for the claim associated with this defendant."
-              requires :date, type: DateTime, desc: "Date on which this expense was incurred."
+              requires :date, type: DateTime, desc: "Date on which this expense was incurred (YYYY/MM/DD)."
               requires :expense_type_id, type: Integer, desc: "Reference to the parent expense type."
               requires :quantity, type: Integer, desc: "Quantity of expenses of this type and rate."
               requires :rate, type: Float, desc: "Rate for each expense."

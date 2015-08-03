@@ -22,7 +22,7 @@
       = render 'cracked_trial_fields', f: f
 
       = f.label t('.prosecuting_authority')
-      = f.collection_select :prosecuting_authority, Settings.prosecuting_authorites, :to_s, :upcase, { prompt: true }, { class: 'select2' }
+      = f.collection_select :prosecuting_authority, Settings.prosecuting_authorities, :to_s, :upcase, { prompt: true }, { class: 'select2' }
 
       = f.label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }

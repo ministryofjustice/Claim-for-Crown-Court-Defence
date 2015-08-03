@@ -1,4 +1,5 @@
 Given(/^I have claims$/) do
+  FactoryGirl.create :vat_rate
   @claims = create_list(:submitted_claim, 5, advocate: @advocate)
   @claims.each do |claim|
     claim.documents << create(:document, advocate: @advocate)
@@ -165,11 +166,12 @@ end
 Given(/^I have (\d+) claims involving defendant "(.*?)" amongst others$/) do |number,defendant_name|
   @claims = create_list(:draft_claim, number.to_i, advocate: @advocate)
   @claims.each do |claim|
-    create(:defendant, claim: claim, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+    create(:defendant, claim: claim, first_name: Faker::Name.first_name, middle_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
   end
   @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
   @claims.each do |claim|
-    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+    middle_names = defendant_name.split.delete_if.with_index { |name,idx| name if idx == 0 || idx == defendant_name.split.count-1 }.join(' ')
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, middle_name: middle_names, last_name: defendant_name.split.last)
   end
 end
 

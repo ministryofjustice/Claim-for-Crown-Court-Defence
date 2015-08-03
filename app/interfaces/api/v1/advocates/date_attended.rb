@@ -14,13 +14,13 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :dates_attended do
+        resource :dates_attended, desc: 'Create or Validate' do
 
           helpers do
             params :date_attended_creation do
               requires :fee_id, type: Integer, desc: 'The ID of the corresponding Fee.'
-              requires :date, type: DateTime, desc: 'The date on which this "date_attended" occurred, or the first date in your date-range.'
-              optional :date_to, type: DateTime, desc: 'The last date in your date-range'
+              requires :date, type: DateTime, desc: 'The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
+              optional :date_to, type: DateTime, desc: 'The last date your date-range (YYYY/MM/DD)'
             end
 
             def args

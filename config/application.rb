@@ -31,7 +31,7 @@ module AdvocateDefencePayments
     config.proposition_title = 'Advocate Defence Payments'
     # Current Phase (Sets the current phase and the colour of phase tags)
     # Presumed values: alpha, beta, live
-    config.phase = 'alpha'
+    config.phase = 'BETA'
     # Product Type (Adds class to body based on service type)
     # Presumed values: information, service
     config.product_type = 'not_set'
@@ -44,5 +44,7 @@ module AdvocateDefencePayments
 
     config.paths.add File.join('app', 'interfaces'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
+
+    config.exceptions_app = self.routes
   end
 end

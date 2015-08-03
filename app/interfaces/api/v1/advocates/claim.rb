@@ -13,28 +13,30 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :claims do
+        resource :claims, desc: 'Create or Validate' do
 
           helpers do
             params :claim_parameters do
               requires :advocate_email, type: String, desc: "Your ADP account email address that uniquely identifies you."
               requires :case_number, type: String, desc: "The case number"
-              requires :case_type, type: String, desc: "The case type i.e trial"
+              requires :case_type, type: String, values: Settings.case_types, desc: "The case type i.e trial"
               requires :indictment_number, type: String, desc: "The indictment number"
-              requires :first_day_of_trial, type: Date, desc: "The first day of the trial"
+              requires :first_day_of_trial, type: Date, desc: "YYYY/MM/DD"
               requires :estimated_trial_length, type: Integer, desc: "The estimated trial length in days"
               requires :actual_trial_length, type: Integer, desc: "The actual trial length in days"
               requires :trial_concluded_at, type: Date, desc: "The the trial concluded"
-              requires :advocate_category, type: String, desc: "The category of the advocate"
+              requires :advocate_category, type: String, values: Settings.advocate_categories, desc: "The category of the advocate"
+              requires :prosecuting_authority, type: String, values: ['cps'], desc: "The prosecuting authority"
+              requires :offence_id, type: Integer, desc: "The unique identifier for this offence"
+              requires :court_id, type: Integer, desc: "The unique identifier for this court"
 
               optional :cms_number, type: String, desc: "The CMS number"
               optional :additional_information , type: String, desc: "Any additional information"
               optional :apply_vat , type: Boolean, desc: "Include VAT (True or False)"
-              optional :prosecuting_authority, type: String, desc: "The prosecuting authority"
-              optional :trial_fixed_notice_at, type: Date, desc: "The trial fixed notice date"
-              optional :trial_fixed_at, type: Date, desc: "The trial fixed date"
-              optional :trial_cracked_at, type: Date, desc: "The trial cracked date"
-              optional :trial_cracked_at_third, type: Date, desc: "The trial cracked (third) date"
+              optional :trial_fixed_notice_at, type: Date, desc: "YYYY/MM/DD"
+              optional :trial_fixed_at, type: Date, desc: "YYYY/MM/DD"
+              optional :trial_cracked_at, type: Date, desc: "YYYY/MM/DD"
+              optional :trial_cracked_at_third, type: String, values: Settings.trial_cracked_at_third, desc: "The third in which this case was cracked."
             end
 
             def build_arguements
@@ -62,6 +64,8 @@ module API
                   trial_fixed_at:           params[:trial_fixed_at],
                   trial_cracked_at:         params[:trial_cracked_at],
                   trial_cracked_at_third:   params[:trial_cracked_at_third],
+                  offence_id:               params[:offence_id],
+                  court_id:                 params[:court_id], 
                 }
               end
             end

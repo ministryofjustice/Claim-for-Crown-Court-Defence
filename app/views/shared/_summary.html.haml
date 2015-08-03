@@ -67,7 +67,23 @@
       Claim total:
       = claim.total
 
+    %h1 VAT
+
     - if claim.apply_vat?
-      %p
-        %strong
-          VAT applies to claim
+      %table
+        %thead
+          %th Tax Date
+          %th VAT rate
+          %th Net Total
+          %th VAT amount
+        %tbody
+          %tr
+            %td= claim.vat_date
+            %td= claim.pretty_vat_rate
+            %td= claim.total
+            %td= claim.vat_amount
+    - else
+      %p 
+        VAT does NOT apply to this claim.
+    
+    

@@ -38,6 +38,7 @@
 #  trial_cracked_at       :date
 #  trial_cracked_at_third :string(255)
 #  source                 :string(255)
+#  vat_amount             :decimal(, )      default(0.0)
 #
 
 FactoryGirl.define do
@@ -47,6 +48,8 @@ FactoryGirl.define do
     scheme      { random_scheme }
     case_number { Faker::Number.number(10) }
     advocate
+    source { 'web' }
+    apply_vat  false
     after(:build) do |claim|
       claim.creator = claim.advocate
     end

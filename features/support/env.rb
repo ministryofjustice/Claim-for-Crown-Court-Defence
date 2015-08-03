@@ -69,4 +69,3 @@ Around('@webmock_allow_net_connect') do |scenario, block|
   block.call
 end
 
-

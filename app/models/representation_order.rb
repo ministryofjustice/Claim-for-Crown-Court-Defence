@@ -15,9 +15,11 @@ class RepresentationOrder < ActiveRecord::Base
 
   before_save :upcase_maat_ref
 
-  validates   :granting_body, presence: true, inclusion: { in: Settings.court_types }, unless: -> {self.claim.nil? || self.claim.draft? }
-  validates   :maat_reference, presence: true, unless: -> { self.claim.nil? || self.claim.draft? }
+  validates   :granting_body, presence: true, unless: :do_not_validate?
+  validates   :granting_body, inclusion: { in: Settings.court_types }
+  validates   :maat_reference, presence: true, unless: :do_not_validate?
   validates   :maat_reference, uniqueness: { case_sensitive: false }
+  validates   :representation_order_date, presence: true  
 
   belongs_to :defendant
 
@@ -31,6 +33,14 @@ class RepresentationOrder < ActiveRecord::Base
 
   def detail
     "#{self.granting_body} #{self.representation_order_date.strftime(Settings.date_format)}"
+  end
+
+  def do_not_validate?
+    claim.nil? || belongs_to_draft_claim_from_web?
+  end
+
+  def belongs_to_draft_claim_from_web?
+    claim.draft? == true && claim.source == 'web' # validations do apply to drafts from api
   end
 
 end

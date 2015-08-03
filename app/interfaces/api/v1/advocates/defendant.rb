@@ -14,7 +14,7 @@ module API
         prefix 'api/advocates'
         content_type :json, 'application/json'
 
-        resource :defendants do
+        resource :defendants, desc: 'Create or Validate' do
 
           helpers do
             params :defendant_creation do
@@ -22,7 +22,7 @@ module API
               requires :first_name, type: String, desc: "First name of the defedant."
               optional :middle_name, type: String, desc: "Middle name of the defendant."
               requires :last_name, type: String, desc: "Last name of the defendant."
-              requires :date_of_birth, type: DateTime, desc: "Defendant's date of birth."
+              requires :date_of_birth, type: DateTime, desc: "Defendant's date of birth (YYYY/MM/DD)."
               optional :order_for_judicial_apportionment, type: Boolean
             end
 

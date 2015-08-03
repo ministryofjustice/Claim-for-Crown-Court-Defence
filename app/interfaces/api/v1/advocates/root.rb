@@ -10,6 +10,8 @@ module API
         mount API::V1::Advocates::Fee
         mount API::V1::Advocates::Expense
         mount API::V1::Advocates::DateAttended
+        mount API::V1::Advocates::RepresentationOrder
+        mount API::V1::DropdownData
         add_swagger_documentation(
           api_version: "v1",
           hide_documentation_path: true,

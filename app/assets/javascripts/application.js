@@ -51,7 +51,7 @@ $( document ).ready(function() {
   initialise();
 
   //Stops the form from submitting when the user presses 'Enter' key
-  $("form").on("keypress", function (e) {
+  $("#claim-form form").on("keypress", function (e) {
     if (e.keyCode == 13) {
         return false;
     }

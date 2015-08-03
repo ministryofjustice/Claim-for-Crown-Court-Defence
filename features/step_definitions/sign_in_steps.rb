@@ -85,3 +85,30 @@ Then(/^I should see the advocates Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
   expect(find('.page-title')).to have_content('Advocates')
 end
+
+Then(/^I should see the caseworkers correct working primary navigation$/) do
+  step "I should see the caseworkers Home link and it should work"
+end
+
+Then(/^I should see the admin caseworkers correct working primary navigation$/) do
+  step "I should see the admin caseworkers Summary link and it should work"
+  step "I should see the admin caseworkers Allocation link and it should work"
+  step "I should see the admin caseworkers Admin link and it should work"
+end
+
+Then(/^I should see the caseworkers Home link and it should work$/) do
+  find('#primary-nav').click_link('Home')
+end
+
+Then(/^I should see the admin caseworkers Summary link and it should work$/) do
+  find('#primary-nav').click_link('Summary')
+end
+
+Then(/^I should see the admin caseworkers Allocation link and it should work$/) do
+  find('#primary-nav').click_link('Allocation')
+end
+
+Then(/^I should see the admin caseworkers Admin link and it should work$/) do
+  find('#primary-nav').click_link('Admin')
+  expect(find('h1')).to have_content('Case workers')
+end

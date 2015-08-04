@@ -10,6 +10,9 @@
   border-bottom: 1px solid $govuk-blue;
   padding:0.4em;
   overflow: auto;
+  &.internal-user{
+    background-color:$laa-green;
+  }
 }
 
  #wrapper, #global-header-bar {

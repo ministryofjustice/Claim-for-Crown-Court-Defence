@@ -8,9 +8,25 @@ describe API::V1::Advocates::DateAttended do
   CREATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended"
   VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended/validate"
 
+  ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
+  FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
+
   let!(:fee)                            { create(:fee, id: 1) }
   let!(:valid_date_attended_params)     { {fee_id: fee.id, date: '10 May 2015', date_to: '12 May 2015'} }
   let!(:invalid_date_attended_params)   { {} }
+
+  context 'All dates_attended API endpoints' do
+    ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint
+      context 'when sent a non-permitted verb' do
+        FORBIDDEN_DATES_ATTENDED_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+          it 'should return a status of 405' do
+            response = send api_verb, endpoint, format: :json
+            expect(response.status).to eq 405
+          end
+        end
+      end
+    end
+  end
 
   describe 'POST api/advocates/dates_attended' do
 

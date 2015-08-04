@@ -5,7 +5,7 @@ class API::Logger < Grape::Middleware::Base
   end
 
   def after
-    log_api_response(@app_response.status, JSON.parse(@app_response.body.first))
+    log_api_response(@app_response.status)
     @app_response # this must return @app_response or nil
   end
 
@@ -15,8 +15,15 @@ class API::Logger < Grape::Middleware::Base
     log_api('api-request', { method: method, path: path, data: data })
   end
 
-  def log_api_response(status, response_body)
+  def log_api_response(status)
     log_api('api-response', { status: status, response_body: response_body })
+  end
+
+  def response_body
+    begin
+      JSON.parse(@app_response.body.first)
+    rescue JSON::ParserError
+    end
   end
 
   def log_api(api_type, data)

@@ -8,10 +8,26 @@ describe API::V1::Advocates::Defendant do
   CREATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants"
   VALIDATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants/validate"
 
+  ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
+  FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
+
   let!(:claim)                     {  create(:claim) }
   let!(:valid_defendant_params)    { {claim_id: claim.id, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
   let!(:invalid_defendant_params)  { {claim_id: claim.id} }
   let!(:invalid_claim_id_params)   { {claim_id: 10000000, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+
+  context 'All defendant API endpoints' do
+    ALL_DEFENDANT_ENDPOINTS.each do |endpoint| # for each endpoint
+      context 'when sent a non-permitted verb' do
+        FORBIDDEN_DEFENDANT_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+          it 'should return a status of 405' do
+            response = send api_verb, endpoint, format: :json
+            expect(response.status).to eq 405
+          end
+        end
+      end
+    end
+  end
 
   describe 'POST api/advocates/defendants' do
 

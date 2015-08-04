@@ -7,6 +7,9 @@ describe API::V1::Advocates::Claim do
   VALIDATE_CLAIM_ENDPOINT = "/api/advocates/claims/validate"
   CREATE_CLAIM_ENDPOINT = "/api/advocates/claims"
 
+  ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
+  FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
+
   let!(:current_advocate) { create(:advocate) }
   let!(:offence)          { create(:offence)}
   let!(:court)            { create(:court)}
@@ -22,6 +25,19 @@ describe API::V1::Advocates::Claim do
                           :offence_id => offence.id,
                           :court_id => court.id,
                           :prosecuting_authority => 'cps'} }
+
+  context 'All claim API endpoints' do
+    ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint
+      context 'when sent a non-permitted verb' do
+        FORBIDDEN_CLAIM_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+          it 'should return a status of 405' do
+            response = send api_verb, endpoint, format: :json
+            expect(response.status).to eq 405
+          end
+        end
+      end
+    end
+  end
 
   describe "POST /api/advocates/claims/validate" do
 

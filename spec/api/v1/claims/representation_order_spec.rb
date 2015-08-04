@@ -8,8 +8,24 @@ describe API::V1::Advocates::RepresentationOrder do
   CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders"
   VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders/validate"
 
+  ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
+  FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
+
   let!(:valid_representation_order_params)    { {granting_body: "Magistrate's Court", defendant_id: 1, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
   let!(:invalid_representation_order_params)  { {} }
+
+  context 'All representation_order API endpoints' do
+    ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
+      context 'when sent a non-permitted verb' do
+        FORBIDDEN_REP_ORDER_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+          it 'should return a status of 405' do
+            response = send api_verb, endpoint, format: :json
+            expect(response.status).to eq 405
+          end
+        end
+      end
+    end
+  end
 
   describe 'POST api/advocates/representation_orders' do
 

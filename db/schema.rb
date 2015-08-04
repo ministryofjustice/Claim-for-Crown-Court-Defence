@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729140240) do
+ActiveRecord::Schema.define(version: 20150804100037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "advocates", force: true do |t|
     t.string   "role"
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "account_number"
+    t.uuid     "uuid",           default: "uuid_generate_v4()"
   end
 
   add_index "advocates", ["account_number"], name: "index_advocates_on_account_number", using: :btree
@@ -54,6 +56,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.uuid     "uuid",           default: "uuid_generate_v4()"
   end
 
   add_index "chambers", ["account_number"], name: "index_chambers_on_account_number", using: :btree
@@ -107,6 +110,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.string   "trial_cracked_at_third"
     t.string   "source"
     t.decimal  "vat_amount",             default: 0.0
+    t.uuid     "uuid",                   default: "uuid_generate_v4()"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
@@ -135,6 +139,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "date_to"
+    t.uuid     "uuid",       default: "uuid_generate_v4()"
   end
 
   add_index "dates_attended", ["fee_id"], name: "index_dates_attended_on_fee_id", using: :btree
@@ -148,6 +153,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.uuid     "uuid",                             default: "uuid_generate_v4()"
   end
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
@@ -165,6 +171,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.string   "converted_preview_document_content_type"
     t.integer  "converted_preview_document_file_size"
     t.datetime "converted_preview_document_updated_at"
+    t.uuid     "uuid",                                    default: "uuid_generate_v4()"
   end
 
   add_index "documents", ["advocate_id"], name: "index_documents_on_advocate_id", using: :btree
@@ -189,6 +196,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
@@ -229,6 +237,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.uuid     "uuid",        default: "uuid_generate_v4()"
   end
 
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
@@ -280,6 +289,7 @@ ActiveRecord::Schema.define(version: 20150729140240) do
     t.string   "granting_body"
     t.string   "maat_reference"
     t.date     "representation_order_date"
+    t.uuid     "uuid",                      default: "uuid_generate_v4()"
   end
 
   create_table "schemes", force: true do |t|

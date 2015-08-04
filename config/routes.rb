@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'ping'                => 'ping#index'
   get 'vat'                 => "vat_rates#index"
 
+  get 'json_schema' => 'json_template#index'
+
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
@@ -24,6 +26,7 @@ Rails.application.routes.draw do
 
   mount API::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
+
 
   resources :documents do
     get 'download', on: :member

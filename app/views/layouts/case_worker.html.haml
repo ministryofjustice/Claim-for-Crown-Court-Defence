@@ -10,7 +10,7 @@
 
   .outer-block
     .inner-block
-      #primary-nav-bar
+      #primary-nav-bar.internal-user
         - if user_signed_in?
           = render partial: 'layouts/primary_navigation'
       .phase-banner

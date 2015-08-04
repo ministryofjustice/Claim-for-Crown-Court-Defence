@@ -31,7 +31,7 @@ module AdvocateDefencePayments
     config.proposition_title = 'Advocate Defence Payments'
     # Current Phase (Sets the current phase and the colour of phase tags)
     # Presumed values: alpha, beta, live
-    config.phase = 'BETA'
+    config.phase = 'ALPHA'
     # Product Type (Adds class to body based on service type)
     # Presumed values: information, service
     config.product_type = 'not_set'

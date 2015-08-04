@@ -8,10 +8,10 @@
 [staging-adp.dsd.io](https://staging-adp.dsd.io)
 
 ## Demo
-[demo.crimebillingonline.dsd.io](http://demo.crimebillingonline.dsd.io)
+[demo-adp.dsd.io](https://demo-adp.dsd.io)
 
 ## Dev
-[dev.crimebillingonline.dsd.io](http://dev.crimebillingonline.dsd.io)
+[dev-adp.dsd.io](http://dev-adp.dsd.io)
 
 ## S3 for document storage
 

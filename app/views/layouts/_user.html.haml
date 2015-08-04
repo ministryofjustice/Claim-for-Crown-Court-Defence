@@ -1,13 +1,13 @@
-= content_for :after_header do
-  #user_links
-    %strong
-      - if current_user.persona.is_a?(CaseWorker) && current_user.persona.admin?
-        = link_to 'Allocations', case_workers_admin_allocations_path
-        = link_to "Case Workers (#{CaseWorker.count})", case_workers_admin_case_workers_path
-      = link_to current_user.name, '#'
-      = link_to user_message_statuses_path do
-        %span#message_count
-          = current_user_messages_count
-        Messages
-      = link_to 'Sign out', destroy_user_session_path, method: :delete
-
+#user_links
+  %strong
+    -# if current_user.persona.is_a?(CaseWorker) && current_user.persona.admin?
+      =# link_to 'Allocations', case_workers_admin_allocations_path
+      =# link_to "Case Workers (#{CaseWorker.count})", case_workers_admin_case_workers_path
+    = "Signed in as:"
+    = link_to(current_user.name, '#')
+    -#Hide messages for the moment
+    -#= link_to user_message_statuses_path do
+      -#%span#message_count
+        -#= current_user_messages_count
+      -#Messages
+    = link_to 'Sign out', destroy_user_session_path, method: :delete

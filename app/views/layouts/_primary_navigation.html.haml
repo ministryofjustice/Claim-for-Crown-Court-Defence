@@ -1,0 +1,17 @@
+- if user_signed_in?
+  %nav#primary-nav{:role =>'navigation'}
+    - if current_user.persona.is_a?(Advocate)
+      = link_to 'Home', advocates_root_path
+      = link_to "New Claim", new_advocates_claim_path, title: "Start a new claim"
+      - if current_user.persona.admin?
+        = link_to 'Admin', advocates_admin_advocates_path
+    - elsif current_user.persona.is_a?(CaseWorker)
+      - if current_user.persona.admin?
+        = link_to 'Summary', case_workers_admin_root_path
+        = link_to "Allocation", case_workers_admin_allocations_path
+        = link_to 'Admin', case_workers_admin_case_workers_path
+      - else
+        = link_to 'Home', case_workers_root_path
+    - else
+      = "Error"
+  = render partial: 'layouts/user'

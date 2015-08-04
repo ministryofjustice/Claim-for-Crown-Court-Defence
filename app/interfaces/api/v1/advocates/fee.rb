@@ -17,7 +17,7 @@ module API
 
           helpers do
             params :fee_creation do
-              requires :claim_id, type: Integer, desc: 'The unique identifier for the corresponding claim.'
+              requires :claim_id, type: String, desc: 'The unique identifier for the corresponding claim.'
               requires :fee_type_id, type: Integer, desc: 'The unique identifier for the corresponding FeeType'
               requires :quantity, type: Integer, desc: 'The number of Fees being claimed for of this FeeType and Rate'
               requires :amount, type: Float, desc: 'Total value.'
@@ -25,7 +25,7 @@ module API
 
             def args
               {
-                claim_id: params[:claim_id],
+                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 fee_type_id: params[:fee_type_id],
                 quantity: params[:quantity],
                 amount: params[:amount]
@@ -55,7 +55,7 @@ module API
             fee = ::Fee.new(args)
 
             if !fee.valid?
-                    error = ErrorResponse.new(fee)
+              error = ErrorResponse.new(fee)
               status error.status
               return error.body
             end

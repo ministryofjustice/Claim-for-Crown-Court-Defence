@@ -8,7 +8,9 @@ describe API::V1::Advocates::RepresentationOrder do
   CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders"
   VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders/validate"
 
-  let!(:valid_representation_order_params)    { {granting_body: "Magistrate's Court", defendant_id: 1, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
+  let!(:claim) { create(:claim) }
+  let!(:defendant) { create(:defendant, claim: claim).reload }
+  let!(:valid_representation_order_params)    { {granting_body: "Magistrate's Court", defendant_id: defendant.uuid, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
   let!(:invalid_representation_order_params)  { {} }
 
   describe 'POST api/advocates/representation_orders' do
@@ -28,7 +30,7 @@ describe API::V1::Advocates::RepresentationOrder do
         post_to_create_endpoint(valid_representation_order_params)
         representation_order = RepresentationOrder.last
         expect(representation_order.granting_body).to eq "Magistrate's Court"
-        expect(representation_order.defendant_id).to eq 1
+        expect(representation_order.defendant_id).to eq Defendant.find_by(uuid: defendant.uuid).id
         expect(representation_order.representation_order_date.to_s).to eq  "10/06/2015 00:00"
         expect(representation_order.maat_reference).to eq 'MAATMAATMAAT'
       end

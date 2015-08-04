@@ -43,7 +43,6 @@
 
 FactoryGirl.define do
   factory :claim do
-
     court
     scheme      { random_scheme }
     case_number { Faker::Number.number(10) }

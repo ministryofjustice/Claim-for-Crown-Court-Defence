@@ -9,9 +9,9 @@ describe API::V1::Advocates::Fee do
   VALIDATE_FEE_ENDPOINT = "/api/advocates/fees/validate"
 
   let!(:fee_type)            { create(:fee_type, id: 1) }
-  let!(:claim)               { create(:claim) }
-  let!(:valid_fee_params)    { {claim_id: claim.id, fee_type_id: fee_type.id, quantity: 3, amount: 10.00 } }
-  let!(:invalid_fee_params)  { {claim_id: claim.id} }
+  let!(:claim)               { create(:claim).reload }
+  let!(:valid_fee_params)    { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.00 } }
+  let!(:invalid_fee_params)  { {claim_id: claim.uuid } }
 
   describe 'POST api/advocates/fees' do
 
@@ -29,7 +29,7 @@ describe API::V1::Advocates::Fee do
       it 'creates a new fee record with all provided attributes' do
         response = post_to_create_endpoint
         fee = Fee.last
-        expect(fee.claim).to eq claim
+        expect(fee.claim.id).to eq claim.id
         expect(fee.fee_type).to eq fee_type
         expect(fee.quantity).to eq 3
         expect(fee.amount).to eq 10.00

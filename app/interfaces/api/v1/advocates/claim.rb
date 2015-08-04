@@ -39,7 +39,7 @@ module API
               optional :trial_cracked_at_third, type: String, values: Settings.trial_cracked_at_third, desc: "The third in which this case was cracked."
             end
 
-            def build_arguements
+            def build_arguments
               user = User.advocates.find_by(email: params[:advocate_email])
               if user.blank?
                 raise API::V1::ArgumentError, 'advocate_email is invalid'
@@ -65,7 +65,7 @@ module API
                   trial_cracked_at:         params[:trial_cracked_at],
                   trial_cracked_at_third:   params[:trial_cracked_at_third],
                   offence_id:               params[:offence_id],
-                  court_id:                 params[:court_id], 
+                  court_id:                 params[:court_id],
                 }
               end
             end
@@ -79,23 +79,24 @@ module API
 
           post do
             begin
-              arguements = build_arguements
+              arguments = build_arguments
             rescue => error
-              arguements_error = ErrorResponse.new(error)
-              status arguements_error.status
-              return arguements_error.body
+              arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
             end
 
-            claim = ::Claim.create(arguements)
+            claim = ::Claim.create(arguments)
 
             if !claim.errors.empty?
-                    error = ErrorResponse.new(claim)
+              error = ErrorResponse.new(claim)
               status error.status
               return error.body
             end
 
             status 201
-            api_response = { 'id' => claim.id }.merge!(declared(params))
+
+            api_response = { 'id' => claim.reload.uuid }.merge!(declared(params))
 
             api_response
           end
@@ -108,17 +109,17 @@ module API
 
           post '/validate' do
             begin
-                arguements = build_arguements
+                arguments = build_arguments
             rescue => error
-              arguements_error = ErrorResponse.new(error)
-              status arguements_error.status
-              return arguements_error.body
+              arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
             end
 
-            claim = ::Claim.new(arguements)
+            claim = ::Claim.new(arguments)
 
             if !claim.valid?
-                    error = ErrorResponse.new(claim)
+              error = ErrorResponse.new(claim)
               status error.status
               return error.body
             end

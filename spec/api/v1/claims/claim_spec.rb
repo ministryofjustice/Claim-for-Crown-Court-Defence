@@ -69,7 +69,7 @@ describe API::V1::Advocates::Claim do
       expect(json_response['id']).not_to be_nil
 
       expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
-      expect(Claim.find(json_response['id']).id).to eq(json_response['id'])
+      expect(Claim.find_by(uuid: json_response['id']).uuid).to eq(json_response['id'])
     end
 
     it "returns 400 and an error when advocate email is invalid" do

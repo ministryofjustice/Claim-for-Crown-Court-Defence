@@ -8,10 +8,10 @@ describe API::V1::Advocates::Defendant do
   CREATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants"
   VALIDATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants/validate"
 
-  let!(:claim)                     {  create(:claim) }
-  let!(:valid_defendant_params)    { {claim_id: claim.id, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
-  let!(:invalid_defendant_params)  { {claim_id: claim.id} }
-  let!(:invalid_claim_id_params)   { {claim_id: 10000000, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+  let!(:claim)                     {  create(:claim).reload }
+  let!(:valid_defendant_params)    { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+  let!(:invalid_defendant_params)  { {claim_id: claim.uuid} }
+  let!(:invalid_claim_id_params)   { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
 
   describe 'POST api/advocates/defendants' do
 
@@ -47,23 +47,21 @@ describe API::V1::Advocates::Defendant do
     end
 
     it 'returns 200 when the params are valid' do
-        response = post_to_validate_endpoint(valid_defendant_params)
-        expect(response.status).to eq 200
+      response = post_to_validate_endpoint(valid_defendant_params)
+      expect(response.status).to eq 200
     end
 
     it 'with MISSING PARAMS returns 400 and an appropriate error message' do
-        invalid_response = post_to_validate_endpoint(invalid_defendant_params)
-        expect(invalid_response.status).to eq 400
-        expect(invalid_response.body).to eq "{\"error\":\"first_name is missing, last_name is missing, date_of_birth is missing\"}"
+      invalid_response = post_to_validate_endpoint(invalid_defendant_params)
+      expect(invalid_response.status).to eq 400
+      expect(invalid_response.body).to eq "{\"error\":\"first_name is missing, last_name is missing, date_of_birth is missing\"}"
     end
 
     it 'with INVALID CLAIM ID returns 400 and an appropriate error message' do
-        invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
-        expect(invalid_response.status).to eq 400
-        expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+      invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
+      puts invalid_response.body
+      expect(invalid_response.status).to eq 400
+      expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
     end
-
-
   end
-
 end

@@ -8,10 +8,10 @@ describe API::V1::Advocates::Expense do
   CREATE_EXPENSE_ENDPOINT = "/api/advocates/expenses"
   VALIDATE_EXPENSE_ENDPOINT = "/api/advocates/expenses/validate"
 
-  let!(:claim)                      {  create(:claim)                                                                                     }
-  let!(:expense_type)               {  create(:expense_type)                                                                              }
-  let!(:valid_expense_params)       { {claim_id: claim.id, expense_type_id: expense_type.id, rate: 1, quantity: 2, date: '10 May 2015', location: 'London' }  }
-  let!(:invalid_expense_params)     { {claim_id: claim.id }                                                                             }
+  let!(:claim)                      {  create(:claim).reload }
+  let!(:expense_type)               {  create(:expense_type) }
+  let!(:valid_expense_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, date: '10 May 2015', location: 'London' }  }
+  let!(:invalid_expense_params)     { {claim_id: claim.uuid }                                                                             }
 
   describe 'POST api/advocates/expenses' do
 

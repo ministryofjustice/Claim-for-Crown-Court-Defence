@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804100037) do
+ActiveRecord::Schema.define(version: 20150805190459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,8 +140,10 @@ ActiveRecord::Schema.define(version: 20150804100037) do
     t.datetime "updated_at"
     t.datetime "date_to"
     t.uuid     "uuid",       default: "uuid_generate_v4()"
+    t.integer  "expense_id"
   end
 
+  add_index "dates_attended", ["expense_id"], name: "index_dates_attended_on_expense_id", using: :btree
   add_index "dates_attended", ["fee_id"], name: "index_dates_attended_on_fee_id", using: :btree
 
   create_table "defendants", force: true do |t|

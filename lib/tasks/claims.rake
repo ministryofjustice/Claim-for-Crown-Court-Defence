@@ -160,7 +160,10 @@ end
   end
 
   def add_expenses(claim)
-    rand(1..10).times { FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample) }
+    rand(1..10).times do
+      expense = FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample)
+      FactoryGirl.create(:date_attended, fee: nil, expense: expense) unless rand(2) == 0
+    end
   end
 
   def push_fees_over_threshold(claim)

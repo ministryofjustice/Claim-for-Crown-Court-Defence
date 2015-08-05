@@ -4,7 +4,7 @@ When(/^I visit the detail link for a claim$/) do
 end
 
 When(/^I visit the view link for a claim$/) do
-  click_link "View your claims"
+  visit advocates_root_path
   within('#submitted') do
     within('.claims_table') do
       first(:link, "View").click
@@ -13,7 +13,7 @@ When(/^I visit the view link for a claim$/) do
 end
 
 When(/^I expand the submitted claims accordion and visit the view link for a claim$/) do
-  click_link "View your claims"
+  visit advocates_root_path
   find('h2', text: 'Submitted').click
   within('#submitted') do
     within('.claims_table') do

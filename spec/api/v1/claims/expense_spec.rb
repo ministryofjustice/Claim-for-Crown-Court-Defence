@@ -8,10 +8,26 @@ describe API::V1::Advocates::Expense do
   CREATE_EXPENSE_ENDPOINT = "/api/advocates/expenses"
   VALIDATE_EXPENSE_ENDPOINT = "/api/advocates/expenses/validate"
 
+  ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
+  FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
+
   let!(:claim)                      {  create(:claim).reload }
   let!(:expense_type)               {  create(:expense_type) }
   let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, date: '10 May 2015', location: 'London' }  }
   let!(:invalid_params)     { {claim_id: claim.uuid }                                                                             }
+
+  context 'All expense API endpoints' do
+    ALL_EXPENSE_ENDPOINTS.each do |endpoint| # for each endpoint
+      context 'when sent a non-permitted verb' do
+        FORBIDDEN_EXPENSE_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+          it 'should return a status of 405' do
+            response = send api_verb, endpoint, format: :json
+            expect(response.status).to eq 405
+          end
+        end
+      end
+    end
+  end
 
   describe 'POST api/advocates/expenses' do
 

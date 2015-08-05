@@ -53,10 +53,6 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
   end
 end
 
-Then(/^I should be redirected to the advocates landing url$/) do
-  expect(current_url).to eq(advocates_landing_url)
-end
-
 Then(/^I should be redirected to the advocates root url$/) do
   expect(current_url).to eq(advocates_root_url)
 end

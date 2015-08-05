@@ -23,7 +23,7 @@ describe Ability do
     let(:advocate) { create(:advocate) }
     let(:user) { advocate.user }
 
-    [:index, :landing, :outstanding, :authorised, :new, :create].each do |action|
+    [:index, :outstanding, :authorised, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }
     end
 
@@ -67,7 +67,7 @@ describe Ability do
     let(:advocate) { create(:advocate, :admin, chamber: chamber) }
     let(:user) { advocate.user }
 
-    [:index, :landing, :outstanding, :authorised, :new, :create].each do |action|
+    [:index, :outstanding, :authorised, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }
     end
 

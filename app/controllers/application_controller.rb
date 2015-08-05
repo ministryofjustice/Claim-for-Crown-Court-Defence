@@ -36,12 +36,7 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for_advocate
-    case current_user.persona.role
-    when 'advocate'
-      advocates_landing_url
-    when 'admin'
-      advocates_root_url
-    end
+    advocates_root_url
   end
 
 

@@ -9,8 +9,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
 
-  def landing; end
-
   def index
     add_breadcrumb 'Dashboard', advocates_root_path
 

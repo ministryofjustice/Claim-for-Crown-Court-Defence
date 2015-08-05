@@ -1,7 +1,7 @@
 module API
   module V1
 
-    
+
     class Error < StandardError; end
     class ArgumentError < Error; end
 
@@ -18,7 +18,7 @@ module API
 
           helpers do
             params :defendant_creation do
-              requires :claim_id, type: Integer, desc: "Unique identifier for the claim associated with this defendant."
+              requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
               requires :first_name, type: String, desc: "First name of the defedant."
               optional :middle_name, type: String, desc: "Middle name of the defendant."
               requires :last_name, type: String, desc: "Last name of the defendant."
@@ -28,7 +28,7 @@ module API
 
             def args
               {
-                claim_id: params[:claim_id],
+                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 first_name: params[:first_name],
                 middle_name: params[:middle_name],
                 last_name: params[:last_name],
@@ -46,7 +46,9 @@ module API
           end
 
           post do
-            ::Defendant.create!(args)
+            defendant = ::Defendant.create!(args)
+            api_response = { 'id' => defendant.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
           desc "Validate a defendant."
@@ -58,7 +60,7 @@ module API
           post '/validate' do
             defendant = ::Defendant.new(args)
             if !defendant.valid?
-                    error = ErrorResponse.new(defendant)
+              error = ErrorResponse.new(defendant)
               status error.status
               return error.body
             end

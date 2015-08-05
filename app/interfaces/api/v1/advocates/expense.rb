@@ -1,7 +1,7 @@
 module API
   module V1
 
-    
+
     class Error < StandardError; end
     class ArgumentError < Error; end
 
@@ -18,7 +18,7 @@ module API
 
           helpers do
             params :expense_creation do
-              requires :claim_id, type: Integer, desc: "Unique identifier for the claim associated with this defendant."
+              requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
               requires :date, type: DateTime, desc: "Date on which this expense was incurred (YYYY/MM/DD)."
               requires :expense_type_id, type: Integer, desc: "Reference to the parent expense type."
               requires :quantity, type: Integer, desc: "Quantity of expenses of this type and rate."
@@ -28,7 +28,7 @@ module API
 
             def args
               {
-                claim_id: params[:claim_id],
+                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 date: params[:date],
                 expense_type_id: params[:expense_type_id],
                 quantity: params[:quantity],
@@ -46,7 +46,9 @@ module API
           end
 
           post do
-            ::Expense.create!(args)
+            expense = ::Expense.create!(args)
+            api_response = { 'id' => expense.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
           desc "Validate an expense."
@@ -59,7 +61,7 @@ module API
             expense = ::Expense.new(args)
 
             if !expense.valid?
-                    error = ErrorResponse.new(expense)
+              error = ErrorResponse.new(expense)
               status error.status
               return error.body
             end

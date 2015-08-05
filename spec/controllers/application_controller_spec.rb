@@ -11,7 +11,7 @@ RSpec.describe ApplicationController, type: :controller do
       before { sign_in advocate.user }
 
       it 'returns advocates root url ' do
-        expect(subject.after_sign_in_path_for(advocate.user)).to eq(advocates_landing_url)
+        expect(subject.after_sign_in_path_for(advocate.user)).to eq(advocates_root_url)
       end
     end
 

@@ -35,8 +35,6 @@ Rails.application.routes.draw do
   namespace :advocates do
     root to: 'claims#index'
 
-    get 'landing', to: 'claims#landing'
-
     resources :claims do
       get 'confirmation', on: :member
       get 'outstanding', on: :collection

@@ -3,7 +3,7 @@ Feature: Sign in
     Given an "advocate" user account exists
      When I visit the user sign in page
       And I enter my email, password and click sign in
-     Then I should be redirected to the advocates landing url
+     Then I should be redirected to the advocates root url
       And I should see the advocates correct working primary navigation
 
   Scenario: Sign in as an advocate admin

@@ -41,7 +41,9 @@ module API
           end
 
           post do
-            ::RepresentationOrder.create!(args)
+            representation_order = ::RepresentationOrder.create!(args)
+            api_response = { 'id' => representation_order.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
 

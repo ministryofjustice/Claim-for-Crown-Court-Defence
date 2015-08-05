@@ -41,7 +41,9 @@ module API
           end
 
           post do
-            ::Fee.create!(args)
+            fee = ::Fee.create!(args)
+            api_response = { 'id' => fee.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
 

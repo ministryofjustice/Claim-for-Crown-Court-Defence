@@ -46,7 +46,9 @@ module API
           end
 
           post do
-            ::Defendant.create!(args)
+            defendant = ::Defendant.create!(args)
+            api_response = { 'id' => defendant.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
           desc "Validate a defendant."

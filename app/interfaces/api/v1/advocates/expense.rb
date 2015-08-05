@@ -46,7 +46,9 @@ module API
           end
 
           post do
-            ::Expense.create!(args)
+            expense = ::Expense.create!(args)
+            api_response = { 'id' => expense.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
           desc "Validate an expense."

@@ -92,6 +92,8 @@
       %th
         Advocate
       %th
+        Defendant(s)
+      %th
         Type
       %th
         Submission date
@@ -111,6 +113,9 @@
           %td
             = b.label do
               = b.object.advocate.name
+          %td
+            = b.label do
+              = b.object.defendants.order('id ASC').map(&:name).join(', ')
           %td
             = b.label do
               = b.object.case_type.humanize

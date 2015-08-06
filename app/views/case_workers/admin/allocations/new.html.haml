@@ -115,7 +115,7 @@
               = b.object.advocate.name
           %td
             = b.label do
-              = b.object.defendants.order('id ASC').map(&:name).join(', ')
+              = b.object.defendants.order('id ASC').map(&:name).join('<br>').html_safe
           %td
             = b.label do
               = b.object.case_type.humanize

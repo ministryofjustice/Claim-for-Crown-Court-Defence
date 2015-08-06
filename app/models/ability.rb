@@ -6,7 +6,7 @@ class Ability
 
     persona = user.persona
 
-    can [:create], Message
+    can [:create, :download_attachment], Message
     can [:index, :update], UserMessageStatus
 
     if persona.is_a? Advocate

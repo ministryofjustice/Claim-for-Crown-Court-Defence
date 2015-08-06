@@ -260,6 +260,10 @@ ActiveRecord::Schema.define(version: 20150805190459) do
     t.integer  "sender_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
   end
 
   add_index "messages", ["claim_id"], name: "index_messages_on_claim_id", using: :btree

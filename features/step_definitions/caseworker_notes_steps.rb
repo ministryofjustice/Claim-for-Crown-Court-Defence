@@ -7,7 +7,7 @@ When(/^I visit the claim's detail page$/) do
   visit advocates_claim_path(@claim)
 end
 
-Then(/^I should not see the claim notes$/) do
+Then(/^I should not see the caseworker notes$/) do
   expect(page).to_not have_content('Hello world')
 end
 
@@ -21,11 +21,11 @@ When(/^I visit the the claim's detail page$/) do
   visit case_workers_claim_path(@claim)
 end
 
-Then(/^I should be able to see the claim notes$/) do
+Then(/^I should be able to see the caseworker notes$/) do
   expect(page).to have_content('Hello world')
 end
 
-Then(/^I update the claim notes$/) do
+Then(/^I update the caseworker notes$/) do
   fill_in 'claim_notes', with: 'Lorem ipsum'
   click_button 'Update notes'
 end

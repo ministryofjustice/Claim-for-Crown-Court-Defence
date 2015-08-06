@@ -1,0 +1,19 @@
+%section#vat-report
+  %h1.heading-xlarge VAT
+
+  %table
+    %thead
+      %th Tax Date
+      %th VAT rate
+      %th Net Total
+      %th VAT amount
+    %tbody
+      %tr
+        %td
+          %span.vat-date= claim.vat_date
+        %td
+          %span.vat-rate= claim.pretty_vat_rate
+        %td
+          %span.vat-total= claim.total
+        %td
+          %span.vat-amount= claim.vat_amount

@@ -148,7 +148,7 @@
       %label
         = f.check_box :apply_vat
         = t('.vat_required')
-
+      = render partial: "shared/vat_summary", locals: { claim:  @claim } 
 
     %fieldset{id: 'evidence'}
       %legend

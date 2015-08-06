@@ -1,18 +1,19 @@
 %tbody.expense-group
   %tr.nested-fields
     %td
-      = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2', id:'expense-type'}
-    %td.expense-location
+      = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2'}
+    %td
       = f.text_field :location
-    %td.expense-quantity
+    %td
       = f.number_field :quantity, class: 'quantity'
-    %td.expense-rate
+    %td
       = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
     %td.amount
       = number_to_currency(f.object.amount)
+    %td.add-expense-date-attended
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
     %td.remove-expense
-      = link_to_remove_association t('.remove'), f
-      %div.add-expense-date-attended
-        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
+      = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
+
   = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended
+    = render partial: 'date_attended_fields', locals: { f: date_attended, remove_link_colspan: "4" }

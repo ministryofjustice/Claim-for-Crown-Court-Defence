@@ -111,7 +111,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(CGI.escapeHTML(subject.case_number))}})
     end
 
-    it 'does not display claim notes' do
+    it 'does not display caseworker notes' do
       expect(response.body).to_not include('Add note')
     end
   end

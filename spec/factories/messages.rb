@@ -28,4 +28,9 @@ FactoryGirl.define do
     claim           { FactoryGirl.build :unpersisted_claim }
     sender          { FactoryGirl.build :user }
   end
+
+  trait :with_attachment do
+    attachment { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
+    attachment_content_type { 'application/msword' }
+  end
 end

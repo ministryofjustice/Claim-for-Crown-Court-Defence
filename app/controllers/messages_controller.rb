@@ -13,12 +13,25 @@ class MessagesController < ApplicationController
     redirect_to :back, notification
   end
 
+  def download_attachment
+    @message = Message.find(params[:id])
+
+    raise 'No attachment present on this message' if @message.attachment.blank?
+
+    send_file Paperclip.io_adapters.for(@message.attachment).path, {
+        type:        @message.attachment_content_type,
+        filename:    @message.attachment_file_name,
+        x_sendfile:  true
+      }
+  end
+
   private
 
   def message_params
     params.require(:message).permit(
       :sender_id,
       :claim_id,
+      :attachment,
       :subject,
       :body
     )

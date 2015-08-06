@@ -16,6 +16,24 @@ class Message < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
+  has_attached_file :attachment,
+    { s3_headers: {
+      'x-amz-meta-Cache-Control' => 'no-cache',
+      'Expires' => 3.months.from_now.httpdate
+    },
+    s3_permissions: :private,
+    s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
+
+    validates_attachment :attachment,
+      content_type: {
+        content_type: ['application/pdf',
+                       'application/msword',
+                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                       'application/vnd.oasis.opendocument.text',
+                       'text/rtf',
+                       'application/rtf',
+                       'image/png']}
+
   validates :subject, :body, :sender_id, :claim_id, presence: true
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }

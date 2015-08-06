@@ -23,6 +23,20 @@ RSpec.describe Message, type: :model do
   it { should validate_presence_of(:subject) }
   it { should validate_presence_of(:body) }
 
+  it { should have_attached_file(:attachment) }
+
+  it do
+    should validate_attachment_content_type(:attachment).
+      allowing('application/pdf',
+               'application/msword',
+               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+               'application/vnd.oasis.opendocument.text',
+               'text/rtf',
+               'application/rtf').
+               rejecting('text/plain',
+                         'text/html')
+  end
+
   describe '.for' do
     let(:message) { create(:message) }
     let(:claim) { message.claim }

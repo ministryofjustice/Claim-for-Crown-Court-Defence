@@ -15,7 +15,7 @@ RSpec.describe ClaimPresenter do
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{@first_defendant.name}, John Robert Smith, Adam Smith")
+    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br>John Robert Smith,<br>Adam Smith")
   end
 
   it '#submitted_at' do

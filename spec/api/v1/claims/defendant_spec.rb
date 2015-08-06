@@ -83,7 +83,6 @@ describe API::V1::Advocates::Defendant do
 
     it 'with INVALID CLAIM ID returns 400 and an appropriate error message' do
       invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
-      puts invalid_response.body
       expect(invalid_response.status).to eq 400
       expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
     end

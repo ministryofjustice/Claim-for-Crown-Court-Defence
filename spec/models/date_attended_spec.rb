@@ -13,9 +13,38 @@
 require 'rails_helper'
 
 RSpec.describe DateAttended, type: :model do
-  it { should belong_to(:fee)             }
-  it { should validate_presence_of(:fee)  }
+
+  it { should belong_to(:fee)     }
+  it { should belong_to(:expense) }
+  it { should validate_presence_of(:fee) }
+  it { should validate_presence_of(:expense)}
   it { should validate_presence_of(:date) }
+
+  describe "#belongs_to_fee_or_expense" do
+
+    context "should conditionally validate presence of fee OR expense" do
+
+      let(:fee)     { create(:fee) }
+      let(:expense) { create(:expense) }
+      let(:fee_dates)     { create(:date_attended, fee: fee) }
+      let(:expense_dates) { create(:date_attended, fee: nil, expense: expense) }
+      let(:fee_expense_dates) { create(:date_attended, fee: fee, expense: expense) }
+      let(:no_association) { create(:date_attended, fee: nil, expense: nil) }
+
+      it 'should not raise an error for a fee association' do
+       expect{fee_dates}.to_not raise_error
+      end
+      it 'should not raise an error for an expense association' do
+       expect{expense_dates}.to_not raise_error
+      end
+      it 'should raise an error for a fee AND expense association' do
+       expect{fee_expense_dates}.to raise_error
+      end
+      it 'should raise an error for NO association' do
+       expect{no_association}.to raise_error
+      end
+    end
+  end
 
   describe '#to_s' do
     context 'when date_to present' do

@@ -1,7 +1,7 @@
 module API
   module V1
 
-    
+
     class Error < StandardError; end
     class ArgumentError < Error; end
 
@@ -18,14 +18,14 @@ module API
 
           helpers do
             params :date_attended_creation do
-              requires :fee_id, type: Integer, desc: 'The ID of the corresponding Fee.'
+              requires :fee_id, type: String, desc: 'The ID of the corresponding Fee.'
               requires :date, type: DateTime, desc: 'The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
               optional :date_to, type: DateTime, desc: 'The last date your date-range (YYYY/MM/DD)'
             end
 
             def args
               {
-                fee_id: params[:fee_id],
+                fee_id: ::Fee.find_by(uuid: params[:fee_id]).try(:id),
                 date: params[:date],
                 date_to: params[:date_to]
               }
@@ -40,7 +40,9 @@ module API
           end
 
           post do
-            ::DateAttended.create!(args)
+            date_attended = ::DateAttended.create!(args)
+            api_response = { 'id' => date_attended.reload.uuid }.merge!(declared(params))
+            api_response
           end
 
 

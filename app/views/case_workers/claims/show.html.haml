@@ -1,40 +1,43 @@
-%p
-  = link_to 'Back', case_workers_claims_path, class: 'button'
 
-  - if @claim.errors.any?
-    .validation-summary
-      %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
-      %ul
-        - @claim.errors.full_messages.each do |msg|
-          %li= msg
+-present(@claim) do | claim |
 
-%h1
-  Claim
-  = @claim.case_number
+  %p
+    = link_to 'Back', case_workers_claims_path, class: 'button'
 
-%P
-  Created by:
-  = @claim.creator.name
+    - if @claim.errors.any?
+      .validation-summary
+        %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+        %ul
+          - @claim.errors.full_messages.each do |msg|
+            %li= msg
 
-#claim-accordion
-  %h2
-    Basic Claim Information
-  = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
-  %h2
-    Claim summary
-  = render partial: 'shared/summary'
-  %h2
-    Evidence list
-  = render partial: 'shared/evidence_list'
-  %h2
-    Messages (#{@messages.count})
-  = render partial: 'shared/messages'
-  %h2
-    Claim notes
-  = render partial: 'claim_notes'
-  %h2#claim-status
-    Update status of claim
-  = render partial: 'shared/claim_status', locals: { disabled: false }
-  %h2
-    Claim history
-  = render partial: 'shared/claim_history'
+  %h1
+    Claim
+    = @claim.case_number
+
+  %P
+    Created by:
+    = @claim.creator.name
+
+  #claim-accordion
+    %h2
+      Basic Claim Information
+    = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
+    %h2
+      Claim summary
+    = render partial: 'shared/summary'
+    %h2
+      Evidence list
+    = render partial: 'shared/evidence_list'
+    %h2
+      Messages (#{@messages.count})
+    = render partial: 'shared/messages'
+    %h2
+      Claim notes
+    = render partial: 'claim_notes'
+    %h2#claim-status
+      Update status of claim
+    = render partial: 'shared/claim_status', locals: { disabled: false, claim: claim }
+    %h2
+      Claim history
+    = render partial: 'shared/claim_history'

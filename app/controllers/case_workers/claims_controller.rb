@@ -15,6 +15,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     add_breadcrumb 'Dashboard', case_workers_root_path
     add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
 
+    @claim.assessment = Assessment.new if @claim.assessment.nil?
+
+
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
@@ -24,6 +27,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_first
     @doc_types = DocType.all
+
     begin
       @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err
@@ -54,9 +58,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :state_for_form,
-      :amount_assessed,
       :additional_information,
-      :notes
+      :notes,
+      :assessment_attributes => [
+        :id,
+        :fees,
+        :expenses
+      ]
     )
   end
 

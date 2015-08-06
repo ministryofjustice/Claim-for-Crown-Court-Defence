@@ -1,0 +1,16 @@
+TODO for AMOUNT ASSESSED
+
+find all code which makes sure amoutn aassessed is zero or not zero depending on state and
+ensure it applies to the assessment  (Claim#amount_assessed_and_state)
+
+
+
+1.  *** DONE *** remove amount assessed from premitted params in case_worker/claim_controller:61
+2.  *** DONE ***  drop amount assesseed from claims table
+3.  *** DONE ***  add validation for all fields on assessment
+4.  *** DONE ***  rewrite amount_assessed and state in claim.rb:290
+5.  **** DONE ****rewrite state machine set amount assessed zero!
+6.  presenter
+7.  views/advocates/claims/_claims.html.haml
+8.  en.yml line 185
+

@@ -19,11 +19,13 @@ When(/^I press update button$/) do
   click_button "Update"
 end
 
-Given(/^I have (\d+) allocated claims whos status is "(.*?)" with amount assessed of "(.*?)" and remark of "(.*?)"$/) do |number, status, amount, remark|
+Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed of "(.*?)" and expenses assessed of "(.*?)" and remark of "(.*?)"$/) do |number, status, fees, expenses, remark|
   claims = create_list(:allocated_claim, number.to_i, advocate: @advocate)
   claims.each do |claim|
-		claim.amount_assessed = amount unless amount.empty?
+    claim.assessment.update!(fees: fees) unless fees.empty?
+    claim.assessment.update!(expenses: expenses) unless expenses.empty?
 		claim.additional_information = remark
+
 		case status
 			when "Part paid"
 				claim.pay_part!
@@ -44,10 +46,10 @@ When(/^I view status details of my first claim$/) do
   visit advocates_claim_path(@claim)
 end
 
-Then(/^I should see "(.*?)" amount assessed value of "(.*?)"$/) do |disabled, amount|
-	amount = "0.00" if amount.empty?
+Then(/^I should see "(.*?)" fees assessed value of "(.*?)"$/) do |disabled, fees|
+	fees = "0.00" if fees.empty?
 	disabled = disabled == "disabled" ? true : false
-	expect(find_field('Amount assessed', disabled: disabled).value).to eql(amount.to_s)
+	expect(find_field('Amount assessed', disabled: disabled).value).to eql(fees.to_s)
 end
 
 Then(/^I should see "(.*?)" remark "(.*?)"$/) do |disabled,remark|

@@ -138,6 +138,6 @@ module Claims::StateMachine
   end
 
   def set_amount_assessed_zero!
-    update_column(:amount_assessed, 0) if self.state == 'allocated'
+    self.assessment.zeroize! if self.state == 'allocated'
   end
 end

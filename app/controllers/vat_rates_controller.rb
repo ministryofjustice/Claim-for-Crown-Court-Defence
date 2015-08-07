@@ -14,7 +14,7 @@ class VatRatesController < ApplicationController
     respond_with(
       {
         'net_amount' => net_amount.to_s,
-        'date'       => date.strftime('%Y-%m-%d'),
+        'date'       => date.strftime(Settings.date_format),
         'rate'       => VatRate.pretty_rate(date),
         'vat_amount' => VatRate.vat_amount(net_amount, date).to_s
       }

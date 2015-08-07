@@ -120,6 +120,8 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
 
+  before_save :calculate_vat
+
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
   end

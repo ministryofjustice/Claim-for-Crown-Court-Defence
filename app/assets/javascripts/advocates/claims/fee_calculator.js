@@ -31,5 +31,41 @@ adp.feeCalculator = {
         wrapper.find('.amount').text('£ '+ total);
       }
     });
+  },
+  totalFee: function(){
+    //get all the amount values on the page
+    var $allAmounts = $('.amount'),
+    //Array of cash amounts as the user inputted
+    arrDirtyAmounts =[],
+    arrCleanAmounts = [],
+    totalAmount = 0;
+
+    //For each amount stick it into an array
+    $allAmounts.each(function(){
+      var $element =$(this);
+
+      if($element.filter('td').length > 0){
+        arrDirtyAmounts.push($element.text());
+      }else{
+        arrDirtyAmounts.push($element.val());
+      };
+    });
+
+    //clean the values
+    for( var i=0; i < arrDirtyAmounts.length; i++){
+      
+      var currentVal = parseFloat(arrDirtyAmounts[i].replace(/[^0-9-.]/g, ''));
+
+      if(isNaN(parseFloat(currentVal)) === false){
+        arrCleanAmounts.push(currentVal);
+      };
+    };
+
+    //Sum the value
+    for(var i=0; i < arrCleanAmounts.length; i++){
+      totalAmount = totalAmount + arrCleanAmounts[i];
+    };
+
+    return totalAmount;
   }
 };

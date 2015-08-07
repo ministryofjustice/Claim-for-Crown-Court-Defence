@@ -116,8 +116,8 @@ adp.feeSectionDisplay = {
     var $this = this;
     return $.ajax({
       url: $this.$vatReport.data('vat-url'),
-      data: { "date": "2015-08-06"
-              , "net_amount": adp.feeCalculator.totalFee() }
+      data: { "date": $this.$vatReport.data('submitted-date'),
+               "net_amount": adp.feeCalculator.totalFee() }
     });
   },
   applyVAT : function(){

@@ -30,8 +30,12 @@ class ClaimPresenter < BasePresenter
     claim.trial_concluded_at.blank? ? 'not specified' : claim.trial_concluded_at.strftime(Settings.date_format)
   end
 
-  def vat_date
-    claim.vat_date.strftime(Settings.date_format)
+  def vat_date(format = nil)
+    if format == :db
+      claim.vat_date.to_s(:db)
+    else
+      claim.vat_date.strftime(Settings.date_format)
+    end
   end
 
   def vat_amount

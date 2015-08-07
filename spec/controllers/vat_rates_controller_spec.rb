@@ -22,23 +22,23 @@ RSpec.describe VatRatesController, type: :controller do
       expect(response).to have_http_status(200)
       expect(response.body).to eq(
         {
-          'net_amount'    => '115.76',
-          'date'          => '2015-07-15',
+          'net_amount'    => '£115.76',
+          'date'          => '15/07/2015',
           'rate'          => '20%',
-          'vat_amount'    => '23.15'
+          'vat_amount'    => '£23.15'
         }.to_json
       )
     end
 
     it 'should round the net_amount to two decimal places' do
-      get :index, {:format => 'json', 'net_amount' => '115.768744', 'date' => '2006-07-15' }
+      get :index, {:format => 'json', 'net_amount' => '3115.768744', 'date' => '2006-07-15' }
       expect(response).to have_http_status(200)
       expect(response.body).to eq(
         {
-          'net_amount'    => '115.77',
-          'date'          => '2006-07-15',
+          'net_amount'    => '£3,115.77',
+          'date'          => '15/07/2006',
           'rate'          => '17.5%',
-          'vat_amount'    => '20.26'
+          'vat_amount'    => '£545.26'
         }.to_json
       )
     end

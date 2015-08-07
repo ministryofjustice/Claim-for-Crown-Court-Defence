@@ -13,10 +13,10 @@ class VatRatesController < ApplicationController
     date = Date.parse(params['date'])
     respond_with(
       {
-        'net_amount' => net_amount.to_s,
+        'net_amount' => ActionController::Base.helpers.number_to_currency(net_amount),
         'date'       => date.strftime(Settings.date_format),
         'rate'       => VatRate.pretty_rate(date),
-        'vat_amount' => VatRate.vat_amount(net_amount, date).to_s
+        'vat_amount' => ActionController::Base.helpers.number_to_currency(VatRate.vat_amount(net_amount, date))
       }
     )
   end

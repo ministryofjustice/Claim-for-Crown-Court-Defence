@@ -1,4 +1,5 @@
-%section#vat-report{"data-vat-url" => vat_path(format: :json)}
+
+%section#vat-report{"data-vat-url" => vat_path(format: :json), 'data-submitted-date' => claim.vat_date(:db)}
   %h1.heading-xlarge VAT
 
   %table

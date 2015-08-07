@@ -7,7 +7,7 @@
     %td
       = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', placeholder: t('number.currency.format.unit')
     %td.add-basic-fee-date-attended
-      - if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(f.object.fee_type.code)
+      - if f.object.fee_type.has_dates_attended?
         = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
 
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id

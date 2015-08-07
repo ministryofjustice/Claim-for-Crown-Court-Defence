@@ -5,7 +5,7 @@
     %td
       = f.text_field :location
     %td
-      = f.number_field :quantity, class: 'quantity'
+      = f.number_field :quantity, class: 'quantity', min: 0
     %td
       = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
     %td.amount

@@ -18,7 +18,7 @@ class Expense < ActiveRecord::Base
   belongs_to :expense_type
   belongs_to :claim
 
-  has_many :dates_attended, dependent: :destroy, inverse_of: :expense
+  has_many :dates_attended, as: :attended_item, dependent: :destroy
 
   validates :expense_type, presence: true
   validates :claim, presence: true

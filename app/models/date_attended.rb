@@ -11,20 +11,11 @@
 #
 
 class DateAttended < ActiveRecord::Base
-  belongs_to :fee
-  belongs_to :expense
+
+  belongs_to :attended_item, polymorphic: true
 
   validates :date, presence: true
-  validates :fee, presence:  true, if: "expense.nil?"
-  validates :expense, presence:  true, if: "fee.nil?"
-  validate  :belongs_to_fee_or_expense
-
-  def belongs_to_fee_or_expense
-    unless (fee.present? && expense.nil?) || (fee.nil? && expense.present?) || (fee.nil? && expense.nil?)
-        errors.add(:fee, 'dates attended cannot also belong to an expense')
-        errors.add(:expense, 'dates attended cannot also belong to a fee')
-    end
-  end
+  validates :attended_item, presence: true
 
   def to_s
     unless date_to.nil?

@@ -6,7 +6,5 @@
     %span.auto-width
       = f.label :date, t('.date_to')
       = f.adp_date_fields :date_to
-    - unless local_assigns.has_key? :remove_link_colspan
-      - remove_link_colspan = "2"
-  %td{colspan: "#{remove_link_colspan}"}
+  %td{colspan: "4"}
     = link_to_remove_association t('.remove_date'), f

@@ -16,4 +16,4 @@
       = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
 
   = f.fields_for :dates_attended do |date_attended|
-    = render partial: 'date_attended_fields', locals: { f: date_attended, remove_link_colspan: "4" }
+    = render 'date_attended_fields', f: date_attended

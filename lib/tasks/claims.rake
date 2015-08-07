@@ -142,7 +142,7 @@ end
       fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
-        FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0 || q == 0
+        FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0 || q == 0
       end
 
     end
@@ -154,7 +154,7 @@ end
     fee_count.times do
       fee_type = claim.case_type == "fixed_fee" ? FeeType.fixed.sample : FeeType.misc.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
-      FactoryGirl.create(:date_attended, fee: fee) unless rand(2) == 0
+      FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0
       # puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
     end
   end
@@ -162,7 +162,7 @@ end
   def add_expenses(claim)
     rand(1..10).times do
       expense = FactoryGirl.create(:expense, :random_values, claim: claim, expense_type: ExpenseType.all.sample)
-      FactoryGirl.create(:date_attended, fee: nil, expense: expense) unless rand(2) == 0
+      FactoryGirl.create(:date_attended, attended_item: expense) unless rand(2) == 0
     end
   end
 

@@ -9,7 +9,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     claims.each do |claim|
       claim.case_workers << case_worker
     end
-
     sign_in case_worker.user
   end
 

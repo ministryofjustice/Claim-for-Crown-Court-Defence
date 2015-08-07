@@ -1,4 +1,5 @@
 Given(/^I fill in the first day of trial with (\d+)\-(\w+)\-(\d+)$/) do |day, month, year|
+  save_and_open_page
   fill_in 'claim_first_day_of_trial_3i', with: day
   fill_in 'claim_first_day_of_trial_2i', with: month
   fill_in 'claim_first_day_of_trial_1i', with: year

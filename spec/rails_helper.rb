@@ -72,10 +72,12 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+    FactoryGirl.create :vat_rate, effective_date: Date.new(1960, 1, 1)
   end
 
   config.after(:suite) do
     FileUtils.rm_rf('./public/assets/test/images/') #to delete files from filesystem that were generated during rspec tests
+    VatRate.delete_all
   end
 
   config.around(:each) do |example|

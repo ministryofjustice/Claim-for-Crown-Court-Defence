@@ -14,15 +14,15 @@ require 'rails_helper'
 describe VatRate do
 
   before(:all) do
-    FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
-    FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
-    FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
+    @vr1 = FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
+    @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
+    @vr3 = FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
     # reload rates into the class variable to prevent stale rates from previous tests being used.
     VatRate.load_rates     
   end
 
   after(:all) do
-    VatRate.delete_all
+    VatRate.destroy( [ @vr1, @vr2, @vr3] )
   end
 
   describe '.for_date' do
@@ -40,8 +40,8 @@ describe VatRate do
 
     it 'should raise exception for date before the first date in the database' do
       expect {
-        VatRate.for_date(Date.new(2003, 7, 28))
-      }.to raise_error VatRate::MissingVatRateError, "There is no VAT rate for date 28/07/2003"
+        VatRate.for_date(Date.new(1900, 7, 28))
+      }.to raise_error VatRate::MissingVatRateError, "There is no VAT rate for date 28/07/1900"
     end
   end
 

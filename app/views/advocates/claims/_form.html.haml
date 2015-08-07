@@ -139,7 +139,8 @@
                 = t('.rate')
               %th
                 = t('.amount')
-              %td
+              %th
+              %th
               = f.fields_for :expenses do |expense|
                 = render 'expense_fields', f: expense
 

@@ -14,7 +14,8 @@
 class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type
-  has_many :dates_attended, dependent: :destroy, inverse_of: :fee
+
+  has_many :dates_attended, as: :attended_item, dependent: :destroy
 
   default_scope { includes(:fee_type) }
 

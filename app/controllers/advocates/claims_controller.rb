@@ -260,7 +260,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :location,
        :quantity,
        :rate,
-       :_destroy
+       :_destroy,
+       dates_attended_attributes: [
+          :id,
+          :expense_id,
+          :date,
+          :date_to,
+          :_destroy
+        ]
      ],
      documents_attributes: [
        :id,

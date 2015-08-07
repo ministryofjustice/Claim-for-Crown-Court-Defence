@@ -58,11 +58,14 @@ Then(/^I should be redirected to the advocates root url$/) do
 end
 
 Then(/^I should see the advocates correct working primary navigation$/) do
+  save_and_open_page
   step "I should see the advocates Home link and it should work"
   step "I should see the advocates New Claim link and it should work"
 end
 
 Then(/^I should see the admin advocates correct working primary navigation$/) do
+  save_and_open_page
+
   step "I should see the advocates correct working primary navigation"
   step "I should see the advocates Admin link and it should work"
 end

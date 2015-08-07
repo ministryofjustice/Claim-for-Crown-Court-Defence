@@ -23,6 +23,8 @@
 #
 
 class FeeType < ActiveRecord::Base
+  BASIC_FEE_CODES = %w( BAF DAF DAH DAJ PCM SAF )
+
   belongs_to :fee_category
 
   has_many :fees, dependent: :destroy
@@ -42,6 +44,10 @@ class FeeType < ActiveRecord::Base
 
   def self.misc
     self.by_fee_category("MISC")
+  end
+
+  def has_dates_attended?
+    BASIC_FEE_CODES.include?(self.code)
   end
 
 private

@@ -39,4 +39,20 @@ RSpec.describe FeeType, type: :model do
     end
   end
 
+
+  describe '#has_dates_attended?' do
+    %w( BAF DAF DAH DAJ PCM SAF ).each do |c|
+      let(:code) { c }
+      let(:fee_type) { create(:fee_type, code: code) }
+
+      it "returns true if fee type has code '#{c}'" do
+        expect(fee_type.has_dates_attended?).to eq(true)
+      end
+    end
+
+    it 'returns false if fee type does not have code' do
+      fee_type = create(:fee_type, code: 'XXX')
+      expect(fee_type.has_dates_attended?).to eq(false)
+    end
+  end
 end

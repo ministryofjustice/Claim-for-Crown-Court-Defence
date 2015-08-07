@@ -3,7 +3,7 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
   def defendant_names
-    claim.defendants.order('id ASC').map(&:name).join(', ')
+    claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
   end
 
   def submitted_at(options={})

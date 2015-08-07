@@ -18,14 +18,19 @@ module API
 
           helpers do
             params :date_attended_creation do
-              requires :fee_id, type: String, desc: 'The ID of the corresponding Fee.'
+              requires :attended_item_id, type: String, desc: 'The ID of the corresponding Fee or Expense.'
+              requires :attended_item_type, type: String, desc: 'The Type of item to which this date range relates - Fee or Expense.'
               requires :date, type: DateTime, desc: 'The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
               optional :date_to, type: DateTime, desc: 'The last date your date-range (YYYY/MM/DD)'
             end
 
             def args
+              attended_item_type_class = "::#{params[:attended_item_type].capitalize}".constantize
+              attended_item_id = attended_item_type_class.find_by(uuid: params[:attended_item_id]).try(:id)
+
               {
-                fee_id: ::Fee.find_by(uuid: params[:fee_id]).try(:id),
+                attended_item_id: attended_item_id,
+                attended_item_type:  params[:attended_item_type].capitalize,
                 date: params[:date],
                 date_to: params[:date_to]
               }

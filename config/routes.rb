@@ -29,7 +29,10 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
-  resources :messages, only: [:create]
+  resources :messages, only: [:create] do
+    get 'download_attachment', on: :member
+  end
+
   resources :user_message_statuses, only: [:index, :update]
 
   namespace :advocates do

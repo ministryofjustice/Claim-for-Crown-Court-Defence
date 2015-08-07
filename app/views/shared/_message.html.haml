@@ -8,6 +8,10 @@
         = message.subject
     %div
       = message.body
+    - if message.attachment.present?
+      %div
+        Attachment:
+        = link_to message.attachment.original_filename, download_attachment_message_path(message)
   %span.message-time
     = message.created_at.strftime('%d %b')
     %span.time-ago

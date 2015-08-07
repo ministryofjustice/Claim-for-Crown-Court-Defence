@@ -111,7 +111,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(CGI.escapeHTML(subject.case_number))}})
       end
 
-      it 'displays claim notes' do
+      it 'displays caseworker notes' do
         expect(response.body).to include('Update note')
       end
     end

@@ -19,7 +19,6 @@ module API
           helpers do
             params :expense_creation do
               requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
-              requires :date, type: DateTime, desc: "Date on which this expense was incurred (YYYY/MM/DD)."
               requires :expense_type_id, type: Integer, desc: "Reference to the parent expense type."
               requires :quantity, type: Integer, desc: "Quantity of expenses of this type and rate."
               requires :rate, type: Float, desc: "Rate for each expense."
@@ -29,7 +28,6 @@ module API
             def args
               {
                 claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
-                date: params[:date],
                 expense_type_id: params[:expense_type_id],
                 quantity: params[:quantity],
                 rate: params[:rate],

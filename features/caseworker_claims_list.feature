@@ -46,10 +46,11 @@ Feature: Caseworker claims list
 
   Scenario Outline: Search current and completed claims by defendant name
     Given I am signed in and on the case worker dashboard
-      And I have 2 "allocated" claims involving defendant "Joe Bloggs" amongst others
-      And I have 3 "allocated" claims involving defendant "Fred Bloggs" amongst others
-      And I have 2 "completed" claims involving defendant "Joe Bloggs" amongst others
-      And I have 3 "completed" claims involving defendant "Fred Bloggs" amongst others
+      And I have 2 "allocated" claims involving defendant "Joe Bloggs"
+      And I have 3 "allocated" claims involving defendant "Fred Bloggs"
+      And I have 2 "completed" claims involving defendant "Joe Bloggs"
+      And I have 3 "completed" claims involving defendant "Fred Bloggs"
+      And I have 2 "completed" claims involving defendant "Someone Else"
      When I visit my dashboard
       And I search claims by defendant name <defendant_name>
      Then I should only see <number> "Current" claims

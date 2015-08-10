@@ -3,6 +3,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claims, only: [:index]
   before_action :set_claim, only: [:show]
   before_action :set_search_options, only: [:index]
+  before_action :set_claim_ids_and_count, only: [:show]
 
   def index
     add_breadcrumb 'Dashboard', case_workers_root_path
@@ -33,6 +34,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   private
+
+  def set_claim_ids_and_count
+    @claim_ids = params[:claim_ids] if params[:claim_ids].present?
+    @claim_count = params[:claim_count] if params[:claim_count].present?
+  end
 
   def search
     params[:search_field] ||= 'All'

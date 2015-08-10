@@ -3,7 +3,7 @@
     %td
       = f.object.description
     %td
-      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity'
+      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0
     %td
       = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', placeholder: t('number.currency.format.unit')
     %td.add-basic-fee-date-attended

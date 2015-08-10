@@ -16,6 +16,12 @@
   Created by:
   = @claim.creator.name
 
+%p
+  - if @claim_ids
+    = claim_position_and_count
+    - unless last_claim?
+      = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
 #claim-accordion
   %h2
     Basic Claim Information

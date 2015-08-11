@@ -6,11 +6,6 @@ describe Assessment do
   let(:claim)         { FactoryGirl.create :claim }
 
   context 'validations' do
-    it 'should not allow more than one record per claim to be created' do
-      expect {
-        FactoryGirl.create :assessment, claim: claim
-      }.to raise_error ActiveRecord::RecordInvalid, "Validation failed: Claim This claim already has an assessment"
-    end
 
     context 'fees' do
 

@@ -52,7 +52,7 @@ end
 
 When(/^I mark the claim paid in full$/) do
   select 'Paid in full', from: 'claim_state_for_form'
-  find('div#amountAssessed').fill_in "Amount assessed", with: '100.00'
+  fill_in 'claim_assessment_attributes_fees', with: '100.00'
   click_on 'Update'
 end
 

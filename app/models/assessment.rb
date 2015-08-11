@@ -4,7 +4,7 @@ class Assessment < Determination
 
   after_initialize :set_default_values
 
-  validates :claim_id, uniqueness: { message: 'This claim already has an assessment' }
+  # validates :claim_id, uniqueness: { message: 'This claim already has an assessment' }
 
   belongs_to :claim
 

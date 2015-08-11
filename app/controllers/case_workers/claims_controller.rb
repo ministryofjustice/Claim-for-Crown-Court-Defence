@@ -16,6 +16,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
 
     @claim.assessment = Assessment.new if @claim.assessment.nil?
+    @enable_assessment_input = @claim.assessment.blank?
+    @status_change_disabled = false
 
 
     @doc_types = DocType.all

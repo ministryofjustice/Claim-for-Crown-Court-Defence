@@ -132,6 +132,7 @@ class Claim < ActiveRecord::Base
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
   after_initialize :default_values, :instantiate_assessment
+  # after_initialize :default_values
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -309,7 +310,7 @@ class Claim < ActiveRecord::Base
   end
 
   def instantiate_assessment
-    self.assessment = Assessment.new if self.assessment.nil?
+    self.build_assessment if self.assessment.nil?
   end
 
   def calculate_vat

@@ -28,8 +28,8 @@ describe Redetermination do
       # when I call claim.redeterminations
       rds = claim.redeterminations
 
-      # it should return them in created_at order
-      expect(rds.map(&:created_at)).to eq( [ date_1, date_2, date_3 ])
+      # it should return them in created_at order - con vert to integer to remove precesion pproblems on travis
+      expect(rds.map(&:created_at).map(&:to_i)).to eq( [ date_1.to_i, date_2.to_i, date_3.to_i ])
     end
   end
 

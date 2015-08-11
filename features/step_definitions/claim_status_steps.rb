@@ -7,8 +7,11 @@ When(/^I select status "(.*?)" from select$/) do |status|
 	select "#{status}", :from => "claim_state_for_form"
 end
 
-When(/^I enter amount assessed value of "(.*?)"$/) do |amount|
-	find('div#amountAssessed').fill_in "Amount assessed", with: amount unless amount.empty?
+# When(/^I enter amount assessed value of "(.*?)"$/) do |amount|
+When(/^I enter fees assessed of "(.*?)" and expenses assessed of "(.*?)"$/) do |fees, expenses|
+  fill_in 'claim_assessment_attributes_fees', with: fees unless fees.empty?
+  fill_in 'claim_assessment_attributes_expenses', with: expenses unless expenses.empty?
+	# find('div#amountAssessed').fill_in "Amount assessed", with: amount unless amount.empty?
 end
 
 When(/^I enter remark "(.*?)"$/) do |remark|
@@ -46,10 +49,10 @@ When(/^I view status details of my first claim$/) do
   visit advocates_claim_path(@claim)
 end
 
-Then(/^I should see "(.*?)" fees assessed value of "(.*?)"$/) do |disabled, fees|
-	fees = "0.00" if fees.empty?
+Then(/^I should see "(.*?)" total assessed value of "(.*?)"$/) do |disabled, total|
+	total = "£0.00" if total.empty?
 	disabled = disabled == "disabled" ? true : false
-	expect(find_field('Amount assessed', disabled: disabled).value).to eql(fees.to_s)
+  expect(find_by_id('assessed-total').text).to eql total
 end
 
 Then(/^I should see "(.*?)" remark "(.*?)"$/) do |disabled,remark|

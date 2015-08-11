@@ -66,9 +66,9 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
     claim.update_column(:advocate_id, advocate.id)
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
     if claim.state == 'completed'
-      claim.update_column(:amount_assessed, claim.total)
+      claim.assessment.update(fees: claim.total)
     elsif claim.state == 'part_paid'
-      claim.update_column(:amount_assessed, claim.total/2) # arbitrarily pay half the total for part-paid
+      claim.assessment.update(fees: claim.total / 2)     # arbitrarily pay half the total for part-paid
     end
   end
 end
@@ -99,7 +99,7 @@ Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state
           cms = all('td')[3].text
           claim = Claim.find_by(cms_number: cms) # find claim which corresponds to |row|
           expect(claim.cms_number).to eq cms # check that the correct claim was found
-          expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.amount_assessed))).to be true
+          expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.assessment.total))).to be true
         end
       end
     end

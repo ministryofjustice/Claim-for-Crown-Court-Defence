@@ -21,8 +21,8 @@
 
     %fieldset
       = f.label :location_id
-      = f.collection_select :location_id, Location.all, :id, :name, prompt: true
+      = f.collection_select :location_id, Location.all, :id, :name, {prompt: true} , {class: 'select2'}
 
       = f.label :role
-      = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, prompt: true
+      = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, {prompt: true}, {class: 'select2'}
   = f.submit class: "button"

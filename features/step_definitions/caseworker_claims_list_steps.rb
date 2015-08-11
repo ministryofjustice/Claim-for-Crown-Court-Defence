@@ -36,11 +36,6 @@ Then(/^I should see the completed claims$/) do
   expect(page).to have_content("Completed claims (#{@claims.count})")
 end
 
-Then(/^I should see an admin link$/) do
-  find('#primary-nav').click_link('Admin')
-  expect(find('h1')).to have_content('Case workers')
-end
-
 Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number,state,defendant_name|
   claims = create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|

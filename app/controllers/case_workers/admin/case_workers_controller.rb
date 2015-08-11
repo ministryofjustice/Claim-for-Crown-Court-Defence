@@ -2,39 +2,22 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy]
 
   def index
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Case Workers', case_workers_admin_case_workers_path
-
     @case_workers = CaseWorker.all
   end
 
   def show
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Case Workers', case_workers_admin_case_workers_path
-    add_breadcrumb @case_worker.name, case_workers_admin_case_worker_path(@case_worker)
+
   end
 
   def edit
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Case Workers', case_workers_admin_case_workers_path
-    add_breadcrumb @case_worker.name, case_workers_admin_case_worker_path(@case_worker)
-    add_breadcrumb 'Edit', edit_case_workers_admin_case_worker_path(@case_worker)
+
   end
 
   def allocate
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Case Workers', case_workers_admin_case_workers_path
-    add_breadcrumb @case_worker.name, case_workers_admin_case_worker_path(@case_worker)
-    add_breadcrumb 'Allocate', allocate_case_workers_admin_case_worker_path(@case_worker)
-
     @claims = Claim.unscope(:includes).includes( [ {:defendants => :representation_orders}, :advocate, :court, :case_workers ] ).non_draft.order(created_at: :asc)
   end
 
   def new
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Case Workers', case_workers_admin_case_workers_path
-    add_breadcrumb 'New case worker', new_case_workers_admin_case_worker_path
-
     @case_worker = CaseWorker.new
     @case_worker.build_user
   end

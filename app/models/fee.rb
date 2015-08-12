@@ -9,6 +9,7 @@
 #  amount      :decimal(, )
 #  created_at  :datetime
 #  updated_at  :datetime
+#  uuid        :uuid
 #
 
 class Fee < ActiveRecord::Base

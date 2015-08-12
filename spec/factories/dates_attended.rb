@@ -2,14 +2,15 @@
 #
 # Table name: dates_attended
 #
-#  id         :integer          not null, primary key
-#  date       :datetime
-#  fee_id     :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  date_to    :datetime
+#  id                 :integer          not null, primary key
+#  date               :datetime
+#  created_at         :datetime
+#  updated_at         :datetime
+#  date_to            :datetime
+#  uuid               :uuid
+#  attended_item_id   :integer
+#  attended_item_type :string(255)
 #
-
 
 FactoryGirl.define do
 

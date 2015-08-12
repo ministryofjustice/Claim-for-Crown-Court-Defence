@@ -1,3 +1,17 @@
+day_names:
+  - Monday
+  - Tuesday
+  - Wednesday
+  - Thursday
+  - Friday
+
+day_name_initials:
+  - M
+  - T
+  - W
+  - T
+  - F
+
 case_types:
   - appeal_against_conviction
   - appeal_against_sentence

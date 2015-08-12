@@ -39,6 +39,7 @@
 #  trial_cracked_at_third :string(255)
 #  source                 :string(255)
 #  vat_amount             :decimal(, )      default(0.0)
+#  uuid                   :uuid
 #
 
 class Claim < ActiveRecord::Base

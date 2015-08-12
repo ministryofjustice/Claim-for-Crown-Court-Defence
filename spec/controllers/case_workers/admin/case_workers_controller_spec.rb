@@ -121,6 +121,11 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
               first_name: 'John',
               last_name: 'Smith'
             },
+            days_worked_0: '1',
+            days_worked_1: '1',
+            days_worked_2: '1',
+            days_worked_3: '1',
+            days_worked_4: '1',
             role: 'case_worker',
             location_id: create(:location).id
           }

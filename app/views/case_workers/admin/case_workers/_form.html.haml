@@ -1,24 +1,23 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
   - if @case_worker.errors.any?
     .validation-summary
-      %h2.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this case worker from being saved:"
+      %h3.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this case worker from being saved:"
       %ul
         - @case_worker.errors.full_messages.each do |msg|
           %li= msg
 
   = f.fields_for :user do |user_fields|
     %fieldset
+      = user_fields.label :first_name
+      = user_fields.text_field :first_name
+      = user_fields.label :last_name
+      = user_fields.text_field :last_name
       = user_fields.label :email
       = user_fields.email_field :email
       = user_fields.label :password
       = user_fields.password_field :password
       = user_fields.label :password_confirmation
       = user_fields.password_field :password_confirmation
-
-      = user_fields.label :first_name
-      = user_fields.text_field :first_name
-      = user_fields.label :last_name
-      = user_fields.text_field :last_name
 
     %fieldset
       = f.label :location_id

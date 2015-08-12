@@ -8,7 +8,7 @@ class CaseWorkerPresenter < BasePresenter
   #
   #  <div><span class="working-day">M</span><span>T</span> etc</div>
   def days_worked_markup
-    result = '<div>'
+    result = '<div class="working-pattern">'
     case_worker.days_worked.each_with_index do |day, i|
       result += '<span'
       result += ' class="working-day"' if day == 1
@@ -18,6 +18,6 @@ class CaseWorkerPresenter < BasePresenter
       result += '</span>'
     end
     result += '</div>'
-    result
+    result.html_safe
   end
 end

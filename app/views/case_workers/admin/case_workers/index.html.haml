@@ -15,7 +15,7 @@
     %th
       Approval limit
     %th
-      Training
+      Location
     %th
       Working Days
     %th
@@ -29,19 +29,9 @@
         %td
           = "Low level"
         %td
-          = "Fixed Fees"
+          = case_worker.location.name
         %td
-          %div{:class => "working-pattern"}
-            %span{:title => "Monday", :class => "working-day"}
-              = "M"
-            %span{:title => "Tuesday", :class => "working-day"}
-              = "T"
-            %span{:title => "Wednesday", :class => "working-day"}
-              = "W"
-            %span{:title => "Thursday"}
-              = "T"
-            %span{:title => "Friday", :class => "working-day"}
-              = "F"
+          = present(case_worker).days_worked_markup
         %td.user-controls
           = link_to 'Edit', edit_case_workers_admin_case_worker_path(case_worker)
           = " | "

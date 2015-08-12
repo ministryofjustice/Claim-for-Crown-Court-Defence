@@ -7,7 +7,7 @@
           %li= msg
 
   = f.fields_for :user do |user_fields|
-    %fieldset
+    %fieldset.user-form
       = user_fields.label :first_name
       = user_fields.text_field :first_name
       = user_fields.label :last_name
@@ -19,14 +19,13 @@
       = user_fields.label :password_confirmation
       = user_fields.password_field :password_confirmation
 
-  %label 
-    Days worked
-    -@case_worker.days_worked.each_with_index do |dw, i|
-      = f.check_box "days_worked_#{i}"
-      = Settings.day_names[i]
+    %fieldset.user-form
+      %label
+        Working days
+      -@case_worker.days_worked.each_with_index do |dw, i|
+        = f.check_box "days_worked_#{i}"
+        = Settings.day_names[i]
 
-  = f.fields_for :user do |user_fields|
-    %fieldset
       = f.label :location_id
       = f.collection_select :location_id, Location.all, :id, :name, {prompt: true} , {class: 'select2'}
 

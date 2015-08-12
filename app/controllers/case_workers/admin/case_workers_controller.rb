@@ -2,7 +2,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy]
 
   def index
-    @case_workers = CaseWorker.all
+    @case_workers = CaseWorker.joins(:user).order('users.last_name', 'users.first_name')
   end
 
   def show

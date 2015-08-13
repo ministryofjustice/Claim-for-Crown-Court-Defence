@@ -47,12 +47,6 @@ module ApiClient
       def expense_types
         fetch('expense_types')
       end
-
-      private
-
-      def fetch(route)
-        PARSER.parse(perform_get(route).body)
-      end
     end
   end
 end

@@ -2,12 +2,13 @@
 #
 # Table name: case_workers
 #
-#  id          :integer          not null, primary key
-#  role        :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  location_id :integer
-#  days_worked :string(255)
+#  id             :integer          not null, primary key
+#  role           :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  location_id    :integer
+#  days_worked    :string(255)
+#  approval_level :string(255)      default("Low")
 #
 
 require 'rails_helper'
@@ -38,6 +39,22 @@ RSpec.describe CaseWorker, type: :model do
 
 
   context 'validations' do
+
+    context 'approval level' do
+      it 'should reject invalid values' do
+        cw = FactoryGirl.build :case_worker, approval_level: 'medium'
+        expect(cw).not_to be_valid
+        expect(cw.errors.full_messages).to eq( [ 'Approval level must be high or low'])
+      end
+
+      it 'should accept all valid values' do
+        %w{ High Low }.each do |level|
+          expect(FactoryGirl.build(:case_worker, approval_level: level)).to be_valid
+        end
+      end
+    end
+
+
     context 'days_worked' do
 
       let(:cw)         { FactoryGirl.build :case_worker }

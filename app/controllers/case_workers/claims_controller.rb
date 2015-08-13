@@ -6,16 +6,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claim_ids_and_count, only: [:show]
 
   def index
-    add_breadcrumb 'Dashboard', case_workers_root_path
-
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
   end
 
   def show
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
-
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build

@@ -1,4 +1,26 @@
+# == Schema Information
+#
+# Table name: case_types
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  is_fixed_fee :boolean
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 class CaseType < ActiveRecord::Base
 
+  default_scope -> { order(name: :asc) }
 
+
+  def self.by_type(type)
+    CaseType.where(name: type).first
+  end
+
+
+  def self.ids_by_types(*args)
+    case_types = CaseType.where('name in (?)', args)
+    case_types.map(&:id)
+  end
 end

@@ -1,4 +1,5 @@
 %w(
+  case_types
   schemes
   offence_classes
   offences
@@ -11,7 +12,6 @@
   courts
   chambers
   vat_rates
-  case_types
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

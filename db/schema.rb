@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813142826) do
+ActiveRecord::Schema.define(version: 20150813160624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.text     "additional_information"
     t.boolean  "apply_vat"
     t.string   "state"
-    t.string   "case_type"
     t.datetime "submitted_at"
     t.string   "case_number"
     t.string   "advocate_category"
@@ -118,6 +117,7 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.string   "source"
     t.decimal  "vat_amount",             default: 0.0
     t.uuid     "uuid",                   default: "uuid_generate_v4()"
+    t.integer  "case_type_id"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree

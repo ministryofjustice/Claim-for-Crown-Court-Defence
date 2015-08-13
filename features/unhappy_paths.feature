@@ -9,6 +9,7 @@ Feature: Unhappy paths
 
   Scenario: Attempt to save draft claim as advocate admin without specifying the advocate
     Given I am a signed in advocate admin
+    And There are case types in place
     And I am on the new claim page
     And I fill in the claim details omitting the advocate
     When I save to drafts
@@ -18,6 +19,7 @@ Feature: Unhappy paths
 
   Scenario: Attempt to submit claim to LAA without specifying all fields
     Given I am a signed in advocate
+    And There are case types in place
     And I am on the new claim page
     And I attempt to submit to LAA without specifying all the details
     Then I should be redirected back to the create claim page

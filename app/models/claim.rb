@@ -6,7 +6,6 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string(255)
-#  case_type              :string(255)
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
@@ -39,6 +38,8 @@
 #  trial_cracked_at_third :string(255)
 #  source                 :string(255)
 #  vat_amount             :decimal(, )      default(0.0)
+#  uuid                   :uuid
+#  case_type_id           :integer
 #
 
 class Claim < ActiveRecord::Base
@@ -61,6 +62,7 @@ class Claim < ActiveRecord::Base
   belongs_to :advocate
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
   belongs_to :scheme
+  belongs_to :case_type
 
   delegate   :chamber_id, to: :advocate
 
@@ -86,9 +88,10 @@ class Claim < ActiveRecord::Base
   scope :authorised,  -> { where(state: 'paid') }
 
   # Trial type scopes
-  scope :cracked,     -> { where(case_type: ['cracked_trial', 'cracked_before_retrial']) }
-  scope :trial,       -> { where(case_type: ['trial', 'retrial']) }
-  scope :guilty_plea, -> { where(case_type: ['guilty_plea']) }
+  scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
+  scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
+  scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
+
 
   scope :fixed_fee,   -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED').uniq }
 
@@ -100,7 +103,7 @@ class Claim < ActiveRecord::Base
   validates :court,                   presence: true, unless: :web_draft_or_pending_delete?
   validates :scheme,                  presence: true, unless: :web_draft_api_draft_or_pending_delete?
   validates :case_number,             presence: true, unless: :web_draft_or_pending_delete?
-  validates :case_type,               presence: true,     inclusion: { in: Settings.case_types }, unless: :web_draft_or_pending_delete?
+  validates :case_type_id,            presence: true, unless: :web_draft_or_pending_delete?
   validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :web_draft_or_pending_delete?
   validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :web_draft_or_pending_delete?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
@@ -292,7 +295,7 @@ class Claim < ActiveRecord::Base
   end
 
   def destroy_all_invalid_fee_types
-    if case_type.present? && case_type == 'fixed_fee'
+    if case_type.present? && case_type.is_fixed_fee?
       basic_fees.map(&:clear) unless basic_fees.blank?
       misc_fees.destroy_all   unless misc_fees.empty?
     else

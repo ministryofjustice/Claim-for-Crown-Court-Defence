@@ -35,12 +35,12 @@ RSpec.describe ClaimPresenter do
   describe '#retrial' do
 
     it 'returns yes for case types like retrial' do
-      claim.case_type = 'retrial'
+      claim.case_type = CaseType.find_or_create_by!(name: 'Retrial')
       expect(subject.retrial).to eql 'Yes'
     end
 
     it 'returns no for case types NOT like retrial' do
-      claim.case_type = 'contempt'
+      claim.case_type = CaseType.find_or_create_by!(name: 'Contempt')
       expect(subject.retrial).to eql 'No'
     end
 

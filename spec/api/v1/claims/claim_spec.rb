@@ -14,7 +14,7 @@ describe API::V1::Advocates::Claim do
   let!(:offence)          { create(:offence)}
   let!(:court)            { create(:court)}
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
-                          :case_type => 'trial',
+                          :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false).id,
                           :case_number => '12345',
                           :first_day_of_trial => Date.today - 100.days,
                           :estimated_trial_length => 10,
@@ -97,13 +97,13 @@ describe API::V1::Advocates::Claim do
     end
 
      it "returns 400 and errors for several missing required parameter" do
-      claim_params.delete(:case_type)
+      claim_params.delete(:case_type_id)
       claim_params.delete(:case_number)
       post_to_create_endpoint
       expect(last_response.status).to eq(400)
       error = JSON.parse(last_response.body)['error']
       expect(error).to include("case_number is missing")
-      expect(error).to include("case_type is missing")
+      expect(error).to include("case_type_id is missing")
     end
 
   end

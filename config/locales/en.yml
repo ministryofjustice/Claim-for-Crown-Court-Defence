@@ -223,11 +223,9 @@ en:
       document_type_fields:
         description: 'Description'
         provided: 'Provided'
-      dynamic_offence_fields:
+      offence_select:
         offence_class: 'Offence class'
-        offence_category: 'Offence category'
-        select_to_filter: ' -- Please select offence class to filter offences -- '
-        select_category: ' -- Please select offence class to filter offences -- '
+        select_offence_class: ' -- Select offence class -- '
       edit:
         edit: Edit claim
       expense_fields:
@@ -252,6 +250,9 @@ en:
         court: 'Court'
         case_number: 'Case number'
         advocate_category: 'Advocate category'
+        offence_class: 'Offence class'
+        offence_category: 'Offence category'
+        select_category: ' -- Select offence -- '
         first_day_of_trial: 'First day of trial'
         estimated_length: 'Estimated trial length'
         actual_length: 'Actual trial length'
@@ -305,8 +306,6 @@ en:
         h2_status: Status of claim
         h2_summary: Claim summary
         heading: Claim
-
-
 
 # en.shared
   shared:

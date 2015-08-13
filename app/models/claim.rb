@@ -48,8 +48,6 @@ class Claim < ActiveRecord::Base
   extend Claims::Search
   include Claims::Calculations
 
-  attr_reader :offence_class_id
-
   STATES_FOR_FORM = {
     part_paid: "Part paid",
     paid: "Paid in full",

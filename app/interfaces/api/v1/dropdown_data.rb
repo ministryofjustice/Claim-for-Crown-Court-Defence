@@ -61,10 +61,18 @@ module API
         end
       end
 
+      params do
+        optional :offence_description, type:  String, desc: "Offences matching description"
+      end
+
       resource :offences do
         desc "Return all Offence Types."
         get do
-          ::Offence.all
+          if params[:offence_description].present?
+            ::Offence.where(description: params[:offence_description])
+          else
+            ::Offence.all
+          end
         end
       end
 

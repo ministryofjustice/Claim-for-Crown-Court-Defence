@@ -14,6 +14,6 @@ csv.each do |row|
 end
 
 ('A'..'K').each do |letter|
-  offence_class = OffenceClass.find_by(class_letter: class_letter)
+  offence_class = OffenceClass.find_by(class_letter: letter)
   Offence.find_or_create_by!(offence_class: offence_class, description: 'Other')
 end

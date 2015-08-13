@@ -21,15 +21,15 @@ Given(/^there are completed claims$/) do
   @claims = create_list(:completed_claim, 5)
 end
 
-Then(/^I should see the allocated claims$/) do
-  click_on "Allocated claims (#{@claims.count})"
-  expect(page).to have_content("Allocated claims (#{@claims.count})")
-end
+#Then(/^I should see the allocated claims$/) do
+#  click_on "Allocated claims (#{@claims.count})"
+#  expect(page).to have_content("Allocated claims (#{@claims.count})")
+#end
 
-Then(/^I should see the unallocated claims$/) do
-  click_on "Unallocated claims (#{@claims.count})"
-  expect(page).to have_content("Unallocated claims (#{@claims.count})")
-end
+#Then(/^I should see the unallocated claims$/) do
+#  click_on "Unallocated claims (#{@claims.count})"
+#  expect(page).to have_content("Unallocated claims (#{@claims.count})")
+#end
 
 Then(/^I should see the completed claims$/) do
   click_on "Completed claims (#{@claims.count})"
@@ -108,9 +108,9 @@ Then(/^I should see the claims sorted by lowest value first$/) do
   expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
 end
 
-Then(/^I should see the claims count$/) do
-  expect(page).to have_content("Current claims (#{@claims.size})")
-end
+#Then(/^I should see the claims count$/) do
+#  expect(page).to have_content("Current claims (#{@claims.size})")
+#end
 
 When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
   fill_in 'search', with: defendant_name
@@ -144,6 +144,6 @@ Given(/^I have completed claims$/) do
   create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
 end
 
-When(/^I click on the Completed Claims tab$/) do
-  click_on 'Completed claims'
-end
+#When(/^I click on the Completed Claims tab$/) do
+#  click_on 'Completed claims'
+#end

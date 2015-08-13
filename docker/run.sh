@@ -24,4 +24,4 @@ if [ -n "$SLEEP_TIME" ]; then
 fi
 
 # exec bundle exec unicorn -p 8080 --no-default-middleware
-exec bundle exec unicorn -p 8080 -c config/unicorn.rb
+exec bundle exec unicorn -c config/unicorn.rb

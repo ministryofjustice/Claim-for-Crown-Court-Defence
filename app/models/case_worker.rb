@@ -61,6 +61,13 @@ class CaseWorker < ActiveRecord::Base
     unless days_worked_size? && days_worked_valid_class_and_values?
       errors[:days_worked] << "invalid"
     end
+    unless at_least_one_day_specified_as_working?
+      errors[:days_worked] << "at least one day must be specified as a working day"
+    end
+  end
+
+  def at_least_one_day_specified_as_working?
+    self.days_worked.uniq != [ 0 ]
   end
 
   def days_worked_size?

@@ -8,6 +8,7 @@
 #  vat_registered :boolean
 #  created_at     :datetime
 #  updated_at     :datetime
+#  uuid           :uuid
 #
 
 FactoryGirl.define do

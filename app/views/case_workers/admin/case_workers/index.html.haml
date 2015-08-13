@@ -1,17 +1,38 @@
-%h1
-  Case workers
+%h1.page-title
+  Administration
 
-%ul#assignee-list
-  - @case_workers.each do |case_worker|
-    %li{id: dom_id(case_worker)}
-      = link_to "#{case_worker.name} - #{case_worker.email} (#{case_worker.role.humanize} - #{case_worker.location})", case_workers_admin_case_worker_path(case_worker)
-      %ul.actions
-        %li
-          = link_to 'Allocate claims', allocate_case_workers_admin_case_worker_path(case_worker)
-        %li
+.grid-row.clear-float
+  %h2.heading-medium.left
+    List of Case Workers
+  = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button right'
+
+%table
+  %thead
+    %th
+      Surname
+    %th
+      Name
+    %th
+      Approval limit
+    %th
+      Location
+    %th
+      Working Days
+    %th
+  %tbody
+    - @case_workers.each do |case_worker|
+      %tr
+        %td
+          = case_worker.user.last_name
+        %td
+          = case_worker.user.first_name
+        %td
+          = "Low level"
+        %td
+          = case_worker.location.name
+        %td
+          = present(case_worker).days_worked_markup
+        %td.user-controls
           = link_to 'Edit', edit_case_workers_admin_case_worker_path(case_worker)
-        %li
+          = " | "
           = link_to 'Delete', case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
-
-%p
-  = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button'

@@ -5,9 +5,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
   def new
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Allocations', case_workers_admin_allocations_path
-
     @allocation = Allocation.new
   end
 

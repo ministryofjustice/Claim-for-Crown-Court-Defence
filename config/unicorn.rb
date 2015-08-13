@@ -1,4 +1,5 @@
 if ENV['RAILS_ENV']=="development"
+  preload_app true
   worker_processes Integer 1
   timeout 5000
 else

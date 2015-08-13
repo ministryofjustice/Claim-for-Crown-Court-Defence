@@ -109,8 +109,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   private
 
   def load_offences
-    @offence_classes = OffenceClass.all
-    @offences = OffenceClass.includes(:offences)
+    @offence_descriptions = Offence.unique_name.order(description: :asc)
+    if @claim.offence
+      @offences = Offence.includes(:offence_class).where(description: @claim.offence.description)
+    else
+      @offences = Offence.includes(:offence_class)
+    end
   end
 
   def submit_if_required_and_redirect

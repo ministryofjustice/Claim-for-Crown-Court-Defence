@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     get 'download_attachment', on: :member
   end
 
+  resources :offences, only: [:index], format: :js
+
   resources :user_message_statuses, only: [:index, :update]
 
   namespace :advocates do

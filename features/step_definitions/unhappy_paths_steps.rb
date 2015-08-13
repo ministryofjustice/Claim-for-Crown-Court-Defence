@@ -40,12 +40,14 @@ end
 
 
 And(/^The entered values should be preserved on the page$/) do
+  murder_offence_id = Offence.find_by(description: 'Murder').id
+  expect(page).to have_selector("input[value='#{murder_offence_id}']")
+
   expected_drop_down_values = {
             'claim_case_type'             => 'Guilty plea',
             'claim_prosecuting_authority' => 'CPS',
             'claim_court_id'              => 'some court',
-            'claim_advocate_category'     => 'QC',
-            'claim_offence_id'            => "Murder"
+            'claim_advocate_category'     => 'QC'
           }
   expected_drop_down_values.each do |selector_id, selected_item|
     within('#new_claim') do

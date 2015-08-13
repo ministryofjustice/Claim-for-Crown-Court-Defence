@@ -114,7 +114,7 @@ end
 
 When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
   fill_in 'search', with: defendant_name
-  select 'Defendant', from: 'search_field'
+  # select 'Defendant', from: 'search_field'
   click_button 'Search'
 end
 
@@ -124,7 +124,7 @@ end
 
 When(/^I search for a claim by MAAT reference$/) do
   fill_in 'search', with: 'AA1245'
-  select 'MAAT Reference', from: 'search_field'
+  #select 'MAAT Reference', from: 'search_field'
   click_button 'Search'
 end
 

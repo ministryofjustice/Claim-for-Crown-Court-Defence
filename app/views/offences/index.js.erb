@@ -1,0 +1,9 @@
+<% if params[:description] =~ /-- Select offence --/ %>
+  $('.offence-class-select').html('')
+  $('.offence-class-select').hide();
+<% else %>
+  $('.offence-class-select').html('<%=j render partial: "advocates/claims/offence_select", locals: { offences: @offences } %>');
+  $('.offence-class-select select').select2();
+  adp.newClaim.attachToOffenceClassSelect();
+  $('.offence-class-select').slideDown();
+<% end %>

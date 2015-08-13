@@ -151,23 +151,35 @@ describe API::V1::DropdownData do
 
     let!(:offence) { create(:offence) }
 
-    def get_from_offences_endpoint
-      get OFFENCE_ENDPOINT
-    end
-
     it 'should return a status of 200' do
-      response = get_from_offences_endpoint
+      response = get OFFENCE_ENDPOINT
       expect(response.status).to eql 200
     end
 
     it 'should return JSON formatted list of Offences' do
-      response = get_from_offences_endpoint
+      response = get OFFENCE_ENDPOINT
       expected = JSON.parse(offence.to_json)
       actual = JSON.parse(response.body)
       expect(actual).to include(expected)
       expect(actual.count).to eql 1
     end
 
+    it 'should include the offence class as nested JSON' do
+      response = get OFFENCE_ENDPOINT
+      actual = JSON.parse(response.body)
+      expect(actual.first['offence_class']).to eq(JSON.parse(offence.offence_class.to_json))
+    end
+
+    it 'should only return offences matching description when offence_description param is present' do
+      other_offence = create(:offence)
+      offence_with_same_description = create(:offence, description: offence.description)
+
+      response = get OFFENCE_ENDPOINT, offence_description: offence.description
+      returned_offences = JSON.parse(response.body)
+      expect(returned_offences).to include(JSON.parse(offence.to_json), JSON.parse(offence_with_same_description.to_json))
+      expect(returned_offences).to_not include(JSON.parse(other_offence.to_json))
+      expect(returned_offences.count).to eql 2
+    end
   end
 
   context 'GET api/fee_categories' do

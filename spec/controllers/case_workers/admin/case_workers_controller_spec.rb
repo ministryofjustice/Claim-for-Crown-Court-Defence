@@ -5,9 +5,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   before { sign_in admin.user }
 
-  before(:all)      { FactoryGirl.create :vat_rate }
-  after(:all)       { VatRate.delete_all}
-
+ 
   describe "GET #index" do
     before { get :index }
 

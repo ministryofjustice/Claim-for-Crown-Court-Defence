@@ -3,35 +3,29 @@
 var adp = adp || {};
 
 adp.newClaim = {
-
-  $offenceSelect: {},
-  $offenceClassSelect: {},
   init : function() {
+    adp.newClaim.$offenceCategorySelect = $('#offence_category_description');
 
-    //initialise handles
-    adp.newClaim.$offenceSelect = $('#claim_offence_id');
-    adp.newClaim.$offenceClassSelect = $('#claim_offence_class_id');
-
-    //hide all optgroups
-    $(adp.newClaim.$offenceSelect.children('optgroup').select2("container")).removeClass("show-optgroup").addClass("hide-optgroup");
-    adp.newClaim.$offenceClassSelect.change(function(){
-      adp.newClaim.cascadeOffenceClassChange();
+    adp.newClaim.$offenceCategorySelect.change(function() {
+      var selectedText = $(this).find(":selected").text();
+      $.getScript("/offences?description=" + selectedText);
     });
 
-    // set the select offence class group to be that which matches the offence OR ""
-    var matchingOffenceClassLabel = adp.newClaim.$offenceSelect.find('option:selected').parent().attr('label');
-    if (typeof matchingOffenceClassLabel !== "undefined")  {
-      adp.newClaim.$offenceClassSelect.select2('data', { text: matchingOffenceClassLabel });
+    if(!$('#claim_offence_id').val()) {
+      $('.offence-class-select').hide();
+      adp.newClaim.$offenceCategorySelect.change();
+    }
+    else {
+      $('#offence_class_description').select2('val', $('#claim_offence_id').val(  ));
     }
 
+    this.attachToOffenceClassSelect();
   },
-  cascadeOffenceClassChange : function() {
-    var offenceClassLabel = adp.newClaim.$offenceClassSelect.find('option:selected').text();
-    if (offenceClassLabel){
-      $(adp.newClaim.$offenceSelect.children('optgroup').select2("container")).removeClass("show-optgroup").addClass("hide-optgroup");
-      adp.newClaim.$offenceSelect.select2("val", "");
-      $(adp.newClaim.$offenceSelect.children('optgroup[label="' + offenceClassLabel + '"]').select2("container")).removeClass("hide-optgroup").addClass("show-optgroup");
-    }
-  }
+  attachToOffenceClassSelect : function() {
+    $('#offence_class_description').change(function() {
+      $('#claim_offence_id').val($(this).val());
+    });
 
-};
+    $('#offence_class_description').change();
+  }
+}

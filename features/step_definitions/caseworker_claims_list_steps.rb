@@ -41,12 +41,7 @@ Then(/^I should see an admin link$/) do
   expect(find('h1')).to have_content('Case workers')
 end
 
-Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)" amongst others$/) do |number,state,defendant_name|
-  claims = create_list("#{state}_claim".to_sym, number.to_i)
-  claims.each do |claim|
-    create(:defendant, claim: claim, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-  end
-  @case_worker.claims << claims
+Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number,state,defendant_name|
   claims = create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)

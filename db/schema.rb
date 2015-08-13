@@ -134,14 +134,15 @@ ActiveRecord::Schema.define(version: 20150810085147) do
 
   create_table "dates_attended", force: true do |t|
     t.datetime "date"
-    t.integer  "fee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "date_to"
-    t.uuid     "uuid",       default: "uuid_generate_v4()"
+    t.uuid     "uuid",               default: "uuid_generate_v4()"
+    t.integer  "attended_item_id"
+    t.string   "attended_item_type"
   end
 
-  add_index "dates_attended", ["fee_id"], name: "index_dates_attended_on_fee_id", using: :btree
+  add_index "dates_attended", ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type", using: :btree
 
   create_table "defendants", force: true do |t|
     t.string   "first_name"
@@ -198,7 +199,6 @@ ActiveRecord::Schema.define(version: 20150810085147) do
   create_table "expenses", force: true do |t|
     t.integer  "expense_type_id"
     t.integer  "claim_id"
-    t.datetime "date"
     t.string   "location"
     t.integer  "quantity"
     t.decimal  "rate"
@@ -267,6 +267,10 @@ ActiveRecord::Schema.define(version: 20150810085147) do
     t.integer  "sender_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
   end
 
   add_index "messages", ["claim_id"], name: "index_messages_on_claim_id", using: :btree

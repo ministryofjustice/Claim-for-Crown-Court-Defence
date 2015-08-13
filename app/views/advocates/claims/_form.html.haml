@@ -33,7 +33,19 @@
       = f.label t('.advocate_category')
       = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2' }
 
-      = render 'dynamic_offence_fields', f: f, offence_classes: @offence_classes, offences: @offences
+      = f.label t('.offence_category')
+      - if @claim.new_record?
+        - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+      - else
+        - selected_offence_category = @claim.offence.description
+
+      = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
+
+      .offence-class-select
+        = render partial: "offence_select", locals: { offences: @offences }
+
+      = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
+
       %span.auto-width
         = f.label t('.first_day_of_trial')
         = f.adp_date_fields :first_day_of_trial
@@ -139,7 +151,8 @@
                 = t('.rate')
               %th
                 = t('.amount')
-              %td
+              %th
+              %th
               = f.fields_for :expenses do |expense|
                 = render 'expense_fields', f: expense
 
@@ -148,7 +161,7 @@
       %label
         = f.check_box :apply_vat
         = t('.vat_required')
-
+    = render partial: "shared/vat_summary", locals: { claim:  present(@claim) }
 
     %fieldset{id: 'evidence'}
       %legend

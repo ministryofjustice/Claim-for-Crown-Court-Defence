@@ -83,8 +83,8 @@ When(/^I fill in the claim details$/) do
   select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: '123456'
-  select('A: Homicide and related grave offences', from: 'claim_offence_class_id')
-  select('Murder', from: 'claim_offence_id')
+  murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
+  first('#claim_offence_id', visible: false).set(murder_offence_id)
   select('QC', from: 'claim_advocate_category')
 
   within '#defendants' do
@@ -130,18 +130,6 @@ end
 
 When(/^I make the claim invalid$/) do
   fill_in 'claim_case_number', with: ''
-end
-
-When(/^I select offence class "(.*?)"$/) do |offence_class|
-  select(offence_class, from: 'claim_offence_class_id')
-end
-
-Then(/^the Offence category does NOT contain "(.*?)"$/) do |invalid_offence_category|
-  expect(page).not_to have_content(invalid_offence_category)
-end
-
-Then(/^the Offence category does contain "(.*?)"$/) do |valid_offence_category|
-  expect(page).to have_content(valid_offence_category)
 end
 
 When(/^I submit to LAA$/) do

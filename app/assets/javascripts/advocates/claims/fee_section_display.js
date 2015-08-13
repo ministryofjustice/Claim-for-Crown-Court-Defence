@@ -7,24 +7,52 @@ adp.feeSectionDisplay = {
   $caseTypeSelect: {},
   $basicFeesSet: {},
   $fixedFeesSet: {},
+  $expenseSet: {},
   $miscFeesSet: {},
+  $vatApplyChkbox: {},
+  $vatReport: {},
   regex: {},
   init : function() {
 
+    //This relates to adp.feeSectionDisplay
+    var $this = adp.feeSectionDisplay;
+
     //initialise handles
-    adp.feeSectionDisplay.$caseTypeSelect = $('#claim_case_type');
-    adp.feeSectionDisplay.regex = /Fixed fee/;
-    adp.feeSectionDisplay.$basicFeesSet = $('#basic-fees').parents('fieldset');
-    adp.feeSectionDisplay.$fixedFeesSet = $('#fixed-fees').parents('fieldset');
-    adp.feeSectionDisplay.$miscFeesSet  = $('#misc-fees').parents('fieldset');
+    $this.$caseTypeSelect = $('#claim_case_type');
+    $this.regex = /Fixed fee/;
+    //Initial Fees
+    var $basicFeesSet = $this.$basicFeesSet = $('#basic-fees').closest('fieldset'),
+    //Fixed Fees Section
+    $fixedFeesSet = $this.$fixedFeesSet = $('#fixed-fees').closest('fieldset'),
+    //Miscellaneous Fees Section
+    $miscFeesSet = $this.$miscFeesSet  = $('#misc-fees').closest('fieldset'),
+    //Expenses Section
+    $expenseSet = $this.$expenseSet = $('#expenses').closest('fieldset');
+    //Apply VAT checkbox
+    $this.$vatApplyChkbox = $('#claim_apply_vat');
+    // VAT Report Section
+    $this.$vatReport = $('#vat-report');
 
     // add change listener
-    adp.feeSectionDisplay.$caseTypeSelect.change(function(){
-      adp.feeSectionDisplay.addCaseTypeChangeEvent();
+    $this.$caseTypeSelect.change(function(){
+      $this.addCaseTypeChangeEvent();
     });
 
+    // add change listener
+    $this.$vatApplyChkbox
+    .add($basicFeesSet)
+    .add($fixedFeesSet)
+    .add($miscFeesSet)
+    .add($expenseSet)
+      .on('change',':checkbox,.amount,.rate, #expenses .quantity',function(){
+        $this.applyVAT();
+      });
+
+    //Show the VAT report if "Apply VAT"is checked
+    $this.showHideVAT();
+
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
-    adp.feeSectionDisplay.applyFixedFeeState(adp.feeSectionDisplay.regex.test(adp.feeSectionDisplay.caseTypeSelected()));
+    $this.applyFixedFeeState($this.regex.test($this.caseTypeSelected()));
   },
 
   caseTypeSelected : function () {
@@ -72,6 +100,46 @@ adp.feeSectionDisplay = {
 
   addCaseTypeChangeEvent : function() {
     adp.feeSectionDisplay.applyFixedFeeState(adp.feeSectionDisplay.regex.test(adp.feeSectionDisplay.caseTypeSelected()));
-  }
+  },
 
+  showHideVAT :function(){
+    var $this = adp.feeSectionDisplay;
+
+    if($this.$vatApplyChkbox.is(':checked')){
+      $this.$vatReport.show();
+    }else{
+      $this.$vatReport.hide();
+    };
+  },
+
+  getVAT :function(){
+    var $this = this;
+    return $.ajax({
+      url: $this.$vatReport.data('vat-url'),
+      data: { "date": $this.$vatReport.data('submitted-date'),
+               "net_amount": adp.feeCalculator.totalFee() }
+    });
+  },
+  applyVAT : function(){
+    var $this = this,
+    $vatReport = $this.$vatReport;
+
+    if($this.$vatApplyChkbox.is(':checked')){
+
+      $.when($this.getVAT())
+      .then(function( data, textStatus, jqXHR ){
+        $vatReport.find('.vat-date').text(data.date);
+        $vatReport.find('.vat-rate').text(data.rate);
+        $vatReport.find('.vat-total').text(data.net_amount);
+        $vatReport.find('.vat-amount').text(data.vat_amount);
+      })
+      .then(function(){
+        if($vatReport.filter(':visible').length === 0){
+          $this.showHideVAT();
+        };
+      });
+    }else{
+      $this.showHideVAT();
+    };
+  }
 };

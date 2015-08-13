@@ -19,25 +19,31 @@
     Created by:
     = @claim.creator.name
 
-  #claim-accordion
-    %h2
-      Basic Claim Information
-    = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
-    %h2
-      Claim summary
-    = render partial: 'shared/summary'
-    %h2
-      Evidence list
-    = render partial: 'shared/evidence_list'
-    %h2
-      Messages (#{@messages.count})
-    = render partial: 'shared/messages'
-    %h2
-      Claim notes
-    = render partial: 'claim_notes'
-    %h2#claim-status
-      Update status of claim
-    = render partial: 'shared/claim_status', locals: { disabled: false, claim: claim }
-    %h2
-      Claim history
-    = render partial: 'shared/claim_history'
+%p
+  - if @claim_ids
+    = claim_position_and_count
+    - unless last_claim?
+      = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
+#claim-accordion
+  %h2
+    Basic Claim Information
+  = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
+  %h2
+    Claim summary
+  = render partial: 'shared/summary'
+  %h2
+    Evidence list
+  = render partial: 'shared/evidence_list'
+  %h2
+    Messages (#{@messages.count})
+  = render partial: 'shared/messages'
+  %h2
+    Case worker notes
+  = render partial: 'caseworker_notes'
+  %h2#claim-status
+    Update status of claim
+  = render partial: 'shared/claim_status', locals: { disabled: false }
+  %h2
+    Claim history
+  = render partial: 'shared/claim_history'

@@ -163,11 +163,7 @@ Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate
   @claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
 end
 
-Given(/^I have (\d+) claims involving defendant "(.*?)" amongst others$/) do |number,defendant_name|
-  @claims = create_list(:draft_claim, number.to_i, advocate: @advocate)
-  @claims.each do |claim|
-    create(:defendant, claim: claim, first_name: Faker::Name.first_name, middle_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-  end
+Given(/^I have (\d+) claims involving defendant "(.*?)"$/) do |number,defendant_name|
   @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
   @claims.each do |claim|
     middle_names = defendant_name.split.delete_if.with_index { |name,idx| name if idx == 0 || idx == defendant_name.split.count-1 }.join(' ')

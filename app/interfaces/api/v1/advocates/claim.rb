@@ -6,6 +6,7 @@ module API
 
     module Advocates
 
+
       class Claim < Grape::API
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'

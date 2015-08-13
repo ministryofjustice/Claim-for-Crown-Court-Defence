@@ -112,8 +112,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   private
 
   def load_offences
-    @offence_classes = OffenceClass.all
-    @offences = OffenceClass.includes(:offences)
+    @offence_descriptions = Offence.unique_name.order(description: :asc)
+    if @claim.offence
+      @offences = Offence.includes(:offence_class).where(description: @claim.offence.description)
+    else
+      @offences = Offence.includes(:offence_class)
+    end
   end
 
   def submit_if_required_and_redirect
@@ -263,7 +267,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :location,
        :quantity,
        :rate,
-       :_destroy
+       :_destroy,
+       dates_attended_attributes: [
+          :id,
+          :expense_id,
+          :date,
+          :date_to,
+          :_destroy
+        ]
      ],
      documents_attributes: [
        :id,

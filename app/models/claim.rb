@@ -48,8 +48,6 @@ class Claim < ActiveRecord::Base
   extend Claims::Search
   include Claims::Calculations
 
-  attr_reader :offence_class_id
-
   STATES_FOR_FORM = {
     part_paid: "Part paid",
     paid: "Paid in full",
@@ -123,6 +121,8 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :assessment
+
+  before_save :calculate_vat
 
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }

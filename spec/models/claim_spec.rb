@@ -987,7 +987,7 @@ RSpec.describe Claim, type: :model do
   describe 'calculate_vat' do
 
     it 'should calaculate vat before saving if vat is applied' do
-      expect(VatRate).to receive(:vat_amount).and_return(99.44)
+      allow(VatRate).to receive(:vat_amount).and_return(99.44)
       claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, submitted_at: Date.today
       claim.save!
       expect(claim.vat_amount).to eq 99.44

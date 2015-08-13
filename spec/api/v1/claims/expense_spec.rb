@@ -13,7 +13,7 @@ describe API::V1::Advocates::Expense do
 
   let!(:claim)                      {  create(:claim).reload }
   let!(:expense_type)               {  create(:expense_type) }
-  let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, date: '10 May 2015', location: 'London' }  }
+  let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let!(:invalid_params)     { {claim_id: claim.uuid }                                                                             }
 
   context 'All expense API endpoints' do
@@ -59,7 +59,7 @@ describe API::V1::Advocates::Expense do
         it 'returns 400 and an appropriate error message in the response body' do
           response = post_to_create_endpoint(invalid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "{\"error\":\"date is missing, expense_type_id is missing, quantity is missing, rate is missing\"}"
+          expect(response.body).to eq "{\"error\":\"expense_type_id is missing, quantity is missing, rate is missing\"}"
         end
       end
 
@@ -84,7 +84,7 @@ describe API::V1::Advocates::Expense do
       it 'returns 400' do
         response = post_to_validate_endpoint(invalid_params)
         expect(response.status).to eq 400
-        expect(response.body).to eq "{\"error\":\"date is missing, expense_type_id is missing, quantity is missing, rate is missing\"}"
+        expect(response.body).to eq "{\"error\":\"expense_type_id is missing, quantity is missing, rate is missing\"}"
       end
     end
 

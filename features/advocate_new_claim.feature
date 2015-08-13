@@ -88,14 +88,6 @@ Feature: Advocate new claim
       And the claim should be in state "submitted"
       And the case number should reflect the change
 
-  Scenario: Change offence class
-    Given I am a signed in advocate
-      And There are fee schemes in place
-      And I am on the new claim page
-     When I select offence class "A: Homicide and related grave offences"
-     Then the Offence category does NOT contain "Activities relating to opium"
-     Then the Offence category does contain "Murder"
-
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
       And There are fee schemes in place

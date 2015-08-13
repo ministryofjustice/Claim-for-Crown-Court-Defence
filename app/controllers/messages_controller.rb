@@ -5,12 +5,15 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
     if @message.save
-      notification = { notice: 'Message successfully sent' }
+      @notification = { notice: 'Message successfully sent' }
     else
-      notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
+      @notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
     end
 
-    redirect_to :back, notification
+    respond_to do |format|
+      format.js
+      format.html { redirect_to :back, @notification }
+    end
   end
 
   def download_attachment

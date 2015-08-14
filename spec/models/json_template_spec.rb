@@ -10,10 +10,21 @@ describe JsonTemplate do
   it 'containts placeholder values that are representative of the required data types' do
     result = JSON.parse(JsonTemplate.generate)
     typed_placeholders = ['string', 1, 1.1, true]
-    result.each do |key, value|
-      value.class == Array ? attributes = value[0] : attributes = value # initial iteration yields both Hashes and Arrays
-      attributes.each do |name, value|
-        expect(typed_placeholders.include?(value)).to be true
+    get_vals(result)
+    @values.each do |value|
+      expect(typed_placeholders.include?(value)).to be true
+    end
+  end
+
+  def get_vals(result)
+    @values ||= []
+    result.values.each do |value|
+      if value.class == Hash
+        get_vals(value)
+      elsif value.class == Array
+        get_vals(value[0])
+      else
+        @values << value
       end
     end
   end

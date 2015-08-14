@@ -23,4 +23,4 @@ if [ -n "$SLEEP_TIME" ]; then
   sleep $SLEEP_TIME
 fi
 
-exec bundle exec unicorn -p 80
+exec bundle exec unicorn -p 80 -c config/unicorn.rb

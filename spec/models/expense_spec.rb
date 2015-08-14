@@ -5,13 +5,13 @@
 #  id              :integer          not null, primary key
 #  expense_type_id :integer
 #  claim_id        :integer
-#  date            :datetime
 #  location        :string(255)
 #  quantity        :integer
 #  rate            :decimal(, )
 #  amount          :decimal(, )
 #  created_at      :datetime
 #  updated_at      :datetime
+#  uuid            :uuid
 #
 
 require 'rails_helper'

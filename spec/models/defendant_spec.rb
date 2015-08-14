@@ -11,6 +11,7 @@
 #  claim_id                         :integer
 #  created_at                       :datetime
 #  updated_at                       :datetime
+#  uuid                             :uuid
 #
 
 require 'rails_helper'

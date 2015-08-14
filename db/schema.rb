@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150813163440) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
+    t.string   "days_worked"
     t.string   "approval_level", default: "Low"
   end
 
@@ -107,7 +108,6 @@ ActiveRecord::Schema.define(version: 20150813163440) do
     t.string   "cms_number"
     t.datetime "paid_at"
     t.integer  "creator_id"
-    t.decimal  "amount_assessed",        default: 0.0
     t.text     "notes"
     t.text     "evidence_notes"
     t.string   "evidence_checklist_ids"
@@ -166,6 +166,16 @@ ActiveRecord::Schema.define(version: 20150813163440) do
   end
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
+
+  create_table "determinations", force: true do |t|
+    t.integer  "claim_id"
+    t.string   "type"
+    t.decimal  "fees"
+    t.decimal  "expenses"
+    t.decimal  "total"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "documents", force: true do |t|
     t.integer  "claim_id"

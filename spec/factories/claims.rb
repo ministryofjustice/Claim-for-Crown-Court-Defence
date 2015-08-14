@@ -39,6 +39,7 @@
 #  trial_cracked_at_third :string(255)
 #  source                 :string(255)
 #  vat_amount             :decimal(, )      default(0.0)
+#  uuid                   :uuid
 #
 
 FactoryGirl.define do
@@ -49,6 +50,7 @@ FactoryGirl.define do
     advocate
     source { 'web' }
     apply_vat  false
+    assessment    { Assessment.new }
     after(:build) do |claim|
       claim.creator = claim.advocate
     end
@@ -72,6 +74,10 @@ FactoryGirl.define do
         advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
         claim.creator = advocate_admin
       end
+    end
+
+    trait :without_assessment do
+      assessment  nil
     end
 
     factory :unpersisted_claim do
@@ -152,5 +158,9 @@ end
 
 
 def set_amount_assessed(claim)
-  claim.update_attribute(:amount_assessed, rand(0.0..999.99).round(2))
+  claim.assessment.update(fees: random_amount, expenses: random_amount)
+end
+
+def random_amount
+  rand(0.0..999.99).round(2)
 end

@@ -9,6 +9,7 @@
 #  granting_body             :string(255)
 #  maat_reference            :string(255)
 #  representation_order_date :date
+#  uuid                      :uuid
 #
 
 require 'rails_helper'

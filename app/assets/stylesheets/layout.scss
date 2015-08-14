@@ -127,6 +127,17 @@ section{
     }
   }
 }
+
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.clear-float{
+  overflow: auto;
+}
+
 @import "navigation";
 @import "list-controls";
 @import "claims-list";

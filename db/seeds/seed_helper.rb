@@ -10,7 +10,7 @@ module SeedHelper
         password:   ENV[attrs[:password_env_var]],
         password_confirmation: ENV[attrs[:password_env_var]]
       )
-      case_worker = CaseWorker.new(role: attrs[:role])
+      case_worker = CaseWorker.new(role: attrs[:role], days_worked: attrs[:days_worked])
       case_worker.user = user
       case_worker.location = Location.find_or_create_by!(name: attrs[:location].capitalize)
       case_worker.save!

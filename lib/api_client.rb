@@ -40,8 +40,8 @@ module ApiClient
 
   def perform_request(http_method, uri, data)
     res  = http_method.call(uri, data)
-
-    raise FailureResponseError.new(res) if res.code != '200'
+    
+    raise FailureResponseError.new(res) unless res.code =~ /^2/
 
     res
 

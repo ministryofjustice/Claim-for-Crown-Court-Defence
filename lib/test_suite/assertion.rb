@@ -11,7 +11,7 @@ module TestSuite
     def valid?
       result = @func.call
 
-      if result == @expectation
+      if result == @expectation || result =~ @expectation
         true
       else
         log_error(result)

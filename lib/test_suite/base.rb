@@ -9,7 +9,7 @@ module TestSuite
 
     def run
       success = @assertions.all?(&:valid?)
-      @errors << @assertions.map { |a| a.errors }
+      @errors = @assertions.map { |a| a.errors }.flatten
       success
     end
   end

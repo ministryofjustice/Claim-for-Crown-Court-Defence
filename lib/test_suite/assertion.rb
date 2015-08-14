@@ -28,7 +28,7 @@ module TestSuite
 
   class ApiClientInfoAssertion < Assertion
     def initialize(name, expectation)
-      super(lambda { ApiClient::V1::Info.method(name).call }, expectation)
+      super(lambda { ApiClient::Info.method(name).call }, expectation)
     end
   end
 end

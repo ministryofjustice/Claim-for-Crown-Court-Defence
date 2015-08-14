@@ -26,11 +26,12 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect{ subject.submit! }.to                 change{ subject.state }.to('submitted') }
       it { allow(subject).to receive(:complete!);       expect{ subject.refuse! }.to change{ subject.state }.to('refused') }
       it {
-        expect{ subject.update_attribute(:amount_assessed, 123.45)
-        subject.pay_part!
-      }.to change{ subject.state }.to('part_paid') }
+        expect{
+          subject.assessment.update(fees: 100.00, expenses: 23.45)
+          subject.pay_part!
+        }.to change{ subject.state }.to('part_paid') }
       it { expect{
-        subject.update_attribute(:amount_assessed, 123.45)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay!
       }.to change{ subject.state }.to('paid') }
       it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
@@ -41,7 +42,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       before {
         subject.submit!
         subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay_part!
         subject.await_further_info!
       }
@@ -64,7 +65,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       before {
         subject.submit!
         subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay!
       }
       it { expect{ subject.complete! }.to change{ subject.state }.to('completed') }
@@ -76,7 +77,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       before {
         subject.submit!
         subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay_part!
       }
       it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
@@ -111,7 +112,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       before {
         subject.submit!
         subject.allocate!
-        subject.update_attribute(:amount_assessed, 123.45)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay_part!
       }
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.await_further_info! }
@@ -128,18 +129,18 @@ RSpec.describe Claims::StateMachine, type: :model do
     describe 'pay! makes paid_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
       it {
-        expect(subject).to receive(:update_column).with(:paid_at,Time.now);
-        subject.update_attribute(:amount_assessed, 123.45);
-        subject.pay!;
+        expect(subject).to receive(:update_column).with(:paid_at,Time.now)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
+        subject.pay!
       }
     end
 
     describe 'pay_part! makes paid_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
       it {
-        expect(subject).to receive(:update_column).with(:paid_at,Time.now);
-        subject.update_attribute(:amount_assessed, 123.45);
-        subject.pay_part!;
+        expect(subject).to receive(:update_column).with(:paid_at,Time.now)
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
+        subject.pay_part!
       }
     end
   end # describe 'set triggers'

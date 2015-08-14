@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  get 'ping'                => 'ping#index'
+  get 'ping', to: 'heartbeat#ping', format: :json
+  get 'healthcheck', to: 'heartbeat#healthcheck', as: 'healthcheck', format: :json
+
   get 'vat'                 => "vat_rates#index"
 
   get 'json_schema' => 'json_template#index'

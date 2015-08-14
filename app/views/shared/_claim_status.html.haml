@@ -1,5 +1,5 @@
 %section
-  - if @claim.opened_for_redetermination?
+  - if claim.opened_for_redetermination?
     %p
       Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').last.created_at} (see messages/notes for further details).
 
@@ -9,21 +9,55 @@
         = f.hidden_field :state_for_form, value: 'redetermination'
         = f.submit 'Request redetermination', class: 'button', id: 'button'
 
-  = form_for(@claim, url: case_workers_claim_path(@claim)) do |f|
+  = form_for(claim, url: case_workers_claim_path(claim)) do |f|
     %fieldset#claim-status
-      = f.label :status
-      = f.collection_select :state_for_form, Claim::STATES_FOR_FORM, :first, :last, { :include_blank => 'Select new state for this claim' }, { class: 'select2', disabled: disabled}
+      = debug 'XXXXXXXXX'
+      = debug @enable_status_change
+      = debug 'ZZZZZZZZZ'
+      = f.label :status, "Update status (current status: '#{claim.state}')"
+      = f.collection_select :state_for_form, Claim::STATES_FOR_FORM, :first, :last, { :include_blank => 'Select new state for this claim' }, { class: 'select2', disabled: !@enable_status_change }
 
-    %fieldset
-      #amountAssessed
-        = f.label :amount_assessed, 'Amount assessed'
-        .currency
-          %span.currency-symbol
-            &pound;
-          = f.text_field :amount_assessed, value: number_with_precision(f.object.amount_assessed, precision: 2), disabled: disabled
+
+      %table#determinations
+        %thead
+          %th &nbsp;
+          %th Fees
+          %th Expenses
+          %th Total
+        %tbody
+          -if @enable_assessment_input
+            = f.fields_for :assessment do |af|
+              .nested-fields
+                %tr.assesment-form-fields
+                  %td
+                    Enter assessed amounts
+                  %td.currency
+                    %span.currency-symbol
+                      &pound;
+                    = af.text_field :fees, value: number_with_precision(af.object.fees, precision: 2)
+                  %td.currency
+                    %span.currency-symbol
+                      &pound;
+                    = af.text_field :expenses, value: number_with_precision(af.object.expenses, precision: 2)
+                  %td
+                    %span.total-determination
+                      = number_to_currency(af.object.total)
+
+
+          - else
+            %tr.assessment-display
+              %td Assessed amounts
+              %td#assessed-fees= claim.assessment_fees
+              %td#assessed-expenses= claim.assessment_expenses
+              %td#assessed-total= claim.assessment_total
+
+
+
+
+
+
       = f.label :additional_information, "Remarks"
       = f.text_area :additional_information, disabled: disabled
 
-    - unless disabled
       %p
       = f.submit 'Update', class: 'button', id: 'button'

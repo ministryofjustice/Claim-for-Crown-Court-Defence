@@ -17,7 +17,7 @@
   = @claim.creator.name
 
 %p
-  - if @claim_ids
+  - if claim_ids
     = claim_position_and_count
     - unless last_claim?
       = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'

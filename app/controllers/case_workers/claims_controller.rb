@@ -3,13 +3,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claims, only: [:index]
   before_action :set_claim, only: [:show]
   before_action :set_search_options, only: [:index]
-  before_action :set_claim_ids_and_count, only: [:show]
 
   def index
     add_breadcrumb 'Dashboard', case_workers_root_path
 
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
+    set_claim_ids_and_count
   end
 
   def show
@@ -36,8 +36,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   private
 
   def set_claim_ids_and_count
-    @claim_ids = params[:claim_ids] if params[:claim_ids].present?
-    @claim_count = params[:claim_count] if params[:claim_count].present?
+    session[:claim_ids] = @claims.all.map(&:id)
+    session[:claim_count] = @claims.try(:count)
   end
 
   def search

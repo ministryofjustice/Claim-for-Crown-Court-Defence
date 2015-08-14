@@ -2,33 +2,27 @@ module TestSuite
   class Assertion
     attr_reader :errors
 
-    def initialize(func, expectation)
-      @func        = func
-      @expectation = expectation
-      @errors      = []
+    def initialize(expectation)
+      @func   = expectation.function
+      @result = expectation.result
+      @errors = []
     end
 
     def valid?
-      result = @func.call
+      candidate = @func.call
 
-      if result == @expectation || result =~ @expectation
+      if candidate == @result || candidate =~ @result
         true
       else
-        log_error(result)
+        log_error(candidate)
         false
       end
     end
 
     private
 
-    def log_error(result)
-      @errors << "Expected: #{@expectation}\nGot: #{result}"
-    end
-  end
-
-  class ApiInfoAssertion < Assertion
-    def initialize(name, expectation)
-      super(lambda { ApiClient::Info.method(name).call }, expectation)
+    def log_error(candidate)
+      @errors << "Expected: #{@result}\nGot: #{candidate}"
     end
   end
 end

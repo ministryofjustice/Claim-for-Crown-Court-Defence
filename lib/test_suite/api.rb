@@ -1,5 +1,4 @@
-require_relative 'assertion'
-require_relative 'expectations'
+require_relative 'expectation_collection'
 
 module TestSuite 
   class Api < Base
@@ -11,19 +10,13 @@ module TestSuite
 
     def assertion_factory
       # ApiClient::Info methods
-      ApiInfoExpectations.default.all.map { |func_name, expectation| 
-        ApiInfoAssertion.new(func_name, expectation)
-      } +
+      ApiInfoExpectations.default.map_to_assertions +
       
       # ApiClient::Create methods 
-      ApiCreateExpectations.default.all.map { |func_name, expectation| 
-        Assertion.new(func_name, expectation)
-      } +
+      ApiCreateExpectations.default.map_to_assertions  +
 
       # ApiClient::Validate methods 
-       ApiValidateExpectations.default.all.map { |func_name, expectation| 
-        Assertion.new(func_name, expectation)
-      } 
+      ApiValidateExpectations.default.map_to_assertions  
     end
   end
 end

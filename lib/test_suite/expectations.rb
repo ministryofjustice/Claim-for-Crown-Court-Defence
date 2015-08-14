@@ -34,4 +34,47 @@ module TestSuite
       })
     end
   end
+
+  class ApiCreateExpectations < Expectations
+    def self.default
+      new([
+        [ fees, /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/ ]
+      ])
+    end
+
+    private
+
+    def self.fees
+      lambda { 
+        ApiClient::Create.fees({
+          claim_id:    Claim.first.uuid,
+          fee_type_id: FeeType.first.id,
+          quantity:    1,
+          amount:      1,
+        })
+        .fetch('id', nil) 
+      }
+    end
+  end
+
+  class ApiValidateExpectations < Expectations
+    def self.default
+      new([
+        [ fees, { 'valid' => true } ]
+      ])
+    end
+
+    private
+
+    def self.fees
+      lambda { 
+        ApiClient::Validate.fees({
+          claim_id:    Claim.first.uuid,
+          fee_type_id: FeeType.first.id,
+          quantity:    1,
+          amount:      1,
+        })
+      }
+    end
+  end
 end

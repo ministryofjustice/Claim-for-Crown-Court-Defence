@@ -10,41 +10,20 @@ module TestSuite
     private
 
     def assertion_factory
-      
       # ApiClient::Info methods
-      TestSuite::ApiInfoExpectations.default.all.map { |func_name, expectation| 
-        TestSuite::ApiInfoAssertion.new(func_name, expectation)
+      ApiInfoExpectations.default.all.map { |func_name, expectation| 
+        ApiInfoAssertion.new(func_name, expectation)
       } +
       
       # ApiClient::Create methods 
-      [
-        # fees
-        Assertion.new(
-          lambda { ApiClient::Create.fees({
-            claim_id:    Claim.first.uuid,
-            fee_type_id: FeeType.first.id,
-            quantity:    1,
-            amount:      1,
-          })['id']}, 
-          /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/
-        ),
-        # Add here
-      ] + 
+      ApiCreateExpectations.default.all.map { |func_name, expectation| 
+        Assertion.new(func_name, expectation)
+      } +
 
       # ApiClient::Validate methods 
-      [
-        # fees
-        Assertion.new(
-          lambda { ApiClient::Validate.fees({
-            claim_id:    Claim.first.uuid,
-            fee_type_id: FeeType.first.id,
-            quantity:    1,
-            amount:      1,
-          })}, 
-          { 'valid' => true }
-        ),
-        # Add here
-      ] 
+       ApiValidateExpectations.default.all.map { |func_name, expectation| 
+        Assertion.new(func_name, expectation)
+      } 
     end
   end
 end

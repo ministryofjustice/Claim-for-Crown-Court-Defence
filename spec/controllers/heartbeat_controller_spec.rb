@@ -3,7 +3,14 @@ require 'rails_helper'
 RSpec.describe HeartbeatController, type: :controller do
   describe '#ping' do
     context 'when environment variables not set' do
-      before { get :ping }
+      before do
+        ENV['VERSION_NUMBER']   = nil
+        ENV['BUILD_DATE']       = nil
+        ENV['COMMIT_ID']        = nil
+        ENV['BUILD_TAG']        = nil
+
+        get :ping
+      end
 
       it 'returns "Not Available"' do
         expect(JSON.parse(response.body).values).to eq(['Not Available'] * 4)
@@ -22,7 +29,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       before do
         ENV['VERSION_NUMBER']   = '123'
-        ENV['BUILD_DATE']       =  '20150721'
+        ENV['BUILD_DATE']       = '20150721'
         ENV['COMMIT_ID']        = 'afb12cb3'
         ENV['BUILD_TAG']        = 'test'
 

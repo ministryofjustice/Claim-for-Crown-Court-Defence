@@ -5,9 +5,10 @@ class JsonTemplate
     def generate
       set_models_hash
       insert_values_for_typing
-      arrays_where_appropriate
+      nested_arrays_where_appropriate
+      clean_up
       format_keys
-      JSON.pretty_generate(@models_hash)
+      @models_hash.to_json
     end
 
     private
@@ -72,35 +73,51 @@ class JsonTemplate
       types_hash[active_record_data_type]
     end
 
-    def arrays_where_appropriate
+    def nested_arrays_where_appropriate
+      @to_clean = []
       @models_hash.each do |model_key, atts_value|
         if another_model_has_many?(model_key) == true
-          @models_hash[model_key] = [atts_value]
+            @models_hash[@owner][model_key] = [atts_value]
+            @to_clean << model_key
         end
       end
     end
 
+    def clean_up
+      @to_clean.each do |model|
+        @models_hash.delete(model)
+      end
+    end
+
     def format_keys
-      snake_case_keys
-      downcase_keys
-      pluralize_keys_pointing_to_arrays
+      snake_case_keys(@models_hash)
+      downcase_keys(@models_hash)
+      pluralize_keys_pointing_to_arrays(@models_hash)
     end
 
-    def downcase_keys
-      @models_hash.keys.each do |key|
-        @models_hash[key.downcase] = @models_hash.delete(key)
+    def downcase_keys(hash)
+      hash.keys.each do |key|
+        hash[key.downcase] = hash.delete(key)
+        downcase_keys(hash[key.downcase]) if hash[key.downcase].is_a? Hash
       end
     end
 
-    def snake_case_keys
-      @models_hash.keys.each do |key|
-        @models_hash[key.to_s.underscore] = @models_hash.delete(key)
+    def snake_case_keys(hash)
+      hash.keys.each do |key|
+        hash[key.to_s.underscore] = hash.delete(key)
+        snake_case_keys(hash[key.to_s.underscore]) if hash[key.to_s.underscore].is_a? Hash
+        snake_case_keys(hash[key.to_s.underscore][0]) if hash[key.to_s.underscore].is_a? Array
       end
     end
 
-    def pluralize_keys_pointing_to_arrays
-      @models_hash.keys.each do |key|
-        @models_hash[key.pluralize] = @models_hash.delete(key) if @models_hash[key].class == Array
+    def pluralize_keys_pointing_to_arrays(hash)
+      hash.keys.each do |key|
+        if hash[key].is_a? Hash
+          pluralize_keys_pointing_to_arrays(hash[key])
+        elsif hash[key].class == Array
+          hash[key.pluralize] = hash.delete(key)
+          pluralize_keys_pointing_to_arrays(hash[key.pluralize][0])
+        end
       end
     end
 
@@ -109,6 +126,7 @@ class JsonTemplate
       models.each do |model|
         klass = model.to_s.constantize
         if klass.reflect_on_association(associate) != nil && klass.reflect_on_association(associate).macro == :has_many
+          @owner = klass.to_s.to_sym
           return true
         end
       end

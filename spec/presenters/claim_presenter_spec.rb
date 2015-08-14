@@ -62,8 +62,8 @@ RSpec.describe ClaimPresenter do
 
   # TODO: do currency converters need internationalisation??
   it '#amount_assessed' do
-    claim.amount_assessed = 100
-    expect(subject.amount_assessed).to eql("£100.00")
+    claim.assessment.update(fees: 80.35, expenses: 19.65)
+    expect(subject.assessment_total).to eql("£100.00")
   end
 
   it '#fees_total' do

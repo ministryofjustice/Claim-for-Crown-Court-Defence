@@ -77,6 +77,10 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
+  
+  has_many :determinations
+  has_one  :assessment
+  has_many :redeterminations
 
 
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
@@ -105,7 +109,6 @@ class Claim < ActiveRecord::Base
   validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :web_draft_or_pending_delete?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
-  validates :amount_assessed,         numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
 
   validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
@@ -117,6 +120,7 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :expenses,    reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :assessment
 
   before_save :calculate_vat
 
@@ -127,7 +131,8 @@ class Claim < ActiveRecord::Base
   before_validation :set_scheme, unless: :web_draft_api_draft_or_pending_delete?
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
-  after_initialize :default_values
+  after_initialize :default_values, :instantiate_assessment
+  # after_initialize :default_values
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -281,11 +286,11 @@ class Claim < ActiveRecord::Base
   def amount_assessed_and_state
     case self.state
       when 'paid', 'part_paid'
-        if self.amount_assessed == 0
+        if self.assessment.blank?
           errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
         end
       when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-        if self.amount_assessed != 0
+        if self.assessment.present?
           errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
         end
     end
@@ -302,6 +307,10 @@ class Claim < ActiveRecord::Base
 
   def default_values
     self.source ||= 'web'
+  end
+
+  def instantiate_assessment
+    self.build_assessment if self.assessment.nil?
   end
 
   def calculate_vat

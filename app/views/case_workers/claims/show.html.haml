@@ -1,46 +1,49 @@
-%p
-  = link_to 'Back', case_workers_claims_path, class: 'button'
 
-  - if @claim.errors.any?
-    .validation-summary
-      %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
-      %ul
-        - @claim.errors.full_messages.each do |msg|
-          %li= msg
+-present(@claim) do | claim |
 
-%h1
-  Claim
-  = @claim.case_number
+  %p
+    = link_to 'Back', case_workers_claims_path, class: 'button'
 
-%P
-  Created by:
-  = @claim.creator.name
+    - if @claim.errors.any?
+      .validation-summary
+        %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
+        %ul
+          - @claim.errors.full_messages.each do |msg|
+            %li= msg
 
-%p
-  - if @claim_ids
-    = claim_position_and_count
-    - unless last_claim?
-      = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+  %h1
+    Claim
+    = @claim.case_number
 
-#claim-accordion
-  %h2
-    Basic Claim Information
-  = render partial: 'shared/claim', locals: { claim: @claim, hide_totals: true }
-  %h2
-    Claim summary
-  = render partial: 'shared/summary'
-  %h2
-    Evidence list
-  = render partial: 'shared/evidence_list'
-  %h2
-    Messages (#{@messages.count})
-  = render partial: 'shared/messages'
-  %h2
-    Case worker notes
-  = render partial: 'caseworker_notes'
-  %h2#claim-status
-    Update status of claim
-  = render partial: 'shared/claim_status', locals: { disabled: false }
-  %h2
-    Claim history
-  = render partial: 'shared/claim_history'
+  %P
+    Created by:
+    = @claim.creator.name
+
+  %p
+    - if @claim_ids
+      = claim_position_and_count
+      - unless last_claim?
+        = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
+  #claim-accordion
+    %h2
+      Basic Claim Information
+    = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
+    %h2
+      Claim summary
+    = render partial: 'shared/summary'
+    %h2
+      Evidence list
+    = render partial: 'shared/evidence_list'
+    %h2
+      Messages (#{@messages.count})
+    = render partial: 'shared/messages'
+    %h2
+      Case worker notes
+    = render partial: 'caseworker_notes'
+    %h2#claim-status
+      Update status of claim
+    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }
+    %h2
+      Claim history
+    = render partial: 'shared/claim_history'

@@ -41,12 +41,12 @@ module ApiClient
   def perform_request(http_method, uri, data)
     res  = http_method.call(uri, data)
 
-    raise FailureResponse.new(res) if res.code != '200'
+    raise FailureResponseError.new(res) if res.code != '200'
 
     res
 
   rescue Errno::ECONNREFUSED
-    raise ConnectionRefused.new(uri)
+    raise ConnectionRefusedError.new(uri)
   end
 
   def build_uri(route)
@@ -57,7 +57,7 @@ module ApiClient
     ].join('/'))
   end
 
-  class ConnectionRefused < StandardError
+  class ConnectionRefusedError < StandardError
     def initialize(uri_s)
       super(
         "The connection was refused by the REST API server @ " + 
@@ -66,7 +66,7 @@ module ApiClient
     end
   end
 
-  class FailureResponse < StandardError
+  class FailureResponseError < StandardError
     def initialize(res)
       super(
         "The REST API responsed with non-success code: #{res.code}" + 

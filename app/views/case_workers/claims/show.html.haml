@@ -1,5 +1,4 @@
-
--present(@claim) do | claim |
+- present(@claim) do |claim|
 
   %p
     = link_to 'Back', case_workers_claims_path, class: 'button'
@@ -15,12 +14,12 @@
     Claim
     = @claim.case_number
 
-  %P
+  %p
     Created by:
     = @claim.creator.name
 
   %p
-    - if @claim_ids
+    - if claim_ids.present?
       = claim_position_and_count
       - unless last_claim?
         = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'

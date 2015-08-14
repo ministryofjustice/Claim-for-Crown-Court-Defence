@@ -1,7 +1,10 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
+  include DocTypes
+
   respond_to :html
   before_action :set_claims, only: [:index]
   before_action :set_claim, only: [:show]
+  before_action :set_doctypes, only: [:show, :update]
   before_action :set_search_options, only: [:index]
   before_action :set_claim_ids_and_count, only: [:show]
 

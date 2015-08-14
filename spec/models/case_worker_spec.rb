@@ -35,6 +35,24 @@ RSpec.describe CaseWorker, type: :model do
     end
   end
 
+
+  context 'validations' do
+    context 'approval level' do
+      it 'should reject invalid values' do
+        cw = FactoryGirl.build :case_worker, approval_level: 'medium'
+        expect(cw).not_to be_valid
+        expect(cw.errors.full_messages).to eq( [ 'Approval level must be high or low'])
+      end
+
+      it 'should accept all valid values' do
+        %w{ High Low }.each do |level|
+          expect(FactoryGirl.build(:case_worker, approval_level: level)).to be_valid
+        end
+      end
+    end
+  end
+
+
   describe '.admins' do
     before do
       create(:case_worker, :admin)

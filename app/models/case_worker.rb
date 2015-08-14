@@ -22,6 +22,7 @@ class CaseWorker < ActiveRecord::Base
 
   validates :location, presence: true
   validates :user, presence: true
+  validates :approval_level, inclusion: { in: %w( High Low ), message: "must be high or low" }
 
   accepts_nested_attributes_for :user
 

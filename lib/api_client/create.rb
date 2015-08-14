@@ -4,22 +4,28 @@ module ApiClient
       extend ApiClient::V1
       extend self
 
-      def claims
+      def claims(data)
+        send('advocates/claims', data)
       end
 
-      def defendants
+      def defendants(data)
+        send('advocates/defendants', data)
       end
 
-      def fees
+      def fees(data)
+        send('advocates/fees', data)
       end
 
-      def expenses
+      def expenses(data)
+        send('advocates/expenses', data)
       end
 
-      def dates_attended
+      def dates_attended(data)
+        send('advocates/dates_attended', data)
       end
 
-      def representation_orders
+      def representation_orders(data)
+        send('advocates/representation_orders', data)
       end
     end
   end

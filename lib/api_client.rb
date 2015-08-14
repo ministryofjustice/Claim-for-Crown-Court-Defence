@@ -8,9 +8,8 @@ require 'json'
 module ApiClient
   module V1
 
-    SETTINGS_FILE = Rails.root.join('config', 'settings.yml')
-    PARSER        = JSON
-    SERIALIZER    = YAML
+    PARSER     = JSON
+    SERIALIZER = YAML
 
     protected
     
@@ -29,7 +28,7 @@ module ApiClient
     end
 
     def http_post
-      # Proc.new { |uri, data| Net::HTTP.post(uri, data) }
+      Proc.new { |uri, data| Net::HTTP.post_form(uri, data) }
     end
 
     def perform_get(route)
@@ -42,30 +41,21 @@ module ApiClient
 
     def perform_request(http_method, uri, data)
       res  = http_method.call(uri, data)
-      code = res.code
 
-      raise FailureResponse.new(code) if code != '200'
+      raise FailureResponse.new(res) if res.code != '200'
 
       res
 
     rescue Errno::ECONNREFUSED
-      raise ConnectionRefused.new(uri_s)
-    end
-
-    def settings
-      @settings ||= SERIALIZER.load(File.read(SETTINGS_FILE))
-    end
-
-    def host
-      settings['api_client']['host']
-    end
-
-    def base_path
-      settings['api_client']['base_path']
+      raise ConnectionRefused.new(uri)
     end
 
     def build_uri(route)
-      URI.parse([host, base_path, route].join('/'))
+      URI.parse([
+        Settings.api_client.host, 
+        Settings.api_client.base_path, 
+        route
+      ].join('/'))
     end
 
     class ConnectionRefused < StandardError
@@ -78,8 +68,11 @@ module ApiClient
     end
 
     class FailureResponse < StandardError
-      def initialize(status_code)
-        super("The REST API responsed with non-success code: #{status_code}")
+      def initialize(res)
+        super(
+          "The REST API responsed with non-success code: #{res.code}" + 
+          "\nDetails: #{res.body}"
+        )
       end
     end
   end

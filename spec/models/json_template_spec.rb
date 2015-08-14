@@ -13,6 +13,7 @@ describe JsonTemplate do
     result.each do |key, value|
       value.class == Array ? attributes = value[0] : attributes = value # initial iteration yields both Hashes and Arrays
       attributes.each do |name, value|
+        puts "#{name} - #{value}"
         expect(typed_placeholders.include?(value)).to be true
       end
     end

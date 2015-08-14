@@ -1,7 +1,10 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
+  include DocTypes
+
   respond_to :html
   before_action :set_claims, only: [:index]
   before_action :set_claim, only: [:show]
+  before_action :set_doctypes, only: [:show, :update]
   before_action :set_search_options, only: [:index]
   before_action :set_claim_ids_and_count, only: [:show]
 
@@ -16,6 +19,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     add_breadcrumb 'Dashboard', case_workers_root_path
     add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
 
+    @claim.assessment = Assessment.new if @claim.assessment.nil?
+    @enable_assessment_input = @claim.assessment.blank?
+    @enable_status_change = true
+
+
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
@@ -25,10 +33,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_first
     @doc_types = DocType.all
+
     begin
       @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err
     end
+    @enable_status_change = true
     @message = @claim.messages.build
     render action: :show
   end
@@ -60,9 +70,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :state_for_form,
-      :amount_assessed,
       :additional_information,
-      :notes
+      :notes,
+      :assessment_attributes => [
+        :id,
+        :fees,
+        :expenses
+      ]
     )
   end
 

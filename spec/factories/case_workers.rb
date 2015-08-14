@@ -26,5 +26,13 @@ FactoryGirl.define do
     trait :admin do
       role 'admin'
     end
+
+    trait :high do
+      approval_level  'High'
+    end
+
+    trait :low do
+      approval_level  'Low'
+    end
   end
 end

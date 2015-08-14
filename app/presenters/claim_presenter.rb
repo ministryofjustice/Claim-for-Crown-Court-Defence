@@ -2,6 +2,11 @@ class ClaimPresenter < BasePresenter
 
   presents :claim
 
+
+  def self.model_name
+    Claim.model_name
+  end
+
   def defendant_names
     claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
   end
@@ -82,5 +87,27 @@ class ClaimPresenter < BasePresenter
   def representation_order_details
     claim.defendants.map(&:representation_order_details).flatten.join('<br/>').html_safe
   end
+
+  def assessment_date
+    claim.assessment.blank? ? '(not yet assessed)' : claim.assessment.created_at.strftime(Settings.date_format)
+  end
+
+  def assessment_fees
+    assessment_value(:fees)
+  end
+
+  def assessment_expenses
+    assessment_value(:expenses)
+  end
+
+  def assessment_total
+    assessment_value(:total)
+  end
+
+  def assessment_value(assessment_attr)
+    claim.assessment.new_record? ? h.number_to_currency(0) : h.number_to_currency(claim.assessment.__send__(assessment_attr))
+  end
+
+  
 
 end

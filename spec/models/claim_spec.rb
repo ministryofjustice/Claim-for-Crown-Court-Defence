@@ -214,7 +214,6 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
 
       it 'should validate presence of scheme' do
         subject.scheme = create(:scheme)
@@ -258,7 +257,6 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:amount_assessed).is_greater_than_or_equal_to(0) }
     end
   end
 
@@ -316,7 +314,16 @@ RSpec.describe Claim, type: :model do
     it 'should update the model then transition state to prevent state transition validation errors' do
       # given
       claim = FactoryGirl.create :allocated_claim
-      claim_params = {"state_for_form"=>"part_paid", "amount_assessed"=>"88.55", "additional_information"=>""}
+      claim.assessment = Assessment.new
+      claim_params = {
+        "state_for_form"=>"part_paid", 
+        "assessment_attributes" => {
+          "id" => claim.assessment.id,
+          "fees" => "66.22",
+          "expenses" => "22.33"
+        },
+        "additional_information"=>""}
+
       # when
       claim.update_model_and_transition_state(claim_params)
       #then
@@ -325,14 +332,15 @@ RSpec.describe Claim, type: :model do
 
     it 'should not transition when "state_for_form" is the same as the claim\'s state' do
       claim = FactoryGirl.create :paid_claim
-      claim_params = {"state_for_form"=>"paid", "amount_assessed"=>"88.55", "additional_information"=>""}
+      claim_params = {"state_for_form"=>"paid", 'assessment_attributes' => { "fees"=>"88.55", 'expenses' => '0.00'},"additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('paid')
     end
 
     it 'should not transition when "state_for_form" is blank' do
       claim = FactoryGirl.create :paid_claim
-      claim_params = {"state_for_form"=>"", "amount_assessed"=>"88.55", "additional_information"=>""}
+
+      claim_params = {"state_for_form"=>"", 'assessment_attributes' => { "fees"=>"44.55", 'expenses' => '44.00'}, "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('paid')
     end
@@ -342,14 +350,14 @@ RSpec.describe Claim, type: :model do
     context 'paid and part paid' do
       it 'should be invalid if amount assessed = 0 for state paid' do
         claim = FactoryGirl.create :paid_claim
-        claim.amount_assessed = 0
+        claim.assessment.zeroize!
         expect(claim).not_to be_valid
         expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
       end
 
       it 'should be invalid if amount assessed = 0 for state part_paid' do
         claim = FactoryGirl.create :part_paid_claim
-        claim.amount_assessed = 0
+        claim.assessment.update(fees: 0, expenses: 0)
         expect(claim).not_to be_valid
         expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
       end
@@ -369,16 +377,19 @@ RSpec.describe Claim, type: :model do
       it 'should be valid if amount assessed is zero' do
         %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
           factory_name = "#{state}_claim".to_sym
-          claim = FactoryGirl.create factory_name, amount_assessed: 0
+          claim = FactoryGirl.create factory_name
+          expect(claim.assessment.total).to eq 0
           expect(claim).to be_valid
         end
       end
 
       it 'should be invalid if amount assessed is not zero' do
-        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+        %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
           factory_name = "#{state}_claim".to_sym
           expect {
-            claim = FactoryGirl.create factory_name, amount_assessed: 356.31
+            claim = FactoryGirl.create factory_name
+            claim.assessment.fees = 35.22
+            claim.save!
           }.to raise_error ActiveRecord::RecordInvalid
         end
       end
@@ -831,7 +842,7 @@ RSpec.describe Claim, type: :model do
     it 'should return true for part_paid, paid and completed claims' do
      claim.submit
      claim.allocate
-     claim.amount_assessed = 100.01
+     claim.assessment.update(fees: 30.01, expenses: 70.00)
      claim.pay_part
      expect_has_paid_state_to_be true
      claim.pay
@@ -1034,4 +1045,22 @@ RSpec.describe Claim, type: :model do
       end
     end
   end
+
+  
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

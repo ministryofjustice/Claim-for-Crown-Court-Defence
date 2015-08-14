@@ -27,7 +27,7 @@ class CaseWorker < ActiveRecord::Base
   validates :location, presence: true
   validates :user, presence: true
   validate  :days_worked_valid
-
+  validates :approval_level, inclusion: { in: %w( High Low ), message: "must be high or low" }
 
   accepts_nested_attributes_for :user
 
@@ -84,4 +84,4 @@ class CaseWorker < ActiveRecord::Base
     uniqs == [1] || uniqs == [0, 1] || uniqs == [0]
   end
 end
-  
+

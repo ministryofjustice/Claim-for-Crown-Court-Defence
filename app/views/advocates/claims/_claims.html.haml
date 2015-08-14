@@ -48,7 +48,7 @@
             = claim.total
           - if claims.map(&:has_paid_state?).any?
             %td.currency
-              = claim.amount_assessed
+              = claim.assessment_total
           %td
             = link_to t('.view'), advocates_claim_path(claim)
             - if claim.editable?

@@ -40,6 +40,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
+    @enable_assessment_input = false
+    @enable_status_change = false
   end
 
   def new
@@ -61,6 +63,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     build_nested_resources
     load_offences
+    @disable_assessment_input = true
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
@@ -318,7 +321,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def render_new_with_resources
-    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
     load_offences
     render action: :new

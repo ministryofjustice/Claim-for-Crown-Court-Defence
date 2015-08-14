@@ -18,7 +18,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
     @claim.assessment = Assessment.new if @claim.assessment.nil?
     @enable_assessment_input = @claim.assessment.blank?
-    @status_change_disabled = false
+    @enable_status_change = true
 
 
     @doc_types = DocType.all
@@ -35,6 +35,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err
     end
+    @enable_status_change = true
     @message = @claim.messages.build
     render action: :show
   end

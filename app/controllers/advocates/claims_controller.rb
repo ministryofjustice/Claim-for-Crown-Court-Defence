@@ -41,7 +41,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
     @enable_assessment_input = false
-    @status_change_disabled = true
+    @enable_status_change = false
   end
 
   def new
@@ -63,7 +63,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     build_nested_resources
     load_offences
-    @enable_assessment_input = false
+    @disable_assessment_input = true
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end

@@ -284,7 +284,7 @@ RSpec.describe Claim, type: :model do
       claim = FactoryGirl.create :allocated_claim
       claim.assessment = Assessment.new
       claim_params = {
-        "state_for_form"=>"part_paid", 
+        "state_for_form"=>"part_paid",
         "assessment_attributes" => {
           "id" => claim.assessment.id,
           "fees" => "66.22",
@@ -1016,7 +1016,15 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+  describe 'comma formatted inputs' do
+    [:fees_total, :expenses_total, :total, :vat_amount].each do |attribute|
+      it "converts input for #{attribute} by stripping commas out" do
+        claim = build(:claim)
+        claim.send("#{attribute}=", '12,321,111')
+        expect(claim.send(attribute)).to eq(12321111)
+      end
+    end
+  end
 end
 
 

@@ -51,4 +51,14 @@ RSpec.describe Expense, type: :model do
       end
     end
   end
+
+  describe 'comma formatted inputs' do
+    [:rate, :quantity, :amount].each do |attribute|
+      it "converts input for #{attribute} by stripping commas out" do
+        expense = build(:expense)
+        expense.send("#{attribute}=", '12,321,111')
+        expect(expense.send(attribute)).to eq(12321111)
+      end
+    end
+  end
 end

@@ -33,6 +33,7 @@ Feature: Claim allocation
     Then I should see all claims
 
   Scenario Outline: Filtering claims
+      And There are case types in place
     Given there are <quantity> "<type>" claims
      When I visit the allocation page
       And I filter by "<type>"

@@ -15,7 +15,7 @@ module API
       resource :case_types do
         desc "Return all Case Types"
         get do
-          Settings.case_types
+          CaseType.all
         end
       end
 

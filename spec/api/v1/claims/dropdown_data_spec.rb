@@ -41,8 +41,10 @@ describe API::V1::DropdownData do
     end
 
     it 'should return a body of formatted JSON including guilty plea' do
+      FactoryGirl.create :case_type
+      FactoryGirl.create :case_type, :fixed_fee
       response = get CASE_TYPE_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to include('guilty_plea' )
+      expect(response.body).to eq CaseType.all.to_json
     end
 
   end

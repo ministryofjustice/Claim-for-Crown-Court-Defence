@@ -118,7 +118,7 @@
               = b.object.defendants.order('id ASC').map(&:name).join('<br>').html_safe
           %td
             = b.label do
-              = b.object.case_type.humanize
+              = b.object.case_type.name
           %td
             = b.label do
               = b.object.submitted_at.strftime(Settings.date_format)

@@ -24,7 +24,7 @@ class ClaimPresenter < BasePresenter
   end
 
   def retrial
-    claim.case_type.match(/retrial/i) ? 'Yes' : 'No'
+    claim.case_type.name.match(/retrial/i) ? 'Yes' : 'No'
   end
 
   def any_judicial_apportionments

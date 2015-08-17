@@ -179,7 +179,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :advocate_id,
      :court_id,
      :case_number,
-     :case_type,
+     :case_type_id,
      :trial_fixed_notice_at,
      :trial_fixed_at,
      :trial_cracked_at,

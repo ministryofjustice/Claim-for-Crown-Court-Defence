@@ -6,7 +6,6 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string(255)
-#  case_type              :string(255)
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
@@ -40,6 +39,7 @@
 #  source                 :string(255)
 #  vat_amount             :decimal(, )      default(0.0)
 #  uuid                   :uuid
+#  case_type_id           :integer
 #
 
 require 'rails_helper'
@@ -192,23 +192,7 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:prosecuting_authority) }
       it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
-      it { should validate_presence_of(:case_type) }
-      it { should validate_inclusion_of(:case_type).in_array(%w(
-                                                                appeal_against_conviction
-                                                                appeal_against_sentence
-                                                                breach_of_crown_court_order
-                                                                commital_for_sentence
-                                                                contempt
-                                                                cracked_trial
-                                                                cracked_before_retrial
-                                                                discontinuance
-                                                                elected_cases_not_proceeded
-                                                                guilty_plea
-                                                                retrial
-                                                                trial
-                                                                ))
-          }
-
+      it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
       it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
@@ -235,23 +219,7 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:prosecuting_authority) }
       it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
-      it { should validate_presence_of(:case_type) }
-      it { should validate_inclusion_of(:case_type).in_array(%w(
-                                                                appeal_against_conviction
-                                                                appeal_against_sentence
-                                                                breach_of_crown_court_order
-                                                                commital_for_sentence
-                                                                contempt
-                                                                cracked_trial
-                                                                cracked_before_retrial
-                                                                discontinuance
-                                                                elected_cases_not_proceeded
-                                                                guilty_plea
-                                                                retrial
-                                                                trial
-                                                                ))
-          }
-
+      it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
       it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
@@ -872,11 +840,13 @@ RSpec.describe Claim, type: :model do
   end
 
   describe 'Case type scopes' do
-    let!(:trials)           { create_list(:submitted_claim, 2, case_type: 'trial') }
-    let!(:retrials)         { create_list(:submitted_claim, 2, case_type: 'retrial') }
-    let!(:cracked_trials)   { create_list(:submitted_claim, 2, case_type: 'cracked_trial') }
-    let!(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: 'cracked_before_retrial') }
-    let!(:guilty_pleas)     { create_list(:submitted_claim, 2, case_type: 'guilty_plea') }
+    let!(:case_types)       { load("#{Rails.root}/db/seeds/case_types.rb") }
+
+    let!(:trials)           { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) }
+    let!(:retrials)         { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial')) }
+    let!(:cracked_trials)   { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial')) }
+    let!(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial')) }
+    let!(:guilty_pleas)     { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea')) }
 
     describe '.trial' do
       it 'returns trials and retrials' do
@@ -959,7 +929,7 @@ RSpec.describe Claim, type: :model do
     end
 
     it 'clears basic fees and destroys miscelllaneous fees for Fixed Fee case types' do
-      claim_with_all_fee_types.case_type = 'fixed_fee'
+      claim_with_all_fee_types.case_type = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
       expect(claim_with_all_fee_types.fixed_fees.size).to eql 1

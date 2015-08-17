@@ -18,7 +18,7 @@ adp.feeSectionDisplay = {
     var $this = adp.feeSectionDisplay;
 
     //initialise handles
-    $this.$caseTypeSelect = $('#claim_case_type');
+    $this.$caseTypeSelect = $('#claim_case_type_id');
     $this.regex = /Fixed fee/;
     //Initial Fees
     var $basicFeesSet = $this.$basicFeesSet = $('#basic-fees').closest('fieldset'),

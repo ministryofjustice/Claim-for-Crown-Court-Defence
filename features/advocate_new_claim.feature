@@ -4,6 +4,7 @@ Feature: Advocate new claim
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate
       And There are fee schemes in place
+      And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
       And I submit to LAA
@@ -28,6 +29,7 @@ Feature: Advocate new claim
 
   Scenario: Clear claim form
     Given I am a signed in advocate
+      And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
       And I clear the form
@@ -91,6 +93,7 @@ Feature: Advocate new claim
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
       And There are fee schemes in place
+      And There are case types in place
       And There are other advocates in my chamber
       And I am on the new claim page
      Then I can view a select of all advocates in my chamber
@@ -103,6 +106,7 @@ Feature: Advocate new claim
   Scenario: Admin fails to specify advocate name
     Given I am a signed in advocate admin
       And There are fee schemes in place
+      And There are case types in place
       And There are basic and non-basic fee types
       And I am on the new claim page
       And I fill in the claim details
@@ -112,6 +116,7 @@ Feature: Advocate new claim
   Scenario: Add Fixed Fee type
     Given I am a signed in advocate
       And There are fee schemes in place
+      And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
       And I select a Case Type of "Fixed fee"
@@ -123,6 +128,7 @@ Feature: Advocate new claim
   Scenario: Add Miscellaneous Fee type
     Given I am a signed in advocate
       And There are fee schemes in place
+      And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
       And I add a miscellaneous fee
@@ -133,6 +139,7 @@ Feature: Advocate new claim
 Scenario: Fixed Fee case type does not save Initial/Misc Fees
    Given I am a signed in advocate
      And There are fee schemes in place
+     And There are case types in place
      And I am on the new claim page
     When I fill in the claim details
      And I fill in a Miscellaneous Fee
@@ -144,6 +151,7 @@ Scenario: Fixed Fee case type does not save Initial/Misc Fees
 Scenario: Non-Fixed Fee case type does not save Fixed Fees
    Given I am a signed in advocate
      And There are fee schemes in place
+     And There are case types in place
      And I am on the new claim page
     When I fill in the claim details
      And I fill in a Fixed Fee
@@ -180,6 +188,7 @@ Scenario: Non-Fixed Fee case types do not display Fixed Fee sections
   Scenario: Edit existing non-Fixed case type to be Fixed
     Given I am a signed in advocate
       And There are fee schemes in place
+      And There are case types in place
       And a non-fixed-fee claim exists with basic and miscellaneous fees
      When I am on the claim edit page
       And I select a Case Type of "Fixed fee"

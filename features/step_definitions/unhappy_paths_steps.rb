@@ -44,7 +44,7 @@ And(/^The entered values should be preserved on the page$/) do
   expect(page).to have_selector("input[value='#{murder_offence_id}']")
 
   expected_drop_down_values = {
-            'claim_case_type'             => 'Guilty plea',
+            'claim_case_type_id'          => 'Guilty plea',
             'claim_prosecuting_authority' => 'CPS',
             'claim_court_id'              => 'some court',
             'claim_advocate_category'     => 'QC'

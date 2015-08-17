@@ -7,7 +7,7 @@ describe JsonTemplate do
     expect {JSON.parse(result)}.to_not raise_error # parse will raise an exception is JSON is not valid
   end
 
-  it 'containts placeholder values that are representative of the required data types' do
+  it 'contains placeholder values that are representative of the required data types' do
     result = JSON.parse(JsonTemplate.generate)
     typed_placeholders = ['string', 1, 1.1, true]
     get_vals(result)

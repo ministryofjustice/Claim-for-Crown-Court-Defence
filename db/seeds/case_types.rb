@@ -11,4 +11,4 @@ CaseType.find_or_create_by!(name: 'Elected cases not proceeded',  is_fixed_fee: 
 CaseType.find_or_create_by!(name: 'Guilty plea',                  is_fixed_fee: false)
 CaseType.find_or_create_by!(name: 'Retrial',                      is_fixed_fee: false)
 CaseType.find_or_create_by!(name: 'Trial',                        is_fixed_fee: false)
-
+CaseType.find_or_create_by!(name: 'Fixed fee',                    is_fixed_fee: true)

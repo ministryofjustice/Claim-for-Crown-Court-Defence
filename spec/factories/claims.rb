@@ -6,7 +6,6 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string(255)
-#  case_type              :string(255)
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
@@ -40,6 +39,7 @@
 #  source                 :string(255)
 #  vat_amount             :decimal(, )      default(0.0)
 #  uuid                   :uuid
+#  case_type_id           :integer
 #
 
 FactoryGirl.define do
@@ -55,7 +55,7 @@ FactoryGirl.define do
       claim.creator = claim.advocate
     end
 
-    case_type 'trial'
+    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
     offence
     advocate_category 'QC'
     prosecuting_authority 'cps'
@@ -90,7 +90,7 @@ FactoryGirl.define do
     end
 
     factory :invalid_claim do
-      case_type 'invalid case type'
+      case_type     nil
     end
 
     factory :draft_claim do

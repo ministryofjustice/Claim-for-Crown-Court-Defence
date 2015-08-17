@@ -258,7 +258,7 @@ end
                                     court:      Court.all.sample,
                                     offence:    Offence.all.sample,
                                     scheme:     Scheme.all.sample,
-                                    case_type:  Settings.case_types.sample)
+                                    case_type:  CaseType.all.sample)
 
         # randomise creator
         if rand(2) == 1

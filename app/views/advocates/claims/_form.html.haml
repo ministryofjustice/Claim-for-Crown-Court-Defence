@@ -17,7 +17,7 @@
         = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
 
       = f.label t('.case_type')
-      = f.collection_select :case_type, Settings.case_types, :to_s, :humanize, { prompt: true }, { class: 'select2' }
+      = f.collection_select :case_type_id, CaseType.all, :id, :name, { prompt: true }, { class: 'select2' }
 
       = render 'cracked_trial_fields', f: f
 

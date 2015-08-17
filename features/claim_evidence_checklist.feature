@@ -20,6 +20,7 @@ Feature: Claim evidence checklist
 
   Scenario: New claim checklist
     Given I am a signed in advocate
+      And There are case types in place
      When I am on the new claim page
      Then I should see an evidence checklist section
       And I fill in the claim details

@@ -3,11 +3,11 @@ Feature: Claim redetermination
     As an advocate I want to be able to re-open a claim for redetermination.
     As a case worker I want to be able to review claims submitted for redetermination.
 
-  Scenario Outline: Redetermination button visible
+  Scenario Outline: Redetermination control visible
     Given I am a signed in advocate
       And I have a <state> claim
      When I visit the claims's detail page
-     Then I should see a button to re-open the claim for redetermination
+     Then I should see a control in the messages section to request a redetermination
 
     Examples:
       | state           |
@@ -15,11 +15,11 @@ Feature: Claim redetermination
       | part_paid_claim |
       | refused_claim   |
 
-  Scenario Outline: Redetermination button NOT visible
+  Scenario Outline: Redetermination control NOT visible
     Given I am a signed in advocate
       And I have a <state> claim
      When I visit the claims's detail page
-     Then I should not see a button to re-open the claim for redetermination
+     Then I should not see a control in the messages section to request a redetermination
 
     Examples:
       | state                           |
@@ -37,7 +37,7 @@ Feature: Claim redetermination
     Given I am a signed in advocate
       And I have a paid_claim claim
      When I visit the claims's detail page
-      And I click on "Request redetermination"
+      And I check "Request redetermination" and send a message
      Then the claim should be in the redetermination state
       And a notice should be present in the claim status panel
 

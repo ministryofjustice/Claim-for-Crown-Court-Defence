@@ -6,16 +6,19 @@ When(/^I visit the claims's detail page$/) do
   visit advocates_claim_path(@claim)
 end
 
-Then(/^I should (not )?see a button to re\-open the claim for redetermination$/) do |negate|
+Then(/^I should (not )?see a control in the messages section to request a redetermination$/) do |negate|
   if negate.present?
-    expect(page).to_not have_selector(:link_or_button, 'Request redetermination')
+    expect(page).to_not have_selector('#message_request_redetermination')
   else
-    expect(page).to have_selector(:link_or_button, 'Request redetermination')
+    expect(page).to have_selector('#message_request_redetermination')
   end
 end
 
-When(/^I click on "(.*?)"$/) do |link_or_button_text|
-  click_on link_or_button_text
+When(/^I check "(.*?)" and send a message$/) do |checkbox_text|
+  check checkbox_text
+  fill_in 'message_subject', with: 'Redetermination request'
+  fill_in 'message_body', with: 'lorem ipsum'
+  click_button 'Post'
 end
 
 Then(/^the claim should be in the redetermination state$/) do

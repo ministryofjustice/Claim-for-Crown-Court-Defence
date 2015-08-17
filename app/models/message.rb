@@ -20,6 +20,8 @@ class Message < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
+  attr_accessor :request_redetermination
+
   has_attached_file :attachment,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -42,7 +44,7 @@ class Message < ActiveRecord::Base
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 
-  after_create :generate_statuses
+  after_create :generate_statuses, :process_redetermination
 
   class << self
     def for(object)
@@ -66,5 +68,11 @@ class Message < ActiveRecord::Base
 
   def users_for_statuses
     self.claim.advocate.chamber.advocates.map(&:user) + self.claim.case_workers.map(&:user)
+  end
+
+  def process_redetermination
+    if self.request_redetermination == '1' && Claim::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
+      self.claim.redetermine!
+    end
   end
 end

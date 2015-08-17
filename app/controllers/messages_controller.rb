@@ -36,7 +36,8 @@ class MessagesController < ApplicationController
       :claim_id,
       :attachment,
       :subject,
-      :body
+      :body,
+      :request_redetermination
     )
   end
 end

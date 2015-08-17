@@ -1,6 +1,11 @@
 <% if @message.persisted? %>
   $('.message-notification').text('<%=j @notification[:notice].html_safe %>');
   $('.timeline .days > li > ul:first-child').prepend('<%=j render "shared/message", message: @message %>');
+  $('.no-messages').hide();
+
+  <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
+    $('.redetermination-checkbox').hide();
+  <% end %>
 <% else %>
   $('.message-error').text('<%=j @notification[:alert].html_safe %>');
 <% end %>

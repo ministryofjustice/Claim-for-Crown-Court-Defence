@@ -49,7 +49,6 @@ Rails.application.routes.draw do
       get 'confirmation', on: :member
       get 'outstanding', on: :collection
       get 'authorised', on: :collection
-      patch 'transition_state', on: :member
     end
 
     namespace :admin do

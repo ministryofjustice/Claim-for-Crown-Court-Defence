@@ -77,8 +77,10 @@ class JsonTemplate
       @to_clean = []
       @models_hash.each do |model_key, atts_value|
         if another_model_has_many?(model_key) == true
-            @models_hash[@owner][model_key] = [atts_value]
+          @owners.each do |owner|
+            @models_hash[owner][model_key] = [atts_value]
             @to_clean << model_key
+          end
         end
       end
     end
@@ -123,13 +125,14 @@ class JsonTemplate
 
     def another_model_has_many?(model_key)
       associate = model_key.to_s.underscore.pluralize.to_sym
+      @owners = []
       models.each do |model|
         klass = model.to_s.constantize
         if klass.reflect_on_association(associate) != nil && klass.reflect_on_association(associate).macro == :has_many
-          @owner = klass.to_s.to_sym
-          return true
+          @owners << klass.to_s.to_sym
         end
       end
+      return true unless @owners.blank?
     end
 
     def types_hash

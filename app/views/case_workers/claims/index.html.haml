@@ -20,11 +20,14 @@
   %li
     %h3
       Case value
+
+
 - if @claims.none?
   %p
     No claims found
 - else
   %ul#claims-list
-    - @claims.each do |claim|
-      %li{ id: dom_id(claim) }
-        = render partial: 'shared/claim', locals: { claim: claim }
+    - @claims.each do |claim_object|
+      - present(claim_object) do | claim |
+        %li{ id: dom_id(claim) }
+          = render partial: 'shared/claim', locals: { claim: claim }

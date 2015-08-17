@@ -5,7 +5,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   before { sign_in admin.user }
 
- 
+
   describe "GET #index" do
     before { get :index }
 
@@ -20,14 +20,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:index)
-    end
-
-    context 'breadcrumbs' do
-      render_views
-
-      it 'renders breadcrumbs' do
-        expect(response.body).to match(/Dashboard/)
-      end
     end
   end
 
@@ -50,9 +42,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     render_views
 
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}})
-    end
   end
 
   describe "GET #new" do
@@ -72,9 +61,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     render_views
 
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*New case worker/)
-    end
   end
 
   describe "GET #edit" do
@@ -96,9 +82,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     render_views
 
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Edit})
-    end
   end
 
   describe "GET #allocate" do
@@ -124,9 +107,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
     render_views
 
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Allocate})
-    end
   end
 
   describe "POST #create" do
@@ -141,6 +121,11 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
               first_name: 'John',
               last_name: 'Smith'
             },
+            days_worked_0: '1',
+            days_worked_1: '1',
+            days_worked_2: '1',
+            days_worked_3: '1',
+            days_worked_4: '1',
             role: 'case_worker',
             location_id: create(:location).id
           }

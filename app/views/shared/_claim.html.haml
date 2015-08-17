@@ -1,121 +1,121 @@
-- present(claim) do |claim|
-  %section
-    - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
-      %p
-        %strong
-          =t ('.assignee')
-        = claim.case_worker_names
-    %ul.case-data
-      %li
-        %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-          = t('.case')
-          Case
-        %dl
+-# - present(claim) do |claim|
+%section
+  - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
+    %p
+      %strong
+        =t ('.assignee')
+      = claim.case_worker_names
+  %ul.case-data
+    %li
+      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+        = t('.case')
+        Case
+      %dl
+        %dt
+          =t('.defendant')
+        %dd
+          = claim.defendant_names
+        %dt
+          = t('.reporders')
+        %dd
+          = claim.representation_order_details
+        %dt
+          =t('.adv_acc_no')
+        %dd
+          = claim.advocate.account_number
+        %dt
+          =t('.submit_date')
+        %dd
+          = claim.submitted_at(include_time: true) unless claim.draft?
+        - if controller.action_name == 'show' || controller.action_name == 'update'
           %dt
-            =t('.defendant')
+            =t('.case_num')
           %dd
-            = claim.defendant_names
+            = claim.case_number
           %dt
-            = t('.reporders')
+            = t('.case_type')
           %dd
-            = claim.representation_order_details
+            = claim.case_type.name
           %dt
-            =t('.adv_acc_no')
+            =t('.caseworker')
           %dd
-            = claim.advocate.account_number
+            = claim.case_worker_email_addresses
           %dt
-            =t('.submit_date')
+            =t('.offence')
           %dd
-            = claim.submitted_at(include_time: true) unless claim.draft?
-          - if controller.action_name == 'show' || controller.action_name == 'update'
-            %dt
-              =t('.case_num')
-            %dd
-              = claim.case_number
-            %dt
-              = t('.case_type')
-            %dd
-              = claim.case_type.name
-            %dt
-              =t('.caseworker')
-            %dd
-              = claim.case_worker_email_addresses
-            %dt
-              =t('.offence')
-            %dd
-              - if claim.offence
-                = claim.offence.description
-            %dt
-              =t('.offence_class')
-            %dd
-              - if claim.offence
-                = claim.offence.offence_class
-      %li
-        %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-          =t('common.court')
-        %dl
+            - if claim.offence
+              = claim.offence.description
           %dt
-            =t('common.crown_cout')
+            =t('.offence_class')
           %dd
-            - if claim.court
-              = claim.court.name
+            - if claim.offence
+              = claim.offence.offence_class
+    %li
+      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+        =t('common.court')
+      %dl
+        %dt
+          =t('common.crown_cout')
+        %dd
+          - if claim.court
+            = claim.court.name
+        %dt
+          = t('.prosecuting_auth')
+        %dd
+          = claim.prosecuting_authority.titleize
+        %dt
+          = t('.q.retrial')
+        %dd
+          = claim.retrial
+        %dt
+          =t('.j_a')
+        %dd
+          = claim.any_judicial_apportionments
+        - if controller.action_name == 'show' || controller.action_name == 'update'
           %dt
-            = t('.prosecuting_auth')
+            Trial Concluded
           %dd
-            = claim.prosecuting_authority.titleize
+            = claim.trial_concluded
           %dt
-            = t('.q.retrial')
+            Advocate
           %dd
-            = claim.retrial
+            = claim.advocate.email
           %dt
-            =t('.j_a')
+            Advocate Category
           %dd
-            = claim.any_judicial_apportionments
-          - if controller.action_name == 'show' || controller.action_name == 'update'
-            %dt
-              Trial Concluded
-            %dd
-              = claim.trial_concluded
-            %dt
-              Advocate
-            %dd
-              = claim.advocate.email
-            %dt
-              Advocate Category
-            %dd
-              = claim.advocate_category
+            = claim.advocate_category
 
-      - unless controller.action_name == 'show' || controller.action_name == 'update'
-        %li
-          %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-            Case Value
-          %dl
-            %dt
-              Expenses
-            %dd
-              = claim.expenses_total
-            %dt
-              Fees
-            %dd
-              = claim.fees_total
-            %dt
-              TOTAL (excl. VAT)
-            %dd
-              %span.value
-                = claim.total
-            %dt
-              VAT
-            %dd
-              - if claim.apply_vat?
-                = claim.vat_amount
-              - else
-                N/A
-            %dt
-              Paid on
-            %dd
-              = claim.paid_at(include_time: true)
+  - unless controller.action_name == 'show' || controller.action_name == 'update'
+    %li
+      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
+        Case Value
+      %dl
+        %dt
+          Expenses
+        %dd
+          = claim.expenses_total
+        %dt
+          Fees
+        %dd
+          = claim.fees_total
+        %dt
+          TOTAL (excl. VAT)
+        %dd
+          %span.value
+            = claim.total
+        %dt
+          VAT
+        %dd
+          - if claim.apply_vat?
+            = claim.vat_amount
+          - else
+            N/A
+        %dt
+          Paid on
+        %dd
+          = claim.paid_at(include_time: true)
 
 
-    - unless current_user.persona.is_a?(Advocate) || controller.action_name == 'show' || controller.action_name == 'update'
-      .claim-controls
-        = link_to 'Detail', case_workers_claim_path(claim, claim_ids: @claims.map(&:id), claim_count: @claims.try(:count)), class: 'detail-link'
+  - unless current_user.persona.is_a?(Advocate) || controller.action_name == 'show' || controller.action_name == 'update'
+    .claim-controls
+      = link_to 'Detail', case_workers_claim_path(claim), class: 'detail-link'

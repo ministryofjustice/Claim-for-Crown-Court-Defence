@@ -1,9 +1,11 @@
 class Advocates::ClaimsController < Advocates::ApplicationController
   # This performs magic
   include DateParamProcessor
+  include DocTypes
 
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :transition_state, :destroy]
+  before_action :set_doctypes, only: [:show, :transition_state]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
@@ -37,9 +39,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     add_breadcrumb 'Dashboard', advocates_root_path
     add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
 
-    @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
+    @enable_assessment_input = false
+    @enable_status_change = false
   end
 
   def new
@@ -61,6 +64,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
     build_nested_resources
     load_offences
+    @disable_assessment_input = true
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
@@ -92,7 +96,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def transition_state
     @messages = @claim.messages.most_recent_first
-    @doc_types = DocType.all
     begin
       @claim.update_model_and_transition_state(claim_params)
     rescue StateMachine::InvalidTransition => err
@@ -318,7 +321,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def render_new_with_resources
-    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes'])
+    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
     load_offences
     render action: :new
@@ -355,5 +358,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       render_edit_with_resources
     end
   end
-
 end

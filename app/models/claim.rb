@@ -49,6 +49,9 @@ class Claim < ActiveRecord::Base
   extend Claims::Search
   include Claims::Calculations
 
+  include NumberCommaParser
+  numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
+
   STATES_FOR_FORM = {
     part_paid: "Part paid",
     paid: "Paid in full",
@@ -78,7 +81,7 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
-  
+
   has_many :determinations
   has_one  :assessment
   has_many :redeterminations

@@ -1,6 +1,8 @@
 <% if @message.persisted? %>
   $('.message-notification').text('<%=j @notification[:notice].html_safe %>');
   $('.timeline .days > li > ul:first-child').prepend('<%=j render "shared/message", message: @message %>');
+  $('#message_subject').val('');
+  $('#message_body').val('');
 <% else %>
   $('.message-error').text('<%=j @notification[:alert].html_safe %>');
 <% end %>

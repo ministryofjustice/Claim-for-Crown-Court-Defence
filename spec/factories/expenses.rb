@@ -23,6 +23,12 @@ FactoryGirl.define do
     rate "9.99"
     amount "9.99"
 
+    trait :with_date_attended do
+      after(:build) do |expense|
+        expense.dates_attended << build(:date_attended, attended_item: expense)
+      end
+    end
+
     trait :random_values do
         quantity { rand(1..10) }
         rate { rand(1.0..9.99) }

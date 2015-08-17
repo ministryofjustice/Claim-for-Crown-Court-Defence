@@ -19,6 +19,12 @@ FactoryGirl.define do
     quantity 1
     amount "9.99"
 
+    trait :with_date_attended do
+      after(:build) do |fee|
+        fee.dates_attended << build(:date_attended, attended_item: fee)
+      end
+    end
+
     trait :random_values do
       quantity { rand(1..15) }
       amount   { rand(100.00..9999.99).round(2) }

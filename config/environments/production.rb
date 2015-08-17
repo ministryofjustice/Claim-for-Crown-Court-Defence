@@ -104,7 +104,7 @@ Rails.application.configure do
   config.logstasher.backtrace = true
 
   # Enable logging of controller params
-  config.logstasher.log_controller_parameters = false
+  config.logstasher.log_controller_parameters = true
 
   # log to stdout
   config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)

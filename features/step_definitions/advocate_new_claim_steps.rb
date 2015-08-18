@@ -83,6 +83,13 @@ Then(/^the dates attended are also removed$/) do
   expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
+
+When(/^I fill in the certification details and submit/) do
+  check 'certification_main_hearing'
+  click_on 'Certify and Submit Claim'
+end
+
+
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
   select('CPS', from: 'claim_prosecuting_authority')
@@ -148,6 +155,11 @@ end
 Then(/^I should be redirected to the claim confirmation page$/) do
   claim = Claim.first
   expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+end
+
+Then(/^I should be redirected to the claim certification page$/) do
+  claim = Claim.first
+  expect(page.current_path).to eq(new_advocates_claim_certification_path(claim))
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do

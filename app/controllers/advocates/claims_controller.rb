@@ -90,9 +90,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if @claim.update(claim_params)
       submit_if_required_and_redirect
     else
-      render_edit_with_resources
+      submit_claim_to_laa
     end
   end
+
+ 
 
   def transition_state
     @messages = @claim.messages.most_recent_first
@@ -123,7 +125,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def submit_if_required_and_redirect
     if submitting_to_laa?
-      submit_claim_to_laa
+      @claim.force_validation = true 
+      if @claim.valid?
+        redirect_to new_advocates_claim_certification_path(@claim)
+      else
+        render_edit_with_resources
+      end
     else
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     end
@@ -344,8 +351,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def create_and_submit
-    if @claim.submit && @claim.save
-      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    @claim.force_validation = true
+    @claim.save
+    if @claim.valid?
+      redirect_to new_advocates_claim_certification_path(@claim) 
     else
       render_new_with_resources
     end

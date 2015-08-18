@@ -51,7 +51,11 @@ Rails.application.routes.draw do
       get 'outstanding', on: :collection
       get 'authorised', on: :collection
       patch 'transition_state', on: :member
+
+      resource :certification, only: [:new, :create]
     end
+
+
 
     namespace :admin do
       root to: 'claims#index'
@@ -59,6 +63,7 @@ Rails.application.routes.draw do
       resources :advocates
     end
   end
+
 
   namespace :case_workers do
     root to: 'claims#index'

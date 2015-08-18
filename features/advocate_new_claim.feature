@@ -8,6 +8,8 @@ Feature: Advocate new claim
       And I am on the new claim page
      When I fill in the claim details
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals
       And the claim should be in a "submitted" state
@@ -67,6 +69,8 @@ Feature: Advocate new claim
       And a claim exists with state "draft"
      When I am on the claim edit page
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit
      Then I should be on the claim confirmation page
       And the claim should be in state "submitted"
 
@@ -86,6 +90,8 @@ Feature: Advocate new claim
      When I am on the claim edit page
       And I change the case number
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit
      Then I should be on the claim confirmation page
       And the claim should be in state "submitted"
       And the case number should reflect the change
@@ -100,6 +106,8 @@ Feature: Advocate new claim
      When I select Advocate name "Doe, John: AC135"
       And I fill in the claim details
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals
 
@@ -122,6 +130,8 @@ Feature: Advocate new claim
       And I select a Case Type of "Fixed fee"
       And I add a fixed fee
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit 
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for only the fixed fee
 
@@ -133,6 +143,8 @@ Feature: Advocate new claim
      When I fill in the claim details
       And I add a miscellaneous fee
       And I submit to LAA
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for the miscellaneous fee
 

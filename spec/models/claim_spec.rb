@@ -27,7 +27,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
@@ -179,6 +178,34 @@ RSpec.describe Claim, type: :model do
       before { allow(subject).to receive(:draft?).and_return(true) }
 
       it { should validate_presence_of(:advocate) }
+
+      it 'should not validate other attributes' do
+        subject.offence = nil
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'draft with force_validation set to true' do
+      before do
+        subject.force_validation = true
+        allow(subject).to receive(:draft?).and_return(true)
+      end
+
+      it { should validate_presence_of(:advocate) }
+      it { should validate_presence_of(:creator) }
+      it { should validate_presence_of(:court) }
+      it { should validate_presence_of(:offence) }
+      it { should validate_presence_of(:case_number) }
+      it { should validate_presence_of(:prosecuting_authority) }
+      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
+
+      it { should validate_presence_of(:case_type_id) }
+      it { should validate_presence_of(:advocate_category) }
+      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+
+      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      
     end
 
     context 'non-draft' do

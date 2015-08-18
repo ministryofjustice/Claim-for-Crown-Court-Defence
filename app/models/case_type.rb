@@ -13,6 +13,8 @@ class CaseType < ActiveRecord::Base
 
   default_scope -> { order(name: :asc) }
 
+  scope :fixed_fee, -> { where(is_fixed_fee: true) }
+
 
   def self.by_type(type)
     CaseType.where(name: type).first
@@ -23,4 +25,6 @@ class CaseType < ActiveRecord::Base
     case_types = CaseType.where('name in (?)', args)
     case_types.map(&:id)
   end
+
+  
 end

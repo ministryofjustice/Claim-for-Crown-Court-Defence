@@ -79,7 +79,7 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
-  
+
   has_many :determinations
   has_one  :assessment
   has_many :redeterminations
@@ -246,6 +246,13 @@ class Claim < ActiveRecord::Base
 
     transition = claim_state_transitions.order(created_at: :asc).last
     transition && transition.from == 'redetermination'
+  end
+
+  def written_reasons_outstanding?
+    return true if self.awaiting_written_reasons?
+
+    transition = claim_state_transitions.order(created_at: :asc).last
+    transition && transition.from == 'awaiting_written_reasons'
   end
 
   private

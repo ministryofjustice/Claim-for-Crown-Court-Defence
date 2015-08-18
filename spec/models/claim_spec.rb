@@ -284,7 +284,7 @@ RSpec.describe Claim, type: :model do
       claim = FactoryGirl.create :allocated_claim
       claim.assessment = Assessment.new
       claim_params = {
-        "state_for_form"=>"part_paid", 
+        "state_for_form"=>"part_paid",
         "assessment_attributes" => {
           "id" => claim.assessment.id,
           "fees" => "66.22",
@@ -1016,21 +1016,42 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+  describe '#written_reasons_outstanding?' do
+    let(:claim) { create(:claim) }
+
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.refuse!
+    end
+
+    context 'when transitioned to awaiting_written_reasons' do
+      before do
+        claim.await_written_reasons!
+      end
+
+      it 'should be in an awaiting_written_reasons state' do
+        expect(claim).to be_awaiting_written_reasons
+      end
+
+      it 'should be awaiting_written_reasons' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+
+    context 'when transitioned to allocated' do
+      before do
+        claim.await_written_reasons!
+        claim.allocate!
+      end
+
+      it 'should be in an allocated state' do
+        expect(claim).to be_allocated
+      end
+
+      it 'should have written_reasons_outstanding before being allocated' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

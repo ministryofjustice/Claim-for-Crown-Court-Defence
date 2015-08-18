@@ -45,7 +45,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted_or_redetermination
+    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted_or_redetermination_or_awaiting_written_reasons
     @claims = @claims.order(submitted_at: :asc)
 
     search_claims

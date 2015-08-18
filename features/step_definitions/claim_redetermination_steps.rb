@@ -26,23 +26,27 @@ When(/^I select "(.*?)" and send a message$/) do |option_text|
   click_button 'Post'
 end
 
-Then(/^the claim should be in the redetermination state$/) do
-  @claim.reload
-  expect(@claim.state).to eq('redetermination')
-end
-
 Then(/^the claim should no longer have case workers assigned$/) do
   @claim.reload
   expect(@claim.case_workers).to be_empty
 end
 
-Then(/^a notice should be present in the claim status panel$/) do
+Then(/^a redetermination notice should be present in the claim status panel$/) do
   state_transition_date = @claim.claim_state_transitions.last.created_at
   expect(page).to have_content("Opened for redetermination on #{state_transition_date} (see messages/notes for further details).")
 end
 
+Then(/^a written reasons notice should be present in the claim status panel$/) do
+  expect(page).to have_content("Awaiting written reasons.")
+end
+
 Given(/^a redetermined claim is assigned to me$/) do
   @claim = create(:redetermination_claim)
+  @claim.case_workers << @case_worker
+end
+
+Given(/^a written reasons claim is assigned to me$/) do
+  @claim = create(:awaiting_written_reasons_claim)
   @claim.case_workers << @case_worker
 end
 
@@ -58,4 +62,21 @@ end
 
 Then(/^the claim should no longer be open for redetermination$/) do
   expect(@claim.opened_for_redetermination?).to eq(false)
+end
+
+Then(/^when I check "(.*?)" and send a message$/) do |checkbox_label_text|
+  check checkbox_label_text
+  fill_in 'message_subject', with: 'Written reasons attached'
+  fill_in 'message_body', with: 'lorem ipsum'
+  click_button 'Post'
+end
+
+Then(/^the claim should be in the state previous to the written reasons request$/) do
+  @claim.reload
+  expect(@claim.state).to eq(@claim.claim_state_transitions.order(created_at: :asc)[-3].from)
+end
+
+Then(/^the claim should no longer awaiting written reasons$/) do
+  @claim.reload
+  expect(@claim).to_not be_awaiting_written_reasons
 end

@@ -86,7 +86,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         when 'allocated'
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
-          Claim.submitted_or_redetermination
+          Claim.submitted_or_redetermination_or_awaiting_written_reasons
         when 'completed'
           Claim.caseworker_dashboard_completed
       end

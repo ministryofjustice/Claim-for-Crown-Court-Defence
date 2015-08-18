@@ -17,10 +17,14 @@
       = f.input :subject, placeholder: 'Subject', label: false
       = f.input :body, placeholder: 'Message', label: false
 
-      - if Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
+      - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
         .claim-action-dropdown
           = f.label :claim_action
           = f.collection_select :claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s, { prompt: true }, { class: 'select2' }
+
+      - if current_user.persona.is_a?(CaseWorker) && @claim.written_reasons_outstanding?
+        .written-reasons-checkbox
+          = f.input :written_reasons_submitted, as: :boolean
 
       = f.input :attachment, as: :file, label: false
 

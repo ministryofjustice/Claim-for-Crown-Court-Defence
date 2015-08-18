@@ -867,24 +867,23 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '.fixed_fee' do
-    let!(:fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 2)
-      claims.each { |c| c.fees << create(:fee, :fixed) }
-      claims
-    end
+  describe '#fixed_fees' do
+    let(:ct_fixed_1)          { FactoryGirl.create :case_type, :fixed_fee }
+    let(:ct_fixed_2)          { FactoryGirl.create :case_type, :fixed_fee }
+    let(:ct_basic_1)          { FactoryGirl.create :case_type }
+    let(:ct_basic_2)          { FactoryGirl.create :case_type }
 
-    let(:non_fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 2)
-      claims.each { |c| c.fees << create(:fee, :basic) }
-      claims
-    end
+    it 'should only return claims with fixed fee case types' do
+      claim_1 = FactoryGirl.create :claim, case_type_id: ct_fixed_1.id
+      claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
+      claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
+      claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
 
-    it 'only returns claims with fixed fees' do
-      expect(Claim.fixed_fee).to match_array(fixed_fee_claims)
+      expect(Claim.fixed_fee).to eq( [ claim_1, claim_2 ])
     end
   end
 
+  
   describe '.total_greater_than_or_equal_to' do
     let(:not_greater_than_400) do
       claims = []
@@ -1025,6 +1024,8 @@ RSpec.describe Claim, type: :model do
       end
     end
   end
+
+  
 end
 
 

@@ -340,9 +340,8 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
         context 'fixed fee case types' do
           context 'valid params' do
-            skip it 'should create a claim with fixed fees ONLY' do
-
-              claim_params['case_type'] = "fixed_fee"
+            it 'should create a claim with fixed fees ONLY' do
+              claim_params['case_type_id'] = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true).id.to_s
 
               response = post :create, claim: claim_params
               claim = assigns(:claim)

@@ -2,20 +2,25 @@ Given(/^I have a (.+) claim$/) do |state|
   @claim = create(state.to_sym, advocate: @advocate)
 end
 
+Given(/^the claim has a case worker assigned to it$/) do
+  case_worker = create(:case_worker)
+  @claim.case_workers << case_worker
+end
+
 When(/^I visit the claims's detail page$/) do
   visit advocates_claim_path(@claim)
 end
 
 Then(/^I should (not )?see a control in the messages section to request a redetermination$/) do |negate|
   if negate.present?
-    expect(page).to_not have_selector('#message_request_redetermination')
+    expect(page).to_not have_selector('#message_claim_action')
   else
-    expect(page).to have_selector('#message_request_redetermination')
+    expect(page).to have_selector('#message_claim_action')
   end
 end
 
-When(/^I check "(.*?)" and send a message$/) do |checkbox_text|
-  check checkbox_text
+When(/^I select "(.*?)" and send a message$/) do |option_text|
+  select option_text, from: 'message_claim_action'
   fill_in 'message_subject', with: 'Redetermination request'
   fill_in 'message_body', with: 'lorem ipsum'
   click_button 'Post'
@@ -24,6 +29,11 @@ end
 Then(/^the claim should be in the redetermination state$/) do
   @claim.reload
   expect(@claim.state).to eq('redetermination')
+end
+
+Then(/^the claim should no longer have case workers assigned$/) do
+  @claim.reload
+  expect(@claim.case_workers).to be_empty
 end
 
 Then(/^a notice should be present in the claim status panel$/) do

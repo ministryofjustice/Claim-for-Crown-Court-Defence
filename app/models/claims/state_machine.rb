@@ -8,7 +8,7 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated', 'redetermination' ]
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
   VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
@@ -43,6 +43,7 @@ module Claims::StateMachine
       after_transition on: :submit,                  do: :set_submission_date!
       after_transition on: :pay,                     do: :set_paid_date!
       after_transition on: :pay_part,                do: :set_paid_date!
+      after_transition on: :redetermine,             do: :remove_case_workers!
       after_transition on: :await_further_info,      do: :set_valid_until!
       after_transition on: :archive_pending_delete,  do: :set_valid_until!
       before_transition on: [:await_info_from_court, :reject, :refuse], do: :set_amount_assessed_zero!
@@ -108,6 +109,8 @@ module Claims::StateMachine
     klass.scope :non_draft, -> { klass.where(state: ['allocated', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
          'deleted', 'paid', 'part_paid', 'refused', 'rejected', 'submitted']) }
 
+    klass.scope :submitted_or_redetermination, -> { klass.where(state: ['submitted', 'redetermination']) }
+
     klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
     klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }
     klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )       }
@@ -139,5 +142,9 @@ module Claims::StateMachine
 
   def set_amount_assessed_zero!
     self.assessment.zeroize! if self.state == 'allocated'
+  end
+
+  def remove_case_workers!
+    self.case_workers.destroy_all
   end
 end

@@ -4,7 +4,7 @@
   $('.no-messages').hide();
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
-    $('.redetermination-checkbox').hide();
+    $('.claim-action-dropdown').hide();
   <% end %>
 <% else %>
   $('.message-error').text('<%=j @notification[:alert].html_safe %>');

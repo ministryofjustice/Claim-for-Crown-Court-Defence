@@ -36,9 +36,11 @@ Feature: Claim redetermination
   Scenario: Re-open claim for redetermination
     Given I am a signed in advocate
       And I have a paid_claim claim
+      And the claim has a case worker assigned to it
      When I visit the claims's detail page
-      And I check "Request redetermination" and send a message
+      And I select "Apply for redetermination" and send a message
      Then the claim should be in the redetermination state
+      And the claim should no longer have case workers assigned
       And a notice should be present in the claim status panel
 
   Scenario Outline: Handle redetermination claims

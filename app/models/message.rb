@@ -20,7 +20,7 @@ class Message < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
-  attr_accessor :request_redetermination
+  attr_accessor :claim_action
 
   has_attached_file :attachment,
     { s3_headers: {
@@ -44,7 +44,7 @@ class Message < ActiveRecord::Base
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 
-  after_create :generate_statuses, :process_redetermination
+  after_create :generate_statuses, :process_claim_action
 
   class << self
     def for(object)
@@ -70,9 +70,12 @@ class Message < ActiveRecord::Base
     self.claim.advocate.chamber.advocates.map(&:user) + self.claim.case_workers.map(&:user)
   end
 
-  def process_redetermination
-    if self.request_redetermination == '1' && Claim::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
-      self.claim.redetermine!
+  def process_claim_action
+    case self.claim_action
+      when /Apply for redetermination/
+        return unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
+        self.claim.redetermine!
+      when /Request written reasons/
     end
   end
 end

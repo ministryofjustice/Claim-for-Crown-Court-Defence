@@ -3,6 +3,9 @@
   $('.timeline .days > li > ul:first-child').prepend('<%=j render "shared/message", message: @message %>');
   $('.no-messages').hide();
 
+  $('#message_subject').val('');
+  $('#message_body').val('');
+
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
     $('.claim-action-dropdown').hide();
   <% end %>

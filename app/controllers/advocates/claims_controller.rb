@@ -52,7 +52,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim = Claim.new
     @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
-    load_offences
+    load_offences_and_case_types
 
     build_nested_resources
   end
@@ -63,7 +63,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     add_breadcrumb "Edit", edit_advocates_claim_path(@claim)
 
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     @disable_assessment_input = true
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
@@ -101,13 +101,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   private
 
-  def load_offences
+  def load_offences_and_case_types
     @offence_descriptions = Offence.unique_name.order(description: :asc)
     if @claim.offence
       @offences = Offence.includes(:offence_class).where(description: @claim.offence.description)
     else
       @offences = Offence.includes(:offence_class)
     end
+    @case_types = CaseType.all
   end
 
   def submit_if_required_and_redirect
@@ -306,14 +307,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def render_edit_with_resources
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     render action: :edit
   end
 
   def render_new_with_resources
     @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     render action: :new
   end
 

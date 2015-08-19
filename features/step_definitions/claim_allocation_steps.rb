@@ -84,8 +84,8 @@ Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
     when 'all'
       create_list(:submitted_claim, number)
     when 'fixed_fee'
-      claims = create_list(:submitted_claim, number)
-      claims.each { |c| c.fees << create(:fee, :fixed) }
+      claims = create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Contempt').id)
+      # claims.each { |c| c.fees << create(:fee, :fixed) }
     when 'trial'
       create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Trial').id)
     when 'cracked'

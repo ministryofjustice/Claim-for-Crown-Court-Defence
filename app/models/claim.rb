@@ -49,6 +49,9 @@ class Claim < ActiveRecord::Base
   extend Claims::Search
   include Claims::Calculations
 
+  include NumberCommaParser
+  numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
+
   STATES_FOR_FORM = {
     part_paid: "Part paid",
     paid: "Paid in full",
@@ -95,9 +98,9 @@ class Claim < ActiveRecord::Base
   scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
   scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
   scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
+  scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
 
-  scope :fixed_fee,   -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED').uniq }
 
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 

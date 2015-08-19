@@ -883,7 +883,7 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+
   describe '.total_greater_than_or_equal_to' do
     let(:not_greater_than_400) do
       claims = []
@@ -1024,22 +1024,4 @@ RSpec.describe Claim, type: :model do
       end
     end
   end
-
-  
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

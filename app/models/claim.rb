@@ -48,6 +48,7 @@ class Claim < ActiveRecord::Base
   include Claims::StateMachine
   extend Claims::Search
   include Claims::Calculations
+  include Claims::UserMessages
 
   include NumberCommaParser
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount

@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 20150813163440) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
-    t.string   "approval_level", default: "Low"
     t.string   "days_worked"
+    t.string   "approval_level", default: "Low"
   end
 
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree

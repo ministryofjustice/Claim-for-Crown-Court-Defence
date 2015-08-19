@@ -3,11 +3,9 @@
     %p
       Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').last.created_at} (see messages/notes for further details).
 
-  - if current_user.persona.is_a?(Advocate)
-    - if Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
-      = form_for(@claim, url: transition_state_advocates_claim_path(@claim)) do |f|
-        = f.hidden_field :state_for_form, value: 'redetermination'
-        = f.submit 'Request redetermination', class: 'button', id: 'button'
+  - if claim.written_reasons_outstanding?
+    %p
+      Awaiting written reasons.
 
   = form_for(claim, url: case_workers_claim_path(claim)) do |f|
     %fieldset#claim-status
@@ -56,5 +54,6 @@
       = f.label :additional_information, "Remarks"
       = f.text_area :additional_information, disabled: disabled
 
-      %p
-      = f.submit 'Update', class: 'button', id: 'button'
+      - if current_user.persona.is_a?(CaseWorker)
+        %p
+        = f.submit 'Update', class: 'button', id: 'button'

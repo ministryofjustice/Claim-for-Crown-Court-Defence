@@ -36,7 +36,9 @@ class MessagesController < ApplicationController
       :claim_id,
       :attachment,
       :subject,
-      :body
+      :body,
+      :claim_action,
+      :written_reasons_submitted
     )
   end
 end

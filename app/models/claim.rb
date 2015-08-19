@@ -251,6 +251,13 @@ class Claim < ActiveRecord::Base
     transition && transition.from == 'redetermination'
   end
 
+  def written_reasons_outstanding?
+    return true if self.awaiting_written_reasons?
+
+    transition = claim_state_transitions.order(created_at: :asc).last
+    transition && transition.from == 'awaiting_written_reasons'
+  end
+
   private
 
   def set_scheme

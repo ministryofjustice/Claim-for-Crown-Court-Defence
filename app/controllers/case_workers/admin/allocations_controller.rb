@@ -63,7 +63,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_claims
-    if ['fixed_fee', 'cracked', 'trial', 'guilty_plea'].include?(params[:filter])
+    if %w( fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons ).include?(params[:filter])
       @claims = @claims.send(params[:filter].to_sym)
     end
 

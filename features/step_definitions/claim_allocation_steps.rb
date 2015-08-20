@@ -61,20 +61,6 @@ Then(/^the first (\d+) claims should no longer be displayed$/) do |quantity|
   end
 end
 
-Then(/^all the claims should be selected$/) do
-  count = 0
-  all('input[type="checkbox"]').each do |input|
-    expect(input).to be_checked
-    count += 1
-  end
-
-  expect(@claims.count).to eq(count)
-
-  within '.claim-count' do
-    expect(page).to have_content(/#{count} claims?/)
-  end
-end
-
 Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
   Claim.destroy_all
 
@@ -92,6 +78,10 @@ Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
       create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Cracked Trial').id)
     when 'guilty_plea'
       create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Guilty plea').id)
+    when 'redetermination'
+      create_list(:redetermination_claim, number)
+    when 'awaiting_written_reasons'
+      create_list(:awaiting_written_reasons_claim, number)
   end
 end
 

@@ -88,7 +88,6 @@ adp.feeSectionDisplay = {
     if (state) {
       adp.feeSectionDisplay.applyWarning('Initial and Miscellaneous fees exist that will be removed if you save this claim as a Fixed Fee!', state);
       adp.feeSectionDisplay.$basicFeesSet.slideUp();
-      adp.feeSectionDisplay.$miscFeesSet.slideUp();
       adp.feeSectionDisplay.$fixedFeesSet.slideDown();
 
     } else {

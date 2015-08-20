@@ -4,8 +4,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DocTypes
 
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :update, :transition_state, :destroy]
-  before_action :set_doctypes, only: [:show, :transition_state]
+  before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
@@ -92,16 +92,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     else
       render_edit_with_resources
     end
-  end
-
-  def transition_state
-    @messages = @claim.messages.most_recent_first
-    begin
-      @claim.update_model_and_transition_state(claim_params)
-    rescue StateMachine::InvalidTransition => err
-    end
-    @message = @claim.messages.build
-    render action: :show
   end
 
   def destroy

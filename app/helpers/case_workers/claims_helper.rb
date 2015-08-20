@@ -16,7 +16,7 @@ module CaseWorkers::ClaimsHelper
   end
 
   def unallocated_claims_count
-    Claim.submitted.count
+    Claim.submitted_or_redetermination_or_awaiting_written_reasons.count
   end
 
   def claim_position_and_count

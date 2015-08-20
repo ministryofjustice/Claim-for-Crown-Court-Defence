@@ -19,10 +19,18 @@ RSpec.describe Claims::StateMachine, type: :model do
     let!(:submitted_claim) { create(:submitted_claim) }
     let!(:allocated_claim) { create(:allocated_claim) }
     let!(:deleted_claim) { create(:archived_pending_delete_claim) }
+    let!(:redetermination_claim) { create(:redetermination_claim) }
+    let!(:awaiting_written_reasons_claim) { create(:awaiting_written_reasons_claim) }
 
     describe '.non_draft' do
       it 'only returns non-draft claims' do
         expect(Claim.non_draft).to match_array([allocated_claim, submitted_claim])
+      end
+    end
+
+    describe '.submitted_or_redetermination_or_awaiting_written_reasons' do
+      it 'only returns submitted or redetermination or awaiting_written_reasons claims' do
+        expect(Claim.submitted_or_redetermination_or_awaiting_written_reasons).to match_array([submitted_claim, redetermination_claim, awaiting_written_reasons_claim])
       end
     end
   end

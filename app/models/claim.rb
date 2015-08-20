@@ -47,6 +47,7 @@ class Claim < ActiveRecord::Base
   include Claims::StateMachine
   extend Claims::Search
   include Claims::Calculations
+  include Claims::UserMessages
 
   include NumberCommaParser
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
@@ -274,6 +275,13 @@ class Claim < ActiveRecord::Base
 
     transition = claim_state_transitions.order(created_at: :asc).last
     transition && transition.from == 'redetermination'
+  end
+
+  def written_reasons_outstanding?
+    return true if self.awaiting_written_reasons?
+
+    transition = claim_state_transitions.order(created_at: :asc).last
+    transition && transition.from == 'awaiting_written_reasons'
   end
 
   private

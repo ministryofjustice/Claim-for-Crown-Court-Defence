@@ -910,7 +910,7 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+
   describe '.total_greater_than_or_equal_to' do
     let(:not_greater_than_400) do
       claims = []
@@ -1052,21 +1052,42 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+  describe '#written_reasons_outstanding?' do
+    let(:claim) { create(:claim) }
+
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.refuse!
+    end
+
+    context 'when transitioned to awaiting_written_reasons' do
+      before do
+        claim.await_written_reasons!
+      end
+
+      it 'should be in an awaiting_written_reasons state' do
+        expect(claim).to be_awaiting_written_reasons
+      end
+
+      it 'should be awaiting_written_reasons' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+
+    context 'when transitioned to allocated' do
+      before do
+        claim.await_written_reasons!
+        claim.allocate!
+      end
+
+      it 'should be in an allocated state' do
+        expect(claim).to be_allocated
+      end
+
+      it 'should have written_reasons_outstanding before being allocated' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

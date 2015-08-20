@@ -6,9 +6,15 @@ class Advocates::CertificationsController < Advocates::ApplicationController
       flash.alert = 'Cannot certify a claim in submitted state' 
       redirect_to advocates_claim_path(@claim)
     else
-      @certification = Certification.new(claim: @claim)
-      @certification.certified_by = current_user.name
-      @certification.certification_date = Date.today
+      @claim.force_validation = true
+      if @claim.valid?
+        @certification = Certification.new(claim: @claim)
+        @certification.certified_by = current_user.name
+        @certification.certification_date = Date.today
+      else
+        flash.alert = 'Claim is not in a state to be submitted' 
+        redirect_to edit_advocates_claim_path(@claim)
+      end
     end
   end
 
@@ -16,11 +22,11 @@ class Advocates::CertificationsController < Advocates::ApplicationController
   def create
     @claim = Claim.find(params[:claim_id])
     @claim.build_certification(certification_params)
-
     if @claim.certification.save && @claim.submit
       @notification = { notice: 'Claim submitted to LAA' }
       redirect_to confirmation_advocates_claim_path(@claim)
     else
+      @claim.certification.errors.full_messages
       @certification = @claim.certification
       render action: :new
     end

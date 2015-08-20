@@ -50,7 +50,11 @@ Rails.application.routes.draw do
       get 'confirmation', on: :member
       get 'outstanding', on: :collection
       get 'authorised', on: :collection
+
+      resource :certification, only: [:new, :create]
     end
+
+
 
     namespace :admin do
       root to: 'claims#index'
@@ -58,6 +62,7 @@ Rails.application.routes.draw do
       resources :advocates
     end
   end
+
 
   namespace :case_workers do
     root to: 'claims#index'

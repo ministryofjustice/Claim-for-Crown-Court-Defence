@@ -27,7 +27,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
@@ -88,6 +87,7 @@ class Claim < ActiveRecord::Base
   has_one  :assessment
   has_many :redeterminations
 
+  has_one  :certification
 
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
@@ -106,16 +106,18 @@ class Claim < ActiveRecord::Base
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
   validates :advocate,                presence: true
-  validates :offence,                 presence: true, unless: :web_draft_or_pending_delete?
-  validates :creator,                 presence: true, unless: :web_draft_or_pending_delete?
-  validates :court,                   presence: true, unless: :web_draft_or_pending_delete?
-  validates :scheme,                  presence: true, unless: :web_draft_api_draft_or_pending_delete?
-  validates :case_number,             presence: true, unless: :web_draft_or_pending_delete?
-  validates :case_type_id,            presence: true, unless: :web_draft_or_pending_delete?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :web_draft_or_pending_delete?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :web_draft_or_pending_delete?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
+  validates :offence,                 presence: true, if: :perform_validation?
+  validates :creator,                 presence: true, if: :perform_validation?
+  validates :court,                   presence: true, if: :perform_validation?
+  validates :scheme,                  presence: true, if: :perform_validation_or_not_api_draft?
+  validates :case_number,             presence: true, if: :perform_validation?
+  validates :case_type_id,            presence: true, if: :perform_validation?
+  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
+  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, if: :perform_validation?
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+
+
 
   validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
@@ -135,11 +137,23 @@ class Claim < ActiveRecord::Base
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :set_scheme, unless: :web_draft_api_draft_or_pending_delete?
+  before_validation :set_scheme, if: :perform_validation_or_not_api_draft?
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
-  after_initialize :default_values, :instantiate_assessment
-  # after_initialize :default_values
+  after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
+
+  def set_force_validation_to_false
+    @force_validation = false
+  end
+
+  def force_validation=(bool)
+    @force_validation = bool
+  end
+
+  def force_validation?
+    @force_validation
+  end
+
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -221,12 +235,23 @@ class Claim < ActiveRecord::Base
     draft? || submitted?
   end
 
-  def web_draft_or_pending_delete?
-    web_draft? || archived_pending_delete?
+  def perform_validation?
+    self.force_validation? || not_web_draft_and_pending_delete? 
   end
 
-  def web_draft_api_draft_or_pending_delete?
-    web_draft? || api_draft? || archived_pending_delete?
+
+  def perform_validation_or_not_api_draft?
+    self.force_validation? || not_web_draft_api_draft_and_pending_delete?
+  end
+
+
+
+  def not_web_draft_and_pending_delete?
+    !web_draft? && !archived_pending_delete?
+  end
+
+  def not_web_draft_api_draft_and_pending_delete?
+    !web_draft? && !api_draft? && !archived_pending_delete?
   end
 
   def web_draft?

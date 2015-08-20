@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: determinations
+#
+#  id         :integer          not null, primary key
+#  claim_id   :integer
+#  type       :string(255)
+#  fees       :decimal(, )
+#  expenses   :decimal(, )
+#  total      :decimal(, )
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Determination < ActiveRecord::Base
 
 

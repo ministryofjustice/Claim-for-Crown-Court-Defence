@@ -211,9 +211,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             }.to change(Claim, :count).by(1)
           end
 
-          skip it 'redirects to claim certification if no validation errors' do
+          it 'redirects to claim certification if no validation errors' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(response).to redirect_to(confirmation_advocates_claim_path(Claim.first))
+            expect(response).to redirect_to(new_advocates_claim_certification_path(Claim.first))
           end
 
           it 'sets the created claim\'s advocate to the signed in advocate' do
@@ -415,18 +415,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
         it 'redirects to the claim confirmation path' do
           expect(response).to redirect_to(new_advocates_claim_certification_path(subject))
-        end
-
-        pending ' ****** this test needs to be moved to the certification controller spec *****' do
-          it 'sets the claim to submitted' do
-            subject.reload
-            expect(subject).to be_submitted
-          end
-
-          it 'sets the claim submitted_at' do
-            subject.reload
-            expect(subject.submitted_at).to_not be_nil
-          end
         end
       end
     end

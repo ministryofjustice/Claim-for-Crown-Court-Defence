@@ -22,17 +22,11 @@ class Assessment < Determination
 
   belongs_to :claim
 
-
   def set_default_values
     if new_record?
       self.fees = 0
       self.expenses = 0
     end
-  end
-
-
-  def blank?
-    self.fees == 0 && self.expenses == 0
   end
 
   def zeroize!

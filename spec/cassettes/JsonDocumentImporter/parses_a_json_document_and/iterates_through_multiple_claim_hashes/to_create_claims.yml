@@ -1,0 +1,269 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3000/api/advocates/defendants
+    body:
+      encoding: US-ASCII
+      string: first_name=case&middle_name=management&last_name=system&date_of_birth=1979%2F12%2F10&order_for_judicial_apportionment=true&claim_id=
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '132'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 500
+      message: 'Internal Server Error '
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Request-Id:
+      - d3b94670-3b3d-40de-9910-1d0c17f4abc0
+      X-Runtime:
+      - '0.018056'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.2.2/2015-04-13)
+      Date:
+      - Fri, 21 Aug 2015 16:29:15 GMT
+      Content-Length:
+      - '8037'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: "PG::InvalidTextRepresentation at /api/advocates/defendants\n==========================================================\n\n>
+        ERROR:  invalid input syntax for uuid: \"\"\nLINE 1: ...\"claims\".* FROM
+        \"claims\"  WHERE \"claims\".\"uuid\" = '' LIMIT 1\n                                                             ^\n\n\napp/interfaces/api/v1/advocates/defendant.rb,
+        line 31\n-----------------------------------------------------\n\n``` ruby\n
+        \  26                 optional :order_for_judicial_apportionment, type: Boolean\n
+        \  27               end\n   28   \n   29               def args\n   30                 {\n>
+        \ 31                   claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),\n
+        \  32                   first_name: params[:first_name],\n   33                   middle_name:
+        params[:middle_name],\n   34                   last_name: params[:last_name],\n
+        \  35                   date_of_birth: params[:date_of_birth],\n   36                   order_for_judicial_apportionment:
+        params[:order_for_judicial_apportionment]\n```\n\nApp backtrace\n-------------\n\n
+        - app/interfaces/api/v1/advocates/defendant.rb:31:in `args'\n - app/interfaces/api/v1/advocates/defendant.rb:49:in
+        `block (2 levels) in <class:Defendant>'\n\nFull backtrace\n--------------\n\n
+        - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:822:in
+        `block in exec_no_cache'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract_adapter.rb:373:in
+        `block in log'\n - activesupport (4.1.8) lib/active_support/notifications/instrumenter.rb:20:in
+        `instrument'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract_adapter.rb:367:in
+        `log'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:822:in
+        `exec_no_cache'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql/database_statements.rb:137:in
+        `exec_query'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:954:in
+        `select'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/database_statements.rb:24:in
+        `select_all'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:68:in
+        `block in select_all'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:83:in
+        `cache_sql'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:68:in
+        `select_all'\n - activerecord (4.1.8) lib/active_record/querying.rb:39:in
+        `find_by_sql'\n - activerecord (4.1.8) lib/active_record/relation.rb:611:in
+        `exec_queries'\n - activerecord (4.1.8) lib/active_record/relation.rb:493:in
+        `load'\n - activerecord (4.1.8) lib/active_record/relation.rb:238:in `to_a'\n
+        - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:460:in
+        `find_take'\n - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:98:in
+        `take'\n - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:81:in
+        `find_by'\n - activerecord (4.1.8) lib/active_record/querying.rb:7:in `find_by'\n
+        - app/interfaces/api/v1/advocates/defendant.rb:31:in `args'\n - app/interfaces/api/v1/advocates/defendant.rb:49:in
+        `block (2 levels) in <class:Defendant>'\n - grape (0.12.0) lib/grape/endpoint.rb:47:in
+        `block in generate_api_method'\n - grape (0.12.0) lib/grape/endpoint.rb:247:in
+        `run'\n - grape (0.12.0) lib/grape/endpoint.rb:195:in `block in call!'\n -
+        grape (0.12.0) lib/grape/middleware/base.rb:24:in `call!'\n - grape (0.12.0)
+        lib/grape/middleware/base.rb:18:in `call'\n - grape (0.12.0) lib/grape/middleware/base.rb:24:in
+        `call!'\n - grape (0.12.0) lib/grape/middleware/base.rb:18:in `call'\n - grape
+        (0.12.0) lib/grape/middleware/base.rb:24:in `call!'\n - grape (0.12.0) lib/grape/middleware/base.rb:18:in
+        `call'\n - grape (0.12.0) lib/grape/middleware/error.rb:27:in `block in call!'\n
+        - grape (0.12.0) lib/grape/middleware/error.rb:26:in `call!'\n - grape (0.12.0)
+        lib/grape/middleware/base.rb:18:in `call'\n - rack (1.5.5) lib/rack/head.rb:11:in
+        `call'\n - rack (1.5.5) lib/rack/builder.rb:138:in `call'\n - grape (0.12.0)
+        lib/grape/endpoint.rb:196:in `call!'\n - grape (0.12.0) lib/grape/endpoint.rb:184:in
+        `call'\n - rack-mount (0.8.3) lib/rack/mount/route_set.rb:152:in `block in
+        call'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:96:in `block
+        in recognize'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:82:in
+        `optimized_each'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:95:in
+        `recognize'\n - rack-mount (0.8.3) lib/rack/mount/route_set.rb:141:in `call'\n
+        - grape (0.12.0) lib/grape/api.rb:98:in `call'\n - grape (0.12.0) lib/grape/api.rb:33:in
+        `call!'\n - grape (0.12.0) lib/grape/api.rb:29:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/journey/router.rb:73:in `block in call'\n - actionpack
+        (4.1.8) lib/action_dispatch/journey/router.rb:59:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/routing/route_set.rb:678:in `call'\n - warden
+        (1.2.3) lib/warden/manager.rb:35:in `block in call'\n - warden (1.2.3) lib/warden/manager.rb:34:in
+        `call'\n - rack (1.5.5) lib/rack/etag.rb:23:in `call'\n - rack (1.5.5) lib/rack/conditionalget.rb:35:in
+        `call'\n - rack (1.5.5) lib/rack/head.rb:11:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/middleware/params_parser.rb:27:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/middleware/flash.rb:254:in `call'\n - rack (1.5.5)
+        lib/rack/session/abstract/id.rb:225:in `context'\n - rack (1.5.5) lib/rack/session/abstract/id.rb:220:in
+        `call'\n - actionpack (4.1.8) lib/action_dispatch/middleware/cookies.rb:560:in
+        `call'\n - activerecord (4.1.8) lib/active_record/query_cache.rb:36:in `call'\n
+        - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in
+        `call'\n - activerecord (4.1.8) lib/active_record/migration.rb:380:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/callbacks.rb:29:in `block
+        in call'\n - activesupport (4.1.8) lib/active_support/callbacks.rb:82:in `run_callbacks'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/reloader.rb:73:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:84:in `protected_app_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:79:in `better_errors_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:57:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/show_exceptions.rb:30:in
+        `call'\n - railties (4.1.8) lib/rails/rack/logger.rb:38:in `call_app'\n -
+        railties (4.1.8) lib/rails/rack/logger.rb:20:in `block in call'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:68:in `block in tagged'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:26:in `tagged'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:68:in `tagged'\n - railties (4.1.8)
+        lib/rails/rack/logger.rb:20:in `call'\n - quiet_assets (1.1.0) lib/quiet_assets.rb:27:in
+        `call_with_quiet_assets'\n - request_store (1.2.0) lib/request_store/middleware.rb:8:in
+        `call'\n - actionpack (4.1.8) lib/action_dispatch/middleware/request_id.rb:21:in
+        `call'\n - rack (1.5.5) lib/rack/methodoverride.rb:21:in `call'\n - rack (1.5.5)
+        lib/rack/runtime.rb:17:in `call'\n - activesupport (4.1.8) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in
+        `call'\n - rack (1.5.5) lib/rack/lock.rb:17:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/middleware/static.rb:84:in `call'\n - rack (1.5.5) lib/rack/sendfile.rb:112:in
+        `call'\n - railties (4.1.8) lib/rails/engine.rb:514:in `call'\n - railties
+        (4.1.8) lib/rails/application.rb:144:in `call'\n - rack (1.5.5) lib/rack/lock.rb:17:in
+        `call'\n - rack (1.5.5) lib/rack/content_length.rb:14:in `call'\n - rack (1.5.5)
+        lib/rack/handler/webrick.rb:60:in `service'\n - webrick (1.3.1) lib/webrick/httpserver.rb:138:in
+        `service'\n - webrick (1.3.1) lib/webrick/httpserver.rb:94:in `run'\n - webrick
+        (1.3.1) lib/webrick/server.rb:191:in `block in start_thread'\n\n"
+    http_version: 
+  recorded_at: Fri, 21 Aug 2015 16:29:15 GMT
+- request:
+    method: post
+    uri: http://localhost:3000/api/advocates/defendants
+    body:
+      encoding: US-ASCII
+      string: first_name=case&middle_name=management&last_name=system&date_of_birth=1979%2F12%2F10&order_for_judicial_apportionment=true&claim_id=
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '132'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 500
+      message: 'Internal Server Error '
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Request-Id:
+      - 69666208-670c-4b53-8da5-d86fd7709a5f
+      X-Runtime:
+      - '0.017873'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.2.2/2015-04-13)
+      Date:
+      - Fri, 21 Aug 2015 16:29:15 GMT
+      Content-Length:
+      - '8037'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: "PG::InvalidTextRepresentation at /api/advocates/defendants\n==========================================================\n\n>
+        ERROR:  invalid input syntax for uuid: \"\"\nLINE 1: ...\"claims\".* FROM
+        \"claims\"  WHERE \"claims\".\"uuid\" = '' LIMIT 1\n                                                             ^\n\n\napp/interfaces/api/v1/advocates/defendant.rb,
+        line 31\n-----------------------------------------------------\n\n``` ruby\n
+        \  26                 optional :order_for_judicial_apportionment, type: Boolean\n
+        \  27               end\n   28   \n   29               def args\n   30                 {\n>
+        \ 31                   claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),\n
+        \  32                   first_name: params[:first_name],\n   33                   middle_name:
+        params[:middle_name],\n   34                   last_name: params[:last_name],\n
+        \  35                   date_of_birth: params[:date_of_birth],\n   36                   order_for_judicial_apportionment:
+        params[:order_for_judicial_apportionment]\n```\n\nApp backtrace\n-------------\n\n
+        - app/interfaces/api/v1/advocates/defendant.rb:31:in `args'\n - app/interfaces/api/v1/advocates/defendant.rb:49:in
+        `block (2 levels) in <class:Defendant>'\n\nFull backtrace\n--------------\n\n
+        - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:822:in
+        `block in exec_no_cache'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract_adapter.rb:373:in
+        `block in log'\n - activesupport (4.1.8) lib/active_support/notifications/instrumenter.rb:20:in
+        `instrument'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract_adapter.rb:367:in
+        `log'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:822:in
+        `exec_no_cache'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql/database_statements.rb:137:in
+        `exec_query'\n - activerecord (4.1.8) lib/active_record/connection_adapters/postgresql_adapter.rb:954:in
+        `select'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/database_statements.rb:24:in
+        `select_all'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:68:in
+        `block in select_all'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:83:in
+        `cache_sql'\n - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/query_cache.rb:68:in
+        `select_all'\n - activerecord (4.1.8) lib/active_record/querying.rb:39:in
+        `find_by_sql'\n - activerecord (4.1.8) lib/active_record/relation.rb:611:in
+        `exec_queries'\n - activerecord (4.1.8) lib/active_record/relation.rb:493:in
+        `load'\n - activerecord (4.1.8) lib/active_record/relation.rb:238:in `to_a'\n
+        - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:460:in
+        `find_take'\n - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:98:in
+        `take'\n - activerecord (4.1.8) lib/active_record/relation/finder_methods.rb:81:in
+        `find_by'\n - activerecord (4.1.8) lib/active_record/querying.rb:7:in `find_by'\n
+        - app/interfaces/api/v1/advocates/defendant.rb:31:in `args'\n - app/interfaces/api/v1/advocates/defendant.rb:49:in
+        `block (2 levels) in <class:Defendant>'\n - grape (0.12.0) lib/grape/endpoint.rb:47:in
+        `block in generate_api_method'\n - grape (0.12.0) lib/grape/endpoint.rb:247:in
+        `run'\n - grape (0.12.0) lib/grape/endpoint.rb:195:in `block in call!'\n -
+        grape (0.12.0) lib/grape/middleware/base.rb:24:in `call!'\n - grape (0.12.0)
+        lib/grape/middleware/base.rb:18:in `call'\n - grape (0.12.0) lib/grape/middleware/base.rb:24:in
+        `call!'\n - grape (0.12.0) lib/grape/middleware/base.rb:18:in `call'\n - grape
+        (0.12.0) lib/grape/middleware/base.rb:24:in `call!'\n - grape (0.12.0) lib/grape/middleware/base.rb:18:in
+        `call'\n - grape (0.12.0) lib/grape/middleware/error.rb:27:in `block in call!'\n
+        - grape (0.12.0) lib/grape/middleware/error.rb:26:in `call!'\n - grape (0.12.0)
+        lib/grape/middleware/base.rb:18:in `call'\n - rack (1.5.5) lib/rack/head.rb:11:in
+        `call'\n - rack (1.5.5) lib/rack/builder.rb:138:in `call'\n - grape (0.12.0)
+        lib/grape/endpoint.rb:196:in `call!'\n - grape (0.12.0) lib/grape/endpoint.rb:184:in
+        `call'\n - rack-mount (0.8.3) lib/rack/mount/route_set.rb:152:in `block in
+        call'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:96:in `block
+        in recognize'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:82:in
+        `optimized_each'\n - rack-mount (0.8.3) lib/rack/mount/code_generation.rb:95:in
+        `recognize'\n - rack-mount (0.8.3) lib/rack/mount/route_set.rb:141:in `call'\n
+        - grape (0.12.0) lib/grape/api.rb:98:in `call'\n - grape (0.12.0) lib/grape/api.rb:33:in
+        `call!'\n - grape (0.12.0) lib/grape/api.rb:29:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/journey/router.rb:73:in `block in call'\n - actionpack
+        (4.1.8) lib/action_dispatch/journey/router.rb:59:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/routing/route_set.rb:678:in `call'\n - warden
+        (1.2.3) lib/warden/manager.rb:35:in `block in call'\n - warden (1.2.3) lib/warden/manager.rb:34:in
+        `call'\n - rack (1.5.5) lib/rack/etag.rb:23:in `call'\n - rack (1.5.5) lib/rack/conditionalget.rb:35:in
+        `call'\n - rack (1.5.5) lib/rack/head.rb:11:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/middleware/params_parser.rb:27:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/middleware/flash.rb:254:in `call'\n - rack (1.5.5)
+        lib/rack/session/abstract/id.rb:225:in `context'\n - rack (1.5.5) lib/rack/session/abstract/id.rb:220:in
+        `call'\n - actionpack (4.1.8) lib/action_dispatch/middleware/cookies.rb:560:in
+        `call'\n - activerecord (4.1.8) lib/active_record/query_cache.rb:36:in `call'\n
+        - activerecord (4.1.8) lib/active_record/connection_adapters/abstract/connection_pool.rb:621:in
+        `call'\n - activerecord (4.1.8) lib/active_record/migration.rb:380:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/callbacks.rb:29:in `block
+        in call'\n - activesupport (4.1.8) lib/active_support/callbacks.rb:82:in `run_callbacks'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/callbacks.rb:27:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/reloader.rb:73:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:84:in `protected_app_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:79:in `better_errors_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:57:in `call'\n - actionpack
+        (4.1.8) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'\n
+        - actionpack (4.1.8) lib/action_dispatch/middleware/show_exceptions.rb:30:in
+        `call'\n - railties (4.1.8) lib/rails/rack/logger.rb:38:in `call_app'\n -
+        railties (4.1.8) lib/rails/rack/logger.rb:20:in `block in call'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:68:in `block in tagged'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:26:in `tagged'\n - activesupport
+        (4.1.8) lib/active_support/tagged_logging.rb:68:in `tagged'\n - railties (4.1.8)
+        lib/rails/rack/logger.rb:20:in `call'\n - quiet_assets (1.1.0) lib/quiet_assets.rb:27:in
+        `call_with_quiet_assets'\n - request_store (1.2.0) lib/request_store/middleware.rb:8:in
+        `call'\n - actionpack (4.1.8) lib/action_dispatch/middleware/request_id.rb:21:in
+        `call'\n - rack (1.5.5) lib/rack/methodoverride.rb:21:in `call'\n - rack (1.5.5)
+        lib/rack/runtime.rb:17:in `call'\n - activesupport (4.1.8) lib/active_support/cache/strategy/local_cache_middleware.rb:26:in
+        `call'\n - rack (1.5.5) lib/rack/lock.rb:17:in `call'\n - actionpack (4.1.8)
+        lib/action_dispatch/middleware/static.rb:84:in `call'\n - rack (1.5.5) lib/rack/sendfile.rb:112:in
+        `call'\n - railties (4.1.8) lib/rails/engine.rb:514:in `call'\n - railties
+        (4.1.8) lib/rails/application.rb:144:in `call'\n - rack (1.5.5) lib/rack/lock.rb:17:in
+        `call'\n - rack (1.5.5) lib/rack/content_length.rb:14:in `call'\n - rack (1.5.5)
+        lib/rack/handler/webrick.rb:60:in `service'\n - webrick (1.3.1) lib/webrick/httpserver.rb:138:in
+        `service'\n - webrick (1.3.1) lib/webrick/httpserver.rb:94:in `run'\n - webrick
+        (1.3.1) lib/webrick/server.rb:191:in `block in start_thread'\n\n"
+    http_version: 
+  recorded_at: Fri, 21 Aug 2015 16:29:15 GMT
+recorded_with: VCR 2.9.3

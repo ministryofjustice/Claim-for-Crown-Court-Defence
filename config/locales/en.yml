@@ -66,8 +66,7 @@ en:
         court: 'Court'
         case_number: 'Case number'
         case_type: 'Case type'
-        advocate_category: 'Avocate category'
-        prosecuting_authority: 'Prosecuting authority'
+        advocate_category: 'Advocate category'
     errors:
       models:
         advocate:
@@ -102,9 +101,6 @@ en:
               blank: *blank
               inclusion: *inclusion
             advocate_category:
-              blank: *blank
-              inclusion: *inclusion
-            prosecuting_authority:
               blank: *blank
               inclusion: *inclusion
         defendant:
@@ -246,7 +242,6 @@ en:
         scheme: 'Scheme'
         case_type: 'Case type'
         cracked_trial_detail: 'Cracked Trial Detail'
-        prosecuting_authority: 'Prosecuting authority'
         court: 'Court'
         case_number: 'Case number'
         advocate_category: 'Advocate category'
@@ -320,7 +315,6 @@ en:
       j_a: Judicial Apportionment
       offence: Offence
       offence_class: Offence class
-      prosecuting_auth: Prosecuting authority
       q:
         retrial: "Retrial"
       reporders: Representation order(s)

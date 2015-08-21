@@ -17,12 +17,9 @@
         = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
 
       = f.label t('.case_type')
-      = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true } 
+      = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
 
       = render 'cracked_trial_fields', f: f
-
-      = f.label t('.prosecuting_authority')
-      = f.collection_select :prosecuting_authority, Settings.prosecuting_authorities, :to_s, :upcase, { prompt: true }, { class: 'select2' }
 
       = f.label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }

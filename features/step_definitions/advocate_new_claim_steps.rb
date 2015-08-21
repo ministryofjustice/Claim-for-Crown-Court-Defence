@@ -92,7 +92,6 @@ end
 
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
-  select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: '123456'
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s

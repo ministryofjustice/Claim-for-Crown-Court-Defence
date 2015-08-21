@@ -10,13 +10,7 @@
           - @claim.errors.full_messages.each do |msg|
             %li= msg
 
-  %h1
-    Claim
-    = @claim.case_number
-
-  %p
-    Created by:
-    = @claim.creator.name
+  = render 'shared/claim_header', claim: claim
 
   %p
     - if claim_ids.present?

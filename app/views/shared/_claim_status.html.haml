@@ -46,6 +46,32 @@
               %td#assessed-expenses= claim.assessment_expenses
               %td#assessed-total= claim.assessment_total
 
+            = f.fields_for :redeterminations do |rf|
+              - if rf.object.persisted?
+                - present(rf.object) do |redetermination|
+                  %tr.redetermination-display
+                    %td 
+                      Redetermination of 
+                      = redetermination.created_at
+                    %td#redetermination-fees= redetermination.fees
+                    %td#redetermination-expenses= redetermination.expenses
+                    %td#redetermination-total= redetermination.total
+              - elsif claim.requested_redetermination?  && current_user.persona.is_a?(CaseWorker)
+                .nested-fields
+                  %tr.assesment-form-fields
+                    %td
+                      Enter redetermined amounts
+                    %td.currency
+                      %span.currency-symbol
+                        &pound;
+                      = rf.text_field :fees, value: number_with_precision(rf.object.fees, precision: 2)
+                    %td.currency
+                      %span.currency-symbol
+                        &pound;
+                      = rf.text_field :expenses, value: number_with_precision(rf.object.expenses, precision: 2)
+                    %td
+                      %span.total-determination
+                        = rf.object.total
 
 
 

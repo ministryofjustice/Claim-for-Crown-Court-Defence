@@ -1,3 +1,4 @@
+#
 # == Schema Information
 #
 # Table name: claims
@@ -1082,5 +1083,65 @@ RSpec.describe Claim, type: :model do
         expect(claim.written_reasons_outstanding?).to eq(true)
       end
     end
+  end
+
+  describe '#requested_redetermination?' do
+    
+    context 'allocated state from redetermination' do
+
+      before(:each) do
+        @claim = FactoryGirl.create :redetermination_claim
+        @claim.allocate!
+      end
+      
+      context 'no previous redetermination' do
+        
+        it 'should be true' do
+          expect(@claim.redeterminations).to be_empty
+          expect(@claim.requested_redetermination?).to be true
+        end
+      end
+
+      context 'previous redetermination record created before state was changed to redetermination' do
+        it 'should be true' do
+          Timecop.freeze(Time.now - 2.hours) do
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+            Timecop.freeze(Time.now ) do
+              @claim.pay_part!
+              @claim.redetermine!
+              @claim.allocate!
+            end
+            expect(@claim.requested_redetermination?).to be true
+          end
+        end
+      end
+
+
+      context 'latest redetermination created after transition to redetermination' do
+        it 'should be false' do
+          Timecop.freeze(Time.now + 10.minutes) do
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+          end
+          expect(@claim.requested_redetermination?).to be false
+        end
+      end
+
+
+    end
+
+    context 'allocated state where the previous state was not redetermination' do
+      it 'should be false' do
+        claim = FactoryGirl.create :allocated_claim
+        expect(claim.requested_redetermination?).to be false
+      end
+    end
+
+    context 'not allocated state' do
+      it 'should be false' do
+        claim = FactoryGirl.create :redetermination_claim
+        expect(claim.requested_redetermination?).to be false
+      end
+    end
+
   end
 end

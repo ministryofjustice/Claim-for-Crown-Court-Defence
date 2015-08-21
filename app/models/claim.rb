@@ -121,13 +121,14 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
-  accepts_nested_attributes_for :basic_fees,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :fixed_fees,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :misc_fees,   reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :expenses,    reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :documents,         reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :assessment
+  accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
 
   before_save :calculate_vat
 
@@ -150,6 +151,20 @@ class Claim < ActiveRecord::Base
 
   def force_validation?
     @force_validation
+  end
+
+  # if allocated, and the last state was redetermination and happened since the last redetermination record was created
+  def requested_redetermination?
+    if self.allocated?
+      last_transition = claim_state_transitions.order(created_at: :asc).last
+      if last_transition.from == 'redetermination'
+        last_redetermination = self.redeterminations.select(&:present?).last
+        if last_redetermination.nil? || last_redetermination.created_at < last_transition.created_at
+          return true
+        end
+      end
+    end
+    false
   end
 
 

@@ -43,6 +43,16 @@ Feature: Claim redetermination
       And the claim should no longer have case workers assigned
       And a redetermination notice should be present in the claim status panel
 
+  Scenario: Allow entry of redetermination values
+    Given I am a signed in case worker
+      And a redetermined claim is assigned to me
+      And I visit the claim's case worker detail page
+     Then a form should be visible for me to enter the redetermination amounts
+     When I enter redetermination amounts
+      And I visit the claim's case worker detail page
+     Then There should be no form to enter redetermination amounts
+      And The redetermination I just entered should be visible
+
   Scenario Outline: Handle redetermination claims
     Given I am a signed in case worker
       And a redetermined claim is assigned to me

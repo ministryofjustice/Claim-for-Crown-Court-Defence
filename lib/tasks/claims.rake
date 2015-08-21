@@ -19,6 +19,7 @@ STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
                               'submitted',
                               'completed',
                               'paid',
+                              'redetermination',
                               'part_paid',
                               'awaiting_further_info',
                               'awaiting_info_from_court']
@@ -271,7 +272,7 @@ end
         add_other_data(claim)
 
         # all states but those below require allocation to case worker
-        unless [:draft,:archived_pending_delete,:submitted].include?(s)
+        unless [:draft,:archived_pending_delete,:submitted, :redetermination].include?(s)
           case_worker.claims << claim
           puts "     - allocating to #{case_worker.user.email}"
         end

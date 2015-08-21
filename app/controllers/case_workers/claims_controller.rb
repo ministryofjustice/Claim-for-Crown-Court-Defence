@@ -27,6 +27,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
+    @redetermination = @claim.redeterminations.build
   end
 
   def update
@@ -73,6 +74,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       :additional_information,
       :notes,
       :assessment_attributes => [
+        :id,
+        :fees,
+        :expenses
+      ],
+      :redeterminations_attributes => [
         :id,
         :fees,
         :expenses

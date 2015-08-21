@@ -17,7 +17,7 @@
         = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
 
       = f.label t('.case_type')
-      = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true } 
+      = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
 
       = render 'cracked_trial_fields', f: f
 
@@ -37,7 +37,7 @@
       - if @claim.new_record?
         - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
       - else
-        - selected_offence_category = @claim.offence.description
+        - selected_offence_category = @claim.offence.description rescue nil
 
       = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
 

@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -113,7 +112,6 @@ class Claim < ActiveRecord::Base
   validates :case_number,             presence: true, if: :perform_validation?
   validates :case_type_id,            presence: true, if: :perform_validation?
   validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, if: :perform_validation?
   validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
   validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
 
@@ -251,7 +249,7 @@ class Claim < ActiveRecord::Base
   end
 
   def perform_validation?
-    self.force_validation? || not_web_draft_and_pending_delete? 
+    self.force_validation? || not_web_draft_and_pending_delete?
   end
 
 

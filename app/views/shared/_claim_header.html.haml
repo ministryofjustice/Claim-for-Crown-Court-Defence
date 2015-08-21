@@ -1,0 +1,21 @@
+%h1
+  Claim
+
+%h2
+  Case number:
+  = claim.case_number
+
+%h3
+  Defendant(s):
+%ul
+  - claim.defendants.each do |defendant|
+    %li
+      = defendant.name
+
+%h3
+  Status:
+  = claim.state.humanize
+
+%p
+  Created by:
+  = claim.creator.name

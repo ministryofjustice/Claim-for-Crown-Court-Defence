@@ -113,7 +113,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def submit_if_required_and_redirect
     if submitting_to_laa?
-      @claim.force_validation = true 
+      @claim.force_validation = true
       if @claim.valid?
         redirect_to new_advocates_claim_certification_path(@claim)
       else
@@ -187,7 +187,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :trial_concluded_at,
      :advocate_category,
      :additional_information,
-     :prosecuting_authority,
      :indictment_number,
      :apply_vat,
      :evidence_checklist_ids => [],
@@ -342,7 +341,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.force_validation = true
     @claim.save
     if @claim.valid?
-      redirect_to new_advocates_claim_certification_path(@claim) 
+      redirect_to new_advocates_claim_certification_path(@claim)
     else
       render_new_with_resources
     end

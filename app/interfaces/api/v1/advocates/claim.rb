@@ -27,7 +27,6 @@ module API
               requires :actual_trial_length, type: Integer, desc: "The actual trial length in days"
               requires :trial_concluded_at, type: Date, desc: "The the trial concluded"
               requires :advocate_category, type: String, values: Settings.advocate_categories, desc: "The category of the advocate"
-              requires :prosecuting_authority, type: String, values: ['cps'], desc: "The prosecuting authority"
               requires :offence_id, type: Integer, desc: "The unique identifier for this offence"
               requires :court_id, type: Integer, desc: "The unique identifier for this court"
 
@@ -60,7 +59,6 @@ module API
                   cms_number:               params[:cms_number],
                   additional_information:   params[:additional_information],
                   apply_vat:                params[:apply_vat],
-                  prosecuting_authority:    params[:prosecuting_authority],
                   trial_fixed_notice_at:    params[:trial_fixed_notice_at],
                   trial_fixed_at:           params[:trial_fixed_at],
                   trial_cracked_at:         params[:trial_cracked_at],

@@ -35,7 +35,7 @@
           %dt
             = t('.case_type')
           %dd
-            = claim.case_type.name
+            = claim.case_type.try(:name)
           %dt
             =t('.caseworker')
           %dd
@@ -59,10 +59,6 @@
         %dd
           - if claim.court
             = claim.court.name
-        %dt
-          = t('.prosecuting_auth')
-        %dd
-          = claim.prosecuting_authority.titleize
         %dt
           = t('.q.retrial')
         %dd

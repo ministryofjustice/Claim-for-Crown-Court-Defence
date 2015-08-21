@@ -49,13 +49,13 @@
             = f.fields_for :redeterminations do |rf|
               - if rf.object.persisted?
                 - present(rf.object) do |redetermination|
-                  %tr.assessment-display
+                  %tr.redetermination-display
                     %td 
                       Redetermination of 
                       = redetermination.created_at
-                    %td#assessed-fees= redetermination.fees
-                    %td#assessed-expenses= redetermination.expenses
-                    %td#assessed-total= redetermination.total
+                    %td#redetermination-fees= redetermination.fees
+                    %td#redetermination-expenses= redetermination.expenses
+                    %td#redetermination-total= redetermination.total
               - elsif claim.requested_redetermination?  && current_user.persona.is_a?(CaseWorker)
                 .nested-fields
                   %tr.assesment-form-fields

@@ -80,3 +80,61 @@ Then(/^the claim should no longer awaiting written reasons$/) do
   @claim.reload
   expect(@claim).to_not be_awaiting_written_reasons
 end
+
+Then(/^a form should be visible for me to enter the redetermination amounts$/) do
+  expect(page).to have_content('Enter redetermined amounts')
+  expect(page).to have_selector('#claim_redeterminations_attributes_0_fees')
+end
+
+When(/^I enter redetermination amounts$/) do 
+  fill_in 'claim_redeterminations_attributes_0_fees', with: 1577.22
+  fill_in 'claim_redeterminations_attributes_0_expenses', with: 805.75
+  click_button 'Update'
+end
+
+
+Then(/^There should be no form to enter redetermination amounts$/) do
+  expect(page).not_to have_content('Enter redetermined amounts')
+  expect(page).not_to have_selector('#claim_redeterminations_attributes_0_fees')
+end
+
+Then(/^The redetermination I just entered should be visible$/) do
+  expect(page).to have_content('Redetermination of')
+  within('#redetermination-fees') do
+    expect(page).to have_content('£1,577.22')
+  end
+  within('#redetermination-expenses') do
+    expect(page).to have_content('£805.75')
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -57,7 +56,6 @@ FactoryGirl.define do
     case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
     offence
     advocate_category 'QC'
-    prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     after(:create) do |claim|

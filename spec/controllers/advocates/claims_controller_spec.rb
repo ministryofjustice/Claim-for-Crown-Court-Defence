@@ -187,7 +187,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             offence_id: offence,
             case_number: '12345',
             advocate_category: 'QC',
-            prosecuting_authority: 'cps',
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',
@@ -278,7 +277,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'prosecuting_authority'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'advocate_category'} }
 
         context 'non fixed fee case types' do
           before(:each) do
@@ -313,7 +312,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
-              expect(response.body).to have_content("Prosecuting authority can't be blank")
+              expect(response.body).to have_content("Advocate category can't be blank")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
               expect(claim.fixed_fees.size).to eq 1
@@ -375,7 +374,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
              offence_id: offence,
              case_number: '12345',
              advocate_category: 'QC',
-             prosecuting_authority: 'cps',
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -463,7 +461,6 @@ def valid_claim_fee_params
      "advocate_id" => "4",
      "scheme_id" => "2",
      "case_type_id" => case_type.id.to_s,
-     "prosecuting_authority" => "cps",
      "court_id" => court.id.to_s,
      "case_number" => "CASE98989",
      "advocate_category" => "QC",

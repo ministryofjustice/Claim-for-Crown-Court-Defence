@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -196,8 +195,6 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:court) }
       it { should validate_presence_of(:offence) }
       it { should validate_presence_of(:case_number) }
-      it { should validate_presence_of(:prosecuting_authority) }
-      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
       it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
@@ -205,7 +202,7 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
       it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-      
+
     end
 
     context 'non-draft' do
@@ -216,8 +213,6 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:court) }
       it { should validate_presence_of(:offence) }
       it { should validate_presence_of(:case_number) }
-      it { should validate_presence_of(:prosecuting_authority) }
-      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
       it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
@@ -243,8 +238,6 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:court) }
       it { should validate_presence_of(:offence) }
       it { should validate_presence_of(:case_number) }
-      it { should validate_presence_of(:prosecuting_authority) }
-      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
       it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }

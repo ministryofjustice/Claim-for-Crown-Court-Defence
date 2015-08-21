@@ -23,7 +23,6 @@
       .container
         = render partial: 'layouts/flashes' unless flash.empty?
         %main.main-content
-          = render_breadcrumbs
           = yield
 
 = render template: 'layouts/moj_internal_template'

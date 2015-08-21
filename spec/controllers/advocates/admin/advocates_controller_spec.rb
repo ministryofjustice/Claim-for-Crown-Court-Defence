@@ -25,13 +25,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
       get :index
       expect(response).to render_template(:index)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      get :index
-      expect(response.body).to match(/Dashboard.*Advocates/)
-    end
   end
 
   describe "GET #show" do
@@ -50,12 +43,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(CGI.escapeHTML(subject.name))}})
-    end
   end
 
   describe "GET #new" do
@@ -71,12 +58,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:new)
-    end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*Advocates.*New advocate/)
     end
   end
 
@@ -95,12 +76,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:edit)
-    end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Edit})
     end
   end
 

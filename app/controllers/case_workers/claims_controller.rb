@@ -8,17 +8,12 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_search_options, only: [:index]
 
   def index
-    add_breadcrumb 'Dashboard', case_workers_root_path
-
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
     set_claim_ids_and_count
   end
 
   def show
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
-
     @claim.assessment = Assessment.new if @claim.assessment.nil?
     @enable_assessment_input = @claim.assessment.blank?
     @enable_status_change = true

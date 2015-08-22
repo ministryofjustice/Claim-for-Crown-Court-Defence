@@ -28,6 +28,11 @@ Given(/^There are fee schemes in place$/) do
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 9', start_date: Date.parse('01/04/2012'), end_date: nil)
 end
 
+Given(/^There are case types in place$/) do
+  load "#{Rails.root}/db/seeds/case_types.rb"
+  CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
+end
+
 When(/^I click Add Another Representation Order$/) do
   page.all('a.button-secondary.add_fields').select {|link| link.text == "Add Another Representation Order"}.first.click
 end
@@ -78,9 +83,15 @@ Then(/^the dates attended are also removed$/) do
   expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
+
+When(/^I fill in the certification details and submit/) do
+  check 'certification_main_hearing'
+  click_on 'Certify and Submit Claim'
+end
+
+
 When(/^I fill in the claim details$/) do
-  select('Guilty plea', from: 'claim_case_type')
-  select('CPS', from: 'claim_prosecuting_authority')
+  select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: '123456'
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
@@ -143,6 +154,11 @@ end
 Then(/^I should be redirected to the claim confirmation page$/) do
   claim = Claim.first
   expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+end
+
+Then(/^I should be redirected to the claim certification page$/) do
+  claim = Claim.first
+  expect(page.current_path).to eq(new_advocates_claim_certification_path(claim))
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
@@ -283,7 +299,7 @@ end
 
 
 When(/^I select a Case Type of "(.*?)"$/) do |case_type|
-  select case_type, from: 'claim_case_type'
+  select case_type, from: 'claim_case_type_id'
 end
 
 Then(/^There should not be any Initial Fees saved$/) do
@@ -341,7 +357,7 @@ Given(/^I fill in a Fixed Fee using select2$/) do
 end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
-  claim = create(:submitted_claim, case_type: 'trial', advocate_id: Advocate.first.id)
+  claim = create(:submitted_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
   create(:fee, :basic, claim: claim, quantity: 3, amount: 7.5)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end

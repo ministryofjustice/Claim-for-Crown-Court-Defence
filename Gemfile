@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.2.3'
 
 gem 'aws-sdk-v1',           '1.64.0'
 gem 'bourbon',              '~> 3.2.4'
@@ -40,6 +40,7 @@ gem 'grape-papertrail'
 gem 'grape-swagger',        '>= 0.10.1'
 gem 'grape-swagger-rails',   '>= 0.1.0'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
+gem 'logstasher', '>= 0.6.5'
 
 group :production do
   gem 'rails_12factor', '0.0.3'

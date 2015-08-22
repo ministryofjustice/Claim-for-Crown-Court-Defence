@@ -9,6 +9,7 @@
 #  granting_body             :string(255)
 #  maat_reference            :string(255)
 #  representation_order_date :date
+#  uuid                      :uuid
 #
 
 class RepresentationOrder < ActiveRecord::Base
@@ -19,7 +20,7 @@ class RepresentationOrder < ActiveRecord::Base
   validates   :granting_body, inclusion: { in: Settings.court_types }
   validates   :maat_reference, presence: true, unless: :do_not_validate?
   validates   :maat_reference, uniqueness: { case_sensitive: false }
-  validates   :representation_order_date, presence: true  
+  validates   :representation_order_date, presence: true
 
   belongs_to :defendant
 
@@ -32,7 +33,7 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def detail
-    "#{self.granting_body} #{self.representation_order_date.strftime(Settings.date_format)}"
+    "#{self.granting_body} #{self.representation_order_date.strftime(Settings.date_format)} #{self.maat_reference}"
   end
 
   def do_not_validate?

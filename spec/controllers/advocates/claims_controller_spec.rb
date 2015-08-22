@@ -175,18 +175,18 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   describe "POST #create" do
     context 'when advocate signed in' do
       context 'and the input is valid' do
-        let(:court) { create(:court) }
-        let(:offence) { create(:offence) }
-        let(:scheme) { create(:scheme) }
+        let(:court)         { create(:court) }
+        let(:offence)       { create(:offence) }
+        let(:scheme)        { create(:scheme) }
+        let(:case_type)     { create(:case_type) }
         let(:claim_params) do
           {
             additional_information: 'foo',
             court_id: court,
-            case_type: 'trial',
+            case_type_id: case_type.id,
             offence_id: offence,
             case_number: '12345',
             advocate_category: 'QC',
-            prosecuting_authority: 'cps',
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',
@@ -210,9 +210,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             }.to change(Claim, :count).by(1)
           end
 
-          it 'redirects to claim confirmation' do
+          it 'redirects to claim certification if no validation errors' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(response).to redirect_to(confirmation_advocates_claim_path(Claim.first))
+            expect(response).to redirect_to(new_advocates_claim_certification_path(Claim.first))
           end
 
           it 'sets the created claim\'s advocate to the signed in advocate' do
@@ -220,10 +220,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(Claim.first.advocate).to eq(advocate)
           end
 
-          it 'sets the claim\'s state to "submitted"' do
+          it 'sets leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim.first).to be_submitted
+            expect(Claim.first).to be_draft
           end
         end
 
@@ -277,7 +277,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'prosecuting_authority'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'advocate_category'} }
 
         context 'non fixed fee case types' do
           before(:each) do
@@ -312,7 +312,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
-              expect(response.body).to have_content("Prosecuting authority can't be blank")
+              expect(response.body).to have_content("Advocate category can't be blank")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
               expect(claim.fixed_fees.size).to eq 1
@@ -340,7 +340,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         context 'fixed fee case types' do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
-              claim_params['case_type'] = "fixed_fee"
+              claim_params['case_type_id'] = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true).id.to_s
 
               response = post :create, claim: claim_params
               claim = assigns(:claim)
@@ -363,17 +363,17 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       end
 
       context 'document checklist' do
-        let(:court) { create(:court) }
-        let(:offence) { create(:offence) }
+        let(:court)             { create(:court) }
+        let(:offence)           { create(:offence) }
+        let(:case_type)         { create(:case_type) }
         let(:claim_params) do
           {
              additional_information: 'foo',
              court_id: court,
-             case_type: 'trial',
+             case_type_id: case_type.id,
              offence_id: offence,
              case_number: '12345',
              advocate_category: 'QC',
-             prosecuting_authority: 'cps',
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -412,17 +412,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         end
 
         it 'redirects to the claim confirmation path' do
-          expect(response).to redirect_to(confirmation_advocates_claim_path(subject))
-        end
-
-        it 'sets the claim to submitted' do
-          subject.reload
-          expect(subject).to be_submitted
-        end
-
-        it 'sets the claim submitted_at' do
-          subject.reload
-          expect(subject.submitted_at).to_not be_nil
+          expect(response).to redirect_to(new_advocates_claim_certification_path(subject))
         end
       end
     end
@@ -439,10 +429,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         expect(response).to render_template(:edit)
       end
     end
-  end
-
-  describe "PATCH #transition_state" do
-
   end
 
   describe "DELETE #destroy" do
@@ -468,13 +454,13 @@ end
 
 
 def valid_claim_fee_params
+  case_type = FactoryGirl.create :case_type
   HashWithIndifferentAccess.new(
     {
      "source" => 'web',
      "advocate_id" => "4",
      "scheme_id" => "2",
-     "case_type" => "appeal_against_sentence",
-     "prosecuting_authority" => "cps",
+     "case_type_id" => case_type.id.to_s,
      "court_id" => court.id.to_s,
      "case_number" => "CASE98989",
      "advocate_category" => "QC",

@@ -15,7 +15,7 @@ module API
       resource :case_types do
         desc "Return all Case Types"
         get do
-          Settings.case_types
+          CaseType.all
         end
       end
 
@@ -30,13 +30,6 @@ module API
         desc "Return all Advocate Categories"
         get do
           Settings.advocate_categories
-        end
-      end
-
-      resource :prosecuting_authorities do
-        desc "Return all Prosecuting Auhtorities"
-        get do
-          Settings.prosecuting_authorities
         end
       end
 

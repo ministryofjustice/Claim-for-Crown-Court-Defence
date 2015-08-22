@@ -106,5 +106,5 @@ end
 
 Then(/^I should see the admin caseworkers Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
-  expect(find('h1')).to have_content('Case workers')
+  expect(find('h1.page-title')).to have_content('Administration')
 end

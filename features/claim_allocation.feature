@@ -33,21 +33,18 @@ Feature: Claim allocation
     Then I should see all claims
 
   Scenario Outline: Filtering claims
+      And There are case types in place
     Given there are <quantity> "<type>" claims
      When I visit the allocation page
       And I filter by "<type>"
      Then I should only see <quantity> "<type>" claims after filtering
 
     Examples:
-      | type        | quantity  |
-      | all         | 10        |
-      | fixed_fee   | 10        |
-      | cracked     | 10        |
-      | trial       | 10        |
-      | guilty_plea | 10        |
-
-  @wip @focus @javascript @webmock_allow_net_connect @failing-environment-specific
-  Scenario: Select all rows
-    When I visit the allocation page
-     And I click "Select all"
-    Then all the claims should be selected
+      | type                     | quantity  |
+      | all                      | 10        |
+      | fixed_fee                | 10        |
+      | cracked                  | 10        |
+      | trial                    | 10        |
+      | guilty_plea              | 10        |
+      | redetermination          | 10        |
+      | awaiting_written_reasons | 10        |

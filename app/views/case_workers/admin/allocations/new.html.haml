@@ -38,6 +38,18 @@
 
       != "&nbsp";
 
+      = label_tag do
+        = radio_button_tag :filter, 'redetermination', params[:filter] == 'redetermination'
+        Redetermination
+
+      != "&nbsp";
+
+      = label_tag do
+        = radio_button_tag :filter, 'awaiting_written_reasons', params[:filter] == 'awaiting_written_reasons'
+        Awaiting written reasons
+
+      != "&nbsp";
+
       = hidden_field_tag :high_value, params[:high_value]
       = hidden_field_tag :tab, params[:tab]
 
@@ -118,7 +130,7 @@
               = b.object.defendants.order('id ASC').map(&:name).join('<br>').html_safe
           %td
             = b.label do
-              = b.object.case_type.humanize
+              = b.object.case_type.name
           %td
             = b.label do
               = b.object.submitted_at.strftime(Settings.date_format)

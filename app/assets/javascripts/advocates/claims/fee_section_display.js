@@ -18,8 +18,7 @@ adp.feeSectionDisplay = {
     var $this = adp.feeSectionDisplay;
 
     //initialise handles
-    $this.$caseTypeSelect = $('#claim_case_type');
-    $this.regex = /Fixed fee/;
+    $this.$caseTypeSelect = $('#claim_case_type_id');
     //Initial Fees
     var $basicFeesSet = $this.$basicFeesSet = $('#basic-fees').closest('fieldset'),
     //Fixed Fees Section
@@ -52,7 +51,9 @@ adp.feeSectionDisplay = {
     $this.showHideVAT();
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
-    $this.applyFixedFeeState($this.regex.test($this.caseTypeSelected()));
+    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    $this.applyFixedFeeState(is_fixed_fee == true)
+
   },
 
   caseTypeSelected : function () {
@@ -87,7 +88,6 @@ adp.feeSectionDisplay = {
     if (state) {
       adp.feeSectionDisplay.applyWarning('Initial and Miscellaneous fees exist that will be removed if you save this claim as a Fixed Fee!', state);
       adp.feeSectionDisplay.$basicFeesSet.slideUp();
-      adp.feeSectionDisplay.$miscFeesSet.slideUp();
       adp.feeSectionDisplay.$fixedFeesSet.slideDown();
 
     } else {
@@ -99,7 +99,8 @@ adp.feeSectionDisplay = {
   },
 
   addCaseTypeChangeEvent : function() {
-    adp.feeSectionDisplay.applyFixedFeeState(adp.feeSectionDisplay.regex.test(adp.feeSectionDisplay.caseTypeSelected()));
+    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    adp.feeSectionDisplay.applyFixedFeeState(is_fixed_fee == true)
   },
 
   showHideVAT :function(){

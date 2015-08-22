@@ -90,4 +90,22 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  # logstasher
+  # Enable the logstasher logs for the current environment
+  config.logstasher.enabled = true
+
+  # This line is optional, it allows you to set a custom value for the @source field of the log event
+  config.logstasher.source = 'Advocate Defence Payments App production'
+
+  # This line is optional if you do not want to suppress app logs in your <environment>.log
+  config.logstasher.suppress_app_log = true
+
+  # This line is optional if you do not want to log the backtrace of exceptions
+  config.logstasher.backtrace = true
+
+  # Enable logging of controller params
+  config.logstasher.log_controller_parameters = true
+
+  # log to stdout
+  config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)
 end

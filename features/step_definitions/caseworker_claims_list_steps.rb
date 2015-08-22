@@ -36,11 +36,6 @@ Then(/^I should see the completed claims$/) do
   expect(page).to have_content("Completed claims (#{@claims.count})")
 end
 
-Then(/^I should see an admin link$/) do
-  find('#primary-nav').click_link('Admin')
-  expect(find('h1')).to have_content('Case workers')
-end
-
 Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number,state,defendant_name|
   claims = create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|
@@ -114,7 +109,7 @@ end
 
 When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
   fill_in 'search', with: defendant_name
-  select 'Defendant', from: 'search_field'
+  # select 'Defendant', from: 'search_field'
   click_button 'Search'
 end
 
@@ -124,7 +119,7 @@ end
 
 When(/^I search for a claim by MAAT reference$/) do
   fill_in 'search', with: 'AA1245'
-  select 'MAAT Reference', from: 'search_field'
+  #select 'MAAT Reference', from: 'search_field'
   click_button 'Search'
 end
 

@@ -8,7 +8,7 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
   CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated', 'redetermination' ]
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
   VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
@@ -40,23 +40,29 @@ module Claims::StateMachine
     klass.state_machine :state,                      initial: :draft do
       audit_trail
 
-      after_transition on: :submit,                  do: :set_submission_date!
-      after_transition on: :pay,                     do: :set_paid_date!
-      after_transition on: :pay_part,                do: :set_paid_date!
-      after_transition on: :await_further_info,      do: :set_valid_until!
-      after_transition on: :archive_pending_delete,  do: :set_valid_until!
+      after_transition on: :submit,                   do: :set_submission_date!
+      after_transition on: :pay,                      do: :set_paid_date!
+      after_transition on: :pay_part,                 do: :set_paid_date!
+      after_transition on: :redetermine,              do: :remove_case_workers!
+      after_transition on: :await_written_reasons,    do: :remove_case_workers!
+      after_transition on: :await_further_info,       do: :set_valid_until!
+      after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:await_info_from_court, :reject, :refuse], do: :set_amount_assessed_zero!
       before_transition any => any,  do: :set_paper_trail_event!
 
       state :allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination
+         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination, :awaiting_written_reasons
 
       event :redetermine do
-        transition [:paid, :part_paid, :refused] => :redetermination
+        transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
+      end
+
+      event :await_written_reasons do
+        transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :awaiting_written_reasons
       end
 
       event :allocate do
-        transition [:submitted, :awaiting_info_from_court, :redetermination] => :allocated
+        transition [:submitted, :awaiting_info_from_court, :redetermination, :awaiting_written_reasons] => :allocated
       end
 
       event :archive_pending_delete do
@@ -108,6 +114,8 @@ module Claims::StateMachine
     klass.scope :non_draft, -> { klass.where(state: ['allocated', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
          'deleted', 'paid', 'part_paid', 'refused', 'rejected', 'submitted']) }
 
+    klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: ['submitted', 'redetermination', 'awaiting_written_reasons']) }
+
     klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
     klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }
     klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )       }
@@ -138,6 +146,10 @@ module Claims::StateMachine
   end
 
   def set_amount_assessed_zero!
-    update_column(:amount_assessed, 0) if self.state == 'allocated'
+    self.assessment.zeroize! if self.state == 'allocated'
+  end
+
+  def remove_case_workers!
+    self.case_workers.destroy_all
   end
 end

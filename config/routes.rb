@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'ping'                => 'ping#index'
+  get 'ping', to: 'heartbeat#ping', format: :json
+  get 'healthcheck', to: 'heartbeat#healthcheck', as: 'healthcheck', format: :json
+  get '/tandcs', to: 'pages#tandcs', as: :tandcs_page
+
   get 'vat'                 => "vat_rates#index"
 
   get 'json_schema' => 'json_template#index'
@@ -47,8 +50,11 @@ Rails.application.routes.draw do
       get 'confirmation', on: :member
       get 'outstanding', on: :collection
       get 'authorised', on: :collection
-      patch 'transition_state', on: :member
+
+      resource :certification, only: [:new, :create]
     end
+
+
 
     namespace :admin do
       root to: 'claims#index'
@@ -56,6 +62,7 @@ Rails.application.routes.draw do
       resources :advocates
     end
   end
+
 
   namespace :case_workers do
     root to: 'claims#index'

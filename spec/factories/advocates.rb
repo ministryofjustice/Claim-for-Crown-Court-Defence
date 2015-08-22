@@ -8,6 +8,7 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  account_number :string(255)
+#  uuid           :uuid
 #
 
 FactoryGirl.define do

@@ -5,9 +5,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
   def new
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb 'Allocations', case_workers_admin_allocations_path
-
     @allocation = Allocation.new
   end
 
@@ -48,7 +45,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted
+    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted_or_redetermination_or_awaiting_written_reasons
     @claims = @claims.order(submitted_at: :asc)
 
     search_claims
@@ -66,7 +63,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_claims
-    if ['fixed_fee', 'cracked', 'trial', 'guilty_plea'].include?(params[:filter])
+    if %w( fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons ).include?(params[:filter])
       @claims = @claims.send(params[:filter].to_sym)
     end
 

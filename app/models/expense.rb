@@ -5,16 +5,19 @@
 #  id              :integer          not null, primary key
 #  expense_type_id :integer
 #  claim_id        :integer
-#  date            :datetime
 #  location        :string(255)
 #  quantity        :integer
 #  rate            :decimal(, )
 #  amount          :decimal(, )
 #  created_at      :datetime
 #  updated_at      :datetime
+#  uuid            :uuid
 #
 
 class Expense < ActiveRecord::Base
+  include NumberCommaParser
+  numeric_attributes :rate, :amount, :quantity
+
   belongs_to :expense_type
   belongs_to :claim
 

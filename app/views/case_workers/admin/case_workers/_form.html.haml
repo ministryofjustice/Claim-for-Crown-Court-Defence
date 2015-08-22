@@ -1,13 +1,17 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
   - if @case_worker.errors.any?
     .validation-summary
-      %h2.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this case worker from being saved:"
+      %h3.heading-small= "#{pluralize(@case_worker.errors.count, 'error')} prohibited this case worker from being saved:"
       %ul
         - @case_worker.errors.full_messages.each do |msg|
           %li= msg
 
   = f.fields_for :user do |user_fields|
-    %fieldset
+    %fieldset.user-form
+      = user_fields.label :first_name
+      = user_fields.text_field :first_name
+      = user_fields.label :last_name
+      = user_fields.text_field :last_name
       = user_fields.label :email
       = user_fields.email_field :email
       = user_fields.label :password
@@ -15,15 +19,16 @@
       = user_fields.label :password_confirmation
       = user_fields.password_field :password_confirmation
 
-      = user_fields.label :first_name
-      = user_fields.text_field :first_name
-      = user_fields.label :last_name
-      = user_fields.text_field :last_name
+    %fieldset.user-form
+      %label
+        Working days
+      -@case_worker.days_worked.each_with_index do |dw, i|
+        = f.check_box "days_worked_#{i}"
+        = Settings.day_names[i]
 
-    %fieldset
       = f.label :location_id
-      = f.collection_select :location_id, Location.all, :id, :name, prompt: true
+      = f.collection_select :location_id, Location.all, :id, :name, {prompt: true} , {class: 'select2'}
 
       = f.label :role
-      = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, prompt: true
+      = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, {prompt: true}, {class: 'select2'}
   = f.submit class: "button"

@@ -17,7 +17,7 @@ Given(/^a claim has been assiged to me$/) do
   case_worker.claims << @claim
 end
 
-When(/^I visit the the claim's detail page$/) do
+When(/^I visit the case worker claim's detail page$/) do
   visit case_workers_claim_path(@claim)
 end
 

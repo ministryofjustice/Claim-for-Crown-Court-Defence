@@ -8,7 +8,6 @@ describe API::V1::DropdownData do
   CASE_TYPE_ENDPOINT      = "/api/case_types"
   COURT_ENDPOINT          = "/api/courts"
   ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
-  PROSECUTING_AUTHORITY_ENDPOINT  = "/api/prosecuting_authorities"
   CRACKED_THIRD_ENDPOINT  = "/api/trial_cracked_at_thirds"
   GRANTING_BODY_ENDPOINT  = "/api/granting_body_types"
   OFFENCE_CLASS_ENDPOINT  = "api/offence_classes"
@@ -17,7 +16,7 @@ describe API::V1::DropdownData do
   FEE_TYPE_ENDPOINT       = "/api/fee_types"
   EXPENSE_TYPE_ENDPOINT   = "/api/expense_types"
 
-  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, PROSECUTING_AUTHORITY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
+  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
 
   context 'All dropdown data API endpoints' do
@@ -41,8 +40,10 @@ describe API::V1::DropdownData do
     end
 
     it 'should return a body of formatted JSON including guilty plea' do
+      FactoryGirl.create :case_type
+      FactoryGirl.create :case_type, :fixed_fee
       response = get CASE_TYPE_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to include('guilty_plea' )
+      expect(response.body).to eq CaseType.all.to_json
     end
 
   end
@@ -78,20 +79,6 @@ describe API::V1::DropdownData do
     it 'should return a bSON formatted list of advocate categories' do
       response = get ADVOCATE_CATEGORY_ENDPOINT, format: :json
       expect(JSON.parse(response.body)).to include('Leading junior')
-    end
-
-  end
-
-  context 'GET api/prosecuting_authorities' do
-
-    it 'should return a status of 200' do
-      response = get PROSECUTING_AUTHORITY_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return a JSON formatted list of prosecuting authorities' do
-      response = get PROSECUTING_AUTHORITY_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to include('cps' )
     end
 
   end

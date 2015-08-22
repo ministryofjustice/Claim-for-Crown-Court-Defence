@@ -13,6 +13,8 @@ Feature: Claim history
     Given I am a signed in advocate
       And I have a claim in draft state
       And I submit the claim
+     Then I should be redirected to the claim certification page
+      And I fill in the certification details and submit 
      When I visit the claim's detail page
      Then I should see the state change to submitted reflected in the history
 

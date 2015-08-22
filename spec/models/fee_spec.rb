@@ -9,6 +9,7 @@
 #  amount      :decimal(, )
 #  created_at  :datetime
 #  updated_at  :datetime
+#  uuid        :uuid
 #
 
 require 'rails_helper'
@@ -126,4 +127,13 @@ RSpec.describe Fee, type: :model do
     end
   end
 
+  describe 'comma formatted inputs' do
+    [:quantity, :amount].each do |attribute|
+      it "converts input for #{attribute} by stripping commas out" do
+        fee = build(:fee)
+        fee.send("#{attribute}=", '12,321,111')
+        expect(fee.send(attribute)).to eq(12321111)
+      end
+    end
+  end
 end

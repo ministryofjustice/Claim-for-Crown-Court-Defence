@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813142826) do
+ActiveRecord::Schema.define(version: 20150821093532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,10 +52,26 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
+    t.string   "days_worked"
+    t.string   "approval_level", default: "Low"
   end
 
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
   add_index "case_workers", ["role"], name: "index_case_workers_on_role", using: :btree
+
+  create_table "certifications", force: true do |t|
+    t.integer  "claim_id"
+    t.boolean  "main_hearing"
+    t.boolean  "notified_court"
+    t.boolean  "attended_pcmh"
+    t.boolean  "attended_first_hearing"
+    t.boolean  "previous_advocate_notified_court"
+    t.boolean  "fixed_fee_case"
+    t.string   "certified_by"
+    t.date     "certification_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "chambers", force: true do |t|
     t.string   "name"
@@ -84,11 +100,9 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.text     "additional_information"
     t.boolean  "apply_vat"
     t.string   "state"
-    t.string   "case_type"
     t.datetime "submitted_at"
     t.string   "case_number"
     t.string   "advocate_category"
-    t.string   "prosecuting_authority"
     t.string   "indictment_number"
     t.date     "first_day_of_trial"
     t.integer  "estimated_trial_length", default: 0
@@ -106,7 +120,6 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.string   "cms_number"
     t.datetime "paid_at"
     t.integer  "creator_id"
-    t.decimal  "amount_assessed",        default: 0.0
     t.text     "notes"
     t.text     "evidence_notes"
     t.string   "evidence_checklist_ids"
@@ -118,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150813142826) do
     t.string   "source"
     t.decimal  "vat_amount",             default: 0.0
     t.uuid     "uuid",                   default: "uuid_generate_v4()"
+    t.integer  "case_type_id"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
@@ -165,6 +179,16 @@ ActiveRecord::Schema.define(version: 20150813142826) do
   end
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
+
+  create_table "determinations", force: true do |t|
+    t.integer  "claim_id"
+    t.string   "type"
+    t.decimal  "fees"
+    t.decimal  "expenses"
+    t.decimal  "total"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "documents", force: true do |t|
     t.integer  "claim_id"

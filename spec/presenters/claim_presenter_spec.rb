@@ -35,12 +35,12 @@ RSpec.describe ClaimPresenter do
   describe '#retrial' do
 
     it 'returns yes for case types like retrial' do
-      claim.case_type = 'retrial'
+      claim.case_type = CaseType.find_or_create_by!(name: 'Retrial')
       expect(subject.retrial).to eql 'Yes'
     end
 
     it 'returns no for case types NOT like retrial' do
-      claim.case_type = 'contempt'
+      claim.case_type = CaseType.find_or_create_by!(name: 'Contempt')
       expect(subject.retrial).to eql 'No'
     end
 
@@ -62,8 +62,8 @@ RSpec.describe ClaimPresenter do
 
   # TODO: do currency converters need internationalisation??
   it '#amount_assessed' do
-    claim.amount_assessed = 100
-    expect(subject.amount_assessed).to eql("£100.00")
+    claim.assessment.update(fees: 80.35, expenses: 19.65)
+    expect(subject.assessment_total).to eql("£100.00")
   end
 
   it '#fees_total' do
@@ -113,15 +113,15 @@ RSpec.describe ClaimPresenter do
       defendant_2 = FactoryGirl.build :defendant
       Timecop.freeze 5.days.ago do
         defendant_1.representation_orders = [
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court"),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court"),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court", maat_reference: '1234abc'),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court", maat_reference: 'abc1234'),
         ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
+        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court", maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015<br/>Magistrate's Court 13/08/2015<br/>Magistrate's Court 01/03/2015" )
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrate's Court 13/08/2015 abc1234<br/>Magistrate's Court 01/03/2015 xyz4321" )
     end
   end
 

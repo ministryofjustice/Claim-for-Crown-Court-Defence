@@ -1,17 +1,16 @@
-case_types:
-  - appeal_against_conviction
-  - appeal_against_sentence
-  - breach_of_crown_court_order
-  - commital_for_sentence
-  - contempt
-  - cracked_trial
-  - cracked_before_retrial
-  - discontinuance
-  - elected_cases_not_proceeded
-  - fixed_fee
-  - guilty_plea
-  - retrial
-  - trial
+day_names:
+  - Monday
+  - Tuesday
+  - Wednesday
+  - Thursday
+  - Friday
+
+day_name_initials:
+  - M
+  - T
+  - W
+  - T
+  - F
 
 trial_cracked_at_third:
   - first_third
@@ -23,9 +22,6 @@ advocate_categories:
   - Led junior
   - Leading junior
   - Junior alone
-
-prosecuting_authorities:
-  - cps
 
 court_types:
    - Magistrate's Court

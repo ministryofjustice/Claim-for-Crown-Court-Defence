@@ -50,7 +50,6 @@ GEM
     bourbon (3.2.4)
       sass (~> 3.2)
       thor
-    breadcrumbs_on_rails (2.3.0)
     breakpoint (2.0.7)
       compass (>= 0.12.1)
       sass (>= 3.2.0)
@@ -412,7 +411,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bourbon (~> 3.2.4)
-  breadcrumbs_on_rails (~> 2.3.0)
   breakpoint (~> 2.0.7)
   byebug
   cancancan (~> 1.10)

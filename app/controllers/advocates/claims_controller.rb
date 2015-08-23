@@ -12,33 +12,22 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
 
   def index
-    add_breadcrumb 'Dashboard', advocates_root_path
-
     @claims = @context.claims.order(created_at: :desc)
     search if params[:search].present?
     set_state_claims
   end
 
   def outstanding
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Outstanding', outstanding_advocates_claims_path
-
     @claims = @financial_summary.outstanding_claims
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Authorised', authorised_advocates_claims_path
-
     @claims = @financial_summary.authorised_claims
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
   def show
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
     @enable_assessment_input = false
@@ -46,9 +35,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def new
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "New claim", new_advocates_claim_path
-
     @claim = Claim.new
     @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
@@ -58,10 +44,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def edit
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-    add_breadcrumb "Edit", edit_advocates_claim_path(@claim)
-
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
@@ -69,11 +51,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 
-  def confirmation
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-    add_breadcrumb "Confirmation", edit_advocates_claim_path(@claim)
-  end
+  def confirmation; end
 
   def create
     @claim = Claim.new(params_with_advocate_and_creator)

@@ -2,30 +2,14 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   before_action :set_advocate, only: [:show, :edit, :update, :destroy]
 
   def index
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Advocates', advocates_admin_advocates_path
-
     @advocates = current_user.persona.chamber.advocates
   end
 
-  def show
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Advocates', advocates_admin_advocates_path
-    add_breadcrumb @advocate.name, advocates_admin_advocate_path(@advocate)
-  end
+  def show; end
 
-  def edit
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Advocates', advocates_admin_advocates_path
-    add_breadcrumb @advocate.name, advocates_admin_advocate_path(@advocate)
-    add_breadcrumb 'Edit', edit_advocates_admin_advocate_path(@advocate)
-  end
+  def edit; end
 
   def new
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Advocates', advocates_admin_advocates_path
-    add_breadcrumb 'New advocate', new_advocates_admin_advocate_path
-
     @advocate = Advocate.new
     @advocate.build_user
   end

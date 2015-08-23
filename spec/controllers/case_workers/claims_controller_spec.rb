@@ -76,14 +76,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:index)
     end
-
-    context 'breadcrumbs' do
-      render_views
-
-      it 'renders breadcrumbs' do
-        expect(response.body).to match(/Dashboard/)
-      end
-    end
   end
 
   describe "GET #show" do
@@ -103,12 +95,8 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       expect(response).to render_template(:show)
     end
 
-    context 'breadcrumbs and notes (render views)' do
+    context 'notes (render views)' do
       render_views
-
-      it 'renders breadcrumbs' do
-        expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(CGI.escapeHTML(subject.case_number))}})
-      end
 
       it 'displays caseworker notes' do
         expect(response.body).to include('Update note')

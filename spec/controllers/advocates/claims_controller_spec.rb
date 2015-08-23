@@ -79,13 +79,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       get :index
       expect(response).to render_template(:index)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      get :index
-      expect(response.body).to match(/Dashboard/)
-    end
   end
 
   describe "GET #show" do
@@ -103,12 +96,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     it 'renders the template' do
       expect(response).to render_template(:show)
-    end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(CGI.escapeHTML(subject.case_number))}})
     end
 
     it 'does not display caseworker notes' do
@@ -130,12 +117,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     it 'renders the template' do
       expect(response).to render_template(:new)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*New claim/)
-    end
   end
 
   describe "GET #edit" do
@@ -154,12 +135,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
       it 'renders the template' do
         expect(response).to render_template(:edit)
-      end
-
-      render_views
-
-      it 'renders breadcrumbs' do
-        expect(response.body).to match(%Q{Dashboard.*Claim: #{Regexp.escape(CGI.escapeHTML(subject.case_number))}.*Edit})
       end
     end
 

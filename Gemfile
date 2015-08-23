@@ -3,7 +3,6 @@ ruby '2.2.3'
 
 gem 'aws-sdk-v1',           '1.64.0'
 gem 'bourbon',              '~> 3.2.4'
-gem 'breadcrumbs_on_rails', '~> 2.3.0'
 gem 'breakpoint',           '~> 2.0.7'
 gem 'cancancan',            '~> 1.10'
 gem 'cocoon',               '~> 1.2.6'

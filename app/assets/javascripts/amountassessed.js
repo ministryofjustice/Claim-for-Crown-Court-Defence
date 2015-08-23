@@ -8,7 +8,7 @@ moj.Modules.amountAssessed = {
   },
   state: function(){
     var v = $('#claim_state_for_form option:selected').val();
-    if (v == 'part_paid' || v == 'paid' ){
+    if (v === 'part_paid' || v === 'paid' ){
       $('#amountAssessed').slideDown('slow');
     }
     else{

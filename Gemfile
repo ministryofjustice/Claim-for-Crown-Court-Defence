@@ -26,6 +26,7 @@ gem 'pg',                   '~> 0.18.2'
 gem 'rails',                '4.1.8'
 gem 'rails_config',         '~> 0.5.0.beta1'
 gem 'responder',            '~> 0.2.4'
+gem 'rest-client',          '~> 1.8' # needed for scheduled smoke testing plus others
 gem 'sass-rails',           '~> 4.0.4'
 gem 'select2-rails',        '~> 3.5.9.3'
 gem 'simple_form',          '~> 3.1.0'

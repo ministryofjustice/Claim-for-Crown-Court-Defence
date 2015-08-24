@@ -28,4 +28,4 @@ adp.newClaim = {
 
     $('#offence_class_description').change();
   }
-}
+};

@@ -51,10 +51,13 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
     end
   end
 
-  describe 'post create' do
+  describe 'POST create' do
+
+    let(:claim)                   { FactoryGirl.create :claim }
+
     context 'valid certification params for submission' do
 
-      let(:claim)                   { FactoryGirl.create :claim }
+      
       let(:frozen_time)             { Time.new(2015, 8, 20, 13, 54, 22) }
 
       it 'should be a redirect to confirmation' do
@@ -74,6 +77,16 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
           reloaded_claim = Claim.find claim.id
           expect(reloaded_claim.submitted_at.to_time).to eq frozen_time
         end
+      end
+    end
+
+    context 'invalid certification' do
+      it 'should redirect to new' do
+        params = valid_certification_params(claim)
+        params['certification']['notified_court'] = '1'
+        post :create, params
+        expect(response).to render_template(:new)
+        expect(assigns(:certification).errors.full_messages).to eq( [ 'You must check one and only one checkbox on this form'] )
       end
     end
   end

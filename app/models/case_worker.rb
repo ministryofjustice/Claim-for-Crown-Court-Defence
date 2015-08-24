@@ -37,6 +37,9 @@ class CaseWorker < ActiveRecord::Base
   delegate :last_name, to: :user
   delegate :name, to: :user
 
+  def approval_level_collection
+    [ ['High', 'High'], ['Low', "Low"]]
+  end
 
 
   def method_missing(method, *args)
@@ -85,4 +88,3 @@ class CaseWorker < ActiveRecord::Base
     uniqs == [1] || uniqs == [0, 1] || uniqs == [0]
   end
 end
-

@@ -13,6 +13,7 @@
 
 class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
+  APPROVAL_LEVELS_COLLECTION = %w{ High Low }
   include UserRoles
 
   serialize :days_worked, Array
@@ -28,7 +29,7 @@ class CaseWorker < ActiveRecord::Base
   validates :location, presence: true
   validates :user, presence: true
   validate  :days_worked_valid
-  validates :approval_level, inclusion: { in: %w( High Low ), message: "must be high or low" }
+  validates :approval_level, inclusion: { in: APPROVAL_LEVELS_COLLECTION, message: "must be high or low" }
 
   accepts_nested_attributes_for :user
 
@@ -37,11 +38,7 @@ class CaseWorker < ActiveRecord::Base
   delegate :last_name, to: :user
   delegate :name, to: :user
 
-  def approval_level_collection
-    [ ['High', 'High'], ['Low', "Low"]]
-  end
-
-
+  
   def method_missing(method, *args)
     if method.to_s =~ /^days_worked_(.)$/
       self.days_worked[$1.to_i]

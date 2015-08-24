@@ -155,18 +155,18 @@ class Claim < ActiveRecord::Base
 
   # if allocated, and the last state was redetermination and happened since the last redetermination record was created
   def requested_redetermination?
-    if self.allocated?
-      last_transition = claim_state_transitions.order(created_at: :asc).last
-      if last_transition.from == 'redetermination'
-        last_redetermination = self.redeterminations.select(&:present?).last
-        if last_redetermination.nil? || last_redetermination.created_at < last_transition.created_at
-          return true
-        end
-      end
-    end
-    false
+    self.allocated? ? redetermination_since_allocation? : false
   end
 
+  def redetermination_since_allocation?
+    if last_state_transition.from == 'redetermination'
+      last_state_transition_later_than_redeterination?(last_state_transition)
+    else
+      false
+    end
+  end
+
+  
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -298,6 +298,19 @@ class Claim < ActiveRecord::Base
   end
 
   private
+
+  def last_state_transition_later_than_redeterination?(last_state_transition)
+    last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
+  end
+
+  def last_redetermination
+    self.redeterminations.select(&:present?).last
+  end
+
+  def last_state_transition
+    last_transition = claim_state_transitions.order(created_at: :asc).last
+  end
+
 
   def set_scheme
     rep_order = self.earliest_representation_order

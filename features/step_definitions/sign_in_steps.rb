@@ -79,7 +79,7 @@ end
 
 Then(/^I should see the advocates Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
-  expect(find('.page-title')).to have_content('Advocates')
+  expect(find('h1.page-title')).to have_content('Administration')
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do

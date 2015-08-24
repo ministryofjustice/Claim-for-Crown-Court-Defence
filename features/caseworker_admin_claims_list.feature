@@ -7,22 +7,25 @@ Feature: Caseworker claims list
       And There are fee schemes in place
       And there are allocated claims
      When I visit my dashboard
+     # TODO Reinstate once home page report is finished
      #Then I should see the allocated claims
-      And I should see the claims sorted by oldest first
+      Then I should see the claims sorted by oldest first
 
-  Scenario: View unallocated claims
-    Given I am a signed in case worker admin
-      And There are fee schemes in place
-      And there are unallocated claims
-     When I visit my dashboard
+  # TODO Reinstate once "Archive" feature is implemented
+  #Scenario: View unallocated claims
+  #  Given I am a signed in case worker admin
+  #    And There are fee schemes in place
+  #    And there are unallocated claims
+  #   When I visit my dashboard
      #Then I should see the unallocated claims
       #Then I should see the claims sorted by oldest first
 
-  Scenario: View completed claims
-    Given I am a signed in case worker admin
-      And There are fee schemes in place
-      And there are completed claims
-     When I visit my dashboard
+  # TODO Reinstate once "Archive" feature is implemented
+  # Scenario: View completed claims
+  #  Given I am a signed in case worker admin
+  #    And There are fee schemes in place
+  #    And there are completed claims
+  #   When I visit my dashboard
      #Then I should see the completed claims
       #Then I should see the claims sorted by oldest first
 

@@ -52,3 +52,8 @@ ul.actions{
     }
   }
 }
+
+.radio-button + label{
+  display: inline;
+  margin-right: 10%;
+}

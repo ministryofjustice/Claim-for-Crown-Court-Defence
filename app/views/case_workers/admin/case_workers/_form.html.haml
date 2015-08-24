@@ -26,6 +26,9 @@
         = f.check_box "days_worked_#{i}"
         = Settings.day_names[i]
 
+      = f.label :approval_level
+      = f.collection_radio_buttons(:approval_level, CaseWorker::APPROVAL_LEVELS_COLLECTION, :to_s, :to_s,{}, {class: 'radio-button'})
+
       = f.label :location_id
       = f.collection_select :location_id, Location.all, :id, :name, {prompt: true} , {class: 'select2'}
 

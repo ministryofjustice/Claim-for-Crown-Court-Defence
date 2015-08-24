@@ -17,6 +17,8 @@
 //= require moj
 //= require_tree .
 
+/*For JSHint to ignore ADP object*/
+/* globals adp */
 var moj = moj || {};
 
 moj.Modules.devs.init = function(){};
@@ -53,7 +55,7 @@ $( document ).ready(function() {
 
   //Stops the form from submitting when the user presses 'Enter' key
   $("#claim-form form").on("keypress", function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
         return false;
     }
   });

@@ -61,6 +61,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
      :days_worked_2,
      :days_worked_3,
      :days_worked_4,
+     :approval_level,
      user_attributes: [:email, :password, :password_confirmation, :first_name, :last_name],
      claim_ids: []
     )

@@ -52,7 +52,7 @@ adp.feeSectionDisplay = {
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
     var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
-    $this.applyFixedFeeState(is_fixed_fee == true)
+    $this.applyFixedFeeState(is_fixed_fee === true);
 
   },
 
@@ -100,7 +100,7 @@ adp.feeSectionDisplay = {
 
   addCaseTypeChangeEvent : function() {
     var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
-    adp.feeSectionDisplay.applyFixedFeeState(is_fixed_fee == true)
+    adp.feeSectionDisplay.applyFixedFeeState(is_fixed_fee === true);
   },
 
   showHideVAT :function(){
@@ -110,7 +110,7 @@ adp.feeSectionDisplay = {
       $this.$vatReport.show();
     }else{
       $this.$vatReport.hide();
-    };
+    }
   },
 
   getVAT :function(){
@@ -128,7 +128,7 @@ adp.feeSectionDisplay = {
     if($this.$vatApplyChkbox.is(':checked')){
 
       $.when($this.getVAT())
-      .then(function( data, textStatus, jqXHR ){
+      .then(function( data){
         $vatReport.find('.vat-date').text(data.date);
         $vatReport.find('.vat-rate').text(data.rate);
         $vatReport.find('.vat-total').text(data.net_amount);
@@ -137,10 +137,10 @@ adp.feeSectionDisplay = {
       .then(function(){
         if($vatReport.filter(':visible').length === 0){
           $this.showHideVAT();
-        };
+        }
       });
     }else{
       $this.showHideVAT();
-    };
+    }
   }
 };

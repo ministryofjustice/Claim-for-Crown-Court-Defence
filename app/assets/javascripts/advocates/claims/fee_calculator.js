@@ -38,7 +38,8 @@ adp.feeCalculator = {
     //Array of cash amounts as the user inputted
     arrDirtyAmounts =[],
     arrCleanAmounts = [],
-    totalAmount = 0;
+    totalAmount = 0,
+    index = 0;
 
     //For each amount stick it into an array
     $allAmounts.each(function(){
@@ -48,23 +49,23 @@ adp.feeCalculator = {
         arrDirtyAmounts.push($element.text());
       }else{
         arrDirtyAmounts.push($element.val());
-      };
+      }
     });
 
     //clean the values
-    for( var i=0; i < arrDirtyAmounts.length; i++){
-      
-      var currentVal = parseFloat(arrDirtyAmounts[i].replace(/[^0-9-.]/g, ''));
+    for(index = 0; index < arrDirtyAmounts.length; index++){
 
-      if(isNaN(parseFloat(currentVal)) === false){
+      var currentVal = parseFloat(arrDirtyAmounts[index].replace(/[^0-9-.]/g, ''));
+
+      if(isNaN(currentVal) === false){
         arrCleanAmounts.push(currentVal);
-      };
-    };
+      }
+    }
 
     //Sum the value
-    for(var i=0; i < arrCleanAmounts.length; i++){
-      totalAmount = totalAmount + arrCleanAmounts[i];
-    };
+    for(index = 0; index < arrCleanAmounts.length; index++){
+      totalAmount = totalAmount + arrCleanAmounts[index];
+    }
 
     return totalAmount;
   }

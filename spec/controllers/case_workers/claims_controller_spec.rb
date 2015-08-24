@@ -103,4 +103,10 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
     end
   end
+
+
+  describe 'PUT #update' do
+    put :update, id: other_claim, { additional_information: 'foo' }
+    
+  end
 end

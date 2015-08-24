@@ -26,6 +26,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
+    puts ">>>>>>>>>>>>>>>> DEBUG  update    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_first
     @doc_types = DocType.all

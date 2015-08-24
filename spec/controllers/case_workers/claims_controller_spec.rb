@@ -105,8 +105,11 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
 
-  describe 'PUT #update' do
-    put :update, id: other_claim, { additional_information: 'foo' }
-    
+  describe 'PATCH #update' do
+    it 'should update the model' do
+      claim = claims.first
+      patch :update, id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update'
+      expect(assigns(:claim).additional_information).to eq 'foo bar'
+    end
   end
 end

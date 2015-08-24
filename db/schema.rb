@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150821093532) do
+ActiveRecord::Schema.define(version: 20150824155035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,13 +22,13 @@ ActiveRecord::Schema.define(version: 20150821093532) do
     t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "account_number"
-    t.uuid     "uuid",           default: "uuid_generate_v4()"
+    t.string   "supplier_number"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
   end
 
-  add_index "advocates", ["account_number"], name: "index_advocates_on_account_number", using: :btree
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
   add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
+  add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
   create_table "case_types", force: true do |t|
     t.string   "name"
@@ -75,15 +75,15 @@ ActiveRecord::Schema.define(version: 20150821093532) do
 
   create_table "chambers", force: true do |t|
     t.string   "name"
-    t.string   "account_number"
+    t.string   "supplier_number"
     t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",           default: "uuid_generate_v4()"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
   end
 
-  add_index "chambers", ["account_number"], name: "index_chambers_on_account_number", using: :btree
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
+  add_index "chambers", ["supplier_number"], name: "index_chambers_on_supplier_number", using: :btree
 
   create_table "claim_state_transitions", force: true do |t|
     t.integer  "claim_id"

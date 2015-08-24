@@ -2,13 +2,13 @@
 #
 # Table name: advocates
 #
-#  id             :integer          not null, primary key
-#  role           :string(255)
-#  chamber_id     :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  account_number :string(255)
-#  uuid           :uuid
+#  id              :integer          not null, primary key
+#  role            :string(255)
+#  chamber_id      :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  supplier_number :string(255)
+#  uuid            :uuid
 #
 
 require 'rails_helper'
@@ -32,30 +32,30 @@ RSpec.describe Advocate, type: :model do
 
   it { should validate_inclusion_of(:role).in_array(%w( admin advocate )) }
 
-  it { should validate_presence_of(:account_number) }
+  it { should validate_presence_of(:supplier_number) }
 
   context 'account number validation' do
 
     it 'should fail validation if too long' do
-      a = FactoryGirl.build :advocate, account_number: 'ACC123'
+      a = FactoryGirl.build :advocate, supplier_number: 'ACC123'
       expect(a).not_to be_valid
-      expect(a.errors[:account_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
     end
 
     it 'should fail validation if too short' do
-      a = FactoryGirl.build :advocate, account_number: 'AC12'
+      a = FactoryGirl.build :advocate, supplier_number: 'AC12'
       expect(a).not_to be_valid
-      expect(a.errors[:account_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
     end
 
     it 'should fail validation if not alpha-numeric' do
-      a = FactoryGirl.build :advocate, account_number: 'AC-123'
+      a = FactoryGirl.build :advocate, supplier_number: 'AC-123'
       expect(a).not_to be_valid
-      expect(a.errors[:account_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
     end
 
     it 'should pass validation if 5 alpha-numeric' do
-      a = FactoryGirl.build :advocate, account_number: 'AC123'
+      a = FactoryGirl.build :advocate, supplier_number: 'AC123'
       expect(a).to be_valid
     end
   end
@@ -163,7 +163,7 @@ RSpec.describe Advocate, type: :model do
 
   describe '#name_and_number' do
     it 'should print last name, first name and account number' do
-      a = FactoryGirl.create(:advocate, account_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
+      a = FactoryGirl.create(:advocate, supplier_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
       expect(a.name_and_number).to eq "Smith, John: XX878"
     end
   end

@@ -19,8 +19,8 @@
       = user_fields.label t(".last_name")
       = user_fields.text_field :last_name
 
-      = f.label t(".account_number")
-      = f.text_field :account_number
+      = f.label t(".supplier_number")
+      = f.text_field :supplier_number
       = f.label t(".role")
       = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
   = f.submit t(".submit"), class: "button"

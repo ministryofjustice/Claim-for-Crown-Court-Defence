@@ -43,9 +43,8 @@ gem 'state_machine',        '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',             '>= 1.3.0'
-gem 'vcr'
 
-group :production do
+group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
   gem 'unicorn-rails',  '2.2.0'
 end
@@ -61,8 +60,11 @@ group :development, :test do
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rspec-rails',    '~> 3.0'
-  gem 'webrick',        '~> 1.3'
   gem 'rspec-collection_matchers'
+end
+
+group :development do
+  gem 'webrick',        '~> 1.3'
 end
 
 group :test do
@@ -80,6 +82,7 @@ group :test do
   gem 'simplecov-multi',            require: false
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
+  gem 'webrick',        '~> 1.3'
 end
 
 group :doc do

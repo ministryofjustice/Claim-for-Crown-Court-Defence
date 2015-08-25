@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   namespace :advocates do
     root to: 'claims#index'
 
+    post '/advocates/json_importer' => 'json_document_importer#create'
+
     resources :claims do
       get 'confirmation', on: :member
       get 'outstanding', on: :collection

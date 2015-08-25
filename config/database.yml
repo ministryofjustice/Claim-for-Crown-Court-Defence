@@ -12,6 +12,10 @@ development:
   <<: *default
   database: cbo_development
 
+devunicorn:
+  <<: *default
+  database: cbo_development
+
 test: &test
   <<: *default
   database: <%= ENV['CBO_BASE_DATABASE_DATABASE'] || 'cbo_test' %>

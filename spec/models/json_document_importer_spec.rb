@@ -1,51 +1,29 @@
 require 'rails_helper'
 
-describe JsonDocumentImporter, vcr: true do
+describe JsonDocumentImporter do
 
   let(:schema)                  { json_schema }
   let(:importer)                { JsonDocumentImporter.new('./spec/examples/cms_exported_claim.json', schema) }
   let(:invalid_importer)        { JsonDocumentImporter.new('./spec/examples/invalid_cms_exported_claim.json', schema) }
   let(:multiple_claim_importer) { JsonDocumentImporter.new('./spec/examples/multiple_cms_exported_claims.json', schema) }
-  let(:test_id)                 { '1234' }
+  let(:claim_params)            { {"advocate_email"=>"advocate@example.com", "case_number"=>"12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015/06/01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015/06/02", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
+  let(:defendant_params)        { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979/12/10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:rep_order_params)        { {"granting_body"=>"Crown Court", "maat_reference"=>"12345678-3", "representation_order_date"=>"2015/05/01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:fee_params)              { {"fee_type_id"=>1, "quantity"=>1, "amount"=>1.1, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:expense_params)          { {"expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London", "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:date_attended_params)    { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015/06/01", "date_to"=>"2015/06/01", "attended_item_id"=>"1234"} }
 
   context 'parses a json document and' do
 
     context 'calls API endpoints for' do
 
-      before(:each) {
-        allow(RestClient).to receive(:post).and_return({'id' => test_id}.to_json)
-      }
-
-      it 'claims' do
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/claims", {"advocate_email"=>"advocate@example.com", "case_number"=>"12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015/06/01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015/06/02", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"})
-        importer.import!
-      end
-
-      it 'defendants' do
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/defendants", {"claim_id"=>'1234', "first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979/12/10", "order_for_judicial_apportionment"=>true})
-        importer.import!
-      end
-
-      it 'representation_orders' do
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/representation_orders", {"defendant_id"=>'1234', "granting_body"=>"Crown Court", "maat_reference"=>"12345678", "representation_order_date"=>"2015/05/01"})
-        importer.import!
-      end
-
-      it 'fees' do
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/fees", {"claim_id"=>'1234', "fee_type_id"=>75, "quantity"=>1, "amount"=>1.1})
-        importer.import!
-      end
-
-      it 'expenses' do
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/expenses", {"claim_id"=>'1234', "expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London"})
-        importer.import!
-      end
-
-      it 'dates_attended' do
-        # one for the fee
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/dates_attended", {"attended_item_id"=>'1234', "attended_item_type"=>"Fee", "date"=>"2015/06/01", "date_to"=>"2015/06/01"})
-        # one for the expense
-        expect(RestClient).to receive(:post).with("http://localhost:3000/api/advocates/dates_attended", {"attended_item_id"=>'1234', "attended_item_type"=>"Expense", "date"=>"2015/06/01", "date_to"=>"2015/06/01"})
+      it 'claims, defendants, representation_orders, fees, expenses' do
+        expect(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).with(claim_params).and_return({"id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"}.to_json)
+        expect(JsonDocumentImporter::DEFENDANT_CREATION).to receive(:post).with(defendant_params).and_return({"id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"}.to_json)
+        expect(JsonDocumentImporter::REPRESENTATION_ORDER_CREATION).to receive(:post).with(rep_order_params)
+        expect(JsonDocumentImporter::FEE_CREATION).to receive(:post).with(fee_params).and_return({"id"=> "1234"}.to_json)
+        expect(JsonDocumentImporter::EXPENSE_CREATION).to receive(:post).with(expense_params).and_return({"id"=> "1234"}.to_json)
+        expect(JsonDocumentImporter::DATE_ATTENDED_CREATION).to receive(:post).with(date_attended_params).exactly(2).times
         importer.import!
       end
       

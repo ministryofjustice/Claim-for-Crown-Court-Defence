@@ -398,7 +398,6 @@ GEM
     unicorn-rails (2.2.0)
       rack
       unicorn
-    vcr (2.9.3)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -490,7 +489,6 @@ DEPENDENCIES
   timecop (~> 0.7.4)
   uglifier (>= 1.3.0)
   unicorn-rails (= 2.2.0)
-  vcr
   webmock (~> 1.21.0)
   webrick (~> 1.3)
 

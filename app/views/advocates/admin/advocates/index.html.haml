@@ -5,13 +5,30 @@
   %h2.heading-medium.left
     List of Advocates
   = link_to 'New Advocate', new_advocates_admin_advocate_path, class: 'button right'
-  
-%ul#assignee-list
-  - @advocates.each do |advocate|
-    %li
-      = link_to "#{advocate.email} (#{advocate.role.humanize})", advocates_admin_advocate_path(advocate)
-      %ul.actions
-        %li
-          = link_to t('.edit'), edit_advocates_admin_advocate_path(advocate)
-        %li
-          = link_to t('.delete'), advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: t('.confirm_delete') }
+
+%table
+  %thead
+    %th
+      Surname
+    %th
+      Name
+    %th
+      Supplier Number
+    %th
+      Email
+    %%th
+  %tbody
+    - @advocates.each do |advocate|
+      %tr
+        %td
+          = advocate.last_name
+        %td
+          = advocate.first_name
+        %td
+          = advocate.account_number
+        %td
+          = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
+        %td.user-controls
+          = link_to 'Edit',  edit_advocates_admin_advocate_path(advocate)
+          = " | "
+          = link_to 'Delete',advocates_admin_advocate_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }

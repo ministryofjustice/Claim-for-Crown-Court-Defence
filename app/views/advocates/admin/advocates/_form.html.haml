@@ -5,8 +5,12 @@
       - @advocate.errors.full_messages.each do |msg|
         %li= msg
 
-  %fieldset
-    = f.fields_for :user do |user_fields|
+  = f.fields_for :user do |user_fields|
+    %fieldset.user-form
+      = user_fields.label t(".first_name")
+      = user_fields.text_field :first_name
+      = user_fields.label t(".last_name")
+      = user_fields.text_field :last_name
       = user_fields.label t(".email")
       = user_fields.email_field :email
       = user_fields.label t(".password")
@@ -14,13 +18,10 @@
       = user_fields.label t(".password_confirmation")
       = user_fields.password_field :password_confirmation
 
-      = user_fields.label t(".first_name")
-      = user_fields.text_field :first_name
-      = user_fields.label t(".last_name")
-      = user_fields.text_field :last_name
-
+    %fieldset.user-form
       = f.label t(".supplier_number")
       = f.text_field :supplier_number
+
       = f.label t(".role")
-      = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, prompt: true
-  = f.submit t(".submit"), class: "button"
+      = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, {prompt: true} , {class: 'select2'}
+  = f.submit class: "button"

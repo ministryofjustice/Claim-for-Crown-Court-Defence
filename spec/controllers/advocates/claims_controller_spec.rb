@@ -404,6 +404,24 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         expect(response).to render_template(:edit)
       end
     end
+
+    context 'Date Parameter handling' do
+      it 'should transform dates with named months into dates' do
+        put :update, id: subject, claim: { 
+          'first_day_of_trial(1i)' => '2015',  
+          'first_day_of_trial(2i)' => 'jan', 
+          'first_day_of_trial(3i)' => '4' }, commit: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
+      end
+
+      it 'should transform dates with numbered months into dates' do
+        put :update, id: subject, claim: { 
+          'first_day_of_trial(1i)' => '2015',  
+          'first_day_of_trial(2i)' => '11', 
+          'first_day_of_trial(3i)' => '4' }, commit: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+      end
+    end
   end
 
   describe "DELETE #destroy" do

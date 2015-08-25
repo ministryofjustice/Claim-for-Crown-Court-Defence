@@ -17,7 +17,6 @@ class Advocates::CertificationsController < Advocates::ApplicationController
     if @claim.certification.save && @claim.submit
       redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
     else
-      @claim.certification.errors.full_messages
       @certification = @claim.certification
       render action: :new
     end

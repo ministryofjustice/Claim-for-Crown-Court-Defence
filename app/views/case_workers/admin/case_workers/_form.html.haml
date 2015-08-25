@@ -8,30 +8,40 @@
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
-      = user_fields.label :first_name
-      = user_fields.text_field :first_name
-      = user_fields.label :last_name
-      = user_fields.text_field :last_name
-      = user_fields.label :email
-      = user_fields.email_field :email
-      = user_fields.label :password
-      = user_fields.password_field :password
-      = user_fields.label :password_confirmation
-      = user_fields.password_field :password_confirmation
+      = user_fields.label :first_name, class: "form-label"
+      = user_fields.text_field :first_name, class: "form-control"
+      = user_fields.label :last_name, class: "form-label"
+      = user_fields.text_field :last_name, class: "form-control"
+      = user_fields.label :email, class: "form-label"
+      = user_fields.email_field :email, class: "form-control"
+      = user_fields.label :password, class: "form-label"
+      = user_fields.password_field :password, class: "form-control"
+      = user_fields.label :password_confirmation, class: "form-label"
+      = user_fields.password_field :password_confirmation, class: "form-control"
 
     %fieldset.user-form
-      %label
-        Working days
-      -@case_worker.days_worked.each_with_index do |dw, i|
-        = f.check_box "days_worked_#{i}"
-        = Settings.day_names[i]
+      %div.form-group
+        %label.form-label
+          Working days
+        %p.form-hint="Select all that apply"
+        -@case_worker.days_worked.each_with_index do |dw, i|
+          -if dw = 0 then
+            %label.block-label
+              = f.check_box "days_worked_#{i}"
+              = Settings.day_names[i]
+          -else
+            %label.block-label.selected
+              = f.check_box "days_worked_#{i}"
+              = Settings.day_names[i]
 
-      = f.label :approval_level
-      = f.collection_radio_buttons(:approval_level, CaseWorker::APPROVAL_LEVELS_COLLECTION, :to_s, :to_s,{}, {class: 'radio-button'})
+      = f.label :approval_level, class: "form-label"
+      %div.form-group.inline
+        = f.collection_radio_buttons(:approval_level, CaseWorker::APPROVAL_LEVELS_COLLECTION, :to_s, :to_s) do |b|
+          - b.label(class: "block-label") { b.radio_button + b.value }
 
-      = f.label :location_id
+      = f.label :location_id, class: "form-label"
       = f.collection_select :location_id, Location.all, :id, :name, {prompt: true} , {class: 'select2'}
 
-      = f.label :role
+      = f.label :role, class: "form-label"
       = f.collection_select :role, CaseWorker::ROLES, :to_s, :humanize, {prompt: true}, {class: 'select2'}
   = f.submit class: "button"

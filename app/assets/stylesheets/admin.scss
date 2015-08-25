@@ -44,16 +44,3 @@ ul.actions{
     }
   }
 }
-
-.user-form{
-  input{
-    &[type="text"], &[type="email"], &[type="password"], select{
-      width: 50%;
-    }
-  }
-}
-
-.radio-button + label{
-  display: inline;
-  margin-right: 10%;
-}

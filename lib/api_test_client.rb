@@ -2,7 +2,11 @@
 #
 # the creation process uses the dropdown data endpoints
 # thereby double checking that those endpoints are working and
-# there values are valid for claim creation or assoicated records.
+# their values are valid for claim creation or assoicated records.
+#
+# NOTE: the API creates data on the default environment (develop)
+# so when used by a spec this enviroment needs to be cleaned up
+# since the spec run environment will be test, usually.
 #
 # example:
 # ---------------------------------------
@@ -169,7 +173,10 @@ private
 
     #clear up/delete data
     claim = Claim.find_by(uuid: claim_id)
-    claim.destroy
+    if claim
+      #Note representation order is NOT dependant: destroy so should be deleted manually
+      claim.destroy
+    end
 
   end
 

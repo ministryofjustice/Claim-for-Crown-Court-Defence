@@ -38,7 +38,7 @@ SimpleCov.start
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
-WebMock.disable_net_connect!(allow: [/codeclimate/, /latest\/meta-data\/iam\/security\-credentials/])
+WebMock.disable_net_connect!(allow: [/codeclimate/, /latest\/meta-data\/iam\/security\-credentials/,/api/])
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

@@ -19,8 +19,9 @@ adp.determination = {
   },
   addChangeEvent: function(container_id) {
     $('#' + container_id).on('change', '#claim_assessment_attributes_fees, #claim_assessment_attributes_expenses', function(e) {
-      var fees = parseFloat($('#claim_assessment_attributes_fees').val());
-      var expenses = parseFloat($('#claim_assessment_attributes_expenses').val());
+      
+      var fees = parseFloat($('#claim_assessment_attributes_fees').val().replace(/,/g, ""));
+      var expenses = parseFloat($('#claim_assessment_attributes_expenses').val().replace(/,/g, ""));
       var total = adp.determination.calculateAmount(fees,expenses);
       if (isNaN(total) ){
         $('.total-determination').text('£0.00');

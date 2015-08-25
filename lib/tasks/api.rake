@@ -13,19 +13,19 @@ namespace :api do
       raise ArgumentError, 'Invalid IO provided'
     end
 
-    client_test = ApiTestClient.new()
+    api_client = ApiTestClient.new()
+    api_client.run
 
-    if client_test.success
+    if api_client.success
       status = 0
+      #TODO temrmination code exit 0/1
       io.puts "[+] success"
-      io.puts client_test.messages.join("\n")
+      io.puts api_client.messages.join("\n")
     else
-      status = 1
       io.puts "[-] errors"
-      io.puts client_test.errors.join("\n")
+      io.puts api_client.errors.join("\n")
+      raise "API Error: ADP RESTful API smoke test failure!"
     end
-
-    io.puts status
 
   end
 

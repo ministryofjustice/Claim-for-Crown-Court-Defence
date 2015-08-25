@@ -3,10 +3,6 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
 
-  def self.model_name
-    Claim.model_name
-  end
-
   def defendant_names
     claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
   end
@@ -49,10 +45,6 @@ class ClaimPresenter < BasePresenter
 
   def total
     h.number_to_currency(claim.total)
-  end
-
-  def amount_assessed
-    h.number_to_currency(claim.amount_assessed)
   end
 
   def fees_total

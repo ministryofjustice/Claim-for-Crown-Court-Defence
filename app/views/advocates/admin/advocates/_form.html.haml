@@ -17,9 +17,11 @@
       = user_fields.password_field :password
       = user_fields.label t(".password_confirmation")
       = user_fields.password_field :password_confirmation
+
     %fieldset.user-form
-      = f.label t(".account_number")
-      = f.text_field :account_number
+      = f.label t(".supplier_number")
+      = f.text_field :supplier_number
+
       = f.label t(".role")
       = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, {prompt: true} , {class: 'select2'}
   = f.submit class: "button"

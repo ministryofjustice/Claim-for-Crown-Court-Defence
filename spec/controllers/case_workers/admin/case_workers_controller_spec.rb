@@ -21,6 +21,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:index)
     end
+
   end
 
   describe "GET #show" do

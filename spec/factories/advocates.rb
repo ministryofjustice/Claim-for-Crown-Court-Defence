@@ -2,13 +2,13 @@
 #
 # Table name: advocates
 #
-#  id             :integer          not null, primary key
-#  role           :string(255)
-#  chamber_id     :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  account_number :string(255)
-#  uuid           :uuid
+#  id              :integer          not null, primary key
+#  role            :string(255)
+#  chamber_id      :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  supplier_number :string(255)
+#  uuid            :uuid
 #
 
 FactoryGirl.define do
@@ -18,7 +18,7 @@ FactoryGirl.define do
     end
 
     chamber
-    account_number  { generate_unique_account_number }
+    supplier_number  { generate_unique_supplier_number }
 
 
     role 'advocate'
@@ -30,7 +30,7 @@ FactoryGirl.define do
 end
 
 
-def generate_unique_account_number
+def generate_unique_supplier_number
   alpha_part = ""
   2.times{alpha_part  << (65 + rand(25)).chr}
   numeric_part = rand(999)

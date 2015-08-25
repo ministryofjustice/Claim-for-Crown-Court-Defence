@@ -25,7 +25,7 @@
           Working days
         %p.form-hint="Select all that apply"
         -@case_worker.days_worked.each_with_index do |dw, i|
-          -if dw = 0 then
+          -if dw == 0 then
             %label.block-label
               = f.check_box "days_worked_#{i}"
               = Settings.day_names[i]

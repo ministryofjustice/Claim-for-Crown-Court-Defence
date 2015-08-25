@@ -108,7 +108,6 @@ class Claim < ActiveRecord::Base
   validates :offence,                 presence: true, if: :perform_validation?
   validates :creator,                 presence: true, if: :perform_validation?
   validates :court,                   presence: true, if: :perform_validation?
-  validates :scheme,                  presence: true, if: :perform_validation_or_not_api_draft?
   validates :case_number,             presence: true, if: :perform_validation?
   validates :case_type_id,            presence: true, if: :perform_validation?
   validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?

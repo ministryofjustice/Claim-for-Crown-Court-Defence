@@ -34,7 +34,7 @@ RSpec.describe Advocate, type: :model do
 
   it { should validate_presence_of(:supplier_number) }
 
-  context 'account number validation' do
+  context 'supplier number validation' do
 
     it 'should fail validation if too long' do
       a = FactoryGirl.build :advocate, supplier_number: 'ACC123'
@@ -49,7 +49,7 @@ RSpec.describe Advocate, type: :model do
     end
 
     it 'should fail validation if not alpha-numeric' do
-      a = FactoryGirl.build :advocate, supplier_number: 'AC-123'
+      a = FactoryGirl.build :advocate, supplier_number: 'AC-12'
       expect(a).not_to be_valid
       expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
     end
@@ -162,7 +162,7 @@ RSpec.describe Advocate, type: :model do
   end
 
   describe '#name_and_number' do
-    it 'should print last name, first name and account number' do
+    it 'should print last name, first name and supplier number' do
       a = FactoryGirl.create(:advocate, supplier_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
       expect(a.name_and_number).to eq "Smith, John: XX878"
     end

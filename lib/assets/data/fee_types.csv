@@ -24,6 +24,8 @@ FIXED,Cracked case discontinued,CCD
 FIXED,Cracked case discontinued Uplift,CDU
 FIXED,Elected case not proceeded,ENP
 FIXED,Elected case not proceeded uplift,ENU
+FIXED,Number of Cases uplift,NOC
+FIXED,Number of Defendants uplift,NDR
 FIXED,Standard Appearance Fee,SAF
 MISC,Abuse of Process Hearings (Half Day),APH
 MISC,Abuse of Process Hearings (Whole Day),APW

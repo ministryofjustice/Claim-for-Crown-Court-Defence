@@ -11,14 +11,15 @@ Feature: Caseworker claims list
      Then I should see only my claims
       And I should see the claims sorted by oldest first
 
-  Scenario: View completed claims
-    Given I am a signed in case worker
-      And There are fee schemes in place
-      And I have completed claims
-     When I visit my dashboard
-      And I click on the Completed Claims tab
-     Then I should see only my claims
-      And I should see the claims sorted by oldest first
+  # TODO update once "Archive" has been created and working
+  #Scenario: View completed claims
+  #  Given I am a signed in case worker
+  #    And There are fee schemes in place
+  #    And I have completed claims
+  #   When I visit my dashboard
+    #  And I click on the Completed Claims tab
+    # Then I should see only my claims
+  #    Then I should see the claims sorted by oldest first
 
   Scenario: Sort current claims by oldest first
     Given I am signed in and on the case worker dashboard
@@ -35,10 +36,6 @@ Feature: Caseworker claims list
      When I sort the claims by lowest value first
      Then I should see the claims sorted by lowest value first
 
-  Scenario: Current claims count
-    Given I am signed in and on the case worker dashboard
-     Then I should see the claims count
-
   Scenario: Search for claims by MAAT reference
     Given I am signed in and on the case worker dashboard
      When I search for a claim by MAAT reference
@@ -54,8 +51,9 @@ Feature: Caseworker claims list
      When I visit my dashboard
       And I search claims by defendant name <defendant_name>
      Then I should only see <number> "Current" claims
-      And I click on the Completed Claims tab
-     Then I should only see <number> "Completed" claims
+    # TODO update once "Archive" has been created and working
+    #  And I click on the Completed Claims tab
+    # Then I should only see <number> "Completed" claims
 
      Examples:
         | defendant_name | number |

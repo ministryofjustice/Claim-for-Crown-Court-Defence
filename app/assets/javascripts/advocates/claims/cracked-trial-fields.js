@@ -10,7 +10,7 @@ adp.crackedTrial = {
   init : function() {
 
     //initialise handles
-    adp.crackedTrial.$caseTypeSelect = $('#claim_case_type');
+    adp.crackedTrial.$caseTypeSelect = $('#claim_case_type_id');
     adp.crackedTrial.$fieldSet = $('#cracked_trial_detail');
     adp.crackedTrial.regex = /[Cc]racked .*/;
 

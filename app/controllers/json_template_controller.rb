@@ -4,7 +4,7 @@ class JsonTemplateController < ApplicationController
 
   def index
     @template = JsonTemplate.generate
-    @schema = JSON::SchemaGenerator.generate 'Advocate Defense Payments - Claim Import', @template
+    @schema = JsonSchema.generate(@template)
   end
 
 end

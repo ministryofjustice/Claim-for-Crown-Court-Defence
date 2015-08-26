@@ -9,6 +9,9 @@ production:
 development:
   <<: *default
 
+devunicorn:
+  <<: *default
+
 test:
   access_key_id:      xxxxxxxx
   secret_access_key:  xxxxxxxxxxxxx

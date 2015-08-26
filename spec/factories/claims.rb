@@ -83,7 +83,9 @@ FactoryGirl.define do
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
         claim.defendants << build(:defendant, claim: claim)
-      end
+        claim.fees << build(:fee, :with_date_attended, claim: claim, fee_type: FactoryGirl.build(:fee_type))
+        claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
+      end 
     end
 
     factory :invalid_claim do

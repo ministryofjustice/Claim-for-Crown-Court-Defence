@@ -4,6 +4,7 @@ class JsonTemplate
 
     def generate
       set_models_hash
+      remove_ids_of_non_existent_items
       insert_values_for_typing
       nested_arrays_where_appropriate
       clean_up
@@ -36,6 +37,14 @@ class JsonTemplate
       models.each do |model|
         @models_hash[model] = get_route_params(model)
       end
+    end
+
+    def remove_ids_of_non_existent_items # items that will be created by importing the template
+      @models_hash[:Defendant].delete('claim_id')
+      @models_hash[:RepresentationOrder].delete('defendant_id')
+      @models_hash[:Fee].delete('claim_id')
+      @models_hash[:Expense].delete('claim_id')
+      @models_hash[:DateAttended].delete('attended_item_id')
     end
 
     def insert_values_for_typing

@@ -12,12 +12,19 @@ gem 'faker',                '~> 1.4.3'
 gem 'flip',                 '~> 1.0.1'
 gem 'govuk_frontend_toolkit','~> 1.3.0'
 gem 'govuk_template',       '~> 0.8.1'
+gem 'grape',                '>= 0.12'
+gem 'grape-papertrail'
+gem 'grape-swagger',        '>= 0.10.1'
+gem 'grape-swagger-rails',   '>= 0.1.0'
 gem 'haml',                 '~> 4.0.6'
 gem 'haml-rails',           '~> 0.9.0'
+gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'jbuilder',             '~> 2.2.16'
 gem 'jquery-rails',         '~> 3.1.2'
+gem 'json-schema'
 gem 'json-schema-generator'
 gem 'libreconv',            '~> 0.9.0'
+gem 'logstasher', '>= 0.6.5'
 gem 'moj_internal_template','~> 0.1.9'
 gem 'neat',                 '~> 1.5.1'
 gem 'paperclip',            '~> 4.2.2'
@@ -35,14 +42,8 @@ gem 'state_machine',        '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',             '>= 1.3.0'
-gem 'grape',                '>= 0.12'
-gem 'grape-papertrail'
-gem 'grape-swagger',        '>= 0.10.1'
-gem 'grape-swagger-rails',   '>= 0.1.0'
-gem 'hashie-forbidden_attributes', '>= 0.1.1'
-gem 'logstasher', '>= 0.6.5'
 
-group :production do
+group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
   gem 'unicorn-rails',  '2.2.0'
 end
@@ -58,8 +59,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'rspec-rails',    '~> 3.0'
-  gem 'webrick',        '~> 1.3'
   gem 'rspec-collection_matchers'
+  gem 'webrick',        '~> 1.3'
 end
 
 group :test do
@@ -77,6 +78,7 @@ group :test do
   gem 'simplecov-multi',            require: false
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
+  gem 'webrick',        '~> 1.3'
 end
 
 group :doc do

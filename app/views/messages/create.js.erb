@@ -5,6 +5,7 @@
 
   $('#message_subject').val('');
   $('#message_body').val('');
+  $('.message-error').text('');
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
     $('.claim-action-dropdown').hide();
@@ -15,4 +16,5 @@
   <% end %>
 <% else %>
   $('.message-error').text('<%=j @notification[:alert].html_safe %>');
+  $('.message-notification').text('');
 <% end %>

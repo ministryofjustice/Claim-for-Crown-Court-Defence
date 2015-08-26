@@ -26,15 +26,17 @@ Feature: Caseworker claims list
      When I sort the claims by oldest first
      Then I should see the claims sorted by oldest first
 
-  Scenario: Sort current claims by highest value
-    Given I am signed in and on the case worker dashboard
-     When I sort the claims by highest value first
-     Then I should see the claims sorted by highest value first
+  #TODO Reintroduce when sorting columns is implemented
+  #Scenario: Sort current claims by highest value
+  #  Given I am signed in and on the case worker dashboard
+  #   When I sort the claims by highest value first
+  #   Then I should see the claims sorted by highest value first
 
-  Scenario: Sort current claims by lowest value
-    Given I am signed in and on the case worker dashboard
-     When I sort the claims by lowest value first
-     Then I should see the claims sorted by lowest value first
+  #TODO Reintroduce when sorting columns is implemented
+  #Scenario: Sort current claims by lowest value
+  #  Given I am signed in and on the case worker dashboard
+  #   When I sort the claims by lowest value first
+  #   Then I should see the claims sorted by lowest value first
 
   Scenario: Search for claims by MAAT reference
     Given I am signed in and on the case worker dashboard

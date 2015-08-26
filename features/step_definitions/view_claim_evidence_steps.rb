@@ -1,6 +1,8 @@
 
 When(/^I visit the detail link for a claim$/) do
-  first('div.claim-controls').click_link("Detail")
+  within("#claims-list") do
+	  first('a.js-test-case-number-link').click
+	end
 end
 
 When(/^I visit the view link for a claim$/) do

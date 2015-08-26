@@ -33,13 +33,6 @@ module API
         end
       end
 
-      resource :prosecuting_authorities do
-        desc "Return all Prosecuting Auhtorities"
-        get do
-          Settings.prosecuting_authorities
-        end
-      end
-
       resource :trial_cracked_at_thirds do
         desc "Return all Trial Cracked at Third values (i.e. first, second, final)"
         get do

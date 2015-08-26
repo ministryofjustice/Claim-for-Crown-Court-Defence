@@ -25,13 +25,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
       get :index
       expect(response).to render_template(:index)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      get :index
-      expect(response.body).to match(/Dashboard.*Advocates/)
-    end
   end
 
   describe "GET #show" do
@@ -50,12 +43,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(CGI.escapeHTML(subject.name))}})
-    end
   end
 
   describe "GET #new" do
@@ -71,12 +58,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
     it 'renders the template' do
       expect(response).to render_template(:new)
-    end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*Advocates.*New advocate/)
     end
   end
 
@@ -96,12 +77,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:edit)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(%Q{Dashboard.*Advocates.*#{Regexp.escape(CGI.escapeHTML(subject.name))}.*Edit})
-    end
   end
 
   describe "POST #create" do
@@ -110,14 +85,14 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
         expect {
           post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' },
                                     role: 'advocate',
-                                    account_number: 'AB124' }
+                                    supplier_number: 'AB124' }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to advocates index' do
         post :create, advocate: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'},
                                   role: 'advocate',
-                                  account_number: 'XY123'  }
+                                  supplier_number: 'XY123'  }
         expect(response).to redirect_to(advocates_admin_advocates_url)
       end
     end

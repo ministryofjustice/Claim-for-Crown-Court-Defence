@@ -3,10 +3,6 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
 
-  def self.model_name
-    Claim.model_name
-  end
-
   def defendant_names
     claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
   end
@@ -24,7 +20,7 @@ class ClaimPresenter < BasePresenter
   end
 
   def retrial
-    claim.case_type.name.match(/retrial/i) ? 'Yes' : 'No'
+    claim.case_type.name.match(/retrial/i) ? 'Yes' : 'No' rescue ''
   end
 
   def any_judicial_apportionments
@@ -51,8 +47,8 @@ class ClaimPresenter < BasePresenter
     h.number_to_currency(claim.total)
   end
 
-  def amount_assessed
-    h.number_to_currency(claim.amount_assessed)
+  def total_inc_vat
+    h.number_to_currency(claim.total + claim.vat_amount)
   end
 
   def fees_total
@@ -108,6 +104,6 @@ class ClaimPresenter < BasePresenter
     claim.assessment.new_record? ? h.number_to_currency(0) : h.number_to_currency(claim.assessment.__send__(assessment_attr))
   end
 
-  
+
 
 end

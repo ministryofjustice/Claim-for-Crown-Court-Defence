@@ -15,6 +15,9 @@
 #
 
 class Expense < ActiveRecord::Base
+  include NumberCommaParser
+  numeric_attributes :rate, :amount, :quantity
+
   belongs_to :expense_type
   belongs_to :claim
 

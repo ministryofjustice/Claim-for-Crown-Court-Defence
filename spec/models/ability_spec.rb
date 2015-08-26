@@ -30,7 +30,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :transition_state, :confirmation, :destroy].each do |action|
+      [:show, :edit, :update, :confirmation, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -38,7 +38,7 @@ describe Ability do
     context 'cannot manage claims by another advocate' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :transition_state, :confirmation, :destroy].each do |action|
+      [:show, :edit, :update, :confirmation, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -74,7 +74,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :transition_state, :confirmation, :destroy].each do |action|
+      [:show, :edit, :update, :confirmation, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -82,7 +82,7 @@ describe Ability do
     context 'can manage claims by another advocate in the same chamber' do
       let(:other_advocate) { create(:advocate, chamber: chamber) }
 
-      [:show, :edit, :update, :transition_state, :confirmation, :destroy].each do |action|
+      [:show, :edit, :update, :confirmation, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -90,7 +90,7 @@ describe Ability do
     context 'cannot manage claims by another advocate in a different chamber' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :transition_state, :confirmation, :destroy].each do |action|
+      [:show, :edit, :update, :confirmation, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end

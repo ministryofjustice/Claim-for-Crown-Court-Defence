@@ -8,25 +8,20 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_search_options, only: [:index]
 
   def index
-    add_breadcrumb 'Dashboard', case_workers_root_path
-
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
     set_claim_ids_and_count
   end
 
   def show
-    add_breadcrumb 'Dashboard', case_workers_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", case_workers_claim_path(@claim)
-
     @claim.assessment = Assessment.new if @claim.assessment.nil?
     @enable_assessment_input = @claim.assessment.blank?
     @enable_status_change = true
 
-
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
+    @redetermination = @claim.redeterminations.build
   end
 
   def update
@@ -76,6 +71,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         :id,
         :fees,
         :expenses
+      ],
+      :redeterminations_attributes => [
+        :id,
+        :fees,
+        :expenses
       ]
     )
   end
@@ -86,7 +86,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         when 'allocated'
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
-          Claim.submitted
+          Claim.submitted_or_redetermination_or_awaiting_written_reasons
         when 'completed'
           Claim.caseworker_dashboard_completed
       end

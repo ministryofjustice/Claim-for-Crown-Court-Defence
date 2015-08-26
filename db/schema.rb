@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813163440) do
+ActiveRecord::Schema.define(version: 20150824155035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,13 +22,13 @@ ActiveRecord::Schema.define(version: 20150813163440) do
     t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "account_number"
-    t.uuid     "uuid",           default: "uuid_generate_v4()"
+    t.string   "supplier_number"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
   end
 
-  add_index "advocates", ["account_number"], name: "index_advocates_on_account_number", using: :btree
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
   add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
+  add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
   create_table "case_types", force: true do |t|
     t.string   "name"
@@ -59,17 +59,31 @@ ActiveRecord::Schema.define(version: 20150813163440) do
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
   add_index "case_workers", ["role"], name: "index_case_workers_on_role", using: :btree
 
+  create_table "certifications", force: true do |t|
+    t.integer  "claim_id"
+    t.boolean  "main_hearing"
+    t.boolean  "notified_court"
+    t.boolean  "attended_pcmh"
+    t.boolean  "attended_first_hearing"
+    t.boolean  "previous_advocate_notified_court"
+    t.boolean  "fixed_fee_case"
+    t.string   "certified_by"
+    t.date     "certification_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "chambers", force: true do |t|
     t.string   "name"
-    t.string   "account_number"
+    t.string   "supplier_number"
     t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",           default: "uuid_generate_v4()"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
   end
 
-  add_index "chambers", ["account_number"], name: "index_chambers_on_account_number", using: :btree
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
+  add_index "chambers", ["supplier_number"], name: "index_chambers_on_supplier_number", using: :btree
 
   create_table "claim_state_transitions", force: true do |t|
     t.integer  "claim_id"
@@ -89,7 +103,6 @@ ActiveRecord::Schema.define(version: 20150813163440) do
     t.datetime "submitted_at"
     t.string   "case_number"
     t.string   "advocate_category"
-    t.string   "prosecuting_authority"
     t.string   "indictment_number"
     t.date     "first_day_of_trial"
     t.integer  "estimated_trial_length", default: 0

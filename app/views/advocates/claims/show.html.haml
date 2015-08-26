@@ -1,16 +1,10 @@
--present(@claim) do |claim| 
+-present(@claim) do |claim|
   %p
     = link_to t('link.back'), advocates_claims_path, class: 'button'
     - if claim.editable?
       = link_to t('link.edit'), edit_advocates_claim_path(claim), class: 'button'
 
-  %h1
-    = t('.heading')
-    = claim.case_number
-
-  %P
-    = t('.created_by')
-    = claim.creator.name
+  = render 'shared/claim_header', claim: claim
 
   #claim-accordion
     %h2

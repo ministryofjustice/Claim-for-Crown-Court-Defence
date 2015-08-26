@@ -2,13 +2,13 @@
 #
 # Table name: advocates
 #
-#  id             :integer          not null, primary key
-#  role           :string(255)
-#  chamber_id     :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  account_number :string(255)
-#  uuid           :uuid
+#  id              :integer          not null, primary key
+#  role            :string(255)
+#  chamber_id      :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  supplier_number :string(255)
+#  uuid            :uuid
 #
 
 class Advocate < ActiveRecord::Base
@@ -25,7 +25,7 @@ class Advocate < ActiveRecord::Base
 
   validates :user, :chamber, presence: true
   validates :chamber, presence: true
-  validates :account_number, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]{5}\z/ }
+  validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]{5}\z/ }
 
   accepts_nested_attributes_for :user
 
@@ -43,7 +43,7 @@ class Advocate < ActiveRecord::Base
 
 
   def name_and_number
-    "#{self.user.last_name}, #{self.user.first_name}: #{self.account_number}"
+    "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
   end
 
 

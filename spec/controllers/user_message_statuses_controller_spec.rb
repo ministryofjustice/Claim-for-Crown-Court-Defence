@@ -17,12 +17,6 @@ RSpec.describe UserMessageStatusesController, type: :controller do
     it 'renders the index template' do
       expect(response).to render_template(:index)
     end
-
-    render_views
-
-    it 'renders breadcrumbs' do
-      expect(response.body).to match(/Dashboard.*Messages/)
-    end
   end
 
   describe 'PUT #update' do

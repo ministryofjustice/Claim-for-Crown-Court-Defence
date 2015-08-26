@@ -10,7 +10,7 @@ adp.crackedTrial = {
   init : function() {
 
     //initialise handles
-    adp.crackedTrial.$caseTypeSelect = $('#claim_case_type');
+    adp.crackedTrial.$caseTypeSelect = $('#claim_case_type_id');
     adp.crackedTrial.$fieldSet = $('#cracked_trial_detail');
     adp.crackedTrial.regex = /[Cc]racked .*/;
 
@@ -21,7 +21,7 @@ adp.crackedTrial = {
 
     // show fieldset if cracked trial type already selected (i.e. if editing existing claim)
     var caseTypeLabel = adp.crackedTrial.$caseTypeSelect.find('option:selected').text();
-    if (typeof caseTypeLabel == "undefined" || !adp.crackedTrial.regex.test(caseTypeLabel)) {
+    if (typeof caseTypeLabel === "undefined" || !adp.crackedTrial.regex.test(caseTypeLabel)) {
         adp.crackedTrial.$fieldSet.hide();
     }
 

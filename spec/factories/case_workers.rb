@@ -2,12 +2,13 @@
 #
 # Table name: case_workers
 #
-#  id          :integer          not null, primary key
-#  role        :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  location_id :integer
-#  days_worked :string(255)
+#  id             :integer          not null, primary key
+#  role           :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  location_id    :integer
+#  days_worked    :string(255)
+#  approval_level :string(255)      default("Low")
 #
 
 FactoryGirl.define do

@@ -1,3 +1,4 @@
+#
 # == Schema Information
 #
 # Table name: claims
@@ -9,7 +10,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -27,7 +27,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
@@ -179,6 +178,32 @@ RSpec.describe Claim, type: :model do
       before { allow(subject).to receive(:draft?).and_return(true) }
 
       it { should validate_presence_of(:advocate) }
+
+      it 'should not validate other attributes' do
+        subject.offence = nil
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'draft with force_validation set to true' do
+      before do
+        subject.force_validation = true
+        allow(subject).to receive(:draft?).and_return(true)
+      end
+
+      it { should validate_presence_of(:advocate) }
+      it { should validate_presence_of(:creator) }
+      it { should validate_presence_of(:court) }
+      it { should validate_presence_of(:offence) }
+      it { should validate_presence_of(:case_number) }
+
+      it { should validate_presence_of(:case_type_id) }
+      it { should validate_presence_of(:advocate_category) }
+      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+
+      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+
     end
 
     context 'non-draft' do
@@ -189,8 +214,6 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:court) }
       it { should validate_presence_of(:offence) }
       it { should validate_presence_of(:case_number) }
-      it { should validate_presence_of(:prosecuting_authority) }
-      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
       it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
@@ -216,8 +239,6 @@ RSpec.describe Claim, type: :model do
       it { should validate_presence_of(:court) }
       it { should validate_presence_of(:offence) }
       it { should validate_presence_of(:case_number) }
-      it { should validate_presence_of(:prosecuting_authority) }
-      it { should validate_inclusion_of(:prosecuting_authority).in_array(%w( cps )) }
 
       it { should validate_presence_of(:case_type_id) }
       it { should validate_presence_of(:advocate_category) }
@@ -284,7 +305,7 @@ RSpec.describe Claim, type: :model do
       claim = FactoryGirl.create :allocated_claim
       claim.assessment = Assessment.new
       claim_params = {
-        "state_for_form"=>"part_paid", 
+        "state_for_form"=>"part_paid",
         "assessment_attributes" => {
           "id" => claim.assessment.id,
           "fees" => "66.22",
@@ -511,7 +532,7 @@ RSpec.describe Claim, type: :model do
         subject.advocate.user.first_name = 'Fred'
         subject.advocate.user.last_name = 'Bloggs'
         subject.advocate.user.save!
-        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
+        create(:defendant, first_name: 'Joexx', last_name: 'Bloggs', claim: subject)
         subject.save!
 
         other_claim.advocate = other_advocate
@@ -528,7 +549,7 @@ RSpec.describe Claim, type: :model do
         expect(Claim.search(:advocate_name, :defendant_name, 'Hoskins')).to eq([other_claim])
         expect(Claim.search(:advocate_name, :defendant_name, 'Fred').count).to eq(2) #advocate and defendant of name
         expect(Claim.search(:advocate_name, :defendant_name, 'John').count).to eq(1) #advocate only search
-        expect(Claim.search(:advocate_name, :defendant_name, 'Joe').count).to eq(1) #defendant only search
+        expect(Claim.search(:advocate_name, :defendant_name, 'Joexx').count).to eq(1) #defendant only search
       end
 
       it 'does not find claims that do not match the name' do
@@ -867,23 +888,22 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '.fixed_fee' do
-    let!(:fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 2)
-      claims.each { |c| c.fees << create(:fee, :fixed) }
-      claims
-    end
+  describe '#fixed_fees' do
+    let(:ct_fixed_1)          { FactoryGirl.create :case_type, :fixed_fee }
+    let(:ct_fixed_2)          { FactoryGirl.create :case_type, :fixed_fee }
+    let(:ct_basic_1)          { FactoryGirl.create :case_type }
+    let(:ct_basic_2)          { FactoryGirl.create :case_type }
 
-    let(:non_fixed_fee_claims) do
-      claims = create_list(:submitted_claim, 2)
-      claims.each { |c| c.fees << create(:fee, :basic) }
-      claims
-    end
+    it 'should only return claims with fixed fee case types' do
+      claim_1 = FactoryGirl.create :claim, case_type_id: ct_fixed_1.id
+      claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
+      claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
+      claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
 
-    it 'only returns claims with fixed fees' do
-      expect(Claim.fixed_fee).to match_array(fixed_fee_claims)
+      expect(Claim.fixed_fee).to eq( [ claim_1, claim_2 ])
     end
   end
+
 
   describe '.total_greater_than_or_equal_to' do
     let(:not_greater_than_400) do
@@ -1016,21 +1036,112 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  
+  describe 'comma formatted inputs' do
+    [:fees_total, :expenses_total, :total, :vat_amount].each do |attribute|
+      it "converts input for #{attribute} by stripping commas out" do
+        claim = build(:claim)
+        claim.send("#{attribute}=", '12,321,111')
+        expect(claim.send(attribute)).to eq(12321111)
+      end
+    end
+  end
+
+  describe '#written_reasons_outstanding?' do
+    let(:claim) { create(:claim) }
+
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.refuse!
+    end
+
+    context 'when transitioned to awaiting_written_reasons' do
+      before do
+        claim.await_written_reasons!
+      end
+
+      it 'should be in an awaiting_written_reasons state' do
+        expect(claim).to be_awaiting_written_reasons
+      end
+
+      it 'should be awaiting_written_reasons' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+
+    context 'when transitioned to allocated' do
+      before do
+        claim.await_written_reasons!
+        claim.allocate!
+      end
+
+      it 'should be in an allocated state' do
+        expect(claim).to be_allocated
+      end
+
+      it 'should have written_reasons_outstanding before being allocated' do
+        expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+  end
+
+  describe '#requested_redetermination?' do
+    
+    context 'allocated state from redetermination' do
+
+      before(:each) do
+        @claim = FactoryGirl.create :redetermination_claim
+        @claim.allocate!
+      end
+      
+      context 'no previous redetermination' do
+        
+        it 'should be true' do
+          expect(@claim.redeterminations).to be_empty
+          expect(@claim.requested_redetermination?).to be true
+        end
+      end
+
+      context 'previous redetermination record created before state was changed to redetermination' do
+        it 'should be true' do
+          Timecop.freeze(Time.now - 2.hours) do
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+            Timecop.freeze(Time.now ) do
+              @claim.pay_part!
+              @claim.redetermine!
+              @claim.allocate!
+            end
+            expect(@claim.requested_redetermination?).to be true
+          end
+        end
+      end
+
+
+      context 'latest redetermination created after transition to redetermination' do
+        it 'should be false' do
+          Timecop.freeze(Time.now + 10.minutes) do
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+          end
+          expect(@claim.requested_redetermination?).to be false
+        end
+      end
+
+
+    end
+
+    context 'allocated state where the previous state was not redetermination' do
+      it 'should be false' do
+        claim = FactoryGirl.create :allocated_claim
+        expect(claim.requested_redetermination?).to be false
+      end
+    end
+
+    context 'not allocated state' do
+      it 'should be false' do
+        claim = FactoryGirl.create :redetermination_claim
+        expect(claim.requested_redetermination?).to be false
+      end
+    end
+
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

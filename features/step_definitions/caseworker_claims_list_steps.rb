@@ -21,15 +21,17 @@ Given(/^there are completed claims$/) do
   @claims = create_list(:completed_claim, 5)
 end
 
-Then(/^I should see the allocated claims$/) do
-  click_on "Allocated claims (#{@claims.count})"
-  expect(page).to have_content("Allocated claims (#{@claims.count})")
-end
+# TODO update once "Archive" has been created and working
+#Then(/^I should see the allocated claims$/) do
+#  click_on "Allocated claims (#{@claims.count})"
+#  expect(page).to have_content("Allocated claims (#{@claims.count})")
+#end
 
-Then(/^I should see the unallocated claims$/) do
-  click_on "Unallocated claims (#{@claims.count})"
-  expect(page).to have_content("Unallocated claims (#{@claims.count})")
-end
+# TODO update once "Archive" has been created and working
+#Then(/^I should see the unallocated claims$/) do
+#  click_on "Unallocated claims (#{@claims.count})"
+#  expect(page).to have_content("Unallocated claims (#{@claims.count})")
+#end
 
 Then(/^I should see the completed claims$/) do
   click_on "Completed claims (#{@claims.count})"
@@ -54,14 +56,16 @@ When(/^I visit my dashboard$/) do
 end
 
 Then(/^I should see only my claims$/) do
-  claim_dom_ids = @claims.map { |c| "claim_#{c.id}" }
-  claim_dom_ids.each do |dom_id|
-    expect(page).to have_selector("##{dom_id}")
+  @claims.each do | claim |
+    expect(find('#claims-list')).to have_link(claim.case_number,
+          :href => case_workers_claim_path(claim,
+          claim_ids: @claims.map(&:id), claim_count: @claims.try(:count)))
   end
 
-  other_claim_dom_ids = @other_claims.map { |c| "claim_#{c.id}" }
-  other_claim_dom_ids.each do |dom_id|
-    expect(page).to_not have_selector("##{dom_id}")
+  @other_claims.each do | other_claim |
+    expect(find('#claims-list')).to_not have_link(other_claim.case_number,
+          :href => case_workers_claim_path(other_claim,
+          claim_ids: @other_claims.map(&:id), claim_count: @other_claims.try(:count)))
   end
 end
 
@@ -81,35 +85,37 @@ When(/^I sort the claims by oldest first$/) do
 end
 
 Then(/^I should see the claims sorted by oldest first$/) do
-  claim_dom_ids = @claims.sort_by(&:submitted_at).map { |c| "claim_#{c.id}" }
-  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
+  @claims.sort_by(&:submitted_at).each do | claim |
+    expect(find('#claims-list')).to have_link(claim.case_number,
+          :href => case_workers_claim_path(claim,
+          claim_ids: @claims.map(&:id), claim_count: @claims.try(:count)))
+  end
 end
 
-When(/^I sort the claims by highest value first$/) do
-  click_on 'Value - Highest first'
-end
+#TODO Reintroduce when sorting columns is implemented
+#When(/^I sort the claims by highest value first$/) do
+#  click_on 'Value - Highest first'
+#end
 
-Then(/^I should see the claims sorted by highest value first$/) do
-  claim_dom_ids = @claims.sort_by(&:total).reverse.map { |c| "claim_#{c.id}" }
-  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
-end
+#TODO Reintroduce when sorting columns is implemented
+#Then(/^I should see the claims sorted by highest value first$/) do
+#  claim_dom_ids = @claims.sort_by(&:total).reverse.map { |c| "claim_#{c.id}" }
+#  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
+#end
 
-When(/^I sort the claims by lowest value first$/) do
-  click_on 'Value - Lowest first'
-end
+#TODO Reintroduce when sorting columns is implemented
+#When(/^I sort the claims by lowest value first$/) do
+#  click_on 'Value - Lowest first'
+#end
 
-Then(/^I should see the claims sorted by lowest value first$/) do
-  claim_dom_ids = @claims.sort_by(&:total).map { |c| "claim_#{c.id}" }
-  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
-end
-
-Then(/^I should see the claims count$/) do
-  expect(page).to have_content("Current claims (#{@claims.size})")
-end
+#TODO Reintroduce when sorting columns is implemented
+#Then(/^I should see the claims sorted by lowest value first$/) do
+#  claim_dom_ids = @claims.sort_by(&:total).map { |c| "claim_#{c.id}" }
+#  expect(page.body).to match(/.*#{claim_dom_ids.join('.*')}.*/m)
+#end
 
 When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
   fill_in 'search', with: defendant_name
-  # select 'Defendant', from: 'search_field'
   click_button 'Search'
 end
 
@@ -119,13 +125,11 @@ end
 
 When(/^I search for a claim by MAAT reference$/) do
   fill_in 'search', with: 'AA1245'
-  #select 'MAAT Reference', from: 'search_field'
   click_button 'Search'
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-  expect(page).to have_selector("#claim_#{@claims.first.id}")
-  expect(@claims.first.defendants.first.representation_orders.first.maat_reference).to match(page.find('#search').text)
+    expect(find('#claims-list')).to have_link(@claims.first.case_number)
 end
 
 Given(/^I have completed claims$/) do
@@ -139,6 +143,7 @@ Given(/^I have completed claims$/) do
   create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
 end
 
-When(/^I click on the Completed Claims tab$/) do
-  click_on 'Completed claims'
-end
+# TODO update once "Archive" has been created and working
+#When(/^I click on the Completed Claims tab$/) do
+#  click_on 'Completed claims'
+#end

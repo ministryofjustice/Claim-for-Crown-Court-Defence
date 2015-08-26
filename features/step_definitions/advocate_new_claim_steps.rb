@@ -2,11 +2,11 @@ Given(/^There are other advocates in my chamber$/) do
   FactoryGirl.create(:advocate,
         chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
-        account_number: 'AC135')
+        supplier_number: 'AC135')
   FactoryGirl.create(:advocate,
         chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
-        account_number: 'XY455')
+        supplier_number: 'XY455')
 end
 
 Given(/^I am on the new claim page$/) do
@@ -29,7 +29,8 @@ Given(/^There are fee schemes in place$/) do
 end
 
 Given(/^There are case types in place$/) do
-  load("#{Rails.root}/db/seeds/case_types.rb")
+  load "#{Rails.root}/db/seeds/case_types.rb"
+  CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
 end
 
 When(/^I click Add Another Representation Order$/) do
@@ -82,9 +83,15 @@ Then(/^the dates attended are also removed$/) do
   expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
+
+When(/^I fill in the certification details and submit/) do
+  check 'certification_main_hearing'
+  click_on 'Certify and Submit Claim'
+end
+
+
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
-  select('CPS', from: 'claim_prosecuting_authority')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: '123456'
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
@@ -147,6 +154,11 @@ end
 Then(/^I should be redirected to the claim confirmation page$/) do
   claim = Claim.first
   expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+end
+
+Then(/^I should be redirected to the claim certification page$/) do
+  claim = Claim.first
+  expect(page.current_path).to eq(new_advocates_claim_certification_path(claim))
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do

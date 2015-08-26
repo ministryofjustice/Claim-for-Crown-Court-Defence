@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -27,7 +26,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
@@ -58,7 +56,6 @@ FactoryGirl.define do
     case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
     offence
     advocate_category 'QC'
-    prosecuting_authority 'cps'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     after(:create) do |claim|
@@ -131,6 +128,10 @@ FactoryGirl.define do
 
     factory :redetermination_claim do
       after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.redetermine! }
+    end
+
+    factory :awaiting_written_reasons_claim do
+      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.await_written_reasons! }
     end
 
     factory :part_paid_claim do

@@ -46,7 +46,6 @@ module API
             api_response
           end
 
-
           desc "Validate a fee."
 
           params do

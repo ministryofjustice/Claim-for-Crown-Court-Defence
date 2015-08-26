@@ -1,6 +1,20 @@
 <% if @message.persisted? %>
   $('.message-notification').text('<%=j @notification[:notice].html_safe %>');
   $('.timeline .days > li > ul:first-child').prepend('<%=j render "shared/message", message: @message %>');
+  $('.no-messages').hide();
+
+  $('#message_subject').val('');
+  $('#message_body').val('');
+  $('.message-error').text('');
+
+  <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
+    $('.claim-action-dropdown').hide();
+  <% end %>
+
+  <% unless @message.claim.written_reasons_outstanding? %>
+    $('.written-reasons-checkbox').hide();
+  <% end %>
 <% else %>
   $('.message-error').text('<%=j @notification[:alert].html_safe %>');
+  $('.message-notification').text('');
 <% end %>

@@ -67,4 +67,10 @@
       Claim total:
       = claim.total
 
-    = render partial: "shared/vat_summary", locals: { claim:  claim } 
+    = render partial: "shared/vat_summary", locals: { claim:  claim }
+
+    - unless @claim.additional_information.blank?
+      %h1
+        Additional information
+      %p
+        = @claim.additional_information

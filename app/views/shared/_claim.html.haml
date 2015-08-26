@@ -12,6 +12,10 @@
         Case
       %dl
         %dt
+          Number
+        %dd
+          = claim.case_number
+        %dt
           =t('.defendant')
         %dd
           = claim.defendant_names
@@ -22,7 +26,7 @@
         %dt
           =t('.adv_acc_no')
         %dd
-          = claim.advocate.account_number
+          = claim.advocate.supplier_number
         %dt
           =t('.submit_date')
         %dd
@@ -35,7 +39,7 @@
           %dt
             = t('.case_type')
           %dd
-            = claim.case_type.name
+            = claim.case_type.try(:name)
           %dt
             =t('.caseworker')
           %dd
@@ -55,14 +59,10 @@
         =t('common.court')
       %dl
         %dt
-          =t('common.crown_cout')
+          =t('common.crown_court')
         %dd
           - if claim.court
             = claim.court.name
-        %dt
-          = t('.prosecuting_auth')
-        %dd
-          = claim.prosecuting_authority.titleize
         %dt
           = t('.q.retrial')
         %dd
@@ -87,8 +87,6 @@
 
   - unless controller.action_name == 'show' || controller.action_name == 'update'
     %li
-      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-        Case Value
       %dl
         %dt
           Expenses

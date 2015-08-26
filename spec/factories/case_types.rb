@@ -11,11 +11,12 @@
 
 FactoryGirl.define do
   factory :case_type do
-    name          "Trial"
+    # name          "Trial"
+    sequence(:name) { |n| "Case Type #{n}" }
     is_fixed_fee  false
 
     trait :fixed_fee do
-      name           "Appeal against sentence"
+      # name           "Appeal against sentence"
       is_fixed_fee    true
     end
   end

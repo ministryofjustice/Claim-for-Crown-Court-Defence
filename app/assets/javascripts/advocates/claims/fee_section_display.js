@@ -19,7 +19,6 @@ adp.feeSectionDisplay = {
 
     //initialise handles
     $this.$caseTypeSelect = $('#claim_case_type_id');
-    $this.regex = /Fixed fee/;
     //Initial Fees
     var $basicFeesSet = $this.$basicFeesSet = $('#basic-fees').closest('fieldset'),
     //Fixed Fees Section
@@ -52,7 +51,9 @@ adp.feeSectionDisplay = {
     $this.showHideVAT();
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
-    $this.applyFixedFeeState($this.regex.test($this.caseTypeSelected()));
+    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    $this.applyFixedFeeState(is_fixed_fee === true);
+
   },
 
   caseTypeSelected : function () {
@@ -87,7 +88,6 @@ adp.feeSectionDisplay = {
     if (state) {
       adp.feeSectionDisplay.applyWarning('Initial and Miscellaneous fees exist that will be removed if you save this claim as a Fixed Fee!', state);
       adp.feeSectionDisplay.$basicFeesSet.slideUp();
-      adp.feeSectionDisplay.$miscFeesSet.slideUp();
       adp.feeSectionDisplay.$fixedFeesSet.slideDown();
 
     } else {
@@ -99,7 +99,8 @@ adp.feeSectionDisplay = {
   },
 
   addCaseTypeChangeEvent : function() {
-    adp.feeSectionDisplay.applyFixedFeeState(adp.feeSectionDisplay.regex.test(adp.feeSectionDisplay.caseTypeSelected()));
+    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    adp.feeSectionDisplay.applyFixedFeeState(is_fixed_fee === true);
   },
 
   showHideVAT :function(){
@@ -109,7 +110,7 @@ adp.feeSectionDisplay = {
       $this.$vatReport.show();
     }else{
       $this.$vatReport.hide();
-    };
+    }
   },
 
   getVAT :function(){
@@ -127,7 +128,7 @@ adp.feeSectionDisplay = {
     if($this.$vatApplyChkbox.is(':checked')){
 
       $.when($this.getVAT())
-      .then(function( data, textStatus, jqXHR ){
+      .then(function( data){
         $vatReport.find('.vat-date').text(data.date);
         $vatReport.find('.vat-rate').text(data.rate);
         $vatReport.find('.vat-total').text(data.net_amount);
@@ -136,10 +137,10 @@ adp.feeSectionDisplay = {
       .then(function(){
         if($vatReport.filter(':visible').length === 0){
           $this.showHideVAT();
-        };
+        }
       });
     }else{
       $this.showHideVAT();
-    };
+    }
   }
 };

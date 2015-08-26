@@ -13,7 +13,7 @@ Feature: Caseworker notes
   Scenario: Update case worker notes as a case worker
     Given I am a signed in case worker
       And a claim has been assiged to me
-     When I visit the the claim's detail page
+     When I visit the case worker claim's detail page
      Then I should be able to see the caseworker notes
       And I update the caseworker notes
      Then the notes will be saved

@@ -4,41 +4,30 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DocTypes
 
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :update, :transition_state, :destroy]
-  before_action :set_doctypes, only: [:show, :transition_state]
+  before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
 
   def index
-    add_breadcrumb 'Dashboard', advocates_root_path
-
     @claims = @context.claims.order(created_at: :desc)
     search if params[:search].present?
     set_state_claims
   end
 
   def outstanding
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Outstanding', outstanding_advocates_claims_path
-
     @claims = @financial_summary.outstanding_claims
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb 'Authorised', authorised_advocates_claims_path
-
     @claims = @financial_summary.authorised_claims
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
   def show
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build
     @enable_assessment_input = false
@@ -46,34 +35,23 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def new
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "New claim", new_advocates_claim_path
-
     @claim = Claim.new
     @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
-    load_offences
+    load_offences_and_case_types
 
     build_nested_resources
   end
 
   def edit
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-    add_breadcrumb "Edit", edit_advocates_claim_path(@claim)
-
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     @disable_assessment_input = true
 
     redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
   end
 
-  def confirmation
-    add_breadcrumb 'Dashboard', advocates_root_path
-    add_breadcrumb "Claim: #{@claim.case_number}", advocates_claim_path(@claim)
-    add_breadcrumb "Confirmation", edit_advocates_claim_path(@claim)
-  end
+  def confirmation; end
 
   def create
     @claim = Claim.new(params_with_advocate_and_creator)
@@ -90,18 +68,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if @claim.update(claim_params)
       submit_if_required_and_redirect
     else
-      render_edit_with_resources
+      submit_claim_to_laa
     end
-  end
-
-  def transition_state
-    @messages = @claim.messages.most_recent_first
-    begin
-      @claim.update_model_and_transition_state(claim_params)
-    rescue StateMachine::InvalidTransition => err
-    end
-    @message = @claim.messages.build
-    render action: :show
   end
 
   def destroy
@@ -111,18 +79,24 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   private
 
-  def load_offences
+  def load_offences_and_case_types
     @offence_descriptions = Offence.unique_name.order(description: :asc)
     if @claim.offence
       @offences = Offence.includes(:offence_class).where(description: @claim.offence.description)
     else
       @offences = Offence.includes(:offence_class)
     end
+    @case_types = CaseType.all
   end
 
   def submit_if_required_and_redirect
     if submitting_to_laa?
-      submit_claim_to_laa
+      @claim.force_validation = true
+      if @claim.valid?
+        redirect_to new_advocates_claim_certification_path(@claim)
+      else
+        render_edit_with_resources
+      end
     else
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     end
@@ -191,7 +165,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :trial_concluded_at,
      :advocate_category,
      :additional_information,
-     :prosecuting_authority,
      :indictment_number,
      :apply_vat,
      :evidence_checklist_ids => [],
@@ -316,14 +289,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def render_edit_with_resources
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     render action: :edit
   end
 
   def render_new_with_resources
     @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
-    load_offences
+    load_offences_and_case_types
     render action: :new
   end
 
@@ -343,8 +316,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def create_and_submit
-    if @claim.submit && @claim.save
-      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+    @claim.force_validation = true
+    @claim.save
+    if @claim.valid?
+      redirect_to new_advocates_claim_certification_path(@claim)
     else
       render_new_with_resources
     end

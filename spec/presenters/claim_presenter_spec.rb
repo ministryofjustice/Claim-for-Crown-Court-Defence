@@ -32,6 +32,34 @@ RSpec.describe ClaimPresenter do
     expect{subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
+
+  describe '#assessment_date' do
+    it 'should return not yet assessed if there is no assessment' do
+      expect(subject.assessment_date).to eq '(not yet assessed)'
+    end
+
+    it 'should return the creation date of the assessment' do
+      Timecop.freeze Time.new(2015, 8, 13, 14, 55, 23) do
+        assessment = FactoryGirl.create :assessment, claim: claim
+        expect(subject.assessment_date).to eq '13/08/2015'
+      end
+    end
+  end
+
+  describe 'assessment_fees' do
+    it 'should return formatted assessment fees' do
+      assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56
+      expect(subject.assessment_fees).to eq '£1,234.56'
+    end
+  end
+
+  describe 'assessment_expenses' do
+    it 'should return formatted assessment expense' do
+      assessment = FactoryGirl.create :assessment, claim: claim, expenses: 1234.56
+      expect(subject.assessment_expenses).to eq '£1,234.56'
+    end
+  end
+
   describe '#retrial' do
 
     it 'returns yes for case types like retrial' do
@@ -76,6 +104,12 @@ RSpec.describe ClaimPresenter do
     expect(subject.expenses_total).to eql("£100.00")
   end
 
+  it "#total_inc_vat" do
+    claim.total = 60
+    claim.vat_amount = 40
+    expect(subject.total_inc_vat).to eql("£100.00")
+  end
+
   it '#status_image' do
     c = claim
     c.submit!; c.allocate!; c.await_info_from_court!
@@ -113,15 +147,15 @@ RSpec.describe ClaimPresenter do
       defendant_2 = FactoryGirl.build :defendant
       Timecop.freeze 5.days.ago do
         defendant_1.representation_orders = [
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court"),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court"),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court", maat_reference: '1234abc'),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court", maat_reference: 'abc1234'),
         ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court") ]
+        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court", maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015<br/>Magistrate's Court 13/08/2015<br/>Magistrate's Court 01/03/2015" )
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrate's Court 13/08/2015 abc1234<br/>Magistrate's Court 01/03/2015 xyz4321" )
     end
   end
 

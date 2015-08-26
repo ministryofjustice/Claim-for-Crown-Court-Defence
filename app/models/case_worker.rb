@@ -2,16 +2,18 @@
 #
 # Table name: case_workers
 #
-#  id          :integer          not null, primary key
-#  role        :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  location_id :integer
-#  days_worked :string(255)
+#  id             :integer          not null, primary key
+#  role           :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  location_id    :integer
+#  days_worked    :string(255)
+#  approval_level :string(255)      default("Low")
 #
 
 class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
+  APPROVAL_LEVELS_COLLECTION = %w{ High Low }
   include UserRoles
 
   serialize :days_worked, Array
@@ -27,7 +29,7 @@ class CaseWorker < ActiveRecord::Base
   validates :location, presence: true
   validates :user, presence: true
   validate  :days_worked_valid
-  validates :approval_level, inclusion: { in: %w( High Low ), message: "must be high or low" }
+  validates :approval_level, inclusion: { in: APPROVAL_LEVELS_COLLECTION, message: "must be high or low" }
 
   accepts_nested_attributes_for :user
 
@@ -36,8 +38,7 @@ class CaseWorker < ActiveRecord::Base
   delegate :last_name, to: :user
   delegate :name, to: :user
 
-
-
+  
   def method_missing(method, *args)
     if method.to_s =~ /^days_worked_(.)$/
       self.days_worked[$1.to_i]
@@ -84,4 +85,3 @@ class CaseWorker < ActiveRecord::Base
     uniqs == [1] || uniqs == [0, 1] || uniqs == [0]
   end
 end
-

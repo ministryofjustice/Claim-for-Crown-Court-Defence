@@ -21,6 +21,10 @@
  #global-header-bar .inner-block{
   padding:0;
  }
+
+ #footer{
+   display: none;
+ }
  // ==========================================================================
  // Override gov uk widths
  // ==========================================================================
@@ -136,6 +140,10 @@ section{
 }
 .clear-float{
   overflow: auto;
+}
+
+.message{
+  width: 2em;
 }
 
 @import "navigation";

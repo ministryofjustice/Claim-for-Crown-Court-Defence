@@ -20,6 +20,8 @@ class Message < ActiveRecord::Base
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
+  attr_accessor :claim_action, :written_reasons_submitted
+
   has_attached_file :attachment,
     { s3_headers: {
       'x-amz-meta-Cache-Control' => 'no-cache',
@@ -42,7 +44,7 @@ class Message < ActiveRecord::Base
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 
-  after_create :generate_statuses
+  after_create :generate_statuses, :process_claim_action, :process_written_reasons
 
   class << self
     def for(object)
@@ -67,4 +69,43 @@ class Message < ActiveRecord::Base
   def users_for_statuses
     self.claim.advocate.chamber.advocates.map(&:user) + self.claim.case_workers.map(&:user)
   end
+
+  def process_claim_action
+    return unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
+
+    case self.claim_action
+      when /Apply for redetermination/
+        self.claim.redetermine!
+      when /Request written reasons/
+        self.claim.await_written_reasons!
+    end
+  end
+
+  def process_written_reasons
+    return unless self.claim.written_reasons_outstanding?
+
+    if self.written_reasons_submitted == '1'
+      self.claim.send("#{self.claim.claim_state_transitions.order(created_at: :asc).all[-3].event}!")
+    end
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

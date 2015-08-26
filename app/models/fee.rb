@@ -13,6 +13,9 @@
 #
 
 class Fee < ActiveRecord::Base
+  include NumberCommaParser
+  numeric_attributes :quantity, :amount
+
   belongs_to :claim
   belongs_to :fee_type
 

@@ -12,7 +12,7 @@ When(/^I visit the caseworkers dashboard$/) do
 end
 
 When(/^I click claim (\d+) in the list$/) do |position|
-  all('.detail-link')[position.to_i - 1].click
+  all('.js-test-case-number-link')[position.to_i - 1].click
 end
 
 Then(/^I should see the text "(.*?)"$/) do |text|

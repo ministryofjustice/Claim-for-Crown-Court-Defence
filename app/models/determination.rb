@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: determinations
+#
+#  id         :integer          not null, primary key
+#  claim_id   :integer
+#  type       :string(255)
+#  fees       :decimal(, )
+#  expenses   :decimal(, )
+#  total      :decimal(, )
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Determination < ActiveRecord::Base
 
 
@@ -14,5 +28,18 @@ class Determination < ActiveRecord::Base
     self.total = self.fees + self.expenses
   end
 
+  def blank?
+    zero_or_nil?(self.fees) && zero_or_nil?(self.expenses)
+  end
+
+  def present?
+    !blank?
+  end
+
+  private
+
+  def zero_or_nil?(value)
+    value.nil? || value == 0
+  end
   
 end

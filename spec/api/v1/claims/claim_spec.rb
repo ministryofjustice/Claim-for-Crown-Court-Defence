@@ -23,8 +23,7 @@ describe API::V1::Advocates::Claim do
                           :advocate_category => 'Led junior',
                           :indictment_number => 1234,
                           :offence_id => offence.id,
-                          :court_id => court.id,
-                          :prosecuting_authority => 'cps'} }
+                          :court_id => court.id } }
 
   context 'All claim API endpoints' do
     ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint

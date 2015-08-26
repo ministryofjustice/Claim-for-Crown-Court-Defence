@@ -45,7 +45,6 @@ And(/^The entered values should be preserved on the page$/) do
 
   expected_drop_down_values = {
             'claim_case_type_id'          => 'Guilty plea',
-            'claim_prosecuting_authority' => 'CPS',
             'claim_court_id'              => 'some court',
             'claim_advocate_category'     => 'QC'
           }

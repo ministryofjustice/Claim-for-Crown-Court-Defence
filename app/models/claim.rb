@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string(255)
 #  advocate_category      :string(255)
-#  prosecuting_authority  :string(255)
 #  indictment_number      :string(255)
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
@@ -27,7 +26,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  amount_assessed        :decimal(, )      default(0.0)
 #  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
@@ -48,6 +46,10 @@ class Claim < ActiveRecord::Base
   include Claims::StateMachine
   extend Claims::Search
   include Claims::Calculations
+  include Claims::UserMessages
+
+  include NumberCommaParser
+  numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
 
   STATES_FOR_FORM = {
     part_paid: "Part paid",
@@ -79,11 +81,12 @@ class Claim < ActiveRecord::Base
   has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
-  
+
   has_many :determinations
   has_one  :assessment
   has_many :redeterminations
 
+  has_one  :certification
 
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
@@ -95,35 +98,36 @@ class Claim < ActiveRecord::Base
   scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
   scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
   scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
+  scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
 
-  scope :fixed_fee,   -> { joins(fee_types: :fee_category).where('fee_categories.abbreviation = ?', 'FIXED').uniq }
 
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
   validates :advocate,                presence: true
-  validates :offence,                 presence: true, unless: :web_draft_or_pending_delete?
-  validates :creator,                 presence: true, unless: :web_draft_or_pending_delete?
-  validates :court,                   presence: true, unless: :web_draft_or_pending_delete?
-  validates :scheme,                  presence: true, unless: :web_draft_api_draft_or_pending_delete?
-  validates :case_number,             presence: true, unless: :web_draft_or_pending_delete?
-  validates :case_type_id,            presence: true, unless: :web_draft_or_pending_delete?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, unless: :web_draft_or_pending_delete?
-  validates :prosecuting_authority,   presence: true,     inclusion: { in: Settings.prosecuting_authorities }, unless: :web_draft_or_pending_delete?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, unless: :web_draft_or_pending_delete?
+  validates :offence,                 presence: true, if: :perform_validation?
+  validates :creator,                 presence: true, if: :perform_validation?
+  validates :court,                   presence: true, if: :perform_validation?
+  validates :case_number,             presence: true, if: :perform_validation?
+  validates :case_type_id,            presence: true, if: :perform_validation?
+  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
+  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+
+
 
   validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
-  accepts_nested_attributes_for :basic_fees,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :fixed_fees,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :misc_fees,   reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :expenses,    reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :defendants,  reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :documents,   reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :documents,         reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :assessment
+  accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
 
   before_save :calculate_vat
 
@@ -131,11 +135,37 @@ class Claim < ActiveRecord::Base
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :set_scheme, unless: :web_draft_api_draft_or_pending_delete?
+  before_validation :set_scheme, if: :perform_validation_or_not_api_draft?
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
-  after_initialize :default_values, :instantiate_assessment
-  # after_initialize :default_values
+  after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
+
+  def set_force_validation_to_false
+    @force_validation = false
+  end
+
+  def force_validation=(bool)
+    @force_validation = bool
+  end
+
+  def force_validation?
+    @force_validation
+  end
+
+  # if allocated, and the last state was redetermination and happened since the last redetermination record was created
+  def requested_redetermination?
+    self.allocated? ? redetermination_since_allocation? : false
+  end
+
+  def redetermination_since_allocation?
+    if last_state_transition.from == 'redetermination'
+      last_state_transition_later_than_redeterination?(last_state_transition)
+    else
+      false
+    end
+  end
+
+  
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -217,12 +247,23 @@ class Claim < ActiveRecord::Base
     draft? || submitted?
   end
 
-  def web_draft_or_pending_delete?
-    web_draft? || archived_pending_delete?
+  def perform_validation?
+    self.force_validation? || not_web_draft_and_pending_delete?
   end
 
-  def web_draft_api_draft_or_pending_delete?
-    web_draft? || api_draft? || archived_pending_delete?
+
+  def perform_validation_or_not_api_draft?
+    self.force_validation? || not_web_draft_api_draft_and_pending_delete?
+  end
+
+
+
+  def not_web_draft_and_pending_delete?
+    !web_draft? && !archived_pending_delete?
+  end
+
+  def not_web_draft_api_draft_and_pending_delete?
+    !web_draft? && !api_draft? && !archived_pending_delete?
   end
 
   def web_draft?
@@ -244,11 +285,31 @@ class Claim < ActiveRecord::Base
   def opened_for_redetermination?
     return true if self.redetermination?
 
-    transition = claim_state_transitions.order(created_at: :asc).last
+    transition = last_state_transition
     transition && transition.from == 'redetermination'
   end
 
+  def written_reasons_outstanding?
+    return true if self.awaiting_written_reasons?
+
+    transition = last_state_transition
+    transition && transition.from == 'awaiting_written_reasons'
+  end
+
   private
+
+  def last_state_transition_later_than_redeterination?(last_state_transition)
+    last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
+  end
+
+  def last_redetermination
+    self.redeterminations.select(&:present?).last
+  end
+
+  def last_state_transition
+    last_transition = claim_state_transitions.order(created_at: :asc).last
+  end
+
 
   def set_scheme
     rep_order = self.earliest_representation_order

@@ -44,11 +44,3 @@ ul.actions{
     }
   }
 }
-
-.user-form{
-  input{
-    &[type="text"], &[type="email"], &[type="password"], select{
-      width: 50%;
-    }
-  }
-}

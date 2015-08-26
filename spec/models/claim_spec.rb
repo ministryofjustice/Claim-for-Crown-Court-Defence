@@ -532,7 +532,7 @@ RSpec.describe Claim, type: :model do
         subject.advocate.user.first_name = 'Fred'
         subject.advocate.user.last_name = 'Bloggs'
         subject.advocate.user.save!
-        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
+        create(:defendant, first_name: 'Joexx', last_name: 'Bloggs', claim: subject)
         subject.save!
 
         other_claim.advocate = other_advocate
@@ -549,7 +549,7 @@ RSpec.describe Claim, type: :model do
         expect(Claim.search(:advocate_name, :defendant_name, 'Hoskins')).to eq([other_claim])
         expect(Claim.search(:advocate_name, :defendant_name, 'Fred').count).to eq(2) #advocate and defendant of name
         expect(Claim.search(:advocate_name, :defendant_name, 'John').count).to eq(1) #advocate only search
-        expect(Claim.search(:advocate_name, :defendant_name, 'Joe').count).to eq(1) #defendant only search
+        expect(Claim.search(:advocate_name, :defendant_name, 'Joexx').count).to eq(1) #defendant only search
       end
 
       it 'does not find claims that do not match the name' do

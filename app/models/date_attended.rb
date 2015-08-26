@@ -17,7 +17,6 @@ class DateAttended < ActiveRecord::Base
   belongs_to :attended_item, polymorphic: true
 
   validates :date, presence: true
-  validates :attended_item, presence: true
 
   def to_s
     unless date_to.nil?

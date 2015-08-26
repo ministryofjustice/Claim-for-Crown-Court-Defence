@@ -47,5 +47,27 @@ RSpec.describe FeeCategory, type: :model do
         expect(cat.abbreviation).to eq 'FIXED'
       end
     end
+
+    describe '#is_misc?' do
+      it 'should return true for miscellaneous fees' do
+        cat = FeeCategory.misc
+        expect(cat.is_misc?).to be true
+      end
+      it 'should return false for other fees' do
+        cat = FeeCategory.fixed
+        expect(cat.is_misc?).to be false
+      end
+    end
+
+    describe '#is_fixed?' do
+      it 'should return true for fixed fees' do
+        cat = FeeCategory.fixed
+        expect(cat.is_fixed?).to be true
+      end
+      it 'should return true for other fees' do
+        cat = FeeCategory.misc
+        expect(cat.is_fixed?).to be false
+      end
+    end
   end
 end

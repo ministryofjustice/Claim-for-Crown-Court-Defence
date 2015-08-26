@@ -2,11 +2,11 @@ Given(/^There are other advocates in my chamber$/) do
   FactoryGirl.create(:advocate,
         chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
-        account_number: 'AC135')
+        supplier_number: 'AC135')
   FactoryGirl.create(:advocate,
         chamber: @advocate.chamber,
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
-        account_number: 'XY455')
+        supplier_number: 'XY455')
 end
 
 Given(/^I am on the new claim page$/) do

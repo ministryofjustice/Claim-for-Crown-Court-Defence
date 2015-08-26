@@ -32,6 +32,34 @@ RSpec.describe ClaimPresenter do
     expect{subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
+
+  describe '#assessment_date' do
+    it 'should return not yet assessed if there is no assessment' do
+      expect(subject.assessment_date).to eq '(not yet assessed)'
+    end
+
+    it 'should return the creation date of the assessment' do
+      Timecop.freeze Time.new(2015, 8, 13, 14, 55, 23) do
+        assessment = FactoryGirl.create :assessment, claim: claim
+        expect(subject.assessment_date).to eq '13/08/2015'
+      end
+    end
+  end
+
+  describe 'assessment_fees' do
+    it 'should return formatted assessment fees' do
+      assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56
+      expect(subject.assessment_fees).to eq '£1,234.56'
+    end
+  end
+
+  describe 'assessment_expenses' do
+    it 'should return formatted assessment expense' do
+      assessment = FactoryGirl.create :assessment, claim: claim, expenses: 1234.56
+      expect(subject.assessment_expenses).to eq '£1,234.56'
+    end
+  end
+
   describe '#retrial' do
 
     it 'returns yes for case types like retrial' do

@@ -54,7 +54,7 @@ en:
     attributes:
       advocate:
         role: *role
-        account_number: 'Account number'
+        supplier_number: 'Supplier number'
       user:
         email: *email
         password: *password
@@ -74,7 +74,7 @@ en:
             role:
               blank: *blank
               inclusion: *inclusion
-            account_number:
+            supplier_number:
               blank: *blank
               invalid: 'must be 5 alhpa-numeric characters'
         user:
@@ -166,7 +166,7 @@ en:
           password_confirmation: *password_confirmation
           first_name: *first_name
           last_name: *last_name
-          account_number: 'Account number'
+          supplier_number: 'Supplier number'
           role: *role
           submit: 'Create Advocate'
     claims:

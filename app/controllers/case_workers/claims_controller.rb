@@ -18,7 +18,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @enable_assessment_input = @claim.assessment.blank?
     @enable_status_change = true
 
-
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_first
     @message = @claim.messages.build

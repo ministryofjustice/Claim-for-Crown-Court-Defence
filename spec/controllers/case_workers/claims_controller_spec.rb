@@ -76,6 +76,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:index)
     end
+
   end
 
   describe "GET #show" do
@@ -101,6 +102,15 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       it 'displays caseworker notes' do
         expect(response.body).to include('Update note')
       end
+    end
+  end
+
+
+  describe 'PATCH #update' do
+    it 'should update the model' do
+      claim = claims.first
+      patch :update, id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update'
+      expect(assigns(:claim).additional_information).to eq 'foo bar'
     end
   end
 end

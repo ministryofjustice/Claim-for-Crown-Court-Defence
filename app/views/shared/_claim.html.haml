@@ -26,7 +26,7 @@
         %dt
           =t('.adv_acc_no')
         %dd
-          = claim.advocate.account_number
+          = claim.advocate.supplier_number
         %dt
           =t('.submit_date')
         %dd
@@ -59,7 +59,7 @@
         =t('common.court')
       %dl
         %dt
-          =t('common.crown_cout')
+          =t('common.crown_court')
         %dd
           - if claim.court
             = claim.court.name

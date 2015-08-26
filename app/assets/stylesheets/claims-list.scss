@@ -21,7 +21,7 @@
   padding:0;
    li {
      @include span-columns(4);
-     list-style-type: none; 
+     list-style-type: none;
   }
 }
 .case-data li {
@@ -93,5 +93,11 @@ table.allocate{
       display: block;
       margin:auto;
     }
+  }
+}
+
+table#claims-list{
+  thead{
+    background-color: $grey-3;
   }
 }

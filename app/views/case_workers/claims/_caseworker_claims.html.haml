@@ -31,11 +31,11 @@
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td
-            = "Current"
+            = "Current (WIP)"
           %td
-            -# if claim.messages.unread_messages.count > 0
-              -#%object{:type => 'image/svg+xml', :data => image_path('unread-message.svg'), :class => 'message'}
-            - if claim.messages.any?
+            - if claim.has_unread_messages_for?(current_user)
+              %object{:type => 'image/svg+xml', :data => image_path('unread-message.svg'), :class => 'message'}
+            - elsif claim.messages.any?
               %object{:type => 'image/svg+xml', :data => image_path('read-message.svg'), :class => 'message'}
             - else
               %span.message-placeholder

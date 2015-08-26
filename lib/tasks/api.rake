@@ -18,7 +18,6 @@ namespace :api do
 
     if api_client.success
       status = 0
-      #TODO temrmination code exit 0/1
       io.puts "[+] success"
       io.puts api_client.messages.join("\n")
     else

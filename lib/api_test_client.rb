@@ -151,7 +151,6 @@ private
 
     # add a defendant
     response = post_to_advocate_endpoint('defendants', defendant_data(claim_id))
-    return if failure
 
     # add representation order
     defendant_id = JSON.parse(response)['id']
@@ -174,7 +173,6 @@ private
     #clear up/delete data
     claim = Claim.find_by(uuid: claim_id)
     if claim
-      #Note representation order is NOT dependant: destroy so should be deleted manually
       claim.destroy
     end
 

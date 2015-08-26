@@ -60,9 +60,6 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rspec-rails',    '~> 3.0'
   gem 'rspec-collection_matchers'
-end
-
-group :development do
   gem 'webrick',        '~> 1.3'
 end
 

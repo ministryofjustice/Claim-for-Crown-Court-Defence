@@ -47,6 +47,10 @@ class ClaimPresenter < BasePresenter
     h.number_to_currency(claim.total)
   end
 
+  def total_inc_vat
+    h.number_to_currency(claim.total + claim.vat_amount)
+  end
+
   def fees_total
     h.number_to_currency(claim.fees_total)
   end

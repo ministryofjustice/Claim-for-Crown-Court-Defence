@@ -104,6 +104,12 @@ RSpec.describe ClaimPresenter do
     expect(subject.expenses_total).to eql("£100.00")
   end
 
+  it "#total_inc_vat" do
+    claim.total = 60
+    claim.vat_amount = 40
+    expect(subject.total_inc_vat).to eql("£100.00")
+  end
+
   it '#status_image' do
     c = claim
     c.submit!; c.allocate!; c.await_info_from_court!

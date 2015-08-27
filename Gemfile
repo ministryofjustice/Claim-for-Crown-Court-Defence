@@ -78,7 +78,6 @@ group :test do
   gem 'simplecov-multi',            require: false
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
-  gem 'webrick',        '~> 1.3'
 end
 
 group :doc do

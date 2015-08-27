@@ -145,7 +145,7 @@ section{
 .message{
   width: 2em;
 }
-
+@import "grid_layout";
 @import "navigation";
 @import "list-controls";
 @import "claims-list";

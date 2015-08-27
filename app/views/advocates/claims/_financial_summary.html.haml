@@ -1,16 +1,25 @@
-%ul#payments
-  %li
-    %div 
-      %h3
+%div.container.financial_summary
+  %div.grid-row
+    %div.column-quarter
+      %span.bold-medium
         = t('.total_outstanding')
-      = number_to_currency(financial_summary.total_outstanding_claim_value)
-      %br
-      = link_to t('.view_details'), outstanding_advocates_claims_path, id: "outstanding_claim_details"
-
-  %li
-    %div 
-      %h3
+      %div.bold-large
+        = number_to_currency(financial_summary.total_outstanding_claim_value)
+      %p
+        = "for the last two weeks"
+        %br
+        = link_to t('.view_details'), outstanding_advocates_claims_path, id: "outstanding_claim_details"
+    %div.column-quarter
+      %span.bold-medium
         = t('.total_authorised')
-      = number_to_currency(financial_summary.total_authorised_claim_value)
-      %br
-      = link_to t('.view_details'), authorised_advocates_claims_path, id: "authorised_claim_details"
+      %div.bold-large
+        = number_to_currency(financial_summary.total_authorised_claim_value)
+      %p
+        = "for this week"
+        %br
+        = link_to t('.view_details'), authorised_advocates_claims_path, id: "authorised_claim_details"
+
+    %div.column-quarter
+      &nbsp;
+    %div.column-quarter
+      = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button'

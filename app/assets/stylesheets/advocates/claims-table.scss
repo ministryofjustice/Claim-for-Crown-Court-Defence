@@ -2,13 +2,13 @@
   width:100%;
   border-collapse: collapse;
     tr{
-      background-color: $grey-4;
+
       line-height: 2;
       border-bottom: 5px solid #fff;
       overflow: hidden;
       padding: 1rem;
       &:nth-child(even){
-        background-color: $grey-3;
+        background-color: $grey-4;
       }
     }
     thead tr {

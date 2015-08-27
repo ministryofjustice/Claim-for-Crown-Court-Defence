@@ -5,57 +5,38 @@
   %table.claims_table
     %thead
       %th
-        = t(".messages")
+      %th
+        = t(".cms_number")
       - if current_user.persona.admin?
         %th
           = t(".advocate")
       %th
         = t(".defendants")
-      %th
-        = t(".cms_number")
-      - unless includes_state?(claims,'draft')
-        %th
-          = t(".submission_date")
-      - if claims.map(&:has_paid_state?).any?
-        %th
-          = t(".paid_date")
       %th.currency
         = t(".total")
-      - if claims.map(&:has_paid_state?).any?
-        %th.currency
-          = t(".amount_assessed")
       %th
+        = t(".status")
+      %th
+        = t(".submission_date")
+      %th
+        = t(".messages")
     %tbody
     - claims.each do |claim_object|
       - present(claim_object) do |claim|
         %tr{id: dom_id(claim)}
           %td
-            = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"
+          %td
+            = link_to claim.case_number, advocates_claim_path(claim)
           - if current_user.persona.admin?
             %td
               = claim.advocate.name
           %td
             = claim.defendant_names
-          %td
-            = claim.cms_number
-          - unless includes_state?(claims,'draft')
-            %td
-              = claim.submitted_at
-          - if claims.map(&:has_paid_state?).any?
-            %td
-              = claim.paid_at
           %td.currency
             = claim.total
-          - if claims.map(&:has_paid_state?).any?
-            %td.currency
-              = claim.assessment_total
           %td
-            = link_to t('.view'), advocates_claim_path(claim)
-            - if claim.editable?
-              |
-              = link_to t('.edit'), edit_advocates_claim_path(claim)
-            |
-            = link_to t('.delete'), advocates_claim_path(claim), method: :delete, data: { confirm: t('.confirm_delete') }
+            = claim.state.humanize
           %td
-            - if claim.state == 'awaiting_info_from_court'
-              = claim.status_image_tag class: 'status-indicator'
+            = claim.submitted_at
+          %td
+            = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"

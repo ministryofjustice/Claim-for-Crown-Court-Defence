@@ -2,7 +2,7 @@
   %h1
     = t('.claims')
   = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button'
-  
+
   .hide-for-now{style: 'display: none;'}
     = form_tag({controller: 'advocates/json_document_importer', action: 'create'}, method: 'post', multipart: true) do
       = label_tag 'Import from file'
@@ -19,33 +19,4 @@
   - if params[:search].present?
     = render partial: 'shared/search_summary'
 
-#claim-accordion
-  %h2
-    =t('.draft')
-    (#{@draft_claims.count})
-  %section#draft
-    = render partial: 'claims', locals: { claims: @draft_claims }
-
-  %h2
-    =t('.rejected')
-    (#{@rejected_claims.count})
-  %section#rejected
-    = render partial: 'claims', locals: { claims: @rejected_claims }
-
-  %h2
-    = t('.submitted')
-    (#{@submitted_claims.count})
-  %section#submitted
-    = render partial: 'claims', locals: { claims: @submitted_claims }
-
-  %h2
-    =t('.part_paid')
-    (#{@part_paid_claims.count})
-  %section#part_paid
-    = render partial: 'claims', locals: { claims: @part_paid_claims }
-
-  %h2
-    =t('.completed')
-    (#{@completed_claims.count})
-  %section#completed
-    = render partial: 'claims', locals: { claims: @completed_claims }
+= render partial: 'claims', locals: { claims: @claims }

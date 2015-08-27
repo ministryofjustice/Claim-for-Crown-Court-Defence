@@ -18,16 +18,28 @@ adp.determination = {
 
   },
   addChangeEvent: function(container_id) {
-    $('#' + container_id).on('change', '#claim_assessment_attributes_fees, #claim_assessment_attributes_expenses', function(e) {
-      
-      var fees = parseFloat($('#claim_assessment_attributes_fees').val().replace(/,/g, ""));
-      var expenses = parseFloat($('#claim_assessment_attributes_expenses').val().replace(/,/g, ""));
-      var total = adp.determination.calculateAmount(fees,expenses);
+    $('#' + container_id).on('change', ':text', function(e) {
+
+      //Cache the element that triggered the event
+      var $element = $(this),
+      //Find the row the element is in
+      $tr = $element.closest('tr'),
+      //Find the fees column
+      $fees = $tr.find('.js-fees'),
+      //Parse the value
+      fees = parseFloat($fees.val().replace(/,/g, "")),
+      //Find the Expenses column
+      $expenses = $tr.find('.js-expenses'),
+      // Parse the value
+      expenses = parseFloat($expenses.val().replace(/,/g, "")),
+      //Work out the total
+      total = adp.determination.calculateAmount(fees,expenses);
+
       if (isNaN(total) ){
-        $('.total-determination').text('£0.00');
+        $('.js-total-determination').text('£0.00');
       }
       else{
-        $('.total-determination').text('£ '+ total);
+        $('.js-total-determination').text('£ '+ total);
       }
     });
   }

@@ -28,6 +28,11 @@ Given(/^There are fee schemes in place$/) do
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 9', start_date: Date.parse('01/04/2012'), end_date: nil)
 end
 
+Given(/^there are case types in place$/) do
+  create(:case_type, name: 'Contempt')
+  create(:case_type, name: 'Fixed Fee')
+end
+
 Given(/^There are case types in place$/) do
   load "#{Rails.root}/db/seeds/case_types.rb"
   CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
@@ -319,10 +324,6 @@ end
 Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
   to_or_not_to = have.nil? ? 'to' : have.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
   expect(page).method(to_or_not_to).call have_content(content)
-end
-
-Then(/^I should be warned that "(.*?)" will be deleted$/) do |content|
-  expect(page).to have_selector('#fee-deletion-warning', text: content)
 end
 
 Given(/^I fill in an Initial Fee$/) do

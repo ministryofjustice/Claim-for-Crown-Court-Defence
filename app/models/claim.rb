@@ -303,7 +303,7 @@ class Claim < ActiveRecord::Base
   end
 
   def last_redetermination
-    self.redeterminations.select(&:present?).last
+    self.redeterminations.select(&:valid?).last
   end
 
   def last_state_transition

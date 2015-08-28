@@ -1,0 +1,21 @@
+@import '_typography';
+
+.column-quarter{
+  .bold-large, .bold-medium{
+    display: table;
+  }
+}
+
+.bold-large {
+  @include bold-36();
+}
+
+.bold-medium {
+  @include bold-24();
+}
+
+.financial_summary{
+  p, .button{
+    @include core-19();
+  }
+}

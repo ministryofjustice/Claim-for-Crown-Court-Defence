@@ -1,0 +1,12 @@
+%h1.page-title
+  Forgot your password?
+
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  %div.form-group
+    = f.label :email, class: "form-label"
+    = f.input_field :email, autofocus: true, class: "form-control"
+
+  %div.form-group
+    = f.button :submit, "Send me reset password instructions", class: "button text-small"
+
+= render "devise/shared/links"

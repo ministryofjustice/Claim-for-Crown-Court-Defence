@@ -78,24 +78,6 @@ header.page-title{
   }
 }
 
-#login{
-  width:40%;
-  min-width:350px;
-  margin: auto;
-  padding:1em;
-  border:1px solid $ministry-of-justice;
-  label{
-    display: block;
-  }
-  input[type="email"],
-  input[type="password"]{
-    font-size: 1em;
-    width:100%;
-  }
-  div{
-    margin-bottom: 1em;
-  }
-}
 section{
   display: block
 }
@@ -144,6 +126,10 @@ section{
 
 .message{
   width: 2em;
+}
+
+.text-small{
+  @include core-19();
 }
 
 @import "navigation";

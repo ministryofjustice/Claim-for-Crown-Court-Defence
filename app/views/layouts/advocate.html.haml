@@ -10,20 +10,19 @@
   = csrf_meta_tags
 
   .outer-block
-    .inner-block
-      #primary-nav-bar
-        - if user_signed_in?
-          = render partial: 'layouts/primary_navigation'
-      .phase-banner
-        %p
-          %strong.phase-tag= config_item(:phase)
-          %span
-            This is a new service – your
-            %a{href: "#"} feedback
-            will help us to improve it.
-      .container
-        = render partial: 'layouts/flashes' unless flash.empty?
-        %main.main-content
-          = yield
+    #primary-nav-bar
+      - if user_signed_in?
+        = render partial: 'layouts/primary_navigation'
+    .phase-banner
+      %p
+        %strong.phase-tag= config_item(:phase)
+        %span
+          This is a new service – your
+          %a{href: "#"} feedback
+          will help us to improve it.
+    .container
+      = render partial: 'layouts/flashes' unless flash.empty?
+      %main.main-content
+        = yield
 
 = render template: 'layouts/moj_internal_template'

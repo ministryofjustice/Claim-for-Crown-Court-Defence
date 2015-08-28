@@ -23,10 +23,10 @@
     %tbody
     - claims.each do |claim_object|
       - present(claim_object) do |claim|
-        %tr{id: dom_id(claim)}
+        %tr{id: dom_id(claim),class: claim.state}
           %td
           %td
-            = link_to claim.case_number, advocates_claim_path(claim)
+            = link_to claim.case_number, advocates_claim_path(claim), class: "js-test-case-number-link"
           - if current_user.persona.admin?
             %td
               = claim.advocate.name
@@ -39,4 +39,10 @@
           %td
             = claim.submitted_at
           %td
-            = link_to claim.messages.count, "#{advocates_claim_path(claim)}#messages"
+            - if claim.has_unread_messages_for?(current_user)
+              %div.message.new
+                = claim.unread_messages_for(current_user).count
+              = link_to "New messages", "#{advocates_claim_path(claim)}#messages"
+            - elsif claim.messages.any?
+              %div.message
+                = claim.messages.count

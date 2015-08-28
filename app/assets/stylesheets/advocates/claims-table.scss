@@ -1,26 +1,42 @@
 .claims_table{
-  width:100%;
   border-collapse: collapse;
     tr{
-
-      line-height: 2;
-      border-bottom: 5px solid #fff;
+      border-bottom: 1px solid #fff;
       overflow: hidden;
-      padding: 1rem;
       &:nth-child(even){
         background-color: $grey-4;
       }
+      &.rejected{
+        background-color: #FAEBEC;
+        border-left: 5px solid #DF3034;
+      }
     }
-    thead tr {
-      background-color: transparent;
-    }
-    th, td{
-      padding:0 0.5em;
-    }
+
+  /*  th,td{
+      border-left: 1px solid #979797;
+      border-right: 1px solid #979797;
+    }*/
     th{
+      @include bold-16();
       text-align: left;
+      background-color: $table-th-colour;
+      color: $link-colour;
     }
     .currency{
       text-align: right;
+    }
+    .message{
+      @include bold-16();
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      line-height: 25px;
+      text-align: center;
+      color: $page-colour;
+      background-color: $grey-1;
+      &.new{
+        background: $turquoise;
+      }
     }
 }

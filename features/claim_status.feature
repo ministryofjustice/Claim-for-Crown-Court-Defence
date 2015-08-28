@@ -7,7 +7,7 @@ Feature: Claim status
 
 Scenario Outline: Update claim status
     Given I am a signed in case worker
-      And There are fee schemes in place 
+      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
       And I view status details for a claim
@@ -30,7 +30,7 @@ Scenario Outline: Update claim status
 
 Scenario: Update claim remark without updating status
   Given I am a signed in case worker
-    And There are fee schemes in place 
+    And There are fee schemes in place
     And claims have been assigned to me
    When I visit my dashboard
     And I view status details for a claim
@@ -42,7 +42,7 @@ Scenario: Update claim remark without updating status
 
 Scenario Outline: View claim status
     Given I am a signed in advocate
-      And There are fee schemes in place 
+      And There are fee schemes in place
       And I have 3 allocated claims whos status is <status> with fees assessed of <fees> and expenses assessed of <expenses> and remark of <remark>
      When I visit the advocates dashboard
       And I view status details of my first claim
@@ -55,10 +55,3 @@ Scenario Outline: View claim status
       | "Part paid"                     | "60.01"  |  "40.00"    | "£100.01"  | "Part paid remark"                   |
       | "Rejected"                      | ""       |  ""         | ""         | "Rejected remark"                    |
       | "Awaiting info from court"      | ""       |  ""         | ""         | "Awaiting info from Court remark"    |
-
-Scenario: View claim status visual indicators
-   Given I am a signed in advocate
-     And There are fee schemes in place 
-     And I have 1 allocated claims whos status is "Awaiting info from court" with fees assessed of "" and expenses assessed of "" and remark of "Awaiting info from court remark"
-    When I visit the advocates dashboard
-     And I should see an image tag with source "awaiting-info-from-court.png" against that claim

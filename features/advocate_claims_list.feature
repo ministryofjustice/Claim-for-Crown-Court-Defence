@@ -31,32 +31,6 @@ Feature: Advocate claims list
        | "completed"  | 5      |
        | "draft"      | 5      |
 
-  Scenario Outline: View amount assessed for paid and part_paid claims
-    Given I am a signed in advocate admin
-      And There are fee schemes in place
-      And my chamber has <number> <state> claims
-    When I visit the advocates dashboard
-    Then I see a column containing the amount assessed for <state> claims
-      And a figure representing the amount assessed for <state> claims
-
-    Examples:
-       | state        | number |
-       | "part_paid"  | 5      |
-       # | "completed"  | 5      |
-
-  Scenario Outline: Do not view amount assessed for draft, submitted or rejected claims
-    Given I am a signed in advocate admin
-      And There are fee schemes in place
-      And my chamber has <number> <state> claims
-    When I visit the advocates dashboard
-    Then I do not see a column called amount assesed for <state> claims
-
-    Examples:
-       | state        | number |
-       | "submitted"  | 5      |
-       | "rejected"   | 5      |
-       | "draft"      | 5      |
-
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
       And There are fee schemes in place
@@ -92,31 +66,3 @@ Feature: Advocate claims list
       And There are fee schemes in place
      When I visit the advocates dashboard
      Then I should not see the advocate search field
-
-  Scenario Outline: Claims section titles
-    Given I am a signed in advocate
-      And There are fee schemes in place
-     When I visit the advocates dashboard
-     Then I should see section titles of <title>
-
-     Examples:
-      | title              |
-      | "Draft"            |
-      | "Rejected"         |
-      | "Submitted to LAA" |
-      | "Part paid"        |
-      | "Completed"        |
-
-  Scenario Outline: Only relevant columns visible
-    Given I am a signed in advocate
-      And There are fee schemes in place
-      And I have 1 claims of each state
-     When I visit the advocates dashboard
-     Then I should NOT see column <column_name> under section id <section_id>
-
-    Examples:
-      | column_name       | section_id  |
-      | "Submission date" | "draft"     |
-      | "Paid date"       | "draft"     |
-      | "Paid date"       | "rejected"  |
-      | "Paid date"       | "submitted" |

@@ -174,10 +174,11 @@ en:
         no_claims_found: 'No claims found'
         messages: 'Messages'
         defendants: 'Defendants'
-        cms_number: 'CMS Number'
+        cms_number: 'Case Number'
         submission_date: 'Submission date'
         paid_date: 'Paid date'
-        total: 'Claim total'
+        total: 'Total'
+        status: 'Status'
         amount_assessed: 'Amount assessed'
         view: *view
         edit: *edit

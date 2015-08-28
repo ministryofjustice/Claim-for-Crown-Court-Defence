@@ -37,14 +37,14 @@ Feature: Viewing and downloading claim evidence
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have claims
-    When I visit the view link for a claim
+    When I view the claim
     Then I see links to view/download each document submitted with the claim
 
   Scenario: Advocate downloads a document
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have claims
-    When I visit the view link for a claim
+    When I view the claim
       And click on a link to download some evidence
     Then I should get a download with the filename "longer_lorem.pdf"
 
@@ -52,7 +52,7 @@ Feature: Viewing and downloading claim evidence
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have claims
-     When I visit the view link for a claim
+     When I view the claim
       And click on a link to view some evidence
     Then I see "longer_lorem.pdf" in my browser
 
@@ -60,6 +60,6 @@ Feature: Viewing and downloading claim evidence
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have claims
-     When I visit the view link for a claim
+     When I view the claim
       And click on a link to view some evidence
      Then I see "longer_lorem.pdf" in my browser

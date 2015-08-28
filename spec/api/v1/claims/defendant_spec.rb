@@ -16,11 +16,11 @@ describe API::V1::Advocates::Defendant do
   let!(:invalid_params)  { {claim_id: claim.uuid} }
   let!(:invalid_claim_id_params)   { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
 
-  context 'All defendant API endpoints' do
+  context 'when sending non-permitted verbs' do
     ALL_DEFENDANT_ENDPOINTS.each do |endpoint| # for each endpoint
-      context 'when sent a non-permitted verb' do
+      context "to endpoint #{endpoint}" do
         FORBIDDEN_DEFENDANT_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it 'should return a status of 405' do
+          it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end

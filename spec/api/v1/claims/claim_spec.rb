@@ -25,11 +25,11 @@ describe API::V1::Advocates::Claim do
                           :offence_id => offence.id,
                           :court_id => court.id } }
 
-  context 'sending non-permitted verbs' do
+  context 'when sending non-permitted verbs' do
     ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         FORBIDDEN_CLAIM_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it "#{api_verb.upcase} on #{endpoint} should return a status of 405" do
+          it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end

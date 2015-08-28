@@ -9,6 +9,9 @@ module API
 
       class Claim < Grape::API
 
+        include ApiHelper
+        # extend ApiHelper
+
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/advocates'
@@ -43,35 +46,35 @@ module API
 
             end
 
-            # def build_arguments
-            #   user = User.advocates.find_by(email: params[:advocate_email])
-            #   if user.blank?
-            #     raise API::V1::ArgumentError, 'Advocate email is invalid'
-            #   else
-            #     {
-            #       advocate_id:              user.persona_id,
-            #       creator_id:               user.persona_id,
-            #       source:                   'api',
-            #       case_number:              params[:case_number],
-            #       case_type_id:             params[:case_type_id],
-            #       indictment_number:        params[:indictment_number],
-            #       first_day_of_trial:       params[:first_day_of_trial],
-            #       estimated_trial_length:   params[:estimated_trial_length],
-            #       actual_trial_length:      params[:actual_trial_length],
-            #       trial_concluded_at:       params[:trial_concluded_at],
-            #       advocate_category:        params[:advocate_category],
-            #       cms_number:               params[:cms_number],
-            #       additional_information:   params[:additional_information],
-            #       apply_vat:                params[:apply_vat],
-            #       trial_fixed_notice_at:    params[:trial_fixed_notice_at],
-            #       trial_fixed_at:           params[:trial_fixed_at],
-            #       trial_cracked_at:         params[:trial_cracked_at],
-            #       trial_cracked_at_third:   params[:trial_cracked_at_third],
-            #       offence_id:               params[:offence_id],
-            #       court_id:                 params[:court_id],
-            #     }
-            #   end
-            # end
+            def build_arguments
+              user = User.advocates.find_by(email: params[:advocate_email])
+              if user.blank?
+                raise API::V1::ArgumentError, 'Advocate email is invalid'
+              else
+                {
+                  advocate_id:              user.persona_id,
+                  creator_id:               user.persona_id,
+                  source:                   'api',
+                  case_number:              params[:case_number],
+                  case_type_id:             params[:case_type_id],
+                  indictment_number:        params[:indictment_number],
+                  first_day_of_trial:       params[:first_day_of_trial],
+                  estimated_trial_length:   params[:estimated_trial_length],
+                  actual_trial_length:      params[:actual_trial_length],
+                  trial_concluded_at:       params[:trial_concluded_at],
+                  advocate_category:        params[:advocate_category],
+                  cms_number:               params[:cms_number],
+                  additional_information:   params[:additional_information],
+                  apply_vat:                params[:apply_vat],
+                  trial_fixed_notice_at:    params[:trial_fixed_notice_at],
+                  trial_fixed_at:           params[:trial_fixed_at],
+                  trial_cracked_at:         params[:trial_cracked_at],
+                  trial_cracked_at_third:   params[:trial_cracked_at_third],
+                  offence_id:               params[:offence_id],
+                  court_id:                 params[:court_id],
+                }
+              end
+            end
 
           end
 
@@ -82,40 +85,11 @@ module API
           end
 
           post do
-
-            # OLD
-            # --------------------------
-            # begin
-            #   arguments = build_arguments
-            # rescue => error
-            #   arguments_error = ApiHelper::ErrorResponse.new(error)
-            #   status arguments_error.status
-            #   return arguments_error.body
-            # end
-
-            # claim = ::Claim.create(arguments)
-
-            # unless claim.errors.empty?
-            #   error = ErrorResponse.new(claim)
-            #   status error.status
-            #   return error.body
-            # end
-
-            # status 201
-
-            # api_response = { 'id' => claim.reload.uuid }.merge!(declared(params))
-            # api_response
-
-            # NEW
-            # ------------------
-            # create claim and output http usable response in expected format
-            api_response = ApiHelper::ApiResponse.new()
-            claim = ApiHelper.create_claim(params, api_response)
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::Claim, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
-
           end
-
 
           # ------------------------
           desc "Validate a claim."
@@ -125,36 +99,10 @@ module API
           end
 
           post '/validate' do
-            # OLD
-            # ------------------------
-            # begin
-            #     arguments = build_arguments
-            # rescue => error
-            #   arguments_error = ApiHelper::ErrorResponse.new(error)
-            #   status arguments_error.status
-            #   return arguments_error.body
-            # end
-
-            # ------------------
-            # claim = ::Claim.new(arguments)
-
-            # if !claim.valid?
-            #   error = ApiHelper::ErrorResponse.new(claim)
-            #   status error.status
-            #   return error.body
-            # end
-
-            # status 200
-            # { valid: true }
-
-            # NEW
-            # ------------------
-            # validate a claim and output http usable response in expected format
-            api_response = ApiHelper::ApiResponse.new()
-            claim = ApiHelper.validate_claim(params, api_response)
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::Claim, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
-
           end
 
         end

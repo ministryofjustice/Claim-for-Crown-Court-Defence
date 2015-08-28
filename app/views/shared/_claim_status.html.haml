@@ -33,7 +33,7 @@
                   %td.currency
                     %span.currency-symbol
                       &pound;
-                    = af.text_field :expenses, value: number_with_precision(af.object.expenses, precision: 2), class: "js-fees"
+                    = af.text_field :expenses, value: number_with_precision(af.object.expenses, precision: 2), class: "js-expenses"
                   %td
                     %span.js-total-determination
                       = number_to_currency(af.object.total)

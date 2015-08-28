@@ -29,13 +29,13 @@
                   %td.currency
                     %span.currency-symbol
                       &pound;
-                    = af.text_field :fees, value: number_with_precision(af.object.fees, precision: 2)
+                    = af.text_field :fees, value: number_with_precision(af.object.fees, precision: 2), class: "js-fees"
                   %td.currency
                     %span.currency-symbol
                       &pound;
-                    = af.text_field :expenses, value: number_with_precision(af.object.expenses, precision: 2)
+                    = af.text_field :expenses, value: number_with_precision(af.object.expenses, precision: 2), class: "js-expenses"
                   %td
-                    %span.total-determination
+                    %span.js-total-determination
                       = number_to_currency(af.object.total)
 
 
@@ -50,8 +50,8 @@
               - if rf.object.persisted?
                 - present(rf.object) do |redetermination|
                   %tr.redetermination-display
-                    %td 
-                      Redetermination of 
+                    %td
+                      Redetermination of
                       = redetermination.created_at
                     %td#redetermination-fees= redetermination.fees
                     %td#redetermination-expenses= redetermination.expenses
@@ -64,13 +64,13 @@
                     %td.currency
                       %span.currency-symbol
                         &pound;
-                      = rf.text_field :fees, value: number_with_precision(rf.object.fees, precision: 2)
+                      = rf.text_field :fees, value: number_with_precision(rf.object.fees, precision: 2), class: "js-fees"
                     %td.currency
                       %span.currency-symbol
                         &pound;
-                      = rf.text_field :expenses, value: number_with_precision(rf.object.expenses, precision: 2)
+                      = rf.text_field :expenses, value: number_with_precision(rf.object.expenses, precision: 2), class: "js-expenses"
                     %td
-                      %span.total-determination
+                      %span.js-total-determination
                         = rf.object.total
 
 

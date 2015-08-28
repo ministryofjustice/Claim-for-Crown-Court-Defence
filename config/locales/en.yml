@@ -137,7 +137,7 @@ en:
     or: or
     search: Search
   link:
-    add_claim: Add Claim
+    add_claim: Start a Claim
     back: Back
     file_another_claim: File another claim
     remove_rep_order: Remove representation order
@@ -230,8 +230,8 @@ en:
         add_date_attended: 'Add Date Attended'
         remove: *remove
       financial_summary:
-        total_outstanding: 'Total Outstanding Claims:'
-        total_authorised: 'Total Authorised Claims:'
+        total_outstanding: 'Total Outstanding:'
+        total_authorised: 'Total Authorised:'
         view_details: 'View Details'
       form:
         error: 'error'
@@ -319,7 +319,3 @@ en:
         retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
-
-
-
-

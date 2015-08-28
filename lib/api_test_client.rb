@@ -1,12 +1,8 @@
 # class used to smoke test the Restful API
 #
-# the creation process uses the dropdown data endpoints
+# The claim creation process uses the dropdown data endpoints
 # thereby double checking that those endpoints are working and
 # their values are valid for claim creation or assoicated records.
-#
-# NOTE: the API creates data on the default environment (develop)
-# so when used by a spec this enviroment needs to be cleaned up
-# since the spec run environment will be test, usually.
 #
 # example:
 # ---------------------------------------

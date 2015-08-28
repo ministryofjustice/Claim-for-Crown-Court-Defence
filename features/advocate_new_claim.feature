@@ -21,14 +21,6 @@ Feature: Advocate new claim
      Then I should see errors
       And no claim should be created
 
-  Scenario: Fill in claim form and save to drafts
-    Given I am a signed in advocate
-      And I am on the new claim page
-     When I save to drafts
-     Then I should be redirected to the claims list page
-      And I should see my claim under drafts
-      And the claim should be in a "draft" state
-
   Scenario: Clear claim form
     Given I am a signed in advocate
       And There are case types in place

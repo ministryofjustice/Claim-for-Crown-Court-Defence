@@ -112,11 +112,13 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 
   expect(claim_dom_ids.size).to eq(number.to_i)
 
-  within "##{state}" do
-    claim_dom_ids.each do |dom_id|
-      expect(page).to have_selector("##{dom_id}")
-    end
+  expect(page).to have_content(state.humanize, count: number.to_i)
+  expect(page).to have_selector(".#{state}", count: number.to_i)
+
+  claim_dom_ids.each do |dom_id|
+    expect(page).to have_selector("##{dom_id}")
   end
+
 end
 
 When(/^I search by the advocate name "(.*?)"$/) do |name|

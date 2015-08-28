@@ -5,24 +5,14 @@ When(/^I visit the detail link for a claim$/) do
 	end
 end
 
-When(/^I visit the view link for a claim$/) do
+When(/^I view the claim$/) do
   visit advocates_root_path
-  within('#submitted') do
-    within('.claims_table') do
-      first(:link, "View").click
-    end
+  within('.claims_table') do
+    first('a.js-test-case-number-link').click
   end
 end
 
-When(/^I expand the submitted claims accordion and visit the view link for a claim$/) do
-  visit advocates_root_path
-  find('h2', text: 'Submitted').click
-  within('#submitted') do
-    within('.claims_table') do
-      first(:link, "View").click
-    end
-  end
-end
+
 
 Then(/^I see links to view\/download each document submitted with the claim$/) do
   available_evidence = page.all(:css, 'div.item-controls')

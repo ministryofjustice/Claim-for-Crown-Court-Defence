@@ -25,7 +25,7 @@ module API
               optional :location, type:  String, desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
             end
 
-            def args
+            def build_arguments
               {
                 claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 expense_type_id: params[:expense_type_id],
@@ -44,7 +44,22 @@ module API
           end
 
           post do
-            expense = ::Expense.create!(args)
+            begin
+              arguments = build_arguments
+            rescue => error
+                     arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
+            end
+
+            expense = ::Expense.create!(arguments)
+
+            if !expense.errors.empty?
+              error = ErrorResponse.new(expense)
+              status error.status
+              return error.body
+            end
+
             api_response = { 'id' => expense.reload.uuid }.merge!(declared(params))
             api_response
           end
@@ -56,7 +71,15 @@ module API
           end
 
           post '/validate' do
-            expense = ::Expense.new(args)
+            begin
+                arguments = build_arguments
+            rescue => error
+              arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
+            end
+
+            expense = ::Expense.new(arguments)
 
             if !expense.valid?
               error = ErrorResponse.new(expense)

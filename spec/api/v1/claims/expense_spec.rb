@@ -16,11 +16,11 @@ describe API::V1::Advocates::Expense do
   let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let!(:invalid_params)     { {claim_id: claim.uuid }                                                                             }
 
-  context 'All expense API endpoints' do
+  context 'sending non-permitted verbs' do
     ALL_EXPENSE_ENDPOINTS.each do |endpoint| # for each endpoint
-      context 'when sent a non-permitted verb' do
+      context "to endpoint #{endpoint}" do
         FORBIDDEN_EXPENSE_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it 'should return a status of 405' do
+          it "#{api_verb.upcase} on #{endpoint} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end

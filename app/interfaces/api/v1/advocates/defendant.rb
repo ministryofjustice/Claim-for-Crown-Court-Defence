@@ -26,7 +26,7 @@ module API
               optional :order_for_judicial_apportionment, type: Boolean
             end
 
-            def args
+            def build_arguments
               {
                 claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 first_name: params[:first_name],
@@ -46,7 +46,22 @@ module API
           end
 
           post do
-            defendant = ::Defendant.create!(args)
+            begin
+              arguments = build_arguments
+            rescue => error
+                     arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
+            end
+
+            defendant = ::Defendant.create!(arguments)
+
+            if !defendant.errors.empty?
+              error = ErrorResponse.new(defendant)
+              status error.status
+              return error.body
+            end
+
             api_response = { 'id' => defendant.reload.uuid }.merge!(declared(params))
             api_response
           end
@@ -58,7 +73,17 @@ module API
           end
 
           post '/validate' do
-            defendant = ::Defendant.new(args)
+
+            begin
+                arguments = build_arguments
+            rescue => error
+              arguments_error = ErrorResponse.new(error)
+              status arguments_error.status
+              return arguments_error.body
+            end
+
+            defendant = ::Defendant.new(arguments)
+
             if !defendant.valid?
               error = ErrorResponse.new(defendant)
               status error.status

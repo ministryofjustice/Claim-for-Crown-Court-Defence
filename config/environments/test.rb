@@ -2,21 +2,18 @@
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  
+
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/test/images/:id_partition/:filename", 
+    path: "public/assets/test/images/:id_partition/:filename",
     url: "assets/test/images/:id_partition/:filename"
   }
 
   REPORDER_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/test/images/reporders/:id_partition/:filename", 
+    path: "public/assets/test/images/reporders/:id_partition/:filename",
     url: "assets/test/images/reporders/:id_partition/:filename"
   }
-
-
-  config.action_controller.asset_host = "http://localhost:3000"
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that

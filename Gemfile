@@ -77,6 +77,7 @@ group :test do
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false
   gem 'timecop',                    '~> 0.7.4'
+  gem 'vcr',                        '~> 2.9.3'
   gem 'webmock',                    '~> 1.21.0'
 end
 

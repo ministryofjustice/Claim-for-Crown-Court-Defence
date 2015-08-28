@@ -46,10 +46,10 @@ end
 
 
 # lets set up some VAT rates that will apply to all cukes
-Before do 
+Before do
   FactoryGirl.create :vat_rate, effective_date: Date.new(1970, 1, 1)
   FactoryGirl.create :vat_rate, effective_date: Date.new(1990, 4, 5)
-end 
+end
 
 
 After do
@@ -83,3 +83,14 @@ Around('@webmock_allow_net_connect') do |scenario, block|
   block.call
 end
 
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'features/cassettes'
+  c.hook_into :webmock
+  c.allow_http_connections_when_no_cassette = true
+end
+
+VCR.cucumber_tags do |t|
+  t.tag '@vcr', use_scenario_name: true, record: :new_episodes
+end

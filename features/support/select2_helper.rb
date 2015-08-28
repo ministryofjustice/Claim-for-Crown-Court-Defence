@@ -6,11 +6,13 @@ module Select2Helper
   # select method.
   # e.g. select2 'value-to-select', from: 'select2-list-id'
   #
-  def select2(value, attrs)
-    first("#s2id_#{attrs[:from]}").click
-    find(".select2-input").set(value)
-    within ".select2-result" do
-      find("span", text: value).click
+  def select2(value, options)
+    page.find("#s2id_#{options[:from]} a").click
+    page.all("ul.select2-results li").each do |e|
+      if e.text == value
+        e.click
+        return
+      end
     end
   end
 

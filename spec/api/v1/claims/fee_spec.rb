@@ -12,7 +12,7 @@ describe API::V1::Advocates::Fee do
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
   let!(:fee_type)            { create(:fee_type, id: 1) }
-  let!(:claim)               { create(:claim).reload }
+  let!(:claim)               { create(:claim, source: 'api').reload }
   let!(:valid_params)    { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.00 } }
   let!(:invalid_params)  { {claim_id: claim.uuid } }
 

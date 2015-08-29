@@ -55,38 +55,44 @@ module ApiHelper
 
   # --------------------
   def self.create_resource(model_object, params, api_response, arg_builder_proc)
+
     model_instance = validate_resource(model_object, api_response, arg_builder_proc)
 
     if api_response.success?(200)
-      model_instance.__send__('save')
+      model_instance.save
       api_response.status = 201
       api_response.body =  { 'id' => model_instance.__send__('reload').__send__('uuid') }.merge!(params)
     end
 
     model_instance
+
+  # unexpected errors could be raised at point of save as well
+  rescue Exception => ex
+    err_resp = ErrorResponse.new(ex)
+    api_response.status = err_resp.status
+    api_response.body   = err_resp.body
   end
 
    # --------------------
   def self.validate_resource(model_object, api_response, arg_builder_proc)
-    begin
-      model_instance = model_object.__send__('new',arg_builder_proc.call)
 
-      if model_instance.__send__('valid?')
-        api_response.status = 200
-        api_response.body =  { valid: true }
-      else
-        err_resp = ErrorResponse.new(model_instance)
-        api_response.status = err_resp.status
-        api_response.body   = err_resp.body
-      end
+    model_instance = model_object.new(arg_builder_proc.call)
 
-      model_instance
-
-    rescue Exception => ex
-      err_resp = ErrorResponse.new(ex)
+    if model_instance.valid?
+      api_response.status = 200
+      api_response.body =  { valid: true }
+    else
+      err_resp = ErrorResponse.new(model_instance)
       api_response.status = err_resp.status
       api_response.body   = err_resp.body
     end
+
+    model_instance
+
+  rescue Exception => ex
+    err_resp = ErrorResponse.new(ex)
+    api_response.status = err_resp.status
+    api_response.body   = err_resp.body
   end
 
 end

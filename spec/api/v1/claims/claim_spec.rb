@@ -53,11 +53,9 @@ describe API::V1::Advocates::Claim do
 
     it "should return 400 and JSON error array when advocate email is invalid" do
       claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
-
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
-
       expect(json[0]['error']).to eq("Advocate email is invalid")
     end
 
@@ -83,9 +81,13 @@ describe API::V1::Advocates::Claim do
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
-        expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
         expect(Claim.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
+
+      it "should create one new claim" do
+        expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
+      end
+
     end
 
     context "invalid advocate email input" do

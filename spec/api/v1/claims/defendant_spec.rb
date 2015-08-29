@@ -11,10 +11,12 @@ describe API::V1::Advocates::Defendant do
   ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
   FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:claim)                     {  create(:claim).reload }
-  let!(:valid_params)    { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
-  let!(:invalid_params)  { {claim_id: claim.uuid} }
-  let!(:invalid_claim_id_params)   { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+# NOTE: need to specify claim.source as api to ensure defendant model validations applied
+  let!(:claim)          {  create(:claim, source: 'api').reload }
+  let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+  let!(:invalid_params) { {claim_id: claim.uuid} }
+  let(:invalid_params_json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
+  let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
 
   context 'when sending non-permitted verbs' do
     ALL_DEFENDANT_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -35,31 +37,37 @@ describe API::V1::Advocates::Defendant do
       post CREATE_DEFENDANT_ENDPOINT, params, format: :json
     end
 
-    context 'when defendant params are valid' do
-
-      it 'returns 201 and creates a new defendant record' do
+    context "valid defendant JSON input" do
+      it "should create defendant, return 201 and defendant JSON output including UUID" do
         response = post_to_create_endpoint(valid_params)
-        expect(response.status).to eq 201
+        expect(response.status).to eq(201)
+        json = JSON.parse(response.body)
+        expect(json['id']).not_to be_nil
+        expect(Defendant.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
-      it 'returns JSON with UUIDs instead of IDs' do
-        response = post_to_create_endpoint(valid_params)
-        json_response = JSON.parse(response.body)
+      it "should create one new defendant" do
+        expect{ post_to_create_endpoint(valid_params) }.to change { Defendant.count }.by(1)
+      end
 
-        expect(json_response['id']).not_to be_nil
-        expect(Defendant.find_by(uuid: json_response['id']).uuid).to eq(json_response['id'])
-        expect(Defendant.find_by(uuid: json_response['id']).claim.uuid).to eq(json_response['claim_id'])
+    end
+
+    context "missing expected params" do
+      it "should return a JSON error array with required model attributes" do
+        response = post_to_create_endpoint(invalid_params)
+        expect(response.status).to eq 400
+        expect(response.body).to eq(invalid_params_json_error_response)
       end
     end
 
-    context 'when defendant params are invalid' do
-
-      it 'returns 400 and an appropriate error message in the response body' do
-        response = post_to_create_endpoint(invalid_params)
-        expect(response.status).to eq 400
-        expect(response.body).to eq "{\"error\":\"first_name is missing, last_name is missing, date_of_birth is missing\"}"
+    context "unexpected error" do
+      it "should return 400 and JSON error array of error message" do
+        valid_params[:first_name] = 'a'*256
+        response = post_to_create_endpoint(valid_params)
+        expect(response.status).to eq(400)
+        json = JSON.parse(response.body)
+        expect(json[0]['error']).to include("PG::StringDataRightTruncation: ERROR:  value too long for type character varying(255)")
       end
-
     end
 
   end
@@ -70,21 +78,25 @@ describe API::V1::Advocates::Defendant do
       post VALIDATE_DEFENDANT_ENDPOINT, params, format: :json
     end
 
-    it 'returns 200 when the params are valid' do
+    it 'with valid requets should return 200 and String true' do
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 200
+      json = JSON.parse(response.body)
+      expect(json).to eq({ "valid" => true })
     end
 
-    it 'with MISSING PARAMS returns 400 and an appropriate error message' do
+    it 'with missing expected params should return 400 and a JSON error array' do
       invalid_response = post_to_validate_endpoint(invalid_params)
       expect(invalid_response.status).to eq 400
-      expect(invalid_response.body).to eq "{\"error\":\"first_name is missing, last_name is missing, date_of_birth is missing\"}"
+      expect(invalid_response.body).to eq(invalid_params_json_error_response)
     end
 
-    it 'with INVALID CLAIM ID returns 400 and an appropriate error message' do
+    it 'with INVALID CLAIM ID returns 400 and a JSON error array' do
       invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
       expect(invalid_response.status).to eq 400
       expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
     end
+
   end
+
 end

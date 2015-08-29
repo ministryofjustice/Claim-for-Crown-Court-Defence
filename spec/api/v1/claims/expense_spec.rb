@@ -11,7 +11,7 @@ describe API::V1::Advocates::Expense do
   ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:claim)                      {  create(:claim).reload }
+  let!(:claim)                      {  create(:claim, source: 'api').reload }
   let!(:expense_type)               {  create(:expense_type) }
   let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let!(:invalid_params)     { {claim_id: claim.uuid }                                                                             }

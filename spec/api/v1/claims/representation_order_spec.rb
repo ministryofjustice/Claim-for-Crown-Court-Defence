@@ -11,7 +11,7 @@ describe API::V1::Advocates::RepresentationOrder do
   ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:claim) { create(:claim) }
+  let!(:claim) { create(:claim, source: 'api') }
   let!(:defendant) { create(:defendant, claim: claim).reload }
   let!(:valid_params)    { {granting_body: "Magistrate's Court", defendant_id: defendant.uuid, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
   let!(:invalid_params)  { {} }

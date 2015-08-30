@@ -15,7 +15,7 @@ describe API::V1::Advocates::Defendant do
   let!(:claim)          {  create(:claim, source: 'api').reload }
   let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
   let!(:invalid_params) { {claim_id: claim.uuid} }
-  let(:invalid_params_json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
+  let(:json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
   let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
 
   context 'when sending non-permitted verbs' do
@@ -37,7 +37,7 @@ describe API::V1::Advocates::Defendant do
       post CREATE_DEFENDANT_ENDPOINT, params, format: :json
     end
 
-    context "valid defendant JSON input" do
+    context "when defendant params are valid" do
       it "should create defendant, return 201 and defendant JSON output including UUID" do
         response = post_to_create_endpoint(valid_params)
         expect(response.status).to eq(201)
@@ -52,21 +52,24 @@ describe API::V1::Advocates::Defendant do
 
     end
 
-    context "missing expected params" do
-      it "should return a JSON error array with required model attributes" do
-        response = post_to_create_endpoint(invalid_params)
-        expect(response.status).to eq 400
-        expect(response.body).to eq(invalid_params_json_error_response)
-      end
-    end
+    context "when defendant params are invalid" do
 
-    context "unexpected error" do
-      it "should return 400 and JSON error array of error message" do
-        valid_params[:first_name] = 'a'*256
-        response = post_to_create_endpoint(valid_params)
-        expect(response.status).to eq(400)
-        json = JSON.parse(response.body)
-        expect(json[0]['error']).to include("PG::StringDataRightTruncation: ERROR:  value too long for type character varying(255)")
+      context "missing expected params" do
+        it "should return a JSON error array with required model attributes" do
+          response = post_to_create_endpoint(invalid_params)
+          expect(response.status).to eq 400
+          expect(response.body).to eq(json_error_response)
+        end
+      end
+
+      context "unexpected error" do
+        it "should return 400 and JSON error array of error message" do
+          valid_params[:first_name] = 'a'*256
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          json = JSON.parse(response.body)
+          expect(json[0]['error']).to include("PG::StringDataRightTruncation: ERROR:  value too long for type character varying(255)")
+        end
       end
     end
 
@@ -78,7 +81,7 @@ describe API::V1::Advocates::Defendant do
       post VALIDATE_DEFENDANT_ENDPOINT, params, format: :json
     end
 
-    it 'with valid requets should return 200 and String true' do
+    it 'with valid requests should return 200 and String true' do
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 200
       json = JSON.parse(response.body)
@@ -88,7 +91,7 @@ describe API::V1::Advocates::Defendant do
     it 'with missing expected params should return 400 and a JSON error array' do
       invalid_response = post_to_validate_endpoint(invalid_params)
       expect(invalid_response.status).to eq 400
-      expect(invalid_response.body).to eq(invalid_params_json_error_response)
+      expect(invalid_response.body).to eq(json_error_response)
     end
 
     it 'with INVALID CLAIM ID returns 400 and a JSON error array' do

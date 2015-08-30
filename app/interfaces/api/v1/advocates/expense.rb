@@ -9,6 +9,8 @@ module API
 
       class Expense < Grape::API
 
+        include ApiHelper
+
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/advocates'
@@ -18,10 +20,10 @@ module API
 
           helpers do
             params :expense_creation do
-              requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
-              requires :expense_type_id, type: Integer, desc: "Reference to the parent expense type."
-              requires :quantity, type: Integer, desc: "Quantity of expenses of this type and rate."
-              requires :rate, type: Float, desc: "Rate for each expense."
+              optional :claim_id, type: String, desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
+              optional :quantity, type: Integer, desc: "REQUIRED: Quantity of expenses of this type and rate."
+              optional :rate, type: Float, desc: "REQUIRED: Rate for each expense."
               optional :location, type:  String, desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
             end
 
@@ -44,24 +46,10 @@ module API
           end
 
           post do
-            begin
-              arguments = build_arguments
-            rescue => error
-                     arguments_error = ErrorResponse.new(error)
-              status arguments_error.status
-              return arguments_error.body
-            end
-
-            expense = ::Expense.create!(arguments)
-
-            if !expense.errors.empty?
-              error = ErrorResponse.new(expense)
-              status error.status
-              return error.body
-            end
-
-            api_response = { 'id' => expense.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::Expense, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
           desc "Validate an expense."
@@ -71,24 +59,10 @@ module API
           end
 
           post '/validate' do
-            begin
-                arguments = build_arguments
-            rescue => error
-              arguments_error = ErrorResponse.new(error)
-              status arguments_error.status
-              return arguments_error.body
-            end
-
-            expense = ::Expense.new(arguments)
-
-            if !expense.valid?
-              error = ErrorResponse.new(expense)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::Expense, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
         end

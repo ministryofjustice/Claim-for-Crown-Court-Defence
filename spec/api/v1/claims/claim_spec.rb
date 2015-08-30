@@ -75,7 +75,7 @@ describe API::V1::Advocates::Claim do
       post CREATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
-    context "valid claim JSON input" do
+    context "when claim params are valid" do
       it "should create claim, return 201 and claim JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)

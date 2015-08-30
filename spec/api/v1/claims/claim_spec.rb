@@ -44,7 +44,7 @@ describe API::V1::Advocates::Claim do
       post VALIDATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
-    it "should return 200 and String true for valid request" do
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       json = JSON.parse(last_response.body)
@@ -59,7 +59,7 @@ describe API::V1::Advocates::Claim do
       expect(json[0]['error']).to eq("Advocate email is invalid")
     end
 
-    it "should return a JSON error array when required model attribute is missing" do
+    it 'missing required params should return 400 and a JSON error array' do
       claim_params.delete(:case_number)
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
@@ -76,6 +76,7 @@ describe API::V1::Advocates::Claim do
     end
 
     context "when claim params are valid" do
+
       it "should create claim, return 201 and claim JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -90,13 +91,16 @@ describe API::V1::Advocates::Claim do
 
     end
 
-    context "invalid advocate email input" do
-      it "should return 400 and a JSON error array when advocate email is invalid" do
-        claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
-        post_to_create_endpoint
-        expect(last_response.status).to eq(400)
-        json = JSON.parse(last_response.body)
-        expect(json[0]['error']).to eql("Advocate email is invalid")
+    context "when claim params are invalid" do
+
+      context "invalid advocate email input" do
+        it "should return 400 and a JSON error array when advocate email is invalid" do
+          claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to eql("Advocate email is invalid")
+        end
       end
 
       context "missing expected params" do
@@ -111,28 +115,28 @@ describe API::V1::Advocates::Claim do
         end
       end
 
-    end
-
-    context "existing but invalid value" do
-      it "should return 400 and JSON error array of model validation errors" do
-        claim_params[:estimated_trial_length] = -1
-        claim_params[:actual_trial_length] = -1
-        post_to_create_endpoint
-        expect(last_response.status).to eq(400)
-        json = JSON.parse(last_response.body)
-        expect(json[0]['error']).to include("Estimated trial length must be greater than or equal to 0")
-        expect(json[1]['error']).to include("Actual trial length must be greater than or equal to 0")
+      context "existing but invalid value" do
+        it "should return 400 and JSON error array of model validation errors" do
+          claim_params[:estimated_trial_length] = -1
+          claim_params[:actual_trial_length] = -1
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to include("Estimated trial length must be greater than or equal to 0")
+          expect(json[1]['error']).to include("Actual trial length must be greater than or equal to 0")
+        end
       end
-    end
 
-    context "unexpected error" do
-      it "should return 400 and JSON error array of error message" do
-        claim_params[:case_type_id] = 1000000000000000000000000000011111
-        post_to_create_endpoint
-        expect(last_response.status).to eq(400)
-        json = JSON.parse(last_response.body)
-        expect(json[0]['error']).to include("PG::NumericValueOutOfRange")
+      context "unexpected error" do
+        it "should return 400 and JSON error array of error message" do
+          claim_params[:case_type_id] = 1000000000000000000000000000011111
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to include("PG::NumericValueOutOfRange")
+        end
       end
+
     end
 
   end

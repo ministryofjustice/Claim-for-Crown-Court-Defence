@@ -83,20 +83,20 @@ describe API::V1::Advocates::Expense do
       post VALIDATE_EXPENSE_ENDPOINT, params, format: :json
     end
 
-    it 'with valid requests should return 200 and String true' do
+    it 'valid requests should return 200 and String true' do
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 200
       json = JSON.parse(response.body)
       expect(json).to eq({ "valid" => true })
     end
 
-    it 'with missing expected params should return 400 and a JSON error array' do
+    it 'missing required params should return 400 and a JSON error array' do
       response = post_to_validate_endpoint(invalid_params)
       expect(response.status).to eq 400
       expect(response.body).to eq(json_error_response)
     end
 
-    it 'with invalid claim id returns 400 and a JSON error array' do
+    it 'invalid claim id should return 400 and a JSON error array' do
       valid_params[:claim_id] = SecureRandom.uuid
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400

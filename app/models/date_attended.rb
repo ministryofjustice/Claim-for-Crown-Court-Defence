@@ -25,4 +25,5 @@ class DateAttended < ActiveRecord::Base
       "#{date.strftime(Settings.date_format)}"
     end
   end
+
 end

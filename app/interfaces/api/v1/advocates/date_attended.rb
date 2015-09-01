@@ -9,6 +9,8 @@ module API
 
       class DateAttended < Grape::API
 
+        include ApiHelper
+
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/advocates'
@@ -18,21 +20,28 @@ module API
 
           helpers do
             params :date_attended_creation do
-              requires :attended_item_id, type: String, desc: 'The ID of the corresponding Fee or Expense.'
-              requires :attended_item_type, type: String, desc: 'The Type of item to which this date range relates - Fee or Expense.'
-              requires :date, type: DateTime, desc: 'The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
-              optional :date_to, type: DateTime, desc: 'The last date your date-range (YYYY/MM/DD)'
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :attended_item_id, type: String,   desc: 'REQUIRED: The ID of the corresponding Fee or Expense.'
+              optional :attended_item_type, type: String, desc: 'REQUIRED: The Type of item to which this date range relates - Fee or Expense.'
+              optional :date, type: DateTime,             desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
+              optional :date_to, type: DateTime,          desc: 'The last date your date-range (YYYY/MM/DD)'
             end
 
-            def args
+            def build_arguments
               attended_item_type_class = "::#{params[:attended_item_type].capitalize}".constantize
               attended_item_id = attended_item_type_class.find_by(uuid: params[:attended_item_id]).try(:id)
+
+              # TODO review in code review
+              # NOTE: explicit error raising because attended_id's presence is not validated by model due to instatiation issues
+              if attended_item_id.nil?
+                raise API::V1::ArgumentError, 'Attended item can\'t be blank'
+              end
 
               {
                 attended_item_id: attended_item_id,
                 attended_item_type:  params[:attended_item_type].capitalize,
                 date: params[:date],
-                date_to: params[:date_to]
+                date_to: params[:date_to],
               }
             end
 
@@ -45,9 +54,10 @@ module API
           end
 
           post do
-            date_attended = ::DateAttended.create!(args)
-            api_response = { 'id' => date_attended.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::DateAttended, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
 
@@ -58,16 +68,10 @@ module API
           end
 
           post '/validate' do
-            date_attended = ::DateAttended.new(args)
-
-            if !date_attended.valid?
-                    error = ErrorResponse.new(date_attended)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::DateAttended, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
         end

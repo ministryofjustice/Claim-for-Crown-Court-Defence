@@ -8,6 +8,8 @@ module API
 
       class RepresentationOrder < Grape::API
 
+        include ApiHelper
+
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/advocates'
@@ -17,15 +19,24 @@ module API
 
           helpers do
             params :representation_order_creation do
-              requires :defendant_id, type: String, desc: 'ID of the defendant'
-              requires :granting_body, type: String, desc: "The court which granted this representation order (Crown Court or Magistrate's Court)"
-              requires :maat_reference, type: String, desc: "The unique identifier for this representation order"
-              requires :representation_order_date, type: Date, desc: "The date on which this representation order was granted (YYYY/MM/DD)"
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :defendant_id, type: String,             desc: 'REQUIRED: ID of the defendant'
+              optional :granting_body, type: String,            desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrate's Court)"
+              optional :maat_reference, type: String,           desc: "REQUIRED: The unique identifier for this representation order"
+              optional :representation_order_date, type: Date,  desc: "REQUIRED: The date on which this representation order was granted (YYYY/MM/DD)"
             end
 
-            def args
+            def build_arguments
+              defendant_id = ::Defendant.find_by(uuid: params[:defendant_id]).try(:id)
+
+               # TODO review in code review
+               # NOTE: explicit error raising because defendant_id's presence is not validated by model due to instatiation issues
+              if defendant_id.nil?
+                raise API::V1::ArgumentError, 'Defendant can\'t be blank'
+              end
+
               {
-                defendant_id: ::Defendant.find_by(uuid: params[:defendant_id]).try(:id),
+                defendant_id: defendant_id,
                 granting_body: params[:granting_body],
                 maat_reference: params[:maat_reference],
                 representation_order_date: params[:representation_order_date]
@@ -41,9 +52,10 @@ module API
           end
 
           post do
-            representation_order = ::RepresentationOrder.create!(args)
-            api_response = { 'id' => representation_order.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::RepresentationOrder, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
 
@@ -54,16 +66,10 @@ module API
           end
 
           post '/validate' do
-            representation_order = ::RepresentationOrder.new(args)
-
-            if !representation_order.valid?
-              error = ErrorResponse.new(representation_order)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::RepresentationOrder, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
         end
       end

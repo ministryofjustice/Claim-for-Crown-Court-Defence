@@ -8,6 +8,8 @@ module API
 
       class Fee < Grape::API
 
+        include ApiHelper
+
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/advocates'
@@ -17,15 +19,24 @@ module API
 
           helpers do
             params :fee_creation do
-              requires :claim_id, type: String, desc: 'The unique identifier for the corresponding claim.'
-              requires :fee_type_id, type: Integer, desc: 'The unique identifier for the corresponding FeeType'
-              requires :quantity, type: Integer, desc: 'The number of Fees being claimed for of this FeeType and Rate'
-              requires :amount, type: Float, desc: 'Total value.'
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :claim_id, type: String,     desc: 'REQUIRED: The unique identifier for the corresponding claim.'
+              optional :fee_type_id, type: Integer, desc: 'REQUIRED: The unique identifier for the corresponding FeeType'
+              optional :quantity, type: Integer,    desc: 'REQUIRED: The number of Fees being claimed for of this FeeType and Rate'
+              optional :amount, type: Float,        desc: 'REQUIRED: Total value.'
             end
 
-            def args
+            def build_arguments
+              claim_id = ::Claim.find_by(uuid: params[:claim_id]).try(:id)
+
+               # TODO review in code review
+               # NOTE: explicit error raising because claim_id's presence is not validated by model due to instatiation issues
+              if claim_id.nil?
+                raise API::V1::ArgumentError, 'Claim can\'t be blank'
+              end
+
               {
-                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
+                claim_id: claim_id,
                 fee_type_id: params[:fee_type_id],
                 quantity: params[:quantity],
                 amount: params[:amount]
@@ -41,9 +52,10 @@ module API
           end
 
           post do
-            fee = ::Fee.create!(args)
-            api_response = { 'id' => fee.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::Fee, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
           desc "Validate a fee."
@@ -53,16 +65,10 @@ module API
           end
 
           post '/validate' do
-            fee = ::Fee.new(args)
-
-            if !fee.valid?
-              error = ErrorResponse.new(fee)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::Fee, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
         end

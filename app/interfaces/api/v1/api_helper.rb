@@ -1,5 +1,12 @@
 module ApiHelper
 
+ # --------------------
+  # module CustomFormatter
+  #   def self.call(message, backtrace, options, env)
+  #     { message: message, backtrace: backtrace }
+  #   end
+  # end
+
   # --------------------
   class ApiResponse
     attr_accessor :status, :body
@@ -61,7 +68,7 @@ module ApiHelper
     if api_response.success?(200)
       model_instance.save
       api_response.status = 201
-      api_response.body =  { 'id' => model_instance.__send__('reload').__send__('uuid') }.merge!(params)
+      api_response.body =  { 'id' => model_instance.reload.uuid }.merge!(params)
     end
 
     model_instance

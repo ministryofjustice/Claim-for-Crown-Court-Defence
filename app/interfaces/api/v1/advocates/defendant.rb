@@ -20,6 +20,7 @@ module API
 
           helpers do
             params :defendant_creation do
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :first_name, type: String,       desc: "REQUIRED: First name of the defedant."
               optional :middle_name, type: String,      desc: "OPTIONAL: Middle name of the defendant."

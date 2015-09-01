@@ -20,11 +20,12 @@ module API
 
           helpers do
             params :expense_creation do
-              optional :claim_id, type: String, desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
-              optional :quantity, type: Integer, desc: "REQUIRED: Quantity of expenses of this type and rate."
-              optional :rate, type: Float, desc: "REQUIRED: Rate for each expense."
-              optional :location, type:  String, desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
+              optional :quantity, type: Integer,        desc: "REQUIRED: Quantity of expenses of this type and rate."
+              optional :rate, type: Float,              desc: "REQUIRED: Rate for each expense."
+              optional :location, type:  String,        desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
             end
 
             def build_arguments

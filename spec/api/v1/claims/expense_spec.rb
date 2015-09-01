@@ -30,7 +30,7 @@ describe API::V1::Advocates::Expense do
     end
   end
 
-  describe 'POST api/advocates/expenses' do
+  describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
 
     def post_to_create_endpoint(params)
       post CREATE_EXPENSE_ENDPOINT, params, format: :json
@@ -73,11 +73,20 @@ describe API::V1::Advocates::Expense do
         end
       end
 
+      context 'invalid claim id' do
+        it 'should return 400 and a JSON error array' do
+          valid_params[:claim_id] = SecureRandom.uuid
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq 400
+          expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+        end
+      end
+
     end
 
   end
 
-  describe 'POST api/advocates/expenses/validate' do
+  describe "POST #{VALIDATE_EXPENSE_ENDPOINT}" do
 
     def post_to_validate_endpoint(params)
       post VALIDATE_EXPENSE_ENDPOINT, params, format: :json
@@ -95,7 +104,7 @@ describe API::V1::Advocates::Expense do
       expect(response.status).to eq 400
       expect(response.body).to eq(json_error_response)
     end
-
+    
     it 'invalid claim id should return 400 and a JSON error array' do
       valid_params[:claim_id] = SecureRandom.uuid
       response = post_to_validate_endpoint(valid_params)

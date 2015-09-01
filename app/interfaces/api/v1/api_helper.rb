@@ -57,6 +57,12 @@ module API
       end
 
       # --------------------
+      def self.uuid_valid?(uuid)
+        return true if uuid =~ /\A[\da-f]{32}\z/i
+        return true if uuid =~ /\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i
+      end
+
+      # --------------------
       def self.create_resource(model_object, params, api_response, arg_builder_proc)
 
         model_instance = validate_resource(model_object, api_response, arg_builder_proc)

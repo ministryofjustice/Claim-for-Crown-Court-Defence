@@ -1,3 +1,7 @@
+Given(/^case types are seeded$/) do
+  load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
+end
+
 Then(/^I should( not)? see the trial detail fields$/) do |negation|
   does = negation.nil? ? 'to' : negation.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
 

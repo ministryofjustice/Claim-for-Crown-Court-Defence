@@ -25,11 +25,11 @@ describe API::V1::Advocates::Claim do
                           :offence_id => offence.id,
                           :court_id => court.id } }
 
-  context 'All claim API endpoints' do
+  context 'when sending non-permitted verbs' do
     ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint
-      context 'when sent a non-permitted verb' do
+      context "to endpoint #{endpoint}" do
         FORBIDDEN_CLAIM_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it 'should return a status of 405' do
+          it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end
@@ -38,71 +38,105 @@ describe API::V1::Advocates::Claim do
     end
   end
 
-  describe "POST /api/advocates/claims/validate" do
+  describe "POST #{VALIDATE_CLAIM_ENDPOINT}" do
 
     def post_to_validate_endpoint
       post VALIDATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
-    it "returns 200 and String true for valid request" do
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
-      json_response = JSON.parse(last_response.body)
-      expect(json_response).to eq({ "valid" => true })
+      json = JSON.parse(last_response.body)
+      expect(json).to eq({ "valid" => true })
     end
 
-    it "returns an error when advocate email is invalid" do
+    it "should return 400 and JSON error array when advocate email is invalid" do
       claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
-      error = JSON.parse(last_response.body)['error']
-      expect(error).to eq("advocate_email is invalid")
+      json = JSON.parse(last_response.body)
+      expect(json[0]['error']).to eq("Advocate email is invalid")
     end
 
-    it "returns an error when required param is missing" do
+    it 'missing required params should return 400 and a JSON error array' do
       claim_params.delete(:case_number)
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
-      error = JSON.parse(last_response.body)['error']
-      expect(error).to eq("case_number is missing")
+      json = JSON.parse(last_response.body)
+      expect(json[0]['error']).to eq("Case number can't be blank")
     end
 
   end
 
-  describe "POST /api/advocates/claims" do
+  describe "POST #{CREATE_CLAIM_ENDPOINT}" do
 
     def post_to_create_endpoint
       post CREATE_CLAIM_ENDPOINT, claim_params, format: :json
     end
 
-    it "returns 201, claim JSON and creates claim " do
-      post_to_create_endpoint
-      expect(last_response.status).to eq(201)
+    context "when claim params are valid" do
 
-      json_response = JSON.parse(last_response.body)
+      it "should create claim, return 201 and claim JSON output including UUID" do
+        post_to_create_endpoint
+        expect(last_response.status).to eq(201)
+        json = JSON.parse(last_response.body)
+        expect(json['id']).not_to be_nil
+        expect(Claim.find_by(uuid: json['id']).uuid).to eq(json['id'])
+      end
 
-      expect(json_response['id']).not_to be_nil
+      it "should create one new claim" do
+        expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
+      end
 
-      expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
-      expect(Claim.find_by(uuid: json_response['id']).uuid).to eq(json_response['id'])
     end
 
-    it "returns 400 and an error when advocate email is invalid" do
-      claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
-      post_to_create_endpoint
-      expect(last_response.status).to eq(400)
-      error = JSON.parse(last_response.body)['error']
-      expect(error).to eq("advocate_email is invalid")
-    end
+    context "when claim params are invalid" do
 
-     it "returns 400 and errors for several missing required parameter" do
-      claim_params.delete(:case_type_id)
-      claim_params.delete(:case_number)
-      post_to_create_endpoint
-      expect(last_response.status).to eq(400)
-      error = JSON.parse(last_response.body)['error']
-      expect(error).to include("case_number is missing")
-      expect(error).to include("case_type_id is missing")
+      context "invalid advocate email input" do
+        it "should return 400 and a JSON error array when advocate email is invalid" do
+          claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to eql("Advocate email is invalid")
+        end
+      end
+
+      context "missing expected params" do
+        it "should return a JSON error array when required model attributes are missing" do
+          claim_params.delete(:case_type_id)
+          claim_params.delete(:case_number)
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to include("Case number can't be blank")
+          expect(json[1]['error']).to include("Case type can't be blank")
+        end
+      end
+
+      context "existing but invalid value" do
+        it "should return 400 and JSON error array of model validation errors" do
+          claim_params[:estimated_trial_length] = -1
+          claim_params[:actual_trial_length] = -1
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to include("Estimated trial length must be greater than or equal to 0")
+          expect(json[1]['error']).to include("Actual trial length must be greater than or equal to 0")
+        end
+      end
+
+      context "unexpected error" do
+        it "should return 400 and JSON error array of error message" do
+          claim_params[:case_type_id] = 1000000000000000000000000000011111
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
+          expect(json[0]['error']).to include("PG::NumericValueOutOfRange")
+        end
+      end
+
     end
 
   end

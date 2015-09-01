@@ -1,13 +1,8 @@
 module API
   module V1
-
-
-    class Error < StandardError; end
-    class ArgumentError < Error; end
-
     module Advocates
 
-      class Defendant < Grape::API
+      class Defendant < GrapeApiHelper
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
@@ -18,21 +13,22 @@ module API
 
           helpers do
             params :defendant_creation do
-              requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
-              requires :first_name, type: String, desc: "First name of the defedant."
-              optional :middle_name, type: String, desc: "Middle name of the defendant."
-              requires :last_name, type: String, desc: "Last name of the defendant."
-              requires :date_of_birth, type: DateTime, desc: "Defendant's date of birth (YYYY/MM/DD)."
-              optional :order_for_judicial_apportionment, type: Boolean
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              optional :first_name, type: String,       desc: "REQUIRED: First name of the defedant."
+              optional :middle_name, type: String,      desc: "OPTIONAL: Middle name of the defendant."
+              optional :last_name, type: String,        desc: "REQUIRED: Last name of the defendant."
+              optional :date_of_birth, type: DateTime,  desc: "REQUIRED: Defendant's date of birth (YYYY/MM/DD)."
+              optional :order_for_judicial_apportionment, type: Boolean, desc: "OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment"
             end
 
-            def args
+            def build_arguments
               {
-                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
-                first_name: params[:first_name],
-                middle_name: params[:middle_name],
-                last_name: params[:last_name],
-                date_of_birth: params[:date_of_birth],
+                claim_id:       ::Claim.find_by(uuid: params[:claim_id]).try(:id),
+                first_name:     params[:first_name],
+                middle_name:    params[:middle_name],
+                last_name:      params[:last_name],
+                date_of_birth:  params[:date_of_birth],
                 order_for_judicial_apportionment: params[:order_for_judicial_apportionment]
               }
             end
@@ -46,9 +42,10 @@ module API
           end
 
           post do
-            defendant = ::Defendant.create!(args)
-            api_response = { 'id' => defendant.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::Defendant, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
           desc "Validate a defendant."
@@ -58,15 +55,10 @@ module API
           end
 
           post '/validate' do
-            defendant = ::Defendant.new(args)
-            if !defendant.valid?
-              error = ErrorResponse.new(defendant)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::Defendant, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
         end

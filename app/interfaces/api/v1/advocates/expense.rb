@@ -1,13 +1,8 @@
 module API
   module V1
-
-
-    class Error < StandardError; end
-    class ArgumentError < Error; end
-
     module Advocates
 
-      class Expense < Grape::API
+      class Expense < GrapeApiHelper
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
@@ -18,14 +13,15 @@ module API
 
           helpers do
             params :expense_creation do
-              requires :claim_id, type: String, desc: "Unique identifier for the claim associated with this defendant."
-              requires :expense_type_id, type: Integer, desc: "Reference to the parent expense type."
-              requires :quantity, type: Integer, desc: "Quantity of expenses of this type and rate."
-              requires :rate, type: Float, desc: "Rate for each expense."
-              optional :location, type:  String, desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
+              # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
+              optional :quantity, type: Integer,        desc: "REQUIRED: Quantity of expenses of this type and rate."
+              optional :rate, type: Float,              desc: "REQUIRED: Rate for each expense."
+              optional :location, type:  String,        desc: "Location (e.g. of hotel) where applicable." #TODO add validation to ensure spefici expense types always have a location
             end
 
-            def args
+            def build_arguments
               {
                 claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 expense_type_id: params[:expense_type_id],
@@ -44,9 +40,10 @@ module API
           end
 
           post do
-            expense = ::Expense.create!(args)
-            api_response = { 'id' => expense.reload.uuid }.merge!(declared(params))
-            api_response
+            api_response = ApiResponse.new()
+            ApiHelper.create_resource(::Expense, params, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
           desc "Validate an expense."
@@ -56,16 +53,10 @@ module API
           end
 
           post '/validate' do
-            expense = ::Expense.new(args)
-
-            if !expense.valid?
-              error = ErrorResponse.new(expense)
-              status error.status
-              return error.body
-            end
-
-            status 200
-            { valid: true }
+            api_response = ApiResponse.new()
+            ApiHelper.validate_resource(::Expense, api_response, method(:build_arguments).to_proc)
+            status api_response.status
+            return api_response.body
           end
 
         end

@@ -20,8 +20,8 @@ class Defendant < ActiveRecord::Base
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  # This is really a has_one, but needs to be has_many for cocoon
 
   validates :claim, presence: true
-  validates :first_name, presence: true, unless: :do_not_validate?
-  validates :last_name, presence: true, unless: :do_not_validate?
+  validates :first_name, presence: true   , unless: :do_not_validate?
+  validates :last_name, presence: true    , unless: :do_not_validate?
   validates :date_of_birth, presence: true, unless: :do_not_validate?
   validate  :has_at_least_one_representation_order_unless_draft
 

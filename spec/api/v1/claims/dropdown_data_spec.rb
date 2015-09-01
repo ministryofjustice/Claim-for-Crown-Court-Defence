@@ -18,12 +18,12 @@ describe API::V1::DropdownData do
 
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
-
-  context 'All dropdown data API endpoints' do
+  
+  context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint
-      context 'when sent a non-permitted verb' do
+      context "to endpoint #{endpoint}" do
         FORBIDDEN_DROPDOWN_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it 'should return a status of 405' do
+          it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end

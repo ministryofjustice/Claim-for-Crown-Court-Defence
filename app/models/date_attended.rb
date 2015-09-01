@@ -15,7 +15,7 @@
 class DateAttended < ActiveRecord::Base
 
   belongs_to :attended_item, polymorphic: true
-
+  
   validates :date, presence: true
 
   def to_s
@@ -25,4 +25,5 @@ class DateAttended < ActiveRecord::Base
       "#{date.strftime(Settings.date_format)}"
     end
   end
+
 end

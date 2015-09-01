@@ -1,14 +1,8 @@
 module API
   module V1
-
-    class Error < StandardError; end
-    class ArgumentError < Error; end
-
     module Advocates
 
-      class RepresentationOrder < Grape::API
-
-        include ApiHelper
+      class RepresentationOrder < GrapeApiHelper
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
@@ -28,7 +22,6 @@ module API
 
             def build_arguments
               defendant_id = ::Defendant.find_by(uuid: params[:defendant_id]).try(:id)
-
                # TODO review in code review
                # NOTE: explicit error raising because defendant_id's presence is not validated by model due to instatiation issues
               if defendant_id.nil?

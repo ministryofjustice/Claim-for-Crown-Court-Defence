@@ -15,11 +15,11 @@ describe API::V1::Advocates::RepresentationOrder do
   let!(:defendant)        { create(:defendant, claim: claim).reload }
   let!(:valid_params)     { {granting_body: "Magistrate's Court", defendant_id: defendant.uuid, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
 
-  context 'All representation_order API endpoints' do
+  context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
-      context 'when sent a non-permitted verb' do
+      context "to endpoint #{endpoint}" do
         FORBIDDEN_REP_ORDER_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
-          it 'should return a status of 405' do
+          it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end

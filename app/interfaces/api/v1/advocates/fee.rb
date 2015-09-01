@@ -1,14 +1,8 @@
 module API
   module V1
-
-    class Error < StandardError; end
-    class ArgumentError < Error; end
-
     module Advocates
 
-      class Fee < Grape::API
-
-        include ApiHelper
+      class Fee < GrapeApiHelper
 
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json

@@ -33,7 +33,7 @@ end
 
 Then(/^a redetermination notice should be present in the claim status panel$/) do
   state_transition_date = @claim.claim_state_transitions.last.created_at
-  expect(page).to have_content("Opened for redetermination on #{state_transition_date} (see messages/notes for further details).")
+  expect(page).to have_content("Opened for redetermination on #{state_transition_date} (see messages for further details).")
 end
 
 Then(/^a written reasons notice should be present in the claim status panel$/) do
@@ -86,7 +86,7 @@ Then(/^a form should be visible for me to enter the redetermination amounts$/) d
   expect(page).to have_selector('#claim_redeterminations_attributes_0_fees')
 end
 
-When(/^I enter redetermination amounts$/) do 
+When(/^I enter redetermination amounts$/) do
   fill_in 'claim_redeterminations_attributes_0_fees', with: 1577.22
   fill_in 'claim_redeterminations_attributes_0_expenses', with: 805.75
   click_button 'Update'

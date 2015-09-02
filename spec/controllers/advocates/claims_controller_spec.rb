@@ -97,10 +97,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
-
-    it 'does not display caseworker notes' do
-      expect(response.body).to_not include('Add note')
-    end
   end
 
   describe "GET #new" do

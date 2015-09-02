@@ -69,3 +69,7 @@ Then(/^I should see the state change to paid in full reflected in the history$/)
     end
   end
 end
+
+When(/^I visit the claim's detail page$/) do
+  visit advocates_claim_path(@claim)
+end

@@ -26,7 +26,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
 #  trial_concluded_at     :date
@@ -165,7 +164,7 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  
+
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten

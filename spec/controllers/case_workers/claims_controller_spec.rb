@@ -95,14 +95,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:show)
     end
-
-    context 'notes (render views)' do
-      render_views
-
-      it 'displays caseworker notes' do
-        expect(response.body).to include('Update note')
-      end
-    end
   end
 
 

@@ -66,7 +66,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     params.require(:claim).permit(
       :state_for_form,
       :additional_information,
-      :notes,
       :assessment_attributes => [
         :id,
         :fees,

@@ -15,7 +15,7 @@ module API
             params :representation_order_creation do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :defendant_id, type: String,             desc: 'REQUIRED: ID of the defendant'
-              optional :granting_body, type: String,            desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrates Court)"
+              optional :granting_body, type: String,            desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrates' Court)"
               optional :maat_reference, type: String,           desc: "REQUIRED: The unique identifier for this representation order"
               optional :representation_order_date, type: Date,  desc: "REQUIRED: The date on which this representation order was granted (YYYY/MM/DD)"
             end

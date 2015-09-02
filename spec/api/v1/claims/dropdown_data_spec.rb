@@ -106,7 +106,7 @@ describe API::V1::DropdownData do
 
     it 'should return a JSON formatted list of granting bodies' do
       response = get GRANTING_BODY_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to eql(["Magistrates Court","Crown Court"])
+      expect(JSON.parse(response.body)).to eql(["Magistrates' Court","Crown Court"])
     end
 
   end

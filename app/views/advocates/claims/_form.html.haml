@@ -4,8 +4,9 @@
       .validation-summary
         %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
         %ul
-          - @claim.errors.full_messages.each do |msg|
-            %li= msg
+          - @claim.errors.full_messages.each do |message|
+            %li
+              = message
     %h2
       = t('.section_one')
     %fieldset
@@ -15,20 +16,25 @@
       - if current_user.persona.admin?
         = f.label t('.advocate')
         = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+        = validation_error_message(@claim, :advocate)
 
       = f.label t('.case_type')
       = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
+      = validation_error_message(@claim, :case_type_id)
 
       = render 'cracked_trial_fields', f: f
 
       = f.label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+      = validation_error_message(@claim, :court)
 
       = f.label t('.case_number')
       = f.text_field :case_number
+      = validation_error_message(@claim, :case_number)
 
       = f.label t('.advocate_category')
       = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2' }
+      = validation_error_message(@claim, :advocate_category)
 
       = f.label t('.offence_category')
       - if @claim.new_record?
@@ -37,6 +43,7 @@
         - selected_offence_category = @claim.offence.description rescue nil
 
       = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
+      = validation_error_message(@claim, :offence)
 
       .offence-class-select
         = render partial: "offence_select", locals: { offences: @offences }
@@ -47,15 +54,19 @@
         %span.auto-width
           = f.label t('.first_day_of_trial')
           = f.adp_date_fields :first_day_of_trial
+          = validation_error_message(@claim, :first_day_of_trial)
         %span.auto-width
           = f.label t('.estimated_length')
           = f.number_field :estimated_trial_length
+          = validation_error_message(@claim, :estimated_trial_length)
         %span.auto-width
           = f.label t('.actual_length')
           = f.number_field :actual_trial_length
+          = validation_error_message(@claim, :actual_trial_length)
         %span.auto-width
           = f.label t('.trial_concluded_at')
           = f.adp_date_fields :trial_concluded_at
+          = validation_error_message(@claim, :trial_concluded_at)
 
     %fieldset
       %legend
@@ -71,6 +82,7 @@
     %fieldset
       = f.label t('.additional_information')
       = f.text_area :additional_information, rows: 10
+      = validation_error_message(@claim, :additional_information)
 
     %fieldset
       %legend
@@ -159,6 +171,8 @@
       %label
         = f.check_box :apply_vat
         = t('.vat_required')
+      = validation_error_message(@claim, :apply_vat)
+
     = render partial: "shared/vat_summary", locals: { claim:  present(@claim) }
 
     %fieldset{id: 'evidence'}

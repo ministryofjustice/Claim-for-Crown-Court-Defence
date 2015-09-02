@@ -148,14 +148,14 @@ RSpec.describe ClaimPresenter do
       Timecop.freeze 5.days.ago do
         defendant_1.representation_orders = [
           FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Crown Court", maat_reference: '1234abc'),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrate's Court", maat_reference: 'abc1234'),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), granting_body: "Magistrates' Court", maat_reference: 'abc1234'),
         ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrate's Court", maat_reference: 'xyz4321') ]
+        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrates' Court", maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrate's Court 13/08/2015 abc1234<br/>Magistrate's Court 01/03/2015 xyz4321" )
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrates' Court 13/08/2015 abc1234<br/>Magistrates' Court 01/03/2015 xyz4321" )
     end
   end
 

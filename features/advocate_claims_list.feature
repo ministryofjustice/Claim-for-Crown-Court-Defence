@@ -25,11 +25,11 @@ Feature: Advocate claims list
 
      Examples:
        | state        | number |
-       | "submitted"  | 5      |
-       | "rejected"   | 5      |
-       | "part_paid"  | 5      |
-       | "completed"  | 5      |
-       | "draft"      | 5      |
+       | "submitted"  | 3      |
+       | "rejected"   | 3      |
+       | "part_paid"  | 3      |
+       | "paid"       | 3      |
+       | "draft"      | 3      |
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin

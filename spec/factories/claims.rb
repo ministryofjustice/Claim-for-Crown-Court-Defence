@@ -26,7 +26,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
 #  trial_concluded_at     :date
@@ -85,7 +84,7 @@ FactoryGirl.define do
         claim.defendants << build(:defendant, claim: claim)
         claim.fees << build(:fee, :with_date_attended, claim: claim, fee_type: FactoryGirl.build(:fee_type))
         claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
-      end 
+      end
     end
 
     factory :invalid_claim do
@@ -116,10 +115,6 @@ FactoryGirl.define do
 
     factory :awaiting_info_from_court_claim do
       after(:create) { |c| c.submit!; c.allocate!; c.await_info_from_court!  }
-    end
-
-    factory :completed_claim do
-      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.complete!; }
     end
 
     factory :paid_claim do

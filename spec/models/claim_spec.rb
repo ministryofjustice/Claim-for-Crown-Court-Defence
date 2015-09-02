@@ -27,7 +27,6 @@
 #  cms_number             :string(255)
 #  paid_at                :datetime
 #  creator_id             :integer
-#  notes                  :text
 #  evidence_notes         :text
 #  evidence_checklist_ids :string(255)
 #  trial_concluded_at     :date
@@ -81,7 +80,7 @@ RSpec.describe Claim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
+    let(:all_states)  { [  'allocated', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court',
                            'deleted', 'draft', 'paid', 'part_paid', 'refused', 'rejected', 'submitted' ] }
 
     context 'advocate_dashboard_draft?' do
@@ -149,14 +148,14 @@ RSpec.describe Claim, type: :model do
 
     context 'advocate_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'completed', 'refused', 'paid' ].each do |state|
+        [ 'refused', 'paid' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.advocate_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'completed', 'refused', 'paid' ]).each do |claim_state|
+        (all_states - [ 'refused', 'paid' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_completed?).to be false
         end
@@ -828,15 +827,13 @@ RSpec.describe Claim, type: :model do
      expect_has_paid_state_to_be false
     end
 
-    it 'should return true for part_paid, paid and completed claims' do
+    it 'should return true for part_paid, paid claims' do
      claim.submit
      claim.allocate
      claim.assessment.update(fees: 30.01, expenses: 70.00)
      claim.pay_part
      expect_has_paid_state_to_be true
      claim.pay
-     expect_has_paid_state_to_be true
-     claim.complete
      expect_has_paid_state_to_be true
     end
   end
@@ -1086,16 +1083,16 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#requested_redetermination?' do
-    
+
     context 'allocated state from redetermination' do
 
       before(:each) do
         @claim = FactoryGirl.create :redetermination_claim
         @claim.allocate!
       end
-      
+
       context 'no previous redetermination' do
-        
+
         it 'should be true' do
           expect(@claim.redeterminations).to be_empty
           expect(@claim.requested_redetermination?).to be true

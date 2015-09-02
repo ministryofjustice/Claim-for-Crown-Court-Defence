@@ -35,7 +35,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       let(:tab) { 'completed' }
 
       it 'assigns completed @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims.completed)
+        expect(assigns(:claims)).to eq(case_worker.claims.caseworker_dashboard_completed)
       end
     end
 

@@ -30,8 +30,6 @@ Feature: Claim redetermination
       | awaiting_info_from_court_claim  |
       | rejected_claim                  |
       | redetermination_claim           |
-      | completed_claim                 |
-
 
   Scenario: Re-open claim for redetermination
     Given I am a signed in advocate

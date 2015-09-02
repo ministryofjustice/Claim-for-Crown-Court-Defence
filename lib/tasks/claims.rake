@@ -17,7 +17,6 @@ EXAMPLE_DOC_TYPES = {
 
 STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
                               'submitted',
-                              'completed',
                               'paid',
                               'redetermination',
                               'part_paid',

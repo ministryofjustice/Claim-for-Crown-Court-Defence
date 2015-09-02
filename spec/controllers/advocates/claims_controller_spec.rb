@@ -12,7 +12,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       @archived_pending_delete_claim  = build_claim_in_state(:archived_pending_delete)
       @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
       @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
-      @completed_claim                = build_claim_in_state(:completed)
       @draft_claim                    = build_claim_in_state(:draft)
       @part_paid_claim                = build_claim_in_state(:part_paid)
       @refused_claim                  = build_claim_in_state(:refused)
@@ -25,7 +24,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
 
     let(:full_collection)  { [  @allocated_claim, @archived_pending_delete_claim,
-                                @awaiting_further_info_claim, @awaiting_info_from_court_claim, @completed_claim,
+                                @awaiting_further_info_claim, @awaiting_info_from_court_claim,
                                 @draft_claim, @part_paid_claim, @refused_claim,
                                 @rejected_claim, @submitted_claim ] }
 
@@ -46,7 +45,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                             @awaiting_info_from_court_claim,
                                             @awaiting_further_info_claim,
                                             @part_paid_claim,
-                                            @completed_claim,
                                             @refused_claim)
       end
     end
@@ -72,7 +70,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                             @awaiting_info_from_court_claim,
                                             @awaiting_further_info_claim,
                                             @part_paid_claim,
-                                            @completed_claim,
                                             @refused_claim)
 
       end

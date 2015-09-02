@@ -2,15 +2,16 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY = 180.days
   STANDARD_VALIDITY = 21.days
 
-  ADVOCATE_DASHBOARD_DRAFT_STATES             = [ 'draft' ]
-  ADVOCATE_DASHBOARD_REJECTED_STATES          = [ 'rejected' ]
-  ADVOCATE_DASHBOARD_SUBMITTED_STATES         = [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]
-  ADVOCATE_DASHBOARD_PART_PAID_STATES         = [ 'part_paid' ]
-  ADVOCATE_DASHBOARD_COMPLETED_STATES         = [ 'completed', 'refused', 'paid' ]
-  CASEWORKER_DASHBOARD_COMPLETED_STATES       = [ 'completed', 'paid', 'part_paid', 'rejected', 'refused','awaiting_further_info', 'awaiting_info_from_court']
-  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = [ 'allocated' ]
+  ADVOCATE_DASHBOARD_DRAFT_STATES             = %w( draft )
+  ADVOCATE_DASHBOARD_REJECTED_STATES          = %w( rejected )
+  ADVOCATE_DASHBOARD_SUBMITTED_STATES         = %w( allocated submitted awaiting_info_from_court awaiting_further_info )
+  ADVOCATE_DASHBOARD_PART_PAID_STATES         = %w( part_paid )
+  ADVOCATE_DASHBOARD_COMPLETED_STATES         = %w( refused paid )
+  CASEWORKER_DASHBOARD_COMPLETED_STATES       = %w( paid part_paid rejected refused awaiting_further_info awaiting_info_from_court )
+  CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = %w( allocated )
+  VALID_STATES_FOR_REDETERMINATION            = %w( paid part_paid refused )
+  NON_DRAFT_STATES                            = %w( allocated awaiting_further_info awaiting_info_from_court deleted paid part_paid refused rejected submitted )
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
-  VALID_STATES_FOR_REDETERMINATION            = [ 'paid', 'part_paid', 'refused' ]
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
@@ -37,8 +38,22 @@ module Claims::StateMachine
   end
 
   def self.included(klass)
-    klass.state_machine :state,                      initial: :draft do
+    klass.state_machine :state, initial: :draft do
       audit_trail
+
+      state :allocated,
+            :archived_pending_delete,
+            :awaiting_further_info,
+            :awaiting_info_from_court,
+            :awaiting_written_reasons,
+            :deleted,
+            :draft,
+            :paid,
+            :part_paid,
+            :refused,
+            :rejected,
+            :redetermination,
+            :submitted
 
       after_transition on: :submit,                   do: :set_submission_date!
       after_transition on: :pay,                      do: :set_paid_date!
@@ -49,9 +64,6 @@ module Claims::StateMachine
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:await_info_from_court, :reject, :refuse], do: :set_amount_assessed_zero!
       before_transition any => any,  do: :set_paper_trail_event!
-
-      state :allocated, :archived_pending_delete, :awaiting_further_info, :awaiting_info_from_court, :completed,
-         :deleted, :draft, :paid, :part_paid, :refused, :rejected, :submitted, :redetermination, :awaiting_written_reasons
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
@@ -75,10 +87,6 @@ module Claims::StateMachine
 
       event :await_further_info do
         transition [:part_paid] => :awaiting_further_info
-      end
-
-      event :complete do
-        transition [:awaiting_further_info, :paid, :refused] => :completed
       end
 
       event :pay_part do
@@ -111,10 +119,9 @@ module Claims::StateMachine
       end
     end
 
-    klass.scope :non_draft, -> { klass.where(state: ['allocated', 'awaiting_further_info', 'awaiting_info_from_court', 'completed',
-         'deleted', 'paid', 'part_paid', 'refused', 'rejected', 'submitted']) }
+    klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }
 
-    klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: ['submitted', 'redetermination', 'awaiting_written_reasons']) }
+    klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: %w(submitted redetermination awaiting_written_reasons) ) }
 
     klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
     klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }

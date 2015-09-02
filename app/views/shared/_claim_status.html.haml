@@ -73,13 +73,6 @@
                       %span.js-total-determination
                         = rf.object.total
 
-
-
-
-
-      = f.label :additional_information, "Remarks"
-      = f.text_area :additional_information, disabled: disabled
-
       - if current_user.persona.is_a?(CaseWorker)
         %p
         = f.submit 'Update', class: 'button', id: 'button'

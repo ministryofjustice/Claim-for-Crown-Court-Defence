@@ -2,19 +2,24 @@
   %span.auto-width
     = f.label t('.first_name')
     = f.text_field :first_name
+    = validation_error_message(f.object, :first_name)
   %span.auto-width
     = f.label t('.middle_name')
     = f.text_field :middle_name
+    = validation_error_message(f.object, :middle_name)
   %span.auto-width
     = f.label t('.last_name')
     = f.text_field :last_name
+    = validation_error_message(f.object, :last_name)
   %span.auto-width
     = f.label t('.date_of_birth')
     = f.adp_date_fields :date_of_birth
+    = validation_error_message(f.object, :date_of_birth)
 
   %label
     = f.check_box :order_for_judicial_apportionment
     = t('.order_for_judicial_apportionment')
+    = validation_error_message(f.object, :order_for_judicial_apportionment)
 
   %p
     #documents
@@ -25,4 +30,3 @@
 
   %p
     = link_to_remove_association t('.remove_defendant'), f
-

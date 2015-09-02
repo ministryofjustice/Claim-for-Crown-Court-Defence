@@ -1,2 +1,0 @@
-module Advocates::DashboardHelper
-end

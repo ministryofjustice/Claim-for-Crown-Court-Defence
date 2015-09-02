@@ -2,12 +2,16 @@
   %tr.nested-fields
     %td
       = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2'}
+      = validation_error_message(f.object, :expense_type_id)
     %td
       = f.text_field :location
+      = validation_error_message(f.object, :location)
     %td
       = f.number_field :quantity, class: 'quantity', min: 0
+      = validation_error_message(f.object, :quantity)
     %td
       = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
+      = validation_error_message(f.object, :rate)
     %td.amount
       = number_to_currency(f.object.amount)
     %td.add-expense-date-attended

@@ -1,2 +1,0 @@
-module CaseWorkers::DashboardHelper
-end

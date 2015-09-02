@@ -223,7 +223,7 @@ private
 
     {
       "defendant_id": defendant_uuid,
-      "granting_body": "Magistrate's Court",
+      "granting_body": "Magistrates Court",
       "maat_reference": "MAATfromSmoke",
       "representation_order_date": "2015/05/21"
     }

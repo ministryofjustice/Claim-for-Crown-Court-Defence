@@ -18,7 +18,7 @@ describe RepresentationOrder do
 
   it { should validate_presence_of(:representation_order_date) }
 
-  # it { should validate_inclusion_of(:granting_body).in_array( ["Magistrate's Court", "Crown Court"] ) }
+  # it { should validate_inclusion_of(:granting_body).in_array( ["Magistrates Court", "Crown Court"] ) }
 
   context 'non_draft claim validations' do
     let(:claim)                       { FactoryGirl.build :unpersisted_claim }
@@ -30,7 +30,7 @@ describe RepresentationOrder do
     end
 
     it 'should validate court type' do
-      { "Crown Court" => true, "Magistrate's Court" => true, "Other Court" => false}.each do |court_type, expected_result|
+      { "Crown Court" => true, "Magistrates Court" => true, "Other Court" => false}.each do |court_type, expected_result|
         representation_order.granting_body = court_type
         expect(representation_order.valid?).to eq expected_result
       end
@@ -48,7 +48,7 @@ describe RepresentationOrder do
     end
 
     it 'should validate court type' do
-      { "Crown Court" => true, "Magistrate's Court" => true, "Other Court" => false}.each do |court_type, expected_result|
+      { "Crown Court" => true, "Magistrates Court" => true, "Other Court" => false}.each do |court_type, expected_result|
         representation_order.granting_body = court_type
         expect(representation_order.valid?).to eq expected_result
       end

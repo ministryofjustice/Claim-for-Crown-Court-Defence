@@ -18,7 +18,7 @@ describe API::V1::DropdownData do
 
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
-  
+
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
@@ -106,7 +106,7 @@ describe API::V1::DropdownData do
 
     it 'should return a JSON formatted list of granting bodies' do
       response = get GRANTING_BODY_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to eql(["Magistrate's Court","Crown Court"])
+      expect(JSON.parse(response.body)).to eql(["Magistrates Court","Crown Court"])
     end
 
   end

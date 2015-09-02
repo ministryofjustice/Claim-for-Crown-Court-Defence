@@ -24,7 +24,7 @@ advocate_categories:
   - Junior alone
 
 court_types:
-   - Magistrate's Court
+   - Magistrates Court
    - Crown Court
 
 date_format: "%d/%m/%Y"

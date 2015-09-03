@@ -1,11 +1,3 @@
-def upload_a_document(document_filename = 'shorter_lorem.docx')
-  @notes = SecureRandom.uuid
-  select 'Other', from: 'document_document_type_id'
-  attach_file(:document_document, "features/examples/#{document_filename}")
-  fill_in('Notes', with: @notes)
-  click_on('Upload')
-end
-
 Then(/^the document should have a duplicate pdf version$/) do
   upload_a_document
 end

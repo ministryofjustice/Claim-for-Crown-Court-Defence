@@ -25,6 +25,8 @@ class Defendant < ActiveRecord::Base
   validates :date_of_birth, presence: true, unless: :do_not_validate?
   validate  :has_at_least_one_representation_order_unless_draft
 
+  acts_as_gov_uk_date :date_of_birth
+
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
 
   def name

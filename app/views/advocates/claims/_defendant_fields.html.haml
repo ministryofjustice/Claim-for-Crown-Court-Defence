@@ -13,7 +13,7 @@
     = validation_error_message(f.object, :last_name)
   %span.auto-width
     = f.label t('.date_of_birth')
-    = f.adp_date_fields :date_of_birth
+    = f.gov_uk_date_field :date_of_birth
     = validation_error_message(f.object, :date_of_birth)
 
   %label

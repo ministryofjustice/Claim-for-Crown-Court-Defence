@@ -185,7 +185,7 @@ private
 
     {
       "advocate_email": "advocate@example.com",
-      "case_number": "12345678",
+      "case_number": "12345699",
       "case_type_id": case_type_id,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015/06/01",

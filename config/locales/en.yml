@@ -211,7 +211,6 @@ en:
         remove_defendant: 'Remove defendant'
       document_fields:
         document_type: 'Document type'
-        notes: 'Notes'
         document: 'Document'
         file_exists: 'File already uploaded:'
         view: *view

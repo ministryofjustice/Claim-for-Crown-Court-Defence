@@ -18,6 +18,8 @@ class DateAttended < ActiveRecord::Base
   
   validates :date, presence: true
 
+  acts_as_gov_uk_date :date, :date_to
+
   def to_s
     unless date_to.nil?
       "#{date.strftime(Settings.date_format)} - #{date_to.strftime(Settings.date_format)}"

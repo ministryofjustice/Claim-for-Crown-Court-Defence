@@ -114,9 +114,9 @@ When(/^I fill in the claim details$/) do
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_maat_reference', with: 'aaa1111'
 
     date = rand(1..10).days.ago
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_3i', with: date.strftime('%d')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_2i', with: date.strftime('%m')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_1i', with: date.strftime('%Y')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_dd', with: date.strftime('%d')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_mm', with: date.strftime('%m')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_yyyy', with: date.strftime('%Y')
 
     choose 'Crown Court'
   end

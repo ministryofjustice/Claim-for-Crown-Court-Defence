@@ -184,7 +184,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
          :id,
          :document,
          :maat_reference,
-         :representation_order_date,
+         :representation_order_date_dd,
+         :representation_order_date_mm,
+         :representation_order_date_yyyy,
          :granting_body
         ]
      ],
@@ -199,8 +201,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        dates_attended_attributes: [
           :id,
           :fee_id,
-          :date,
-          :date_to,
+          :date_dd,
+          :date_mm,
+          :date_yyyy,
+          :date_to_dd,
+          :date_to_mm,
+          :date_to_yyyy,
           :_destroy
         ]
      ],
@@ -215,8 +221,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        dates_attended_attributes: [
           :id,
           :fee_id,
-          :date,
-          :date_to,
+          :date_dd,
+          :date_mm,
+          :date_yyyy,
+          :date_to_dd,
+          :date_to_mm,
+          :date_to_yyyy,
           :_destroy
         ]
       ],
@@ -231,8 +241,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        dates_attended_attributes: [
           :id,
           :fee_id,
-          :date,
-          :date_to,
+          :date_dd,
+          :date_mm,
+          :date_yyyy,
+          :date_to_dd,
+          :date_to_mm,
+          :date_to_yyyy,
           :_destroy
         ]
       ],
@@ -247,8 +261,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        dates_attended_attributes: [
           :id,
           :expense_id,
-          :date,
-          :date_to,
+          :date_dd,
+          :date_mm,
+          :date_yyyy,
+          :date_to_dd,
+          :date_to_mm,
+          :date_to_yyyy,
           :_destroy
         ]
      ],

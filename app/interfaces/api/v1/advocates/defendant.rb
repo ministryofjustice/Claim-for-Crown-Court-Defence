@@ -23,10 +23,6 @@ module API
             end
 
             def build_arguments
-
-              # explicit test for UUID that is not in correct format to avoid PG error
-              raise API::V1::ArgumentError, 'malformed UUID' unless ApiHelper.uuid_valid?(params[:claim_id])
-
               {
                 claim_id:       ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 first_name:     params[:first_name],

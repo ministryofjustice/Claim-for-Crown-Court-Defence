@@ -28,7 +28,12 @@ module API
             @model = object
             build_error_response
           else
-            @body = error_messages.push({ error: object.message })
+            # temp workaround til rails 4.2 upgrade which should fix malformed UUID error and raise ActiveRecord::RecordNotFound
+            if object.inspect.include? 'PG::InvalidTextRepresentation: ERROR:  invalid input syntax for uuid:'
+              @body = error_messages.push({ error: "malformed UUID" })
+            else
+              @body = error_messages.push({ error: object.message })
+            end
             @status = 400
           end
 
@@ -54,12 +59,6 @@ module API
              raise "unable to build error response as no errors were found"
            end
         end
-      end
-
-      # --------------------
-      def self.uuid_valid?(uuid)
-        return true if uuid =~ /\A[\da-f]{32}\z/i
-        return true if uuid =~ /\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i
       end
 
       # --------------------

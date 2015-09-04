@@ -74,7 +74,7 @@ describe API::V1::Advocates::Defendant do
       end
 
       context "malformed claim UUID" do
-        it "should be handled by ActiveRecord not PG" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
           valid_params[:claim_id] = 'any-old-rubbish'
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)

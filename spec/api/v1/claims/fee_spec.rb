@@ -101,6 +101,15 @@ describe API::V1::Advocates::Fee do
         end
       end
 
+      context "malformed claim UUID" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+          valid_params[:claim_id] = 'any-old-rubbish'
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
+        end
+      end
+
     end
 
   end

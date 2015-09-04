@@ -25,19 +25,19 @@ class ClaimDateValidator < ActiveModel::Validator
     validate_presence(:trial_fixed_notice_at, "Please enter valid date notice of first fixed/warned issued") if case_type_in("Cracked Trial", "Cracked before retrial")
     validate_not_after(Date.today, :trial_fixed_notice_at, "Date notice of first fixed/warned issued may not be in the future")
     validate_not_before(5.years.ago, :trial_fixed_notice_at, "Date notice of first fixed/warned issued may not be older than 5 years")
-    # validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "Date notice of first fixed/warned issued may not be earlier than the first representation order date")
+    validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "Date notice of first fixed/warned issued may not be earlier than the first representation order date")
   end
 
   def validate_trial_fixed_at
   end
 
   def validate_not_after(date, attribute, message)
-    return if @record.send(attribute).nil?
+    return if @record.send(attribute).nil? || date.nil?
     add_error(attribute, message) if @record.send(attribute) > date
   end
 
   def validate_not_before(date, attribute, message)
-    return if @record.send(attribute).nil?
+    return if @record.send(attribute).nil? || date.nil?
     add_error(attribute, message) if @record.send(attribute) < date
   end
 

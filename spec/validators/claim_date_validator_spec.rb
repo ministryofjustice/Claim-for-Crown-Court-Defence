@@ -33,15 +33,14 @@ describe ClaimDateValidator do
       expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Date notice of first fixed/warned issued may not be older than 5 years' ])
     end
 
-    # it 'should error if earlier than the earliest representation order date' do
-    #   repo = double RepresentationOrder
-    #   expect(cracked_trial_claim).to receive(:earliest_representation_order).and_return(repo)
-    #   expect(repo).to receive(:representation_order_date).and_return(1.year.ago.to_date)
-    #   cracked_trial_claim.trial_fixed_notice_at = 13.months.ago.to_date
-    #   expect(cracked_trial_claim.valid?).to be false
-    #   expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Date notice of first fixed/warned issued may not be older than 5 years' ])
-
-    # end
+    it 'should error if earlier than the earliest representation order date' do
+      repo = double RepresentationOrder
+      allow(cracked_trial_claim).to receive(:earliest_representation_order).and_return(repo)
+      allow(repo).to receive(:representation_order_date).and_return(1.year.ago.to_date)
+      cracked_trial_claim.trial_fixed_notice_at = 13.months.ago.to_date
+      expect(cracked_trial_claim.valid?).to be false
+      expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Date notice of first fixed/warned issued may not be earlier than the first representation order date' ])
+    end
 
   end
   

@@ -12,12 +12,13 @@ module API
         resource :dates_attended, desc: 'Create or Validate' do
 
           helpers do
+            include ExtractDate
             params :date_attended_creation do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :attended_item_id, type: String,   desc: 'REQUIRED: The ID of the corresponding Fee or Expense.'
               optional :attended_item_type, type: String, desc: 'REQUIRED: The Type of item to which this date range relates - Fee or Expense.'
-              optional :date, type: DateTime,             desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY/MM/DD)'
-              optional :date_to, type: DateTime,          desc: 'The last date your date-range (YYYY/MM/DD)'
+              optional :date, type: String,               desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY-MM-DD)', standard_json_format: true
+              optional :date_to, type: String,            desc: 'The last date in the date-range (YYYY-MM-DD)', standard_json_format: true
             end
 
             def build_arguments
@@ -33,8 +34,12 @@ module API
               {
                 attended_item_id: attended_item_id,
                 attended_item_type:  params[:attended_item_type].capitalize,
-                date: params[:date],
-                date_to: params[:date_to],
+                date_dd:   extract_date(:day, params[:date]),
+                date_mm:   extract_date(:month, params[:date]),
+                date_yyyy: extract_date(:year, params[:date]),
+                date_to_dd:   extract_date(:day, params[:date_to]),
+                date_to_mm:   extract_date(:month, params[:date_to]),
+                date_to_yyyy: extract_date(:year, params[:date_to]),
               }
             end
 

@@ -124,7 +124,6 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :documents,         reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :assessment
   accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
 
@@ -138,6 +137,10 @@ class Claim < ActiveRecord::Base
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
   after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
+
+  def find_and_associate_documents(form_id)
+    Document.where(form_id: form_id).each { |d| d.update_column(:claim_id, self.id); d.update_column(:advocate_id, self.advocate_id) }
+  end
 
   def set_force_validation_to_false
     @force_validation = false

@@ -1,5 +1,8 @@
 #claim-form
-  = form_for [:advocates, @claim], builder: AdpFormBuilder, html: { novalidate: true } do |f|
+  = form_for [:advocates, @claim], builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
+
+    = hidden_field_tag :form_id, @form_id || params[:form_id]
+
     - if @claim.errors.any?
       .validation-summary
         %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
@@ -178,11 +181,26 @@
     %fieldset{id: 'evidence'}
       %legend
         = t('.supporting_evidence_docs')
-      #documents
-        = f.fields_for :documents do |document|
-          = render 'document_fields', f: document
-        .links
-          = link_to_add_association t('.add_another_doc'), f, :documents, class: 'button-secondary'
+
+      .document-ids
+        - @claim.documents.each do |document|
+          = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
+
+      %div{class: 'dropzone', style: 'border: 2px dashed black; padding: 30px; width: 100%; margin-bottom: 20px;'}
+        %div{class: 'dz-default dz-message'}
+          Click or drag and drop files here to upload
+
+      - if @claim.documents.count > 0
+        %legend
+          = t('.previously_uploaded_docs')
+
+          %ul.previously-uploaded
+            - @claim.documents.order(created_at: :asc).each do |document|
+              %li{id: dom_id(document)}
+                = document.document_file_name
+                = link_to 'Download', download_document_path(document), class: 'download'
+                = link_to 'Remove', document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+
 
     %fieldset{id: 'evidence-checklist'}
       %legend

@@ -10,6 +10,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
+  before_action :generate_form_id, only: [:new, :edit]
 
   def index
     @claims = @context.claims.order(created_at: :desc)
@@ -54,7 +55,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create
     @claim = Claim.new(params_with_advocate_and_creator)
-    @claim.documents.each { |d| d.advocate_id = @claim.advocate_id }
 
     if submitting_to_laa?
       create_and_submit
@@ -65,6 +65,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def update
     if @claim.update(claim_params)
+      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
+      @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       submit_if_required_and_redirect
     else
       submit_claim_to_laa
@@ -77,6 +79,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   private
+
+  def generate_form_id
+    @form_id = SecureRandom.uuid
+  end
 
   def load_offences_and_case_types
     @offence_descriptions = Offence.unique_name.order(description: :asc)
@@ -158,7 +164,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :additional_information,
      :indictment_number,
      :apply_vat,
-     :evidence_checklist_ids => [],
+     evidence_checklist_ids: [],
      defendants_attributes: [
        :id,
        :claim_id,
@@ -239,13 +245,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
           :date_to,
           :_destroy
         ]
-     ],
-     documents_attributes: [
-       :id,
-       :document,
-       :advocate_id,
-       :claim_id,
-       :_destroy
      ]
     )
   end
@@ -300,6 +299,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create_draft
     if @claim.save
+      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
+      @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     else
       render_new_with_resources
@@ -310,6 +311,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.force_validation = true
     @claim.save
     if @claim.valid?
+      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
+      @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to new_advocates_claim_certification_path(@claim)
     else
       render_new_with_resources

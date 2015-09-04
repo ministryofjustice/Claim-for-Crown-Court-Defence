@@ -1,6 +1,11 @@
 class DocumentsController < ApplicationController
   respond_to :html
-  before_action :set_document, only: [:show, :edit, :summary, :update, :destroy, :download]
+  before_action :set_document, only: [:show, :download, :destroy]
+
+  def index
+    return render json: [] if params[:form_id].blank?
+    render json: Document.where(form_id: params[:form_id])
+  end
 
   def show
     send_file Paperclip.io_adapters.for(@document.converted_preview_document).path, view_or_download_file(:view)
@@ -8,6 +13,30 @@ class DocumentsController < ApplicationController
 
   def download
     send_file Paperclip.io_adapters.for(@document.document).path, view_or_download_file(:download)
+  end
+
+  def create
+    @document = Document.new(document_params.merge(creator_id: current_user.id))
+
+    if @document.save
+      render json: { document: @document.reload }, status: :created
+    else
+      render json: { error: @document.errors.full_messages.join(', ') }, status: 400
+    end
+  end
+
+  def destroy
+    if @document.destroy
+      respond_to do |format|
+        format.json { render json: { message: 'Document removed', document: @document } }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { message: @document.errors.full_messages.join(','), document: @document } }
+        format.js
+      end
+    end
   end
 
   private
@@ -40,9 +69,8 @@ class DocumentsController < ApplicationController
   def document_params
     params.require(:document).permit(
       :document,
-      :notes,
-      :document_type_id
+      :form_id,
+      :creator_id
     )
   end
-
 end

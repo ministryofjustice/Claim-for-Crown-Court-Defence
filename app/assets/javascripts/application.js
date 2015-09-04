@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require select2
 //= require cocoon
+//= require dropzone
 //= require moj
 //= require_tree .
 
@@ -40,6 +41,7 @@ function initialise(){
   adp.feeSectionDisplay.init();
   adp.feeCalculator.init('expenses');
   adp.determination.init('determinations');
+  adp.dropzone.init();
   moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();
   moj.Modules.amountAssessed.init();

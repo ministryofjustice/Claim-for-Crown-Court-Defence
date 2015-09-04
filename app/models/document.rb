@@ -24,8 +24,6 @@ class Document < ActiveRecord::Base
   belongs_to :advocate
   belongs_to :claim
 
-  validates :advocate_id, presence: true
-
   validates_attachment :document,
     presence: true,
     content_type: {

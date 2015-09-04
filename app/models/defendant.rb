@@ -6,7 +6,7 @@
 #  first_name                       :string(255)
 #  middle_name                      :string(255)
 #  last_name                        :string(255)
-#  date_of_birth                    :datetime
+#  date_of_birth                    :date
 #  order_for_judicial_apportionment :boolean
 #  claim_id                         :integer
 #  created_at                       :datetime

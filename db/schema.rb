@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902105354) do
+ActiveRecord::Schema.define(version: 20150903110418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,10 +154,10 @@ ActiveRecord::Schema.define(version: 20150902105354) do
   add_index "courts", ["name"], name: "index_courts_on_name", using: :btree
 
   create_table "dates_attended", force: true do |t|
-    t.datetime "date"
+    t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "date_to"
+    t.date     "date_to"
     t.uuid     "uuid",               default: "uuid_generate_v4()"
     t.integer  "attended_item_id"
     t.string   "attended_item_type"
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20150902105354) do
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "last_name"
-    t.datetime "date_of_birth"
+    t.date     "date_of_birth"
     t.boolean  "order_for_judicial_apportionment"
     t.integer  "claim_id"
     t.datetime "created_at"

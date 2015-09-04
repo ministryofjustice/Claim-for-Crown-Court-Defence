@@ -59,7 +59,7 @@ FactoryGirl.define do
 
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
-      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
+      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago.to_date)
       claim.scheme.start_date = Date.parse('31/12/2011')
       claim.scheme.end_date = nil
     end

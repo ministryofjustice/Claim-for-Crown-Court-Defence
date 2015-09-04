@@ -53,7 +53,7 @@
       #trial-details
         %span.auto-width
           = f.label t('.first_day_of_trial')
-          = f.adp_date_fields :first_day_of_trial
+          = f.gov_uk_date_field :first_day_of_trial
           = validation_error_message(@claim, :first_day_of_trial)
         %span.auto-width
           = f.label t('.estimated_length')
@@ -65,7 +65,7 @@
           = validation_error_message(@claim, :actual_trial_length)
         %span.auto-width
           = f.label t('.trial_concluded_at')
-          = f.adp_date_fields :trial_concluded_at
+          = f.gov_uk_date_field :trial_concluded_at
           = validation_error_message(@claim, :trial_concluded_at)
 
     %fieldset

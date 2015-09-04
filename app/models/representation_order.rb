@@ -22,6 +22,8 @@ class RepresentationOrder < ActiveRecord::Base
   validates   :maat_reference, uniqueness: { case_sensitive: false }
   validates   :representation_order_date, presence: true
 
+  acts_as_gov_uk_date :representation_order_date
+
   belongs_to :defendant
 
   def claim

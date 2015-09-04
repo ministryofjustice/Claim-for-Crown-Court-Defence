@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :representation_order do
-    representation_order_date           { Time.now }
+    representation_order_date           { Date.today }
     maat_reference                      { Faker::Lorem.characters(10).upcase }
     granting_body                       { Settings.court_types[ randomly_0_or_1 ] }
   end

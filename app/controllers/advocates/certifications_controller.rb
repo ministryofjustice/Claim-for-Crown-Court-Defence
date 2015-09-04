@@ -39,7 +39,9 @@ class Advocates::CertificationsController < Advocates::ApplicationController
       :previous_advocate_notified_court,
       :fixed_fee_case,
       :certified_by,
-      :certification_date
+      :certification_date_dd,
+      :certification_date_mm,
+      :certification_date_yyyy
     )
   end
 

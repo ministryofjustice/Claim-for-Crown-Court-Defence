@@ -16,12 +16,12 @@
 
 FactoryGirl.define do
   factory :defendant do
-    first_name { Faker::Name.first_name }
-    middle_name { Faker::Name.first_name }
-    last_name { Faker::Name.last_name }
-    date_of_birth "2015-03-26 14:55:55"
-    order_for_judicial_apportionment false
-    representation_orders { [ FactoryGirl.create(:representation_order) ] }
+    first_name                        { Faker::Name.first_name }
+    middle_name                       { Faker::Name.first_name }
+    last_name                         { Faker::Name.last_name }
+    date_of_birth                     Date.new(2015, 3, 26)
+    order_for_judicial_apportionment  false
+    representation_orders             { [ FactoryGirl.create(:representation_order) ] }
   end
 
 end

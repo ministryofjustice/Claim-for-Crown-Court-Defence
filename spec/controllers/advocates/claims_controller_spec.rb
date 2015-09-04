@@ -161,10 +161,14 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',
-                date_of_birth: '1980-10-04',
+                date_of_birth_dd: '4',
+                date_of_birth_mm: '10',
+                date_of_birth_yyyy: '1980',
                 representation_orders_attributes: [
                   {
-                    representation_order_date: scheme.start_date,
+                    representation_order_date_dd: scheme.start_date.day.to_s,
+                    representation_order_date_mm: scheme.start_date.month.to_s,
+                    representation_order_date_yyyy: scheme.start_date.year.to_s,
                     granting_body: 'Crown Court',
                     maat_reference: '111AAA222BB'
                   }
@@ -312,7 +316,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
               claim_params['case_type_id'] = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true).id.to_s
-
               response = post :create, claim: claim_params
               claim = assigns(:claim)
 
@@ -404,17 +407,17 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     context 'Date Parameter handling' do
       it 'should transform dates with named months into dates' do
         put :update, id: subject, claim: {
-          'first_day_of_trial(1i)' => '2015',
-          'first_day_of_trial(2i)' => 'jan',
-          'first_day_of_trial(3i)' => '4' }, commit: 'Submit to LAA'
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => 'jan',
+          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
       it 'should transform dates with numbered months into dates' do
         put :update, id: subject, claim: {
-          'first_day_of_trial(1i)' => '2015',
-          'first_day_of_trial(2i)' => '11',
-          'first_day_of_trial(3i)' => '4' }, commit: 'Submit to LAA'
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => '11',
+          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end
@@ -455,22 +458,29 @@ def valid_claim_fee_params
      "advocate_category" => "QC",
      "offence_class_id" => "2",
      "offence_id" => offence.id.to_s,
-     "first_day_of_trial" => "2015-05-13",
+     "first_day_of_trial_dd" => '13', 
+     "first_day_of_trial_mm" => '5',
+     "first_day_of_trial_yyyy" => '2015',
      "estimated_trial_length" => "2",
      "actual_trial_length" => "2",
-     "trial_concluded_at" => "2015-05-15",
+     "trial_concluded_at_dd" => "15",
+     "trial_concluded_at_mm" => "05",
+     "trial_concluded_at_yyyy" => "2015",
      "evidence_checklist_ids" => ["1", "5", ""],
      "defendants_attributes"=>
       {"0"=>
         {"first_name" => "Stephen",
          "middle_name" => "",
          "last_name" => "Richards",
-         "date_of_birth" => "1966-08-13",
-         "representation_order_date" => "2015-05-13",
+         "date_of_birth_dd" => "13",
+         "date_of_birth_mm" => "08",
+         "date_of_birth_yyyy" => "1966",
          "_destroy" => "false",
          "representation_orders_attributes"=>{
            "0"=>{
-             "representation_order_date" => "2015-05-13",
+             "representation_order_date_dd" => "13",
+             "representation_order_date_mm" => "05",
+             "representation_order_date_yyyy" => "2015",
              "maat_reference" => "MAAT2015",
              "granting_body" => "Crown Court"}
           }

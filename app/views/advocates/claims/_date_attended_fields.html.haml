@@ -2,9 +2,9 @@
   %td{colspan: "3"}
     %span.auto-width
       = f.label :date, t('.date_from')
-      = f.adp_date_fields :date
+      = f.gov_uk_date_field :date
     %span.auto-width
       = f.label :date, t('.date_to')
-      = f.adp_date_fields :date_to
+      = f.gov_uk_date_field :date_to
   %td{colspan: "4"}
     = link_to_remove_association t('.remove_date'), f

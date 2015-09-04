@@ -107,16 +107,16 @@ When(/^I fill in the claim details$/) do
     fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'
     fill_in 'claim_defendants_attributes_0_last_name', with: 'Bar'
 
-    fill_in 'claim_defendants_attributes_0_date_of_birth_3i', with: '04'
-    fill_in 'claim_defendants_attributes_0_date_of_birth_2i', with: '10'
-    fill_in 'claim_defendants_attributes_0_date_of_birth_1i', with: '1980'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_dd', with: '04'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_mm', with: '10'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_yyyy', with: '1980'
 
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_maat_reference', with: 'aaa1111'
 
     date = rand(1..10).days.ago
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_3i', with: date.strftime('%d')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_2i', with: date.strftime('%m')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_1i', with: date.strftime('%Y')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_dd', with: date.strftime('%d')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_mm', with: date.strftime('%m')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_yyyy', with: date.strftime('%Y')
 
     choose 'Crown Court'
   end

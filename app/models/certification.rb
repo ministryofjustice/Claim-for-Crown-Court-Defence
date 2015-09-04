@@ -23,6 +23,8 @@ class Certification < ActiveRecord::Base
   validate :one_and_only_one_checkbox_checked
   validates :certification_date, :certified_by, presence: true
 
+  acts_as_gov_uk_date :certification_date
+
 
   private
 

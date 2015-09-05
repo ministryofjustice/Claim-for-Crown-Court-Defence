@@ -11,7 +11,6 @@ class BaseClaimValidator < ActiveModel::Validator
     end
   end
 
-
   private
 
   def validate_presence(attribute, message)
@@ -22,5 +21,8 @@ class BaseClaimValidator < ActiveModel::Validator
     @record.errors[attribute] << message
   end
 
+  def case_type_in(*case_types)
+    case_types.include?(@record.case_type.name) rescue false
+  end
 
 end

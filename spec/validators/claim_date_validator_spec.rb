@@ -15,7 +15,6 @@ describe ClaimDateValidator do
       expect(cracked_trial_claim.valid?).to be false
       expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Please enter valid date notice of first fixed/warned issued' ])
     end
-
     it 'should error if not present for Cracked before retrial' do
       expect(cracked_before_retrial_claim.valid?).to be false
       expect(cracked_before_retrial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Please enter valid date notice of first fixed/warned issued' ])

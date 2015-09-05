@@ -43,7 +43,7 @@ FactoryGirl.define do
   factory :claim do
     court
     scheme      { random_scheme }
-    case_number { Faker::Number.number(10) }
+    case_number { random_case_number }
     advocate
     source { 'web' }
     apply_vat  false
@@ -154,6 +154,10 @@ def random_scheme
   Scheme.all.sample || FactoryGirl.create(:older_scheme)
 end
 
+# random capital letter followed by random 8 digits
+def random_case_number
+  ('A'..'Z').to_a.shuffle.first << rand(8**8).to_s.rjust(8,'0')
+end
 
 def set_amount_assessed(claim)
   claim.assessment.update(fees: random_amount, expenses: random_amount)

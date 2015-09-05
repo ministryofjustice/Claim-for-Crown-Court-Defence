@@ -46,10 +46,6 @@ class ClaimDateValidator < BaseClaimValidator
     add_error(attribute, message) if @record.send(attribute) < date
   end
 
-  def case_type_in(*case_types)
-    case_types.include?(@record.case_type.name)
-  end
-
   def earliest_rep_order
     @record.try(:earliest_representation_order).try(:representation_order_date)
   end

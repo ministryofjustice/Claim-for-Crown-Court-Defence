@@ -51,14 +51,16 @@ describe ClaimTextfieldValidator do
   context 'advocate_category' do
     it 'should error if not present' do
       claim.advocate_category = nil
-      expect(claim.valid?).to be false
-      expect(claim.errors[:advocate_category]).to eq ["Advocate category cannot be blank, you must select an appropriate advocate category"]
+      should_error_with(claim,:advocate_category,"Advocate category cannot be blank, you must select an appropriate advocate category")
+      # expect(claim.valid?).to be false
+      # expect(claim.errors[:advocate_category]).to eq ["Advocate category cannot be blank, you must select an appropriate advocate category"]
     end
 
     it 'should error if not in the available list' do
       claim.advocate_category = 'not-a-QC'
-      expect(claim.valid?).to be false
-      expect(claim.errors[:advocate_category]).to eq ["Advocate category must be one of those in the provided list"]
+      should_error_with(claim,:advocate_category,"Advocate category must be one of those in the provided list")
+      # expect(claim.valid?).to be false
+      # expect(claim.errors[:advocate_category]).to eq ["Advocate category must be one of those in the provided list"]
     end
   end
 
@@ -75,7 +77,6 @@ describe ClaimTextfieldValidator do
       claim.offence = nil
       expect(claim.valid?).to be true
       expect(claim.errors[:offence]).to be_empty
-
     end
   end
 
@@ -87,4 +88,10 @@ describe ClaimTextfieldValidator do
     skip
   end
 
+end
+
+# loca helpers
+def should_error_with(record, field, message)
+  expect(record.send(:valid?)).to be false
+  expect(record.errors[field]).to eq( [ message ])
 end

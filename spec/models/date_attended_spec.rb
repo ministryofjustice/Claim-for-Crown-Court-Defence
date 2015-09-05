@@ -3,10 +3,10 @@
 # Table name: dates_attended
 #
 #  id                 :integer          not null, primary key
-#  date               :datetime
+#  date               :date
 #  created_at         :datetime
 #  updated_at         :datetime
-#  date_to            :datetime
+#  date_to            :date
 #  uuid               :uuid
 #  attended_item_id   :integer
 #  attended_item_type :string(255)

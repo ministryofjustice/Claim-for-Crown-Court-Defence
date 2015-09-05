@@ -15,7 +15,7 @@ describe API::V1::Advocates::Claim do
   let!(:court)            { create(:court)}
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
                           :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false).id,
-                          :case_number => '12345',
+                          :case_number => 'A12345678',
                           :first_day_of_trial => Date.today - 100.days,
                           :estimated_trial_length => 10,
                           :actual_trial_length => 9,
@@ -64,7 +64,7 @@ describe API::V1::Advocates::Claim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
-      expect(json[0]['error']).to eq("Case number can't be blank")
+      expect(json[0]['error']).to eq("Case number Case number cannot be blank, you must enter a case number")
     end
 
   end
@@ -110,8 +110,8 @@ describe API::V1::Advocates::Claim do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("Case number can't be blank")
-          expect(json[1]['error']).to include("Case type can't be blank")
+          expect(json[0]['error']).to include("Case type cannot be blank, you must select a case type")
+          expect(json[1]['error']).to include("Case number Case number cannot be blank, you must enter a case number")
         end
       end
 

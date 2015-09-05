@@ -105,7 +105,7 @@ class Claim < ActiveRecord::Base
 
   validates :advocate,                presence: true
   # validates :offence,                 presence: true, if: :perform_validation?
-  # validates :creator,                 presence: true #, if: :perform_validation?
+  validates :creator,                 presence: true #, if: :perform_validation?
   # validates :court,                   presence: true, if: :perform_validation?
   # validates :case_number,             presence: true, if: :perform_validation?
   # validates :case_type_id,            presence: true, if: :perform_validation?

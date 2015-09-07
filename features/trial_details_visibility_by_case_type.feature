@@ -22,8 +22,8 @@ Feature: Trial detail visibility by case type
       | Contempt                    | should not |
       | Cracked Trial               | should not |
       | Elected cases not proceeded | should not |
-      | Guilty plea                 | should not |
-      | Cracked before retrial      | should     |
+      | Guilty plea                 | should     |
+      | Cracked before retrial      | should not |
       | Discontinuance              | should     |
       | Retrial                     | should     |
       | Trial                       | should     |
@@ -43,8 +43,8 @@ Feature: Trial detail visibility by case type
       | Contempt                    | should not |
       | Cracked Trial               | should not |
       | Elected cases not proceeded | should not |
-      | Guilty plea                 | should not |
-      | Cracked before retrial      | should     |
+      | Guilty plea                 | should     |
+      | Cracked before retrial      | should not |
       | Discontinuance              | should     |
       | Retrial                     | should     |
       | Trial                       | should     |

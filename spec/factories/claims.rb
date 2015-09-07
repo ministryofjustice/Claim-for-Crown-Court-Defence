@@ -53,7 +53,7 @@ FactoryGirl.define do
       populate_required_date_fields(claim)
     end
 
-    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
+    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true) }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
@@ -152,10 +152,15 @@ FactoryGirl.define do
 end
 
 def populate_required_date_fields(claim)
-  if claim.case_type && claim.case_type.requires_cracked_dates?
-    claim.trial_fixed_notice_at ||= 3.months.ago
-    claim.trial_fixed_at ||= 2.months.ago
-    claim.trial_cracked_at ||= 1.months.ago
+  if claim.case_type
+    if claim.case_type.requires_cracked_dates?
+      claim.trial_fixed_notice_at ||= 3.months.ago
+      claim.trial_fixed_at ||= 2.months.ago
+      claim.trial_cracked_at ||= 1.months.ago
+    elsif claim.case_type.requires_trial_dates?
+      claim.first_day_of_trial = 10.days.ago
+      claim.trial_concluded_at = 9.days.ago
+    end
   end
 end
 

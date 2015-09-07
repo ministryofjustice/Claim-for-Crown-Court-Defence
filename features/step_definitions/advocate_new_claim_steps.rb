@@ -99,6 +99,15 @@ When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: '123456'
+  
+  fill_in 'claim_first_day_of_trial_dd', with: 5.days.ago.day.to_s
+  fill_in 'claim_first_day_of_trial_mm', with: 5.days.ago.month.to_s
+  fill_in 'claim_first_day_of_trial_yyyy', with: 5.days.ago.year.to_s
+
+  fill_in 'claim_trial_concluded_at_dd', with: 2.days.ago.day.to_s
+  fill_in 'claim_trial_concluded_at_mm', with: 2.days.ago.month.to_s
+  fill_in 'claim_trial_concluded_at_yyyy', with: 2.days.ago.year.to_s
+
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
   first('#claim_offence_id', visible: false).set(murder_offence_id)
   select('QC', from: 'claim_advocate_category')
@@ -113,7 +122,7 @@ When(/^I fill in the claim details$/) do
 
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_maat_reference', with: 'aaa1111'
 
-    date = rand(1..10).days.ago
+    date = rand(10..20).days.ago
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_dd', with: date.strftime('%d')
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_mm', with: date.strftime('%m')
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_yyyy', with: date.strftime('%Y')

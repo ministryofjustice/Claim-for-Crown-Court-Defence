@@ -195,7 +195,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(Claim.first.advocate).to eq(advocate)
           end
 
-          it 'sets leaves the claim\'s state in "draft"' do
+          it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
             expect(Claim.first).to be_draft

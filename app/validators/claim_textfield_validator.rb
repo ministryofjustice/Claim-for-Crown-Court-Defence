@@ -40,7 +40,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 # required/mandatory
 # must be one of values in list
 def validate_advocate_category
-#   # validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
+  #   # validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
   validate_presence(:advocate_category, "Advocate category cannot be blank, you must select an appropriate advocate category")
   validate_inclusion(:advocate_category, Settings.advocate_categories, "Advocate category must be one of those in the provided list")
 end

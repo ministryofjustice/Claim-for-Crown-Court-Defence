@@ -152,7 +152,7 @@ FactoryGirl.define do
 end
 
 def populate_required_date_fields(claim)
-  if claim.case_type.requires_cracked_dates?
+  if claim.case_type && claim.case_type.requires_cracked_dates?
     claim.trial_fixed_notice_at ||= 3.months.ago.to_date
     claim.trial_fixed_at ||= 2.months.ago.to_date
     claim.trial_cracked_at ||= 1.months.ago.to_date

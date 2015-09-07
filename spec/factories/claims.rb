@@ -50,6 +50,7 @@ FactoryGirl.define do
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.creator = claim.advocate
+      populate_required_date_fields(claim)
     end
 
     case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
@@ -148,6 +149,14 @@ FactoryGirl.define do
 
   end
 
+end
+
+def populate_required_date_fields(claim)
+  if claim.case_type.requires_cracked_dates?
+    claim.trial_fixed_notice_at ||= 3.months.ago.to_date
+    claim.trial_fixed_at ||= 2.months.ago.to_date
+    claim.trial_cracked_at ||= 1.months.ago.to_date
+  end
 end
 
 

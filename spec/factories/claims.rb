@@ -53,7 +53,7 @@ FactoryGirl.define do
       populate_required_date_fields(claim)
     end
 
-    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
+    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true) }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }

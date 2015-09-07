@@ -78,6 +78,15 @@ describe ClaimDateValidator do
     it { should_error_if_earlier_than_earliest_repo_date(claim, :first_day_of_trial, 'First day of trial must not be earlier than the first representation order date') }
     it { should_error_if_not_too_far_in_the_past(claim, :first_day_of_trial, 'First day of trial must not be more than 5 years ago') }
   end
+
+  context 'trial_concluded_at' do
+    let(:claim_with_nil_concluded_at)    { nulify_fields_on_record(claim, :trial_concluded_at) }
+
+    it { should_error_if_not_present(claim_with_nil_concluded_at, :trial_concluded_at, "Please enter a valid date for date trial concluded") }
+    it { should_error_if_earlier_than_other_date(claim, :trial_concluded_at, :first_day_of_trial, "Date trial concluded must not be before first day of trial") }
+    it { should_error_if_earlier_than_earliest_repo_date(claim, :trial_concluded_at, 'Date trial concluded must not be earlier than the first representation order date') }
+    it { should_error_if_not_too_far_in_the_past(claim, :trial_concluded_at, 'Date trial concluded must not be more than 5 years ago') }
+  end
 end
 
 
@@ -90,19 +99,19 @@ end
 
 def should_error_if_not_present(record, field, message)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 def should_error_if_in_future(record, field, message)
   record.send("#{field}=", 2.days.from_now)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 def should_error_if_not_too_far_in_the_past(record, field, message) 
   record.send("#{field}=", 61.months.ago)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 def should_error_if_earlier_than_earliest_repo_date(record, field, message)
@@ -111,21 +120,21 @@ def should_error_if_earlier_than_earliest_repo_date(record, field, message)
   allow(repo).to receive(:representation_order_date).and_return(1.year.ago.to_date)
   record.send("#{field}=", 13.months.ago)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 def should_error_if_earlier_than_other_date(record, field, other_date, message)
   record.send("#{field}=", 5.day.ago)
   record.send("#{other_date}=", 3.day.ago)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 def should_errror_if_later_than_other_date(record, field, other_date, message)
   record.send("#{field}=", 5.day.ago)
   record.send("#{other_date}=", 7.day.ago)
   expect(record.send(:valid?)).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to include(message)
 end
 
 

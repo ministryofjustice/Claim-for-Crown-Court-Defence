@@ -261,7 +261,7 @@ end
             scheme:     Scheme.all.sample,
             case_type:  case_type}
         if case_type.requires_cracked_dates?
-          claim_attrs.merge!({trial_fixed_notice_at: 2.months.ago.to_date, trial_fixed_at: 1.month.ago.to_date, trial_cracked_at: 2.week.ago.to_date})
+          claim_attrs.merge!({trial_fixed_notice_at: 2.months.ago, trial_fixed_at: 1.month.ago, trial_cracked_at: 2.week.ago})
         end
         claim = FactoryGirl.create("#{s}_claim".to_sym, claim_attrs)
         

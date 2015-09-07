@@ -107,8 +107,6 @@ private
       else
         @success = false
         @errors << "#{resource} Endpoint raised error - #{response.code}"
-
-        #TODO ensure that just JSON error messages being passed once error handling completed for all API endpoints
         @full_error_messages << "#{resource} Endpoint raised error - #{response}"
       end
       response
@@ -185,7 +183,7 @@ private
 
     {
       "advocate_email": "advocate@example.com",
-      "case_number": "12345699",
+      "case_number": "P12345678",
       "case_type_id": case_type_id,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015/06/01",
@@ -223,7 +221,7 @@ private
 
     {
       "defendant_id": defendant_uuid,
-      "granting_body": "Magistrates' Court",
+      "granting_body": granted_by,
       "maat_reference": "MAATfromSmoke",
       "representation_order_date": "2015/05/21"
     }

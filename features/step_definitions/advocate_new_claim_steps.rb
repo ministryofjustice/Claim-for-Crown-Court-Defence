@@ -98,7 +98,7 @@ end
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')
-  fill_in 'claim_case_number', with: '123456'
+  fill_in 'claim_case_number', with: 'A12345678'
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
   first('#claim_offence_id', visible: false).set(murder_offence_id)
   select('QC', from: 'claim_advocate_category')
@@ -270,12 +270,12 @@ Then(/^no claim should be created$/) do
 end
 
 When(/^I change the case number$/) do
-  fill_in 'claim_case_number', with: '543211234'
+  fill_in 'claim_case_number', with: 'A87654321'
 end
 
 Then(/^the case number should reflect the change$/) do
   claim = Claim.first
-  expect(claim.case_number).to eq('543211234')
+  expect(claim.case_number).to eq('A87654321')
 end
 
 When(/^I add a fixed fee$/) do

@@ -23,4 +23,4 @@ Feature: Unhappy paths
     And I am on the new claim page
     And I attempt to submit to LAA without specifying all the details
     Then I should be redirected back to the create claim page
-    And I should see the error message "Case number can't be blank"
+    And I should see the error message "Case number cannot be blank"

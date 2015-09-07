@@ -26,18 +26,16 @@ describe JsonDocumentImporter do
         expect(JsonDocumentImporter::DATE_ATTENDED_CREATION).to receive(:post).with(date_attended_params).exactly(2).times
         importer.import!
       end
-      
+
     end
 
     context 'each claim is processed as an atomic transaction' do
-        # TODO: 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
-        xit 'and errors are stored' do
-          expect(invalid_importer.errors.blank?).to be true
-          invalid_importer.import!
-          expect(invalid_importer.errors.blank?).to be false
-        end
+      # TODO: 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
+      xit 'and errors are stored' do
+        expect(invalid_importer.errors.blank?).to be true
+        invalid_importer.import!
+        expect(invalid_importer.errors.blank?).to be false
       end
-
     end
 
     context 'can validate the json document against our schema' do

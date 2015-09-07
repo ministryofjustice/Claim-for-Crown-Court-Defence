@@ -12,7 +12,7 @@ adp.trialFieldsDisplay = {
     //initialise handles
     adp.trialFieldsDisplay.$caseTypeSelect = $('#claim_case_type_id');
     adp.trialFieldsDisplay.$container = $('#trial-details');
-    adp.trialFieldsDisplay.regex = /(Appeal against conviction|Appeal against sentence|Breach of Crown Court order|Commital for Sentence|Contempt|Cracked Trial|Elected cases not proceeded|Guilty plea).*/i;
+    adp.trialFieldsDisplay.regex = /(Appeal against conviction|Appeal against sentence|Breach of Crown Court order|Commital for Sentence|Contempt|Cracked Trial|Cracked before retrial|Elected cases not proceeded).*/i;
 
     // add change listener
     adp.trialFieldsDisplay.$caseTypeSelect.change(function(){

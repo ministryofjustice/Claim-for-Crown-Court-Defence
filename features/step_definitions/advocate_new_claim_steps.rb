@@ -171,7 +171,6 @@ Then(/^I should be redirected to the claim confirmation page$/) do
 end
 
 Then(/^I should be redirected to the claim certification page$/) do
-  save_and_open_page
   claim = Claim.first
   expect(page.current_path).to eq(new_advocates_claim_certification_path(claim))
 end

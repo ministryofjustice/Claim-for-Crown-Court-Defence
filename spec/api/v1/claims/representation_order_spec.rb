@@ -13,7 +13,7 @@ describe API::V1::Advocates::RepresentationOrder do
 
   let!(:claim)            { create(:claim, source: 'api') }
   let!(:defendant)        { create(:defendant, claim: claim).reload }
-  let!(:valid_params)     { {granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '10 June 2015', maat_reference: 'maatmaatmaat' } }
+  let!(:valid_params)     { {granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: 'maatmaatmaat' } }
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -128,6 +128,14 @@ describe API::V1::Advocates::RepresentationOrder do
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
       expect(response.body).to eq "[{\"error\":\"Defendant can't be blank\"}]"
+    end
+
+    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+      invalid_params = valid_params
+      invalid_params[:representation_order_date] = '10-06-2015'
+      response = post_to_validate_endpoint(invalid_params)
+      expect(response.status).to eq 400
+      expect(response.body).to eq "[{\"error\":\"representation_order_date is not in standard JSON date format (YYYY-MM-DD)\"}]"
     end
 
   end

@@ -32,7 +32,6 @@ module API
           hide_format: true
         )
 
-
       end
     end
   end

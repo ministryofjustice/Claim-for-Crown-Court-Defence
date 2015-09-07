@@ -12,7 +12,7 @@ describe API::V1::Advocates::DateAttended do
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
   let!(:fee)                { create(:fee, id: 1) }
-  let!(:valid_params)       { {attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '10 May 2015', date_to: '12 May 2015'} }
+  let!(:valid_params)       { {attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
 
   context 'when sending non-permitted verbs' do
     ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -70,16 +70,6 @@ describe API::V1::Advocates::DateAttended do
         end
       end
 
-      context "grape api implicit type validation error" do
-        it "should return 400 and JSON error array of error messages" do
-          valid_params[:date] = '32 May 2015'
-          valid_params[:date_to] = '32 May 2015'
-          response = post_to_create_endpoint(valid_params)
-          expect(response.status).to eq(400)
-          expect(response.body).to eq "[{\"error\":\"date is invalid\"},{\"error\":\"date_to is invalid\"}]"
-        end
-      end
-
       context 'missing attended item id' do
         it 'should return 400 and a JSON error array' do
           valid_params.delete(:attended_item_id)
@@ -95,6 +85,15 @@ describe API::V1::Advocates::DateAttended do
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
           expect(response.body).to eq "[{\"error\":\"Attended item can't be blank\"}]"
+        end
+      end
+
+      context "malformed attended_item_id UUID" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+          valid_params[:attended_item_id] = 'any-old-rubbish'
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
         end
       end
 
@@ -127,6 +126,15 @@ describe API::V1::Advocates::DateAttended do
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
       expect(response.body).to eq "[{\"error\":\"Attended item can't be blank\"}]"
+    end
+
+    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+      invalid_params = valid_params
+      invalid_params[:date] = '10-05-2015'
+      invalid_params[:date_to] = '12-05-2015'
+      response = post_to_validate_endpoint(invalid_params)
+      expect(response.status).to eq 400
+      expect(response.body).to eq "[{\"error\":\"date is not in standard JSON date format (YYYY-MM-DD)\"},{\"error\":\"date_to is not in standard JSON date format (YYYY-MM-DD)\"}]"
     end
 
   end

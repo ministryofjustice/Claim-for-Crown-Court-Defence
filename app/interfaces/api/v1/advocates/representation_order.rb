@@ -12,12 +12,13 @@ module API
         resource :representation_orders, desc: 'Create or Validate' do
 
           helpers do
+            include ExtractDate
             params :representation_order_creation do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :defendant_id, type: String,             desc: 'REQUIRED: ID of the defendant'
               optional :granting_body, type: String,            desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrates' Court)"
               optional :maat_reference, type: String,           desc: "REQUIRED: The unique identifier for this representation order"
-              optional :representation_order_date, type: Date,  desc: "REQUIRED: The date on which this representation order was granted (YYYY/MM/DD)"
+              optional :representation_order_date, type: String,  desc: "REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)", standard_json_format:true
             end
 
             def build_arguments
@@ -32,7 +33,9 @@ module API
                 defendant_id: defendant_id,
                 granting_body: params[:granting_body],
                 maat_reference: params[:maat_reference],
-                representation_order_date: params[:representation_order_date]
+                representation_order_date_dd:   extract_date(:day, params[:representation_order_date]),
+                representation_order_date_mm:   extract_date(:month, params[:representation_order_date]),
+                representation_order_date_yyyy: extract_date(:year, params[:representation_order_date])
               }
             end
 

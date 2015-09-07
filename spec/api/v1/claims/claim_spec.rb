@@ -16,10 +16,10 @@ describe API::V1::Advocates::Claim do
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
                           :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false).id,
                           :case_number => 'A12345678',
-                          :first_day_of_trial => Date.today - 100.days,
+                          :first_day_of_trial => "2015-01-01",
                           :estimated_trial_length => 10,
                           :actual_trial_length => 9,
-                          :trial_concluded_at => Date.today - 91.days,
+                          :trial_concluded_at => "2015-01-09",
                           :advocate_category => 'Led junior',
                           :indictment_number => 1234,
                           :offence_id => offence.id,
@@ -65,6 +65,18 @@ describe API::V1::Advocates::Claim do
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
       expect(json[0]['error']).to include("Case number cannot be blank, you must enter a case number")
+    end
+
+    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+      claim_params[:first_day_of_trial] = '01-01-2015'
+      claim_params[:trial_concluded_at] = '09-01-2015'
+      claim_params[:trial_fixed_notice_at] = '01-01-2015'
+      claim_params[:trial_fixed_at] = '01-01-2015'
+      claim_params[:trial_cracked_at] = '01-01-2015'
+      post_to_validate_endpoint
+      expect(last_response.status).to eq(400)
+      json = JSON.parse(last_response.body)
+      expect(json).to eq [{"error"=>"first_day_of_trial is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_concluded_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_fixed_notice_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_fixed_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_cracked_at is not in standard JSON date format (YYYY-MM-DD)"}]
     end
 
   end

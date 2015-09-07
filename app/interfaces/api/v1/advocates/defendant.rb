@@ -12,13 +12,14 @@ module API
         resource :defendants, desc: 'Create or Validate' do
 
           helpers do
+            include ExtractDate
             params :defendant_creation do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :first_name, type: String,       desc: "REQUIRED: First name of the defedant."
               optional :middle_name, type: String,      desc: "OPTIONAL: Middle name of the defendant."
               optional :last_name, type: String,        desc: "REQUIRED: Last name of the defendant."
-              optional :date_of_birth, type: DateTime,  desc: "REQUIRED: Defendant's date of birth (YYYY/MM/DD)."
+              optional :date_of_birth, type: String,  desc: "REQUIRED: Defendant's date of birth (YYYY-MM-DD).", standard_json_format: true
               optional :order_for_judicial_apportionment, type: Boolean, desc: "OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment"
             end
 
@@ -28,7 +29,9 @@ module API
                 first_name:     params[:first_name],
                 middle_name:    params[:middle_name],
                 last_name:      params[:last_name],
-                date_of_birth:  params[:date_of_birth],
+                date_of_birth_dd:    extract_date(:day, params[:date_of_birth]),
+                date_of_birth_mm:    extract_date(:month, params[:date_of_birth]),
+                date_of_birth_yyyy:  extract_date(:year, params[:date_of_birth]),
                 order_for_judicial_apportionment: params[:order_for_judicial_apportionment]
               }
             end

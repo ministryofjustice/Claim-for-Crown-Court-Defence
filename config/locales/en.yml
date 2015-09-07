@@ -175,10 +175,10 @@ en:
         messages: 'Messages'
         defendants: 'Defendants'
         cms_number: 'Case Number'
-        submission_date: 'Submission date'
+        submission_date: 'Submitted date'
         paid_date: 'Paid date'
-        total: 'Total'
-        status: 'Status'
+        total: 'Claim Total'
+        status: 'Claim Status'
         amount_assessed: 'Amount assessed'
         view: *view
         edit: *edit

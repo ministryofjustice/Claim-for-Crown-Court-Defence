@@ -5,14 +5,13 @@
   %table.claims_table
     %thead
       %th
-      %th
         = t(".cms_number")
       - if current_user.persona.admin?
         %th
           = t(".advocate")
       %th
         = t(".defendants")
-      %th.currency
+      %th
         = t(".total")
       %th
         = t(".status")
@@ -25,24 +24,23 @@
       - present(claim_object) do |claim|
         %tr{id: dom_id(claim),class: claim.state}
           %td
-          %td
             = link_to claim.case_number, advocates_claim_path(claim), class: "js-test-case-number-link"
           - if current_user.persona.admin?
             %td
               = claim.advocate.name
           %td
             = claim.defendant_names
-          %td.currency
+          %td
             = claim.total
           %td
             = claim.state.humanize
           %td
             = claim.submitted_at
-          %td
-            - if claim.has_unread_messages_for?(current_user)
-              %div.message.new
-                = claim.unread_messages_for(current_user).count
-              = link_to "New messages", "#{advocates_claim_path(claim)}#messages"
-            - elsif claim.messages.any?
-              %div.message
-                = claim.messages.count
+          %td.messages
+            - if claim.messages.any?
+              = link_to "View", "#{advocates_claim_path(claim)}#messages"
+              - if claim.has_unread_messages_for?(current_user)
+                %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
+            - else
+              %span.none
+                = "None"

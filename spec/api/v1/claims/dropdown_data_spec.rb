@@ -5,16 +5,16 @@ describe API::V1::DropdownData do
 
   include Rack::Test::Methods
 
-  CASE_TYPE_ENDPOINT      = "/api/case_types"
-  COURT_ENDPOINT          = "/api/courts"
+  CASE_TYPE_ENDPOINT          = "/api/case_types"
+  COURT_ENDPOINT              = "/api/courts"
   ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
-  CRACKED_THIRD_ENDPOINT  = "/api/trial_cracked_at_thirds"
-  GRANTING_BODY_ENDPOINT  = "/api/granting_body_types"
-  OFFENCE_CLASS_ENDPOINT  = "api/offence_classes"
-  OFFENCE_ENDPOINT        = "api/offences"
-  FEE_CATEGORY_ENDPOINT   = "/api/fee_categories"
-  FEE_TYPE_ENDPOINT       = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT   = "/api/expense_types"
+  CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds"
+  GRANTING_BODY_ENDPOINT      = "/api/granting_body_types"
+  OFFENCE_CLASS_ENDPOINT      = "api/offence_classes"
+  OFFENCE_ENDPOINT            = "api/offences"
+  FEE_CATEGORY_ENDPOINT       = "/api/fee_categories"
+  FEE_TYPE_ENDPOINT           = "/api/fee_types"
+  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
 
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]

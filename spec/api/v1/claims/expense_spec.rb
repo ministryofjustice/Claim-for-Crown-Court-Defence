@@ -13,9 +13,9 @@ describe API::V1::Advocates::Expense do
 
   let!(:claim)                      {  create(:claim, source: 'api').reload }
   let!(:expense_type)               {  create(:expense_type) }
-  let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
-  let!(:invalid_params)     { {claim_id: claim.uuid } }
-  let(:json_error_response) { "[{\"error\":\"Expense type can't be blank\"},{\"error\":\"Quantity can't be blank\"},{\"error\":\"Quantity is not a number\"},{\"error\":\"Rate can't be blank\"},{\"error\":\"Rate is not a number\"}]" }
+  let!(:valid_params)               { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
+  let!(:invalid_params)             { {claim_id: claim.uuid } }
+  let(:json_error_response)         { "[{\"error\":\"Expense type can't be blank\"},{\"error\":\"Quantity can't be blank\"},{\"error\":\"Quantity is not a number\"},{\"error\":\"Rate can't be blank\"},{\"error\":\"Rate is not a number\"}]" }
 
   context 'sending non-permitted verbs' do
     ALL_EXPENSE_ENDPOINTS.each do |endpoint| # for each endpoint

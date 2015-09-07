@@ -12,10 +12,10 @@ describe API::V1::Advocates::Defendant do
   FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
 
 # NOTE: need to specify claim.source as api to ensure defendant model validations applied
-  let!(:claim)          {  create(:claim, source: 'api').reload }
-  let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
-  let!(:invalid_params) { {claim_id: claim.uuid} }
-  let(:json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
+  let!(:claim)                    {  create(:claim, source: 'api').reload }
+  let!(:valid_params)             { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
+  let!(:invalid_params)           { {claim_id: claim.uuid} }
+  let(:json_error_response)       { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
   let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
 
   context 'when sending non-permitted verbs' do
@@ -49,6 +49,19 @@ describe API::V1::Advocates::Defendant do
 
       it "should create one new defendant" do
         expect{ post_to_create_endpoint(valid_params) }.to change { Defendant.count }.by(1)
+      end
+
+      it "should create a new record using the params provided" do
+        post_to_create_endpoint(valid_params)
+        new_defendant = Defendant.last
+        valid_params.each do |attribute, value|
+          if attribute == :claim_id
+            valid_params[attribute] = Claim.find_by(uuid: value).id # defendant argument builder takes claim uuid and gets claim_id
+          elsif new_defendant.send(attribute).class == Date
+            valid_params[attribute] = value.to_date
+          end
+          expect(new_defendant.send(attribute)).to eq valid_params[attribute]
+        end
       end
 
     end

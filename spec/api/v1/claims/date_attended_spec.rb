@@ -55,6 +55,7 @@ describe API::V1::Advocates::DateAttended do
         expect(date_attended.date).to eq Date.new(2015, 5, 10)
         expect(date_attended.date_to).to eq Date.new(2015, 5, 12)
         expect(date_attended.attended_item_id).to eq 1
+        expect(date_attended.attended_item_type).to eq 'Fee'
       end
 
     end

@@ -17,6 +17,23 @@ class BaseClaimValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.send(attribute).blank?
   end
 
+  def validate_pattern(attribute, pattern, message)
+    return if @record.__send__(attribute).nil?
+    add_error(attribute, message) unless @record.__send__(attribute).match(pattern)
+  end
+
+  def validate_inclusion(attribute, inclusion_list, message)
+    return if @record.__send__(attribute).nil?
+    add_error(attribute, message) unless inclusion_list.include?(@record.__send__(attribute))
+  end
+
+  def validate_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
+    infinity = 1.0/0
+    lower_bound = lower_bound.blank? ? -infinity : lower_bound
+    upper_bound = upper_bound.blank? ? infinity : upper_bound
+    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute))
+  end
+
   def add_error(attribute, message)
     @record.errors[attribute] << message
   end

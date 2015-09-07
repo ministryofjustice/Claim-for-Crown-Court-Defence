@@ -64,7 +64,7 @@ describe API::V1::Advocates::Claim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
-      expect(json[0]['error']).to eq("Case number Case number cannot be blank, you must enter a case number")
+      expect(json[0]['error']).to include("Case number cannot be blank, you must enter a case number")
     end
 
   end
@@ -111,7 +111,7 @@ describe API::V1::Advocates::Claim do
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
           expect(json[0]['error']).to include("Case type cannot be blank, you must select a case type")
-          expect(json[1]['error']).to include("Case number Case number cannot be blank, you must enter a case number")
+          expect(json[1]['error']).to include("Case number cannot be blank, you must enter a case number")
         end
       end
 
@@ -122,8 +122,8 @@ describe API::V1::Advocates::Claim do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("Estimated trial length must be greater than or equal to 0")
-          expect(json[1]['error']).to include("Actual trial length must be greater than or equal to 0")
+          expect(json[0]['error']).to include("Estimated trial length must be a whole number (0 or above)")
+          expect(json[1]['error']).to include("Actual trial length must be a whole number (0 or above)")
         end
       end
 

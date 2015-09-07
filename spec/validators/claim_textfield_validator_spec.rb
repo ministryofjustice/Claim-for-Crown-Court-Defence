@@ -4,17 +4,17 @@ describe ClaimTextfieldValidator do
 
   let(:claim)                 { FactoryGirl.build :unpersisted_claim, force_validation: true }
   let(:guilty_plea)           { FactoryGirl.build :case_type, name: 'Guilty plea'}
+  let(:contempt)              { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
 
+  before(:each) do
+    claim.estimated_trial_length = 1
+    claim.actual_trial_length = 2
+  end
 
-  # TODO: keep in model since they are hidden values?
-  # context 'advocate' do
-  #   skip
-  # end
-
-  # context 'creator' do
-  #   skip
-  # end
+  it 'test claim should be valid' do
+    expect(claim.valid?).to be true
+  end
 
   context 'case_type' do
     it 'should error if not present' do
@@ -48,12 +48,20 @@ describe ClaimTextfieldValidator do
   context 'advocate_category' do
     it 'should error if not present' do
       claim.advocate_category = nil
-      should_error_with(claim,:advocate_category,"Advocate category cannot be blank, you must select an appropriate advocate category")
+      should_error_with(claim, :advocate_category,"Advocate category cannot be blank, you must select an appropriate advocate category")
     end
 
     it 'should error if not in the available list' do
       claim.advocate_category = 'not-a-QC'
-      should_error_with(claim,:advocate_category,"Advocate category must be one of those in the provided list")
+      should_error_with(claim, :advocate_category,"Advocate category must be one of those in the provided list")
+    end
+
+    valid_entries = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
+    valid_entries.each do |valid_entry|
+      it "should not error if '#{valid_entry}' specified" do
+        claim.advocate_category = valid_entry
+        should_not_error(claim, :advocate_category)
+      end
     end
   end
 
@@ -67,23 +75,58 @@ describe ClaimTextfieldValidator do
     it 'should NOT error if not present and case type is "Breach of Crown Court order"' do
       claim.case_type = breach_of_crown_court_order
       claim.offence = nil
-      expect(claim.valid?).to be true
-      expect(claim.errors[:offence]).to be_empty
+      should_not_error(claim,:offence)
     end
   end
 
   context 'estimated_trial_length' do
-    skip
+    it 'should error if not present and case type requires trial dates' do
+      claim.case_type = contempt
+      claim.estimated_trial_length = nil
+      should_error_with(claim, :estimated_trial_length, "Estimated trial length cannot be blank, you must enter an estimated trial length")
+    end
+
+    it 'should NOT error if not present and case type does NOT require trial dates' do
+      claim.case_type = guilty_plea
+      claim.estimated_trial_length = nil
+      should_not_error(claim,:estimated_trial_length)
+    end
+
+    it 'should error if less than zero' do
+      claim.estimated_trial_length = -1
+      should_error_with(claim, :estimated_trial_length, "Estimated trial length must be a whole number (0 or above)")
+    end
   end
 
   context 'actual_trial_length' do
-    skip
+    it 'should error if not present and case type requires trial dates' do
+      claim.case_type = contempt
+      claim.actual_trial_length = nil
+      should_error_with(claim, :actual_trial_length, "Actual trial length cannot be blank, you must enter an actual trial length")
+    end
+
+    it 'should NOT error if not present and case type does NOT require trial dates' do
+      claim.case_type = guilty_plea
+      claim.actual_trial_length = nil
+      should_not_error(claim,:actual_trial_length)
+    end
+
+    it 'should error if less than zero' do
+      claim.actual_trial_length = -1
+      should_error_with(claim, :actual_trial_length, "Actual trial length must be a whole number (0 or above)")
+    end
   end
 
 end
 
 # local helpers
+# ---------------------------------------------
 def should_error_with(record, field, message)
-  expect(record.send(:valid?)).to be false
+  expect(record.valid?).to be false
   expect(record.errors[field]).to eq( [ message ])
+end
+
+def should_not_error(record, field)
+  expect(record.valid?).to be true
+  expect(record.errors[field]).to be_empty
 end

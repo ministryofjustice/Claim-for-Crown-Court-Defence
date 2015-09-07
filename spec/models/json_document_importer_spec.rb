@@ -30,9 +30,8 @@ describe JsonDocumentImporter do
     end
 
     context 'each claim is processed as an atomic transaction' do
-
-      skip 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
-        it 'and errors are stored' do
+        # TODO: 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
+        xit 'and errors are stored' do
           expect(invalid_importer.errors.blank?).to be true
           invalid_importer.import!
           expect(invalid_importer.errors.blank?).to be false

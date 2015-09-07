@@ -253,13 +253,18 @@ end
       next if s == :deleted
       claims_per_state.times do
         claim = nil
-        claim = FactoryGirl.create("#{s}_claim".to_sym,
-                                    advocate:    advocate,
-                                    court:      Court.all.sample,
-                                    offence:    Offence.all.sample,
-                                    scheme:     Scheme.all.sample,
-                                    case_type:  CaseType.all.sample)
-
+        case_type = CaseType.all.sample
+        claim_attrs = {
+            advocate:    advocate,
+            court:      Court.all.sample,
+            offence:    Offence.all.sample,
+            scheme:     Scheme.all.sample,
+            case_type:  case_type}
+        if case_type.requires_cracked_dates?
+          claim_attrs.merge!({trial_fixed_notice_at: 2.months.ago, trial_fixed_at: 1.month.ago, trial_cracked_at: 2.week.ago})
+        end
+        claim = FactoryGirl.create("#{s}_claim".to_sym, claim_attrs)
+        
         # randomise creator
         if rand(2) == 1
           advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
@@ -296,5 +301,7 @@ end
         create_claims_for(advocate,case_worker,claims_per_advocate_per_state, states_to_add)
     end
   end
+
+  
 
 end

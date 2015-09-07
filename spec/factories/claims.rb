@@ -50,6 +50,7 @@ FactoryGirl.define do
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.creator = claim.advocate
+      populate_required_date_fields(claim)
     end
 
     case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
@@ -59,7 +60,7 @@ FactoryGirl.define do
 
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
-      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago.to_date)
+      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
       claim.scheme.start_date = Date.parse('31/12/2011')
       claim.scheme.end_date = nil
     end
@@ -102,7 +103,8 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| c.submit!; c.allocate!; }
+      after(:create) { |c| 
+        c.submit!; c.allocate!; }
     end
 
     factory :archived_pending_delete_claim do
@@ -147,6 +149,14 @@ FactoryGirl.define do
 
   end
 
+end
+
+def populate_required_date_fields(claim)
+  if claim.case_type && claim.case_type.requires_cracked_dates?
+    claim.trial_fixed_notice_at ||= 3.months.ago
+    claim.trial_fixed_at ||= 2.months.ago
+    claim.trial_cracked_at ||= 1.months.ago
+  end
 end
 
 

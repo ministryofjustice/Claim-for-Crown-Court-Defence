@@ -119,6 +119,8 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
+  validates_with ::ClaimDateValidator
+
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true

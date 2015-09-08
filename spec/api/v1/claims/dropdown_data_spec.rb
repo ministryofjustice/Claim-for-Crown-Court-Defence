@@ -63,7 +63,7 @@ describe API::V1::DropdownData do
         response = get endpoint, format: :json
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).count).to be > 0
-        expect(response.body).to eq expectation
+        expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
       end
     end
   end

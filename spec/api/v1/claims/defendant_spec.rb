@@ -54,14 +54,10 @@ describe API::V1::Advocates::Defendant do
       it "should create a new record using the params provided" do
         post_to_create_endpoint(valid_params)
         new_defendant = Defendant.last
-        valid_params.each do |attribute, value|
-          if attribute == :claim_id
-            valid_params[attribute] = Claim.find_by(uuid: value).id # defendant argument builder takes claim uuid and gets claim_id
-          elsif new_defendant.send(attribute).class == Date
-            valid_params[attribute] = value.to_date
-          end
-          expect(new_defendant.send(attribute)).to eq valid_params[attribute]
-        end
+        expect(new_defendant.claim_id).to eq claim.id
+        expect(new_defendant.first_name).to eq valid_params[:first_name]
+        expect(new_defendant.last_name).to eq valid_params[:last_name]
+        expect(new_defendant.date_of_birth).to eq valid_params[:date_of_birth].to_date
       end
 
     end

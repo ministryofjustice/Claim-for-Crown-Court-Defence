@@ -52,12 +52,12 @@ describe API::V1::Advocates::Fee do
       end
 
       it 'should create a new fee record with all provided attributes' do
-        response = post_to_create_endpoint(valid_params)
+        post_to_create_endpoint(valid_params)
         fee = Fee.last
-        expect(fee.claim.id).to eq claim.id
-        expect(fee.fee_type).to eq fee_type
-        expect(fee.quantity).to eq 3
-        expect(fee.amount).to eq 10.09
+        expect(fee.claim_id).to eq claim.id
+        expect(fee.fee_type_id).to eq fee_type.id
+        expect(fee.quantity).to eq valid_params[:quantity]
+        expect(fee.amount).to eq valid_params[:amount]
       end
 
     end

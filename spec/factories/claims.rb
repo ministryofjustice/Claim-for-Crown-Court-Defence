@@ -50,7 +50,6 @@ FactoryGirl.define do
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.creator = claim.advocate
-      populate_required_date_fields(claim)
       populate_required_fields(claim)
     end
 
@@ -152,25 +151,18 @@ FactoryGirl.define do
 
 end
 
-def populate_required_date_fields(claim)
+def populate_required_fields(claim)
   if claim.case_type
     if claim.case_type.requires_cracked_dates?
       claim.trial_fixed_notice_at ||= 3.months.ago
       claim.trial_fixed_at ||= 2.months.ago
       claim.trial_cracked_at ||= 1.months.ago
     elsif claim.case_type.requires_trial_dates?
-      claim.first_day_of_trial = 10.days.ago
-      claim.trial_concluded_at = 9.days.ago
+      claim.first_day_of_trial ||= 10.days.ago
+      claim.trial_concluded_at ||= 9.days.ago
+      claim.estimated_trial_length ||= 1
+      claim.actual_trial_length ||= 2
     end
-  end
-end
-
-# wrapper for handling tigher validation impact logic
-# TODO merge/mix populate_required_date_fields method above into this method
-def populate_required_fields(claim)
-  if claim.case_type && claim.case_type.requires_trial_dates?
-    claim.estimated_trial_length = 1
-    claim.actual_trial_length = 2
   end
 end
 

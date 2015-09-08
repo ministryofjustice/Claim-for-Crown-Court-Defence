@@ -16,6 +16,64 @@ describe ClaimTextfieldValidator do
     expect(claim.valid?).to be true
   end
 
+context '#perform_validation?' do
+
+    let(:claim_with_nil_values) { nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length) }
+
+    context 'when claim is draft' do
+
+      context 'and validation is forced' do
+
+        before { claim_with_nil_values.force_validation=true }
+
+        it 'should validate presence of case_type, court, case_number, advocate_category, offence' do
+          expect(claim_with_nil_values).to_not be_valid
+        end
+      end
+
+      context 'and validation is NOT forced' do
+
+        before { claim_with_nil_values.force_validation=false }
+
+        context 'and it is coming from the api' do
+          before { claim_with_nil_values.source = 'api' }
+          it 'should validate presence of case_type, court, case_number, advocate_category, offence' do
+            expect(claim_with_nil_values).to_not be_valid
+          end
+        end
+
+        context 'and it is coming from the web app' do
+          before { claim_with_nil_values.source = 'web' }
+          it 'should NOT validate presence of case_type, court, case_number, advocate_category, offence' do
+            expect(claim_with_nil_values).to be_valid
+          end
+        end
+
+      end
+    end
+
+    context 'when claim is not draft' do
+
+      before(:each) do
+        claim.force_validation=false
+        claim.submit!
+      end
+
+      it 'should error on any state-conditional validations (non-exhaustive test)' do
+        nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
+        expect(claim).to_not be_valid
+      end
+
+      # TODO: fee schemes may not be required at all now and are not validated for presence
+      xit 'should validate presence of scheme' do
+        expect(claim).to be_valid
+        nilify_attributes_for_object(claim,:scheme)
+        expect(claim).to_not be_valid
+      end
+    end
+
+  end
+
   context 'case_type' do
     it 'should error if not present' do
       claim.case_type = nil
@@ -36,7 +94,7 @@ describe ClaimTextfieldValidator do
       should_error_with(claim, :case_number, "Case number cannot be blank, you must enter a case number")
     end
 
-    invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567']
+    invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
     invalid_formats.each do |invalid_format|
       it "should error if invalid valid format #{invalid_format}" do
         claim.case_number = invalid_format
@@ -129,4 +187,11 @@ end
 def should_not_error(record, field)
   expect(record.valid?).to be true
   expect(record.errors[field]).to be_empty
+end
+
+def nilify_attributes_for_object(object, *attributes)
+  attributes.each do |attribute|
+    object.__send__("#{attribute}=", nil)
+  end
+  object
 end

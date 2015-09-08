@@ -51,6 +51,16 @@ describe API::V1::Advocates::Expense do
         expect{ post_to_create_endpoint(valid_params) }.to change { Expense.count }.by(1)
       end
 
+      it "should create a new record using the params provided" do
+        post_to_create_endpoint(valid_params)
+        new_expense = Expense.last
+        expect(new_expense.claim_id).to eq claim.id
+        expect(new_expense.expense_type_id).to eq expense_type.id
+        expect(new_expense.rate).to eq valid_params[:rate]
+        expect(new_expense.quantity).to eq valid_params[:quantity]
+        expect(new_expense.location).to eq valid_params[:location]
+      end
+
     end
 
     context 'when expense params are invalid' do

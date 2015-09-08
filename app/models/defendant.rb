@@ -22,8 +22,9 @@ class Defendant < ActiveRecord::Base
   validates :claim, presence: true
   validates :first_name, presence: true   , unless: :do_not_validate?
   validates :last_name, presence: true    , unless: :do_not_validate?
-  validates :date_of_birth, presence: true, unless: :do_not_validate?
   validate  :has_at_least_one_representation_order_unless_draft
+
+  validates_with DefendantDateValidator
 
   acts_as_gov_uk_date :date_of_birth
 
@@ -31,6 +32,10 @@ class Defendant < ActiveRecord::Base
 
   def name
       [first_name, middle_name, last_name].join(' ').gsub("  ", " ") # when no middle name is provided, two spaces appear in between fist and last names - gsub resolves this
+  end
+
+  def perform_validation?
+    claim.try(:perform_validation?)
   end
 
   def representation_order_details

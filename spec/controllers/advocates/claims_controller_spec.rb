@@ -156,7 +156,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            case_number: '12345',
+            case_number: 'A12345678',
             advocate_category: 'QC',
             defendants_attributes: [
               { first_name: 'John',
@@ -195,7 +195,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             expect(Claim.first.advocate).to eq(advocate)
           end
 
-          it 'sets leaves the claim\'s state in "draft"' do
+          it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
             expect(Claim.first).to be_draft
@@ -287,7 +287,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
-              expect(response.body).to have_content("Advocate category can't be blank")
+              expect(response.body).to have_content("Advocate category cannot be blank")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
               expect(claim.fixed_fees.size).to eq 1

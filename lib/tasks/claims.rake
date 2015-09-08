@@ -264,7 +264,7 @@ end
           claim_attrs.merge!({trial_fixed_notice_at: 2.months.ago, trial_fixed_at: 1.month.ago, trial_cracked_at: 2.week.ago})
         end
         claim = FactoryGirl.create("#{s}_claim".to_sym, claim_attrs)
-        
+
         # randomise creator
         if rand(2) == 1
           advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample

@@ -51,11 +51,11 @@ describe API::V1::Advocates::RepresentationOrder do
 
       it 'creates a new representation_order record with all provided attributes' do
         post_to_create_endpoint(valid_params)
-        representation_order = RepresentationOrder.last
-        expect(representation_order.granting_body).to eq "Magistrates' Court"
-        expect(representation_order.defendant_id).to eq Defendant.find_by(uuid: defendant.uuid).id
-        expect(representation_order.representation_order_date.to_s).to eq  "10/06/2015 00:00"
-        expect(representation_order.maat_reference).to eq 'MAATMAATMAAT'
+        new_representation_order = RepresentationOrder.last
+        expect(new_representation_order.granting_body).to eq valid_params[:granting_body]
+        expect(new_representation_order.defendant_id).to eq defendant.id
+        expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
+        expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference].upcase!
       end
 
     end

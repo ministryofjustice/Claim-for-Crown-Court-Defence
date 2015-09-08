@@ -122,13 +122,12 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 end
 
 When(/^I search by the advocate name "(.*?)"$/) do |name|
-  select 'Advocate', from: 'search_field'
   fill_in 'search', with: name
   click_button 'Search'
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? matching Advocate "#{name}"/)
+  expect(page).to have_content(/#{number} claims? matching search term "#{name}"/)
 end
 
 Then(/^I should not see the advocate search field$/) do
@@ -136,7 +135,6 @@ Then(/^I should not see the advocate search field$/) do
 end
 
 When(/^I search by the defendant name "(.*?)"$/) do |name|
-  select 'Defendant', from: 'search_field'
   fill_in 'search', with: name
   click_button 'Search'
 end

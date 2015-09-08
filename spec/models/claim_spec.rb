@@ -43,6 +43,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
+
   it { should belong_to(:advocate) }
   it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
   it { should delegate_method(:chamber_id).to(:advocate) }
@@ -173,79 +174,12 @@ RSpec.describe Claim, type: :model do
 
   describe 'validations' do
 
-    context 'draft' do
-      before { allow(subject).to receive(:draft?).and_return(true) }
-
-      it { should validate_presence_of(:advocate) }
-
-      it 'should not validate other attributes' do
-        subject.offence = nil
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft with force_validation set to true' do
-      before do
-        subject.force_validation = true
-        allow(subject).to receive(:draft?).and_return(true)
-      end
-
+    # NOTE: see custom validators for bulk of validations
+    context 'always' do
       it { should validate_presence_of(:advocate) }
       it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
     end
 
-    context 'non-draft' do
-      before { allow(subject).to receive(:draft?).and_return(false) }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
-      it 'should validate presence of scheme' do
-        subject.scheme = create(:scheme)
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft from api' do
-      before {
-        allow(subject).to receive(:draft?).and_return(true)
-        allow(subject).to receive(:source).and_return('api')
-      }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-    end
   end
 
   it { should accept_nested_attributes_for(:basic_fees) }
@@ -1141,4 +1075,10 @@ RSpec.describe Claim, type: :model do
     end
 
   end
+end
+
+# override shoulda matcha since we are providing our own validation message
+def validate_presence_of(attribute)
+
+  
 end

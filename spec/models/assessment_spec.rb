@@ -27,14 +27,14 @@ describe Assessment do
         expect {
           # FactoryGirl.create :assessment, claim: claim, fees: -33.55
           claim.assessment.update!(fees: -33.35)
-        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Fees Assessed fees must be greater than or equal to zero'
+        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed fees must be greater than or equal to zero'
       end
 
       it 'should not accept nil values ' do
         expect {
           claim.assessment.update!(fees: nil)
           claim.assessment.save!
-        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Fees Assessed fees must be greater than or equal to zero'
+        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed fees must be greater than or equal to zero'
       end
     end
 
@@ -43,13 +43,13 @@ describe Assessment do
       it 'should not accept negative values'  do
         expect {
           claim.assessment.update!(expenses: -33.55)
-        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Expenses Assessed expenses must be greater than or equal to zero'
+        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
       end
 
       it 'should not accept nil values ' do
         expect {
           claim.assessment.update!(expenses: nil)
-        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Expenses Assessed expenses must be greater than or equal to zero'
+        }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
       end
     end
   end

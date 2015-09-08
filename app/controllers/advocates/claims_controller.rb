@@ -102,7 +102,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def search
-    params[:search_field] ||= 'Defendant'
+    if current_user.persona.admin?
+      params[:search_field] ||= 'All'
+    else
+      params[:search_field] ||= 'Defendant'
+    end
     @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
   end
 

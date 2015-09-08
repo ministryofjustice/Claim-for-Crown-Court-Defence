@@ -107,8 +107,6 @@ private
       else
         @success = false
         @errors << "#{resource} Endpoint raised error - #{response.code}"
-
-        #TODO ensure that just JSON error messages being passed once error handling completed for all API endpoints
         @full_error_messages << "#{resource} Endpoint raised error - #{response}"
       end
       response
@@ -185,13 +183,13 @@ private
 
     {
       "advocate_email": "advocate@example.com",
-      "case_number": "12345699",
+      "case_number": "P12345678",
       "case_type_id": case_type_id,
       "indictment_number": "12345678",
-      "first_day_of_trial": "2015/06/01",
+      "first_day_of_trial": "2015-06-01",
       "estimated_trial_length": 1,
       "actual_trial_length": 1,
-      "trial_concluded_at": "2015/06/02",
+      "trial_concluded_at": "2015-06-02",
       "advocate_category": advocate_category,
       "prosecuting_authority": "cps",
       "offence_id": offence_id,
@@ -212,7 +210,7 @@ private
       "first_name": "case",
       "middle_name": "management",
       "last_name": "system",
-      "date_of_birth": "1979/12/10",
+      "date_of_birth": "1979-12-10",
       "order_for_judicial_apportionment": true,
     }
   end
@@ -223,9 +221,9 @@ private
 
     {
       "defendant_id": defendant_uuid,
-      "granting_body": "Magistrates' Court",
+      "granting_body": granted_by,
       "maat_reference": "MAATfromSmoke",
-      "representation_order_date": "2015/05/21"
+      "representation_order_date": "2015-05-21"
     }
   end
 
@@ -258,8 +256,8 @@ private
     {
       "attended_item_id": attended_item_uuid,
       "attended_item_type": attended_item_type,
-      "date": "2015/06/01",
-      "date_to": "2015/06/01"
+      "date": "2015-06-01",
+      "date_to": "2015-06-01"
     }
   end
 

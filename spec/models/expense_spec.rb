@@ -20,11 +20,11 @@ RSpec.describe Expense, type: :model do
   it { should belong_to(:expense_type) }
   it { should belong_to(:claim) }
 
-  it { should validate_presence_of(:expense_type) }
-  it { should validate_presence_of(:claim) }
-  it { should validate_presence_of(:quantity) }
+  it { should validate_presence_of(:expense_type).with_message('Expense type cannot be blank') }
+  it { should validate_presence_of(:claim).with_message('Claim cannot be blank') }
+  it { should validate_presence_of(:quantity).with_message('Quantity cannot be blank') }
   it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
-  it { should validate_presence_of(:rate) }
+  it { should validate_presence_of(:rate).with_message("Rate cannot be blank") }
   it { should validate_numericality_of(:rate).is_greater_than_or_equal_to(0) }
 
 

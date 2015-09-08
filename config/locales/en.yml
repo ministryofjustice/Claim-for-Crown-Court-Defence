@@ -106,11 +106,13 @@ en:
         defendant:
           attributes:
             first_name:
-              blank: *blank
+              blank: First name cannot be blank
             last_name:
-              blank: *blank
+              blank: Last name cannot be blank 
             date_of_birth:
-              blank: *blank
+              blank: Enter valid date of birth
+            claim:
+              blank: Claim cannot be blank
             representation_orders:
               blank: ' - there must be at least one representation order per defendant'
 

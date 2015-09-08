@@ -1,14 +1,13 @@
 # class ClaimDateValidator < ActiveModel::Validator
 class ClaimDateValidator < BaseClaimValidator
 
-  @@claim_date_validator_fields = [ 
-    :trial_fixed_notice_at, 
+  @@claim_date_validator_fields = [
+    :trial_fixed_notice_at,
     :trial_fixed_at,
     :trial_cracked_at,
     :first_day_of_trial,
     :trial_concluded_at
   ]
- 
 
   private
 

@@ -43,7 +43,7 @@ FactoryGirl.define do
   factory :claim do
     court
     scheme      { random_scheme }
-    case_number { Faker::Number.number(10) }
+    case_number { random_case_number }
     advocate
     source { 'web' }
     apply_vat  false
@@ -51,9 +51,10 @@ FactoryGirl.define do
     after(:build) do |claim|
       claim.creator = claim.advocate
       populate_required_date_fields(claim)
+      populate_required_fields(claim)
     end
 
-    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true) }
+    case_type { FactoryGirl.build  :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
@@ -164,11 +165,23 @@ def populate_required_date_fields(claim)
   end
 end
 
+# wrapper for handling tigher validation impact logic
+# TODO merge/mix populate_required_date_fields method above into this method
+def populate_required_fields(claim)
+  if claim.case_type && claim.case_type.requires_trial_dates?
+    claim.estimated_trial_length = 1
+    claim.actual_trial_length = 2
+  end
+end
 
 def random_scheme
   Scheme.all.sample || FactoryGirl.create(:older_scheme)
 end
 
+# random capital letter followed by random 8 digits
+def random_case_number
+  ('A'..'Z').to_a.shuffle.first << rand(8**8).to_s.rjust(8,'0')
+end
 
 def set_amount_assessed(claim)
   claim.assessment.update(fees: random_amount, expenses: random_amount)

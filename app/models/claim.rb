@@ -99,19 +99,18 @@ class Claim < ActiveRecord::Base
   scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
   scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
-
-
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
   validates :advocate,                presence: true
-  validates :offence,                 presence: true, if: :perform_validation?
-  validates :creator,                 presence: true, if: :perform_validation?
-  validates :court,                   presence: true, if: :perform_validation?
-  validates :case_number,             presence: true, if: :perform_validation?
-  validates :case_type_id,            presence: true, if: :perform_validation?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+  validates :creator,                 presence: true #, if: :perform_validation?
+  # TODO: to be removed.
+  # validates :offence,                 presence: true, if: :perform_validation?
+  # validates :court,                   presence: true, if: :perform_validation?
+  # validates :case_number,             presence: true, if: :perform_validation?
+  # validates :case_type_id,            presence: true, if: :perform_validation?
+  # validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
+  # validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
+  # validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
 
 
 
@@ -120,6 +119,7 @@ class Claim < ActiveRecord::Base
   validate :evidence_checklist_ids_all_numeric_strings
 
   validates_with ::ClaimDateValidator
+  validates_with ::ClaimTextfieldValidator
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true

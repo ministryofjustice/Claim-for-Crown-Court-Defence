@@ -174,84 +174,12 @@ RSpec.describe Claim, type: :model do
 
   describe 'validations' do
 
-    # let(:presence_of_errmsg) { /cannot be blank/ }
-
-    context 'draft' do
-      before { allow(subject).to receive(:draft?).and_return(true) }
-
-      it { should validate_presence_of(:advocate) }
-
-      it 'should not validate other attributes' do
-        subject.offence = nil
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft with force_validation set to true' do
-      before do
-        subject.force_validation = true
-        allow(subject).to receive(:draft?).and_return(true)
-      end
-
+    # NOTE: see custom validators for bulk of validations
+    context 'always' do
       it { should validate_presence_of(:advocate) }
       it { should validate_presence_of(:creator) }
-      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
-      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
-
-      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg) }
-      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
     end
 
-    context 'non-draft' do
-      before { allow(subject).to receive(:draft?).and_return(false) }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
-      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
-
-      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg)}
-      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
-      it 'should validate presence of scheme' do
-        subject.scheme = create(:scheme)
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft from api' do
-      before {
-        allow(subject).to receive(:draft?).and_return(true)
-        allow(subject).to receive(:source).and_return('api')
-      }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
-      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
-
-      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
-      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg) }
-      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-    end
   end
 
   it { should accept_nested_attributes_for(:basic_fees) }

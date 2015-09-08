@@ -268,55 +268,55 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  context 'amount_assessed validation' do
-    context 'paid and part paid' do
-      it 'should be invalid if amount assessed = 0 for state paid' do
-        claim = FactoryGirl.create :paid_claim
-        claim.assessment.zeroize!
-        expect(claim).not_to be_valid
-        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
-      end
+  # context 'amount_assessed validation' do
+  #   context 'paid and part paid' do
+  #     it 'should be invalid if amount assessed = 0 for state paid' do
+  #       claim = FactoryGirl.create :paid_claim
+  #       claim.assessment.zeroize!
+  #       expect(claim).not_to be_valid
+  #       expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
+  #     end
 
-      it 'should be invalid if amount assessed = 0 for state part_paid' do
-        claim = FactoryGirl.create :part_paid_claim
-        claim.assessment.update(fees: 0, expenses: 0)
-        expect(claim).not_to be_valid
-        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
-      end
+  #     it 'should be invalid if amount assessed = 0 for state part_paid' do
+  #       claim = FactoryGirl.create :part_paid_claim
+  #       claim.assessment.update(fees: 0, expenses: 0)
+  #       expect(claim).not_to be_valid
+  #       expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
+  #     end
 
-      it 'should be valid if amount assesssed > 0 and state paid' do
-        claim = FactoryGirl.create  :paid_claim
-        expect(claim).to be_valid
-      end
+  #     it 'should be valid if amount assesssed > 0 and state paid' do
+  #       claim = FactoryGirl.create  :paid_claim
+  #       expect(claim).to be_valid
+  #     end
 
-      it 'should be valid if amount_assessed > 0 and state part_paid' do
-        claim = FactoryGirl.create  :part_paid_claim
-        expect(claim).to be_valid
-      end
-    end
+  #     it 'should be valid if amount_assessed > 0 and state part_paid' do
+  #       claim = FactoryGirl.create  :part_paid_claim
+  #       expect(claim).to be_valid
+  #     end
+  #   end
 
-    context 'states demanding zero value for amount assessed' do
-      it 'should be valid if amount assessed is zero' do
-        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
-          factory_name = "#{state}_claim".to_sym
-          claim = FactoryGirl.create factory_name
-          expect(claim.assessment.total).to eq 0
-          expect(claim).to be_valid
-        end
-      end
+  #   context 'states demanding zero value for amount assessed' do
+  #     it 'should be valid if amount assessed is zero' do
+  #       %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+  #         factory_name = "#{state}_claim".to_sym
+  #         claim = FactoryGirl.create factory_name
+  #         expect(claim.assessment.total).to eq 0
+  #         expect(claim).to be_valid
+  #       end
+  #     end
 
-      it 'should be invalid if amount assessed is not zero' do
-        %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
-          factory_name = "#{state}_claim".to_sym
-          expect {
-            claim = FactoryGirl.create factory_name
-            claim.assessment.fees = 35.22
-            claim.save!
-          }.to raise_error ActiveRecord::RecordInvalid
-        end
-      end
-    end
-  end
+  #     it 'should be invalid if amount assessed is not zero' do
+  #       %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
+  #         factory_name = "#{state}_claim".to_sym
+  #         expect {
+  #           claim = FactoryGirl.create factory_name
+  #           claim.assessment.fees = 35.22
+  #           claim.save!
+  #         }.to raise_error ActiveRecord::RecordInvalid
+  #       end
+  #     end
+  #   end
+  # end
 
   context 'basic fees' do
     before(:each) do

@@ -64,7 +64,7 @@ context '#perform_validation?' do
         expect(claim).to_not be_valid
       end
 
-      # TODO: fee schemes may not be required at all now and are not validated for presence
+      # TODO: fee schemes may not be required at all now and are not validated for presence in any event
       xit 'should validate presence of scheme' do
         expect(claim).to be_valid
         nilify_attributes_for_object(claim,:scheme)
@@ -175,7 +175,63 @@ context '#perform_validation?' do
     end
   end
 
+  context 'amount_assessed' do
+    before { claim.submit!; claim.allocate! }
+
+    let(:assessed_claim)  {
+     claim.assessment = FactoryGirl.build(:assessment, claim: claim)
+     claim
+    }
+
+    it 'should NOT error if assessment provided prior to pay! or part_pay! transistions' do
+      expect{ assessed_claim.pay! }.to_not raise_error
+    end
+
+    it 'should error if NO assessment present and state is transitioned to paid or part_paid' do
+      expect{ claim.pay! }.to raise_error
+      expect{ claim.part_pay! }.to raise_error
+    end
+
+    it 'should error if paid claim has assessment zeroized' do
+      assessed_claim.pay!
+      assessed_claim.assessment.zeroize!
+      expect(assessed_claim).to_not be_valid
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
+    end
+
+    it 'should error if paid claim has assessment updated to zero' do
+      assessed_claim.pay_part!
+      assessed_claim.assessment.update(fees: 0, expenses: 0)
+      expect(assessed_claim).to_not be_valid
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
+    end
+
+    context 'should be valid if amount assessed is zero' do
+        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+          it "for claims in state #{state}" do
+            factory_name = "#{state}_claim".to_sym
+            claim = FactoryGirl.create factory_name
+            expect(claim.assessment.total).to eq 0
+            expect(claim).to be_valid
+          end
+        end
+    end
+
+    context 'should be invalid if amount assessed is not zero' do
+      %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
+        factory_name = "#{state}_claim".to_sym
+        claim = FactoryGirl.create factory_name
+        claim.assessment.fees = 35.22
+        it "should error if amount assessed is not zero for #{state}" do
+          expect(claim).to_not be_valid
+          expect(claim.errors[:amount_assessed]).to eq( ["must be zero for claims in state #{state}"] )
+        end
+      end
+    end
+  end
+
 end
+
 
 # local helpers
 # ---------------------------------------------

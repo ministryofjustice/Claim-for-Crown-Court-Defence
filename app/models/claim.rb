@@ -105,7 +105,7 @@ class Claim < ActiveRecord::Base
   validates :advocate,                presence: true
   validates :creator,                 presence: true
 
-  validate :amount_assessed_and_state
+  # validate :amount_assessed_and_state
   validate :evidence_checklist_is_array
   validate :evidence_checklist_ids_all_numeric_strings
 
@@ -346,18 +346,18 @@ class Claim < ActiveRecord::Base
     self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?).map(&:to_i)
   end
 
-  def amount_assessed_and_state
-    case self.state
-      when 'paid', 'part_paid'
-        if self.assessment.blank?
-          errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
-        end
-      when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-        if self.assessment.present?
-          errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
-        end
-    end
-  end
+  # def amount_assessed_and_state
+  #   case self.state
+  #     when 'paid', 'part_paid'
+  #       if self.assessment.blank?
+  #         errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
+  #       end
+  #     when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+  #       if self.assessment.present?
+  #         errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
+  #       end
+  #   end
+  # end
 
   def destroy_all_invalid_fee_types
     if case_type.present? && case_type.is_fixed_fee?

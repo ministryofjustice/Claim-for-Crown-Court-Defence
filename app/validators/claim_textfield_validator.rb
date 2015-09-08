@@ -1,6 +1,6 @@
 class ClaimTextfieldValidator < BaseClaimValidator
 
-  @@claim_textfield_validator_fields = [
+  @@fields = [
     :case_type,
     :court,
     :case_number,
@@ -9,6 +9,18 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :estimated_trial_length,
     :actual_trial_length
   ]
+
+  @@mandatory_fields = [
+    :amount_assessed
+  ]
+
+  def self.fields
+    @@fields
+  end
+
+  def self.mandatory_fields
+    @@mandatory_fields
+  end
 
   private
 
@@ -53,6 +65,15 @@ end
 def validate_actual_trial_length
   validate_presence(:actual_trial_length, "Actual trial length cannot be blank, you must enter an actual trial length") if trial_dates_required?
   validate_numericality(:actual_trial_length, 0, nil, "Actual trial length must be a whole number (0 or above)") unless @record.actual_trial_length.nil?
+end
+
+def validate_amount_assessed
+  case @record.state
+    when 'paid', 'part_paid'
+      add_error(:amount_assessed, "cannot be zero for claims in state #{@record.state}") if @record.assessment.blank?
+    when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+      add_error(:amount_assessed, "must be zero for claims in state #{@record.state}") if @record.assessment.present?
+  end
 end
 
 # local helpers

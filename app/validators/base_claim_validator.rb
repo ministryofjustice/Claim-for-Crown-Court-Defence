@@ -1,14 +1,21 @@
 class BaseClaimValidator < ActiveModel::Validator
 
 
-   def validate(record)
+  def validate(record)
     @record = record
     if @record.perform_validation?
-      fields = self.class.class_variable_get("@@#{self.class.to_s.underscore}_fields".to_sym)
-      fields.each do |field|
-        self.send("validate_#{field}")
-      end
+      validate_fields(:fields)
     end
+    validate_fields(:mandatory_fields)
+  end
+
+  def validate_fields(fields_class_method)
+     if self.respond_to?(fields_class_method)
+        fields = self.class.__send__(fields_class_method)
+        fields.each do |field|
+          self.send("validate_#{field}")
+        end
+      end
   end
 
   private

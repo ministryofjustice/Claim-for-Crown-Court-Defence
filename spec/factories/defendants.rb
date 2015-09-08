@@ -19,7 +19,7 @@ FactoryGirl.define do
     first_name                        { Faker::Name.first_name }
     middle_name                       { Faker::Name.first_name }
     last_name                         { Faker::Name.last_name }
-    date_of_birth                     Date.new(2015, 3, 26)
+    date_of_birth                     30.years.ago
     order_for_judicial_apportionment  false
     representation_orders             { [ FactoryGirl.create(:representation_order) ] }
   end

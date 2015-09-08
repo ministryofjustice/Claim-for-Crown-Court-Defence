@@ -15,7 +15,13 @@ describe API::V1::Advocates::Defendant do
   let!(:claim)          {  create(:claim, source: 'api').reload }
   let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
   let!(:invalid_params) { {claim_id: claim.uuid} }
-  let(:json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
+  let(:json_error_response) do
+    [
+      {'error' => "First name can't be blank"},
+      {'error' => "Last name can't be blank"},
+      {'error' => "Date of birth Please enter valid date of birth"},
+    ].to_json
+  end
   let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
 
   context 'when sending non-permitted verbs' do

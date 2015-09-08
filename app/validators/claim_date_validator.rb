@@ -77,16 +77,7 @@ class ClaimDateValidator < BaseClaimValidator
 
 
 
-  # throws an error if record.attribute > date
-  def validate_not_after(date, attribute, message)
-    return if @record.send(attribute).nil? || date.nil?
-    add_error(attribute, message) if @record.send(attribute) > date
-  end
-
-  def validate_not_before(date, attribute, message)
-    return if @record.send(attribute).nil? || date.nil?
-    add_error(attribute, message) if @record.send(attribute) < date
-  end
+  
 
   def earliest_rep_order
     @record.try(:earliest_representation_order).try(:representation_order_date)

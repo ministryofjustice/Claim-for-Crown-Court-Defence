@@ -22,6 +22,7 @@ describe API::V1::Advocates::Defendant do
       {'error' => "Date of birth Please enter valid date of birth"},
     ].to_json
   end
+
   let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
 
   context 'when sending non-permitted verbs' do
@@ -55,6 +56,15 @@ describe API::V1::Advocates::Defendant do
 
       it "should create one new defendant" do
         expect{ post_to_create_endpoint(valid_params) }.to change { Defendant.count }.by(1)
+      end
+
+      it "should create a new record using the params provided" do
+        post_to_create_endpoint(valid_params)
+        new_defendant = Defendant.last
+        expect(new_defendant.claim_id).to eq claim.id
+        expect(new_defendant.first_name).to eq valid_params[:first_name]
+        expect(new_defendant.last_name).to eq valid_params[:last_name]
+        expect(new_defendant.date_of_birth).to eq valid_params[:date_of_birth].to_date
       end
 
     end

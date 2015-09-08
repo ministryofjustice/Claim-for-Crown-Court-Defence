@@ -52,9 +52,10 @@ describe API::V1::Advocates::DateAttended do
       it 'should create a new record using the params provided' do
         post_to_create_endpoint(valid_params)
         date_attended = DateAttended.last
-        expect(date_attended.date).to eq Date.new(2015, 5, 10)
-        expect(date_attended.date_to).to eq Date.new(2015, 5, 12)
-        expect(date_attended.attended_item_id).to eq 1
+        expect(date_attended.date).to eq valid_params[:date].to_date
+        expect(date_attended.date_to).to eq valid_params[:date_to].to_date
+        expect(date_attended.attended_item_id).to eq fee.id
+        expect(date_attended.attended_item_type).to eq valid_params[:attended_item_type]
       end
 
     end

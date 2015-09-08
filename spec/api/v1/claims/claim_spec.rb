@@ -101,6 +101,30 @@ describe API::V1::Advocates::Claim do
         expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
       end
 
+      context "the new claim should" do
+
+        before(:each) {
+          post_to_create_endpoint
+          @new_claim = Claim.last
+        }
+        
+        it "have the same attributes as described in params" do
+          claim_params.delete(:advocate_email) # because the saved claim record does not have this attribute
+          claim_params.each do |attribute, value|
+            if @new_claim.send(attribute).class == Date
+              claim_params[attribute] = value.to_date # because the sved claim record has Date objects but the param has date strings
+            end
+            expect(@new_claim.send(attribute).to_s).to eq claim_params[attribute].to_s # some strings are converted to ints on save
+          end
+        end
+
+        it "belong to the advocate whose email was specified in params" do
+          expected_owner = User.find_by(email: claim_params[:advocate_email])
+          expect(@new_claim.advocate).to eq expected_owner.persona
+        end
+
+      end
+
     end
 
     context "when claim params are invalid" do

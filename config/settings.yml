@@ -31,3 +31,6 @@ date_format: "%d/%m/%Y"
 date_time_format: "%d/%m/%Y %H:%M"
 
 high_value_claim_threshold: 20000
+
+earliest_permitted_date: <%= 5.years.ago.to_date %>
+earliest_permitted_date_in_words: 5 years ago

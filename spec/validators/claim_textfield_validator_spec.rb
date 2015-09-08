@@ -63,15 +63,24 @@ context '#perform_validation?' do
         nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
         expect(claim).to_not be_valid
       end
-
-      # TODO: fee schemes may not be required at all now and are not validated for presence in any event
-      xit 'should validate presence of scheme' do
-        expect(claim).to be_valid
-        nilify_attributes_for_object(claim,:scheme)
-        expect(claim).to_not be_valid
-      end
     end
 
+  end
+
+  context 'advocate' do
+    it 'should error if not present, regardless' do
+      claim.force_validation=true
+      claim.advocate = nil
+      should_error_with(claim, :advocate, "Advocate cannot be blank, you must provide an advocate")
+    end
+  end
+
+  context 'creator' do
+    it 'should error if not present, regardless' do
+      claim.force_validation=true
+      claim.creator = nil
+      should_error_with(claim, :creator, "Creator cannot be blank, you must provide an creator")
+    end
   end
 
   context 'case_type' do
@@ -96,7 +105,7 @@ context '#perform_validation?' do
 
     invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
     invalid_formats.each do |invalid_format|
-      it "should error if invalid valid format #{invalid_format}" do
+      it "should error if invalid format #{invalid_format}" do
         claim.case_number = invalid_format
         should_error_with(claim, :case_number,"Case number must be in format A12345678 (i.e. 1 capital Letter followed by exactly 8 digits)")
       end
@@ -196,14 +205,14 @@ context '#perform_validation?' do
       assessed_claim.pay!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state paid'] )
     end
 
     it 'should error if paid claim has assessment updated to zero' do
       assessed_claim.pay_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0)
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state part_paid'] )
     end
 
     context 'should be valid if amount assessed is zero' do
@@ -224,9 +233,52 @@ context '#perform_validation?' do
         claim.assessment.fees = 35.22
         it "should error if amount assessed is not zero for #{state}" do
           expect(claim).to_not be_valid
-          expect(claim.errors[:amount_assessed]).to eq( ["must be zero for claims in state #{state}"] )
+          expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state}"] )
         end
       end
+    end
+  end
+
+  context 'evidence_checklist_ids' do
+
+    let(:doc_types) { DocType.all.sample(4).map(&:id) }
+    let(:invalid_ids) { ['a','ABC','??','-'] }
+
+    it 'should serialize and deserialize as Array' do
+      claim.evidence_checklist_ids = doc_types
+      should_not_error(claim,:evidence_checklist_ids)
+      claim.save!
+      dup = Claim.find claim.id
+      expect(dup.evidence_checklist_ids).to eq( doc_types )
+
+    end
+
+    it 'should NOT error if ids are string integers and should exclude blank strings' do
+      claim.evidence_checklist_ids = ['10','2',' ']
+      should_not_error(claim,:evidence_checklist_ids)
+    end
+
+    it 'should NOT error if ids are valid doctype ids' do
+      claim.evidence_checklist_ids = doc_types
+      should_not_error(claim,:evidence_checklist_ids)
+    end
+
+    it "should error if ids are zero or strings" do
+      invalid_ids.each do |id|
+        claim.evidence_checklist_ids = [id]
+        should_error_with(claim,:evidence_checklist_ids,"Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids")
+      end
+    end
+
+    it 'should error if, and for each, id that is not valid doctype ids' do
+      claim.evidence_checklist_ids = [101,1001,200,32]
+      expect(claim.valid?).to be false
+      expect(claim.errors[:evidence_checklist_ids]).to include(/^Evidence checklist id 101 is invalid, please use valid evidence checklist ids/)
+    end
+
+    it 'should throw an exception for anything other than an array' do
+      claim.evidence_checklist_ids = '1, 45, 457'
+      expect { claim.save! }.to raise_error ActiveRecord::SerializationTypeMismatch, %q{Attribute was supposed to be a Array, but was a String.}
     end
   end
 
@@ -237,7 +289,7 @@ end
 # ---------------------------------------------
 def should_error_with(record, field, message)
   expect(record.valid?).to be false
-  expect(record.errors[field]).to eq( [ message ])
+  expect(record.errors[field]).to eq ([ message ])
 end
 
 def should_not_error(record, field)

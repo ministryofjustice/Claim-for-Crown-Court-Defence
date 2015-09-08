@@ -10,7 +10,7 @@ class BaseClaimValidator < ActiveModel::Validator
   end
 
   def validate_fields(fields_class_method)
-     if self.respond_to?(fields_class_method)
+     if self.class.respond_to?(fields_class_method)
         fields = self.class.__send__(fields_class_method)
         fields.each do |field|
           self.send("validate_#{field}")

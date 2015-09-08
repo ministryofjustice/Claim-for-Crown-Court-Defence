@@ -173,7 +173,7 @@ end
 Then(/^I should be redirected back to the claim form with error$/) do
   expect(page).to have_content('Claim for Advocate Graduated Fees')
   expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
-  expect(page).to have_content("Advocate can't be blank")
+  expect(page).to have_content("Advocate cannot be blank")
 end
 
 

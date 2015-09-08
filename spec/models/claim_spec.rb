@@ -57,27 +57,9 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:defendants) }
   it { should have_many(:documents) }
   it { should have_many(:messages) }
-
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
-
   it { should have_many(:claim_state_transitions) }
-
-  context 'validation of evidence_checklist_ids' do
-    let(:claim)           { FactoryGirl.build :unpersisted_claim }
-
-    it 'should reject non numeric values' do
-      claim.evidence_checklist_ids = [ 'aa', '2']
-      expect(claim).not_to be_valid
-      expect(claim.errors[:evidence_checklist_ids]).to eq(['Invalid'])
-    end
-
-    it 'should not reject string integers' do
-      claim.evidence_checklist_ids = [ '33', '2', '']
-      expect(claim).to be_valid
-    end
-  end
-
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
@@ -172,16 +154,6 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe 'validations' do
-
-    # NOTE: see custom validators for bulk of validations
-    context 'always' do
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-    end
-
-  end
-
   it { should accept_nested_attributes_for(:basic_fees) }
   it { should accept_nested_attributes_for(:fixed_fees) }
   it { should accept_nested_attributes_for(:misc_fees) }
@@ -267,56 +239,6 @@ RSpec.describe Claim, type: :model do
       expect(claim.reload.state).to eq('paid')
     end
   end
-
-  # context 'amount_assessed validation' do
-  #   context 'paid and part paid' do
-  #     it 'should be invalid if amount assessed = 0 for state paid' do
-  #       claim = FactoryGirl.create :paid_claim
-  #       claim.assessment.zeroize!
-  #       expect(claim).not_to be_valid
-  #       expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
-  #     end
-
-  #     it 'should be invalid if amount assessed = 0 for state part_paid' do
-  #       claim = FactoryGirl.create :part_paid_claim
-  #       claim.assessment.update(fees: 0, expenses: 0)
-  #       expect(claim).not_to be_valid
-  #       expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
-  #     end
-
-  #     it 'should be valid if amount assesssed > 0 and state paid' do
-  #       claim = FactoryGirl.create  :paid_claim
-  #       expect(claim).to be_valid
-  #     end
-
-  #     it 'should be valid if amount_assessed > 0 and state part_paid' do
-  #       claim = FactoryGirl.create  :part_paid_claim
-  #       expect(claim).to be_valid
-  #     end
-  #   end
-
-  #   context 'states demanding zero value for amount assessed' do
-  #     it 'should be valid if amount assessed is zero' do
-  #       %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
-  #         factory_name = "#{state}_claim".to_sym
-  #         claim = FactoryGirl.create factory_name
-  #         expect(claim.assessment.total).to eq 0
-  #         expect(claim).to be_valid
-  #       end
-  #     end
-
-  #     it 'should be invalid if amount assessed is not zero' do
-  #       %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
-  #         factory_name = "#{state}_claim".to_sym
-  #         expect {
-  #           claim = FactoryGirl.create factory_name
-  #           claim.assessment.fees = 35.22
-  #           claim.save!
-  #         }.to raise_error ActiveRecord::RecordInvalid
-  #       end
-  #     end
-  #   end
-  # end
 
   context 'basic fees' do
     before(:each) do
@@ -742,7 +664,7 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe  '#has_paid_state?' do
+  describe '#has_paid_state?' do
     let(:claim) { create(:draft_claim) }
 
     def expect_has_paid_state_to_be(bool)
@@ -769,25 +691,6 @@ RSpec.describe Claim, type: :model do
      expect_has_paid_state_to_be true
      claim.pay
      expect_has_paid_state_to_be true
-    end
-  end
-
-
-  describe 'evidence_checklist_ids' do
-    it 'should serialize and de-serialize' do
-      claim  = FactoryGirl.build :unpersisted_claim
-      claim.evidence_checklist_ids = [1,5,15,37]
-      claim.save!
-      claim2 = Claim.find claim.id
-      expect(claim2.evidence_checklist_ids).to eq( [1,5,15,37] )
-    end
-
-    it 'should throw an execption if anything other than an array' do
-      claim  = FactoryGirl.build :unpersisted_claim
-      claim.evidence_checklist_ids = '1, 45, 457'
-      expect {
-        claim.save!
-      }.to raise_error ActiveRecord::SerializationTypeMismatch, %q{Attribute was supposed to be a Array, but was a String.}
     end
   end
 
@@ -1057,7 +960,6 @@ RSpec.describe Claim, type: :model do
         end
       end
 
-
     end
 
     context 'allocated state where the previous state was not redetermination' do
@@ -1075,10 +977,4 @@ RSpec.describe Claim, type: :model do
     end
 
   end
-end
-
-# override shoulda matcha since we are providing our own validation message
-def validate_presence_of(attribute)
-
-  
 end

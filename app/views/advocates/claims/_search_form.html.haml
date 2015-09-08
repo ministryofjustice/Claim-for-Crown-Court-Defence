@@ -1,5 +1,8 @@
-= form_tag advocates_claims_path, method: :get do
-  = text_field_tag :search, params[:search], placeholder: t('common.search')
-  - if current_user.persona.admin?
-    = select_tag :search_field, options_for_select(@search_options, params[:search_field])
-  = submit_tag t('common.search'), class: 'button'
+%div.grid-row
+  %div.column-half
+    %div.form-inputs
+      = form_tag advocates_claims_path, method: :get do
+        = text_field_tag :search, params[:search], placeholder: 'Search e.g. advocate name, claim date DD/MM/YY', class: "form-control-3-4"
+        = submit_tag t('common.search'), class: 'button'
+  %div.column-half
+    &nbsp;

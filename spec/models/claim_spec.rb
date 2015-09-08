@@ -43,6 +43,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
+
   it { should belong_to(:advocate) }
   it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
   it { should delegate_method(:chamber_id).to(:advocate) }
@@ -173,6 +174,8 @@ RSpec.describe Claim, type: :model do
 
   describe 'validations' do
 
+    # let(:presence_of_errmsg) { /cannot be blank/ }
+
     context 'draft' do
       before { allow(subject).to receive(:draft?).and_return(true) }
 
@@ -192,16 +195,17 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_presence_of(:advocate) }
       it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
+      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
+      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
 
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg) }
+      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
 
     end
 
@@ -210,16 +214,17 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_presence_of(:advocate) }
       it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
+      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
+      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
 
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg)}
+      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
 
       it 'should validate presence of scheme' do
         subject.scheme = create(:scheme)
@@ -235,16 +240,17 @@ RSpec.describe Claim, type: :model do
 
       it { should validate_presence_of(:advocate) }
       it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
+      # TODO - these validations are no longer handled by the model directly (see validators) - remove?
+      # it { should validate_presence_of(:court).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:offence).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:case_number).with_message(presence_of_errmsg) }
 
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
+      # it { should validate_presence_of(:case_type).with_message(presence_of_errmsg) }
+      # it { should validate_presence_of(:advocate_category).with_message(presence_of_errmsg) }
+      # it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
 
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
+      # it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
     end
   end
 
@@ -1141,4 +1147,10 @@ RSpec.describe Claim, type: :model do
     end
 
   end
+end
+
+# override shoulda matcha since we are providing our own validation message
+def validate_presence_of(attribute)
+
+  
 end

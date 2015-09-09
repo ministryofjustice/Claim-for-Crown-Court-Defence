@@ -55,10 +55,10 @@ end
 When(/^I remove a file$/) do
   expect(Document.count).to eq(1)
   page.find(:css, 'a[id="' + Document.last.id.to_s + '"]').click
-  sleep 3
 end
 
 Then(/^the document should be deleted$/) do
+  sleep 5
   expect(Document.count).to eq(0)
 end
 

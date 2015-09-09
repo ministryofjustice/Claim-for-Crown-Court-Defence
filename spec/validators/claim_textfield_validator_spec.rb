@@ -6,6 +6,7 @@ describe ClaimTextfieldValidator do
   let(:guilty_plea)           { FactoryGirl.build :case_type, name: 'Guilty plea'}
   let(:contempt)              { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
+  let(:cracked_before_retrial)      { FactoryGirl.build :case_type, name: 'Cracked before retrial'}
 
   before(:each) do
     claim.estimated_trial_length = 1
@@ -181,6 +182,30 @@ context '#perform_validation?' do
     it 'should error if less than zero' do
       claim.actual_trial_length = -1
       should_error_with(claim, :actual_trial_length, "Actual trial length must be a whole number (0 or above)")
+    end
+  end
+
+  context 'trial_cracked_at_third' do
+    context 'for cracked trials and cracked before retrials' do
+      before { claim.case_type = cracked_before_retrial }
+      it 'should error if not present' do
+        claim.trial_cracked_at_third = nil
+        should_error_with(claim,:trial_cracked_at_third,"Case cracked in cannot be blank for a #{claim.case_type.name}, please inidicate the third in which the case cracked")
+      end
+
+      it 'should error if not final third cracked before retrial' do
+        claim.trial_cracked_at_third ='first_third'
+        should_error_with(claim,:trial_cracked_at_third,"Case cracked in can only be Final Third for trials that cracked before retrial")
+      end
+    end
+
+    context 'for other case types' do
+      it 'should not error if not present' do
+        claim.case_type = guilty_plea
+        claim.trial_cracked_at_third = nil
+        should_not_error(claim, :trial_cracked_at_third)
+          
+      end
     end
   end
 

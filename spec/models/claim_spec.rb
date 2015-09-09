@@ -796,13 +796,13 @@ RSpec.describe Claim, type: :model do
 
     it 'sets the source to web by default if unset' do
       expect(claim.save).to eq(true)
-      expect(claim.source).to  eq('web')
+      expect(claim.source).to eq('web')
     end
 
     it 'does not change the source if set' do
       claim.source = 'api'
       expect(claim.save).to eq(true)
-      expect(claim.source).to  eq('api')
+      expect(claim.source).to eq('api')
     end
 
   end

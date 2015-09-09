@@ -21,7 +21,7 @@ class DocumentsController < ApplicationController
     if @document.save
       render json: { document: @document.reload }, status: :created
     else
-      render json: { error: @document.errors.full_messages.join(', ') }, status: 400
+      render json: { error: @document.errors[:document].join(', ') }, status: 400
     end
   end
 

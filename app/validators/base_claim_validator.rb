@@ -20,6 +20,11 @@ class BaseClaimValidator < ActiveModel::Validator
 
   private
 
+  def error_message_for(model, attribute, error)
+    I18n.t "activerecord.errors.models.#{model}.attributes.#{attribute}.#{error}"
+  end
+
+
   def validate_presence(attribute, message)
     add_error(attribute, message) if @record.send(attribute).blank?
   end

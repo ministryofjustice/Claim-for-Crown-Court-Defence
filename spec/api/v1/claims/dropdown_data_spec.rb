@@ -32,135 +32,56 @@ describe API::V1::DropdownData do
     end
   end
 
-  context 'GET api/case_types' do
+  context 'each dropdown data endpoint' do
 
-    it 'should return a status of 200' do
-      response = get CASE_TYPE_ENDPOINT, format: :json
-      expect(response.status).to eql 200
+    before {
+      create_list(:case_type, 2)
+      create_list(:court, 2)
+      create_list(:offence_class, 2)
+      create_list(:offence, 2)
+      create_list(:fee_category, 2)
+      create_list(:fee_type, 2)
+      create_list(:expense_type, 2)
+
+      @endpoints_and_expectations = {
+        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
+        COURT_ENDPOINT => Court.all.to_json,
+        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
+        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
+        GRANTING_BODY_ENDPOINT => Settings.court_types.to_json,
+        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
+        OFFENCE_ENDPOINT => Offence.all.to_json,
+        FEE_CATEGORY_ENDPOINT => FeeCategory.all.to_json,
+        FEE_TYPE_ENDPOINT => FeeType.all.to_json,
+        EXPENSE_TYPE_ENDPOINT => ExpenseType.all.to_json
+      }
+
+    }
+
+    it 'should return a JSON formatted list of the required information' do
+      @endpoints_and_expectations.each do |endpoint, expectation|
+        response = get endpoint, format: :json
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body).count).to be > 0
+        expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
+      end
     end
-
-    it 'should return a body of formatted JSON including guilty plea' do
-      FactoryGirl.create :case_type
-      FactoryGirl.create :case_type, :fixed_fee
-      response = get CASE_TYPE_ENDPOINT, format: :json
-      expect(response.body).to eq CaseType.all.to_json
-    end
-
   end
 
-
-  context 'GET api/courts' do
-
-    before { create_list(:court,2) }
-    let!(:court) { create(:court) }
-
-    it 'should return a status of 200' do
-      response = get COURT_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of fee categories' do
-      response = get COURT_ENDPOINT, format: :json
-      expected = JSON.parse(court.to_json)
-      actual = JSON.parse(response.body)
-      expect(actual).to include(expected)
-      expect(actual.count).to eql 3
-    end
-
-  end
-
-  context 'GET api/advocates_categories' do
-
-    it 'should return a status of 200' do
-      response = get ADVOCATE_CATEGORY_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return a bSON formatted list of advocate categories' do
-      response = get ADVOCATE_CATEGORY_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to include('Leading junior')
-    end
-
-  end
-
-  context 'GET api/trial_cracked_at_thirds' do
-
-     it 'should return a status of 200' do
-      response = get CRACKED_THIRD_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return a JSON formatted list of cracked at thirds' do
-      response = get CRACKED_THIRD_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to eql(['first_third','second_third','final_third'])
-    end
-
-  end
-
-  context 'GET api/granting_body_types' do
-
-    it 'should return a status of 200' do
-      response = get GRANTING_BODY_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return a JSON formatted list of granting bodies' do
-      response = get GRANTING_BODY_ENDPOINT, format: :json
-      expect(JSON.parse(response.body)).to eql(["Magistrates' Court","Crown Court"])
-    end
-
-  end
-
-  context 'GET api/offence_classes' do
-
-    let!(:offence_class) { create(:offence_class) }
-
-    def get_from_offence_classes_endpoint
-      get OFFENCE_CLASS_ENDPOINT
-    end
-
-    it 'should return a status of 200' do
-      response = get_from_offence_classes_endpoint
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of Offence Classes' do
-      response = get_from_offence_classes_endpoint
-      expected = JSON.parse(offence_class.to_json)
-      actual = JSON.parse(response.body)
-      expect(actual).to include(expected)
-      expect(actual.count).to eql 1
-    end
-
-  end
 
   context 'GET api/offences' do
 
-    let!(:offence) { create(:offence) }
-
-    it 'should return a status of 200' do
-      response = get OFFENCE_ENDPOINT
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of Offences' do
-      response = get OFFENCE_ENDPOINT
-      expected = JSON.parse(offence.to_json)
-      actual = JSON.parse(response.body)
-      expect(actual).to include(expected)
-      expect(actual.count).to eql 1
-    end
+      let!(:offence)                        { create(:offence) }
+      let!(:other_offence)                  { create(:offence) }
+      let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
+      let!(:response)                       { get OFFENCE_ENDPOINT }
 
     it 'should include the offence class as nested JSON' do
-      response = get OFFENCE_ENDPOINT
-      actual = JSON.parse(response.body)
-      expect(actual.first['offence_class']).to eq(JSON.parse(offence.offence_class.to_json))
+      body = JSON.parse(response.body)
+      expect(body.first['offence_class']).to eq(JSON.parse(offence.offence_class.to_json))
     end
 
     it 'should only return offences matching description when offence_description param is present' do
-      other_offence = create(:offence)
-      offence_with_same_description = create(:offence, description: offence.description)
-
       response = get OFFENCE_ENDPOINT, offence_description: offence.description
       returned_offences = JSON.parse(response.body)
       expect(returned_offences).to include(JSON.parse(offence.to_json), JSON.parse(offence_with_same_description.to_json))
@@ -169,76 +90,25 @@ describe API::V1::DropdownData do
     end
   end
 
-  context 'GET api/fee_categories' do
-
-    let!(:basic_category) { create(:basic_fee_category) }
-    let!(:fixed_category) { create(:fixed_fee_category) }
-    let!(:misc_category)  { create(:misc_fee_category) }
-
-    def get_from_fee_category_endpoint
-      get FEE_CATEGORY_ENDPOINT, format: :json
-    end
-
-    it 'should return a status of 200' do
-      response = get_from_fee_category_endpoint
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of fee categories' do
-      response = get_from_fee_category_endpoint
-      expected = JSON.parse(basic_category.to_json)
-      actual = JSON.parse(response.body)
-      expect(actual).to include(expected)
-      expect(actual.count).to eql 3
-    end
-
-  end
-
   context 'GET api/fee_types/[:category]' do
 
-    let!(:basic_fee_type) { create(:fee_type, :basic, id: 1) }
-    let!(:misc_fee_type)  { create(:fee_type, :misc, id: 2) }
-    let!(:fixed_fee_type) { create(:fee_type, :fixed, id: 3) }
+    before {
+      create(:fee_type, :basic, id: 1)
+      create(:fee_type, :misc, id: 2)
+      create(:fee_type, :fixed, id: 3)
+    }
 
-    def get_from_fee_type_endpoint(category=nil)
-      get FEE_TYPE_ENDPOINT, category, format: :json
+    def get_filtered_fee_types(category=nil)
+      get FEE_TYPE_ENDPOINT, category: category, format: :json
     end
 
-    it 'should return a status of 200' do
-      response = get_from_fee_type_endpoint
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of fee types' do
-      response = get_from_fee_type_endpoint
-      expected = JSON.parse(basic_fee_type.to_json)
-      actual = JSON.parse(response.body)
-      expect(actual).to include(expected)
-      expect(actual.count).to eql 3
-    end
-
-    it 'should optionally filter on category' do
-      params = { category: 'basic' }
-      response = get_from_fee_type_endpoint(params)
-      expect(JSON.parse(response.body).count).to eql 1
-    end
-
-  end
-
-  context 'GET api/expense_types' do
-
-    let!(:expense_type) { create(:expense_type, name: 'my example expense type') }
-
-    it 'should return a status of 200' do
-      response = get EXPENSE_TYPE_ENDPOINT, format: :json
-      expect(response.status).to eql 200
-    end
-
-    it 'should return JSON formatted list of expense types' do
-      response = get EXPENSE_TYPE_ENDPOINT, format: :json
-      json_body = JSON.parse(response.body)
-      expect(json_body).to include(JSON.parse(expense_type.to_json))
-      expect(json_body.count).to eql 1
+    it 'should filter by category' do
+      categories = ['all', 'basic', 'misc', 'fixed']
+      categories.each do |category|
+        response = get_filtered_fee_types(category)
+        expect(response.status).to eq 200
+        expect(response.body).to eq FeeType.send(category).to_json
+      end
     end
 
   end

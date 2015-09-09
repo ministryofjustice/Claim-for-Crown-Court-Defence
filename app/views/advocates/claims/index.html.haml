@@ -1,5 +1,8 @@
 %h1.page-title
-  Your Claims
+  - if current_user.persona.admin?
+    = "All Claims"
+  - else
+    = "Your Claims"
 
 .hide-for-now{style: 'display: none;'}
   = form_tag({controller: 'advocates/json_document_importer', action: 'create'}, method: 'post', multipart: true) do

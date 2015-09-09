@@ -51,11 +51,11 @@ describe API::V1::Advocates::RepresentationOrder do
 
       it 'creates a new representation_order record with all provided attributes' do
         post_to_create_endpoint(valid_params)
-        representation_order = RepresentationOrder.last
-        expect(representation_order.granting_body).to eq "Magistrates' Court"
-        expect(representation_order.defendant_id).to eq Defendant.find_by(uuid: defendant.uuid).id
-        expect(representation_order.representation_order_date.to_s).to eq  "10/06/2015 00:00"
-        expect(representation_order.maat_reference).to eq 'MAATMAATMAAT'
+        new_representation_order = RepresentationOrder.last
+        expect(new_representation_order.granting_body).to eq valid_params[:granting_body]
+        expect(new_representation_order.defendant_id).to eq defendant.id
+        expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
+        expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference].upcase!
       end
 
     end
@@ -67,7 +67,7 @@ describe API::V1::Advocates::RepresentationOrder do
           valid_params.delete(:granting_body)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Granting body can't be blank\"},{\"error\":\"Granting body is not included in the list\"}]"
+          expect(response.body).to eq [ 'error' => 'Select the granting body' ].to_json
         end
       end
 
@@ -120,7 +120,7 @@ describe API::V1::Advocates::RepresentationOrder do
       valid_params.delete(:representation_order_date)
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Representation order date can't be blank\"}]"
+      expect(response.body).to eq "[{\"error\":\"Please enter a valid representation order date\"}]"
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do

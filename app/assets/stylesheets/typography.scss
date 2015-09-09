@@ -14,6 +14,10 @@
   @include bold-24();
 }
 
+.bold-normal{
+  @include bold-19();
+}
+
 .financial_summary{
   p, .button{
     @include core-19();

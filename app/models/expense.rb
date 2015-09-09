@@ -23,9 +23,10 @@ class Expense < ActiveRecord::Base
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy
 
-  validates :expense_type, presence: true
-  validates :claim, presence: true
-  validates :quantity, :rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :expense_type, presence: { message: 'Expense type cannot be blank' }
+  validates :claim, presence: { message: "Claim cannot be blank" }
+  validates :quantity, presence: {message: "Quantity cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :rate, presence: {message: "Rate cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 

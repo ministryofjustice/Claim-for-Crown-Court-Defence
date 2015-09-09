@@ -17,9 +17,9 @@ describe API::V1::Advocates::Defendant do
   let!(:invalid_params) { {claim_id: claim.uuid} }
   let(:json_error_response) do
     [
-      {'error' => "First name can't be blank"},
-      {'error' => "Last name can't be blank"},
-      {'error' => "Date of birth Please enter valid date of birth"},
+      {'error' => "First name cannot be blank"},
+      {'error' => "Last name cannot be blank"},
+      {'error' => "Enter valid date of birth"},
     ].to_json
   end
 
@@ -124,7 +124,7 @@ describe API::V1::Advocates::Defendant do
     it 'invalid claim id should return 400 and a JSON error array' do
       invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
       expect(invalid_response.status).to eq 400
-      expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+      expect(invalid_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
     end
 
     it 'returns 400 and JSON error when dates are not in standard JSON format' do

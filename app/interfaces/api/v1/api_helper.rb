@@ -83,7 +83,6 @@ module API
 
        # --------------------
       def self.validate_resource(model_object, api_response, arg_builder_proc)
-
         model_instance = model_object.new(arg_builder_proc.call)
 
         if model_instance.valid?

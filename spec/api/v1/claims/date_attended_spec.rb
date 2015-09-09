@@ -67,7 +67,7 @@ describe API::V1::Advocates::DateAttended do
           valid_params.delete(:date)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Date can't be blank\"}]"
+          expect(response.body).to eq "[{\"error\":\"Date cannot be blank\"}]"
         end
       end
 
@@ -119,7 +119,7 @@ describe API::V1::Advocates::DateAttended do
       valid_params.delete(:date)
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Date can't be blank\"}]"
+      expect(response.body).to eq "[{\"error\":\"Date cannot be blank\"}]"
     end
 
     it 'invalid attended item id should return 400 and a JSON error array' do

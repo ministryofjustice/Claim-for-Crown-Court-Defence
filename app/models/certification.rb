@@ -21,7 +21,8 @@ class Certification < ActiveRecord::Base
   belongs_to :claim
 
   validate :one_and_only_one_checkbox_checked
-  validates :certification_date, :certified_by, presence: true
+  validates :certification_date, presence: {message: "Certification date cannot be blank"}
+  validates :certified_by, presence: { message: "Certified by cannot be blank" }
 
   acts_as_gov_uk_date :certification_date
 

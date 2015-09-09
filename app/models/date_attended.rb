@@ -16,7 +16,7 @@ class DateAttended < ActiveRecord::Base
 
   belongs_to :attended_item, polymorphic: true
   
-  validates :date, presence: true
+  validates :date, presence: {message: "Date cannot be blank"}
 
   acts_as_gov_uk_date :date, :date_to
 

@@ -69,7 +69,9 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       submit_if_required_and_redirect
     else
-      submit_claim_to_laa
+      render_edit_with_resources
+      # why submit! and/or redirect to summary if update was not successful
+      # submit_claim_to_laa
     end
   end
 
@@ -353,12 +355,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  def submit_claim_to_laa
-    begin
-      @claim.submit! unless @claim.submitted?
-      redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
-    rescue
-      render_edit_with_resources
-    end
-  end
+  # def submit_claim_to_laa
+  #   begin
+  #     @claim.submit! unless @claim.submitted?
+  #     redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
+  #   rescue
+  #     render_edit_with_resources
+  #   end
+  # end
 end

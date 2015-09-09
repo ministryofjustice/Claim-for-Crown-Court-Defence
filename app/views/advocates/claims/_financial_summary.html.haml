@@ -21,6 +21,6 @@
       &nbsp;
     %div.column-quarter
       = form_tag({controller: 'advocates/json_document_importer', action: 'create'}, method: 'post', multipart: true) do
-        = label_tag nil, 'Upload file(s):', {class: "bold-normal", for:"json_file"}
+        = label_tag nil, 'Import Claim', {class: "bold-normal", for:"json_file"}
         = file_field_tag :json_file
         = submit_tag 'Upload', class: "button button-secondary"

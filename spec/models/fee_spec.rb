@@ -19,7 +19,7 @@ RSpec.describe Fee, type: :model do
   it { should belong_to(:fee_type) }
   it { should have_many(:dates_attended) }
 
-  it { should validate_presence_of(:fee_type) }
+  it { should validate_presence_of(:fee_type).with_message('Fee type cannot be blank') }
   it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
 
   it { should accept_nested_attributes_for(:dates_attended) }

@@ -1,7 +1,10 @@
 .grid-row
   .column-three-quarter
     %h1.page-title
-      Your Claims
+      - if current_user.persona.admin?
+        = "All Claims"
+      - else
+        = "Your Claims"
   .columm-quarter
     = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started right'
 

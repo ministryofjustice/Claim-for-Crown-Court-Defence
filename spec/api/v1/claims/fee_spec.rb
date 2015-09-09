@@ -15,7 +15,7 @@ describe API::V1::Advocates::Fee do
   let!(:claim)              { create(:claim, source: 'api').reload }
   let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.09 } }
   let!(:invalid_params)     { {claim_id: claim.uuid } }
-  let(:json_error_response)  { "[{\"error\":\"Fee type can't be blank\"}]" }
+  let(:json_error_response) { [ {"error" => "Fee type cannot be blank" } ].to_json }
 
   context 'sending non-permitted verbs' do
     ALL_FEE_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -52,12 +52,12 @@ describe API::V1::Advocates::Fee do
       end
 
       it 'should create a new fee record with all provided attributes' do
-        response = post_to_create_endpoint(valid_params)
+        post_to_create_endpoint(valid_params)
         fee = Fee.last
-        expect(fee.claim.id).to eq claim.id
-        expect(fee.fee_type).to eq fee_type
-        expect(fee.quantity).to eq 3
-        expect(fee.amount).to eq 10.09
+        expect(fee.claim_id).to eq claim.id
+        expect(fee.fee_type_id).to eq fee_type.id
+        expect(fee.quantity).to eq valid_params[:quantity]
+        expect(fee.amount).to eq valid_params[:amount]
       end
 
     end
@@ -98,6 +98,15 @@ describe API::V1::Advocates::Fee do
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
           expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+        end
+      end
+
+      context "malformed claim UUID" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+          valid_params[:claim_id] = 'any-old-rubbish'
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
         end
       end
 

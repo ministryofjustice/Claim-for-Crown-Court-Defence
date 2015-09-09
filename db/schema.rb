@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.boolean  "is_fixed_fee"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "requires_cracked_dates"
+    t.boolean  "requires_trial_dates"
   end
 
   create_table "case_worker_claims", force: true do |t|
@@ -154,10 +156,10 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "courts", ["name"], name: "index_courts_on_name", using: :btree
 
   create_table "dates_attended", force: true do |t|
-    t.datetime "date"
+    t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "date_to"
+    t.date     "date_to"
     t.uuid     "uuid",               default: "uuid_generate_v4()"
     t.integer  "attended_item_id"
     t.string   "attended_item_type"
@@ -169,7 +171,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "last_name"
-    t.datetime "date_of_birth"
+    t.date     "date_of_birth"
     t.boolean  "order_for_judicial_apportionment"
     t.integer  "claim_id"
     t.datetime "created_at"

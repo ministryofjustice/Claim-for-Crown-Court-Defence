@@ -67,7 +67,7 @@ RSpec.describe CaseWorker, type: :model do
       it 'should reject all days as non working days' do
         cw.days_worked = [ 0, 0, 0, 0, 0]
         expect(cw).not_to be_valid
-        expect(cw.errors.full_messages).to eq [ "Days worked at least one day must be specified as a working day"]
+        expect(cw.errors.full_messages).to eq [ "At least one day must be specified as a working day"]
       end
     end
 

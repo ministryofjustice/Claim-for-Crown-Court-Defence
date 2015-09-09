@@ -43,6 +43,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
+
   it { should belong_to(:advocate) }
   it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
   it { should delegate_method(:chamber_id).to(:advocate) }
@@ -56,27 +57,9 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:defendants) }
   it { should have_many(:documents) }
   it { should have_many(:messages) }
-
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
-
   it { should have_many(:claim_state_transitions) }
-
-  context 'validation of evidence_checklist_ids' do
-    let(:claim)           { FactoryGirl.build :unpersisted_claim }
-
-    it 'should reject non numeric values' do
-      claim.evidence_checklist_ids = [ 'aa', '2']
-      expect(claim).not_to be_valid
-      expect(claim.errors[:evidence_checklist_ids]).to eq(['Invalid'])
-    end
-
-    it 'should not reject string integers' do
-      claim.evidence_checklist_ids = [ '33', '2', '']
-      expect(claim).to be_valid
-    end
-  end
-
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
@@ -171,83 +154,6 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe 'validations' do
-
-    context 'draft' do
-      before { allow(subject).to receive(:draft?).and_return(true) }
-
-      it { should validate_presence_of(:advocate) }
-
-      it 'should not validate other attributes' do
-        subject.offence = nil
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft with force_validation set to true' do
-      before do
-        subject.force_validation = true
-        allow(subject).to receive(:draft?).and_return(true)
-      end
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
-    end
-
-    context 'non-draft' do
-      before { allow(subject).to receive(:draft?).and_return(false) }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-
-      it 'should validate presence of scheme' do
-        subject.scheme = create(:scheme)
-        expect(subject).to be_valid
-      end
-    end
-
-    context 'draft from api' do
-      before {
-        allow(subject).to receive(:draft?).and_return(true)
-        allow(subject).to receive(:source).and_return('api')
-      }
-
-      it { should validate_presence_of(:advocate) }
-      it { should validate_presence_of(:creator) }
-      it { should validate_presence_of(:court) }
-      it { should validate_presence_of(:offence) }
-      it { should validate_presence_of(:case_number) }
-
-      it { should validate_presence_of(:case_type_id) }
-      it { should validate_presence_of(:advocate_category) }
-      it { should validate_inclusion_of(:advocate_category).in_array(['QC', 'Led junior', 'Leading junior', 'Junior alone']) }
-
-      it { should validate_numericality_of(:estimated_trial_length).is_greater_than_or_equal_to(0) }
-      it { should validate_numericality_of(:actual_trial_length).is_greater_than_or_equal_to(0) }
-    end
-  end
-
   it { should accept_nested_attributes_for(:basic_fees) }
   it { should accept_nested_attributes_for(:fixed_fees) }
   it { should accept_nested_attributes_for(:misc_fees) }
@@ -330,56 +236,6 @@ RSpec.describe Claim, type: :model do
       claim_params = {"state_for_form"=>"", 'assessment_attributes' => { "fees"=>"44.55", 'expenses' => '44.00'}, "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('paid')
-    end
-  end
-
-  context 'amount_assessed validation' do
-    context 'paid and part paid' do
-      it 'should be invalid if amount assessed = 0 for state paid' do
-        claim = FactoryGirl.create :paid_claim
-        claim.assessment.zeroize!
-        expect(claim).not_to be_valid
-        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state paid'] )
-      end
-
-      it 'should be invalid if amount assessed = 0 for state part_paid' do
-        claim = FactoryGirl.create :part_paid_claim
-        claim.assessment.update(fees: 0, expenses: 0)
-        expect(claim).not_to be_valid
-        expect(claim.errors[:amount_assessed]).to eq( ['cannot be zero for claims in state part_paid'] )
-      end
-
-      it 'should be valid if amount assesssed > 0 and state paid' do
-        claim = FactoryGirl.create  :paid_claim
-        expect(claim).to be_valid
-      end
-
-      it 'should be valid if amount_assessed > 0 and state part_paid' do
-        claim = FactoryGirl.create  :part_paid_claim
-        expect(claim).to be_valid
-      end
-    end
-
-    context 'states demanding zero value for amount assessed' do
-      it 'should be valid if amount assessed is zero' do
-        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
-          factory_name = "#{state}_claim".to_sym
-          claim = FactoryGirl.create factory_name
-          expect(claim.assessment.total).to eq 0
-          expect(claim).to be_valid
-        end
-      end
-
-      it 'should be invalid if amount assessed is not zero' do
-        %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
-          factory_name = "#{state}_claim".to_sym
-          expect {
-            claim = FactoryGirl.create factory_name
-            claim.assessment.fees = 35.22
-            claim.save!
-          }.to raise_error ActiveRecord::RecordInvalid
-        end
-      end
     end
   end
 
@@ -807,7 +663,7 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe  '#has_paid_state?' do
+  describe '#has_paid_state?' do
     let(:claim) { create(:draft_claim) }
 
     def expect_has_paid_state_to_be(bool)
@@ -834,25 +690,6 @@ RSpec.describe Claim, type: :model do
      expect_has_paid_state_to_be true
      claim.pay
      expect_has_paid_state_to_be true
-    end
-  end
-
-
-  describe 'evidence_checklist_ids' do
-    it 'should serialize and de-serialize' do
-      claim  = FactoryGirl.build :unpersisted_claim
-      claim.evidence_checklist_ids = [1,5,15,37]
-      claim.save!
-      claim2 = Claim.find claim.id
-      expect(claim2.evidence_checklist_ids).to eq( [1,5,15,37] )
-    end
-
-    it 'should throw an execption if anything other than an array' do
-      claim  = FactoryGirl.build :unpersisted_claim
-      claim.evidence_checklist_ids = '1, 45, 457'
-      expect {
-        claim.save!
-      }.to raise_error ActiveRecord::SerializationTypeMismatch, %q{Attribute was supposed to be a Array, but was a String.}
     end
   end
 
@@ -1121,7 +958,6 @@ RSpec.describe Claim, type: :model do
           expect(@claim.requested_redetermination?).to be false
         end
       end
-
 
     end
 

@@ -99,25 +99,11 @@ class Claim < ActiveRecord::Base
   scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
   scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
-
-
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
 
-  validates :advocate,                presence: true
-  validates :offence,                 presence: true, if: :perform_validation?
-  validates :creator,                 presence: true, if: :perform_validation?
-  validates :court,                   presence: true, if: :perform_validation?
-  validates :case_number,             presence: true, if: :perform_validation?
-  validates :case_type_id,            presence: true, if: :perform_validation?
-  validates :advocate_category,       presence: true,     inclusion: { in: Settings.advocate_categories }, if: :perform_validation?
-  validates :estimated_trial_length,  numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
-  validates :actual_trial_length,     numericality: { greater_than_or_equal_to: 0 }, if: :perform_validation?
-
-
-
-  validate :amount_assessed_and_state
-  validate :evidence_checklist_is_array
-  validate :evidence_checklist_ids_all_numeric_strings
+  # custom validators
+  validates_with ::ClaimDateValidator
+  validates_with ::ClaimTextfieldValidator
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
@@ -126,6 +112,12 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :assessment
   accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
+
+  acts_as_gov_uk_date :first_day_of_trial, 
+                      :trial_concluded_at,
+                      :trial_fixed_notice_at,
+                      :trial_fixed_at,
+                      :trial_cracked_at
 
   before_save :calculate_vat
 
@@ -166,8 +158,6 @@ class Claim < ActiveRecord::Base
       false
     end
   end
-
-
 
   def representation_orders
     self.defendants.map(&:representation_orders).flatten
@@ -253,12 +243,9 @@ class Claim < ActiveRecord::Base
     self.force_validation? || not_web_draft_and_pending_delete?
   end
 
-
   def perform_validation_or_not_api_draft?
     self.force_validation? || not_web_draft_api_draft_and_pending_delete?
   end
-
-
 
   def not_web_draft_and_pending_delete?
     !web_draft? && !archived_pending_delete?
@@ -328,37 +315,6 @@ class Claim < ActiveRecord::Base
       else
         self.scheme_id = scheme.id
       end
-    end
-  end
-
-  def evidence_checklist_ids_all_numeric_strings
-    format_evidence_ids # non-numeric strings will yield a value of 0 and subsequent validation will fail
-    if self.evidence_checklist_ids.include?(0)
-      errors[:evidence_checklist_ids] << "Invalid"
-    end
-  end
-
-  def evidence_checklist_is_array
-    unless self.evidence_checklist_ids.is_a?(Array)
-      raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{self.evidence_checklist_ids.class}.")
-    end
-  end
-
-  def format_evidence_ids
-    # remove blanks and convert strings to integers
-    self.evidence_checklist_ids = self.evidence_checklist_ids.select(&:present?).map(&:to_i)
-  end
-
-  def amount_assessed_and_state
-    case self.state
-      when 'paid', 'part_paid'
-        if self.assessment.blank?
-          errors[:amount_assessed] << "cannot be zero for claims in state #{self.state}"
-        end
-      when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
-        if self.assessment.present?
-          errors[:amount_assessed] << "must be zero for claims in state #{self.state}"
-        end
     end
   end
 

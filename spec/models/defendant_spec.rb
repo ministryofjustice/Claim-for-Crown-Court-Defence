@@ -6,7 +6,7 @@
 #  first_name                       :string(255)
 #  middle_name                      :string(255)
 #  last_name                        :string(255)
-#  date_of_birth                    :datetime
+#  date_of_birth                    :date
 #  order_for_judicial_apportionment :boolean
 #  claim_id                         :integer
 #  created_at                       :datetime
@@ -32,7 +32,6 @@ RSpec.describe Defendant, type: :model do
       it { should validate_presence_of(:claim) }
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
-      it { should validate_presence_of(:date_of_birth) }
     end
 
     context 'draft claim from api' do
@@ -44,7 +43,6 @@ RSpec.describe Defendant, type: :model do
       it { should validate_presence_of(:claim) }
       it { should validate_presence_of(:first_name) }
       it { should validate_presence_of(:last_name) }
-      it { should validate_presence_of(:date_of_birth) }
     end
   end
 

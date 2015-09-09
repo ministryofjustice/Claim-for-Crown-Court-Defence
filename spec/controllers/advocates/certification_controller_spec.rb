@@ -105,9 +105,9 @@ def valid_certification_params(claim)
       'previous_advocate_notified_court' => '0',
       'fixed_fee_case'                   => '0',
       'certified_by'                     => 'David Cameron',
-      "certification_date(3i)"           => "20", 
-      "certification_date(2i)"           => "08", 
-      "certification_date(1i)"           => "2015"
+      "certification_date_dd"            => "20", 
+      "certification_date_mm"            => "08", 
+      "certification_date_yyyy"          => "2015"
     }
   }
 end

@@ -3,10 +3,10 @@
 # Table name: dates_attended
 #
 #  id                 :integer          not null, primary key
-#  date               :datetime
+#  date               :date
 #  created_at         :datetime
 #  updated_at         :datetime
-#  date_to            :datetime
+#  date_to            :date
 #  uuid               :uuid
 #  attended_item_id   :integer
 #  attended_item_type :string(255)
@@ -18,7 +18,7 @@ RSpec.describe DateAttended, type: :model do
 
   it { should belong_to(:attended_item)     }
 
-  it { should validate_presence_of(:date) }
+  it { should validate_presence_of(:date).with_message('Date cannot be blank') }
 
   describe '#to_s' do
     context 'when date_to present' do

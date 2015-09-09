@@ -52,8 +52,8 @@ Feature: Advocate new claim
 
   Examples:
     | number | fee_type |
-    | 2      |  "basic" |
     | 5      |  "fixed" |
+    | 2      |  "basic" |
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate

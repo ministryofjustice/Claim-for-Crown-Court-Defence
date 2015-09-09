@@ -2,7 +2,7 @@ module API
   module V1
 
     module ApiHelper
-
+      require './app/interfaces/api/custom_validations/date_format.rb'
       # --------------------
       class ApiResponse
         attr_accessor :status, :body
@@ -28,7 +28,12 @@ module API
             @model = object
             build_error_response
           else
-            @body = error_messages.push({ error: object.message })
+            # temp workaround til rails 4.2 upgrade which should fix malformed UUID error and raise ActiveRecord::RecordNotFound
+            if object.inspect.include? 'PG::InvalidTextRepresentation: ERROR:  invalid input syntax for uuid:'
+              @body = error_messages.push({ error: "malformed UUID" })
+            else
+              @body = error_messages.push({ error: object.message })
+            end
             @status = 400
           end
 
@@ -78,7 +83,6 @@ module API
 
        # --------------------
       def self.validate_resource(model_object, api_response, arg_builder_proc)
-
         model_instance = model_object.new(arg_builder_proc.call)
 
         if model_instance.valid?

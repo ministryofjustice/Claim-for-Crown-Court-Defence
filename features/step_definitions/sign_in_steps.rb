@@ -58,18 +58,24 @@ Then(/^I should be redirected to the advocates root url$/) do
 end
 
 Then(/^I should see the advocates correct working primary navigation$/) do
-  step "I should see the advocates Home link and it should work"
+  step "I should see the advocates Your Claims link and it should work"
   step "I should see the advocates New Claim link and it should work"
 end
 
 Then(/^I should see the admin advocates correct working primary navigation$/) do
-  step "I should see the advocates correct working primary navigation"
+  step "I should see the admin advocates All Claims link and it should work"
+  step "I should see the advocates New Claim link and it should work"
   step "I should see the advocates Admin link and it should work"
 end
 
-Then(/^I should see the advocates Home link and it should work$/) do
-  find('#primary-nav').click_link('Home')
-  expect(find('.page-title')).to have_content('Claims')
+Then(/^I should see the advocates Your Claims link and it should work$/) do
+  find('#primary-nav').click_link('Your Claims')
+  expect(find('.page-title')).to have_content('Your Claims')
+end
+
+Then(/^I should see the admin advocates All Claims link and it should work$/) do
+  find('#primary-nav').click_link('All Claims')
+  expect(find('.page-title')).to have_content('All Claims')
 end
 
 Then(/^I should see the advocates New Claim link and it should work$/) do

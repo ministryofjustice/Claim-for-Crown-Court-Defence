@@ -43,16 +43,17 @@ FactoryGirl.define do
   factory :claim do
     court
     scheme      { random_scheme }
-    case_number { Faker::Number.number(10) }
+    case_number { random_case_number }
     advocate
     source { 'web' }
     apply_vat  false
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.creator = claim.advocate
+      populate_required_fields(claim)
     end
 
-    case_type         { CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false) }
+    case_type { FactoryGirl.build  :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
@@ -102,7 +103,8 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| c.submit!; c.allocate!; }
+      after(:create) { |c| 
+        c.submit!; c.allocate!; }
     end
 
     factory :archived_pending_delete_claim do
@@ -149,11 +151,29 @@ FactoryGirl.define do
 
 end
 
+def populate_required_fields(claim)
+  if claim.case_type
+    if claim.case_type.requires_cracked_dates?
+      claim.trial_fixed_notice_at ||= 3.months.ago
+      claim.trial_fixed_at ||= 2.months.ago
+      claim.trial_cracked_at ||= 1.months.ago
+    elsif claim.case_type.requires_trial_dates?
+      claim.first_day_of_trial ||= 10.days.ago
+      claim.trial_concluded_at ||= 9.days.ago
+      claim.estimated_trial_length ||= 1
+      claim.actual_trial_length ||= 2
+    end
+  end
+end
 
 def random_scheme
   Scheme.all.sample || FactoryGirl.create(:older_scheme)
 end
 
+# random capital letter followed by random 8 digits
+def random_case_number
+  ('A'..'Z').to_a.shuffle.first << rand(8**8).to_s.rjust(8,'0')
+end
 
 def set_amount_assessed(claim)
   claim.assessment.update(fees: random_amount, expenses: random_amount)

@@ -13,9 +13,16 @@ describe API::V1::Advocates::Expense do
 
   let!(:claim)                      {  create(:claim, source: 'api').reload }
   let!(:expense_type)               {  create(:expense_type) }
-  let!(:valid_params)       { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
-  let!(:invalid_params)     { {claim_id: claim.uuid } }
-  let(:json_error_response) { "[{\"error\":\"Expense type can't be blank\"},{\"error\":\"Quantity can't be blank\"},{\"error\":\"Quantity is not a number\"},{\"error\":\"Rate can't be blank\"},{\"error\":\"Rate is not a number\"}]" }
+  let!(:valid_params)               { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
+  let!(:invalid_params)             { {claim_id: claim.uuid } }
+  let(:json_error_response)   do
+    [
+      {"error" => "Expense type cannot be blank"},
+      {"error" => "Quantity cannot be blank"},
+      {"error" => "Rate cannot be blank"}
+    ].to_json
+  end
+
 
   context 'sending non-permitted verbs' do
     ALL_EXPENSE_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -51,6 +58,16 @@ describe API::V1::Advocates::Expense do
         expect{ post_to_create_endpoint(valid_params) }.to change { Expense.count }.by(1)
       end
 
+      it "should create a new record using the params provided" do
+        post_to_create_endpoint(valid_params)
+        new_expense = Expense.last
+        expect(new_expense.claim_id).to eq claim.id
+        expect(new_expense.expense_type_id).to eq expense_type.id
+        expect(new_expense.rate).to eq valid_params[:rate]
+        expect(new_expense.quantity).to eq valid_params[:quantity]
+        expect(new_expense.location).to eq valid_params[:location]
+      end
+
     end
 
     context 'when expense params are invalid' do
@@ -78,7 +95,16 @@ describe API::V1::Advocates::Expense do
           valid_params[:claim_id] = SecureRandom.uuid
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+          expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
+        end
+      end
+
+      context "malformed claim UUID" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+          valid_params[:claim_id] = 'any-old-rubbish'
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
         end
       end
 
@@ -109,7 +135,7 @@ describe API::V1::Advocates::Expense do
       valid_params[:claim_id] = SecureRandom.uuid
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+      expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
     end
 
   end

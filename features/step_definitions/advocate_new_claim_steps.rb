@@ -88,17 +88,21 @@ Then(/^the dates attended are also removed$/) do
   expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
-
 When(/^I fill in the certification details and submit/) do
   check 'certification_main_hearing'
   click_on 'Certify and Submit Claim'
 end
 
-
 When(/^I fill in the claim details$/) do
   select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')
-  fill_in 'claim_case_number', with: '123456'
+  fill_in 'claim_case_number', with: 'A12345678'
+  fill_in 'claim_first_day_of_trial_dd', with: 5.days.ago.day.to_s
+  fill_in 'claim_first_day_of_trial_mm', with: 5.days.ago.month.to_s
+  fill_in 'claim_first_day_of_trial_yyyy', with: 5.days.ago.year.to_s
+  fill_in 'claim_trial_concluded_at_dd', with: 2.days.ago.day.to_s
+  fill_in 'claim_trial_concluded_at_mm', with: 2.days.ago.month.to_s
+  fill_in 'claim_trial_concluded_at_yyyy', with: 2.days.ago.year.to_s
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
   first('#claim_offence_id', visible: false).set(murder_offence_id)
   select('QC', from: 'claim_advocate_category')
@@ -107,16 +111,16 @@ When(/^I fill in the claim details$/) do
     fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'
     fill_in 'claim_defendants_attributes_0_last_name', with: 'Bar'
 
-    fill_in 'claim_defendants_attributes_0_date_of_birth_3i', with: '04'
-    fill_in 'claim_defendants_attributes_0_date_of_birth_2i', with: '10'
-    fill_in 'claim_defendants_attributes_0_date_of_birth_1i', with: '1980'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_dd', with: '04'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_mm', with: '10'
+    fill_in 'claim_defendants_attributes_0_date_of_birth_yyyy', with: '1980'
 
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_maat_reference', with: 'aaa1111'
 
-    date = rand(1..10).days.ago
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_3i', with: date.strftime('%d')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_2i', with: date.strftime('%m')
-    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_1i', with: date.strftime('%Y')
+    date = rand(10..20).days.ago
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_dd', with: date.strftime('%d')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_mm', with: date.strftime('%m')
+    fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_yyyy', with: date.strftime('%Y')
 
     choose 'Crown Court'
   end
@@ -167,7 +171,7 @@ end
 Then(/^I should be redirected back to the claim form with error$/) do
   expect(page).to have_content('Claim for Advocate Graduated Fees')
   expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
-  expect(page).to have_content("Advocate can't be blank")
+  expect(page).to have_content("Advocate cannot be blank")
 end
 
 
@@ -268,12 +272,12 @@ Then(/^no claim should be created$/) do
 end
 
 When(/^I change the case number$/) do
-  fill_in 'claim_case_number', with: '543211234'
+  fill_in 'claim_case_number', with: 'A87654321'
 end
 
 Then(/^the case number should reflect the change$/) do
   claim = Claim.first
-  expect(claim.case_number).to eq('543211234')
+  expect(claim.case_number).to eq('A87654321')
 end
 
 When(/^I add a fixed fee$/) do

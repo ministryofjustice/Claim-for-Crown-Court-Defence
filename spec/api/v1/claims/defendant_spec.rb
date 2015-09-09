@@ -13,10 +13,17 @@ describe API::V1::Advocates::Defendant do
 
 # NOTE: need to specify claim.source as api to ensure defendant model validations applied
   let!(:claim)          {  create(:claim, source: 'api').reload }
-  let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+  let!(:valid_params)   { {claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
   let!(:invalid_params) { {claim_id: claim.uuid} }
-  let(:json_error_response) { "[{\"error\":\"First name can't be blank\"},{\"error\":\"Last name can't be blank\"},{\"error\":\"Date of birth can't be blank\"}]" }
-  let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "10 May 1980"} }
+  let(:json_error_response) do
+    [
+      {'error' => "First name cannot be blank"},
+      {'error' => "Last name cannot be blank"},
+      {'error' => "Enter valid date of birth"},
+    ].to_json
+  end
+
+  let!(:invalid_claim_id_params)  { {claim_id: SecureRandom.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
 
   context 'when sending non-permitted verbs' do
     ALL_DEFENDANT_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -51,6 +58,15 @@ describe API::V1::Advocates::Defendant do
         expect{ post_to_create_endpoint(valid_params) }.to change { Defendant.count }.by(1)
       end
 
+      it "should create a new record using the params provided" do
+        post_to_create_endpoint(valid_params)
+        new_defendant = Defendant.last
+        expect(new_defendant.claim_id).to eq claim.id
+        expect(new_defendant.first_name).to eq valid_params[:first_name]
+        expect(new_defendant.last_name).to eq valid_params[:last_name]
+        expect(new_defendant.date_of_birth).to eq valid_params[:date_of_birth].to_date
+      end
+
     end
 
     context "when defendant params are invalid" do
@@ -72,6 +88,16 @@ describe API::V1::Advocates::Defendant do
           expect(json[0]['error']).to include("PG::StringDataRightTruncation: ERROR:  value too long for type character varying(255)")
         end
       end
+
+      context "malformed claim UUID" do
+        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+          valid_params[:claim_id] = 'any-old-rubbish'
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq(400)
+          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
+        end
+      end
+
     end
 
   end
@@ -98,7 +124,15 @@ describe API::V1::Advocates::Defendant do
     it 'invalid claim id should return 400 and a JSON error array' do
       invalid_response = post_to_validate_endpoint(invalid_claim_id_params)
       expect(invalid_response.status).to eq 400
-      expect(invalid_response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+      expect(invalid_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
+    end
+
+    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+      invalid_params = valid_params
+      invalid_params[:date_of_birth] = '10-05-1980'
+      response = post_to_validate_endpoint(invalid_params)
+      expect(response.status).to eq 400
+      expect(response.body).to eq "[{\"error\":\"date_of_birth is not in standard JSON date format (YYYY-MM-DD)\"}]"
     end
 
   end

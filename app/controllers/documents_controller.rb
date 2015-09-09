@@ -33,7 +33,7 @@ class DocumentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: { message: @document.errors.full_messages.join(','), document: @document } }
+        format.json { render json: { message: @document.errors.full_messages.join(', '), document: @document } }
         format.js
       end
     end

@@ -54,15 +54,20 @@ adp.dropzone = {
       removedfile: function(file) {
         var id = $(file.previewTemplate).find('.dz-remove').attr('id');
 
-        $.ajax({
-          type: 'DELETE',
-          url: '/documents/' + id,
-          success : function(data) {
-            // console.log(data.message + ' ' + data.document.id);
-            file.previewElement.remove();
-            adp.dropzone.removeDocumentIdInput(data.document.id);
-          }
-        });
+        if(id) {
+          $.ajax({
+            type: 'DELETE',
+            url: '/documents/' + id,
+            success : function(data) {
+              // console.log(data.message + ' ' + data.document.id);
+              file.previewElement.remove();
+              adp.dropzone.removeDocumentIdInput(data.document.id);
+            }
+          });
+        }
+        else {
+          file.previewElement.remove();
+        }
       }
     });
   },

@@ -113,6 +113,8 @@ GEM
     docile (1.1.5)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
+    dropzonejs-rails (0.7.1)
+      rails (> 3.1)
     equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -437,6 +439,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner (~> 1.4.1)
   devise (~> 3.5.1)
+  dropzonejs-rails (~> 0.7.1)
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   flip (~> 1.0.1)

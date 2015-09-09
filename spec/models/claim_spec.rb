@@ -159,7 +159,6 @@ RSpec.describe Claim, type: :model do
   it { should accept_nested_attributes_for(:misc_fees) }
   it { should accept_nested_attributes_for(:expenses) }
   it { should accept_nested_attributes_for(:defendants) }
-  it { should accept_nested_attributes_for(:documents) }
 
   subject { create(:claim) }
 

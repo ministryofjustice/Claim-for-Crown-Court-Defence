@@ -108,7 +108,7 @@ en:
             first_name:
               blank: First name cannot be blank
             last_name:
-              blank: Last name cannot be blank 
+              blank: Last name cannot be blank
             date_of_birth:
               blank: Enter valid date of birth
             claim:
@@ -211,16 +211,6 @@ en:
         order_for_judicial_apportionment: 'Order for judicial apportionment'
         add_another_rep_order: 'Add Another Representation Order'
         remove_defendant: 'Remove defendant'
-      document_fields:
-        document_type: 'Document type'
-        document: 'Document'
-        file_exists: 'File already uploaded:'
-        view: *view
-        download: 'Download'
-        remove: 'Remove document'
-      document_type_fields:
-        description: 'Description'
-        provided: 'Provided'
       offence_select:
         offence_class: 'Offence class'
         select_offence_class: ' -- Select offence class -- '
@@ -277,6 +267,7 @@ en:
         vat_required: 'VAT on Fees & Expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
         supporting_evidence_docs: 'Supporting evidence documents'
+        previously_uploaded_docs: 'Previously uploaded documents'
         add_another_doc: 'Add Another Document'
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'

@@ -31,6 +31,7 @@ Feature: Claim document upload
      Then the attached files should not be visible
       And no documents should have been created
 
+  @wip
   Scenario: Attach valid files then remove
     Given I am on the new claim page and have attached valid documents
      When I remove a file

@@ -55,7 +55,7 @@ class BaseClaimValidator < ActiveModel::Validator
 
   def validate_not_before(date, attribute, message)
     return if @record.send(attribute).nil? || date.nil?
-    add_error(attribute, message) if @record.send(attribute) < date
+    add_error(attribute, message) if @record.send(attribute) < date.to_date
   end
 
 end

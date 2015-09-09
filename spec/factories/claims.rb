@@ -63,6 +63,7 @@ FactoryGirl.define do
       create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
       claim.scheme.start_date = Date.parse('31/12/2011')
       claim.scheme.end_date = nil
+      claim.reload
     end
 
     trait :admin_creator do
@@ -144,11 +145,31 @@ FactoryGirl.define do
     end
 
     factory :submitted_claim do
-      after(:create) { |c| c.submit! }
+      after(:create) { |c| publicise_errors(c) { c.submit! } }
     end
 
   end
 
+end
+
+def publicise_errors(claim, &block)
+  begin
+    block.call
+  rescue => err
+    puts ">>>>>>>>>>>>>>>> DEBUG validation errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+    ap claim
+    puts claim.errors._full_messages
+    claim.defendants.each do |d|
+      ap d
+      puts d.errors._full_messages
+      d.representation_orders.each do |r|
+        ap r
+        puts ">>> rep order"
+        puts r.errors._full_messages
+      end
+    end
+    raise err
+  end
 end
 
 def populate_required_fields(claim)

@@ -171,7 +171,6 @@ Then(/^I should be redirected to the claim certification page$/) do
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
-  save_and_open_page
   expect(page).to have_content('Claim for Advocate Graduated Fees')
   expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
   expect(page).to have_content("Advocate cannot be blank")

@@ -19,7 +19,7 @@ class Fee < ActiveRecord::Base
   belongs_to :claim
   belongs_to :fee_type
 
-  has_many :dates_attended, as: :attended_item, dependent: :destroy
+  has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
   default_scope { includes(:fee_type) }
 
@@ -28,7 +28,11 @@ class Fee < ActiveRecord::Base
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :basic_fee_quantity
 
+  validates_associated :dates_attended
+
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
+
+
 
   before_validation do
     self.quantity = 0 if self.quantity.blank?
@@ -43,6 +47,10 @@ class Fee < ActiveRecord::Base
   after_destroy do
     claim.update_fees_total
     claim.update_total
+  end
+
+  def perform_validation?
+    claim && claim.perform_validation?
   end
 
   def self.new_blank(claim, fee_type)

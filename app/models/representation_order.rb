@@ -25,6 +25,8 @@ class RepresentationOrder < ActiveRecord::Base
 
   acts_as_gov_uk_date :representation_order_date
 
+  default_scope { order('id ASC') }
+
   belongs_to :defendant
 
   def claim

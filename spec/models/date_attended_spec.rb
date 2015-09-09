@@ -18,8 +18,6 @@ RSpec.describe DateAttended, type: :model do
 
   it { should belong_to(:attended_item)     }
 
-  it { should validate_presence_of(:date).with_message('Date cannot be blank') }
-
   describe '#to_s' do
     context 'when date_to present' do
       subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: Date.parse('5/1/2015')) }

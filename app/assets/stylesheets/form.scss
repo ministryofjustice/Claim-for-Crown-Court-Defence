@@ -89,3 +89,9 @@ form {
 .field_with_errors{
   display:inline;
 }
+
+#summary input[type="file"]{
+  padding: 0;
+  border : 0;
+  color: $black;
+}

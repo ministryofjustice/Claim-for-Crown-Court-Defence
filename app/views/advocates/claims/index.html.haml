@@ -1,14 +1,12 @@
-%h1.page-title
-  - if current_user.persona.admin?
-    = "All Claims"
-  - else
-    = "Your Claims"
-
-.hide-for-now{style: 'display: none;'}
-  = form_tag({controller: 'advocates/json_document_importer', action: 'create'}, method: 'post', multipart: true) do
-    = label_tag 'Import from file'
-    = file_field_tag :json_file
-    = submit_tag('Import')
+.grid-row
+  .column-three-quarter
+    %h1.page-title
+      - if current_user.persona.admin?
+        = "All Claims"
+      - else
+        = "Your Claims"
+  .columm-quarter
+    = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started right'
 
 #summary
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }

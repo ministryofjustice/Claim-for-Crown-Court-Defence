@@ -67,7 +67,7 @@ describe API::V1::Advocates::RepresentationOrder do
           valid_params.delete(:granting_body)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Granting body can't be blank\"},{\"error\":\"Granting body is not included in the list\"}]"
+          expect(response.body).to eq [ 'error' => 'Select the granting body' ].to_json
         end
       end
 
@@ -120,7 +120,7 @@ describe API::V1::Advocates::RepresentationOrder do
       valid_params.delete(:representation_order_date)
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Representation order date can't be blank\"}]"
+      expect(response.body).to eq "[{\"error\":\"Please enter a valid representation order date\"}]"
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do

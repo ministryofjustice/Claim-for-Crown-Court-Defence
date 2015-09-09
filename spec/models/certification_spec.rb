@@ -42,13 +42,13 @@ RSpec.describe Certification, type: :model do
     it 'should be invalid if certified by is emtpy' do
       cert.certified_by = ''
       expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ["Certified by can't be blank"] )
+      expect(cert.errors.full_messages).to eq( ["Certified by cannot be blank"] )
     end
 
     it 'should be invalid if certification date is nil' do
       cert.certification_date = nil
       expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ["Certification date can't be blank"] )
+      expect(cert.errors.full_messages).to eq( ["Certification date cannot be blank"] )
     end
   end
 

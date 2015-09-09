@@ -15,7 +15,7 @@ Feature: Unhappy paths
     When I save to drafts
     Then I should be redirected back to the create claim page
     And The entered values should be preserved on the page
-    And I should see the error message "Advocate can't be blank"
+    And I should see the error message "Advocate cannot be blank"
 
   Scenario: Attempt to submit claim to LAA without specifying all fields
     Given I am a signed in advocate

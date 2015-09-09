@@ -10,6 +10,7 @@ describe Ability do
     it { should_not be_able_to(:download_attachment, Message.new) }
     it { should_not be_able_to(:index, UserMessageStatus) }
     it { should_not be_able_to(:update, UserMessageStatus.new) }
+    it { should_not be_able_to(:create, Document.new) }
   end
 
   context 'when a signed in user' do
@@ -49,12 +50,28 @@ describe Ability do
       end
     end
 
+    context 'can index and create documents' do
+      [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(advocate: advocate)) }
+      end
+    end
+
+    context 'can destroy own documents' do
+      it { should be_able_to(:destroy, Document.new(advocate: advocate)) }
+    end
+
     context 'cannot view/download another advocate\'s documents' do
       let(:other_advocate) { create(:advocate) }
 
       [:show, :download].each do |action|
         it { should_not be_able_to(action, Document.new(advocate: other_advocate)) }
       end
+    end
+
+    context 'cannot destroy another\'s documents' do
+      let(:other_advocate) { create(:advocate) }
+
+      it { should_not be_able_to(:destroy, Document.new(advocate: other_advocate)) }
     end
 
     context 'cannot manage advocates' do
@@ -101,6 +118,16 @@ describe Ability do
       end
     end
 
+    context 'can index and create documents' do
+      [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(advocate: advocate)) }
+      end
+    end
+
+    context 'can destroy own documents' do
+      it { should be_able_to(:destroy, Document.new(advocate: advocate)) }
+    end
+
     context 'can view/download documents by an advocate in the same chamber' do
       let(:other_advocate) { create(:advocate, chamber: chamber) }
 
@@ -115,6 +142,12 @@ describe Ability do
       [:show, :download].each do |action|
         it { should_not be_able_to(action, Document.new(advocate: other_advocate)) }
       end
+    end
+
+    context 'cannot destroy another\'s documents' do
+      let(:other_advocate) { create(:advocate) }
+
+      it { should_not be_able_to(:destroy, Document.new(advocate: other_advocate)) }
     end
 
     context 'can manage advocates in their chamber' do

@@ -1,6 +1,4 @@
 class BaseClaimValidator < ActiveModel::Validator
-
-
   def validate(record)
     @record = record
     if @record.perform_validation?
@@ -58,7 +56,6 @@ class BaseClaimValidator < ActiveModel::Validator
     case_types.include?(@record.case_type.name) rescue false
   end
 
-  # throws an error if record.attribute > date
   def validate_not_after(date, attribute, message)
     return if attr_nil?(attribute) || date.nil?
     add_error(attribute, message) if @record.__send__(attribute) > date.to_date
@@ -68,5 +65,4 @@ class BaseClaimValidator < ActiveModel::Validator
     return if attr_nil?(attribute)|| date.nil?
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
   end
-
 end

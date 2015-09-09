@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904144306) do
+ActiveRecord::Schema.define(version: 20150909102159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,10 +205,13 @@ ActiveRecord::Schema.define(version: 20150904144306) do
     t.integer  "converted_preview_document_file_size"
     t.datetime "converted_preview_document_updated_at"
     t.uuid     "uuid",                                    default: "uuid_generate_v4()"
+    t.string   "form_id"
+    t.integer  "creator_id"
   end
 
   add_index "documents", ["advocate_id"], name: "index_documents_on_advocate_id", using: :btree
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
+  add_index "documents", ["creator_id"], name: "index_documents_on_creator_id", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
 
   create_table "expense_types", force: true do |t|

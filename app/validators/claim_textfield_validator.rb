@@ -1,6 +1,6 @@
 class ClaimTextfieldValidator < BaseClaimValidator
 
-  @@claim_textfield_validator_fields = [
+  @@fields = [
     :case_type,
     :court,
     :case_number,
@@ -10,7 +10,32 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :actual_trial_length
   ]
 
+  @@mandatory_fields = [
+    :advocate,
+    :creator,
+    :amount_assessed,
+    :evidence_checklist_ids
+  ]
+
+  def self.fields
+    @@fields
+  end
+
+  def self.mandatory_fields
+    @@mandatory_fields
+  end
+
   private
+
+  # ALWAYS required/mandatory
+  def validate_advocate
+    validate_presence(:advocate, "Advocate cannot be blank, you must provide an advocate")
+  end
+
+  # ALWAYS required/mandatory
+  def validate_creator
+    validate_presence(:creator, "Creator cannot be blank, you must provide an creator")
+  end
 
   # required/mandatory
   def validate_case_type
@@ -54,6 +79,37 @@ def validate_actual_trial_length
   validate_presence(:actual_trial_length, "Actual trial length cannot be blank, you must enter an actual trial length") if trial_dates_required?
   validate_numericality(:actual_trial_length, 0, nil, "Actual trial length must be a whole number (0 or above)") unless @record.actual_trial_length.nil?
 end
+
+def validate_amount_assessed
+  case @record.state
+    when 'paid', 'part_paid'
+      add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state}") if @record.assessment.blank?
+    when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+      add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state}") if @record.assessment.present?
+  end
+end
+
+def validate_evidence_checklist_ids
+  raise ActiveRecord::SerializationTypeMismatch.new("Attribute was supposed to be a Array, but was a #{@record.evidence_checklist_ids.class}.") unless @record.evidence_checklist_ids.is_a?(Array)
+
+  # prevent non-numeric array elements
+  # NOTE: non-numeric strings/chars will yield a value of 0 and this is checked for to add an error
+  @record.evidence_checklist_ids = @record.evidence_checklist_ids.select(&:present?).map(&:to_i)
+  if @record.evidence_checklist_ids.include?(0)
+    add_error(:evidence_checklist_ids, "Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids")
+    return
+  end
+
+  # prevent array elements that do no represent a doctype
+  valid_doctype_ids = DocType.all.map(&:id)
+  @record.evidence_checklist_ids.each do |id|
+    unless valid_doctype_ids.include?(id)
+      add_error(:evidence_checklist_ids, "Evidence checklist id #{id} is invalid, please use valid evidence checklist ids")
+    end
+  end
+
+end
+
 
 # local helpers
 # ---------------------------

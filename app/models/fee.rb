@@ -23,7 +23,7 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
-  validates :fee_type, presence: true
+  validates :fee_type, presence: { message: 'Fee type cannot be blank' }
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :basic_fee_quantity

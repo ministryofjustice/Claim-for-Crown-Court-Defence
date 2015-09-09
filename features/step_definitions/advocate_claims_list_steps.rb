@@ -112,7 +112,11 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 
   expect(claim_dom_ids.size).to eq(number.to_i)
 
-  expect(page).to have_content(state.humanize, count: number.to_i)
+  within('.claims_table') do
+    #look through the tbody part of the report
+    expect(find(:xpath, './tbody')).to have_content(state.humanize, count: number.to_i)
+  end
+
   expect(page).to have_selector(".#{state}", count: number.to_i)
 
   claim_dom_ids.each do |dom_id|

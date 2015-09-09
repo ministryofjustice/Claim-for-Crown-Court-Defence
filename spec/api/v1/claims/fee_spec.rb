@@ -15,7 +15,7 @@ describe API::V1::Advocates::Fee do
   let!(:claim)              { create(:claim, source: 'api').reload }
   let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.09 } }
   let!(:invalid_params)     { {claim_id: claim.uuid } }
-  let(:json_error_response)  { "[{\"error\":\"Fee type can't be blank\"}]" }
+  let(:json_error_response) { [ {"error" => "Fee type cannot be blank" } ].to_json }
 
   context 'sending non-permitted verbs' do
     ALL_FEE_ENDPOINTS.each do |endpoint| # for each endpoint

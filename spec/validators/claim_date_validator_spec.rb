@@ -21,7 +21,7 @@ describe ClaimDateValidator do
     context 'cracked_trial_claim' do
       it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'Please enter valid date notice of first fixed/warned issued') }
       it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be earlier than the first representation order date') }
     end
 
@@ -39,7 +39,7 @@ describe ClaimDateValidator do
     context 'cracked_before_retrial claim' do
       it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Please enter valid date notice of first fixed/warned issued') }
       it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be earlier than the first representation order date') }
     end
   end
@@ -48,7 +48,7 @@ describe ClaimDateValidator do
     context 'cracked trial claim' do
       it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'Please enter valid date first fixed/warned') }
       it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be earlier than the first representation order date') }
       it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'Date first fixed/warned may not be earlier than the date notice of first fixed/warned issued') }
     end
@@ -56,7 +56,7 @@ describe ClaimDateValidator do
     context 'cracked before retrial' do
       it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'Please enter valid date first fixed/warned') }
       it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be earlier than the first representation order date') }
       it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'Date first fixed/warned may not be earlier than the date notice of first fixed/warned issued') }
     end
@@ -66,7 +66,7 @@ describe ClaimDateValidator do
     context 'cracked trial' do
       it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'Please enter valid date when case cracked') }
       it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be earlier than the first representation order date') }
       it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Date case cracked may not be earlier than the date notice of first fixed/warned issued') }
     end
@@ -74,7 +74,7 @@ describe ClaimDateValidator do
     context 'cracked before retrial' do
       it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'Please enter valid date when case cracked') }
       it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be older than 5 years') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be more than 5 years ago') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be earlier than the first representation order date') }
       it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Date case cracked may not be earlier than the date notice of first fixed/warned issued') }
     end

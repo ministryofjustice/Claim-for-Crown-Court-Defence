@@ -8,14 +8,17 @@
       }
       &.rejected{
         background-color: #FAEBEC;
-        border-left: 5px solid #DF3034;
+        td:first-child{
+          border-left: 5px solid #DF3034;
+        }
       }
     }
 
-  /*  th,td{
-      border-left: 1px solid #979797;
-      border-right: 1px solid #979797;
-    }*/
+    th,td{
+      border-left: 1px solid $border-colour;
+      border-right: 1px solid $border-colour;
+      padding-left: $gutter-half;
+    }
     th{
       @include bold-16();
       text-align: left;
@@ -25,18 +28,17 @@
     .currency{
       text-align: right;
     }
-    .message{
-      @include bold-16();
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      line-height: 25px;
-      text-align: center;
-      color: $page-colour;
-      background-color: $grey-1;
-      &.new{
-        background: $turquoise;
+    .messages{
+      .none{
+        color: $border-colour;
       }
+      .new-message{
+        width: 26px;
+        height: 26px;
+        margin-left: 5px;
+      }
+       > *{
+       vertical-align: middle;
+     }
     }
 }

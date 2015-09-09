@@ -72,7 +72,7 @@ en:
         advocate:
           attributes:
             role:
-              blank: *blank
+              blank: Role cannot be blank
               inclusion: *inclusion
             supplier_number:
               blank: *blank
@@ -90,27 +90,29 @@ en:
         claim:
           attributes:
             advocate:
-              blank: *blank
+              blank: Advocate cannot be blank
             offence:
-              blank: *blank
+              blank: Offence cannot be blank
             court:
-              blank: *blank
+              blank: Court cannot be blank
             case_number:
-              blank: *blank
+              blank: Case number cannot be blank
             case_type:
-              blank: *blank
+              blank: Case type cannot be blank
               inclusion: *inclusion
             advocate_category:
-              blank: *blank
+              blank: Advocate category cannot be blank
               inclusion: *inclusion
         defendant:
           attributes:
             first_name:
-              blank: *blank
+              blank: First name cannot be blank
             last_name:
-              blank: *blank
+              blank: Last name cannot be blank 
             date_of_birth:
-              blank: *blank
+              blank: Enter valid date of birth
+            claim:
+              blank: Claim cannot be blank
             representation_orders:
               blank: ' - there must be at least one representation order per defendant'
 
@@ -175,10 +177,10 @@ en:
         messages: 'Messages'
         defendants: 'Defendants'
         cms_number: 'Case Number'
-        submission_date: 'Submission date'
+        submission_date: 'Submitted date'
         paid_date: 'Paid date'
-        total: 'Total'
-        status: 'Status'
+        total: 'Claim Total'
+        status: 'Claim Status'
         amount_assessed: 'Amount assessed'
         view: *view
         edit: *edit

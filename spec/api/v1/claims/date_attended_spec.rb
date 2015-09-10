@@ -11,7 +11,7 @@ describe API::V1::Advocates::DateAttended do
   ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:fee)                { create(:fee, id: 1) }
+  let!(:fee)                { create(:fee, :from_api, id: 1) }
   let!(:valid_params)       { {attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
 
   context 'when sending non-permitted verbs' do
@@ -32,7 +32,6 @@ describe API::V1::Advocates::DateAttended do
     def post_to_create_endpoint(params)
       post CREATE_DATE_ATTENDED_ENDPOINT, params, format: :json
     end
-
 
     context 'when date_attended params are valid' do
 
@@ -67,7 +66,7 @@ describe API::V1::Advocates::DateAttended do
           valid_params.delete(:date)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Date cannot be blank\"}]"
+          expect(response.body).to eq "[{\"error\":\"Date attended cannot be blank\"}]"
         end
       end
 
@@ -119,7 +118,7 @@ describe API::V1::Advocates::DateAttended do
       valid_params.delete(:date)
       response = post_to_validate_endpoint(valid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Date cannot be blank\"}]"
+      expect(response.body).to eq "[{\"error\":\"Date attended cannot be blank\"}]"
     end
 
     it 'invalid attended item id should return 400 and a JSON error array' do

@@ -1,4 +1,4 @@
-@javascript
+@javascript @webmock_allow_localhost_connect
 
 Feature: Claim document upload
   Background:

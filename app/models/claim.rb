@@ -105,6 +105,8 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimDateValidator
   validates_with ::ClaimTextfieldValidator
 
+  validates_associated :defendants, :fees, :expenses
+
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true

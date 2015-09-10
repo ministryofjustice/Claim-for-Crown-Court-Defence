@@ -16,11 +16,21 @@ class DateAttended < ActiveRecord::Base
 
   belongs_to :attended_item, polymorphic: true
   
-  validates :date, presence: {message: "Date cannot be blank"}
+  validates_with DateAttendedValidator
 
   acts_as_gov_uk_date :date, :date_to
 
+
+  def claim
+    self.attended_item.try(:claim)
+  end
+
+  def perform_validation?
+    claim.try(:perform_validation?)
+  end
+
   def to_s
+    return '' if date.nil?
     unless date_to.nil?
       "#{date.strftime(Settings.date_format)} - #{date_to.strftime(Settings.date_format)}"
     else

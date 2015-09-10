@@ -63,7 +63,6 @@ module API
 
       # --------------------
       def self.create_resource(model_object, params, api_response, arg_builder_proc)
-
         model_instance = validate_resource(model_object, api_response, arg_builder_proc)
 
         if api_response.success?(200)

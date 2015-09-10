@@ -180,8 +180,8 @@ def populate_required_fields(claim)
       claim.trial_cracked_at ||= 1.months.ago
       claim.trial_cracked_at_third ||= 'final_third'
     elsif claim.case_type.requires_trial_dates?
-      claim.first_day_of_trial ||= 10.days.ago
-      claim.trial_concluded_at ||= 9.days.ago
+      claim.first_day_of_trial ||= 28.days.ago
+      claim.trial_concluded_at ||= 18.days.ago
       claim.estimated_trial_length ||= 1
       claim.actual_trial_length ||= 2
     end

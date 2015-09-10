@@ -55,8 +55,8 @@ Given(/^I am creating a new claim$/) do
 end
 
 # NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
-When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type |
-  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'basic-fees'
+When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type|
+  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
 
   number.to_i.times do
   within "##{div_id}" do
@@ -78,14 +78,24 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
   end
 end
 
-When(/^I remove the fee$/) do
-  within('#fixed-fees') do
+Given(/^I am creating a "(.*?)" claim$/) do |case_type|
+  select case_type, from: 's2id_claim_case_type_id'
+end
+
+Given(/^I save and open the page$/) do
+  save_and_open_page
+end
+
+When(/^I remove the "(.*?)" fee$/) do |fee_type|
+  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
+  within "##{div_id}" do
     page.all('a', text: "Remove").first.click
   end
 end
 
-Then(/^the dates attended are also removed$/) do
-  expect(within('#fixed-fees') { page.all('tr.extra-data.nested-fields') }.count).to eq 0
+Then(/^the dates attended are also removed from "(.*?)"$/) do |fee_type|
+  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
+  expect(within("##{div_id}") { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
 When(/^I fill in the certification details and submit/) do
@@ -217,6 +227,10 @@ Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
     else
       create(:claim, advocate_id: Advocate.first.id)
   end
+end
+
+Given(/^it has a case type of "(.*?)"$/) do |case_type|
+  Claim.first.case_type = CaseType.find_by(name: case_type)
 end
 
 Then(/^the claim should be in state "(.*?)"$/) do |claim_state|

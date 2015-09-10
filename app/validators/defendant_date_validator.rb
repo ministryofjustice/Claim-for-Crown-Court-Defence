@@ -1,6 +1,10 @@
 class DefendantDateValidator < BaseClaimValidator
 
-  @@defendant_date_validator_fields = [ :date_of_birth ]
+  @@fields = [ :date_of_birth ]
+
+  def self.fields
+    @@fields
+  end
 
   private
 

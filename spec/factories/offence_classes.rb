@@ -11,7 +11,12 @@
 
 FactoryGirl.define do
   factory :offence_class do
-    sequence(:class_letter) { ('A'..'K').to_a.sample(1).join }
+    sequence(:class_letter)     { |n| letter_hash[n % 11] }
     description { Faker::Lorem.sentence }
   end
+end
+
+
+def letter_hash
+  %w{ A B C D E F G H I J K}
 end

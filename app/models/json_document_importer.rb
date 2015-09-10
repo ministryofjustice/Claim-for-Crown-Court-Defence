@@ -30,6 +30,10 @@ class JsonDocumentImporter
     end
   end
 
+  def no_errors?
+    @errors.blank? || @errors.values.uniq == [nil]
+  end
+
   def import!
     data.each_with_index do |claim_hash, index|
       begin
@@ -40,7 +44,7 @@ class JsonDocumentImporter
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
       rescue => e
         @errors[index] = e
-        claim = Claim.where(uuid: @claim_id).first # if an exception is raised the claim is destroyed along with all it's dependent objects
+        claim = Claim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all it's dependent objects
         claim.destroy if claim.present?
       end
     end

@@ -25,7 +25,6 @@ RSpec.describe Document, type: :model do
   it { should belong_to(:advocate) }
   it { should belong_to(:claim) }
   it { should delegate_method(:chamber_id).to(:advocate) }
-  it { should validate_presence_of(:advocate_id) }
 
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }

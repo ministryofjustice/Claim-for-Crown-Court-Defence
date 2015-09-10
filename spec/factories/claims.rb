@@ -178,6 +178,7 @@ def populate_required_fields(claim)
       claim.trial_fixed_notice_at ||= 3.months.ago
       claim.trial_fixed_at ||= 2.months.ago
       claim.trial_cracked_at ||= 1.months.ago
+      claim.trial_cracked_at_third ||= 'final_third'
     elsif claim.case_type.requires_trial_dates?
       claim.first_day_of_trial ||= 10.days.ago
       claim.trial_concluded_at ||= 9.days.ago

@@ -144,8 +144,6 @@ When(/^I fill in the claim details$/) do
     checkbox_id = element[:for]
     check checkbox_id
   end
-
-  attach_file(:claim_documents_attributes_0_document, 'features/examples/longer_lorem.pdf')
 end
 
 When(/^I make the claim invalid$/) do

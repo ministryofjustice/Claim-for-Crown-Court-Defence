@@ -1,10 +1,13 @@
 class DateAttendedValidator < BaseClaimValidator
 
-  @@date_attended_validator_fields = [ :date, :date_to ]
+  @@fields = [  :date, :date_to ]
+
+  def self.fields
+    @@fields
+  end
 
 
   private
-
 
   # must be present
   # must not be in the future

@@ -6,12 +6,12 @@ describe JsonDocumentImporter do
   let(:importer)                { JsonDocumentImporter.new('./spec/examples/cms_exported_claim.json', schema) }
   let(:invalid_importer)        { JsonDocumentImporter.new('./spec/examples/invalid_cms_exported_claim.json', schema) }
   let(:multiple_claim_importer) { JsonDocumentImporter.new('./spec/examples/multiple_cms_exported_claims.json', schema) }
-  let(:claim_params)            { {"advocate_email"=>"advocate@example.com", "case_number"=>"12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015/06/01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015/06/02", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
-  let(:defendant_params)        { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979/12/10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:rep_order_params)        { {"granting_body"=>"Crown Court", "maat_reference"=>"12345678-3", "representation_order_date"=>"2015/05/01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:claim_params)            { {"advocate_email"=>"advocate@example.com", "case_number"=>"A12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015-06-01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015-06-01", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
+  let(:defendant_params)        { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979-12-10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:rep_order_params)        { {"granting_body"=>"Crown Court", "maat_reference"=>"12345678-3", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
   let(:fee_params)              { {"fee_type_id"=>1, "quantity"=>1, "amount"=>1.1, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
   let(:expense_params)          { {"expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London", "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:date_attended_params)    { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015/06/01", "date_to"=>"2015/06/01", "attended_item_id"=>"1234"} }
+  let(:date_attended_params)    { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015-06-01", "date_to"=>"2015-06-01", "attended_item_id"=>"1234"} }
 
   context 'parses a json document and' do
 
@@ -31,7 +31,7 @@ describe JsonDocumentImporter do
 
     context 'each claim is processed as an atomic transaction' do
       # TODO: 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
-      xit 'and errors are stored' do
+      it 'and errors are stored' do
         expect(invalid_importer.errors.blank?).to be true
         invalid_importer.import!
         expect(invalid_importer.errors.blank?).to be false
@@ -48,14 +48,25 @@ describe JsonDocumentImporter do
 
     context 'iterates through multiple claim hashes' do
 
+      before(:each) {
+        allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return({"id"=>"a5c1188d-45bd-4dfd-8e72-0d04821bb30e"}.to_json)
+        allow(JsonDocumentImporter::DEFENDANT_CREATION).to receive(:post).and_return({"id"=>"2be0f4b7-c095-4656-b27c-2abea40854e5"}.to_json)
+        allow(JsonDocumentImporter::REPRESENTATION_ORDER_CREATION).to receive(:post)
+        allow(JsonDocumentImporter::FEE_CREATION).to receive(:post).and_return({"id"=> "4e61e321-9c23-4d13-bd67-9efe51941de9"}.to_json)
+        allow(JsonDocumentImporter::EXPENSE_CREATION).to receive(:post).and_return({"id"=> "690279ee-f9ad-4e0d-93d9-e37ad302f583"}.to_json)
+        allow(JsonDocumentImporter::DATE_ATTENDED_CREATION).to receive(:post)
+      }
+
       it 'to validate' do
         expect(JSON::Validator).to receive(:fully_validate).exactly(2).times
         multiple_claim_importer.validate!
+        expect(multiple_claim_importer.no_errors?).to be true
       end
 
       it 'to create claims' do
         expect(multiple_claim_importer).to receive(:create_claim).exactly(2).times
         multiple_claim_importer.import!
+        expect(multiple_claim_importer.no_errors?).to be true
       end
 
     end

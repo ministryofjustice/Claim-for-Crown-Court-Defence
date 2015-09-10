@@ -5,7 +5,7 @@ Feature: Trial detail visibility by case type
 
     Given case types are seeded
 
-  @javascript @vcr
+  @javascript @webmock_allow_localhost_connect
   Scenario Outline: Case types for which trial details should or should not be visible on a new claim
     Given I am a signed in advocate
       And I am on the new claim page
@@ -28,7 +28,7 @@ Feature: Trial detail visibility by case type
     | Retrial                     | should     |
     | Trial                       | should     |
 
-  @javascript @vcr
+  @javascript @webmock_allow_localhost_connect
   Scenario Outline: Case types for which trial details should or should not be visible on an existing claim
     Given I am a signed in advocate
       And I am on the edit page for a draft claim of case type "<case_type>"

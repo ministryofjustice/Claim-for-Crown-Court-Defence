@@ -6,7 +6,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_doctypes, only: [:show]
-  before_action :set_context, only: [:index, :outstanding, :authorised ]
+  before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
@@ -25,6 +25,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def authorised
     @claims = @financial_summary.authorised_claims
     @total_value = @financial_summary.total_authorised_claim_value
+  end
+
+  def archived
+    @claims = @context.claims.archived_pending_delete
   end
 
   def show

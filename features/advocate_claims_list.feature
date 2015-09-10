@@ -60,7 +60,6 @@ Feature: Advocate claims list
         | "Fred Joex Bloggs" | 1       |
         | "Joex Fred Bloggs" | 1       |
 
-
   Scenario: No search by advocate name for non-admin
     Given I am a signed in advocate
       And There are fee schemes in place

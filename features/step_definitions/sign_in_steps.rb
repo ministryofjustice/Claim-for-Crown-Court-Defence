@@ -59,11 +59,13 @@ end
 
 Then(/^I should see the advocates correct working primary navigation$/) do
   step "I should see the advocates Your Claims link and it should work"
+  step "I should see the advocates Archive link and it should work"
   step "I should see the advocates New Claim link and it should work"
 end
 
 Then(/^I should see the admin advocates correct working primary navigation$/) do
   step "I should see the admin advocates All Claims link and it should work"
+  step "I should see the advocates Archive link and it should work"
   step "I should see the advocates New Claim link and it should work"
   step "I should see the advocates Admin link and it should work"
 end
@@ -76,6 +78,11 @@ end
 Then(/^I should see the admin advocates All Claims link and it should work$/) do
   find('#primary-nav').click_link('All Claims')
   expect(find('.page-title')).to have_content('All Claims')
+end
+
+Then(/^I should see the advocates Archive link and it should work$/) do
+  find('#primary-nav').click_link('Archive')
+  expect(find('h1')).to have_content('Archived Claims')
 end
 
 Then(/^I should see the advocates New Claim link and it should work$/) do

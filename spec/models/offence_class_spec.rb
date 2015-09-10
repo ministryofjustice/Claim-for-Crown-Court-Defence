@@ -15,7 +15,7 @@ RSpec.describe OffenceClass, type: :model do
   it { should have_many(:offences) }
 
   it { should validate_presence_of(:class_letter) }
-  it { should validate_uniqueness_of(:class_letter) }
+  it { should validate_uniqueness_of(:class_letter).with_message('Offence class letter must be unique') }
   it { should validate_inclusion_of(:class_letter).in_array(('A'..'K').to_a) }
   it { should validate_presence_of(:description) }
 

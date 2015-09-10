@@ -16,8 +16,8 @@ FactoryGirl.define do
 
   factory :date_attended do
     attended_item { create(:fee) }
-    date    { Date.today - rand(0..10).days }
-    date_to { rand(2) == 1 ? date + rand(1..3).days : nil }
+    date    { 12.days.ago }
+    date_to { rand(2) == 1 ? 10.days.ago : nil }
   end
 
 end

@@ -47,6 +47,10 @@ FactoryGirl.define do
       amount 0
     end
 
+    trait :from_api do
+      claim         { FactoryGirl.create :claim, source: 'api' }
+    end
+
   end
 
 end

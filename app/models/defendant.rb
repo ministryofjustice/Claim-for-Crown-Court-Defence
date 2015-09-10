@@ -27,6 +27,8 @@ class Defendant < ActiveRecord::Base
 
   validates_with DefendantDateValidator
 
+  validates_associated :representation_orders
+
   acts_as_gov_uk_date :date_of_birth
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true

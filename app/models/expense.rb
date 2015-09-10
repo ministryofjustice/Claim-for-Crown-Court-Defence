@@ -21,12 +21,16 @@ class Expense < ActiveRecord::Base
   belongs_to :expense_type
   belongs_to :claim
 
-  has_many :dates_attended, as: :attended_item, dependent: :destroy
+  has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
+
 
   validates :expense_type, presence: { message: 'Expense type cannot be blank' }
   validates :claim, presence: { message: "Claim cannot be blank" }
-  validates :quantity, presence: {message: "Quantity cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
-  validates :rate, presence: {message: "Rate cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :quantity, presence: { message: "Quantity cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :rate, presence: { message: "Rate cannot be blank"}, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+
+  validates_associated :dates_attended
+
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
@@ -42,5 +46,9 @@ class Expense < ActiveRecord::Base
   after_destroy do
     claim.update_expenses_total
     claim.update_total
+  end
+
+   def perform_validation?
+    claim && claim.perform_validation?
   end
 end

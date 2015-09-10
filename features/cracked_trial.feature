@@ -6,7 +6,7 @@ Feature: Cracked trial
     Given a case type of "Cracked Trial" exists
       And a case type of "Contempt" exists
 
-  @javascript @vcr
+  @javascript
   Scenario: Cracked trial conditional fields
     Given I am a signed in advocate
       And I am on the new claim page

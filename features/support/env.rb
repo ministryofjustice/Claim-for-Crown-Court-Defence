@@ -78,19 +78,6 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-Around('@webmock_allow_net_connect') do |scenario, block|
-  WebMock.allow_net_connect!
-  block.call
-end
-
-require 'vcr'
-
-VCR.configure do |c|
-  c.cassette_library_dir = 'features/cassettes'
-  c.hook_into :webmock
-  c.allow_http_connections_when_no_cassette = true
-end
-
-VCR.cucumber_tags do |t|
-  t.tag '@vcr', use_scenario_name: true, record: :new_episodes
+Before('@webmock_allow_localhost_connect') do
+  WebMock.disable_net_connect!(allow_localhost: true)
 end

@@ -35,11 +35,15 @@ describe JsonDocumentImporter do
     end
 
     context 'each claim is processed as an atomic transaction' do
-      # TODO: 'This test needs to be rewritten so that it doesnt create claims on the development database if a server is running' do
+      before(:each) {
+        allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_raise(API::V1::ArgumentError, 'Advocate email is invalid')
+      }
+
       it 'and errors are stored' do
         expect(invalid_importer.errors.blank?).to be true
         invalid_importer.import!
         expect(invalid_importer.errors.blank?).to be false
+        expect(invalid_importer.errors.to_s).to eq "{0=>#<API::V1::ArgumentError: Advocate email is invalid>}"
       end
     end
 

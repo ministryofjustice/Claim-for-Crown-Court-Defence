@@ -45,15 +45,17 @@ Feature: Advocate new claim
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Add fees with dates attended then remove fee
     Given I am a signed in advocate
-      And I am on the new claim page
+      And a claim exists with state "draft"
+      And it has a case type of <case_type>
+     When I am on the claim edit page
      When I add <number> dates attended for one of my <fee_type> fees
-      And I remove the fee
-     Then the dates attended are also removed
+      And I remove the <fee_type> fee
+     Then the dates attended are also removed from <fee_type>
 
   Examples:
-    | number | fee_type |
-    | 5      |  "fixed" |
-    | 2      |  "basic" |
+    | case_type                   | number | fee_type |
+    | "Appeal against conviction" | 5      |  "fixed" |
+    | "Cracked Trial"             | 2      |  "misc"  |
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate

@@ -1,6 +1,6 @@
 %h1 Archived Claims
 
-%h2 #{@claims.count} claims
+%h2 #{pluralize(@claims.count,'archived claim')}
 
 #report-options.container
   = render partial: 'archived_search_form'

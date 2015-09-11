@@ -86,9 +86,3 @@ Feature: Advocate claims list
         | "Bloggs"           | 7       |
         | "Fred Joex Bloggs" | 1       |
         | "Joex Fred Bloggs" | 1       |
-
-  Scenario: No search by advocate name for non-admin
-    Given I am a signed in advocate
-      And There are fee schemes in place
-     When I visit the advocates dashboard
-     Then I should not see the advocate search field

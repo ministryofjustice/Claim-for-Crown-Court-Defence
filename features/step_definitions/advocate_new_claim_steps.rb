@@ -79,11 +79,7 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
 end
 
 Given(/^I am creating a "(.*?)" claim$/) do |case_type|
-  select case_type, from: 's2id_claim_case_type_id'
-end
-
-Given(/^I save and open the page$/) do
-  save_and_open_page
+  select2 case_type, from: 'claim_case_type_id'
 end
 
 When(/^I remove the "(.*?)" fee$/) do |fee_type|

@@ -50,8 +50,9 @@ Rails.application.routes.draw do
 
     resources :claims do
       get 'confirmation', on: :member
-      get 'outstanding', on: :collection
-      get 'authorised', on: :collection
+      get 'outstanding',  on: :collection
+      get 'authorised',   on: :collection
+      get 'archived',     on: :collection
 
       resource :certification, only: [:new, :create]
     end

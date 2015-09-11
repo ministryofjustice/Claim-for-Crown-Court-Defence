@@ -1,0 +1,6 @@
+%h1 Archived Claims
+
+%h2 #{@claims.count} claims
+
+#details
+  = render partial: 'claims', locals: { claims: @claims }

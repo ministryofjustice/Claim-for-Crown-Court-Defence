@@ -13,7 +13,7 @@ module Claims::StateMachine
   NON_DRAFT_STATES                            = %w( allocated awaiting_further_info awaiting_info_from_court deleted paid part_paid refused rejected submitted )
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
-  def self.dashboard_displayable_states
+  def self.advocate_dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
     ADVOCATE_DASHBOARD_REJECTED_STATES +
     ADVOCATE_DASHBOARD_SUBMITTED_STATES +
@@ -112,7 +112,7 @@ module Claims::StateMachine
     end
 
     klass.state_machine.states.map(&:name).each do |s|
-        klass.scope s, -> { klass.where(state: s) }
+      klass.scope s, -> { klass.where(state: s) }
     end
 
     klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }

@@ -19,12 +19,14 @@ module Claims::Search
     }
   }
 
-  def search(*options, term)
+  def search(*options, term, state)
     raise 'Invalid search option' if (options - QUERY_MAPPINGS_FOR_SEARCH.keys).any?
 
     sql = options.inject([]) { |r, o| r << "(#{QUERY_MAPPINGS_FOR_SEARCH[o][:query]})" }.join(' OR ')
     relation = options.inject(all) { |r, o| r = r.joins(QUERY_MAPPINGS_FOR_SEARCH[o][:joins]) }
 
-    relation.where(sql, term: "%#{term.downcase}%").where(state: Claims::StateMachine.dashboard_displayable_states).uniq
+    # TODO - to be removed
+    # relation.where(sql, term: "%#{term.downcase}%").where(state: Claims::StateMachine.dashboard_displayable_states).uniq
+    relation.where(sql, term: "%#{term.downcase}%").where(state: states).uniq
   end
 end

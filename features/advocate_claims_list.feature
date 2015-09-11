@@ -31,6 +31,24 @@ Feature: Advocate claims list
        | "paid"       | 3      |
        | "draft"      | 3      |
 
+  Scenario: Claims list exludes archived claims (advocate admin)
+    Given I am a signed in advocate admin
+      And There are fee schemes in place
+      And my chamber has 3 "submitted" claims for advocate "John Smith"
+      And my chamber has 2 "archived_pending_delete" claims for advocate "Bob Smith"
+     When I visit the advocates dashboard
+     Then I should see 3 "submitted" claims listed
+      And I should not see archived claims listed
+
+  Scenario: Claims list exludes archived claims (advocate)
+    Given I am a signed in advocate
+      And There are fee schemes in place
+      And I have 3 "submitted" claims
+      And I have 2 "archived_pending_delete" claims
+     When I visit the advocates dashboard
+     Then I should see 3 "submitted" claims listed
+      And I should not see archived claims listed
+
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
       And There are fee schemes in place
@@ -38,6 +56,15 @@ Feature: Advocate claims list
      When I visit the advocates dashboard
       And I search by the advocate name "John Smith"
      Then I should only see the 4 claims for the advocate "John Smith"
+
+  Scenario: Search claims by advocate name excludes archived
+    Given I am a signed in advocate admin
+      And There are fee schemes in place
+      And my chamber has 3 "submitted" claims for advocate "John Smith"
+      And my chamber has 2 "archived_pending_delete" claims for advocate "John Smith"
+     When I visit the advocates dashboard
+      And I search by the advocate name "John Smith"
+     Then I should only see the 3 claims for the advocate "John Smith"
 
   Scenario Outline: Search claims by defendant name (with optional middlename)
     Given I am a signed in advocate

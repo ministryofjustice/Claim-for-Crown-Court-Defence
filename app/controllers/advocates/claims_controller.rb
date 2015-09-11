@@ -117,7 +117,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     else
       params[:search_field] ||= 'Defendant'
     end
-    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
+    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search]), Claims::StateMachine.advocate_dashboard_displayable_states)
   end
 
   def search_option_mappings

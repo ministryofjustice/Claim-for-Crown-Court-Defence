@@ -55,6 +55,7 @@ Feature: Claim document upload
       And I save to drafts
      Then the document's claim and advocate IDs should be set
 
+  @wip
   Scenario: Remove previously uploaded document from draft claim
     Given a draft claim with documents exists
       And I am on the edit page for the claim

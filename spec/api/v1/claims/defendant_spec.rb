@@ -90,11 +90,11 @@ describe API::V1::Advocates::Defendant do
       end
 
       context "malformed claim UUID" do
-        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+        it "rejects malformed uuids" do
           valid_params[:claim_id] = 'any-old-rubbish'
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
-          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
+          expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
         end
       end
 

@@ -1,9 +1,9 @@
 %nav.dashboard-tabs
   %ul
     %li{class: ( 'active' if params[:tab] == 'unallocated' || (params[:tab].blank? && controller.controller_name == 'allocations')) }
-      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter, :search).merge(tab: 'unallocated'))
+      = link_to "Unallocated claims (#{unallocated_claims_count})", case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'unallocated'))
     %li{class: ('active' if params[:tab] == 'allocated')}
-      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.except(:filter, :search).merge(tab: 'allocated'))
+      = link_to "Allocated claims (#{allocated_claims_count})", case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'allocated'))
 
 - unless params[:tab] == 'allocated'
   %p

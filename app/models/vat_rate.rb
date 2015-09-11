@@ -13,14 +13,14 @@
 
 
 # Class to return the vat rate in base points (i.e. 1750 = a vat rate of 17.5%).
-# All rates are cached in a class variable on first use to prevent re-reading the vat_rates table 
+# All rates are cached in a class variable on first use to prevent re-reading the vat_rates table
 # every time.
 #
 class VatRate < ActiveRecord::Base
 
   class MissingVatRateError < RuntimeError;end
 
-  validate :effective_date, uniqueness: true
+  validates :effective_date, uniqueness: true
 
   @@rates = nil
 
@@ -48,11 +48,11 @@ class VatRate < ActiveRecord::Base
       load_rates if @@rates.nil?
       rate = rate_for_date(date) / 100.0
 
-      # transform to integer if whole number to supress printing of .0 
+      # transform to integer if whole number to supress printing of .0
       rate = rate.to_i if rate - rate.to_i == 0
       sprintf("%s%%", rate.to_s)
     end
- 
+
     private
 
     def rate_for_date(date)

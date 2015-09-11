@@ -9,7 +9,6 @@ class JsonDocumentImporter
 
   validates :file, presence: true
   validates :file, json_format: true
-  validates :data, json_schema_compliance: true
 
   BASE_URL = GrapeSwaggerRails.options.app_url
   CLAIM_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/claims'
@@ -20,21 +19,19 @@ class JsonDocumentImporter
   DATE_ATTENDED_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/dates_attended'
 
   def initialize(attributes = {})
-    if attributes[:json_file].present?
-      @file = File.open(attributes[:json_file].tempfile)
-      parse_file
-    end
+    @file = attributes[:json_file]
     @errors = {}
     @schema = attributes[:schema]
   end
 
   def parse_file
-    @file.rewind
-    @data = JSON.parse(@file.read)
-    @file.rewind
+    temp_file = File.open(@file.tempfile)
+    @data = JSON.parse(temp_file.read)
+    temp_file.rewind
   end
 
   def import!
+    parse_file
     data.each_with_index do |claim_hash, index|
       begin
         create_claim(claim_hash)

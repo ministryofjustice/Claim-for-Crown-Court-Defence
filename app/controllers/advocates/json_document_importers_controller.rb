@@ -4,9 +4,13 @@ class Advocates::JsonDocumentImportersController < ApplicationController
   before_action :set_schema
 
   def create
-    @json_doc_importer = JsonDocumentImporter.new(json_document_importer_params.merge(schema: @schema))
-    @json_doc_importer.import!
-    redirect_to '/advocates'
+    @json_document_importer = JsonDocumentImporter.new(json_document_importer_params.merge(schema: @schema))
+    if @json_document_importer.valid?
+      @json_document_importer.import!
+      redirect_to '/advocates'
+    else
+      redirect_to '/advocates'
+    end
   end
 
   private

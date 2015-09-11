@@ -2,16 +2,19 @@ require 'rails_helper'
 
 describe JsonDocumentImporter do
 
-  let(:schema)                  { json_schema }
-  let(:importer)                { JsonDocumentImporter.new('./spec/examples/cms_exported_claim.json', schema) }
-  let(:invalid_importer)        { JsonDocumentImporter.new('./spec/examples/invalid_cms_exported_claim.json', schema) }
-  let(:multiple_claim_importer) { JsonDocumentImporter.new('./spec/examples/multiple_cms_exported_claims.json', schema) }
-  let(:claim_params)            { {"advocate_email"=>"advocate@example.com", "case_number"=>"A12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015-06-01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015-06-01", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
-  let(:defendant_params)        { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979-12-10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:rep_order_params)        { {"granting_body"=>"Crown Court", "maat_reference"=>"12345678-3", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:fee_params)              { {"fee_type_id"=>1, "quantity"=>1, "amount"=>1.1, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:expense_params)          { {"expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London", "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
-  let(:date_attended_params)    { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015-06-01", "date_to"=>"2015-06-01", "attended_item_id"=>"1234"} }
+  let(:schema)                        { json_schema }
+  let(:cms_exported_claim)            { double 'cms_export', tempfile: './spec/examples/cms_exported_claim.json'}
+  let(:invalid_cms_exported_claim)    { double 'cms_export', tempfile: './spec/examples/invalid_cms_exported_claim.json'}
+  let(:multiple_cms_exported_claims)  { double 'cms_export', tempfile: './spec/examples/multiple_cms_exported_claims.json'}
+  let(:importer)                      { JsonDocumentImporter.new(json_file: cms_exported_claim, schema: schema) }
+  let(:invalid_importer)              { JsonDocumentImporter.new(json_file: invalid_cms_exported_claim, schema: schema) }
+  let(:multiple_claim_importer)       { JsonDocumentImporter.new(json_file: multiple_cms_exported_claims, schema: schema) }
+  let(:claim_params)                  { {"advocate_email"=>"advocate@example.com", "case_number"=>"A12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015-06-01", "estimated_trial_length"=>1, "actual_trial_length"=>1, "trial_concluded_at"=>"2015-06-01", "advocate_category"=>"QC", "prosecuting_authority"=>"cps", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
+  let(:defendant_params)              { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979-12-10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:rep_order_params)              { {"granting_body"=>"Crown Court", "maat_reference"=>"12345678-3", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:fee_params)                    { {"fee_type_id"=>1, "quantity"=>1, "amount"=>1.1, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:expense_params)                { {"expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London", "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
+  let(:date_attended_params)          { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015-06-01", "date_to"=>"2015-06-01", "attended_item_id"=>"1234"} }
 
   context 'parses a json document and' do
 
@@ -41,7 +44,7 @@ describe JsonDocumentImporter do
     context 'can validate the json document against our schema' do
 
       it 'returning true if valid' do
-        expect(importer.validate!).to eq true
+        expect(importer.valid?).to eq true
       end
 
     end
@@ -57,16 +60,10 @@ describe JsonDocumentImporter do
         allow(JsonDocumentImporter::DATE_ATTENDED_CREATION).to receive(:post)
       }
 
-      it 'to validate' do
-        expect(JSON::Validator).to receive(:fully_validate).exactly(2).times
-        multiple_claim_importer.validate!
-        expect(multiple_claim_importer.no_errors?).to be true
-      end
-
       it 'to create claims' do
         expect(multiple_claim_importer).to receive(:create_claim).exactly(2).times
         multiple_claim_importer.import!
-        expect(multiple_claim_importer.no_errors?).to be true
+        expect(multiple_claim_importer.errors.blank?).to be true
       end
 
     end

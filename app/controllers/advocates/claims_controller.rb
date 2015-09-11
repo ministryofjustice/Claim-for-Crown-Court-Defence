@@ -13,6 +13,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :generate_form_id, only: [:new, :edit]
 
   def index
+    @json_document_importer = JsonDocumentImporter.new
     @claims = @context.claims.order(created_at: :desc)
     search if params[:search].present?
   end

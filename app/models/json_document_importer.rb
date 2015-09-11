@@ -2,7 +2,14 @@ class JsonDocumentImporter
 
   require 'rest-client'
 
-  attr_reader :data, :errors
+  include ActiveModel::Model
+  include ActiveModel::Validations
+
+  attr_reader :file, :data, :errors, :schema
+
+  validates :file, presence: true
+  validates :file, json_format: true
+  validates :data, json_schema_compliance: true
 
   BASE_URL = GrapeSwaggerRails.options.app_url
   CLAIM_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/claims'
@@ -12,26 +19,19 @@ class JsonDocumentImporter
   EXPENSE_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/expenses'
   DATE_ATTENDED_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/dates_attended'
 
-  def initialize(json_file, schema)
-    file = File.open(json_file)
-    @data = JSON.parse(file.read)
+  def initialize(attributes = {})
+    if attributes[:json_file].present?
+      @file = File.open(attributes[:json_file].tempfile)
+      parse_file
+    end
     @errors = {}
-    @schema = schema
+    @schema = attributes[:schema]
   end
 
-  def validate!
-    data.each_with_index do |claim_hash, index|
-      @errors[index] = JSON::Validator.fully_validate(@schema, claim_hash)
-    end
-    if @errors.each { |key, value| value == nil }
-      true
-    else
-      return @errors
-    end
-  end
-
-  def no_errors?
-    @errors.blank? || @errors.values.uniq == [nil]
+  def parse_file
+    @file.rewind
+    @data = JSON.parse(@file.read)
+    @file.rewind
   end
 
   def import!

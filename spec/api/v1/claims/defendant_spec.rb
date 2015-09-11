@@ -79,16 +79,6 @@ describe API::V1::Advocates::Defendant do
         end
       end
 
-      context "unexpected error" do
-        it "should return 400 and JSON error array of error message" do
-          valid_params[:first_name] = 'a'*256
-          response = post_to_create_endpoint(valid_params)
-          expect(response.status).to eq(400)
-          json = JSON.parse(response.body)
-          expect(json[0]['error']).to include("PG::StringDataRightTruncation: ERROR:  value too long for type character varying(255)")
-        end
-      end
-
       context "malformed claim UUID" do
         it "rejects malformed uuids" do
           valid_params[:claim_id] = 'any-old-rubbish'

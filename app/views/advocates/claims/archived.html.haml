@@ -2,5 +2,12 @@
 
 %h2 #{@claims.count} claims
 
+#report-options.container
+  = render partial: 'archived_search_form'
+
+#search-summary
+  - if params[:search].present?
+    = render partial: 'shared/search_summary'
+
 #details
   = render partial: 'claims', locals: { claims: @claims }

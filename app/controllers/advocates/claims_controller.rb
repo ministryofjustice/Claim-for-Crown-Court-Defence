@@ -13,7 +13,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :generate_form_id, only: [:new, :edit]
 
   def index
-    @claims = @context.claims.order(created_at: :desc)
+    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc)
     search if params[:search].present?
   end
 
@@ -28,7 +28,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete
+    @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
+    search('archived_pending_delete') if params[:search].present?
   end
 
   def show
@@ -111,13 +112,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  def search
+  def search(states=nil)
     if current_user.persona.admin?
       params[:search_field] ||= 'All'
     else
       params[:search_field] ||= 'Defendant'
     end
-    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search]), Claims::StateMachine.advocate_dashboard_displayable_states)
+    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search], states || Claims::StateMachine.dashboard_displayable_states)
   end
 
   def search_option_mappings

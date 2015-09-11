@@ -47,7 +47,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def search
     params[:search_field] ||= 'All'
-    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
+    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search], Claims::StateMachine.dashboard_displayable_states)
   end
 
   def search_option_mappings

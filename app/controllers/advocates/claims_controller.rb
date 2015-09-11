@@ -74,8 +74,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       submit_if_required_and_redirect
     else
       render_edit_with_resources
-      # why submit! and/or redirect to summary if update was not successful
-      # submit_claim_to_laa
     end
   end
 
@@ -359,12 +357,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  # def submit_claim_to_laa
-  #   begin
-  #     @claim.submit! unless @claim.submitted?
-  #     redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
-  #   rescue
-  #     render_edit_with_resources
-  #   end
-  # end
 end

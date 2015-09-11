@@ -58,14 +58,12 @@ end
 Then(/^I should see only my claims$/) do
   @claims.each do | claim |
     expect(find('#claims-list')).to have_link(claim.case_number,
-          :href => case_workers_claim_path(claim,
-          claim_ids: @claims.map(&:id), claim_count: @claims.try(:count)))
+          href: case_workers_claim_path(claim))
   end
 
   @other_claims.each do | other_claim |
     expect(find('#claims-list')).to_not have_link(other_claim.case_number,
-          :href => case_workers_claim_path(other_claim,
-          claim_ids: @other_claims.map(&:id), claim_count: @other_claims.try(:count)))
+          href: case_workers_claim_path(other_claim))
   end
 end
 
@@ -87,8 +85,7 @@ end
 Then(/^I should see the claims sorted by oldest first$/) do
   @claims.sort_by(&:submitted_at).each do | claim |
     expect(find('#claims-list')).to have_link(claim.case_number,
-          :href => case_workers_claim_path(claim,
-          claim_ids: @claims.map(&:id), claim_count: @claims.try(:count)))
+          href: case_workers_claim_path(claim))
   end
 end
 

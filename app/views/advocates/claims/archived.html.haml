@@ -3,7 +3,7 @@
 %h2 #{pluralize(@claims.count,'archived claim')}
 
 #report-options.container
-  = render partial: 'archived_search_form'
+  = render partial: 'search_form', locals: { archived: true}
 
 #search-summary
   - if params[:search].present?

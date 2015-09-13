@@ -43,6 +43,7 @@ Feature: Advocate new claim
      Then I see 1 field for adding a rep order
 
   @javascript @webmock_allow_localhost_connect
+  @wip 
   Scenario Outline: Add fees with dates attended then remove fee
     Given I am a signed in advocate
       And a claim exists with state "draft"

@@ -104,6 +104,7 @@ class Claim < ActiveRecord::Base
   # custom validators
   validates_with ::ClaimDateValidator
   validates_with ::ClaimTextfieldValidator
+  validates_with ::ClaimSubModelValidator
 
   validates_associated :defendants, :fees, :expenses
 

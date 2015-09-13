@@ -1,0 +1,107 @@
+class FeeValidator < BaseClaimValidator
+
+  private
+
+  def self.fields
+    [ :fee_type, :quantity, :amount, :dates_attended ]
+  end
+
+  def validate_fee_type
+    validate_presence(:fee_type, "Fee type cannot be blank") 
+  end
+
+  def validate_quantity
+    @actual_trial_length = @record.try(:claim).try(:actual_trial_length) || 0
+    
+    case @record.fee_type.try(:code)
+    when 'BAF'
+      validate_basic_fee_quantity
+    when 'DAF'
+      validate_daily_attendance_3_40_quantity
+    when 'DAH'
+      validate_daily_attendance_41_50_quantity
+    when 'DAJ'
+      validate_daily_attendance_50_plus_quantity
+    when 'PCM'
+      validate_plea_and_case_management_hearing
+    else
+      validate_quantity_for_everything_else
+
+    end
+  end
+
+
+
+
+  def validate_basic_fee_quantity
+    validate_numericality(:quantity, 1, 1, 'Quantity for basic fee: only one basic fee can be claimed per case')
+  end
+
+  def validate_daily_attendance_3_40_quantity
+    return if @record.quantity == 0
+    if @actual_trial_length < 3
+      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length') 
+    elsif @record.quantity > @actual_trial_length - 2
+      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+    elsif @record.quantity > 37
+      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+    end
+  end
+
+
+  def validate_daily_attendance_41_50_quantity
+    return if @record.quantity == 0
+    if @actual_trial_length < 41
+      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+    elsif @record.quantity > @actual_trial_length - 40
+      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+    elsif @record.quantity > 10
+      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+    end
+  end
+
+
+  def validate_daily_attendance_50_plus_quantity
+    return if @record.quantity == 0
+    if @actual_trial_length < 50
+      add_error(:quantity, 'Quantity for Daily attendance fee (51+) does not correspond with the actual trial length')
+    elsif @record.quantity > @actual_trial_length - 50
+      add_error(:quantity, 'Quantity for Daily attendance fee (51+) does not correspond with the actual trial length')
+    end
+  end
+
+
+  def validate_plea_and_case_management_hearing
+    return if @record.quantity.between?(1, 3)
+    add_error(:quantity, 'Quanity for plea and case management hearing cannot be greater than 3')
+  end
+
+
+  def validate_quantity_for_everything_else
+    add_error(:quantity, 'Fee quanity cannot be negative') if @record.quantity < 0
+  end
+
+
+  def validate_amount
+    if @record.amount < 0
+      add_error(:amount, 'Fee amount cannot be negative')
+    elsif @record.quantity > 0 && @record.amount == 0
+      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
+    elsif @record.quantity == 0 && @record.amount > 0
+      add_error(:amount, 'Fee amounts cannot be specified if the fee quanitity is zero')
+    end
+  end
+
+  def validate_dates_attended
+  end
+
+
+end
+
+
+
+
+  # validates :fee_type, presence: { message: 'Fee type cannot be blank' }
+  # validates :quantity, numericality: { allow_nil: true, greater_than_or_equal_to: 0, message: 'Fee quantity caannot be negative' }
+  # validates :amount, numericality: { allow_nil: true, greater_than_or_equal_to: 0, message: 'Fee amount cannot be negative' }
+  # validate :basic_fee_quantity

@@ -19,18 +19,6 @@ RSpec.describe Fee, type: :model do
   it { should belong_to(:fee_type) }
   it { should have_many(:dates_attended) }
 
-  it { should validate_presence_of(:fee_type).with_message('Fee type cannot be blank') }
-  it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
-
-  it { should accept_nested_attributes_for(:dates_attended) }
-
-  it 'should be invalid when fee_type is "Basic Fee" and quantity is greater than 1' do
-    # basic_fee has id of 1
-    fee_type = FactoryGirl.build(:fee_type, description: 'Basic Fee')
-    fee = FactoryGirl.build(:fee, fee_type: fee_type, quantity: 2)
-    expect(fee.save).to eq false
-  end
-
   describe 'blank quantity should be set to zero' do
     it 'should replace blank quantities with zero before save' do
       fee = FactoryGirl.build :fee, quantity: nil

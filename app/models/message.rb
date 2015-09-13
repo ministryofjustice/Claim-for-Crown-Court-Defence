@@ -40,7 +40,11 @@ class Message < ActiveRecord::Base
                        'application/rtf',
                        'image/png']}
 
-  validates :subject, :body, :sender_id, :claim_id, presence: true
+  validates :sender, presence: { message: 'Message sender cannot be blank' }                       
+  validates :subject, presence: { message: 'Message subject cannot be blank' }
+  validates :body, presence: { message: 'Message body cannot be blank' }
+  validates :claim_id, presence: { message: 'Message claim_id cannot be blank' }
+
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 

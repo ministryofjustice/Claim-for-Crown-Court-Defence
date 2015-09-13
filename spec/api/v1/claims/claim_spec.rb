@@ -14,7 +14,7 @@ describe API::V1::Advocates::Claim do
   let!(:offence)          { create(:offence)}
   let!(:court)            { create(:court)}
   let!(:claim_params) { { :advocate_email => current_advocate.user.email,
-                          :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false).id,
+                          :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true).id,
                           :case_number => 'A12345678',
                           :first_day_of_trial => "2015-01-01",
                           :estimated_trial_length => 10,

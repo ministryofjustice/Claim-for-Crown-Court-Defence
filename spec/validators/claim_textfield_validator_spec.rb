@@ -104,7 +104,8 @@ context '#perform_validation?' do
       should_error_with(claim, :case_number, "Case number cannot be blank, you must enter a case number")
     end
 
-    invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
+    # invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
+    invalid_formats = ['a12345678']
     invalid_formats.each do |invalid_format|
       it "should error if invalid format #{invalid_format}" do
         claim.case_number = invalid_format

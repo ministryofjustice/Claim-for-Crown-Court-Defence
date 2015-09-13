@@ -112,7 +112,11 @@ module Claims::StateMachine
     end
 
     klass.state_machine.states.map(&:name).each do |s|
+      if s == :archived_pending_delete
+        klass.scope s, -> { klass.unscope(:where).where(state: s) }
+      else
         klass.scope s, -> { klass.where(state: s) }
+      end
     end
 
     klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }

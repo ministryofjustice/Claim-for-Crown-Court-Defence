@@ -26,8 +26,8 @@ class CaseWorker < ActiveRecord::Base
 
   default_scope { includes(:user) }
 
-  validates :location, presence: true
-  validates :user, presence: true
+  validates :location, presence: {message: 'Location cannot be blank'}
+  validates :user, presence: {message: 'User cannot be blank'}
   validate  :days_worked_valid
   validates :approval_level, inclusion: { in: APPROVAL_LEVELS_COLLECTION, message: "Approval level must be high or low" }
 

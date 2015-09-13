@@ -232,16 +232,11 @@ Then(/^I should see only claims that I have created$/) do
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? matching search term "#{name}"/)
+  expect(page).to have_content(/#{number} claims? matching "#{name}"/)
 end
 
-# TODO: to be removed if unused expect by deleted scenario
-# Then(/^I should not see the advocate search field$/) do
-#   expect(page).to_not have_selector('#search_advocate')
-# end
-
 Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? matching Defendant "#{name}"/)
+  expect(page).to have_content(/#{number} claims? matching "#{name}"/)
 end
 
 Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|

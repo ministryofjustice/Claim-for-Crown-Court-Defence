@@ -29,7 +29,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def archived
     @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
-    search('archived_pending_delete') if params[:search].present?
+    search(:archived_pending_delete) if params[:search].present?
   end
 
   def show
@@ -113,23 +113,28 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def search(states=nil)
-    if current_user.persona.admin?
-      params[:search_field] ||= 'All'
-    else
-      params[:search_field] ||= 'Defendant'
-    end
-    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search], states || Claims::StateMachine.dashboard_displayable_states)
+    # if current_user.persona.admin?
+    #   params[:search_field] ||= 'All'
+    # else
+    #   params[:search_field] ||= 'Defendant'
+    # end
+    # @claims = @claims.search(params[:search], *search_options[params[:search_field]])
+    @claims = @claims.search(params[:search], states, *search_options)
   end
 
-  def search_option_mappings
-    option_mappings = {
-      'All'       => [:defendant_name],
-      'Advocate'  => [:advocate_name],
-      'Defendant' => [:defendant_name]
-    }
+  def search_options
+    options = [:defendant_name]
+    options << :advocate_name if current_user.persona.admin?
+    options
+    # TODO - to be removed
+    # option_mappings = {
+    #   'All'       => [:defendant_name],
+    #   'Advocate'  => [:advocate_name],
+    #   'Defendant' => [:defendant_name]
+    # }
 
-    option_mappings['All'] << :advocate_name if current_user.persona.admin?
-    option_mappings
+    # option_mappings['All'] << :advocate_name if current_user.persona.admin?
+    # option_mappings
   end
 
   def load_advocates_in_chamber

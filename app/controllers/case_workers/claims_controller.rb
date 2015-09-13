@@ -46,6 +46,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def search(states=nil)
+    # TODO - to be removed
     # params[:search_field] ||= 'All'
     # @claims = @claims.search(params[:search], *search_options[params[:search_field]])
     @claims = @claims.search(params[:search], states, *search_options)

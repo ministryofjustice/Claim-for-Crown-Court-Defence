@@ -54,7 +54,7 @@ Feature: Advocate claims list
       And There are fee schemes in place
       And my chamber has 4 claims for advocate "John Smith"
      When I visit the advocates dashboard
-      And I search by the advocate name "John Smith"
+      And I search by the name "John Smith"
      Then I should only see the 4 claims for the advocate "John Smith"
 
   Scenario: Search claims by advocate name excludes archived
@@ -63,7 +63,7 @@ Feature: Advocate claims list
       And my chamber has 3 "submitted" claims for advocate "John Smith"
       And my chamber has 2 "archived_pending_delete" claims for advocate "John Smith"
      When I visit the advocates dashboard
-      And I search by the advocate name "John Smith"
+      And I search by the name "John Smith"
      Then I should only see the 3 claims for the advocate "John Smith"
 
   Scenario Outline: Search claims by defendant name (with optional middlename)

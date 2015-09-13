@@ -121,16 +121,6 @@ Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state
     end
 end
 
-When(/^I search by the advocate name "(.*?)"$/) do |name|
-  fill_in 'search', with: name
-  click_button 'Search'
-end
-
-When(/^I search by the defendant name "(.*?)"$/) do |name|
-  fill_in 'search', with: name
-  click_button 'Search'
-end
-
 When(/^I search by the name "(.*?)"$/) do |name|
   fill_in 'search', with: name
   click_button 'Search'
@@ -167,20 +157,6 @@ Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with 
   claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
-end
-
-When(/^I enter advocate name of "(.*?)"$/) do |name|
-  select 'Advocate', from: 'search_field'
-  fill_in 'search', with: name
-end
-
-When(/^I enter defendant name of "(.*?)"$/) do |name|
-  select 'Defendant', from: 'search_field'
-  fill_in 'search', with: name
-end
-
-When (/^I hit search button$/) do
-  click_button 'Search'
 end
 
 Then(/^I should only see (\d+) "(.*?)" claims listed$/) do |number, state|

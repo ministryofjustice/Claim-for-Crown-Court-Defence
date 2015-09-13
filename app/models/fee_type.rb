@@ -10,18 +10,6 @@
 #  updated_at      :datetime
 #
 
-  # == Schema Information
-#
-# Table name: fee_types
-#
-#  id              :integer          not null, primary key
-#  description     :string(255)
-#  code            :string(255)
-#  fee_category_id :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#
-
 class FeeType < ActiveRecord::Base
   BASIC_FEE_CODES = %w( BAF DAF DAH DAJ PCM SAF )
 
@@ -30,9 +18,9 @@ class FeeType < ActiveRecord::Base
   has_many :fees, dependent: :destroy
   has_many :claims, through: :fees
 
-  validates :fee_category, presence: true
-  validates :description, presence: true, uniqueness: { case_sensitive: false, scope: :fee_category }
-  validates :code, presence: true
+  validates :fee_category, presence: {message: 'Fee category cannot be blank' }
+  validates :description, presence: {message: 'Fee type description cannot be blank'}, uniqueness: { case_sensitive: false, scope: :fee_category, message: 'Fee type description must be unique' }
+  validates :code, presence: {message: 'Fee type code cannot be blank'}
 
   def self.basic
     self.by_fee_category("BASIC")

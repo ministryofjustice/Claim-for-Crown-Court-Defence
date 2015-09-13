@@ -104,7 +104,7 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| 
+      after(:create) { |c|
         c.submit!; c.allocate!; }
     end
 
@@ -156,7 +156,7 @@ def publicise_errors(claim, &block)
   begin
     block.call
   rescue => err
-    puts ">>>>>>>>>>>>>>>> DEBUG validation errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+    puts ">>>>>>>>>>>>>>>>  validation errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
     ap claim
     puts claim.errors._full_messages
     claim.defendants.each do |d|
@@ -180,7 +180,7 @@ def populate_required_fields(claim)
       claim.trial_cracked_at ||= 1.months.ago
       claim.trial_cracked_at_third ||= 'final_third'
     elsif claim.case_type.requires_trial_dates?
-      claim.first_day_of_trial ||= 28.days.ago
+      claim.first_day_of_trial ||= 20.days.ago
       claim.trial_concluded_at ||= 18.days.ago
       claim.estimated_trial_length ||= 1
       claim.actual_trial_length ||= 2

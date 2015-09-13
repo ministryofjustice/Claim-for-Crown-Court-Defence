@@ -92,6 +92,7 @@ When(/^I remove a previously uploaded document$/) do
 
   within "#document_#{document_id}" do
     click_on 'Remove'
+    sleep 1
     wait_for_ajax
   end
 

@@ -14,7 +14,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.order(created_at: :desc)
+    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc)
     search if params[:search].present?
   end
 
@@ -29,7 +29,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete
+    @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
+    search(:archived_pending_delete) if params[:search].present?
   end
 
   def show
@@ -75,8 +76,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       submit_if_required_and_redirect
     else
       render_edit_with_resources
-      # why submit! and/or redirect to summary if update was not successful
-      # submit_claim_to_laa
     end
   end
 
@@ -114,24 +113,29 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  def search
-    if current_user.persona.admin?
-      params[:search_field] ||= 'All'
-    else
-      params[:search_field] ||= 'Defendant'
-    end
-    @claims = @claims.search(*search_option_mappings[params[:search_field]], params[:search])
+  def search(states=nil)
+    # if current_user.persona.admin?
+    #   params[:search_field] ||= 'All'
+    # else
+    #   params[:search_field] ||= 'Defendant'
+    # end
+    # @claims = @claims.search(params[:search], *search_options[params[:search_field]])
+    @claims = @claims.search(params[:search], states, *search_options)
   end
 
-  def search_option_mappings
-    option_mappings = {
-      'All'       => [:defendant_name],
-      'Advocate'  => [:advocate_name],
-      'Defendant' => [:defendant_name]
-    }
+  def search_options
+    options = [:defendant_name]
+    options << :advocate_name if current_user.persona.admin?
+    options
+    # TODO - to be removed
+    # option_mappings = {
+    #   'All'       => [:defendant_name],
+    #   'Advocate'  => [:advocate_name],
+    #   'Defendant' => [:defendant_name]
+    # }
 
-    option_mappings['All'] << :advocate_name if current_user.persona.admin?
-    option_mappings
+    # option_mappings['All'] << :advocate_name if current_user.persona.admin?
+    # option_mappings
   end
 
   def load_advocates_in_chamber
@@ -360,12 +364,4 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
-  # def submit_claim_to_laa
-  #   begin
-  #     @claim.submit! unless @claim.submitted?
-  #     redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
-  #   rescue
-  #     render_edit_with_resources
-  #   end
-  # end
 end

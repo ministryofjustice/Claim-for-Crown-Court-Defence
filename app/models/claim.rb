@@ -92,6 +92,7 @@ class Claim < ActiveRecord::Base
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }
   scope :authorised,  -> { where(state: 'paid') }
+  scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
   # Trial type scopes
   scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }

@@ -56,9 +56,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
   end
 
-  def search_claims
+  def search_claims(states=nil)
     if params[:search].present?
-      @claims = @claims.search(:case_worker_name_or_email, params[:search])
+      @claims = @claims.search(params[:search], states, :case_worker_name_or_email)
     end
   end
 

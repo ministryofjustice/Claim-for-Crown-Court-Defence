@@ -1,8 +1,8 @@
 %h1.page-title
   = "Claims"
 
-#search-options
-  = render 'search_form'
+#report-options.container
+  = render partial: 'search_form'
 
 #search-summary
   - if params[:search].present?

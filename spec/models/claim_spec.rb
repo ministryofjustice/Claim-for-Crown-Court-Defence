@@ -284,14 +284,18 @@ RSpec.describe Claim, type: :model do
 
   describe '.search' do
     let!(:other_claim) { create(:claim) }
+    let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim.search(:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email, '%').to_sql
+      sql = Claim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map{ |s| "\'#{s}\'"}.join(', ')
       expect(sql.downcase).to include('where "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'find by MAAT reference' do
+
+      let(:search_options) { :maat_reference }
+
       before do
         create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '111111') ]
         create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '222222') ]
@@ -301,25 +305,27 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds the claim by MAAT reference "111111"' do
-        expect(Claim.search(:maat_reference, '111111')).to eq([subject])
+        expect(Claim.search('111111', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "222222"' do
-        expect(Claim.search(:maat_reference, '222222')).to eq([subject])
+        expect(Claim.search('222222', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "333333"' do
-        expect(Claim.search(:maat_reference, '333333')).to eq([other_claim])
+        expect(Claim.search('333333', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with MAAT reference "444444"' do
-        expect(Claim.search(:maat_reference, '444444')).to be_empty
+        expect(Claim.search('444444', states, search_options)).to be_empty
       end
     end
 
     context 'find by Defendant name' do
+
       let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+      let!(:other_advocate)   { create(:advocate, chamber: current_advocate.chamber ) }
+      let(:search_options)    { :defendant_name }
 
       before do
         subject.advocate = current_advocate
@@ -334,19 +340,22 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds all claims involving specified defendant' do
-        expect(Claim.search(:defendant_name, 'Joe Bloggs').count).to eq(2)
+        expect(Claim.search('Joe Bloggs', states, search_options).count).to eq(2)
       end
 
       it 'finds claim involving other specified defendant' do
-        expect(Claim.search(:defendant_name, 'Hart')).to eq([other_claim])
+        expect(Claim.search('Hart',states, search_options)).to eq([other_claim])
       end
 
       it 'does not find claims involving non-existent defendant"' do
-        expect(Claim.search(:defendant_name, 'Foo Bar')).to be_empty
+        expect(Claim.search('Foo Bar',states, search_options)).to be_empty
       end
     end
 
     context 'find by Advocate name' do
+
+      let(:search_options) { :advocate_name }
+
       before do
         subject.advocate = create(:advocate)
         other_claim.advocate = create(:advocate)
@@ -364,21 +373,61 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds the claim by advocate name "John Smith"' do
-        expect(Claim.search(:advocate_name, 'John Smith')).to eq([subject])
+        expect(Claim.search('John Smith', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by advocate name "Bob Hoskins"' do
-        expect(Claim.search(:advocate_name, 'Bob Hoskins')).to eq([other_claim])
+        expect(Claim.search('Bob Hoskins', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with advocate name "Foo Bar"' do
-        expect(Claim.search(:advocate_name, 'Foo Bar')).to be_empty
+        expect(Claim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
+    context 'find claims by state' do
+      let(:search_options) { :advocate_name }
+
+      before do
+        bob_hoskins = create(:user, first_name: 'Bob', last_name: 'Hoskins')
+        bob_hoskins.save!
+        adv_bob_hoskins = create(:advocate, user: bob_hoskins)
+        adv_bob_hoskins.save!
+
+        # subject.advocate = bob_hoskins
+        # subject.archive_pending_delete!
+        # subject.save!
+
+        # other_claim.advocate = bob_hoskins
+        # other_claim.submit!
+        # other_claim.save!
+        create_list(:archived_pending_delete_claim,   2,  advocate: adv_bob_hoskins)
+        create_list(:paid_claim,                      2,  advocate: adv_bob_hoskins)
+        create(:allocated_claim,                          advocate: adv_bob_hoskins)
+        create(:awaiting_further_info_claim,              advocate: adv_bob_hoskins)
+
+      end
+
+      it  'finds only claims of the single state specified' do
+        expect(Claim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+      end
+
+      it  'finds only claims of the multiple states specified' do
+        expect(Claim.search('Bob Hoskins',[:awaiting_further_info, :archived_pending_delete], search_options).count).to eql 3
+      end
+
+      it 'defaults to finding claims of dashboard_displayable_states' do
+        expect(Claim.search('Bob Hoskins', nil, search_options).count).to eql 4
+      end
+
+    end
+
+
     context 'find by advocate and defendant' do
+
       let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate) { create(:advocate, chamber: current_advocate.chamber ) }
+      let!(:other_advocate)   { create(:advocate, chamber: current_advocate.chamber ) }
+      let(:search_options)    { [:advocate_name, :defendant_name] }
 
       before do
 
@@ -399,15 +448,15 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds claims with either advocate or defendant matching names' do
-        expect(Claim.search(:advocate_name, :defendant_name, 'Bloggs')).to eq([subject])
-        expect(Claim.search(:advocate_name, :defendant_name, 'Hoskins')).to eq([other_claim])
-        expect(Claim.search(:advocate_name, :defendant_name, 'Fred').count).to eq(2) #advocate and defendant of name
-        expect(Claim.search(:advocate_name, :defendant_name, 'John').count).to eq(1) #advocate only search
-        expect(Claim.search(:advocate_name, :defendant_name, 'Joexx').count).to eq(1) #defendant only search
+        expect(Claim.search('Bloggs', states, *search_options)).to eq([subject])
+        expect(Claim.search('Hoskins',states, *search_options)).to eq([other_claim])
+        expect(Claim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
+        expect(Claim.search('John',   states, *search_options).count).to eq(1) #advocate only search
+        expect(Claim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
       end
 
       it 'does not find claims that do not match the name' do
-        expect(Claim.search(:advocate_name, :defendant_name, 'Xavierxxxx').count).to eq(0)
+        expect(Claim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
 
     end
@@ -415,6 +464,7 @@ RSpec.describe Claim, type: :model do
     context 'find by case worker name or email' do
       let!(:case_worker) { create(:case_worker) }
       let!(:other_case_worker) { create(:case_worker) }
+      let(:search_options) { :case_worker_name_or_email }
 
       before do
         subject.case_workers << case_worker
@@ -422,25 +472,34 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds the claim by case_worker name' do
-        expect(Claim.search(:case_worker_name_or_email, case_worker.name)).to eq([subject])
+        expect(Claim.search(case_worker.name, states, search_options)).to eq([subject])
       end
 
       it 'finds the other claim by case worker name' do
-        expect(Claim.search(:case_worker_name_or_email, other_case_worker.name)).to eq([other_claim])
+        expect(Claim.search(other_case_worker.name, states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with a non existent case worker' do
-        expect(Claim.search(:case_worker_name_or_email, 'Foo Bar')).to be_empty
+        expect(Claim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
-    context 'find by invalid option' do
+    context 'with invalid option' do
       it 'raises error for invalid option' do
         expect{
-          Claim.search(:case_worker_name_or_email, :foo, 'foo')
-        }.to raise_error
+          Claim.search('foo', states, :case_worker_name_or_email, :foo)
+        }.to raise_error(/Invalid search option/)
       end
     end
+
+    context 'with invalid state' do
+      it 'raises error for invalid option' do
+        expect{
+          Claim.search('foo',:rubbish_state, :case_worker_name_or_email)
+        }.to raise_error(/Invalid state, rubbish_state, specified/)
+      end
+    end
+
   end
 
   context 'fees total' do

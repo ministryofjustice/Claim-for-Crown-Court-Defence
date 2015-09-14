@@ -1,21 +1,24 @@
-%h1
-  Claim
+%div.grid-row.claim-header
+  %div.column-third
+    %span.normal
+      = "Case number:"
+    %div.bold-xlarge
+      = claim.case_number
+  %div.column-two-thirds
+    %div.left
+      %span.normal
+        = "Status:"
+      %div{class: "medium status #{claim.state}"}
+        = claim.state.humanize
+    - if current_user.persona.is_a?(CaseWorker)
+      %div.right
+        %span.normal
+          = "Other claims:"
+        %div.normal.other-claims
+          - if claim_ids.present?
+            = claim_position_and_count
+            - unless last_claim?
+              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
 
-%h2
-  Case number:
-  = claim.case_number
-
-%h3
-  Defendant(s):
-%ul
-  - claim.defendants.each do |defendant|
-    %li
-      = defendant.name
-
-%h3
-  Status:
-  = claim.state.humanize
-
-%p
-  Created by:
-  = claim.creator.name
+%div.bold-medium.claim-detail-header
+  = "Claim details"

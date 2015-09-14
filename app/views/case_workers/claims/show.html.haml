@@ -1,8 +1,6 @@
 - present(@claim) do |claim|
 
   %p
-    = link_to 'Back', case_workers_claims_path, class: 'button'
-
     - if @claim.errors.any?
       .validation-summary
         %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being updated:"
@@ -11,12 +9,6 @@
             %li= msg
 
   = render 'shared/claim_header', claim: claim
-
-  %p
-    - if claim_ids.present?
-      = claim_position_and_count
-      - unless last_claim?
-        = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
 
   #claim-accordion
     %h2

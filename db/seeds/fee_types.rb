@@ -12,6 +12,7 @@ data = CSV.read(file_path)
 data.shift
 
 data.each do |row|
-  cat, description, code = row
-  FeeType.find_or_create_by!(fee_category: fee_categories[cat], description: description, code: code)
+  cat, description, code, max_amount = row
+  max_amount = nil if max_amount == ''
+  FeeType.find_or_create_by!(fee_category: fee_categories[cat], description: description, code: code, max_amount: max_amount)
 end

@@ -16,6 +16,8 @@
 #  converted_preview_document_file_size    :integer
 #  converted_preview_document_updated_at   :datetime
 #  uuid                                    :uuid
+#  form_id                                 :string(255)
+#  creator_id                              :integer
 #
 
 class Document < ActiveRecord::Base

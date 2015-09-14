@@ -9,6 +9,7 @@
 #  updated_at             :datetime
 #  requires_cracked_dates :boolean
 #  requires_trial_dates   :boolean
+#  allow_pcmh_fee_type    :boolean          default(FALSE)
 #
 
 class CaseType < ActiveRecord::Base

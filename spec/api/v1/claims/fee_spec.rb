@@ -79,7 +79,7 @@ describe API::V1::Advocates::Fee do
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
           json = JSON.parse(response.body)
-          expect(json[0]['error']).to include("PG::NumericValueOutOfRange")
+          expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
 
@@ -102,11 +102,11 @@ describe API::V1::Advocates::Fee do
       end
 
       context "malformed claim UUID" do
-        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+        it "should be reject invalid claim id" do
           valid_params[:claim_id] = 'any-old-rubbish'
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
-          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
+          expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
         end
       end
 

@@ -1,6 +1,5 @@
 When(/^a claim exists that belongs to the(?: (\d+)\w+)? advocate$/) do |cardinality|
   card = cardinality.nil? ? 0 : cardinality.to_i - 1
-  FactoryGirl.create :vat_rate
   @claim = create(:claim, advocate: @advocates[card])
 end
 

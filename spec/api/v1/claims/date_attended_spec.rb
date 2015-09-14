@@ -89,11 +89,11 @@ describe API::V1::Advocates::DateAttended do
       end
 
       context "malformed attended_item_id UUID" do
-        it "should be temporarily handled explicitly (until rails 4.2 upgrade)" do
+        it "rejects malformed uuids" do
           valid_params[:attended_item_id] = 'any-old-rubbish'
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
-          expect(response.body).to eq "[{\"error\":\"malformed UUID\"}]"
+          expect(response.body).to eq "[{\"error\":\"Attended item can't be blank\"}]"
         end
       end
 

@@ -90,8 +90,13 @@ form {
   display:inline;
 }
 
-#importer input[type="file"]{
-  padding: 0;
-  border : 0;
-  color: $black;
+#importer{
+  .button {
+    @include core-19();
+  }
+  input[type="file"]{
+    padding: 0;
+    border : 0;
+    color: $black;
+  }
 }

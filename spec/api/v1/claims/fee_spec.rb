@@ -13,7 +13,7 @@ describe API::V1::Advocates::Fee do
 
   let!(:fee_type)           { create(:fee_type, id: 1) }
   let!(:claim)              { create(:claim, source: 'api').reload }
-  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.09 } }
+  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 150.00 } }
   let!(:invalid_params)     { {claim_id: claim.uuid } }
   let(:json_error_response) { [ {"error" => "Fee type cannot be blank" } ].to_json }
 

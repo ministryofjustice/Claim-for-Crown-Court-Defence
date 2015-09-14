@@ -1046,8 +1046,6 @@ RSpec.describe Claim, type: :model do
       court = FactoryGirl.create :court
       offence = FactoryGirl.create :offence
 
-
-
       params = {"claim"=>
         {"case_type_id"=>case_type.id,
          "trial_fixed_notice_at_dd"=>"",
@@ -1093,7 +1091,7 @@ RSpec.describe Claim, type: :model do
              "_destroy"=>"false"}},
          "additional_information"=>"",
          "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "amount"=>"0.5", "fee_type_id"=>fee_type.id}},
+          {"0"=>{"quantity"=>"1", "amount"=>"450", "fee_type_id"=>fee_type.id}},
          "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
          "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
          "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
@@ -1106,6 +1104,8 @@ RSpec.describe Claim, type: :model do
       claim = Claim.new(params['claim'])
       claim.creator = advocate
       claim.force_validation = true
+      result = claim.valid?
+      ap claim.errors if result == false
       expect(claim.save).to be true
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0

@@ -1,11 +1,13 @@
 @import '_typography';
 
 .column-quarter{
-  .bold-large, .bold-medium{
+  .bold-large, .bold-medium, .bold-xlarge{
     display: table;
   }
 }
-
+.bold-xlarge{
+  @include bold-48();
+}
 .bold-large {
   @include bold-36();
 }
@@ -13,7 +15,12 @@
 .bold-medium {
   @include bold-24();
 }
-
+.normal {
+  @include core-19();
+}
+.medium{
+   @include core-24();
+}
 .bold-normal{
   @include bold-19();
 }

@@ -12,6 +12,8 @@
 #
 
 class FeeType < ActiveRecord::Base
+
+  include ActionView::Helpers::NumberHelper
   BASIC_FEE_CODES = %w( BAF DAF DAH DAJ PCM SAF )
 
   belongs_to :fee_category
@@ -37,6 +39,11 @@ class FeeType < ActiveRecord::Base
 
   def has_dates_attended?
     BASIC_FEE_CODES.include?(self.code)
+  end
+
+
+  def pretty_max_amount
+    number_to_currency(self.max_amount, precision: 0)
   end
 
 private

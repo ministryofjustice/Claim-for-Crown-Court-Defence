@@ -90,6 +90,11 @@ class FeeValidator < BaseClaimValidator
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quanitity is zero')
     end
+    if @record.fee_type
+      unless @record.fee_type.max_amount.nil?
+        add_error(:amount, "Fee amount exceeds maximum permitted (#{@record.fee_type.pretty_max_amount}) for this fee type") if @record.amount > @record.fee_type.max_amount
+      end
+    end
   end
 
   def validate_dates_attended
@@ -98,10 +103,3 @@ class FeeValidator < BaseClaimValidator
 
 end
 
-
-
-
-  # validates :fee_type, presence: { message: 'Fee type cannot be blank' }
-  # validates :quantity, numericality: { allow_nil: true, greater_than_or_equal_to: 0, message: 'Fee quantity caannot be negative' }
-  # validates :amount, numericality: { allow_nil: true, greater_than_or_equal_to: 0, message: 'Fee amount cannot be negative' }
-  # validate :basic_fee_quantity

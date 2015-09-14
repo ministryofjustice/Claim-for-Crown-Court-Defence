@@ -3,11 +3,12 @@
 # Table name: fee_types
 #
 #  id              :integer          not null, primary key
-#  description     :string(255)
-#  code            :string(255)
+#  description     :string
+#  code            :string
 #  fee_category_id :integer
 #  created_at      :datetime
 #  updated_at      :datetime
+#  max_amount      :decimal(, )
 #
 
 class FeeType < ActiveRecord::Base

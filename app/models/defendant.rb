@@ -19,15 +19,8 @@ class Defendant < ActiveRecord::Base
 
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  
 
-  validates :claim,      presence: true
-  validates :first_name, presence: true, if: :perform_validation?
-  validates :last_name,  presence: true, if: :perform_validation?
-  
-  validate  :has_at_least_one_representation_order_unless_draft
-
-  validates_with DefendantDateValidator
-
-  validates_associated :representation_orders
+  validates_with DefendantValidator
+  validates_with DefendantSubModelValidator
 
   acts_as_gov_uk_date :date_of_birth
 
@@ -45,13 +38,6 @@ class Defendant < ActiveRecord::Base
   def representation_order_details
     representation_orders.map(&:detail)
   end
-
-  private
-
-  def has_at_least_one_representation_order_unless_draft
-    return if self.claim.nil? || self.claim.draft?
-    if self.representation_orders.none?
-      errors[:representation_orders] << I18n.t("activerecord.errors.models.defendant.attributes.representation_orders.blank")
-    end
-  end
+ 
 end
+

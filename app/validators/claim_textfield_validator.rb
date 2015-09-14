@@ -18,6 +18,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :evidence_checklist_ids
   ]
 
+
   def self.fields
     @@fields
   end

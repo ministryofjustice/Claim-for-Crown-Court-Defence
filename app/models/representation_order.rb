@@ -19,7 +19,7 @@ class RepresentationOrder < ActiveRecord::Base
   validates   :granting_body, presence: {message: 'Select the granting body'}, if: :perform_validation?
   validates   :granting_body, inclusion: { in: Settings.court_types, allow_nil: true, message: "Invalid granting body" }
   validates   :maat_reference, presence: true, if: :perform_validation?
-  validates   :maat_reference, uniqueness: { case_sensitive: false }
+  validates   :maat_reference, uniqueness: { case_sensitive: false, message: 'MAAT reference must be unique' }
 
   validates_with RepresentationOrderDateValidator
 

@@ -25,7 +25,7 @@ class Document < ActiveRecord::Base
   belongs_to :claim
 
   validates_attachment :document,
-    presence: true,
+    presence: {message: 'Document must have an attachment'},
     content_type: {
       content_type: ['application/pdf',
                      'application/msword',

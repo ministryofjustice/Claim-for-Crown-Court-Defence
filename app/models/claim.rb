@@ -122,6 +122,9 @@ class Claim < ActiveRecord::Base
                       :trial_fixed_at,
                       :trial_cracked_at
 
+
+  after_initialize :instantiate_basic_fees
+
   before_save :calculate_vat
 
   before_validation do

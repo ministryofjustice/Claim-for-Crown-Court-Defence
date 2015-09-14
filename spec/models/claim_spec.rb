@@ -249,12 +249,12 @@ RSpec.describe Claim, type: :model do
       @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB', id: 6
     end
 
-    describe '.instantiate_basic_fees' do
+    describe '.instantiate_basic_fees callback' do
       it 'should create a fee record for every basic fee type' do
         # Given three basic fee types and some other non-basic fee types
         # when I instantiate a new claim
         claim = FactoryGirl.build :claim
-        claim.instantiate_basic_fees
+        # claim.instantiate_basic_fees
 
         # it should also instantiate an emtpy fee for every basic fee type and not for the  other fee types
         expect(claim.fees.size).to eq 3

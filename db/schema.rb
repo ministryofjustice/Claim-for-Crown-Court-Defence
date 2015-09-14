@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "advocates", force: true do |t|
+  create_table "advocates", force: :cascade do |t|
     t.string   "role"
     t.integer  "chamber_id"
     t.datetime "created_at"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
   add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
-  create_table "case_types", force: true do |t|
+  create_table "case_types", force: :cascade do |t|
     t.string   "name"
     t.boolean  "is_fixed_fee"
     t.datetime "created_at"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.boolean  "requires_trial_dates"
   end
 
-  create_table "case_worker_claims", force: true do |t|
+  create_table "case_worker_claims", force: :cascade do |t|
     t.integer  "case_worker_id"
     t.integer  "claim_id"
     t.datetime "created_at"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "case_worker_claims", ["case_worker_id"], name: "index_case_worker_claims_on_case_worker_id", using: :btree
   add_index "case_worker_claims", ["claim_id"], name: "index_case_worker_claims_on_claim_id", using: :btree
 
-  create_table "case_workers", force: true do |t|
+  create_table "case_workers", force: :cascade do |t|
     t.string   "role"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
   add_index "case_workers", ["role"], name: "index_case_workers_on_role", using: :btree
 
-  create_table "certifications", force: true do |t|
+  create_table "certifications", force: :cascade do |t|
     t.integer  "claim_id"
     t.boolean  "main_hearing"
     t.boolean  "notified_court"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.datetime "updated_at"
   end
 
-  create_table "chambers", force: true do |t|
+  create_table "chambers", force: :cascade do |t|
     t.string   "name"
     t.string   "supplier_number"
     t.boolean  "vat_registered"
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
   add_index "chambers", ["supplier_number"], name: "index_chambers_on_supplier_number", using: :btree
 
-  create_table "claim_state_transitions", force: true do |t|
+  create_table "claim_state_transitions", force: :cascade do |t|
     t.integer  "claim_id"
     t.string   "namespace"
     t.string   "event"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "claim_state_transitions", ["claim_id"], name: "index_claim_state_transitions_on_claim_id", using: :btree
 
-  create_table "claims", force: true do |t|
+  create_table "claims", force: :cascade do |t|
     t.text     "additional_information"
     t.boolean  "apply_vat"
     t.string   "state"
@@ -136,14 +136,16 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
+  add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
   add_index "claims", ["cms_number"], name: "index_claims_on_cms_number", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
+  add_index "claims", ["state"], name: "index_claims_on_state", using: :btree
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
 
-  create_table "courts", force: true do |t|
+  create_table "courts", force: :cascade do |t|
     t.string   "code"
     t.string   "name"
     t.string   "court_type"
@@ -155,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "courts", ["court_type"], name: "index_courts_on_court_type", using: :btree
   add_index "courts", ["name"], name: "index_courts_on_name", using: :btree
 
-  create_table "dates_attended", force: true do |t|
+  create_table "dates_attended", force: :cascade do |t|
     t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -167,7 +169,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "dates_attended", ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type", using: :btree
 
-  create_table "defendants", force: true do |t|
+  create_table "defendants", force: :cascade do |t|
     t.string   "first_name"
     t.string   "middle_name"
     t.string   "last_name"
@@ -181,7 +183,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
-  create_table "determinations", force: true do |t|
+  create_table "determinations", force: :cascade do |t|
     t.integer  "claim_id"
     t.string   "type"
     t.decimal  "fees"
@@ -191,7 +193,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.datetime "updated_at"
   end
 
-  create_table "documents", force: true do |t|
+  create_table "documents", force: :cascade do |t|
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -214,7 +216,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "documents", ["creator_id"], name: "index_documents_on_creator_id", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
 
-  create_table "expense_types", force: true do |t|
+  create_table "expense_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -222,7 +224,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "expense_types", ["name"], name: "index_expense_types_on_name", using: :btree
 
-  create_table "expenses", force: true do |t|
+  create_table "expenses", force: :cascade do |t|
     t.integer  "expense_type_id"
     t.integer  "claim_id"
     t.string   "location"
@@ -237,14 +239,14 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
 
-  create_table "features", force: true do |t|
+  create_table "features", force: :cascade do |t|
     t.string   "key",                        null: false
     t.boolean  "enabled",    default: false, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "fee_categories", force: true do |t|
+  create_table "fee_categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -253,7 +255,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "fee_categories", ["name"], name: "index_fee_categories_on_name", using: :btree
 
-  create_table "fee_types", force: true do |t|
+  create_table "fee_types", force: :cascade do |t|
     t.string   "description"
     t.string   "code"
     t.integer  "fee_category_id"
@@ -265,7 +267,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "fee_types", ["description"], name: "index_fee_types_on_description", using: :btree
   add_index "fee_types", ["fee_category_id"], name: "index_fee_types_on_fee_category_id", using: :btree
 
-  create_table "fees", force: true do |t|
+  create_table "fees", force: :cascade do |t|
     t.integer  "claim_id"
     t.integer  "fee_type_id"
     t.integer  "quantity"
@@ -278,7 +280,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
-  create_table "locations", force: true do |t|
+  create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -286,7 +288,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
-  create_table "messages", force: true do |t|
+  create_table "messages", force: :cascade do |t|
     t.string   "subject"
     t.text     "body"
     t.integer  "claim_id"
@@ -302,7 +304,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "messages", ["claim_id"], name: "index_messages_on_claim_id", using: :btree
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
 
-  create_table "offence_classes", force: true do |t|
+  create_table "offence_classes", force: :cascade do |t|
     t.string   "class_letter"
     t.string   "description"
     t.datetime "created_at"
@@ -312,7 +314,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "offence_classes", ["class_letter"], name: "index_offence_classes_on_class_letter", using: :btree
   add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
 
-  create_table "offences", force: true do |t|
+  create_table "offences", force: :cascade do |t|
     t.string   "description"
     t.integer  "offence_class_id"
     t.datetime "created_at"
@@ -321,7 +323,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
-  create_table "representation_orders", force: true do |t|
+  create_table "representation_orders", force: :cascade do |t|
     t.integer  "defendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -331,7 +333,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
   end
 
-  create_table "schemes", force: true do |t|
+  create_table "schemes", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -341,7 +343,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
 
   add_index "schemes", ["name"], name: "index_schemes_on_name", using: :btree
 
-  create_table "user_message_statuses", force: true do |t|
+  create_table "user_message_statuses", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "message_id"
     t.boolean  "read",       default: false
@@ -353,7 +355,7 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "user_message_statuses", ["read"], name: "index_user_message_statuses_on_read", using: :btree
   add_index "user_message_statuses", ["user_id"], name: "index_user_message_statuses_on_user_id", using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -375,14 +377,14 @@ ActiveRecord::Schema.define(version: 20150909102159) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "vat_rates", force: true do |t|
+  create_table "vat_rates", force: :cascade do |t|
     t.integer  "rate_base_points"
     t.date     "effective_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "versions", force: true do |t|
+  create_table "versions", force: :cascade do |t|
     t.string   "item_type",      null: false
     t.integer  "item_id",        null: false
     t.string   "event",          null: false

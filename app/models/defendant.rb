@@ -20,8 +20,7 @@ class Defendant < ActiveRecord::Base
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  
 
   validates_with DefendantValidator
-
-  validates_associated :representation_orders
+  validates_with DefendantSubModelValidator
 
   acts_as_gov_uk_date :date_of_birth
 

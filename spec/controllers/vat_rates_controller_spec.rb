@@ -11,7 +11,7 @@ RSpec.describe VatRatesController, type: :controller do
   end
 
   after(:all) do
-    VatRate.destroy( [ @vr1, @vr2 ] )
+    VatRate.destroy( [ @vr1.id, @vr2.id ] )
   end
 
 

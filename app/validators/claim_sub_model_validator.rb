@@ -1,6 +1,6 @@
 class ClaimSubModelValidator < BaseClaimValidator
 
-  HAS_MANY_ASSOCIATION_NAMES = [ :defendants, :fees, :expenses, :messages, :redeterminations, :documents ]
+  HAS_MANY_ASSOCIATION_NAMES = [ :defendants, :basic_fees, :misc_fees, :fixed_fees, :expenses, :messages, :redeterminations, :documents ]
   HAS_ONE_ASSOCIATION_NAMES  = [ :assessment, :certification ]
 
   def validate(record) 

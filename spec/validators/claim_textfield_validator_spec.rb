@@ -205,7 +205,7 @@ context '#perform_validation?' do
         claim.case_type = guilty_plea
         claim.trial_cracked_at_third = nil
         should_not_error(claim, :trial_cracked_at_third)
-          
+
       end
     end
   end
@@ -303,8 +303,10 @@ context '#perform_validation?' do
     end
 
     it 'should throw an exception for anything other than an array' do
-      claim.evidence_checklist_ids = '1, 45, 457'
-      expect { claim.save! }.to raise_error ActiveRecord::SerializationTypeMismatch, %q{Attribute was supposed to be a Array, but was a String.}
+      expect {
+        claim.evidence_checklist_ids = '1, 45, 457'
+        claim.save!
+      }.to raise_error ActiveRecord::SerializationTypeMismatch, /Attribute was supposed to be a Array, but was a String. -- "1, 45, 457"/i
     end
   end
 

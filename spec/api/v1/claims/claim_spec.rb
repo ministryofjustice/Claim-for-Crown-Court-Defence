@@ -107,7 +107,7 @@ describe API::V1::Advocates::Claim do
           post_to_create_endpoint
           @new_claim = Claim.last
         }
-        
+
         it "have the same attributes as described in params" do
           claim_params.delete(:advocate_email) # because the saved claim record does not have this attribute
           claim_params.each do |attribute, value|
@@ -169,7 +169,7 @@ describe API::V1::Advocates::Claim do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("PG::NumericValueOutOfRange")
+          expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
 

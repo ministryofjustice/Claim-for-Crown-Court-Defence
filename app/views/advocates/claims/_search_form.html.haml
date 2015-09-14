@@ -1,8 +1,9 @@
 %div.grid-row
   %div.column-half
     %div.form-inputs
-      = form_tag advocates_claims_path, method: :get do
-        = text_field_tag :search, params[:search], placeholder: 'Search e.g. advocate name, claim date DD/MM/YY', class: "form-control-3-4"
+      - path_to_use = defined?(archived) && archived ? archived_advocates_claims_path : advocates_claims_path
+      = form_tag path_to_use, method: :get do
+        = text_field_tag :search, params[:search], placeholder: 'Search e.g. Defendant name, Advocate name', class: "form-control-3-4"
         = submit_tag t('common.search'), class: 'button'
   %div.column-half
     &nbsp;

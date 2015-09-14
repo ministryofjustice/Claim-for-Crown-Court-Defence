@@ -11,7 +11,7 @@ Rails.application.configure do
   REPORDER_STORAGE_OPTIONS = {
     storage: :s3,
     s3_credentials: 'config/aws.yml',
-    path: "reporders/:id_partition/:filename", 
+    path: "reporders/:id_partition/:filename",
     url: "reporders/:id_partition/:filename"
   }
 
@@ -35,7 +35,7 @@ Rails.application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
+  config.serve_static_files = false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -108,4 +108,6 @@ Rails.application.configure do
 
   # log to stdout
   config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)
+
+  config.active_record.raise_in_transactional_callbacks = true
 end

@@ -2,14 +2,15 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
-  let!(:advocate) { create(:advocate) }
+
+  let!(:advocate)       { create(:advocate) }
+  let!(:advocate_admin) { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
 
   before { sign_in advocate.user }
 
   describe 'GET #index' do
     before(:each) do
       @allocated_claim                = build_claim_in_state(:allocated)
-      @archived_pending_delete_claim  = build_claim_in_state(:archived_pending_delete)
       @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
       @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
       @draft_claim                    = build_claim_in_state(:draft)
@@ -17,26 +18,32 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       @refused_claim                  = build_claim_in_state(:refused)
       @rejected_claim                 = build_claim_in_state(:rejected)
       @submitted_claim                = build_claim_in_state(:submitted)
-
       allow_any_instance_of(Claim).to receive(:id).and_return(777)
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_authorised_claim_value).and_return( 45454.45 )
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
-    let(:full_collection)  { [  @allocated_claim, @archived_pending_delete_claim,
-                                @awaiting_further_info_claim, @awaiting_info_from_court_claim,
-                                @draft_claim, @part_paid_claim, @refused_claim,
-                                @rejected_claim, @submitted_claim ] }
+    let(:non_archived_claims)  { [ @allocated_claim,
+                            @awaiting_further_info_claim,
+                            @awaiting_info_from_court_claim,
+                            @draft_claim,
+                            @part_paid_claim,
+                            @refused_claim,
+                            @rejected_claim,
+                            @submitted_claim ] }
+
+    it 'renders the template' do
+      get :index
+      expect(response).to render_template(:index)
+    end
 
     context 'advocate' do
-      it 'should categorise the claims for the advocate' do
+      it 'should retrieve dashboard displayable state claims for the advocate' do
         query_result = double 'QueryResult'
-        expect(controller.current_user).to receive(:claims).and_return(query_result)
-        allow(query_result).to receive(:order).and_return(full_collection)
-        allow(query_result).to receive(:unscope).and_return(full_collection)
-
+        expect(controller.current_user).to receive_message_chain(:claims, :dashboard_displayable_states).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(non_archived_claims)
+        allow(query_result).to receive(:unscope).and_return(non_archived_claims)
         get :index
-
         expect(response).to have_http_status(:success)
         expect(assigns(:claims)).to contain_claims( @draft_claim,
                                             @rejected_claim,
@@ -50,18 +57,13 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
 
     context 'advocate admin' do
-
-      let(:advocate_admin)                  { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
-
-      it 'should categorise claims for the chamber' do
-        sign_in advocate_admin.user
+      before { sign_in advocate_admin.user }
+      it 'should retrieve dashboard displayable state claims for the chamber' do
         query_result = double 'QueryResult'
-        expect(controller.current_user.persona.chamber).to receive(:claims).and_return(query_result)
-        allow(query_result).to receive(:order).and_return(full_collection)
-        allow(query_result).to receive(:unscope).and_return(full_collection)
-
+        expect(controller.current_user.persona.chamber).to receive_message_chain(:claims, :dashboard_displayable_states).and_return(query_result)
+        allow(query_result).to receive(:order).and_return(non_archived_claims)
+        allow(query_result).to receive(:unscope).and_return(non_archived_claims)
         get :index
-
         expect(response).to have_http_status(:success)
         expect(assigns(:claims)).to contain_claims( @draft_claim,
                                             @rejected_claim,
@@ -71,13 +73,47 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                             @awaiting_further_info_claim,
                                             @part_paid_claim,
                                             @refused_claim)
+      end
+    end
+  end
 
+  describe 'GET #archived' do
+    before(:each) do
+      @archived_pending_delete_claim = build_claim_in_state(:archived_pending_delete)
+      @allocated_claim                = build_claim_in_state(:allocated)
+      allow_any_instance_of(Claim).to receive(:id).and_return(777)
+    end
+
+    let(:archived_claims) { [ @archived_pending_delete_claim, @allocated_claim ] }
+
+    it 'renders the template' do
+      get :archived
+      expect(response).to render_template(:archived)
+    end
+
+    context 'advocate' do
+      it 'should return http success and assign @claims to archived claims for the advocate' do
+          query_result = double 'QueryResult'
+          expect(controller.current_user).to receive_message_chain(:claims, :archived_pending_delete).and_return(query_result)
+          allow(query_result).to receive(:order).and_return(archived_claims)
+          allow(query_result).to receive(:unscope).and_return(archived_claims)
+          get :archived
+          expect(response).to have_http_status(:success)
+          expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )
       end
     end
 
-    it 'renders the template' do
-      get :index
-      expect(response).to render_template(:index)
+    context 'advocate admin' do
+      before { sign_in advocate_admin.user }
+      it 'should return http success and assign @claims to archived claims for the advocates chamber' do
+          query_result = double 'QueryResult'
+          expect(controller.current_user.persona.chamber).to receive_message_chain(:claims, :archived_pending_delete).and_return(query_result)
+          allow(query_result).to receive(:order).and_return(archived_claims)
+          allow(query_result).to receive(:unscope).and_return(archived_claims)
+          get :archived
+          expect(response).to have_http_status(:success)
+          expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )
+       end
     end
   end
 

@@ -1,6 +1,6 @@
 class JsonTemplate
 
-  class << self 
+  class << self
 
     def generate
       set_models_hash
@@ -48,7 +48,7 @@ class JsonTemplate
     end
 
     def insert_values_for_typing
-      get_klass_and_attributes_hash 
+      get_klass_and_attributes_hash
     end
 
     def get_klass_and_attributes_hash
@@ -65,7 +65,7 @@ class JsonTemplate
     end
 
     def set_data_type(klass, attribute_name, attributes_hash)
-      if klass.columns_hash[attribute_name] != nil # if the class this attribute
+      if klass.columns_hash[attribute_name] # if the class has this attribute
         use_data_type_from_model(klass, attribute_name, attributes_hash)
       elsif attribute_name =~ /email/ # to account for email attribute which is on Defendant, not claim
         attributes_hash[attribute_name] = 'string' # and is of type 'string'
@@ -159,7 +159,7 @@ class JsonTemplate
     def get_route_params(const)
       API::V1::Advocates.const_get(const).endpoints.first.routes.first.route_params
     end
-    
+
   end
 
 end

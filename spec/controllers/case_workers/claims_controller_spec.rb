@@ -15,10 +15,9 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe "GET #index" do
     let(:tab) { nil }
     let(:search) { nil }
-    let(:search_field) { nil }
 
     before do
-      get :index, tab: tab, search: search, search_field: search_field
+      get :index, tab: tab, search: search
     end
 
     it "returns http success" do
@@ -41,7 +40,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'search by maat' do
       let(:search) { '12345' }
-      let(:search_field) { 'MAAT Reference' }
 
       before do
         create :defendant, claim: case_worker.claims.first, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '12345') ]
@@ -54,7 +52,6 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'search by defendant' do
       let(:search) { 'Joe Bloggs' }
-      let(:search_field) { 'Defendant' }
 
       before do
         create(:defendant, claim: case_worker.claims.first, first_name: 'Joe', last_name: 'Bloggs')

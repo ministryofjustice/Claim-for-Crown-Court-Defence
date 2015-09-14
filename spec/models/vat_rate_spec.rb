@@ -18,11 +18,11 @@ describe VatRate do
     @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
     @vr3 = FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
     # reload rates into the class variable to prevent stale rates from previous tests being used.
-    VatRate.load_rates     
+    VatRate.load_rates
   end
 
   after(:all) do
-    VatRate.destroy( [ @vr1, @vr2, @vr3] )
+    VatRate.destroy( [ @vr1.id, @vr2.id, @vr3.id ] )
   end
 
   describe '.for_date' do
@@ -32,7 +32,7 @@ describe VatRate do
 
     it 'should return 17.5% for dates between 3 and 10 years ago' do
       expect(VatRate.for_date(4.years.ago)).to eq 1750
-    end    
+    end
 
     it 'should return 22.25% for dates less than one year ago' do
       expect(VatRate.for_date(3.months.ago)).to eq 2225
@@ -53,7 +53,7 @@ describe VatRate do
 
     it 'should return 17.5% for dates between 3 and 10 years ago' do
       expect(VatRate.pretty_rate(4.years.ago)).to eq '17.5%'
-    end    
+    end
 
     it 'should return 22.25% for dates less than one year ago' do
       expect(VatRate.pretty_rate(3.months.ago)).to eq '22.25%'
@@ -64,7 +64,7 @@ describe VatRate do
 
   describe '.vat_amount' do
     context '22.25% VAT' do
-      
+
       it 'should return 25.75 for 115.75' do
         vat_amount = VatRate.vat_amount(BigDecimal.new("115.75"), 6.months.ago)
         expect(vat_amount).to eq 25.75
@@ -76,7 +76,7 @@ describe VatRate do
       end
     end
   end
- 
+
 
   describe '.rate_for_date' do
     it 'should be private' do
@@ -84,5 +84,5 @@ describe VatRate do
     end
   end
 
-  
+
 end

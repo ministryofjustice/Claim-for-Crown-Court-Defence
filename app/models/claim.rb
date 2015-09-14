@@ -77,9 +77,9 @@ class Claim < ActiveRecord::Base
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
   has_many :claim_state_transitions,  dependent: :destroy,          inverse_of: :claim
 
-  has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
-  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
-  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
+  has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee', inverse_of: :claim
+  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee', inverse_of: :claim
+  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee', inverse_of: :claim
 
   has_many :determinations
   has_one  :assessment
@@ -92,6 +92,7 @@ class Claim < ActiveRecord::Base
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: ['submitted','allocated']) }
   scope :authorised,  -> { where(state: 'paid') }
+  scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
   # Trial type scopes
   scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
@@ -106,7 +107,6 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
 
-  validates_associated :defendants, :fees, :expenses
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true

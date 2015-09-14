@@ -1,6 +1,5 @@
 Feature: Sign in
 
-  @wip
   Scenario: Sign in as an advocate
     Given an "advocate" user account exists
      When I visit the user sign in page
@@ -8,7 +7,6 @@ Feature: Sign in
      Then I should be redirected to the advocates root url
       And I should see the advocates correct working primary navigation
 
-  @wip
   Scenario: Sign in as an advocate admin
     Given an "advocate admin" user account exists
      When that advocate admin signs in
@@ -22,7 +20,6 @@ Feature: Sign in
      Then I should be redirected to the "case workers" root url
       And I should see the caseworkers correct working primary navigation
 
-  @wip 
   Scenario: Sign in as a case worker admin
     Given a "case worker admin" user account exists
      When I visit the user sign in page

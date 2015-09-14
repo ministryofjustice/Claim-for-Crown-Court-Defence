@@ -23,7 +23,6 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     it('exist')       { expect(Claim.state_machine.states.map(&:name).sort).to eq(states.sort) }
-    it('are valid')   { states.each { |s| subject.state = s; expect(subject).to be_valid } }
   end
 
   describe 'valid transitions' do

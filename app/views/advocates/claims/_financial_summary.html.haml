@@ -20,7 +20,15 @@
     %div.column-quarter
       &nbsp;
     %div.column-quarter
-      = form_tag({controller: 'advocates/json_document_importer', action: 'create'}, method: 'post', multipart: true) do
-        = label_tag nil, 'Import Claim', {class: "bold-normal", for:"json_file"}
-        = file_field_tag :json_file
-        = submit_tag 'Upload', class: "button button-secondary"
+      = form_for [:advocates, @json_document_importer] do |f|
+        - if @json_document_importer.errors.any?
+          .validation-summary
+            %h2.heading-small
+              = "#{pluralize(@json_document_importer.errors.count, 'error')}"
+              prohibited save
+            %ul
+              - @json_document_importer.errors.full_messages.each do |msg|
+                %li= msg
+        = f.label nil, 'Import Claim', {class: "bold-normal", for:"json_file"}
+        = f.file_field :json_file
+        = f.submit 'Upload', class: "button button-secondary"

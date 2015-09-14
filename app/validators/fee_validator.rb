@@ -98,8 +98,8 @@ class FeeValidator < BaseClaimValidator
       add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quanitity is zero')
-    # elsif @record.amount.to_i != @record.amount
-    #   add_error(:amount, 'Fee amount must be whole numbers only')
+    elsif @record.amount.to_i != @record.amount
+      add_error(:amount, 'Fee amount must be whole numbers only')
     end
   end
 

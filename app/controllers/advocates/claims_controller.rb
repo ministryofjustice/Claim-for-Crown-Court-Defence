@@ -114,12 +114,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def search(states=nil)
-    # if current_user.persona.admin?
-    #   params[:search_field] ||= 'All'
-    # else
-    #   params[:search_field] ||= 'Defendant'
-    # end
-    # @claims = @claims.search(params[:search], *search_options[params[:search_field]])
     @claims = @claims.search(params[:search], states, *search_options)
   end
 
@@ -127,15 +121,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     options = [:defendant_name]
     options << :advocate_name if current_user.persona.admin?
     options
-    # TODO - to be removed
-    # option_mappings = {
-    #   'All'       => [:defendant_name],
-    #   'Advocate'  => [:advocate_name],
-    #   'Defendant' => [:defendant_name]
-    # }
-
-    # option_mappings['All'] << :advocate_name if current_user.persona.admin?
-    # option_mappings
   end
 
   def load_advocates_in_chamber

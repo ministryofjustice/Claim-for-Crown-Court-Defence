@@ -51,6 +51,27 @@ FactoryGirl.define do
       claim         { FactoryGirl.create :claim, source: 'api' }
     end
 
+    trait :baf_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Basic Fee', code: 'BAF' }
+    end
+
+    trait :daf_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF' }
+    end
+
+    trait :dah_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH' }
+    end
+
+    trait :daj_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ' }
+    end
+
+    trait :pcm_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
+    end
+
+
   end
 
 end

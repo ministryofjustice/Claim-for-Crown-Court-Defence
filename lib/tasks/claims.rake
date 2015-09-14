@@ -139,6 +139,9 @@ end
         end
       end
 
+      q = adjust_quantity_for_fee_type(claim, fee_type, q)
+      next if q = 0
+      
       fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
@@ -154,7 +157,9 @@ end
     fee_count.times do
       fee_type = claim.case_type == "fixed_fee" ? FeeType.fixed.sample : FeeType.misc.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
-      FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0
+      unless claim.first_day_of_trial.nil?
+        FactoryGirl.create(:date_attended, attended_item: fee, date: claim.first_day_of_trial) unless rand(2) == 0
+      end
       # puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
     end
   end
@@ -263,6 +268,11 @@ end
         if case_type.requires_cracked_dates?
           claim_attrs.merge!({trial_fixed_notice_at: 2.months.ago, trial_fixed_at: 1.month.ago, trial_cracked_at: 2.week.ago})
         end
+
+        if case_type.requires_trial_dates?
+          claim_attrs.merge!({first_day_of_trial: 28.days.ago, estimated_trial_length: 3, actual_trial_length: 3} )
+        end
+
         claim = FactoryGirl.create("#{s}_claim".to_sym, claim_attrs)
 
         # randomise creator
@@ -302,6 +312,18 @@ end
     end
   end
 
+
+  def adjust_quantity_for_fee_type(claim, fee_type, q)
+    case fee_type.code
+    when 'DAF'
+      q = claim.actual_trial_length < 3 ? 0: claim.actual_trial_length - 3
+    when'DAH'
+      q = claim.actual_trial_length < 41 ? 0: claim.actual_trial_length - 40
+    when 'DAJ'
+      q = claim.actual_trial_length < 51 ? 0: claim.actual_trial_length - 50
+    end
+    q
+  end
   
 
 end

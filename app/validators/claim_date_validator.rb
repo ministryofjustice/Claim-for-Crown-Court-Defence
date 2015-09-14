@@ -13,6 +13,7 @@ class ClaimDateValidator < BaseClaimValidator
     @@fields
   end
 
+
   private
 
   # required when case type is cracked, cracked before retrial

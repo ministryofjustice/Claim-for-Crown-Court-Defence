@@ -1,7 +1,7 @@
 require 'rails_helper'
 require File.dirname(__FILE__) + '/date_validation_helpers'
 
-describe DefendantDateValidator do
+describe DefendantValidator do
 
   include RspecDateValidationHelpers
 

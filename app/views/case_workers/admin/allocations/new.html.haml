@@ -70,9 +70,9 @@
 
 %p
   - if params[:high_value].blank? || params[:high_value] == 'false'
-    = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.except(:search, :filter).merge(high_value: true))
+    = link_to 'Show only high value claims', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(high_value: true))
   - else
-    = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.except(:search, :filter).merge(high_value: false))
+    = link_to 'Show claims for all values', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(high_value: false))
 
 - if @allocated_claims
   = render 'allocated_summary'

@@ -8,8 +8,13 @@
   .columm-quarter
     = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started right'
 
-#summary
-  = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+.grid-row
+  .column-three-quarter
+    #summary
+      = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+  .column-quarter
+    #importer
+      = render partial: 'json_document_importer'
 
 #report-options.container
   = render partial: 'search_form'

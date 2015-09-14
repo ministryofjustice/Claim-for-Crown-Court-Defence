@@ -1035,4 +1035,82 @@ RSpec.describe Claim, type: :model do
     end
 
   end
+
+  describe 'not saving the expenses model' do
+    it 'should save the expenses model' do
+      advocate = FactoryGirl.create :advocate
+      expense_type = FactoryGirl.create :expense_type
+      fee_scheme = FactoryGirl.create :scheme
+      fee_type = FactoryGirl.create :fee_type
+      case_type = FactoryGirl.create :case_type
+      court = FactoryGirl.create :court
+      offence = FactoryGirl.create :offence
+
+
+
+      params = {"claim"=>
+        {"case_type_id"=>case_type.id,
+         "trial_fixed_notice_at_dd"=>"",
+         "trial_fixed_notice_at_mm"=>"",
+         "trial_fixed_notice_at_yyyy"=>"",
+         "trial_fixed_at_dd"=>"",
+         "trial_fixed_at_mm"=>"",
+         "trial_fixed_at_yyyy"=>"",
+         "trial_cracked_at_dd"=>"",
+         "trial_cracked_at_mm"=>"",
+         "trial_cracked_at_yyyy"=>"",
+         "trial_cracked_at_third"=>"",
+         "court_id"=>court.id,
+         "case_number"=>"A12345678",
+         "advocate_category"=>"QC",
+         "advocate_id" => advocate.id,
+         "offence_id"=>offence.id,
+         "first_day_of_trial_dd"=>"8",
+         "first_day_of_trial_mm"=>"9",
+         "first_day_of_trial_yyyy"=>"2015",
+         "estimated_trial_length"=>"0",
+         "actual_trial_length"=>"0",
+         "trial_concluded_at_dd"=>"11",
+         "trial_concluded_at_mm"=>"9",
+         "trial_concluded_at_yyyy"=>"2015",
+         "defendants_attributes"=>
+          {"0"=>
+            {"first_name"=>"Foo",
+             "middle_name"=>"",
+             "last_name"=>"Bar",
+             "date_of_birth_dd"=>"04",
+             "date_of_birth_mm"=>"10",
+             "date_of_birth_yyyy"=>"1980",
+             "order_for_judicial_apportionment"=>"0",
+             "representation_orders_attributes"=>
+              {"0"=>
+                {"granting_body"=>"Crown Court",
+                 "representation_order_date_dd"=>"30",
+                 "representation_order_date_mm"=>"08",
+                 "representation_order_date_yyyy"=>"2015",
+                 "maat_reference"=>"aaa1111",
+                 "_destroy"=>"false"}},
+             "_destroy"=>"false"}},
+         "additional_information"=>"",
+         "basic_fees_attributes"=>
+          {"0"=>{"quantity"=>"1", "amount"=>"0.5", "fee_type_id"=>fee_type.id}},
+         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
+         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
+         "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
+         "apply_vat"=>"0",
+         "document_ids"=>[""],
+         "evidence_checklist_ids"=>["1", ""]},
+       "offence_category"=>{"description"=>""},
+       "offence_class"=>{"description"=>"64"},
+       "commit"=>"Submit to LAA"}
+      claim = Claim.new(params['claim'])
+      claim.creator = advocate
+      claim.force_validation = true
+      expect(claim.save).to be true
+      expect(claim.expenses).to have(1).member
+      expect(claim.expenses_total).to eq 40.0
+      
+
+    end
+  end
 end

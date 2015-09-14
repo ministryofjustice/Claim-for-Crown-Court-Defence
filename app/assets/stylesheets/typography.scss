@@ -19,7 +19,7 @@
 }
 
 .financial_summary{
-  p, .button{
+  p{
     @include core-19();
   }
 }

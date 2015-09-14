@@ -1,13 +1,13 @@
 %div.container.financial_summary
   %div.grid-row
-    %div.column-quarter
+    %div.column-third
       %span.bold-medium
         = t('.total_outstanding')
       %div.bold-large
         = number_to_currency(financial_summary.total_outstanding_claim_value)
       %p
         = link_to t('.view_details'), outstanding_advocates_claims_path, id: "outstanding_claim_details"
-    %div.column-quarter
+    %div.column-two-third
       %span.bold-medium
         = t('.total_authorised')
       %div.bold-large
@@ -16,19 +16,3 @@
         = "for this week"
         %br
         = link_to t('.view_details'), authorised_advocates_claims_path, id: "authorised_claim_details"
-
-    %div.column-quarter
-      &nbsp;
-    %div.column-quarter
-      = form_for [:advocates, @json_document_importer] do |f|
-        - if @json_document_importer.errors.any?
-          .validation-summary
-            %h2.heading-small
-              = "#{pluralize(@json_document_importer.errors.count, 'error')}"
-              prohibited save
-            %ul
-              - @json_document_importer.errors.full_messages.each do |msg|
-                %li= msg
-        = f.label nil, 'Import Claim', {class: "bold-normal", for:"json_file"}
-        = f.file_field :json_file
-        = f.submit 'Upload', class: "button button-secondary"

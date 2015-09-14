@@ -17,7 +17,7 @@ FactoryGirl.define do
     claim
     fee_type
     quantity 1
-    amount "9.99"
+    amount "250"
 
     trait :with_date_attended do
       after(:build) do |fee|

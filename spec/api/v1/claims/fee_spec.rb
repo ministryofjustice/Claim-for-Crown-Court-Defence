@@ -66,6 +66,7 @@ describe API::V1::Advocates::Fee do
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
+          
           response = post_to_create_endpoint(invalid_params)
           expect(response.status).to eq 400
           json = JSON.parse(response.body)
@@ -75,11 +76,11 @@ describe API::V1::Advocates::Fee do
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          valid_params[:quantity] = 1000000000000000000000000
+          allow(API::V1::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
-          json = JSON.parse(response.body)
-          expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
+          result_hash = JSON.parse(response.body)
+          expect(result_hash).to eq( [ {"error"=>"RangeError"} ] )
         end
       end
 

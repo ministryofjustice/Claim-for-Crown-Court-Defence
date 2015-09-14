@@ -3,8 +3,8 @@
 # Table name: offence_classes
 #
 #  id           :integer          not null, primary key
-#  class_letter :string(255)
-#  description  :string(255)
+#  class_letter :string
+#  description  :string
 #  created_at   :datetime
 #  updated_at   :datetime
 #

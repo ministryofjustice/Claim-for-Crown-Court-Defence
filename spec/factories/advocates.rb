@@ -3,11 +3,11 @@
 # Table name: advocates
 #
 #  id              :integer          not null, primary key
-#  role            :string(255)
+#  role            :string
 #  chamber_id      :integer
 #  created_at      :datetime
 #  updated_at      :datetime
-#  supplier_number :string(255)
+#  supplier_number :string
 #  uuid            :uuid
 #
 

@@ -3,9 +3,9 @@
 # Table name: defendants
 #
 #  id                               :integer          not null, primary key
-#  first_name                       :string(255)
-#  middle_name                      :string(255)
-#  last_name                        :string(255)
+#  first_name                       :string
+#  middle_name                      :string
+#  last_name                        :string
 #  date_of_birth                    :date
 #  order_for_judicial_apportionment :boolean
 #  claim_id                         :integer

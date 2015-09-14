@@ -3,12 +3,12 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string(255)
+#  role           :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer
-#  days_worked    :string(255)
-#  approval_level :string(255)      default("Low")
+#  days_worked    :string
+#  approval_level :string           default("Low")
 #
 
 class CaseWorker < ActiveRecord::Base

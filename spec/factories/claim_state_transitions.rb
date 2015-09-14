@@ -4,10 +4,10 @@
 #
 #  id         :integer          not null, primary key
 #  claim_id   :integer
-#  namespace  :string(255)
-#  event      :string(255)
-#  from       :string(255)
-#  to         :string(255)
+#  namespace  :string
+#  event      :string
+#  from       :string
+#  to         :string
 #  created_at :datetime
 #
 

@@ -101,6 +101,11 @@ class FeeValidator < BaseClaimValidator
     elsif @record.amount.to_i != @record.amount
       add_error(:amount, 'Fee amount must be whole numbers only')
     end
+    if @record.fee_type
+      unless @record.fee_type.max_amount.nil?
+        add_error(:amount, "Fee amount exceeds maximum permitted (#{@record.fee_type.pretty_max_amount}) for this fee type") if @record.amount > @record.fee_type.max_amount
+      end
+    end
   end
 
  

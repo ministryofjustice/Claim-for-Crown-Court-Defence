@@ -36,6 +36,19 @@ describe FeeValidator do
       end
       it { should_error_if_equal_to_value(daf_fee, :amount, 1.00, 'Fee amounts cannot be specified if the fee quanitity is zero') }
     end
+
+    context 'fee with max amount' do
+      before(:each)       { fee.fee_type.max_amount = 9999 }
+
+      it { should_be_valid_if_equal_to_value(fee, :amount, 999) }
+      it { should_error_if_equal_to_value(fee, :amount, 10000, 'Fee amount exceeds maximum permitted (£9,999) for this fee type') }
+    end
+
+    context 'fee with no max amount' do
+      before(:each)       { fee.fee_type.max_amount = nil }
+      it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
+    end
+
   end
 
 

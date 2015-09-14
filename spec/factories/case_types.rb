@@ -3,7 +3,7 @@
 # Table name: case_types
 #
 #  id                     :integer          not null, primary key
-#  name                   :string(255)
+#  name                   :string
 #  is_fixed_fee           :boolean
 #  created_at             :datetime
 #  updated_at             :datetime

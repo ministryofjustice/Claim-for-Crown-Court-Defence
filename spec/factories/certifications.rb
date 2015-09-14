@@ -10,7 +10,7 @@
 #  attended_first_hearing           :boolean
 #  previous_advocate_notified_court :boolean
 #  fixed_fee_case                   :boolean
-#  certified_by                     :string(255)
+#  certified_by                     :string
 #  certification_date               :date
 #  created_at                       :datetime
 #  updated_at                       :datetime

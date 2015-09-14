@@ -12,8 +12,6 @@
         Claim Total
       %th
         Date
-      %th
-        Status
       %th.message-placeholder
   %tbody
     - @claims.each do |claim_object|
@@ -30,8 +28,6 @@
             = claim.total_inc_vat
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
-          %td
-            = "Current (WIP)"
           %td
             - if claim.has_unread_messages_for?(current_user)
               %object{:type => 'image/svg+xml', :data => image_path('unread-message.svg'), :class => 'message'}

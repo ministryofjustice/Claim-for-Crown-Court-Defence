@@ -6,8 +6,8 @@
 #  defendant_id              :integer
 #  created_at                :datetime
 #  updated_at                :datetime
-#  granting_body             :string(255)
-#  maat_reference            :string(255)
+#  granting_body             :string
+#  maat_reference            :string
 #  representation_order_date :date
 #  uuid                      :uuid
 #

@@ -140,7 +140,7 @@ end
       end
 
       q = adjust_quantity_for_fee_type(claim, fee_type, q)
-      next if q = 0
+      next if q == 0
       
       fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
 

@@ -125,6 +125,7 @@ class Claim < ActiveRecord::Base
 
   after_initialize :instantiate_basic_fees
 
+
   before_save :calculate_vat
 
   before_validation do
@@ -194,12 +195,13 @@ class Claim < ActiveRecord::Base
     super.empty? ? fees.select { |f| f.is_basic? }.sort{ |a, b| a.fee_type_id <=> b.fee_type_id } : super
   end
 
-  def instantiate_basic_fees(params = nil)
+  # create a blank fee for every basic fee type not passed to Claim.new
+  def instantiate_basic_fees
     return unless self.new_record?
-    if params.nil?
-      FeeType.basic.each { |fee_type| fees << Fee.new_blank(self, fee_type) }
-    else
-      Fee.new_collection_from_form_params(self, params)
+    FeeType.basic.each do |basic_fee_type|
+      unless self.basic_fees.map(&:fee_type_id).include?(basic_fee_type.id)
+        fees << Fee.new_blank(self, basic_fee_type)
+      end
     end
   end
 

@@ -139,7 +139,13 @@ end
         end
       end
 
-      fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
+      # TODO: this will need to be an update if instantiation id kept
+      # fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
+
+      fee = Fee.find_by(claim: claim, fee_type: fee_type)
+      fee.quantity = q
+      fee.amount = a
+      fee.save!
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0 || q == 0

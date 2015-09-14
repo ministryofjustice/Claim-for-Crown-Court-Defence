@@ -95,6 +95,8 @@ private
     end
   end
 
+
+
   #
   # don't raise exceptions but, instead, return the
   # response for analysis.

@@ -7,12 +7,12 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_fee_type
-    validate_presence(:fee_type, "Fee type cannot be blank") 
+    validate_presence(:fee_type, "Fee type cannot be blank")
   end
 
   def validate_quantity
     @actual_trial_length = @record.try(:claim).try(:actual_trial_length) || 0
-    
+
     case @record.fee_type.try(:code)
     when 'BAF'
       validate_basic_fee_quantity
@@ -34,9 +34,9 @@ class FeeValidator < BaseClaimValidator
 
 
   def validate_basic_fee_quantity
-    if @record.claim.case_type.is_fixed_fee?
+    if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
-    else  
+    else
       validate_numericality(:quantity, 1, 1, 'Quantity for basic fee: only one basic fee can be claimed per case')
     end
   end
@@ -44,7 +44,7 @@ class FeeValidator < BaseClaimValidator
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 3
-      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length') 
+      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
     elsif @record.quantity > @actual_trial_length - 2
       add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
     elsif @record.quantity > 37
@@ -76,7 +76,7 @@ class FeeValidator < BaseClaimValidator
 
 
   def validate_plea_and_case_management_hearing
-    if @record.claim.case_type.allow_pcmh_fee_type?
+    if @record.claim.case_type.try(:allow_pcmh_fee_type?)
       if @record.quantity < 0
         add_error(:quantity, 'Quantity for fee cannot be negative')
       elsif @record.quantity == 0
@@ -112,7 +112,7 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
- 
+
 
   def validate_dates_attended
   end

@@ -323,7 +323,7 @@ class Claim < ActiveRecord::Base
 
   def destroy_all_invalid_fee_types
     if case_type.present? && case_type.is_fixed_fee?
-      basic_fees.map(&:clear) unless basic_fees.blank?
+      basic_fees.map(&:clear) unless basic_fees.empty?
       misc_fees.destroy_all   unless misc_fees.empty?
     else
       fixed_fees.destroy_all unless fixed_fees.empty?

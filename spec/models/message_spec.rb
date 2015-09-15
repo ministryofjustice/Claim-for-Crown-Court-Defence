@@ -41,6 +41,8 @@ RSpec.describe Message, type: :model do
                          'text/html')
   end
 
+  it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
+
   describe '.for' do
     let(:message) { create(:message) }
     let(:claim) { message.claim }

@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.datetime "updated_at"
     t.boolean  "requires_cracked_dates"
     t.boolean  "requires_trial_dates"
+    t.boolean  "allow_pcmh_fee_type",    default: false
   end
 
   create_table "case_worker_claims", force: :cascade do |t|

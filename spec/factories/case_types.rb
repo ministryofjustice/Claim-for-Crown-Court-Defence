@@ -31,5 +31,9 @@ FactoryGirl.define do
       requires_trial_dates true
     end
 
+    trait :allow_pcmh_fee_type do
+      allow_pcmh_fee_type true
+    end
+
   end
 end

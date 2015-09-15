@@ -1,0 +1,18 @@
+/***************************************
+
+Page specific styling for the Claims detail
+page
+
+***************************************/
+
+.claim-header, .claim-detail-header{
+  margin-bottom: $gutter-half;
+}
+
+/****************************************
+Other Claim Navigation
+****************************************/
+.other-claims { background-color: $panel-colour;
+  padding: 10px 15px;
+  border: 1px solid $border-colour;
+}

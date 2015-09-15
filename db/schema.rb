@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20150915110319) do
     t.datetime "updated_at"
     t.boolean  "requires_cracked_dates"
     t.boolean  "requires_trial_dates"
+    t.boolean  "allow_pcmh_fee_type",     default: false
     t.boolean  "requires_maat_reference", default: false
   end
 

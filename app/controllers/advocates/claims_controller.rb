@@ -42,7 +42,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
-    @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     load_offences_and_case_types
 
@@ -114,12 +113,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def search(states=nil)
-    # if current_user.persona.admin?
-    #   params[:search_field] ||= 'All'
-    # else
-    #   params[:search_field] ||= 'Defendant'
-    # end
-    # @claims = @claims.search(params[:search], *search_options[params[:search_field]])
     @claims = @claims.search(params[:search], states, *search_options)
   end
 
@@ -127,15 +120,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     options = [:defendant_name]
     options << :advocate_name if current_user.persona.admin?
     options
-    # TODO - to be removed
-    # option_mappings = {
-    #   'All'       => [:defendant_name],
-    #   'Advocate'  => [:advocate_name],
-    #   'Defendant' => [:defendant_name]
-    # }
-
-    # option_mappings['All'] << :advocate_name if current_user.persona.admin?
-    # option_mappings
   end
 
   def load_advocates_in_chamber
@@ -329,7 +313,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def render_new_with_resources
-    @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
     load_offences_and_case_types
     render action: :new

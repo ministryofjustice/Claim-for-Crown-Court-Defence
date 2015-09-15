@@ -133,9 +133,9 @@ When(/^I fill in the claim details$/) do
 
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_0_amount', with: 0.5
+    fill_in 'claim_basic_fees_attributes_0_amount', with: 50
     fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_1_amount', with: 0.5
+    fill_in 'claim_basic_fees_attributes_1_amount', with: 50
   end
 
   within '#expenses' do
@@ -182,9 +182,9 @@ end
 
 
 Then(/^I should see the claim totals$/) do
-  expect(page).to have_content("Fees total: £1.00")
+  expect(page).to have_content("Fees total: £100.00")
   expect(page).to have_content("Expenses total: £40.00")
-  expect(page).to have_content("Total: £41.00")
+  expect(page).to have_content("Total: £140.00")
 end
 
 Given(/^I am on the claim confirmation page$/) do
@@ -293,25 +293,25 @@ end
 When(/^I add a fixed fee$/) do
     within '#fixed-fees' do
       fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_fixed_fees_attributes_0_amount', with: 100.01
+      fill_in 'claim_fixed_fees_attributes_0_amount', with: 100.00
       select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     end
 end
 
 Then(/^I should see the claim totals accounting for only the fixed fee$/) do
-  expect(page).to have_content("Fees total: £100.01")
+  expect(page).to have_content("Fees total: £100.00")
 end
 
 When(/^I add a miscellaneous fee$/) do
     within '#misc-fees' do
       fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_misc_fees_attributes_0_amount', with: 200.01
+      fill_in 'claim_misc_fees_attributes_0_amount', with: 200.00
       select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     end
 end
 
 Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
-  expect(page).to have_content("Fees total: £201.01")
+  expect(page).to have_content("Fees total: £300.00")
 end
 
 
@@ -371,6 +371,6 @@ end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
   claim = create(:submitted_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
-  create(:fee, :basic, claim: claim, quantity: 3, amount: 7.5)
+  create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end

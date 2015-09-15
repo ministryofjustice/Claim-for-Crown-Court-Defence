@@ -46,6 +46,8 @@ RSpec.describe Document, type: :model do
                          'text/html')
   end
 
+  it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
+
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }

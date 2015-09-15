@@ -27,7 +27,8 @@ class Document < ActiveRecord::Base
   belongs_to :claim
 
   validates_attachment :document,
-    presence: {message: 'Document must have an attachment'},
+    presence: { message: 'Document must have an attachment' },
+    size: { in: 0.megabytes..20.megabytes },
     content_type: {
       content_type: ['application/pdf',
                      'application/msword',

@@ -1,0 +1,29 @@
+claims:
+  appeal_against_conviction_claim:
+    additional_information: "This is an claim for an appeal against conviction, which is a fixed fee claim, and therefore has no basic fees"
+    apply_vat: true
+    state: draft
+    submitted_at: <% rand(2..5).days.ago %>
+    case_number:  <% DemoData.random_case_number %>
+    advocate_category: <% DemoData.random_advocate_category %>
+    indictment_number: <% DemoData.random_indictment_number %>
+    first_day_of_trial: <% rand(80..90).days.ago %>
+    actual_trial_length: <% rand(2..52) %>
+    advocate: <% Advocate.sample %>
+    court: <% Court.sample %>
+    offence: <% Offence.sample %>
+    valid_until: <% 6.months.from_now %>
+    cms_number: <% DemoData.random_cms_number %>
+    # paid_at
+    # creator_id
+    # evidence_notes
+    # evidence_checklist_ids
+    # trial_concluded_at
+    # trial_fixed_notice_at
+    # trial_fixed_at
+    # trial_cracked_at
+    # trial_cracked_at_third
+    # source
+    # vat_amount
+    # uuid
+    # case_type_id

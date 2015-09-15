@@ -33,6 +33,7 @@ gem 'paper_trail',          '~> 4.0.0.rc'
 gem 'pg',                   '~> 0.18.2'
 gem 'rails',                '4.2.4'
 gem 'rails_config',         '~> 0.5.0.beta1'
+gem 'remotipart',           '~> 1.2'
 gem 'responder',            '~> 0.2.4'
 gem 'rest-client',          '~> 1.8' # needed for scheduled smoke testing plus others
 gem 'sass-rails',           '~> 4.0.4'

@@ -1,15 +1,21 @@
 class Advocates::JsonDocumentImportersController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token, :only => :create
   skip_load_and_authorize_resource only: [:create]
   before_action :set_schema
+  respond_to :js, :html
 
   def create
     @json_document_importer = JsonDocumentImporter.new(json_document_importer_params.merge(schema: @schema))
     if @json_document_importer.valid?
       @json_document_importer.import!
-      redirect_to '/advocates'
+      respond_to do |format|
+        format.js
+      end
     else
-      redirect_to '/advocates'
+      respond_to do |format|
+        format.js { render :format_error, locals: {filename: json_document_importer_params[:json_file].original_filename } }
+      end
     end
   end
 

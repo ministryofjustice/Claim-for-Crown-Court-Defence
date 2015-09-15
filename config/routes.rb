@@ -46,9 +46,7 @@ Rails.application.routes.draw do
   namespace :advocates do
     root to: 'claims#index'
 
-    resources :json_document_importers, only: [:new, :create] do
-      get '/', to: 'json_document_importer#new', on: :collection
-    end
+    resources :json_document_importers, only: [:create], format: :js
 
     post '/advocates/json_importer' => 'json_document_importer#create'
 

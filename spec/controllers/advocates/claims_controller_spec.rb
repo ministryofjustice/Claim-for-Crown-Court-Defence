@@ -206,7 +206,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                     representation_order_date_mm: scheme.start_date.month.to_s,
                     representation_order_date_yyyy: scheme.start_date.year.to_s,
                     granting_body: 'Crown Court',
-                    maat_reference: '111AAA222BB'
+                    maat_reference: '4561237895'
                   }
                 ]
               }
@@ -517,7 +517,7 @@ def valid_claim_fee_params
              "representation_order_date_dd" => "13",
              "representation_order_date_mm" => "05",
              "representation_order_date_yyyy" => "2015",
-             "maat_reference" => "MAAT2015",
+             "maat_reference" => "1594851269",
              "granting_body" => "Crown Court"}
           }
         }

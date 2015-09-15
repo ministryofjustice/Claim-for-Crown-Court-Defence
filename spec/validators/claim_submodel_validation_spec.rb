@@ -16,7 +16,7 @@ describe 'Validations on Claim submodels' do
 
   it 'should call the validator on all the representation orders' do
     expect(defendant.representation_orders).to have(2).items
-    expect_any_instance_of(RepresentationOrderDateValidator).to receive(:validate_representation_order_date).at_least(:once)
+    expect_any_instance_of(RepresentationOrderValidator).to receive(:validate_representation_order_date).at_least(:once)
     claim.valid?
   end
 

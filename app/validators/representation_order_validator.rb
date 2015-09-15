@@ -32,10 +32,10 @@ class RepresentationOrderValidator < BaseClaimValidator
   end
 
 
-  # mandatory for cases after 2010 where case type isn't breach of crown court order
+  # mandatory where case type isn't breach of crown court order
   # must be exactly 10 numeric digits
   def validate_maat_reference
-    if @record.defendant.claim.case_type.requires_maat_reference? && @record.defendant.claim.earliest_representation_order.representation_order_date > Date.new(2010, 1, 1)
+    if @record.try(:defendant).try(:claim).try(:case_type).try(:requires_maat_reference?)
       validate_presence(:maat_reference, "MAAT reference cannot be blank") if @record.defendant.claim.case_type.requires_maat_reference?
     end
     validate_pattern(:maat_reference, /[0-9]{10}/, 'MAAT reference invalid.  It must be exactly 10 numeric characters')

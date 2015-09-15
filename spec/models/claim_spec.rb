@@ -439,7 +439,7 @@ RSpec.describe Claim, type: :model do
         subject.save!
 
         other_claim.advocate = other_advocate
-        other_claim.advocate.user.first_name = 'John'
+        other_claim.advocate.user.first_name = 'Johncz'
         other_claim.advocate.user.last_name = 'Hoskins'
         other_claim.advocate.user.save!
         create(:defendant, first_name: 'Fred', last_name: 'Hoskins', claim: other_claim)
@@ -451,7 +451,7 @@ RSpec.describe Claim, type: :model do
         expect(Claim.search('Bloggs', states, *search_options)).to eq([subject])
         expect(Claim.search('Hoskins',states, *search_options)).to eq([other_claim])
         expect(Claim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
-        expect(Claim.search('John',   states, *search_options).count).to eq(1) #advocate only search
+        expect(Claim.search('Johncz',   states, *search_options).count).to eq(1) #advocate only search
         expect(Claim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
       end
 
@@ -1088,7 +1088,7 @@ RSpec.describe Claim, type: :model do
                  "representation_order_date_dd"=>"30",
                  "representation_order_date_mm"=>"08",
                  "representation_order_date_yyyy"=>"2015",
-                 "maat_reference"=>"aaa1111",
+                 "maat_reference"=>"1234567890",
                  "_destroy"=>"false"}},
              "_destroy"=>"false"}},
          "additional_information"=>"",

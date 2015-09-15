@@ -43,7 +43,6 @@ function initialise(){
   adp.feeCalculator.init('expenses');
   adp.determination.init('determinations');
   adp.dropzone.init();
-  moj.Modules.fileUpload.init();
   moj.Modules.judicialApportionment.init();
   moj.Modules.amountAssessed.init();
   $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function(e,insertedItem) {

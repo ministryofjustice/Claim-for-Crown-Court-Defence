@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   enable_extension "uuid-ossp"
 
   create_table "advocates", force: :cascade do |t|
-    t.string   "role"
+    t.string   "role",            limit: 255
     t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "supplier_number"
-    t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.string   "supplier_number", limit: 255
+    t.uuid     "uuid",                        default: "uuid_generate_v4()"
   end
 
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
@@ -31,13 +31,13 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
   create_table "case_types", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                   limit: 255
     t.boolean  "is_fixed_fee"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "requires_cracked_dates"
     t.boolean  "requires_trial_dates"
-    t.boolean  "allow_pcmh_fee_type",    default: false
+    t.boolean  "allow_pcmh_fee_type",                default: false
   end
 
   create_table "case_worker_claims", force: :cascade do |t|
@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "case_worker_claims", ["claim_id"], name: "index_case_worker_claims_on_claim_id", using: :btree
 
   create_table "case_workers", force: :cascade do |t|
-    t.string   "role"
+    t.string   "role",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
-    t.string   "days_worked"
-    t.string   "approval_level", default: "Low"
+    t.string   "days_worked",    limit: 255
+    t.string   "approval_level", limit: 255, default: "Low"
   end
 
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
@@ -70,19 +70,19 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.boolean  "attended_first_hearing"
     t.boolean  "previous_advocate_notified_court"
     t.boolean  "fixed_fee_case"
-    t.string   "certified_by"
+    t.string   "certified_by",                     limit: 255
     t.date     "certification_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "chambers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "supplier_number"
+    t.string   "name",            limit: 255
+    t.string   "supplier_number", limit: 255
     t.boolean  "vat_registered"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.uuid     "uuid",                        default: "uuid_generate_v4()"
   end
 
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
@@ -90,10 +90,10 @@ ActiveRecord::Schema.define(version: 20150914131814) do
 
   create_table "claim_state_transitions", force: :cascade do |t|
     t.integer  "claim_id"
-    t.string   "namespace"
-    t.string   "event"
-    t.string   "from"
-    t.string   "to"
+    t.string   "namespace",  limit: 255
+    t.string   "event",      limit: 255
+    t.string   "from",       limit: 255
+    t.string   "to",         limit: 255
     t.datetime "created_at"
   end
 
@@ -102,17 +102,17 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   create_table "claims", force: :cascade do |t|
     t.text     "additional_information"
     t.boolean  "apply_vat"
-    t.string   "state"
+    t.string   "state",                  limit: 255
     t.datetime "submitted_at"
-    t.string   "case_number"
-    t.string   "advocate_category"
-    t.string   "indictment_number"
+    t.string   "case_number",            limit: 255
+    t.string   "advocate_category",      limit: 255
+    t.string   "indictment_number",      limit: 255
     t.date     "first_day_of_trial"
-    t.integer  "estimated_trial_length", default: 0
-    t.integer  "actual_trial_length",    default: 0
-    t.decimal  "fees_total",             default: 0.0
-    t.decimal  "expenses_total",         default: 0.0
-    t.decimal  "total",                  default: 0.0
+    t.integer  "estimated_trial_length",             default: 0
+    t.integer  "actual_trial_length",                default: 0
+    t.decimal  "fees_total",                         default: 0.0
+    t.decimal  "expenses_total",                     default: 0.0
+    t.decimal  "total",                              default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.integer  "offence_id"
@@ -120,36 +120,34 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "valid_until"
-    t.string   "cms_number"
+    t.string   "cms_number",             limit: 255
     t.datetime "paid_at"
     t.integer  "creator_id"
     t.text     "evidence_notes"
-    t.string   "evidence_checklist_ids"
+    t.string   "evidence_checklist_ids", limit: 255
     t.date     "trial_concluded_at"
     t.date     "trial_fixed_notice_at"
     t.date     "trial_fixed_at"
     t.date     "trial_cracked_at"
-    t.string   "trial_cracked_at_third"
-    t.string   "source"
-    t.decimal  "vat_amount",             default: 0.0
-    t.uuid     "uuid",                   default: "uuid_generate_v4()"
+    t.string   "trial_cracked_at_third", limit: 255
+    t.string   "source",                 limit: 255
+    t.decimal  "vat_amount",                         default: 0.0
+    t.uuid     "uuid",                               default: "uuid_generate_v4()"
     t.integer  "case_type_id"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
-  add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
   add_index "claims", ["cms_number"], name: "index_claims_on_cms_number", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
-  add_index "claims", ["state"], name: "index_claims_on_state", using: :btree
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
 
   create_table "courts", force: :cascade do |t|
-    t.string   "code"
-    t.string   "name"
-    t.string   "court_type"
+    t.string   "code",       limit: 255
+    t.string   "name",       limit: 255
+    t.string   "court_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -163,30 +161,30 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date_to"
-    t.uuid     "uuid",               default: "uuid_generate_v4()"
+    t.uuid     "uuid",                           default: "uuid_generate_v4()"
     t.integer  "attended_item_id"
-    t.string   "attended_item_type"
+    t.string   "attended_item_type", limit: 255
   end
 
   add_index "dates_attended", ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type", using: :btree
 
   create_table "defendants", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
+    t.string   "first_name",                       limit: 255
+    t.string   "middle_name",                      limit: 255
+    t.string   "last_name",                        limit: 255
     t.date     "date_of_birth"
     t.boolean  "order_for_judicial_apportionment"
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",                             default: "uuid_generate_v4()"
+    t.uuid     "uuid",                                         default: "uuid_generate_v4()"
   end
 
   add_index "defendants", ["claim_id"], name: "index_defendants_on_claim_id", using: :btree
 
   create_table "determinations", force: :cascade do |t|
     t.integer  "claim_id"
-    t.string   "type"
+    t.string   "type",       limit: 255
     t.decimal  "fees"
     t.decimal  "expenses"
     t.decimal  "total"
@@ -198,17 +196,17 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.integer  "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "document_file_name"
-    t.string   "document_content_type"
+    t.string   "document_file_name",                      limit: 255
+    t.string   "document_content_type",                   limit: 255
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
     t.integer  "advocate_id"
-    t.string   "converted_preview_document_file_name"
-    t.string   "converted_preview_document_content_type"
+    t.string   "converted_preview_document_file_name",    limit: 255
+    t.string   "converted_preview_document_content_type", limit: 255
     t.integer  "converted_preview_document_file_size"
     t.datetime "converted_preview_document_updated_at"
-    t.uuid     "uuid",                                    default: "uuid_generate_v4()"
-    t.string   "form_id"
+    t.uuid     "uuid",                                                default: "uuid_generate_v4()"
+    t.string   "form_id",                                 limit: 255
     t.integer  "creator_id"
   end
 
@@ -218,7 +216,7 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
 
   create_table "expense_types", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -228,37 +226,37 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   create_table "expenses", force: :cascade do |t|
     t.integer  "expense_type_id"
     t.integer  "claim_id"
-    t.string   "location"
+    t.string   "location",        limit: 255
     t.integer  "quantity"
     t.decimal  "rate"
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.uuid     "uuid",                        default: "uuid_generate_v4()"
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
 
   create_table "features", force: :cascade do |t|
-    t.string   "key",                        null: false
-    t.boolean  "enabled",    default: false, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "key",        limit: 255,                 null: false
+    t.boolean  "enabled",                default: false, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "fee_categories", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "abbreviation"
+    t.string   "abbreviation", limit: 255
   end
 
   add_index "fee_categories", ["name"], name: "index_fee_categories_on_name", using: :btree
 
   create_table "fee_types", force: :cascade do |t|
-    t.string   "description"
-    t.string   "code"
+    t.string   "description",     limit: 255
+    t.string   "code",            limit: 255
     t.integer  "fee_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -283,7 +281,7 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "fees", ["fee_type_id"], name: "index_fees_on_fee_type_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -291,14 +289,14 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.string   "subject"
+    t.string   "subject",                 limit: 255
     t.text     "body"
     t.integer  "claim_id"
     t.integer  "sender_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "attachment_file_name"
-    t.string   "attachment_content_type"
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
   end
@@ -307,8 +305,8 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
 
   create_table "offence_classes", force: :cascade do |t|
-    t.string   "class_letter"
-    t.string   "description"
+    t.string   "class_letter", limit: 255
+    t.string   "description",  limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -317,7 +315,7 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "offence_classes", ["description"], name: "index_offence_classes_on_description", using: :btree
 
   create_table "offences", force: :cascade do |t|
-    t.string   "description"
+    t.string   "description",      limit: 255
     t.integer  "offence_class_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -329,14 +327,14 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.integer  "defendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "granting_body"
-    t.string   "maat_reference"
+    t.string   "granting_body",             limit: 255
+    t.string   "maat_reference",            limit: 255
     t.date     "representation_order_date"
-    t.uuid     "uuid",                      default: "uuid_generate_v4()"
+    t.uuid     "uuid",                                  default: "uuid_generate_v4()"
   end
 
   create_table "schemes", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "start_date"
@@ -358,22 +356,22 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "user_message_statuses", ["user_id"], name: "index_user_message_statuses_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.integer  "persona_id"
-    t.string   "persona_type"
+    t.string   "persona_type",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name"
-    t.string   "last_name"
+    t.string   "first_name",             limit: 255
+    t.string   "last_name",              limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -387,10 +385,10 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",      null: false
-    t.integer  "item_id",        null: false
-    t.string   "event",          null: false
-    t.string   "whodunnit"
+    t.string   "item_type",      limit: 255, null: false
+    t.integer  "item_id",                    null: false
+    t.string   "event",          limit: 255, null: false
+    t.string   "whodunnit",      limit: 255
     t.text     "object"
     t.datetime "created_at"
     t.text     "object_changes"

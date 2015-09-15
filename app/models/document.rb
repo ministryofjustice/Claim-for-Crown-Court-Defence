@@ -6,16 +6,18 @@
 #  claim_id                                :integer
 #  created_at                              :datetime
 #  updated_at                              :datetime
-#  document_file_name                      :string(255)
-#  document_content_type                   :string(255)
+#  document_file_name                      :string
+#  document_content_type                   :string
 #  document_file_size                      :integer
 #  document_updated_at                     :datetime
 #  advocate_id                             :integer
-#  converted_preview_document_file_name    :string(255)
-#  converted_preview_document_content_type :string(255)
+#  converted_preview_document_file_name    :string
+#  converted_preview_document_content_type :string
 #  converted_preview_document_file_size    :integer
 #  converted_preview_document_updated_at   :datetime
 #  uuid                                    :uuid
+#  form_id                                 :string
+#  creator_id                              :integer
 #
 
 class Document < ActiveRecord::Base
@@ -25,7 +27,8 @@ class Document < ActiveRecord::Base
   belongs_to :claim
 
   validates_attachment :document,
-    presence: {message: 'Document must have an attachment'},
+    presence: { message: 'Document must have an attachment' },
+    size: { in: 0.megabytes..20.megabytes },
     content_type: {
       content_type: ['application/pdf',
                      'application/msword',

@@ -9,7 +9,7 @@
 #  date_to            :date
 #  uuid               :uuid
 #  attended_item_id   :integer
-#  attended_item_type :string(255)
+#  attended_item_type :string
 #
 
 require 'rails_helper'

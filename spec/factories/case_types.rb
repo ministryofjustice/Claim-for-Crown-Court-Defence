@@ -14,10 +14,11 @@
 
 FactoryGirl.define do
   factory :case_type do
-    sequence(:name) { |n| "Case Type #{n}" }
-    is_fixed_fee  false
-    requires_cracked_dates false
-    requires_trial_dates false
+    sequence(:name)             { |n| "Case Type #{n}" }
+    is_fixed_fee                false
+    requires_cracked_dates      false
+    requires_trial_dates        false
+    requires_maat_reference     false
 
     trait :fixed_fee do
       is_fixed_fee    true
@@ -29,6 +30,10 @@ FactoryGirl.define do
 
     trait :requires_trial_dates do
       requires_trial_dates true
+    end
+
+    trait :requires_maat_reference do
+      requires_maat_reference true
     end
 
   end

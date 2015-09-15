@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914131814) do
+ActiveRecord::Schema.define(version: 20150915110319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.datetime "updated_at"
     t.boolean  "requires_cracked_dates"
     t.boolean  "requires_trial_dates"
+    t.boolean  "allow_pcmh_fee_type",     default: false
+    t.boolean  "requires_maat_reference", default: false
   end
 
   create_table "case_worker_claims", force: :cascade do |t|

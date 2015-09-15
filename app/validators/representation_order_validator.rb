@@ -1,9 +1,7 @@
-class RepresentationOrderDateValidator < BaseClaimValidator
-
-  @@fields = [ :representation_order_date ]
+class RepresentationOrderValidator < BaseClaimValidator
 
   def self.fields
-    @@fields
+    [ :representation_order_date, :granting_body, :maat_reference ]
   end
 
   private
@@ -23,7 +21,24 @@ class RepresentationOrderDateValidator < BaseClaimValidator
         validate_not_before(first_reporder_date, :representation_order_date, "The date of the second and subsequent representation orders must not be before the date of the first represenation order")
       end
     end
+  end
 
+
+  # must be present
+  # must be either magistrates court or crown court
+  def validate_granting_body
+    validate_presence(:granting_body, "Select the granting body")
+    validate_inclusion(:granting_body, Settings.court_types, 'Invalid granting body')
+  end
+
+
+  # mandatory for cases after 2010 where case type isn't breach of crown court order
+  # must be exactly 10 numeric digits
+  def validate_maat_reference
+    if @record.defendant.claim.case_type.requires_maat_reference? && @record.defendant.claim.earliest_representation_order.representation_order_date > Date.new(2010, 1, 1)
+      validate_presence(:maat_reference, "MAAT reference cannot be blank") if @record.defendant.claim.case_type.requires_maat_reference?
+    end
+    validate_pattern(:maat_reference, /[0-9]{10}/, 'MAAT reference invalid.  It must be exactly 10 numeric characters')
   end
 
 

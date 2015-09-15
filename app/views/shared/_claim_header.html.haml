@@ -15,7 +15,7 @@
         %span.normal
           = "Other claims:"
         %div.normal.other-claims
-          - if claim_ids.present?
+          - if claim_ids.present? && claim_ids.include?(@claim.id)
             = claim_position_and_count
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'

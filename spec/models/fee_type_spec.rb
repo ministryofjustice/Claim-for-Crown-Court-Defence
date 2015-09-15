@@ -30,11 +30,10 @@ RSpec.describe FeeType, type: :model do
   it { should respond_to(:description) }
 
   describe '.basic' do
-    it 'should return fee types belonging to category basic only' do
-      basic_c = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type C'
-      basic_a = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type A'
-      basic_b = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type B'
-
+    it 'should return fee types belonging to category basic only, in order of fee_type.id' do
+      basic_a = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type A', id: 1
+      basic_b = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type B', id: 2
+      basic_c = FactoryGirl.create :fee_type, fee_category: basic, description: 'Basic fee type C', id: 3
       expect(FeeType.basic).to eq( [ basic_a, basic_b, basic_c ] )
     end
   end

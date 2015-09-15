@@ -250,32 +250,32 @@ RSpec.describe Claim, type: :model do
     end
 
     describe '.instantiate_basic_fees (after_initialize callback)' do
-      it 'should create a fee record for every basic fee type' do
-        # Given three basic fee types and some other non-basic fee types
-        # when I instantiate a new claim
+      it 'should create an unpersisted basic fee record for every basic fee type, in fee_type_id order' do
         claim = FactoryGirl.build :claim
-
-        # it should also instantiate an emtpy fee for every basic fee type and not for the  other fee types
-        expect(claim.fees.size).to eq 3
-        claim.fees.each do |fee|
+        expect(claim.basic_fees.size).to eq 3
+        claim.basic_fees.each do |fee|
           expect(fee.fee_type.fee_category.abbreviation).to eq 'BASIC'
         end
-        claim.fees.each { |fee| expect(fee).to be_blank }
+        claim.basic_fees.each { |fee| expect(fee).to be_blank }
+        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
       end
 
-      xit 'should create a fee record for every basic fee type NOT specified in Claim.new' do
+      it 'should create a persisted basic fee record for every basic fee type in params plus blank basic fees for those not specified by params' do
         claim = Claim.new(valid_params['claim'])
-        # claim.save!
-        # ap claim.basic_fees.map(&:description)
-        expect(claim.basic_fees.size).to eq 3
+        claim.save
+        claim.reload
+        expect(claim.fees.size).to eq 3 
+        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
+        expect(claim.basic_fees.find_by(fee_type_id: 1).amount).to eq 450
+        expect(claim.basic_fees.find_by(fee_type_id: 4).amount).to eq 0
+        expect(claim.basic_fees.find_by(fee_type_id: 6).amount).to eq 0
       end
     end
 
     describe '.basic_fees' do
       it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
         claim = FactoryGirl.build :claim
-        fees = claim.basic_fees
-        expect(fees.map(&:fee_type_id)).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
       end
     end
   end
@@ -1037,7 +1037,7 @@ describe 'not saving the expenses model' do
       offence = FactoryGirl.create :offence
 
       params = {"claim"=>
-        {"case_type_id"=>case_type.id,
+        {        "case_type_id"=>case_type.id,
         "trial_fixed_notice_at_dd"=>"",
         "trial_fixed_notice_at_mm"=>"",
         "trial_fixed_notice_at_yyyy"=>"",
@@ -1106,8 +1106,11 @@ describe 'not saving the expenses model' do
 # local helpers
 # ---------------------
   def valid_params
+    advocate = FactoryGirl.create :advocate
     {"claim"=>
-        {"case_type_id"=>"1",
+        {"advocate_id" => advocate.id,
+        "creator_id" => advocate.id,
+        "case_type_id"=>"1",
         "trial_fixed_notice_at_dd"=>"",
         "trial_fixed_notice_at_mm"=>"",
         "trial_fixed_notice_at_yyyy"=>"",
@@ -1121,7 +1124,6 @@ describe 'not saving the expenses model' do
         "court_id"=>"1",
         "case_number"=>"A12345678",
         "advocate_category"=>"QC",
-        "advocate_id" => "1",
         "offence_id"=>"1",
         "first_day_of_trial_dd"=>"8",
         "first_day_of_trial_mm"=>"9",

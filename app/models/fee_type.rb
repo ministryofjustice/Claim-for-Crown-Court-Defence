@@ -23,7 +23,7 @@ class FeeType < ActiveRecord::Base
   validates :code, presence: {message: 'Fee type code cannot be blank'}
 
   def self.basic
-    self.by_fee_category("BASIC")
+    self.by_fee_category("BASIC").unscope(:order).order(id: :asc)
   end
 
   def self.fixed

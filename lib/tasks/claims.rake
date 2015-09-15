@@ -134,7 +134,6 @@ end
 
   def add_basic_fees(claim)
     return if claim.case_type == "fixed_fee"
-
     FeeType.basic.each do |fee_type|
       q, a = random_basic_fee_quantity_and_amount_by_type(fee_type, claim)
       unless fee_type.code == 'BAF'
@@ -146,18 +145,20 @@ end
 
       q = adjust_quantity_for_fee_type(claim, fee_type, q)
       next if q == 0
-      
-      fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
+
+      # basic fees are instatiated as part of claim creation so must update NOT createn
+      fee = Fee.find_by(claim: claim, fee_type: fee_type)
+      fee.quantity = adjust_quantity_for_fee_type(claim, fee_type, q)
+      fee.amount = a
+      fee.save!
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0 || q == 0
       end
-
-
     end
+
   end
 
-  
   def add_fixed_fees(claim, fee_count = nil)
     add_fees(claim, fee_count, FeeType.fixed.sample)
   end
@@ -175,8 +176,6 @@ end
       end
     end
   end
-
-
 
   def add_expenses(claim)
     rand(1..10).times do
@@ -206,7 +205,7 @@ end
     push_fees_over_threshold(claim) if rand(4) == 1
 
     add_defendants(claim)
-    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)
+    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network traffic (i.e. cost??)
   end
 
   def add_documentary_evidence(claim,doc_count=2)
@@ -308,7 +307,6 @@ end
         end
 
         claim.apply_vat = !(claim.id % 3 == 0)
-      
         unless claim.valid?
           puts ">>>>>>>>>>>>>>>> DEBUG NOT VALID    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
           ap claim
@@ -334,7 +332,6 @@ end
         create_claims_for(advocate,case_worker,claims_per_advocate_per_state, states_to_add)
     end
   end
-
 
   def adjust_quantity_for_fee_type(claim, fee_type, q)
     case fee_type.code

@@ -85,7 +85,7 @@ class FeeValidator < BaseClaimValidator
         add_error(:quantity, 'Quanity for plea and case management hearing cannot be greater than 3')
       end
     else
-      add_error(:quantity, 'PCMH Fees quantity must be zero or blank for this case type')
+      add_error(:quantity, 'PCMH Fees quantity must be zero or blank for this case type') unless (@record.quantity == 0 || @record.quantity.blank?)
     end
   end
 

@@ -34,7 +34,11 @@ class FeeValidator < BaseClaimValidator
 
 
   def validate_basic_fee_quantity
-    validate_numericality(:quantity, 1, 1, 'Quantity for basic fee: only one basic fee can be claimed per case')
+    if @record.claim.case_type.is_fixed_fee?
+      validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
+    else  
+      validate_numericality(:quantity, 1, 1, 'Quantity for basic fee: only one basic fee can be claimed per case')
+    end
   end
 
   def validate_daily_attendance_3_40_quantity

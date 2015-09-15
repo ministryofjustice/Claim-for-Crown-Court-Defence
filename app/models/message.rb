@@ -3,14 +3,14 @@
 # Table name: messages
 #
 #  id                      :integer          not null, primary key
-#  subject                 :string(255)
+#  subject                 :string
 #  body                    :text
 #  claim_id                :integer
 #  sender_id               :integer
 #  created_at              :datetime
 #  updated_at              :datetime
-#  attachment_file_name    :string(255)
-#  attachment_content_type :string(255)
+#  attachment_file_name    :string
+#  attachment_content_type :string
 #  attachment_file_size    :integer
 #  attachment_updated_at   :datetime
 #
@@ -31,6 +31,7 @@ class Message < ActiveRecord::Base
     s3_region: 'eu-west-1'}.merge(PAPERCLIP_STORAGE_OPTIONS)
 
     validates_attachment :attachment,
+      size: { in: 0.megabytes..20.megabytes },
       content_type: {
         content_type: ['application/pdf',
                        'application/msword',
@@ -40,7 +41,11 @@ class Message < ActiveRecord::Base
                        'application/rtf',
                        'image/png']}
 
-  validates :subject, :body, :sender_id, :claim_id, presence: true
+  validates :sender, presence: { message: 'Message sender cannot be blank' }
+  validates :subject, presence: { message: 'Message subject cannot be blank' }
+  validates :body, presence: { message: 'Message body cannot be blank' }
+  validates :claim_id, presence: { message: 'Message claim_id cannot be blank' }
+
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 

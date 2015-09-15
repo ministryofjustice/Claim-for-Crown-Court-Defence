@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  expense_type_id :integer
 #  claim_id        :integer
-#  location        :string(255)
+#  location        :string
 #  quantity        :integer
 #  rate            :decimal(, )
 #  amount          :decimal(, )

@@ -3,8 +3,8 @@
 # Table name: chambers
 #
 #  id              :integer          not null, primary key
-#  name            :string(255)
-#  supplier_number :string(255)
+#  name            :string
+#  supplier_number :string
 #  vat_registered  :boolean
 #  created_at      :datetime
 #  updated_at      :datetime

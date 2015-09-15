@@ -1,0 +1,40 @@
+%h1.page-title
+  Sign up
+
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  - if resource.errors.any?
+    .validation-summary
+      %h2.heading-small= "#{pluralize(resource.errors.count, 'error')} prohibited this #{resource_name} from being saved"
+      %ul
+        - resource.errors.each do |attribute, message|
+          %li
+            = "#{attribute.to_s.humanize} #{message}"
+
+  %div.form-group
+    = f.label :first_name, class: "form-label"
+    = f.input_field :first_name, class: "form-control"
+
+  %div.form-group
+    = f.label :last_name, class: "form-label"
+    = f.input_field :last_name, class: "form-control"
+
+  %div.form-group
+    = f.label :email, required: true, class: "form-label"
+    = f.input_field :email, class: "form-control"
+
+  %div.form-group
+    = f.label :password, required: true, class:"form-label"
+    = f.input_field :password, class: "form-control"
+
+  %div.form-group
+    = f.label :password_confirmation, required: true, class:"form-label"
+    = f.input_field :password_confirmation, class: "form-control"
+
+  %div.form-group
+    = label_tag :terms_and_conditions_acceptance, 'Accept terms and conditions', required: true, class:"form-label"
+    = check_box_tag :terms_and_conditions_acceptance
+
+  %div.form-group
+    = f.button :submit, "Sign up", class: "button text-small"
+
+= render "devise/shared/links"

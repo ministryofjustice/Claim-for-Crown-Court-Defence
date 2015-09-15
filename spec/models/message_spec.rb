@@ -3,14 +3,14 @@
 # Table name: messages
 #
 #  id                      :integer          not null, primary key
-#  subject                 :string(255)
+#  subject                 :string
 #  body                    :text
 #  claim_id                :integer
 #  sender_id               :integer
 #  created_at              :datetime
 #  updated_at              :datetime
-#  attachment_file_name    :string(255)
-#  attachment_content_type :string(255)
+#  attachment_file_name    :string
+#  attachment_content_type :string
 #  attachment_file_size    :integer
 #  attachment_updated_at   :datetime
 #
@@ -22,10 +22,10 @@ RSpec.describe Message, type: :model do
   it { should belong_to(:sender).class_name('User').with_foreign_key('sender_id').inverse_of(:messages_sent) }
   it { should have_many(:user_message_statuses) }
 
-  it { should validate_presence_of(:sender_id) }
-  it { should validate_presence_of(:claim_id) }
-  it { should validate_presence_of(:subject) }
-  it { should validate_presence_of(:body) }
+  it { should validate_presence_of(:sender).with_message('Message sender cannot be blank') }
+  it { should validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
+  it { should validate_presence_of(:subject).with_message('Message subject cannot be blank') }
+  it { should validate_presence_of(:body).with_message('Message body cannot be blank') }
 
   it { should have_attached_file(:attachment) }
 
@@ -40,6 +40,8 @@ RSpec.describe Message, type: :model do
                rejecting('text/plain',
                          'text/html')
   end
+
+  it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }

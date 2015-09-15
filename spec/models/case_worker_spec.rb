@@ -3,12 +3,12 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string(255)
+#  role           :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer
-#  days_worked    :string(255)
-#  approval_level :string(255)      default("Low")
+#  days_worked    :string
+#  approval_level :string           default("Low")
 #
 
 require 'rails_helper'
@@ -26,8 +26,8 @@ RSpec.describe CaseWorker, type: :model do
 
   it { should accept_nested_attributes_for(:user) }
 
-  it { should validate_presence_of(:location) }
-  it { should validate_presence_of(:user) }
+  it { should validate_presence_of(:location).with_message('Location cannot be blank') }
+  it { should validate_presence_of(:user).with_message('User cannot be blank') }
   it { should validate_presence_of(:role) }
   it { should validate_inclusion_of(:role).in_array(%w( admin case_worker )) }
 

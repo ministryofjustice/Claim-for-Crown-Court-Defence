@@ -13,7 +13,7 @@ describe API::V1::Advocates::Fee do
 
   let!(:fee_type)           { create(:fee_type, id: 1) }
   let!(:claim)              { create(:claim, source: 'api').reload }
-  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 10.09 } }
+  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 150.00 } }
   let!(:invalid_params)     { {claim_id: claim.uuid } }
   let(:json_error_response) { [ {"error" => "Fee type cannot be blank" } ].to_json }
 
@@ -66,6 +66,7 @@ describe API::V1::Advocates::Fee do
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
+          
           response = post_to_create_endpoint(invalid_params)
           expect(response.status).to eq 400
           json = JSON.parse(response.body)
@@ -75,11 +76,11 @@ describe API::V1::Advocates::Fee do
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          valid_params[:quantity] = 1000000000000000000000000
+          allow(API::V1::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
-          json = JSON.parse(response.body)
-          expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
+          result_hash = JSON.parse(response.body)
+          expect(result_hash).to eq( [ {"error"=>"RangeError"} ] )
         end
       end
 

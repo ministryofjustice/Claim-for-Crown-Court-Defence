@@ -23,15 +23,11 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
-  validates :fee_type, presence: { message: 'Fee type cannot be blank' }
-  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validate :basic_fee_quantity
+  validates_with FeeValidator
 
   validates_associated :dates_attended
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
-
 
 
   before_validation do

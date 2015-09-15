@@ -4,7 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  claim_id   :integer
-#  type       :string(255)
+#  type       :string
 #  fees       :decimal(, )
 #  expenses   :decimal(, )
 #  total      :decimal(, )

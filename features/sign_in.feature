@@ -1,4 +1,5 @@
 Feature: Sign in
+
   Scenario: Sign in as an advocate
     Given an "advocate" user account exists
      When I visit the user sign in page

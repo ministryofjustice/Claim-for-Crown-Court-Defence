@@ -17,7 +17,7 @@ FactoryGirl.define do
     claim
     fee_type
     quantity 1
-    amount "9.99"
+    amount "250"
 
     trait :with_date_attended do
       after(:build) do |fee|
@@ -27,7 +27,7 @@ FactoryGirl.define do
 
     trait :random_values do
       quantity { rand(1..15) }
-      amount   { rand(100.00..9999.99).round(2) }
+      amount   { rand(100..9999).round(0) }
     end
 
     trait :basic do
@@ -50,6 +50,27 @@ FactoryGirl.define do
     trait :from_api do
       claim         { FactoryGirl.create :claim, source: 'api' }
     end
+
+    trait :baf_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Basic Fee', code: 'BAF' }
+    end
+
+    trait :daf_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF' }
+    end
+
+    trait :dah_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH' }
+    end
+
+    trait :daj_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ' }
+    end
+
+    trait :pcm_fee do
+      fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
+    end
+
 
   end
 

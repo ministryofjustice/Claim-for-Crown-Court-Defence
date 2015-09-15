@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe JsonDocumentImporter do
 
-  let(:schema)                        { json_schema }
+  let(:schema)                        { JsonSchema.generate(JsonTemplate.generate) }
   let(:cms_exported_claim)            { double 'cms_export', tempfile: './spec/examples/cms_exported_claim.json', content_type: 'application/json'}
   let(:invalid_cms_exported_claim)    { double 'cms_export', tempfile: './spec/examples/invalid_cms_exported_claim.json', content_type: 'application/json'}
   let(:multiple_cms_exported_claims)  { double 'cms_export', tempfile: './spec/examples/multiple_cms_exported_claims.json', content_type: 'application/json'}
@@ -47,7 +47,7 @@ describe JsonDocumentImporter do
       end
     end
 
-    context 'can validate the json document against our schema' do
+    context 'can validate the json document provided' do
 
       it 'returning true if valid' do
         expect(importer.valid?).to eq true
@@ -78,121 +78,6 @@ describe JsonDocumentImporter do
 
     end
 
-  end
-
-  def json_schema
-    {"$schema"=>"http://json-schema.org/draft-04/schema#",
- "description"=>"Generated from Advocate Defense Payments - Claim Import with shasum 827ad7ec32160abdc3cd7075c8050812a21a64e4",
- "type"=>"object",
- "required"=>["claim"],
- "properties"=>
-  {"claim"=>
-    {"type"=>"object",
-     "required"=>
-      ["advocate_email",
-       "case_number",
-       "case_type_id",
-       "indictment_number",
-       "first_day_of_trial",
-       "estimated_trial_length",
-       "actual_trial_length",
-       "trial_concluded_at",
-       "advocate_category",
-       "prosecuting_authority",
-       "offence_id",
-       "court_id",
-       "cms_number",
-       "apply_vat",
-       "defendants",
-       "fees",
-       "expenses"],
-     "properties"=>
-      {"advocate_email"=>{"type"=>"string"},
-       "case_number"=>{"type"=>"string"},
-       "case_type_id"=>{"type"=>"integer"},
-       "indictment_number"=>{"type"=>"string"},
-       "first_day_of_trial"=>{"type"=>"string"},
-       "estimated_trial_length"=>{"type"=>"integer"},
-       "actual_trial_length"=>{"type"=>"integer"},
-       "trial_concluded_at"=>{"type"=>"string"},
-       "advocate_category"=>{"type"=>"string"},
-       "prosecuting_authority"=>{"type"=>"string"},
-       "offence_id"=>{"type"=>"integer"},
-       "court_id"=>{"type"=>"integer"},
-       "cms_number"=>{"type"=>"string"},
-       "additional_information"=>{"type"=>"string"},
-       "apply_vat"=>{"type"=>"boolean"},
-       "trial_fixed_notice_at"=>{"type"=>"string"},
-       "trial_fixed_at"=>{"type"=>"string"},
-       "trial_cracked_at"=>{"type"=>"string"},
-       "trial_cracked_at_third"=>{"type"=>"string"},
-       "defendants"=>
-        {"type"=>"array",
-         "minItems"=>1,
-         "uniqueItems"=>true,
-         "items"=>
-          {"type"=>"object",
-           "required"=>["first_name", "middle_name", "last_name", "date_of_birth", "order_for_judicial_apportionment", "representation_orders"],
-           "properties"=>
-            {"claim_id"=>{"type"=>"integer"},
-             "first_name"=>{"type"=>"string"},
-             "middle_name"=>{"type"=>"string"},
-             "last_name"=>{"type"=>"string"},
-             "date_of_birth"=>{"type"=>"string"},
-             "order_for_judicial_apportionment"=>{"type"=>"boolean"},
-             "representation_orders"=>
-              {"type"=>"array",
-               "minItems"=>1,
-               "uniqueItems"=>true,
-               "items"=>
-                {"type"=>"object",
-                 "required"=>["granting_body", "maat_reference", "representation_order_date"],
-                 "properties"=>
-                  {"defendant_id"=>{"type"=>"integer"},
-                   "granting_body"=>{"type"=>"string"},
-                   "maat_reference"=>{"type"=>"string"},
-                   "representation_order_date"=>{"type"=>"string"}}}}}}},
-       "fees"=>
-        {"type"=>"array",
-         "minItems"=>1,
-         "uniqueItems"=>true,
-         "items"=>
-          {"type"=>"object",
-           "required"=>["fee_type_id", "quantity", "amount"],
-           "properties"=>
-            {"claim_id"=>{"type"=>"integer"},
-             "fee_type_id"=>{"type"=>"integer"},
-             "quantity"=>{"type"=>"integer"},
-             "amount"=>{"type"=>"number"},
-             "dates_attended"=>
-              {"type"=>"array",
-               "minItems"=>1,
-               "uniqueItems"=>true,
-               "items"=>
-                {"type"=>"object",
-                 "required"=>["attended_item_type", "date", "date_to"],
-                 "properties"=>{"attended_item_id"=>{"type"=>"integer"}, "attended_item_type"=>{"type"=>"string"}, "date"=>{"type"=>"string"}, "date_to"=>{"type"=>"string"}}}}}}},
-       "expenses"=>
-        {"type"=>"array",
-         "minItems"=>1,
-         "uniqueItems"=>true,
-         "items"=>
-          {"type"=>"object",
-           "required"=>["expense_type_id", "quantity", "rate", "location"],
-           "properties"=>
-            {"claim_id"=>{"type"=>"integer"},
-             "expense_type_id"=>{"type"=>"integer"},
-             "quantity"=>{"type"=>"integer"},
-             "rate"=>{"type"=>"number"},
-             "location"=>{"type"=>"string"},
-             "dates_attended"=>
-              {"type"=>"array",
-               "minItems"=>1,
-               "uniqueItems"=>true,
-               "items"=>
-                {"type"=>"object",
-                 "required"=>["attended_item_type", "date", "date_to"],
-                 "properties"=>{"attended_item_id"=>{"type"=>"integer"}, "attended_item_type"=>{"type"=>"string"}, "date"=>{"type"=>"string"}, "date_to"=>{"type"=>"string"}}}}}}}}}}}
   end
 
 end

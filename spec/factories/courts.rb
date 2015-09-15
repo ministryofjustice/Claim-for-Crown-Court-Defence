@@ -3,9 +3,9 @@
 # Table name: courts
 #
 #  id         :integer          not null, primary key
-#  code       :string(255)
-#  name       :string(255)
-#  court_type :string(255)
+#  code       :string
+#  name       :string
+#  court_type :string
 #  created_at :datetime
 #  updated_at :datetime
 #

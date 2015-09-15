@@ -3,12 +3,12 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string(255)
+#  role           :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer
-#  days_worked    :string(255)
-#  approval_level :string(255)      default("Low")
+#  days_worked    :string
+#  approval_level :string           default("Low")
 #
 
 class CaseWorker < ActiveRecord::Base
@@ -26,8 +26,8 @@ class CaseWorker < ActiveRecord::Base
 
   default_scope { includes(:user) }
 
-  validates :location, presence: true
-  validates :user, presence: true
+  validates :location, presence: {message: 'Location cannot be blank'}
+  validates :user, presence: {message: 'User cannot be blank'}
   validate  :days_worked_valid
   validates :approval_level, inclusion: { in: APPROVAL_LEVELS_COLLECTION, message: "Approval level must be high or low" }
 

@@ -5,11 +5,11 @@
 #  id                     :integer          not null, primary key
 #  additional_information :text
 #  apply_vat              :boolean
-#  state                  :string(255)
+#  state                  :string
 #  submitted_at           :datetime
-#  case_number            :string(255)
-#  advocate_category      :string(255)
-#  indictment_number      :string(255)
+#  case_number            :string
+#  advocate_category      :string
+#  indictment_number      :string
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
@@ -23,17 +23,17 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  valid_until            :datetime
-#  cms_number             :string(255)
+#  cms_number             :string
 #  paid_at                :datetime
 #  creator_id             :integer
 #  evidence_notes         :text
-#  evidence_checklist_ids :string(255)
+#  evidence_checklist_ids :string
 #  trial_concluded_at     :date
 #  trial_fixed_notice_at  :date
 #  trial_fixed_at         :date
 #  trial_cracked_at       :date
-#  trial_cracked_at_third :string(255)
-#  source                 :string(255)
+#  trial_cracked_at_third :string
+#  source                 :string
 #  vat_amount             :decimal(, )      default(0.0)
 #  uuid                   :uuid
 #  case_type_id           :integer
@@ -77,9 +77,9 @@ class Claim < ActiveRecord::Base
   has_many :messages,                 dependent: :destroy,          inverse_of: :claim
   has_many :claim_state_transitions,  dependent: :destroy,          inverse_of: :claim
 
-  has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee'
-  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee'
-  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee'
+  has_many :basic_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, class_name: 'Fee', inverse_of: :claim
+  has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee', inverse_of: :claim
+  has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee', inverse_of: :claim
 
   has_many :determinations
   has_one  :assessment
@@ -105,8 +105,8 @@ class Claim < ActiveRecord::Base
   # custom validators
   validates_with ::ClaimDateValidator
   validates_with ::ClaimTextfieldValidator
+  validates_with ::ClaimSubModelValidator
 
-  validates_associated :defendants, :fees, :expenses
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
@@ -320,7 +320,7 @@ class Claim < ActiveRecord::Base
 
   def destroy_all_invalid_fee_types
     if case_type.present? && case_type.is_fixed_fee?
-      basic_fees.map(&:clear) unless basic_fees.blank?
+      basic_fees.map(&:clear) unless basic_fees.empty?
       misc_fees.destroy_all   unless misc_fees.empty?
     else
       fixed_fees.destroy_all unless fixed_fees.empty?

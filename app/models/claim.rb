@@ -187,15 +187,6 @@ class Claim < ActiveRecord::Base
     self.case_workers.include?(cw)
   end
 
-  # This method overides the basic_fees association getter method
-  # to enable the display of persisted OR unpersisted data (incl. sorting).
-  # Required because basic fee instantiation for new claims
-  # is unpersisted at render of page (but persisted for edit action)
-  # TODO - to be removed if not needed elsewhere
-  # def basic_fees
-  #   super.empty? ? fees.select { |f| f.is_basic? }.sort{ |a, b| a.fee_type_id <=> b.fee_type_id } : super
-  # end
-
   # create a blank fee for every basic fee type not passed to Claim.new
   def instantiate_basic_fees
     return unless self.new_record?

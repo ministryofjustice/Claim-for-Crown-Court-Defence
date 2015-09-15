@@ -42,8 +42,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
-    # TODO - to be removed
-    # @claim.instantiate_basic_fees
     @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
     load_offences_and_case_types
 
@@ -315,8 +313,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def render_new_with_resources
-    # TODO - to be removed
-    # @claim.fees = @claim.instantiate_basic_fees(claim_params['basic_fees_attributes']) if @claim.new_record?
     build_nested_resources
     load_offences_and_case_types
     render action: :new

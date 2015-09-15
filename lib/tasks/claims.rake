@@ -139,9 +139,7 @@ end
         end
       end
 
-      # TODO: this will need to be an update if instantiation id kept
-      # fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
-
+      # basic fees are instatiated as part of claim creation so must update NOT createn
       fee = Fee.find_by(claim: claim, fee_type: fee_type)
       fee.quantity = q
       fee.amount = a

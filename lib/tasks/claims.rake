@@ -134,7 +134,6 @@ end
 
   def add_basic_fees(claim)
     return if claim.case_type == "fixed_fee"
-
     FeeType.basic.each do |fee_type|
       q, a = random_basic_fee_quantity_and_amount_by_type(fee_type, claim)
       unless fee_type.code == 'BAF'
@@ -160,7 +159,6 @@ end
 
   end
 
-  
   def add_fixed_fees(claim, fee_count = nil)
     add_fees(claim, fee_count, FeeType.fixed.sample)
   end
@@ -309,7 +307,6 @@ end
         end
 
         claim.apply_vat = !(claim.id % 3 == 0)
-      
         unless claim.valid?
           puts ">>>>>>>>>>>>>>>> DEBUG NOT VALID    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
           ap claim

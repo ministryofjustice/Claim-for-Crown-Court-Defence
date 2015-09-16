@@ -370,7 +370,7 @@ Given(/^I fill in a Fixed Fee using select2$/) do
 end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
-  claim = create(:submitted_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
+  claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
   create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end

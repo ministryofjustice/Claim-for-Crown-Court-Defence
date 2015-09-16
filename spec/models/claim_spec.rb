@@ -264,7 +264,7 @@ RSpec.describe Claim, type: :model do
         claim = Claim.new(valid_params['claim'])
         claim.save
         claim.reload
-        expect(claim.fees.size).to eq 3 
+        expect(claim.fees.size).to eq 3
         expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
         expect(claim.basic_fees.find_by(fee_type_id: 1).amount).to eq 450
         expect(claim.basic_fees.find_by(fee_type_id: 4).amount).to eq 0
@@ -618,8 +618,8 @@ RSpec.describe Claim, type: :model do
       expect(draft.editable?).to eq(true)
     end
 
-    it 'should be editable when submitted' do
-      expect(submitted.editable?).to eq(true)
+    it 'should not be editable when submitted' do
+      expect(submitted.editable?).to eq(false)
     end
 
     it 'should not be editable when allocated' do

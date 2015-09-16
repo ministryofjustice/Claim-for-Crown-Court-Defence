@@ -34,7 +34,7 @@ describe FeeValidator do
       before(:each) do
         daf_fee.quantity = 0
       end
-      it { should_error_if_equal_to_value(daf_fee, :amount, 1.00, 'Fee amounts cannot be specified if the fee quanitity is zero') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, 1.00, 'Fee amounts cannot be specified if the fee quantity is zero') }
     end
 
     context 'fee with max amount' do

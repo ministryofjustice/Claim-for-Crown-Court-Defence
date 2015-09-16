@@ -178,7 +178,7 @@ private
 
     # use endpoint dropdown/lookup data
     # NOTE: use case type 12 at index 11 (i.e. Trial) since this has least validations
-    case_type_id            = json_value_at_indcex(get_dropdown_endpoint(CASE_TYPE_ENDPOINT),'id',11)
+    case_type_id            = json_value_at_index(get_dropdown_endpoint(CASE_TYPE_ENDPOINT),'id',11)
     advocate_category       = json_value_at_index(get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT))
     offence_id              = json_value_at_index(get_dropdown_endpoint(OFFENCE_ENDPOINT),'id')
     court_id                = json_value_at_index(get_dropdown_endpoint(COURT_ENDPOINT),'id')

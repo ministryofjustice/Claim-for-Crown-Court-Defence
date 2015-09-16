@@ -3,7 +3,6 @@
 # Table name: messages
 #
 #  id                      :integer          not null, primary key
-#  subject                 :string
 #  body                    :text
 #  claim_id                :integer
 #  sender_id               :integer
@@ -24,7 +23,6 @@ RSpec.describe Message, type: :model do
 
   it { should validate_presence_of(:sender).with_message('Message sender cannot be blank') }
   it { should validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
-  it { should validate_presence_of(:subject).with_message('Message subject cannot be blank') }
   it { should validate_presence_of(:body).with_message('Message body cannot be blank') }
 
   it { should have_attached_file(:attachment) }
@@ -88,19 +86,19 @@ RSpec.describe Message, type: :model do
     let(:user)      { create :user }
 
     it 'should change claim state from allocated to redetermination if claim_action set to apply for redetermination' do
-      claim.messages.build(subject: 'my Subject', sender: user, body: 'xxxxx', claim_action: 'Apply for redetermination')
+      claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Apply for redetermination')
       claim.save
       expect(claim.state).to eq 'redetermination'
     end
 
     it 'should change claim state from allocated to await_written_reasons if claim_action set to request written reasons' do
-      claim.messages.build(subject: 'my Subject', sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
+      claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.save
       expect(claim.state).to eq 'awaiting_written_reasons'
     end
 
     it 'should change claim state from if claim_action not set' do
-      claim.messages.build(subject: 'my Subject', sender: user, body: 'xxxxx')
+      claim.messages.build( sender: user, body: 'xxxxx')
       claim.save
       expect(claim.state).to eq 'part_paid'
     end
@@ -111,7 +109,7 @@ RSpec.describe Message, type: :model do
     let(:user)      { create :user }
 
     it 'should change claim state from back to what it was three back if written reasons submitted' do
-      claim.messages.build(subject: 'my Subject', sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
+      claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.messages.first.written_reasons_submitted = '1'
       claim.save
       expect(claim.claim_state_transitions.order(created_at: :asc).all.map(&:event)).to eq( [ nil, 'submit', 'allocate', 'pay_part', 'await_written_reasons', 'allocate' ] )
@@ -120,28 +118,3 @@ RSpec.describe Message, type: :model do
 
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

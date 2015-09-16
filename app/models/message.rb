@@ -3,7 +3,6 @@
 # Table name: messages
 #
 #  id                      :integer          not null, primary key
-#  subject                 :string
 #  body                    :text
 #  claim_id                :integer
 #  sender_id               :integer
@@ -42,7 +41,6 @@ class Message < ActiveRecord::Base
                        'image/png']}
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }
-  validates :subject, presence: { message: 'Message subject cannot be blank' }
   validates :body, presence: { message: 'Message body cannot be blank' }
   validates :claim_id, presence: { message: 'Message claim_id cannot be blank' }
 
@@ -94,23 +92,3 @@ class Message < ActiveRecord::Base
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

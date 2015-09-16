@@ -4,9 +4,6 @@
     (#{message.sender.persona.class.to_s.humanize})
   %span.message
     %div
-      %strong
-        = message.subject
-    %div
       = message.body
     - if message.attachment.present?
       %div

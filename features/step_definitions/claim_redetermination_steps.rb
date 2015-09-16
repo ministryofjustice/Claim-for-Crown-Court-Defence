@@ -21,7 +21,6 @@ end
 
 When(/^I select "(.*?)" and send a message$/) do |option_text|
   select option_text, from: 'message_claim_action'
-  fill_in 'message_subject', with: 'Redetermination request'
   fill_in 'message_body', with: 'lorem ipsum'
   click_button 'Post'
 end
@@ -66,7 +65,6 @@ end
 
 Then(/^when I check "(.*?)" and send a message$/) do |checkbox_label_text|
   check checkbox_label_text
-  fill_in 'message_subject', with: 'Written reasons attached'
   fill_in 'message_body', with: 'lorem ipsum'
   click_button 'Post'
 end

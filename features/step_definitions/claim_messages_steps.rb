@@ -21,7 +21,6 @@ end
 
 When(/^I leave a message$/) do
   within '#messages' do
-    fill_in 'message_subject', with: 'Hello'
     fill_in 'message_body', with: 'Lorem'
     click_on 'Post'
   end
@@ -31,7 +30,6 @@ Then(/^I should see my message at the top of the message list$/) do
   within '#messages' do
     within '.timeline' do
       li = page.first(:css, 'li')
-      expect(li).to have_content('Hello')
       expect(li).to have_content('Lorem')
     end
   end

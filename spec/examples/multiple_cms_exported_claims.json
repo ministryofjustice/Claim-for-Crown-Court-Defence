@@ -6,9 +6,9 @@
       "case_type_id": 1,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015-06-01",
-      "estimated_trial_length": 1,
-      "actual_trial_length": 1,
-      "trial_concluded_at": "2015-06-02",
+      "estimated_trial_length": 3,
+      "actual_trial_length": 3,
+      "trial_concluded_at": "2015-06-03",
       "advocate_category": "QC",
       "prosecuting_authority": "cps",
       "offence_id": 1,
@@ -37,7 +37,7 @@
       ],
       "fees": [
         {
-          "fee_type_id": 1,
+          "fee_type_id": 2,
           "quantity": 1,
           "amount": 1.1,
           "dates_attended": [
@@ -73,9 +73,9 @@
       "case_type_id": 1,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015-06-01",
-      "estimated_trial_length": 1,
-      "actual_trial_length": 1,
-      "trial_concluded_at": "2015-06-02",
+      "estimated_trial_length": 3,
+      "actual_trial_length": 3,
+      "trial_concluded_at": "2015-06-03",
       "advocate_category": "QC",
       "prosecuting_authority": "cps",
       "offence_id": 1,
@@ -104,7 +104,7 @@
       ],
       "fees": [
         {
-          "fee_type_id": 1,
+          "fee_type_id": 2,
           "quantity": 1,
           "amount": 1.1,
           "dates_attended": [

@@ -116,7 +116,7 @@ class Claim < ActiveRecord::Base
   accepts_nested_attributes_for :assessment
   accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
 
-  acts_as_gov_uk_date :first_day_of_trial, 
+  acts_as_gov_uk_date :first_day_of_trial,
                       :trial_concluded_at,
                       :trial_fixed_notice_at,
                       :trial_fixed_at,
@@ -236,7 +236,7 @@ class Claim < ActiveRecord::Base
   end
 
   def editable?
-    draft? || submitted?
+    draft?
   end
 
   def perform_validation?

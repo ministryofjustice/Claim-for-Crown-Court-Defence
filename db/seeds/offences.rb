@@ -15,5 +15,5 @@ end
 
 ('A'..'K').each do |letter|
   offence_class = OffenceClass.find_by(class_letter: letter)
-  Offence.find_or_create_by!(offence_class: offence_class, description: 'Other')
+  Offence.find_or_create_by!(offence_class: offence_class, description: 'Miscellaneous/other')
 end

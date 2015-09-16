@@ -133,7 +133,7 @@ end
  end
 
   def add_basic_fees(claim)
-    return if claim.case_type == "fixed_fee"
+    return if claim.case_type.is_fixed_fee?
     FeeType.basic.each do |fee_type|
       q, a = random_basic_fee_quantity_and_amount_by_type(fee_type, claim)
       unless fee_type.code == 'BAF'

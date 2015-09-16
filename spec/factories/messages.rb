@@ -3,7 +3,6 @@
 # Table name: messages
 #
 #  id                      :integer          not null, primary key
-#  subject                 :string
 #  body                    :text
 #  claim_id                :integer
 #  sender_id               :integer
@@ -17,7 +16,6 @@
 
 FactoryGirl.define do
   factory :message do
-    subject { Faker::Lorem.sentence }
     body { Faker::Lorem.paragraph }
     claim
 
@@ -27,7 +25,6 @@ FactoryGirl.define do
   end
 
   factory :unpersisted_message, class: Message do
-    subject         { Faker::Lorem.sentence }
     body            { Faker::Lorem.paragraph }
     claim           { FactoryGirl.build :unpersisted_claim }
     sender          { FactoryGirl.build :user }

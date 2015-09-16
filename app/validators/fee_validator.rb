@@ -34,6 +34,7 @@ class FeeValidator < BaseClaimValidator
     if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
+      # TODO - this causes problems for API and logic error whereby amount cannot be 0 if quantity is 1
       validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
     end
   end
@@ -92,7 +93,7 @@ class FeeValidator < BaseClaimValidator
     if @record.amount < 0
       add_error(:amount, 'Fee amount cannot be negative')
     elsif @record.quantity > 0 && @record.amount == 0
-      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
+      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.fee_type.code == 'BAF'
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
     # TODO: on analysis with BA decided to allow decimals for all fees

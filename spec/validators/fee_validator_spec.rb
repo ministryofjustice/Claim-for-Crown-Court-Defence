@@ -24,6 +24,7 @@ describe FeeValidator do
     end
     context 'quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :amount, 450.00) }
+      it { should_be_valid_if_equal_to_value(baf_fee, :amount, 0.00) }
       it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'Fee amount cannot be negative') }

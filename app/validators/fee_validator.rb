@@ -82,7 +82,7 @@ class FeeValidator < BaseClaimValidator
       elsif @record.quantity == 0
         add_error(:quantity, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')
       elsif @record.quantity > 3
-        add_error(:quantity, 'Quanity for plea and case management hearing cannot be greater than 3')
+        add_error(:quantity, 'Quantity for plea and case management hearing cannot be greater than 3')
       end
     else
       add_error(:quantity, 'PCMH Fees quantity must be zero or blank for this case type') unless (@record.quantity == 0 || @record.quantity.blank?)
@@ -91,7 +91,7 @@ class FeeValidator < BaseClaimValidator
 
 
   def validate_quantity_for_everything_else
-    add_error(:quantity, 'Fee quanity cannot be negative') if @record.quantity < 0
+    add_error(:quantity, 'Fee quantity cannot be negative') if @record.quantity < 0
   end
 
 
@@ -101,7 +101,7 @@ class FeeValidator < BaseClaimValidator
     elsif @record.quantity > 0 && @record.amount == 0
       add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
     elsif @record.quantity == 0 && @record.amount > 0
-      add_error(:amount, 'Fee amounts cannot be specified if the fee quanitity is zero')
+      add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
     elsif @record.amount.to_i != @record.amount
       add_error(:amount, 'Fee amount must be whole numbers only')
     end

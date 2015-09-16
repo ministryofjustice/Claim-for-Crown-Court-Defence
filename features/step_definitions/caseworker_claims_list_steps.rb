@@ -5,8 +5,8 @@ Given(/^claims have been assigned to me$/) do
   @other_claims = create_list(:allocated_claim, 3)
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
-  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'AA1245') ]
-  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7418529635') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '9516249873') ]
 end
 
 Given(/^there are allocated claims$/) do
@@ -121,12 +121,12 @@ Then(/^I should only see (\d+) "(.*?)" claims$/) do |number, state_name|
 end
 
 When(/^I search for a claim by MAAT reference$/) do
-  fill_in 'search', with: 'AA1245'
+  fill_in 'search', with: '7418529635'
   click_button 'Search'
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-    expect(find('#claims-list')).to have_link(@claims.first.case_number)
+  expect(find('#claims-list')).to have_link(@claims.first.case_number)
 end
 
 Given(/^I have completed claims$/) do
@@ -136,8 +136,8 @@ Given(/^I have completed claims$/) do
   @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
   @claims.each { |claim| claim.case_workers << case_worker }
 
-  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'AA1245') ]
-  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: 'BB1245') ]
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7891334565') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '8529437815') ]
 end
 
 # TODO update once "Archive" has been created and working

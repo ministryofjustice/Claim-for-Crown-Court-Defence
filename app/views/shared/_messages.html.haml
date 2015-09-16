@@ -14,7 +14,6 @@
       .message-error
 
       = f.input :claim_id, value: @claim.id, as: :hidden
-      = f.input :subject, placeholder: 'Subject', label: false
       = f.input :body, placeholder: 'Message', label: false
 
       - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914131814) do
+ActiveRecord::Schema.define(version: 20150916083058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,8 @@ ActiveRecord::Schema.define(version: 20150914131814) do
     t.datetime "updated_at"
     t.boolean  "requires_cracked_dates"
     t.boolean  "requires_trial_dates"
-    t.boolean  "allow_pcmh_fee_type",    default: false
+    t.boolean  "allow_pcmh_fee_type",     default: false
+    t.boolean  "requires_maat_reference", default: false
   end
 
   create_table "case_worker_claims", force: :cascade do |t|
@@ -291,7 +292,6 @@ ActiveRecord::Schema.define(version: 20150914131814) do
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.string   "subject"
     t.text     "body"
     t.integer  "claim_id"
     t.integer  "sender_id"

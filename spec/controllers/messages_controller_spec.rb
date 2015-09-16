@@ -13,7 +13,6 @@ RSpec.describe MessagesController, type: :controller do
       {
         claim_id: claim.id,
         sender_id: sender.user.id,
-        subject: 'hello',
         body: 'lorem ipsum',
       }
     end

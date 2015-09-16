@@ -225,7 +225,7 @@ private
     {
       "defendant_id": defendant_uuid,
       "granting_body": granted_by,
-      "maat_reference": "MAATfromSmoke",
+      "maat_reference": "45469637418",
       "representation_order_date": "2015-05-21"
     }
   end

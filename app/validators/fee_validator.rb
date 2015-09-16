@@ -34,7 +34,6 @@ class FeeValidator < BaseClaimValidator
     if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
-      # TODO - this causes problems for API and logic error whereby amount cannot be 0 if quantity is 1
       validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
     end
   end

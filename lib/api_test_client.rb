@@ -95,8 +95,6 @@ private
     end
   end
 
-
-
   #
   # don't raise exceptions but, instead, return the
   # response for analysis.
@@ -121,6 +119,17 @@ private
     end
   end
 
+  def clean_up
+      @messages << "cleaning up"
+      claim = Claim.find_by(uuid: @claim_id)
+      if claim
+        claim.destroy!
+        @messages << "claim destroyed"
+      else
+        @message << "claim NOT found for destruction!!"
+      end
+  end
+
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
 
     endpoint = RestClient::Resource.new([api_root_url, prefix || ADVOCATE_PREFIX, resource].join('/'))
@@ -143,34 +152,31 @@ private
     response = post_to_advocate_endpoint('claims', claim_data)
     return if failure
 
-    claim_id = JSON.parse(response)['id']
+    @claim_id = JSON.parse(response)['id']
 
     # add a defendant
-    response = post_to_advocate_endpoint('defendants', defendant_data(claim_id))
+    response = post_to_advocate_endpoint('defendants', defendant_data(@claim_id))
 
     # add representation order
     defendant_id = JSON.parse(response)['id']
     response = post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # add fee
-    response = post_to_advocate_endpoint('fees', fee_data(claim_id))
+    response = post_to_advocate_endpoint('fees', fee_data(@claim_id))
 
     # add date attended to fee
     attended_item_id = JSON.parse(response)['id']
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
 
     # add expense
-    response = post_to_advocate_endpoint('expenses', expense_data(claim_id))
+    response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
 
     # add date attended to expense
     attended_item_id = JSON.parse(response)['id']
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"expense"))
 
-    #clear up/delete data
-    claim = Claim.find_by(uuid: claim_id)
-    if claim
-      claim.destroy
-    end
+    # destroy all data created
+    clean_up
 
   end
 

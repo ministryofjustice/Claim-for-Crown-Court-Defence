@@ -27,7 +27,7 @@ describe FeeValidator do
       it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'Fee amount cannot be negative') }
-      it { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
+      # it { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
     end
 
     context 'quantity = 0' do
@@ -51,13 +51,13 @@ describe FeeValidator do
 
   end
 
-
   describe 'quantity' do
     context 'basic fee (BAF)' do
+      expected_error_message = 'Quantity for basic fee must be exactly one'
       it { should_be_valid_if_equal_to_value(baf_fee, :quantity, 1) }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, 0, 'Quantity for basic fee: only one basic fee can be claimed per case') }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, -1, 'Quantity for basic fee: only one basic fee can be claimed per case') }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, nil, 'Quantity for basic fee: only one basic fee can be claimed per case') }
+      it { should_error_if_equal_to_value(baf_fee, :quantity, 0,    expected_error_message) }
+      it { should_error_if_equal_to_value(baf_fee, :quantity, -1,   expected_error_message) }
+      it { should_error_if_equal_to_value(baf_fee, :quantity, nil,  expected_error_message) }
     end
 
     context 'daily_attendance_3_40 (DAF)' do
@@ -128,7 +128,8 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
         end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')}
+        # TODO - to be removed
+        # it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')}
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quantity for plea and case management hearing cannot be greater than 3') }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }

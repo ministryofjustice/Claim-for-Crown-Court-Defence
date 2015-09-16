@@ -4,16 +4,12 @@
 %table
   %thead
     %th
-      Subject
-    %th
       Date
     %th
       Claim
   %tbody
     - @user_message_statuses.each do |user_message_status|
       %tr
-        %td
-          = user_message_status.message.subject
         %td
           = user_message_status.message.created_at.strftime(Settings.date_time_format)
         %td

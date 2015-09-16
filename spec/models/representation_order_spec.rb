@@ -15,15 +15,20 @@
 require 'rails_helper'
 
 describe RepresentationOrder do
+  let(:claim)                       { FactoryGirl.build :unpersisted_claim }
+  let(:defendant)                   { FactoryGirl.build :defendant }
+  let(:representation_order)        { FactoryGirl.build :representation_order }
 
+  before(:each) do
+    representation_order.defendant = defendant
+    representation_order.defendant.claim = claim
+    representation_order.defendant.claim.force_validation = true
+  end
 
   context 'non_draft claim validations' do
-    let(:claim)                       { FactoryGirl.build :unpersisted_claim }
-    let(:representation_order)        { FactoryGirl.build :representation_order }
 
     before(:each) do
       allow(claim).to receive(:state).and_return('allocated')
-      allow(representation_order).to receive(:claim).and_return(claim)
     end
 
     it 'should validate court type' do
@@ -36,12 +41,8 @@ describe RepresentationOrder do
 
 
   context 'draft claim validations' do
-    let(:claim)                       { FactoryGirl.build :unpersisted_claim }
-    let(:representation_order)        { FactoryGirl.build :representation_order }
-
     before(:each) do
       allow(claim).to receive(:state).and_return('draft')
-      allow(representation_order).to receive(:claim).and_return(claim)
     end
 
     it 'should validate court type' do
@@ -53,14 +54,44 @@ describe RepresentationOrder do
   end
 
   context 'maat_reference' do
-    it 'should upcase maat reference on save' do
-      ro = FactoryGirl.build :representation_order, maat_reference: 'abcdef34rt'
-      ro.save!
-      expect(ro.maat_reference).to eq 'ABCDEF34RT'
+
+    context 'case type requires maat reference' do
+      before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, :requires_maat_reference) }
+      it 'should error if blank' do
+        representation_order.maat_reference = nil
+        expect(representation_order).not_to be_valid
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference cannot be blank'])
+      end
+
+      it 'should error if not 10 numeric digits' do
+        representation_order.maat_reference = '456213'
+        expect(representation_order).not_to be_valid
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid.  It must be exactly 10 numeric characters'])
+      end
+
+      it 'should not error if exactly 10 numeric digits' do
+        representation_order.maat_reference = '2078352232'
+        expect(representation_order).to be_valid
+      end
     end
+
+    context 'case type does not require maat refrence' do
+      before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, requires_maat_reference: false) }
+      it 'should not error if present' do
+        representation_order.maat_reference = '2078352232'
+        expect(representation_order).to be_valid
+      end
+
+      it 'should not error if absent' do
+        representation_order.maat_reference = nil
+        expect(representation_order).to be_valid
+      end
+
+    end
+
   end
 
-  context 'reporders for dame defendant methods' do
+  context 'reporders for same defendant methods' do
 
     let(:claim)         { FactoryGirl.create :claim }
     let(:ro1)            { claim.defendants.first.representation_orders.first }

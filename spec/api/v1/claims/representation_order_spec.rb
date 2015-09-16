@@ -13,7 +13,7 @@ describe API::V1::Advocates::RepresentationOrder do
 
   let!(:claim)            { create(:claim, source: 'api') }
   let!(:defendant)        { create(:defendant, claim: claim).reload }
-  let!(:valid_params)     { {granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: 'maatmaatmaat' } }
+  let!(:valid_params)     { {granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -55,7 +55,7 @@ describe API::V1::Advocates::RepresentationOrder do
         expect(new_representation_order.granting_body).to eq valid_params[:granting_body]
         expect(new_representation_order.defendant_id).to eq defendant.id
         expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
-        expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference].upcase!
+        expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference]
       end
 
     end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 require File.dirname(__FILE__) + '/date_validation_helpers'
 
-describe RepresentationOrderDateValidator do 
+describe RepresentationOrderValidator do 
   include RspecDateValidationHelpers
 
   let(:claim)         { FactoryGirl.build :claim, force_validation: true }

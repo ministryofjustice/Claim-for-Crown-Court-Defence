@@ -1,4 +1,19 @@
 %h1= @advocate.email
 
 %p
+  Name:
   = @advocate.name
+
+%p
+  Supplier number:
+  = @advocate.supplier_number
+
+%p
+  Role:
+  = @advocate.role.humanize
+
+- if can? :edit, @advocate
+  = link_to 'Edit', edit_advocates_admin_advocate_path(@advocate), class: 'button'
+
+- if can? :change_password, @advocate
+  = link_to 'Change password', change_password_advocates_admin_advocate_path(@advocate), class: 'button'

@@ -75,8 +75,14 @@ describe Ability do
     end
 
     context 'cannot manage advocates' do
-      [:show, :edit, :update, :destroy].each do |action|
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, Advocate.new(chamber: advocate.chamber)) }
+      end
+    end
+
+    context 'can view profile and change own password' do
+      [:show, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, advocate) }
       end
     end
   end
@@ -151,7 +157,7 @@ describe Ability do
     end
 
     context 'can manage advocates in their chamber' do
-      [:show, :edit, :update, :destroy].each do |action|
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should be_able_to(action, Advocate.new(chamber: chamber)) }
       end
     end
@@ -159,7 +165,7 @@ describe Ability do
     context 'cannot manage advocates in a different chamber' do
       let(:other_chamber) { create(:chamber) }
 
-      [:show, :edit, :update, :destroy].each do |action|
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, Advocate.new(chamber: other_chamber)) }
       end
     end
@@ -199,8 +205,14 @@ describe Ability do
     end
 
     context 'cannot manage case workers' do
-      [:index, :show, :new, :create, :edit, :allocate, :update, :destroy].each do |action|
+      [:index, :show, :new, :create, :edit, :change_password, :update_password, :allocate, :update, :destroy].each do |action|
         it { should_not be_able_to(action, CaseWorker.new) }
+      end
+    end
+
+    context 'can view their own profile and change password' do
+      [:show, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, case_worker) }
       end
     end
 
@@ -226,7 +238,7 @@ describe Ability do
     end
 
     context 'can manage case workers' do
-      [:index, :show, :new, :create, :edit, :allocate, :update, :destroy].each do |action|
+      [:index, :show, :new, :create, :edit, :change_password, :update_password, :allocate, :update, :destroy].each do |action|
         it { should be_able_to(action, CaseWorker.new) }
       end
     end

@@ -14,30 +14,27 @@ class FeeValidator < BaseClaimValidator
     @actual_trial_length = @record.try(:claim).try(:actual_trial_length) || 0
 
     case @record.fee_type.try(:code)
-    when 'BAF'
-      validate_basic_fee_quantity
-    when 'DAF'
-      validate_daily_attendance_3_40_quantity
-    when 'DAH'
-      validate_daily_attendance_41_50_quantity
-    when 'DAJ'
-      validate_daily_attendance_50_plus_quantity
-    when 'PCM'
-      validate_plea_and_case_management_hearing
-    else
-      validate_quantity_for_everything_else
-
+      when 'BAF'
+        validate_basic_fee_quantity
+      when 'DAF'
+        validate_daily_attendance_3_40_quantity
+      when 'DAH'
+        validate_daily_attendance_41_50_quantity
+      when 'DAJ'
+        validate_daily_attendance_50_plus_quantity
+      when 'PCM'
+        validate_plea_and_case_management_hearing
     end
+
+    validate_any_quantity
+
   end
-
-
-
 
   def validate_basic_fee_quantity
     if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
-      validate_numericality(:quantity, 1, 1, 'Quantity for basic fee: only one basic fee can be claimed per case')
+      validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
     end
   end
 
@@ -52,7 +49,6 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
   def validate_daily_attendance_41_50_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 41
@@ -64,7 +60,6 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
   def validate_daily_attendance_50_plus_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 50
@@ -74,26 +69,24 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
   def validate_plea_and_case_management_hearing
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      if @record.quantity < 0
-        add_error(:quantity, 'Quantity for fee cannot be negative')
-      elsif @record.quantity == 0
-        add_error(:quantity, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')
-      elsif @record.quantity > 3
-        add_error(:quantity, 'Quantity for plea and case management hearing cannot be greater than 3')
-      end
+      # TODO: to be removed as this is a general validation for all qauntities
+      # if @record.quantity < 0
+      #   add_error(:quantity, 'Fee quantity cannot be negative')
+      # TODO: to be removed - decided with BA to allow 0 for PCMH (unless amount not zero, see validate_amount below)
+      # elsif @record.quantity == 0
+        # add_error(:quantity, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')
+      # els
+      add_error(:quantity, 'Quantity for plea and case management hearing cannot be greater than 3') if @record.quantity > 3
     else
       add_error(:quantity, 'PCMH Fees quantity must be zero or blank for this case type') unless (@record.quantity == 0 || @record.quantity.blank?)
     end
   end
 
-
-  def validate_quantity_for_everything_else
+  def validate_any_quantity
     add_error(:quantity, 'Fee quantity cannot be negative') if @record.quantity < 0
   end
-
 
   def validate_amount
     if @record.amount < 0
@@ -102,8 +95,9 @@ class FeeValidator < BaseClaimValidator
       add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
-    #elsif @record.amount.to_i != @record.amount
-      #add_error(:amount, 'Fee amount must be whole numbers only')
+    # TODO: on analysis with BA decided to allow decimals for all fees
+    # elsif @record.amount.to_i != @record.amount
+    # add_error(:amount, 'Fee amount must be whole numbers only')
     end
     if @record.fee_type
       unless @record.fee_type.max_amount.nil?
@@ -112,8 +106,7 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
-
+  # TODO - to be removed if not needed
   def validate_dates_attended
   end
 

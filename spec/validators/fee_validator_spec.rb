@@ -27,7 +27,7 @@ describe FeeValidator do
       it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'Fee amount cannot be negative') }
-      it { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
+      xit { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
     end
 
     context 'quanity = 0' do 

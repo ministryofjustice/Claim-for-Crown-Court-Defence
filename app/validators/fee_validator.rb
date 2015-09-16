@@ -92,7 +92,7 @@ class FeeValidator < BaseClaimValidator
     if @record.amount < 0
       add_error(:amount, 'Fee amount cannot be negative')
     elsif @record.quantity > 0 && @record.amount == 0
-      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount')
+      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.fee_type.code == 'BAF'
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
     # TODO: on analysis with BA decided to allow decimals for all fees

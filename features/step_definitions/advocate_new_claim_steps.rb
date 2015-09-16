@@ -13,7 +13,7 @@ Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
-  create(:fee_type, :basic, description: 'Basic Fee')
+  create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
   create(:fee_type, :basic, description: 'Other Basic Fee')
   create(:fee_type, :basic, description: 'Basic Fee with dates attended required', code: 'SAF')
   create(:fee_type, :fixed, description: 'Fixed Fee example')
@@ -26,11 +26,6 @@ Given(/^There are fee schemes in place$/) do
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 7', start_date: Date.parse('01/04/2011'), end_date: Date.parse('02/10/2011'))
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 8', start_date: Date.parse('03/10/2011'), end_date: Date.parse('31/03/2012'))
   Scheme.find_or_create_by(name: 'AGFS Fee Scheme 9', start_date: Date.parse('01/04/2012'), end_date: nil)
-end
-
-Given(/^there are case types in place$/) do
-  create(:case_type, name: 'Contempt')
-  create(:case_type, name: 'Fixed Fee')
 end
 
 Given(/^There are case types in place$/) do
@@ -336,6 +331,10 @@ end
 Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
   to_or_not_to = have.nil? ? 'to' : have.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
   expect(page).method(to_or_not_to).call have_content(content)
+end
+
+Then(/^I should see a Basic Fee quantity of exactly one$/) do
+  expect(page).to have_field('claim_basic_fees_attributes_0_quantity', with: 1)
 end
 
 Given(/^I fill in an Initial Fee$/) do

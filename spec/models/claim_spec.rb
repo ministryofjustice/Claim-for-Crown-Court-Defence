@@ -780,8 +780,9 @@ RSpec.describe Claim, type: :model do
       claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
       claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
       claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
-
-      expect(Claim.fixed_fee).to eq( [ claim_1, claim_2 ])
+      expect(Claim.fixed_fee.count).to eq 2
+      expect(Claim.fixed_fee).to include claim_1
+      expect(Claim.fixed_fee).to include claim_2
     end
   end
 

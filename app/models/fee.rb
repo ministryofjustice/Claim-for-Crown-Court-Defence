@@ -50,7 +50,8 @@ class Fee < ActiveRecord::Base
   end
 
   def self.new_blank(claim, fee_type)
-    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
+    quantity = (fee_type.code == 'BAF' ? 1 : 0)
+    Fee.new(claim: claim, fee_type: fee_type, quantity: quantity, amount: 0)
   end
 
   def self.new_collection_from_form_params(claim, form_params)

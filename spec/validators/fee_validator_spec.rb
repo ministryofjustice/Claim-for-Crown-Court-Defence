@@ -8,11 +8,11 @@ describe FeeValidator do
   let(:claim)                     { FactoryGirl.build :claim, force_validation: true }
   let(:fee)                       { FactoryGirl.build :fee, claim: claim }
   let(:baf_fee)                   { FactoryGirl.build :fee, :baf_fee, claim: claim }
-  let(:daf_fee)                   { FactoryGirl.build :fee, :daf_fee, claim: claim }          
+  let(:daf_fee)                   { FactoryGirl.build :fee, :daf_fee, claim: claim }
   let(:dah_fee)                   { FactoryGirl.build :fee, :dah_fee, claim: claim }
   let(:daj_fee)                   { FactoryGirl.build :fee, :daj_fee, claim: claim }
   let(:pcm_fee)                   { FactoryGirl.build :fee, :pcm_fee, claim: claim }
-  
+
   describe 'fee type' do
     it { should_error_if_not_present(fee, :fee_type, 'Fee type cannot be blank') }
   end
@@ -30,7 +30,7 @@ describe FeeValidator do
       it { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
     end
 
-    context 'quanity = 0' do 
+    context 'quantity = 0' do
       before(:each) do
         daf_fee.quantity = 0
       end
@@ -105,7 +105,7 @@ describe FeeValidator do
           dah_fee.claim.actual_trial_length = 55
           should_error_if_equal_to_value(dah_fee, :quantity, 12, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
         end
-        
+
         it 'should not error if valid' do
           dah_fee.claim.actual_trial_length = 55
           should_be_valid_if_equal_to_value(daf_fee, :quantity, 8)
@@ -129,7 +129,7 @@ describe FeeValidator do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
         end
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')}
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quanity for plea and case management hearing cannot be greater than 3') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quantity for plea and case management hearing cannot be greater than 3') }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
       end

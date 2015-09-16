@@ -23,10 +23,11 @@ describe FeeValidator do
       daf_fee.claim.actual_trial_length = 10
     end
     context 'quantity greater than zero' do
-      it { should_be_valid_if_equal_to_value(daf_fee, :amount, 450.55) }
+      it { should_be_valid_if_equal_to_value(daf_fee, :amount, 450.00) }
       it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
       it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
-      it { should_error_if_equal_to_value(daf_fee, :amount, -35.77, 'Fee amount cannot be negative') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'Fee amount cannot be negative') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, 250.44, 'Fee amount must be whole numbers only') }
     end
 
     context 'quanity = 0' do 
@@ -35,6 +36,19 @@ describe FeeValidator do
       end
       it { should_error_if_equal_to_value(daf_fee, :amount, 1.00, 'Fee amounts cannot be specified if the fee quanitity is zero') }
     end
+
+    context 'fee with max amount' do
+      before(:each)       { fee.fee_type.max_amount = 9999 }
+
+      it { should_be_valid_if_equal_to_value(fee, :amount, 999) }
+      it { should_error_if_equal_to_value(fee, :amount, 10000, 'Fee amount exceeds maximum permitted (£9,999) for this fee type') }
+    end
+
+    context 'fee with no max amount' do
+      before(:each)       { fee.fee_type.max_amount = nil }
+      it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
+    end
+
   end
 
 
@@ -110,9 +124,23 @@ describe FeeValidator do
     end
 
     context 'plea and case management hearing' do
-      it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quanity for plea and case management hearing cannot be greater than 3')}
-      it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
-      it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
+      context 'permitted case type' do
+        before(:each) do
+          claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
+        end
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')}
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quanity for plea and case management hearing cannot be greater than 3') }
+        it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
+        it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
+      end
+
+      context 'unpermitted case type' do
+        before(:each) do
+          claim.case_type = FactoryGirl.build :case_type
+        end
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'PCMH Fees quantity must be zero or blank for this case type') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'PCMH Fees quantity must be zero or blank for this case type') }
+      end
     end
   end
 

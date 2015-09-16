@@ -545,6 +545,7 @@ def valid_claim_fee_params
      "apply_vat" => "0"
    }
    )
+
 end
 
 

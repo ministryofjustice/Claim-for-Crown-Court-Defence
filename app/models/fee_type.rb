@@ -3,14 +3,17 @@
 # Table name: fee_types
 #
 #  id              :integer          not null, primary key
-#  description     :string(255)
-#  code            :string(255)
+#  description     :string
+#  code            :string
 #  fee_category_id :integer
 #  created_at      :datetime
 #  updated_at      :datetime
+#  max_amount      :decimal(, )
 #
 
 class FeeType < ActiveRecord::Base
+
+  include ActionView::Helpers::NumberHelper
   BASIC_FEE_CODES = %w( BAF DAF DAH DAJ PCM SAF )
 
   belongs_to :fee_category
@@ -23,7 +26,7 @@ class FeeType < ActiveRecord::Base
   validates :code, presence: {message: 'Fee type code cannot be blank'}
 
   def self.basic
-    self.by_fee_category("BASIC")
+    self.by_fee_category("BASIC").unscope(:order).order(id: :asc)
   end
 
   def self.fixed
@@ -36,6 +39,11 @@ class FeeType < ActiveRecord::Base
 
   def has_dates_attended?
     BASIC_FEE_CODES.include?(self.code)
+  end
+
+
+  def pretty_max_amount
+    number_to_currency(self.max_amount, precision: 0)
   end
 
 private

@@ -90,38 +90,43 @@ end
   # NOTE: at time of writing a claim has all "initial fees"
   #       instantiated at point of new claim creation.
 
- def random_basic_fee_quantity_and_amount_by_type(fee_type)
+ def random_basic_fee_quantity_and_amount_by_type(fee_type, claim)
     case fee_type.code
       when 'BAF'
         q = 1
-        a = rand(1500.00..3000.00)
+        a = rand(1500..3000)
       when 'DAF'
         q = rand(1..15)
         a = rand(200..2500)
       when 'DAH'
         q = rand(0..20)
-        a = rand(200.00..3000.00)
+        a = rand(200..3000)
       when 'DAJ'
         q = rand(0..10)
-        a = rand(200.00..800.00)
+        a = rand(200..800)
       when 'PCM'
-        q = rand(2..10)
-        a = rand(200..600)
+        if claim.case_type.allow_pcmh_fee_type?
+          q = rand(1..3)
+          a = rand(200..600)
+        else
+          q = 0
+          a = 0
+        end
       when 'PPE'
         q = rand(50..200)
-        a = rand(0.50..400.00)
+        a = rand(0..400)
       when 'CAV'
         q = rand(3..20)
-        a = rand(40.00..500.00)
+        a = rand(40..500)
       when 'NPW'
         q = rand(11..300)
-        a = rand(30.00..400.00)
+        a = rand(30..400)
       when 'SAF'
         q = rand(5..15)
-        a = rand(380.00..900.00)
+        a = rand(380..900)
       else
         q = rand(1..15);
-        a = rand(10.00..1199.00)
+        a = rand(10..1199)
     end
 
     return q, a.round(2)
@@ -129,9 +134,8 @@ end
 
   def add_basic_fees(claim)
     return if claim.case_type == "fixed_fee"
-
     FeeType.basic.each do |fee_type|
-      q, a = random_basic_fee_quantity_and_amount_by_type(fee_type)
+      q, a = random_basic_fee_quantity_and_amount_by_type(fee_type, claim)
       unless fee_type.code == 'BAF'
         if rand(2) == 0
           q = 0
@@ -140,27 +144,36 @@ end
       end
 
       q = adjust_quantity_for_fee_type(claim, fee_type, q)
-      next if q = 0
-      
-      fee = FactoryGirl.create(:fee, quantity: q, amount: a, claim: claim, fee_type: fee_type)
+      next if q == 0
+
+      # basic fees are instatiated as part of claim creation so must update NOT createn
+      fee = Fee.find_by(claim: claim, fee_type: fee_type)
+      fee.quantity = adjust_quantity_for_fee_type(claim, fee_type, q)
+      fee.amount = a
+      fee.save!
 
       if ['BAF','DAF','DAH','DAJ','PCM','SAF'].include?(fee.fee_type.code)
         FactoryGirl.create(:date_attended, attended_item: fee) unless rand(2) == 0 || q == 0
       end
-
     end
+
   end
 
-  # add 1 to 6 fixed/misc fees, some with date
-  def add_fixed_misc_fees(claim, fee_count=nil)
+  def add_fixed_fees(claim, fee_count = nil)
+    add_fees(claim, fee_count, FeeType.fixed.sample)
+  end
+
+  def add_misc_fees(claim, fee_count = nil)
+    add_fees(claim, fee_count, FeeType.misc.sample)
+  end
+
+  def add_fees(claim, fee_count, fee_type)
     fee_count = fee_count.nil? ? rand(1..6) : fee_count
     fee_count.times do
-      fee_type = claim.case_type == "fixed_fee" ? FeeType.fixed.sample : FeeType.misc.sample
       fee = FactoryGirl.create(:fee, :random_values, claim: claim, fee_type: fee_type)
       unless claim.first_day_of_trial.nil?
         FactoryGirl.create(:date_attended, attended_item: fee, date: claim.first_day_of_trial) unless rand(2) == 0
       end
-      # puts "            + creating fee of category #{fee.fee_type.fee_category.abbreviation} and type #{fee.fee_type.description}"
     end
   end
 
@@ -173,7 +186,8 @@ end
 
   def push_fees_over_threshold(claim)
     until claim.calculate_total.to_f >= 20000.00
-      add_fixed_misc_fees(claim, 1)
+      add_fixed_fees(claim, 1)
+      add_misc_fees(claim, 1)
     end
   end
 
@@ -182,15 +196,16 @@ end
   end
 
   def add_other_data(claim)
-    add_basic_fees(claim)
-    add_fixed_misc_fees(claim)
+    add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
+    add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
+    add_misc_fees(claim)
     add_expenses(claim)
 
     #attempt to force ~25%% of claims to have random values over 20k threshold
     push_fees_over_threshold(claim) if rand(4) == 1
 
     add_defendants(claim)
-    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network trvis (i.e. cost??)
+    add_documentary_evidence(claim, rand(1..2)) # WARNING: adding evidence can significantly slow travis and deploy process and eat network traffic (i.e. cost??)
   end
 
   def add_documentary_evidence(claim,doc_count=2)
@@ -292,6 +307,12 @@ end
         end
 
         claim.apply_vat = !(claim.id % 3 == 0)
+        unless claim.valid?
+          puts ">>>>>>>>>>>>>>>> DEBUG NOT VALID    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+          ap claim
+          ap claim.basic_fees
+        end
+
         claim.save!
       end
     end
@@ -312,9 +333,10 @@ end
     end
   end
 
-
   def adjust_quantity_for_fee_type(claim, fee_type, q)
     case fee_type.code
+    when 'BAF'
+      q = 1
     when 'DAF'
       q = claim.actual_trial_length < 3 ? 0: claim.actual_trial_length - 3
     when'DAH'

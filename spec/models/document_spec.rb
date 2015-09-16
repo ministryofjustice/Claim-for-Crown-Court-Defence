@@ -6,16 +6,18 @@
 #  claim_id                                :integer
 #  created_at                              :datetime
 #  updated_at                              :datetime
-#  document_file_name                      :string(255)
-#  document_content_type                   :string(255)
+#  document_file_name                      :string
+#  document_content_type                   :string
 #  document_file_size                      :integer
 #  document_updated_at                     :datetime
 #  advocate_id                             :integer
-#  converted_preview_document_file_name    :string(255)
-#  converted_preview_document_content_type :string(255)
+#  converted_preview_document_file_name    :string
+#  converted_preview_document_content_type :string
 #  converted_preview_document_file_size    :integer
 #  converted_preview_document_updated_at   :datetime
 #  uuid                                    :uuid
+#  form_id                                 :string
+#  creator_id                              :integer
 #
 
 require 'rails_helper'
@@ -43,6 +45,8 @@ RSpec.describe Document, type: :model do
                rejecting('text/plain',
                          'text/html')
   end
+
+  it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
 
   context 'storage' do
     context 'on S3' do

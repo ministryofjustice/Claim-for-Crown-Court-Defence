@@ -3,12 +3,13 @@
 # Table name: case_types
 #
 #  id                     :integer          not null, primary key
-#  name                   :string(255)
+#  name                   :string
 #  is_fixed_fee           :boolean
 #  created_at             :datetime
 #  updated_at             :datetime
 #  requires_cracked_dates :boolean
 #  requires_trial_dates   :boolean
+#  allow_pcmh_fee_type    :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
@@ -28,6 +29,10 @@ FactoryGirl.define do
 
     trait :requires_trial_dates do
       requires_trial_dates true
+    end
+
+    trait :allow_pcmh_fee_type do
+      allow_pcmh_fee_type true
     end
 
   end

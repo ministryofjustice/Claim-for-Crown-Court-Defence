@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
-  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords' }
+  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', registrations: 'advocates/registrations' }
 
   authenticated :user, -> (u) { u.persona.is_a?(Advocate) } do
     root to: 'advocates/claims#index', as: :advocates_home
@@ -46,9 +46,7 @@ Rails.application.routes.draw do
   namespace :advocates do
     root to: 'claims#index'
 
-    resources :json_document_importers, only: [:new, :create] do
-      get '/', to: 'json_document_importer#new', on: :collection
-    end
+    resources :json_document_importers, only: [:create], format: :js
 
     post '/advocates/json_importer' => 'json_document_importer#create'
 

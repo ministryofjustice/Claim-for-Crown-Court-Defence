@@ -95,6 +95,10 @@ private
     end
   end
 
+  def id_from_json(json,key='id')
+    JSON.parse(json)[key] rescue 0
+  end
+
   #
   # don't raise exceptions but, instead, return the
   # response for analysis.
@@ -120,18 +124,21 @@ private
   end
 
   def clean_up
-      @messages << "cleaning up"
+      puts "smoke test: cleaning up"
+      # @messages << "cleaning up"
       claim = Claim.find_by(uuid: @claim_id)
       if claim
-        claim.destroy!
-        @messages << "claim destroyed"
-      else
-        @message << "claim NOT found for destruction!!"
+        if claim.destroy
+          # @messages << "claim destroyed"
+          puts "smoke test: claim destroyed"
+        else
+          # @message << "claim NOT found for destruction!!"
+          puts "smoke test: claim NOT found for destruction!!"
+        end
       end
   end
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
-
     endpoint = RestClient::Resource.new([api_root_url, prefix || ADVOCATE_PREFIX, resource].join('/'))
     endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, result|
       if response.code.to_s =~ /^2/
@@ -143,7 +150,6 @@ private
       end
       response
     end
-
   end
 
   def test_claim_creation_endpoints
@@ -152,30 +158,30 @@ private
     response = post_to_advocate_endpoint('claims', claim_data)
     return if failure
 
-    @claim_id = JSON.parse(response)['id']
+    @claim_id = id_from_json(response)
 
     # add a defendant
     response = post_to_advocate_endpoint('defendants', defendant_data(@claim_id))
 
     # add representation order
-    defendant_id = JSON.parse(response)['id']
+    defendant_id = id_from_json(response)
     response = post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # add fee
     response = post_to_advocate_endpoint('fees', fee_data(@claim_id))
 
     # add date attended to fee
-    attended_item_id = JSON.parse(response)['id']
+    attended_item_id = id_from_json(response)
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
 
     # add expense
     response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
 
     # add date attended to expense
-    attended_item_id = JSON.parse(response)['id']
+    attended_item_id = id_from_json(response)
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"expense"))
 
-    # destroy all data created
+  ensure
     clean_up
 
   end

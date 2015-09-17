@@ -197,6 +197,7 @@ en:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"
         fees_summary: "Fees total:"
+        vat_amount: Vat amount
         thanks: Thank you for submitting your claim
         total: "Total:"
         will_be_processed: Your claim will be processed shortly

@@ -1,27 +1,33 @@
-%h1
-  = t('.thanks')
+- present(@claim) do |claim|
+  %h1
+    = t('.thanks')
 
-%p
-  = t('.will_be_processed')
+  %p
+    = t('.will_be_processed')
 
-%h2
-  =t('.claim_summary')
+  %h2
+    =t('.claim_summary')
 
-%p
-  =t('.fees_summary')
-  = number_to_currency(@claim.fees_total)
+  %p
+    =t('.fees_summary')
+    = claim.fees_total
 
-%p
-  =t('.expenses_total')
-  = number_to_currency(@claim.expenses_total)
+  %p
+    =t('.expenses_total')
+    = claim.expenses_total
 
-%h2
-  = t('.total')
-  = number_to_currency(@claim.total)
+  - if claim.apply_vat?
+    %p
+      =t('.vat_amount')
+      = claim.vat_amount
 
-%p
-  = link_to t('link.file_another_claim'), new_advocates_claim_path, class: 'button'
-  &nbsp;
-  = t('.common.or')
-  &nbsp;
-  = link_to t('.link.view_claim'), advocates_root_url, class: 'button'
+  %h2
+    = t('.total')
+    = claim.total_inc_vat
+
+  %p
+    = link_to t('link.file_another_claim'), new_advocates_claim_path, class: 'button'
+    &nbsp;
+    = t('.common.or')
+    &nbsp;
+    = link_to t('.link.view_claim'), advocates_root_url, class: 'button'

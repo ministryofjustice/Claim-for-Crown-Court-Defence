@@ -64,7 +64,10 @@ Rails.application.routes.draw do
     namespace :admin do
       root to: 'claims#index'
 
-      resources :advocates
+      resources :advocates do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
     end
   end
 
@@ -79,6 +82,8 @@ Rails.application.routes.draw do
 
       resources :case_workers do
         get 'allocate', on: :member
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
       end
 
       resources :allocations, only: [:new, :create] do

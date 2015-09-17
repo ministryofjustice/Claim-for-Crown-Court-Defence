@@ -4,7 +4,7 @@
       =# link_to 'Allocations', case_workers_admin_allocations_path
       =# link_to "Case Workers (#{CaseWorker.count})", case_workers_admin_case_workers_path
     = "Signed in as:"
-    = link_to(current_user.name, '#')
+    = link_to current_user.name, signed_in_user_profile_path
     -#Hide messages for the moment
     -#= link_to user_message_statuses_path do
       -#%span#message_count

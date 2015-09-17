@@ -1,5 +1,5 @@
 class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationController
-  before_action :set_advocate, only: [:show, :edit, :update, :destroy]
+  before_action :set_advocate, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
 
   def index
     @advocates = current_user.persona.chamber.advocates
@@ -8,6 +8,8 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   def show; end
 
   def edit; end
+
+  def change_password; end
 
   def new
     @advocate = Advocate.new
@@ -32,6 +34,21 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
     end
   end
 
+  def update_password
+    password_params = advocate_params.slice(:user_attributes)
+    password_params[:user_attributes].delete(:email)
+    password_params[:user_attributes].delete(:first_name)
+    password_params[:user_attributes].delete(:last_name)
+
+    user = @advocate.user
+    if user.update_with_password(password_params[:user_attributes])
+      sign_in(user, bypass: true)
+      redirect_to advocates_admin_advocate_path(@advocate), notice: 'Password successfully updated'
+    else
+      render :change_password
+    end
+  end
+
   def destroy
     @advocate.destroy
     redirect_to advocates_admin_advocates_url, notice: 'Advocate deleted'
@@ -47,7 +64,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
     params.require(:advocate).permit(
      :role,
      :supplier_number,
-      user_attributes: [:email, :password, :password_confirmation, :first_name, :last_name]
+      user_attributes: [:id, :email, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )
   end
 end

@@ -171,6 +171,13 @@ en:
           supplier_number: 'Supplier number'
           role: *role
           submit: 'Create Advocate'
+        change_password:
+          error: 'error'
+          prohibited_save: 'prohibited this advocate from being saved:'
+          current_password: Current password
+          password: *password
+          password_confirmation: *password_confirmation
+          submit: 'Change password'
     claims:
       claims:
         no_claims_found: 'No claims found'
@@ -312,3 +319,13 @@ en:
         retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
+  case_workers:
+    admin:
+      case_workers:
+        change_password:
+          error: 'error'
+          prohibited_save: 'prohibited this case worker from being saved:'
+          current_password: Current password
+          password: *password
+          password_confirmation: *password_confirmation
+          submit: 'Change password'

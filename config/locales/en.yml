@@ -164,6 +164,8 @@ en:
           error: 'error'
           prohibited_save: 'prohibited this advocate from being saved:'
           email: *email
+          password: *password
+          password_confirmation: *password_confirmation
           first_name: *first_name
           last_name: *last_name
           supplier_number: 'Supplier number'
@@ -322,7 +324,7 @@ en:
       case_workers:
         change_password:
           error: 'error'
-          prohibited_save: 'prohibited this advocate from being saved:'
+          prohibited_save: 'prohibited this case worker from being saved:'
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation

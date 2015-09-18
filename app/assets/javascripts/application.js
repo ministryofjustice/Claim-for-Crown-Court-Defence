@@ -20,7 +20,9 @@
 //= require_tree .
 
 /*For JSHint to ignore ADP object*/
-/* globals adp rorData */
+/* globals adp */
+/* globals rorData */
+
 var moj = moj || {};
 
 moj.Modules.devs.init = function(){};

@@ -59,7 +59,7 @@ adp.messaging = {
             $('.message-status').animate({left: '-9999px'});
           },5000);
         }
-      })
+      });
   },
   /**********************************
   Clear the User message so they can

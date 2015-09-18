@@ -1,11 +1,10 @@
 <% if @message.persisted? %>
-  $('.message-notification').text('<%=j @notification[:notice].html_safe %>');
-  $('.timeline .days > li > ul:first-child').prepend('<%=j render "shared/message", message: @message %>');
-  $('.no-messages').hide();
-
-  $('#message_subject').val('');
-  $('#message_body').val('');
-  $('.message-error').text('');
+  var data = {
+    success : true,
+    statusMessage : '<%=j @notification[:notice].html_safe %>',
+    sentMessage : '<%=j render "shared/message", message: @message %>'
+  }
+  adp.messaging.processMsg(data);
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
     $('.claim-action-dropdown').hide();
@@ -15,6 +14,9 @@
     $('.written-reasons-checkbox').hide();
   <% end %>
 <% else %>
-  $('.message-error').text('<%=j @notification[:alert].html_safe %>');
-  $('.message-notification').text('');
+  var data ={
+    success : false,
+    statusMessage : '<%=j @notification[:alert].html_safe %>'
+  }
+  adp.messaging.processMsg(data);
 <% end %>

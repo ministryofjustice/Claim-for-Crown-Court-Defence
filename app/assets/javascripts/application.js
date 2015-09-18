@@ -20,7 +20,7 @@
 //= require_tree .
 
 /*For JSHint to ignore ADP object*/
-/* globals adp */
+/* globals adp rorData */
 var moj = moj || {};
 
 moj.Modules.devs.init = function(){};
@@ -38,6 +38,7 @@ function initialise(){
   $('.select2').select2();
   adp.newClaim.init();
   adp.crackedTrial.init();
+  adp.messaging.init();
   adp.trialFieldsDisplay.init();
   adp.feeSectionDisplay.init();
   adp.feeCalculator.init('expenses');

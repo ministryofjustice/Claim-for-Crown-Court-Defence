@@ -3,7 +3,7 @@
     %span.normal
       = "Case number:"
     %div.bold-xlarge
-      = claim.case_number
+      = claim.case_number.empty? ? 'not-provided' : claim.case_number
   %div.column-two-thirds
     %div.left
       %span.normal
@@ -19,6 +19,8 @@
             = claim_position_and_count
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-
+    - if claim.editable? && current_user.persona.is_a?(Advocate)
+      %div.right
+        = link_to "Edit this claim", edit_advocates_claim_path(claim), class: 'button'
 %div.bold-medium.claim-detail-header
   = "Claim details"

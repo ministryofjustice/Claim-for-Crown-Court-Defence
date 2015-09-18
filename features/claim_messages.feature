@@ -9,24 +9,24 @@ Feature: Claim messages
     Given I am a signed in case worker
       And a claim with messages exists that I have been assigned to
      When I visit that claim's "case worker" detail page
-     Then I should see the messages for that claim in reverse chronological order
+     Then I should see the messages for that claim in chronological order
 
   Scenario: Leave a message as a case worker
     Given I am a signed in case worker
       And a claim with messages exists that I have been assigned to
      When I visit that claim's "case worker" detail page
       And I leave a message
-     Then I should see my message at the top of the message list
+     Then I should see my message at the bottom of the message list
 
   Scenario: View messages as an advocate
     Given I am a signed in advocate
       And I have a submitted claim with messages
      When I visit that claim's "advocate" detail page
-     Then I should see the messages for that claim in reverse chronological order
+     Then I should see the messages for that claim in chronological order
 
   Scenario: Leave a message as an advocate
     Given I am a signed in advocate
       And I have a submitted claim with messages
      When I visit that claim's "advocate" detail page
       And I leave a message
-     Then I should see my message at the top of the message list
+     Then I should see my message at the bottom of the message list

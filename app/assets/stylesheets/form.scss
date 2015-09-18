@@ -60,10 +60,7 @@ form {
   }
   input[type="file"] {
     // TODO: come up with some better colours for this
-    padding:15px;
-    font-size: 1em;
-    color: red;
-    border: 1px solid red;
+
     &.has-file{
       border-color: green;
       color: $ministry-of-justice;

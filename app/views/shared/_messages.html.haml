@@ -1,30 +1,34 @@
 %section#messages
-  .timeline
-    %ul.days
-      %li
-        %ul
-          - if @messages.none?
-            %span.no-messages
-              No messages found
-          - else
-            = render partial: 'shared/message', collection: @messages
+  .messages-container
+    .messages-list
+      - if @messages.none?
+        %span.no-messages
+          No messages found
+      - else
+        - @messages.each do | message|
+          = render partial: 'shared/message', locals: { message: message }
+    .message-status
+      = "Status:"
+      %span.message-success
+      %span.message-error
+    .message-controls
+      = simple_form_for @message, remote: true, authenticity_token: true  do |f|
+        = f.input :claim_id, value: @claim.id, as: :hidden
+        .grid-row
+          .upload-column
+            .upload-button
+              =  f.input :attachment, as: :file, wrapper: false, label: false
+              .upload-title="Upload File"
+          .message-column
+            = f.input :body, :wrapper => false, placeholder: 'Enter your message', label: false
+          .submit-column
+            = f.submit 'Send', class: 'button'
 
-    = simple_form_for @message, remote: true, authenticity_token: true  do |f|
-      .message-notification
-      .message-error
+        - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
+          .claim-action-dropdown
+            = f.label :claim_action
+            = f.collection_select :claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s, { prompt: true }, { class: 'select2' }
 
-      = f.input :claim_id, value: @claim.id, as: :hidden
-      = f.input :body, placeholder: 'Message', label: false
-
-      - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
-        .claim-action-dropdown
-          = f.label :claim_action
-          = f.collection_select :claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s, { prompt: true }, { class: 'select2' }
-
-      - if current_user.persona.is_a?(CaseWorker) && @claim.written_reasons_outstanding?
-        .written-reasons-checkbox
-          = f.input :written_reasons_submitted, as: :boolean
-
-      = f.input :attachment, as: :file, label: false
-
-      = f.submit 'Post', class: 'button'
+        - if current_user.persona.is_a?(CaseWorker) && @claim.written_reasons_outstanding?
+          .written-reasons-checkbox
+            = f.input :written_reasons_submitted, as: :boolean

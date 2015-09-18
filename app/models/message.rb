@@ -47,6 +47,8 @@ class Message < ActiveRecord::Base
 
   scope :most_recent_first, -> { includes(:user_message_statuses).order(created_at: :desc) }
 
+  scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc)}
+
   after_create :generate_statuses, :process_claim_action, :process_written_reasons
 
   class << self

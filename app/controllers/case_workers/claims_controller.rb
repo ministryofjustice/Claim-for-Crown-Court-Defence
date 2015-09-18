@@ -19,14 +19,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @enable_status_change = true
 
     @doc_types = DocType.all
-    @messages = @claim.messages.most_recent_first
+    @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
     @redetermination = @claim.redeterminations.build
   end
 
   def update
     @claim = Claim.find(params[:id])
-    @messages = @claim.messages.most_recent_first
+    @messages = @claim.messages.most_recent_last
     @doc_types = DocType.all
 
     begin

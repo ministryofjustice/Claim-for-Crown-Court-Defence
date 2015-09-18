@@ -2,7 +2,6 @@
 [
   {
     "claim": {
-      //"advocate_email": "advocate@example.com",
       "case_number": "A12345678",
       "case_type_id": 1,
       "indictment_number": "12345678",
@@ -11,7 +10,6 @@
       "actual_trial_length": 3,
       "trial_concluded_at": "2015-06-03",
       "advocate_category": "QC",
-      "prosecuting_authority": "cps",
       "offence_id": 1,
       "court_id": 1,
       "cms_number": "12345678",
@@ -30,7 +28,7 @@
           "representation_orders": [
             {
               "granting_body": "Crown Court",
-              "maat_reference": "12345678-3",
+              "maat_reference": "1234567890",
               "representation_order_date": "2015-05-01"
             }
           ]

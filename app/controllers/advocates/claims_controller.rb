@@ -34,7 +34,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def show
-    @messages = @claim.messages.most_recent_first
+    @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
     @enable_assessment_input = false
     @enable_status_change = false

@@ -1,1 +1,6 @@
-window.location.reload();
+<% if @json_document_importer.successfull_imports > 0 %>
+	$('#import_results').append("<li>Successfully imported <%= @json_document_importer.successfull_imports %> new Claims as drafts</li>");
+<% end %>
+<% if @json_document_importer.failed_imports > 0 %>
+	$('#import_results').append("<li>There were errors in <%= @json_document_importer.failed_imports %> Claims and these were not imported</li>");
+<% end %>

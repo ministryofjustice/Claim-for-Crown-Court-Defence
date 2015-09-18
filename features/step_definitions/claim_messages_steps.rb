@@ -2,6 +2,9 @@ Given(/^a claim with messages exists that I have been assigned to$/) do
   @case_worker = CaseWorker.first
   @claim = create(:submitted_claim)
   @messages = create_list(:message, 5, claim_id: @claim.id)
+  @messages.each do |message|
+    message.sender_id = create(:advocate).user
+  end
   @claim.case_workers << @case_worker
 end
 
@@ -14,22 +17,25 @@ When(/^I visit that claim's "(.*?)" detail page$/) do |namespace|
   end
 end
 
-Then(/^I should see the messages for that claim in reverse chronological order$/) do
-  message_dom_ids = @messages.sort_by(&:created_at).reverse.map { |m| "message_#{m.id}" }
+Then(/^I should see the messages for that claim in chronological order$/) do
+  message_dom_ids = @messages.sort_by(&:created_at).map { |m| "message_#{m.id}" }
   expect(page.body).to match(/.*#{message_dom_ids.join('.*')}.*/m)
 end
 
 When(/^I leave a message$/) do
+
+  save_and_open_page
+
   within '#messages' do
     fill_in 'message_body', with: 'Lorem'
     click_on 'Post'
   end
 end
 
-Then(/^I should see my message at the top of the message list$/) do
+Then(/^I should see my message at the bottom of the message list$/) do
   within '#messages' do
-    within '.timeline' do
-      li = page.first(:css, 'li')
+    within '.messages-list' do
+      li = page.last(:css, 'li')
       expect(li).to have_content('Lorem')
     end
   end

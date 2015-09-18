@@ -462,16 +462,22 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   describe "DELETE #destroy" do
     before { delete :destroy, id: subject }
 
-    subject { create(:claim, advocate: advocate) }
+    subject { create(:draft_claim, advocate: advocate) }
 
-    it 'deletes the claim' do
-      expect(Claim.count).to eq(1)
-      claim = Claim.first
-      expect(claim.state).to eq 'archived_pending_delete'
+    context 'when draft claim' do
+      it 'deletes the claim' do
+        expect(Claim.count).to eq(0)
+      end
     end
 
-    it "sets the claim's state to 'archived_pending_delete'" do
-      expect(subject.reload).to be_archived_pending_delete
+    context 'when non-draft claim' do
+      subject { create(:submitted_claim, advocate: advocate) }
+
+      it "sets the claim's state to 'archived_pending_delete'" do
+        expect(Claim.count).to eq(1)
+        claim = Claim.first
+        expect(claim.state).to eq 'archived_pending_delete'
+      end
     end
 
     it 'redirects to advocates root url' do
@@ -494,7 +500,7 @@ def valid_claim_fee_params
      "advocate_category" => "QC",
      "offence_class_id" => "2",
      "offence_id" => offence.id.to_s,
-     "first_day_of_trial_dd" => '13', 
+     "first_day_of_trial_dd" => '13',
      "first_day_of_trial_mm" => '5',
      "first_day_of_trial_yyyy" => '2015',
      "estimated_trial_length" => "2",

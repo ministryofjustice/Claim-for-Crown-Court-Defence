@@ -79,7 +79,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def destroy
-    @claim.archive_pending_delete!
+    if @claim.draft?
+      @claim.destroy
+    else
+      @claim.archive_pending_delete!
+    end
+
     respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
   end
 

@@ -79,6 +79,24 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     end
   end
 
+  describe "GET #change_password" do
+    subject { create(:advocate, chamber: chamber) }
+
+    before { get :change_password, id: subject }
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns @advocate' do
+      expect(assigns(:advocate)).to eq(subject)
+    end
+
+    it 'renders the template' do
+      expect(response).to render_template(:change_password)
+    end
+  end
+
   describe "POST #create" do
     context 'when valid' do
       it 'creates a advocate' do
@@ -138,6 +156,32 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
 
       it 'renders the edit template' do
         expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe "PUT #update_password" do
+    subject { create(:advocate, chamber: chamber) }
+
+    before do
+      subject.user.update(password: 'password', password_confirmation: 'password')
+    end
+
+    context 'when valid' do
+      before(:each) do
+        put :update_password, id: subject, advocate: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } }
+      end
+
+      it 'redirects to advocate show action' do
+        expect(response).to redirect_to(advocates_admin_advocate_path(subject))
+      end
+    end
+
+    context 'when invalid' do
+      before(:each) { put :update_password, id: subject, advocate: { user_attributes: { } } }
+
+      it 'renders the change password template' do
+        expect(response).to render_template(:change_password)
       end
     end
   end

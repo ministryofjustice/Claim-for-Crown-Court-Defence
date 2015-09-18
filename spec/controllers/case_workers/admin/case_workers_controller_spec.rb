@@ -80,9 +80,24 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     it 'renders the template' do
       expect(response).to render_template(:edit)
     end
+  end
 
-    render_views
+  describe "GET #change_password" do
+    subject { create(:case_worker) }
 
+    before { get :change_password, id: subject }
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns @advocate' do
+      expect(assigns(:case_worker)).to eq(subject)
+    end
+
+    it 'renders the template' do
+      expect(response).to render_template(:change_password)
+    end
   end
 
   describe "GET #allocate" do
@@ -196,6 +211,32 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
         put :update, id: subject, case_worker: { claim_ids: [claims.first.id, claims.second.id] }
         subject.reload
         expect(subject.claims).to match_array([claims.first, claims.second])
+      end
+    end
+  end
+
+  describe "PUT #update_password" do
+    subject { create(:case_worker) }
+
+    before do
+      subject.user.update(password: 'password', password_confirmation: 'password')
+    end
+
+    context 'when valid' do
+      before(:each) do
+        put :update_password, id: subject, case_worker: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } }
+      end
+
+      it 'redirects to case_worker show action' do
+        expect(response).to redirect_to(case_workers_admin_case_worker_path(subject))
+      end
+    end
+
+    context 'when invalid' do
+      before(:each) { put :update_password, id: subject, case_worker: { user_attributes: { } } }
+
+      it 'renders the change password template' do
+        expect(response).to render_template(:change_password)
       end
     end
   end

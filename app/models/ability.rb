@@ -23,7 +23,7 @@ class Ability
         end
         can [:index, :create], Document
         can [:index, :new, :create], Advocate
-        can [:show, :edit, :update, :destroy], Advocate, chamber_id: persona.chamber_id
+        can [:show, :change_password, :update_password, :edit, :update, :destroy], Advocate, chamber_id: persona.chamber_id
         can [:show, :create], Certification
       else
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
@@ -38,13 +38,14 @@ class Ability
         end
         can [:index, :create], Document
         can [:show, :create], Certification
+        can [:show, :change_password, :update_password], Advocate, id: persona.id
       end
     elsif persona.is_a? CaseWorker
       if persona.admin?
         can [:index, :show, :update], Claim
         can [:show, :download], Document
         can [:index, :new, :create], CaseWorker
-        can [:show, :edit, :allocate, :update, :destroy], CaseWorker
+        can [:show, :edit, :change_password, :update_password, :allocate, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
       else
         can [:index, :show], Claim
@@ -52,7 +53,7 @@ class Ability
           claim.case_workers.include?(user.persona)
         end
         can [:show, :download], Document
-        can [:show], CaseWorker, id: persona.id
+        can [:show, :change_password, :update_password], CaseWorker, id: persona.id
       end
     end
   end

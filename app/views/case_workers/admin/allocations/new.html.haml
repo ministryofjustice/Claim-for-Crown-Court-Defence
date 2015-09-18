@@ -116,28 +116,29 @@
           Allocated to
     %tbody
       = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
-        %tr{id: dom_id(b.object)}
-          %td
-            = b.check_box
-          %td
-            = b.label do
-              = b.object.case_number
-          %td
-            = b.label do
-              = b.object.advocate.name
-          %td
-            = b.label do
-              = b.object.defendants.order('id ASC').map(&:name).join('<br>').html_safe
-          %td
-            = b.label do
-              = b.object.case_type.name
-          %td
-            = b.label do
-              = b.object.submitted_at.strftime(Settings.date_format)
-          %td
-            = b.label do
-              = number_to_currency(b.object.total)
-          - if params[:tab] == 'allocated'
+        - present(b.object) do |claim|
+          %tr{id: dom_id(claim)}
+            %td
+              = b.check_box
             %td
               = b.label do
-                = b.object.case_workers.map(&:name).join(', ')
+                = claim.case_number
+            %td
+              = b.label do
+                = claim.advocate.name
+            %td
+              = b.label do
+                = claim.defendant_names
+            %td
+              = b.label do
+                = claim.case_type.name
+            %td
+              = b.label do
+                = claim.submitted_at
+            %td
+              = b.label do
+                = claim.total_inc_vat
+            - if params[:tab] == 'allocated'
+              %td
+                = b.label do
+                  = claim.case_workers.map(&:name).join(', ')

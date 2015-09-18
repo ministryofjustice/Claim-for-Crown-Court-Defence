@@ -1,17 +1,15 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
-  before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy]
+  before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
 
   def index
     @case_workers = CaseWorker.joins(:user).order('users.last_name', 'users.first_name')
   end
 
-  def show
+  def show; end
 
-  end
+  def edit; end
 
-  def edit
-
-  end
+  def change_password; end
 
   def allocate
     @claims = Claim.unscope(:includes).includes( [ {:defendants => :representation_orders}, :advocate, :court, :case_workers ] ).non_draft.order(created_at: :asc)
@@ -41,6 +39,21 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
     end
   end
 
+  def update_password
+    password_params = case_worker_params.slice(:user_attributes)
+    password_params[:user_attributes].delete(:email)
+    password_params[:user_attributes].delete(:first_name)
+    password_params[:user_attributes].delete(:last_name)
+
+    user = @case_worker.user
+    if user.update_with_password(password_params[:user_attributes])
+      sign_in(user, bypass: true)
+      redirect_to case_workers_admin_case_worker_path(@case_worker), notice: 'Password successfully updated'
+    else
+      render :change_password
+    end
+  end
+
   def destroy
     @case_worker.destroy
     redirect_to case_workers_admin_case_workers_url, notice: 'Case worker deleted'
@@ -62,7 +75,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
      :days_worked_3,
      :days_worked_4,
      :approval_level,
-     user_attributes: [:email, :password, :password_confirmation, :first_name, :last_name],
+     user_attributes: [:id, :email, :current_password, :password, :password_confirmation, :first_name, :last_name],
      claim_ids: []
     )
   end

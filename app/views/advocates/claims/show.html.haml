@@ -1,4 +1,4 @@
--present(@claim) do |claim|
+- present(@claim) do |claim|
   - if claim.editable?
     %p
       = link_to t('link.edit'), edit_advocates_claim_path(claim), class: 'button'

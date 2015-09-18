@@ -11,6 +11,13 @@
             = "#{attribute.to_s.humanize} #{message}"
 
   %div.form-group
+    = render 'terms_and_conditions'
+
+    = label_tag :terms_and_conditions_acceptance, required: true, class:"form-label", style: 'font-weight: bold;' do
+      = check_box_tag :terms_and_conditions_acceptance
+      Accept terms and conditions
+
+  %div.form-group
     = f.label :first_name, class: "form-label"
     = f.input_field :first_name, class: "form-control"
 
@@ -29,10 +36,6 @@
   %div.form-group
     = f.label :password_confirmation, required: true, class:"form-label"
     = f.input_field :password_confirmation, class: "form-control"
-
-  %div.form-group
-    = label_tag :terms_and_conditions_acceptance, 'Accept terms and conditions', required: true, class:"form-label"
-    = check_box_tag :terms_and_conditions_acceptance
 
   %div.form-group
     = f.button :submit, "Sign up", class: "button text-small"

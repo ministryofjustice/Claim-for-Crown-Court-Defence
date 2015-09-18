@@ -1,5 +1,28 @@
-= render 'case_workers/claims/nav_tabs'
-
 %h1
   = @case_worker.name
-  (#{@case_worker.email}) - #{@case_worker.role.humanize} - #{@case_worker.location}
+
+%h2
+  Email:
+  = mail_to @case_worker.email, @case_worker.email
+
+%p
+  Location:
+  = @case_worker.location
+
+%p
+  Approval level:
+  = @case_worker.approval_level
+
+%p
+  Role:
+  = @case_worker.role.humanize
+
+%p
+  Working days:
+  = present(@case_worker).days_worked_markup
+
+- if can? :edit, @case_worker
+  = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button'
+
+- if can? :change_password, @case_worker
+  = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'button'

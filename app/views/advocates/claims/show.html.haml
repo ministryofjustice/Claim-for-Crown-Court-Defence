@@ -8,7 +8,6 @@
   #claim-accordion{role: "tablist", multiselectable: "true"}
     %h2
       = t('.h2_messages')
-      (#{@messages.count})
     = render partial: 'shared/messages'
     %h2
       = t(".h2_basic_info")

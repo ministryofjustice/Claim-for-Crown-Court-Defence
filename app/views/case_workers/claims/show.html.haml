@@ -12,6 +12,9 @@
 
   #claim-accordion
     %h2
+      Messages
+    = render partial: 'shared/messages'
+    %h2
       Basic Claim Information
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
     %h2
@@ -20,9 +23,6 @@
     %h2
       Evidence list
     = render partial: 'shared/evidence_list'
-    %h2
-      Messages (#{@messages.count})
-    = render partial: 'shared/messages'
     %h2#claim-status
       Update status of claim
     = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }

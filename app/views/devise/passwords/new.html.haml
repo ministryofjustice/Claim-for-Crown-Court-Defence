@@ -1,7 +1,15 @@
 %h1.page-title
   Forgot your password?
 
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  - if resource.errors.any?
+    .validation-summary
+      %h2.heading-small= "#{pluralize(resource.errors.count, 'error')} prohibited this #{resource_name} from being saved"
+      %ul
+        - resource.errors.each do |attribute, message|
+          %li
+            = "#{attribute.to_s.humanize} #{message}"
+
   %div.form-group
     = f.label :email, class: "form-label"
     = f.input_field :email, autofocus: true, class: "form-control"

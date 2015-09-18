@@ -2,11 +2,6 @@
   float: left;
   margin-bottom: 1em;
   width: 100%;
-  form {
-    input[type="text"], select{
-      width:100%;
-    }
-  }
   .timeline {
     ul.days {
       padding: 0;
@@ -50,8 +45,6 @@
     }
   }
   form{
-    clear:both;
-    min-height: 4em;
-    font-size: 1.5em;
+    min-height: 3em;
   }
 }

@@ -22,7 +22,7 @@ end
 When(/^I select "(.*?)" and send a message$/) do |option_text|
   select option_text, from: 'message_claim_action'
   fill_in 'message_body', with: 'lorem ipsum'
-  click_button 'Post'
+  click_button 'Send'
 end
 
 Then(/^the claim should no longer have case workers assigned$/) do
@@ -66,7 +66,7 @@ end
 Then(/^when I check "(.*?)" and send a message$/) do |checkbox_label_text|
   check checkbox_label_text
   fill_in 'message_body', with: 'lorem ipsum'
-  click_button 'Post'
+  click_button 'Send'
 end
 
 Then(/^the claim should be in the state previous to the written reasons request$/) do

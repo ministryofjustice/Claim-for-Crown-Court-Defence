@@ -5,7 +5,7 @@ class JsonDocumentImporter
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :file, :data, :errors, :schema, :successfull_imports, :failed_imports
+  attr_reader :file, :data, :errors, :schema, :successfull_imports, :failed_imports, :imported_claims
 
   validates :file, presence: true
   validates :file, json_format: true
@@ -25,6 +25,7 @@ class JsonDocumentImporter
     @schema = attributes[:schema]
     @successfull_imports = 0
     @failed_imports = 0
+    @imported_claims = []
   end
 
   def parse_file
@@ -43,6 +44,7 @@ class JsonDocumentImporter
         create_expenses_or_fees_and_dates_attended(@fees, FEE_CREATION)
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
         @successfull_imports += 1
+        @imported_claims << Claim.find_by(uuid: @claim_id)
       rescue => e
         @failed_imports += 1
         @errors["claim_#{index + 1}".to_sym] = JSON.parse(e.message)

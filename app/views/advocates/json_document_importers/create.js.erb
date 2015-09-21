@@ -1,5 +1,10 @@
 <% if @json_document_importer.successfull_imports > 0 %>
-	$('#import_results').append("<li>Successfully imported <%= @json_document_importer.successfull_imports %> new Claims as drafts</li>");
+	$('#import_results').html("<li>Successfully imported <%= @json_document_importer.successfull_imports %> new Claims as drafts</li>");
+	<% @json_document_importer.imported_claims.each do |imported_claim| %>
+		<% present(imported_claim) do |claim| %>
+			$('table.claims_table').prepend('<tr><td><%= link_to (claim.case_number.empty? ? "not-provided" : claim.case_number), advocates_claim_path(claim) %></td><td><%= claim.advocate.name %></td><td><%= claim.defendant_names %></td><td><%= claim.total_inc_vat %></td><td><%= claim.state.humanize %></td><td><%= claim.submitted_at %></td><td><span class="none">None</td></span></tr>')
+		<% end %>
+	<% end %>
 <% end %>
 <% if @json_document_importer.failed_imports > 0 %>
 	$('#import_results').append("<li>There were errors in <%= @json_document_importer.failed_imports %> Claims and these were not imported</li>");

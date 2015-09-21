@@ -12,6 +12,7 @@
 #
 
 class FeeType < ActiveRecord::Base
+  auto_strip_attributes :code, :description, squish: true, nullify: true
 
   include ActionView::Helpers::NumberHelper
   BASIC_FEE_CODES = %w( BAF DAF DAH DAJ PCM SAF )

@@ -12,6 +12,8 @@
 #
 
 class Chamber < ActiveRecord::Base
+  auto_strip_attributes :name, :supplier_number, squish: true, nullify: true
+
   has_many :advocates
   has_many :claims, through: :advocates
 

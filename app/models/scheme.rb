@@ -11,6 +11,8 @@
 #
 
 class Scheme < ActiveRecord::Base
+  auto_strip_attributes :name, squish: true, nullify: true
+
   has_many :claims
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }

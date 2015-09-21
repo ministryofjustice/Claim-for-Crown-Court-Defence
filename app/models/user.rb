@@ -22,6 +22,8 @@
 #
 
 class User < ActiveRecord::Base
+  auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

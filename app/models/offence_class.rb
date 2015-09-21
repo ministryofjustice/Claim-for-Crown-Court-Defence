@@ -10,6 +10,8 @@
 #
 
 class OffenceClass < ActiveRecord::Base
+  auto_strip_attributes :class_letter, :description, squish: true, nullify: true
+
   CLASS_LETTERS = ('A'..'K').to_a
 
   has_many :offences, dependent: :destroy

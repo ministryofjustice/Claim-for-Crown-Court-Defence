@@ -13,6 +13,7 @@
 #
 
 class RepresentationOrder < ActiveRecord::Base
+  auto_strip_attributes :granting_body, :maat_reference, squish: true, nullify: true
 
   before_save :upcase_maat_ref
 
@@ -55,5 +56,5 @@ class RepresentationOrder < ActiveRecord::Base
   def is_first_reporder_for_same_defendant?
     self == first_reporder_for_same_defendant
   end
-  
+
 end

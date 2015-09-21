@@ -37,10 +37,6 @@
           %dd
             = claim.case_type.try(:name)
           %dt
-            =t('.caseworker')
-          %dd
-            = claim.case_worker_email_addresses
-          %dt
             =t('.offence')
           %dd
             - if claim.offence

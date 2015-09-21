@@ -64,6 +64,7 @@ group :development, :test do
   gem 'rspec-rails',    '~> 3.0'
   gem 'rspec-collection_matchers'
   gem 'webrick',        '~> 1.3'
+  gem 'yaml_db'
 end
 
 group :test do

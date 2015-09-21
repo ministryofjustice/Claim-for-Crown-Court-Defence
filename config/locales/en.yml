@@ -297,7 +297,7 @@ en:
       show:
         created_by: "Created by:"
         h2_basic_info: Basic Claim Information
-        h2_evidence: Evidence list
+        h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status of claim
         h2_summary: Claim summary

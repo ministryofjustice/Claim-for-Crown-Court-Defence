@@ -1,6 +1,8 @@
 #evidence-checklist-read-only
-  - if current_user.persona.is_a? Advocate 
-    %p
+  %h3
+    = "Supporting evidence checklist"
+  - if current_user.persona.is_a? Advocate
+    %p.form-hint
       Please note that if insufficient documentary evidence is provided your claim may be rejected, slowing the claim process and any eventual payment.
   - if current_user == @claim.advocate.user && @claim.editable?
     = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence-checklist"
@@ -10,8 +12,9 @@
   - else
     %p
       Author has specified that the following documentary evidence has been provided:
-      %ul#evidence-checklist
+      %ol#evidence-checklist
         - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
           %li
+            %object{:type => 'image/svg+xml', :data => image_path('icons/tick.svg'), :class => "selected"}
             = dt.name
     %p

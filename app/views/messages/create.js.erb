@@ -2,7 +2,7 @@
   var data = {
     success : true,
     statusMessage : '<%=j @notification[:notice].html_safe %>',
-    sentMessage : '<%=j render "shared/message", message: @message %>'
+    sentMessage : '<%=j render "shared/message_list", message: @message.claim %>'
   }
   adp.messaging.processMsg(data);
 

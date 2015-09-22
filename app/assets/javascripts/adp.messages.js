@@ -35,8 +35,7 @@ adp.messaging = {
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
-      console.log($(".messages-list").prop("scrollHeight"));
-      $('.messages-list').append(rorData.sentMessage).scrollTop($('.messages-list').prop("scrollHeight"));
+      $('.messages-list').html(rorData.sentMessage).scrollTop($('.messages-list').prop("scrollHeight"));
     //If there was an error
     }else{
       $('.message-error').text(rorData.statusMessage);

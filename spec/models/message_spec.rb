@@ -28,15 +28,20 @@ RSpec.describe Message, type: :model do
   it { should have_attached_file(:attachment) }
 
   it do
-    should validate_attachment_content_type(:attachment).
-      allowing('application/pdf',
-               'application/msword',
-               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-               'application/vnd.oasis.opendocument.text',
-               'text/rtf',
-               'application/rtf').
-               rejecting('text/plain',
-                         'text/html')
+     should validate_attachment_content_type(:attachment).
+       allowing('application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.oasis.opendocument.text',
+                'text/rtf',
+                'application/rtf',
+                'image/jpeg',
+                'image/png',
+                'image/tiff',
+                'image/bmp',
+                'image/x-bitmap').
+       rejecting('text/plain',
+                 'text/html')
   end
 
   it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }

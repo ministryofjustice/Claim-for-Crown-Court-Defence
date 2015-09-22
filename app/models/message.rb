@@ -38,7 +38,12 @@ class Message < ActiveRecord::Base
                        'application/vnd.oasis.opendocument.text',
                        'text/rtf',
                        'application/rtf',
-                       'image/png']}
+                       'image/jpeg',
+                       'image/png',
+                       'image/tiff',
+                       'image/bmp',
+                       'image/x-bitmap'
+                       ]}
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }
   validates :body, presence: { message: 'Message body cannot be blank' }

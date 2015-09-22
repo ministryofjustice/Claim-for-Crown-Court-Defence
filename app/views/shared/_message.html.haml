@@ -1,6 +1,6 @@
 - if message.is_a? Message
   .grid-row{id: dom_id(message) }
-    - if message.sender.persona.role == 'advocate'
+    - if message.sender.persona.is_a?(Advocate)
       .column-two-thirds
         .message-left
           .message-container
@@ -18,7 +18,7 @@
                 = message.created_at
       .column-third
         &nbsp;
-    - if message.sender.persona.role == 'case_worker'
+    - if message.sender.persona.is_a?(CaseWorker)
       .column-third
         &nbsp;
       .column-two-thirds

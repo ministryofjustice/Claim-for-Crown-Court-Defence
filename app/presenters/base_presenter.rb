@@ -1,11 +1,10 @@
 class BasePresenter < SimpleDelegator
-
   def initialize(model, view)
     @model, @view = model, view
     super(@model)
   end
 
-private
+  private
 
   def self.presents(name)
     define_method(name) do
@@ -16,5 +15,4 @@ private
   def h
     @view
   end
-
 end

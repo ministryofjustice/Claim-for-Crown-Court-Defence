@@ -6,17 +6,18 @@
     %h2
       History
 
-    - claim.history_and_messages.each do |date, values|
-      %fieldset
-        %legend
-          = date
-          - values.each do |value|
-            - if value.is_a? PaperTrail::Version
-              %div.history
-                = value.event
-            - elsif value.is_a? Message
-              %div.message
-                = value.body
+    - present(@claim, ClaimHistoryPresenter) do |c|
+      - c.history_and_messages.each do |date, values|
+        %fieldset
+          %legend
+            = date
+            - values.each do |value|
+              - if value.is_a? PaperTrail::Version
+                %div.history
+                  = value.event
+              - elsif value.is_a? Message
+                %div.message
+                  = value.body
 
     %h2
       = t('.h2_messages')

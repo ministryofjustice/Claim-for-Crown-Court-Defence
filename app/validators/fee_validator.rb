@@ -71,8 +71,6 @@ class FeeValidator < BaseClaimValidator
 
   def validate_plea_and_case_management_hearing
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      # TODO: to be removed as this is a general validation for all qauntities
-      # if @record.quantity < 0
       #   add_error(:quantity, 'Fee quantity cannot be negative')
       # TODO: to be removed - decided with BA to allow 0 for PCMH (unless amount not zero, see validate_amount below)
       # elsif @record.quantity == 0
@@ -95,9 +93,6 @@ class FeeValidator < BaseClaimValidator
       add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.fee_type.code == 'BAF'
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
-    # TODO: on analysis with BA decided to allow decimals for all fees
-    # elsif @record.amount.to_i != @record.amount
-    # add_error(:amount, 'Fee amount must be whole numbers only')
     end
     if @record.fee_type
       unless @record.fee_type.max_amount.nil?

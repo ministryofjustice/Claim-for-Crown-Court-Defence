@@ -125,14 +125,11 @@ private
 
   def clean_up
       puts "smoke test: cleaning up"
-      # @messages << "cleaning up"
       claim = Claim.find_by(uuid: @claim_id)
       if claim
         if claim.destroy
-          # @messages << "claim destroyed"
           puts "smoke test: claim destroyed"
         else
-          # @message << "claim NOT found for destruction!!"
           puts "smoke test: claim NOT found for destruction!!"
         end
       end

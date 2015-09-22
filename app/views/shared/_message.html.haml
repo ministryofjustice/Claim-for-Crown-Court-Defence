@@ -43,14 +43,15 @@
       &nbsp;
     .column-two-quarter.event
       = message.event
-      - message.changeset.each do |attribute, changes|
-        %li
-          - unless changes.first.blank? || changes.last.blank?
-            Changed
-            "#{attribute.humanize}"
-            from
-            "#{changes.first}"
-            to
-            "#{changes.last}"
+      %ul
+        - message.changeset.each do |attribute, changes|
+          %li
+            - unless changes.first.blank? || changes.last.blank?
+              Changed
+              "#{attribute.humanize}"
+              from
+              "#{changes.first}"
+              to
+              "#{changes.last}"
     .column-quarter
       &nbsp;

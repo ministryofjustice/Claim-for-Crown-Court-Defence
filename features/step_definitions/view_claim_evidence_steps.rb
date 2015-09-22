@@ -15,7 +15,7 @@ end
 
 
 Then(/^I see links to view\/download each document submitted with the claim$/) do
-  available_evidence = page.all(:css, 'div.item-controls')
+  available_evidence = page.all(:css, '#download-files-report tbody tr')
   expect(available_evidence.count).to_not eq 0
   available_evidence.each do |evidence|
     expect(evidence).to have_link 'View'
@@ -24,8 +24,10 @@ Then(/^I see links to view\/download each document submitted with the claim$/) d
 end
 
 When(/^click on a link to (download|view) some evidence$/) do |link|
-  find('h2', text: 'Evidence list').click
-  first('.item-controls').click_link(link.titlecase)
+  find('h2', text: 'Evidence').click
+  within('#download-files-report tbody') do
+    first('tr').click_link(link.titlecase)
+  end
 end
 
 Then(/^I should get a download with the filename "(.*)"$/) do |filename|

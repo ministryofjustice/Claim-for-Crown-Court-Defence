@@ -1,12 +1,29 @@
 %section
   = render partial: 'shared/evidence_checklist'
-  - if current_user == @claim.advocate.user && @claim.editable?
-    = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence"
-  %ol#evidence-list
-    - @claim.documents.each do |document|
-      %li
-        .item-controls
-          = document.document_file_name
-          - if document.converted_preview_document.present?
-            = link_to 'View', document_path(document), target: '_blank', class: 'view'
-          = link_to 'Download', download_document_path(document), class: 'download'
+  %h3
+    = "Existing Evidence"
+  - if @claim.documents.none?
+    = "No documents have been uploaded."
+  - else
+    %table#download-files-report
+      %thead
+        %tr
+          %th
+            = "Name of file"
+          %th
+            = "Date added"
+          %th
+            = "Actions"
+      %tbody
+
+        - @claim.documents.each do |document|
+          %tr
+            %td
+              = document.document_file_name
+            %td
+              = document.created_at
+            %td
+              - if document.converted_preview_document.present?
+                = link_to 'View', document_path(document), target: '_blank', class: 'view'
+                = " | "
+              = link_to 'Download', download_document_path(document), class: 'download'

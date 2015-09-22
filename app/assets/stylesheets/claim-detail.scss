@@ -17,4 +17,12 @@ Other Claim Navigation
   border: 1px solid $border-colour;
 }
 
+#evidence-checklist-read-only{
+  .selected{
+    width: 16px;
+    height:16px;
+    margin-right: 10px;
+  }
+}
+
 @import "message"

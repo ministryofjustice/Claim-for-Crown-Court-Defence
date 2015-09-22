@@ -16,7 +16,15 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def unique_sorted_dates
-    (messages.map(&:created_at) + versions.map(&:created_at)).compact.uniq.sort
+    (message_dates + version_dates).compact.uniq.sort
+  end
+
+  def message_dates
+    messages.map(&:created_at)
+  end
+
+  def version_dates
+    versions.map(&:created_at)
   end
 
   def messages

@@ -164,12 +164,16 @@ private
     defendant_id = id_from_json(response)
     response = post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
-    # add fee
-    response = post_to_advocate_endpoint('fees', fee_data(@claim_id))
+    # UPDATE basic fee
+    response = post_to_advocate_endpoint('fees', basic_fee_data(@claim_id))
 
-    # add date attended to fee
+    # CREATE miscellaneous fee
+    response = post_to_advocate_endpoint('fees', misc_fee_data(@claim_id))
+
+    # add date attended to miscellaneous fee
     attended_item_id = id_from_json(response)
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
+
 
     # add expense
     response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
@@ -252,7 +256,7 @@ private
     }
   end
 
-  def fee_data(claim_uuid)
+  def basic_fee_data(claim_uuid)
 
     fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id')
 
@@ -261,6 +265,19 @@ private
       "fee_type_id": fee_type_id,
       "quantity": 1,
       "amount": 2.1,
+    }
+  end
+
+
+  def misc_fee_data(claim_uuid)
+
+    fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id',32)
+
+    {
+      "claim_id": claim_uuid,
+      "fee_type_id": fee_type_id,
+      "quantity": 2,
+      "amount": 3.1,
     }
   end
 

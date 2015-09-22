@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
+require_relative 'shared_examples_for_fees'
 
 describe API::V1::Advocates::Fee do
 
@@ -11,9 +12,10 @@ describe API::V1::Advocates::Fee do
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:fee_type)           { create(:fee_type, id: 1) }
-  let!(:claim)              { create(:claim, source: 'api').reload }
-  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: fee_type.id, quantity: 3, amount: 150.00 } }
+  let!(:basic_fee_type)     { FactoryGirl.create(:fee_type, :basic) }
+  let!(:misc_fee_type)      { FactoryGirl.create(:fee_type, :misc) }
+  let!(:claim)              { FactoryGirl.create(:claim, source: 'api').reload }
+  let!(:valid_params)       { {claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, amount: 150.00 } }
   let!(:invalid_params)     { {claim_id: claim.uuid } }
   let(:json_error_response) { [ {"error" => "Fee type cannot be blank" } ].to_json }
 
@@ -38,7 +40,7 @@ describe API::V1::Advocates::Fee do
 
     context 'when fee params are valid' do
 
-      it "should create fee, return 201 and expense JSON output including UUID" do
+      it "should create fee, return 201 and fee JSON output including UUID" do
         response = post_to_create_endpoint(valid_params)
         expect(response.status).to eq 201
         json = JSON.parse(response.body)
@@ -55,9 +57,38 @@ describe API::V1::Advocates::Fee do
         post_to_create_endpoint(valid_params)
         fee = Fee.last
         expect(fee.claim_id).to eq claim.id
-        expect(fee.fee_type_id).to eq fee_type.id
+        expect(fee.fee_type_id).to eq misc_fee_type.id
         expect(fee.quantity).to eq valid_params[:quantity]
         expect(fee.amount).to eq valid_params[:amount]
+      end
+
+
+      context 'basic fees' do
+
+        let!(:valid_params) { {claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, amount: 210.00 } }
+
+        it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
+          response = post_to_create_endpoint(valid_params)
+          expect(response.status).to eq 200
+          json = JSON.parse(response.body)
+          expect(json['id']).not_to be_nil
+          expect(Fee.find_by(uuid: json['id']).uuid).to eq(json['id'])
+          expect(Fee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
+        end
+
+        it 'should update, not create, one basic fee' do
+          expect{ post_to_create_endpoint(valid_params) }.to change { Fee.count }.by(0)
+        end
+
+        it 'should update the basic fee with the quantity and amount' do
+          response = post_to_create_endpoint(valid_params)
+          json = JSON.parse(response.body)
+          fee = Fee.find_by(uuid: json['id'])
+          expect(fee.claim_id).to eq claim.id
+          expect(fee.fee_type_id).to eq basic_fee_type.id
+          expect(fee.quantity).to eq 1
+          expect(fee.amount).to eq 210.00
+        end
       end
 
     end
@@ -66,7 +97,6 @@ describe API::V1::Advocates::Fee do
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
-          
           response = post_to_create_endpoint(invalid_params)
           expect(response.status).to eq 400
           json = JSON.parse(response.body)
@@ -102,8 +132,8 @@ describe API::V1::Advocates::Fee do
         end
       end
 
-      context "malformed claim UUID" do
-        it "should be reject invalid claim id" do
+      context 'malformed claim UUID' do
+        it 'should reject invalid claim id' do
           valid_params[:claim_id] = 'any-old-rubbish'
           response = post_to_create_endpoint(valid_params)
           expect(response.status).to eq(400)
@@ -115,31 +145,19 @@ describe API::V1::Advocates::Fee do
 
   end
 
-  describe "POST /api/advocates/fees/validate" do
+  describe 'POST /api/advocates/fees/validate' do
 
     def post_to_validate_endpoint(params)
       post VALIDATE_FEE_ENDPOINT, params, format: :json
     end
 
-    it 'valid requests should return 200 and String true' do
-      response = post_to_validate_endpoint(valid_params)
-      expect(response.status).to eq 200
-      json = JSON.parse(response.body)
-      expect(json).to eq({ "valid" => true })
+    context 'non-basic fees' do
+      include_examples "fee validate endpoint"
     end
 
-    it 'missing required params should return 400 and a JSON error array' do
-      valid_params.delete(:fee_type_id)
-      response = post_to_validate_endpoint(valid_params)
-      expect(response.status).to eq 400
-      expect(response.body).to eq(json_error_response)
-    end
-
-    it 'invalid claim id should return 400 and a JSON error array' do
-      valid_params[:claim_id] = SecureRandom.uuid
-      response = post_to_validate_endpoint(valid_params)
-      expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+    context 'basic fees' do
+      let!(:valid_params) { {claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, amount: 210.00 } }
+      include_examples "fee validate endpoint"
     end
 
   end

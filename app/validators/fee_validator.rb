@@ -71,7 +71,6 @@ class FeeValidator < BaseClaimValidator
 
   def validate_plea_and_case_management_hearing
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      #   add_error(:quantity, 'Fee quantity cannot be negative')
       # TODO: to be removed - decided with BA to allow 0 for PCMH (unless amount not zero, see validate_amount below)
       # elsif @record.quantity == 0
         # add_error(:quantity, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')
@@ -101,7 +100,7 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-  # TODO - to be removed if not needed
+  # TODO - still to be done
   def validate_dates_attended
   end
 

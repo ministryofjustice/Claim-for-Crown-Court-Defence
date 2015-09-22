@@ -17,7 +17,8 @@
 #
 
 class Certification < ActiveRecord::Base
-  
+  auto_strip_attributes :certified_by, squish: true, nullify: true
+
   belongs_to :claim
 
   validate :one_and_only_one_checkbox_checked
@@ -42,5 +43,5 @@ class Certification < ActiveRecord::Base
       errors[:base] << "You must check one and only one checkbox on this form"
     end
   end
-  
+
 end

@@ -13,8 +13,6 @@
 #
 
 class Determination < ActiveRecord::Base
-
-
   before_save :calculate_total
 
   belongs_to :claim
@@ -41,5 +39,5 @@ class Determination < ActiveRecord::Base
   def zero_or_nil?(value)
     value.nil? || value == 0
   end
-  
+
 end

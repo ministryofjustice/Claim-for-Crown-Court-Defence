@@ -10,6 +10,8 @@
 #
 
 class FeeCategory < ActiveRecord::Base
+  auto_strip_attributes :name, :abbreviation, squish: true, nullify: true
+
   has_many :fee_types, dependent: :destroy
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }

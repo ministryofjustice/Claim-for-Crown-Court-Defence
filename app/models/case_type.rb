@@ -14,6 +14,7 @@
 #
 
 class CaseType < ActiveRecord::Base
+  auto_strip_attributes :name, squish: true, nullify: true
 
   default_scope -> { order(name: :asc) }
 
@@ -32,5 +33,5 @@ class CaseType < ActiveRecord::Base
     case_types.map(&:id)
   end
 
-  
+
 end

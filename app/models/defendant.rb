@@ -15,9 +15,11 @@
 #
 
 class Defendant < ActiveRecord::Base
+  auto_strip_attributes :first_name, :middle_name, :last_name, squish: true, nullify: true
+
   belongs_to :claim
 
-  has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant  
+  has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
 
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
@@ -38,6 +40,6 @@ class Defendant < ActiveRecord::Base
   def representation_order_details
     representation_orders.map(&:detail)
   end
- 
+
 end
 

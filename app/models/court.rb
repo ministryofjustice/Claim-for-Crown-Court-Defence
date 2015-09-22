@@ -11,6 +11,8 @@
 #
 
 class Court < ActiveRecord::Base
+  auto_strip_attributes :code, :name, squish: true, nullify: true
+
   COURT_TYPES = %w( crown magistrate )
 
   has_many :claims, dependent: :nullify

@@ -15,6 +15,8 @@
 #
 
 class Expense < ActiveRecord::Base
+  auto_strip_attributes :location, squish: true, nullify: true
+
   include NumberCommaParser
   numeric_attributes :rate, :amount, :quantity
 

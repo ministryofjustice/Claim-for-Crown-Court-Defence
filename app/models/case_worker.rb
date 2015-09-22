@@ -12,6 +12,8 @@
 #
 
 class CaseWorker < ActiveRecord::Base
+  auto_strip_attributes :role, :approval_level, squish: true, nullify: true
+
   ROLES = %w{ admin case_worker }
   APPROVAL_LEVELS_COLLECTION = %w{ High Low }
   include UserRoles
@@ -38,7 +40,7 @@ class CaseWorker < ActiveRecord::Base
   delegate :last_name, to: :user
   delegate :name, to: :user
 
-  
+
   def method_missing(method, *args)
     if method.to_s =~ /^days_worked_(.)$/
       self.days_worked[$1.to_i]

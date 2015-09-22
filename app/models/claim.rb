@@ -9,7 +9,6 @@
 #  submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
-#  indictment_number      :string
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
@@ -40,6 +39,8 @@
 #
 
 class Claim < ActiveRecord::Base
+  auto_strip_attributes :case_number, :cms_number, squish: true, nullify: true
+
   serialize :evidence_checklist_ids, Array
 
   include Claims::StateMachine

@@ -10,6 +10,8 @@
 #
 
 class Offence < ActiveRecord::Base
+  auto_strip_attributes :description, squish: true, nullify: true
+
   belongs_to :offence_class
   has_many :claims, dependent: :nullify
 

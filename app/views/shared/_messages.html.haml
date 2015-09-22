@@ -1,12 +1,7 @@
 %section#messages
   .messages-container
     .messages-list
-      - if @messages.none?
-        %span.no-messages
-          No messages found
-      - else
-        - @messages.each do | message|
-          = render partial: 'shared/message', locals: { message: message }
+      = render partial: 'shared/message_list', locals: {claim: @claim }
     .message-status
       = "Status:"
       %span.message-success

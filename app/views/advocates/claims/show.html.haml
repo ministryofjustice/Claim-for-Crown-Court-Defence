@@ -4,23 +4,8 @@
 
   #claim-accordion{role: "tablist", multiselectable: "true"}
     %h2
-      History
-
-    - claim.history_and_messages.each do |date, values|
-      %fieldset
-        %legend
-          = date
-          - values.each do |value|
-            - if value.is_a? PaperTrail::Version
-              %div.history
-                = value.event
-            - elsif value.is_a? Message
-              %div.message
-                = value.body
-
-    %h2
       = t('.h2_messages')
-    = render partial: 'shared/messages'
+    = render partial: 'shared/messages', locales: {claim: claim }
     %h2
       = t(".h2_basic_info")
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }

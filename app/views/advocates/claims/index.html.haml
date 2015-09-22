@@ -16,7 +16,10 @@
     #importer
       = render partial: 'json_document_importer'
 
-%span#import_results
+%span#import_results.success
+  %ul
+
+%span#import_results.failure
   %ul
 
 #report-options.container

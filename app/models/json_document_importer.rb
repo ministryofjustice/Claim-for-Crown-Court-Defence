@@ -5,7 +5,7 @@ class JsonDocumentImporter
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :file, :data, :errors, :schema, :successfull_imports, :failed_imports, :imported_claims
+  attr_reader :file, :data, :errors, :schema, :failed_imports, :imported_claims
 
   validates :file, presence: true
   validates :file, json_format: true
@@ -23,8 +23,7 @@ class JsonDocumentImporter
     @file   = attributes[:json_file]
     @errors = {}
     @schema = attributes[:schema]
-    @successfull_imports = 0
-    @failed_imports = 0
+    @failed_imports = []
     @imported_claims = []
   end
 
@@ -43,10 +42,9 @@ class JsonDocumentImporter
         create_defendants_and_rep_orders
         create_expenses_or_fees_and_dates_attended(@fees, FEE_CREATION)
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
-        @successfull_imports += 1
         @imported_claims << Claim.find_by(uuid: @claim_id)
       rescue => e
-        @failed_imports += 1
+        @failed_imports << claim_hash
         @errors["claim_#{index + 1}".to_sym] = JSON.parse(e.message)
         claim = Claim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
         claim.destroy if claim.present?

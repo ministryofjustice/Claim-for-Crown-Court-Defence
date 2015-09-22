@@ -59,14 +59,13 @@ adp.dropzone = {
             type: 'DELETE',
             url: '/documents/' + id,
             success : function(data) {
-              // console.log(data.message + ' ' + data.document.id);
-              file.previewElement.remove();
+              $(file.previewElement).remove();
               adp.dropzone.removeDocumentIdInput(data.document.id);
             }
           });
         }
         else {
-          file.previewElement.remove();
+          $(file.previewElement).remove();
         }
       }
     });

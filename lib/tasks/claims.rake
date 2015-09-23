@@ -99,10 +99,10 @@ end
         q = rand(1..15)
         a = rand(200..2500)
       when 'DAH'
-        q = rand(0..20)
+        q = rand(1..20)
         a = rand(200..3000)
       when 'DAJ'
-        q = rand(0..10)
+        q = rand(1..10)
         a = rand(200..800)
       when 'PCM'
         if claim.case_type.allow_pcmh_fee_type?
@@ -114,7 +114,7 @@ end
         end
       when 'PPE'
         q = rand(50..200)
-        a = rand(0..400)
+        a = rand(1..400)
       when 'CAV'
         q = rand(3..20)
         a = rand(40..500)

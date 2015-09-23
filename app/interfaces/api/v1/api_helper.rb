@@ -57,12 +57,14 @@ module API
       end
 
       # --------------------
-      def self.create_resource(model_object, params, api_response, arg_builder_proc)
-        model_instance = validate_resource(model_object, api_response, arg_builder_proc)
+      def self.create_resource(model_klass, params, api_response, arg_builder_proc)
+
+        model_instance = validate_resource(model_klass, api_response, arg_builder_proc)
 
         if api_response.success?(200)
+          created_or_updated_status = model_instance.new_record? ? 201 : 200
           model_instance.save!
-          api_response.status = 201
+          api_response.status = created_or_updated_status
           api_response.body =  { 'id' => model_instance.reload.uuid }.merge!(params)
         end
 
@@ -75,9 +77,21 @@ module API
         api_response.body   = err_resp.body
       end
 
-       # --------------------
-      def self.validate_resource(model_object, api_response, arg_builder_proc)
-        model_instance = model_object.new(arg_builder_proc.call)
+      # --------------------
+      def self.validate_resource(model_klass, api_response, arg_builder_proc)
+
+        #
+        # basic fees (which are instantiated at claim creation)
+        # must be updated if they already exist, otherwise created.
+        # all other model class instances must be created.
+        #
+        args = arg_builder_proc.call
+        if basic_fee_update_required(model_klass, args)
+          model_instance = model_klass.where(fee_type_id: args[:fee_type_id], claim_id: args[:claim_id]).first
+          model_instance.assign_attributes(args)
+        else
+          model_instance = model_klass.new(args)
+        end
 
         if model_instance.valid?
           api_response.status = 200
@@ -94,6 +108,11 @@ module API
         err_resp = ErrorResponse.new(ex)
         api_response.status = err_resp.status
         api_response.body   = err_resp.body
+      end
+
+      # --------------------
+      def self.basic_fee_update_required(model_klass, args)
+        model_klass == ::Fee && (FeeType.find(args[:fee_type_id]).fee_category.is_basic? rescue false)
       end
 
     end

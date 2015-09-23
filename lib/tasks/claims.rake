@@ -36,6 +36,7 @@ namespace :claims do
   task :demo_data => 'db:seed' do
     require File.dirname(__FILE__) + '/../demo_data/claim_generator'
     DemoData::ClaimGenerator.new.run
+    Rake::Task['db:data:dump'].invoke
   end
 end
 

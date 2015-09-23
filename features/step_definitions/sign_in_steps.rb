@@ -1,5 +1,4 @@
 
-
 Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) chambers?$/) do |number, role, chambers|
   make_accounts(role, number.to_i)
   if chambers == 'the same'
@@ -121,3 +120,4 @@ Then(/^I should see the admin caseworkers Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
   expect(find('h1.page-title')).to have_content('Administration')
 end
+

@@ -36,7 +36,12 @@ class Document < ActiveRecord::Base
                      'application/vnd.oasis.opendocument.text',
                      'text/rtf',
                      'application/rtf',
-                     'image/png']}
+                     'image/jpeg',
+                     'image/png',
+                     'image/tiff',
+                     'image/bmp',
+                     'image/x-bitmap'
+                     ]}
 
   delegate   :chamber_id, to: :advocate
 

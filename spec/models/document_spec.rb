@@ -41,9 +41,14 @@ RSpec.describe Document, type: :model do
                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                'application/vnd.oasis.opendocument.text',
                'text/rtf',
-               'application/rtf').
-               rejecting('text/plain',
-                         'text/html')
+               'application/rtf',
+               'image/jpeg',
+               'image/png',
+               'image/tiff',
+               'image/bmp',
+               'image/x-bitmap').
+      rejecting('text/plain',
+                'text/html')
   end
 
   it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }

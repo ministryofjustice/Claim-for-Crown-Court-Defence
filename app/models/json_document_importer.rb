@@ -55,7 +55,7 @@ class JsonDocumentImporter
   private
 
   def create_claim(claim_hash)
-    claim_params = {}
+    claim_params = {source: 'json_import'}
     claim_hash['claim'].each {|key, value| claim_params[key] = value if value.class != Array}
     response = CLAIM_CREATION.post(claim_params) {|response, request, result| response }
     if response.code == 201
@@ -83,7 +83,7 @@ class JsonDocumentImporter
     obj_params = {}
     attributes_hash.each {|key, value| obj_params[key] = value if value.class != Array}
     response = rest_client_resource.post(obj_params) {|response, request, result| response }
-    if response.code == 201
+    if response.code == 201 || response.code == 200
       @id_of_owner = JSON.parse(response.body)['id']
     else
       raise ArgumentError.new(response.body)

@@ -241,19 +241,19 @@ class Claim < ActiveRecord::Base
   end
 
   def perform_validation?
-    self.force_validation? || not_web_draft_and_pending_delete?
+    self.force_validation? || not_loose_validation_draft_and_pending_delete?
   end
 
   def perform_validation_or_not_api_draft?
-    self.force_validation? || not_web_draft_api_draft_and_pending_delete?
+    self.force_validation? || not_loose_validation_draft_api_draft_and_pending_delete?
   end
 
-  def not_web_draft_and_pending_delete?
-    !web_draft? && !archived_pending_delete?
+  def not_loose_validation_draft_and_pending_delete?
+    !loose_validation_draft? && !archived_pending_delete?
   end
 
-  def not_web_draft_api_draft_and_pending_delete?
-    !web_draft? && !api_draft? && !archived_pending_delete?
+  def not_loose_validation_draft_api_draft_and_pending_delete?
+    !loose_validation_draft? && !api_draft? && !archived_pending_delete?
   end
 
   def web_draft?
@@ -262,6 +262,14 @@ class Claim < ActiveRecord::Base
 
   def api_draft?
     draft? && source == 'api'
+  end
+
+  def json_import_draft?
+    draft? && source == 'json_import'
+  end
+
+  def loose_validation_draft?
+    web_draft? || json_import_draft?
   end
 
   def vat_date

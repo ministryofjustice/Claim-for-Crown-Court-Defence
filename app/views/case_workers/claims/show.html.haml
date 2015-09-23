@@ -12,17 +12,17 @@
 
   #claim-accordion
     %h2
-      Messages
+      = t('.h2_messages')
     = render partial: 'shared/messages'
+    %h2#claim-status
+      = t('.h2_status')
+    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }
     %h2
-      Basic Claim Information
+      = t('.h2_basic_info')
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
     %h2
-      Evidence
+      = t('.h2_evidence')
     = render partial: 'shared/evidence_list'
     %h2
-      Claim summary
+      = t('.h2_summary')
     = render partial: 'shared/summary'
-    %h2#claim-status
-      Update status of claim
-    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }

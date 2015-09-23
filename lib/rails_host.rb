@@ -4,10 +4,13 @@ class RailsHost
 
 
   def self.env
-    ENV['ENV']
+    # TODO: remove afer testing - this is to simulate sandbox on dev
+    'api-sandbox'
+    # ENV['ENV']
   end
 
   def self.method_missing(method)
+
     env_name = method.to_s.gsub('_', '-').sub(/\?$/, '')
     if VALID_ENVS.include?(env_name)
       env == env_name

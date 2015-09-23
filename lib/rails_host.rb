@@ -8,7 +8,6 @@ class RailsHost
   end
 
   def self.method_missing(method)
-
     env_name = method.to_s.gsub('_', '-').sub(/\?$/, '')
     if VALID_ENVS.include?(env_name)
       env == env_name

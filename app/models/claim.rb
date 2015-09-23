@@ -55,8 +55,7 @@ class Claim < ActiveRecord::Base
     part_paid: "Part paid",
     paid: "Paid in full",
     rejected: "Rejected",
-    refused: "Refused",
-    awaiting_info_from_court: "Awaiting info from court"
+    refused: "Refused"
   }
 
   belongs_to :court
@@ -210,7 +209,7 @@ class Claim < ActiveRecord::Base
     if form_input.blank?
       true
     elsif form_input_to_event[form_input] == nil
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination')
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused, part_paid or refused to redetermination')
     else
       false
     end
@@ -221,8 +220,7 @@ class Claim < ActiveRecord::Base
       "part_paid"                => :pay_part!,
       "rejected"                 => :reject!,
       "refused"                  => :refuse!,
-      "redetermination"          => :redetermine!,
-      "awaiting_info_from_court" => :await_info_from_court!}
+      "redetermination"          => :redetermine!}
   end
 
   def transition_state(form_input)

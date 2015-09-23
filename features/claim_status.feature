@@ -23,7 +23,6 @@ Scenario Outline: Update claim status
       | "Paid in full"                  | "200.01" | ""       | "£200.01" |
       | "Refused" 	 		                | ""     	 | ""       | ""        |
       | "Rejected"  		                | "" 		 	 | ""       | ""        |
-      | "Awaiting info from court"      | ""       | ""       | ""        |
 
 Scenario Outline: View claim status
     Given I am a signed in advocate
@@ -38,4 +37,3 @@ Scenario Outline: View claim status
       | status                          | fees     |  expenses   | total      |
       | "Part paid"                     | "60.01"  |  "40.00"    | "£100.01"  |
       | "Rejected"                      | ""       |  ""         | ""         |
-      | "Awaiting info from court"      | ""       |  ""         | ""         |

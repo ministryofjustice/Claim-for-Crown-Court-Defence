@@ -4,13 +4,13 @@ module Claims::StateMachine
 
   ADVOCATE_DASHBOARD_DRAFT_STATES             = %w( draft )
   ADVOCATE_DASHBOARD_REJECTED_STATES          = %w( rejected )
-  ADVOCATE_DASHBOARD_SUBMITTED_STATES         = %w( allocated submitted awaiting_info_from_court awaiting_further_info )
+  ADVOCATE_DASHBOARD_SUBMITTED_STATES         = %w( allocated submitted )
   ADVOCATE_DASHBOARD_PART_PAID_STATES         = %w( part_paid )
   ADVOCATE_DASHBOARD_COMPLETED_STATES         = %w( refused paid )
-  CASEWORKER_DASHBOARD_COMPLETED_STATES       = %w( paid part_paid rejected refused awaiting_further_info awaiting_info_from_court )
+  CASEWORKER_DASHBOARD_COMPLETED_STATES       = %w( paid part_paid rejected refused )
   CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = %w( allocated )
   VALID_STATES_FOR_REDETERMINATION            = %w( paid part_paid refused )
-  NON_DRAFT_STATES                            = %w( allocated awaiting_further_info awaiting_info_from_court deleted paid part_paid refused rejected submitted )
+  NON_DRAFT_STATES                            = %w( allocated deleted paid part_paid refused rejected submitted )
   PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
@@ -43,8 +43,6 @@ module Claims::StateMachine
 
       state :allocated,
             :archived_pending_delete,
-            :awaiting_further_info,
-            :awaiting_info_from_court,
             :awaiting_written_reasons,
             :deleted,
             :draft,
@@ -60,9 +58,8 @@ module Claims::StateMachine
       after_transition on: :pay_part,                 do: :set_paid_date!
       after_transition on: :redetermine,              do: :remove_case_workers!
       after_transition on: :await_written_reasons,    do: :remove_case_workers!
-      after_transition on: :await_further_info,       do: :set_valid_until!
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      before_transition on: [:await_info_from_court, :reject, :refuse], do: :set_amount_assessed_zero!
+      before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
       before_transition any => any,  do: :set_paper_trail_event!
 
       event :redetermine do
@@ -74,19 +71,11 @@ module Claims::StateMachine
       end
 
       event :allocate do
-        transition [:submitted, :awaiting_info_from_court, :redetermination, :awaiting_written_reasons] => :allocated
+        transition [:submitted, :redetermination, :awaiting_written_reasons] => :allocated
       end
 
       event :archive_pending_delete do
         transition all => :archived_pending_delete
-      end
-
-      event :await_info_from_court do
-        transition [:allocated] => :awaiting_info_from_court
-      end
-
-      event :await_further_info do
-        transition [:part_paid] => :awaiting_further_info
       end
 
       event :pay_part do

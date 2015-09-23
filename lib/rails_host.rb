@@ -4,9 +4,7 @@ class RailsHost
 
 
   def self.env
-    # TODO: remove afer testing - this is to simulate sandbox on dev
-    'api-sandbox'
-    # ENV['ENV']
+    ENV['ENV']
   end
 
   def self.method_missing(method)

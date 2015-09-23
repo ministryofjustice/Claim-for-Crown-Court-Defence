@@ -4,6 +4,8 @@ set -ex
 # TRAVIS to fail
 if [ "$TRAVIS" = "true" ]; then
   echo "INFO: this is travis - not running smoke test"
+  bundle exec rake db:migrate
+  bundle exec rake
   exit 0
 else
   # Script executing all the test tasks.

@@ -12,8 +12,22 @@ Styling for Claims Messaging
     min-height: 200px;
     max-height: 400px;
     overflow-y: scroll;
+    overflow-x: hidden;
     padding: 5px;
     margin-bottom: 1em;
+    .single-date{
+      border-top: 1px solid $border-colour;
+      legend{
+        text-align: center;
+        border: 1px solid $border-colour;
+        padding-left: $gutter;
+        padding-right: $gutter;
+        padding-top: 5px;
+        color: $secondary-text-colour;
+        font-weight: bold;
+        margin-bottom: $gutter-half;
+      }
+    }
     .message-container{
       margin-bottom: 1em;
     }
@@ -98,6 +112,14 @@ Styling for Claims Messaging
     }
     .submit-column{
       @include grid-column( 1/8 );
+    }
+  }
+  .history{
+    .event{
+      background-color: $yellow;
+      border: 1px solid $border-colour;
+      padding: 5px 10px;
+      margin-bottom: 5px;
     }
   }
 }

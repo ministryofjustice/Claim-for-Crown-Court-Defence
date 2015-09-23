@@ -1,39 +1,57 @@
-.grid-row{id: dom_id(message)}
-  - if message.sender.persona.role == 'advocate'
-    .column-two-thirds
-      .message-left
-        .message-container
-          .message-body
-            = message.body
-            - if message.attachment.present?
-              .has-attachment
-                = "Attachment:"
-                = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
-          .grid-row.message-audit
-            .column-half.sender
-              = message.sender.name
-              (#{message.sender.persona.class.to_s.humanize})
-            .column-half.sent
-              = message.created_at
-
-    .column-third
-      &nbsp;
-  - if message.sender.persona.role == 'case_worker'
-    .column-third
-      &nbsp;
-    .column-two-thirds
-      .message-right
-        .message-container
-          .message-body
-            = message.body
-            - if message.attachment.present?
-              .has-attachment
-                = "Attachment:"
-                = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
-          .grid-row.message-audit
-            .column-half.sender
-              - if current_user.persona.is_a?(CaseWorker)
+- if message.is_a? Message
+  .grid-row{id: dom_id(message) }
+    - if message.sender.persona.is_a?(Advocate)
+      .column-two-thirds
+        .message-left
+          .message-container
+            .message-body
+              = message.body
+              - if message.attachment.present?
+                .has-attachment
+                  = "Attachment:"
+                  = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
+            .grid-row.message-audit
+              .column-half.sender
                 = message.sender.name
-              (#{message.sender.persona.class.to_s.humanize})
-            .column-half.sent
-              = message.created_at
+                (#{message.sender.persona.class.to_s.humanize})
+              .column-half.sent
+                = message.created_at
+      .column-third
+        &nbsp;
+    - if message.sender.persona.is_a?(CaseWorker)
+      .column-third
+        &nbsp;
+      .column-two-thirds
+        .message-right
+          .message-container
+            .message-body
+              = message.body
+              - if message.attachment.present?
+                .has-attachment
+                  = "Attachment:"
+                  = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
+            .grid-row.message-audit
+              .column-half.sender
+                - if current_user.persona.is_a?(CaseWorker)
+                  = message.sender.name
+                (#{message.sender.persona.class.to_s.humanize})
+              .column-half.sent
+                = message.created_at
+- elsif message.is_a? PaperTrail::Version
+  .grid-row.history
+    .column-quarter
+      &nbsp;
+    .column-two-quarter.event
+      = message.event
+      %ul
+        - message.changeset.each do |attribute, changes|
+          %li
+            - unless changes.first.blank? || changes.last.blank?
+              Changed
+              "#{attribute.humanize}"
+              from
+              "#{changes.first}"
+              to
+              "#{changes.last}"
+    .column-quarter
+      &nbsp;

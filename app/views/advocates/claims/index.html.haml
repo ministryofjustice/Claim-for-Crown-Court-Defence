@@ -16,6 +16,12 @@
     #importer
       = render partial: 'json_document_importer'
 
+%span#import_results.success
+  %ul
+
+%span#import_results.failure
+  %ul
+
 #report-options.container
   = render partial: 'search_form'
 

@@ -10,7 +10,7 @@
   = csrf_meta_tags
 
   .outer-block
-    #primary-nav-bar.internal-user
+    #primary-nav-bar
       - if user_signed_in?
         = render partial: 'layouts/primary_navigation'
     .phase-banner

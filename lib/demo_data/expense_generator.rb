@@ -21,12 +21,10 @@ module DemoData
       while @ids_added.include?(expense_type.id)
         expense_type = @expense_types.sample
       end
-      expense = FactoryGirl.create :expense, expense_type: expense_type, quantity: rand(1..10), amount: rand(100.0..2500.0)
+      expense = Expense.create(claim: @claim, expense_type: expense_type, quantity: rand(1..10), amount: rand(100.0..2500.0), location: Faker::Address.city)
       @ids_added << expense_type.id
     end
   
   end
 end
-
-
 

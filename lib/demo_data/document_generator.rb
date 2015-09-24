@@ -39,12 +39,11 @@ module DemoData
       @checklist_ids << EXAMPLE_DOC_TYPES[pdf_name]
       filename = "#{Rails.root}/spec/fixtures/files/#{pdf_name}"
       file = File.open(filename)
-      FactoryGirl.create(:document,
-                          claim: @claim,
-                          document: file,
-                          document_content_type: 'application/pdf',
-                          advocate: @claim.advocate
-                        )
+      Document.create(
+        claim: @claim,
+        document: file,
+        document_content_type: 'application/pdf',
+        advocate: @claim.advocate)
     end
   end
 end

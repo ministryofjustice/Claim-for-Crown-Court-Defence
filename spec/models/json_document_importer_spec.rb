@@ -7,10 +7,12 @@ describe JsonDocumentImporter do
   let(:invalid_cms_exported_claim)        { double 'cms_export', tempfile: './spec/examples/invalid_cms_exported_claim.json', content_type: 'application/json'}
   let(:multiple_cms_exported_claims)      { double 'cms_export', tempfile: './spec/examples/multiple_cms_exported_claims.json', content_type: 'application/json'}
   let(:file_in_wrong_format)              { double 'erroneous_file_selection', tempfile: './features/examples/shorter_lorem.pdf', content_type: 'application/pdf' }
+  let(:schema_validation_fail)            { double 'invalid_json_file', tempfile: './spec/examples/json_schema_fail.json', content_type: 'application/json'}
   let(:importer)                          { JsonDocumentImporter.new(json_file: cms_exported_claim, schema: schema) }
   let(:invalid_importer)                  { JsonDocumentImporter.new(json_file: invalid_cms_exported_claim, schema: schema) }
   let(:multiple_claim_importer)           { JsonDocumentImporter.new(json_file: multiple_cms_exported_claims, schema: schema) }
   let(:wrong_format_importer)             { JsonDocumentImporter.new(json_file: file_in_wrong_format, schema: schema) }
+  let(:schema_validation_fail_importer)   { JsonDocumentImporter.new(json_file: schema_validation_fail, schema: schema) }
   let(:claim_params)                      { {:source=>"json_import", "advocate_email"=>"advocate@example.com", "case_number"=>"A12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015-06-01", "estimated_trial_length"=>3, "actual_trial_length"=>3, "trial_concluded_at"=>"2015-06-03", "advocate_category"=>"QC", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01"} }
   let(:defendant_params)                  { {"first_name"=>"case", "middle_name"=>"management", "last_name"=>"system", "date_of_birth"=>"1979-12-10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
   let(:rep_order_params)                  { {"granting_body"=>"Crown Court", "maat_reference"=>"1234567891", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7"} }
@@ -43,6 +45,15 @@ describe JsonDocumentImporter do
         expect(JsonDocumentImporter::DATE_ATTENDED_CREATION).to receive(:post).with(date_attended_params).exactly(2).times.and_return(successful_date_attended_response)
         importer.import!
       end
+
+    context 'validates the data against our schema' do
+
+      it "and adds invalid claim hashes to an array" do
+        schema_validation_fail_importer.import!
+        expect(schema_validation_fail_importer.failed_schema_validation.count).to eq 1
+      end
+
+    end
 
     end
 

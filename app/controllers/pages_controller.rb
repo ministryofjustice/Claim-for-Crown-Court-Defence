@@ -8,7 +8,7 @@ class PagesController < ApplicationController
     render
   end
 
-  def api
+  def api_landing
     render
   end
 

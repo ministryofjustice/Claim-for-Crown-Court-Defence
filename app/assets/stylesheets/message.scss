@@ -1,6 +1,19 @@
 /*********************************
 Styling for Claims Messaging
 *********************************/
+.messages{
+  .none{
+    color: $border-colour;
+  }
+  .new-message{
+    width: 26px;
+    height: 26px;
+    margin-left: 5px;
+  }
+   > *{
+   vertical-align: middle;
+ }
+}
 
 .messages-container{
   border: 2px solid $border-colour;

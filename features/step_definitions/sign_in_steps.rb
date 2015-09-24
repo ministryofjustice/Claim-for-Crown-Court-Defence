@@ -1,5 +1,4 @@
 
-
 Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) chambers?$/) do |number, role, chambers|
   make_accounts(role, number.to_i)
   if chambers == 'the same'

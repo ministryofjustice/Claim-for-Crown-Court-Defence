@@ -47,7 +47,7 @@ module API
                 {
                   advocate_id:              user.persona_id,
                   creator_id:               user.persona_id,
-                  source:                   'api',
+                  source:                   params[:source] || 'api',
                   case_number:              params[:case_number],
                   case_type_id:             params[:case_type_id],
                   indictment_number:        params[:indictment_number],

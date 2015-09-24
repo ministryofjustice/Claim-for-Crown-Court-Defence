@@ -28,10 +28,11 @@
             = claim.total_inc_vat
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
-          %td
-            - if claim.has_unread_messages_for?(current_user)
-              %object{:type => 'image/svg+xml', :data => image_path('unread-message.svg'), :class => 'message'}
-            - elsif claim.messages.any?
-              %object{:type => 'image/svg+xml', :data => image_path('read-message.svg'), :class => 'message'}
+          %td.messages
+            - if claim.messages.any?
+              = link_to "View", "#{case_workers_claim_path(claim)}#messages"
+              - if claim.has_unread_messages_for?(current_user)
+                %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
             - else
-              %span.message-placeholder
+              %span.none
+                = "None"

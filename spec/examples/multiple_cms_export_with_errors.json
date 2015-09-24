@@ -1,7 +1,7 @@
+// This is invalid due to the absensce of an advocate email address in the first claim hash, but the test in which this is used is stubbed to always raise an error
 [
   {
     "claim": {
-      "advocate_email": "NONEXISTANT@INVALID.COM",
       "case_number": "A12345678",
       "case_type_id": 1,
       "indictment_number": "12345678",

@@ -128,13 +128,13 @@ describe API::V1::Advocates::DateAttended do
       expect(response.body).to eq "[{\"error\":\"Attended item can't be blank\"}]"
     end
 
-    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+    it 'returns 400 and JSON error when dates are not in acceptable format' do
       invalid_params = valid_params
       invalid_params[:date] = '10-05-2015'
       invalid_params[:date_to] = '12-05-2015'
       response = post_to_validate_endpoint(invalid_params)
       expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"date is not in standard JSON date format (YYYY-MM-DD)\"},{\"error\":\"date_to is not in standard JSON date format (YYYY-MM-DD)\"}]"
+      expect(response.body).to eq "[{\"error\":\"date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])\"},{\"error\":\"date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])\"}]"
     end
 
   end

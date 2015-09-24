@@ -67,7 +67,7 @@ describe API::V1::Advocates::Claim do
       expect(json[0]['error']).to include("Case number cannot be blank, you must enter a case number")
     end
 
-    it 'returns 400 and JSON error when dates are not in standard JSON format' do
+    it 'returns 400 and JSON error when dates are not in acceptable format' do
       claim_params[:first_day_of_trial] = '01-01-2015'
       claim_params[:trial_concluded_at] = '09-01-2015'
       claim_params[:trial_fixed_notice_at] = '01-01-2015'
@@ -76,7 +76,7 @@ describe API::V1::Advocates::Claim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
-      expect(json).to eq [{"error"=>"first_day_of_trial is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_concluded_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_fixed_notice_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_fixed_at is not in standard JSON date format (YYYY-MM-DD)"}, {"error"=>"trial_cracked_at is not in standard JSON date format (YYYY-MM-DD)"}]
+      expect(json).to eq [{"error"=>"first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}, {"error"=>"trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}, {"error"=>"trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}, {"error"=>"trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}, {"error"=>"trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}]
     end
 
   end

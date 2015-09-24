@@ -6,7 +6,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
   before_action :set_search_options, only: [:index]
-  after_action  :mark_messages_read, only: [:show]
+
+  include ReadMessages
 
   def index
     search if params[:search].present?
@@ -40,11 +41,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   private
-
-  def mark_messages_read
-    statuses = current_user.user_message_statuses.not_marked_as_read.where(message_id: @claim.messages.map(&:id))
-    statuses.each { |status| status.update_column(:read, true) }
-  end
 
   def set_claim_ids_and_count
     session[:claim_ids] = @claims.all.map(&:id)

@@ -12,7 +12,7 @@ Then(/^the documents should be created with the current form_id$/) do
 end
 
 When(/^I attach invalid files$/) do
-  drag_and_drop_file('dropzone', 'features/examples/longer_lorem.html')
+  drag_and_drop_file('dropzone', 'features/examples/minjust.html')
   expect(page).to have_selector('.dz-error')
 end
 

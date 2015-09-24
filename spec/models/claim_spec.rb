@@ -63,7 +63,7 @@ RSpec.describe Claim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete', 'awaiting_further_info', 'awaiting_info_from_court',
+    let(:all_states)  { [  'allocated', 'archived_pending_delete',
                            'deleted', 'draft', 'paid', 'part_paid', 'refused', 'rejected', 'submitted' ] }
 
     context 'advocate_dashboard_draft?' do
@@ -99,14 +99,14 @@ RSpec.describe Claim, type: :model do
 
     context 'advocate_dashboard_submitted?' do
       it 'should respond true' do
-        [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ].each do |claim_state|
+        [ 'allocated', 'submitted' ].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_submitted?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'allocated', 'submitted', 'awaiting_info_from_court', 'awaiting_further_info' ]).each do |claim_state|
+        (all_states - [ 'allocated', 'submitted' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_submitted?).to be false
         end
@@ -394,19 +394,18 @@ RSpec.describe Claim, type: :model do
         create_list(:archived_pending_delete_claim,   2,  advocate: adv_bob_hoskins)
         create_list(:paid_claim,                      2,  advocate: adv_bob_hoskins)
         create(:allocated_claim,                          advocate: adv_bob_hoskins)
-        create(:awaiting_further_info_claim,              advocate: adv_bob_hoskins)
       end
 
-      it  'finds only claims of the single state specified' do
+      it 'finds only claims of the single state specified' do
         expect(Claim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
       end
 
-      it  'finds only claims of the multiple states specified' do
-        expect(Claim.search('Bob Hoskins',[:awaiting_further_info, :archived_pending_delete], search_options).count).to eql 3
+      it 'finds only claims of the multiple states specified' do
+        expect(Claim.search('Bob Hoskins',[:archived_pending_delete, :paid], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
-        expect(Claim.search('Bob Hoskins', nil, search_options).count).to eql 4
+        expect(Claim.search('Bob Hoskins', nil, search_options).count).to eql 3
       end
 
     end
@@ -648,14 +647,10 @@ RSpec.describe Claim, type: :model do
       expect(subject).to receive(:redetermine!)
       subject.transition_state('redetermination')
     end
-    it 'should call await_info_from_court! if awaiting_info_from_court' do
-      expect(subject).to receive(:await_info_from_court!)
-      subject.transition_state('awaiting_info_from_court')
-    end
     it 'should raise an exception if anything else' do
       expect{
         subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected, refused or awaiting_info_from_court and paid, part_paid or refused to redetermination'
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused, part_paid or refused to redetermination'
     end
   end
 
@@ -664,8 +659,7 @@ RSpec.describe Claim, type: :model do
       expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
                                             paid: "Paid in full",
                                             rejected: "Rejected",
-                                            refused: "Refused",
-                                            awaiting_info_from_court: "Awaiting info from court"
+                                            refused: "Refused"
                                            })
     end
   end
@@ -718,13 +712,11 @@ RSpec.describe Claim, type: :model do
      expect(claim.has_paid_state?).to eql(bool)
     end
 
-    it 'should return false for draft, submitted, allocated, "awaiting info from court" and rejected claims' do
+    it 'should return false for draft, submitted, allocated, and rejected claims' do
      expect_has_paid_state_to_be false
      claim.submit
      expect_has_paid_state_to_be false
      claim.allocate
-     expect_has_paid_state_to_be false
-     claim.await_info_from_court
      expect_has_paid_state_to_be false
      claim.reject
      expect_has_paid_state_to_be false
@@ -935,20 +927,6 @@ RSpec.describe Claim, type: :model do
       claim.submit!
       claim.allocate!
       claim.refuse!
-    end
-
-    context 'when transitioned to awaiting_written_reasons' do
-      before do
-        claim.await_written_reasons!
-      end
-
-      it 'should be in an awaiting_written_reasons state' do
-        expect(claim).to be_awaiting_written_reasons
-      end
-
-      it 'should be awaiting_written_reasons' do
-        expect(claim.written_reasons_outstanding?).to eq(true)
-      end
     end
 
     context 'when transitioned to allocated' do

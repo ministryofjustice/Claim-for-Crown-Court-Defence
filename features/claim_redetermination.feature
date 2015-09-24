@@ -26,8 +26,6 @@ Feature: Claim redetermination
       | draft_claim                     |
       | submitted_claim                 |
       | allocated_claim                 |
-      | awaiting_further_info_claim     |
-      | awaiting_info_from_court_claim  |
       | rejected_claim                  |
       | redetermination_claim           |
 
@@ -66,7 +64,6 @@ Feature: Claim redetermination
       | Paid in full              | paid                     |
       | Rejected                  | rejected                 |
       | Refused                   | refused                  |
-      | Awaiting info from court  | awaiting_info_from_court |
 
   Scenario: Request written reasons for claim
     Given I am a signed in advocate

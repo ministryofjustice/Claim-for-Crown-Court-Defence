@@ -33,8 +33,6 @@ Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed 
 				claim.reject!
 			when "Rejected"
 				claim.reject!
-			when "Awaiting info from court"
-				claim.await_info_from_court!
 			else
 				raise "ERROR: Invalid status specified for advocate view scenario"
 		end

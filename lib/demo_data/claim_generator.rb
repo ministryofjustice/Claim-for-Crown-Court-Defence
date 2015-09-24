@@ -113,7 +113,14 @@ module DemoData
 
 
     def advance_claim_to_state(claim, state)
-      ClaimStateAdvancer.new(claim).advance_to(state)
+      begin
+        ClaimStateAdvancer.new(claim).advance_to(state)
+      rescue => err
+        puts "ERROR: #{err.class} :: #{err.message}"
+        ap claim
+        ap claim.assessment
+        raise err
+      end
     end
 
 

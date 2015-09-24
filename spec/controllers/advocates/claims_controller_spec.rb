@@ -11,8 +11,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   describe 'GET #index' do
     before(:each) do
       @allocated_claim                = build_claim_in_state(:allocated)
-      @awaiting_further_info_claim    = build_claim_in_state(:awaiting_further_info)
-      @awaiting_info_from_court_claim = build_claim_in_state(:awaiting_info_from_court)
       @draft_claim                    = build_claim_in_state(:draft)
       @part_paid_claim                = build_claim_in_state(:part_paid)
       @refused_claim                  = build_claim_in_state(:refused)
@@ -23,9 +21,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
-    let(:non_archived_claims)  { [ @allocated_claim,
-                            @awaiting_further_info_claim,
-                            @awaiting_info_from_court_claim,
+    let(:non_archived_claims) {
+                          [
+                            @allocated_claim,
                             @draft_claim,
                             @part_paid_claim,
                             @refused_claim,
@@ -49,8 +47,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                             @rejected_claim,
                                             @allocated_claim,
                                             @submitted_claim,
-                                            @awaiting_info_from_court_claim,
-                                            @awaiting_further_info_claim,
                                             @part_paid_claim,
                                             @refused_claim)
       end
@@ -69,8 +65,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                                             @rejected_claim,
                                             @allocated_claim,
                                             @submitted_claim,
-                                            @awaiting_info_from_court_claim,
-                                            @awaiting_further_info_claim,
                                             @part_paid_claim,
                                             @refused_claim)
       end
@@ -120,18 +114,31 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
   describe "GET #show" do
     subject { create(:claim, advocate: advocate) }
 
-    before { get :show, id: subject }
-
     it "returns http success" do
+      get :show, id: subject
       expect(response).to have_http_status(:success)
     end
 
     it 'assigns @claim' do
+      get :show, id: subject
       expect(assigns(:claim)).to eq(subject)
     end
 
     it 'renders the template' do
+      get :show, id: subject
       expect(response).to render_template(:show)
+    end
+
+    it 'automatically marks unread messages on claim for current user as "read"' do
+      message_1 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      message_2 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      message_3 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+
+      expect(subject.unread_messages_for(advocate.user).count).to eq(3)
+
+      get :show, id: subject
+
+      expect(subject.unread_messages_for(advocate.user).count).to eq(0)
     end
   end
 

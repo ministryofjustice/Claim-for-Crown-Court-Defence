@@ -12,6 +12,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
 
+  include ReadMessages
+
   def index
     @json_document_importer = JsonDocumentImporter.new
     @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc)

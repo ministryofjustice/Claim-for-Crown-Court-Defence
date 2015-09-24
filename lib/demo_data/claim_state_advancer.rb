@@ -59,13 +59,15 @@ module DemoData
 
     def pay_part(claim)
       add_message(claim, @case_worker)
-       claim.assessment.update(fees: claim.fees_total * rand(0.5..0.8), expenses: claim.expenses_total * rand(0.5..0.8))
-       claim.reload
-       claim.pay_part!
+      claim.save!                 # save in order to update the expense and fee totals
+      claim.assessment.update(fees: claim.fees_total * rand(0.5..0.8), expenses: claim.expenses_total * rand(0.5..0.8))
+      claim.reload
+      claim.pay_part!
     end
 
     def pay(claim)
       add_message(claim, @case_worker)
+      claim.save!                 # save in order to update the expense and fee totals
       claim.assessment.update(fees: claim.fees_total, expenses: claim.expenses_total)
       claim.reload
       claim.pay!

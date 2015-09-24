@@ -8,8 +8,6 @@ RSpec.describe Claims::StateMachine, type: :model do
       [
         :allocated,
         :archived_pending_delete,
-        :awaiting_further_info,
-        :awaiting_info_from_court,
         :awaiting_written_reasons,
         :deleted,
         :draft,
@@ -52,24 +50,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay!
       }.to change{ subject.state }.to('paid') }
-      it { expect{ subject.await_info_from_court! }.to  change{ subject.state }.to('awaiting_info_from_court') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-    end
-
-    describe 'from awaiting_further_info when part_paid' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay_part!
-        subject.await_further_info!
-      }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-    end
-
-    describe 'from awaiting_further_info_from_court' do
-      before { subject.submit!; subject.allocate!; subject.await_info_from_court! }
-      it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
@@ -86,7 +66,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.pay!
       }
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
-      it { expect{ subject.await_written_reasons! }.to change{ subject.state }.to('awaiting_written_reasons') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
@@ -97,7 +76,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.pay_part!
       }
-      it { expect{ subject.await_further_info! }.to change{ subject.state }.to('awaiting_further_info') }
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.await_written_reasons! }.to change{ subject.state }.to('awaiting_written_reasons') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
@@ -125,16 +103,6 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe 'set triggers' do
     before { Timecop.freeze(Time.now) }
     after  { Timecop.return }
-
-    describe 'make awaiting_further_info valid for 21 days' do
-      before {
-        subject.submit!
-        subject.allocate!
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay_part!
-      }
-      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 21.days); subject.await_further_info! }
-    end
 
     describe 'make archive_pending_delete valid for 180 days' do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }

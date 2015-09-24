@@ -7,6 +7,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_doctypes, only: [:show, :update]
   before_action :set_search_options, only: [:index]
 
+  include ReadMessages
+
   def index
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")

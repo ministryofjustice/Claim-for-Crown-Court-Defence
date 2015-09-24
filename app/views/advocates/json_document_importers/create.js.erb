@@ -9,7 +9,12 @@
 	$('#import_results.success ul').empty();
 <% end %>
 <% if @json_document_importer.failed_imports.count > 0 %>
-	$('#import_results.failure ul').html("<li>There were errors in <%= @json_document_importer.failed_imports.count %> Claim(s) and these were not imported</li>");
+	$('#import_results.failure ul').html("<li>There were errors in the following <%= @json_document_importer.failed_imports.count %> Claim(s) and these were not imported</li><% @json_document_importer.failed_imports.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
 <% else %>
 	$('#import_results.failure ul').empty();
+<% end %>
+<% if @json_document_importer.failed_schema_validation.any? %>
+	$('#import_results.schema_fails ul').html("<li>Claim(s) <%= @json_document_importer.failed_schema_validation.to_s %> in the uploaded document are not in the correct format.  Please contact your case management system vendor. </li>");
+<% else %>
+	$('#import_results.schema_fails ul').empty();
 <% end %>

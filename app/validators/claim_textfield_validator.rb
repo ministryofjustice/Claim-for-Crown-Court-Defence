@@ -94,7 +94,7 @@ def validate_amount_assessed
   case @record.state
     when 'paid', 'part_paid'
       add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state}") if @record.assessment.blank?
-    when 'awaiting_info_from_court', 'draft', 'refused', 'rejected', 'submitted'
+    when 'draft', 'refused', 'rejected', 'submitted'
       add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state}") if @record.assessment.present?
   end
 end

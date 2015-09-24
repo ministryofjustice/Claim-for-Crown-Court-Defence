@@ -242,7 +242,7 @@ context '#perform_validation?' do
     end
 
     context 'should be valid if amount assessed is zero' do
-        %w{ draft allocated awaiting_info_from_court refused rejected submitted }.each do |state|
+        %w{ draft allocated refused rejected submitted }.each do |state|
           it "for claims in state #{state}" do
             factory_name = "#{state}_claim".to_sym
             claim = FactoryGirl.create factory_name
@@ -253,7 +253,7 @@ context '#perform_validation?' do
     end
 
     context 'should be invalid if amount assessed is not zero' do
-      %w{ draft awaiting_info_from_court refused rejected submitted }.each do |state|
+      %w{ draft refused rejected submitted }.each do |state|
         factory_name = "#{state}_claim".to_sym
         claim = FactoryGirl.create factory_name
         claim.assessment.fees = 35.22

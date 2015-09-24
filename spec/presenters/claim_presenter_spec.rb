@@ -110,18 +110,6 @@ RSpec.describe ClaimPresenter do
     expect(subject.total_inc_vat).to eql("£100.00")
   end
 
-  it '#status_image' do
-    c = claim
-    c.submit!; c.allocate!; c.await_info_from_court!
-    expect(subject.status_image).to eq('awaiting-info-from-court.png')
-  end
-
-  it '#status_image_tag' do
-    c = claim
-    c.submit!; c.allocate!; c.await_info_from_court!
-    expect(subject.status_image_tag).to include("alt=\"Awaiting info from court\"")
-  end
-
   it '#case_worker_email_addresses' do
     cw1 = build(:case_worker)
     cw2 = build(:case_worker)

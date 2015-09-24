@@ -19,9 +19,7 @@ STATES_TO_ADD_EVIDENCE_FOR = ['allocated',
                               'submitted',
                               'paid',
                               'redetermination',
-                              'part_paid',
-                              'awaiting_further_info',
-                              'awaiting_info_from_court']
+                              'part_paid']
 
 namespace :claims do
 
@@ -346,6 +344,6 @@ end
     end
     q
   end
-  
+
 
 end

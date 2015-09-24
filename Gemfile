@@ -46,6 +46,7 @@ gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
 gem 'gov_uk_date_fields',      '0.0.2'
+gem 'yaml_db'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
@@ -65,7 +66,6 @@ group :development, :test do
   gem 'rspec-rails',    '~> 3.0'
   gem 'rspec-collection_matchers'
   gem 'webrick',        '~> 1.3'
-  gem 'yaml_db'
 end
 
 group :test do

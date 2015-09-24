@@ -2,6 +2,9 @@
 # last modified 12-09-2015
 set -ex
 
+echo "DEBUG: *************************************************************"
+echo "DEBUG: * THIS VERSION IS USING THE NEW DB LOAD                     *"
+echo "DEBUG: *************************************************************"
 echo "DEBUG: run.sh starts here"
 
 echo "DEBUG: DOCKER_STATE = $DOCKER_STATE"
@@ -18,7 +21,7 @@ if [ -z ${LOCK+x} ]; then
   if [ -z ${RUN_MIGRATE_OR_SEED+x} ]; then
     echo "DEBUG: RUN_MIGRATE_OR_SEED is not set; DOCKER_STATE: $DOCKER_STATE"
     # neither is set, set to none
-    echo "WARN: neither LOCK nor RUN_MIGRATE_OR_SEED set"
+    echo "WARN: neither LOCK nor RUN_MIGRATE_OR_SEED set. Setting task to none"
     DOCKER_STATE=none
   else
     echo "DEBUG: RUN_MIGRATE_OR_SEED is SET $RUN_MIGRATE_OR_SEED"
@@ -63,9 +66,14 @@ seed)
     bundle exec rake db:seed
     ;;
 reload)
-    # db:reload  a bespoke task, see lib/tasks/db.rake
-    echo "executing rake db:reload"
-    bundle exec rake db:reload
+    echo "executing rake db:clear"
+    bundle exec rake db:clear
+    echo "executing rake db:create"
+    bundle exec rake db:create 
+    echo "executing rake db:schema:load"
+    bundle exec rake db:schema:load
+    echo "executing rake db:data:load"
+    bundle exec rake db:data:load
     ;;
 reseed)
     # db:clear

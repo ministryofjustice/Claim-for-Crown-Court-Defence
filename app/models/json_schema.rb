@@ -5,7 +5,7 @@ class JsonSchema
     def generate(json_template)
       schema = JSON::SchemaGenerator.generate 'Advocate Defense Payments - Claim Import', json_template
       parsed_schema = JSON.parse(schema)
-      edit_required_items(parsed_schema) # aside from chekcing for advocate email and case_number, schema is only used to validate data type and json structure
+      edit_required_items(parsed_schema) # aside from checking for case_number presence, schema is only used to validate data type and json structure
       parsed_schema
     end
 
@@ -19,7 +19,7 @@ class JsonSchema
     end
 
     def from_claim(parsed_schema)
-      non_required_items = ['additional_information', "trial_fixed_notice_at", "trial_fixed_at", "trial_cracked_at", "trial_cracked_at_third", "case_type_id", "indictment_number", "first_day_of_trial", "estimated_trial_length", "actual_trial_length", "trial_concluded_at", "advocate_category", "offence_id", "court_id", "cms_number", "apply_vat", "defendants", "fees", "expenses"]
+      non_required_items = ['advocate_email', 'additional_information', "trial_fixed_notice_at", "trial_fixed_at", "trial_cracked_at", "trial_cracked_at_third", "case_type_id", "indictment_number", "first_day_of_trial", "estimated_trial_length", "actual_trial_length", "trial_concluded_at", "advocate_category", "offence_id", "court_id", "cms_number", "apply_vat", "defendants", "fees", "expenses"]
       non_required_items.each do |item|
         parsed_schema['properties']['claim']['required'].delete(item)
       end

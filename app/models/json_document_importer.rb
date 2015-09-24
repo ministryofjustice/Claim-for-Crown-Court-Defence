@@ -50,7 +50,8 @@ class JsonDocumentImporter
         claim = Claim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
         claim.destroy if claim.present?
       rescue JSON::Schema::ValidationError => e
-        @failed_schema_validation << index + 1
+        claim_hash['claim']['case_number'] = "Claim #{index+1} (no readable case number)" if claim_hash['claim']['case_number'].nil?
+        @failed_schema_validation << claim_hash
       end
     end
   end

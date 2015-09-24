@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'ping', to: 'heartbeat#ping', format: :json
-  get 'healthcheck', to: 'heartbeat#healthcheck', as: 'healthcheck', format: :json
-  get '/tandcs', to: 'pages#tandcs', as: :tandcs_page
+  get 'ping',         to: 'heartbeat#ping', format: :json
+  get 'healthcheck',  to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
+  get '/tandcs',      to: 'pages#tandcs',           as: :tandcs_page
+  get '/api',         to: 'pages#api',              as: :api_page
 
   get 'vat'                 => "vat_rates#index"
 

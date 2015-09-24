@@ -8,6 +8,8 @@ class PagesController < ApplicationController
     render
   end
 
-
+  def api
+    render
+  end
 
 end

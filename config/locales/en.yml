@@ -299,7 +299,7 @@ en:
         h2_basic_info: Basic Claim Information
         h2_evidence: Evidence
         h2_messages: Messages
-        h2_status: Status of claim
+        h2_status: Status
         h2_summary: Claim summary
         heading: Claim
 
@@ -320,6 +320,7 @@ en:
         retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
+
   case_workers:
     admin:
       case_workers:
@@ -330,3 +331,12 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+    claims:
+      show:
+        created_by: "Created by:"
+        h2_basic_info: Basic Claim Information
+        h2_evidence: Evidence
+        h2_messages: Messages
+        h2_status: Status
+        h2_summary: Claim summary
+        heading: Claim

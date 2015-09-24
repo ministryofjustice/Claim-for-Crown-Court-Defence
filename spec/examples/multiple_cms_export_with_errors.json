@@ -1,4 +1,4 @@
-// This is invalid due to the absensce of an advocate email address in the first claim hash but the test in which this is used is stubbed to always raise an error
+// This is invalid due to the absensce of an advocate email address in the first claim hash, but the test in which this is used is stubbed to always raise an error
 [
   {
     "claim": {
@@ -67,6 +67,8 @@
   },
   {
     "claim": {
+      "advocate_email": "advocate@example.com",
+      "case_number": "A12345678",
       "case_type_id": 1,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015-06-01",

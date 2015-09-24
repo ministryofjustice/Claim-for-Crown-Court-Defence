@@ -1,6 +1,9 @@
 %h1 Authorised Claims
 
-%h2 #{@claims.count} claims with a total value of #{number_to_currency(@total_value)}
+%h2
+  = @claims.length
+  claims with a total value of
+  = number_to_currency(@total_value)
 
 #details
   = render partial: 'claims', locals: { claims: @claims }

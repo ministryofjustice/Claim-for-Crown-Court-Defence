@@ -90,8 +90,9 @@ class Claim < ActiveRecord::Base
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
   # advocate-relevant scopes
-  scope :outstanding, -> { where(state: ['submitted','allocated']) }
-  scope :authorised,  -> { where(state: 'paid') }
+  scope :outstanding, -> { where(state: %w( submitted allocated )) }
+  scope :authorised,  -> { where(state: %w( part_paid paid )) }
+
   scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
   # Trial type scopes
@@ -292,6 +293,14 @@ class Claim < ActiveRecord::Base
     transition && transition.from == 'awaiting_written_reasons'
   end
 
+  def amount_assessed
+    if self.apply_vat?
+      determinations.last.total + VatRate.vat_amount(determinations.last.total, self.vat_date)
+    else
+      determinations.last.total
+    end
+  end
+
   private
 
   def last_state_transition_later_than_redeterination?(last_state_transition)
@@ -349,5 +358,4 @@ class Claim < ActiveRecord::Base
       self.vat_amount = 0.0
     end
   end
-
 end

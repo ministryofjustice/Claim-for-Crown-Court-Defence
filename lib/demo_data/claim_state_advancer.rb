@@ -10,8 +10,6 @@ module DemoData
       'rejected'                    => [ :submit, :allocate, :reject ],
       'part_paid'                   => [ :submit, :allocate, :pay_part],
       'paid'                        => [ :submit, :allocate, :pay],
-      'awaiting_info_from_court'    => [ :submit, :allocate, :await_info_from_court ],
-      'awaiting_further_info'       => [ :submit, :allocate, :pay_part, :await_further_info],
       'refused'                     => [ :submit, :allocate, :refuse ]
     }
 
@@ -71,16 +69,6 @@ module DemoData
       claim.assessment.update(fees: claim.fees_total, expenses: claim.expenses_total)
       claim.reload
       claim.pay!
-    end
-
-
-    def await_info_from_court(claim)
-      claim.await_info_from_court!
-    end
-
-    def await_further_info(claim)
-      add_message(claim, @case_worker)
-      claim.await_further_info!
     end
 
     def refuse(claim)

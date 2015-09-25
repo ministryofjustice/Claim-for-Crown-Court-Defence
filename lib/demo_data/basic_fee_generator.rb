@@ -4,7 +4,7 @@ module DemoData
 
     def initialize(claim)
       @claim       = claim
-      @fees        = FeeType.basic
+      @fee_types   = FeeType.basic
       @codes_added = []
     end
 
@@ -18,7 +18,7 @@ module DemoData
     private
 
     def add_baf
-      fee = FactoryGirl.create :fee, :baf_fee, claim: @claim, quantity: 1, amount: 250
+      create_fee(@claim, fee_type_by_code('BAF'), 1, 250)
       @codes_added << 'baf'
     end
 
@@ -30,36 +30,51 @@ module DemoData
     end
 
     def add_daf
-      fee = FactoryGirl.create :fee, :daf_fee, claim: @claim, quantity: @claim.actual_trial_length - 2, amount: 250 * @claim.actual_trial_length - 2
+      quantity = @claim.case_type.requires_trial_dates? ? @claim.actual_trial_length - 2 : 1
+      amount   = @claim.case_type.requires_trial_dates? ? 250 * @claim.actual_trial_length - 2 : 250
+      fee      = create_fee(@claim, fee_type_by_code('DAF'),  quantity, amount)
       @codes_added << 'daf'
     end
 
     def add_dah
-      fee = FactoryGirl.create :fee, :dah_fee, claim: @claim, quantity: @claim.actual_trial_length - 40, amount: 250 * @claim.actual_trial_length - 40
+      return unless @claim.case_type.requires_trial_dates?
+      fee = create_fee(@claim, fee_type_by_code('DAH'), @claim.actual_trial_length - 40, amount: 250 * @claim.actual_trial_length - 40)
       @codes_added << 'dah'
     end
 
     def add_daj
-      fee = FactoryGirl.create :fee, :daj_fee, claim: @claim, quantity: @claim.actual_trial_length - 50, amount: 250 * @claim.actual_trial_length - 50
+      return unless @claim.case_type.requires_trial_dates?
+      fee = create_fee(@claim, fee_type_by_code('DAJ'), @claim.actual_trial_length - 50, amount: 250 * @claim.actual_trial_length - 50)
       @codes_added << 'daj'
     end
  
     def add_pcm
       qty = rand(0..3)
-      fee = FactoryGirl.create :fee, :pcm_fee, claim: @claim, quantity: qty , amount: 125
+      fee = create_fee(@claim, fee_type_by_code('DAJ'), qty, amount: 125)
       @codes_added << 'pcm'
     end
 
     def add_fee
-      fee_type = @fees.sample
+      fee_type = @fee_types.sample
       while @codes_added.include?(fee_type.code)
-        fee_type = @fees.sample
+        fee_type = @fee_types.sample
       end
-      fee = FactoryGirl.create :fee, fee_type: fee_type, claim: @claim, quantity: rand(0..10), amount: rand(100..900)
+      create_fee( @claim, fee_type,  rand(0..10), rand(100..900) )
       @codes_added << fee_type.code
     end
-  
+
+    def fee_type_by_code(code)
+      fee_type = FeeType.find_by(code: code)
+      raise RuntimeError.new "Unable to find Fee Type with code #{code}" if fee_type.nil?
+      fee_type
+    end
+
+    def create_fee(claim, fee_type, quantity, amount)
+      Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
+    end
+
   end
+
 end
 
 

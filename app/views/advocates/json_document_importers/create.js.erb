@@ -2,14 +2,19 @@
 	$('#import_results.success ul').html("<li>Successfully imported <%= @json_document_importer.imported_claims.count %> new Claim(s) as draft(s)</li>");
 	<% @json_document_importer.imported_claims.each do |imported_claim| %>
 		<% present(imported_claim) do |claim| %>
-			$('table.claims_table').prepend('<tr><td><%= link_to (claim.case_number.empty? ? "not-provided" : claim.case_number), advocates_claim_path(claim) %></td><% if current_user.persona.admin? %><td><%= claim.advocate.name %></td><% end %><td><%= claim.defendant_names %></td><td><%= claim.total_inc_vat %></td><td><%= claim.state.humanize %></td><td><%= claim.submitted_at %></td><td><span class="none">None</td></span></tr>')
+			$('table.claims_table').prepend('<tr><td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), advocates_claim_path(claim) %></td><% if current_user.persona.admin? %><td><%= claim.advocate.name %></td><% end %><td><%= claim.defendant_names %></td><td><%= claim.total_inc_vat %></td><td><%= claim.state.humanize %></td><td><%= claim.submitted_at %></td><td><span class="none">None</td></span></tr>')
 		<% end %>
 	<% end %>
 <% else %>
 	$('#import_results.success ul').empty();
 <% end %>
 <% if @json_document_importer.failed_imports.count > 0 %>
-	$('#import_results.failure ul').html("<li>There were errors in <%= @json_document_importer.failed_imports.count %> Claim(s) and these were not imported</li>");
+	$('#import_results.failure ul').html("<li>There were errors in the following <%= @json_document_importer.failed_imports.count %> Claim(s) and these were not imported</li><% @json_document_importer.failed_imports.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
 <% else %>
 	$('#import_results.failure ul').empty();
+<% end %>
+<% if @json_document_importer.failed_schema_validation.any? %>
+	$('#import_results.schema_fails ul').html("<li>The following <%= @json_document_importer.failed_schema_validation.count %> Claim(s) were formatted incorectly in the uploaded document.  Please contact your case management system vendor.</li><% @json_document_importer.failed_schema_validation.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
+<% else %>
+	$('#import_results.schema_fails ul').empty();
 <% end %>

@@ -63,13 +63,25 @@ describe RepresentationOrder do
         expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference cannot be blank'])
       end
 
-      it 'should error if not 10 numeric digits' do
+      it 'should error if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid.  It must be exactly 10 numeric characters'])
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
       end
 
-      it 'should not error if exactly 10 numeric digits' do
+      it 'should error if greater than 10 numeric characters' do
+        representation_order.maat_reference = '4562131111111'
+        expect(representation_order).not_to be_valid
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
+      end
+
+      it 'should error if non-numeric characters present' do
+        representation_order.maat_reference = '1111a1111'
+        expect(representation_order).not_to be_valid
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
+      end
+
+      it 'should not error if 7-10 numeric digits' do
         representation_order.maat_reference = '2078352232'
         expect(representation_order).to be_valid
       end
@@ -125,6 +137,25 @@ describe RepresentationOrder do
     end
   end
 
+  describe '#detail' do
+    let(:rep_order) do
+      create(:representation_order, maat_reference: '1234567', granting_body: 'Crown Court', representation_order_date: Date.parse('20150925'))
+    end
 
+    context 'when rep order date present' do
+      it 'returns a string with the granting body, MAAT reference and rep order date' do
+        expect(rep_order.detail).to eq("Crown Court 25/09/2015 1234567")
+      end
+    end
 
+    context 'when rep order date not present' do
+      before do
+        rep_order.representation_order_date = nil
+      end
+
+      it 'returns a string with the granting body and MAAT reference' do
+        expect(rep_order.detail).to eq("Crown Court 1234567")
+      end
+    end
+  end
 end

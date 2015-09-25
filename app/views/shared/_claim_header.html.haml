@@ -3,7 +3,7 @@
     %span.normal
       = "Case number:"
     %div.bold-xlarge
-      = claim.case_number.empty? ? 'not-provided' : claim.case_number
+      = claim.case_number.blank? ? 'not-provided' : claim.case_number
   %div.column-two-thirds
     %div.left
       %span.normal

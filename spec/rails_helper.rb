@@ -89,7 +89,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    FactoryGirl.create :vat_rate, effective_date: Date.new(1960, 1, 1)
+    FactoryGirl.create :vat_rate, effective_date: Date.new(1960, 1, 1), rate_base_points: 1750
   end
 
   config.after(:suite) do

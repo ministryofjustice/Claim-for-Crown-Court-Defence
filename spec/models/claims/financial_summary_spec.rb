@@ -1,121 +1,176 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FinancialSummary, type: :model do
-  let!(:submitted_claim) { create(:submitted_claim, total: 103.56) }
-  let!(:allocated_claim) { create(:allocated_claim, total: 56.21) }
-  # let!(:paid_claim) { create(:claim, state: 'paid', total: 89) }
-  let!(:paid_claim)   {claim = FactoryGirl.create(:paid_claim, total: 89) }
-  let(:advocate) { create(:advocate) }
+  # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do
+    let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
+    let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
+
+    let!(:old_part_paid_claim) do
+      Timecop.freeze(Time.now - 1.week) do
+        claim = create(:part_paid_claim, total: 165)
+        create(:assessment, claim: claim, fees: 50, expenses: 35)
+        claim
+      end
+    end
+
+    let!(:part_paid_claim) do
+      claim = create(:part_paid_claim, total: 211)
+      create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
+      claim
+    end
+
+    let!(:paid_claim) do
+      claim = create(:paid_claim, total: 89)
+      create(:assessment, claim: claim, fees: 40, expenses: 49)
+      claim
+    end
+
+    let(:advocate) { create(:advocate) }
+    let(:another_advocate) { create(:advocate) }
+
+    let(:other_advocate_claim) { create(:claim) }
 
     subject { Claims::FinancialSummary.new(advocate) }
 
     before do
-      advocate.claims << [submitted_claim, allocated_claim, paid_claim]
+      advocate.claims << [submitted_claim, allocated_claim, part_paid_claim, paid_claim, old_part_paid_claim]
+      another_advocate.claims << other_advocate_claim
     end
 
     describe '#total_outstanding_claim_value' do
-      it 'calculates the value of outstanding claims' do
-        expect(subject.total_outstanding_claim_value).to eq(159.77)
+      context 'claim with VAT applied' do
+        before do
+          submitted_claim.apply_vat = true
+          submitted_claim.save!
+        end
+
+        it 'calculates the value of outstanding claims' do
+          expect(subject.total_outstanding_claim_value).to eq(177.89)
+        end
+      end
+
+      context 'claim without VAT applied' do
+        it 'calculates the value of outstanding claims' do
+          expect(subject.total_outstanding_claim_value).to eq(159.77)
+        end
       end
     end
 
     describe '#total_authorised_claim_value' do
-      it 'calculates the value of authorised claims' do
-        expect(subject.total_authorised_claim_value).to eq(89)
+      context 'when VAT applied to a claim' do
+        before do
+          part_paid_claim.apply_vat = true
+          part_paid_claim.save!
+        end
+
+        it 'calculates the value of authorised claims since the beginning of the week' do
+          expect(subject.total_authorised_claim_value).to eq(102.56)
+        end
+      end
+
+      context 'when no claim with VAT applied present' do
+        it 'calculates the value of authorised claims since the beginning of the week' do
+          expect(subject.total_authorised_claim_value).to eq(100.54)
+        end
       end
     end
 
     describe '#outstanding_claims' do
       it 'returns outstanding claims only' do
-        expect(subject.outstanding_claims.map(&:id)).to include(submitted_claim.id, allocated_claim.id)
-        expect(subject.outstanding_claims.map(&:id)).to_not include(paid_claim.id)
+        expect(subject.outstanding_claims).to include(submitted_claim, allocated_claim)
+        expect(subject.outstanding_claims).to_not include(paid_claim, part_paid_claim, other_advocate_claim, old_part_paid_claim)
       end
     end
 
     describe '#authorised_claims' do
-      it 'returns authorised claims only' do
-        expect(subject.authorised_claims.map(&:id)).to include(paid_claim.id)
-        expect(subject.authorised_claims.map(&:id)).to_not include(submitted_claim.id, allocated_claim.id)
+      it 'returns authorised claims only (since the beginning of the week)' do
+        expect(subject.authorised_claims).to include(paid_claim, paid_claim)
+        expect(subject.authorised_claims).to_not include(submitted_claim, allocated_claim, other_advocate_claim, old_part_paid_claim)
       end
     end
-
   end
 
   context 'by Chambers' do
-    let!(:chamber) { create(:chamber) }
-    let(:another_advocate) { create(:advocate, chamber: chamber) }
+    let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
+    let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
 
-    let!(:another_submitted_claim) { create(:submitted_claim, total: 33.56) }
-    let!(:another_allocated_claim) { create(:allocated_claim, total: 66.21) }
-    let!(:another_paid_claim)      { FactoryGirl.create :paid_claim, total: 29.6 }
-
-    before do
-      advocate.chamber = chamber
-      advocate.save
-
-      advocate.claims << [submitted_claim, allocated_claim, paid_claim]
-      another_advocate.claims << [another_submitted_claim, another_allocated_claim, another_paid_claim]
+    let!(:part_paid_claim) do
+      claim = create(:part_paid_claim, total: 211)
+      create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
+      claim
+    end
+    let!(:paid_claim) do
+      claim = create(:paid_claim, total: 89)
+      create(:assessment, claim: claim, fees: 40, expenses: 49)
+      claim
     end
 
-    subject { Claims::FinancialSummary.new(chamber) }
+    let(:chamber) { create(:chamber) }
+    let(:other_chamber) { create(:chamber) }
+    let(:advocate_admin) { create(:advocate, role: 'admin', chamber: chamber) }
+    let(:advocate) { create(:advocate, chamber: chamber) }
+    let(:another_advocate_admin) { create(:advocate, role: 'admin', chamber: other_chamber) }
+    let(:other_chamber_claim) { create(:claim) }
 
-    describe '.total_outstanding_claim_value' do
-      it 'calculates the value of outstanding claims' do
-        expect(subject.total_outstanding_claim_value).to eq(259.54)
+    subject { Claims::FinancialSummary.new(advocate) }
+
+    before do
+      advocate.claims << [submitted_claim, allocated_claim, part_paid_claim, paid_claim]
+      another_advocate_admin.claims << other_chamber_claim
+    end
+
+    describe '#total_outstanding_claim_value' do
+      context 'claim with VAT applied' do
+        before do
+          submitted_claim.apply_vat = true
+          submitted_claim.save!
+        end
+
+        it 'calculates the value of outstanding claims' do
+          expect(subject.total_outstanding_claim_value).to eq(177.89)
+        end
+      end
+
+      context 'claim without VAT applied' do
+        it 'calculates the value of outstanding claims' do
+          expect(subject.total_outstanding_claim_value).to eq(159.77)
+        end
       end
     end
 
-    describe '.total_authorised_claim_value' do
-      it 'calculates the value of authorised claims' do
-        expect(subject.total_authorised_claim_value).to eq(118.6)
+    describe '#total_authorised_claim_value' do
+      context 'when VAT applied to a claim' do
+        before do
+          part_paid_claim.apply_vat = true
+          part_paid_claim.save!
+        end
+
+        it 'calculates the value of authorised claims' do
+          expect(subject.total_authorised_claim_value).to eq(102.56)
+        end
+      end
+
+      context 'when no claim with VAT applied present' do
+        it 'calculates the value of authorised claims' do
+          expect(subject.total_authorised_claim_value).to eq(100.54)
+        end
       end
     end
 
     describe '#outstanding_claims' do
       it 'returns outstanding claims only' do
-        expect(subject.outstanding_claims.map(&:id)).to include(another_submitted_claim.id, another_allocated_claim.id)
-        expect(subject.outstanding_claims.map(&:id)).to_not include(another_paid_claim.id)
+        expect(subject.outstanding_claims).to include(submitted_claim, allocated_claim)
+        expect(subject.outstanding_claims).to_not include(paid_claim, part_paid_claim, other_chamber_claim)
       end
     end
 
     describe '#authorised_claims' do
       it 'returns authorised claims only' do
-        expect(subject.authorised_claims.map(&:id)).to include(another_paid_claim.id)
-        expect(subject.authorised_claims.map(&:id)).to_not include(another_submitted_claim.id, another_allocated_claim.id)
+        expect(subject.authorised_claims).to include(paid_claim, paid_claim)
+        expect(subject.authorised_claims).to_not include(submitted_claim, allocated_claim, other_chamber_claim)
       end
     end
-
   end
-
-  context 'bug summing decimals' do
-
-    subject { Claims::FinancialSummary.new(advocate) }
-
-    it 'sums up correctly' do
-
-      #  this attempts replicates a summing error I get locally (irb and in browser) when doing claims.sum(:total)
-      #  over BigDecimals - however I cannot replicate the failure as a test.
-
-      # i.e from my rails console, the first result is correct the second is not !
-      #
-      #  > fs.outstanding_claims.inject(0.0) { |total, claim| total += claim.total }.to_s
-      # => "9942.55890332963513"
-      #  > fs.outstanding_claims.sum(:total).to_s
-      # => "248508.33982225015947"
-
-      bd1 = create(:submitted_claim, total: 908.71971356268547)
-      bd2 = create(:submitted_claim, total: 1825.02462504223905)
-      bd3 = create(:submitted_claim, total: 1818.65467216296309)
-      bd4 = create(:submitted_claim, total: 2073.64615377261145)
-      bd5 = create(:submitted_claim, total: 418.13695517587028)
-      bd6 = create(:submitted_claim, total: 1917.5556319890992)
-
-      advocate.claims << [bd1, bd2, bd3, bd4, bd5, bd6]
-
-      expect(subject.total_outstanding_claim_value).to eq(8961.737751705465)
-    end
-  end
-
 end

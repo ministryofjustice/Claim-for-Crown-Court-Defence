@@ -137,6 +137,25 @@ describe RepresentationOrder do
     end
   end
 
+  describe '#detail' do
+    let(:rep_order) do
+      create(:representation_order, maat_reference: '1234567', granting_body: 'Crown Court', representation_order_date: Date.parse('20150925'))
+    end
 
+    context 'when rep order date present' do
+      it 'returns a string with the granting body, MAAT reference and rep order date' do
+        expect(rep_order.detail).to eq("Crown Court 25/09/2015 1234567")
+      end
+    end
 
+    context 'when rep order date not present' do
+      before do
+        rep_order.representation_order_date = nil
+      end
+
+      it 'returns a string with the granting body and MAAT reference' do
+        expect(rep_order.detail).to eq("Crown Court 1234567")
+      end
+    end
+  end
 end

@@ -3,6 +3,7 @@ ruby '2.2.3'
 
 gem 'auto_strip_attributes',  '~> 2.0'
 gem 'aws-sdk-v1',             '1.64.0'
+gem 'awesome_print'
 gem 'bourbon',                '~> 3.2.4'
 gem 'breakpoint',             '~> 2.0.7'
 gem 'cancancan',              '~> 1.10'
@@ -54,7 +55,6 @@ end
 
 group :development, :test do
   gem 'annotate'
-  gem 'awesome_print'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'

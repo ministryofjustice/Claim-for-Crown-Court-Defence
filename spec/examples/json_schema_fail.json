@@ -1,7 +1,9 @@
-// This is invalid due to the absensce of an advocate email address, but the test in which this is used is stubbed to always raise an error
+// will fail against schema because defendants is not an array
 [
   {
     "claim": {
+      "advocate_email": "advocate@example.com",
+      "case_number": "A12345678",
       "case_type_id": 1,
       "indictment_number": "12345678",
       "first_day_of_trial": "2015-06-01",
@@ -17,7 +19,7 @@
       "trial_fixed_notice_at": "2015-06-01",
       "trial_fixed_at": "2015-06-01",
       "trial_cracked_at": "2015-06-01",
-      "defendants": [
+      "defendants":
         {
           "first_name": "case",
           "middle_name": "management",
@@ -27,12 +29,11 @@
           "representation_orders": [
             {
               "granting_body": "Crown Court",
-              "maat_reference": "1234567890",
+              "maat_reference": "1234567891",
               "representation_order_date": "2015-05-01"
             }
           ]
-        }
-      ],
+        },
       "fees": [
         {
           "fee_type_id": 2,

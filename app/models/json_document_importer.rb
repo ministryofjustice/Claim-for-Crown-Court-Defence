@@ -5,14 +5,13 @@ class JsonDocumentImporter
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :file, :data, :errors, :schema, :failed_imports, :imported_claims
+  attr_reader :file, :data, :errors, :schema, :failed_imports, :imported_claims, :failed_schema_validation
 
   validates :file, presence: true
   validates :file, json_format: true
 
   BASE_URL                      = GrapeSwaggerRails.options.app_url
   CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/advocates/claims'
-  CLAIM_VALIDATION              = RestClient::Resource.new BASE_URL + '/api/advocates/claims/validate'
   DEFENDANT_CREATION            = RestClient::Resource.new BASE_URL + '/api/advocates/defendants'
   REPRESENTATION_ORDER_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/representation_orders'
   FEE_CREATION                  = RestClient::Resource.new BASE_URL + '/api/advocates/fees'
@@ -20,11 +19,12 @@ class JsonDocumentImporter
   DATE_ATTENDED_CREATION        = RestClient::Resource.new BASE_URL + '/api/advocates/dates_attended'
 
   def initialize(attributes = {})
-    @file   = attributes[:json_file]
+    @file   = attributes[:json_file] # this expects an ActionDispatch::Http::UploadedFile object
     @errors = {}
     @schema = attributes[:schema]
     @failed_imports = []
     @imported_claims = []
+    @failed_schema_validation = []
   end
 
   def parse_file
@@ -37,17 +37,21 @@ class JsonDocumentImporter
     parse_file
     data.each_with_index do |claim_hash, index|
       begin
+        JSON::Validator.validate!(@schema, claim_hash)
         create_claim(claim_hash)
         set_defendants_fees_and_expenses(claim_hash)
         create_defendants_and_rep_orders
         create_expenses_or_fees_and_dates_attended(@fees, FEE_CREATION)
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
         @imported_claims << Claim.find_by(uuid: @claim_id)
-      rescue => e
+      rescue ArgumentError => e
+        claim_hash['claim']['case_number'] = "Claim #{index+1} (no readable case number)" if claim_hash['claim']['case_number'].blank?
         @failed_imports << claim_hash
         @errors["claim_#{index + 1}".to_sym] = JSON.parse(e.message)
         claim = Claim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
         claim.destroy if claim.present?
+      rescue JSON::Schema::ValidationError => e
+        @failed_schema_validation << claim_hash
       end
     end
   end
@@ -79,7 +83,7 @@ class JsonDocumentImporter
     end
   end
 
-  def create(attributes_hash, rest_client_resource)
+  def create(attributes_hash, rest_client_resource) # used to create defendants, fees and expenses
     obj_params = {}
     attributes_hash.each {|key, value| obj_params[key] = value if value.class != Array}
     response = rest_client_resource.post(obj_params) {|response, request, result| response }

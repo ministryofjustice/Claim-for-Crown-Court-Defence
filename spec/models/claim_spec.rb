@@ -1008,7 +1008,7 @@ RSpec.describe Claim, type: :model do
     it 'should save the expenses model' do
       advocate = FactoryGirl.create :advocate
       expense_type = FactoryGirl.create :expense_type
-      fee_scheme = FactoryGirl.create :scheme
+      fee_scheme = FactoryGirl.create :older_scheme
       fee_type = FactoryGirl.create :fee_type
       case_type = FactoryGirl.create :case_type
       court = FactoryGirl.create :court

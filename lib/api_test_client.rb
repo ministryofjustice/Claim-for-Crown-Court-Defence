@@ -207,7 +207,6 @@ private
       "actual_trial_length": 1,
       "trial_concluded_at": "2015-06-02",
       "advocate_category": advocate_category,
-      "prosecuting_authority": "cps",
       "offence_id": offence_id,
       "court_id": court_id,
       "cms_number": "12345678",

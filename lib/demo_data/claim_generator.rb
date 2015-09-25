@@ -36,7 +36,6 @@ module DemoData
         additional_information: generate_additional_info,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),
         state: "draft",
-        submitted_at: rand(1.180).minutes.ago,
         case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
         advocate_category: Settings.advocate_categories.sample,
         advocate: advocate,
@@ -54,18 +53,20 @@ module DemoData
       add_documents(claim)
       add_trial_dates(claim) if claim.case_type.requires_trial_dates?
       add_cracked_dates(claim) if claim.case_type.requires_cracked_dates?
+      claim.save
       add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
       add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
       add_misc_fees(claim)
       add_expenses(claim)
-      
+      claim.reload              # load all the fees and expenses that have been created
+      claim.save                # save in order to update fee and expense totals
       claim
     end
 
     def add_trial_dates(claim)
       claim.first_day_of_trial     = rand(60..90).days.ago
-      claim.estimated_trial_length = rand(3..60)
-      claim.actual_trial_length    = claim.estimated_trial_length + rand(-5..5)
+      claim.estimated_trial_length = rand(4..60)
+      claim.actual_trial_length    = claim.estimated_trial_length + rand(-2..5)
       claim.trial_concluded_at     = claim.first_day_of_trial + (claim.actual_trial_length / 5 * 7).days
     end
 

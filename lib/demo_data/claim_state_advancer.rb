@@ -32,11 +32,12 @@ module DemoData
     private
 
     def add_message(claim, sender)
-      FactoryGirl.create :message, sender: sender.user, claim: claim, body: Faker::Lorem.paragraph
+      Message.create(claim: claim, sender: sender.user, body: Faker::Lorem.paragraph)
     end
 
     def submit(claim)
       add_message(claim, claim.advocate)
+      claim.update(submitted_at: rand(0..180).days.ago)
       claim.submit!
     end
 

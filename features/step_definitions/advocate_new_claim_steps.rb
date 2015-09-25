@@ -272,6 +272,10 @@ Then(/^I should see errors$/) do
   expect(page).to have_content(/\d+ errors? prohibited this claim from being saved/)
 end
 
+Then(/^I should not see errors$/) do
+  expect(page).not_to have_content(/\d+ errors? prohibited this claim from being saved/)
+end
+
 Then(/^no claim should be created$/) do
   expect(Claim.count).to be_zero
 end

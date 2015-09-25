@@ -171,12 +171,6 @@ Scenario Outline: Add fees with dates attended then remove fee
        And I submit to LAA
       Then There should not be any Fixed Fees saved
 
-  Scenario: New claim instantiates Basic Fee Type (BAF) to quantity of 1
-     Given I am a signed in advocate
-       # And There are fee schemes in place
-       And I am on the new claim page
-      Then I should see a Basic Fee quantity of exactly one
-
   Scenario: Edit existing non-Fixed case type to be Fixed
     Given I am a signed in advocate
       And There are fee schemes in place

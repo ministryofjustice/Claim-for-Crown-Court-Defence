@@ -2,7 +2,7 @@ module ApplicationHelper
 
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
-  # following the <Model>Presenter naming convention or, optionally, a name presenter
+  # following the <Model>Presenter naming convention or, optionally, a named presenter
   # class:
   # e.g. - present(@advocate)
   # e.g. - present(@advocate, AdminAdvocatePresenter)

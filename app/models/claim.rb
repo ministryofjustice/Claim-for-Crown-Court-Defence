@@ -262,6 +262,11 @@ class Claim < ActiveRecord::Base
     draft? && source == 'api'
   end
 
+# TODO:
+  # def api_draft_web_edit?
+  #   draft? && source == 'api-web-edited'
+  # end
+
   def json_import_draft?
     draft? && source == 'json_import'
   end

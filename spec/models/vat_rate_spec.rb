@@ -17,13 +17,10 @@ describe VatRate do
     @vr1 = FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
     @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
     @vr3 = FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
-    # reload rates into the class variable to prevent stale rates from previous tests being used.
-    VatRate.load_rates
   end
 
   after(:all) do
     VatRate.destroy( [ @vr1.id, @vr2.id, @vr3.id ] )
-    VatRate.destroy_cached_rates
   end
 
   describe '.for_date' do
@@ -43,18 +40,6 @@ describe VatRate do
       expect {
         VatRate.for_date(Date.new(1900, 7, 28))
       }.to raise_error VatRate::MissingVatRateError, "There is no VAT rate for date 28/07/1900"
-    end
-  end
-
-  describe '.destroy_cached_rates' do
-    before do
-      VatRate.load_rates
-    end
-
-    it 'removes all the cached VAT rates' do
-      expect(VatRate.cached_rates).to_not be_empty
-      VatRate.destroy_cached_rates
-      expect(VatRate.cached_rates).to be_nil
     end
   end
 

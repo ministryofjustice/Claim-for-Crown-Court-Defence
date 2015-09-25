@@ -22,24 +22,8 @@ class VatRate < ActiveRecord::Base
 
   validates :effective_date, uniqueness: true
 
-  @@rates = nil
-
   class << self
-
-    def load_rates
-      @@rates = VatRate.all.order('effective_date DESC')
-    end
-
-    def destroy_cached_rates
-      @@rates = nil
-    end
-
-    def cached_rates
-      @@rates
-    end
-
     def for_date(date)
-      load_rates if @@rates.nil?
       rate_for_date(date)
     end
 
@@ -52,7 +36,6 @@ class VatRate < ActiveRecord::Base
 
     # returns "22.25%", "17/5%', 8%", etc
     def pretty_rate(date)
-      load_rates if @@rates.nil?
       rate = rate_for_date(date) / 100.0
 
       # transform to integer if whole number to supress printing of .0
@@ -62,9 +45,13 @@ class VatRate < ActiveRecord::Base
 
     private
 
+    def rates
+      VatRate.all.order(effective_date: :desc)
+    end
+
     def rate_for_date(date)
       result = nil
-      @@rates.each do | rec |
+      rates.each do | rec |
         unless date < rec.effective_date
           result = rec
           break

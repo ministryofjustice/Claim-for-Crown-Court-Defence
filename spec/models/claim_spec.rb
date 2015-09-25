@@ -1005,10 +1005,11 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#amount_assessed' do
-    let(:claim) { create(:paid_claim) }
-    before do
+    let!(:claim) do
+      claim = create(:paid_claim)
       create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
       create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+      claim
     end
 
     context 'when VAT applied' do

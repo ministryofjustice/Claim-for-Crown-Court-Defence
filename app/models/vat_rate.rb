@@ -30,6 +30,13 @@ class VatRate < ActiveRecord::Base
       @@rates = VatRate.all.order('effective_date DESC')
     end
 
+    def destroy_cached_rates
+      @@rates = nil
+    end
+
+    def cached_rates
+      @@rates
+    end
 
     def for_date(date)
       load_rates if @@rates.nil?

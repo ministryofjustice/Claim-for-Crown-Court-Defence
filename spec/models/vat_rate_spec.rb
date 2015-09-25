@@ -23,6 +23,7 @@ describe VatRate do
 
   after(:all) do
     VatRate.destroy( [ @vr1.id, @vr2.id, @vr3.id ] )
+    VatRate.destroy_cached_rates
   end
 
   describe '.for_date' do
@@ -45,6 +46,17 @@ describe VatRate do
     end
   end
 
+  describe '.destroy_cached_rates' do
+    before do
+      VatRate.load_rates
+    end
+
+    it 'removes all the cached VAT rates' do
+      expect(VatRate.cached_rates).to_not be_empty
+      VatRate.destroy_cached_rates
+      expect(VatRate.cached_rates).to be_nil
+    end
+  end
 
   describe '.pretty_rate' do
     it 'should return 8% for dates between 1 and 3 years ago' do

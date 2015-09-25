@@ -186,9 +186,9 @@ en:
         cms_number: 'Case Number'
         submission_date: 'Submitted date'
         paid_date: 'Paid date'
-        total: 'Claim Total'
-        status: 'Claim Status'
-        amount_assessed: 'Amount assessed'
+        total: 'Claimed'
+        assessed: 'Assessed'
+        status: 'Status'
         view: *view
         edit: *edit
         delete: *delete

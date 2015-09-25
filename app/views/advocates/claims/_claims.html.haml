@@ -14,6 +14,8 @@
       %th
         = t(".total")
       %th
+        = t(".assessed")
+      %th
         = t(".status")
       %th
         = t(".submission_date")
@@ -32,6 +34,8 @@
               = claim.defendant_names
             %td
               = claim.total_inc_vat
+            %td
+              = claim.amount_assessed
             %td
               = claim.state.humanize
             %td

@@ -10,8 +10,6 @@
           - @claim.errors.full_messages.each do |message|
             %li
               = message
-    %h2
-      = t('.section_one')
     %fieldset
       %legend
         = t('.case_advocate_offence')
@@ -79,13 +77,6 @@
           = render 'defendant_fields', f: defendant
           %div
             = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
-
-    %h2
-      = t('.section_two')
-    %fieldset
-      = f.label t('.additional_information')
-      = f.text_area :additional_information, rows: 10
-      = validation_error_message(@claim, :additional_information)
 
     %fieldset
       %legend
@@ -207,6 +198,11 @@
         Supporting evidence checklist
       #evidence-checklist
         = render 'evidence_checklist', f: f
+
+    %fieldset
+      = f.label t('.additional_information')
+      = f.text_area :additional_information, rows: 10
+      = validation_error_message(@claim, :additional_information)
 
     %p
       = f.submit t('.submit_to_laa'), class: 'button'

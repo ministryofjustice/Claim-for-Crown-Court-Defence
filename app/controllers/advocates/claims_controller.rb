@@ -55,7 +55,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     load_offences_and_case_types
     @disable_assessment_input = true
 
-    redirect_to advocates_claims_url, notice: 'Can only edit "draft" or "submitted" claims' unless @claim.editable?
+    redirect_to advocates_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
   end
 
   def confirmation; end
@@ -71,9 +71,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def update
+    update_source_for_api
     if @claim.update(claim_params)
       @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
+
       submit_if_required_and_redirect
     else
       render_edit_with_resources
@@ -303,6 +305,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     else
       @search_options = ['All', 'Defendant']
     end
+  end
+
+  def update_source_for_api
+    @claim.update(source: 'api_web_edited') if @claim.from_api?
   end
 
   def saving_to_draft?

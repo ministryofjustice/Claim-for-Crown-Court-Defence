@@ -409,6 +409,28 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     subject { create(:claim, advocate: advocate) }
 
     context 'when valid' do
+
+      context 'and editing an API created claim' do
+
+        before(:each) do
+          subject.update(source: 'api')
+        end
+
+        context 'and saving to draft' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+
+        context 'and submitted to LAA' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+      end
+
       context 'and saving to draft' do
         it 'updates a claim' do
           put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts'
@@ -420,6 +442,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           put :update, id: subject, claim: { additional_information: 'foo' }
           expect(response).to redirect_to(advocates_claims_path)
         end
+
       end
 
       context 'and submitted to LAA' do

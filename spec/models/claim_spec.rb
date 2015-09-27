@@ -1048,6 +1048,34 @@ RSpec.describe Claim, type: :model do
 
   end
 
+  describe '#amount_assessed' do
+    let!(:claim) do
+      claim = create(:paid_claim)
+      create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
+      create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+      claim
+    end
+
+    context 'when VAT applied' do
+      # VAT rate 17.5%
+
+      before do
+        claim.apply_vat = true
+        claim.save!
+      end
+
+      it 'should return the amount assessed from the last determination' do
+        expect(claim.amount_assessed).to eq(6.77)
+      end
+    end
+
+    context 'when VAT not applied' do
+      it 'should return the amount assessed from the last determination' do
+        expect(claim.amount_assessed).to eq(5.76)
+      end
+    end
+  end
+
   describe 'not saving the expenses model' do
     it 'should save the expenses model' do
       advocate = FactoryGirl.create :advocate

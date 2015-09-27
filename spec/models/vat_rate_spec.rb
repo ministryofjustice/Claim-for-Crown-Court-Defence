@@ -17,8 +17,6 @@ describe VatRate do
     @vr1 = FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
     @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
     @vr3 = FactoryGirl.create :vat_rate, effective_date: 10.years.ago, rate_base_points: 1750
-    # reload rates into the class variable to prevent stale rates from previous tests being used.
-    VatRate.load_rates
   end
 
   after(:all) do
@@ -44,7 +42,6 @@ describe VatRate do
       }.to raise_error VatRate::MissingVatRateError, "There is no VAT rate for date 28/07/1900"
     end
   end
-
 
   describe '.pretty_rate' do
     it 'should return 8% for dates between 1 and 3 years ago' do

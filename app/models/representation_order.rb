@@ -34,7 +34,7 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def detail
-    "#{self.granting_body} #{self.representation_order_date.strftime(Settings.date_format)} #{self.maat_reference}"
+    "#{self.granting_body} #{self.representation_order_date.try(:strftime, Settings.date_format)} #{self.maat_reference}".squish
   end
 
   def perform_validation?

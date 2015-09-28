@@ -17,7 +17,7 @@
           .message-column
             = f.input :body, :wrapper => false, placeholder: 'Enter your message', label: false
           .submit-column
-            = f.submit 'Send', class: 'button'
+            = f.submit 'Send', class: 'button button-secondary'
 
         - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
           .claim-action-dropdown

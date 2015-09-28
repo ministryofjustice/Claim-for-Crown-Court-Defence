@@ -140,8 +140,8 @@ When(/^I fill in the claim details$/) do
     fill_in 'claim_expenses_attributes_0_rate', with: 40
   end
 
-  within 'table#evidence-checklist' do
-    element = find('td label', text: "Representation Order")
+  within 'fieldset#evidence-checklist' do
+    element = find('div label', text: "Representation Order")
     checkbox_id = element[:for]
     check checkbox_id
   end

@@ -236,7 +236,6 @@ en:
       form:
         error: 'error'
         prohibited_save: 'prohibited this claim from being saved:'
-        section_one: 'Section 1:'
         case_advocate_offence: 'Case, Instructed Advocate & Offence'
         advocate: *advocate
         scheme: 'Scheme'
@@ -254,7 +253,6 @@ en:
         trial_concluded_at: 'Trial concluded on'
         defendants: 'Defendants'
         add_another_defendant: 'Add Another Defendant'
-        section_two: 'Section 2:'
         additional_information: 'Additional information'
         basic_fees: 'Initial Fees'
         fee_prompt_text: 'Manually enter the quantity and amount. Please see the relevant Fee Scheme Calculators for assistance in calculating individual amounts. see '

@@ -2,7 +2,17 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
   def defendant_names
-    claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
+    defendant_names = claim.defendants.order('id ASC').map(&:name)
+
+    h.capture do
+      defendant_names.each do |name|
+        h.concat(name)
+        unless name == defendant_names.last
+          h.concat(',')
+          h.concat(h.tag :br)
+        end
+      end
+    end
   end
 
   def submitted_at(options={})
@@ -79,7 +89,14 @@ class ClaimPresenter < BasePresenter
   end
 
   def representation_order_details
-    claim.defendants.map(&:representation_order_details).flatten.join('<br/>').html_safe
+    rep_order_details = claim.defendants.map(&:representation_order_details).flatten
+
+    h.capture do
+      rep_order_details.each do |details|
+        h.concat(details)
+        h.concat(h.tag :br) unless details == rep_order_details.last
+      end
+    end
   end
 
   def assessment_date

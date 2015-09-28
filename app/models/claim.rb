@@ -133,7 +133,7 @@ class Claim < ActiveRecord::Base
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :set_scheme, if: :perform_validation_or_not_api_draft?
+  before_validation :set_scheme, if: :scheme_required_or_forced?
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
   after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
@@ -240,35 +240,65 @@ class Claim < ActiveRecord::Base
   end
 
   def perform_validation?
-    self.force_validation? || not_loose_validation_draft_and_pending_delete?
+    self.force_validation? || self.validation_required?
   end
 
-  def perform_validation_or_not_api_draft?
-    self.force_validation? || not_loose_validation_draft_api_draft_and_pending_delete?
+  # TODO: remove/simplify comments
+  #
+  # We MUST perform validation if the claim is NOT:
+  # 1. web draft
+  # 2. api created but subsequently web edited draft
+  # 3. json import draft
+  # 4. archive pending delete claim
+  #
+  # OR, to put it another way,
+  #
+  # We MUST validate if the claim is being submitted to LAA (ie. NOT:
+  # 1. web draft save
+  # 2. api created but subsequently web edited draft save
+  # 3. json import draft save
+  # 4. archive pending delete claim??? - this should already have a scheme anyway
+  #
+  # OR, to put it another way
+  #
+  # we must validate unless it is being created as draft from any source except API or is a state of archive_pending_delete or deleted - I am surmising????
+
+  # def not_web_json_draft_or_archived?
+  def validation_required?
+    # ap "validation_required? #{from_api? || (!draft? && !archived_pending_delete? && !deleted?)} for #{self.state} claim from #{self.source}"
+    from_api? || (!draft? && !archived_pending_delete? && !deleted?)
   end
 
-  def not_loose_validation_draft_and_pending_delete?
-    !loose_validation_draft? && !archived_pending_delete?
+  def scheme_required_or_forced?
+    self.force_validation? || scheme_required?
   end
 
-  def not_loose_validation_draft_api_draft_and_pending_delete?
-    !loose_validation_draft? && !api_draft? && !archived_pending_delete?
+  def scheme_required?
+    validation_required? and !from_api?
   end
 
-  def web_draft?
-    draft? && source == 'web'
+  def from_api?
+    source == 'api'
+  end
+
+  def originally_from_api?
+    !source.match(/^api/).nil?
+  end
+
+  def api_web_edited?
+    source == 'api_web_edited'
+  end
+
+  def from_web?
+    source == 'web'
+  end
+
+  def from_json_import?
+    source == 'json_import'
   end
 
   def api_draft?
-    draft? && source == 'api'
-  end
-
-  def json_import_draft?
-    draft? && source == 'json_import'
-  end
-
-  def loose_validation_draft?
-    web_draft? || json_import_draft?
+    draft? && from_api?
   end
 
   def vat_date

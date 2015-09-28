@@ -626,6 +626,50 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '#validation_required?' do
+
+    let(:claim) { FactoryGirl.create(:claim, source: 'web') }
+
+    context 'should return false for' do
+      it 'draft claims submited by web app' do
+        expect(claim.validation_required?).to eq false
+      end
+
+      it 'draft claims submitted by json importer' do
+        claim.source = 'json_import'
+        expect(claim.validation_required?).to eq false
+      end
+
+      it 'archived_pending_delete claims' do
+        claim.archive_pending_delete!
+        expect(claim.validation_required?).to eq false
+      end
+
+      it 'deleted claims' do
+        # NOTE: there is no state machine transition mechanism to deleted state (delete! would clash with rails??)
+        claim.state = 'deleted'
+        expect(claim.validation_required?).to eq false
+      end
+    end
+
+    context 'should return true for' do
+      it 'draft claims submitted by the API' do
+        claim.source = 'api'
+        expect(claim.validation_required?).to eq true
+      end
+
+      it 'claims in any state other than draft, archived_pending_delete or deleted' do
+        states = Claim.state_machine.states.map(&:name)
+        states = states.map { |s| if not [:draft,:deleted,:archived_pending_delete].include?(s) then s; end; }.compact
+        states.each do | state |
+          claim.state = state
+          expect(claim.validation_required?).to eq true
+        end
+      end
+    end
+
+  end
+
   describe '#transition_state' do
     it 'should call pay! if paid' do
       expect(subject).to receive(:pay!)

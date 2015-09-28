@@ -159,11 +159,6 @@ Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with 
   end
 end
 
-Then(/^I should only see (\d+) "(.*?)" claims listed$/) do |number, state|
-  save_and_open_page
-  pending # express the regexp above with the code you wish you had
-end
-
 Then(/^I should see my chamber's claims$/) do
   chamber = Chamber.first
   claim_dom_ids = chamber.claims.map { |c| "claim_#{c.id}" }

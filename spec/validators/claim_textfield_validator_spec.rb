@@ -19,7 +19,13 @@ describe ClaimTextfieldValidator do
 
 context '#perform_validation?' do
 
-    let(:claim_with_nil_values) { nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length) }
+    let(:claim_with_nil_values) do
+      nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length) 
+      claim.defendants.destroy_all
+      claim.fees.destroy_all
+      claim.expenses.destroy_all
+      claim
+    end
 
     context 'when claim is draft' do
 
@@ -53,16 +59,27 @@ context '#perform_validation?' do
       end
     end
 
-    context 'when claim is not draft' do
+    context 'when claim is NOT draft' do
 
       before(:each) do
         claim.force_validation=false
-        claim.submit!
       end
 
-      it 'should error on any state-conditional validations (non-exhaustive test)' do
-        nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
-        expect(claim).to_not be_valid
+      context 'a submitted claim' do
+        before { claim.submit! }
+        it 'should error on any state-conditional validations (non-exhaustive test)' do
+          nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
+          expect(claim).to_not be_valid
+        end
+      end
+
+      context 'an archived_pending_delete claim' do
+        before { claim.archive_pending_delete! }
+        it 'should NOT validate presence of case_type, court, case_number, advocate_category, offence' do
+          nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
+          expect(claim).to be_valid
+        end
+
       end
     end
 

@@ -73,7 +73,6 @@ class ClaimDateValidator < BaseClaimValidator
   # cannot be more than 5 years in sthe past
   def validate_trial_concluded_at
     validate_presence(:trial_concluded_at, "Please enter a valid date for date trial concluded") if @record.try(:case_type).try(:requires_trial_dates?)
-    validate_not_after(@record.trial_concluded_at, :first_day_of_trial, "First day of trial must not be after date trial concluded")
     validate_not_before(@record.first_day_of_trial, :trial_concluded_at, "Date trial concluded must not be before first day of trial")
     validate_not_before(earliest_rep_order, :trial_concluded_at, "Date trial concluded must not be earlier than the first representation order date")
     validate_not_before(Settings.earliest_permitted_date, :trial_concluded_at, "Date trial concluded must not be more than #{Settings.earliest_permitted_date_in_words}")

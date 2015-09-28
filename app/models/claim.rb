@@ -243,29 +243,8 @@ class Claim < ActiveRecord::Base
     self.force_validation? || self.validation_required?
   end
 
-  # TODO: remove/simplify comments
-  #
-  # We MUST perform validation if the claim is NOT:
-  # 1. web draft
-  # 2. api created but subsequently web edited draft
-  # 3. json import draft
-  # 4. archive pending delete claim
-  #
-  # OR, to put it another way,
-  #
-  # We MUST validate if the claim is being submitted to LAA (ie. NOT:
-  # 1. web draft save
-  # 2. api created but subsequently web edited draft save
-  # 3. json import draft save
-  # 4. archive pending delete claim??? - this should already have a scheme anyway
-  #
-  # OR, to put it another way
-  #
-  # we must validate unless it is being created as draft from any source except API or is a state of archive_pending_delete or deleted - I am surmising????
-
-  # def not_web_json_draft_or_archived?
+  # we must validate unless it is being created as draft from any source except API or is in state of archive_pending_delete or deleted
   def validation_required?
-    # ap "validation_required? #{from_api? || (!draft? && !archived_pending_delete? && !deleted?)} for #{self.state} claim from #{self.source}"
     from_api? || (!draft? && !archived_pending_delete? && !deleted?)
   end
 

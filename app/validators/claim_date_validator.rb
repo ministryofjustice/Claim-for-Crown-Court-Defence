@@ -27,7 +27,6 @@ class ClaimDateValidator < BaseClaimValidator
     validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "Date notice of first fixed/warned issued may not be earlier than the first representation order date")
   end
 
-
   # required when case type is cracked, cracked before retrieal
   # cannot be in the future
   # cannot be before earliest rep order
@@ -54,7 +53,6 @@ class ClaimDateValidator < BaseClaimValidator
     validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, "Date case cracked may not be earlier than the date notice of first fixed/warned issued")
   end
 
-
   # cannot be in the future
   # must be less than or equal to last day of trial
   # cannot be before first rep order date
@@ -66,7 +64,6 @@ class ClaimDateValidator < BaseClaimValidator
     validate_not_before(Settings.earliest_permitted_date, :first_day_of_trial, "First day of trial must not be more than #{Settings.earliest_permitted_date_in_words}")
   end
 
-
   # cannot be in the future
   # cannot be before the first day of trial
   # cannot be before the first rep order was granted
@@ -77,10 +74,6 @@ class ClaimDateValidator < BaseClaimValidator
     validate_not_before(earliest_rep_order, :trial_concluded_at, "Date trial concluded must not be earlier than the first representation order date")
     validate_not_before(Settings.earliest_permitted_date, :trial_concluded_at, "Date trial concluded must not be more than #{Settings.earliest_permitted_date_in_words}")
   end
-
-
-
-  
 
   def earliest_rep_order
     @record.try(:earliest_representation_order).try(:representation_order_date)

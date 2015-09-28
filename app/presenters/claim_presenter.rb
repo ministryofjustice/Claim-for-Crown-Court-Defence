@@ -45,6 +45,14 @@ class ClaimPresenter < BasePresenter
     h.number_to_currency(claim.total)
   end
 
+  def amount_assessed
+    if claim.assessment.present?
+      h.number_to_currency(claim.amount_assessed)
+    else
+      '-'
+    end
+  end
+
   def total_inc_vat
     h.number_to_currency(claim.total + claim.vat_amount)
   end

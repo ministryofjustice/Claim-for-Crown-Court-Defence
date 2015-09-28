@@ -152,4 +152,22 @@ RSpec.describe ClaimPresenter do
     claim.case_workers << FactoryGirl.build(:case_worker, user: FactoryGirl.build(:user, first_name: "Louis", last_name: 'Pasteur'))
     expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
   end
+
+  describe '#amount_assessed' do
+    context 'when assessment present' do
+      before do
+        create(:assessment, claim: claim, fees: 100, expenses: 20.43)
+      end
+
+      it 'display a currency formatted amount assessed' do
+        expect(subject.amount_assessed).to eq('£120.43')
+      end
+    end
+
+    context 'when no assessment present' do
+      it 'displays "-"' do
+        expect(subject.amount_assessed).to eq('-')
+      end
+    end
+  end
 end

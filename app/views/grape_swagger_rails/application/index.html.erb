@@ -7,7 +7,6 @@
   <!-- <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/> -->
   <%= stylesheet_link_tag 'grape_swagger_rails/application.css' %>
   <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= stylesheet_link_tag 'grape_swagger_rails/custom.css' %>
   <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
   <%= javascript_include_tag "application" %>
 
@@ -154,7 +153,9 @@
   </div>
   <!--end global-header-bar-->
 
+
   <div class="outer-block">
+
     <div id="primary-nav-bar">
       <% if user_signed_in? %>
         <nav id="primary-nav" role="navigation">
@@ -179,17 +180,19 @@
           <% else %>
             <%= "Error" %>
           <% end %>
-          <div id="user_links">
+        </nav>
+        <div id='user_links'>
             <strong>
               <%= "Signed in as:" %>
               <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
               <%#= Sign out will not work unless authentication is plugged in %>
               <%#= link_to 'Sign out', '/users/sign_out', method: :delete %>
             </strong>
-          </div>
-        </nav>
+        </div>
       <% end %>
     </div>
+    <!-- end nav bar-->
+
     <div class="phase-banner">
       <p>
         <strong class="phase-tag">
@@ -202,6 +205,8 @@
       </span>
       </p>
     </div>
+    <!-- end phase banner -->
+
     <div class="container">
       <main class="main-content">
       <h1 class='page-title'>Interactive API Documentation</h2>
@@ -212,6 +217,27 @@
         </div>
       </main>
     </div>
+    <!-- end content -->
+
+    <footer class="group js-footer" id="footer" role="contentinfo">
+
+      <div class="footer-wrapper">
+        <%= yield :footer_top %>
+
+        <div class="footer-meta">
+          <div class="footer-meta-inner">
+            <%= yield :footer_support_links %>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--end footer-->
+
+    <div id="global-app-error" class="app-error hidden"></div>
+
+    <%= yield :body_end %>
+
   </div>
 
 </body>

@@ -15,6 +15,7 @@ adp.dropzone = {
       url: "/documents",
       addRemoveLinks: true,
       maxFilesize: 20,
+      previewTemplate: adp.dropzone.$target.data('dz-template'),
       paramName: "document[document]",
       createImageThumbnails: false,
       headers: { "X-CSRF-Token" : $('meta[name="csrf-token"]').attr('content') },

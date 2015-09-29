@@ -20,7 +20,7 @@ describe ClaimTextfieldValidator do
 context '#perform_validation?' do
 
     let(:claim_with_nil_values) do
-      nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length) 
+      nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
       claim.defendants.destroy_all
       claim.fees.destroy_all
       claim.expenses.destroy_all
@@ -297,7 +297,7 @@ context '#perform_validation?' do
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
-      claim.evidence_checklist_ids = ['10','2',' ']
+      claim.evidence_checklist_ids = ['9','2',' ']
       should_not_error(claim,:evidence_checklist_ids)
     end
 

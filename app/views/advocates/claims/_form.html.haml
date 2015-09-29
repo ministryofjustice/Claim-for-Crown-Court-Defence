@@ -177,20 +177,39 @@
         - @claim.documents.each do |document|
           = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
-      %div{class: 'dropzone', style: 'border: 2px dashed black; padding: 30px; width: 100%; margin-bottom: 20px;'}
-        %div{class: 'dz-default dz-message'}
-          Click or drag and drop files here to upload
+      %div{class: 'dropzone', data: {'dz-template' => render('shared/dropzone_js')}}
+        %div.dz-default.dz-message.grid-row
+          .column-third
+            &nbsp;
+          .column-third.drag-helptext
+            %span.normal="Drag and drop files here"
+            %br
+            %span.bold-normal= "or"
+            %br
+            %div.button-secondary
+              Choose a file
+          .column-third
+            &nbsp;
 
       - if @claim.documents.count > 0
         %legend
           = t('.previously_uploaded_docs')
 
-          %ul.previously-uploaded
-            - @claim.documents.order(created_at: :asc).each do |document|
-              %li{id: dom_id(document)}
-                = document.document_file_name
-                = link_to 'Download', download_document_path(document), class: 'download'
-                = link_to 'Remove', document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+          %table
+            %thead
+              %th
+                = "File name"
+              %th
+                = "Action"
+            %tbody
+              - @claim.documents.order(created_at: :asc).each do |document|
+                %tr{id: dom_id(document)}
+                  %td
+                    = document.document_file_name
+                  %td
+                    = link_to 'Download', download_document_path(document), class: 'download'
+                    = " | "
+                    = link_to 'Remove', document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
 
 
     %fieldset{id: 'evidence-checklist'}

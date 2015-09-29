@@ -120,3 +120,29 @@ Then(/^I should see the admin caseworkers Admin link and it should work$/) do
   find('#primary-nav').click_link('Admin')
   expect(find('h1.page-title')).to have_content('Administration')
 end
+
+When(/^I enter my email and the wrong password (\d+) times$/) do |attempts|
+  attempts.to_i.times do
+    fill_in 'Email', with: (@user || User.first).email
+    fill_in 'Password', with: 'non-existent-password'
+    click_on 'Sign in'
+    expect(page).to have_content('Sign in')
+  end
+end
+
+Then(/^I should no longer be able to sign in$/) do
+  fill_in 'Email', with: (@user || User.first).email
+  fill_in 'Password', with: @password || 'password'
+  click_on 'Sign in'
+  expect(page).to have_content('Sign in')
+  expect(User.first.locked_at).to be > 5.minutes.ago
+end
+
+When(/^the (\d+) minute lockout duration has expired then I should be able to sign in again$/) do |duration|
+  Timecop.freeze(duration.to_i.minutes.from_now) do
+    fill_in 'Email', with: (@user || User.first).email
+    fill_in 'Password', with: @password || 'password'
+    click_on 'Sign in'
+    expect(page).to have_content('Sign out')
+  end
+end

@@ -128,8 +128,6 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
         end
-        # TODO - to be removed
-        # it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'You must enter a quantity between 1 and 3 for plea and case management hearings for this case type')}
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quantity for plea and case management hearing cannot be greater than 3') }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }

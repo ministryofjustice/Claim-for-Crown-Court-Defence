@@ -15,7 +15,7 @@ RSpec.describe ClaimPresenter do
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br>John Robert Smith,<br>Adam Smith")
+    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br />John Robert Smith,<br />Adam Smith")
   end
 
   it '#submitted_at' do
@@ -143,7 +143,7 @@ RSpec.describe ClaimPresenter do
         defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrates' Court", maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrates' Court 13/08/2015 abc1234<br/>Magistrates' Court 01/03/2015 xyz4321" )
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br />Magistrates&#39; Court 13/08/2015 abc1234<br />Magistrates&#39; Court 01/03/2015 xyz4321" )
     end
   end
 
@@ -151,5 +151,23 @@ RSpec.describe ClaimPresenter do
     claim.case_workers << FactoryGirl.build(:case_worker, user: FactoryGirl.build(:user, first_name: "Alexander", last_name: 'Bell'))
     claim.case_workers << FactoryGirl.build(:case_worker, user: FactoryGirl.build(:user, first_name: "Louis", last_name: 'Pasteur'))
     expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
+  end
+
+  describe '#amount_assessed' do
+    context 'when assessment present' do
+      before do
+        create(:assessment, claim: claim, fees: 100, expenses: 20.43)
+      end
+
+      it 'display a currency formatted amount assessed' do
+        expect(subject.amount_assessed).to eq('£120.43')
+      end
+    end
+
+    context 'when no assessment present' do
+      it 'displays "-"' do
+        expect(subject.amount_assessed).to eq('-')
+      end
+    end
   end
 end

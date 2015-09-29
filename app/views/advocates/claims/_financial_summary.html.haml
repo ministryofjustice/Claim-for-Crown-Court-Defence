@@ -13,6 +13,6 @@
       %div.bold-large
         = number_to_currency(financial_summary.total_authorised_claim_value)
       %p
-        = "for this week (includes VAT where applicable)"
+        for this week (inc. VAT)
         %br
         = link_to t('.view_details'), authorised_advocates_claims_path, id: "authorised_claim_details"

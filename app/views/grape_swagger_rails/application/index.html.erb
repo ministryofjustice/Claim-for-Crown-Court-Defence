@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><!--<![endif]-->
 <html data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>">
 <head>
   <title><%= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title>
@@ -8,6 +10,10 @@
   <%= stylesheet_link_tag 'grape_swagger_rails/custom.css' %>
   <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
   <%= javascript_include_tag "application" %>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title><%= content_for?(:page_title) ? yield(:page_title) : "Ministry of Justice" %></title>
 
     <script type="text/javascript">
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
@@ -35,6 +41,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:image" content="<%= asset_path "opengraph-image.png" %>">
+
+    <%= yield :head %>
 
   <script type="text/javascript">
   $(function () {
@@ -86,7 +94,7 @@
   </script>
 </head>
 
-<body class="swagger-section">
+<body class="swagger-section" <%= content_for?(:body_classes) ? raw(" class=\"#{yield(:body_classes)}\"") : '' %>>
   <script type="text/javascript">document.body.className = 'js-enabled ' + document.body.className;</script>
 
   <div id="skiplink-container">
@@ -98,28 +106,53 @@
   <div id="global-cookie-message">
     <div class="outer-block">
       <div class="inner-block">
+        <% if content_for?(:cookie_message) %>
+          <%= yield :cookie_message %>
+        <% else %>
           <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
+        <% end %>
       </div>
     </div>
   </div>
   <!--end global-cookie-message-->
 
-  <header role="banner" id="global-header" class="">
+  <% unless @omit_header %>
+  <header role="banner" id="global-header" class="<%= yield(:header_class) %>">
     <div class="header-wrapper">
       <div class="header-global">
         <div class="header-logo">
           <div id="logo">
-            <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
+            <% if @disable_logo_link -%>
+              <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
+            <% else -%>
+              <a href="/" title="Go to the homepage">
+                <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
+              </a>
+             <% end -%>
           </div>
         </div>
         <div class="header-app-name">
-          Advocate Defence Payments
+          <%= content_for?(:header_app_name) ? yield(:header_app_name) : 'Advocate Defence Payments' %>
         </div>
         <div id="log-in-out">
+          <%= yield :log_in_out %>
         </div>
+        <%= yield :inside_header %>
       </div>
     </div>
   </header>
+  <!--end header-->
+  <% end %>
+
+
+  <%= yield :after_header %>
+
+  <div id="global-header-bar">
+    <div class="inner-block">
+      <div class="header-bar"></div>
+    </div>
+  </div>
+  <!--end global-header-bar-->
 
   <div class="outer-block">
     <div id="primary-nav-bar">
@@ -171,6 +204,7 @@
     </div>
     <div class="container">
       <main class="main-content">
+      <h1 class='page-title'>Interactive API Documentation</h2>
         <div id="message-bar" class="swagger-ui-wrap">
           &nbsp;
         </div>

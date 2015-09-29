@@ -47,4 +47,25 @@ class Document < ActiveRecord::Base
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
+
+  validate :documents_count
+
+  private
+
+  def documents_count
+    count = Document.where(form_id: self.form_id).count
+
+    if count >= Settings.max_document_upload_count
+      errors.add(:document, "Total documents exceed maximum of #{Settings.max_document_upload_count}. This document has not been uploaded.")
+    end
+  end
+
+  def documents_upload_size
+    total_upload_size = Document.where(form_id: self.form_id).map { |d| d.document_file_size }.sum
+    total_upload_size_in_mb = total_upload_size.to_f / (1000*1000)
+
+    if total_upload_size_in_mb > Settings.max_document_upload_size_mb
+      errors.add(:document, "Total documents exceeded maximum upload size of #{total_upload_size_in_mb}MB. This document has not been uploaded.")
+    end
+  end
 end

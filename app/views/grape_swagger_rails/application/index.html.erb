@@ -2,12 +2,40 @@
 <html data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>">
 <head>
   <title><%= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title>
-  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <!-- <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/> -->
   <%= stylesheet_link_tag 'grape_swagger_rails/application.css' %>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= stylesheet_link_tag 'grape_swagger_rails/custom.css' %>
   <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
   <%= javascript_include_tag "application" %>
+
+    <script type="text/javascript">
+      (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
+    </script>
+
+    <!--[if gt IE 8]><!--><link href="<%= asset_path "moj-internal.css" %>" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+    <!--[if IE 6]><link href="<%= asset_path "moj-internal-ie6.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="<%= asset_path "moj-internal-ie7.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 8]><link href="<%= asset_path "moj-internal-ie8.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="<%= asset_path "ie.js" %>" type="text/javascript"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="<%= asset_path 'favicon.ico' %>" type="image/x-icon" />
+
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= asset_path "apple-touch-icon-144x144.png" %>">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= asset_path "apple-touch-icon-114x114.png" %>">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= asset_path "apple-touch-icon-72x72.png" %>">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="<%= asset_path "apple-touch-icon-57x57.png" %>">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="<%= asset_path "opengraph-image.png" %>">
+
   <script type="text/javascript">
   $(function () {
     var options = $("html").data('swagger-options');
@@ -59,24 +87,40 @@
 </head>
 
 <body class="swagger-section">
+  <script type="text/javascript">document.body.className = 'js-enabled ' + document.body.className;</script>
+
+  <div id="skiplink-container">
+    <div>
+      <a href="#content" class="skiplink">Skip to main content</a>
+    </div>
+  </div>
+
+  <div id="global-cookie-message">
+    <div class="outer-block">
+      <div class="inner-block">
+          <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
+      </div>
+    </div>
+  </div>
+  <!--end global-cookie-message-->
+
   <header role="banner" id="global-header" class="">
     <div class="header-wrapper">
       <div class="header-global">
         <div class="header-logo">
           <div id="logo">
-              <img class="content" width="36" height="246" alt="Ministry of Justice" src="../assets/moj_logo_horizontal_36x246.png" />
+            <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
           </div>
         </div>
         <div class="header-app-name">
           Advocate Defence Payments
         </div>
         <div id="log-in-out">
-          
         </div>
-        
       </div>
     </div>
   </header>
+
   <div class="outer-block">
     <div id="primary-nav-bar">
       <% if user_signed_in? %>

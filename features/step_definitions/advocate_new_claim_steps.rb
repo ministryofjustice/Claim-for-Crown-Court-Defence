@@ -94,7 +94,7 @@ When(/^I fill in the certification details and submit/) do
   click_on 'Certify and Submit Claim'
 end
 
-When(/^I fill in the claim details$/) do
+When(/^I fill in the claim details(.*)$/) do |details|
   select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')
   fill_in 'claim_case_number', with: 'A12345678'
@@ -126,18 +126,20 @@ When(/^I fill in the claim details$/) do
     choose 'Crown Court'
   end
 
-  within '#basic-fees' do
-    fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_0_amount', with: 50
-    fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
-    fill_in 'claim_basic_fees_attributes_1_amount', with: 50
-  end
+  unless details == ' but add no fees or expenses' # preceeding space is required for match
+    within '#basic-fees' do
+      fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
+      fill_in 'claim_basic_fees_attributes_0_amount', with: 50
+      fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
+      fill_in 'claim_basic_fees_attributes_1_amount', with: 50
+    end
 
-  within '#expenses' do
-    select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
-    fill_in 'claim_expenses_attributes_0_location', with: 'London'
-    fill_in 'claim_expenses_attributes_0_quantity', with: 1
-    fill_in 'claim_expenses_attributes_0_rate', with: 40
+    within '#expenses' do
+      select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
+      fill_in 'claim_expenses_attributes_0_location', with: 'London'
+      fill_in 'claim_expenses_attributes_0_quantity', with: 1
+      fill_in 'claim_expenses_attributes_0_rate', with: 40
+    end
   end
 
   within 'table#evidence-checklist' do
@@ -157,6 +159,10 @@ end
 
 When(/^I save to drafts$/) do
   click_on 'Save to drafts'
+end
+
+Then(/^the claim should be saved in draft state$/) do
+  expect(Claim.where(state: 'draft').count).to eq 1
 end
 
 Then(/^I should be redirected to the claim confirmation page$/) do
@@ -276,8 +282,8 @@ Then(/^I should not see errors$/) do
   expect(page).not_to have_content(/\d+ errors? prohibited this claim from being saved/)
 end
 
-Then(/^no claim should be created$/) do
-  expect(Claim.count).to be_zero
+Then(/^no claim should be submitted$/) do
+  expect(Claim.where(state: 'submitted').count).to be_zero
 end
 
 When(/^I change the case number$/) do

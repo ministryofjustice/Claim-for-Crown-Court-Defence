@@ -193,6 +193,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         let(:offence)       { create(:offence) }
         let(:scheme)        { create(:scheme) }
         let(:case_type)     { create(:case_type) }
+        let(:expense_type)  { create(:expense_type) }
         let(:claim_params) do
           {
             additional_information: 'foo',
@@ -201,6 +202,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             offence_id: offence,
             case_number: 'A12345678',
             advocate_category: 'QC',
+            expenses_attributes:
+              [
+                { 
+                  expense_type_id: expense_type.id,
+                  location: "London",
+                  quantity: 1,
+                  rate: 40
+                }
+              ],
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',

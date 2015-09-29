@@ -33,5 +33,3 @@ class ClaimSubModelValidator < BaseClaimValidator
   end
 
 end
-
-

@@ -6,6 +6,4 @@ class ActiveModel::Errors
    self.values.flatten
   end
 
-
-
 end

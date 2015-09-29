@@ -11,7 +11,7 @@ describe API::V1::Advocates::DateAttended do
   ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:fee)                { create(:fee, :from_api, id: 1) }
+  let!(:fee)                { create(:fee, :from_api) }
   let!(:valid_params)       { {attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
 
   context 'when sending non-permitted verbs' do

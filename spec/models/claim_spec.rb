@@ -491,11 +491,12 @@ RSpec.describe Claim, type: :model do
   end
 
   context 'fees total' do
-    let(:basic_fee) { create(:fee_type, :basic) }
-    let(:fixed_fee) { create(:fee_type, :fixed) }
-    let(:misc_fee)  { create(:fee_type, :misc)  }
+    let(:basic_fee)           { create(:fee_type, :basic) }
+    let(:fixed_fee)           { create(:fee_type, :fixed) }
+    let(:misc_fee)            { create(:fee_type, :misc)  }
 
     before do
+      subject.fees.destroy_all
       create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 4.00)
       create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 3.00)
       create(:fee, fee_type: fixed_fee, claim_id: subject.id, amount: 0.50)
@@ -527,7 +528,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates total when claim fee destroyed' do
-        fee = subject.fees.second # NOTE: first fee will be the one instantiated to nil, so ignore it
+        fee = subject.fees.first
         fee.destroy
         subject.reload
         expect(subject.fees_total).to eq(4.0)
@@ -573,6 +574,7 @@ RSpec.describe Claim, type: :model do
     let(:fee_type) { create(:fee_type) }
 
     before do
+      subject.fees.destroy_all
       create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 3.00)
       create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
       create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.00)
@@ -838,7 +840,9 @@ RSpec.describe Claim, type: :model do
       claims = []
 
       [400, 10_000, 566, 1_000].each do |value|
-        claims << create(:submitted_claim, total: value)
+        claim = create(:submitted_claim)
+        claim.fees << create(:fee, amount: value, claim: claim)
+        claims << claim
       end
 
       claims

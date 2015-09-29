@@ -4,26 +4,26 @@ RSpec.describe Claims::FinancialSummary, type: :model do
   # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do
-    let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
-    let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
+    let!(:submitted_claim)  { create(:submitted_claim) }
+    let!(:allocated_claim)  { create(:allocated_claim) }
 
     let!(:old_part_paid_claim) do
       Timecop.freeze(Time.now - 1.week) do
-        claim = create(:part_paid_claim, total: 165)
-        create(:assessment, claim: claim, fees: 50, expenses: 35)
+        claim = create(:part_paid_claim)
+        create(:assessment, claim: claim, fees: claim.fees_total/2, expenses: claim.expenses_total)
         claim
       end
     end
 
     let!(:part_paid_claim) do
-      claim = create(:part_paid_claim, total: 211)
-      create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
+      claim = create(:part_paid_claim)
+      create(:assessment, claim: claim, fees: claim.fees_total/2, expenses: claim.expenses_total)
       claim
     end
 
     let!(:paid_claim) do
-      claim = create(:paid_claim, total: 89)
-      create(:assessment, claim: claim, fees: 40, expenses: 49)
+      claim = create(:paid_claim)
+      create(:assessment, claim: claim, fees: claim.fees_total, expenses: claim.expenses_total)
       claim
     end
 
@@ -47,13 +47,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
         end
 
         it 'calculates the value of outstanding claims' do
-          expect(subject.total_outstanding_claim_value).to eq(177.89)
+          expect(subject.total_outstanding_claim_value).to eq(543.75)
         end
       end
 
       context 'claim without VAT applied' do
         it 'calculates the value of outstanding claims' do
-          expect(subject.total_outstanding_claim_value).to eq(159.77)
+          expect(subject.total_outstanding_claim_value).to eq(500.00)
         end
       end
     end
@@ -66,13 +66,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
         end
 
         it 'calculates the value of authorised claims since the beginning of the week' do
-          expect(subject.total_authorised_claim_value).to eq(102.56)
+          expect(subject.total_authorised_claim_value).to eq(396.88)
         end
       end
 
       context 'when no claim with VAT applied present' do
         it 'calculates the value of authorised claims since the beginning of the week' do
-          expect(subject.total_authorised_claim_value).to eq(100.54)
+          expect(subject.total_authorised_claim_value).to eq(375.0)
         end
       end
     end
@@ -129,13 +129,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
         end
 
         it 'calculates the value of outstanding claims' do
-          expect(subject.total_outstanding_claim_value).to eq(177.89)
+          expect(subject.total_outstanding_claim_value).to eq(543.75)
         end
       end
 
       context 'claim without VAT applied' do
         it 'calculates the value of outstanding claims' do
-          expect(subject.total_outstanding_claim_value).to eq(159.77)
+          expect(subject.total_outstanding_claim_value).to eq(500.0)
         end
       end
     end

@@ -8,7 +8,8 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :offence,
     :estimated_trial_length,
     :actual_trial_length,
-    :trial_cracked_at_third
+    :trial_cracked_at_third,
+    :total
   ]
 
   @@mandatory_fields = [
@@ -28,6 +29,17 @@ class ClaimTextfieldValidator < BaseClaimValidator
   end
 
   private
+
+  def validate_total
+    if @record.persisted? && @record.source != 'api'
+      validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
+    elsif @record.source != 'api'
+      @record.force_validation = false # prevent this validation being called reursively
+      @record.save # trigger total update
+      validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
+      @record.force_validation = true # ensure the remaining validations are called
+    end
+  end
 
   # ALWAYS required/mandatory
   def validate_advocate
@@ -129,6 +141,10 @@ end
 
 def cracked_case?
   @record.case_type.name.match(/[Cc]racked/) rescue false
+end
+
+def has_fees_or_expenses_attributes?
+  (@record.fixed_fees.present? || @record.misc_fees.present?) || (@record.basic_fees.present? || @record.expenses.present?)
 end
 
 end

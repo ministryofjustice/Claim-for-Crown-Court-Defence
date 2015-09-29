@@ -7,6 +7,7 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= stylesheet_link_tag 'grape_swagger_rails/custom.css' %>
   <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
+  <%= javascript_include_tag "application" %>
   <script type="text/javascript">
   $(function () {
     var options = $("html").data('swagger-options');
@@ -63,7 +64,7 @@
       <div class="header-global">
         <div class="header-logo">
           <div id="logo">
-              <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png" />
+              <img class="content" width="36" height="246" alt="Ministry of Justice" src="../assets/moj_logo_horizontal_36x246.png" />
           </div>
         </div>
         <div class="header-app-name">
@@ -78,19 +79,51 @@
   </header>
   <div class="outer-block">
     <div id="primary-nav-bar">
-    nav bar placholder
+      <% if user_signed_in? %>
+        <nav id="primary-nav" role="navigation">
+          <% if current_user.persona.is_a?(Advocate) %>
+            <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} Claims", '/advocates' %>
+            <%= link_to "Archive", '/advocates/claims/archived', title: "View archived claims"   %>
+            <% if Rails.host.api_sandbox? %>
+              <%= link_to "API Documentation", api_landing_page_path %>
+            <% end %>
+            <%= link_to "New Claim", '/advocates/claims/new', title: "Start a new claim" %>
+            <% if current_user.persona.admin? %>
+              <%= link_to 'Admin', '/advocates/admin/advocates' %>
+            <% end %>
+          <% elsif current_user.persona.is_a?(CaseWorker) %>
+            <% if current_user.persona.admin? %>
+              <%= link_to 'Summary', '/case_workers/admin' %>
+              <%= link_to "Allocation", '/case_workers/admin/allocations' %>
+              <%= link_to 'Admin', '/case_workers/admin/case_workers' %>
+            <% else %>
+              <%= link_to 'Home', '/case_workers' %>
+            <% end %>
+          <% else %>
+            <%= "Error" %>
+          <% end %>
+          <div id="user_links">
+            <strong>
+              <%= "Signed in as:" %>
+              <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
+              <%#= Sign out will not work unless authentication is plugged in %>
+              <%#= link_to 'Sign out', '/users/sign_out', method: :delete %>
+            </strong>
+          </div>
+        </nav>
+      <% end %>
     </div>
     <div class="phase-banner">
       <p>
         <strong class="phase-tag">
-          <!-- <%#= config_item(:phase) %> -->
+          ALPHA
         </strong>
-      </p>
       <span>
         This is a new service – your
         <a href="#">feedback</a>
         will help us to improve it.
       </span>
+      </p>
     </div>
     <div class="container">
       <main class="main-content">

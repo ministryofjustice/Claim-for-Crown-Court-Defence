@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><!--<![endif]-->
+<html data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>">
+<head>
+  <!-- <title><%#= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title> -->
+  <!-- <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/> -->
+  <%= stylesheet_link_tag 'grape_swagger_rails/application.css' %>
+  <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title><%= content_for?(:page_title) ? yield(:page_title) : "Ministry of Justice" %></title>
+
+    <script type="text/javascript">
+      (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
+    </script>
+
+    <!--[if gt IE 8]><!--><link href="<%= asset_path "moj-internal.css" %>" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+    <!--[if IE 6]><link href="<%= asset_path "moj-internal-ie6.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="<%= asset_path "moj-internal-ie7.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 8]><link href="<%= asset_path "moj-internal-ie8.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="<%= asset_path "ie.js" %>" type="text/javascript"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="<%= asset_path 'favicon.ico' %>" type="image/x-icon" />
+
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= asset_path "apple-touch-icon-144x144.png" %>">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= asset_path "apple-touch-icon-114x114.png" %>">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= asset_path "apple-touch-icon-72x72.png" %>">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="<%= asset_path "apple-touch-icon-57x57.png" %>">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="<%= asset_path "opengraph-image.png" %>">
+
+    <%= yield :head %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  <script type="text/javascript">
+  $(function () {
+    var options = $("html").data('swagger-options');
+
+    window.swaggerUi = new SwaggerUi({
+      url: options.app_url + options.url,
+      dom_id:"swagger-ui-container",
+      supportHeaderParams: true,
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      onComplete: function(swaggerApi, swaggerUi){
+        if('console' in window) {
+          console.log("Loaded ADP SwaggerUI")
+          console.log(swaggerApi);
+          console.log(swaggerUi);
+        }
+        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+      },
+      onFailure: function(data) {
+        if('console' in window) {
+          console.log("Unable to Load ADP SwaggerUI");
+          console.log(data);
+        }
+      },
+      docExpansion: "none"
+    });
+
+    $('#input_apiKey').change(function() {
+      var key = $('#input_apiKey')[0].value;
+
+      if(key && key.trim() != "") {
+        if (options.api_auth == 'basic') {
+          key = "Basic " + Base64.encode(key);
+        } else if (options.api_auth == 'bearer') {
+          key = "Bearer " + key
+        }
+        window.authorizations.add("key", new ApiKeyAuthorization(options.api_key_name, key, options.api_key_type));
+      } else {
+        window.authorizations.add("key", null);
+      }
+    });
+
+    <% GrapeSwaggerRails.options.headers.each_pair do |key, value| %>
+      <%= raw "window.authorizations.add('key', new ApiKeyAuthorization('#{CGI.escapeHTML(key)}', '#{CGI.escapeHTML(value)}', 'header'));" %>
+    <% end %>
+
+    window.swaggerUi.load();
+  });
+  </script>
+</head>
+
+<body class="swagger-section" <%= content_for?(:body_classes) ? raw(" class=\"#{yield(:body_classes)}\"") : '' %>>
+  <script type="text/javascript">document.body.className = 'js-enabled ' + document.body.className;</script>
+
+  <div id="skiplink-container">
+    <div>
+      <a href="#content" class="skiplink">Skip to main content</a>
+    </div>
+  </div>
+
+  <div id="global-cookie-message">
+    <div class="outer-block">
+      <div class="inner-block">
+        <% if content_for?(:cookie_message) %>
+          <%= yield :cookie_message %>
+        <% else %>
+          <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!--end global-cookie-message-->
+
+  <% unless @omit_header %>
+  <header role="banner" id="global-header" class="<%= yield(:header_class) %>">
+    <div class="header-wrapper">
+      <div class="header-global">
+        <div class="header-logo">
+          <div id="logo">
+            <% if @disable_logo_link -%>
+              <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
+            <% else -%>
+              <a href="/" title="Go to the homepage">
+                <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png">
+              </a>
+             <% end -%>
+          </div>
+        </div>
+        <div class="header-app-name">
+          <%= content_for?(:header_app_name) ? yield(:header_app_name) : 'Advocate Defence Payments' %>
+        </div>
+        <div id="log-in-out">
+          <%= yield :log_in_out %>
+        </div>
+        <%= yield :inside_header %>
+      </div>
+    </div>
+  </header>
+  <!--end header-->
+  <% end %>
+
+
+  <%= yield :after_header %>
+
+  <div id="global-header-bar">
+    <div class="inner-block">
+      <div class="header-bar"></div>
+    </div>
+  </div>
+  <!--end global-header-bar-->
+
+  <div class="outer-block">
+    <%= csrf_meta_tags %>
+    <div id="primary-nav-bar">
+      <% if user_signed_in? %>
+        <nav id="primary-nav" role="navigation">
+          <% if current_user.persona.is_a?(Advocate) %>
+            <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} Claims", '/advocates' %>
+            <%= link_to "Archive", '/advocates/claims/archived', title: "View archived claims"   %>
+            <% if Rails.host.api_sandbox? %>
+              <%= link_to "API Documentation", '/api_landing' %>
+            <% end %>
+            <%= link_to "New Claim", '/advocates/claims/new', title: "Start a new claim" %>
+            <% if current_user.persona.admin? %>
+              <%= link_to 'Admin', '/advocates/admin/advocates' %>
+            <% end %>
+          <% elsif current_user.persona.is_a?(CaseWorker) %>
+            <% if current_user.persona.admin? %>
+              <%= link_to 'Summary', '/case_workers/admin' %>
+              <%= link_to "Allocation", '/case_workers/admin/allocations' %>
+              <%= link_to 'Admin', '/case_workers/admin/case_workers' %>
+            <% else %>
+              <%= link_to 'Home', '/case_workers' %>
+            <% end %>
+          <% else %>
+            <%= "Error" %>
+          <% end %>
+        </nav>
+        <div id='user_links'>
+            <strong>
+              <%= "Signed in as:" %>
+              <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
+              <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
+            </strong>
+        </div>
+      <% end %>
+    </div>
+    <!-- end nav bar-->
+
+    <div class="phase-banner">
+      <p>
+        <strong class="phase-tag">
+          ALPHA
+        </strong>
+      <span>
+        This is a new service – your
+        <a href="#">feedback</a>
+        will help us to improve it.
+      </span>
+      </p>
+    </div>
+    <!-- end phase banner -->
+
+    <div class="container">
+      <main class="main-content">
+      <h1 class='page-title'>Interactive API Documentation</h2>
+        <div id="message-bar" class="swagger-ui-wrap">
+          &nbsp;
+        </div>
+        <div id="swagger-ui-container" class="swagger-ui-wrap">
+        </div>
+      </main>
+    </div>
+    <!-- end content -->
+
+    <footer class="group js-footer" id="footer" role="contentinfo">
+
+      <div class="footer-wrapper">
+        <%= yield :footer_top %>
+
+        <div class="footer-meta">
+          <div class="footer-meta-inner">
+            <%= yield :footer_support_links %>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--end footer-->
+
+    <div id="global-app-error" class="app-error hidden"></div>
+
+    <%= yield :body_end %>
+
+  </div>
+
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '#{GATracking.ga_tracker_id}', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <%= javascript_include_tag "application" %>
+
+</body>
+
+</html>

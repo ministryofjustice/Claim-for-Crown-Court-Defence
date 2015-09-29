@@ -152,9 +152,8 @@
   </div>
   <!--end global-header-bar-->
 
-
   <div class="outer-block">
-
+    <%= csrf_meta_tags %>
     <div id="primary-nav-bar">
       <% if user_signed_in? %>
         <nav id="primary-nav" role="navigation">
@@ -162,7 +161,7 @@
             <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} Claims", '/advocates' %>
             <%= link_to "Archive", '/advocates/claims/archived', title: "View archived claims"   %>
             <% if Rails.host.api_sandbox? %>
-              <%= link_to "API Documentation", api_landing_page_path %>
+              <%= link_to "API Documentation", '/api_landing' %>
             <% end %>
             <%= link_to "New Claim", '/advocates/claims/new', title: "Start a new claim" %>
             <% if current_user.persona.admin? %>
@@ -184,8 +183,7 @@
             <strong>
               <%= "Signed in as:" %>
               <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
-              <%#= Sign out will not work unless authentication is plugged in %>
-              <%#= link_to 'Sign out', '/users/sign_out', method: :delete %>
+              <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
             </strong>
         </div>
       <% end %>

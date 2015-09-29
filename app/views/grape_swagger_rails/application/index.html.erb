@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>">
+<head>
+  <title><%= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title>
+  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <%= stylesheet_link_tag 'grape_swagger_rails/application.css' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'grape_swagger_rails/custom.css' %>
+  <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
+  <script type="text/javascript">
+  $(function () {
+    var options = $("html").data('swagger-options');
+
+    window.swaggerUi = new SwaggerUi({
+      url: options.app_url + options.url,
+      dom_id:"swagger-ui-container",
+      supportHeaderParams: true,
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      onComplete: function(swaggerApi, swaggerUi){
+        if('console' in window) {
+          console.log("Loaded ADP SwaggerUI")
+          console.log(swaggerApi);
+          console.log(swaggerUi);
+        }
+        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+      },
+      onFailure: function(data) {
+        if('console' in window) {
+          console.log("Unable to Load ADP SwaggerUI");
+          console.log(data);
+        }
+      },
+      docExpansion: "none"
+    });
+
+    $('#input_apiKey').change(function() {
+      var key = $('#input_apiKey')[0].value;
+
+      if(key && key.trim() != "") {
+        if (options.api_auth == 'basic') {
+          key = "Basic " + Base64.encode(key);
+        } else if (options.api_auth == 'bearer') {
+          key = "Bearer " + key
+        }
+        window.authorizations.add("key", new ApiKeyAuthorization(options.api_key_name, key, options.api_key_type));
+      } else {
+        window.authorizations.add("key", null);
+      }
+    });
+
+    <% GrapeSwaggerRails.options.headers.each_pair do |key, value| %>
+      <%= raw "window.authorizations.add('key', new ApiKeyAuthorization('#{CGI.escapeHTML(key)}', '#{CGI.escapeHTML(value)}', 'header'));" %>
+    <% end %>
+
+    window.swaggerUi.load();
+  });
+  </script>
+</head>
+
+<body class="swagger-section">
+  <header role="banner" id="global-header" class="">
+    <div class="header-wrapper">
+      <div class="header-global">
+        <div class="header-logo">
+          <div id="logo">
+              <img class="content" width="36" height="246" alt="Ministry of Justice" src="/assets/moj_logo_horizontal_36x246.png" />
+          </div>
+        </div>
+        <div class="header-app-name">
+          Advocate Defence Payments
+        </div>
+        <div id="log-in-out">
+          
+        </div>
+        
+      </div>
+    </div>
+  </header>
+  <div class="outer-block">
+    <div id="primary-nav-bar">
+    nav bar placholder
+    </div>
+    <div class="phase-banner">
+      <p>
+        <strong class="phase-tag">
+          <!-- <%#= config_item(:phase) %> -->
+        </strong>
+      </p>
+      <span>
+        This is a new service – your
+        <a href="#">feedback</a>
+        will help us to improve it.
+      </span>
+    </div>
+    <div class="container">
+      <main class="main-content">
+        <div id="message-bar" class="swagger-ui-wrap">
+          &nbsp;
+        </div>
+        <div id="swagger-ui-container" class="swagger-ui-wrap">
+        </div>
+      </main>
+    </div>
+  </div>
+
+</body>
+
+</html>

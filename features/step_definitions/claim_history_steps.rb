@@ -28,7 +28,7 @@ Given(/^I have been allocated a claim$/) do
 end
 
 When(/^I mark the claim authorised in full$/) do
-  select 'authorised in full', from: 'claim_state_for_form'
+  select 'Authorised in full', from: 'claim_state_for_form'
   fill_in 'claim_assessment_attributes_fees', with: '100.00'
   click_on 'Update'
 end

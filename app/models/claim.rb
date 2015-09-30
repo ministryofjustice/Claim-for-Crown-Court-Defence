@@ -53,7 +53,7 @@ class Claim < ActiveRecord::Base
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
 
   STATES_FOR_FORM = {
-    part_authorised: "Part Authorised",
+    part_authorised: "Part authorised",
     authorised: "Authorised in full",
     rejected: "Rejected",
     refused: "Refused"

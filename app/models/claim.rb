@@ -9,6 +9,7 @@
 #  submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
+#  indictment_number      :string
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
@@ -23,7 +24,7 @@
 #  updated_at             :datetime
 #  valid_until            :datetime
 #  cms_number             :string
-#  paid_at                :datetime
+#  authorised_at          :datetime
 #  creator_id             :integer
 #  evidence_notes         :text
 #  evidence_checklist_ids :string

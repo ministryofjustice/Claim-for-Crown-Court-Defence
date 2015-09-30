@@ -25,7 +25,7 @@
 #  updated_at             :datetime
 #  valid_until            :datetime
 #  cms_number             :string
-#  paid_at                :datetime
+#  authorised_at          :datetime
 #  creator_id             :integer
 #  evidence_notes         :text
 #  evidence_checklist_ids :string

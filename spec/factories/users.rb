@@ -19,6 +19,8 @@
 #  updated_at             :datetime
 #  first_name             :string
 #  last_name              :string
+#  failed_attempts        :integer          default(0), not null
+#  locked_at              :datetime
 #
 
 FactoryGirl.define do

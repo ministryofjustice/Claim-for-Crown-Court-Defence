@@ -671,12 +671,12 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#transition_state' do
-    it 'should call pay! if authorised' do
-      expect(subject).to receive(:pay!)
+    it 'should call authorise! if authorised' do
+      expect(subject).to receive(:authorise!)
       subject.transition_state('authorised')
     end
-    it 'should call pay_part! if part_authorised' do
-      expect(subject).to receive(:pay_part!)
+    it 'should call authorise_part! if part_authorised' do
+      expect(subject).to receive(:authorise_part!)
       subject.transition_state('part_authorised')
     end
     it 'should call reject! if rejected' do
@@ -770,9 +770,9 @@ RSpec.describe Claim, type: :model do
      claim.submit
      claim.allocate
      claim.assessment.update(fees: 30.01, expenses: 70.00)
-     claim.pay_part
+     claim.authorise_part
      expect_has_authorised_state_to_be true
-     claim.pay
+     claim.authorise
      expect_has_authorised_state_to_be true
     end
   end
@@ -1011,7 +1011,7 @@ RSpec.describe Claim, type: :model do
           Timecop.freeze(Time.now - 2.hours) do
             @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
             Timecop.freeze(Time.now ) do
-              @claim.pay_part!
+              @claim.authorise_part!
               @claim.redetermine!
               @claim.allocate!
             end

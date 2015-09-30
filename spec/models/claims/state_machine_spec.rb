@@ -44,11 +44,11 @@ RSpec.describe Claims::StateMachine, type: :model do
       it {
         expect{
           subject.assessment.update(fees: 100.00, expenses: 23.45)
-          subject.pay_part!
+          subject.authorise_part!
         }.to change{ subject.state }.to('part_authorised') }
       it { expect{
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay!
+        subject.authorise!
       }.to change{ subject.state }.to('authorised') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
@@ -63,7 +63,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.submit!
         subject.allocate!
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay!
+        subject.authorise!
       }
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
@@ -74,7 +74,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.submit!
         subject.allocate!
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay_part!
+        subject.authorise_part!
       }
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.await_written_reasons! }.to change{ subject.state }.to('awaiting_written_reasons') }
@@ -112,21 +112,21 @@ RSpec.describe Claims::StateMachine, type: :model do
       it {  expect(subject).to receive(:update_column).with(:submitted_at,Time.now); subject.submit!; }
     end
 
-    describe 'pay! makes authorised_at attribute equal now' do
+    describe 'authorise! makes authorised_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
       it {
         expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay!
+        subject.authorise!
       }
     end
 
-    describe 'pay_part! makes authorised_at attribute equal now' do
+    describe 'authorise_part! makes authorised_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
       it {
         expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.pay_part!
+        subject.authorise_part!
       }
     end
   end # describe 'set triggers'

@@ -54,8 +54,8 @@ module Claims::StateMachine
             :submitted
 
       after_transition on: :submit,                   do: :set_submission_date!
-      after_transition on: :pay,                      do: :set_authorised_date!
-      after_transition on: :pay_part,                 do: :set_authorised_date!
+      after_transition on: :authorise,                do: :set_authorised_date!
+      after_transition on: :authorise_part,           do: :set_authorised_date!
       after_transition on: :redetermine,              do: :remove_case_workers!
       after_transition on: :await_written_reasons,    do: :remove_case_workers!
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
@@ -78,11 +78,11 @@ module Claims::StateMachine
         transition all => :archived_pending_delete
       end
 
-      event :pay_part do
+      event :authorise_part do
         transition [:allocated] => :part_authorised
       end
 
-      event :pay do
+      event :authorise do
         transition [:allocated] => :authorised
       end
 

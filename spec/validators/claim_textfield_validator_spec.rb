@@ -235,24 +235,24 @@ context '#perform_validation?' do
      claim
     }
 
-    it 'should NOT error if assessment provided prior to pay! or part_pay! transistions' do
-      expect{ assessed_claim.pay! }.to_not raise_error
+    it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
+      expect{ assessed_claim.authorise! }.to_not raise_error
     end
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
-      expect{ claim.pay! }.to raise_error
-      expect{ claim.part_pay! }.to raise_error
+      expect{ claim.authorise! }.to raise_error
+      expect{ claim.part_authorise! }.to raise_error
     end
 
     it 'should error if authorised claim has assessment zeroized' do
-      assessed_claim.pay!
+      assessed_claim.authorise!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
       expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state authorised'] )
     end
 
     it 'should error if authorised claim has assessment updated to zero' do
-      assessed_claim.pay_part!
+      assessed_claim.authorise_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0)
       expect(assessed_claim).to_not be_valid
       expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state part_authorised'] )

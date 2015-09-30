@@ -113,19 +113,19 @@ FactoryGirl.define do
     end
 
     factory :authorised_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay! }
+      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
     end
 
     factory :redetermination_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.redetermine! }
+      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.redetermine! }
     end
 
     factory :awaiting_written_reasons_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.await_written_reasons! }
+      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
     end
 
     factory :part_authorised_claim do
-      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise_part! }
     end
 
     factory :refused_claim do

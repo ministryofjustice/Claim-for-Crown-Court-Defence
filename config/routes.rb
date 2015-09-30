@@ -92,4 +92,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace :geckoboard_api, format: :json do
+    get 'widgets/claims', to: 'widgets#claims'
+  end
 end

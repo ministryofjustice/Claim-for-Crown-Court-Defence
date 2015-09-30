@@ -92,7 +92,7 @@ class Claim < ActiveRecord::Base
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }
-  scope :authorised,  -> { where(state: %w( part_authorised authorised )) }
+  scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
 
   scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 

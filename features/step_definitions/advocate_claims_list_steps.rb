@@ -51,8 +51,8 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
     if claim.state == 'completed'
       claim.assessment.update(fees: claim.total)
-    elsif claim.state == 'part_paid'
-      claim.assessment.update(fees: claim.total / 2)     # arbitrarily pay half the total for part-paid
+    elsif claim.state == 'part_authorised'
+      claim.assessment.update(fees: claim.total / 2)     # arbitrarily pay half the total for part-authorised
     end
   end
 end
@@ -72,8 +72,8 @@ Given(/^my chamber has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number, 
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
     if claim.state == 'completed'
       claim.assessment.update(fees: claim.total)
-    elsif claim.state == 'part_paid'
-      claim.assessment.update(fees: claim.total / 2)     # arbitrarily pay half the total for part-paid
+    elsif claim.state == 'part_authorised'
+      claim.assessment.update(fees: claim.total / 2)     # arbitrarily pay half the total for part-authorised
     end
   end
 

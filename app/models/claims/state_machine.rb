@@ -5,19 +5,19 @@ module Claims::StateMachine
   ADVOCATE_DASHBOARD_DRAFT_STATES             = %w( draft )
   ADVOCATE_DASHBOARD_REJECTED_STATES          = %w( rejected )
   ADVOCATE_DASHBOARD_SUBMITTED_STATES         = %w( allocated submitted )
-  ADVOCATE_DASHBOARD_PART_PAID_STATES         = %w( part_paid )
-  ADVOCATE_DASHBOARD_COMPLETED_STATES         = %w( refused paid )
-  CASEWORKER_DASHBOARD_COMPLETED_STATES       = %w( paid part_paid rejected refused )
+  ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES   = %w( part_authorised )
+  ADVOCATE_DASHBOARD_COMPLETED_STATES         = %w( refused authorised )
+  CASEWORKER_DASHBOARD_COMPLETED_STATES       = %w( authorised part_authorised rejected refused )
   CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES = %w( allocated )
-  VALID_STATES_FOR_REDETERMINATION            = %w( paid part_paid refused )
-  NON_DRAFT_STATES                            = %w( allocated deleted paid part_paid refused rejected submitted )
-  PAID_STATES                                 = ADVOCATE_DASHBOARD_PART_PAID_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
+  VALID_STATES_FOR_REDETERMINATION            = %w( authorised part_authorised refused )
+  NON_DRAFT_STATES                            = %w( allocated deleted authorised part_authorised refused rejected submitted )
+  AUTHORISED_STATES                           = ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
     ADVOCATE_DASHBOARD_DRAFT_STATES +
     ADVOCATE_DASHBOARD_REJECTED_STATES +
     ADVOCATE_DASHBOARD_SUBMITTED_STATES +
-    ADVOCATE_DASHBOARD_PART_PAID_STATES +
+    ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES +
     ADVOCATE_DASHBOARD_COMPLETED_STATES
   end
 
@@ -46,16 +46,16 @@ module Claims::StateMachine
             :awaiting_written_reasons,
             :deleted,
             :draft,
-            :paid,
-            :part_paid,
+            :authorised,
+            :part_authorised,
             :refused,
             :rejected,
             :redetermination,
             :submitted
 
       after_transition on: :submit,                   do: :set_submission_date!
-      after_transition on: :pay,                      do: :set_paid_date!
-      after_transition on: :pay_part,                 do: :set_paid_date!
+      after_transition on: :pay,                      do: :set_authorised_date!
+      after_transition on: :pay_part,                 do: :set_authorised_date!
       after_transition on: :redetermine,              do: :remove_case_workers!
       after_transition on: :await_written_reasons,    do: :remove_case_workers!
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
@@ -79,11 +79,11 @@ module Claims::StateMachine
       end
 
       event :pay_part do
-        transition [:allocated] => :part_paid
+        transition [:allocated] => :part_authorised
       end
 
       event :pay do
-        transition [:allocated] => :paid
+        transition [:allocated] => :authorised
       end
 
       event :refuse do
@@ -111,7 +111,7 @@ module Claims::StateMachine
     klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )           }
     klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )        }
     klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )       }
-    klass.scope :advocate_dashboard_part_paid,            -> { klass.where(state: ADVOCATE_DASHBOARD_PART_PAID_STATES )       }
+    klass.scope :advocate_dashboard_part_authorised,      -> { klass.where(state: ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES )       }
     klass.scope :advocate_dashboard_completed,            -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES )       }
     klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)      }
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSSSMENT_STATES)}
@@ -124,8 +124,8 @@ module Claims::StateMachine
     update_column(:submitted_at, Time.now)
   end
 
-  def set_paid_date!
-    update_column(:paid_at, Time.now)
+  def set_authorised_date!
+    update_column(:authorised_at, Time.now)
   end
 
   def set_valid_until!(transition)

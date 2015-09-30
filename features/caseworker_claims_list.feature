@@ -43,13 +43,13 @@ Feature: Caseworker claims list
      When I search for a claim by MAAT reference
      Then I should only see claims matching the MAAT reference
 
-  Scenario Outline: Search current, paid and part paid claims by defendant name
+  Scenario Outline: Search current, authorised and part authorised claims by defendant name
     Given I am signed in and on the case worker dashboard
       And I have 2 "allocated" claims involving defendant "Joe Bloggs"
       And I have 3 "allocated" claims involving defendant "Fred Bloggs"
-      And I have 2 "paid" claims involving defendant "Joe Bloggs"
-      And I have 3 "paid" claims involving defendant "Fred Bloggs"
-      And I have 2 "part_paid" claims involving defendant "Someone Else"
+      And I have 2 "authorised" claims involving defendant "Joe Bloggs"
+      And I have 3 "authorised" claims involving defendant "Fred Bloggs"
+      And I have 2 "part_authorised" claims involving defendant "Someone Else"
      When I visit my dashboard
       And I search claims by defendant name <defendant_name>
      Then I should only see <number> "Current" claims

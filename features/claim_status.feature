@@ -19,8 +19,8 @@ Scenario Outline: Update claim status
 
    Examples:
       | status      		                | fees 	   | expenses | total     |
-      | "Part paid"  		                | "100.01" | "20.33"  | "£120.34" |
-      | "Paid in full"                  | "200.01" | ""       | "£200.01" |
+      | "Part authorised"  		          | "100.01" | "20.33"  | "£120.34" |
+      | "Authorised in full"            | "200.01" | ""       | "£200.01" |
       | "Refused" 	 		                | ""     	 | ""       | ""        |
       | "Rejected"  		                | "" 		 	 | ""       | ""        |
 
@@ -34,6 +34,6 @@ Scenario Outline: View claim status
       And I should see "disabled" total assessed value of <total>
 
    Examples:
-      | status                          | fees     |  expenses   | total      |
-      | "Part paid"                     | "60.01"  |  "40.00"    | "£100.01"  |
-      | "Rejected"                      | ""       |  ""         | ""         |
+      | status              | fees     |  expenses   | total      |
+      | "Part authorised"   | "60.01"  |  "40.00"    | "£100.01"  |
+      | "Rejected"          | ""       |  ""         | ""         |

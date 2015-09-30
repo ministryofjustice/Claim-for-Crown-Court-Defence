@@ -239,23 +239,23 @@ context '#perform_validation?' do
       expect{ assessed_claim.pay! }.to_not raise_error
     end
 
-    it 'should error if NO assessment present and state is transitioned to paid or part_paid' do
+    it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
       expect{ claim.pay! }.to raise_error
       expect{ claim.part_pay! }.to raise_error
     end
 
-    it 'should error if paid claim has assessment zeroized' do
+    it 'should error if authorised claim has assessment zeroized' do
       assessed_claim.pay!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state authorised'] )
     end
 
-    it 'should error if paid claim has assessment updated to zero' do
+    it 'should error if authorised claim has assessment updated to zero' do
       assessed_claim.pay_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0)
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state part_paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state part_authorised'] )
     end
 
     context 'should be valid if amount assessed is zero' do

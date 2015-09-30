@@ -4,13 +4,13 @@ module DemoData
   class ClaimStateAdvancer
 
     TRANSITION_METHODS = {
-      'draft'                       => [],
-      'submitted'                   => [ :submit ],
-      'allocated'                   => [ :submit, :allocate ],
-      'rejected'                    => [ :submit, :allocate, :reject ],
-      'part_paid'                   => [ :submit, :allocate, :pay_part],
-      'paid'                        => [ :submit, :allocate, :pay],
-      'refused'                     => [ :submit, :allocate, :refuse ]
+      'draft'            => [],
+      'submitted'        => [ :submit ],
+      'allocated'        => [ :submit, :allocate ],
+      'rejected'         => [ :submit, :allocate, :reject ],
+      'part_authorised'  => [ :submit, :allocate, :pay_part],
+      'authorised'       => [ :submit, :allocate, :pay],
+      'refused'          => [ :submit, :allocate, :refuse ]
     }
 
 

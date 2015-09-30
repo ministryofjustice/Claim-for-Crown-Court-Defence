@@ -112,7 +112,7 @@ FactoryGirl.define do
       after(:create) { |c| c.archive_pending_delete! }
     end
 
-    factory :paid_claim do
+    factory :authorised_claim do
       after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay! }
     end
 
@@ -124,7 +124,7 @@ FactoryGirl.define do
       after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.pay!; c.await_written_reasons! }
     end
 
-    factory :part_paid_claim do
+    factory :part_authorised_claim do
       after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.pay_part! }
     end
 

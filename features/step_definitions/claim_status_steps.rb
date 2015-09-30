@@ -27,8 +27,8 @@ Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed 
     claim.assessment.update!(expenses: expenses) unless expenses.empty?
 
 		case status
-			when "Part paid"
-				claim.pay_part!
+			when "Part authorised"
+				claim.authorise_part!
 			when "Rejected"
 				claim.reject!
 			when "Rejected"

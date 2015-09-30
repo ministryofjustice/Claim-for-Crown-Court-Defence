@@ -1,16 +1,16 @@
 class ClaimReporter
-  def paid_in_full
+  def authorised_in_full
     non_draft_claims_this_month = Claim.non_draft.where{ created_at >= Time.now.beginning_of_month }
-    paid_claims_this_month = non_draft_claims_this_month.paid
+    authorised_claims_this_month = non_draft_claims_this_month.authorised
 
-    claims_percentage(paid_claims_this_month, non_draft_claims_this_month)
+    claims_percentage(authorised_claims_this_month, non_draft_claims_this_month)
   end
 
-  def paid_in_part
+  def authorised_in_part
     non_draft_claims_this_month = Claim.non_draft.where{ created_at >= Time.now.beginning_of_month }
-    part_paid_claims_this_month = non_draft_claims_this_month.part_paid
+    part_authorised_claims_this_month = non_draft_claims_this_month.part_authorised
 
-    claims_percentage(part_paid_claims_this_month, non_draft_claims_this_month)
+    claims_percentage(part_authorised_claims_this_month, non_draft_claims_this_month)
   end
 
   def rejected

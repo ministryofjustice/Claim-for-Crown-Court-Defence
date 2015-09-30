@@ -27,13 +27,13 @@ Given(/^I have been allocated a claim$/) do
   @case_worker.claims << @claim
 end
 
-When(/^I mark the claim authorised in full$/) do
-  select 'Authorised in full', from: 'claim_state_for_form'
+When(/^I mark the claim authorised$/) do
+  select 'Authorised', from: 'claim_state_for_form'
   fill_in 'claim_assessment_attributes_fees', with: '100.00'
   click_on 'Update'
 end
 
-Then(/^I should see the state change to authorised in full reflected in the history$/) do
+Then(/^I should see the state change to authorised reflected in the history$/) do
   @claim.reload
   within '#messages' do
     within '.messages-list' do

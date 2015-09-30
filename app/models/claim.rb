@@ -54,7 +54,7 @@ class Claim < ActiveRecord::Base
 
   STATES_FOR_FORM = {
     part_authorised: "Part authorised",
-    authorised: "Authorised in full",
+    authorised: "Authorised",
     rejected: "Rejected",
     refused: "Refused"
   }

@@ -15,5 +15,5 @@ Feature: Claim history
     Given I am a signed in case worker
       And I have been allocated a claim
      When I visit the claim's case worker detail page
-      And I mark the claim authorised in full
-     Then I should see the state change to authorised in full reflected in the history
+      And I mark the claim authorised
+     Then I should see the state change to authorised reflected in the history

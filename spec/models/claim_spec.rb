@@ -701,7 +701,7 @@ RSpec.describe Claim, type: :model do
   describe 'STATES_FOR_FORM' do
     it "should have constant values" do
       expect(Claim::STATES_FOR_FORM).to eql({part_authorised: "Part authorised",
-                                            authorised: "Authorised in full",
+                                            authorised: "Authorised",
                                             rejected: "Rejected",
                                             refused: "Refused"
                                            })

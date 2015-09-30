@@ -20,7 +20,7 @@ Scenario Outline: Update claim status
    Examples:
       | status      		                | fees 	   | expenses | total     |
       | "Part authorised"  		          | "100.01" | "20.33"  | "£120.34" |
-      | "Authorised in full"            | "200.01" | ""       | "£200.01" |
+      | "Authorised"                    | "200.01" | ""       | "£200.01" |
       | "Refused" 	 		                | ""     	 | ""       | ""        |
       | "Rejected"  		                | "" 		 	 | ""       | ""        |
 

@@ -1,12 +1,12 @@
 json.item do
   json.array! [
     {
-      value: @reporter.paid_in_full,
-      text: 'Paid'
+      value: @reporter.authorised_in_full,
+      text: 'Authorised'
     },
     {
-      value: @reporter.paid_in_part,
-      text: 'Part paid'
+      value: @reporter.authorised_in_part,
+      text: 'Part authorised'
     },
     {
       value: @reporter.rejected,

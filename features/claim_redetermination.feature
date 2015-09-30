@@ -61,7 +61,7 @@ Feature: Claim redetermination
     Examples:
       | form_state                | state                    |
       | Part authorised           | part_authorised          |
-      | Authorised in full        | authorised               |
+      | Authorised                | authorised               |
       | Rejected                  | rejected                 |
       | Refused                   | refused                  |
 

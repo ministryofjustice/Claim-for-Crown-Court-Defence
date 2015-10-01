@@ -4,7 +4,6 @@ Feature: Claim status
     As an advocate I need to be able to view the updated status of my claims
     including visual indicators for certain states
 
-
 Scenario Outline: Update claim status
     Given I am a signed in case worker
       And There are fee schemes in place
@@ -23,6 +22,22 @@ Scenario Outline: Update claim status
       | "Authorised"                    | "200.01" | ""       | "£200.01" |
       | "Refused" 	 		                | ""     	 | ""       | ""        |
       | "Rejected"  		                | "" 		 	 | ""       | ""        |
+
+
+Scenario Outline: Update claim status without amount assessed
+    Given I am a signed in case worker
+      And There are fee schemes in place
+      And claims have been assigned to me
+     When I visit my dashboard
+      And I view status details for a claim
+      And I select status <status> from select
+      And I press update button
+     Then I should see errors
+
+    Examples:
+      | status             |
+      | "Part authorised"  |
+      | "Authorised"       |
 
 Scenario Outline: View claim status
     Given I am a signed in advocate

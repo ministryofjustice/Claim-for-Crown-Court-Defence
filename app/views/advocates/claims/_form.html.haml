@@ -119,10 +119,10 @@
         = link_to_add_association t('.add_misc_fee'), f, :misc_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.fixed_fees')
       #fixed-fees
-        %table.table
+        %table
           %thead
             %tr
               %th
@@ -136,7 +136,7 @@
           = f.fields_for :fixed_fees do |fixed_fee_fields|
             = render 'fixed_fee_fields', f: fixed_fee_fields
 
-        = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
       %legend.bold-medium
@@ -156,7 +156,7 @@
               %th
                 = t('.rate')
               %th
-                = t('.amount')
+                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
               %th
               %th
               = f.fields_for :expenses do |expense|

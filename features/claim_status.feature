@@ -17,11 +17,11 @@ Scenario Outline: Update claim status
       And I should see "enabled" total assessed value of <total>
 
    Examples:
-      | status      		                | fees 	   | expenses | total     |
-      | "Part authorised"  		          | "100.01" | "20.33"  | "£120.34" |
-      | "Authorised"                    | "200.01" | ""       | "£200.01" |
-      | "Refused" 	 		                | ""     	 | ""       | ""        |
-      | "Rejected"  		                | "" 		 	 | ""       | ""        |
+      | status             | fees     | expenses | total     |
+      | "Part authorised"  | "100.01" | "20.33"  | "£120.34" |
+      | "Authorised"       | "200.01" | ""       | "£200.01" |
+      | "Refused"          | ""       | ""       | ""        |
+      | "Rejected"         | ""       | ""       | ""        |
 
 
 Scenario Outline: Update claim status without amount assessed raises state transition error
@@ -36,8 +36,8 @@ Scenario Outline: Update claim status without amount assessed raises state trans
       And I should not see "Cannot transition state via"
 
     Examples:
-      | status             |
-      | Part authorised   |
+      | status           |
+      | Part authorised  |
       | Authorised       |
 
 Scenario Outline: View claim status

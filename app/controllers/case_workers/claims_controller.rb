@@ -33,7 +33,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
     begin
       @claim.update_model_and_transition_state(claim_params)
-    rescue StateMachine::InvalidTransition => err
+    rescue StateMachines::InvalidTransition => err
     end
     @enable_status_change = true
     @message = @claim.messages.build

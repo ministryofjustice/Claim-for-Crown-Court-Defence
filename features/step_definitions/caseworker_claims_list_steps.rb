@@ -23,13 +23,13 @@ end
 
 # TODO update once "Archive" has been created and working
 #Then(/^I should see the allocated claims$/) do
-#  click_on "Allocated claims (#{@claims.count})"
+#  click_on "Allocation"
 #  expect(page).to have_content("Allocated claims (#{@claims.count})")
 #end
 
 # TODO update once "Archive" has been created and working
 #Then(/^I should see the unallocated claims$/) do
-#  click_on "Unallocated claims (#{@claims.count})"
+#  click_on "Re-allocation"
 #  expect(page).to have_content("Unallocated claims (#{@claims.count})")
 #end
 

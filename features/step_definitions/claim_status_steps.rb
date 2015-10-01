@@ -27,8 +27,8 @@ Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed 
     claim.assessment.update!(expenses: expenses) unless expenses.empty?
 
 		case status
-			when "Part paid"
-				claim.pay_part!
+			when "Part authorised"
+				claim.authorise_part!
 			when "Rejected"
 				claim.reject!
 			when "Rejected"
@@ -58,3 +58,12 @@ end
 When(/^the claim state should be allocated$/) do
   expect(Claim.all.pluck(:state).uniq).to eq(['allocated'])
 end
+
+Then(/^I should see error "(.*?)"$/) do |error_message|
+  expect(page).to have_content(error_message)
+end
+
+Then(/^I should not see "(.*?)"$/) do |error_message|
+  expect(page).not_to have_content(error_message)
+end
+

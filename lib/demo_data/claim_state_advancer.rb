@@ -4,13 +4,13 @@ module DemoData
   class ClaimStateAdvancer
 
     TRANSITION_METHODS = {
-      'draft'                       => [],
-      'submitted'                   => [ :submit ],
-      'allocated'                   => [ :submit, :allocate ],
-      'rejected'                    => [ :submit, :allocate, :reject ],
-      'part_paid'                   => [ :submit, :allocate, :pay_part],
-      'paid'                        => [ :submit, :allocate, :pay],
-      'refused'                     => [ :submit, :allocate, :refuse ]
+      'draft'            => [],
+      'submitted'        => [ :submit ],
+      'allocated'        => [ :submit, :allocate ],
+      'rejected'         => [ :submit, :allocate, :reject ],
+      'part_authorised'  => [ :submit, :allocate, :authorise_part],
+      'authorised'       => [ :submit, :allocate, :authorise],
+      'refused'          => [ :submit, :allocate, :refuse ]
     }
 
 
@@ -56,20 +56,20 @@ module DemoData
       claim.reject!
     end
 
-    def pay_part(claim)
+    def authorise_part(claim)
       add_message(claim, @case_worker)
       claim.save!                 # save in order to update the expense and fee totals
       claim.assessment.update(fees: claim.fees_total * rand(0.5..0.8), expenses: claim.expenses_total * rand(0.5..0.8))
       claim.reload
-      claim.pay_part!
+      claim.authorise_part!
     end
 
-    def pay(claim)
+    def authorise(claim)
       add_message(claim, @case_worker)
       claim.save!                 # save in order to update the expense and fee totals
       claim.assessment.update(fees: claim.fees_total, expenses: claim.expenses_total)
       claim.reload
-      claim.pay!
+      claim.authorise!
     end
 
     def refuse(claim)

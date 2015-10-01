@@ -7,22 +7,22 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
     let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
 
-    let!(:old_part_paid_claim) do
+    let!(:old_part_authorised_claim) do
       Timecop.freeze(Time.now - 1.week) do
-        claim = create(:part_paid_claim, total: 165)
+        claim = create(:part_authorised_claim, total: 165)
         create(:assessment, claim: claim, fees: 50, expenses: 35)
         claim
       end
     end
 
-    let!(:part_paid_claim) do
-      claim = create(:part_paid_claim, total: 211)
+    let!(:part_authorised_claim) do
+      claim = create(:part_authorised_claim, total: 211)
       create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
       claim
     end
 
-    let!(:paid_claim) do
-      claim = create(:paid_claim, total: 89)
+    let!(:authorised_claim) do
+      claim = create(:authorised_claim, total: 89)
       create(:assessment, claim: claim, fees: 40, expenses: 49)
       claim
     end
@@ -35,7 +35,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     subject { Claims::FinancialSummary.new(advocate) }
 
     before do
-      advocate.claims << [submitted_claim, allocated_claim, part_paid_claim, paid_claim, old_part_paid_claim]
+      advocate.claims << [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim, old_part_authorised_claim]
       another_advocate.claims << other_advocate_claim
     end
 
@@ -61,8 +61,8 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     describe '#total_authorised_claim_value' do
       context 'when VAT applied to a claim' do
         before do
-          part_paid_claim.apply_vat = true
-          part_paid_claim.save!
+          part_authorised_claim.apply_vat = true
+          part_authorised_claim.save!
         end
 
         it 'calculates the value of authorised claims since the beginning of the week' do
@@ -80,14 +80,14 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     describe '#outstanding_claims' do
       it 'returns outstanding claims only' do
         expect(subject.outstanding_claims).to include(submitted_claim, allocated_claim)
-        expect(subject.outstanding_claims).to_not include(paid_claim, part_paid_claim, other_advocate_claim, old_part_paid_claim)
+        expect(subject.outstanding_claims).to_not include(authorised_claim, part_authorised_claim, other_advocate_claim, old_part_authorised_claim)
       end
     end
 
     describe '#authorised_claims' do
       it 'returns authorised claims only (since the beginning of the week)' do
-        expect(subject.authorised_claims).to include(paid_claim, paid_claim)
-        expect(subject.authorised_claims).to_not include(submitted_claim, allocated_claim, other_advocate_claim, old_part_paid_claim)
+        expect(subject.authorised_claims).to include(authorised_claim, authorised_claim)
+        expect(subject.authorised_claims).to_not include(submitted_claim, allocated_claim, other_advocate_claim, old_part_authorised_claim)
       end
     end
   end
@@ -96,13 +96,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
     let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
 
-    let!(:part_paid_claim) do
-      claim = create(:part_paid_claim, total: 211)
+    let!(:part_authorised_claim) do
+      claim = create(:part_authorised_claim, total: 211)
       create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
       claim
     end
-    let!(:paid_claim) do
-      claim = create(:paid_claim, total: 89)
+    let!(:authorised_claim) do
+      claim = create(:authorised_claim, total: 89)
       create(:assessment, claim: claim, fees: 40, expenses: 49)
       claim
     end
@@ -117,7 +117,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     subject { Claims::FinancialSummary.new(advocate) }
 
     before do
-      advocate.claims << [submitted_claim, allocated_claim, part_paid_claim, paid_claim]
+      advocate.claims << [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim]
       another_advocate_admin.claims << other_chamber_claim
     end
 
@@ -143,8 +143,8 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     describe '#total_authorised_claim_value' do
       context 'when VAT applied to a claim' do
         before do
-          part_paid_claim.apply_vat = true
-          part_paid_claim.save!
+          part_authorised_claim.apply_vat = true
+          part_authorised_claim.save!
         end
 
         it 'calculates the value of authorised claims' do
@@ -162,13 +162,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     describe '#outstanding_claims' do
       it 'returns outstanding claims only' do
         expect(subject.outstanding_claims).to include(submitted_claim, allocated_claim)
-        expect(subject.outstanding_claims).to_not include(paid_claim, part_paid_claim, other_chamber_claim)
+        expect(subject.outstanding_claims).to_not include(authorised_claim, part_authorised_claim, other_chamber_claim)
       end
     end
 
     describe '#authorised_claims' do
       it 'returns authorised claims only' do
-        expect(subject.authorised_claims).to include(paid_claim, paid_claim)
+        expect(subject.authorised_claims).to include(authorised_claim, authorised_claim)
         expect(subject.authorised_claims).to_not include(submitted_claim, allocated_claim, other_chamber_claim)
       end
     end

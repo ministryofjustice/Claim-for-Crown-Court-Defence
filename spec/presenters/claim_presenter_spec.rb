@@ -24,12 +24,12 @@ RSpec.describe ClaimPresenter do
     expect(subject.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
   end
 
-  it '#paid_at' do
-    claim.paid_at = Time.current
-    expect(subject.paid_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.paid_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.paid_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
+  it '#authorised_at' do
+    claim.authorised_at = Time.current
+    expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
+    expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
+    expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
+    expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
 

@@ -218,7 +218,7 @@ class Claim < ActiveRecord::Base
 
   def form_input_to_event
     { "authorised"               => :authorise!,
-      "part_authorised"                => :authorise_part!,
+      "part_authorised"          => :authorise_part!,
       "rejected"                 => :reject!,
       "refused"                  => :refuse!,
       "redetermination"          => :redetermine!}

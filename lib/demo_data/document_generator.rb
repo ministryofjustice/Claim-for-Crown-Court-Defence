@@ -14,8 +14,7 @@ module DemoData
       'invoices.pdf'                          => 6,
       'hardship.pdf'                          => 7,
       'previous_fee_advancements.pdf'         => 8,
-      'other_supporting_evidence.pdf'         => 9,
-      'justification_for_late_submission.pdf' => 10
+      'justification_for_late_submission.pdf' => 9
     }
 
     def initialize(claim)

@@ -1,3 +1,19 @@
+Given(/^I have authorised and part authorised claims$/) do
+  @claims = create_list(:authorised_claim, 2, advocate: @advocate)
+  @claims += create_list(:part_authorised_claim, 3, advocate: @advocate)
+  @other_claims = create_list(:allocated_claim, 3)
+end
+
+Given(/^my chamber has authorised and part authorised claims$/) do
+  another_advocate = create(:advocate)
+  @advocate.chamber.advocates << another_advocate
+  @claims = create_list(:authorised_claim, 2)
+  @claims += create_list(:part_authorised_claim, 1)
+  @claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
+  @other_claims = create_list(:allocated_claim, 3)
+  @other_claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
+end
+
 Then(/^I should see my total value of outstanding claims$/) do
   expect(page).to have_content(@advocate.claims.outstanding.map(&:total).sum)
 end
@@ -6,12 +22,12 @@ Then(/^I should see the total value of outstanding claims for my chamber$/) do
   expect(page).to have_content(@advocate.claims.outstanding.map(&:total).sum)
 end
 
-Then(/^I should see my total value of authorised claims$/) do
-  expect(page).to have_content(@advocate.claims.authorised.map(&:total).sum)
+Then(/^I should see my total value of authorised and part authorised claims$/) do
+  expect(page).to have_content(@advocate.claims.any_authorised.map(&:total).sum)
 end
 
-Then(/^I should see the total value of authorised claims for my chamber$/) do
-  expect(page).to have_content(@advocate.claims.authorised.map(&:total).sum)
+Then(/^I should see the total value of authorised and part authorised claims for my chamber$/) do
+  expect(page).to have_content(@advocate.claims.any_authorised.map(&:total).sum)
 end
 
 When(/^click on the link to view the details of outstanding claims$/) do
@@ -29,8 +45,10 @@ When(/^click on the link to view the details of authorised claims$/) do
   click_link 'authorised_claim_details'
 end
 
-When(/^I should see a list of authorised claims$/) do
-  claim_dom_ids = @advocate.claims.authorised.map { |c| "claim_#{c.id}" }
+When(/^I should see a list of authorised and part authorised claims$/) do
+  expect(page).not_to have_content('No claims found')
+  expect(page).not_to have_content('Allocated')
+  claim_dom_ids = @advocate.claims.any_authorised.map { |c| "claim_#{c.id}" }
   claim_dom_ids.each do |dom_id|
     expect(page).to have_selector("##{dom_id}")
   end

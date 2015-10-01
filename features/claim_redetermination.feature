@@ -10,10 +10,10 @@ Feature: Claim redetermination
      Then I should see a control in the messages section to request a redetermination
 
     Examples:
-      | state           |
-      | paid_claim      |
-      | part_paid_claim |
-      | refused_claim   |
+      | state                 |
+      | authorised_claim      |
+      | part_authorised_claim |
+      | refused_claim         |
 
   Scenario Outline: Redetermination control NOT visible
     Given I am a signed in advocate
@@ -31,7 +31,7 @@ Feature: Claim redetermination
 
   Scenario: Re-open claim for redetermination
     Given I am a signed in advocate
-      And I have a paid_claim claim
+      And I have a authorised_claim claim
       And the claim has a case worker assigned to it
      When I visit the claims's detail page
       And I select "Apply for redetermination" and send a message
@@ -60,14 +60,14 @@ Feature: Claim redetermination
 
     Examples:
       | form_state                | state                    |
-      | Part paid                 | part_paid                |
-      | Paid in full              | paid                     |
+      | Part authorised           | part_authorised          |
+      | Authorised                | authorised               |
       | Rejected                  | rejected                 |
       | Refused                   | refused                  |
 
   Scenario: Request written reasons for claim
     Given I am a signed in advocate
-      And I have a paid_claim claim
+      And I have a authorised_claim claim
       And the claim has a case worker assigned to it
      When I visit the claims's detail page
       And I select "Request written reasons" and send a message

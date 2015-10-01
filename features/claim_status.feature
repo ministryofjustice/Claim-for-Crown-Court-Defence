@@ -4,7 +4,6 @@ Feature: Claim status
     As an advocate I need to be able to view the updated status of my claims
     including visual indicators for certain states
 
-
 Scenario Outline: Update claim status
     Given I am a signed in case worker
       And There are fee schemes in place
@@ -18,11 +17,28 @@ Scenario Outline: Update claim status
       And I should see "enabled" total assessed value of <total>
 
    Examples:
-      | status      		                | fees 	   | expenses | total     |
-      | "Part paid"  		                | "100.01" | "20.33"  | "£120.34" |
-      | "Paid in full"                  | "200.01" | ""       | "£200.01" |
-      | "Refused" 	 		                | ""     	 | ""       | ""        |
-      | "Rejected"  		                | "" 		 	 | ""       | ""        |
+      | status             | fees     | expenses | total     |
+      | "Part authorised"  | "100.01" | "20.33"  | "£120.34" |
+      | "Authorised"       | "200.01" | ""       | "£200.01" |
+      | "Refused"          | ""       | ""       | ""        |
+      | "Rejected"         | ""       | ""       | ""        |
+
+
+Scenario Outline: Update claim status without amount assessed raises state transition error
+    Given I am a signed in case worker
+      And There are fee schemes in place
+      And claims have been assigned to me
+     When I visit my dashboard
+      And I view status details for a claim
+      And I select status "<status>" from select
+      And I press update button
+     Then I should see error "Amount assessed cannot be zero for claims in state <status>"
+      And I should not see "Cannot transition state via"
+
+    Examples:
+      | status           |
+      | Part authorised  |
+      | Authorised       |
 
 Scenario Outline: View claim status
     Given I am a signed in advocate
@@ -34,6 +50,6 @@ Scenario Outline: View claim status
       And I should see "disabled" total assessed value of <total>
 
    Examples:
-      | status                          | fees     |  expenses   | total      |
-      | "Part paid"                     | "60.01"  |  "40.00"    | "£100.01"  |
-      | "Rejected"                      | ""       |  ""         | ""         |
+      | status              | fees     |  expenses   | total      |
+      | "Part authorised"   | "60.01"  |  "40.00"    | "£100.01"  |
+      | "Rejected"          | ""       |  ""         | ""         |

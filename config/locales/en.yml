@@ -185,7 +185,7 @@ en:
         defendants: 'Defendants'
         cms_number: 'Case Number'
         submission_date: 'Submitted date'
-        paid_date: 'Paid date'
+        authorised_date: 'Authorised date'
         total: 'Claimed'
         assessed: 'Assessed'
         status: 'Status'
@@ -282,7 +282,7 @@ en:
         claims: Claims
         completed: Completed
         draft: Draft
-        part_paid: Part paid
+        part_authorised: Part authorised
         rejected: Rejected
         submitted: Submitted to LAA
       new:

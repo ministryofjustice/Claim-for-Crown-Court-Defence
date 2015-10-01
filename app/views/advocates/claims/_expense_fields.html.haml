@@ -1,21 +1,24 @@
 %tbody.expense-group
   %tr.nested-fields
     %td
-      = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2'}
+      = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
       = validation_error_message(f.object, :expense_type_id)
     %td
       = f.text_field :location
       = validation_error_message(f.object, :location)
     %td
-      = f.number_field :quantity, class: 'quantity', min: 0
+      = f.number_field :quantity, class: 'quantity', min: 0, max: 999, maxlength: 3
       = validation_error_message(f.object, :quantity)
     %td
-      = f.number_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate'
+      %div.pound-wrapper
+        %div.pound-sign.bold-xsmall
+          &pound;
+        = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
       = validation_error_message(f.object, :rate)
     %td.amount
       = number_to_currency(f.object.amount)
     %td.add-expense-date-attended
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, style: 'white-space:nowrap', class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
     %td.remove-expense
       = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
 

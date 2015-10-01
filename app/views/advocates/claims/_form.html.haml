@@ -139,10 +139,12 @@
         = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.expenses')
+      %span.form-hint.xsmall
+        = t('.expenses_help_text')
       #expenses
-        %table.table
+        %table
           %thead
             %tr
               %th
@@ -160,7 +162,7 @@
               = f.fields_for :expenses do |expense|
                 = render 'expense_fields', f: expense
 
-        = link_to_add_association t('.add_another_expense'), f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_another_expense'), f, :expenses, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
       %label
         = f.check_box :apply_vat

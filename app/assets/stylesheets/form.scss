@@ -33,7 +33,6 @@ form {
   }
   .nested-fields {
     padding: 15px;
-    background-color: $grey-4;
     margin-bottom: 1em;
   }
   .table {
@@ -52,6 +51,28 @@ form {
 
       }
     }
+    .pound-wrapper{
+      position: relative;
+      display: table;
+      border-collapse: separate;
+      .pound-sign{
+        display: table-cell;
+        white-space: nowrap;
+        text-align: center;
+        vertical-align: middle;
+        padding: 1px 8px 0 8px;
+        border-left: 1px solid $border-colour;
+        border-top: 1px solid $border-colour;
+        border-bottom: 1px solid $border-colour;
+        background-color: $panel-colour;
+      }
+      input{
+        display: table-cell;
+        padding: 1px 8px 0 8px;
+        vertical-align: middle;
+      }
+    }
+
   }
 
   .table tr th:first-child,
@@ -96,6 +117,10 @@ form {
     border : 0;
     color: $black;
   }
+}
+
+.remove-expense:first-child a{
+  display: none;
 }
 
 #evidence-checklist div{

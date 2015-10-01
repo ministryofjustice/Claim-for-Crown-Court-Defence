@@ -225,9 +225,10 @@ en:
       edit:
         edit: Edit claim
       expense_fields:
+        add_date_attended: 'Add date(s)'
         remove: *remove
       fee_fields:
-        add_date_attended: 'Add Date Attended'
+        add_date_attended: 'Add date(s)'
         remove: *remove
       financial_summary:
         total_outstanding: 'Total Outstanding:'
@@ -264,12 +265,13 @@ en:
         add_fixed_fee: 'Add Another Fixed Fee'
         add_misc_fee: 'Add Another Miscellaneous Fee'
         expenses: 'Expenses'
-        expense_type: 'Expense Type'
-        location: 'Location'
-        quantity_hours: 'Quantity/Hours'
+        expenses_help_text: 'Please enter details for each separate date'
+        expense_type: 'Type of expense'
+        location: 'Destination'
+        quantity_hours: 'Quantity / Hours'
         rate: 'Rate'
         amount: 'Amount'
-        add_another_expense: 'Add Another Expense'
+        add_another_expense: 'Add another expense'
         vat_required: 'VAT on Fees & Expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
         supporting_evidence_docs: 'Supporting evidence documents'

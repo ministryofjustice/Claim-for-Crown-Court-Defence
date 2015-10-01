@@ -15,7 +15,7 @@ RSpec.describe ClaimPresenter do
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br>John Robert Smith,<br>Adam Smith")
+    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br />John Robert Smith,<br />Adam Smith")
   end
 
   it '#submitted_at' do
@@ -24,12 +24,12 @@ RSpec.describe ClaimPresenter do
     expect(subject.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
   end
 
-  it '#paid_at' do
-    claim.paid_at = Time.current
-    expect(subject.paid_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.paid_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.paid_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{subject.paid_at(rubbish: false) }.to raise_error(ArgumentError)
+  it '#authorised_at' do
+    claim.authorised_at = Time.current
+    expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
+    expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
+    expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
+    expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
 
@@ -143,7 +143,7 @@ RSpec.describe ClaimPresenter do
         defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), granting_body: "Magistrates' Court", maat_reference: 'xyz4321') ]
       end
       claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br/>Magistrates' Court 13/08/2015 abc1234<br/>Magistrates' Court 01/03/2015 xyz4321" )
+      expect(subject.representation_order_details).to eq( "Crown Court 01/03/2015 1234abc<br />Magistrates&#39; Court 13/08/2015 abc1234<br />Magistrates&#39; Court 01/03/2015 xyz4321" )
     end
   end
 

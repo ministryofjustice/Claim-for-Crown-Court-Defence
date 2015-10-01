@@ -8,7 +8,7 @@ class Claims::FinancialSummary
   end
 
   def authorised_claims
-    @context.claims.authorised.joins(:determinations)
+    @context.claims.any_authorised.joins(:determinations)
       .where('determinations.created_at >= ?', Time.now.beginning_of_week).group('claims.id')
   end
 

@@ -1,8 +1,8 @@
-//= require dropzone/basic
+//=require dropzone/basic
 
 // advocates
 
-$laa-gray:#bdbbbb;
+$laa-gray: #bdbbbb;
 $laa-green: #006d55;
 
 $body-bg:#F6F6F6;
@@ -13,6 +13,8 @@ $section-highlight-colour: #009ac7;
 $navbar-text:#fff;
 $sidebar-bg:#fff;
 
+
 @import "../imports";
 @import "claims-table";
-@import "report-options"
+@import "report-options";
+@import "dropzonejs";

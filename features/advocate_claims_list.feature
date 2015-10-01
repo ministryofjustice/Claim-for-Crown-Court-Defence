@@ -24,12 +24,12 @@ Feature: Advocate claims list
      Then I should see my chamber's <number> <state> claims
 
      Examples:
-       | state        | number |
-       | "submitted"  | 3      |
-       | "rejected"   | 3      |
-       | "part_paid"  | 3      |
-       | "paid"       | 3      |
-       | "draft"      | 3      |
+       | state              | number |
+       | "submitted"        | 3      |
+       | "rejected"         | 3      |
+       | "part_authorised"  | 3      |
+       | "authorised"       | 3      |
+       | "draft"            | 3      |
 
   Scenario: Claims list exludes archived claims (advocate admin)
     Given I am a signed in advocate admin

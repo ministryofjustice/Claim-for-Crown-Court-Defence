@@ -104,3 +104,11 @@ Then(/^the document should no longer be visible$/) do
     expect(page).to have_selector('li', count: 0)
   end
 end
+
+When(/^I attach a file$/) do
+  drag_and_drop_file('dropzone', 'features/examples/longer_lorem.pdf')
+end
+
+Given(/^the maximum allowed files are (\d+)$/) do |max_allowed_files|
+  allow(Settings).to receive(:max_document_upload_count).and_return max_allowed_files.to_i
+end

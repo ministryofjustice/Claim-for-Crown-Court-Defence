@@ -142,8 +142,8 @@ When(/^I fill in the claim details(.*)$/) do |details|
     end
   end
 
-  within 'table#evidence-checklist' do
-    element = find('td label', text: "Representation Order")
+  within 'fieldset#evidence-checklist' do
+    element = find('div label', text: "Representation Order")
     checkbox_id = element[:for]
     check checkbox_id
   end

@@ -25,7 +25,7 @@
 #  updated_at             :datetime
 #  valid_until            :datetime
 #  cms_number             :string
-#  paid_at                :datetime
+#  authorised_at          :datetime
 #  creator_id             :integer
 #  evidence_notes         :text
 #  evidence_checklist_ids :string
@@ -64,7 +64,7 @@ RSpec.describe Claim, type: :model do
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'deleted', 'draft', 'paid', 'part_paid', 'refused', 'rejected', 'submitted' ] }
+                           'deleted', 'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
 
     context 'advocate_dashboard_draft?' do
       before(:each)     { allow(claim).to receive(:state).and_return('draft') }
@@ -113,32 +113,32 @@ RSpec.describe Claim, type: :model do
       end
     end
 
-    context 'advocate_dashboard_part_paid' do
+    context 'advocate_dashboard_part_authorised' do
       it 'should respond true' do
-        [ 'part_paid' ].each do |state|
+        [ 'part_authorised' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
-          expect(claim.advocate_dashboard_part_paid?).to be true
+          expect(claim.advocate_dashboard_part_authorised?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'part_paid' ]).each do |claim_state|
+        (all_states - [ 'part_authorised' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
-          expect(claim.advocate_dashboard_part_paid?).to be false
+          expect(claim.advocate_dashboard_part_authorised?).to be false
         end
       end
     end
 
     context 'advocate_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'refused', 'paid' ].each do |state|
+        [ 'refused', 'authorised' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.advocate_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'refused', 'paid' ]).each do |claim_state|
+        (all_states - [ 'refused', 'authorised' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.advocate_dashboard_completed?).to be false
         end
@@ -209,7 +209,7 @@ RSpec.describe Claim, type: :model do
       claim = FactoryGirl.create :allocated_claim
       claim.assessment = Assessment.new
       claim_params = {
-        "state_for_form"=>"part_paid",
+        "state_for_form"=>"part_authorised",
         "assessment_attributes" => {
           "id" => claim.assessment.id,
           "fees" => "66.22",
@@ -220,22 +220,22 @@ RSpec.describe Claim, type: :model do
       # when
       claim.update_model_and_transition_state(claim_params)
       #then
-      expect(claim.reload.state).to eq 'part_paid'
+      expect(claim.reload.state).to eq 'part_authorised'
     end
 
     it 'should not transition when "state_for_form" is the same as the claim\'s state' do
-      claim = FactoryGirl.create :paid_claim
-      claim_params = {"state_for_form"=>"paid", 'assessment_attributes' => { "fees"=>"88.55", 'expenses' => '0.00'},"additional_information"=>""}
+      claim = FactoryGirl.create :authorised_claim
+      claim_params = {"state_for_form"=>"authorised", 'assessment_attributes' => { "fees"=>"88.55", 'expenses' => '0.00'},"additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
-      expect(claim.reload.state).to eq('paid')
+      expect(claim.reload.state).to eq('authorised')
     end
 
     it 'should not transition when "state_for_form" is blank' do
-      claim = FactoryGirl.create :paid_claim
+      claim = FactoryGirl.create :authorised_claim
 
       claim_params = {"state_for_form"=>"", 'assessment_attributes' => { "fees"=>"44.55", 'expenses' => '44.00'}, "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
-      expect(claim.reload.state).to eq('paid')
+      expect(claim.reload.state).to eq('authorised')
     end
   end
 
@@ -392,7 +392,7 @@ RSpec.describe Claim, type: :model do
         adv_bob_hoskins = create(:advocate, user: bob_hoskins)
         adv_bob_hoskins.save!
         create_list(:archived_pending_delete_claim,   2,  advocate: adv_bob_hoskins)
-        create_list(:paid_claim,                      2,  advocate: adv_bob_hoskins)
+        create_list(:authorised_claim,                      2,  advocate: adv_bob_hoskins)
         create(:allocated_claim,                          advocate: adv_bob_hoskins)
       end
 
@@ -401,7 +401,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim.search('Bob Hoskins',[:archived_pending_delete, :paid], search_options).count).to eql 4
+        expect(Claim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
@@ -673,13 +673,13 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#transition_state' do
-    it 'should call pay! if paid' do
-      expect(subject).to receive(:pay!)
-      subject.transition_state('paid')
+    it 'should call authorise! if authorised' do
+      expect(subject).to receive(:authorise!)
+      subject.transition_state('authorised')
     end
-    it 'should call pay_part! if part_paid' do
-      expect(subject).to receive(:pay_part!)
-      subject.transition_state('part_paid')
+    it 'should call authorise_part! if part_authorised' do
+      expect(subject).to receive(:authorise_part!)
+      subject.transition_state('part_authorised')
     end
     it 'should call reject! if rejected' do
       expect(subject).to receive(:reject!)
@@ -696,14 +696,14 @@ RSpec.describe Claim, type: :model do
     it 'should raise an exception if anything else' do
       expect{
         subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused, part_paid or refused to redetermination'
+      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination'
     end
   end
 
   describe 'STATES_FOR_FORM' do
     it "should have constant values" do
-      expect(Claim::STATES_FOR_FORM).to eql({part_paid: "Part paid",
-                                            paid: "Paid in full",
+      expect(Claim::STATES_FOR_FORM).to eql({part_authorised: "Part authorised",
+                                            authorised: "Authorised",
                                             rejected: "Rejected",
                                             refused: "Refused"
                                            })
@@ -751,31 +751,31 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe '#has_paid_state?' do
+  describe '#has_authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    def expect_has_paid_state_to_be(bool)
-     expect(claim.has_paid_state?).to eql(bool)
+    def expect_has_authorised_state_to_be(bool)
+     expect(claim.has_authorised_state?).to eql(bool)
     end
 
     it 'should return false for draft, submitted, allocated, and rejected claims' do
-     expect_has_paid_state_to_be false
+     expect_has_authorised_state_to_be false
      claim.submit
-     expect_has_paid_state_to_be false
+     expect_has_authorised_state_to_be false
      claim.allocate
-     expect_has_paid_state_to_be false
+     expect_has_authorised_state_to_be false
      claim.reject
-     expect_has_paid_state_to_be false
+     expect_has_authorised_state_to_be false
     end
 
-    it 'should return true for part_paid, paid claims' do
+    it 'should return true for part_authorised, authorised claims' do
      claim.submit
      claim.allocate
      claim.assessment.update(fees: 30.01, expenses: 70.00)
-     claim.pay_part
-     expect_has_paid_state_to_be true
-     claim.pay
-     expect_has_paid_state_to_be true
+     claim.authorise_part
+     expect_has_authorised_state_to_be true
+     claim.authorise
+     expect_has_authorised_state_to_be true
     end
   end
 
@@ -1015,7 +1015,7 @@ RSpec.describe Claim, type: :model do
           Timecop.freeze(Time.now - 2.hours) do
             @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
             Timecop.freeze(Time.now ) do
-              @claim.pay_part!
+              @claim.authorise_part!
               @claim.redetermine!
               @claim.allocate!
             end
@@ -1054,7 +1054,7 @@ RSpec.describe Claim, type: :model do
 
   describe '#amount_assessed' do
     let!(:claim) do
-      claim = create(:paid_claim)
+      claim = create(:authorised_claim)
       create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
       create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
       claim

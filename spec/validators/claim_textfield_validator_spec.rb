@@ -20,7 +20,7 @@ describe ClaimTextfieldValidator do
 context '#perform_validation?' do
 
     let(:claim_with_nil_values) do
-      nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length) 
+      nilify_attributes_for_object(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
       claim.defendants.destroy_all
       claim.fees.destroy_all
       claim.expenses.destroy_all
@@ -235,27 +235,27 @@ context '#perform_validation?' do
      claim
     }
 
-    it 'should NOT error if assessment provided prior to pay! or part_pay! transistions' do
-      expect{ assessed_claim.pay! }.to_not raise_error
+    it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
+      expect{ assessed_claim.authorise! }.to_not raise_error
     end
 
-    it 'should error if NO assessment present and state is transitioned to paid or part_paid' do
-      expect{ claim.pay! }.to raise_error
-      expect{ claim.part_pay! }.to raise_error
+    it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
+      expect{ claim.authorise! }.to raise_error
+      expect{ claim.part_authorise! }.to raise_error
     end
 
-    it 'should error if paid claim has assessment zeroized' do
-      assessed_claim.pay!
+    it 'should error if authorised claim has assessment zeroized' do
+      assessed_claim.authorise!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Authorised'] )
     end
 
-    it 'should error if paid claim has assessment updated to zero' do
-      assessed_claim.pay_part!
+    it 'should error if authorised claim has assessment updated to zero' do
+      assessed_claim.authorise_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0)
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state part_paid'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Part authorised'] )
     end
 
     context 'should be valid if amount assessed is zero' do
@@ -276,7 +276,7 @@ context '#perform_validation?' do
         claim.assessment.fees = 35.22
         it "should error if amount assessed is not zero for #{state}" do
           expect(claim).to_not be_valid
-          expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state}"] )
+          expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state.humanize}"] )
         end
       end
     end
@@ -297,7 +297,7 @@ context '#perform_validation?' do
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
-      claim.evidence_checklist_ids = ['10','2',' ']
+      claim.evidence_checklist_ids = ['9','2',' ']
       should_not_error(claim,:evidence_checklist_ids)
     end
 

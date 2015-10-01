@@ -2,7 +2,17 @@ class ClaimPresenter < BasePresenter
   presents :claim
 
   def defendant_names
-    claim.defendants.order('id ASC').map(&:name).join(',<br>').html_safe
+    defendant_names = claim.defendants.order('id ASC').map(&:name)
+
+    h.capture do
+      defendant_names.each do |name|
+        h.concat(name)
+        unless name == defendant_names.last
+          h.concat(',')
+          h.concat(h.tag :br)
+        end
+      end
+    end
   end
 
   def submitted_at(options={})
@@ -11,10 +21,10 @@ class ClaimPresenter < BasePresenter
     claim.submitted_at.strftime(format) unless claim.submitted_at.nil?
   end
 
-  def paid_at (options={})
+  def authorised_at (options={})
     options.assert_valid_keys(:include_time)
     format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.paid_at.strftime(format) unless claim.paid_at.nil?
+    claim.authorised_at.strftime(format) unless claim.authorised_at.nil?
   end
 
   def retrial
@@ -87,7 +97,14 @@ class ClaimPresenter < BasePresenter
   end
 
   def representation_order_details
-    claim.defendants.map(&:representation_order_details).flatten.join('<br/>').html_safe
+    rep_order_details = claim.defendants.map(&:representation_order_details).flatten
+
+    h.capture do
+      rep_order_details.each do |details|
+        h.concat(details)
+        h.concat(h.tag :br) unless details == rep_order_details.last
+      end
+    end
   end
 
   def assessment_date

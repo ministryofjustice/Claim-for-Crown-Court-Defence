@@ -1,0 +1,21 @@
+.grid-row.dz-preview.dz-file-preview
+  .column-three-quarter
+    .dz-filename
+      %span{:data => {'dz-name' => true}}
+      .file-info
+        = "("
+        %span.dz-size{:data => {'dz-size' => true}}
+        = ")"
+        %span.dz-progress
+          %span.dz-upload{:data => {'dz-uploadprogress' => true}}
+  .column-quarter
+    .dz-remove-link
+      %span{:data => {'dz-remove' => true}}
+    .dz-success-mark
+      %span
+        = "✔"
+    .dz-error-mark
+      %span
+        ="✘"
+    .dz-error-message
+      %span{:data => {'dz-errormessage' => true}}

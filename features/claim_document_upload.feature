@@ -63,3 +63,9 @@ Feature: Claim document upload
      When I remove a previously uploaded document
      Then the document should be deleted
       And the document should no longer be visible
+
+  Scenario: Attempt to attach more than the maximum allowed files
+    Given I am on the new claim page
+      And the maximum allowed files are 0
+     When I attach a file
+     Then no documents should have been created

@@ -21,10 +21,10 @@ class ClaimPresenter < BasePresenter
     claim.submitted_at.strftime(format) unless claim.submitted_at.nil?
   end
 
-  def paid_at (options={})
+  def authorised_at (options={})
     options.assert_valid_keys(:include_time)
     format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.paid_at.strftime(format) unless claim.paid_at.nil?
+    claim.authorised_at.strftime(format) unless claim.authorised_at.nil?
   end
 
   def retrial

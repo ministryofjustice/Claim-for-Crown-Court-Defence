@@ -9,6 +9,7 @@
 #  submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
+#  indictment_number      :string
 #  first_day_of_trial     :date
 #  estimated_trial_length :integer          default(0)
 #  actual_trial_length    :integer          default(0)
@@ -23,7 +24,7 @@
 #  updated_at             :datetime
 #  valid_until            :datetime
 #  cms_number             :string
-#  paid_at                :datetime
+#  authorised_at          :datetime
 #  creator_id             :integer
 #  evidence_notes         :text
 #  evidence_checklist_ids :string
@@ -52,8 +53,8 @@ class Claim < ActiveRecord::Base
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
 
   STATES_FOR_FORM = {
-    part_paid: "Part paid",
-    paid: "Paid in full",
+    part_authorised: "Part authorised",
+    authorised: "Authorised",
     rejected: "Rejected",
     refused: "Refused"
   }
@@ -91,7 +92,7 @@ class Claim < ActiveRecord::Base
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }
-  scope :authorised,  -> { where(state: %w( part_paid paid )) }
+  scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
 
   scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
@@ -197,8 +198,8 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def has_paid_state?
-    Claims::StateMachine::PAID_STATES.include?(self.state)
+  def has_authorised_state?
+    Claims::StateMachine::AUTHORISED_STATES.include?(self.state)
   end
 
   def state_for_form
@@ -209,15 +210,15 @@ class Claim < ActiveRecord::Base
     if form_input.blank?
       true
     elsif form_input_to_event[form_input] == nil
-      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to paid, part_paid, rejected or refused, part_paid or refused to redetermination')
+      raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination')
     else
       false
     end
   end
 
   def form_input_to_event
-    { "paid"                     => :pay!,
-      "part_paid"                => :pay_part!,
+    { "authorised"               => :authorise!,
+      "part_authorised"                => :authorise_part!,
       "rejected"                 => :reject!,
       "refused"                  => :refuse!,
       "redetermination"          => :redetermine!}

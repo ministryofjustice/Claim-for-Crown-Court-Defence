@@ -24,20 +24,21 @@ Scenario Outline: Update claim status
       | "Rejected"  		                | "" 		 	 | ""       | ""        |
 
 
-Scenario Outline: Update claim status without amount assessed
+Scenario Outline: Update claim status without amount assessed raises state transition error
     Given I am a signed in case worker
       And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
       And I view status details for a claim
-      And I select status <status> from select
+      And I select status "<status>" from select
       And I press update button
-     Then I should see errors
+     Then I should see error "Amount assessed cannot be zero for claims in state <status>"
+      And I should not see "Cannot transition state via"
 
     Examples:
       | status             |
-      | "Part authorised"  |
-      | "Authorised"       |
+      | Part authorised   |
+      | Authorised       |
 
 Scenario Outline: View claim status
     Given I am a signed in advocate

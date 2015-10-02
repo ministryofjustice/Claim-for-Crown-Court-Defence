@@ -68,9 +68,9 @@ module DemoData
       fee_type
     end
 
-    def create_fee(claim, fee_type, quantity, amount)
-      Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
-    end
+    # def create_fee(claim, fee_type, quantity, amount)
+    #   Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
+    # end
 
   end
 

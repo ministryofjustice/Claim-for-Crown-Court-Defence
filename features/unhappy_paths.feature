@@ -11,7 +11,7 @@ Feature: Unhappy paths
     Given I am a signed in advocate admin
     And There are case types in place
     And I am on the new claim page
-    And I fill in the claim details omitting the advocate
+    And I fill in the claim details omitting the advocate # will call step 'I will in claim details' which is without input for advocate by default
     When I save to drafts
     Then I should be redirected back to the create claim page
     And The entered values should be preserved on the page

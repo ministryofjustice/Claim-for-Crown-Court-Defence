@@ -74,7 +74,7 @@ module API
                   trial_cracked_at_yyyy:    extract_date(:year, params[:trial_cracked_at]),
                   trial_cracked_at_third:   params[:trial_cracked_at_third],
                   offence_id:               params[:offence_id],
-                  court_id:                 params[:court_id],
+                  court_id:                 params[:court_id] 
                 }
               end
             end

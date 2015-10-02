@@ -49,6 +49,7 @@ FactoryGirl.define do
     apply_vat  false
     assessment    { Assessment.new }
     after(:build) do |claim|
+      claim.fees << build(:fee, claim: claim, fee_type: FactoryGirl.build(:fee_type))
       claim.creator = claim.advocate
       populate_required_fields(claim)
     end
@@ -104,12 +105,12 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c|
-        c.submit!; c.allocate!; }
+      after(:create) { |c|  c.submit!; c.allocate!; }
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c| c.archive_pending_delete! }
+      after(:create) { |c|
+        c.archive_pending_delete! }
     end
 
     factory :authorised_claim do

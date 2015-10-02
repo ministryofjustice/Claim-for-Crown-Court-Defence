@@ -949,18 +949,6 @@ RSpec.describe Claim, type: :model do
       end
     end
 
-    
-
-    describe 'setting submission date on redetermination' do
-      it 'should set the submission date to the date it was redetermined' do
-        expect(claim.submitted_at).to eq (Time.now)
-        Timecop.freeze(5.days.from_now) do
-          claim.redetermine!
-        end
-        expect(claim.submitted_at).to eq (5.days.from_now)
-      end
-    end
-
     context 'when transitioned to allocated' do
       before do
         claim.redetermine!

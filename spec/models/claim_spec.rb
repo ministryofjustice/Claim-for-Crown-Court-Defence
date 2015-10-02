@@ -41,6 +41,7 @@
 #
 
 require 'rails_helper'
+require 'custom_matchers'
 
 RSpec.describe Claim, type: :model do
 
@@ -935,6 +936,28 @@ RSpec.describe Claim, type: :model do
 
       it 'should be open for redetermination' do
         expect(claim.opened_for_redetermination?).to eq(true)
+      end
+    end
+
+    describe 'submission_date' do
+      it 'should set the submission date to the date it was set to state redetermination' do
+        new_time = 36.hours.from_now
+        Timecop.freeze new_time do
+          claim.redetermine!
+        end
+        expect(claim.submitted_at).to be_within_seconds_of(new_time, 1)
+      end
+    end
+
+    
+
+    describe 'setting submission date on redetermination' do
+      it 'should set the submission date to the date it was redetermined' do
+        expect(claim.submitted_at).to eq (Time.now)
+        Timecop.freeze(5.days.from_now) do
+          claim.redetermine!
+        end
+        expect(claim.submitted_at).to eq (5.days.from_now)
       end
     end
 

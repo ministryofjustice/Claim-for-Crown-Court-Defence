@@ -221,10 +221,14 @@
         = render 'evidence_checklist', f: f
 
     %fieldset
-      = f.label t('.additional_information')
-      = f.text_area :additional_information, rows: 10
-      = validation_error_message(@claim, :additional_information)
-
+      %legend.bold-medium
+        = t('.additional_information')
+      .grid-row
+        .column-half
+          = f.text_area :additional_information, rows: 7
+          = validation_error_message(@claim, :additional_information)
+        .column-half
+          &nbsp;
     %p
       = f.submit t('.submit_to_laa'), class: 'button left'
       - if @claim.draft?

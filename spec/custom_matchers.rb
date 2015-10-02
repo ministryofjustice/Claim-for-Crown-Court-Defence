@@ -15,3 +15,12 @@ RSpec::Matchers.define :contain_claims do |*expected|
   end  
 
 end
+
+
+RSpec::Matchers.define :be_within_seconds_of do |expected_date, leeway|
+  match do |actual|
+    upper_limit = actual + leeway.seconds
+    lower_limit = actual - leeway.seconds
+    expected_date > lower_limit && expected_date < upper_limit
+  end
+end

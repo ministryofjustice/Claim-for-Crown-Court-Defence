@@ -25,3 +25,11 @@ Scenario: Sign in page for NOT API sandbox
       And I am a signed in advocate
      When I visit the advocates dashboard
      Then I should not see a link to the API documentation
+
+  Scenario: Interactive API documentation (swagger)
+    Given I am on the API sandbox
+      And I am a signed in advocate
+     When I visit the Interactive API Documentation page
+      And I should see the advocates correct working primary navigation
+      And I visit the Interactive API Documentation page
+     Then It should be styled to ADP GDS standards

@@ -20,5 +20,34 @@ When(/^I click on the API Sign up and Documentation link$/) do
 end
 
 Then(/^I should be directed to the API landing page$/) do
-  expect(page).to have_selector('h2',text: 'Advocate Defence Payments API')
+  expect(find('.page-title')).to have_content('Advocate Defence Payments API')
+end
+
+When(/^I visit the Interactive API Documentation page$/) do
+  steps <<-STEPS
+     When I visit the advocates dashboard
+     Then I should see a link to the API documentation
+      And I click the link to the API documention
+      And I click the link to the Interactive API Documentation
+     Then I should be directed to the Interactive API Documentation
+  STEPS
+end
+
+When(/^I click the link to the API documention$/) do
+  click_link('API Documentation')
+end
+
+When(/^I click the link to the Interactive API Documentation$/) do
+  click_link('Interactive API')
+end
+
+Then(/^I should be directed to the Interactive API Documentation$/) do
+  expect(find('.page-title')).to have_content('Interactive API Documentation')
+end
+
+When(/^It should be styled to ADP GDS standards$/) do
+  expect(find('.page-title')).to have_content('Interactive API Documentation')
+  expect(find('strong.phase-tag')).to have_content(Rails.configuration.send(:phase))
+  node = find('#logo').find('img')['src']
+  expect(node).to have_content('moj_logo_horizontal_36x246_for_swagger.png')
 end

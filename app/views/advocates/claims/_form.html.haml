@@ -79,13 +79,13 @@
             = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.basic_fees')
       #basic-fees
         %p
-          = t('.fee_prompt_text')
-          %a{:href => "https://www.gov.uk/government/publications/graduated-fee-calculators", :target => "_blank"} Graduated Fee Calculators
-        %table.table
+          = raw t('.fee_prompt_text')
+
+        %table
           %thead
             %tr
               %th

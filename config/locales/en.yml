@@ -224,6 +224,9 @@ en:
         select_offence_class: ' -- Select offence class -- '
       edit:
         edit: Edit claim
+      basic_fee_fields:
+        add_date_attended: 'Add date(s)'
+        remove: *remove
       expense_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
@@ -232,8 +235,10 @@ en:
         remove: *remove
       fixed_fee_fields:
         add_date_attended: 'Add date(s)'
+        remove: *remove
       misc_fee_fields:
         add_date_attended: 'Add date(s)'
+        remove: *remove
       financial_summary:
         total_outstanding: 'Total Outstanding:'
         total_authorised: 'Total Authorised:'
@@ -260,7 +265,10 @@ en:
         add_another_defendant: 'Add Another Defendant'
         additional_information: 'Additional information'
         basic_fees: 'Initial Fees'
-        fee_prompt_text: 'Manually enter the quantity and amount. Please see the relevant Fee Scheme Calculators for assistance in calculating individual amounts. see '
+        fee_prompt_text: |
+          Manually enter the quantity and amount.
+          Please see the relevant<br/><a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">Graduated Fee Calculators</a>
+          for assistance in calculating individual amounts.
         fee_type: 'Type of fee'
         quantity: 'Quantity'
         amount: 'Amount'

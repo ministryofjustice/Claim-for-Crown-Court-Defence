@@ -2,34 +2,33 @@ require 'rails_helper'
 
 RSpec.describe Claim, type: :model do
   subject { create(:claim) }
-  let(:fees)     { create_list(:fee, 2, fee_type: fee_type, claim_id: subject.id, amount: 4.00) }
   let(:expenses) { [3.5, 1.0, 142.0].each { |rate| create(:expense, claim_id: subject.id, quantity: 1, rate: rate) } }
+  let(:fee_type) { create(:fee_type) }
 
   context 'fees total' do
-    let(:fee_type) { create(:fee_type) }
-    before { fees; subject.reload }
 
     describe '#calculate_fees_total' do
       it 'calculates the fees total' do
-        expect(subject.calculate_fees_total).to eq(8.0)
+        expect(subject.calculate_fees_total).to eq(250.0)
       end
     end
 
     describe '#update_fees_total' do
       it 'stores the fees total' do
-        expect(subject.fees_total).to eq(8.0)
+        expect(subject.fees_total).to eq(250.0)
       end
 
       it 'updates the fees total' do
         create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
         subject.reload
-        expect(subject.fees_total).to eq(10.0)
+        expect(subject.fees_total).to eq(252.0)
       end
 
       it 'updates total when claim fee destroyed' do
+        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
         subject.fees.first.destroy
         subject.reload
-        expect(subject.fees_total).to eq(4.0)
+        expect(subject.fees_total).to eq(2.0)
       end
     end
   end
@@ -63,13 +62,12 @@ RSpec.describe Claim, type: :model do
   end
 
   context 'total' do
-    let(:fee_type) { create(:fee_type) }
-
-    before { fees; expenses; subject.reload }
+    before { expenses; subject.reload }
 
     describe '#calculate_total' do
       it 'calculates the fees and expenses total' do
-        expect(subject.calculate_total).to eq(154.5)
+        create(:expense, claim_id: subject.id, quantity: 3, rate: 1)
+        expect(subject.calculate_total).to eq(399.5)
       end
     end
 
@@ -78,14 +76,14 @@ RSpec.describe Claim, type: :model do
         create(:expense, claim_id: subject.id, quantity: 3, rate: 1)
         create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 4.00)
         subject.reload
-        expect(subject.total).to eq(161.5)
+        expect(subject.total).to eq(403.5)
       end
 
       it 'updates total when expense/fee destroyed' do
         subject.expenses.first.destroy # 3.5
-        subject.fees.first.destroy # 4.00
+        subject.fees.first.destroy # 250.0
         subject.reload
-        expect(subject.total).to eq(147.00)
+        expect(subject.total).to eq(143.00)
       end
     end
   end

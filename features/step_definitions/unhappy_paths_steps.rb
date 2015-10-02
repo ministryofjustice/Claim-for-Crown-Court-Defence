@@ -14,12 +14,6 @@ Given(/^I should see a sign in error message$/) do
   expect(page).to have_content('Invalid email or password')
 end
 
-Given(/^I fill in the claim details omitting the advocate$/) do
-  steps <<-STEPS
-    Given I fill in the claim details
-  STEPS
-end
-
 
 Given(/^I attempt to submit to LAA without specifying all the details$/) do
   steps <<-STEPS

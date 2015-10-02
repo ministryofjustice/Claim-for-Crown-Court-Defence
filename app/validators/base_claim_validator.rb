@@ -45,7 +45,7 @@ class BaseClaimValidator < ActiveModel::Validator
     infinity = 1.0/0
     lower_bound = lower_bound.blank? ? -infinity : lower_bound
     upper_bound = upper_bound.blank? ? infinity : upper_bound
-    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute))
+    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_i)
   end
 
   def add_error(attribute, message)

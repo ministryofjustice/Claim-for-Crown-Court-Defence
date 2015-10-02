@@ -6,14 +6,14 @@ describe ClaimDateValidator do
   let(:cracked_before_retrial_case_type)  { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked before retrial" }
   let(:contempt_case_type)                { FactoryGirl.build :case_type, :requires_trial_dates,    name: 'Contempt'}
 
-  let(:claim)                             { FactoryGirl.build :unpersisted_claim, force_validation: true }
+  let(:claim)                             { FactoryGirl.create :claim, force_validation: true }
   let(:cracked_trial_claim) do
-    claim = FactoryGirl.build :claim, force_validation: true, case_type: cracked_case_type
+    claim = FactoryGirl.create :claim, force_validation: true, case_type: cracked_case_type
     nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
   end
 
   let(:cracked_before_retrial_claim) do
-    claim = FactoryGirl.build :claim, force_validation: true, case_type: cracked_before_retrial_case_type
+    claim = FactoryGirl.create :claim, force_validation: true, case_type: cracked_before_retrial_case_type
     nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
   end
 
@@ -81,7 +81,7 @@ describe ClaimDateValidator do
   end
 
   context 'first day of trial' do
-    let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryGirl.build(:unpersisted_claim, force_validation: true, case_type: contempt_case_type), :first_day_of_trial) }
+    let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryGirl.create(:claim, force_validation: true, case_type: contempt_case_type), :first_day_of_trial) }
 
     it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "Please enter a valid date for first day of trial")  }
     it { should_errror_if_later_than_other_date(claim, :first_day_of_trial, :trial_concluded_at, "First day of trial must not be after date trial concluded") }
@@ -90,7 +90,7 @@ describe ClaimDateValidator do
   end
 
   context 'trial_concluded_at' do
-    let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryGirl.build(:unpersisted_claim, force_validation: true, case_type: contempt_case_type), :trial_concluded_at) }
+    let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryGirl.create(:claim, force_validation: true, case_type: contempt_case_type), :trial_concluded_at) }
 
     it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "Please enter a valid date for date trial concluded") }
     it { should_error_if_earlier_than_other_date(claim, :trial_concluded_at, :first_day_of_trial, "Date trial concluded must not be before first day of trial") }

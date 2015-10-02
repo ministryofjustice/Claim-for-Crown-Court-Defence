@@ -4,7 +4,7 @@ class GeckoboardApi::ApplicationController < ActionController::Base
   private
 
   def authenticate_token!
-    unless params[:token] == '1234' #ENV['GECKOBOARD_TOKEN']
+    unless params[:token] == ENV['GECKOBOARD_TOKEN'] || %w(test development).include?(Rails.env)
       render json: { error: 'Unauthorised' }, status: :unauthorized
     end
   end

@@ -1,6 +1,11 @@
-= form_tag case_workers_claims_path, method: :get do
-  = hidden_field_tag :tab, params[:tab]
-  = hidden_field_tag :sort, params[:sort]
-  = hidden_field_tag :direction, params[:direction]
-  = text_field_tag :search, params[:search], placeholder: 'e.g. MAAT Reference, Defendant name, Case worker name or email'
-  = submit_tag 'Search', class: 'button'
+%div.grid-row
+  %div.column-half
+    %div.form-inputs
+      = form_tag case_workers_claims_path, method: :get do
+        = hidden_field_tag :tab, params[:tab]
+        = hidden_field_tag :sort, params[:sort]
+        = hidden_field_tag :direction, params[:direction]
+        = text_field_tag :search, params[:search], placeholder: 'e.g. MAAT Reference, Defendant name, Case worker name or email', class: 'form-control-3-4'
+        = submit_tag t('common.search'), class: 'button button-secondary'
+  %div.column-half
+    &nbsp;

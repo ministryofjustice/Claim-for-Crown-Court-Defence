@@ -1,4 +1,6 @@
 - unless params[:tab] == 'allocated'
+  %h1.page-title
+    Allocation
   %p
     = form_tag case_workers_admin_allocations_path, method: :get, class: 'allocation-filter-form' do
       = label_tag do
@@ -53,6 +55,8 @@
       %span.claim-count
         = pluralize(@claims.count, 'claim')
 - else
+  %h1.page-title
+    Re-Allocation
   %p
     = form_tag case_workers_admin_allocations_path, method: :get do
       = hidden_field_tag :high_value, params[:high_value]

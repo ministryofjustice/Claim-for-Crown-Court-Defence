@@ -79,13 +79,13 @@
             = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.basic_fees')
       #basic-fees
         %p
-          = t('.fee_prompt_text')
-          %a{:href => "https://www.gov.uk/government/publications/graduated-fee-calculators", :target => "_blank"} Graduated Fee Calculators
-        %table.table
+          = raw t('.fee_prompt_text')
+
+        %table
           %thead
             %tr
               %th
@@ -99,10 +99,10 @@
               = render 'basic_fee_fields', f: basic_fee_fields
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.misc_fees')
       #misc-fees
-        %table.table
+        %table
           %thead
             %tr
               %th
@@ -116,13 +116,13 @@
           = f.fields_for :misc_fees do |misc_fee_fields|
             = render 'misc_fee_fields', f: misc_fee_fields
 
-        = link_to_add_association t('.add_misc_fee'), f, :misc_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_misc_fee'), f, :misc_fees, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.fixed_fees')
       #fixed-fees
-        %table.table
+        %table
           %thead
             %tr
               %th
@@ -136,13 +136,15 @@
           = f.fields_for :fixed_fees do |fixed_fee_fields|
             = render 'fixed_fee_fields', f: fixed_fee_fields
 
-        = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.expenses')
+      %span.form-hint.xsmall
+        = t('.expenses_help_text')
       #expenses
-        %table.table
+        %table
           %thead
             %tr
               %th
@@ -154,13 +156,13 @@
               %th
                 = t('.rate')
               %th
-                = t('.amount')
+                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
               %th
               %th
               = f.fields_for :expenses do |expense|
                 = render 'expense_fields', f: expense
 
-        = link_to_add_association t('.add_another_expense'), f, :expenses, class: 'button-secondary', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+        = link_to_add_association t('.add_another_expense'), f, :expenses, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
 
       %label
         = f.check_box :apply_vat
@@ -170,7 +172,7 @@
     = render partial: "shared/vat_summary", locals: { claim:  present(@claim) }
 
     %fieldset{id: 'evidence'}
-      %legend
+      %legend.bold-medium
         = t('.supporting_evidence_docs')
 
       .document-ids
@@ -219,10 +221,14 @@
         = render 'evidence_checklist', f: f
 
     %fieldset
-      = f.label t('.additional_information')
-      = f.text_area :additional_information, rows: 10
-      = validation_error_message(@claim, :additional_information)
-
+      %legend.bold-medium
+        = t('.additional_information')
+      .grid-row
+        .column-half
+          = f.text_area :additional_information, rows: 7
+          = validation_error_message(@claim, :additional_information)
+        .column-half
+          &nbsp;
     %p
       = f.submit t('.submit_to_laa'), class: 'button left'
       - if @claim.draft?

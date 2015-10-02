@@ -2,11 +2,17 @@
   %tr.nested-fields
     %td
       = f.object.description
+      - if f.object.description =~ /Basic fee/i
+        .form-hint
+          = raw t('.basic_fee_prompt_text')
     %td
-      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0
+      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 999, maxlength: 3
       = validation_error_message(f.object, :quantity)
     %td
-      = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', placeholder: t('number.currency.format.unit')
+      %div.pound-wrapper
+        %div.pound-sign.bold-xsmall
+          &pound;
+        = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
       = validation_error_message(f.object, :amount)
     %td.add-basic-fee-date-attended
       - if f.object.fee_type.has_dates_attended?

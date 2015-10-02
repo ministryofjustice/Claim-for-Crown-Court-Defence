@@ -55,7 +55,7 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
 
   number.to_i.times do
   within "##{div_id}" do
-    click_on "Add Date Attended"
+    click_on "Add date(s)"
   end
  end
 

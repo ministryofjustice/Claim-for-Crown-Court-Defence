@@ -1,13 +1,16 @@
 %tbody.misc-fee-group
   %tr.nested-fields
     %td
-      = f.collection_select :fee_type_id, FeeType.misc, :id, :description, {prompt: true}, {class: 'select2'}
+      = f.collection_select :fee_type_id, FeeType.misc, :id, :description, {prompt: true}, {class: 'select2', style: 'width:350px'}
       = validation_error_message(f.object, :fee_type_id)
     %td
-      = f.number_field :quantity, class: 'quantity', min: 0
+      = f.number_field :quantity, class: 'quantity', min: 0, max: 999, maxlength: 3
       = validation_error_message(f.object, :quantity)
     %td
-      = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', placeholder: t('number.currency.format.unit')
+      %div.pound-wrapper
+        %div.pound-sign.bold-xsmall
+          &pound;
+        = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
       = validation_error_message(f.object, :amount)
     %td.add-misc-fee-date-attended
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}

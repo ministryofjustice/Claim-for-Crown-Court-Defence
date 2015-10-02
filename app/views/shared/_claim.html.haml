@@ -36,6 +36,19 @@
             = t('.case_type')
           %dd
             = claim.case_type.try(:name)
+          - if claim.case_type.requires_cracked_dates
+            %dt
+              = t('advocates.claims.cracked_trial_fields.trial_fixed_notice_at')
+            %dd
+              = claim.trial_fixed_notice_at.strftime('%d/%m/%Y')
+            %dt
+              = t('advocates.claims.cracked_trial_fields.trial_fixed_at')
+            %dd
+              = claim.trial_fixed_at.strftime('%d/%m/%Y')
+            %dt
+              = t('advocates.claims.cracked_trial_fields.trial_cracked_at')
+            %dd
+              = "#{claim.trial_cracked_at.strftime('%d/%m/%Y')} (#{claim.trial_cracked_at_third.humanize})"
           %dt
             =t('.offence')
           %dd

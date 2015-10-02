@@ -2,6 +2,9 @@
   %tr.nested-fields
     %td
       = f.object.description
+      - if f.object.description =~ /Basic fee/i
+        .form-hint
+          = raw t('.basic_fee_prompt_text')
     %td
       = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 999, maxlength: 3
       = validation_error_message(f.object, :quantity)

@@ -225,6 +225,9 @@ en:
       edit:
         edit: Edit claim
       basic_fee_fields:
+        basic_fee_prompt_text: |
+          Please include dates for those Standard appearance<br />
+          fees and PCMH's included in the Basic Fee
         add_date_attended: 'Add date(s)'
         remove: *remove
       expense_fields:

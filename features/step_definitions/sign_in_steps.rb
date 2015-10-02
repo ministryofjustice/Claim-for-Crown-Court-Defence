@@ -95,25 +95,30 @@ Then(/^I should see the advocates Admin link and it should work$/) do
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do
-  step "I should see the caseworkers Home link and it should work"
+  step "I should see the caseworkers Your Claims link and it should work"
 end
 
 Then(/^I should see the admin caseworkers correct working primary navigation$/) do
-  step "I should see the admin caseworkers Summary link and it should work"
+  step "I should see the admin caseworkers Your Claims link and it should work"
   step "I should see the admin caseworkers Allocation link and it should work"
+  step "I should see the admin caseworkers Re-allocation link and it should work"
   step "I should see the admin caseworkers Admin link and it should work"
 end
 
-Then(/^I should see the caseworkers Home link and it should work$/) do
-  find('#primary-nav').click_link('Home')
+Then(/^I should see the caseworkers Your Claims link and it should work$/) do
+  find('#primary-nav').click_link('Your Claims')
 end
 
-Then(/^I should see the admin caseworkers Summary link and it should work$/) do
-  find('#primary-nav').click_link('Summary')
+Then(/^I should see the admin caseworkers Your Claims link and it should work$/) do
+  find('#primary-nav').click_link('Your Claims')
 end
 
 Then(/^I should see the admin caseworkers Allocation link and it should work$/) do
   find('#primary-nav').click_link('Allocation')
+end
+
+Then(/^I should see the admin caseworkers Re-allocation link and it should work$/) do
+  find('#primary-nav').click_link('Re-allocation')
 end
 
 Then(/^I should see the admin caseworkers Admin link and it should work$/) do

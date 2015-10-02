@@ -172,7 +172,7 @@
     = render partial: "shared/vat_summary", locals: { claim:  present(@claim) }
 
     %fieldset{id: 'evidence'}
-      %legend
+      %legend.bold-medium
         = t('.supporting_evidence_docs')
 
       .document-ids

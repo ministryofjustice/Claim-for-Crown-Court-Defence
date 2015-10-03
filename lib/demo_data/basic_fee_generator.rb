@@ -17,11 +17,16 @@ module DemoData
 
     private
 
-    def add_baf
-      create_fee(@claim, fee_type_by_code('BAF'), 1, 250)
-      @codes_added << 'baf'
+    def update_basic_fee(basic_fee_code, quantity, amount)
+      fee = @claim.basic_fees.find_or_create_by(fee_type_id: fee_type_by_code(basic_fee_code))
+      fee.update(quantity: quantity, amount: amount)
+      @codes_added << basic_fee_code
     end
 
+    def add_baf
+      update_basic_fee('BAF', 1, 250)
+      @codes_added << 'BAF'
+    end
 
     def add_daily_attendances
       add_daf if @claim.actual_trial_length > 2
@@ -32,26 +37,21 @@ module DemoData
     def add_daf
       quantity = @claim.case_type.requires_trial_dates? ? @claim.actual_trial_length - 2 : 1
       amount   = @claim.case_type.requires_trial_dates? ? 250 * @claim.actual_trial_length - 2 : 250
-      fee      = create_fee(@claim, fee_type_by_code('DAF'),  quantity, amount)
-      @codes_added << 'daf'
+      update_basic_fee('DAF', quantity, amount)
     end
 
     def add_dah
       return unless @claim.case_type.requires_trial_dates?
-      fee = create_fee(@claim, fee_type_by_code('DAH'), @claim.actual_trial_length - 40, amount: 250 * @claim.actual_trial_length - 40)
-      @codes_added << 'dah'
+      update_basic_fee('DAH', @claim.actual_trial_length - 40, 250 * @claim.actual_trial_length - 40)
     end
 
     def add_daj
       return unless @claim.case_type.requires_trial_dates?
-      fee = create_fee(@claim, fee_type_by_code('DAJ'), @claim.actual_trial_length - 50, amount: 250 * @claim.actual_trial_length - 50)
-      @codes_added << 'daj'
+      update_basic_fee('DAJ', @claim.actual_trial_length - 50, 250 * @claim.actual_trial_length - 50)
     end
  
     def add_pcm
-      qty = rand(0..3)
-      fee = create_fee(@claim, fee_type_by_code('DAJ'), qty, amount: 125)
-      @codes_added << 'pcm'
+      update_basic_fee('PCM', rand(0..3), 125)
     end
 
     def add_fee
@@ -59,8 +59,7 @@ module DemoData
       while @codes_added.include?(fee_type.code)
         fee_type = @fee_types.sample
       end
-      create_fee( @claim, fee_type,  rand(0..10), rand(100..900) )
-      @codes_added << fee_type.code
+      update_basic_fee(fee_type.code, rand(0..10), rand(100..900) )
     end
 
     def fee_type_by_code(code)
@@ -69,9 +68,9 @@ module DemoData
       fee_type
     end
 
-    def create_fee(claim, fee_type, quantity, amount)
-      Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
-    end
+    # def create_fee(claim, fee_type, quantity, amount)
+    #   Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
+    # end
 
   end
 

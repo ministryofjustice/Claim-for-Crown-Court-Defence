@@ -85,6 +85,7 @@ module API
         # must be updated if they already exist, otherwise created.
         # all other model class instances must be created.
         #
+        
         args = arg_builder_proc.call
         if basic_fee_update_required(model_klass, args)
           model_instance = model_klass.where(fee_type_id: args[:fee_type_id], claim_id: args[:claim_id]).first

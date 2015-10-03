@@ -3,9 +3,9 @@ module Claims::Calculations
   def calculate_fees_total(category=nil)
     fees.reload
     if category.blank?
-      fees.map(&:amount).sum
+      fees.map(&:amount).compact.sum
     else
-      __send__("#{category.downcase}_fees").map(&:amount).sum
+      __send__("#{category.downcase}_fees").map(&:amount).compact.sum
     end
   end
 

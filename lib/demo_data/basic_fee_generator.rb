@@ -18,7 +18,8 @@ module DemoData
     private
 
     def update_basic_fee(basic_fee_code, quantity, amount)
-      fee = @claim.basic_fees.find_or_create_by(fee_type_id: fee_type_by_code(basic_fee_code))
+      fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
+      raise "fee code #{basic_fee_code} does not match any known basic fees" if fee.fee_type_id.nil?
       fee.update(quantity: quantity, amount: amount)
       @codes_added << basic_fee_code
     end
@@ -49,7 +50,7 @@ module DemoData
       return unless @claim.case_type.requires_trial_dates?
       update_basic_fee('DAJ', @claim.actual_trial_length - 50, 250 * @claim.actual_trial_length - 50)
     end
- 
+
     def add_pcm
       update_basic_fee('PCM', rand(0..3), 125)
     end
@@ -62,15 +63,11 @@ module DemoData
       update_basic_fee(fee_type.code, rand(0..10), rand(100..900) )
     end
 
-    def fee_type_by_code(code)
-      fee_type = FeeType.find_by(code: code)
+    def basic_fee_type_by_code(code)
+      fee_type = FeeType.basic.find_by(code: code)
       raise RuntimeError.new "Unable to find Fee Type with code #{code}" if fee_type.nil?
       fee_type
     end
-
-    # def create_fee(claim, fee_type, quantity, amount)
-    #   Fee.create(claim: claim, fee_type: fee_type, quantity: quantity, amount: amount)
-    # end
 
   end
 

@@ -2,14 +2,20 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
   respond_to :html
-  before_action :set_claims, only: [:index]
+  before_action :set_claims, only: [:index, :archived]
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
-  before_action :set_search_options, only: [:index]
+  before_action :set_search_options, only: [:index, :archived]
 
   include ReadMessages
 
   def index
+    search if params[:search].present?
+    @claims = @claims.order("#{sort_column} #{sort_direction}")
+    set_claim_ids_and_count
+  end
+
+  def archived
     search if params[:search].present?
     @claims = @claims.order("#{sort_column} #{sort_direction}")
     set_claim_ids_and_count
@@ -79,17 +85,26 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       @claims = case tab
         when 'current'
           current_user.claims.caseworker_dashboard_under_assessment
+        when 'archived'
+          current_user.claims.caseworker_dashboard_archived
         when 'allocated'
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
           Claim.submitted_or_redetermination_or_awaiting_written_reasons
+
+        # TODO: no longer used? - remove
         when 'completed'
           Claim.caseworker_dashboard_completed
+        
       end
     else
       @claims = case tab
         when 'current'
           current_user.claims.caseworker_dashboard_under_assessment
+        when 'archived'
+          current_user.claims.caseworker_dashboard_archived
+
+        # TODO: no longer used? - remove
         when 'completed'
           current_user.claims.caseworker_dashboard_completed
       end
@@ -98,9 +113,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def tab
     if current_user.persona.admin?
-      %w(allocated unallocated current completed).include?(params[:tab]) ? params[:tab] : 'allocated'
+      %w(allocated unallocated current archived completed).include?(params[:tab]) ? params[:tab] : 'allocated'
     else
-      %w(current completed).include?(params[:tab]) ? params[:tab] : 'current'
+      %w(current archived completed).include?(params[:tab]) ? params[:tab] : 'current'
     end
   end
 

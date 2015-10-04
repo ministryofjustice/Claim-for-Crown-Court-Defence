@@ -60,8 +60,6 @@ Rails.application.routes.draw do
       resource :certification, only: [:new, :create]
     end
 
-
-
     namespace :admin do
       root to: 'claims#index'
 
@@ -70,13 +68,15 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
-  end
 
+  end
 
   namespace :case_workers do
     root to: 'claims#index'
 
-    resources :claims, only: [:index, :show, :update]
+    resources :claims, only: [:index, :show, :update] do
+    get 'archived', on: :collection
+    end
 
     namespace :admin do
       root to: 'allocations#new'

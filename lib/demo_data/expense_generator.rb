@@ -2,8 +2,6 @@ module DemoData
 
   class ExpenseGenerator
 
-    # Call as FeeGenerator.new(claim, :fixed)  or FeeGenerator.new(claim, :misc)
-    #
     def initialize(claim)
       @claim         = claim
       @expense_types = ExpenseType.all

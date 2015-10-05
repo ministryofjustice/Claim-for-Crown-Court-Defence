@@ -11,40 +11,46 @@
             %li
               = message
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.case_advocate_offence')
 
       - if current_user.persona.admin?
-        = f.label t('.advocate')
-        = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-        = validation_error_message(@claim, :advocate)
-
-      = f.label t('.case_type')
-      = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
-      = validation_error_message(@claim, :case_type_id)
-
-      = render 'cracked_trial_fields', f: f
-
-      = f.label t('.court')
-      = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-      = validation_error_message(@claim, :court)
-
-      = f.label t('.case_number')
-      = f.text_field :case_number
-      = validation_error_message(@claim, :case_number)
-
-      = f.label t('.advocate_category')
-      = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2' }
-      = validation_error_message(@claim, :advocate_category)
-
-      = f.label t('.offence_category')
-      - if @claim.new_record?
-        - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+        .grid-row
+          .column-half
+            = f.label t('.advocate')
+            = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+            = validation_error_message(@claim, :advocate)
+          .column-half
+            = f.label t('.case_type')
+            = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
+            = validation_error_message(@claim, :case_type_id)
       - else
-        - selected_offence_category = @claim.offence.description rescue nil
-
-      = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
-      = validation_error_message(@claim, :offence)
+        = f.label t('.case_type')
+        = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
+        = validation_error_message(@claim, :case_type_id)
+      = render 'cracked_trial_fields', f: f
+      .grid-row
+        .column-half
+          = f.label t('.court')
+          = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2', style:'width:300px' }
+          = validation_error_message(@claim, :court)
+        .column-half
+          = f.label t('.case_number')
+          = f.text_field :case_number
+          = validation_error_message(@claim, :case_number)
+      .grid-row
+        .column-half
+          = f.label t('.advocate_category')
+          = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
+          = validation_error_message(@claim, :advocate_category)
+        .column-half
+          = f.label t('.offence_category')
+          - if @claim.new_record?
+            - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+          - else
+            - selected_offence_category = @claim.offence.description rescue nil
+          = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
+          = validation_error_message(@claim, :offence)
 
       .offence-class-select
         = render partial: "offence_select", locals: { offences: @offences }

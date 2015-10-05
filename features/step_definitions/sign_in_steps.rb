@@ -96,10 +96,12 @@ end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do
   step "I should see the caseworkers Your Claims link and it should work"
+  step "I should see the caseworkers Archive link and it should work"
 end
 
 Then(/^I should see the admin caseworkers correct working primary navigation$/) do
   step "I should see the admin caseworkers Your Claims link and it should work"
+  step "I should see the admin caseworkers Archive link and it should work"
   step "I should see the admin caseworkers Allocation link and it should work"
   step "I should see the admin caseworkers Re-allocation link and it should work"
   step "I should see the admin caseworkers Admin link and it should work"
@@ -107,18 +109,32 @@ end
 
 Then(/^I should see the caseworkers Your Claims link and it should work$/) do
   find('#primary-nav').click_link('Your Claims')
+  expect(find('h1.page-title')).to have_content('Your Claims')
+end
+
+Then(/^I should see the caseworkers Archive link and it should work$/) do
+  find('#primary-nav').click_link('Archive')
+  expect(find('h1.page-title')).to have_content('Archived Claims')
 end
 
 Then(/^I should see the admin caseworkers Your Claims link and it should work$/) do
   find('#primary-nav').click_link('Your Claims')
+  expect(find('h1.page-title')).to have_content('Your Claims')
+end
+
+Then(/^I should see the admin caseworkers Archive link and it should work$/) do
+  find('#primary-nav').click_link('Archive')
+  expect(find('h1.page-title')).to have_content('Archived Claims')
 end
 
 Then(/^I should see the admin caseworkers Allocation link and it should work$/) do
   find('#primary-nav').click_link('Allocation')
+  expect(find('h1.page-title')).to have_content('Allocation')
 end
 
 Then(/^I should see the admin caseworkers Re-allocation link and it should work$/) do
   find('#primary-nav').click_link('Re-allocation')
+  expect(find('h1.page-title')).to have_content('Re-Allocation')
 end
 
 Then(/^I should see the admin caseworkers Admin link and it should work$/) do

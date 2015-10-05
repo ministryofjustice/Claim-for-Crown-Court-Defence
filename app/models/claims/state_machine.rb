@@ -10,6 +10,7 @@ module Claims::StateMachine
   CASEWORKER_DASHBOARD_COMPLETED_STATES         = %w( authorised part_authorised rejected refused )
   CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES  = %w( allocated )
   CASEWORKER_DASHBOARD_UNALLOCATED_STATES       = %w( submitted redetermination awaiting_written_reasons )
+  CASEWORKER_DASHBOARD_ARCHIVED_STATES          = %w( authorised part_authorised rejected refused )
   VALID_STATES_FOR_REDETERMINATION              = %w( authorised part_authorised refused )
   NON_DRAFT_STATES                              = %w( allocated deleted authorised part_authorised refused rejected submitted )
   AUTHORISED_STATES                             = ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
@@ -109,14 +110,14 @@ module Claims::StateMachine
 
     klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }
 
-    klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )                 }
-    klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )              }
-    klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )             }
-    klass.scope :advocate_dashboard_part_authorised,      -> { klass.where(state: ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES )       }
-    klass.scope :advocate_dashboard_completed,            -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES )             }
-    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)            }
-    klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)     }
-    klass.scope :caseworker_dashboard_archived,           -> { klass.where.not(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES + CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }
+    klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )             }
+    klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )          }
+    klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )         }
+    klass.scope :advocate_dashboard_part_authorised,      -> { klass.where(state: ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES )   }
+    klass.scope :advocate_dashboard_completed,            -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES )         }
+    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)        }
+    klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
+    klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES)         }
 
   end
 

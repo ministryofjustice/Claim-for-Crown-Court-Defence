@@ -81,7 +81,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         when 'current'
           current_user.claims.caseworker_dashboard_under_assessment
         when 'archived'
-          current_user.claims.caseworker_dashboard_archived
+          Claim.caseworker_dashboard_archived
         when 'allocated'
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'

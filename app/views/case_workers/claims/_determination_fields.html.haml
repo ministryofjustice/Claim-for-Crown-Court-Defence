@@ -1,0 +1,28 @@
+.nested-fields
+  %tr.determination-form-fields
+    %td
+      Fees
+    %td.currency
+      %span.currency-symbol
+      = claim.fees_total
+    %td.currency
+      %span.currency-symbol
+        &pound;
+      = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: "js-fees"
+  %tr.determination-form-fields
+    %td
+      Expenses
+    %td.currency
+      = claim.expenses_total
+    %td.currency
+      %span.currency-symbol
+        &pound;
+      = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: "js-expenses"
+  %tr.determination-form-fields
+    %td
+      Total
+    %td.currency
+      = claim.total
+    %td
+      %span.js-total-determination
+        = number_to_currency(f.object.total)

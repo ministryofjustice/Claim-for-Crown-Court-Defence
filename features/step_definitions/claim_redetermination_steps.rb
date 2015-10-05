@@ -41,6 +41,8 @@ end
 
 Given(/^a redetermined claim is assigned to me$/) do
   @claim = create(:redetermination_claim)
+  @claim.fees << build(:fee, :with_date_attended, claim: @claim, fee_type: FactoryGirl.build(:fee_type))
+  @claim.expenses << build(:expense, :with_date_attended, claim: @claim, expense_type: FactoryGirl.build(:expense_type))
   @claim.case_workers << @case_worker
 end
 
@@ -80,28 +82,26 @@ Then(/^the claim should no longer awaiting written reasons$/) do
 end
 
 Then(/^a form should be visible for me to enter the redetermination amounts$/) do
-  expect(page).to have_content('Enter redetermined amounts')
   expect(page).to have_selector('#claim_redeterminations_attributes_0_fees')
 end
 
 When(/^I enter redetermination amounts$/) do
   fill_in 'claim_redeterminations_attributes_0_fees', with: 1577.22
   fill_in 'claim_redeterminations_attributes_0_expenses', with: 805.75
+  select 'Part authorised', from: 'claim_state_for_form'
   click_button 'Update'
 end
 
 
 Then(/^There should be no form to enter redetermination amounts$/) do
-  expect(page).not_to have_content('Enter redetermined amounts')
   expect(page).not_to have_selector('#claim_redeterminations_attributes_0_fees')
 end
 
 Then(/^The redetermination I just entered should be visible$/) do
-  expect(page).to have_content('Redetermination of')
-  within('#redetermination-fees') do
+  within('#determination-fees') do
     expect(page).to have_content('£1,577.22')
   end
-  within('#redetermination-expenses') do
+  within('#determination-expenses') do
     expect(page).to have_content('£805.75')
   end
 end

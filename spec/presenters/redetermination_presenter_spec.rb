@@ -16,8 +16,8 @@ describe RedeterminationPresenter do
   context 'currency fields' do
   
     it 'should format currency amount' do
-      expect(presenter.fees).to eq '£1,452.33'
-      expect(presenter.expenses).to eq '£2,455.77'
+      expect(presenter.fees_total).to eq '£1,452.33'
+      expect(presenter.expenses_total).to eq '£2,455.77'
       expect(presenter.total).to eq '£3,908.10'
     end
   end

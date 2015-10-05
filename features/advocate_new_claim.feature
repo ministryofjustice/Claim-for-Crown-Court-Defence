@@ -157,7 +157,7 @@ Scenario Outline: Add fees with dates attended then remove fee
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for the miscellaneous fee
 
-  Scenario: Fixed Fee case type does not save Initial/Misc Fees
+  Scenario: Fixed Fee case type does not save Initial Fees
      Given I am a signed in advocate
        And There are fee schemes in place
        And There are case types in place
@@ -167,7 +167,7 @@ Scenario Outline: Add fees with dates attended then remove fee
        And I select a Case Type of "Fixed fee"
        And I submit to LAA
       Then There should not be any Initial Fees saved
-       And There should not be any Miscellaneous Fees Saved
+       And There should be a Miscellaneous Fee Saved
 
   Scenario: Non-Fixed Fee case type does not save Fixed Fees
      Given I am a signed in advocate
@@ -189,4 +189,4 @@ Scenario Outline: Add fees with dates attended then remove fee
       And I select a Case Type of "Fixed fee"
       And I submit to LAA
      Then There should not be any Initial Fees saved
-      And There should not be any Miscellaneous Fees Saved
+      And There should be a Miscellaneous Fee Saved

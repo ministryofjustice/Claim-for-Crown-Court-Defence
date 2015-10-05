@@ -376,12 +376,12 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               expect(claim.basic_fees.size).to eq 4
               expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
 
-              # miscellaneous fees are destroyed implicitly by claim model for fixed-fee case types
-              expect(claim.misc_fees.size).to eq 0
+              # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
+              expect(claim.misc_fees.size).to eq 1
               expect(claim.fixed_fees.size).to eq 1
               expect(claim.fixed_fees.map(&:amount).sum).to eql 2500.00
 
-              expect(claim.reload.fees_total).to eq 2500.00
+              expect(claim.reload.fees_total).to eq 2750.00
             end
           end
 

@@ -355,9 +355,13 @@ en:
         h2_status: Status
         h2_summary: Claim summary
         heading: Claim
+      claims_list:
+        no_claims_found: 'No claims found'
       claims:
-        submission_date: Submitted date
-        status: Status
-        defendants: Defendants
         case_number: Case Number
+        advocate: Advocate
+        defendants: Defendants
         total: Claimed
+        status: Status
+        submission_date: Submitted date
+        messages: Messages

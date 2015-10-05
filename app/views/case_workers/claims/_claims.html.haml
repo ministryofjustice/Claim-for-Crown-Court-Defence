@@ -1,7 +1,6 @@
-%table#claims-list
+%table.claims_table
   %thead
     %tr
-      %th
       %th
         = t(".case_number")
       %th
@@ -16,11 +15,11 @@
       %th
         = t(".submission_date")
       %th.message-placeholder
+        = t(".messages")
   %tbody
     - @claims.each do |claim_object|
       - present(claim_object) do | claim |
         %tr
-          %td
           %td
             = link_to claim.case_number , case_workers_claim_path(claim),{:class => 'js-test-case-number-link'}
           %td

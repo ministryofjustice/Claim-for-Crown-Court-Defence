@@ -10,6 +10,6 @@
 
 - if @claims.none?
   %p
-    No claims found
+    = t(".no_claims_found")
 - else
   = render partial: 'claims'

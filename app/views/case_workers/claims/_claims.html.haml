@@ -10,6 +10,9 @@
         Defendant(s)
       %th{:title => "Including VAT"}
         Claim Total
+      - if params[:action] == 'archived'
+        %th
+          Status
       %th
         Date
       %th.message-placeholder
@@ -26,6 +29,9 @@
             = claim.defendant_names
           %td.js-test-total
             = claim.total_inc_vat
+          - if params[:action] == 'archived'
+            %td
+              = claim.state.humanize
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages

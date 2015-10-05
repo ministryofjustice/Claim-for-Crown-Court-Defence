@@ -2,23 +2,18 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
   respond_to :html
-  before_action :set_claims, only: [:index, :archived]
+  before_action :set_claims,          only: [:index, :archived]
+  before_action :set_search_options,  only: [:index, :archived]
+  before_action :filter_claims,       only: [:index, :archived]
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
-  before_action :set_search_options, only: [:index, :archived]
 
   include ReadMessages
 
   def index
-    search if params[:search].present?
-    @claims = @claims.order("#{sort_column} #{sort_direction}")
-    set_claim_ids_and_count
   end
 
   def archived
-    search if params[:search].present?
-    @claims = @claims.order("#{sort_column} #{sort_direction}")
-    set_claim_ids_and_count
   end
 
   def show
@@ -95,7 +90,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         # TODO: no longer used? - remove
         when 'completed'
           Claim.caseworker_dashboard_completed
-        
+
       end
     else
       @claims = case tab
@@ -138,4 +133,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       @search_options = ['All', 'MAAT Reference', 'Defendant']
     end
   end
+
+  def filter_claims
+    search if params[:search].present?
+    @claims = @claims.order("#{sort_column} #{sort_direction}")
+    set_claim_ids_and_count
+  end
+
 end

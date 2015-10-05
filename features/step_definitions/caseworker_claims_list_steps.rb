@@ -3,8 +3,8 @@ Given(/^claims have been assigned to me$/) do
   @claims = create_list(:allocated_claim, 5)
   @other_claims = create_list(:allocated_claim, 3)
   @claims.each { |claim| claim.case_workers << @case_worker }
-  # create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7418529635') ]
-  # create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '9516249873') ]
+  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7418529635') ]
+  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '9516249873') ]
 end
 
 Given(/^there are allocated claims$/) do
@@ -52,14 +52,12 @@ When(/^I visit my dashboard$/) do
 end
 
 Then(/^I should see the unallocated claims$/) do
-  save_and_open_page
  @claims.each do | claim |
     expect(page).to have_selector("tr#claim_#{claim.id}")
   end
 end
 
 Then(/^I should see the allocated claims$/) do
-  save_and_open_page
  @claims.each do | claim |
     expect(page).to have_selector("tr#claim_#{claim.id}")
   end

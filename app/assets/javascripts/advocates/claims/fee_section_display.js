@@ -76,7 +76,7 @@ adp.feeSectionDisplay = {
 
     $warning.remove();
 
-    if (isFixedFee && (feeExists('.basic-fee-group') || feeExists('.misc-fee-group'))) {
+    if (isFixedFee && (feeExists('.basic-fee-group'))) {
       adp.feeSectionDisplay.$caseTypeSelect.after(warningMsg);
     } else if (!isFixedFee && feeExists('.fixed-fee-group')) {
       adp.feeSectionDisplay.$caseTypeSelect.after(warningMsg);
@@ -86,7 +86,7 @@ adp.feeSectionDisplay = {
 
   applyFixedFeeState : function(state) {
     if (state) {
-      adp.feeSectionDisplay.applyWarning('Initial and Miscellaneous fees exist that will be removed if you save this claim as a Fixed Fee!', state);
+      adp.feeSectionDisplay.applyWarning('Initial fees exist that will be removed if you save this claim as a Fixed Fee!', state);
       adp.feeSectionDisplay.$basicFeesSet.slideUp();
       adp.feeSectionDisplay.$fixedFeesSet.slideDown();
 

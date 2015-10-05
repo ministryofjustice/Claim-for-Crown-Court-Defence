@@ -3,18 +3,18 @@
     %tr
       %th
       %th
-        Case number
+        = t(".case_number")
       %th
-        Advocate
+        = t(".advocate")
       %th
-        Defendant(s)
+        = t(".defendants")
       %th{:title => "Including VAT"}
-        Claim Total
+        = t(".total")
       - if params[:action] == 'archived'
         %th
-          Status
+          = t(".status")
       %th
-        Date
+        = t(".submission_date")
       %th.message-placeholder
   %tbody
     - @claims.each do |claim_object|

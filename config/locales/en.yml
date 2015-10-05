@@ -183,7 +183,7 @@ en:
         no_claims_found: 'No claims found'
         messages: 'Messages'
         defendants: 'Defendants'
-        cms_number: 'Case Number'
+        case_number: 'Case Number'
         submission_date: 'Submitted date'
         authorised_date: 'Authorised date'
         total: 'Claimed'
@@ -355,3 +355,9 @@ en:
         h2_status: Status
         h2_summary: Claim summary
         heading: Claim
+      claims:
+        submission_date: Submitted date
+        status: Status
+        defendants: Defendants
+        case_number: Case Number
+        total: Claimed

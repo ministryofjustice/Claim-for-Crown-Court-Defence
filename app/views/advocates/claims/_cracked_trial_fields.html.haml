@@ -1,17 +1,18 @@
-%fieldset#cracked_trial_detail
+%fieldset#cracked_trial_detail.nested-fields
   %legend
     = t('.cracked_trial_detail')
   #cracked-trial-fields
-    .nested-fields
-      %span.auto-width
-        = f.label t('.trial_fixed_notice_at')
-        = f.gov_uk_date_field :trial_fixed_notice_at
-      %span.auto-width
-        = f.label t('.trial_fixed_at')
-        = f.gov_uk_date_field :trial_fixed_at
-      %span.auto-width
-        = f.label t('.trial_cracked_at')
-        = f.gov_uk_date_field :trial_cracked_at
+    %span.auto-width
+      = f.label t('.trial_fixed_notice_at')
+      = f.gov_uk_date_field :trial_fixed_notice_at
+    %span.auto-width
+      = f.label t('.trial_fixed_at')
+      = f.gov_uk_date_field :trial_fixed_at
+    %span.auto-width
+      = f.label t('.trial_cracked_at')
+      = f.gov_uk_date_field :trial_cracked_at
 
-      = f.label t('.trial_cracked_at_third')
-      = f.collection_select :trial_cracked_at_third, Settings.trial_cracked_at_third, :humanize, :humanize, { prompt: true }, { class: 'select2' }
+    = f.label t('.trial_cracked_at_third')
+    %div.form-group.inline
+      = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third,:humanize, :humanize,) do |b|
+        - b.label(class: "block-label") { b.radio_button + b.value }

@@ -23,15 +23,25 @@ RSpec.describe ClaimHistoryPresenter do
       end
     end
 
-    let!(:expected_hash) do
-      Timecop.travel(Time.zone.local(2015, 9, 21, 13, 50, 9)) do
-        claim.submit!
+    let(:first_redetermination) do
+      Timecop.travel(Time.zone.local(2015, 9, 25, 14, 0, 0)) do
+        claim.redeterminations.create(fees: 500, expenses: 300)
+        claim.redeterminations.last.versions.last
       end
+    end
 
+    let(:assessment) do
       Timecop.travel(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
         claim.assessment.fees = 100
         claim.assessment.expenses = 200
         claim.assessment.save
+        claim.assessment.versions.last
+      end
+    end
+
+    let!(:expected_hash) do
+      Timecop.travel(Time.zone.local(2015, 9, 21, 13, 50, 9)) do
+        claim.submit!
       end
 
       claim.reload
@@ -46,14 +56,17 @@ RSpec.describe ClaimHistoryPresenter do
           third_message,
         ],
         '24/09/2015' => [
-          claim.assessment.versions.last
+          assessment
+        ],
+        '25/09/2015' => [
+          first_redetermination
         ]
       }
 
       hash
     end
 
-    it 'returns an claims message and history hash in chronological order' do
+    it 'returns a claims message and history hash in chronological order' do
       claim.reload
       expect(subject.history_and_messages).to eq(expected_hash)
     end

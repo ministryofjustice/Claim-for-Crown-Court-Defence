@@ -21,6 +21,9 @@ class Defendant < ActiveRecord::Base
 
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
 
+  # byebug
+  # validates :first_name, presence: {message: 'First name cannot be blank'}
+  # validates :last_name, presence: {message: 'Last name cannot be blank'}
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 

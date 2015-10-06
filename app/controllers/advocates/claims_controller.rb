@@ -62,7 +62,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create
     @claim = Claim.new(params_with_advocate_and_creator)
-
     if submitting_to_laa?
       create_and_submit
     else
@@ -351,11 +350,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def create_and_submit
     @claim.force_validation = true
     @claim.save
+    ap "CLAIM SAVED #{@claim.persisted?}"
     if @claim.valid?
+      ap "CLAIM VALID"
       @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to new_advocates_claim_certification_path(@claim)
     else
+      ap "CLAIM INVALID!!"
       render_new_with_resources
     end
   end

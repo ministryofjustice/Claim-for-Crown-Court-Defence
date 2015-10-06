@@ -34,10 +34,11 @@ class ClaimTextfieldValidator < BaseClaimValidator
     if @record.persisted? && @record.source != 'api'
       validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
     elsif @record.source != 'api'
+      curr_force_validation = @record.force_validation?
       @record.force_validation = false # prevent this validation being called reursively
       @record.save # trigger total update
       validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
-      @record.force_validation = true # ensure the remaining validations are called
+      @record.force_validation = curr_force_validation # ensure the force validation returned to previous state
     end
   end
 

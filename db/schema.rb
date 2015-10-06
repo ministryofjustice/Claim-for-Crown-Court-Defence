@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930123017) do
+ActiveRecord::Schema.define(version: 20151006101319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,14 @@ ActiveRecord::Schema.define(version: 20150930123017) do
   add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
   add_index "chambers", ["supplier_number"], name: "index_chambers_on_supplier_number", using: :btree
 
+  create_table "claim_intentions", force: :cascade do |t|
+    t.string   "form_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "claim_intentions", ["form_id"], name: "index_claim_intentions_on_form_id", using: :btree
+
   create_table "claim_state_transitions", force: :cascade do |t|
     t.integer  "claim_id"
     t.string   "namespace"
@@ -135,6 +143,7 @@ ActiveRecord::Schema.define(version: 20150930123017) do
     t.decimal  "vat_amount",             default: 0.0
     t.uuid     "uuid",                   default: "uuid_generate_v4()"
     t.integer  "case_type_id"
+    t.string   "form_id"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
@@ -142,6 +151,7 @@ ActiveRecord::Schema.define(version: 20150930123017) do
   add_index "claims", ["cms_number"], name: "index_claims_on_cms_number", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
+  add_index "claims", ["form_id"], name: "index_claims_on_form_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
   add_index "claims", ["state"], name: "index_claims_on_state", using: :btree

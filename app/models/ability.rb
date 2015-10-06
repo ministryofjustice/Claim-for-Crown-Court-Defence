@@ -11,6 +11,7 @@ class Ability
 
     if persona.is_a? Advocate
       if persona.admin?
+        can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
         can [:show, :edit, :update, :confirmation, :destroy], Claim, chamber_id: persona.chamber_id
         can [:show, :download], Document, chamber_id: persona.chamber_id
@@ -26,6 +27,7 @@ class Ability
         can [:show, :change_password, :update_password, :edit, :update, :destroy], Advocate, chamber_id: persona.chamber_id
         can [:show, :create], Certification
       else
+        can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
         can [:show, :edit, :update, :confirmation, :destroy], Claim, advocate_id: persona.id
         can [:show, :download], Document, advocate_id: persona.id

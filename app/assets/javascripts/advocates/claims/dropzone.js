@@ -22,7 +22,7 @@ adp.dropzone = {
       init: function() {
         var thisDropzone = this;
 
-        $.getJSON('/documents/?form_id=' + $('#form_id').val()).done(function (data) {
+        $.getJSON('/documents/?form_id=' + $('#claim_form_id').val()).done(function (data) {
           if(data) {
             $.each(data, function(index, item) {
               var existingFile = {
@@ -38,7 +38,7 @@ adp.dropzone = {
         });
       },
       sending: function(file, xhr, formData) {
-        var form_id = $('#form_id').val();
+        var form_id = $('#claim_form_id').val();
         formData.append("document[form_id]", form_id);
       },
       success: function (file, response) {

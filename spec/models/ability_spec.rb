@@ -26,6 +26,10 @@ describe Ability do
     let(:advocate) { create(:advocate) }
     let(:user) { advocate.user }
 
+    [:create].each do |action|
+      it { should be_able_to(action, ClaimIntention) }
+    end
+
     [:index, :outstanding, :authorised, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }
     end
@@ -91,6 +95,10 @@ describe Ability do
     let(:chamber) { create(:chamber) }
     let(:advocate) { create(:advocate, :admin, chamber: chamber) }
     let(:user) { advocate.user }
+
+    [:create].each do |action|
+      it { should be_able_to(action, ClaimIntention) }
+    end
 
     [:index, :outstanding, :authorised, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }

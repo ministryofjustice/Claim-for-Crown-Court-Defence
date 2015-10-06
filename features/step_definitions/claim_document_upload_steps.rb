@@ -8,7 +8,7 @@ Then(/^the attached file's IDs should be set in hidden inputs$/) do
 end
 
 Then(/^the documents should be created with the current form_id$/) do
-  expect(Document.all.map(&:form_id).uniq).to match_array([find('#form_id', visible: false).value])
+  expect(Document.all.map(&:form_id).uniq).to match_array([find('#claim_form_id', visible: false).value])
 end
 
 When(/^I attach invalid files$/) do

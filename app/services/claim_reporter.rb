@@ -29,6 +29,15 @@ class ClaimReporter
     outstanding.first
   end
 
+  def completion_rate
+    intentions = ClaimIntention.where{ created_at >= 16.weeks.ago }
+    claims = Claim.non_draft.where{ created_at >= 16.weeks.ago }
+
+    completed = claims.map(&:form_id) & intentions.map(&:form_id)
+
+    claims_percentage(completed, intentions)
+  end
+
   private
 
   def claims_percentage(percentage_claims, all_claims)

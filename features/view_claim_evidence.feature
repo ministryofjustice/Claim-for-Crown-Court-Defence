@@ -37,8 +37,8 @@ Feature: Viewing and downloading claim evidence
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have claims
-    When I view the claim
-    Then I see links to view/download each document submitted with the claim
+     When I view the claim
+     Then I see links to view/download each document submitted with the claim
 
   Scenario: Advocate downloads a document
     Given I am a signed in advocate

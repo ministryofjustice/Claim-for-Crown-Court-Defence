@@ -871,12 +871,12 @@ RSpec.describe Claim, type: :model do
       expect(claim_with_all_fee_types.misc_fees.size).to eql 1
     end
 
-    it 'clears basic fees and destroys miscelllaneous fees for Fixed Fee case types' do
+    it 'clears basic fees and but does NOT destroy miscellaneous fees for Fixed Fee case types' do
       claim_with_all_fee_types.case_type = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
       expect(claim_with_all_fee_types.fixed_fees.size).to eql 1
-      expect(claim_with_all_fee_types.misc_fees.size).to eql 0
+      expect(claim_with_all_fee_types.misc_fees.size).to eql 1
     end
 
   end

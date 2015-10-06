@@ -330,9 +330,14 @@ Then(/^There should not be any Initial Fees saved$/) do
   expect(Claim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
 end
 
-Then(/^There should not be any Miscellaneous Fees Saved$/) do
-  expect(Claim.last.misc_fees.size).to eql(0)
+# Then(/^There should not be any Miscellaneous Fees Saved$/) do
+#   expect(Claim.last.misc_fees.size).to eql(0)
+# end
+
+Then(/^There should be a Miscellaneous Fee Saved$/) do
+  expect(Claim.last.misc_fees.size).to eql(1)
 end
+
 
 Then(/^There should not be any Fixed Fees saved$/) do
   expect(Claim.last.fixed_fees.size).to eql(0)

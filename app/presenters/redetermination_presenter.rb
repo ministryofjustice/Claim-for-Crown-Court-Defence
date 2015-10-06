@@ -2,11 +2,11 @@ class RedeterminationPresenter < BasePresenter
 
   presents :redetermination
 
-  def fees
+  def fees_total
     h.number_to_currency(redetermination.fees)
   end
 
-  def expenses
+  def expenses_total
     h.number_to_currency(redetermination.expenses)
   end
 

@@ -44,13 +44,13 @@ class Ability
       end
     elsif persona.is_a? CaseWorker
       if persona.admin?
-        can [:index, :show, :update], Claim
+        can [:index, :show, :update, :archived], Claim
         can [:show, :download], Document
         can [:index, :new, :create], CaseWorker
         can [:show, :edit, :change_password, :update_password, :allocate, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
       else
-        can [:index, :show], Claim
+        can [:index, :show, :archived], Claim
         can [:update], Claim do |claim|
           claim.case_workers.include?(user.persona)
         end

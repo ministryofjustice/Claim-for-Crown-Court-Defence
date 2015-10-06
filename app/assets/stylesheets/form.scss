@@ -95,13 +95,14 @@ form {
 }
 .reminder {
   display: block;
-  padding: 15px;
+  padding: 5px;
   border:1px solid  $ministry-of-justice;
 }
 
 .warning {
-  padding: 5px;
-  color: orange;
+  display: block;
+  padding: 15px;
+  color: red;
 }
 
 .field_with_errors{

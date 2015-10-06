@@ -45,7 +45,6 @@ Feature: Claim redetermination
       And I visit the claim's case worker detail page
      Then a form should be visible for me to enter the redetermination amounts
      When I enter redetermination amounts
-      And I visit the claim's case worker detail page
      Then There should be no form to enter redetermination amounts
       And The redetermination I just entered should be visible
 

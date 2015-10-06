@@ -1,7 +1,8 @@
 %div.grid-row
   %div.column-half
     %div.form-inputs
-      = form_tag case_workers_claims_path, method: :get do
+      - path_to_use = defined?(archived) && archived ? archived_case_workers_claims_path : case_workers_claims_path
+      = form_tag path_to_use, method: :get do
         = hidden_field_tag :tab, params[:tab]
         = hidden_field_tag :sort, params[:sort]
         = hidden_field_tag :direction, params[:direction]

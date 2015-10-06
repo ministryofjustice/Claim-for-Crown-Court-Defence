@@ -30,7 +30,7 @@ describe Ability do
       it { should be_able_to(action, ClaimIntention) }
     end
 
-    [:index, :outstanding, :authorised, :new, :create].each do |action|
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }
     end
 
@@ -100,7 +100,7 @@ describe Ability do
       it { should be_able_to(action, ClaimIntention) }
     end
 
-    [:index, :outstanding, :authorised, :new, :create].each do |action|
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should be_able_to(action, Claim) }
     end
 
@@ -183,7 +183,7 @@ describe Ability do
     let(:case_worker) { create(:case_worker) }
     let(:user) { case_worker.user }
 
-    [:index, :show].each do |action|
+    [:index, :archived, :show].each do |action|
       it { should be_able_to(action, Claim.new) }
     end
 
@@ -235,7 +235,7 @@ describe Ability do
     let(:case_worker) { create(:case_worker, :admin) }
     let(:user) { case_worker.user }
 
-    [:index, :show, :update].each do |action|
+    [:index, :archived, :show, :update].each do |action|
       it { should be_able_to(action, Claim.new) }
     end
 

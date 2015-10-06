@@ -2,36 +2,42 @@ Feature: Caseworker claims list
   Background:
     As a caseworker admin I want to see which claims are allocated or unallocated.
 
-  Scenario: View allocated claims
-    Given I am a signed in case worker admin
-      And There are fee schemes in place
-      And there are allocated claims
-     When I visit my dashboard
-     # TODO Reinstate once home page report is finished
-     #Then I should see the allocated claims
-      Then I should see the claims sorted by oldest first
+  Scenario: View my current claims
+   Given I am a signed in case worker admin
+     And claims have been assigned to me
+    When I visit my dashboard
+     And I click "Your Claims"
+    Then I should see only my claims
+     And I should see the claims sorted by oldest first
+  
+  Scenario: View all archived claims
+   Given I am a signed in case worker admin
+     And there are archived claims
+    When I visit my dashboard
+     And I click "Archive"
+    Then I should see all archived claims
+     And I should see the claims sorted by oldest first
 
-  # TODO Reinstate once "Archive" feature is implemented
-  #Scenario: View unallocated claims
-  #  Given I am a signed in case worker admin
-  #    And There are fee schemes in place
-  #    And there are unallocated claims
-  #   When I visit my dashboard
-     #Then I should see the unallocated claims
-      #Then I should see the claims sorted by oldest first
+  Scenario: View allocation tool
+   Given I am a signed in case worker admin
+     And there are unallocated claims
+    When I visit my dashboard
+     And I click "Allocation"
+    Then I should see the unallocated claims
+     # And I should see the claims sorted by oldest first
 
-  # TODO Reinstate once "Archive" feature is implemented
-  # Scenario: View completed claims
-  #  Given I am a signed in case worker admin
-  #    And There are fee schemes in place
-  #    And there are completed claims
-  #   When I visit my dashboard
-     #Then I should see the completed claims
-      #Then I should see the claims sorted by oldest first
+  Scenario: View re-allocation tool
+   Given I am a signed in case worker admin
+     And there are allocated claims
+    When I visit my dashboard
+     And I click "Re-allocation"
+    Then I should see the allocated claims
+     # And I should see the claims sorted by oldest first
 
-Scenario: View case workers
-    Given I am a signed in case worker admin
-      And There are fee schemes in place
-      And 2 case workers exist
-     When I visit my dashboard
-     Then I should see an admin link
+  Scenario: View case workers
+      Given I am a signed in case worker admin
+        And There are fee schemes in place
+        And 2 case workers exist
+       When I visit my dashboard
+       Then I should see an admin link and it should work
+        And I should see the case workers edit and delete link

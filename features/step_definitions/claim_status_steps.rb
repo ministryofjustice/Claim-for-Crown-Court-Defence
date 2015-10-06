@@ -1,6 +1,6 @@
 
 When(/^I view status details for a claim$/) do
-	within("#claims-list") do
+	within(".claims_table") do
 	  first('a.js-test-case-number-link').click
 	end
 end
@@ -47,7 +47,7 @@ end
 Then(/^I should see "(.*?)" total assessed value of "(.*?)"$/) do |disabled, total|
 	total = "£0.00" if total.empty?
 	disabled = disabled == "disabled" ? true : false
-  expect(find_by_id('assessed-total').text).to eql total
+  expect(find_by_id('determination-total').text).to eql total
 end
 
 Then(/^I should see "(.*?)" status select with "(.*?)" selected$/) do |disabled, status|

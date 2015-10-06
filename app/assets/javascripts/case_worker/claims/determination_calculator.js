@@ -44,13 +44,13 @@ adp.determination = {
     //Cache the element that triggered the event
     var $element = $(element),
     //Find the row the element is in
-    $tr = $element.closest('tr'),
+    $table = $element.closest('table'),
     //Find the fees column
-    $fees = $tr.find('.js-fees'),
+    $fees = $table.find('.js-fees'),
     //Parse the value
     fees = parseFloat($fees.val().replace(/,/g, "")),
     //Find the Expenses column
-    $expenses = $tr.find('.js-expenses'),
+    $expenses = $table.find('.js-expenses'),
     // Parse the value
     expenses = parseFloat($expenses.val().replace(/,/g, "")),
     //Work out the total

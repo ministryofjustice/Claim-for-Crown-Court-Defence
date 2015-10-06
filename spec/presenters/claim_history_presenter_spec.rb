@@ -28,6 +28,12 @@ RSpec.describe ClaimHistoryPresenter do
         claim.submit!
       end
 
+      Timecop.travel(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
+        claim.assessment.fees = 100
+        claim.assessment.expenses = 200
+        claim.assessment.save
+      end
+
       claim.reload
 
       hash = {
@@ -37,7 +43,10 @@ RSpec.describe ClaimHistoryPresenter do
           second_message
         ],
         '23/09/2015' => [
-          third_message
+          third_message,
+        ],
+        '24/09/2015' => [
+          claim.assessment.versions.last
         ]
       }
 

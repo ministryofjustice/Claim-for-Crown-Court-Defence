@@ -17,6 +17,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def show
+    ap params
     @claim.assessment = Assessment.new if @claim.assessment.nil?
     @enable_assessment_input = @claim.assessment.blank?
     @enable_status_change = true
@@ -24,10 +25,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-    @redetermination = @claim.redeterminations.build
+    
   end
 
   def update
+    ap params
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_last
     @doc_types = DocType.all
@@ -38,7 +40,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     end
     @enable_status_change = true
     @message = @claim.messages.build
-    render action: :show
+    redirect_to case_workers_claim_path
   end
 
   private

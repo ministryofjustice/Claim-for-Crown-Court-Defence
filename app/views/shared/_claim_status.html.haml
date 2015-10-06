@@ -23,51 +23,12 @@
             = f.fields_for :assessment do |af|
               = render partial: 'determination_fields', locals: { f: af, claim: claim}
           -elsif claim.requested_redetermination? == true && current_user.persona.is_a?(CaseWorker)
-            = f.fields_for :redeterminations, claim.redeterminations.new do |rf|
+            = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
               = render partial: 'determination_fields', locals: { f: rf, claim: claim}
           - elsif claim.redeterminations.any?
             = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
           - else
             = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
-            / %tr.assessment-display
-            /   %td Fees
-            /   %td= claim.fees_total
-            /   %td#assessed-fees= claim.assessment_fees
-            / %tr.assessment-display
-            /   %td Expenses
-            /   %td= claim.expenses_total
-            /   %td#assessed-expenses= claim.assessment_expenses
-            / %tr.assessment-display
-            /   %td Total
-            /   %td= claim.total
-            /   %td#assessed-total= claim.assessment_total
-
-          / = f.fields_for :redeterminations do |rf|
-          /   - if rf.object.persisted?
-          /     - present(rf.object) do |redetermination|
-          /       %tr.redetermination-display
-          /         %td
-          /           Redetermination of
-          /           = redetermination.created_at
-          /         %td#redetermination-fees= redetermination.fees
-          /         %td#redetermination-expenses= redetermination.expenses
-          /         %td#redetermination-total= redetermination.total
-          /   - elsif claim.requested_redetermination?  && current_user.persona.is_a?(CaseWorker)
-          /     .nested-fields
-          /       %tr.assesment-form-fields
-          /         %td
-          /           Enter redetermined amounts
-          /         %td.currency
-          /           %span.currency-symbol
-          /             &pound;
-          /           = rf.text_field :fees, value: number_with_precision(rf.object.fees, precision: 2), class: "js-fees"
-          /         %td.currency
-          /           %span.currency-symbol
-          /             &pound;
-          /           = rf.text_field :expenses, value: number_with_precision(rf.object.expenses, precision: 2), class: "js-expenses"
-          /         %td
-          /           %span.js-total-determination
-          /             = rf.object.total
 
       - if current_user.persona.is_a?(CaseWorker)
         %p

@@ -1,41 +1,37 @@
 
 Given(/^claims have been assigned to me$/) do
-  case_worker = CaseWorker.first
   @claims = create_list(:allocated_claim, 5)
   @other_claims = create_list(:allocated_claim, 3)
-  @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
-  @claims.each { |claim| claim.case_workers << case_worker }
+  @claims.each { |claim| claim.case_workers << @case_worker }
   create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7418529635') ]
   create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '9516249873') ]
 end
 
 Given(/^there are allocated claims$/) do
-  @claims = create_list(:allocated_claim, 5)
+  @claims = FactoryGirl.create_list(:allocated_claim, 3)
 end
 
 Given(/^there are unallocated claims$/) do
-  @claims = create_list(:submitted_claim, 5)
+  @claims = FactoryGirl.create_list(:submitted_claim, 4)
 end
 
-Given(/^there are completed claims$/) do
-  @claims = create_list(:completed_claim, 5)
+Given(/^there are archived claims$/) do
+  @claims =  []
+  @claims << FactoryGirl.create(:authorised_claim)
+  @claims << FactoryGirl.create(:part_authorised_claim)
+  @claims << FactoryGirl.create(:rejected_claim)
+  @claims << FactoryGirl.create(:refused_claim)
+
+  @other_claims = []
+  @other_claims << FactoryGirl.create(:authorised_claim)
+  @other_claims << FactoryGirl.create(:part_authorised_claim)
+  @other_claims << FactoryGirl.create(:rejected_claim)
+  @other_claims << FactoryGirl.create(:refused_claim)
 end
 
-# TODO update once "Archive" has been created and working
-#Then(/^I should see the allocated claims$/) do
-#  click_on "Allocation"
-#  expect(page).to have_content("Allocated claims (#{@claims.count})")
-#end
-
-# TODO update once "Archive" has been created and working
-#Then(/^I should see the unallocated claims$/) do
-#  click_on "Re-allocation"
-#  expect(page).to have_content("Unallocated claims (#{@claims.count})")
-#end
-
-Then(/^I should see the completed claims$/) do
-  click_on "Completed claims (#{@claims.count})"
-  expect(page).to have_content("Completed claims (#{@claims.count})")
+Given(/^I have archived claims$/) do
+  step "there are archived claims"
+  @claims.each { |claim| claim.case_workers << @case_worker }
 end
 
 Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number,state,defendant_name|
@@ -55,14 +51,38 @@ When(/^I visit my dashboard$/) do
   visit case_workers_claims_path
 end
 
-Then(/^I should see only my claims$/) do
+Then(/^I should see the unallocated claims$/) do
+ @claims.each do | claim |
+    expect(page).to have_selector("tr#claim_#{claim.id}")
+  end
+end
+
+Then(/^I should see the allocated claims$/) do
+ @claims.each do | claim |
+    expect(page).to have_selector("tr#claim_#{claim.id}")
+  end
+end
+
+Then(/^I should see all archived claims$/) do
   @claims.each do | claim |
-    expect(find('#claims-list')).to have_link(claim.case_number,
+    expect(find('.claims_table')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end
 
   @other_claims.each do | other_claim |
-    expect(find('#claims-list')).to_not have_link(other_claim.case_number,
+    expect(find('.claims_table')).to have_link(other_claim.case_number,
+          href: case_workers_claim_path(other_claim))
+  end
+end
+
+Then(/^I should see only my claims$/) do
+  @claims.each do | claim |
+    expect(find('.claims_table')).to have_link(claim.case_number,
+          href: case_workers_claim_path(claim))
+  end
+
+  @other_claims.each do | other_claim |
+    expect(find('.claims_table')).to_not have_link(other_claim.case_number,
           href: case_workers_claim_path(other_claim))
   end
 end
@@ -84,7 +104,7 @@ end
 
 Then(/^I should see the claims sorted by oldest first$/) do
   @claims.sort_by(&:submitted_at).each do | claim |
-    expect(find('#claims-list')).to have_link(claim.case_number,
+    expect(find('.claims_table')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end
 end
@@ -116,8 +136,8 @@ When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
   click_button 'Search'
 end
 
-Then(/^I should only see (\d+) "(.*?)" claims$/) do |number, state_name|
-  expect(page).to have_content(/#{number} claim?s matching/)
+Then(/^I should only see (\d+) claims$/) do |number|
+  expect(page).to have_content(/#{number} claims? matching/)
 end
 
 When(/^I search for a claim by MAAT reference$/) do
@@ -126,21 +146,12 @@ When(/^I search for a claim by MAAT reference$/) do
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-  expect(find('#claims-list')).to have_link(@claims.first.case_number)
+  expect(find('.claims_table')).to have_link(@claims.first.case_number)
 end
 
-Given(/^I have completed claims$/) do
-  case_worker = CaseWorker.first
-  @claims = create_list(:completed_claim, 5)
-  @other_claims = create_list(:completed_claim, 3)
-  @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
-  @claims.each { |claim| claim.case_workers << case_worker }
-
-  create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '7891334565') ]
-  create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '8529437815') ]
+Then(/^I should see the case workers edit and delete link$/) do
+  @case_workers.each do |case_worker|
+    expect(page).to have_link('Edit', href: edit_case_workers_admin_case_worker_path(case_worker))
+    expect(page).to have_link('Delete', href: case_workers_admin_case_worker_path(case_worker))
+  end
 end
-
-# TODO update once "Archive" has been created and working
-#When(/^I click on the Completed Claims tab$/) do
-#  click_on 'Completed claims'
-#end

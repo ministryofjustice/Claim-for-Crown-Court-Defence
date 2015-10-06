@@ -1,6 +1,6 @@
 
 When(/^I visit the detail link for a claim$/) do
-  within("#claims-list") do
+  within(".claims_table") do
 	  first('a.js-test-case-number-link').click
 	end
 end

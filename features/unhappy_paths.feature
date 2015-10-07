@@ -11,7 +11,7 @@ Feature: Unhappy paths
     Given I am a signed in advocate admin
     And There are case types in place
     And I am on the new claim page
-    And I fill in the claim details omitting the advocate # will call step 'I will in claim details' which is without input for advocate by default
+    And I fill in the claim details omitting the advocate
     When I save to drafts
     Then I should be redirected back to the create claim page
     And The entered values should be preserved on the page
@@ -42,8 +42,10 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     | field_id                                   | error_message                                                |
     | "claim_case_number"                        | "Case number cannot be blank, you must enter a case number"  |
     | "claim_defendants_attributes_0_first_name" | "One or more defendants are invalid"                         |
-    | "claim_defendants_attributes_0_last_name"  | "One or more defendants are invalid"                         |
+    | "claim_basic_fees_attributes_0_quantity"   | "One or more fees are invalid"                               |
+    | "claim_expenses_attributes_0_quantity"     | "One or more expenses are invalid"                           |
 
+    # TODO: unhappy paths for representation order details
 
     # TODO: unhappy paths for invalid dates attended dates and dates in general
 

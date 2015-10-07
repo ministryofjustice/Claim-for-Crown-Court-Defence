@@ -2,7 +2,6 @@ class ExpenseValidator < BaseClaimValidator
 
   def self.fields
     [
-    :claim,
     :expense_type,
     :quantity,
     :rate
@@ -10,10 +9,6 @@ class ExpenseValidator < BaseClaimValidator
   end
 
   private
-
-  def validate_claim
-    validate_presence(:claim, error_message_for(:expense, :claim, :blank))
-  end
 
   def validate_expense_type
     validate_presence(:expense_type, error_message_for(:expense, :expense_type, :blank))

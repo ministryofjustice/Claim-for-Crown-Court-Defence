@@ -1,4 +1,5 @@
 class BaseClaimValidator < ActiveModel::Validator
+
   def validate(record)
     @record = record
     if @record.perform_validation?
@@ -49,7 +50,7 @@ class BaseClaimValidator < ActiveModel::Validator
   end
 
   def add_error(attribute, message)
-    @record.errors[attribute] << message
+    @record.errors.add(attribute, message)
   end
 
   def case_type_in(*case_types)

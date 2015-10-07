@@ -36,31 +36,40 @@ module DemoData
     end
 
     def add_daf
-      quantity = @claim.case_type.requires_trial_dates? ? @claim.actual_trial_length - 2 : 1
-      amount   = @claim.case_type.requires_trial_dates? ? 250 * @claim.actual_trial_length - 2 : 250
+      begin
+      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 0
+      quantity = @claim.case_type.requires_trial_dates? ? [@claim.actual_trial_length,39].min - 2 : 1
+      amount   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
       update_basic_fee('DAF', quantity, amount)
+    rescue
+      byebug
+    end
     end
 
     def add_dah
-      return unless @claim.case_type.requires_trial_dates?
-      update_basic_fee('DAH', @claim.actual_trial_length - 40, 250 * @claim.actual_trial_length - 40)
+      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 40
+      quantity = [@claim.actual_trial_length,50].min - 40
+      amount = 10 * @claim.actual_trial_length - 40
+      update_basic_fee('DAH', quantity, amount)
     end
 
     def add_daj
-      return unless @claim.case_type.requires_trial_dates?
-      update_basic_fee('DAJ', @claim.actual_trial_length - 50, 250 * @claim.actual_trial_length - 50)
+      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 50
+      quantity = [@claim.actual_trial_length,60].min - 50
+      amount = 10 * @claim.actual_trial_length - 50
+      update_basic_fee('DAJ', quantity , amount)
     end
 
     def add_pcm
-      update_basic_fee('PCM', rand(0..3), 125)
+      update_basic_fee('PCM', rand(1..3), 125)
     end
 
     def add_fee
       fee_type = @fee_types.sample
-      while @codes_added.include?(fee_type.code)
+      while @codes_added.include?(fee_type.code) || ['BAF','DAF','DAH','DAJ','PCM'].include?(fee_type.code)
         fee_type = @fee_types.sample
       end
-      update_basic_fee(fee_type.code, rand(0..10), rand(100..900) )
+      update_basic_fee(fee_type.code, rand(1..10), rand(100..900) )
     end
 
     def basic_fee_type_by_code(code)

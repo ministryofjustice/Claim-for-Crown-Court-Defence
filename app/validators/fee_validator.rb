@@ -1,10 +1,10 @@
 class FeeValidator < BaseClaimValidator
 
-  private
-
   def self.fields
     [ :fee_type, :quantity, :amount, :dates_attended ]
   end
+
+  private
 
   def validate_fee_type
     validate_presence(:fee_type, "Fee type cannot be blank")
@@ -85,7 +85,7 @@ class FeeValidator < BaseClaimValidator
     if @record.amount < 0
       add_error(:amount, 'Fee amount cannot be negative')
     elsif @record.quantity > 0 && @record.amount == 0
-      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.fee_type.code == 'BAF'
+      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.try(:fee_type).try(:code) == 'BAF'
     elsif @record.quantity == 0 && @record.amount > 0
       add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
     end

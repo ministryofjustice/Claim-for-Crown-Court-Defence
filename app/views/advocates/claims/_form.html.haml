@@ -6,6 +6,8 @@
     - if @claim.errors.any?
       .validation-summary
         %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
+        .form-hint
+          scroll down to view detailed errors against individual fields
         %ul
           - @claim.errors.full_messages.each do |message|
             %li
@@ -81,8 +83,8 @@
       #defendants
         = f.fields_for :defendants do |defendant|
           = render 'defendant_fields', f: defendant
-          %div
-            = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
+        %div
+          = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
 
     %fieldset
       %legend.bold-medium

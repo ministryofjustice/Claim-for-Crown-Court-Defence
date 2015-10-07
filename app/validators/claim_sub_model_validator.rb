@@ -3,14 +3,13 @@ class ClaimSubModelValidator < BaseClaimValidator
   HAS_MANY_ASSOCIATION_NAMES = [ :defendants, :basic_fees, :misc_fees, :fixed_fees, :expenses, :messages, :redeterminations, :documents ]
   HAS_ONE_ASSOCIATION_NAMES  = [ :assessment, :certification ]
 
-  def validate(record) 
+  def validate(record)
     @result = true
     super
     validate_has_many_associations(record)
     validate_has_one_associations(record)
     record.errors.empty? && @result
   end
-
 
   private
 

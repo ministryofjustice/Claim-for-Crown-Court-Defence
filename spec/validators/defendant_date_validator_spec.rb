@@ -8,7 +8,7 @@ describe DefendantValidator do
   let(:defendant)           { FactoryGirl.build :defendant, claim: FactoryGirl.build(:claim, force_validation: true) }
 
   context 'date of birth' do
-    it { should_error_if_not_present(defendant, :date_of_birth, 'Enter valid date of birth') }
+    it { should_error_if_not_present(defendant, :date_of_birth, 'Date of birth cannot be blank') }
     it { should_error_if_before_specified_date(defendant, :date_of_birth, 120.years.ago, 'Date of birth must not be more than 120 years ago') }
     it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'Date of birth must be at least 10 years ago') }
   end

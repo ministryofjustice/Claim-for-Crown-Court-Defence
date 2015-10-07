@@ -17,7 +17,7 @@ describe API::V1::Advocates::Defendant do
   let!(:invalid_params) { {claim_id: claim.uuid} }
   let(:json_error_response) do
     [
-      {'error' => "Enter valid date of birth"},
+      {'error' => "Date of birth cannot be blank"},
       {'error' => "First name cannot be blank"},
       {'error' => "Last name cannot be blank"}
     ].to_json

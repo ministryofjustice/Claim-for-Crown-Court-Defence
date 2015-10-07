@@ -1,11 +1,8 @@
 class DateAttendedValidator < BaseClaimValidator
 
-  @@fields = [  :date, :date_to ]
-
   def self.fields
-    @@fields
+    [ :date, :date_to ]
   end
-
 
   private
 

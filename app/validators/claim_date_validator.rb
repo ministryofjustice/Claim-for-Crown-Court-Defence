@@ -1,16 +1,14 @@
 # class ClaimDateValidator < ActiveModel::Validator
 class ClaimDateValidator < BaseClaimValidator
 
-  @@fields = [
+  def self.fields
+    [
     :trial_fixed_notice_at,
     :trial_fixed_at,
     :trial_cracked_at,
     :first_day_of_trial,
     :trial_concluded_at
-  ]
-
-  def self.fields
-    @@fields
+    ]
   end
 
 

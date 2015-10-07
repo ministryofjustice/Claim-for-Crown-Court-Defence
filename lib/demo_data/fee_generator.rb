@@ -24,7 +24,7 @@ module DemoData
       Fee.create(claim: @claim, fee_type: fee_type, quantity: rand(1..10), amount: rand(100..900))
       @codes_added << fee_type.code
     end
-  
+
   end
 end
 

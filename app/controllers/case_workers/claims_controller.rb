@@ -17,9 +17,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def show
-    ap params
     @claim.assessment = Assessment.new if @claim.assessment.nil?
-    @enable_assessment_input = @claim.assessment.blank?
+    @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
     @enable_status_change = true
 
     @doc_types = DocType.all
@@ -29,7 +28,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
-    ap params
     @claim = Claim.find(params[:id])
     @messages = @claim.messages.most_recent_last
     @doc_types = DocType.all

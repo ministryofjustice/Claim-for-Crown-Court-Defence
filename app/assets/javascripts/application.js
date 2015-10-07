@@ -17,6 +17,7 @@
 //= require cocoon
 //= require dropzone
 //= require moj
+//= require modules/moj.cookie-message
 //= require_tree .
 
 /*For JSHint to ignore ADP object*/
@@ -37,9 +38,11 @@ $('#claim-accordion h2').each(function(){
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
 function initialise(){
+  moj.Modules.CookieMessage.init();
   $('.select2').select2();
   adp.newClaim.init();
   adp.crackedTrial.init();
+  adp.claimCompletion.init();
   adp.messaging.init();
   adp.trialFieldsDisplay.init();
   adp.feeSectionDisplay.init();

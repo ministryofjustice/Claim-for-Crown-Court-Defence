@@ -19,7 +19,7 @@ adp.trialFieldsDisplay = {
       adp.trialFieldsDisplay.addCaseTypeChangeEvent();
     });
 
-    adp.trialFieldsDisplay.$caseTypeSelect.change();
+    adp.trialFieldsDisplay.addCaseTypeChangeEvent();
   },
   addCaseTypeChangeEvent : function() {
     var caseTypeLabel = adp.trialFieldsDisplay.$caseTypeSelect.find('option:selected').text();

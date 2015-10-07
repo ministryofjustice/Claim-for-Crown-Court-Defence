@@ -36,7 +36,7 @@
             = t('.case_type')
           %dd
             = claim.case_type.try(:name)
-          - if claim.case_type.requires_cracked_dates
+          - if claim.case_type && claim.case_type.requires_cracked_dates
             %dt
               = t('advocates.claims.cracked_trial_fields.trial_fixed_notice_at')
             %dd
@@ -84,7 +84,7 @@
           %dt
             Advocate
           %dd
-            = claim.advocate.email
+            = claim.advocate.name
           %dt
             Advocate Category
           %dd

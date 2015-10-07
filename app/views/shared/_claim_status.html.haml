@@ -22,7 +22,7 @@
           -if @enable_assessment_input
             = f.fields_for :assessment do |af|
               = render partial: 'determination_fields', locals: { f: af, claim: claim}
-          -elsif claim.requested_redetermination? == true && current_user.persona.is_a?(CaseWorker)
+          -elsif current_user.persona.is_a?(CaseWorker) && claim.requested_redetermination? == true
             = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
               = render partial: 'determination_fields', locals: { f: rf, claim: claim}
           - elsif claim.redeterminations.any?

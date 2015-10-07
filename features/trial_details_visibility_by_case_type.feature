@@ -18,7 +18,7 @@ Feature: Trial detail visibility by case type
     | Appeal against conviction   | should not |
     | Appeal against sentence     | should not |
     | Breach of Crown Court order | should not |
-    | Commital for Sentence       | should not |
+    | Committal for Sentence       | should not |
     | Contempt                    | should not |
     | Cracked Trial               | should not |
     | Cracked before retrial      | should not |
@@ -39,7 +39,7 @@ Feature: Trial detail visibility by case type
       | Appeal against conviction   | should not |
       | Appeal against sentence     | should not |
       | Breach of Crown Court order | should not |
-      | Commital for Sentence       | should not |
+      | Committal for Sentence       | should not |
       | Contempt                    | should not |
       | Cracked Trial               | should not |
       | Cracked before retrial      | should not |

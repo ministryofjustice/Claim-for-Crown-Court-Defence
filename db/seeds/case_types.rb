@@ -16,7 +16,7 @@ CaseType.find_or_create_by!(name: 'Breach of Crown Court order',
                             requires_trial_dates:     false, 
                             allow_pcmh_fee_type:      false, 
                             requires_maat_reference:  false)
-CaseType.find_or_create_by!(name: 'Commital for Sentence',
+CaseType.find_or_create_by!(name: 'Committal for Sentence',
                             is_fixed_fee:             true,   
                             requires_cracked_dates:   false, 
                             requires_trial_dates:     false, 

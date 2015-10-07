@@ -73,7 +73,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def update
     update_source_for_api
     if @claim.update(claim_params)
-      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
 
       submit_if_required_and_redirect
@@ -153,6 +152,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def claim_params
     params.require(:claim).permit(
+     :form_id,
      :state_for_form,
      :source,
      :advocate_id,
@@ -340,7 +340,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create_draft
     if @claim.save
-      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     else
@@ -352,7 +351,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claim.force_validation = true
     @claim.save
     if @claim.valid?
-      @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to new_advocates_claim_certification_path(@claim)
     else

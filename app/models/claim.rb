@@ -138,9 +138,7 @@ class Claim < ActiveRecord::Base
 
   after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
 
-  def find_and_associate_documents(form_id)
-    Document.where(form_id: form_id).each { |d| d.update_column(:claim_id, self.id); d.update_column(:advocate_id, self.advocate_id) }
-  end
+  after_save :find_and_associate_documents
 
   def set_force_validation_to_false
     @force_validation = false
@@ -311,6 +309,15 @@ class Claim < ActiveRecord::Base
   end
 
   private
+
+  def find_and_associate_documents
+    return if self.form_id.nil?
+
+    Document.where(form_id: self.form_id).each do |document|
+      document.update_column(:claim_id, self.id)
+      document.update_column(:advocate_id, self.advocate_id)
+    end
+  end
 
   def last_state_transition_later_than_redeterination?(last_state_transition)
     last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at

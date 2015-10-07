@@ -42,6 +42,7 @@ function initialise(){
   $('.select2').select2();
   adp.newClaim.init();
   adp.crackedTrial.init();
+  adp.claimCompletion.init();
   adp.messaging.init();
   adp.trialFieldsDisplay.init();
   adp.feeSectionDisplay.init();

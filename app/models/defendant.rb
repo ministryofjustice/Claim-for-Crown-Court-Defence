@@ -15,15 +15,14 @@
 #
 
 class Defendant < ActiveRecord::Base
+
   auto_strip_attributes :first_name, :middle_name, :last_name, squish: true, nullify: true
 
   belongs_to :claim
 
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
+  validates_associated :representation_orders, message: 'One or more defendant representation orders are invalid'
 
-  # byebug
-  # validates :first_name, presence: {message: 'First name cannot be blank'}
-  # validates :last_name, presence: {message: 'Last name cannot be blank'}
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 

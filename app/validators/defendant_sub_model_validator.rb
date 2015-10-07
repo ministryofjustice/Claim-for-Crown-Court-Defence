@@ -2,13 +2,12 @@ class DefendantSubModelValidator < BaseClaimValidator
 
   HAS_MANY_ASSOCIATION_NAMES = [ :representation_orders ]
 
-  def validate(record) 
+  def validate(record)
     @result = true
     super
     validate_has_many_associations(record)
     record.errors.empty? && @result
   end
-
 
   private
 

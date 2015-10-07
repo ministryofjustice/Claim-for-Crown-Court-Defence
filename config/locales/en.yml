@@ -28,7 +28,7 @@ en:
       default: "%d/%m/%Y %H:%M"
   dictionary:
     errors:
-      blank: &blank "can't be blank"
+      blank: &blank "cannot be blank"
       inclusion: &inclusion 'is not included in the list'
     actions:
       edit: &edit 'Edit'
@@ -110,11 +110,21 @@ en:
             last_name:
               blank: Last name cannot be blank
             date_of_birth:
-              blank: Enter valid date of birth
+              blank: Date of birth cannot be blank
             claim:
               blank: Claim cannot be blank
             representation_orders:
               blank: ' - there must be at least one representation order per defendant'
+        expense:
+          attributes:
+            expense_type:
+              blank: Expense type cannot be blank
+            quantity:
+              blank: Quantity cannot be blank
+              numericality: Quantity must be greater than or equal to 0
+            rate:
+              blank: Rate cannot be blank
+              numericality: Rate must be greater than or equal to 0
 
   requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
   requires_case_worker_authorisation: 'You must be signed in as a case worker or case worker admin'

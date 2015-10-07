@@ -17,23 +17,15 @@ Feature: Unhappy paths
     And The entered values should be preserved on the page
     And I should see the error message "Advocate cannot be blank"
 
-  # Scenario: Attempt to submit claim to LAA without specifying case number
-  #   Given I am a signed in advocate
-  #    And There are case types in place
-  #    And I am on the new claim page
-  #    And I attempt to submit to LAA without specifying all the details
-  #   Then I should be redirected back to the create claim page
-  #    And I should see the error message "Case number cannot be blank, you must enter a case number"
-
-  # Scenario: Attempt to submit claim to LAA without specifying defendant details
-  #   Given I am a signed in advocate
-  #     And There are case types in place
-  #     And I am on the new claim page
-  #     And I attempt to submit to LAA without specifying defendant details
-  #    Then I should be redirected back to the create claim page
-  #     And I should see the error message "First name cannot be blank"
-  #     And I should see the error message "Last name cannot be blank"
-  #     And I should see the error message "Enter valid date of birth"
+  Scenario: Attempt to submit claim to LAA without specifying defendant details
+    Given I am a signed in advocate
+      And There are case types in place
+      And I am on the new claim page
+      And I attempt to submit to LAA without specifying defendant details
+     Then I should be redirected back to the create claim page
+      And I should see a field level error message "First name cannot be blank"
+      And I should see a field level error message "Last name cannot be blank"
+      And I should see a field level error message "Date of birth cannot be blank"
 
 Scenario Outline: Attempt to submit claim to LAA without specifying required text fields
     Given I am a signed in advocate
@@ -43,15 +35,19 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
       And I blank out the <field_id> field
       And I submit to LAA
      Then I should be redirected back to the create claim page
-      And I should see the error message <error_message>
+      And I should see a summary error message <error_message>
 
     Examples:
 
-    | field_id                | error_message                                                |
-    # | "claim_case_number"     | "Case number cannot be blank, you must enter a case number"  |
-    | "claim_defendants_attributes_0_first_name" | "First name cannot be blank"              |
-    | "claim_defendants_attributes_0_last_name"  | "Last name cannot be blank"              |
+    | field_id                                   | error_message                                                |
+    | "claim_case_number"                        | "Case number cannot be blank, you must enter a case number"  |
+    | "claim_defendants_attributes_0_first_name" | "One or more defendants are invalid"                         |
+    | "claim_defendants_attributes_0_last_name"  | "One or more defendants are invalid"                         |
 
+
+    # TODO: unhappy paths for invalid dates attended dates and dates in general
+
+    # TODO: - unhappy paths for select list items
     # Scenario Outline: Attempt to submit claim to LAA without specifying required select-list fields
     # Given I am a signed in advocate
     #   And There are case types in place

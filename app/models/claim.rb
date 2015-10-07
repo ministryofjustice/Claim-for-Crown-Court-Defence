@@ -90,6 +90,11 @@ class Claim < ActiveRecord::Base
 
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
 
+  # ensure submodel validations bubble up to claim errrors
+  validates_associated :defendants, message: 'One or more defendants are invalid'
+  validates_associated :fees,       message: 'One or more fees are invalid'
+  validates_associated :expenses,   message: 'One or more expenses are invalid'
+
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }
   scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }

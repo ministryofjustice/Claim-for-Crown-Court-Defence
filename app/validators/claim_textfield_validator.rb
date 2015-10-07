@@ -1,6 +1,7 @@
 class ClaimTextfieldValidator < BaseClaimValidator
 
-  @@fields = [
+  def self.fields
+    [
     :case_type,
     :court,
     :case_number,
@@ -10,22 +11,16 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :actual_trial_length,
     :trial_cracked_at_third,
     :total
-  ]
+    ]
+  end
 
-  @@mandatory_fields = [
+  def self.mandatory_fields
+    [
     :advocate,
     :creator,
     :amount_assessed,
     :evidence_checklist_ids
-  ]
-
-
-  def self.fields
-    @@fields
-  end
-
-  def self.mandatory_fields
-    @@mandatory_fields
+    ]
   end
 
   private

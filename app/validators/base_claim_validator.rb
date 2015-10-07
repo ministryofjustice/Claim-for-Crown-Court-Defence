@@ -1,8 +1,7 @@
 class BaseClaimValidator < ActiveModel::Validator
-  def validate(record)
 
+  def validate(record)
     @record = record
-    ap "validating #{@record.class.to_s}"
     if @record.perform_validation?
       validate_fields(:fields)
     end
@@ -51,13 +50,7 @@ class BaseClaimValidator < ActiveModel::Validator
   end
 
   def add_error(attribute, message)
-    # byebug
-
-    @record.errors[attribute] << message
-    
-    # also add to claim errors array, if record is not a claim, to enable display at top of page
-    @claim.errors[:base] << message unless @record.instance_of(Claim)
-
+    @record.errors.add(attribute, message)
   end
 
   def case_type_in(*case_types)

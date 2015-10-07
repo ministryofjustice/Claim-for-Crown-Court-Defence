@@ -43,10 +43,6 @@ And(/^I blank out the defendant details$/) do
   end
 end
 
-# And(/^I blank out the case number$/) do
-#   fill_in 'claim_case_number', with: ""
-# end
-
 And(/^I blank out the "(.*)" field$/) do |field_id|
   fill_in field_id, with: ""
 end
@@ -72,8 +68,13 @@ And(/^The entered values should be preserved on the page$/) do
 end
 
 
-And(/^I should see the error message "(.+)"$/) do | error_message |
+And(/^I should see a summary error message "(.+)"$/) do | error_message |
   within('.validation-summary') do
     expect(page).to have_content(error_message)
   end
 end
+
+Then(/^I should see a field level error message "(.*?)"$/) do |error_message|
+  expect(page).to have_content(error_message)
+end
+

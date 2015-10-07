@@ -23,14 +23,12 @@ class RepresentationOrderValidator < BaseClaimValidator
     end
   end
 
-
   # must be present
   # must be either magistrates court or crown court
   def validate_granting_body
     validate_presence(:granting_body, "Select the granting body")
     validate_inclusion(:granting_body, Settings.court_types, 'Invalid granting body')
   end
-
 
   # mandatory where case type isn't breach of crown court order
   # must be exactly 7 - 10 numeric digits
@@ -40,6 +38,5 @@ class RepresentationOrderValidator < BaseClaimValidator
     end
     validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'MAAT reference invalid. It must 7-10 numeric characters')
   end
-
 
 end

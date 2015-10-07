@@ -350,14 +350,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def create_and_submit
     @claim.force_validation = true
     @claim.save
-    ap "CLAIM SAVED #{@claim.persisted?}"
+
+    # TODO: use @claim.save return value instead of @claim.valid? ?
     if @claim.valid?
-      ap "CLAIM VALID"
       @claim.find_and_associate_documents(params[:form_id]) if params[:form_id].present?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to new_advocates_claim_certification_path(@claim)
     else
-      ap "CLAIM INVALID!!"
       render_new_with_resources
     end
   end

@@ -18,13 +18,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def show
     @claim.assessment = Assessment.new if @claim.assessment.nil?
-    @enable_assessment_input = @claim.assessment.blank?
+    @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
     @enable_status_change = true
 
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-    @redetermination = @claim.redeterminations.build
+    
   end
 
   def update
@@ -38,7 +38,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     end
     @enable_status_change = true
     @message = @claim.messages.build
-    render action: :show
+    redirect_to case_workers_claim_path(errors: @claim.errors.full_messages)
   end
 
   private

@@ -37,7 +37,20 @@
                 (#{message.sender.persona.class.to_s.humanize})
               .column-half.sent
                 = message.created_at
-- elsif message.is_a? PaperTrail::Version
+- elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Determination'
+  .grid-row.history
+    .column-quarter
+      &nbsp;
+    .column-two-quarter.event
+      = message.event
+      %table
+        - message.changeset.each do |attribute, changes|
+          %tr
+            %td
+              #{attribute.humanize}:
+            %td
+              £#{changes.last}
+- elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Claim'
   .grid-row.history
     .column-quarter
       &nbsp;
@@ -46,12 +59,13 @@
       %ul
         - message.changeset.each do |attribute, changes|
           %li
-            - unless changes.first.blank? || changes.last.blank?
+            - if changes.first.present? && changes.last.present?
               Changed
               "#{attribute.humanize}"
               from
               "#{changes.first}"
               to
               "#{changes.last}"
+              
     .column-quarter
       &nbsp;

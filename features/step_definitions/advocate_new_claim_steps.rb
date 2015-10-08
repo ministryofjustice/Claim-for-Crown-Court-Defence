@@ -177,7 +177,7 @@ end
 
 Then(/^I should be redirected back to the claim form with error$/) do
   expect(page).to have_content('Claim for Advocate Graduated Fees')
-  expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
+  expect(page).to have_content(/This claim has \d+ errors?/)
   expect(page).to have_content("Advocate cannot be blank")
 end
 
@@ -275,11 +275,11 @@ Then(/^the claim should be in a "(.*?)" state$/) do |state|
 end
 
 Then(/^I should see errors$/) do
-  expect(page).to have_content(/\d+ errors? prohibited this claim from being saved/)
+  expect(page).to have_content(/This claim has \d+ errors?/)
 end
 
 Then(/^I should not see errors$/) do
-  expect(page).not_to have_content(/\d+ errors? prohibited this claim from being saved/)
+  expect(page).not_to have_content(/This claim has \d+ errors?/)
 end
 
 Then(/^no claim should be submitted$/) do

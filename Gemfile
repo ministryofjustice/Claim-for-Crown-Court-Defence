@@ -81,7 +81,7 @@ group :test do
   gem 'simplecov',                  require: false
   gem 'simplecov-csv',              require: false
   gem 'simplecov-multi',            require: false
-  gem "i18n-tasks"
+  gem 'i18n-tasks',                 '~> 0.8.7'
   gem 'timecop',                    '~> 0.7.4'
   gem 'webmock',                    '~> 1.21.0'
 end

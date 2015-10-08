@@ -84,10 +84,10 @@
           %li= msg
 
   %p
-    = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'display: inline-block; width: 200px;' }
-
     - unless params[:tab] == 'allocated'
-      = number_field_tag :quantity_to_allocate, nil, placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate'
+      = number_field_tag :quantity_to_allocate, nil, { placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate', min: 0 }
+
+    = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2 extra-margin', style: 'display: inline-block; width: 200px;' }
 
     = f.submit params[:tab] == 'allocated' ? 'Re-allocate' : 'Allocate', class: 'button'
 

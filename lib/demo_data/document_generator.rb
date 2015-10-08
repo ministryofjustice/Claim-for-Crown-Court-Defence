@@ -8,7 +8,7 @@ module DemoData
       'repo_order_2.pdf'                      => 1,
       'repo_order_3.pdf'                      => 1,
       'LAC_1.pdf'                             => 2,
-      'commital_bundle.pdf'                   => 3,
+      'committal_bundle.pdf'                   => 3,
       'indictment.pdf'                        => 4,
       'judicial_appointment_order.pdf'        => 5,
       'invoices.pdf'                          => 6,

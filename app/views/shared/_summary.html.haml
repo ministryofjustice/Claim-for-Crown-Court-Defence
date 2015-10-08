@@ -1,17 +1,17 @@
 - present(@claim) do |claim|
   %section#summary
     %h1
-      Fees
+      = t('common.fees')
     %table
       %thead
         %th
-          Fee Category
+          = t('.fee_category')
         %th
-          Fee Type
+          = t('.fee_type')
         %th
-          Quantity
+          = t('.quantity')
         %th
-          Amount
+          = t('.amount')
       %tbody
         - claim.fees.select(&:present?).each do |fee_object|
           - present(fee_object) do |fee|
@@ -20,7 +20,7 @@
                 = fee.fee_type.fee_category.name
                 - if fee.dates_attended.any?
                   %br
-                  Dates attended:
+                  = t('.dates_attended')
                   = fee.dates_attended_delimited_string
               %td
                 = fee.fee_type.description
@@ -29,23 +29,23 @@
               %td
                 = fee.amount
     %p
-      Fees total:
+      = t('.fees_total')
       = claim.fees_total
 
     %h1
-      Expenses
+      = t('common.expenses')
     %table
       %thead
         %th
-          Expense type
+          = t('.expense_type')
         %th
-          Location
+          = t('.location')
         %th
-          Quantity/Hours
+          = t('.quantity_hours')
         %th
-          Rate
+          = t('.rate')
         %th
-          Amount
+          = t('.amount')
       %tbody
         - claim.expenses.each do |expense_object|
           - present(expense_object) do |expense|
@@ -65,17 +65,17 @@
               %td
                 = expense.amount
     %p
-      Expenses total:
+      = t('.expenses_total')
       = claim.expenses_total
 
     %p
-      Claim total:
+      = t('.claim_total')
       = claim.total_inc_vat
 
     = render partial: "shared/vat_summary", locals: { claim:  claim }
 
     - unless @claim.additional_information.blank?
       %h1
-        Additional information
+        = t('.additional_information')
       %p
         = @claim.additional_information

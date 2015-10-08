@@ -156,6 +156,7 @@ en:
     remove: Remove
     edit: Edit
     delete: Delete
+    view: View
   link:
     add_claim: Start a claim
     back: Back
@@ -371,6 +372,32 @@ en:
       reporders: Representation order(s)
       submit_date: Case submitted
       trial_concluded: Trial concluded
+    evidence_list:
+      existing_evidence: Existing evidence
+      no_documents_uploaded: No documents have been uploaded.
+      name_of_file: Name of file
+      date_added: Date added
+      actions: Actions
+    summary:
+      amount: Amount
+      fee_category: Fee category
+      fee_type: Fee type
+      quantity: Quantity
+      dates_attended: 'Dates attended:'
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Location
+      quantity_hours: 'Quantity/Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      additional_information: Additional information
+    vat_summary:
+      tax_date: Tax date
+      vat_rate: VAT Rate
+      net_total: Net total
+      vat_amount: VAT Amount
+
 
   case_workers:
     admin:

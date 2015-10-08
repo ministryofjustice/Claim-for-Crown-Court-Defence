@@ -1,4 +1,6 @@
 class ClaimReporter
+  include ActionView::Helpers::DateHelper
+
   def authorised_in_full
     claims = Claim.non_draft
     authorised_claims_this_month = claims.where{ authorised_at >= Time.now.beginning_of_month }.authorised
@@ -21,6 +23,11 @@ class ClaimReporter
     claims_percentage(rejected_claims_this_month, claims)
   end
 
+  def rejected_count
+    rejected_claims = Claim.where(state: 'rejected')
+    rejected_claims.count
+  end
+
   def outstanding
     Claim.where(state: %w( allocated submitted redetermination )).order(submitted_at: :asc)
   end
@@ -38,7 +45,35 @@ class ClaimReporter
     claims_percentage(completed, intentions)
   end
 
+  def processing_times
+    processing_times = processed_claims.inject([]) do |times, claim|
+      processed_timestamp = claim.claim_state_transitions.order(created_at: :asc).first.created_at
+      submitted_timestamp = claim.submitted_at
+      times << (submitted_timestamp - processed_timestamp)
+    end.sort
+  end
+
+  def average_processing_time
+    average_processing_time = calculate_average(processing_times)
+  end
+
+  def average_processing_time_in_words
+    distance_of_time_in_words(Time.now, Time.now - average_processing_time)
+  end
+
   private
+
+  def calculate_average(collection)
+    collection.inject{ |sum, e| sum + e }.to_f / collection.size
+  end
+
+  def processed_claims
+    Claim.where(state: processed_states)
+  end
+
+  def processed_states
+    %w( rejected refused part_authorised authorised )
+  end
 
   def claims_percentage(percentage_claims, all_claims)
     return 0.0 if percentage_claims.none? && all_claims.none?

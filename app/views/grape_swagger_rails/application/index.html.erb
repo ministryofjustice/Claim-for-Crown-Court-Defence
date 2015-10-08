@@ -186,11 +186,9 @@
           <% end %>
         </nav>
         <div id='user_links'>
-            <strong>
-              <%= "Signed in as:" %>
-              <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
-              <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
-            </strong>
+          <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
+          <%= " | " %>
+          <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
         </div>
       <% end %>
     </div>

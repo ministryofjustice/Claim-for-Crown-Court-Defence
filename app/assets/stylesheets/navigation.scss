@@ -58,9 +58,9 @@ nav.dashboard-tabs{
 
 #user_links {
   float:right;
+  color: $white;
   a{
     color: $white;
-    margin-left: 1em;
     text-decoration: none;
     font-weight: bold;
     &:hover{

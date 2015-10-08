@@ -78,7 +78,7 @@
   - if @allocation.errors.any?
     .validation-summary
       %h2.heading-small
-        = "This case worker allocation has #{pluralize(@allocation.errors.count, t('.error'))}"
+        = "This claim allocation has #{pluralize(@allocation.errors.count, 'error')}"
       %ul
         - @allocation.errors.full_messages.each do |msg|
           %li= msg

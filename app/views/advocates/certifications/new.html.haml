@@ -5,7 +5,7 @@
 
     - if @certification.errors.any?
       .validation-summary
-        %h3.heading-small= "This claim certification has #{pluralize(@certification.errors.count, t('.error'))}"
+        %h3.heading-small= "This claim certification has #{pluralize(@certification.errors.count, 'error')}"
         %ul
           - @certification.errors.full_messages.each do |msg|
             %li= msg

@@ -78,8 +78,7 @@
   - if @allocation.errors.any?
     .validation-summary
       %h2.heading-small
-        = "#{pluralize(@allocation.errors.count, 'error')}"
-        prohibited save
+        = "This claim allocation has #{pluralize(@allocation.errors.count, 'error')}"
       %ul
         - @allocation.errors.full_messages.each do |msg|
           %li= msg

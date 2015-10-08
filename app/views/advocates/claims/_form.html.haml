@@ -5,13 +5,13 @@
 
     - if @claim.errors.any?
       .validation-summary
-        %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
-        .form-hint
-          Scroll down to view detailed errors against individual fields
+        %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@claim.errors.count, t('.error'))}"
         %ul
           - @claim.errors.full_messages.each do |message|
             %li
               = message
+        %span.form-hint
+          = t('.form_error_hint')
     %fieldset
       %legend.bold-medium
         = t('.case_advocate_offence')

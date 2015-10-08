@@ -61,7 +61,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
     validate_presence(:case_number, "Case number cannot be blank, you must enter a case number")
-    validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "Case number must be in format A12345678 (i.e. 1 capital Letter followed by exactly 8 digits)") unless @record.case_number.blank?
+    validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "Case number must be in format A12345678") unless @record.case_number.blank?
   end
 
 # must be present

@@ -3,13 +3,13 @@
   %p
     - if @claim.errors.any?
       .validation-summary
-        %h4.heading-small= "#{pluralize(@claim.errors.count, 'error')} prohibited this claim from being saved"
+        %h4.heading-small= "This claim has #{pluralize(@claim.errors.count, 'error')}"
         %ul
           - @claim.errors.full_messages.each do |msg|
             %li= msg
     - elsif params[:errors] # passed from redirect in update action
       .validation-summary
-        %h4.heading-small= "#{pluralize(params[:errors].count, 'error')} prohibited this claim from being saved"
+        %h4.heading-small= "This claim has #{pluralize(params[:errors].count, 'error')}"
         %ul
           - params[:errors].each do |msg|
             %li= msg

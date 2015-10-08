@@ -499,7 +499,7 @@ DEPENDENCIES
   haml (~> 4.0.6)
   haml-rails (~> 0.9.0)
   hashie-forbidden_attributes (>= 0.1.1)
-  i18n-tasks
+  i18n-tasks (~> 0.8.7)
   jbuilder (~> 2.2.16)
   jquery-rails (~> 3.1.2)
   json-schema

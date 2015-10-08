@@ -6,10 +6,6 @@
       = claim.case_worker_names
   %ul.case-data
     %li
-      - unless controller.action_name == 'show'
-        %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-          = t('.case')
-          Case
       %dl
         %dt
           =t('.defendant')

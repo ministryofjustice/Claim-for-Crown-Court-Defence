@@ -7,7 +7,7 @@ end
 
 Then(/^I should( not)? see a link to the API sign up and documentation$/) do |have|
   to_or_not_to = have.nil? ? 'to' : have.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
-  expect(page).method(to_or_not_to).call have_selector('a', text: 'API Sign up and Documentation')
+  expect(page).method(to_or_not_to).call have_selector('a', text: 'API Sign up and documentation')
 end
 
 Then(/^I should( not)? see a link to the API documentation$/) do |have|
@@ -16,7 +16,7 @@ Then(/^I should( not)? see a link to the API documentation$/) do |have|
 end
 
 When(/^I click on the API Sign up and Documentation link$/) do
-  click_link('API Sign up and Documentation')
+  click_link('API Sign up and documentation')
 end
 
 Then(/^I should be directed to the API landing page$/) do

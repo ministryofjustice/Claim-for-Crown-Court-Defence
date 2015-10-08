@@ -191,6 +191,7 @@ en:
     claims:
       claims:
         no_claims_found: 'No claims found'
+        advocate: *advocate
         messages: 'Messages'
         defendants: 'Defendants'
         case_number: 'Case Number'

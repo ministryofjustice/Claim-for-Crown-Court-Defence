@@ -1,6 +1,6 @@
 - present(@claim) do |claim|
   %section#summary
-    %h1
+    %h3
       Fees
     %table
       %thead
@@ -32,7 +32,7 @@
       Fees total:
       = claim.fees_total
 
-    %h1
+    %h3
       Expenses
     %table
       %thead
@@ -75,7 +75,7 @@
     = render partial: "shared/vat_summary", locals: { claim:  claim }
 
     - unless @claim.additional_information.blank?
-      %h1
+      %h3
         Additional information
       %p
         = @claim.additional_information

@@ -327,7 +327,7 @@ en:
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
-        h2_summary: Claim summary
+        h2_summary: Fees, expenses and more information
         heading: Claim
 
 # en.shared
@@ -365,7 +365,7 @@ en:
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
-        h2_summary: Claim summary
+        h2_summary: Fees, expenses and more information
         heading: Claim
       claims_list:
         no_claims_found: 'No claims found'

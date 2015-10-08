@@ -172,7 +172,7 @@ en:
           edit_advocate: 'Edit Advocate'
         form:
           error: 'error'
-          prohibited_save: 'prohibited this advocate from being saved:'
+          prohibited_save: 'This advocate has'
           email: *email
           password: *password
           password_confirmation: *password_confirmation
@@ -183,7 +183,7 @@ en:
           submit: 'Create Advocate'
         change_password:
           error: 'error'
-          prohibited_save: 'prohibited this advocate from being saved:'
+          prohibited_save: 'This advocate password change has'
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
@@ -258,7 +258,8 @@ en:
         view_details: 'View Details'
       form:
         error: 'error'
-        prohibited_save: 'prohibited this claim from being saved:'
+        form_error_hint: 'Check below for more detail'
+        prohibited_save: 'This claim has'
         case_advocate_offence: 'Case, Instructed Advocate & Offence'
         advocate: *advocate
         scheme: 'Scheme'
@@ -351,7 +352,7 @@ en:
       case_workers:
         change_password:
           error: 'error'
-          prohibited_save: 'prohibited this case worker from being saved:'
+          prohibited_save: 'This case worker password change has'
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation

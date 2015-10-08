@@ -4,7 +4,7 @@
 = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   - if resource.errors.any?
     .validation-summary
-      %h2.heading-small= "#{pluralize(resource.errors.count, 'error')} prohibited this #{resource_name} from being saved"
+      %h2.heading-small= "This #{resource_name} has #{pluralize(resource.errors.count, t('.error'))}"
       %ul
         - resource.errors.each do |attribute, message|
           %li

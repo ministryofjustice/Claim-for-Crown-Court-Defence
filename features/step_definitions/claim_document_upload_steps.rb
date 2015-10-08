@@ -38,7 +38,7 @@ Given(/^I am on the new claim page and have attached invalid documents$/) do
 end
 
 When(/^the page should have validation errors$/) do
-  expect(page).to have_content(/\d+ errors? prohibited this claim from being saved/)
+  expect(page).to have_content(/This claim has \d+ errors?/)
 end
 
 Then(/^the attached files should still be visible$/) do

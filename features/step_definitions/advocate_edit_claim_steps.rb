@@ -8,5 +8,5 @@ end
 
 Then(/^I should be redirected back and errors displayed$/) do 
   expect(page.current_path).to eq(advocates_claim_path(@claim))
-  expect(page).to have_content(/\d+ errors? prohibited this claim from being saved:/)
+  expect(page).to have_content(/This claim has \d+ errors?/)
 end

@@ -98,5 +98,6 @@ Rails.application.routes.draw do
   namespace :geckoboard_api, format: :json do
     get 'widgets/claims', to: 'widgets#claims'
     get 'widgets/claim_completion', to: 'widgets#claim_completion'
+    get 'widgets/average_processing_time', to: 'widgets#average_processing_time'
   end
 end

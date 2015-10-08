@@ -6,10 +6,10 @@ Feature: Caseworker claims list
    Given I am a signed in case worker admin
      And claims have been assigned to me
     When I visit my dashboard
-     And I click "Your Claims"
+     And I click "Your claims"
     Then I should see only my claims
      And I should see the claims sorted by oldest first
-  
+
   Scenario: View all archived claims
    Given I am a signed in case worker admin
      And there are archived claims

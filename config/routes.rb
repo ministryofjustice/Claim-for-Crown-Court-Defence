@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
 
-  get 'ping',         to: 'heartbeat#ping', format: :json
-  get 'healthcheck',  to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
-  get '/tandcs',      to: 'pages#tandcs',           as: :tandcs_page
-  get '/api_landing',         to: 'pages#api_landing',              as: :api_landing_page
+  get 'ping',           to: 'heartbeat#ping', format: :json
+  get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
+  get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
+  get '/api_landing',   to: 'pages#api_landing',      as: :api_landing_page
+  get '/contact_us',    to: 'pages#contact_us',       as: :contact_us_page
 
   get 'vat'                 => "vat_rates#index"
 

@@ -12,4 +12,8 @@ class PagesController < ApplicationController
     render
   end
 
+  def contact_us
+    render
+  end
+
 end

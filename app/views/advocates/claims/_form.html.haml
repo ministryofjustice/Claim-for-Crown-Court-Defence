@@ -7,7 +7,7 @@
       .validation-summary
         %h2.heading-small= "#{pluralize(@claim.errors.count, t('.error'))} #{t('.prohibited_save')}"
         .form-hint
-          scroll down to view detailed errors against individual fields
+          Scroll down to view detailed errors against individual fields
         %ul
           - @claim.errors.full_messages.each do |message|
             %li

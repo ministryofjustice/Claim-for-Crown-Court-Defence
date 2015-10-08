@@ -126,7 +126,7 @@ context '#perform_validation?' do
     invalid_formats.each do |invalid_format|
       it "should error if invalid format #{invalid_format}" do
         claim.case_number = invalid_format
-        should_error_with(claim, :case_number,"Case number must be in format A12345678 (i.e. 1 capital Letter followed by exactly 8 digits)")
+        should_error_with(claim, :case_number,"Case number must be in format A12345678")
       end
     end
   end

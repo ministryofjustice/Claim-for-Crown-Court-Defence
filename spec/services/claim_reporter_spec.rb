@@ -34,6 +34,12 @@ RSpec.describe ClaimReporter do
     end
   end
 
+  describe '#rejected_count' do
+    it 'returns a count of rejected claims' do
+      expect(subject.rejected_count).to eq(3)
+    end
+  end
+
   describe '#outstanding' do
     it 'returns all outstanding claims' do
       expect(subject.outstanding).to match_array([submitted_claim_1, allocated_claim_1, allocated_claim_2])
@@ -58,6 +64,24 @@ RSpec.describe ClaimReporter do
 
     it 'returns the completion rate for claims in the last 16 weeks' do
       expect(subject.completion_rate).to eq(50.0)
+    end
+  end
+
+  describe 'processing_times' do
+    it 'returns the claim processing times' do
+      expect(subject.processing_times.count).to eq(7)
+    end
+  end
+
+  describe '#average_processing_time' do
+    it 'returns the average processing time for claims' do
+      expect(subject.average_processing_time).to be_a Float
+    end
+  end
+
+  describe '#average_processing_time_in_words' do
+    it 'returns the average processing time in words' do
+      expect(subject.average_processing_time_in_words).to eq('5 days')
     end
   end
 end

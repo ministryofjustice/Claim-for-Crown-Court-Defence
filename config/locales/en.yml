@@ -144,8 +144,11 @@ en:
 
 # en.common
   common:
+    advocate: Advocate
     court: Court
     crown_court: Crown court
+    expenses: Expenses
+    fees: Fees
     or: or
     search: Search
     upload: Upload
@@ -353,6 +356,7 @@ en:
   shared:
     claim:
       adv_acc_no: Advocate account number
+      advocate_category: Advocate category
       assignee: "Assigned to:"
       case: Case
       case_num: Case number
@@ -366,6 +370,7 @@ en:
         retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
+      trial_concluded: Trial concluded
 
   case_workers:
     admin:

@@ -34,7 +34,7 @@ Given(/^There are case types in place$/) do
 end
 
 When(/^I click Add Another Representation Order$/) do
-  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add Another Representation Order"}.first.click
+  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
 end
 
 Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
@@ -91,7 +91,7 @@ end
 
 When(/^I fill in the certification details and submit/) do
   check 'certification_main_hearing'
-  click_on 'Certify and Submit Claim'
+  click_on 'Certify and submit claim'
 end
 
 When(/^I fill in the claim details(.*)$/) do |details|
@@ -176,7 +176,7 @@ Then(/^I should be redirected to the claim certification page$/) do
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
-  expect(page).to have_content('Claim for Advocate Graduated Fees')
+  expect(page).to have_content('Claim for advocate graduated fees')
   expect(page).to have_content(/This claim has \d+ errors?/)
   expect(page).to have_content("Advocate cannot be blank")
 end

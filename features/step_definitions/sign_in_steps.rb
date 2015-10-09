@@ -71,22 +71,22 @@ end
 
 Then(/^I should see the advocates Your claims link and it should work$/) do
   find('#primary-nav').click_link('Your claims')
-  expect(find('.page-title')).to have_content('Your Claims')
+  expect(find('.page-title')).to have_content('Your claims')
 end
 
 Then(/^I should see the admin advocates All claims link and it should work$/) do
   find('#primary-nav').click_link('All claims')
-  expect(find('.page-title')).to have_content('All Claims')
+  expect(find('.page-title')).to have_content('All claims')
 end
 
 Then(/^I should see the advocates Archive link and it should work$/) do
   find('#primary-nav').click_link('Archive')
-  expect(find('h1')).to have_content('Archived Claims')
+  expect(find('h1')).to have_content('Archived claims')
 end
 
 Then(/^I should see the advocates Start a claim link and it should work$/) do
   find('#primary-nav').click_link('Start a claim')
-  expect(find('h1')).to have_content('Claim for Advocate Graduated Fees')
+  expect(find('h1')).to have_content('Claim for advocate graduated fees')
 end
 
 Then(/^I should see the advocates Admin link and it should work$/) do
@@ -109,22 +109,22 @@ end
 
 Then(/^I should see the caseworkers Your claims link and it should work$/) do
   find('#primary-nav').click_link('Your claims')
-  expect(find('h1.page-title')).to have_content('Your Claims')
+  expect(find('h1.page-title')).to have_content('Your claims')
 end
 
 Then(/^I should see the caseworkers Archive link and it should work$/) do
   find('#primary-nav').click_link('Archive')
-  expect(find('h1.page-title')).to have_content('Archived Claims')
+  expect(find('h1.page-title')).to have_content('Archived claims')
 end
 
 Then(/^I should see the admin caseworkers Your claims link and it should work$/) do
   find('#primary-nav').click_link('Your claims')
-  expect(find('h1.page-title')).to have_content('Your Claims')
+  expect(find('h1.page-title')).to have_content('Your claims')
 end
 
 Then(/^I should see the admin caseworkers Archive link and it should work$/) do
   find('#primary-nav').click_link('Archive')
-  expect(find('h1.page-title')).to have_content('Archived Claims')
+  expect(find('h1.page-title')).to have_content('Archived claims')
 end
 
 Then(/^I should see the admin caseworkers Allocation link and it should work$/) do

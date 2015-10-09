@@ -3,21 +3,21 @@
 
 .grid-row.clear-float
   %h2.heading-medium.left
-    List of Case Workers
+    = t('.case_workers_list')
   = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button right'
 
 %table
   %thead
     %th
-      Surname
+      = t('.surname')
     %th
-      Name
+      = t('.name')
     %th
-      Approval limit
+      = t('.approval_limit')
     %th
-      Location
+      = t('.location')
     %th
-      Working Days
+      = t('.working_days')
     %th
   %tbody
     - @case_workers.each do |case_worker|
@@ -33,6 +33,6 @@
         %td
           = present(case_worker).days_worked_markup
         %td.user-controls
-          = link_to 'Edit', edit_case_workers_admin_case_worker_path(case_worker)
+          = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
           = " | "
-          = link_to 'Delete', case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }

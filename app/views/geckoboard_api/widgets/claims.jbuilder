@@ -5,7 +5,7 @@ json.item do
       text: 'Rejected'
     },
     {
-      value: @reporter.authorised_in_part[:count],
+      value: @reporter.authorised_in_part[:percentage],
       text: 'Part authorised'
     },
     {

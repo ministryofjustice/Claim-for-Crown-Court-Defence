@@ -254,9 +254,9 @@ en:
         add_date_attended: 'Add date(s)'
         remove: *remove
       financial_summary:
-        total_outstanding: 'Total Outstanding:'
-        total_authorised: 'Total Authorised:'
-        view_details: 'View Details'
+        total_outstanding: 'Total outstanding:'
+        total_authorised: 'Total authorised:'
+        view_details: 'View details'
       form:
         error: 'error'
         form_error_hint: 'Check below for more detail'

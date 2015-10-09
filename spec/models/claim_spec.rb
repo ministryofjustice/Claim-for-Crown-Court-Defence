@@ -331,8 +331,8 @@ RSpec.describe Claim, type: :model do
         other_claim.advocate = other_advocate
         subject.save!
         other_claim.save!
-        create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: subject)
-        create(:defendant, first_name: 'Joe', middle_name: 'Herbie', last_name: 'Bloggs', claim: other_claim)
+        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
+        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: other_claim)
         create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
         subject.reload
         other_claim.reload
@@ -1129,7 +1129,6 @@ RSpec.describe Claim, type: :model do
          "defendants_attributes"=>
           {"0"=>
             {"first_name"=>"Foo",
-             "middle_name"=>"",
              "last_name"=>"Bar",
              "date_of_birth_dd"=>"04",
              "date_of_birth_mm"=>"10",
@@ -1201,7 +1200,6 @@ RSpec.describe Claim, type: :model do
         "defendants_attributes"=>
           {"0"=>
             {"first_name"=>"Foo",
-            "middle_name"=>"",
             "last_name"=>"Bar",
             "date_of_birth_dd"=>"04",
             "date_of_birth_mm"=>"10",

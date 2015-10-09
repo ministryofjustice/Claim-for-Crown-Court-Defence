@@ -552,7 +552,6 @@ def valid_claim_fee_params
      "defendants_attributes"=>
       {"0"=>
         {"first_name" => "Stephen",
-         "middle_name" => "",
          "last_name" => "Richards",
          "date_of_birth_dd" => "13",
          "date_of_birth_mm" => "08",

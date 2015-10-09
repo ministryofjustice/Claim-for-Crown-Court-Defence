@@ -17,7 +17,7 @@ FactoryGirl.define do
     claim
     fee_type
     quantity 1
-    amount "250"
+    amount 25
 
     trait :with_date_attended do
       after(:build) do |fee|
@@ -27,7 +27,7 @@ FactoryGirl.define do
 
     trait :random_values do
       quantity { rand(1..15) }
-      amount   { rand(100..9999).round(0) }
+      amount   { rand(100..999).round(0) }
     end
 
     trait :basic do

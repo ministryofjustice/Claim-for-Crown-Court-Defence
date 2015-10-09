@@ -27,3 +27,30 @@
 @import "claim-detail";
 @import "claims-table";
 @import "api-documentation";
+
+
+.footer-wrapper{
+  float: bottom;
+  vertical-align: bottom;
+}
+.copyright {
+  color: red;
+  border: 1px solid red;
+  float: right;
+  width: 30%;
+}
+
+.open-government-licence {
+  float: left;
+  width: 100%;
+  border: 1px solid red;
+
+}
+
+.group {
+    border: 1px solid red;
+    content: "\0020";
+    display: block;
+    height: 1;
+    overflow: hidden;
+}

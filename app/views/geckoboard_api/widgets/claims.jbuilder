@@ -1,15 +1,15 @@
 json.item do
   json.array! [
     {
-      value: "#{@reporter.rejected[:percentage].round(2)}% (#{@reporter.rejected[:count]})",
+      value: @reporter.rejected[:percentage],
       text: 'Rejected'
     },
     {
-      value: "#{@reporter.authorised_in_part[:percentage].round(2)}% (#{@reporter.authorised_in_part[:count]})",
+      value: @reporter.authorised_in_part[:count],
       text: 'Part authorised'
     },
     {
-      value: "#{@reporter.authorised_in_full[:percentage].round(2)}% (#{@reporter.authorised_in_full[:count]})",
+      value: @reporter.authorised_in_full[:percentage],
       text: 'Authorised'
     }
   ]

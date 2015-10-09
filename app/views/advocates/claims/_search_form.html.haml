@@ -3,7 +3,7 @@
     %div.form-inputs
       - path_to_use = defined?(archived) && archived ? archived_advocates_claims_path : advocates_claims_path
       = form_tag path_to_use, method: :get do
-        = text_field_tag :search, params[:search], placeholder: 'Search e.g. Defendant name, Advocate name', class: "form-control-3-4"
+        = text_field_tag :search, params[:search], placeholder: 'eg defendant name, advocate name', class: "form-control-3-4"
         = submit_tag t('common.search'), class: 'button button-secondary'
   %div.column-half
     &nbsp;

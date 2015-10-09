@@ -197,7 +197,7 @@
             %span.bold-normal= "or"
             %br
             %div.button-secondary
-              Choose a file
+              = t('.choose_file')
           .column-third
             &nbsp;
 
@@ -208,23 +208,23 @@
           %table.previously-uploaded
             %thead
               %th
-                = "File name"
+                = t('.file_name')
               %th
-                = "Action"
+                = t('.action')
             %tbody
               - @claim.documents.order(created_at: :asc).each do |document|
                 %tr{id: dom_id(document)}
                   %td
                     = document.document_file_name
                   %td
-                    = link_to 'Download', download_document_path(document), class: 'download'
+                    = link_to t('common.download'), download_document_path(document), class: 'download'
                     = " | "
-                    = link_to 'Remove', document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+                    = link_to t('common.remove'), document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
 
 
     %fieldset{id: 'evidence-checklist'}
       %legend
-        Supporting evidence checklist
+        = t('.supporting_evidence_checklist')
       #evidence-checklist
         = render 'evidence_checklist', f: f
 

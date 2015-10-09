@@ -1,19 +1,19 @@
 %section
   = render partial: 'shared/evidence_checklist'
   %h3
-    = "Existing Evidence"
+    = t('.existing_evidence')
   - if @claim.documents.none?
-    = "No documents have been uploaded."
+    = t('.no_documents_uploaded')
   - else
     %table#download-files-report
       %thead
         %tr
           %th
-            = "Name of file"
+            = t('.name_of_file')
           %th
-            = "Date added"
+            = t('.date_added')
           %th
-            = "Actions"
+            = t('.actions')
       %tbody
 
         - @claim.documents.each do |document|
@@ -24,6 +24,6 @@
               = document.created_at
             %td
               - if document.converted_preview_document.present?
-                = link_to 'View', document_path(document), target: '_blank', class: 'view'
+                = link_to t('common.view'), document_path(document), target: '_blank', class: 'view'
                 = " | "
-              = link_to 'Download', download_document_path(document), class: 'download'
+              = link_to t('common.download'), download_document_path(document), class: 'download'

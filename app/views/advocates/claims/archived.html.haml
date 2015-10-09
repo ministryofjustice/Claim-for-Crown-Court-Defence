@@ -1,7 +1,7 @@
 %h1.page-title
-  Archived Claims
+  = t('.archived_claims')
 
-%h2 #{pluralize(@claims.count,'archived claim')}
+%h2 #{pluralize(@claims.count, t('.archived_claim'))}
 
 #report-options.container
   = render partial: 'search_form', locals: { archived: true}

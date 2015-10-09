@@ -8,14 +8,15 @@
     - else
       %table
         %thead
-          %th
-            = t('.fee_category')
-          %th
-            = t('.fee_type')
-          %th
-            = t('.quantity')
-          %th
-            = t('.amount')
+          %tr
+            %th
+              = t('.fee_category')
+            %th
+              = t('.fee_type')
+            %th
+              = t('.quantity')
+            %th
+              = t('.amount')
         %tbody
           - claim.fees.select(&:present?).each do |fee_object|
             - present(fee_object) do |fee|
@@ -44,16 +45,17 @@
     - else
       %table
         %thead
-          %th
-            = t('.expense_type')
-          %th
-            = t('.location')
-          %th
-            = t('.quantity_hours')
-          %th
-            = t('.rate')
-          %th
-            = t('.amount')
+          %tr
+            %th
+              = t('.expense_type')
+            %th
+              = t('.location')
+            %th
+              = t('.quantity_hours')
+            %th
+              = t('.rate')
+            %th
+              = t('.amount')
         %tbody
           - claim.expenses.each do |expense_object|
             - present(expense_object) do |expense|

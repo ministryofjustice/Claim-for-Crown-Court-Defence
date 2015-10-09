@@ -317,7 +317,7 @@ en:
         add_another_expense: 'Add another expense'
         vat_required: 'VAT on fees & expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
-        supporting_evidence_docs: 'Supporting evidence documents'
+        supporting_evidence_docs: 'Upload supporting evidence'
         previously_uploaded_docs: 'Previously uploaded documents'
         add_another_doc: 'Add another document'
         submit_to_laa: 'Submit to LAA'

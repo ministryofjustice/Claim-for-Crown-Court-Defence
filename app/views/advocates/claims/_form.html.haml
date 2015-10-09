@@ -106,7 +106,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.amount') 
+                = t('.amount')
               %th
             = f.fields_for :basic_fees do |basic_fee_fields|
               = render 'basic_fee_fields', f: basic_fee_fields
@@ -169,7 +169,7 @@
               %th
                 = t('.rate')
               %th
-                = t('.amount') 
+                = t('.amount')
               %th
               %th
               = f.fields_for :expenses do |expense|
@@ -228,7 +228,7 @@
 
 
     %fieldset{id: 'evidence-checklist'}
-      %legend
+      %legend.bold-medium
         = t('.supporting_evidence_checklist')
       #evidence-checklist
         = render 'evidence_checklist', f: f

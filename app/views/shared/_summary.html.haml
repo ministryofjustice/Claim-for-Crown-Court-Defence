@@ -2,71 +2,79 @@
   %section#summary
     %h3
       = t('common.fees')
-    %table
-      %thead
-        %th
-          = t('.fee_category')
-        %th
-          = t('.fee_type')
-        %th
-          = t('.quantity')
-        %th
-          = t('.amount')
-      %tbody
-        - claim.fees.select(&:present?).each do |fee_object|
-          - present(fee_object) do |fee|
-            %tr
-              %td
-                = fee.fee_type.fee_category.name
-                - if fee.dates_attended.any?
-                  %br
-                  = t('.dates_attended')
-                  = fee.dates_attended_delimited_string
-              %td
-                = fee.fee_type.description
-              %td
-                = fee.quantity
-              %td
-                = fee.amount
-    %p
-      = t('.fees_total')
-      = claim.fees_total
+    - if @claim.fees_total == 0
+      %p
+        There are no fees for this claim
+    - else
+      %table
+        %thead
+          %th
+            = t('.fee_category')
+          %th
+            = t('.fee_type')
+          %th
+            = t('.quantity')
+          %th
+            = t('.amount')
+        %tbody
+          - claim.fees.select(&:present?).each do |fee_object|
+            - present(fee_object) do |fee|
+              %tr
+                %td
+                  = fee.fee_type.fee_category.name
+                  - if fee.dates_attended.any?
+                    %br
+                    = t('.dates_attended')
+                    = fee.dates_attended_delimited_string
+                %td
+                  = fee.fee_type.description
+                %td
+                  = fee.quantity
+                %td
+                  = fee.amount
+      %p
+        = t('.fees_total')
+        = claim.fees_total
 
     %h3
       = t('common.expenses')
-    %table
-      %thead
-        %th
-          = t('.expense_type')
-        %th
-          = t('.location')
-        %th
-          = t('.quantity_hours')
-        %th
-          = t('.rate')
-        %th
-          = t('.amount')
-      %tbody
-        - claim.expenses.each do |expense_object|
-          - present(expense_object) do |expense|
-            %tr
-              %td
-                = expense.expense_type.name
-                - if expense.dates_attended.any?
-                  %br
-                  Dates attended:
-                  = expense.dates_attended_delimited_string
-              %td
-                = expense.location
-              %td
-                = expense.quantity
-              %td
-                = '%.2f' % expense.rate
-              %td
-                = expense.amount
-    %p
-      = t('.expenses_total')
-      = claim.expenses_total
+    - if claim.expenses.empty?
+      %p
+        There are no expenses for this claim
+    - else
+      %table
+        %thead
+          %th
+            = t('.expense_type')
+          %th
+            = t('.location')
+          %th
+            = t('.quantity_hours')
+          %th
+            = t('.rate')
+          %th
+            = t('.amount')
+        %tbody
+          - claim.expenses.each do |expense_object|
+            - present(expense_object) do |expense|
+              %tr
+                %td
+                  = expense.expense_type.name
+                  - if expense.dates_attended.any?
+                    %br
+                    Dates attended:
+                    = expense.dates_attended_delimited_string
+                %td
+                  = expense.location
+                %td
+                  = expense.quantity
+                %td
+                  = '%.2f' % expense.rate
+                %td
+                  = expense.amount
+      %p
+        = t('.expenses_total')
+        = claim.expenses_total
 
     %p
       = t('.claim_total')

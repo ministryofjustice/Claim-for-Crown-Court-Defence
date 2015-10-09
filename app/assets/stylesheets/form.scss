@@ -132,3 +132,9 @@ form {
   float:left;
   margin-right: 10px;
 }
+
+#defendants{
+  .nested-fields{
+    padding-left: 0;
+  }
+}

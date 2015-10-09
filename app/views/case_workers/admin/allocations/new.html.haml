@@ -100,13 +100,13 @@
       %th
         Advocate
       %th
-        Defendant(s)
+        = t('.defendants')
       %th
         Type
       %th
-        Submission date
+        = t('.submitted_date')
       %th
-        Value
+        = t('.claim_total')
       - if params[:tab] == 'allocated'
         %th
           Allocated to

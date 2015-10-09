@@ -78,7 +78,7 @@
           = validation_error_message(@claim, :trial_concluded_at)
 
     %fieldset
-      %legend
+      %legend.bold-medium
         = t('.defendants')
       #defendants
         = f.fields_for :defendants do |defendant|

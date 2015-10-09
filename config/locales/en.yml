@@ -208,10 +208,10 @@ en:
         no_claims_found: 'No claims found'
         advocate: *advocate
         messages: 'Messages'
-        defendants: 'Defendants'
+        defendants: 'Defendant(s)'
         case_number: 'Case number'
-        submission_date: 'Submitted date'
-        authorised_date: 'Authorised date'
+        submission_date: 'Date submitted'
+        authorised_date: 'Date authorised'
         total: 'Claimed'
         assessed: 'Assessed'
         status: 'Status'
@@ -414,6 +414,11 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+      allocations:
+        new:
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendant(s)
     claims:
       archived:
         archived_claims: Archived claims
@@ -430,12 +435,12 @@ en:
       claims_list:
         no_claims_found: 'No claims found'
       claims:
-        case_number: Case Number
+        case_number: Case number
         advocate: Advocate
-        defendants: Defendants
+        defendants: Defendant(s)
         total: Claimed
         status: Status
-        submission_date: Submitted date
+        submission_date: Date submitted
         messages: Messages
   devise:
     shared:

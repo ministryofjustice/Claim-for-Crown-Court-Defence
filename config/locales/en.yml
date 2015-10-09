@@ -254,9 +254,9 @@ en:
         add_date_attended: 'Add date(s)'
         remove: *remove
       financial_summary:
-        total_outstanding: 'Total Outstanding:'
-        total_authorised: 'Total Authorised:'
-        view_details: 'View Details'
+        total_outstanding: 'Total outstanding:'
+        total_authorised: 'Total authorised:'
+        view_details: 'View details'
       form:
         error: 'error'
         form_error_hint: 'Check below for more detail'
@@ -327,7 +327,7 @@ en:
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
-        h2_summary: Claim summary
+        h2_summary: Fees, expenses and more information
         heading: Claim
 
 # en.shared
@@ -365,7 +365,7 @@ en:
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
-        h2_summary: Claim summary
+        h2_summary: Fees, expenses and more information
         heading: Claim
       claims_list:
         no_claims_found: 'No claims found'

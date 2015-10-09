@@ -14,6 +14,11 @@ module ApplicationHelper
     presenter
   end
 
+  #Returns a "current" css class if the path = current_page
+  def cp(path)
+    "current" if current_page?(path)
+  end
+
   def number_with_precision_or_blank(number, options = {})
     if options.has_key?(:precision)
       number == 0 ? '' : number_with_precision(number, options)

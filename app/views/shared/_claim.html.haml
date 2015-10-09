@@ -60,8 +60,6 @@
             - if claim.offence
               = claim.offence.offence_class
     %li
-      %h3{ class: controller.action_name == 'show' ? "" : "repeated" }
-        =t('common.court')
       %dl
         %dt
           =t('common.crown_court')

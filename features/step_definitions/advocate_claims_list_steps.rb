@@ -133,16 +133,14 @@ end
 Given(/^I have (\d+) claims involving defendant "(.*?)"$/) do |number,defendant_name|
   @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
   @claims.each do |claim|
-    middle_names = defendant_name.split.delete_if.with_index { |name,idx| name if idx == 0 || idx == defendant_name.split.count-1 }.join(' ')
-    create(:defendant, claim: claim, first_name: defendant_name.split.first, middle_name: middle_names, last_name: defendant_name.split.last)
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
 end
 
 Given(/^I, advocate, have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number, state, defendant_name|
   @claims = create_list("#{state}_claim".to_sym, number.to_i, advocate: @advocate)
   @claims.each do |claim|
-    middle_names = defendant_name.split.delete_if.with_index { |name,idx| name if idx == 0 || idx == defendant_name.split.count-1 }.join(' ')
-    create(:defendant, claim: claim, first_name: defendant_name.split.first, middle_name: middle_names, last_name: defendant_name.split.last)
+    create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
 end
 

@@ -1129,7 +1129,6 @@ RSpec.describe Claim, type: :model do
          "defendants_attributes"=>
           {"0"=>
             {"first_name"=>"Foo",
-             "middle_name"=>"",
              "last_name"=>"Bar",
              "date_of_birth_dd"=>"04",
              "date_of_birth_mm"=>"10",
@@ -1201,7 +1200,6 @@ RSpec.describe Claim, type: :model do
         "defendants_attributes"=>
           {"0"=>
             {"first_name"=>"Foo",
-            "middle_name"=>"",
             "last_name"=>"Bar",
             "date_of_birth_dd"=>"04",
             "date_of_birth_mm"=>"10",

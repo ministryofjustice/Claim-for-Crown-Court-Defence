@@ -16,7 +16,7 @@
 
 class Defendant < ActiveRecord::Base
 
-  auto_strip_attributes :first_name, :middle_name, :last_name, squish: true, nullify: true
+  auto_strip_attributes :first_name, :last_name, squish: true, nullify: true
 
   belongs_to :claim
 

@@ -11,9 +11,6 @@
     %a{:href => contact_us_page_path } Contact
   %li
     = link_to 'Terms and Conditions', tandcs_page_path
-  - if Rails.host.api_sandbox?
-    %li
-      = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
 %div.show
   %span="Built by"
   %a{:href => "https://mojdigital.blog.gov.uk/"}

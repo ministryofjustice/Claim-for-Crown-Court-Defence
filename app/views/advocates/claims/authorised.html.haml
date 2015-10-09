@@ -1,9 +1,9 @@
 %h1.page-title
-  Authorised Claims
+  = t('.authorised_claims')
 
 %h2
   = @claims.length
-  claims with a total assessed value of
+  = t('.with_total_assessed_value_of')
   = number_to_currency(@total_value)
 
 #details

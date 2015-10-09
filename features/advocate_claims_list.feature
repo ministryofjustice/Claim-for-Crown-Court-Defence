@@ -66,13 +66,11 @@ Feature: Advocate claims list
       And I search by the name "John Smith"
      Then I should only see the 3 claims for the advocate "John Smith"
 
-  Scenario Outline: Search claims by defendant name (with optional middlename)
+  Scenario Outline: Search claims by defendant name
     Given I am a signed in advocate
       And There are fee schemes in place
       And I have 2 claims involving defendant "Joex Bloggs"
       And I have 3 claims involving defendant "Fred Bloggs"
-      And I have 1 claims involving defendant "Fred Joex Bloggs"
-      And I have 1 claims involving defendant "Joex Fred Bloggs"
       And I have 2 claims involving defendant "Someone Else"
      When I visit the advocates dashboard
       And I search by the name <defendant_name>
@@ -80,9 +78,9 @@ Feature: Advocate claims list
 
      Examples:
         | defendant_name     | number  |
-        | "Joex Bloggs"      | 4       |
-        | "Fred Bloggs"      | 5       |
-        | "Joex"             | 4       |
-        | "Bloggs"           | 7       |
-        | "Fred Joex Bloggs" | 1       |
-        | "Joex Fred Bloggs" | 1       |
+        | "Joex Bloggs"      | 2       |
+        | "Fred Bloggs"      | 3       |
+        | "Joex"             | 2       |
+        | "Bloggs"           | 5       |
+        | "Fred Joex Bloggs" | 0       |
+        | "Joex Fred Bloggs" | 0       |

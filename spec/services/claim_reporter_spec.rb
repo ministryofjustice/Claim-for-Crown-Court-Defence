@@ -93,7 +93,7 @@ RSpec.describe ClaimReporter do
 
   describe '#average_processing_time_in_words' do
     it 'returns the average processing time in words' do
-      expect(subject.average_processing_time_in_words).to eq('5 days')
+      expect(subject.average_processing_time_in_words).to eq('less than a minute')
     end
   end
 end

@@ -88,7 +88,7 @@ class Claim < ActiveRecord::Base
 
   has_one  :certification
 
-  has_paper_trail on: [:update], ignore: [:created_at, :updated_at]
+  has_paper_trail on: [:update], ignore: [:created_at, :updated_at, :submitted_at, :evidence_checklist_ids]
 
   # ensure submodel validations bubble up to claim errrors
   validates_associated :defendants, message: 'There is a problem with one or more defendants'

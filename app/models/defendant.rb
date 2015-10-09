@@ -16,7 +16,7 @@
 
 class Defendant < ActiveRecord::Base
 
-  auto_strip_attributes :first_name, :middle_name, :last_name, squish: true, nullify: true
+  auto_strip_attributes :first_name, :last_name, squish: true, nullify: true
 
   belongs_to :claim
 
@@ -32,7 +32,7 @@ class Defendant < ActiveRecord::Base
 
 
   def name
-      [first_name, middle_name, last_name].join(' ').gsub("  ", " ") # when no middle name is provided, two spaces appear in between fist and last names - gsub resolves this
+      [first_name, last_name].join(' ').gsub("  ", " ")
   end
 
   def perform_validation?

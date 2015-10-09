@@ -105,7 +105,7 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; }
+      after(:create) { |c|  publicise_errors(c) {c.submit!}; c.allocate!; }
     end
 
     factory :archived_pending_delete_claim do
@@ -160,6 +160,14 @@ def publicise_errors(claim, &block)
         puts ">>> rep order"
         puts r.errors._full_messages
       end
+    end
+    claim.fees.each do |f|
+      ap f
+      puts f.errors._full_messages
+    end
+    claim.expenses.each do |e|
+      ap e
+      puts e.errors._full_messages
     end
     raise err
   end

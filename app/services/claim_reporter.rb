@@ -56,7 +56,7 @@ class ClaimReporter
 
   def processing_times
     processing_times = processed_claims.inject([]) do |times, claim|
-      processed_timestamp = claim.claim_state_transitions.order(created_at: :asc).first.created_at
+      processed_timestamp = claim.claim_state_transitions.order(created_at: :asc).last.created_at
       submitted_timestamp = claim.submitted_at
       times << (submitted_timestamp - processed_timestamp)
     end.sort
@@ -64,6 +64,7 @@ class ClaimReporter
 
   def average_processing_time
     average_processing_time = calculate_average(processing_times)
+    average_processing_time.nan? ? 0.0 : average_processing_time
   end
 
   def average_processing_time_in_words

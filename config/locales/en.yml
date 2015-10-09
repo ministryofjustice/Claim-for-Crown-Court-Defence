@@ -144,10 +144,19 @@ en:
 
 # en.common
   common:
+    advocate: Advocate
     court: Court
-    crown_court: Crown Court
+    crown_court: Crown court
+    expenses: Expenses
+    fees: Fees
     or: or
     search: Search
+    upload: Upload
+    download: Download
+    remove: Remove
+    edit: Edit
+    delete: Delete
+    view: View
   link:
     add_claim: Start a claim
     back: Back
@@ -167,9 +176,9 @@ en:
           delete: *delete
           confirm_delete: 'Are you sure?'
         new:
-          new_advocate: 'New Advocate'
+          new_advocate: 'New advocate'
         edit:
-          edit_advocate: 'Edit Advocate'
+          edit_advocate: 'Edit advocate'
         form:
           error: 'error'
           prohibited_save: 'This advocate has'
@@ -180,7 +189,7 @@ en:
           last_name: *last_name
           supplier_number: 'Supplier number'
           role: *role
-          submit: 'Create Advocate'
+          submit: 'Create advocate'
         change_password:
           error: 'error'
           prohibited_save: 'This advocate password change has'
@@ -189,14 +198,20 @@ en:
           password_confirmation: *password_confirmation
           submit: 'Change password'
     claims:
+      archived:
+        archived_claims: 'Archived claims'
+        archived_claim: 'archived claim'
+      authorised:
+        authorised_claims: 'Authorised claims'
+        with_total_assessed_value_of: 'claims with a total assessed value of'
       claims:
         no_claims_found: 'No claims found'
         advocate: *advocate
         messages: 'Messages'
-        defendants: 'Defendants'
-        case_number: 'Case Number'
-        submission_date: 'Submitted date'
-        authorised_date: 'Authorised date'
+        defendants: 'Defendant(s)'
+        case_number: 'Case number'
+        submission_date: 'Date submitted'
+        authorised_date: 'Date authorised'
         total: 'Claimed'
         assessed: 'Assessed'
         status: 'Status'
@@ -213,22 +228,21 @@ en:
         total: "Total:"
         will_be_processed: Your claim will be processed shortly
       cracked_trial_fields:
-        cracked_trial_detail: Cracked Trial Detail
-        trial_fixed_notice_at: 'Notice of 1st Fixed/Warned issued'
-        trial_fixed_at: '1st Fixed/Warned trial'
+        cracked_trial_detail: Cracked trial detail
+        trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
+        trial_fixed_at: '1st Fixed/warned trial'
         trial_cracked_at: 'Case cracked'
         trial_cracked_at_third: 'Case cracked in'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
-        remove_date: 'Remove Date Attended'
+        remove_date: 'Remove date attended'
       defendant_fields:
         first_name: *first_name
-        middle_name: *middle_name
         last_name: *last_name
         date_of_birth: 'Date of birth'
         order_for_judicial_apportionment: 'Order for judicial apportionment'
-        add_another_rep_order: 'Add Another Representation Order'
+        add_another_rep_order: 'Add another representation order'
         remove_defendant: 'Remove defendant'
       offence_select:
         offence_class: 'Offence class'
@@ -258,14 +272,17 @@ en:
         total_authorised: 'Total authorised:'
         view_details: 'View details'
       form:
+        choose_file: 'Choose a file'
+        file_name: "File name"
+        action: "Action"
         error: 'error'
         form_error_hint: 'Check below for more detail'
         prohibited_save: 'This claim has'
-        case_advocate_offence: 'Case, Instructed Advocate & Offence'
+        case_advocate_offence: 'Case, instructed advocate & offence'
         advocate: *advocate
         scheme: 'Scheme'
         case_type: 'Case type'
-        cracked_trial_detail: 'Cracked Trial Detail'
+        cracked_trial_detail: 'Cracked trial detail'
         court: 'Court'
         case_number: 'Case number'
         advocate_category: 'Advocate category'
@@ -277,20 +294,19 @@ en:
         actual_length: 'Actual trial length'
         trial_concluded_at: 'Trial concluded on'
         defendants: 'Defendants'
-        add_another_defendant: 'Add Another Defendant'
+        add_another_defendant: 'Add another defendant'
         additional_information: 'Additional information'
-        basic_fees: 'Initial Fees'
+        basic_fees: 'Initial fees'
         fee_prompt_text: |
-          Manually enter the quantity and amount.
-          Please see the relevant<br/><a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">Graduated Fee Calculators</a>
-          for assistance in calculating individual amounts.
+          You must enter a quantity and calculate the amount.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+          for help.
         fee_type: 'Type of fee'
         quantity: 'Quantity'
         amount: 'Amount'
-        fixed_fees: 'Fixed Fees'
-        misc_fees: 'Miscellaneous Fees'
-        add_fixed_fee: 'Add another Fixed Fee'
-        add_misc_fee: 'Add another Miscellaneous Fee'
+        fixed_fees: 'Fixed fees'
+        misc_fees: 'Miscellaneous fees'
+        add_fixed_fee: 'Add another Fixed fee'
+        add_misc_fee: 'Add another miscellaneous fee'
         expenses: 'Expenses'
         expenses_help_text: 'Please enter details for each separate date'
         expense_type: 'Type of expense'
@@ -299,31 +315,36 @@ en:
         rate: 'Rate'
         amount: 'Amount'
         add_another_expense: 'Add another expense'
-        vat_required: 'VAT on Fees & Expenses (please tick if required)'
+        vat_required: 'VAT on fees & expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
         supporting_evidence_docs: 'Supporting evidence documents'
         previously_uploaded_docs: 'Previously uploaded documents'
-        add_another_doc: 'Add Another Document'
+        add_another_doc: 'Add another document'
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'
         clear_form: 'Clear form'
       index:
+        all_claims: All claims
+        your_claims: Your claims
         claims: Claims
         completed: Completed
         draft: Draft
         part_authorised: Part authorised
         rejected: Rejected
         submitted: Submitted to LAA
+      json_document_importer:
+        import_claim: 'Import claim'
       new:
-        heading: Claim for Advocate Graduated Fees
+        heading: Claim for advocate graduated fees
       outstanding:
-        heading: Outstanding Claims
+        heading: Outstanding claims
         claims_value: claims with a total value of
       representation_order_fields:
         granting_body: 'Issued by:'
+        representation_order: 'Representation order'
       show:
         created_by: "Created by:"
-        h2_basic_info: Basic Claim Information
+        h2_basic_info: Basic claim information
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
@@ -334,23 +355,58 @@ en:
   shared:
     claim:
       adv_acc_no: Advocate account number
+      advocate_category: Advocate category
       assignee: "Assigned to:"
       case: Case
       case_num: Case number
-      case_type: Case Type
-      case_worker: Case Worker
+      case_type: Case type
+      case_worker: Case worker
       defendant: Defendant name(s)
-      j_a: Judicial Apportionment
+      j_a: Judicial apportionment
       offence: Offence
       offence_class: Offence class
       q:
         retrial: "Retrial"
       reporders: Representation order(s)
       submit_date: Case submitted
+      trial_concluded: Trial concluded
+    evidence_list:
+      existing_evidence: Existing evidence
+      no_documents_uploaded: No documents have been uploaded.
+      name_of_file: Name of file
+      date_added: Date added
+      actions: Actions
+    summary:
+      amount: Amount
+      fee_category: Fee category
+      fee_type: Fee type
+      quantity: Quantity
+      dates_attended: 'Dates attended:'
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Location
+      quantity_hours: 'Quantity/Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      additional_information: Additional information
+    vat_summary:
+      tax_date: Tax date
+      vat_rate: VAT Rate
+      net_total: Net total
+      vat_amount: VAT Amount
+
 
   case_workers:
     admin:
       case_workers:
+        index:
+          case_workers_list: List of case workers
+          surname: Surname
+          name: Name
+          approval_limit: Approval limit
+          location: Location
+          working_days: Working days
         change_password:
           error: 'error'
           prohibited_save: 'This case worker password change has'
@@ -358,10 +414,19 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
+      allocations:
+        new:
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendant(s)
     claims:
+      archived:
+        archived_claims: Archived claims
+      index:
+        your_claims: Your claims
       show:
         created_by: "Created by:"
-        h2_basic_info: Basic Claim Information
+        h2_basic_info: Basic claim information
         h2_evidence: Evidence
         h2_messages: Messages
         h2_status: Status
@@ -370,10 +435,20 @@ en:
       claims_list:
         no_claims_found: 'No claims found'
       claims:
-        case_number: Case Number
+        case_number: Case number
         advocate: Advocate
-        defendants: Defendants
+        defendants: Defendant(s)
         total: Claimed
         status: Status
-        submission_date: Submitted date
+        submission_date: Date submitted
         messages: Messages
+  devise:
+    shared:
+      links:
+        sign_in: Sign in
+        forgot_your_password: Forgot your password?
+        terms_and_conditions: terms and conditions
+        api_sign_up_and_documentation: API Sign up and documentation
+        didnt_receive_confirmation_instructions: Didn't receive confirmation instructions?
+        didnt_receive_unlock_instructions: Didn't receive unlock instructions?
+        sign_in_with: Sign in with

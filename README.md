@@ -40,8 +40,15 @@ Setup dummy users and data:
 ```
 CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data[1,1]
 ```
-Run the application:
+Run the application (claim import feature will not work in the default environment):
 
 ```
 rails server
 ```
+
+To use the Claim Import feature locally, the devunicorn environment must be used:
+
+```
+RAILS_ENV=devunicorn rails server
+```
+

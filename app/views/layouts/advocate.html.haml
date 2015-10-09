@@ -37,4 +37,8 @@
     .contact-us-footer
       if you're having trouble with this service
       = link_to 'get in touch', contact_us_page_path
+
+- content_for :footer_support_links do
+  = render partial: 'layouts/footer'
+
 = render template: 'layouts/moj_internal_template'

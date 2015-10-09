@@ -38,6 +38,7 @@ $('#claim-accordion h2').each(function(){
 $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 
 function initialise(){
+  $('#footer').css('margin-top',$(document).height() - ($('#global-header').height() + $('.outer-block:eq(1)').height()  ) - $('#footer').height());
   moj.Modules.CookieMessage.init();
   $('.select2').select2();
   adp.newClaim.init();

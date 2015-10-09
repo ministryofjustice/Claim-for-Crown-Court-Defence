@@ -1,4 +1,25 @@
-%footer
-	&copy;Company
-	%span=Time.now.year
-	= debug(params) if Rails.env.development?
+
+.copyright
+  %a{:href => "https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm"} &copy; Crown copyright
+
+%h2.visuallyhidden
+  Support links
+%ul
+  %li
+    %a{:href => "http://www.gov.uk/help/cookies"} Cookies
+  %li
+    %a{:href => contact_us_page_path } Contact
+  %li
+    = link_to 'Terms and Conditions', tandcs_page_path
+%div.show
+  %span="Built by"
+  %a{:href => "https://mojdigital.blog.gov.uk/"}
+    %abbr{:title => "Ministry of Justice"} MOJ Digital Services
+.open-government-licence
+  %h2
+    %a{:href => "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"} Open Government Licence
+  %p
+    All content is available under the
+    = succeed "," do
+      %a{:href => "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"} Open Government Licence v2.0
+    except where otherwise stated

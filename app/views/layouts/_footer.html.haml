@@ -1,3 +1,7 @@
+
+.copyright
+  %a{:href => "https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm"} &copy; Crown copyright
+
 %h2.visuallyhidden
   Support links
 %ul
@@ -6,9 +10,14 @@
   %li
     %a{:href => contact_us_page_path } Contact
   %li
-    Built by
-    %a{:href => "https://mojdigital.blog.gov.uk/"}
-      %abbr{:title => "Ministry of Justice"} MOJ Digital Services
+    = link_to 'Terms and Conditions', tandcs_page_path
+  - if Rails.host.api_sandbox?
+    %li
+      = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
+%div.show
+  %span="Built by"
+  %a{:href => "https://mojdigital.blog.gov.uk/"}
+    %abbr{:title => "Ministry of Justice"} MOJ Digital Services
 .open-government-licence
   %h2
     %a{:href => "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"} Open Government Licence
@@ -17,5 +26,3 @@
     = succeed "," do
       %a{:href => "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/"} Open Government Licence v2.0
     except where otherwise stated
-.copyright
-  %a{:href => "https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm"} &copy; Crown copyright

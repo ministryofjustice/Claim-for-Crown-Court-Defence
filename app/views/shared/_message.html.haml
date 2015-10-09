@@ -49,7 +49,7 @@
             %td
               #{attribute.humanize}:
             %td
-              £#{changes.last}
+              #{number_to_currency(changes.last)}
 - elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Claim'
   .grid-row.history
     .column-quarter

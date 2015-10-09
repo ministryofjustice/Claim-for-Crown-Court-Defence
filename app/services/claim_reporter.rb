@@ -64,6 +64,7 @@ class ClaimReporter
 
   def average_processing_time
     average_processing_time = calculate_average(processing_times)
+    average_processing_time.nan? ? 0.0 : average_processing_time
   end
 
   def average_processing_time_in_words

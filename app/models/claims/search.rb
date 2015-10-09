@@ -3,8 +3,7 @@ module Claims::Search
   QUERY_MAPPINGS_FOR_SEARCH = {
     defendant_name: {
       joins: :defendants,
-      query: "lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term " +
-             "OR lower(defendants.first_name || ' ' || defendants.middle_name || ' ' || defendants.last_name) ILIKE :term"
+      query: "lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term "
     },
     advocate_name: {
       joins: { advocate: :user },

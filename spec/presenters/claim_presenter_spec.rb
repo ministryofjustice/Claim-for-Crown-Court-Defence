@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'cgi'
 
 RSpec.describe ClaimPresenter do
 
@@ -8,14 +9,17 @@ RSpec.describe ClaimPresenter do
   before do
     Timecop.freeze(Time.current)
     @first_defendant = claim.defendants.first
-    create(:defendant, first_name: 'John', middle_name: 'Robert', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
-    create(:defendant, first_name: 'Adam', middle_name: '', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
+    @first_defendant.first_name = 'Mark'
+    @first_defendant.last_name = "O'Reilly"
+    @first_defendant.save!
+    create(:defendant, first_name: 'Robert', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
+    create(:defendant, first_name: 'Adam', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
   end
 
   after { Timecop.return }
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{@first_defendant.name},<br />John Robert Smith,<br />Adam Smith")
+    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)},<br />Robert Smith,<br />Adam Smith")
   end
 
   it '#submitted_at' do

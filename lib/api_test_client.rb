@@ -223,8 +223,7 @@ private
     {
       "claim_id": claim_uuid,
       "first_name": "case",
-      "middle_name": "management",
-      "last_name": "system",
+      "last_name": "management",
       "date_of_birth": "1979-12-10",
       "order_for_judicial_apportionment": true,
     }

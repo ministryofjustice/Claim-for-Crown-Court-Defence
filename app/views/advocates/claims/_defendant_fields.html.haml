@@ -4,10 +4,6 @@
     = f.text_field :first_name
     = validation_error_message(f.object, :first_name)
   %span.auto-width
-    = f.label t('.middle_name')
-    = f.text_field :middle_name
-    = validation_error_message(f.object, :middle_name)
-  %span.auto-width
     = f.label t('.last_name')
     = f.text_field :last_name
     = validation_error_message(f.object, :last_name)

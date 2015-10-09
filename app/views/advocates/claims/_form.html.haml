@@ -101,7 +101,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
+                = t('.amount') 
               %th
             = f.fields_for :basic_fees do |basic_fee_fields|
               = render 'basic_fee_fields', f: basic_fee_fields
@@ -118,7 +118,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
+                = t('.amount')
               %th
               %th
           = f.fields_for :misc_fees do |misc_fee_fields|
@@ -138,7 +138,7 @@
               %th
                 = t('.quantity')
               %th
-                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
+                = t('.amount')
               %th
               %th
           = f.fields_for :fixed_fees do |fixed_fee_fields|
@@ -164,7 +164,7 @@
               %th
                 = t('.rate')
               %th
-                = t('.amount') << ' (' << t('number.currency.format.unit') << ')'
+                = t('.amount') 
               %th
               %th
               = f.fields_for :expenses do |expense|

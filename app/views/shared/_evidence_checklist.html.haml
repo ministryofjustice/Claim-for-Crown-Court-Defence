@@ -11,7 +11,7 @@
       No documentary evidence specified as having been provided.
   - else
     %p
-      Author has specified that the following documentary evidence has been provided:
+      These items have been provided:
       %ol#evidence-checklist
         - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
           %li

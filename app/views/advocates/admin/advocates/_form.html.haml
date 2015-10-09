@@ -27,4 +27,4 @@
 
       = f.label t(".role"), class: "form-label"
       = f.collection_select :role, Advocate::ROLES, :to_s, :humanize, {prompt: true} , {class: 'select2'}
-  = f.submit class: "button"
+  = f.submit 'Save', class: "button"

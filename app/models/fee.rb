@@ -24,7 +24,7 @@ class Fee < ActiveRecord::Base
   default_scope { includes(:fee_type) }
 
   validates_with FeeValidator
-  validates_associated :dates_attended, message: 'One or more fee dates attended are invalid'
+  validates_associated :dates_attended, message: 'There is a problem with one or more fee dates attended'
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 

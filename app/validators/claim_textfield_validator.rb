@@ -26,14 +26,18 @@ class ClaimTextfieldValidator < BaseClaimValidator
   private
 
   def validate_total
-    if @record.persisted? && @record.source != 'api'
-      validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
-    elsif @record.source != 'api'
-      curr_force_validation = @record.force_validation?
-      @record.force_validation = false # prevent this validation being called reursively
-      @record.save # trigger total update
-      validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
-      @record.force_validation = curr_force_validation # ensure the force validation returned to previous state
+
+    # if @record.persisted? && @record.source != 'api'
+      # validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
+      # byebug
+    if not @record.from_api?
+      # curr_force_validation = @record.force_validation?
+      # @record.force_validation = false # prevent this validation being called reursively
+      # @record.save # trigger total update
+      # validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
+      ap "CLAIM TOTAL #{claim_total}"
+      add_error(:total, "The total being claimed for must be greater than £0.00") unless claim_total > 0
+      # @record.force_validation = curr_force_validation # ensure the force validation returned to previous state
     end
   end
 
@@ -131,6 +135,11 @@ end
 
 # local helpers
 # ---------------------------
+def claim_total
+  byebug
+  @record.fees.map(&:amount).compact.sum + @record.expenses.map(&:amount).compact.sum
+end
+
 def trial_dates_required?
   @record.case_type.requires_trial_dates rescue false
 end

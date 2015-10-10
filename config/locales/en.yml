@@ -114,7 +114,7 @@ en:
             claim:
               blank: Claim cannot be blank
             representation_orders:
-              blank: ' - there must be at least one representation order per defendant'
+              blank: 'A defendant must have a representation order'
         expense:
           attributes:
             expense_type:

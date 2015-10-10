@@ -21,7 +21,7 @@ class Defendant < ActiveRecord::Base
   belongs_to :claim
 
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
-  validates_associated :representation_orders, message: 'One or more defendant representation orders are invalid'
+  validates_associated :representation_orders, message: 'There is a problem with one or more defendant representation orders'
 
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator

@@ -15,9 +15,10 @@
 
       %table#determinations
         %thead
-          %th &nbsp;
-          %th Claimed
-          %th Assessed
+          %tr
+            %th &nbsp;
+            %th Claimed
+            %th Assessed
         %tbody
           -if @enable_assessment_input
             = f.fields_for :assessment do |af|

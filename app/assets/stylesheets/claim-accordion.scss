@@ -28,10 +28,7 @@
       }
     }
   }
-  h4{
-    font-size: 1.4em;
-    font-weight: bold;
-  }
+
   ul.case-data{
     overflow: hidden;
     padding-bottom: 1em;
@@ -49,55 +46,7 @@
     padding-left: $gutter;
     padding-bottom: $gutter-half;
   }
-  #representation-order{
-    padding: 0;
-    li{
-      @include span-columns(4);
-      padding-bottom: 1em;
-      text-align: center;
-      padding-left: 0;
-      div{
-        border:1px solid $black;
-        margin-bottom: 1em;
-        min-height: 12em;
-        h3{
-          line-height: 3;
-          margin-bottom: 2em;
-        }
-      }
-    }
-  }
-  #evidence-list{
-    padding:0;
-    li{
-      background-color: $grey-3;
-      float: left;
-      line-height: 3;
-      list-style-type: decimal;
-      list-style-position: inside;
-      margin-bottom: 0.5em;
-      padding: 0 1em;
-      width:100%;
-      ul.rep-orders{
-          margin: 0;
-          padding: 0;
-          float: right;
-          width: 60%;
-        li{
-          margin: 0;
-          padding: 0;
-        }
-        }
-      div{
-        float: right;
-        overflow: hidden;
-        a{
-          display: inline-block;
-          margin-left: 1em;
-        }
-      }
-    }
-  }
+
   #claim-status{
     label.container{
       @include span-columns(3);
@@ -124,24 +73,7 @@
       text-decoration: none;
     }
 }
-#payments{
-  padding: 0;
-  li{
-    @include span-columns(3);
-    padding-bottom: 1em;
-    text-align: center;
-    padding-left: 0;
-    div{
-      border:1px solid $black;
-      margin-bottom: 1em;
-      min-height: 12em;
-      h3{
-        line-height: 3;
-        margin-bottom: 2em;
-      }
-    }
-  }
-}
+
 .currency{
   position: relative;
   padding-left:1em;

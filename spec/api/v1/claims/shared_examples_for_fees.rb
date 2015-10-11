@@ -18,7 +18,7 @@ shared_examples "fee validate endpoint" do
     valid_params[:claim_id] = SecureRandom.uuid
     response = post_to_validate_endpoint(valid_params)
     expect(response.status).to eq 400
-    expect(response.body).to eq "[{\"error\":\"Claim can't be blank\"}]"
+    expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
   end
 
 end

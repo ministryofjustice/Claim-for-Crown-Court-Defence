@@ -92,7 +92,9 @@ class Claim < ActiveRecord::Base
 
   # ensure submodel validations bubble up to claim errrors
   validates_associated :defendants, message: 'There is a problem with one or more defendants'
-  validates_associated :fees,       message: 'There is a problem with one or more fees'
+  validates_associated :basic_fees, message: 'There is a problem with one or more basic fees'
+  validates_associated :fixed_fees, message: 'There is a problem with one or more fixed fees'
+  validates_associated :misc_fees,  message: 'There is a problem with one or more miscellaneous fees'
   validates_associated :expenses,   message: 'There is a problem with one or more expenses'
 
   # advocate-relevant scopes

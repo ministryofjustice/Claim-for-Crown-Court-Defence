@@ -5,30 +5,9 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
   context 'by advocate' do
 
+    # TODO should not rely on values in factory which may change
     let!(:submitted_claim)  { create(:submitted_claim,) }
     let!(:allocated_claim)  { create(:allocated_claim,) }
-
-    # TODO should not rely on values in facory which may change
-    # before (:each) {
-    #   allocated_claim.basic_fees.map(&:clear)
-    #   allocated_claim.misc_fees.destroy_all
-    #   allocated_claim.fixed_fees.destroy_all
-    #   allocated_claim.fees << build(:fee, claim: allocated_claim, fee_type: FactoryGirl.build(:fee_type), quantity: 1, amount: 250)
-    #   allocated_claim.save!
-    #   allocated_claim.reload
-      
-    #   allocated_claim.fees.each {|fee| ap fee }
-
-    #   submitted_claim.basic_fees.map(&:clear)
-    #   submitted_claim.misc_fees.destroy_all
-    #   submitted_claim.fixed_fees.destroy_all
-    #   submitted_claim.fees << build(:fee, claim: allocated_claim, fee_type: FactoryGirl.build(:fee_type), quantity: 1, amount: 250)
-    #   submitted_claim.save!
-    #   submitted_claim.reload
-
-    #   submitted_claim.fees.each {|fee| ap fee }
-    # }
-
     let!(:old_part_authorised_claim) do
       Timecop.freeze(Time.now - 1.week) do
         claim = create(:part_authorised_claim)

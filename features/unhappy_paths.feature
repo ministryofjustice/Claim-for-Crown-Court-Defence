@@ -32,6 +32,7 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
       And There are case types in place
       And I am on the new claim page
       And I fill in the claim details
+      And I add a miscellaneous fee
       And I blank out the <field_id> field
       And I submit to LAA
      Then I should be redirected back to the create claim page
@@ -42,7 +43,8 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     | field_id                                   | error_message                                                |
     | "claim_case_number"                        | "Case number cannot be blank, you must enter a case number"  |
     | "claim_defendants_attributes_0_first_name" | "There is a problem with one or more defendants"             |
-    | "claim_basic_fees_attributes_1_quantity"   | "There is a problem with one or more fees"                   |
+    | "claim_basic_fees_attributes_0_quantity"   | "There is a problem with one or more basic fees"             |
+    | "claim_misc_fees_attributes_0_quantity"    | "There is a problem with one or more miscellaneous fees"     |
     | "claim_expenses_attributes_0_quantity"     | "There is a problem with one or more expenses"               |
 
     # TODO: unhappy paths for representation order details

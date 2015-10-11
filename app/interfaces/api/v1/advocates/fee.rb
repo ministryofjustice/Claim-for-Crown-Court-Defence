@@ -26,7 +26,7 @@ module API
                # TODO review in code review
                # NOTE: explicit error raising because claim_id's presence is not validated by model due to instatiation issues
               if claim_id.nil?
-                raise API::V1::ArgumentError, 'Claim can\'t be blank'
+                raise API::V1::ArgumentError, 'Claim cannot be blank'
               end
 
               {

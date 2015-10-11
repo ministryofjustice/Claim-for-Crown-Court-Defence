@@ -17,6 +17,7 @@ class RepresentationOrder < ActiveRecord::Base
 
   before_save :upcase_maat_ref
 
+  validates :claim, presence: { message: 'Claim cannot be blank' }
   validates_with RepresentationOrderValidator
 
   acts_as_gov_uk_date :representation_order_date

@@ -348,17 +348,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def create_and_submit
     @claim.force_validation = true
-    ap "<<<<<<<<<<<<<<<<CREATEANDSUBMIT-before save>>>>>>>>>>"
     @claim.save
-    ap "<<<<<<<<<<<<<<<<CREATEANDSUBMIT>>>>>>>>>>"
     # TODO: use @claim.save return value instead of @claim.valid? ?
     if @claim.valid?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
       redirect_to new_advocates_claim_certification_path(@claim)
     else
-      ap "<<<<<<<<<<<<<<<<CREATEANDSUBMIT>>>>>>>>>>"
       render_new_with_resources
-      ap "<<<<<<<<<<<<<<<<CREATEANDSUBMIT>>>>>>>>>>"
     end
   end
 

@@ -340,13 +340,13 @@ class Claim < ActiveRecord::Base
     rep_order = self.earliest_representation_order
 
     if rep_order.nil?
-      errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
+      # errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
       return
     else
       earliest_rep_order_date = rep_order.representation_order_date
       scheme = Scheme.for_date(earliest_rep_order_date)
       if scheme.nil?
-        errors[:scheme] << 'No fee scheme found for entered representation order dates'
+        # errors[:scheme] << 'No fee scheme found for entered representation order dates'
         return
       else
         self.scheme_id = scheme.id

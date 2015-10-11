@@ -23,6 +23,8 @@ class Defendant < ActiveRecord::Base
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
   validates_associated :representation_orders, message: 'There is a problem with one or more defendant representation orders'
 
+  validates :claim, presence: { message: 'Claim cannot be blank' }
+  validates :representation_order, presence: {message: 'Representation order cannot be blank'}
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 

@@ -23,6 +23,7 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
+  validates :claim, presence: { message: 'Claim cannot be blank' }
   validates_with FeeValidator
   validates_associated :dates_attended, message: 'There is a problem with one or more fee dates attended'
 

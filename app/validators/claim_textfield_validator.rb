@@ -27,8 +27,8 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   #
   # TODO: removed as is causing odd behaviour due to the save
-  #       if total needs to be validated it must be donein an after
-  #       save hook or by an alternative means.
+  #       if total needs to be validated it must be done in an
+  #       after save hook or by alternative means.
   #
   # def validate_total
     # if @record.persisted? && @record.source != 'api'
@@ -137,7 +137,6 @@ end
 # local helpers
 # ---------------------------
 # def claim_total
-#   byebug
 #   @record.fees.map(&:amount).compact.sum + @record.expenses.map(&:amount).compact.sum
 # end
 

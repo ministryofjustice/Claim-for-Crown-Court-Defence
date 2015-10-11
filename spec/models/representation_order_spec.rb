@@ -66,19 +66,19 @@ describe RepresentationOrder do
       it 'should error if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must be 7-10 numeric characters'])
       end
 
       it 'should error if greater than 10 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must be 7-10 numeric characters'])
       end
 
       it 'should error if non-numeric characters present' do
         representation_order.maat_reference = '1111a1111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must 7-10 numeric characters'])
+        expect(representation_order.errors[:maat_reference]).to eq( [ 'MAAT reference invalid. It must be 7-10 numeric characters'])
       end
 
       it 'should not error if 7-10 numeric digits' do

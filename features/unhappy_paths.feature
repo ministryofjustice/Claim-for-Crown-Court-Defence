@@ -42,7 +42,7 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     | field_id                                   | error_message                                                |
     | "claim_case_number"                        | "Case number cannot be blank, you must enter a case number"  |
     | "claim_defendants_attributes_0_first_name" | "There is a problem with one or more defendants"             |
-    | "claim_basic_fees_attributes_0_quantity"   | "There is a problem with one or more fees"                   |
+    | "claim_basic_fees_attributes_1_quantity"   | "There is a problem with one or more fees"                   |
     | "claim_expenses_attributes_0_quantity"     | "There is a problem with one or more expenses"               |
 
     # TODO: unhappy paths for representation order details

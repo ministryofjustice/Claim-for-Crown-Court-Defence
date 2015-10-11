@@ -26,7 +26,7 @@ class Expense < ActiveRecord::Base
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
   validates :claim, presence: { message: 'Claim cannot be blank' }
-  validates_with  ExpenseValidator
+  validates_with ExpenseValidator
   validates_associated :dates_attended, message: 'There is a problem with one or more expense dates attended'
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true

@@ -92,7 +92,9 @@ class Claim < ActiveRecord::Base
 
   # ensure submodel validations bubble up to claim errrors
   validates_associated :defendants, message: 'There is a problem with one or more defendants'
-  validates_associated :fees,       message: 'There is a problem with one or more fees'
+  validates_associated :basic_fees, message: 'There is a problem with one or more basic fees'
+  validates_associated :fixed_fees, message: 'There is a problem with one or more fixed fees'
+  validates_associated :misc_fees,  message: 'There is a problem with one or more miscellaneous fees'
   validates_associated :expenses,   message: 'There is a problem with one or more expenses'
 
   # advocate-relevant scopes
@@ -340,13 +342,13 @@ class Claim < ActiveRecord::Base
     rep_order = self.earliest_representation_order
 
     if rep_order.nil?
-      errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
+      # errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
       return
     else
       earliest_rep_order_date = rep_order.representation_order_date
       scheme = Scheme.for_date(earliest_rep_order_date)
       if scheme.nil?
-        errors[:scheme] << 'No fee scheme found for entered representation order dates'
+        # errors[:scheme] << 'No fee scheme found for entered representation order dates'
         return
       else
         self.scheme_id = scheme.id

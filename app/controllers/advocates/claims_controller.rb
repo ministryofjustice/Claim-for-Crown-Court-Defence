@@ -349,7 +349,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def create_and_submit
     @claim.force_validation = true
     @claim.save
-
     # TODO: use @claim.save return value instead of @claim.valid? ?
     if @claim.valid?
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }

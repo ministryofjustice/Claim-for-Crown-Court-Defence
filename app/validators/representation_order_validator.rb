@@ -36,7 +36,7 @@ class RepresentationOrderValidator < BaseClaimValidator
     if @record.try(:defendant).try(:claim).try(:case_type).try(:requires_maat_reference?)
       validate_presence(:maat_reference, "MAAT reference cannot be blank") if @record.defendant.claim.case_type.requires_maat_reference?
     end
-    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'MAAT reference invalid. It must 7-10 numeric characters')
+    validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'MAAT reference invalid. It must be 7-10 numeric characters')
   end
 
 end

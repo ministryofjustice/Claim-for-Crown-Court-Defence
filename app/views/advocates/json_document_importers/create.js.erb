@@ -16,7 +16,7 @@
 <% end %>
 
 <% if @json_document_importer.failed_schema_validation.any? %>
-	$('#import_results.schema_fails ul').html("<li>The following <%= pluralize(@json_document_importer.failed_schema_validation.count, 'claim was') %> formatted incorectly in the uploaded document.  Please contact your case management system vendor.</li><% @json_document_importer.failed_schema_validation.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
+	$('#import_results.schema_fails ul').html("<li>The following <%= pluralize(@json_document_importer.failed_schema_validation.count, 'claim was') %> formatted incorrectly in the uploaded document.  Please contact your case management system vendor.</li><% @json_document_importer.failed_schema_validation.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
 <% else %>
 	$('#import_results.schema_fails ul').empty();
 <% end %>

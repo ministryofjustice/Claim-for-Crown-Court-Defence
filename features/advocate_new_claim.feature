@@ -63,15 +63,21 @@ Scenario Outline: Add fees with dates attended then remove fee
     Given I am a signed in advocate
       And a claim exists with state "draft"
       And There are case types in place
-      When I am on the claim edit page
+     When I am on the claim edit page
       And I select2 a Case Type of <case_type>
      When I add <number> dates attended for one of my <fee_type> fees
-      And I remove the <fee_type> fee
-     Then the dates attended are also removed from <fee_type>
+     Then I should see <number> dates attended fields amongst <fee_type> fees
+     When I save to drafts
+     Then the dates attended are saved for <fee_type>
+     When I am on the claim edit page
+      And I click remove fee for <fee_type>
+     Then I should not see any dates attended fields for <fee_type> fees
+      And I save to drafts
+     Then the dates attended are not saved for <fee_type>
 
   Examples:
     | case_type                   | number | fee_type |
-    | "Appeal against conviction" |    2   |  "fixed" |
+    | "Appeal against conviction" |    3   |  "fixed" |
     | "Cracked Trial"             |    2   |  "misc"  |
 
   Scenario: Submit valid draft claim to LAA

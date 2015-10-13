@@ -9,6 +9,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   # inflect.irregular 'person', 'people'
   # inflect.uncountable %w( fish sheep )
   inflect.irregular 'date_attended', 'dates_attended'
+  inflect.irregular 'claim was', 'claims were'
   inflect.acronym 'CPS'
 end
 

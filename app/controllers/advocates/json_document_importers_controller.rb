@@ -14,7 +14,7 @@ class Advocates::JsonDocumentImportersController < ApplicationController
       end
     else
       respond_to do |format|
-        format.js { render :format_error, locals: {filename: json_document_importer_params[:json_file].original_filename } }
+        format.js { render :format_error, locals: { filename: json_document_importer_params[:json_file].original_filename } }
       end
     end
   end

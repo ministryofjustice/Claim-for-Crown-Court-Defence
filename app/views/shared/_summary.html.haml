@@ -78,9 +78,12 @@
         = t('.expenses_total')
         = claim.expenses_total
 
-    %p
-      = t('.claim_total')
-      = claim.total_inc_vat
+    %table
+      %tr.right
+        %td
+          = t('.claim_total')
+        %td
+          = claim.total_inc_vat
 
     = render partial: "shared/vat_summary", locals: { claim:  claim }
 

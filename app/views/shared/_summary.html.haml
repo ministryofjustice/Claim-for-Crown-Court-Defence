@@ -33,7 +33,7 @@
                   = fee.quantity
                 %td
                   = fee.amount
-      %p
+      .totals
         = t('.fees_total')
         = claim.fees_total
 
@@ -74,16 +74,14 @@
                   = '%.2f' % expense.rate
                 %td
                   = expense.amount
-      %p
+
+      .totals
         = t('.expenses_total')
         = claim.expenses_total
 
-    %table
-      %tr.right
-        %td
-          = t('.claim_total')
-        %td
-          = claim.total_inc_vat
+    .totals
+      = t('.claim_total')
+      = claim.total_inc_vat
 
     = render partial: "shared/vat_summary", locals: { claim:  claim }
 

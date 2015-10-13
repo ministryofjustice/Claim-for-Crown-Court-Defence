@@ -325,8 +325,11 @@ Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
   expect(page).to have_content("Fees total: £300.00")
 end
 
-
 When(/^I select a Case Type of "(.*?)"$/) do |case_type|
+  select case_type, from: 'claim_case_type_id'
+end
+
+When(/^I select2 a Case Type of "(.*?)"$/) do |case_type|
   select2 case_type, from: 'claim_case_type_id'
 end
 

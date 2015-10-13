@@ -64,7 +64,7 @@ Scenario Outline: Add fees with dates attended then remove fee
       And a claim exists with state "draft"
       And There are case types in place
       When I am on the claim edit page
-      And I select a Case Type of <case_type>
+      And I select2 a Case Type of <case_type>
      When I add <number> dates attended for one of my <fee_type> fees
       And I remove the <fee_type> fee
      Then the dates attended are also removed from <fee_type>

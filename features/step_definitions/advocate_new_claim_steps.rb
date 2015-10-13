@@ -62,17 +62,7 @@ end
 
 Then(/^I should see (\d+) dates attended fields amongst "(.*?)" fees$/) do |number, fee_type|
   within fee_type_to_id(fee_type) do
-    expect(page).to have_selector('.extra-data')
-    index = 0
-    all(:css, '.extra-data').each do |extra_data|
-      within extra_data do
-        expect(page).to have_content('Date attended (from)', count: 1)
-        expect(page).to have_selector('input')
-        index += 1
-      end
-    end
-    expect(index).to eq(number.to_i)
-    expect(page).to have_content('Date attended (from)', count: index)
+    expect(page).to have_content('Date attended (from)', count: number)
   end
 end
 
@@ -91,8 +81,8 @@ Then(/^I should not see any dates attended fields for "(.*?)" fees$/) do |fee_ty
 end
 
 Then(/^the dates attended are( not)? saved for "(.*?)"$/) do |negation, fee_type|
-  true_or_false = negation.nil? ? false : negation.gsub(/\s+/,'').downcase == 'not' ? true : false
-  @claim.__send__("#{fee_type}_fees").empty? == true_or_false
+  true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
+  expect(@claim.__send__("#{fee_type}_fees").present?).to eql true_or_false
 end
 
 Given(/^I am creating a "(.*?)" claim$/) do |case_type|

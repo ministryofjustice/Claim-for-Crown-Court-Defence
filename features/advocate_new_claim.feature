@@ -67,10 +67,7 @@ Scenario Outline: Add fees with dates attended then remove fee
       And I select2 a Case Type of <case_type>
      When I add <number> dates attended for one of my <fee_type> fees
      Then I should see <number> dates attended fields amongst <fee_type> fees
-     When I save to drafts
-     Then the dates attended are saved for <fee_type>
-     When I am on the claim edit page
-      And I click remove fee for <fee_type>
+     When I click remove fee for <fee_type>
      Then I should not see any dates attended fields for <fee_type> fees
       And I save to drafts
      Then the dates attended are not saved for <fee_type>

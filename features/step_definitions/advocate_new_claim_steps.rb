@@ -49,13 +49,14 @@ Given(/^I am creating a new claim$/) do
   visit new_advocates_claim_path
 end
 
-# NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
+# NOTE: this step is js-reliant (i.e. cocoon)
 When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type|
   div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
 
   number.to_i.times do
   within "##{div_id}" do
-    click_on "Add date(s)"
+    click_on 'Add date(s)'
+    wait_for_ajax
   end
  end
 
@@ -64,12 +65,13 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
     index = 0
     all(:css, '.extra-data').each do |extra_data|
       within extra_data do
-        expect(page).to have_content('Date attended (from)')
+        expect(page).to have_content('Date attended (from)', count: 1)
         expect(page).to have_selector('input')
         index += 1
       end
     end
     expect(index).to eq(number.to_i)
+    expect(page).to have_content('Date attended (from)', count: index)
   end
 end
 
@@ -81,12 +83,16 @@ When(/^I remove the "(.*?)" fee$/) do |fee_type|
   div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
   within "##{div_id}" do
     page.all('a', text: "Remove").first.click
+    wait_for_ajax
   end
 end
 
 Then(/^the dates attended are also removed from "(.*?)"$/) do |fee_type|
   div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
-  expect(within("##{div_id}") { page.all('tr.extra-data.nested-fields') }.count).to eq 0
+  within("##{div_id}") do
+    expect(page).not_to have_selector('tr.extra-data.nested-fields', wait: 3)
+    expect(page).not_to have_content('Date attended (from)', wait: 3)
+  end
 end
 
 When(/^I fill in the certification details and submit/) do
@@ -226,9 +232,9 @@ Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
   end
 end
 
-Given(/^it has a case type of "(.*?)"$/) do |case_type|
-  Claim.first.case_type = CaseType.find_by(name: case_type)
-end
+# Given(/^it has a case type of "(.*?)"$/) do |case_type|
+#   Claim.first.case_type = CaseType.find_by(name: case_type)
+# end
 
 Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
   @claim.reload
@@ -321,7 +327,7 @@ end
 
 
 When(/^I select a Case Type of "(.*?)"$/) do |case_type|
-  select case_type, from: 'claim_case_type_id'
+  select2 case_type, from: 'claim_case_type_id'
 end
 
 Then(/^There should not be any Initial Fees saved$/) do

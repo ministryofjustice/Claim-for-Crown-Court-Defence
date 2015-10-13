@@ -1,1 +1,4 @@
-$('#errors').html("<%= filename %> is not JSON format");
+$('#errors').html("<%= filename %> is either not JSON or contains errors");
+$('#import_results.success ul').empty();
+$('#import_results.failure ul').empty();
+$('#import_results.schema_fails ul').empty();

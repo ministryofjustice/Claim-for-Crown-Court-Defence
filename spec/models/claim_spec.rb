@@ -38,6 +38,7 @@
 #  vat_amount             :decimal(, )      default(0.0)
 #  uuid                   :uuid
 #  case_type_id           :integer
+#  form_id                :string
 #
 
 require 'rails_helper'

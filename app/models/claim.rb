@@ -116,6 +116,8 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
 
+  validate :creator_and_advocate_in_same_chamber
+
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
@@ -315,6 +317,12 @@ class Claim < ActiveRecord::Base
   end
 
   private
+
+  def creator_and_advocate_in_same_chamber
+    valid = creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
+    errors[:advocate_id] << 'Creator and advocate must belong to the same chamber' unless valid
+    valid
+  end
 
   def find_and_associate_documents
     return if self.form_id.nil?

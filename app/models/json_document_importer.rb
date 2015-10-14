@@ -30,7 +30,27 @@ class JsonDocumentImporter
   def parse_file
     temp_file = File.open(@file.tempfile)
     @data     = JSON.parse(temp_file.read)
+    process_claim_hashes
     temp_file.rewind
+  end
+
+  def process_claim_hashes
+    @data.each do |claim_hash|
+      claim_hash.each do |claim, attributes_hash|
+        delete_nils(attributes_hash)
+      end
+    end
+  end
+
+  def delete_nils(attributes_hash)
+    attributes_hash.each do |key, value|
+      case value
+      when nil
+        attributes_hash.delete(key)
+      when Array
+        value.each {|hash| delete_nils(hash) }
+      end
+    end
   end
 
   def import!

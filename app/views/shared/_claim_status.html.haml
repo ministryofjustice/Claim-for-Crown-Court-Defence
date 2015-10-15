@@ -7,7 +7,7 @@
     %p
       Awaiting written reasons.
 
-  - if current_user.persona.is_a?(CaseWorker) && claim.valid_transitions.size > 0
+  - if current_user.persona.is_a?(CaseWorker) && claim.valid_transitions_for_detail_form.size > 0
     = render partial: 'shared/determinations_form', locals: { claim: claim }
   - else
     = render partial: 'shared/determinations_table', locals: { claim: claim }

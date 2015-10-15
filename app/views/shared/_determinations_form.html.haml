@@ -1,7 +1,7 @@
 = form_for(claim, url: case_workers_claim_path(claim)) do |f|
   %fieldset#claim-status
     = f.label :status, "Update status (current status: '#{claim.humanized_state}')"
-    = f.collection_select :state_for_form, claim.valid_transitions, :first, :last, { :include_blank => 'Select new state for this claim' }, { class: 'select2' }
+    = f.collection_select :state_for_form, claim.valid_transitions_for_detail_form, :first, :last, { :include_blank => 'Select new state for this claim' }, { class: 'select2' }
 
 
     %table#determinations

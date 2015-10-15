@@ -51,6 +51,19 @@ RSpec.describe ClaimPresenter do
       )
     end
 
+    it 'should list valid transitions from allocated with include_submitted => false' do
+      claim.state = 'allocated'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions_for_detail_form).to eq(
+        {
+            :part_authorised => "Part authorised",
+                 :authorised => "Authorised",
+                    :refused => "Refused",
+                   :rejected => "Rejected"
+        }
+      )
+    end
+
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = ClaimPresenter.new(claim, view)

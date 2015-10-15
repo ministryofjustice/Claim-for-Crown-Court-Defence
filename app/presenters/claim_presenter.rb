@@ -4,9 +4,16 @@ class ClaimPresenter < BasePresenter
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
-  def valid_transitions
+  def valid_transitions(options = {include_submitted: true} )
     states = claim.state_transitions.map(&:to_name) - [:archived_pending_delete]
+    if options[:include_submitted] == false
+      states = states - [:submitted]
+    end
     states.map { |state| [ state, state.to_s.humanize ] }.to_h
+  end
+
+  def valid_transitions_for_detail_form
+    valid_transitions(include_submitted: false)
   end
 
 

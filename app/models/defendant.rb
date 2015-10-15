@@ -4,7 +4,6 @@
 #
 #  id                               :integer          not null, primary key
 #  first_name                       :string
-#  middle_name                      :string
 #  last_name                        :string
 #  date_of_birth                    :date
 #  order_for_judicial_apportionment :boolean

@@ -185,7 +185,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :id,
        :claim_id,
        :first_name,
-       :middle_name,
        :last_name,
        :date_of_birth_dd,
        :date_of_birth_mm,

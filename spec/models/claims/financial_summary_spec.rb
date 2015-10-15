@@ -36,8 +36,14 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     subject { Claims::FinancialSummary.new(advocate) }
 
     before do
-      advocate.claims << [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim, old_part_authorised_claim]
-      another_advocate.claims << other_advocate_claim
+      [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim, old_part_authorised_claim].each do |claim|
+        claim.advocate = advocate
+        claim.creator = advocate
+        claim.save!
+      end
+
+      other_advocate_claim.advocate = another_advocate
+      other_advocate_claim.creator = another_advocate
     end
 
     describe '#total_outstanding_claim_value' do
@@ -118,8 +124,14 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     subject { Claims::FinancialSummary.new(advocate) }
 
     before do
-      advocate.claims << [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim]
-      another_advocate_admin.claims << other_chamber_claim
+      [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim].each do |claim|
+        claim.advocate = advocate
+        claim.creator = advocate
+        claim.save!
+      end
+
+      other_chamber_claim.advocate = another_advocate_admin
+      other_chamber_claim.creator = another_advocate_admin
     end
 
     describe '#total_outstanding_claim_value' do

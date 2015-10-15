@@ -202,7 +202,7 @@ en:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
       authorised:
-        authorised_claims: 'Authorised claims'
+        authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
       claims:
         no_claims_found: 'No claims found'

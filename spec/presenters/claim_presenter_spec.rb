@@ -36,6 +36,28 @@ RSpec.describe ClaimPresenter do
     expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
+  describe '#valid_transitions' do
+    it 'should list valid transitions from allocated' do
+      claim.state = 'allocated'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions).to eq(
+        {
+            :part_authorised => "Part authorised",
+                 :authorised => "Authorised",
+                    :refused => "Refused",
+                   :rejected => "Rejected",
+                  :submitted => "Submitted"
+        }
+      )
+    end
+
+    it 'should list valid transitions from part_authorised' do
+      claim.state = 'part_authorised'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
+    end
+  end
+
 
   describe '#assessment_date' do
     it 'should return not yet assessed if there is no assessment' do

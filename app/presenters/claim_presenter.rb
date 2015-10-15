@@ -1,6 +1,19 @@
 class ClaimPresenter < BasePresenter
   presents :claim
 
+
+  # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
+  #
+  def valid_transitions
+    states = claim.state_transitions.map(&:to_name) - [:archived_pending_delete]
+    states.map { |state| [ state, state.to_s.humanize ] }.to_h
+  end
+
+
+  def humanized_state
+    claim.state.humanize
+  end
+
   def defendant_names
     defendant_names = claim.defendants.order('id ASC').map(&:name)
 

@@ -1,0 +1,27 @@
+= form_for(claim, url: case_workers_claim_path(claim)) do |f|
+  %fieldset#claim-status
+    = f.label :status, "Update status (current status: '#{claim.humanized_state}')"
+    = f.collection_select :state_for_form, claim.valid_transitions, :first, :last, { :include_blank => 'Select new state for this claim' }, { class: 'select2' }
+
+
+    %table#determinations
+      %thead
+        %tr
+          %th &nbsp;
+          %th Claimed
+          %th Assessed
+      %tbody
+        -if @enable_assessment_input
+          = f.fields_for :assessment do |af|
+            = render partial: 'determination_fields', locals: { f: af, claim: claim}
+        -elsif current_user.persona.is_a?(CaseWorker) && claim.requested_redetermination? == true
+          = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
+            = render partial: 'determination_fields', locals: { f: rf, claim: claim}
+        - elsif claim.redeterminations.any?
+          = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
+        - else
+          = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
+
+    - if current_user.persona.is_a?(CaseWorker)
+      %p
+      = f.submit 'Update', class: 'button', id: 'button'

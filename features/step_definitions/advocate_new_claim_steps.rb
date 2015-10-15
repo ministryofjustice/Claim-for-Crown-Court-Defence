@@ -60,6 +60,21 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
  end
 end
 
+Given(/^I update the claim to be of casetype "(.*?)"$/) do |case_type|
+  @claim.update(case_type: CaseType.find_by(name: case_type) )
+end
+
+When(/^I have one fee of type "(.*?)"$/) do |fee_type|
+  @claim.fees.destroy_all
+  FactoryGirl.create(:fee, fee_type.to_sym, claim: @claim)
+end
+
+When(/^I have (\d+) dates attended for my one fee$/) do |number|
+  number.to_i.times do |i|
+    FactoryGirl.create(:date_attended, attended_item: @claim.fees.first, date: 12.days.ago, date_to: 2.days.ago)
+  end
+end
+
 Then(/^I should see (\d+) dates attended fields amongst "(.*?)" fees$/) do |number, fee_type|
   within fee_type_to_id(fee_type) do
     expect(page).to have_content('Date attended (from)', count: number)
@@ -70,7 +85,6 @@ When(/^I click remove fee for "(.*?)"$/) do |fee_type|
   within fee_type_to_id(fee_type) do
     node = page.all('a', text: "Remove").first
     node.click
-    wait_for_ajax
   end
 end
 
@@ -82,7 +96,7 @@ end
 
 Then(/^the dates attended are( not)? saved for "(.*?)"$/) do |negation, fee_type|
   true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
-  expect(@claim.__send__("#{fee_type}_fees").present?).to eql true_or_false
+  expect(@claim.__send__("#{fee_type}_fees").count > 0).to eql true_or_false
 end
 
 Given(/^I am creating a "(.*?)" claim$/) do |case_type|

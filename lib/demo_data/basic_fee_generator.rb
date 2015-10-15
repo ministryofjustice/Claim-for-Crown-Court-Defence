@@ -36,14 +36,10 @@ module DemoData
     end
 
     def add_daf
-      begin
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 0
       quantity = @claim.case_type.requires_trial_dates? ? [@claim.actual_trial_length,39].min - 2 : 1
       amount   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
       update_basic_fee('DAF', quantity, amount)
-    rescue
-      byebug
-    end
     end
 
     def add_dah

@@ -44,6 +44,7 @@ Styling for Claims Messaging
       .event-date{
         color: $date-text;
         border: 2px solid $date-border-colour;
+        border-radius: 0.5em;
         display: inline-block;
         margin-top: $gutter-half;
         margin-bottom: $gutter-half;
@@ -57,24 +58,23 @@ Styling for Claims Messaging
       margin-right: 1em;
     }
     .message-body{
-      border-radius: 0.5em;
-      padding: 5px 10px;
-
+      padding: 5px 15px;
     }
     .message-left{
       .message-body{
         background-color: $left-message-colour;
         position: relative;
         text-align: left;
+        border-radius: 0.5em 0.5em 0.5em 0.75em;
         &::after {
           content: "";
           position: absolute;
-          left: -0.5em;
+          left: -1.5em;
           bottom: 0;
-          width: 0.5em;
-          height: 1em;
-          border-right: 0.5em solid $left-message-colour;
-          border-bottom-right-radius: 1em 0.5em;
+          width: 1.5em;
+          height: 1.5em;
+          border-right: 1em solid $left-message-colour;
+          border-bottom-right-radius: 1.75em 1.5em;
         }
       }
     }
@@ -83,15 +83,16 @@ Styling for Claims Messaging
         background-color: $panel-colour;
         position: relative;
         text-align: left;
+        border-radius: 0.5em 0.5em 0.75em 0.5em;
         &::after {
           content: "";
           position: absolute;
-          right: -0.5em;
+          right: -1.5em;
           bottom: 0;
-          width: 0.5em;
-          height: 1em;
-          border-left: 0.5em solid $panel-colour;
-          border-bottom-left-radius: 1em 0.5em;
+          width: 1.5em;
+          height: 1.5em;
+          border-left: 1em solid $panel-colour;
+          border-bottom-left-radius: 1.75em 1.5em;
         }
       }
     }

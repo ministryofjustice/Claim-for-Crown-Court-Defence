@@ -32,6 +32,15 @@ Feature: Claim allocation
      And I click "Show claims for all values"
     Then I should see all claims
 
+  Scenario: Show low value claims
+    Given low value claims exist
+     And high value claims exist
+    When I visit the allocation page
+     And I click "Show only low value claims"
+    Then I should only see low value claims
+     And I click "Show claims for all values"
+    Then I should see all claims
+
   Scenario Outline: Filtering claims
       And There are case types in place
     Given there are <quantity> "<type>" claims

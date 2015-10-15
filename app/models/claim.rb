@@ -111,6 +111,7 @@ class Claim < ActiveRecord::Base
   scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
   scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
+  scope :total_lower_than, -> (value) { where { total < value } }
 
   # custom validators
   validates_with ::ClaimDateValidator

@@ -67,8 +67,10 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
       @claims = @claims.send(params[:filter].to_sym)
     end
 
-    if params[:high_value].present? && params[:high_value] == 'true'
+    if params[:claim_value].present? && params[:claim_value] == 'high'
       @claims = @claims.total_greater_than_or_equal_to(Settings.high_value_claim_threshold)
+    elsif params[:claim_value].present? && params[:claim_value] == 'low'
+      @claims = @claims.total_lower_than(Settings.high_value_claim_threshold)
     end
   end
 

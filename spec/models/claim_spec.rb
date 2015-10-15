@@ -38,6 +38,7 @@
 #  vat_amount             :decimal(, )      default(0.0)
 #  uuid                   :uuid
 #  case_type_id           :integer
+#  form_id                :string
 #
 
 require 'rails_helper'
@@ -61,6 +62,35 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_worker_claims) }
   it { should have_many(:case_workers) }
   it { should have_many(:claim_state_transitions) }
+
+  describe 'validates advocate and creator in same chamber' do
+    let(:chamber) { create(:chamber) }
+    let(:other_chamber) { create(:chamber) }
+    let(:advocate) { create(:advocate, chamber: chamber) }
+    let(:same_chamber_advocate) { create(:advocate, chamber: chamber) }
+    let(:other_chamber_advocate) { create(:advocate, chamber: other_chamber) }
+
+    it 'should be valid with the same advocate_id and creator_id' do
+      subject.advocate_id = advocate.id
+      subject.creator_id = advocate.id
+      subject.save
+      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+    end
+
+    it 'should be valid with different advocate_id and creator_id but same chamber' do
+      subject.advocate_id = advocate.id
+      subject.creator_id = same_chamber_advocate.id
+      subject.save
+      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+    end
+
+    it 'should not be valid when the advocate and creator are not in the same chamber' do
+      subject.advocate_id = advocate.id
+      subject.creator_id = other_chamber_advocate.id
+      subject.save
+      expect(subject.reload.errors.messages[:advocate_id]).to eq(['Creator and advocate must belong to the same chamber'])
+    end
+  end
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
@@ -328,7 +358,9 @@ RSpec.describe Claim, type: :model do
 
       before do
         subject.advocate = current_advocate
+        subject.creator = current_advocate
         other_claim.advocate = other_advocate
+        other_claim.creator = other_advocate
         subject.save!
         other_claim.save!
         create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
@@ -357,7 +389,9 @@ RSpec.describe Claim, type: :model do
 
       before do
         subject.advocate = create(:advocate)
+        subject.creator = subject.advocate
         other_claim.advocate = create(:advocate)
+        other_claim.creator = other_claim.advocate
         subject.advocate.user.first_name = 'John'
         subject.advocate.user.last_name = 'Smith'
         subject.advocate.user.save!
@@ -421,6 +455,7 @@ RSpec.describe Claim, type: :model do
       before do
 
         subject.advocate = current_advocate
+        subject.creator = current_advocate
         subject.advocate.user.first_name = 'Fred'
         subject.advocate.user.last_name = 'Bloggs'
         subject.advocate.user.save!
@@ -428,6 +463,7 @@ RSpec.describe Claim, type: :model do
         subject.save!
 
         other_claim.advocate = other_advocate
+        other_claim.creator = other_advocate
         other_claim.advocate.user.first_name = 'Johncz'
         other_claim.advocate.user.last_name = 'Hoskins'
         other_claim.advocate.user.save!

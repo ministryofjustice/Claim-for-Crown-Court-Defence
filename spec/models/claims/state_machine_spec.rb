@@ -108,8 +108,8 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
     end
 
-    describe 'make submitted_at attribute equal now' do
-      it {  expect(subject).to receive(:update_column).with(:submitted_at,Time.now); subject.submit!; }
+    describe 'make last_submitted_at attribute equal now' do
+      it {  expect(subject).to receive(:update_column).with(:last_submitted_at, Time.now); subject.submit!; }
     end
 
     describe 'authorise! makes authorised_at attribute equal now' do

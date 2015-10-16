@@ -7,7 +7,7 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string
-#  submitted_at           :datetime
+#  last_submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
 #  indictment_number      :string
@@ -929,13 +929,13 @@ RSpec.describe Claim, type: :model do
 
     it 'should calaculate vat before saving if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(99.44)
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, submitted_at: Date.today
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, last_submitted_at: Date.today
       claim.save!
       expect(claim.vat_amount).to eq 99.44
     end
 
     it 'should zeroise the vat amount if vat is not applied' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22, submitted_at: Date.today
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22, last_submitted_at: Date.today
       claim.save!
       expect(claim.vat_amount).to eq 0.0
     end
@@ -976,7 +976,7 @@ RSpec.describe Claim, type: :model do
         Timecop.freeze new_time do
           claim.redetermine!
         end
-        expect(claim.submitted_at).to be_within_seconds_of(new_time, 1)
+        expect(claim.last_submitted_at).to be_within_seconds_of(new_time, 1)
       end
     end
 

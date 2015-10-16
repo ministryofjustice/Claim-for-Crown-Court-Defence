@@ -38,7 +38,7 @@ class ClaimReporter
   end
 
   def outstanding
-    Claim.where(state: %w( allocated submitted redetermination )).order(submitted_at: :asc)
+    Claim.where(state: %w( allocated submitted redetermination )).order(original_submission_date: :asc)
   end
 
   def oldest_outstanding
@@ -57,7 +57,7 @@ class ClaimReporter
   def processing_times
     processing_times = processed_claims.inject([]) do |times, claim|
       processed_timestamp = claim.claim_state_transitions.order(created_at: :asc).last.created_at
-      submitted_timestamp = claim.submitted_at
+      submitted_timestamp = claim.original_submission_date
       times << (submitted_timestamp - processed_timestamp)
     end.sort
   end

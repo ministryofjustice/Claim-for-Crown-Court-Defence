@@ -23,7 +23,7 @@ RSpec.describe ClaimPresenter do
   end
 
   it '#submitted_at' do
-    claim.submitted_at = Time.current
+    claim.original_submission_date = Time.current
     expect(subject.submitted_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
   end

@@ -55,7 +55,7 @@ module Claims::StateMachine
             :redetermination,
             :submitted
 
-      after_transition on: :submit,                   do: :set_submission_date!
+      after_transition on: :submit,                   do: [:set_submission_date!, :set_original_submission_date!]
       after_transition on: :authorise,                do: :set_authorised_date!
       after_transition on: :authorise_part,           do: :set_authorised_date!
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_submission_date!]
@@ -123,8 +123,12 @@ module Claims::StateMachine
 
   private
 
+  def set_original_submission_date!
+    update_column(:original_submission_date, Time.now)
+  end
+
   def set_submission_date!
-    update_column(:submitted_at, Time.now)
+    update_column(:last_submitted_at, Time.now)
   end
 
   def set_authorised_date!

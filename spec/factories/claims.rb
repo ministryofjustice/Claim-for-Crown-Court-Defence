@@ -6,7 +6,7 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string
-#  submitted_at           :datetime
+#  last_submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
 #  indictment_number      :string

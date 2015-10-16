@@ -64,8 +64,9 @@ RSpec.describe Claims::Cloner, type: :model do
     end
 
     it 'does not clone the uuids of dates attended' do
-      expect(cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten).to_not
-        match_array(rejected_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten)
+      cloned_claim_uuids = cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+      rejected_claim_uuids = rejected_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+      expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
     end
 
     it 'clones the fees' do

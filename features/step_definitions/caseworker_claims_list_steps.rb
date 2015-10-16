@@ -103,7 +103,7 @@ When(/^I sort the claims by oldest first$/) do
 end
 
 Then(/^I should see the claims sorted by oldest first$/) do
-  @claims.sort_by(&:submitted_at).each do | claim |
+  @claims.sort_by(&:last_submitted_at).each do | claim |
     expect(find('.claims_table')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end

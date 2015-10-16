@@ -37,7 +37,7 @@ module DemoData
 
     def submit(claim)
       add_message(claim, claim.advocate)
-      claim.update(submitted_at: rand(0..180).days.ago)
+      claim.update(last_submitted_at: rand(0..180).days.ago)
       claim.submit!
     end
 

@@ -55,11 +55,11 @@ module Claims::StateMachine
             :redetermination,
             :submitted
 
-      after_transition on: :submit,                   do: :set_submission_date!
+      after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!]
       after_transition on: :authorise,                do: :set_authorised_date!
       after_transition on: :authorise_part,           do: :set_authorised_date!
-      after_transition on: :redetermine,              do: [:remove_case_workers!, :set_submission_date!]
-      after_transition on: :await_written_reasons,    do: :remove_case_workers!
+      after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
+      after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
       before_transition any => any,  do: :set_paper_trail_event!
@@ -123,8 +123,12 @@ module Claims::StateMachine
 
   private
 
-  def set_submission_date!
-    update_column(:submitted_at, Time.now)
+  def set_original_submission_date!
+    update_column(:original_submission_date, Time.now)
+  end
+
+  def set_last_submission_date!
+    update_column(:last_submitted_at, Time.now)
   end
 
   def set_authorised_date!

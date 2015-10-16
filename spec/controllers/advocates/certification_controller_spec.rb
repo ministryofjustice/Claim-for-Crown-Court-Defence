@@ -14,10 +14,10 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
       before(:each) do
         get :new, {claim_id: claim.id}
       end
-    
+
       it 'should return success' do
         expect(response.status).to eq 200
-      end     
+      end
 
       it 'should render new' do
         expect(response).to render_template(:new)
@@ -37,7 +37,7 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
         claim = FactoryGirl.create :submitted_claim
         get :new, {claim_id: claim.id}
         expect(response).to redirect_to(advocates_claim_path(claim))
-        expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state' 
+        expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
         claim = FactoryGirl.create :claim, case_type_id: nil
         get :new, {claim_id: claim.id}
         expect(response).to redirect_to(edit_advocates_claim_path(claim))
-        expect(flash[:alert]).to eq 'Claim is not in a state to be submitted' 
+        expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
 
     context 'valid certification params for submission' do
 
-      
+
       let(:frozen_time)             { Time.new(2015, 8, 20, 13, 54, 22) }
 
       it 'should be a redirect to confirmation' do
@@ -75,7 +75,7 @@ RSpec.describe Advocates::CertificationsController, type: :controller, focus: tr
         Timecop.freeze(frozen_time) do
           post :create, valid_certification_params(claim)
           reloaded_claim = Claim.find claim.id
-          expect(reloaded_claim.submitted_at.to_time).to eq frozen_time
+          expect(reloaded_claim.last_submitted_at.to_time).to eq frozen_time
         end
       end
     end
@@ -105,8 +105,8 @@ def valid_certification_params(claim)
       'previous_advocate_notified_court' => '0',
       'fixed_fee_case'                   => '0',
       'certified_by'                     => 'David Cameron',
-      "certification_date_dd"            => "20", 
-      "certification_date_mm"            => "08", 
+      "certification_date_dd"            => "20",
+      "certification_date_mm"            => "08",
       "certification_date_yyyy"          => "2015"
     }
   }

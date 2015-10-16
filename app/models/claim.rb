@@ -6,7 +6,7 @@
 #  additional_information :text
 #  apply_vat              :boolean
 #  state                  :string
-#  submitted_at           :datetime
+#  last_submitted_at           :datetime
 #  case_number            :string
 #  advocate_category      :string
 #  indictment_number      :string
@@ -90,7 +90,7 @@ class Claim < ActiveRecord::Base
 
   has_one  :certification
 
-  has_paper_trail on: [:update], ignore: [:created_at, :updated_at, :submitted_at, :evidence_checklist_ids]
+  has_paper_trail on: [:update], ignore: [:created_at, :updated_at, :original_submission_date, :last_submitted_at, :evidence_checklist_ids]
 
   # ensure submodel validations bubble up to claim errrors
   validates_associated :defendants, message: 'There is a problem with one or more defendants'
@@ -289,7 +289,7 @@ class Claim < ActiveRecord::Base
   end
 
   def vat_date
-    (self.submitted_at || Date.today).to_date
+    (self.original_submission_date || Date.today).to_date
   end
 
   def pretty_vat_rate

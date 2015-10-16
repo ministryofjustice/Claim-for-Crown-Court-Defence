@@ -108,8 +108,44 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
     end
 
-    describe 'make submitted_at attribute equal now' do
-      it {  expect(subject).to receive(:update_column).with(:submitted_at,Time.now); subject.submit!; }
+    describe 'make last_submitted_at attribute equal now' do
+      it 'sets the last_submitted_at to the current time' do
+        current_time = Time.now
+        subject.submit!
+        expect(subject.last_submitted_at).to eq(current_time)
+      end
+
+      it 'sets the original_submission_date to the current time' do
+        current_time = Time.now
+        subject.submit!
+        expect(subject.original_submission_date).to eq(current_time)
+      end
+    end
+
+    describe 'update last_submitted_at on redetermination or await_written_reasons' do
+      it 'set the last_submitted_at to the current time for redetermination' do
+        current_time = Time.now
+        subject.submit!
+        subject.allocate!
+        subject.refuse!
+
+        Timecop.freeze 6.months.from_now do
+          subject.redetermine!
+          expect(subject.last_submitted_at).to eq(current_time + 6.months)
+        end
+      end
+
+      it 'set the last_submitted_at to the current time for awaiting_written_reasons' do
+        current_time = Time.now
+        subject.submit!
+        subject.allocate!
+        subject.refuse!
+
+        Timecop.freeze 6.months.from_now do
+          subject.await_written_reasons!
+          expect(subject.last_submitted_at).to eq(current_time + 6.months)
+        end
+      end
     end
 
     describe 'authorise! makes authorised_at attribute equal now' do

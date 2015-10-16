@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013153042) do
+ActiveRecord::Schema.define(version: 20151016113001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,16 +112,16 @@ ActiveRecord::Schema.define(version: 20151013153042) do
     t.text     "additional_information"
     t.boolean  "apply_vat"
     t.string   "state"
-    t.datetime "submitted_at"
+    t.datetime "last_submitted_at"
     t.string   "case_number"
     t.string   "advocate_category"
     t.string   "indictment_number"
     t.date     "first_day_of_trial"
-    t.integer  "estimated_trial_length", default: 0
-    t.integer  "actual_trial_length",    default: 0
-    t.decimal  "fees_total",             default: 0.0
-    t.decimal  "expenses_total",         default: 0.0
-    t.decimal  "total",                  default: 0.0
+    t.integer  "estimated_trial_length",   default: 0
+    t.integer  "actual_trial_length",      default: 0
+    t.decimal  "fees_total",               default: 0.0
+    t.decimal  "expenses_total",           default: 0.0
+    t.decimal  "total",                    default: 0.0
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.integer  "offence_id"
@@ -140,10 +140,11 @@ ActiveRecord::Schema.define(version: 20151013153042) do
     t.date     "trial_cracked_at"
     t.string   "trial_cracked_at_third"
     t.string   "source"
-    t.decimal  "vat_amount",             default: 0.0
-    t.uuid     "uuid",                   default: "uuid_generate_v4()"
+    t.decimal  "vat_amount",               default: 0.0
+    t.uuid     "uuid",                     default: "uuid_generate_v4()"
     t.integer  "case_type_id"
     t.string   "form_id"
+    t.datetime "original_submission_date"
   end
 
   add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree

@@ -737,15 +737,6 @@ RSpec.describe Claim, type: :model do
     end
   end
 
-  describe 'STATES_FOR_FORM' do
-    it "should have constant values" do
-      expect(Claim::STATES_FOR_FORM).to eql({part_authorised: "Part authorised",
-                                            authorised: "Authorised",
-                                            rejected: "Rejected",
-                                            refused: "Refused"
-                                           })
-    end
-  end
 
   describe 'allocate claim when assigning to case worker' do
     subject { create(:submitted_claim) }

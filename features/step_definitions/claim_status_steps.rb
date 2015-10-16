@@ -67,3 +67,19 @@ Then(/^I should not see "(.*?)"$/) do |error_message|
   expect(page).not_to have_content(error_message)
 end
 
+Then(/^I should not see status select$/) do
+  expect(page).not_to have_content('Select new state for this claim')
+end
+
+Then(/^I should see the current status set to "(.*)"$/) do |state|
+  expect(page).to have_content("Current status: #{state}")
+end
+
+Then(/^I should be able to update the status from "(.*)"$/) do |state|
+  expect(page).to have_content("Update status (current status: '#{state}')")
+end
+
+Then(/^I should see an option select for claim status$/) do
+  expect(page).to have_selector('#claim_state_for_form')
+end
+

@@ -53,12 +53,12 @@ class Claim < ActiveRecord::Base
   include NumberCommaParser
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
 
-  STATES_FOR_FORM = {
-    part_authorised: "Part authorised",
-    authorised: "Authorised",
-    rejected: "Rejected",
-    refused: "Refused"
-  }
+  # STATES_FOR_FORM = {
+  #   part_authorised: "Part authorised",
+  #   authorised: "Authorised",
+  #   rejected: "Rejected",
+  #   refused: "Refused"
+  # }
 
   belongs_to :court
   belongs_to :offence

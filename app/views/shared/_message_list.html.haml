@@ -5,7 +5,9 @@
   - else
     - claim.history_and_messages.each do |date, events|
       %fieldset.single-date
-        %legend
+        %legend.visuallyhidden
+          = date
+        .event-date
           = date
         - events.each do |event|
           = render partial: 'shared/message', locals: {message: event }

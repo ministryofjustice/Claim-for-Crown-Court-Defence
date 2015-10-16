@@ -27,18 +27,18 @@ Feature: Claim allocation
   Scenario: Show high value claims
     Given high value claims exist
     When I visit the allocation page
-     And I click "Show only high value claims"
+     And I click "high-value"
     Then I should only see high value claims
-     And I click "Show claims for all values"
+     And I click "all claims"
     Then I should see all claims
 
   Scenario: Show low value claims
     Given low value claims exist
      And high value claims exist
     When I visit the allocation page
-     And I click "Show only low value claims"
+     And I click "low-value"
     Then I should only see low value claims
-     And I click "Show claims for all values"
+     And I click "all claims"
     Then I should see all claims
 
   Scenario Outline: Filtering claims

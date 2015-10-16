@@ -69,12 +69,12 @@
   Show
   - if params[:claim_value].blank?
     only
-    = link_to ' high value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'high'))
+    = link_to ' high-value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'high'))
     or
-    = link_to ' low value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'low'))
+    = link_to ' low-value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'low'))
     claims
   - else
-    = link_to ' claims for all values', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: nil))
+    = link_to ' all claims', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: nil))
 
 - if @allocated_claims
   = render 'allocated_summary'

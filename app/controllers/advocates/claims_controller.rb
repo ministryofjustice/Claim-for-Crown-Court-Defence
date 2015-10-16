@@ -4,7 +4,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DocTypes
 
   respond_to :html
-  before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
   before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
@@ -77,6 +77,15 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       submit_if_required_and_redirect
     else
       render_edit_with_resources
+    end
+  end
+
+  def clone_rejected
+    begin
+      draft = @claim.clone_rejected_to_new_draft
+      redirect_to edit_advocates_claim_url(draft), notice: 'Draft created'
+    rescue
+      redirect_to advocates_claims_url, alert: 'Can only clone rejected claims'
     end
   end
 

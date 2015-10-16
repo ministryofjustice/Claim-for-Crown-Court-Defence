@@ -19,9 +19,13 @@
             = claim_position_and_count
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-    - if claim.editable? && current_user.persona.is_a?(Advocate)
-      %div.right
-        = link_to "Edit this claim", edit_advocates_claim_path(claim), class: 'button'
-        = link_to "Delete draft", advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
+    - if current_user.persona.is_a?(Advocate)
+      - if claim.editable?
+        %div.right
+          = link_to "Edit this claim", edit_advocates_claim_path(claim), class: 'button'
+          = link_to "Delete draft", advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
+      - if claim.rejected?
+        %div.right
+          = button_to 'Create draft and resubmit', clone_rejected_advocates_claim_path(claim), method: 'patch', class: 'button'
 %div.bold-medium.claim-detail-header
   = "Claim details"

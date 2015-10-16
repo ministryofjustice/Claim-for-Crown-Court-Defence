@@ -13,7 +13,7 @@ class Ability
       if persona.admin?
         can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
-        can [:show, :edit, :update, :confirmation, :destroy], Claim, chamber_id: persona.chamber_id
+        can [:show, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, chamber_id: persona.chamber_id
         can [:show, :download], Document, chamber_id: persona.chamber_id
         can [:destroy], Document do |document|
           if document.advocate_id.nil?
@@ -29,7 +29,7 @@ class Ability
       else
         can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
-        can [:show, :edit, :update, :confirmation, :destroy], Claim, advocate_id: persona.id
+        can [:show, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, advocate_id: persona.id
         can [:show, :download], Document, advocate_id: persona.id
         can [:destroy], Document do |document|
           if document.advocate_id.nil?

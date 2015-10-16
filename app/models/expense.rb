@@ -45,7 +45,7 @@ class Expense < ActiveRecord::Base
     claim.update_total
   end
 
-   def perform_validation?
+  def perform_validation?
     claim && claim.perform_validation?
   end
 end

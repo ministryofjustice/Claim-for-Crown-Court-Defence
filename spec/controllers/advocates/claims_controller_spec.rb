@@ -204,7 +204,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
             advocate_category: 'QC',
             expenses_attributes:
               [
-                { 
+                {
                   expense_type_id: expense_type.id,
                   location: "London",
                   quantity: 1,
@@ -495,6 +495,41 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           'first_day_of_trial_mm' => '11',
           'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+      end
+    end
+  end
+
+  describe "PATCH #clone_rejected" do
+    context 'from rejected claim' do
+      subject { create(:rejected_claim, advocate: advocate) }
+
+      before do
+        patch :clone_rejected, id: subject
+      end
+
+      it 'creates a draft from the rejected claim' do
+        expect(Claim.last).to be_draft
+        expect(Claim.last.case_number).to eq(subject.case_number)
+      end
+
+      it 'redirects to the draft\'s edit page' do
+        expect(response).to redirect_to(edit_advocates_claim_url(Claim.last))
+      end
+    end
+
+    context 'from non-rejected claim' do
+      subject { create(:submitted_claim, advocate: advocate) }
+
+      before do
+        patch :clone_rejected, id: subject
+      end
+
+      it 'redirects to advocates dashboard' do
+        expect(response).to redirect_to(advocates_claims_url)
+      end
+
+      it 'does not create a draft claim' do
+        expect(Claim.last).to_not be_draft
       end
     end
   end

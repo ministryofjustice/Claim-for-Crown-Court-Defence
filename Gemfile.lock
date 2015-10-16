@@ -37,6 +37,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    amoeba (3.0.0)
+      activerecord (>= 3.2.6)
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
@@ -469,6 +471,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  amoeba (~> 3.0.0)
   annotate
   auto_strip_attributes (~> 2.0)
   awesome_print

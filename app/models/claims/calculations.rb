@@ -1,5 +1,4 @@
 module Claims::Calculations
-
   def calculate_fees_total(category=nil)
     fees.reload
     if category.blank?
@@ -10,7 +9,8 @@ module Claims::Calculations
   end
 
   def calculate_expenses_total
-    expenses.reload.map(&:amount).sum
+    # #reload prevents cloning
+    Expense.where(claim_id: self.id).map(&:amount).sum
   end
 
   def calculate_total
@@ -28,5 +28,4 @@ module Claims::Calculations
   def update_total
     update_column(:total, calculate_total)
   end
-
 end

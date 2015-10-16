@@ -53,6 +53,8 @@ class Document < ActiveRecord::Base
   private
 
   def documents_count
+    return true if self.form_id.nil?
+
     count = Document.where(form_id: self.form_id).count
 
     if count >= Settings.max_document_upload_count

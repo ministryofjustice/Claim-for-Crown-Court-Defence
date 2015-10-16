@@ -2,9 +2,9 @@ class ExpenseValidator < BaseClaimValidator
 
   def self.fields
     [
-    :expense_type,
-    :quantity,
-    :rate
+      :expense_type,
+      :quantity,
+      :rate
     ]
   end
 

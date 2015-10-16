@@ -13,6 +13,7 @@ module Claims::Cloner
       klass.amoeba do
         enable
         nullify :uuid
+        clone [:dates_attended]
       end
     end
 

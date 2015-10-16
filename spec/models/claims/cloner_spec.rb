@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe Claims::Cloner, type: :model do
   let!(:rejected_claim) do
     rejected_claim = create(:rejected_claim)
+    rejected_claim.fees.each do |fee|
+      fee.dates_attended << create(:date_attended)
+    end
     rejected_claim.expenses << create(:expense)
     rejected_claim.expenses.each do |expense|
       expense.dates_attended << create(:date_attended)
@@ -63,9 +66,15 @@ RSpec.describe Claims::Cloner, type: :model do
       expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
     end
 
-    it 'does not clone the uuids of dates attended' do
+    it 'does not clone the uuids of expense dates attended' do
       cloned_claim_uuids = cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
       rejected_claim_uuids = rejected_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+      expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
+    end
+
+    it 'does not clone the uuids of fee dates attended' do
+      cloned_claim_uuids = cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+      rejected_claim_uuids = rejected_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
       expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
     end
 
@@ -77,11 +86,15 @@ RSpec.describe Claims::Cloner, type: :model do
       end
     end
 
+    it 'clones the fee\'s dates attended' do
+      expect(cloned_claim.fees.map { |e| e.dates_attended.count }).to eq(rejected_claim.fees.map { |e| e.dates_attended.count })
+    end
+
     it 'clones the expenses' do
       expect(cloned_claim.reload.expenses.count).to eq(rejected_claim.expenses.count)
     end
 
-    it 'clones the expenses\' dates attended' do
+    it 'clones the expense\'s dates attended' do
       expect(cloned_claim.expenses.map { |e| e.dates_attended.count }).to eq(rejected_claim.expenses.map { |e| e.dates_attended.count })
     end
 

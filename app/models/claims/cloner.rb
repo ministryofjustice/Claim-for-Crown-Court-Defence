@@ -4,7 +4,8 @@ module Claims::Cloner
   included do |klass|
     klass.amoeba do
       enable
-      nullify :submitted_at
+      nullify :last_submitted_at
+      nullify :original_submission_date
       nullify :uuid
       clone [:fees, :documents, :defendants, :expenses]
     end

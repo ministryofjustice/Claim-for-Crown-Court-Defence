@@ -319,6 +319,10 @@ class Claim < ActiveRecord::Base
     end
   end
 
+  def total_including_vat
+    self.total + self.vat_amount
+  end
+
   private
 
   def creator_and_advocate_in_same_chamber
@@ -384,6 +388,8 @@ class Claim < ActiveRecord::Base
   end
 
   def calculate_vat
+    return if self.advocate.nil?
+    self.apply_vat = self.advocate.apply_vat
     if self.apply_vat?
       self.vat_amount = VatRate.vat_amount(self.total, self.vat_date)
     else

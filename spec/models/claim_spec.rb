@@ -1113,6 +1113,8 @@ RSpec.describe Claim, type: :model do
 
     context 'when VAT not applied' do
       it 'should return the amount assessed from the last determination' do
+        claim.advocate.update(apply_vat: false)
+        claim.save
         expect(claim.amount_assessed).to eq(5.76)
       end
     end

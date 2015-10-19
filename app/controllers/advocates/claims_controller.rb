@@ -188,7 +188,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :advocate_category,
      :additional_information,
      :indictment_number,
-     :apply_vat,
      evidence_checklist_ids: [],
      defendants_attributes: [
        :id,

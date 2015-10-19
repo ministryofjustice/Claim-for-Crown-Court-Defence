@@ -297,6 +297,15 @@ class Claim < ActiveRecord::Base
     VatRate.pretty_rate(self.vat_date)
   end
 
+  def last_state_transition
+    claim_state_transitions.order(created_at: :asc).last
+  end
+
+  def last_state_transition_time
+    last_state_transition.created_at
+  end
+
+
   def opened_for_redetermination?
     return true if self.redetermination?
 
@@ -343,11 +352,6 @@ class Claim < ActiveRecord::Base
   def last_redetermination
     self.redeterminations.select(&:valid?).last
   end
-
-  def last_state_transition
-    last_transition = claim_state_transitions.order(created_at: :asc).last
-  end
-
 
   def set_scheme
     rep_order = self.earliest_representation_order

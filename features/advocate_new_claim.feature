@@ -20,15 +20,14 @@ Feature: Advocate new claim
       And I should see the claim totals
       And the claim should be in a "submitted" state
 
-  # TODO: reintroduce once a suitable way of validating this is found
-  # Scenario: Try to submit a zero value claim
-  #   Given I am a signed in advocate
-  #     And There are fee schemes in place
-  #     And There are case types in place
-  #     And I am on the new claim page
-  #    When I fill in the claim details but add no fees or expenses
-  #     And I submit to LAA
-  #    Then I should see errors
+  Scenario: Try to submit a zero value claim
+    Given I am a signed in advocate
+      And There are fee schemes in place
+      And There are case types in place
+      And I am on the new claim page
+     When I fill in the claim details but add no fees or expenses
+      And I submit to LAA
+     Then I should see errors
 
   Scenario: Fill in claim form and submit invalid or incomplete claim to LAA
     Given I am a signed in advocate

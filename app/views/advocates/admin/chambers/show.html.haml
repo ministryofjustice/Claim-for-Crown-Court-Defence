@@ -1,0 +1,15 @@
+%h1.page-title Manage chamber
+
+%h2
+  = @chamber.name
+
+%p
+  = "#{t('.supplier_number')}:"
+  = @chamber.supplier_number
+
+%p
+  = "#{t('.vat_registered')}:"
+  = @chamber.vat_registered == true ? 'Yes' : 'No'
+
+- if can? :edit, @chamber
+  = link_to 'Edit', edit_advocates_admin_chamber_path(@chamber), class: 'button'

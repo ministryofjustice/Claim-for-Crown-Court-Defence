@@ -7,14 +7,15 @@
         = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
       = link_to t('link.add_claim'), new_advocates_claim_path, title: "Start a new claim", class: cp(new_advocates_claim_path)
       - if current_user.persona.admin?
-        = link_to 'Admin', advocates_admin_advocates_path, class: cp(advocates_admin_advocates_path)
+        = link_to 'Manage advocates', advocates_admin_advocates_path, class: cp(advocates_admin_advocates_path)
+        = link_to 'Manage chamber', advocates_admin_chamber_path(current_user.persona.chamber), class: cp(advocates_admin_chamber_path(current_user.persona.chamber))
     - elsif current_user.persona.is_a?(CaseWorker)
       - if current_user.persona.admin?
         = link_to 'Your claims', case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')), class: cp( case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')))
         = link_to 'Archive',     archived_case_workers_claims_path(params.except(:controller, :action).merge(tab: 'archived')), class: cp(archived_case_workers_claims_path(params.except(:controller, :action).merge(tab: 'archived')))
         = link_to "Allocation", case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'unallocated')), class: cp(case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'unallocated')))
         = link_to "Re-allocation", case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'allocated')), class: cp(case_workers_admin_allocations_path(params.except(:controller, :action, :filter, :search).merge(tab: 'allocated')))
-        = link_to 'Admin', case_workers_admin_case_workers_path, class: cp(case_workers_admin_case_workers_path)
+        = link_to 'Manage case workers', case_workers_admin_case_workers_path, class: cp(case_workers_admin_case_workers_path)
       - else
         = link_to 'Your claims', case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')), class: cp(case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')))
         = link_to 'Archive',     archived_case_workers_claims_path(params.except(:controller, :action).merge(tab: 'archived')), class: cp(archived_case_workers_claims_path(params.except(:controller, :action).merge(tab: 'archived')))

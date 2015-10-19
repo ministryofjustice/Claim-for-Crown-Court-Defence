@@ -41,7 +41,7 @@ Given(/^I am a signed in case worker admin$/) do
   sign_in(@case_worker.user, 'password')
 end
 
-Then(/^I should see an admin link and it should work$/) do
-  find('#primary-nav').click_link('Admin')
-  expect(find('h1.page-title')).to have_content('Administration')
+Then(/^I should see an Manage advocates link and it should work$/) do
+  find('#primary-nav').click_link('Manage advocates')
+  expect(find('h1.page-title')).to have_content('Manage advocates')
 end

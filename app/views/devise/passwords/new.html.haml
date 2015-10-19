@@ -12,7 +12,7 @@
 
   %div.form-group
     = f.label :email, class: "form-label"
-    = f.input_field :email, autofocus: true, class: "form-control"
+    = f.input_field :email, autofocus: true, autocomplete: 'off', class: "form-control"
 
   %div.form-group
     = f.button :submit, "Send me reset password instructions", class: "button text-small"

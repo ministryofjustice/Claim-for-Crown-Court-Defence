@@ -4,12 +4,16 @@
   = @chamber.name
 
 %p
-  = "#{t('.supplier_number')}:"
+  = label_tag :supplier_number, "#{t('.supplier_number')}:", class: "form-label"
   = @chamber.supplier_number
 
 %p
-  = "#{t('.vat_registered')}:"
+  = label_tag :vat_registered, "#{t('.vat_registered')}:", class: "form-label"
   = @chamber.vat_registered == true ? 'Yes' : 'No'
+
+%p
+  = label_tag :api_key, "#{t('.api_key')}:", class: "form-label"
+  = @chamber.api_key
 
 - if can? :edit, @chamber
   = link_to 'Edit', edit_advocates_admin_chamber_path(@chamber), class: 'button'

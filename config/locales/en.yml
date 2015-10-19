@@ -201,15 +201,18 @@ en:
         chamber_name: &chamber_name 'Chamber name'
         supplier_number: &supplier_number 'Supplier number'
         vat_registered: &vat_registered 'VAT registered'
+        api_key: &api_key 'API key'
         show:
           chamber_name: *chamber_name
           supplier_number: *supplier_number
           vat_registered: *vat_registered
+          api_key: *api_key
         edit:
           error: 'error'
           prohibited_save: 'This chamber has'
           chamber_name: *chamber_name
           supplier_number: *supplier_number
+          api_key: *api_key
           vat_registered: *vat_registered
           form_error_hint: 'Check below for more detail'
     claims:

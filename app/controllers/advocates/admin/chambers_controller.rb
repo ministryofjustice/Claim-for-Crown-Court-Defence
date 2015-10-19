@@ -22,7 +22,6 @@ class Advocates::Admin::ChambersController < Advocates::Admin::ApplicationContro
 
   def chamber_params
     params.require(:chamber).permit(
-     :id,
      :name,
      :supplier_number,
      :vat_registered

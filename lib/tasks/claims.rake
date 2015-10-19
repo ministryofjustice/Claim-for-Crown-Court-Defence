@@ -13,5 +13,11 @@ namespace :claims do
     DemoData::ClaimGenerator.new.run
     Rake::Task['db:data:dump'].invoke
   end
+
+
+  desc 'archives or deletes stale claims'
+  taks :archive_stale => :environment do
+    TimedTransition::BatchTransitioner.new.run
+  end
 end
 

@@ -8,7 +8,7 @@
       = link_to t('link.add_claim'), new_advocates_claim_path, title: "Start a new claim", class: cp(new_advocates_claim_path)
       - if current_user.persona.admin?
         = link_to 'Manage advocates', advocates_admin_advocates_path, class: cp(advocates_admin_advocates_path)
-      = link_to 'Manage chamber', advocates_admin_chamber_path(current_user.persona.chamber), class: cp(advocates_admin_chamber_path(current_user.persona.chamber))
+        = link_to 'Manage chamber', advocates_admin_chamber_path(current_user.persona.chamber), class: cp(advocates_admin_chamber_path(current_user.persona.chamber))
     - elsif current_user.persona.is_a?(CaseWorker)
       - if current_user.persona.admin?
         = link_to 'Your claims', case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')), class: cp( case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')))

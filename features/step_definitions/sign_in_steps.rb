@@ -97,7 +97,7 @@ end
 
 Then(/^I should see the admin advocates Manage chamber link and it should work$/) do
   find('#primary-nav').click_link('Manage chamber')
-  expect(find('h1.page-title')).to have_content(@advocate_admins.first.chamber.name)
+  expect(find('h1.page-title')).to have_content("Manage chamber")
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do

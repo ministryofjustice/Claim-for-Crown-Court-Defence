@@ -1,6 +1,26 @@
 class ClaimPresenter < BasePresenter
   presents :claim
 
+
+  # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
+  #
+  def valid_transitions(options = {include_submitted: true} )
+    states = claim.state_transitions.map(&:to_name) - [:archived_pending_delete]
+    if options[:include_submitted] == false
+      states = states - [:submitted]
+    end
+    states.map { |state| [ state, state.to_s.humanize ] }.to_h
+  end
+
+  def valid_transitions_for_detail_form
+    valid_transitions(include_submitted: false)
+  end
+
+
+  def humanized_state
+    claim.state.humanize
+  end
+
   def defendant_names
     defendant_names = claim.defendants.order('id ASC').map(&:name)
 
@@ -18,7 +38,7 @@ class ClaimPresenter < BasePresenter
   def submitted_at(options={})
     options.assert_valid_keys(:include_time)
     format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.submitted_at.strftime(format) unless claim.submitted_at.nil?
+    claim.original_submission_date.strftime(format) unless claim.original_submission_date.nil?
   end
 
   def authorised_at (options={})

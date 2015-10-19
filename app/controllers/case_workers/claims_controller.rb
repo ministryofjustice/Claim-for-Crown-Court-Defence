@@ -19,12 +19,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def show
     @claim.assessment = Assessment.new if @claim.assessment.nil?
     @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
-    @enable_status_change = true
 
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-    
+
   end
 
   def update
@@ -115,7 +114,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_column
-    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'submitted_at'
+    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'last_submitted_at'
   end
 
   def sort_direction

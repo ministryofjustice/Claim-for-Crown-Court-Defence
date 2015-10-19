@@ -59,19 +59,26 @@ Feature: Advocate new claim
      Then I see 1 field for adding a rep order
 
   @javascript @webmock_allow_localhost_connect
-Scenario Outline: Add fees with dates attended then remove fee
+  Scenario Outline: Add fees with dates attended then remove fee
     Given I am a signed in advocate
       And a claim exists with state "draft"
-      And it has a case type of <case_type>
+      And There are case types in place
+      And I update the claim to be of casetype <case_type>
+      And I have one fee of type <fee_type>
+      And I have <dates_attended_count> dates attended for my one fee
+     Then the dates attended are saved for <fee_type>
      When I am on the claim edit page
-     When I add <number> dates attended for one of my <fee_type> fees
-      And I remove the <fee_type> fee
-     Then the dates attended are also removed from <fee_type>
+     Then I should see <dates_attended_count> dates attended fields amongst <fee_type> fees
+     When I click remove fee for <fee_type>
+      And I save to drafts
+     When I am on the claim edit page
+     Then I should not see any dates attended fields for <fee_type> fees
+      And the dates attended are not saved for <fee_type>
 
   Examples:
-    | case_type                   | number | fee_type |
-    | "Appeal against conviction" | 5      |  "fixed" |
-    | "Cracked Trial"             | 2      |  "misc"  |
+    | case_type                   | dates_attended_count | fee_type |
+    | "Cracked Trial"             |    2                 |  "misc"  |
+    | "Appeal against conviction" |    3                 |  "fixed" |
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate

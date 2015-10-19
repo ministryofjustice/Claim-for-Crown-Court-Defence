@@ -14,14 +14,13 @@
 #
 
 class Defendant < ActiveRecord::Base
-
   auto_strip_attributes :first_name, :last_name, squish: true, nullify: true
 
   belongs_to :claim
 
   has_many  :representation_orders, dependent: :destroy, inverse_of: :defendant
   validates_associated :representation_orders, message: 'There is a problem with one or more defendant representation orders'
-  
+
   # validates :representation_order, presence: {message: 'Representation order cannot be blank'}
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator

@@ -23,7 +23,7 @@ RSpec.describe ClaimPresenter do
   end
 
   it '#submitted_at' do
-    claim.submitted_at = Time.current
+    claim.original_submission_date = Time.current
     expect(subject.submitted_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
   end
@@ -34,6 +34,41 @@ RSpec.describe ClaimPresenter do
     expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
     expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+  end
+
+  describe '#valid_transitions' do
+    it 'should list valid transitions from allocated' do
+      claim.state = 'allocated'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions).to eq(
+        {
+            :part_authorised => "Part authorised",
+                 :authorised => "Authorised",
+                    :refused => "Refused",
+                   :rejected => "Rejected",
+                  :submitted => "Submitted"
+        }
+      )
+    end
+
+    it 'should list valid transitions from allocated with include_submitted => false' do
+      claim.state = 'allocated'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions_for_detail_form).to eq(
+        {
+            :part_authorised => "Part authorised",
+                 :authorised => "Authorised",
+                    :refused => "Refused",
+                   :rejected => "Rejected"
+        }
+      )
+    end
+
+    it 'should list valid transitions from part_authorised' do
+      claim.state = 'part_authorised'
+      presenter = ClaimPresenter.new(claim, view)
+      expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
+    end
   end
 
 

@@ -39,33 +39,31 @@
                 = message.created_at
 - elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Determination'
   .grid-row.history
-    .column-quarter
+    .column-two-thirds
       &nbsp;
-    .column-two-quarter.event
-      = message.event
-      %table
-        - message.changeset.each do |attribute, changes|
-          %tr
-            %td
-              #{attribute.humanize}:
-            %td
-              #{number_to_currency(changes.last)}
+    .column-third
+      .event
+        = message.event
+        %table
+          - message.changeset.each do |attribute, changes|
+            %tr
+              %td
+                #{attribute.humanize}:
+              %td
+                #{number_to_currency(changes.last)}
 - elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Claim'
   .grid-row.history
     .column-quarter
       &nbsp;
-    .column-two-quarter.event
-      = message.event
-      %ul
-        - message.changeset.each do |attribute, changes|
-          %li
-            - if changes.first.present? && changes.last.present?
-              Changed
-              "#{attribute.humanize}"
-              from
-              "#{changes.first}"
-              to
-              "#{changes.last}"
-              
-    .column-quarter
-      &nbsp;
+    .column-three-quarter
+      .event
+        %ul
+          - message.changeset.each do |attribute, changes|
+            %li
+              - if changes.first.present? && changes.last.present?
+                Changed
+                "#{attribute.humanize}"
+                from
+                "#{changes.first}"
+                to
+                "#{changes.last}"

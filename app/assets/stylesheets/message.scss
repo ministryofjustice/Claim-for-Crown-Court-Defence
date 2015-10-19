@@ -30,6 +30,7 @@ Styling for Claims Messaging
     margin-bottom: 1em;
     .single-date{
       border-top: 1px solid $border-colour;
+      text-align: center;
       legend{
         text-align: center;
         border: 1px solid $border-colour;
@@ -40,27 +41,66 @@ Styling for Claims Messaging
         font-weight: bold;
         margin-bottom: $gutter-half;
       }
+      .event-date{
+        color: $date-text;
+        border: 2px solid $date-border-colour;
+        border-radius: 0.5em;
+        display: inline-block;
+        margin-top: $gutter-half;
+        margin-bottom: $gutter-half;
+        padding: 5px 10px;
+        font-weight: bold;
+      }
     }
     .message-container{
       margin-bottom: 1em;
+      margin-left: 1em;
+      margin-right: 1em;
     }
     .message-body{
-      border-radius: 4px;
-      padding: 5px 10px;
+      padding: 5px 15px;
     }
     .message-left{
       .message-body{
-        background-color: #B1C9EA;
+        background-color: $left-message-colour;
+        position: relative;
+        text-align: left;
+        border-radius: 0.5em 0.5em 0.5em 0.75em;
+        &::after {
+          content: "";
+          position: absolute;
+          left: -1.5em;
+          bottom: 0;
+          width: 1.5em;
+          height: 1.5em;
+          border-right: 1em solid $left-message-colour;
+          border-bottom-right-radius: 1.75em 1.5em;
+        }
       }
     }
     .message-right{
       .message-body{
         background-color: $panel-colour;
+        position: relative;
+        text-align: left;
+        border-radius: 0.5em 0.5em 0.75em 0.5em;
+        &::after {
+          content: "";
+          position: absolute;
+          right: -1.5em;
+          bottom: 0;
+          width: 1.5em;
+          height: 1.5em;
+          border-left: 1em solid $panel-colour;
+          border-bottom-left-radius: 1.75em 1.5em;
+        }
       }
     }
     .message-audit{
-      font-size: 12px;
-      color: $secondary-text-colour;
+      font-size: 80%;
+      color: $read-text;
+      font-weight: bold;
+      text-align: left;
       .sent{
         text-align: right;
       }
@@ -129,9 +169,17 @@ Styling for Claims Messaging
   }
   .history{
     .event{
-      background-color:  #FFC073;
+      color: $message-history-text;
       padding: 5px 10px;
       margin-bottom: 5px;
+      margin-right: 1em;
+      text-align: right;
+      table{
+        @extend .claims_table;
+        td{
+          border-top: 1px solid $border-colour;
+        }
+      }
     }
   }
 }

@@ -49,44 +49,58 @@ Given(/^I am creating a new claim$/) do
   visit new_advocates_claim_path
 end
 
-# NOTE: this step requires server to be running as it is js-reliant (i.e. cocoon)
+# NOTE: this step is js-reliant (i.e. cocoon)
 When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee_type|
-  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
-
+  fee_div = fee_type_to_id(fee_type)
   number.to_i.times do
-  within "##{div_id}" do
-    click_on "Add date(s)"
+  within fee_div do
+    click_on 'Add date(s)'
+    wait_for_ajax
   end
  end
+end
 
-  within "##{div_id}" do
-    expect(page).to have_selector('.extra-data')
-    index = 0
-    all(:css, '.extra-data').each do |extra_data|
-      within extra_data do
-        expect(page).to have_content('Date attended (from)')
-        expect(page).to have_selector('input')
-        index += 1
-      end
-    end
-    expect(index).to eq(number.to_i)
+Given(/^I update the claim to be of casetype "(.*?)"$/) do |case_type|
+  @claim.update(case_type: CaseType.find_by(name: case_type) )
+end
+
+When(/^I have one fee of type "(.*?)"$/) do |fee_type|
+  @claim.fees.destroy_all
+  FactoryGirl.create(:fee, fee_type.to_sym, claim: @claim)
+end
+
+When(/^I have (\d+) dates attended for my one fee$/) do |number|
+  number.to_i.times do |i|
+    FactoryGirl.create(:date_attended, attended_item: @claim.fees.first, date: 12.days.ago, date_to: 2.days.ago)
   end
+end
+
+Then(/^I should see (\d+) dates attended fields amongst "(.*?)" fees$/) do |number, fee_type|
+  within fee_type_to_id(fee_type) do
+    expect(page).to have_content('Date attended (from)', count: number)
+  end
+end
+
+When(/^I click remove fee for "(.*?)"$/) do |fee_type|
+  within fee_type_to_id(fee_type) do
+    node = page.all('a', text: "Remove").first
+    node.click
+  end
+end
+
+Then(/^I should not see any dates attended fields for "(.*?)" fees$/) do |fee_type|
+  within fee_type_to_id(fee_type) do
+    expect(page).not_to have_content('Date attended (from)', wait: 5)
+  end
+end
+
+Then(/^the dates attended are( not)? saved for "(.*?)"$/) do |negation, fee_type|
+  true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
+  expect(@claim.__send__("#{fee_type}_fees").count > 0).to eql true_or_false
 end
 
 Given(/^I am creating a "(.*?)" claim$/) do |case_type|
   select2 case_type, from: 'claim_case_type_id'
-end
-
-When(/^I remove the "(.*?)" fee$/) do |fee_type|
-  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
-  within "##{div_id}" do
-    page.all('a', text: "Remove").first.click
-  end
-end
-
-Then(/^the dates attended are also removed from "(.*?)"$/) do |fee_type|
-  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
-  expect(within("##{div_id}") { page.all('tr.extra-data.nested-fields') }.count).to eq 0
 end
 
 When(/^I fill in the certification details and submit/) do
@@ -226,9 +240,9 @@ Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
   end
 end
 
-Given(/^it has a case type of "(.*?)"$/) do |case_type|
-  Claim.first.case_type = CaseType.find_by(name: case_type)
-end
+# Given(/^it has a case type of "(.*?)"$/) do |case_type|
+#   Claim.first.case_type = CaseType.find_by(name: case_type)
+# end
 
 Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
   @claim.reload
@@ -319,9 +333,12 @@ Then(/^I should see the claim totals accounting for the miscellaneous fee$/) do
   expect(page).to have_content("Fees total: £300.00")
 end
 
-
 When(/^I select a Case Type of "(.*?)"$/) do |case_type|
   select case_type, from: 'claim_case_type_id'
+end
+
+When(/^I select2 a Case Type of "(.*?)"$/) do |case_type|
+  select2 case_type, from: 'claim_case_type_id'
 end
 
 Then(/^There should not be any Initial Fees saved$/) do
@@ -387,4 +404,11 @@ Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
   claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
   create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
+end
+
+# local helpers
+# -----------------
+def fee_type_to_id(fee_type)
+  div_id = fee_type.downcase == "fixed" ? 'fixed-fees' : 'misc-fees'
+  "##{div_id}"
 end

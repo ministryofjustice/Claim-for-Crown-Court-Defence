@@ -1,0 +1,17 @@
+%h1.page-title
+  = @chamber.name
+
+= form_for [:advocates, :admin, @chamber], html: { novalidate: true } do |f|
+  %fieldset.user-form
+    = f.label 'Chamber name', class: "form-label"
+    = f.text_field :name
+
+    = f.label 'Supplier number', class: "form-label"
+    = f.text_field :supplier_number
+
+    %label
+      = f.check_box :vat_registered
+      = 'VAT registered'
+
+  %p
+    = f.submit 'Save', class: "button"

@@ -70,6 +70,8 @@ Rails.application.routes.draw do
         get 'change_password', on: :member
         patch 'update_password', on: :member
       end
+
+      resources :chambers, only: [:show, :edit, :update]
     end
 
   end

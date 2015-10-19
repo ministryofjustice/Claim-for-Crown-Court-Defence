@@ -66,7 +66,8 @@ Then(/^I should see the admin advocates correct working primary navigation$/) do
   step "I should see the admin advocates All claims link and it should work"
   step "I should see the advocates Archive link and it should work"
   step "I should see the advocates Start a claim link and it should work"
-  step "I should see the advocates Admin link and it should work"
+  step "I should see the admin advocates Manage advocates link and it should work"
+  step "I should see the admin advocates Manage chamber link and it should work"
 end
 
 Then(/^I should see the advocates Your claims link and it should work$/) do
@@ -89,9 +90,14 @@ Then(/^I should see the advocates Start a claim link and it should work$/) do
   expect(find('h1')).to have_content('Claim for advocate graduated fees')
 end
 
-Then(/^I should see the advocates Admin link and it should work$/) do
-  find('#primary-nav').click_link('Admin')
-  expect(find('h1.page-title')).to have_content('Administration')
+Then(/^I should see the admin advocates Manage advocates link and it should work$/) do
+  find('#primary-nav').click_link('Manage advocates')
+  expect(find('h1.page-title')).to have_content('Manage advocates')
+end
+
+Then(/^I should see the admin advocates Manage chamber link and it should work$/) do
+  find('#primary-nav').click_link('Manage chamber')
+  expect(find('h1.page-title')).to have_content(@advocate_admins.first.chamber.name)
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do
@@ -104,7 +110,7 @@ Then(/^I should see the admin caseworkers correct working primary navigation$/) 
   step "I should see the admin caseworkers Archive link and it should work"
   step "I should see the admin caseworkers Allocation link and it should work"
   step "I should see the admin caseworkers Re-allocation link and it should work"
-  step "I should see the admin caseworkers Admin link and it should work"
+  step "I should see the admin caseworkers Manage case workers link and it should work"
 end
 
 Then(/^I should see the caseworkers Your claims link and it should work$/) do
@@ -137,9 +143,9 @@ Then(/^I should see the admin caseworkers Re-allocation link and it should work$
   expect(find('h1.page-title')).to have_content('Re-Allocation')
 end
 
-Then(/^I should see the admin caseworkers Admin link and it should work$/) do
-  find('#primary-nav').click_link('Admin')
-  expect(find('h1.page-title')).to have_content('Administration')
+Then(/^I should see the admin caseworkers Manage case workers link and it should work$/) do
+  find('#primary-nav').click_link('Manage case workers')
+  expect(find('h1.page-title')).to have_content('Manage case workers')
 end
 
 When(/^I enter my email and the wrong password (\d+) times$/) do |attempts|

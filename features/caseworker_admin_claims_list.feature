@@ -39,5 +39,5 @@ Feature: Caseworker claims list
         And There are fee schemes in place
         And 2 case workers exist
        When I visit my dashboard
-       Then I should see an admin link and it should work
+       Then I should see the admin caseworkers Manage case workers link and it should work
         And I should see the case workers edit and delete link

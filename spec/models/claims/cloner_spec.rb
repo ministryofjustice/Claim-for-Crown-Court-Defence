@@ -36,8 +36,12 @@ RSpec.describe Claims::Cloner, type: :model do
       expect(cloned_claim).to be_draft
     end
 
-    it 'does not clone the submitted_at date' do
-      expect(cloned_claim.submitted_at).to be_nil
+    it 'does not clone last_submitted_at' do
+      expect(cloned_claim.last_submitted_at).to be_nil
+    end
+
+    it 'does not clone original_submission_date' do
+      expect(cloned_claim.original_submission_date).to be_nil
     end
 
     it 'does not clone the uuid' do

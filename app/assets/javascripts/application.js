@@ -28,7 +28,6 @@ var moj = moj || {};
 
 moj.Modules.devs.init = function(){};
 
-
 $('#claim-accordion h2').each(function(){
   $(this).next('section').hide();
   $(this).click(function(){
@@ -40,7 +39,8 @@ $('#claim-accordion h2:first-of-type').addClass('open').next('section').show();
 function initialise(){
   $('#footer').css('margin-top',$(document).height() - ($('#global-header').height() + $('.outer-block:eq(1)').height()  ) - $('#footer').height());
   moj.Modules.CookieMessage.init();
-  $('.select2').select2();
+
+  adp.select2.init();
   adp.newClaim.init();
   adp.crackedTrial.init();
   adp.claimCompletion.init();

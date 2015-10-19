@@ -112,8 +112,24 @@ Given(/^high value claims exist$/) do
   end
 end
 
+Given(/^low value claims exist$/) do
+  @claims[5..9].each do |claim|
+    claim.update_column(:total, Settings.high_value_claim_threshold - 100 )
+  end
+end
+
 Then(/^I should only see high value claims$/) do
   @claims[0..4].each do |claim|
+    expect(page).to have_selector("#claim_#{claim.id}")
+  end
+
+  within '.claim-count' do
+    expect(page).to have_content(/5 claims/)
+  end
+end
+
+Then(/^I should only see low value claims$/) do
+  @claims[5..9].each do |claim|
     expect(page).to have_selector("#claim_#{claim.id}")
   end
 

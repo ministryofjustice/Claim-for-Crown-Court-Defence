@@ -16,7 +16,7 @@ namespace :claims do
 
 
   desc 'archives or deletes stale claims'
-  taks :archive_stale => :environment do
+  task :archive_stale => :environment do
     TimedTransition::BatchTransitioner.new.run
   end
 end

@@ -3,7 +3,9 @@
   $('.offence-class-select').hide();
 <% else %>
   $('.offence-class-select').html('<%=j render partial: "advocates/claims/offence_select", locals: { offences: @offences } %>');
-  $('.offence-class-select select').select2();
+  $('.offence-class-select select').select2({
+    matcher: adp.select2.startOfMatcher
+  });
   adp.newClaim.attachToOffenceClassSelect();
   $('.offence-class-select').slideDown();
 <% end %>

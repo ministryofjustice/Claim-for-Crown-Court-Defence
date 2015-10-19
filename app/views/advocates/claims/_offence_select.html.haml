@@ -1,3 +1,3 @@
 = label_tag t('.offence_class')
 
-= collection_select :offence_class, :description, offences, :id, :offence_class, options = { prompt: t('.select_offence_class'), selected: offences.count == 1 ? offences.first : nil }, html_options = { class: 'select2' }
+= collection_select :offence_class, :description, offences, :id, :offence_class, options = { prompt: t('.select_offence_class'), selected: offences.count == 1 ? offences.first : nil }, html_options = { class: 'select2', disabled: offences.count == 1 }

@@ -13,14 +13,14 @@ end
 
 Then(/^I should (not )?see a control in the messages section to request a redetermination$/) do |negate|
   if negate.present?
-    expect(page).to_not have_selector('#message_claim_action')
+    expect(page).to_not have_selector('.js-test-claim-action')
   else
-    expect(page).to have_selector('#message_claim_action')
+    expect(page).to have_selector('.js-test-claim-action')
   end
 end
 
 When(/^I select "(.*?)" and send a message$/) do |option_text|
-  select option_text, from: 'message_claim_action'
+  choose option_text
   fill_in 'message_body', with: 'lorem ipsum'
   click_button 'Send'
 end

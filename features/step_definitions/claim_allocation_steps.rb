@@ -44,6 +44,14 @@ Then(/^I should see a notification of the claims that were allocated$/) do
 end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
+  within('table.claims_table') do
+    @case_numbers = all('label.case-number').map(&:text)
+  end
+  @claims_on_page = []
+  @case_numbers.each do |case_number|
+    @claims_on_page << Claim.find_by(case_number: case_number)
+  end
+  @claims_to_allocate = @claims_on_page.take(quantity.to_i)
   fill_in 'quantity_to_allocate', with: quantity
 end
 
@@ -53,6 +61,9 @@ Then(/^the first (\d+) claims in the list should be allocated to the case worker
   @case_workers.first.claims.each do |claim|
     expect(claim).to be_allocated
   end
+
+  expect(@case_workers.first.claims.map(&:id)).to match_array @claims_to_allocate.map(&:id)
+
 end
 
 Then(/^the first (\d+) claims should no longer be displayed$/) do |quantity|
@@ -62,16 +73,14 @@ Then(/^the first (\d+) claims should no longer be displayed$/) do |quantity|
 end
 
 Given(/^there are (\d+) "(.*?)" claims?$/) do |quantity, type|
-  Claim.destroy_all
 
   number = quantity.to_i
 
   case type
     when 'all'
-      create_list(:submitted_claim, number)
+      # create_list(:submitted_claim, number) - commented out because 10 claims are created in the background to this feature
     when 'fixed_fee'
       claims = create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Contempt').id)
-      # claims.each { |c| c.fees << create(:fee, :fixed) }
     when 'trial'
       create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Trial').id)
     when 'cracked'

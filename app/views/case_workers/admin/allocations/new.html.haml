@@ -91,7 +91,7 @@
   %p
     - unless params[:tab] == 'allocated'
       = number_field_tag :quantity_to_allocate, nil, { placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate', min: 0 }
-
+      = hidden_field_tag :filter, params[:filter] if params[:filter]
     = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2 extra-margin', style: 'display: inline-block; width: 200px;' }
 
     = f.submit params[:tab] == 'allocated' ? 'Re-allocate' : 'Allocate', class: 'button'
@@ -122,7 +122,7 @@
             %td
               = b.check_box
             %td
-              = b.label do
+              = b.label(class: "case-number") do
                 = claim.case_number
             %td
               = b.label do

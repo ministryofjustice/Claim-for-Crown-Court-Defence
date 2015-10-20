@@ -52,7 +52,7 @@ Given(/^a written reasons claim is assigned to me$/) do
 end
 
 Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
-  select form_state, from: 'claim_state_for_form'
+  choose form_state
   click_button 'Update'
 end
 
@@ -88,7 +88,7 @@ end
 When(/^I enter redetermination amounts$/) do
   fill_in 'claim_redeterminations_attributes_0_fees', with: 1577.22
   fill_in 'claim_redeterminations_attributes_0_expenses', with: 805.75
-  select 'Part authorised', from: 'claim_state_for_form'
+  choose 'Part authorised'
   click_button 'Update'
 end
 

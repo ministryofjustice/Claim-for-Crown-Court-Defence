@@ -7,7 +7,7 @@
   adp.messaging.processMsg(data);
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
-    $('.claim-action-dropdown').hide();
+    $('.js-hide-status').hide();
   <% end %>
 
   <% unless @message.claim.written_reasons_outstanding? %>

@@ -2,26 +2,30 @@
   %tr.determination-form-fields
     %td
       Fees
-    %td.currency
+    %td
       %span.currency-symbol
       = claim.fees_total
-    %td.currency
-      %span.currency-symbol
-        &pound;
-      = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: "js-fees"
+    %td
+      %div.pound-wrapper
+        %div.pound-sign.bold-xsmall
+          &pound;
+        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'js-fees', size: 10, maxlength: 8
+      = validation_error_message(f.object, :fees)
   %tr.determination-form-fields
     %td
       Expenses
-    %td.currency
+    %td
       = claim.expenses_total
-    %td.currency
-      %span.currency-symbol
-        &pound;
-      = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: "js-expenses"
+    %td
+      %div.pound-wrapper
+        %div.pound-sign.bold-xsmall
+          &pound;
+        = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'js-expenses', size: 10, maxlength: 8
+      = validation_error_message(f.object, :expenses)
   %tr.determination-form-fields
     %td
       Total
-    %td.currency
+    %td
       = claim.total
     %td
       %span.js-total-determination

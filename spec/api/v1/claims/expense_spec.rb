@@ -1,9 +1,12 @@
 require 'rails_helper'
 require 'spec_helper'
+require_relative 'api_spec_helper'
+require_relative 'shared_examples_for_all'
 
 describe API::V1::Advocates::Expense do
 
   include Rack::Test::Methods
+  include ApiSpecHelper
 
   CREATE_EXPENSE_ENDPOINT = "/api/advocates/expenses"
   VALIDATE_EXPENSE_ENDPOINT = "/api/advocates/expenses/validate"
@@ -11,10 +14,10 @@ describe API::V1::Advocates::Expense do
   ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:claim)                      {  create(:claim, source: 'api').reload }
-  let!(:expense_type)               {  create(:expense_type) }
-  let!(:valid_params)               { {claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
-  let!(:invalid_params)             { {claim_id: claim.uuid } }
+  let!(:chamber)                    { create(:chamber) }
+  let!(:claim)                      { create(:claim, source: 'api').reload }
+  let!(:expense_type)               { create(:expense_type) }
+  let!(:params)                     { { api_key: chamber.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let(:json_error_response)   do
     [
       {"error" => "Expense type cannot be blank"},
@@ -39,72 +42,77 @@ describe API::V1::Advocates::Expense do
 
   describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
 
-    def post_to_create_endpoint(params)
+    def post_to_create_endpoint
       post CREATE_EXPENSE_ENDPOINT, params, format: :json
     end
 
     context 'when expense params are valid' do
 
       it "should create expense, return 201 and expense JSON output including UUID" do
-        response = post_to_create_endpoint(valid_params)
-        expect(response.status).to eq 201
-        json = JSON.parse(response.body)
+        post_to_create_endpoint
+        expect(last_response.status).to eq 201
+        json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
         expect(Expense.find_by(uuid: json['id']).uuid).to eq(json['id'])
         expect(Expense.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
       end
 
       it "should create one new expense" do
-        expect{ post_to_create_endpoint(valid_params) }.to change { Expense.count }.by(1)
+        expect{ post_to_create_endpoint }.to change { Expense.count }.by(1)
       end
 
       it "should create a new record using the params provided" do
-        post_to_create_endpoint(valid_params)
+        post_to_create_endpoint
         new_expense = Expense.last
         expect(new_expense.claim_id).to eq claim.id
         expect(new_expense.expense_type_id).to eq expense_type.id
-        expect(new_expense.rate).to eq valid_params[:rate]
-        expect(new_expense.quantity).to eq valid_params[:quantity]
-        expect(new_expense.location).to eq valid_params[:location]
+        expect(new_expense.rate).to eq params[:rate]
+        expect(new_expense.quantity).to eq params[:quantity]
+        expect(new_expense.location).to eq params[:location]
       end
 
     end
 
     context 'when expense params are invalid' do
+      context 'invalid API key' do
+        let(:valid_params) { params }
+        include_examples "invalid API key create endpoint"
+      end
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
-          response = post_to_create_endpoint(invalid_params)
-          expect(response.status).to eq 400
-          expect(response.body).to eq(json_error_response)
+          [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to eq(json_error_response)
         end
       end
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          valid_params[:quantity] = 1000000000000000000000000
-          response = post_to_create_endpoint(valid_params)
-          expect(response.status).to eq(400)
-          json = JSON.parse(response.body)
+          params[:quantity] = 1000000000000000000000000
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          json = JSON.parse(last_response.body)
           expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
 
       context 'invalid claim id' do
         it 'should return 400 and a JSON error array' do
-          valid_params[:claim_id] = SecureRandom.uuid
-          response = post_to_create_endpoint(valid_params)
-          expect(response.status).to eq 400
-          expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
+          params[:claim_id] = SecureRandom.uuid
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
         end
       end
 
       context "malformed claim UUID" do
         it "should reject invalid uuids" do
-          valid_params[:claim_id] = 'any-old-rubbish'
-          response = post_to_create_endpoint(valid_params)
-          expect(response.status).to eq(400)
-          expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
+          params[:claim_id] = 'any-old-rubbish'
+          post_to_create_endpoint
+          expect(last_response.status).to eq(400)
+          expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
         end
       end
 
@@ -114,28 +122,34 @@ describe API::V1::Advocates::Expense do
 
   describe "POST #{VALIDATE_EXPENSE_ENDPOINT}" do
 
-    def post_to_validate_endpoint(params)
+    def post_to_validate_endpoint
       post VALIDATE_EXPENSE_ENDPOINT, params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do
-      response = post_to_validate_endpoint(valid_params)
-      expect(response.status).to eq 200
-      json = JSON.parse(response.body)
+      post_to_validate_endpoint
+      expect(last_response.status).to eq 200
+      json = JSON.parse(last_response.body)
       expect(json).to eq({ "valid" => true })
     end
 
+    context 'invalid API key' do
+      let(:valid_params) { params }
+      include_examples "invalid API key validate endpoint"
+    end
+
     it 'missing required params should return 400 and a JSON error array' do
-      response = post_to_validate_endpoint(invalid_params)
-      expect(response.status).to eq 400
-      expect(response.body).to eq(json_error_response)
+      [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+      post_to_validate_endpoint
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq(json_error_response)
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do
-      valid_params[:claim_id] = SecureRandom.uuid
-      response = post_to_validate_endpoint(valid_params)
-      expect(response.status).to eq 400
-      expect(response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
+      params[:claim_id] = SecureRandom.uuid
+      post_to_validate_endpoint
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
     end
 
   end

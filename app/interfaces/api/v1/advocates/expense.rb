@@ -12,8 +12,9 @@ module API
         resource :expenses, desc: 'Create or Validate' do
 
           helpers do
-            params :expense_creation do
+            params :expense_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
+              optional :api_key, type: String,          desc: "REQUIRED: The API authentication key of the chamber"
               optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
               optional :quantity, type: Integer,        desc: "REQUIRED: Quantity of expenses of this type and rate."
@@ -30,13 +31,12 @@ module API
                 location: params[:location]
               }
             end
-
           end
 
           desc "Create an expense."
 
           params do
-            use :expense_creation
+            use :expense_params
           end
 
           post do
@@ -49,12 +49,12 @@ module API
           desc "Validate an expense."
 
           params do
-            use :expense_creation
+            use :expense_params
           end
 
           post '/validate' do
             api_response = ApiResponse.new()
-            ApiHelper.validate_resource(::Expense, api_response, method(:build_arguments).to_proc)
+            ApiHelper.validate_resource(::Expense, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end

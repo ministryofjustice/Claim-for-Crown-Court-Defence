@@ -135,6 +135,11 @@ private
       end
   end
 
+  def test_chamber_api_key
+    user = User.advocates.find_by(email: 'advocateadmin@example.com')
+    user.persona.chamber.api_key
+  end
+
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
     endpoint = RestClient::Resource.new([api_root_url, prefix || ADVOCATE_PREFIX, resource].join('/'))
     endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, result|
@@ -150,6 +155,9 @@ private
   end
 
   def test_claim_creation_endpoints
+
+    # retrieve api key
+    @api_key = test_chamber_api_key
 
     # create a claim
     response = post_to_advocate_endpoint('claims', claim_data)
@@ -174,7 +182,6 @@ private
     attended_item_id = id_from_json(response)
     response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
 
-
     # add expense
     response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
 
@@ -198,6 +205,8 @@ private
     trial_cracked_at_third  = json_value_at_index(get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT))
 
     {
+      "api_key": @api_key,
+      "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
       "case_number": "P12345678",
       "case_type_id": case_type_id,
@@ -221,6 +230,7 @@ private
 
   def defendant_data(claim_uuid)
     {
+      "api_key": @api_key,
       "claim_id": claim_uuid,
       "first_name": "case",
       "last_name": "management",
@@ -234,6 +244,7 @@ private
     granted_by = json_value_at_index(get_dropdown_endpoint(GRANTING_BODY_ENDPOINT))
 
     {
+      "api_key": @api_key,
       "defendant_id": defendant_uuid,
       "granting_body": granted_by,
       "maat_reference": "4546963741",
@@ -246,6 +257,7 @@ private
     expense_type_id = json_value_at_index(get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT),'id')
 
     {
+      "api_key": @api_key,
       "claim_id": claim_uuid,
       "expense_type_id": expense_type_id,
       "quantity": 1,
@@ -259,6 +271,7 @@ private
     fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id')
 
     {
+      "api_key": @api_key,
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 1,
@@ -272,6 +285,7 @@ private
     fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id',32)
 
     {
+      "api_key": @api_key,
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 2,
@@ -281,6 +295,7 @@ private
 
   def date_attended_data(attended_item_uuid, attended_item_type)
     {
+      # "api_key": @api_key,
       "attended_item_id": attended_item_uuid,
       "attended_item_type": attended_item_type,
       "date": "2015-06-01",

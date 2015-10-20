@@ -19,10 +19,10 @@
   #claim-accordion
     %h2
       = t('.h2_messages')
-    = render partial: 'shared/messages'
-    %h2#claim-status
-      = t('.h2_status')
-    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }
+    %section{id: "messages"}
+      = render partial: 'shared/messages'
+      = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }
+
     %h2
       = t('.h2_basic_info')
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }

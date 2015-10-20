@@ -13,7 +13,7 @@ class ClaimPresenter < BasePresenter
   end
 
   def valid_transitions_for_detail_form
-    if claim.state == "allocated"
+    if claim.state == "allocated" && !written_reasons_outstanding?
       valid_transitions(include_submitted: false)
     else
       nil

@@ -1,0 +1,26 @@
+
+---
+advocates:
+  columns:
+  - id
+  - role
+  - chamber_id
+  - created_at
+  - updated_at
+  - supplier_number
+  - uuid
+  records: 
+  - - '1'
+    - advocate
+    - '1'
+    - '2015-10-20 15:30:14.25664'
+    - '2015-10-20 15:30:14.25664'
+    - AB234
+    - fd2ae755-eee6-4f21-8f6e-dade65c79f34
+  - - '2'
+    - admin
+    - '1'
+    - '2015-10-20 15:30:14.331939'
+    - '2015-10-20 15:30:14.331939'
+    - XY234
+    - 5d788159-fa23-4036-bfaf-bc278b818082

@@ -1,0 +1,25 @@
+
+---
+fee_categories:
+  columns:
+  - id
+  - name
+  - created_at
+  - updated_at
+  - abbreviation
+  records: 
+  - - '1'
+    - Basic Fee & Enhancements (amount excluding VAT)
+    - '2015-10-20 15:30:08.358901'
+    - '2015-10-20 15:30:08.358901'
+    - BASIC
+  - - '2'
+    - Fixed Fees (amount excluding VAT)
+    - '2015-10-20 15:30:08.365506'
+    - '2015-10-20 15:30:08.365506'
+    - FIXED
+  - - '3'
+    - Miscellaneous Fees (amount excluding VAT)
+    - '2015-10-20 15:30:08.371631'
+    - '2015-10-20 15:30:08.371631'
+    - MISC

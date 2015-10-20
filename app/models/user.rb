@@ -49,4 +49,8 @@ class User < ActiveRecord::Base
   def name
     [first_name, last_name] * ' '
   end
+
+  def sortable_name
+    [last_name, first_name] * ' '
+  end
 end

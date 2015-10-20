@@ -27,7 +27,10 @@ class Advocate < ActiveRecord::Base
 
   validates :user, :chamber, presence: true
   validates :chamber, presence: true
-  validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]{5}\z/ }
+  validates :supplier_number, 
+              presence: true, 
+              uniqueness: { case_sensitive: false }, 
+              format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }
 
   accepts_nested_attributes_for :user
 
@@ -40,7 +43,7 @@ class Advocate < ActiveRecord::Base
 
   def advocates_in_chamber
     raise "Cannot call #advocates_in_chamber on advocates who are not admins" unless self.is?('admin')
-    Advocate.where('chamber_id = ? and role = ?', self.chamber_id, 'advocate').order('users.last_name')
+    Advocate.where('chamber_id = ?', self.chamber_id).order('users.last_name')
   end
 
 

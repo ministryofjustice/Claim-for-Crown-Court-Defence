@@ -199,7 +199,7 @@ end
 Then(/^I should see the claim totals$/) do
   expect(page).to have_content("Fees total: £100.00")
   expect(page).to have_content("Expenses total: £40.00")
-  expect(page).to have_content("Total: £140.00")
+  expect(page).to have_content("Total: £164.50")
 end
 
 Given(/^I am on the claim confirmation page$/) do

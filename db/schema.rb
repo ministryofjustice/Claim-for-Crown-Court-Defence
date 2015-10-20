@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20151019203522) do
     t.datetime "updated_at"
     t.string   "supplier_number"
     t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.boolean  "apply_vat",       default: true
   end
 
   add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree

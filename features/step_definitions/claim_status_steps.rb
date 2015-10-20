@@ -1,4 +1,3 @@
-
 When(/^I view status details for a claim$/) do
 	within(".claims_table") do
 	  first('a.js-test-case-number-link').click
@@ -76,7 +75,7 @@ Then(/^I should see the current status set to "(.*)"$/) do |state|
 end
 
 Then(/^I should be able to update the status from "(.*)"$/) do |state|
-  expect(find('.status')).to have_content(state)
+  expect(page).to have_content("Current status: #{state}")
 end
 
 Then(/^I should see an option selected for claim status$/) do

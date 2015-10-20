@@ -44,7 +44,7 @@ module API
             end
 
             def build_arguments
-              authenticated = ApiHelper.authenticate_claim(params)
+              authenticated = ApiHelper.authenticate_claim!(params)
               {
                 creator_id:               authenticated[:creator].id,
                 advocate_id:              authenticated[:advocate].id,

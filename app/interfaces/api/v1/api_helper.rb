@@ -58,7 +58,7 @@ module API
         end
       end
 
-      def self.authenticate(params)
+      def self.authenticate_key!(params)
         chamber = Chamber.find_by(api_key: params[:api_key])
         if chamber.blank? || chamber.api_key.blank?
           raise API::V1::ArgumentError, 'Unauthorised'
@@ -66,8 +66,8 @@ module API
         chamber
       end
 
-      def self.authenticate_claim(params)
-        chamber  = authenticate(params)
+      def self.authenticate_claim!(params)
+        chamber  = authenticate_key!(params)
         creator  = find_creator_by_email(params[:creator_email])
         advocate = find_advocate_by_email(params[:advocate_email])
 
@@ -124,7 +124,7 @@ module API
       # --------------------
       def self.validate_resource(model_klass, params, api_response, arg_builder_proc)
 
-        authenticate(params)
+        authenticate_key!(params)
 
         #
         # basic fees (which are instantiated at claim creation)

@@ -18,6 +18,8 @@ adp.messaging = {
     if($('.messages-list').length > 0){
       $('.messages-list').scrollTop($('.messages-list').prop("scrollHeight"));
     }
+    adp.messaging.selectedFileUpload();
+    adp.messaging.removeSelectedFile();
   },
   /******************************
   rorData = Data object received from Ruby on Rails
@@ -53,7 +55,6 @@ adp.messaging = {
       .animate({left:'0px'},{
         complete : function(){
 
-          console.log('slide done');
           setTimeout(function(){
             $('.message-status').animate({left: '-9999px'});
           },5000);
@@ -71,8 +72,6 @@ adp.messaging = {
   Clear Error Message
   *********************************/
   clearErrorMsg : function(){
-
-    console.log('clear errors');
     $('.message-error').text('');
   },
   /*********************************
@@ -80,5 +79,29 @@ adp.messaging = {
   *********************************/
   clearSuccessMsg : function(){
     $('.message-success').text('');
+  },
+  /********************************
+  Upload button functionality
+  ********************************/
+  selectedFileUpload : function(){
+    $('#message_attachment').on('change',function(){
+      var $element = $(this),
+      filename = $element.val().replace(/C:\\fakepath\\/i, ''),
+      $controls = $element.closest('.message-controls');
+      $controls.find('.filename').text(filename);
+      $('.file-to-be-uploaded').show();
+    });
+  },
+  /********************************
+  Remove selected file to be uploaded
+  ********************************/
+  removeSelectedFile : function(){
+    $('.file-to-be-uploaded').on('click', 'a',function(event){
+      var $element = $(this);
+
+      event.preventDefault();
+      $element.closest('.file-to-be-uploaded').hide();
+      $('#message_attachment').val('');
+    });
   }
 };

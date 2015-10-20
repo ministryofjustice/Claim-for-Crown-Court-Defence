@@ -3,42 +3,43 @@
 #
 # Table name: claims
 #
-#  id                     :integer          not null, primary key
-#  additional_information :text
-#  apply_vat              :boolean
-#  state                  :string
-#  last_submitted_at           :datetime
-#  case_number            :string
-#  advocate_category      :string
-#  indictment_number      :string
-#  first_day_of_trial     :date
-#  estimated_trial_length :integer          default(0)
-#  actual_trial_length    :integer          default(0)
-#  fees_total             :decimal(, )      default(0.0)
-#  expenses_total         :decimal(, )      default(0.0)
-#  total                  :decimal(, )      default(0.0)
-#  advocate_id            :integer
-#  court_id               :integer
-#  offence_id             :integer
-#  scheme_id              :integer
-#  created_at             :datetime
-#  updated_at             :datetime
-#  valid_until            :datetime
-#  cms_number             :string
-#  authorised_at          :datetime
-#  creator_id             :integer
-#  evidence_notes         :text
-#  evidence_checklist_ids :string
-#  trial_concluded_at     :date
-#  trial_fixed_notice_at  :date
-#  trial_fixed_at         :date
-#  trial_cracked_at       :date
-#  trial_cracked_at_third :string
-#  source                 :string
-#  vat_amount             :decimal(, )      default(0.0)
-#  uuid                   :uuid
-#  case_type_id           :integer
-#  form_id                :string
+#  id                       :integer          not null, primary key
+#  additional_information   :text
+#  apply_vat                :boolean
+#  state                    :string
+#  last_submitted_at        :datetime
+#  case_number              :string
+#  advocate_category        :string
+#  indictment_number        :string
+#  first_day_of_trial       :date
+#  estimated_trial_length   :integer          default(0)
+#  actual_trial_length      :integer          default(0)
+#  fees_total               :decimal(, )      default(0.0)
+#  expenses_total           :decimal(, )      default(0.0)
+#  total                    :decimal(, )      default(0.0)
+#  advocate_id              :integer
+#  court_id                 :integer
+#  offence_id               :integer
+#  scheme_id                :integer
+#  created_at               :datetime
+#  updated_at               :datetime
+#  valid_until              :datetime
+#  cms_number               :string
+#  authorised_at            :datetime
+#  creator_id               :integer
+#  evidence_notes           :text
+#  evidence_checklist_ids   :string
+#  trial_concluded_at       :date
+#  trial_fixed_notice_at    :date
+#  trial_fixed_at           :date
+#  trial_cracked_at         :date
+#  trial_cracked_at_third   :string
+#  source                   :string
+#  vat_amount               :decimal(, )      default(0.0)
+#  uuid                     :uuid
+#  case_type_id             :integer
+#  form_id                  :string
+#  original_submission_date :datetime
 #
 
 require 'rails_helper'
@@ -1186,10 +1187,10 @@ RSpec.describe Claim, type: :model do
        "commit"=>"Submit to LAA"}
       claim = Claim.new(params['claim'])
       claim.creator = advocate
+      expect(claim.save).to be true
       claim.force_validation = true
       result = claim.valid?
       ap claim.errors if result == false
-      expect(claim.save).to be true
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end

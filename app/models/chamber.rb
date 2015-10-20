@@ -9,6 +9,7 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  uuid            :uuid
+#  api_key         :uuid
 #
 
 class Chamber < ActiveRecord::Base
@@ -22,6 +23,16 @@ class Chamber < ActiveRecord::Base
 
   has_many :claims, through: :advocates
 
+  before_validation :set_api_key
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }
+  validates :api_key, presence: true
+
+private
+
+  def set_api_key
+    self.api_key ||= SecureRandom.uuid
+  end
+
 end

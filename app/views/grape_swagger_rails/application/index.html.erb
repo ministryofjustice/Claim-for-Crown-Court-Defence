@@ -171,13 +171,14 @@
             <% end %>
             <%= link_to t('link.add_claim'), '/advocates/claims/new', title: "Start a new claim" %>
             <% if current_user.persona.admin? %>
-              <%= link_to 'Admin', '/advocates/admin/advocates' %>
+              <%= link_to 'Manage advocates', '/advocates/admin/advocates' %>
+              <%= link_to 'Manage chamber', "/advocates/admin/chambers/#{current_user.persona.chamber.id}" %>
             <% end %>
           <% elsif current_user.persona.is_a?(CaseWorker) %>
             <% if current_user.persona.admin? %>
               <%= link_to 'Summary', '/case_workers/admin' %>
               <%= link_to "Allocation", '/case_workers/admin/allocations' %>
-              <%= link_to 'Admin', '/case_workers/admin/case_workers' %>
+              <%= link_to 'Manage case workers', '/case_workers/admin/case_workers' %>
             <% else %>
               <%= link_to 'Home', '/case_workers' %>
             <% end %>
@@ -220,55 +221,56 @@
     </div>
     <!-- end content -->
 
-    <footer class="group js-footer" id="footer" role="contentinfo">
 
-      <div class="footer-wrapper">
-        <%= yield :footer_top %>
-
-        <div class="footer-meta">
-          <div class="footer-meta-inner">
-            <div class="copyright">
-              <a href="https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">© Crown copyright</a>
-            </div>
-            <h2 class="visuallyhidden">
-              Support links
-            </h2>
-            <ul>
-              <li>
-                <a href="http://www.gov.uk/help/cookies">Cookies</a>
-              </li>
-              <li>
-                <a href="/contact_us">Contact</a>
-              </li>
-            </ul>
-            <div class="show">
-              <span>Built by</span>
-              <a href="https://mojdigital.blog.gov.uk/">
-                <abbr title="Ministry of Justice">MOJ Digital Services</abbr>
-              </a>
-            </div>
-            <div class="open-government-licence">
-              <h2>
-                <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence</a>
-              </h2>
-              <p>
-                All content is available under the
-                <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence v2.0</a>,
-                except where otherwise stated
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!--end footer-->
 
     <div id="global-app-error" class="app-error hidden"></div>
 
     <%= yield :body_end %>
 
   </div>
+  <footer class="group js-footer" id="footer" role="contentinfo">
+
+    <div class="footer-wrapper">
+      <%= yield :footer_top %>
+
+      <div class="footer-meta">
+        <div class="footer-meta-inner">
+          <div class="copyright">
+            <a href="https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">© Crown copyright</a>
+          </div>
+          <h2 class="visuallyhidden">
+            Support links
+          </h2>
+          <ul>
+            <li>
+              <a href="http://www.gov.uk/help/cookies">Cookies</a>
+            </li>
+            <li>
+              <a href="/contact_us">Contact</a>
+            </li>
+          </ul>
+          <div class="show">
+            <span>Built by</span>
+            <a href="https://mojdigital.blog.gov.uk/">
+              <abbr title="Ministry of Justice">MOJ Digital Services</abbr>
+            </a>
+          </div>
+          <div class="open-government-licence">
+            <h2>
+              <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence</a>
+            </h2>
+            <p>
+              All content is available under the
+              <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence v2.0</a>,
+              except where otherwise stated
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!--end footer-->
 
 
   <script>

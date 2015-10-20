@@ -57,3 +57,17 @@ Feature: Claim allocation
       | guilty_plea              | 10        |
       | redetermination          | 10        |
       | awaiting_written_reasons | 10        |
+
+  Scenario: Filter then allocate
+    Given There are case types in place
+      And there are 2 "cracked" claims
+      And there are 2 "fixed_fee" claims
+      And I visit the allocation page
+      And I filter by "fixed_fee"
+      And I should only see 2 "fixed_fee" claims after filtering
+    When I enter 1 in the quantity text field
+      And I select a case worker
+      And I click Allocate
+    Then the first 1 claims in the list should be allocated to the case worker
+      And the first 1 claims should no longer be displayed
+      

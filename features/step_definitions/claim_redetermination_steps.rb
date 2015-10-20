@@ -13,14 +13,14 @@ end
 
 Then(/^I should (not )?see a control in the messages section to request a redetermination$/) do |negate|
   if negate.present?
-    expect(page).to_not have_selector('#message_claim_action')
+    expect(page).to_not have_selector('.js-test-claim-action')
   else
-    expect(page).to have_selector('#message_claim_action')
+    expect(page).to have_selector('.js-test-claim-action')
   end
 end
 
 When(/^I select "(.*?)" and send a message$/) do |option_text|
-  select option_text, from: 'message_claim_action'
+  choose option_text
   fill_in 'message_body', with: 'lorem ipsum'
   click_button 'Send'
 end
@@ -52,7 +52,7 @@ Given(/^a written reasons claim is assigned to me$/) do
 end
 
 Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
-  select form_state, from: 'claim_state_for_form'
+  choose form_state
   click_button 'Update'
 end
 
@@ -88,7 +88,7 @@ end
 When(/^I enter redetermination amounts$/) do
   fill_in 'claim_redeterminations_attributes_0_fees', with: 1577.22
   fill_in 'claim_redeterminations_attributes_0_expenses', with: 805.75
-  select 'Part authorised', from: 'claim_state_for_form'
+  choose 'Part authorised'
   click_button 'Update'
 end
 

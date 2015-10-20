@@ -2,13 +2,14 @@ require 'rails_helper'
 
 describe ClaimTextfieldValidator do
 
-  let(:claim)                       { FactoryGirl.create :claim, force_validation: true }
+  let(:claim)                       { FactoryGirl.create :claim }
   let(:guilty_plea)                 { FactoryGirl.build :case_type, name: 'Guilty plea'}
   let(:contempt)                    { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
   let(:cracked_before_retrial)      { FactoryGirl.build :case_type, name: 'Cracked before retrial'}
 
   before(:each) do
+    claim.force_validation = true
     claim.estimated_trial_length = 1
     claim.actual_trial_length = 2
   end
@@ -87,7 +88,6 @@ context '#perform_validation?' do
 
   context 'advocate' do
     it 'should error if not present, regardless' do
-      claim.force_validation=true
       claim.advocate = nil
       should_error_with(claim, :advocate, "Advocate cannot be blank, you must provide an advocate")
     end
@@ -95,7 +95,6 @@ context '#perform_validation?' do
 
   context 'creator' do
     it 'should error if not present, regardless' do
-      claim.force_validation=true
       claim.creator = nil
       should_error_with(claim, :creator, "Creator cannot be blank, you must provide an creator")
     end

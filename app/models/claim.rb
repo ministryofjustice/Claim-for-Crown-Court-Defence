@@ -2,42 +2,43 @@
 #
 # Table name: claims
 #
-#  id                     :integer          not null, primary key
-#  additional_information :text
-#  apply_vat              :boolean
-#  state                  :string
-#  last_submitted_at           :datetime
-#  case_number            :string
-#  advocate_category      :string
-#  indictment_number      :string
-#  first_day_of_trial     :date
-#  estimated_trial_length :integer          default(0)
-#  actual_trial_length    :integer          default(0)
-#  fees_total             :decimal(, )      default(0.0)
-#  expenses_total         :decimal(, )      default(0.0)
-#  total                  :decimal(, )      default(0.0)
-#  advocate_id            :integer
-#  court_id               :integer
-#  offence_id             :integer
-#  scheme_id              :integer
-#  created_at             :datetime
-#  updated_at             :datetime
-#  valid_until            :datetime
-#  cms_number             :string
-#  authorised_at          :datetime
-#  creator_id             :integer
-#  evidence_notes         :text
-#  evidence_checklist_ids :string
-#  trial_concluded_at     :date
-#  trial_fixed_notice_at  :date
-#  trial_fixed_at         :date
-#  trial_cracked_at       :date
-#  trial_cracked_at_third :string
-#  source                 :string
-#  vat_amount             :decimal(, )      default(0.0)
-#  uuid                   :uuid
-#  case_type_id           :integer
-#  form_id                :string
+#  id                       :integer          not null, primary key
+#  additional_information   :text
+#  apply_vat                :boolean
+#  state                    :string
+#  last_submitted_at        :datetime
+#  case_number              :string
+#  advocate_category        :string
+#  indictment_number        :string
+#  first_day_of_trial       :date
+#  estimated_trial_length   :integer          default(0)
+#  actual_trial_length      :integer          default(0)
+#  fees_total               :decimal(, )      default(0.0)
+#  expenses_total           :decimal(, )      default(0.0)
+#  total                    :decimal(, )      default(0.0)
+#  advocate_id              :integer
+#  court_id                 :integer
+#  offence_id               :integer
+#  scheme_id                :integer
+#  created_at               :datetime
+#  updated_at               :datetime
+#  valid_until              :datetime
+#  cms_number               :string
+#  authorised_at            :datetime
+#  creator_id               :integer
+#  evidence_notes           :text
+#  evidence_checklist_ids   :string
+#  trial_concluded_at       :date
+#  trial_fixed_notice_at    :date
+#  trial_fixed_at           :date
+#  trial_cracked_at         :date
+#  trial_cracked_at_third   :string
+#  source                   :string
+#  vat_amount               :decimal(, )      default(0.0)
+#  uuid                     :uuid
+#  case_type_id             :integer
+#  form_id                  :string
+#  original_submission_date :datetime
 #
 
 class Claim < ActiveRecord::Base
@@ -297,6 +298,15 @@ class Claim < ActiveRecord::Base
     VatRate.pretty_rate(self.vat_date)
   end
 
+  def last_state_transition
+    claim_state_transitions.order(created_at: :asc).last
+  end
+
+  def last_state_transition_time
+    last_state_transition.created_at
+  end
+
+
   def opened_for_redetermination?
     return true if self.redetermination?
 
@@ -347,11 +357,6 @@ class Claim < ActiveRecord::Base
   def last_redetermination
     self.redeterminations.select(&:valid?).last
   end
-
-  def last_state_transition
-    last_transition = claim_state_transitions.order(created_at: :asc).last
-  end
-
 
   def set_scheme
     rep_order = self.earliest_representation_order

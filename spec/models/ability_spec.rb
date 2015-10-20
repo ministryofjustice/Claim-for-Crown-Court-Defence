@@ -24,6 +24,7 @@ describe Ability do
 
   context 'advocate' do
     let(:advocate) { create(:advocate) }
+    let(:chamber) { advocate.chamber }
     let(:user) { advocate.user }
 
     [:create].each do |action|
@@ -89,6 +90,20 @@ describe Ability do
         it { should be_able_to(action, advocate) }
       end
     end
+
+    context 'cannot manage their chamber' do
+      [:show, :edit, :update].each do |action|
+        it { should_not be_able_to(action, chamber) }
+      end
+    end
+
+    context 'cannot manage other chambers' do
+      let(:other_chamber) { create(:chamber) }
+      [:show, :edit, :update].each do |action|
+        it { should_not be_able_to(action, other_chamber) }
+      end
+    end
+
   end
 
   context 'advocate admin' do
@@ -115,6 +130,19 @@ describe Ability do
 
       [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
+      end
+    end
+
+    context 'can manage their chamber' do
+      [:show, :edit, :update].each do |action|
+        it { should be_able_to(action, chamber) }
+      end
+    end
+
+    context 'cannot manage other chambers' do
+      let(:other_chamber) { create(:chamber) }
+      [:show, :edit, :update].each do |action|
+        it { should_not be_able_to(action, other_chamber) }
       end
     end
 

@@ -10,7 +10,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :estimated_trial_length,
     :actual_trial_length,
     :trial_cracked_at_third,
-    # :total
+    :total
     ]
   end
 
@@ -25,22 +25,11 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   private
 
-  #
-  # TODO: removed as is causing odd behaviour due to the save
-  #       if total needs to be validated it must be done in an
-  #       after save hook or by alternative means.
-  #
-  # def validate_total
-  #   if @record.persisted? && @record.source != 'api'
-  #     validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
-  #   else
-  #     curr_force_validation = @record.force_validation?
-  #     @record.force_validation = false # prevent this validation being called reursively
-  #     @record.save # trigger total update
-  #     validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
-  #     @record.force_validation = curr_force_validation # ensure the force validation returned to previous state
-  #   end
-  # end
+  def validate_total
+    unless @record.source == 'api'
+      validate_numericality(:total, 0.01, nil, "Total value claimed must be greater than £0.00")
+    end
+  end
 
   # ALWAYS required/mandatory
   def validate_advocate

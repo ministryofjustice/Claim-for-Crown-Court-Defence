@@ -14,7 +14,6 @@ Scenario Outline: Update claim status
       And I enter fees assessed of <fees> and expenses assessed of <expenses>
       And I press update button
      Then I should be able to update the status from <status>
-      And I should see an option selected for claim status
 
    Examples:
       | status             | fees     | expenses | total     |

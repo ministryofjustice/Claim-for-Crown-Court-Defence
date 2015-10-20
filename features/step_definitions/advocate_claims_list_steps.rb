@@ -5,7 +5,7 @@ Given(/^I have claims$/) do
     claim.documents << create(:document, advocate: @advocate)
   end
   @other_claims = create_list(:submitted_claim, 3)
-  @claims.each_with_index { |claim, index| claim.update_column(:total, index + 1) }
+  @claims.each_with_index { |claim, index| claim.update(total: index + 1, fees_total: index + 1, expenses_total: 0) }
   create :defendant, claim_id: @claims.first.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '0123456789') ]
   create :defendant, claim_id: @claims.second.id, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '2078352232') ]
 end

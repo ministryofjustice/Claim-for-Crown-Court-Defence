@@ -270,10 +270,10 @@ context '#perform_validation?' do
 
     context 'should be invalid if amount assessed is not zero' do
       %w{ draft refused rejected submitted }.each do |state|
-        factory_name = "#{state}_claim".to_sym
-        claim = FactoryGirl.create factory_name
-        claim.assessment.fees = 35.22
         it "should error if amount assessed is not zero for #{state}" do
+          factory_name = "#{state}_claim".to_sym
+          claim = FactoryGirl.create factory_name
+          claim.assessment.fees = 35.22
           expect(claim).to_not be_valid
           expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state.humanize}"] )
         end

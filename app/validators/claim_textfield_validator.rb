@@ -27,7 +27,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   def validate_total
     unless @record.source == 'api'
-      validate_numericality(:total, 0.01, nil, "The total being claimed for must be greater than £0.00")
+      validate_numericality(:total, 0.01, nil, "Total value claimed must be greater than £0.00")
     end
   end
 

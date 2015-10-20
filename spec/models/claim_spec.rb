@@ -1184,10 +1184,10 @@ RSpec.describe Claim, type: :model do
        "commit"=>"Submit to LAA"}
       claim = Claim.new(params['claim'])
       claim.creator = advocate
+      expect(claim.save).to be true
       claim.force_validation = true
       result = claim.valid?
       ap claim.errors if result == false
-      expect(claim.save).to be true
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end

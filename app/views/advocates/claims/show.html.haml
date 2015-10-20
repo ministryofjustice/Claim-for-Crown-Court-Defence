@@ -5,8 +5,9 @@
   #claim-accordion{role: "tablist", multiselectable: "true"}
     %h2
       = t('.h2_messages')
-    = render partial: 'shared/messages', locales: {claim: claim }
-    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: true }
+    %section{id: "messages"}
+      = render partial: 'shared/messages', locales: {claim: claim }
+      = render partial: 'shared/claim_status', locals: { claim: claim, disabled: true }
     %h2
       = t(".h2_basic_info")
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }

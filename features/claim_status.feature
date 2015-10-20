@@ -13,9 +13,8 @@ Scenario Outline: Update claim status
       And I select status <status> from select
       And I enter fees assessed of <fees> and expenses assessed of <expenses>
       And I press update button
-     Then I should be able to update the status from <status> 
-      And I should see an option select for claim status
-    
+     Then I should be able to update the status from <status>
+
    Examples:
       | status             | fees     | expenses | total     |
       | "Part authorised"  | "100.01" | "20.33"  | "£120.34" |
@@ -32,7 +31,7 @@ Scenario: Update claim status to rejected
       And I press update button
      Then I should not see status select
       And I should see the current status set to "Rejected"
-     
+
 
 
 Scenario Outline: Update claim status without amount assessed raises state transition error

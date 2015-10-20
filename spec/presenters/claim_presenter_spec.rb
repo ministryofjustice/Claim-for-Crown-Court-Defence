@@ -199,7 +199,7 @@ RSpec.describe ClaimPresenter do
       end
 
       it 'display a currency formatted amount assessed' do
-        expect(subject.amount_assessed).to eq('£120.43')
+        expect(subject.amount_assessed).to eq('£141.51')
       end
     end
 

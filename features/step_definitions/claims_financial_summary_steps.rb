@@ -15,7 +15,7 @@ Given(/^my chamber has authorised and part authorised claims$/) do
 end
 
 Then(/^I should see my total value of outstanding claims$/) do
-  expect(page).to have_content(@advocate.claims.outstanding.map(&:total).sum)
+  expect(page).to have_content(@advocate.claims.outstanding.map(&:total_including_vat).sum)
 end
 
 Then(/^I should see the total value of outstanding claims for my chamber$/) do

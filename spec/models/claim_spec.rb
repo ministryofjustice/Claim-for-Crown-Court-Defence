@@ -1114,6 +1114,8 @@ RSpec.describe Claim, type: :model do
 
     context 'when VAT not applied' do
       it 'should return the amount assessed from the last determination' do
+        claim.advocate.update(apply_vat: false)
+        claim.save
         expect(claim.amount_assessed).to eq(5.76)
       end
     end
@@ -1185,10 +1187,10 @@ RSpec.describe Claim, type: :model do
        "commit"=>"Submit to LAA"}
       claim = Claim.new(params['claim'])
       claim.creator = advocate
+      expect(claim.save).to be true
       claim.force_validation = true
       result = claim.valid?
       ap claim.errors if result == false
-      expect(claim.save).to be true
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end

@@ -3,7 +3,7 @@
     .validation-summary
       %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@advocate.errors.count, t('.error'))}"
       %ul
-        - @advocate.errors.full_messages.each do |msg|
+        - @advocate.errors._full_messages.each do |msg|
           %li= msg
 
   = f.fields_for :user do |user_fields|
@@ -14,6 +14,13 @@
       = user_fields.text_field :last_name, class: "form-control"
       = user_fields.label t(".email"), class: "form-label"
       = user_fields.email_field :email, class: "form-control"
+      
+      = f.label :apply_vat, class: "form-label"
+      %div.form-group.inline
+        =f.collection_radio_buttons(:apply_vat, [true, false], :to_s, :to_s) do |b|
+          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+     
+       
 
       - if @advocate.new_record?
         = user_fields.label t(".password"), class: "form-label"
@@ -31,3 +38,7 @@
           - b.label(class: "block-label") { b.radio_button + b.value.humanize }
 
   = f.submit 'Save', class: "button"
+
+
+
+

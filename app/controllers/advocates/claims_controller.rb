@@ -188,7 +188,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
      :advocate_category,
      :additional_information,
      :indictment_number,
-     :apply_vat,
      evidence_checklist_ids: [],
      defendants_attributes: [
        :id,
@@ -354,15 +353,18 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def create_and_submit
-    @claim.force_validation = true
-    @claim.save
-    # TODO: use @claim.save return value instead of @claim.valid? ?
-    if @claim.valid?
-      @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
-      redirect_to new_advocates_claim_certification_path(@claim)
-    else
-      render_new_with_resources
+    Claim.transaction do
+      @claim.save
+      @claim.force_validation = true
+      # TODO: use @claim.save return value instead of @claim.valid? ?
+      if @claim.valid?
+        @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
+        redirect_to new_advocates_claim_certification_path(@claim) and return
+      else
+        raise ActiveRecord::Rollback
+      end
     end
+    render_new_with_resources
   end
 
 end

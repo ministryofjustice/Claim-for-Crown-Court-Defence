@@ -192,7 +192,7 @@ RSpec.describe Advocate, type: :model do
       advocate3_ch2 = create_advocate chamber2, 'George', 'Meerkat'
 
       advocates = admin2_ch2.advocates_in_chamber
-      expect(advocates.map(&:user).map(&:last_name)).to eq ( [ 'Hippo', 'Meerkat', 'Wildebeest'] )
+      expect(advocates.map(&:user).map(&:last_name)).to eq ( ["Hippo", "Lion", "Meerkat", "Tiger", "Wildebeest"] )
     end
 
   end

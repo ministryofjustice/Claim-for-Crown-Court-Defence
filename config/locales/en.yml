@@ -75,14 +75,16 @@ en:
               blank: Role cannot be blank
               inclusion: *inclusion
             supplier_number:
-              blank: *blank
+              blank: cannot be blank
               invalid: 'must be 5 alhpa-numeric characters'
         user:
           attributes:
             email:
               blank: *blank
             password:
-              blank: *blank
+              blank: cannot be blank
+            password_confirmation:
+              blank: You must enter a password confirmation
             first_name:
               blank: *blank
             last_name:

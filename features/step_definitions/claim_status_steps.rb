@@ -1,4 +1,3 @@
-
 When(/^I view status details for a claim$/) do
 	within(".claims_table") do
 	  first('a.js-test-case-number-link').click
@@ -6,7 +5,7 @@ When(/^I view status details for a claim$/) do
 end
 
 When(/^I select status "(.*?)" from select$/) do |status|
-	select "#{status}", :from => "claim_state_for_form"
+	choose status
 end
 
 # When(/^I enter amount assessed value of "(.*?)"$/) do |amount|
@@ -76,10 +75,9 @@ Then(/^I should see the current status set to "(.*)"$/) do |state|
 end
 
 Then(/^I should be able to update the status from "(.*)"$/) do |state|
-  expect(page).to have_content("Update status (current status: '#{state}')")
+  expect(page).to have_content("Current status: #{state}")
 end
 
-Then(/^I should see an option select for claim status$/) do
-  expect(page).to have_selector('#claim_state_for_form')
+Then(/^I should see an option selected for claim status$/) do
+  expect(page).to have_selector('.js-test-cw-claim-action')
 end
-

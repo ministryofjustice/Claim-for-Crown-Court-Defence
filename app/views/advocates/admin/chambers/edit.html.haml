@@ -26,5 +26,8 @@
       = f.check_box :vat_registered
       = t('.vat_registered')
 
+    = f.label :api_key, t('.api_key'), class: "form-label"
+    = @chamber.api_key
+
   %p
     = f.submit 'Save', class: "button"

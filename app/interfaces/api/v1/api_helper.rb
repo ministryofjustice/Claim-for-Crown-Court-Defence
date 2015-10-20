@@ -2,7 +2,9 @@ module API
   module V1
 
     module ApiHelper
-      require './app/interfaces/api/custom_validations/date_format.rb'
+
+      require Rails.root.join('app', 'interfaces', 'api','custom_validations','date_format.rb')
+
       # --------------------
       class ApiResponse
         attr_accessor :status, :body

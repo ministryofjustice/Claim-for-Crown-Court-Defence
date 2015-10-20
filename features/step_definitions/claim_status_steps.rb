@@ -76,7 +76,7 @@ Then(/^I should see the current status set to "(.*)"$/) do |state|
 end
 
 Then(/^I should be able to update the status from "(.*)"$/) do |state|
-  expect(page).to have_content("Update status (current status: '#{state}')")
+  expect(page).to have_content("Current status: #{state}")
 end
 
 Then(/^I should see an option select for claim status$/) do

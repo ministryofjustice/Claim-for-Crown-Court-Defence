@@ -13,9 +13,12 @@ class ClaimPresenter < BasePresenter
   end
 
   def valid_transitions_for_detail_form
-    valid_transitions(include_submitted: false)
+    if claim.state == "allocated"
+      valid_transitions(include_submitted: false)
+    else
+      nil
+    end
   end
-
 
   def humanized_state
     claim.state.humanize

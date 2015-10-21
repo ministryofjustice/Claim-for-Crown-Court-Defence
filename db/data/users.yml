@@ -1,0 +1,1449 @@
+
+---
+users:
+  columns:
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - persona_id
+  - persona_type
+  - created_at
+  - updated_at
+  - first_name
+  - last_name
+  - failed_attempts
+  - locked_at
+  records: 
+  - - '1'
+    - caseworker@example.com
+    - "$2a$10$7eGd9wqj7OtXTQUtFEoUKuMq9OIedtYhQyVF8rPlN9VOWptv6G8f6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '1'
+    - CaseWorker
+    - '2015-10-20 15:30:09.020704'
+    - '2015-10-20 15:30:09.049562'
+    - Dave
+    - Smith
+    - '0'
+    - 
+  - - '2'
+    - caseworkeradmin@example.com
+    - "$2a$10$pPS0.62dZTWJncV/JA7e3OpfF9NADW038rQaW1y9BX90i.qJEXOhK"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '2'
+    - CaseWorker
+    - '2015-10-20 15:30:09.11903'
+    - '2015-10-20 15:30:09.127156'
+    - Bill
+    - Smith
+    - '0'
+    - 
+  - - '3'
+    - paul.davison@legalaid.gsi.gov.uk
+    - "$2a$10$0yvjo1ZkmqRpWjE2.tKDQOPJ0ZJP2DqBEVMbW7Gdru0nVYat65cHC"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '3'
+    - CaseWorker
+    - '2015-10-20 15:30:09.192831'
+    - '2015-10-20 15:30:09.199657'
+    - Paul
+    - Davison
+    - '0'
+    - 
+  - - '4'
+    - emma.haywood@legalaid.gsi.gov.uk
+    - "$2a$10$6NuDbvKXQZHDdkY7Fa9fTOdVWzW3WrEEuETZ4EbNEWBMKtcAThbBe"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '4'
+    - CaseWorker
+    - '2015-10-20 15:30:09.26209'
+    - '2015-10-20 15:30:09.268863'
+    - Emma
+    - Haywood
+    - '0'
+    - 
+  - - '5'
+    - liz.cooper@legalaid.gsi.gov.uk
+    - "$2a$10$AGEYiJvth1whbX807auu9O54lsJ47VTbLdo/YMyUFvCfgviHV/oYm"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '5'
+    - CaseWorker
+    - '2015-10-20 15:30:09.331219'
+    - '2015-10-20 15:30:09.339442'
+    - Liz
+    - Cooper
+    - '0'
+    - 
+  - - '6'
+    - charlyn.johnson@legalaid.gsi.gov.uk
+    - "$2a$10$/BjcsxC4M.MPsZ.BOX.TcuxNgVlNYCGPgKLrNZjbbmTwp81Vz.rSu"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '6'
+    - CaseWorker
+    - '2015-10-20 15:30:09.403699'
+    - '2015-10-20 15:30:09.410341'
+    - Charlyn
+    - Johnson
+    - '0'
+    - 
+  - - '7'
+    - anthony.gale@legalaid.gsi.gov.uk
+    - "$2a$10$ijNtKCSsBxwiWDNPt9V6meQtidzbUtgTJfAWQs2.7gg8ijaHsQ4JO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '7'
+    - CaseWorker
+    - '2015-10-20 15:30:09.475352'
+    - '2015-10-20 15:30:09.481849'
+    - Anthony
+    - Gale
+    - '0'
+    - 
+  - - '8'
+    - matthew.harrison@legalaid.gsi.gov.uk
+    - "$2a$10$V7M/gsD97sN080RHvhn/Ee828IgE5vMZ4CsrOJQKRAKvP6.duOLWC"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '8'
+    - CaseWorker
+    - '2015-10-20 15:30:09.549983'
+    - '2015-10-20 15:30:09.557974'
+    - Matthew
+    - Harrison
+    - '0'
+    - 
+  - - '9'
+    - joe.gallagher@legalaid.gsi.gov.uk
+    - "$2a$10$AGxioCMk2mRELYRN0xmKbe1/PPYMqzIxIxDlrOuYVLREXlsgqvfqq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '9'
+    - CaseWorker
+    - '2015-10-20 15:30:09.621137'
+    - '2015-10-20 15:30:09.627799'
+    - Joe
+    - Gallagher
+    - '0'
+    - 
+  - - '10'
+    - becky.bestwick@legalaid.gsi.gov.uk
+    - "$2a$10$9AVR4/RTqq.Vs/P.Dwbui.ur3tMmU6xPmozrobInkBuBmDg14fEmO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '10'
+    - CaseWorker
+    - '2015-10-20 15:30:09.688801'
+    - '2015-10-20 15:30:09.695641'
+    - Becky
+    - Bestwick
+    - '0'
+    - 
+  - - '11'
+    - judy.lowe@legalaid.gsi.gov.uk
+    - "$2a$10$A49w4eh1KvNjYtKmArCM6uWqkpScp2/rowt8heOCU53OGA6H3Kzt2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '11'
+    - CaseWorker
+    - '2015-10-20 15:30:09.757868'
+    - '2015-10-20 15:30:09.764391'
+    - Judy
+    - Lowe
+    - '0'
+    - 
+  - - '12'
+    - suffia.hussain@legalaid.gsi.gov.uk
+    - "$2a$10$3RW5ZW/F0uGBENuQY1QVC.WscfOSheWmu2/l1he1HXvIoGKgfIdIq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '12'
+    - CaseWorker
+    - '2015-10-20 15:30:09.826246'
+    - '2015-10-20 15:30:09.832549'
+    - Suffia
+    - Hussain
+    - '0'
+    - 
+  - - '13'
+    - justina.justin@legalaid.gsi.gov.uk
+    - "$2a$10$c/yHUnpfca.tPhXnHuC8Ye30.3bz.riGXjG/dxgK2cBDD4IQRvBPa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '13'
+    - CaseWorker
+    - '2015-10-20 15:30:09.903199'
+    - '2015-10-20 15:30:09.910316'
+    - Justina
+    - Justin
+    - '0'
+    - 
+  - - '14'
+    - kim.vere@legalaid.gsi.gov.uk
+    - "$2a$10$AjtFfBtkjTZdSgR7MdtzS.AyUc208.rAPYIdIxYgE1P2EM7rYoe0m"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '14'
+    - CaseWorker
+    - '2015-10-20 15:30:09.971998'
+    - '2015-10-20 15:30:09.979952'
+    - Kim
+    - Vere
+    - '0'
+    - 
+  - - '15'
+    - kashfa.jabeen@legalaid.gsi.gov.uk
+    - "$2a$10$ybH1Iy0xUEplpHLPNLZhv.ECu26f6UQuI.tCRZLMjVkFfivUo1vwO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '15'
+    - CaseWorker
+    - '2015-10-20 15:30:10.045423'
+    - '2015-10-20 15:30:10.05196'
+    - Kashfa
+    - Jabeen
+    - '0'
+    - 
+  - - '16'
+    - ammnah.rehman@legalaid.gsi.gov.uk
+    - "$2a$10$l.Yue0I48jwwn2Fb0Tipe.Ocnud2pmnEjbX0RH1jo7YSuDT4jjKii"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '16'
+    - CaseWorker
+    - '2015-10-20 15:30:10.115245'
+    - '2015-10-20 15:30:10.121774'
+    - Ammnah
+    - Rehman
+    - '0'
+    - 
+  - - '17'
+    - dawn.tebbutt@legalaid.gsi.gov.uk
+    - "$2a$10$MbQ85NK/wX1SWYCQx3mnO.RLzYchm6Pr.1H6qJXIkTYoTVjuSHxya"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '17'
+    - CaseWorker
+    - '2015-10-20 15:30:10.186949'
+    - '2015-10-20 15:30:10.19337'
+    - Dawn
+    - Tebbutt
+    - '0'
+    - 
+  - - '18'
+    - mitchell.atkin@legalaid.gsi.gov.uk
+    - "$2a$10$KQOL5Bl8dEf1zI0Pb5fzPO3JaBzECELXHxIYPpzpMlzck.Oe/PXXO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '18'
+    - CaseWorker
+    - '2015-10-20 15:30:10.255226'
+    - '2015-10-20 15:30:10.271232'
+    - Mitchell
+    - Atkin
+    - '0'
+    - 
+  - - '19'
+    - shezad.bhatti@legalaid.gsi.gov.uk
+    - "$2a$10$XFoZ1TrKToY/0LjylqG2t.x4GI3topQS7clAZkEHP14dtNsMQpu2K"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '19'
+    - CaseWorker
+    - '2015-10-20 15:30:10.333838'
+    - '2015-10-20 15:30:10.340513'
+    - Shezad
+    - Bhatti
+    - '0'
+    - 
+  - - '20'
+    - chloe.atkin@legalaid.gsi.gov.uk
+    - "$2a$10$9I9Z73S5qaSPwWzJREVLjuMhcPzgX0m0ipJGzBSnjw0UhGg7/xFG2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '20'
+    - CaseWorker
+    - '2015-10-20 15:30:10.409409'
+    - '2015-10-20 15:30:10.415796'
+    - Chloe
+    - Atkin
+    - '0'
+    - 
+  - - '21'
+    - wayne.thornton@legalaid.gsi.gov.uk
+    - "$2a$10$2ebdBWsIU1SkRuFAYO4EOeK.IkFFEeZif41qwi9.oMGF76rltV1A6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '21'
+    - CaseWorker
+    - '2015-10-20 15:30:10.480972'
+    - '2015-10-20 15:30:10.487607'
+    - Wayne
+    - Thornton
+    - '0'
+    - 
+  - - '22'
+    - michael.mills@legalaid.gsi.gov.uk
+    - "$2a$10$CrK0YAoHIKJbhKCVQRYXquXBmZLwFO13bFlFhBqd1/YgGKEo6Jzg2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '22'
+    - CaseWorker
+    - '2015-10-20 15:30:10.555612'
+    - '2015-10-20 15:30:10.562039'
+    - Michael
+    - Mills
+    - '0'
+    - 
+  - - '23'
+    - richard.sargent@legalaid.gsi.gov.uk
+    - "$2a$10$UxcSlk0rF7AWtHMBVfRQauhRZnWCdIKiG1q/d54FsMZK03yWzJni6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '23'
+    - CaseWorker
+    - '2015-10-20 15:30:10.62861'
+    - '2015-10-20 15:30:10.636362'
+    - Richard
+    - Sargent
+    - '0'
+    - 
+  - - '24'
+    - phillip.beardsall@legalaid.gsi.gov.uk
+    - "$2a$10$8k/V2tHfyePTfQFgNVX4zuRLqmF0WMagzTeTiRnxCsmEcBF0DvwF2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '24'
+    - CaseWorker
+    - '2015-10-20 15:30:10.702095'
+    - '2015-10-20 15:30:10.708509'
+    - Phillip
+    - Beardsall
+    - '0'
+    - 
+  - - '25'
+    - stephen.kelly@legalaid.gsi.gov.uk
+    - "$2a$10$1GfplFwusZEpTuCCqBh3YuAAia/2R8bMGUS8zXjOgrDcIr73nBp8K"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '25'
+    - CaseWorker
+    - '2015-10-20 15:30:10.774045'
+    - '2015-10-20 15:30:10.780536'
+    - Stephen
+    - Kelly
+    - '0'
+    - 
+  - - '26'
+    - sian.aitken@legalaid.gsi.gov.uk
+    - "$2a$10$70Uq27YBdRlrT.Z4kDyEUOFJh3WdOYRgL3u9VJA6H552YL01krmGa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '26'
+    - CaseWorker
+    - '2015-10-20 15:30:10.847105'
+    - '2015-10-20 15:30:10.853666'
+    - Sian
+    - Aitken
+    - '0'
+    - 
+  - - '27'
+    - charles.asare@legalaid.gsi.gov.uk
+    - "$2a$10$Jh6gz9V/FMdp4uvONGeKre.vxZUAXsouNsvK.9y2T2TEquN6HIf3O"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '27'
+    - CaseWorker
+    - '2015-10-20 15:30:10.914736'
+    - '2015-10-20 15:30:10.921184'
+    - Charles
+    - Asare
+    - '0'
+    - 
+  - - '28'
+    - katy.smith@legalaid.gsi.gov.uk
+    - "$2a$10$ZMaHQIvBIOtZMbXFbK1I6el3XcvS5eHrAp8rEBh34eUxWep3kZil6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '28'
+    - CaseWorker
+    - '2015-10-20 15:30:10.98486'
+    - '2015-10-20 15:30:10.992482'
+    - Katy
+    - Smith
+    - '0'
+    - 
+  - - '29'
+    - karen.wolf@legalaid.gsi.gov.uk
+    - "$2a$10$YExWjurzg1bOYFfKSwJ/vuZh5GDOPHFe3YlQ8Ll1SDVSvv9Y6Zhci"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '29'
+    - CaseWorker
+    - '2015-10-20 15:30:11.061787'
+    - '2015-10-20 15:30:11.068443'
+    - Karen
+    - Wolf
+    - '0'
+    - 
+  - - '30'
+    - sasha.bozhko@legalaid.gsi.gov.uk
+    - "$2a$10$vwmjqwzUrqywoRsSPWODFuqY870qUyQgpnGklsI8aLXfJGnnWtcem"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '30'
+    - CaseWorker
+    - '2015-10-20 15:30:11.130966'
+    - '2015-10-20 15:30:11.137706'
+    - Sasha
+    - Bozhko
+    - '0'
+    - 
+  - - '31'
+    - steven.harries@legalaid.gsi.gov.uk
+    - "$2a$10$q2Ut3echkVwEmzB0/eKoHe5o9fL2j7F/jVxowbX.bEHlEJVA8jjM2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '31'
+    - CaseWorker
+    - '2015-10-20 15:30:11.199799'
+    - '2015-10-20 15:30:11.206306'
+    - Steven
+    - Harries
+    - '0'
+    - 
+  - - '32'
+    - sally.hawkins@legalaid.gsi.gov.uk
+    - "$2a$10$PTEdyrGg0NW53pNovP2I4uZH.emVa/YcnFrq/a83LP85c2PWztmOy"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '32'
+    - CaseWorker
+    - '2015-10-20 15:30:11.267787'
+    - '2015-10-20 15:30:11.274586'
+    - Sally
+    - Hawkins
+    - '0'
+    - 
+  - - '33'
+    - ranjana.shetty@legalaid.gsi.gov.uk
+    - "$2a$10$DMKjDCCJe9beo.V/35OD4us5qdqjxoz36Y4ph9nXjxXoYEOATv7cy"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '33'
+    - CaseWorker
+    - '2015-10-20 15:30:11.335339'
+    - '2015-10-20 15:30:11.341757'
+    - Ranjana
+    - Shetty
+    - '0'
+    - 
+  - - '34'
+    - john.mclaughlin@legalaid.gsi.gov.uk
+    - "$2a$10$iKTJjBiH9vgNaEhiaWuDqOd5qIPJnjK68B2nfkGtQgNUbfHNKh3Lq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '34'
+    - CaseWorker
+    - '2015-10-20 15:30:11.410768'
+    - '2015-10-20 15:30:11.417357'
+    - John
+    - McLaughlin
+    - '0'
+    - 
+  - - '35'
+    - luke.hallam@legalaid.gsi.gov.uk
+    - "$2a$10$W8tjDBmLpd10b.8G6Rjiu.Fpa6Qvo5VTu62ymHk8y7zuJIx4dVXyK"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '35'
+    - CaseWorker
+    - '2015-10-20 15:30:11.482613'
+    - '2015-10-20 15:30:11.490679'
+    - Luke
+    - Hallam
+    - '0'
+    - 
+  - - '36'
+    - shruti.mistry@legalaid.gsi.gov.uk
+    - "$2a$10$QXj/JERuyO4t9/MXmyOmE.ARy2xCW/inte5Q538LSd7SkIaNUTbIq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '36'
+    - CaseWorker
+    - '2015-10-20 15:30:11.557911'
+    - '2015-10-20 15:30:11.564843'
+    - Shruti
+    - Mistry
+    - '0'
+    - 
+  - - '37'
+    - brian.dandaula@legalaid.gsi.gov.uk
+    - "$2a$10$tba7NGPCGPZJo0UKwxzLIO6aHMhi7zY2RE7OAlmgyiDu4RO8pInJ2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '37'
+    - CaseWorker
+    - '2015-10-20 15:30:11.628193'
+    - '2015-10-20 15:30:11.63494'
+    - Brian
+    - Dandaula
+    - '0'
+    - 
+  - - '38'
+    - sharni.purvis@legalaid.gsi.gov.uk
+    - "$2a$10$KNgiMo.xcI09ycFo0UYbDuo76ElLGqrzbaddGQuRi2H5y83QVVtVa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '38'
+    - CaseWorker
+    - '2015-10-20 15:30:11.698778'
+    - '2015-10-20 15:30:11.711996'
+    - Sharni
+    - Purvis
+    - '0'
+    - 
+  - - '39'
+    - alexandra.osbourne@legalaid.gsi.gov.uk
+    - "$2a$10$dRjrIZmApsyeLbtSBYwMb.NniZ9ogQUdE6QrZqY3t.kfPC5UrJZeK"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '39'
+    - CaseWorker
+    - '2015-10-20 15:30:11.777006'
+    - '2015-10-20 15:30:11.783513'
+    - Alexandra
+    - Osbourne
+    - '0'
+    - 
+  - - '40'
+    - laurence.beumer@legalaid.gsi.gov.uk
+    - "$2a$10$s9pojho3ge4yrg9lMj7/quskBCtJlAFSXc6Pa2VQ3GygSIZfP5Twa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '40'
+    - CaseWorker
+    - '2015-10-20 15:30:11.845063'
+    - '2015-10-20 15:30:11.851689'
+    - Laurence
+    - Beumer
+    - '0'
+    - 
+  - - '41'
+    - jamie.o'hanlon@legalaid.gsi.gov.uk
+    - "$2a$10$kA7JbdoxHXtF3Al91JCILOi8S8IhM/.Z8ttN1jrFOyu9uBaqyaaJu"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '41'
+    - CaseWorker
+    - '2015-10-20 15:30:11.913402'
+    - '2015-10-20 15:30:11.920481'
+    - Jamie
+    - O'Hanlon
+    - '0'
+    - 
+  - - '42'
+    - carmel.curran@legalaid.gsi.gov.uk
+    - "$2a$10$wnDED8oW11NNBmERvuXW.e4Wq7g0DgfXPQOQwZyaE.Asugn6wYGgO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '42'
+    - CaseWorker
+    - '2015-10-20 15:30:11.98187'
+    - '2015-10-20 15:30:11.98905'
+    - Carmel
+    - Curran
+    - '0'
+    - 
+  - - '43'
+    - gavin.underwood@legalaid.gsi.gov.uk
+    - "$2a$10$N2L3LlgfaqfeVIhlLBwqV.V32tRxYK5M92HWqEakXVJi.c2o1M0wK"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '43'
+    - CaseWorker
+    - '2015-10-20 15:30:12.051942'
+    - '2015-10-20 15:30:12.058805'
+    - Gavin
+    - Underwood
+    - '0'
+    - 
+  - - '44'
+    - laura.underwood@legalaid.gsi.gov.uk
+    - "$2a$10$i7daB89X9ny19T2..I1uyOFcyfxWysxtej5s5p6RE3B24i.cW6vnm"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '44'
+    - CaseWorker
+    - '2015-10-20 15:30:12.119966'
+    - '2015-10-20 15:30:12.127909'
+    - Laura
+    - Underwood
+    - '0'
+    - 
+  - - '45'
+    - emily.dudley@legalaid.gsi.gov.uk
+    - "$2a$10$Uh6RpvPNfneN7SHM7baz1OAxYgHAtmcLnOO6qg7YBfUUnY2m0MrX6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '45'
+    - CaseWorker
+    - '2015-10-20 15:30:12.189155'
+    - '2015-10-20 15:30:12.195625'
+    - Emily
+    - Dudley
+    - '0'
+    - 
+  - - '46'
+    - john.rayner@legalaid.gsi.gov.uk
+    - "$2a$10$Br4ls4APRBD4F/pSwby6eu8t5.q50I8BqOrYWcFwgT906Cy5Xf9t."
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '46'
+    - CaseWorker
+    - '2015-10-20 15:30:12.256375'
+    - '2015-10-20 15:30:12.262862'
+    - John
+    - Rayner
+    - '0'
+    - 
+  - - '47'
+    - marie.carter@legalaid.gsi.gov.uk
+    - "$2a$10$lN116io.7aFlJacAWhtev.YUi5Q0F9vwCYxY7BFw3OCIm21g2YiD6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '47'
+    - CaseWorker
+    - '2015-10-20 15:30:12.324015'
+    - '2015-10-20 15:30:12.330589'
+    - Marie
+    - Carter
+    - '0'
+    - 
+  - - '48'
+    - naomi.brown@legalaid.gsi.gov.uk
+    - "$2a$10$afjJeOQh/lwkt3gYmSptpOTmBWLVKeQmdEPOHafHh.FvTsqPFnRpW"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '48'
+    - CaseWorker
+    - '2015-10-20 15:30:12.391911'
+    - '2015-10-20 15:30:12.398771'
+    - Naomi
+    - Brown
+    - '0'
+    - 
+  - - '49'
+    - hannah.joyce@legalaid.gsi.gov.uk
+    - "$2a$10$GVy/4YOvn2e2WvWI5rpMiuMmvHUQp6CzGj7y2NkXcqpAQKpSXEP0O"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '49'
+    - CaseWorker
+    - '2015-10-20 15:30:12.461163'
+    - '2015-10-20 15:30:12.467884'
+    - Hannah
+    - Joyce
+    - '0'
+    - 
+  - - '50'
+    - richard.meisel@legalaid.gsi.gov.uk
+    - "$2a$10$VOom6jLCg8q529UfIup1xOo.PfVbs65Zs0WoIjftHO0bwc/2oFA8W"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '50'
+    - CaseWorker
+    - '2015-10-20 15:30:12.528993'
+    - '2015-10-20 15:30:12.535609'
+    - Richard
+    - Meisel
+    - '0'
+    - 
+  - - '51'
+    - melissa.thompson@legalaid.gsi.gov.uk
+    - "$2a$10$dBe3XzPmj4IUGUrrPyqRNO/WKjdtV9WeBlXVCFgYm4dFBIzxz5Vk."
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '51'
+    - CaseWorker
+    - '2015-10-20 15:30:12.602269'
+    - '2015-10-20 15:30:12.608598'
+    - Melissa
+    - Thompson
+    - '0'
+    - 
+  - - '52'
+    - adrian.fraser@legalaid.gsi.gov.uk
+    - "$2a$10$cbDl.ffO48PHP3va/mGB.es3mVbY.n8dIIyeE1bGXI5qMiIi9int2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '52'
+    - CaseWorker
+    - '2015-10-20 15:30:12.674723'
+    - '2015-10-20 15:30:12.681522'
+    - Adrian
+    - Fraser
+    - '0'
+    - 
+  - - '53'
+    - merillie.spillane@legalaid.gsi.gov.uk
+    - "$2a$10$URLg/VVT7mHHfCZYHCxSOOzXacn2YsoPtKjfxYcaj7t8T/4sP4ijC"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '53'
+    - CaseWorker
+    - '2015-10-20 15:30:12.745152'
+    - '2015-10-20 15:30:12.75218'
+    - Merillie
+    - Spillane
+    - '0'
+    - 
+  - - '54'
+    - john.davidson@legalaid.gsi.gov.uk
+    - "$2a$10$nDFeG5Sc2CvxrHbZ5ET/NOB70nT4Q9par4JpXuKaarfL8LArL2aKa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '54'
+    - CaseWorker
+    - '2015-10-20 15:30:12.818157'
+    - '2015-10-20 15:30:12.824386'
+    - John
+    - Davidson
+    - '0'
+    - 
+  - - '55'
+    - thomas.doyle@legalaid.gsi.gov.uk
+    - "$2a$10$Ic6xqhHaAHvPh8upnsODdeR2FZ2NkqpQQpM0rbNvYeb30td7wr4u."
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '55'
+    - CaseWorker
+    - '2015-10-20 15:30:12.885675'
+    - '2015-10-20 15:30:12.89225'
+    - Thomas
+    - Doyle
+    - '0'
+    - 
+  - - '56'
+    - jennifer.johnson@legalaid.gsi.gov.uk
+    - "$2a$10$qHiEpM5y.c16szNKqHoC9eioie0aq4ZbuOg9QJLYvJhVoBJwABoJy"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '56'
+    - CaseWorker
+    - '2015-10-20 15:30:12.9564'
+    - '2015-10-20 15:30:12.962859'
+    - Jennifer
+    - Johnson
+    - '0'
+    - 
+  - - '57'
+    - sam.naji@legalaid.gsi.gov.uk
+    - "$2a$10$DkvSDn97jdyhQPChVdPcTOnCikszvJ2O2wVvc41PXA7QzSQZYGN9u"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '57'
+    - CaseWorker
+    - '2015-10-20 15:30:13.024373'
+    - '2015-10-20 15:30:13.031182'
+    - Sam
+    - Naji
+    - '0'
+    - 
+  - - '58'
+    - nick.glover@legalaid.gsi.gov.uk
+    - "$2a$10$QTzsFctWQYCGHPHCf3iSFupgir4/TBi75qZa.q7XM/QMJXFscp3pO"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '58'
+    - CaseWorker
+    - '2015-10-20 15:30:13.094593'
+    - '2015-10-20 15:30:13.101436'
+    - Nick
+    - Glover
+    - '0'
+    - 
+  - - '59'
+    - gary.johansen@legalaid.gsi.gov.uk
+    - "$2a$10$J04YCJbUoVxJi13Q0/8Ub.6HWrntE9U/PpQ0GGwMSQNw4KCowLO7C"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '59'
+    - CaseWorker
+    - '2015-10-20 15:30:13.171127'
+    - '2015-10-20 15:30:13.177986'
+    - Gary
+    - Johansen
+    - '0'
+    - 
+  - - '60'
+    - shelley.march@legalaid.gsi.gov.uk
+    - "$2a$10$Bs98jEoilNfGqblugoY09ur7UUPnzOpNAmsq17r/Jt0nHqx7nGGdq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '60'
+    - CaseWorker
+    - '2015-10-20 15:30:13.240561'
+    - '2015-10-20 15:30:13.24712'
+    - Shelley
+    - March
+    - '0'
+    - 
+  - - '61'
+    - sue.smith@legalaid.gsi.gov.uk
+    - "$2a$10$WN.RNJyRQZ/A4JwQUjCoAOlNcqlvN0zrEAxFtwH/YyMljo1U5kQHe"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '61'
+    - CaseWorker
+    - '2015-10-20 15:30:13.311237'
+    - '2015-10-20 15:30:13.318701'
+    - Sue
+    - Smith
+    - '0'
+    - 
+  - - '62'
+    - debra.dodd@legalaid.gsi.gov.uk
+    - "$2a$10$L0ivgDrxvx74A8td3O3whOuEJNF9ghn12GlQQiZZDjdcU.iMQNDEa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '62'
+    - CaseWorker
+    - '2015-10-20 15:30:13.381179'
+    - '2015-10-20 15:30:13.388618'
+    - Debra
+    - Dodd
+    - '0'
+    - 
+  - - '63'
+    - martin.hughes@legalaid.gsi.gov.uk
+    - "$2a$10$g5W6/08BbxtW3Yhh1X9ccuVVPNJ.oIDslrG9dcukzZuHQu8ELuUvC"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '63'
+    - CaseWorker
+    - '2015-10-20 15:30:13.450998'
+    - '2015-10-20 15:30:13.457726'
+    - Martin
+    - Hughes
+    - '0'
+    - 
+  - - '64'
+    - louise.edwards@legalaid.gsi.gov.uk
+    - "$2a$10$AXR/CazgAmJplzQ/AF5sl.Bl5Yj0ClrZM90bcF3USYLl9uOQpguFu"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '64'
+    - CaseWorker
+    - '2015-10-20 15:30:13.518975'
+    - '2015-10-20 15:30:13.525472'
+    - Louise
+    - Edwards
+    - '0'
+    - 
+  - - '65'
+    - hendrina.huckfield@legalaid.gsi.gov.uk
+    - "$2a$10$ngqryvHO2XW0hvGFqw06EOJrh7xC7Ey06Lbtw/zctdqUJtRDFINE6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '65'
+    - CaseWorker
+    - '2015-10-20 15:30:13.587283'
+    - '2015-10-20 15:30:13.594208'
+    - Hendrina
+    - Huckfield
+    - '0'
+    - 
+  - - '66'
+    - dawn.ames@legalaid.gsi.gov.uk
+    - "$2a$10$3x2dKFpMnNtyOG9dI4GUgOPwdWzyLrH4WF12UCYwSUekZQiVZO4ia"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '66'
+    - CaseWorker
+    - '2015-10-20 15:30:13.655525'
+    - '2015-10-20 15:30:13.662111'
+    - Dawn
+    - Ames
+    - '0'
+    - 
+  - - '67'
+    - adele.tarbuck@legalaid.gsi.gov.uk
+    - "$2a$10$T4hPbUgGg1fudx4MN/fxEeFxgbMl/Fl1b1RDS8JM0b/B/81t96ln2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '67'
+    - CaseWorker
+    - '2015-10-20 15:30:13.724448'
+    - '2015-10-20 15:30:13.733451'
+    - Adele
+    - Tarbuck
+    - '0'
+    - 
+  - - '68'
+    - carol.gillam@legalaid.gsi.gov.uk
+    - "$2a$10$KK1AfZbb2NzTzbuLRL4FEO6XwItUoltnitHFyd/6BEytUmnJlFaq2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '68'
+    - CaseWorker
+    - '2015-10-20 15:30:13.795664'
+    - '2015-10-20 15:30:13.802226'
+    - Carol
+    - Gillam
+    - '0'
+    - 
+  - - '69'
+    - philip.owen@legalaid.gsi.gov.uk
+    - "$2a$10$l42Nw/wb9W6f1zlL/3rQvOubeWLaszEEHJ.YUuav7YnNLP6An3o/m"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '69'
+    - CaseWorker
+    - '2015-10-20 15:30:13.863352'
+    - '2015-10-20 15:30:13.869668'
+    - Philip
+    - Owen
+    - '0'
+    - 
+  - - '70'
+    - natalie.doherty@legalaid.gsi.gov.uk
+    - "$2a$10$AGiCGR63xGPuWuZecVGHMOI4CQ6E1018IGz486omJ/7OOudzTL0c6"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '70'
+    - CaseWorker
+    - '2015-10-20 15:30:13.932505'
+    - '2015-10-20 15:30:13.939087'
+    - Natalie
+    - Doherty
+    - '0'
+    - 
+  - - '71'
+    - sean.tennant@legalaid.gsi.gov.uk
+    - "$2a$10$8B0CFtMJe8I114TZb4zcjuzL/Dcv.c1yBh0r2qVS.ADEVSgYONcKa"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '71'
+    - CaseWorker
+    - '2015-10-20 15:30:14.003869'
+    - '2015-10-20 15:30:14.010346'
+    - Sean
+    - Tennant
+    - '0'
+    - 
+  - - '72'
+    - john.haughey@legalaid.gsi.gov.uk
+    - "$2a$10$gqIh.Y97kpc0lLJYDJ//9uPRxu6tALIggPu9vUNqbh3UUl0YpTNt2"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '72'
+    - CaseWorker
+    - '2015-10-20 15:30:14.071452'
+    - '2015-10-20 15:30:14.078111'
+    - John
+    - Haughey
+    - '0'
+    - 
+  - - '73'
+    - charlie.warren@legalaid.gsi.gov.uk
+    - "$2a$10$aniCca8DOBiPPwW3vjqOUeP2RgTM7404awAHWueiSeg.lFMHtr402"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '73'
+    - CaseWorker
+    - '2015-10-20 15:30:14.14633'
+    - '2015-10-20 15:30:14.152676'
+    - Charlie
+    - Warren
+    - '0'
+    - 
+  - - '74'
+    - advocate@example.com
+    - "$2a$10$qnLw.thiiwpXcfeIIROlEOzEJeYMoTfKLZjv2hOXiqUw075mlDvyq"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '1'
+    - Advocate
+    - '2015-10-20 15:30:14.236357'
+    - '2015-10-20 15:30:14.258739'
+    - Bob
+    - Smith
+    - '0'
+    - 
+  - - '75'
+    - advocateadmin@example.com
+    - "$2a$10$IZKan/YDV0/H0347V00o6uxsGbhUS5olD3KeMrv4E0rUn13feIa3y"
+    - 
+    - 
+    - 
+    - '0'
+    - 
+    - 
+    - 
+    - 
+    - '2'
+    - Advocate
+    - '2015-10-20 15:30:14.325625'
+    - '2015-10-20 15:30:14.333094'
+    - John
+    - Smith
+    - '0'
+    - 

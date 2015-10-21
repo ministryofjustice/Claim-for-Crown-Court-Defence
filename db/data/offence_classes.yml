@@ -1,0 +1,65 @@
+
+---
+offence_classes:
+  columns:
+  - id
+  - class_letter
+  - description
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - A
+    - Homicide and related grave offences
+    - '2015-10-20 15:30:06.137248'
+    - '2015-10-20 15:30:06.137248'
+  - - '2'
+    - B
+    - Offences involving serious violence or damage and serious drug offences
+    - '2015-10-20 15:30:06.14277'
+    - '2015-10-20 15:30:06.14277'
+  - - '3'
+    - C
+    - Lesser offences involving violence or damage and less serious drug offences
+    - '2015-10-20 15:30:06.147509'
+    - '2015-10-20 15:30:06.147509'
+  - - '4'
+    - D
+    - Serious sexual offences and offences against children
+    - '2015-10-20 15:30:06.152798'
+    - '2015-10-20 15:30:06.152798'
+  - - '5'
+    - E
+    - Burglary
+    - '2015-10-20 15:30:06.157752'
+    - '2015-10-20 15:30:06.157752'
+  - - '6'
+    - F
+    - Other offences of dishonesty up to £30,000
+    - '2015-10-20 15:30:06.162547'
+    - '2015-10-20 15:30:06.162547'
+  - - '7'
+    - G
+    - Other offences of dishonesty between £30,001 and £100,000
+    - '2015-10-20 15:30:06.167176'
+    - '2015-10-20 15:30:06.167176'
+  - - '8'
+    - H
+    - Miscellaneous lesser offences
+    - '2015-10-20 15:30:06.171852'
+    - '2015-10-20 15:30:06.171852'
+  - - '9'
+    - I
+    - Offences against public justice and similar offences
+    - '2015-10-20 15:30:06.176433'
+    - '2015-10-20 15:30:06.176433'
+  - - '10'
+    - J
+    - Serious sexual offences, offences against children
+    - '2015-10-20 15:30:06.181044'
+    - '2015-10-20 15:30:06.181044'
+  - - '11'
+    - K
+    - Offences of dishonesty in Class F where the value in is in excess of £100,000
+    - '2015-10-20 15:30:06.185603'
+    - '2015-10-20 15:30:06.185603'

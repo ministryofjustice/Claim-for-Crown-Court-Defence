@@ -1,0 +1,122 @@
+
+---
+case_types:
+  columns:
+  - id
+  - name
+  - is_fixed_fee
+  - created_at
+  - updated_at
+  - requires_cracked_dates
+  - requires_trial_dates
+  - allow_pcmh_fee_type
+  - requires_maat_reference
+  records: 
+  - - '1'
+    - Appeal against conviction
+    - true
+    - '2015-10-20 15:30:06.025187'
+    - '2015-10-20 15:30:06.025187'
+    - false
+    - false
+    - false
+    - true
+  - - '2'
+    - Appeal against sentence
+    - true
+    - '2015-10-20 15:30:06.03165'
+    - '2015-10-20 15:30:06.03165'
+    - false
+    - false
+    - false
+    - true
+  - - '3'
+    - Breach of Crown Court order
+    - true
+    - '2015-10-20 15:30:06.036654'
+    - '2015-10-20 15:30:06.036654'
+    - false
+    - false
+    - false
+    - false
+  - - '4'
+    - Committal for Sentence
+    - true
+    - '2015-10-20 15:30:06.0431'
+    - '2015-10-20 15:30:06.0431'
+    - false
+    - false
+    - false
+    - true
+  - - '5'
+    - Contempt
+    - true
+    - '2015-10-20 15:30:06.048762'
+    - '2015-10-20 15:30:06.048762'
+    - false
+    - false
+    - false
+    - true
+  - - '6'
+    - Cracked Trial
+    - false
+    - '2015-10-20 15:30:06.053848'
+    - '2015-10-20 15:30:06.053848'
+    - true
+    - false
+    - true
+    - true
+  - - '7'
+    - Cracked before retrial
+    - false
+    - '2015-10-20 15:30:06.058979'
+    - '2015-10-20 15:30:06.058979'
+    - true
+    - false
+    - true
+    - true
+  - - '8'
+    - Discontinuance
+    - false
+    - '2015-10-20 15:30:06.064025'
+    - '2015-10-20 15:30:06.064025'
+    - false
+    - true
+    - true
+    - true
+  - - '9'
+    - Elected cases not proceeded
+    - true
+    - '2015-10-20 15:30:06.069164'
+    - '2015-10-20 15:30:06.069164'
+    - false
+    - false
+    - false
+    - true
+  - - '10'
+    - Guilty plea
+    - false
+    - '2015-10-20 15:30:06.074299'
+    - '2015-10-20 15:30:06.074299'
+    - false
+    - true
+    - true
+    - true
+  - - '11'
+    - Retrial
+    - false
+    - '2015-10-20 15:30:06.079898'
+    - '2015-10-20 15:30:06.079898'
+    - false
+    - true
+    - true
+    - true
+  - - '12'
+    - Trial
+    - false
+    - '2015-10-20 15:30:06.085142'
+    - '2015-10-20 15:30:06.085142'
+    - false
+    - true
+    - true
+    - true

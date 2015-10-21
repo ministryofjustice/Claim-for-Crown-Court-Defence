@@ -1,0 +1,37 @@
+
+---
+chambers:
+  columns:
+  - id
+  - name
+  - supplier_number
+  - vat_registered
+  - created_at
+  - updated_at
+  - uuid
+  - api_key
+  records: 
+  - - '1'
+    - Test chamber/firm
+    - A1234567
+    - false
+    - '2015-10-20 15:30:14.169182'
+    - '2015-10-20 15:30:14.169182'
+    - de1d8f7a-29e7-40e3-ad06-f60760040fdc
+    - 3ac66478-99d2-4ff7-81a3-fe76f6d9d316
+  - - '2'
+    - Doughty Street Chambers
+    - '1234'
+    - false
+    - '2015-10-20 15:30:14.86163'
+    - '2015-10-20 15:30:14.86163'
+    - c75a2283-e85e-4f27-86ba-1853d216fc33
+    - 7dd91962-26e3-474a-890b-cfbad51e627b
+  - - '3'
+    - Matrix Chambers
+    - '5678'
+    - false
+    - '2015-10-20 15:30:14.867862'
+    - '2015-10-20 15:30:14.867862'
+    - f5ddc3cf-0422-4d4d-9b22-1d23ae91b188
+    - 0df9833c-474b-4f07-97f8-75a41e041635

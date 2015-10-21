@@ -1,0 +1,544 @@
+
+---
+fee_types:
+  columns:
+  - id
+  - description
+  - code
+  - fee_category_id
+  - created_at
+  - updated_at
+  - max_amount
+  records: 
+  - - '1'
+    - Basic Fee
+    - BAF
+    - '1'
+    - '2015-10-20 15:30:08.39234'
+    - '2015-10-20 15:30:08.39234'
+    - '9999.0'
+  - - '2'
+    - Daily Attendance Fee (3 to 40)
+    - DAF
+    - '1'
+    - '2015-10-20 15:30:08.399458'
+    - '2015-10-20 15:30:08.399458'
+    - '999.0'
+  - - '3'
+    - Daily Attendance Fee (41 to 50)
+    - DAH
+    - '1'
+    - '2015-10-20 15:30:08.405429'
+    - '2015-10-20 15:30:08.405429'
+    - '9999.0'
+  - - '4'
+    - Daily Attendance Fee (51+)
+    - DAJ
+    - '1'
+    - '2015-10-20 15:30:08.411098'
+    - '2015-10-20 15:30:08.411098'
+    - '999.0'
+  - - '5'
+    - Standard Appearance Fee
+    - SAF
+    - '1'
+    - '2015-10-20 15:30:08.416853'
+    - '2015-10-20 15:30:08.416853'
+    - '999.0'
+  - - '6'
+    - Plea and Case Management Hearing
+    - PCM
+    - '1'
+    - '2015-10-20 15:30:08.422302'
+    - '2015-10-20 15:30:08.422302'
+    - '999.0'
+  - - '7'
+    - Conferences and Views
+    - CAV
+    - '1'
+    - '2015-10-20 15:30:08.428399'
+    - '2015-10-20 15:30:08.428399'
+    - 
+  - - '8'
+    - Number of Defendants uplift
+    - NDR
+    - '1'
+    - '2015-10-20 15:30:08.434401'
+    - '2015-10-20 15:30:08.434401'
+    - 
+  - - '9'
+    - Number of Cases uplift
+    - NOC
+    - '1'
+    - '2015-10-20 15:30:08.440453'
+    - '2015-10-20 15:30:08.440453'
+    - 
+  - - '10'
+    - Number of Prosecution Witnesses
+    - NPW
+    - '1'
+    - '2015-10-20 15:30:08.446525'
+    - '2015-10-20 15:30:08.446525'
+    - 
+  - - '11'
+    - Pages of Prosecution Evidence
+    - PPE
+    - '1'
+    - '2015-10-20 15:30:08.452249'
+    - '2015-10-20 15:30:08.452249'
+    - 
+  - - '12'
+    - Appeals to the Crown Court against Conviction
+    - ACV
+    - '2'
+    - '2015-10-20 15:30:08.458371'
+    - '2015-10-20 15:30:08.458371'
+    - 
+  - - '13'
+    - Appeals to the Crown Court against Conviction Uplift
+    - ACU
+    - '2'
+    - '2015-10-20 15:30:08.46451'
+    - '2015-10-20 15:30:08.46451'
+    - 
+  - - '14'
+    - Appeals to the Crown Court against Sentence
+    - ASE
+    - '2'
+    - '2015-10-20 15:30:08.470521'
+    - '2015-10-20 15:30:08.470521'
+    - 
+  - - '15'
+    - Appeals to the Crown Court against Sentence Uplift
+    - ASU
+    - '2'
+    - '2015-10-20 15:30:08.47634'
+    - '2015-10-20 15:30:08.47634'
+    - 
+  - - '16'
+    - Breach of a Crown Court order
+    - CBR
+    - '2'
+    - '2015-10-20 15:30:08.482099'
+    - '2015-10-20 15:30:08.482099'
+    - 
+  - - '17'
+    - Breach of a Crown Court order Uplift
+    - CBU
+    - '2'
+    - '2015-10-20 15:30:08.488171'
+    - '2015-10-20 15:30:08.488171'
+    - 
+  - - '18'
+    - Contempt hearings - unapportioned fee
+    - CON
+    - '2'
+    - '2015-10-20 15:30:08.494278'
+    - '2015-10-20 15:30:08.494278'
+    - 
+  - - '19'
+    - Contempt hearings - apportioned fee
+    - COA
+    - '2'
+    - '2015-10-20 15:30:08.500395'
+    - '2015-10-20 15:30:08.500395'
+    - 
+  - - '20'
+    - Committal for Sentence Hearings
+    - CSE
+    - '2'
+    - '2015-10-20 15:30:08.506523'
+    - '2015-10-20 15:30:08.506523'
+    - 
+  - - '21'
+    - Committal for Sentence Hearings Uplift
+    - CSU
+    - '2'
+    - '2015-10-20 15:30:08.512748'
+    - '2015-10-20 15:30:08.512748'
+    - 
+  - - '22'
+    - Cracked case discontinued
+    - CCD
+    - '2'
+    - '2015-10-20 15:30:08.518819'
+    - '2015-10-20 15:30:08.518819'
+    - 
+  - - '23'
+    - Cracked case discontinued Uplift
+    - CDU
+    - '2'
+    - '2015-10-20 15:30:08.531839'
+    - '2015-10-20 15:30:08.531839'
+    - 
+  - - '24'
+    - Elected case not proceeded
+    - ENP
+    - '2'
+    - '2015-10-20 15:30:08.538763'
+    - '2015-10-20 15:30:08.538763'
+    - 
+  - - '25'
+    - Elected case not proceeded uplift
+    - ENU
+    - '2'
+    - '2015-10-20 15:30:08.545444'
+    - '2015-10-20 15:30:08.545444'
+    - 
+  - - '26'
+    - Number of Cases uplift
+    - NOC
+    - '2'
+    - '2015-10-20 15:30:08.553768'
+    - '2015-10-20 15:30:08.553768'
+    - 
+  - - '27'
+    - Number of Defendants uplift
+    - NDR
+    - '2'
+    - '2015-10-20 15:30:08.560752'
+    - '2015-10-20 15:30:08.560752'
+    - 
+  - - '28'
+    - Standard Appearance Fee
+    - SAF
+    - '2'
+    - '2015-10-20 15:30:08.566781'
+    - '2015-10-20 15:30:08.566781'
+    - 
+  - - '29'
+    - Abuse of Process Hearings (Half Day)
+    - APH
+    - '3'
+    - '2015-10-20 15:30:08.572869'
+    - '2015-10-20 15:30:08.572869'
+    - 
+  - - '30'
+    - Abuse of Process Hearings (Whole Day)
+    - APW
+    - '3'
+    - '2015-10-20 15:30:08.579326'
+    - '2015-10-20 15:30:08.579326'
+    - 
+  - - '31'
+    - Abuse of Process Hearings (Half Day Uplift)
+    - AHU
+    - '3'
+    - '2015-10-20 15:30:08.585044'
+    - '2015-10-20 15:30:08.585044'
+    - 
+  - - '32'
+    - Abuse of Process Hearings (Whole Day Uplift)
+    - AWU
+    - '3'
+    - '2015-10-20 15:30:08.590997'
+    - '2015-10-20 15:30:08.590997'
+    - 
+  - - '33'
+    - Adjourned appeals
+    - SAF
+    - '3'
+    - '2015-10-20 15:30:08.597011'
+    - '2015-10-20 15:30:08.597011'
+    - 
+  - - '34'
+    - Application to dismiss a charge day 2 onwards (Half Day)
+    - PAH
+    - '3'
+    - '2015-10-20 15:30:08.602784'
+    - '2015-10-20 15:30:08.602784'
+    - 
+  - - '35'
+    - Application to dismiss a charge day 2 onwards (Whole Day)
+    - PAW
+    - '3'
+    - '2015-10-20 15:30:08.608248'
+    - '2015-10-20 15:30:08.608248'
+    - 
+  - - '36'
+    - Application to dismiss a charge day 2 onwards (Half Day Uplift)
+    - PHU
+    - '3'
+    - '2015-10-20 15:30:08.614135'
+    - '2015-10-20 15:30:08.614135'
+    - 
+  - - '37'
+    - Application to dismiss a charge day 2 onwards (Whole Day Uplift)
+    - PWU
+    - '3'
+    - '2015-10-20 15:30:08.62'
+    - '2015-10-20 15:30:08.62'
+    - 
+  - - '38'
+    - Confiscation hearings (Half Day)
+    - DTH
+    - '3'
+    - '2015-10-20 15:30:08.625572'
+    - '2015-10-20 15:30:08.625572'
+    - 
+  - - '39'
+    - Confiscation hearings (Whole Day)
+    - DTW
+    - '3'
+    - '2015-10-20 15:30:08.631174'
+    - '2015-10-20 15:30:08.631174'
+    - 
+  - - '40'
+    - Confiscation hearings (Half Day Uplift)
+    - DHU
+    - '3'
+    - '2015-10-20 15:30:08.636945'
+    - '2015-10-20 15:30:08.636945'
+    - 
+  - - '41'
+    - Confiscation hearings (Whole Day Uplift)
+    - DWU
+    - '3'
+    - '2015-10-20 15:30:08.64289'
+    - '2015-10-20 15:30:08.64289'
+    - 
+  - - '42'
+    - Deferred Sentence Hearings
+    - DSE
+    - '3'
+    - '2015-10-20 15:30:08.648932'
+    - '2015-10-20 15:30:08.648932'
+    - 
+  - - '43'
+    - Deferred Sentence Hearings Uplift
+    - DSU
+    - '3'
+    - '2015-10-20 15:30:08.654821'
+    - '2015-10-20 15:30:08.654821'
+    - 
+  - - '44'
+    - Hearings relating to admissibility of Evidence (Half Day)
+    - AEH
+    - '3'
+    - '2015-10-20 15:30:08.66072'
+    - '2015-10-20 15:30:08.66072'
+    - 
+  - - '45'
+    - Hearings relating to admissibility of Evidence (Whole Day)
+    - AEW
+    - '3'
+    - '2015-10-20 15:30:08.666338'
+    - '2015-10-20 15:30:08.666338'
+    - 
+  - - '46'
+    - Hearings relating to admissibility of Evidence (Half Day Uplift)
+    - EHU
+    - '3'
+    - '2015-10-20 15:30:08.671969'
+    - '2015-10-20 15:30:08.671969'
+    - 
+  - - '47'
+    - Hearings relating to admissibility of Evidence (Whole Day Uplift)
+    - EWU
+    - '3'
+    - '2015-10-20 15:30:08.677788'
+    - '2015-10-20 15:30:08.677788'
+    - 
+  - - '48'
+    - Hearings relating to Disclosure (Half Day)
+    - HDH
+    - '3'
+    - '2015-10-20 15:30:08.683822'
+    - '2015-10-20 15:30:08.683822'
+    - 
+  - - '49'
+    - Hearings relating to Disclosure (Whole Day)
+    - HDW
+    - '3'
+    - '2015-10-20 15:30:08.689574'
+    - '2015-10-20 15:30:08.689574'
+    - 
+  - - '50'
+    - Hearings relating to Disclosure (Half Day Uplift)
+    - HHU
+    - '3'
+    - '2015-10-20 15:30:08.695323'
+    - '2015-10-20 15:30:08.695323'
+    - 
+  - - '51'
+    - Hearings relating to Disclosure (Whole Day Uplift)
+    - HWU
+    - '3'
+    - '2015-10-20 15:30:08.70103'
+    - '2015-10-20 15:30:08.70103'
+    - 
+  - - '52'
+    - Noting Brief Fee
+    - NBR
+    - '3'
+    - '2015-10-20 15:30:08.707163'
+    - '2015-10-20 15:30:08.707163'
+    - 
+  - - '53'
+    - Paper Plea & Case management
+    - PPC
+    - '3'
+    - '2015-10-20 15:30:08.713055'
+    - '2015-10-20 15:30:08.713055'
+    - 
+  - - '54'
+    - Paper Plea & Case management uplift
+    - PCU
+    - '3'
+    - '2015-10-20 15:30:08.725085'
+    - '2015-10-20 15:30:08.725085'
+    - 
+  - - '55'
+    - Proceeds of Crime hearings (Half Day)
+    - PCH
+    - '3'
+    - '2015-10-20 15:30:08.731067'
+    - '2015-10-20 15:30:08.731067'
+    - 
+  - - '56'
+    - Proceeds of Crime hearings (Whole Day)
+    - PCW
+    - '3'
+    - '2015-10-20 15:30:08.736659'
+    - '2015-10-20 15:30:08.736659'
+    - 
+  - - '57'
+    - Proceeds of Crime hearings (Half Day Uplift)
+    - CHU
+    - '3'
+    - '2015-10-20 15:30:08.742652'
+    - '2015-10-20 15:30:08.742652'
+    - 
+  - - '58'
+    - Proceeds of Crime hearings (Whole Day Uplift)
+    - CHW
+    - '3'
+    - '2015-10-20 15:30:08.748403'
+    - '2015-10-20 15:30:08.748403'
+    - 
+  - - '59'
+    - Public Interest Immunity hearings (Half Day)
+    - PAH
+    - '3'
+    - '2015-10-20 15:30:08.75422'
+    - '2015-10-20 15:30:08.75422'
+    - 
+  - - '60'
+    - Public Interest Immunity hearings (Whole Day)
+    - PAW
+    - '3'
+    - '2015-10-20 15:30:08.759864'
+    - '2015-10-20 15:30:08.759864'
+    - 
+  - - '61'
+    - Public Interest Immunity hearings (Half Day Uplift)
+    - PHU
+    - '3'
+    - '2015-10-20 15:30:08.765531'
+    - '2015-10-20 15:30:08.765531'
+    - 
+  - - '62'
+    - Public Interest Immunity hearings (Whole Day Uplift)
+    - PWU
+    - '3'
+    - '2015-10-20 15:30:08.77112'
+    - '2015-10-20 15:30:08.77112'
+    - 
+  - - '63'
+    - Research of very unusual or Novel Factual issue
+    - RNF
+    - '3'
+    - '2015-10-20 15:30:08.776951'
+    - '2015-10-20 15:30:08.776951'
+    - 
+  - - '64'
+    - Research of very unusual or Novel point of Law
+    - RNL
+    - '3'
+    - '2015-10-20 15:30:08.782534'
+    - '2015-10-20 15:30:08.782534'
+    - 
+  - - '65'
+    - Standard Appearance fee Uplift
+    - SAU
+    - '3'
+    - '2015-10-20 15:30:08.788394'
+    - '2015-10-20 15:30:08.788394'
+    - 
+  - - '66'
+    - Sentence Hearings
+    - SHR
+    - '3'
+    - '2015-10-20 15:30:08.793908'
+    - '2015-10-20 15:30:08.793908'
+    - 
+  - - '67'
+    - Sentence Hearings Uplift
+    - SHU
+    - '3'
+    - '2015-10-20 15:30:08.799544'
+    - '2015-10-20 15:30:08.799544'
+    - 
+  - - '68'
+    - Special Preparation Fee
+    - SPF
+    - '3'
+    - '2015-10-20 15:30:08.805356'
+    - '2015-10-20 15:30:08.805356'
+    - 
+  - - '69'
+    - Trial Not Proceed
+    - TNP
+    - '3'
+    - '2015-10-20 15:30:08.811267'
+    - '2015-10-20 15:30:08.811267'
+    - 
+  - - '70'
+    - Trial Not Proceed Uplift
+    - TNU
+    - '3'
+    - '2015-10-20 15:30:08.816974'
+    - '2015-10-20 15:30:08.816974'
+    - 
+  - - '71'
+    - Unsuccessful application to vacate a guilty plea (Half Day)
+    - PAH
+    - '3'
+    - '2015-10-20 15:30:08.823051'
+    - '2015-10-20 15:30:08.823051'
+    - 
+  - - '72'
+    - Unsuccessful application to vacate a guilty plea (Whole Day)
+    - PAW
+    - '3'
+    - '2015-10-20 15:30:08.828702'
+    - '2015-10-20 15:30:08.828702'
+    - 
+  - - '73'
+    - Unsuccessful application to vacate a guilty plea (Half Day Uplift)
+    - PHU
+    - '3'
+    - '2015-10-20 15:30:08.834765'
+    - '2015-10-20 15:30:08.834765'
+    - 
+  - - '74'
+    - Unsuccessful application to vacate a guilty plea (Whole Day Uplift)
+    - PWU
+    - '3'
+    - '2015-10-20 15:30:08.840686'
+    - '2015-10-20 15:30:08.840686'
+    - 
+  - - '75'
+    - Written / Oral Advice
+    - WOA
+    - '3'
+    - '2015-10-20 15:30:08.846496'
+    - '2015-10-20 15:30:08.846496'
+    - 
+  - - '76'
+    - Wasted Preparation Fee
+    - WPF
+    - '3'
+    - '2015-10-20 15:30:08.852305'
+    - '2015-10-20 15:30:08.852305'
+    - 

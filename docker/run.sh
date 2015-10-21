@@ -66,14 +66,9 @@ seed)
     bundle exec rake db:seed
     ;;
 reload)
-    echo "executing rake db:clear"
-    bundle exec rake db:clear
-    echo "executing rake db:create"
-    bundle exec rake db:create 
-    echo "executing rake db:schema:load"
-    bundle exec rake db:schema:load
-    echo "executing rake db:data:load"
-    bundle exec rake db:data:load
+    echo "executing rake db:create + db:reload"
+    bundle exec rake db:create
+    bundle exec rake db:reload
     ;;
 reseed)
     # db:clear

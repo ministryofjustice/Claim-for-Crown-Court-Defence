@@ -6,7 +6,6 @@ Feature: Claim status
 
 Scenario Outline: Update claim status
     Given I am a signed in case worker
-      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
       And I view status details for a claim
@@ -23,7 +22,6 @@ Scenario Outline: Update claim status
 
 Scenario: Update claim status to rejected
     Given I am a signed in case worker
-      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
       And I view status details for a claim
@@ -36,7 +34,6 @@ Scenario: Update claim status to rejected
 
 Scenario Outline: Update claim status without amount assessed raises state transition error
     Given I am a signed in case worker
-      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
       And I view status details for a claim
@@ -52,7 +49,6 @@ Scenario Outline: Update claim status without amount assessed raises state trans
 
 Scenario Outline: View claim status
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have 3 allocated claims whos status is <status> with fees assessed of <fees> and expenses assessed of <expenses>
      When I visit the advocates dashboard
       And I view status details of my first claim

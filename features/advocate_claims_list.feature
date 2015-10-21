@@ -4,21 +4,18 @@ Feature: Advocate claims list
 
   Scenario: View claims as an advocate
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have claims
      When I visit the advocates dashboard
      Then I should see only claims that I have created
 
   Scenario: View claims as an advocate admin
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has claims
      When I visit the advocates dashboard
      Then I should see my chamber's claims
 
   Scenario Outline: View claims
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has <number> <state> claims
      When I visit the advocates dashboard
      Then I should see my chamber's <number> <state> claims
@@ -33,7 +30,6 @@ Feature: Advocate claims list
 
   Scenario: Claims list exludes archived claims (advocate admin)
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has 3 "submitted" claims for advocate "John Smith"
       And my chamber has 2 "archived_pending_delete" claims for advocate "Bob Smith"
      When I visit the advocates dashboard
@@ -42,7 +38,6 @@ Feature: Advocate claims list
 
   Scenario: Claims list exludes archived claims (advocate)
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have 3 "submitted" claims
       And I have 2 "archived_pending_delete" claims
      When I visit the advocates dashboard
@@ -51,7 +46,6 @@ Feature: Advocate claims list
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has 4 claims for advocate "John Smith"
      When I visit the advocates dashboard
       And I search by the name "John Smith"
@@ -59,7 +53,6 @@ Feature: Advocate claims list
 
   Scenario: Search claims by advocate name excludes archived
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has 3 "submitted" claims for advocate "John Smith"
       And my chamber has 2 "archived_pending_delete" claims for advocate "John Smith"
      When I visit the advocates dashboard
@@ -68,7 +61,6 @@ Feature: Advocate claims list
 
   Scenario Outline: Search claims by defendant name
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have 2 claims involving defendant "Joex Bloggs"
       And I have 3 claims involving defendant "Fred Bloggs"
       And I have 2 claims involving defendant "Someone Else"

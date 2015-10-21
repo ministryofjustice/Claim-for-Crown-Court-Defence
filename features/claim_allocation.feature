@@ -3,7 +3,6 @@ Feature: Claim allocation
     As a case worker admin I would like to allocate claims to case workers
 
     Given I am a signed in case worker admin
-      And There are fee schemes in place
       And 2 case workers exist
       And 10 submitted claims exist
 
@@ -70,4 +69,4 @@ Feature: Claim allocation
       And I click Allocate
     Then the first 1 claims in the list should be allocated to the case worker
       And the first 1 claims should no longer be displayed
-      
+

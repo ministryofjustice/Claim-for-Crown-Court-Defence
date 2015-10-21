@@ -90,7 +90,6 @@ end
 Given(/^I am signed in and on the case worker dashboard$/) do
   steps <<-STEPS
     Given I am a signed in case worker
-      And There are fee schemes in place
       And claims have been assigned to me
      When I visit my dashboard
      Then I should see only my claims

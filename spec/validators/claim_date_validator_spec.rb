@@ -25,85 +25,83 @@ describe ClaimDateValidator do
 
   context 'trial_fixed_notice_at' do
     context 'cracked_trial_claim' do
-      it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'Please enter valid date notice of first fixed/warned issued') }
-      it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be earlier than the first representation order date') }
+      it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank_cracked_trial_date') }
+      it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_cracked_trial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_cracked_trial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_notice_at, 'check_cracked_trial_date') }
     end
 
     it 'should error if not present for Cracked before retrial' do
       expect(cracked_before_retrial_claim.valid?).to be false
-      expect(cracked_before_retrial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Please enter valid date notice of first fixed/warned issued' ])
+      expect(cracked_before_retrial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'blank_cracked_before_retrial_date' ])
     end
 
     it 'should error if in the future' do
       cracked_trial_claim.trial_fixed_notice_at = 3.days.from_now.to_date
       expect(cracked_trial_claim.valid?).to be false
-      expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'Date notice of first fixed/warned issued may not be in the future' ])
+      expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'check_cracked_trial_date' ])
     end
 
     context 'cracked_before_retrial claim' do
-      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Please enter valid date notice of first fixed/warned issued') }
-      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Date notice of first fixed/warned issued may not be earlier than the first representation order date') }
+      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'blank_cracked_before_retrial_date') }
+      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }
     end
   end
 
   context 'trial fixed at' do
     context 'cracked trial claim' do
-      it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'Please enter valid date first fixed/warned') }
-      it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'Date first fixed/warned may not be earlier than the first representation order date') }
-      it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'Date first fixed/warned may not be earlier than the date notice of first fixed/warned issued') }
+      it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'blank_cracked_trial_date') }
+      it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
+      it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_cracked_trial_date') }
     end
 
     context 'cracked before retrial' do
-      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'Please enter valid date first fixed/warned') }
-      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'Date first fixed/warned may not be earlier than the first representation order date') }
-      it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'Date first fixed/warned may not be earlier than the date notice of first fixed/warned issued') }
+      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'blank_cracked_before_retrial_date') }
+      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }
     end
   end
 
   context 'trial cracked at' do
     context 'cracked trial' do
-      it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'Please enter valid date when case cracked') }
-      it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_cracked_at, 'Date case cracked may not be earlier than the first representation order date') }
-      it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Date case cracked may not be earlier than the date notice of first fixed/warned issued') }
+      it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'blank_cracked_trial_date') }
+      it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'check_cracked_trial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check_cracked_trial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_cracked_at, 'check_cracked_trial_date') }
+      it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_cracked_trial_date') }
     end
 
     context 'cracked before retrial' do
-      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'Please enter valid date when case cracked') }
-      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be in the future') }
-      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be more than 5 years ago') }
-      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_cracked_at, 'Date case cracked may not be earlier than the first representation order date') }
-      it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Date case cracked may not be earlier than the date notice of first fixed/warned issued') }
+      it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'blank_cracked_before_retrial_date') }
+      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_cracked_at, 'check_cracked_before_retrial_date') }
+      it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }
     end
   end
 
   context 'first day of trial' do
     let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt_case_type), :first_day_of_trial) }
     before { contempt_claim_with_nil_first_day.force_validation = true }
-
-    it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "Please enter a valid date for first day of trial")  }
-    it { should_errror_if_later_than_other_date(claim, :first_day_of_trial, :trial_concluded_at, "First day of trial must not be after date trial concluded") }
-    it { should_error_if_earlier_than_earliest_repo_date(claim, :first_day_of_trial, 'First day of trial must not be earlier than the first representation order date') }
-    it { should_error_if_not_too_far_in_the_past(claim, :first_day_of_trial, 'First day of trial must not be more than 5 years ago') }
+    it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "blank")  }
+    it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, "blank") }
+    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank') }
+    it { should_error_if_not_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank') }
   end
 
   context 'trial_concluded_at' do
     let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt_case_type), :trial_concluded_at) }
     before { contempt_claim_with_nil_concluded_at.force_validation = true }
-
-    it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "Please enter a valid date for date trial concluded") }
-    it { should_error_if_earlier_than_other_date(claim, :trial_concluded_at, :first_day_of_trial, "Date trial concluded must not be before first day of trial") }
-    it { should_error_if_earlier_than_earliest_repo_date(claim, :trial_concluded_at, 'Date trial concluded must not be earlier than the first representation order date') }
-    it { should_error_if_not_too_far_in_the_past(claim, :trial_concluded_at, 'Date trial concluded must not be more than 5 years ago') }
+    it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "blank") }
+    it {should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, "blank") }
+    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank') }
+    it { should_error_if_not_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank') }
   end
 end
 

@@ -24,24 +24,22 @@ describe FeeValidator do
     end
     context 'quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :amount, 450.00) }
-      it { should_be_valid_if_equal_to_value(baf_fee, :amount, 0.00) }
-      it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
-      it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') }
-      it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'Fee amount cannot be negative') }
+      it { should_error_if_equal_to_value(baf_fee, :amount, 0.00, 'baf_invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, nil, 'daf_zero') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, 0.00, 'daf_zero') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, -320, 'daf_zero') }
     end
 
     context 'quantity = 0' do
       before(:each) do
         daf_fee.quantity = 0
       end
-      it { should_error_if_equal_to_value(daf_fee, :amount, 1.00, 'Fee amounts cannot be specified if the fee quantity is zero') }
+      it { should_error_if_equal_to_value(daf_fee, :amount, 500.00, 'daf_invalid') }
     end
 
     context 'fee with max amount' do
       before(:each)       { fee.fee_type.max_amount = 9999 }
-
       it { should_be_valid_if_equal_to_value(fee, :amount, 999) }
-      it { should_error_if_equal_to_value(fee, :amount, 10000, 'Fee amount exceeds maximum permitted (£9,999) for this fee type') }
     end
 
     context 'fee with no max amount' do
@@ -53,7 +51,7 @@ describe FeeValidator do
 
   describe 'quantity' do
     context 'basic fee (BAF)' do
-      expected_error_message = 'Quantity for basic fee must be exactly one'
+      expected_error_message = 'baf_qty1'
       it { should_be_valid_if_equal_to_value(baf_fee, :quantity, 1) }
       it { should_error_if_equal_to_value(baf_fee, :quantity, 0,    expected_error_message) }
       it { should_error_if_equal_to_value(baf_fee, :quantity, -1,   expected_error_message) }
@@ -65,19 +63,19 @@ describe FeeValidator do
 
         it 'should error if trial length is less than three days' do
           daf_fee.claim.actual_trial_length = 2
-          should_error_if_equal_to_value(daf_fee, :quantity, 1, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(daf_fee, :quantity, 1, 'daf_qty_mismatch')
         end
       end
 
       context 'trial length greater than three days' do
         it 'should error if greater than the actual trial length less three days' do
           daf_fee.claim.actual_trial_length = 20
-          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
         end
 
         it 'should error if quantiy greater than 37' do
           daf_fee.claim.actual_trial_length = 45
-          should_error_if_equal_to_value(daf_fee, :quantity, 38, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(daf_fee, :quantity, 38, 'daf_qty_mismatch')
         end
 
         it 'should not error if quantity is valid' do
@@ -92,18 +90,18 @@ describe FeeValidator do
       context 'trial length less than 40 days' do
         it 'should error if trial length is less than 40 days' do
           dah_fee.claim.actual_trial_length = 35
-          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
         end
       end
 
       context 'trial length greater than 40 days' do
         it 'should error if greater than trial length less 40 days' do
           dah_fee.claim.actual_trial_length = 48
-          should_error_if_equal_to_value(dah_fee, :quantity, 9, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(dah_fee, :quantity, 9, 'dah_qty_mismatch')
         end
         it 'should error if greater than 10 days' do
           dah_fee.claim.actual_trial_length = 55
-          should_error_if_equal_to_value(dah_fee, :quantity, 12, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(dah_fee, :quantity, 12, 'dah_qty_mismatch')
         end
 
         it 'should not error if valid' do
@@ -118,7 +116,7 @@ describe FeeValidator do
       context 'trial length less than 50 days' do
         it 'should error if trial length is less than 40 days' do
           daj_fee.claim.actual_trial_length = 49
-          should_error_if_equal_to_value(daj_fee, :quantity, 2, 'Quantity for Daily attendance fee (51+) does not correspond with the actual trial length')
+          should_error_if_equal_to_value(daj_fee, :quantity, 2, 'daj_qty_mismatch')
         end
       end
     end
@@ -128,7 +126,7 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
         end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Quantity for plea and case management hearing cannot be greater than 3') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_invalid') }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
       end
@@ -137,8 +135,8 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type
         end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'PCMH Fees quantity must be zero or blank for this case type') }
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'PCMH Fees quantity must be zero or blank for this case type') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_invalid') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_invalid') }
       end
     end
   end

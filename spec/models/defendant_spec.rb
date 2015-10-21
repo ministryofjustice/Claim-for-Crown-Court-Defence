@@ -22,15 +22,15 @@ RSpec.describe Defendant, type: :model do
     context 'draft claim' do
       before { subject.claim = create(:claim) }
 
-      it { should validate_presence_of(:claim) }
+      it { should validate_presence_of(:claim).with_message('blank') }
     end
 
     context 'non-draft claim' do
       before { subject.claim = create(:submitted_claim) }
 
-      it { should validate_presence_of(:claim) }
-      it { should validate_presence_of(:first_name) }
-      it { should validate_presence_of(:last_name) }
+      it { should validate_presence_of(:claim).with_message('blank')  }
+      it { should validate_presence_of(:first_name).with_message('blank') }
+      it { should validate_presence_of(:last_name).with_message('blank')  }
     end
 
     context 'draft claim from api' do
@@ -39,9 +39,9 @@ RSpec.describe Defendant, type: :model do
         subject.claim.source = 'api'
       }
 
-      it { should validate_presence_of(:claim) }
-      it { should validate_presence_of(:first_name) }
-      it { should validate_presence_of(:last_name) }
+      it { should validate_presence_of(:claim).with_message('blank')  }
+      it { should validate_presence_of(:first_name).with_message('blank')  }
+      it { should validate_presence_of(:last_name).with_message('blank')  }
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe Defendant, type: :model do
       it 'should not be valid if there are no representation orders' do
         defendant.representation_orders = []
         expect(defendant).not_to be_valid
-        expect(defendant.errors[:representation_orders]).to eq [ "A defendant must have a representation order" ]
+        expect(defendant.errors[:representation_orders]).to eq [ "no_reporder" ]
       end
     end
   end

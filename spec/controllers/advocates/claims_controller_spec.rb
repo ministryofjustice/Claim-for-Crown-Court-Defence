@@ -339,7 +339,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
-              expect(response.body).to have_content("Advocate category cannot be blank")
+              expect(response.body).to have_content("Choose an advocate category")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
               expect(claim.fixed_fees.size).to eq 1

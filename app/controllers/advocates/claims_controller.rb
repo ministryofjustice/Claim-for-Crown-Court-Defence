@@ -11,6 +11,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
+  before_action :initialize_submodel_counts
 
   include ReadMessages
 
@@ -75,6 +76,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
       submit_if_required_and_redirect
     else
+      present_errors
       render_edit_with_resources
     end
   end
@@ -120,6 +122,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       if @claim.valid?
         redirect_to new_advocates_claim_certification_path(@claim)
       else
+        present_errors
         render_edit_with_resources
       end
     else
@@ -331,6 +334,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def render_new_with_resources
+    present_errors
     build_nested_resources
     load_offences_and_case_types
     render action: :new
@@ -352,11 +356,21 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     end
   end
 
+  def initialize_submodel_counts
+    @defendant_count            = 0
+    @representation_order_count = 0
+    @basic_fee_count            = 0
+    @misc_fee_count             = 0
+    @fixed_fee_count            = 0
+    @expense_count              = 0
+  end
+
   def create_and_submit
     Claim.transaction do
       @claim.save
       @claim.force_validation = true
       # TODO: use @claim.save return value instead of @claim.valid? ?
+
       if @claim.valid?
         @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
         redirect_to new_advocates_claim_certification_path(@claim) and return
@@ -365,6 +379,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       end
     end
     render_new_with_resources
+  end
+
+  def present_errors
+    @error_presenter = ErrorPresenter.new(@claim)
   end
 
 end

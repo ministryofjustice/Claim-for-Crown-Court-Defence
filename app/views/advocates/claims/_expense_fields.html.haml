@@ -1,20 +1,23 @@
 %tbody.expense-group
   %tr.nested-fields
     %td
+      %a{name: "expense_#{@expense_count}_expense_type"}
       = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
-      = validation_error_message(f.object, :expense_type_id)
+      = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
     %td
+      %a{name: "expense_#{@expense_count}_quantity"}
       = f.text_field :location
       = validation_error_message(f.object, :location)
     %td
       = f.number_field :quantity, class: 'quantity', min: 0, max: 999, maxlength: 3
-      = validation_error_message(f.object, :quantity)
+      = validation_error_message(@error_presenter, "expense_#{@expense_count}_quantity")
     %td
+      %a{name: "expense_#{@expense_count}_amount"}
       %div.pound-wrapper
         %div.pound-sign.bold-xsmall
           &pound;
         = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
-      = validation_error_message(f.object, :rate)
+      = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
     %td.amount
       = number_to_currency(f.object.amount)
     %td.add-expense-date-attended

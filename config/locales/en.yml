@@ -89,34 +89,6 @@ en:
               blank: *blank
             last_name:
               blank: *blank
-        claim:
-          attributes:
-            advocate:
-              blank: Advocate cannot be blank
-            offence:
-              blank: Offence cannot be blank
-            court:
-              blank: Court cannot be blank
-            case_number:
-              blank: Case number cannot be blank
-            case_type:
-              blank: Case type cannot be blank
-              inclusion: *inclusion
-            advocate_category:
-              blank: Advocate category cannot be blank
-              inclusion: *inclusion
-        defendant:
-          attributes:
-            first_name:
-              blank: First name cannot be blank
-            last_name:
-              blank: Last name cannot be blank
-            date_of_birth:
-              blank: Date of birth cannot be blank
-            claim:
-              blank: Claim cannot be blank
-            representation_orders:
-              blank: 'A defendant must have a representation order'
         expense:
           attributes:
             expense_type:
@@ -264,6 +236,10 @@ en:
         order_for_judicial_apportionment: 'Order for judicial apportionment'
         add_another_rep_order: 'Add another representation order'
         remove_defendant: 'Remove defendant'
+      error_summary:
+        prohibited_save: This claim has
+        error: 'error'
+        form_error_hint: 'Check below for more detail'
       offence_select:
         offence_class: 'Offence class'
         select_offence_class: ' -- Select offence class -- '
@@ -295,9 +271,9 @@ en:
         choose_file: 'Choose a file'
         file_name: "File name"
         action: "Action"
-        error: 'error'
-        form_error_hint: 'Check below for more detail'
-        prohibited_save: 'This claim has'
+        # error: 'error'
+        # form_error_hint: 'Check below for more detail'
+        # prohibited_save: 'This claim has'
         case_advocate_offence: 'Case, instructed advocate & offence'
         advocate: *advocate
         case_type: 'Case type'

@@ -11,6 +11,13 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
 
+  def anchored_label(label, anchor_name = nil)
+    anchor_name ||= label.gsub(' ', '_').downcase
+    label_for = "#{object.class.to_s.camelize(:lower)}_#{label}"
+    %Q[<a name="#{anchor_name}"></a><label for="#{label_for}">#{label}</label>].html_safe
+  end
+
+
   private
 
   def make_option(current_value, member, value_method, text_method, data_options)

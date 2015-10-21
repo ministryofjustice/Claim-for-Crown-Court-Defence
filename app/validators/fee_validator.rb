@@ -34,67 +34,91 @@ class FeeValidator < BaseClaimValidator
     if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
-      validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
+      # validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
+      validate_numericality(:quantity, 1, 1, 'baf_qty1')
     end
   end
 
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 3
-      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+      add_error(:quantity, 'daf_qty_mismatch')
     elsif @record.quantity > @actual_trial_length - 2
-      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+      add_error(:quantity, 'daf_qty_mismatch')
     elsif @record.quantity > 37
-      add_error(:quantity, 'Quantity for Daily attendance fee (3 to 40) does not correspond with the actual trial length')
+      add_error(:quantity, 'daf_qty_mismatch')
     end
   end
 
   def validate_daily_attendance_41_50_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 41
-      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+      add_error(:quantity, 'dah_qty_mismatch')
     elsif @record.quantity > @actual_trial_length - 40
-      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+      add_error(:quantity, 'dah_qty_mismatch')
     elsif @record.quantity > 10
-      add_error(:quantity, 'Quantity for Daily attendance fee (41 to 50) does not correspond with the actual trial length')
+      add_error(:quantity, 'dah_qty_mismatch')
     end
   end
 
   def validate_daily_attendance_50_plus_quantity
     return if @record.quantity == 0
     if @actual_trial_length < 50
-      add_error(:quantity, 'Quantity for Daily attendance fee (51+) does not correspond with the actual trial length')
+      add_error(:quantity, 'daj_qty_mismatch')
     elsif @record.quantity > @actual_trial_length - 50
-      add_error(:quantity, 'Quantity for Daily attendance fee (51+) does not correspond with the actual trial length')
+      add_error(:quantity, 'daj_qty_mismatch')
     end
   end
 
   def validate_plea_and_case_management_hearing
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      add_error(:quantity, 'Quantity for plea and case management hearing cannot be greater than 3') if @record.quantity > 3
+      add_error(:quantity, 'pcm_invalid') if @record.quantity > 3
     else
-      add_error(:quantity, 'PCMH Fees quantity must be zero or blank for this case type') unless (@record.quantity == 0 || @record.quantity.blank?)
+      add_error(:quantity, 'pcm_invalid') unless (@record.quantity == 0 || @record.quantity.blank?)
     end
   end
 
   def validate_any_quantity
-    add_error(:quantity, 'Fee quantity cannot be negative') if @record.quantity < 0
+    add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 100
   end
 
   def validate_amount
-    if @record.amount < 0
-      add_error(:amount, 'Fee amount cannot be negative')
-    elsif @record.quantity > 0 && @record.amount == 0
-      add_error(:amount, 'Fee amount cannot be zero or blank if a fee quantity has been specified, please enter the relevant amount') unless @record.try(:fee_type).try(:code) == 'BAF'
-    elsif @record.quantity == 0 && @record.amount > 0
-      add_error(:amount, 'Fee amounts cannot be specified if the fee quantity is zero')
-    end
-    if @record.fee_type
-      unless @record.fee_type.max_amount.nil?
-        add_error(:amount, "Fee amount exceeds maximum permitted (#{@record.fee_type.pretty_max_amount}) for this fee type") if @record.amount > @record.fee_type.max_amount
-      end
+    case_type = @record.fee_type.try(:code)
+    case case_type
+    when 'BAF'
+      validate_baf_amount
+    when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
+      validate_non_baf_basic_fee_amount(case_type)
+    else
+      validate_misc_and_fixed_fee_amount
     end
   end
+
+
+  def validate_baf_amount
+    unless @record.claim.case_type.try(:is_fixed_fee?)
+      add_error(:amount, 'baf_invalid') if @record.amount < 1
+    end
+  end
+
+  def validate_misc_and_fixed_fee_amount
+    if @record.quantity > 0
+      add_error(:amount, "You have specified #{@record.try(:fee_type).try(:description)} fees - now enter an amount claimed for these fees") if @record.amount == 0
+    else
+      add_error(:amount, "Enter a valid amount for #{@record.try(:fee_type).try(:description)} fees") unless @record.amount == 0
+    end
+  end
+
+
+  def validate_non_baf_basic_fee_amount(case_type)
+    if @record.quantity > 0
+      add_error(:amount, "#{case_type.downcase}_zero") if @record.amount < 1
+    else
+      add_error(:amount, "#{case_type.downcase}_invalid") if @record.amount != 0
+    end
+  end
+
+
 
   # TODO - still to be done
   def validate_dates_attended

@@ -11,29 +11,29 @@ class DefendantValidator < BaseClaimValidator
   private
 
   def validate_date_of_birth
-    validate_presence(:date_of_birth, error_message_for(:defendant, :date_of_birth, :blank))
-    validate_not_after(10.years.ago, :date_of_birth, "Date of birth must be at least 10 years ago")
-    validate_not_before(120.years.ago, :date_of_birth, "Date of birth must not be more than 120 years ago")
+    validate_presence(:date_of_birth, 'blank')
+    validate_not_after(10.years.ago, :date_of_birth, "check")
+    validate_not_before(120.years.ago, :date_of_birth, "check")
   end
 
   def validate_representation_orders
     unless @record.claim && @record.claim.api_draft?
       if @record.representation_orders.none?
-        add_error(:representation_orders, I18n.t("activerecord.errors.models.defendant.attributes.representation_orders.blank") )
+        add_error(:representation_orders, 'no_reporder') 
       end
     end
   end
 
   def validate_claim
-    validate_presence(:claim, error_message_for(:defendant, :claim, :blank))
+    validate_presence(:claim, 'blank')
   end
 
   def validate_first_name
-    validate_presence(:first_name, error_message_for(:defendant, :first_name, :blank))
+    validate_presence(:first_name, 'blank')
   end
 
   def validate_last_name
-    validate_presence(:last_name, error_message_for(:defendant, :last_name, :blank))
+    validate_presence(:last_name, 'blank')
   end
 
 end

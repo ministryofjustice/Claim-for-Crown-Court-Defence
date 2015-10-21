@@ -89,7 +89,7 @@ context '#perform_validation?' do
   context 'advocate' do
     it 'should error if not present, regardless' do
       claim.advocate = nil
-      should_error_with(claim, :advocate, "Advocate cannot be blank, you must provide an advocate")
+      should_error_with(claim, :advocate, "blank")
     end
   end
 
@@ -103,21 +103,21 @@ context '#perform_validation?' do
   context 'case_type' do
     it 'should error if not present' do
       claim.case_type = nil
-      should_error_with(claim, :case_type, "Case type cannot be blank, you must select a case type")
+      should_error_with(claim, :case_type, "blank")
     end
   end
 
   context 'court' do
     it 'should error if not present' do
       claim.court = nil
-      should_error_with(claim, :court, 'Court cannot be blank, you must select a court' )
+      should_error_with(claim, :court, 'blank' )
     end
   end
 
   context 'case_number' do
     it 'should error if not present' do
       claim.case_number = nil
-      should_error_with(claim, :case_number, "Case number cannot be blank, you must enter a case number")
+      should_error_with(claim, :case_number, "blank")
     end
 
     # invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
@@ -125,7 +125,7 @@ context '#perform_validation?' do
     invalid_formats.each do |invalid_format|
       it "should error if invalid format #{invalid_format}" do
         claim.case_number = invalid_format
-        should_error_with(claim, :case_number,"Case number must be in format A12345678")
+        should_error_with(claim, :case_number,"invalid")
       end
     end
   end
@@ -133,7 +133,7 @@ context '#perform_validation?' do
   context 'advocate_category' do
     it 'should error if not present' do
       claim.advocate_category = nil
-      should_error_with(claim, :advocate_category,"Advocate category cannot be blank, you must select an appropriate advocate category")
+      should_error_with(claim, :advocate_category,"blank")
     end
 
     it 'should error if not in the available list' do
@@ -154,7 +154,7 @@ context '#perform_validation?' do
     it 'should error if not present and case type is not "Breach of Crown Court order"' do
       claim.case_type = guilty_plea
       claim.offence = nil
-      should_error_with(claim, :offence, "Offence Category cannot be blank, you must select an offence category")
+      should_error_with(claim, :offence, "blank")
     end
 
     it 'should NOT error if not present and case type is "Breach of Crown Court order"' do
@@ -168,7 +168,7 @@ context '#perform_validation?' do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.estimated_trial_length = nil
-      should_error_with(claim, :estimated_trial_length, "Estimated trial length cannot be blank, you must enter an estimated trial length")
+      should_error_with(claim, :estimated_trial_length, "invalid")
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do
@@ -178,8 +178,9 @@ context '#perform_validation?' do
     end
 
     it 'should error if less than zero' do
+      claim.case_type = contempt
       claim.estimated_trial_length = -1
-      should_error_with(claim, :estimated_trial_length, "Estimated trial length must be a whole number (0 or above)")
+      should_error_with(claim, :estimated_trial_length, "invalid")
     end
   end
 
@@ -187,7 +188,7 @@ context '#perform_validation?' do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.actual_trial_length = nil
-      should_error_with(claim, :actual_trial_length, "Actual trial length cannot be blank, you must enter an actual trial length")
+      should_error_with(claim, :actual_trial_length, "invalid")
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do
@@ -197,8 +198,9 @@ context '#perform_validation?' do
     end
 
     it 'should error if less than zero' do
+      claim.case_type = contempt
       claim.actual_trial_length = -1
-      should_error_with(claim, :actual_trial_length, "Actual trial length must be a whole number (0 or above)")
+      should_error_with(claim, :actual_trial_length, "invalid")
     end
   end
 
@@ -207,7 +209,7 @@ context '#perform_validation?' do
       before { claim.case_type = cracked_before_retrial }
       it 'should error if not present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim,:trial_cracked_at_third,"Case cracked in cannot be blank for a #{claim.case_type.name}, please inidicate the third in which the case cracked")
+        should_error_with(claim,:trial_cracked_at_third,"blank")
       end
 
       it 'should error if not final third cracked before retrial' do

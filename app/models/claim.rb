@@ -91,13 +91,7 @@ class Claim < ActiveRecord::Base
 
   has_paper_trail on: [:update], ignore: [:created_at, :updated_at, :original_submission_date, :last_submitted_at, :evidence_checklist_ids]
 
-  # ensure submodel validations bubble up to claim errrors
-  validates_associated :defendants, message: 'There is a problem with one or more defendants'
-  validates_associated :basic_fees, message: 'There is a problem with one or more basic fees'
-  validates_associated :fixed_fees, message: 'There is a problem with one or more fixed fees'
-  validates_associated :misc_fees,  message: 'There is a problem with one or more miscellaneous fees'
-  validates_associated :expenses,   message: 'There is a problem with one or more expenses'
-
+ 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }
   scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
@@ -114,6 +108,7 @@ class Claim < ActiveRecord::Base
   scope :total_lower_than, -> (value) { where { total < value } }
 
   # custom validators
+  validates_with ::ValidationInitializer
   validates_with ::ClaimDateValidator
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
@@ -179,7 +174,7 @@ class Claim < ActiveRecord::Base
   end
 
   def earliest_representation_order
-    representation_orders.sort{ |a, b| a.representation_order_date <=> b.representation_order_date }.first
+    representation_orders.sort { |a, b| (a.representation_order_date || 100.years.from_now) <=> (b.representation_order_date || 100.years.from_now) }.first
   end
 
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine

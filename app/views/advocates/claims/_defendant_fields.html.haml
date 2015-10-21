@@ -1,16 +1,18 @@
 .nested-fields
   %span.auto-width
-    = f.label t('.first_name')
+    - @defendant_count += 1
+    - @representation_order_count = 0
+    = f.anchored_label t('.first_name'), "defendant_#{@defendant_count}_first_name"
     = f.text_field :first_name
-    = validation_error_message(f.object, :first_name)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_first_name".to_sym)
   %span.auto-width
-    = f.label t('.last_name')
+    = f.anchored_label t('.last_name'), "defendant_#{@defendant_count}_last_name"
     = f.text_field :last_name
-    = validation_error_message(f.object, :last_name)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_last_name".to_sym)
   %span.auto-width
-    = f.label t('.date_of_birth')
+    = f.anchored_label t('.date_of_birth'), "defendant_#{@defendant_count}_date_of_birth"
     = f.gov_uk_date_field :date_of_birth
-    = validation_error_message(f.object, :date_of_birth)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym)
 
   %label
     = f.check_box :order_for_judicial_apportionment
@@ -19,6 +21,7 @@
 
   %p
     #documents
+      = f.anchored_label '', "defendant_#{@defendant_count}_representation_orders"
       = f.fields_for :representation_orders do |repo_form|
         = render 'representation_order_fields', f: repo_form
     .links

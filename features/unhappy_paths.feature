@@ -15,7 +15,7 @@ Feature: Unhappy paths
     When I save to drafts
     Then I should be redirected back to the create claim page
     And The entered values should be preserved on the page
-    And I should see a summary error message "Advocate cannot be blank"
+    And I should see a summary error message "Choose an advocate"
 
   Scenario: Attempt to submit claim to LAA without specifying defendant details
     Given I am a signed in advocate
@@ -23,9 +23,9 @@ Feature: Unhappy paths
       And I am on the new claim page
       And I attempt to submit to LAA without specifying defendant details
      Then I should be redirected back to the create claim page
-      And I should see a field level error message "First name cannot be blank"
-      And I should see a field level error message "Last name cannot be blank"
-      And I should see a field level error message "Date of birth cannot be blank"
+      And I should see a field level error message "Enter the first defendant's first name"
+      And I should see a field level error message "Enter the first defendant's last name"
+      And I should see a field level error message "Enter the first defendant's date of birth"
 
 Scenario Outline: Attempt to submit claim to LAA without specifying required text fields
     Given I am a signed in advocate
@@ -40,12 +40,12 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
 
     Examples:
 
-    | field_id                                   | error_message                                                |
-    | "claim_case_number"                        | "Case number cannot be blank, you must enter a case number"  |
-    | "claim_defendants_attributes_0_first_name" | "There is a problem with one or more defendants"             |
-    | "claim_basic_fees_attributes_0_quantity"   | "There is a problem with one or more basic fees"             |
-    | "claim_misc_fees_attributes_0_quantity"    | "There is a problem with one or more miscellaneous fees"     |
-    | "claim_expenses_attributes_0_quantity"     | "There is a problem with one or more expenses"               |
+    | field_id                                   | error_message                                                                        |
+    | "claim_case_number"                        | "Enter a case number"                                                                |
+    | "claim_defendants_attributes_0_first_name" | "Enter the first defendant's first name"                                             |
+    | "claim_basic_fees_attributes_0_quantity"   | "Quantity for basic fee must be exactly one"                                         |
+    | "claim_misc_fees_attributes_0_quantity"    | "Basic fee 2 amount you have specified other basic fee fees - now enter an amount claimed for these fees"  |
+    | "claim_expenses_attributes_0_quantity"     | "Expense first quantity cannot be blank"                                             |
 
     # TODO: unhappy paths for representation order details
 

@@ -6,14 +6,16 @@
         .form-hint
           = raw t('.basic_fee_prompt_text')
     %td
+      %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
       = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 999, maxlength: 3
-      = validation_error_message(f.object, :quantity)
+      = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
     %td
+      %a{name: "basic_fee_#{@basic_fee_count}_amount"}
       %div.pound-wrapper
         %div.pound-sign.bold-xsmall
           &pound;
         = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
-      = validation_error_message(f.object, :amount)
+      = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")
     %td.add-basic-fee-date-attended
       - if f.object.fee_type.has_dates_attended?
         = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}

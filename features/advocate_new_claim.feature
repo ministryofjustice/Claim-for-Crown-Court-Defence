@@ -9,7 +9,6 @@ Feature: Advocate new claim
 
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate
-      And There are fee schemes in place
       And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
@@ -22,7 +21,6 @@ Feature: Advocate new claim
 
   Scenario: Try to submit a zero value claim
     Given I am a signed in advocate
-      And There are fee schemes in place
       And There are case types in place
       And I am on the new claim page
      When I fill in the claim details but add no fees or expenses
@@ -81,7 +79,6 @@ Feature: Advocate new claim
 
   Scenario: Submit valid draft claim to LAA
     Given I am a signed in advocate
-      And There are fee schemes in place
       And a claim exists with state "draft"
      When I am on the claim edit page
       And I submit to LAA
@@ -101,7 +98,6 @@ Feature: Advocate new claim
 
   Scenario: Edit existing submitted claim
     Given I am a signed in advocate
-      And There are fee schemes in place
       And a claim exists with state "submitted"
      When I am on the claim edit page
       And I change the case number
@@ -114,7 +110,6 @@ Feature: Advocate new claim
 
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And There are case types in place
       And There are other advocates in my chamber
       And I am on the new claim page
@@ -129,7 +124,6 @@ Feature: Advocate new claim
 
   Scenario: Admin fails to specify advocate name
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And There are case types in place
       And There are basic and non-basic fee types
       And I am on the new claim page
@@ -139,7 +133,6 @@ Feature: Advocate new claim
 
   Scenario: Add Fixed Fee type
     Given I am a signed in advocate
-      And There are fee schemes in place
       And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
@@ -153,7 +146,6 @@ Feature: Advocate new claim
 
   Scenario: Add Miscellaneous Fee type
     Given I am a signed in advocate
-      And There are fee schemes in place
       And There are case types in place
       And I am on the new claim page
      When I fill in the claim details
@@ -166,7 +158,6 @@ Feature: Advocate new claim
 
   Scenario: Fixed Fee case type does not save Initial Fees
      Given I am a signed in advocate
-       And There are fee schemes in place
        And There are case types in place
        And I am on the new claim page
       When I fill in the claim details
@@ -178,7 +169,6 @@ Feature: Advocate new claim
 
   Scenario: Non-Fixed Fee case type does not save Fixed Fees
      Given I am a signed in advocate
-       And There are fee schemes in place
        And There are case types in place
        And I am on the new claim page
       When I fill in the claim details
@@ -189,7 +179,6 @@ Feature: Advocate new claim
 
   Scenario: Edit existing non-Fixed case type to be Fixed
     Given I am a signed in advocate
-      And There are fee schemes in place
       And There are case types in place
       And a non-fixed-fee claim exists with basic and miscellaneous fees
      When I am on the claim edit page

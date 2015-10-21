@@ -36,7 +36,6 @@ Feature: Caseworker claims list
 
   Scenario: View case workers
       Given I am a signed in case worker admin
-        And There are fee schemes in place
         And 2 case workers exist
        When I visit my dashboard
        Then I should see the admin caseworkers Manage case workers link and it should work

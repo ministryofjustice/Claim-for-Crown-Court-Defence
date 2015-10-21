@@ -242,6 +242,31 @@ versions:
   - - '11'
     - Claim
     - '3'
+    - update
+    - 
+    - "---\nid: 3\nadditional_information: It was a bright cold day in April, and
+      the clocks were striking\n  thirteen.\napply_vat: true\nstate: draft\nlast_submitted_at:
+      \ncase_number: N75419233\nadvocate_category: Leading junior\nindictment_number:
+      \nfirst_day_of_trial: \nestimated_trial_length: 0\nactual_trial_length: 0\nfees_total:
+      !ruby/object:BigDecimal 18:0.1253E4\nexpenses_total: !ruby/object:BigDecimal
+      18:0.0\ntotal: !ruby/object:BigDecimal 18:0.1253E4\nadvocate_id: 1\ncourt_id:
+      17\noffence_id: 55\ncreated_at: 2015-10-21 10:37:35.670130000 Z\nupdated_at:
+      2015-10-21 10:37:36.195558000 Z\nvalid_until: \ncms_number: CMS-2015-195-1\nauthorised_at:
+      \ncreator_id: 1\nevidence_notes: \nevidence_checklist_ids:\n- 1\n- 4\n- 4\n-
+      8\n- 1\ntrial_concluded_at: \ntrial_fixed_notice_at: 30/07/2015 00:00\ntrial_fixed_at:
+      29/08/2015 00:00\ntrial_cracked_at: 04/09/2015 00:00\ntrial_cracked_at_third:
+      final_third\nsource: web\nvat_amount: !ruby/object:BigDecimal 18:0.0\nuuid:
+      1910c5ae-09d2-4e3c-9ed3-40c2c08cfb13\ncase_type_id: 7\nform_id: \noriginal_submission_date:
+      \n"
+    - '2015-10-21 10:37:36.471817'
+    - |
+      ---
+      vat_amount:
+      - !ruby/object:BigDecimal 18:0.0
+      - !ruby/object:BigDecimal 27:0.2506E3
+  - - '10'
+    - Claim
+    - '3'
     - State change
     - 
     - "---\nid: 3\nadditional_information: I have never begun a novel with more misgiving.\napply_vat:
@@ -540,7 +565,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '24'
+  - - '26'
     - Claim
     - '6'
     - State change
@@ -564,7 +589,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '25'
+  - - '27'
     - Claim
     - '6'
     - State change
@@ -780,7 +805,7 @@ versions:
   - - '34'
     - Claim
     - '9'
-    - State change
+    - update
     - 
     - "---\nid: 9\nadditional_information: In the town, there were two mutes and they
       were always together.\napply_vat: true\nstate: draft\nlast_submitted_at: 2015-10-16
@@ -818,6 +843,7 @@ versions:
     - |
       ---
       state:
+      - draft
       - submitted
       - allocated
   - - '36'
@@ -1147,7 +1173,7 @@ versions:
       claim_id: 12
       type: Assessment
       fees: !ruby/object:BigDecimal 18:0.0
-      expenses: !ruby/object:BigDecimal 36:0.0
+      expenses: !ruby/object:BigDecimal 18:0.0
       total: !ruby/object:BigDecimal 18:0.0
       created_at: 2015-10-21 09:38:41.989520000 Z
       updated_at: 2015-10-21 09:38:41.989520000 Z
@@ -1276,7 +1302,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '56'
+  - - '55'
     - Claim
     - '13'
     - State change
@@ -1301,7 +1327,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '57'
+  - - '56'
     - Claim
     - '13'
     - State change
@@ -1326,7 +1352,7 @@ versions:
       state:
       - allocated
       - refused
-  - - '58'
+  - - '57'
     - Claim
     - '14'
     - update
@@ -1415,7 +1441,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '62'
+  - - '61'
     - Claim
     - '14'
     - State change
@@ -1439,7 +1465,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '63'
+  - - '62'
     - Determination
     - '14'
     - Assessment made
@@ -1487,7 +1513,7 @@ versions:
       state:
       - allocated
       - authorised
-  - - '65'
+  - - '64'
     - Claim
     - '15'
     - update
@@ -1737,7 +1763,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '76'
+  - - '74'
     - Claim
     - '17'
     - State change
@@ -1760,9 +1786,76 @@ versions:
       state:
       - submitted
       - allocated
+  - - '75'
+    - Claim
+    - '18'
+    - update
+    - 
+    - "---\nid: 18\nadditional_information: I am an invisible man.\napply_vat: true\nstate:
+      draft\nlast_submitted_at: \ncase_number: Y37696098\nadvocate_category: Led junior\nindictment_number:
+      \nfirst_day_of_trial: \nestimated_trial_length: 0\nactual_trial_length: 0\nfees_total:
+      !ruby/object:BigDecimal 18:0.0\nexpenses_total: !ruby/object:BigDecimal 18:0.0\ntotal:
+      !ruby/object:BigDecimal 18:0.0\nadvocate_id: 2\ncourt_id: 43\noffence_id: 94\ncreated_at:
+      2015-10-21 10:37:54.843925000 Z\nupdated_at: 2015-10-21 10:37:55.344365000 Z\nvalid_until:
+      \ncms_number: CMS-2015-195-1\nauthorised_at: \ncreator_id: 2\nevidence_notes:
+      \nevidence_checklist_ids:\n- 1\n- 6\n- 3\n- 9\n- 6\n- 3\ntrial_concluded_at:
+      \ntrial_fixed_notice_at: \ntrial_fixed_at: \ntrial_cracked_at: \ntrial_cracked_at_third:
+      \nsource: web\nvat_amount: !ruby/object:BigDecimal 18:0.0\nuuid: e416f7fb-e122-4ffc-955d-4a58f2f8dbf7\ncase_type_id:
+      12\nform_id: \noriginal_submission_date: \n"
+    - '2015-10-21 10:37:55.452647'
+    - "---\nfirst_day_of_trial:\n- \n- 17/08/2015 00:00\nestimated_trial_length:\n-
+      0\n- 55\nactual_trial_length:\n- 0\n- 56\ntrial_concluded_at:\n- \n- 02/11/2015
+      00:00\n"
+  - - '76'
+    - Claim
+    - '18'
+    - update
+    - 
+    - "---\nid: 18\nadditional_information: I am an invisible man.\napply_vat: true\nstate:
+      draft\nlast_submitted_at: \ncase_number: Y37696098\nadvocate_category: Led junior\nindictment_number:
+      \nfirst_day_of_trial: 17/08/2015 00:00\nestimated_trial_length: 55\nactual_trial_length:
+      56\nfees_total: !ruby/object:BigDecimal 18:0.5033E4\nexpenses_total: !ruby/object:BigDecimal
+      27:0.13933030402076969E4\ntotal: !ruby/object:BigDecimal 27:0.64263030402076969E4\nadvocate_id:
+      2\ncourt_id: 43\noffence_id: 94\ncreated_at: 2015-10-21 10:37:54.843925000 Z\nupdated_at:
+      2015-10-21 10:37:55.452647000 Z\nvalid_until: \ncms_number: CMS-2015-195-1\nauthorised_at:
+      \ncreator_id: 2\nevidence_notes: \nevidence_checklist_ids:\n- 1\n- 6\n- 3\n-
+      9\n- 6\n- 3\ntrial_concluded_at: 02/11/2015 00:00\ntrial_fixed_notice_at: \ntrial_fixed_at:
+      \ntrial_cracked_at: \ntrial_cracked_at_third: \nsource: web\nvat_amount: !ruby/object:BigDecimal
+      18:0.0\nuuid: e416f7fb-e122-4ffc-955d-4a58f2f8dbf7\ncase_type_id: 12\nform_id:
+      \noriginal_submission_date: \n"
+    - '2015-10-21 10:37:55.949317'
+    - |
+      ---
+      vat_amount:
+      - !ruby/object:BigDecimal 18:0.0
+      - !ruby/object:BigDecimal 36:0.128526E4
   - - '77'
     - Claim
     - '18'
+    - State change
+    - 
+    - "---\nid: 18\nadditional_information: I am an invisible man.\napply_vat: true\nstate:
+      draft\nlast_submitted_at: 2015-10-18 10:37:56.009025000 Z\ncase_number: Y37696098\nadvocate_category:
+      Led junior\nindictment_number: \nfirst_day_of_trial: 17/08/2015 00:00\nestimated_trial_length:
+      55\nactual_trial_length: 56\nfees_total: !ruby/object:BigDecimal 18:0.5033E4\nexpenses_total:
+      !ruby/object:BigDecimal 27:0.13933030402076969E4\ntotal: !ruby/object:BigDecimal
+      27:0.64263030402076969E4\nadvocate_id: 2\ncourt_id: 43\noffence_id: 94\ncreated_at:
+      2015-10-21 10:37:54.843925000 Z\nupdated_at: 2015-10-21 10:37:56.024286000 Z\nvalid_until:
+      \ncms_number: CMS-2015-195-1\nauthorised_at: \ncreator_id: 2\nevidence_notes:
+      \nevidence_checklist_ids:\n- 1\n- 6\n- 3\n- 9\n- 6\n- 3\ntrial_concluded_at:
+      02/11/2015 00:00\ntrial_fixed_notice_at: \ntrial_fixed_at: \ntrial_cracked_at:
+      \ntrial_cracked_at_third: \nsource: web\nvat_amount: !ruby/object:BigDecimal
+      36:0.128526E4\nuuid: e416f7fb-e122-4ffc-955d-4a58f2f8dbf7\ncase_type_id: 12\nform_id:
+      \noriginal_submission_date: \n"
+    - '2015-10-21 10:37:56.062764'
+    - |
+      ---
+      state:
+      - draft
+      - submitted
+  - - '78'
+    - Claim
+    - '19'
     - update
     - 
     - "---\nid: 18\nadditional_information: It is a truth universally acknowledged,
@@ -2030,7 +2123,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '89'
+  - - '88'
     - Claim
     - '20'
     - State change
@@ -2054,7 +2147,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '90'
+  - - '89'
     - Claim
     - '20'
     - State change
@@ -2078,7 +2171,7 @@ versions:
       state:
       - allocated
       - refused
-  - - '91'
+  - - '90'
     - Claim
     - '21'
     - update
@@ -2485,7 +2578,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '109'
+  - - '107'
     - Claim
     - '24'
     - State change
@@ -2508,7 +2601,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '110'
+  - - '108'
     - Claim
     - '25'
     - update
@@ -2616,7 +2709,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '115'
+  - - '113'
     - Claim
     - '26'
     - State change
@@ -2639,7 +2732,7 @@ versions:
       state:
       - submitted
       - allocated
-  - - '116'
+  - - '114'
     - Determination
     - '26'
     - Assessment made
@@ -2686,7 +2779,31 @@ versions:
       state:
       - allocated
       - part_authorised
-  - - '118'
+  - - '116'
+    - Claim
+    - '27'
+    - update
+    - 
+    - "---\nid: 27\nadditional_information: It is a truth universally acknowledged,
+      that a single man\n  in possession of a good fortune must be in want of a wife.\napply_vat:
+      true\nstate: draft\nlast_submitted_at: \ncase_number: O26919122\nadvocate_category:
+      Junior alone\nindictment_number: \nfirst_day_of_trial: \nestimated_trial_length:
+      0\nactual_trial_length: 0\nfees_total: !ruby/object:BigDecimal 18:0.4006E4\nexpenses_total:
+      !ruby/object:BigDecimal 27:0.10736294260133267E4\ntotal: !ruby/object:BigDecimal
+      27:0.50796294260133267E4\nadvocate_id: 2\ncourt_id: 37\noffence_id: 101\ncreated_at:
+      2015-10-21 10:38:06.873723000 Z\nupdated_at: 2015-10-21 10:38:07.358840000 Z\nvalid_until:
+      \ncms_number: CMS-2015-195-1\nauthorised_at: \ncreator_id: 2\nevidence_notes:
+      \nevidence_checklist_ids:\n- 1\n- 1\n- 1\n- 1\n- 1\n- 1\ntrial_concluded_at:
+      \ntrial_fixed_notice_at: \ntrial_fixed_at: \ntrial_cracked_at: \ntrial_cracked_at_third:
+      \nsource: web\nvat_amount: !ruby/object:BigDecimal 18:0.0\nuuid: e172610f-679a-4fd3-a500-fb25ea30fe27\ncase_type_id:
+      3\nform_id: \noriginal_submission_date: \n"
+    - '2015-10-21 10:38:07.801352'
+    - |
+      ---
+      vat_amount:
+      - !ruby/object:BigDecimal 18:0.0
+      - !ruby/object:BigDecimal 36:0.101593E4
+  - - '117'
     - Claim
     - '27'
     - update

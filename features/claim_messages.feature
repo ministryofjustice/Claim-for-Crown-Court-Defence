@@ -3,8 +3,6 @@ Feature: Claim messages
     As an advocate or case worker I need to see messages that have been left
     on a claim, or to be able to add messages to the claim.
 
-    Given There are fee schemes in place
-
   Scenario: View messages as a case worker
     Given I am a signed in case worker
       And a claim with messages exists that I have been assigned to

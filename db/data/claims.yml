@@ -19,7 +19,6 @@ claims:
   - advocate_id
   - court_id
   - offence_id
-  - scheme_id
   - created_at
   - updated_at
   - valid_until
@@ -118,6 +117,10 @@ claims:
     - 
     - 
     - 
+    - '2015-07-29'
+    - '2015-08-25'
+    - '2015-09-02'
+    - final_third
     - web
     - '708.07'
     - f9be6a7a-a581-41b9-9e54-86c1c147482b
@@ -158,6 +161,10 @@ claims:
     - 
     - 
     - 
+    - '2015-07-30'
+    - '2015-08-29'
+    - '2015-09-04'
+    - final_third
     - web
     - '587.63'
     - f1e4cccc-c8ce-43c1-9dc9-4204df087d0c
@@ -461,7 +468,7 @@ claims:
     - 
     - '2015-10-21 09:38:40.524781'
   - - '11'
-    - It was the day my grandmother exploded.
+    - I am an invisible man.
     - true
     - submitted
     - '2015-10-21 09:38:41.77763'
@@ -630,7 +637,7 @@ claims:
     - 
     - '2015-10-21 09:38:45.406757'
   - - '15'
-    - The moment one learns English, complications set in.
+    - I am an invisible man.
     - true
     - draft
     - 
@@ -823,10 +830,10 @@ claims:
       ---
       - 1
     - 
-    - 
-    - 
-    - 
-    - 
+    - '2015-07-26'
+    - '2015-08-23'
+    - '2015-08-29'
+    - final_third
     - web
     - '772.23'
     - b619d70b-3f32-47db-a04e-18772cf8c490

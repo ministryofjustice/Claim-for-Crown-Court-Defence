@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019203522) do
+ActiveRecord::Schema.define(version: 20151021091610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(version: 20151019203522) do
     t.integer  "advocate_id"
     t.integer  "court_id"
     t.integer  "offence_id"
-    t.integer  "scheme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "valid_until"
@@ -156,7 +155,6 @@ ActiveRecord::Schema.define(version: 20151019203522) do
   add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
   add_index "claims", ["form_id"], name: "index_claims_on_form_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
-  add_index "claims", ["scheme_id"], name: "index_claims_on_scheme_id", using: :btree
   add_index "claims", ["state"], name: "index_claims_on_state", using: :btree
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
 
@@ -346,16 +344,6 @@ ActiveRecord::Schema.define(version: 20151019203522) do
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
   end
-
-  create_table "schemes", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "start_date"
-    t.date     "end_date"
-  end
-
-  add_index "schemes", ["name"], name: "index_schemes_on_name", using: :btree
 
   create_table "user_message_statuses", force: :cascade do |t|
     t.integer  "user_id"

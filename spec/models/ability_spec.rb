@@ -92,14 +92,14 @@ describe Ability do
     end
 
     context 'cannot manage their chamber' do
-      [:show, :edit, :update].each do |action|
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should_not be_able_to(action, chamber) }
       end
     end
 
     context 'cannot manage other chambers' do
       let(:other_chamber) { create(:chamber) }
-      [:show, :edit, :update].each do |action|
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should_not be_able_to(action, other_chamber) }
       end
     end
@@ -134,14 +134,14 @@ describe Ability do
     end
 
     context 'can manage their chamber' do
-      [:show, :edit, :update].each do |action|
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should be_able_to(action, chamber) }
       end
     end
 
     context 'cannot manage other chambers' do
       let(:other_chamber) { create(:chamber) }
-      [:show, :edit, :update].each do |action|
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should_not be_able_to(action, other_chamber) }
       end
     end

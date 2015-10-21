@@ -38,4 +38,13 @@ RSpec.describe Chamber, type: :model do
     end
   end
 
+  context '.regenerate_api_key' do
+    let(:chamber) { FactoryGirl.create(:chamber) }
+
+    it 'should create a new api_key' do
+      old_api_key = chamber.api_key
+      expect{ chamber.regenerate_api_key! }.to change{ chamber.api_key }.from(old_api_key)
+    end
+  end
+
 end

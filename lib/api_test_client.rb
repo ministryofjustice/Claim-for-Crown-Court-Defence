@@ -56,6 +56,9 @@ class ApiTestClient
   end
 
   def run
+    # retrieve api key
+    @api_key = test_chamber_api_key
+
     test_dropdown_endpoints
     test_claim_creation_endpoints
   end
@@ -104,7 +107,7 @@ private
   # response for analysis.
   #
   def get_dropdown_endpoint(resource, prefix=nil)
-    endpoint = RestClient::Resource.new([api_root_url, prefix || DROPDOWN_PREFIX, resource].join('/'))
+    endpoint = RestClient::Resource.new([api_root_url, prefix || DROPDOWN_PREFIX, resource].join('/') <<  "?api_key=#{@api_key}" )
     endpoint.get do |response, request, result|
       if response.code.to_s =~ /^2/
         @messages << "#{resource} Endpoint returned success code - #{response.code}"
@@ -155,9 +158,6 @@ private
   end
 
   def test_claim_creation_endpoints
-
-    # retrieve api key
-    @api_key = test_chamber_api_key
 
     # create a claim
     response = post_to_advocate_endpoint('claims', claim_data)
@@ -295,7 +295,7 @@ private
 
   def date_attended_data(attended_item_uuid, attended_item_type)
     {
-      # "api_key": @api_key,
+      "api_key": @api_key,
       "attended_item_id": attended_item_uuid,
       "attended_item_type": attended_item_type,
       "date": "2015-06-01",

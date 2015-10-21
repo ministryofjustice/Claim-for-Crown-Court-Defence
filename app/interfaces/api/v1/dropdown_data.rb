@@ -9,8 +9,29 @@ module API
       prefix 'api'
       content_type :json, 'application/json'
 
+      helpers do
+
+        include API::V1::ApiHelper
+
+        params :api_key_params do
+          optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the chamber"
+        end
+
+        def authenticate!(params)
+          ApiHelper.authenticate_key!(params)
+        rescue API::V1::ArgumentError
+          error!('Unauthorised', 401)
+        end
+
+      end
+
+      before do
+        authenticate!(params)
+      end
+
       resource :case_types do
         desc "Return all Case Types"
+        params { use :api_key_params }
         get do
           CaseType.all
         end
@@ -18,6 +39,7 @@ module API
 
       resource :courts do
         desc "Return all Courts"
+        params { use :api_key_params }
         get do
           Court.all
         end
@@ -25,6 +47,7 @@ module API
 
       resource :advocate_categories do
         desc "Return all Advocate Categories"
+        params { use :api_key_params }
         get do
           Settings.advocate_categories
         end
@@ -32,6 +55,7 @@ module API
 
       resource :trial_cracked_at_thirds do
         desc "Return all Trial Cracked at Third values (i.e. first, second, final)"
+        params { use :api_key_params }
         get do
           Settings.trial_cracked_at_third
         end
@@ -39,6 +63,7 @@ module API
 
       resource :granting_body_types do
         desc "Return all granting body types (as used to specify which court issued a defendants Rep. Order)"
+        params { use :api_key_params }
         get do
           Settings.court_types
         end
@@ -46,17 +71,20 @@ module API
 
       resource :offence_classes do
         desc "Return all Offence Class Types."
+        params { use :api_key_params }
         get do
           ::OffenceClass.all
         end
       end
 
-      params do
-        optional :offence_description, type:  String, desc: "Offences matching description"
-      end
-
       resource :offences do
         desc "Return all Offence Types."
+
+        params do
+          use :api_key_params
+          optional :offence_description, type:  String, desc: "Offences matching description"
+        end
+
         get do
           if params[:offence_description].present?
             ::Offence.where(description: params[:offence_description])
@@ -68,15 +96,16 @@ module API
 
       resource :fee_categories do
         desc "Return all Fee Categories"
+        params { use :api_key_params }
         get do
           FeeCategory.all
         end
       end
 
       resource :fee_types do
-
         helpers do
           params :category_filter do
+            use :api_key_params
             optional :category, type: String, values: ['all','basic','misc','fixed'], desc: "[optional] category - basic, misc, fixed", default: 'all'
           end
 
@@ -86,11 +115,7 @@ module API
         end
 
         desc "Return all Fee Types (optional category filter)."
-
-        params do
-          use :category_filter
-        end
-
+        params { use :category_filter }
         get do
           if args[:category].blank? || args[:category].downcase == 'all'
             ::FeeType.all
@@ -98,11 +123,11 @@ module API
             ::FeeType.__send__(args[:category].downcase)
           end
         end
-
       end
 
       resource :expense_types do
         desc "Return all Expense Types."
+        params { use :api_key_params }
         get do
           ::ExpenseType.all
         end

@@ -13,22 +13,28 @@ module API
 
           helpers do
             include ExtractDate
-            params :representation_order_creation do
+            include API::V1::ApiHelper
+
+            params :representation_order_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :defendant_id, type: String,             desc: 'REQUIRED: ID of the defendant'
-              optional :granting_body, type: String,            desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrates' Court)"
-              optional :maat_reference, type: String,           desc: "REQUIRED: The unique identifier for this representation order"
+              optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the chamber"
+              optional :defendant_id, type: String,               desc: 'REQUIRED: ID of the defendant'
+              optional :granting_body, type: String,              desc: "REQUIRED: The court which granted this representation order (Crown Court or Magistrates' Court)"
+              optional :maat_reference, type: String,             desc: "REQUIRED: The unique identifier for this representation order"
               optional :representation_order_date, type: String,  desc: "REQUIRED: The date on which this representation order was granted (YYYY-MM-DD)", standard_json_format:true
             end
 
-            def build_arguments
+            # NOTE: explicit error raising because defendant_id's presence is not validated by model due to instatiation issues # TODO review in code review
+            def validate_defendant_presence
               defendant_id = ::Defendant.find_by(uuid: params[:defendant_id]).try(:id)
-               # TODO review in code review
-               # NOTE: explicit error raising because defendant_id's presence is not validated by model due to instatiation issues
               if defendant_id.nil?
-                raise API::V1::ArgumentError, 'Defendant can\'t be blank'
+                raise API::V1::ArgumentError, 'Defendant cannot be blank'
               end
+              defendant_id
+            end
 
+            def build_arguments
+              defendant_id = validate_defendant_presence
               {
                 defendant_id: defendant_id,
                 granting_body: params[:granting_body],
@@ -44,7 +50,7 @@ module API
           desc "Create a representation_order."
 
           params do
-            use :representation_order_creation
+            use :representation_order_params
           end
 
           post do
@@ -58,12 +64,12 @@ module API
           desc "Validate a representation_order."
 
           params do
-            use :representation_order_creation
+            use :representation_order_params
           end
 
           post '/validate' do
             api_response = ApiResponse.new()
-            ApiHelper.validate_resource(::RepresentationOrder, api_response, method(:build_arguments).to_proc)
+            ApiHelper.validate_resource(::RepresentationOrder, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end

@@ -1,8 +1,12 @@
 require 'rails_helper'
 require 'spec_helper'
+require_relative 'api_spec_helper'
+require_relative 'shared_examples_for_all'
 
 describe API::V1::Advocates::Claim do
+
   include Rack::Test::Methods
+  include ApiSpecHelper
 
   VALIDATE_CLAIM_ENDPOINT = "/api/advocates/claims/validate"
   CREATE_CLAIM_ENDPOINT = "/api/advocates/claims"
@@ -10,10 +14,17 @@ describe API::V1::Advocates::Claim do
   ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:current_advocate) { create(:advocate) }
+  let!(:chamber)          { create(:chamber) }
+  let!(:other_chamber)    { create(:chamber) }
+  let!(:vendor)           { create(:advocate, :admin, chamber: chamber) }
+  let!(:advocate)         { create(:advocate, chamber: chamber) }
+  let!(:other_vendor)     { create(:advocate, :admin, chamber: other_chamber) }
   let!(:offence)          { create(:offence)}
   let!(:court)            { create(:court)}
-  let!(:claim_params) { { :advocate_email => current_advocate.user.email,
+  let!(:valid_params) { {
+                          :api_key => chamber.api_key,
+                          :creator_email => vendor.user.email,
+                          :advocate_email => advocate.user.email,
                           :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true).id,
                           :case_number => 'A12345678',
                           :first_day_of_trial => "2015-01-01",
@@ -24,6 +35,12 @@ describe API::V1::Advocates::Claim do
                           :indictment_number => 1234,
                           :offence_id => offence.id,
                           :court_id => court.id } }
+
+  describe 'vendor' do
+    it 'should belong to same chamber as advocate' do
+      expect(vendor.chamber).to eql(advocate.chamber)
+    end
+  end
 
   context 'when sending non-permitted verbs' do
     ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -41,38 +58,60 @@ describe API::V1::Advocates::Claim do
   describe "POST #{VALIDATE_CLAIM_ENDPOINT}" do
 
     def post_to_validate_endpoint
-      post VALIDATE_CLAIM_ENDPOINT, claim_params, format: :json
+      post VALIDATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
 
     it 'valid requests should return 200 and String true' do
+      expect(vendor.chamber).to eql(advocate.chamber)
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       json = JSON.parse(last_response.body)
       expect(json).to eq({ "valid" => true })
     end
 
-    it "should return 400 and JSON error array when advocate email is invalid" do
-      claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
+    context 'invalid API key' do
+
+      include_examples "invalid API key validate endpoint"
+
+      it "should return 400 and JSON error array when it is an API key from another chamber's admin" do
+        valid_params[:api_key] = other_chamber.api_key
+        post_to_validate_endpoint
+        expect_error_response("Creator and advocate must belong to the chamber")
+      end
+
+    end
+
+    it "should return 400 and JSON error array when creator email is invalid" do
+      valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
       post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      json = JSON.parse(last_response.body)
-      expect(json[0]['error']).to eq("Advocate email is invalid")
+      expect_error_response("Creator email is invalid or does not have administrator privileges")
+    end
+
+     it "should return 400 and JSON error array when creator does not have admin role" do
+      vendor.update!(role: 'advocate')
+      valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
+      post_to_validate_endpoint
+      expect_error_response("Creator email is invalid or does not have administrator privileges")
+    end
+
+    it "should return 400 and JSON error array when advocate email is invalid" do
+      valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
+      post_to_validate_endpoint
+      expect_error_response("Advocate email is invalid")
     end
 
     it 'missing required params should return 400 and a JSON error array' do
-      claim_params.delete(:case_number)
+      valid_params.delete(:case_number)
       post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      json = JSON.parse(last_response.body)
-      expect(json[0]['error']).to include("Case number cannot be blank, you must enter a case number")
+      expect_error_response("Case number cannot be blank, you must enter a case number")
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
-      claim_params[:first_day_of_trial] = '01-01-2015'
-      claim_params[:trial_concluded_at] = '09-01-2015'
-      claim_params[:trial_fixed_notice_at] = '01-01-2015'
-      claim_params[:trial_fixed_at] = '01-01-2015'
-      claim_params[:trial_cracked_at] = '01-01-2015'
+      valid_params[:first_day_of_trial] = '01-01-2015'
+      valid_params[:trial_concluded_at] = '09-01-2015'
+      valid_params[:trial_fixed_notice_at] = '01-01-2015'
+      valid_params[:trial_fixed_at] = '01-01-2015'
+      valid_params[:trial_cracked_at] = '01-01-2015'
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
@@ -84,17 +123,26 @@ describe API::V1::Advocates::Claim do
   describe "POST #{CREATE_CLAIM_ENDPOINT}" do
 
     def post_to_create_endpoint
-      post CREATE_CLAIM_ENDPOINT, claim_params, format: :json
+      post CREATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
 
     context "when claim params are valid" do
 
-      it "should create claim, return 201 and claim JSON output including UUID" do
+      it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
         expect(Claim.find_by(uuid: json['id']).uuid).to eq(json['id'])
+      end
+
+      it "should exclude API key, creator email and advocate email from response" do
+        post_to_create_endpoint
+        expect(last_response.status).to eq(201)
+        json = JSON.parse(last_response.body)
+        expect(json['api_key']).to be_nil
+        expect(json['creator_email']).to be_nil
+        expect(json['adovcate_email']).to be_nil
       end
 
       it "should create one new claim" do
@@ -109,17 +157,17 @@ describe API::V1::Advocates::Claim do
         }
 
         it "have the same attributes as described in params" do
-          claim_params.delete(:advocate_email) # because the saved claim record does not have this attribute
-          claim_params.each do |attribute, value|
+          valid_params.each do |attribute, value|
+            next if [:api_key, :creator_email, :advocate_email].include?(attribute) # because the saved claim record does not have these attribute
             if @new_claim.send(attribute).class == Date
-              claim_params[attribute] = value.to_date # because the sved claim record has Date objects but the param has date strings
+              valid_params[attribute] = value.to_date # because the sved claim record has Date objects but the param has date strings
             end
-            expect(@new_claim.send(attribute).to_s).to eq claim_params[attribute].to_s # some strings are converted to ints on save
+            expect(@new_claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
           end
         end
 
         it "belong to the advocate whose email was specified in params" do
-          expected_owner = User.find_by(email: claim_params[:advocate_email])
+          expected_owner = User.find_by(email: valid_params[:advocate_email])
           expect(@new_claim.advocate).to eq expected_owner.persona
         end
 
@@ -129,47 +177,51 @@ describe API::V1::Advocates::Claim do
 
     context "when claim params are invalid" do
 
+      context 'invalid API key' do
+        include_examples "invalid API key create endpoint"
+
+        it "should return 400 and JSON error array when it is an API key from another chamber" do
+          valid_params[:api_key] = other_chamber.api_key
+          post_to_create_endpoint
+          expect_error_response("Creator and advocate must belong to the chamber")
+        end
+      end
+
       context "invalid advocate email input" do
         it "should return 400 and a JSON error array when advocate email is invalid" do
-          claim_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
+          valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
           post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to eql("Advocate email is invalid")
+          expect_error_response("Advocate email is invalid")
         end
       end
 
       context "missing expected params" do
         it "should return a JSON error array when required model attributes are missing" do
-          claim_params.delete(:case_type_id)
-          claim_params.delete(:case_number)
+          valid_params.delete(:case_type_id)
+          valid_params.delete(:case_number)
           post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("Case type cannot be blank, you must select a case type")
-          expect(json[1]['error']).to include("Case number cannot be blank, you must enter a case number")
+          expect_error_response("Case type cannot be blank, you must select a case type",0)
+          expect_error_response("Case number cannot be blank, you must enter a case number",1)
         end
       end
 
       context "existing but invalid value" do
         it "should return 400 and JSON error array of model validation errors" do
-          claim_params[:estimated_trial_length] = -1
-          claim_params[:actual_trial_length] = -1
+          valid_params[:estimated_trial_length] = -1
+          valid_params[:actual_trial_length] = -1
           post_to_create_endpoint
-          expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("Estimated trial length must be a whole number (0 or above)")
-          expect(json[1]['error']).to include("Actual trial length must be a whole number (0 or above)")
+          expect_error_response("Estimated trial length must be a whole number (0 or above)",0)
+          expect_error_response("Actual trial length must be a whole number (0 or above)",1)
         end
       end
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          claim_params[:case_type_id] = 1000000000000000000000000000011111
+          valid_params[:case_type_id] = 1000000000000000000000000000011111
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)
-          expect(json[0]['error']).to include("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
+          expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
 

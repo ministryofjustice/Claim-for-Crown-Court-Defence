@@ -1,9 +1,11 @@
 require 'rails_helper'
 require 'spec_helper'
+require_relative 'api_spec_helper'
 
 describe API::V1::DropdownData do
 
   include Rack::Test::Methods
+  include ApiSpecHelper
 
   CASE_TYPE_ENDPOINT          = "/api/case_types"
   COURT_ENDPOINT              = "/api/courts"
@@ -18,6 +20,9 @@ describe API::V1::DropdownData do
 
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
+
+  let(:chamber) { create(:chamber) }
+  let(:params)  { {api_key: chamber.api_key} }
 
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -60,21 +65,29 @@ describe API::V1::DropdownData do
 
     it 'should return a JSON formatted list of the required information' do
       @endpoints_and_expectations.each do |endpoint, expectation|
-        response = get endpoint, format: :json
+        response = get endpoint, params, format: :json
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).count).to be > 0
         expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
       end
     end
-  end
 
+    it 'should require an API key' do
+      @endpoints_and_expectations.each do |endpoint, expectation|
+        params.delete(:api_key)
+        get endpoint, params, format: :json
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
+  end
 
   context 'GET api/offences' do
 
       let!(:offence)                        { create(:offence) }
       let!(:other_offence)                  { create(:offence) }
       let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
-      let!(:response)                       { get OFFENCE_ENDPOINT }
+      let!(:response)                       { get OFFENCE_ENDPOINT, params }
 
     it 'should include the offence class as nested JSON' do
       body = JSON.parse(response.body)
@@ -82,7 +95,8 @@ describe API::V1::DropdownData do
     end
 
     it 'should only return offences matching description when offence_description param is present' do
-      response = get OFFENCE_ENDPOINT, offence_description: offence.description
+      params.merge!(offence_description: offence.description)
+      response = get OFFENCE_ENDPOINT, params
       returned_offences = JSON.parse(response.body)
       expect(returned_offences).to include(JSON.parse(offence.to_json), JSON.parse(offence_with_same_description.to_json))
       expect(returned_offences).to_not include(JSON.parse(other_offence.to_json))
@@ -99,7 +113,8 @@ describe API::V1::DropdownData do
     }
 
     def get_filtered_fee_types(category=nil)
-      get FEE_TYPE_ENDPOINT, category: category, format: :json
+      params.merge!(category: category)
+      get FEE_TYPE_ENDPOINT, params , format: :json
     end
 
     it 'should filter by category' do

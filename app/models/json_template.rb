@@ -67,7 +67,7 @@ class JsonTemplate
     def set_data_type(klass, attribute_name, attributes_hash)
       if klass.columns_hash[attribute_name] # if the class has this attribute
         use_data_type_from_model(klass, attribute_name, attributes_hash)
-      elsif attribute_name =~ /email/ # to account for email attribute which is on Defendant, not claim
+      elsif ['api_key','creator_email','advocate_email'].include?(attribute_name) # handle non-model attributes of string type
         attributes_hash[attribute_name] = 'string' # and is of type 'string'
       end
     end

@@ -13,13 +13,15 @@ module API
 
           helpers do
             include ExtractDate
-            params :defendant_creation do
+
+            params :defendant_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
-              optional :first_name, type: String,       desc: "REQUIRED: First name of the defedant."
-              optional :last_name, type: String,        desc: "REQUIRED: Last name of the defendant."
-              optional :date_of_birth, type: String,  desc: "REQUIRED: Defendant's date of birth (YYYY-MM-DD).", standard_json_format: true
-              optional :order_for_judicial_apportionment, type: Boolean, desc: "OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment"
+              optional :api_key, type: String,                            desc: "REQUIRED: The API authentication key of the chamber"
+              optional :claim_id, type: String,                           desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              optional :first_name, type: String,                         desc: "REQUIRED: First name of the defedant."
+              optional :last_name, type: String,                          desc: "REQUIRED: Last name of the defendant."
+              optional :date_of_birth, type: String,                      desc: "REQUIRED: Defendant's date of birth (YYYY-MM-DD).", standard_json_format: true
+              optional :order_for_judicial_apportionment, type: Boolean,  desc: "OPTIONAL: whether or not the defendant is impacted by an order for judicial apportionment"
             end
 
             def build_arguments
@@ -39,7 +41,7 @@ module API
           desc "Create a defendant."
 
           params do
-            use :defendant_creation
+            use :defendant_params
           end
 
           post do
@@ -52,12 +54,12 @@ module API
           desc "Validate a defendant."
 
           params do
-            use :defendant_creation
+            use :defendant_params
           end
 
           post '/validate' do
             api_response = ApiResponse.new()
-            ApiHelper.validate_resource(::Defendant, api_response, method(:build_arguments).to_proc)
+            ApiHelper.validate_resource(::Defendant, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end

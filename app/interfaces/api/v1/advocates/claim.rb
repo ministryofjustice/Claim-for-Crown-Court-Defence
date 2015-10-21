@@ -12,11 +12,15 @@ module API
         resource :claims, desc: 'Create or Validate' do
 
           helpers do
-            include API::ExtractDate
-            params :claim_parameters do
 
+            include API::ExtractDate
+            include API::V1::ApiHelper
+
+            params :claim_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :advocate_email, type: String,             desc: "REQUIRED: Your ADP account email address that uniquely identifies you."
+              optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the chamber"
+              optional :creator_email, type: String,              desc: "REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim."
+              optional :advocate_email, type: String,             desc: "REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs."
               optional :case_number, type: String,                desc: "REQUIRED: The case number"
               optional :case_type_id, type: Integer,              desc: "REQUIRED: The unique identifier of the case type"
               optional :indictment_number, type: String,          desc: "REQUIRED: The indictment number"
@@ -40,52 +44,47 @@ module API
             end
 
             def build_arguments
-              user = User.advocates.find_by(email: params[:advocate_email])
-              if user.blank?
-                raise API::V1::ArgumentError, 'Advocate email is invalid'
-              else
-                {
-                  advocate_id:              user.persona_id,
-                  creator_id:               user.persona_id,
-                  source:                   params[:source] || 'api',
-                  case_number:              params[:case_number],
-                  case_type_id:             params[:case_type_id],
-                  indictment_number:        params[:indictment_number],
-                  first_day_of_trial_dd:    extract_date(:day, params[:first_day_of_trial]),
-                  first_day_of_trial_mm:    extract_date(:month, params[:first_day_of_trial]),
-                  first_day_of_trial_yyyy:  extract_date(:year, params[:first_day_of_trial]),
-                  estimated_trial_length:   params[:estimated_trial_length],
-                  actual_trial_length:      params[:actual_trial_length],
-                  trial_concluded_at_dd:    extract_date(:day, params[:trial_concluded_at]),
-                  trial_concluded_at_mm:    extract_date(:month, params[:trial_concluded_at]),
-                  trial_concluded_at_yyyy:  extract_date(:year, params[:trial_concluded_at]),
-                  advocate_category:        params[:advocate_category],
-                  cms_number:               params[:cms_number],
-                  additional_information:   params[:additional_information],
-                  apply_vat:                params[:apply_vat],
-                  trial_fixed_notice_at_dd:    extract_date(:day, params[:trial_fixed_notice_at]),
-                  trial_fixed_notice_at_mm:    extract_date(:month, params[:trial_fixed_notice_at]),
-                  trial_fixed_notice_at_yyyy:  extract_date(:year, params[:trial_fixed_notice_at]),
-                  trial_fixed_at_dd:        extract_date(:day, params[:trial_fixed_at]),
-                  trial_fixed_at_mm:        extract_date(:month, params[:trial_fixed_at]),
-                  trial_fixed_at_yyyy:      extract_date(:year, params[:trial_fixed_at]),
-                  trial_cracked_at_dd:      extract_date(:day, params[:trial_cracked_at]),
-                  trial_cracked_at_mm:      extract_date(:month, params[:trial_cracked_at]),
-                  trial_cracked_at_yyyy:    extract_date(:year, params[:trial_cracked_at]),
-                  trial_cracked_at_third:   params[:trial_cracked_at_third],
-                  offence_id:               params[:offence_id],
-                  court_id:                 params[:court_id] 
-                }
-              end
+              authenticated = ApiHelper.authenticate_claim!(params)
+              {
+                creator_id:               authenticated[:creator].id,
+                advocate_id:              authenticated[:advocate].id,
+                source:                   params[:source] || 'api',
+                case_number:              params[:case_number],
+                case_type_id:             params[:case_type_id],
+                indictment_number:        params[:indictment_number],
+                first_day_of_trial_dd:    extract_date(:day, params[:first_day_of_trial]),
+                first_day_of_trial_mm:    extract_date(:month, params[:first_day_of_trial]),
+                first_day_of_trial_yyyy:  extract_date(:year, params[:first_day_of_trial]),
+                estimated_trial_length:   params[:estimated_trial_length],
+                actual_trial_length:      params[:actual_trial_length],
+                trial_concluded_at_dd:    extract_date(:day, params[:trial_concluded_at]),
+                trial_concluded_at_mm:    extract_date(:month, params[:trial_concluded_at]),
+                trial_concluded_at_yyyy:  extract_date(:year, params[:trial_concluded_at]),
+                advocate_category:        params[:advocate_category],
+                cms_number:               params[:cms_number],
+                additional_information:   params[:additional_information],
+                apply_vat:                params[:apply_vat],
+                trial_fixed_notice_at_dd:    extract_date(:day, params[:trial_fixed_notice_at]),
+                trial_fixed_notice_at_mm:    extract_date(:month, params[:trial_fixed_notice_at]),
+                trial_fixed_notice_at_yyyy:  extract_date(:year, params[:trial_fixed_notice_at]),
+                trial_fixed_at_dd:        extract_date(:day, params[:trial_fixed_at]),
+                trial_fixed_at_mm:        extract_date(:month, params[:trial_fixed_at]),
+                trial_fixed_at_yyyy:      extract_date(:year, params[:trial_fixed_at]),
+                trial_cracked_at_dd:      extract_date(:day, params[:trial_cracked_at]),
+                trial_cracked_at_mm:      extract_date(:month, params[:trial_cracked_at]),
+                trial_cracked_at_yyyy:    extract_date(:year, params[:trial_cracked_at]),
+                trial_cracked_at_third:   params[:trial_cracked_at_third],
+                offence_id:               params[:offence_id],
+                court_id:                 params[:court_id]
+              }
             end
 
           end
 
-
           desc "Create a claim."
 
           params do
-            use :claim_parameters
+            use :claim_params
           end
 
           post do
@@ -99,12 +98,12 @@ module API
           desc "Validate a claim."
 
           params do
-            use :claim_parameters
+            use :claim_params
           end
 
           post '/validate' do
             api_response = ApiResponse.new()
-            ApiHelper.validate_resource(::Claim, api_response, method(:build_arguments).to_proc)
+            ApiHelper.validate_resource(::Claim, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end

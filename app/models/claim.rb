@@ -19,7 +19,6 @@
 #  advocate_id              :integer
 #  court_id                 :integer
 #  offence_id               :integer
-#  scheme_id                :integer
 #  created_at               :datetime
 #  updated_at               :datetime
 #  valid_until              :datetime
@@ -66,7 +65,6 @@ class Claim < ActiveRecord::Base
   belongs_to :offence
   belongs_to :advocate
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
-  belongs_to :scheme
   belongs_to :case_type
 
   delegate   :chamber_id, to: :advocate
@@ -145,7 +143,6 @@ class Claim < ActiveRecord::Base
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :set_scheme, if: :scheme_required_or_forced?
   before_validation :destroy_all_invalid_fee_types, :calculate_vat
 
   after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
@@ -258,14 +255,6 @@ class Claim < ActiveRecord::Base
     from_api? || (!draft? && !archived_pending_delete? && !deleted?)
   end
 
-  def scheme_required_or_forced?
-    self.force_validation? || scheme_required?
-  end
-
-  def scheme_required?
-    validation_required? and !from_api?
-  end
-
   def from_api?
     source == 'api'
   end
@@ -356,24 +345,6 @@ class Claim < ActiveRecord::Base
 
   def last_redetermination
     self.redeterminations.select(&:valid?).last
-  end
-
-  def set_scheme
-    rep_order = self.earliest_representation_order
-
-    if rep_order.nil?
-      # errors[:scheme] << 'Fee scheme cannot be determined as representation order dates have not been entered'
-      return
-    else
-      earliest_rep_order_date = rep_order.representation_order_date
-      scheme = Scheme.for_date(earliest_rep_order_date)
-      if scheme.nil?
-        # errors[:scheme] << 'No fee scheme found for entered representation order dates'
-        return
-      else
-        self.scheme_id = scheme.id
-      end
-    end
   end
 
   def destroy_all_invalid_fee_types

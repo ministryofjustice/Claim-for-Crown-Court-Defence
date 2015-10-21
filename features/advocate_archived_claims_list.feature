@@ -4,7 +4,6 @@ Feature: Advocate archived claims list
 
  Scenario: View archived claims list as an advocate admin
     Given I am a signed in advocate admin
-      And There are fee schemes in place
       And my chamber has 3 "submitted" claims for advocate "John Smith"
       And my chamber has 2 "archived_pending_delete" claims for advocate "Bob Smith"
      When I visit the advocate archive
@@ -13,7 +12,6 @@ Feature: Advocate archived claims list
 
   Scenario: View archived claims list as an advocate
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have 3 "submitted" claims
       And I have 2 "archived_pending_delete" claims
      When I visit the advocate archive
@@ -22,7 +20,6 @@ Feature: Advocate archived claims list
 
   Scenario Outline: Search archived claims by defendant name
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I, advocate, have 3 "submitted" claims involving defendant "Joex Bloggs"
       And I, advocate, have 2 "archived_pending_delete" claims involving defendant "Joex Bloggs"
       And I, advocate, have 1 "archived_pending_delete" claims involving defendant "Fred Bloggs"

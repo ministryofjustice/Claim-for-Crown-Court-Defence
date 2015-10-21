@@ -300,7 +300,6 @@ en:
         prohibited_save: 'This claim has'
         case_advocate_offence: 'Case, instructed advocate & offence'
         advocate: *advocate
-        scheme: 'Scheme'
         case_type: 'Case type'
         cracked_trial_detail: 'Cracked trial detail'
         court: 'Court'

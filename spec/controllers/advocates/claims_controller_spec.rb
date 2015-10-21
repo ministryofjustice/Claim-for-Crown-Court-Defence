@@ -191,7 +191,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       context 'and the input is valid' do
         let(:court)         { create(:court) }
         let(:offence)       { create(:offence) }
-        let(:scheme)        { create(:scheme) }
         let(:case_type)     { create(:case_type) }
         let(:expense_type)  { create(:expense_type) }
         let(:claim_params) do
@@ -219,9 +218,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                 date_of_birth_yyyy: '1980',
                 representation_orders_attributes: [
                   {
-                    representation_order_date_dd: scheme.start_date.day.to_s,
-                    representation_order_date_mm: scheme.start_date.month.to_s,
-                    representation_order_date_yyyy: scheme.start_date.year.to_s,
+                    representation_order_date_dd: Time.now.day.to_s,
+                    representation_order_date_mm: Time.now.month.to_s,
+                    representation_order_date_yyyy: Time.now.year.to_s,
                     granting_body: 'Crown Court',
                     maat_reference: '4561237895'
                   }
@@ -568,7 +567,6 @@ def valid_claim_fee_params
     {
      "source" => 'web',
      "advocate_id" => "4",
-     "scheme_id" => "2",
      "case_type_id" => case_type.id.to_s,
      "court_id" => court.id.to_s,
      "case_number" => "CASE98989",

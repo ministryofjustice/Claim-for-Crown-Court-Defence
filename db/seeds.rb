@@ -1,6 +1,5 @@
 %w(
   case_types
-  schemes
   offence_classes
   offences
   fee_categories

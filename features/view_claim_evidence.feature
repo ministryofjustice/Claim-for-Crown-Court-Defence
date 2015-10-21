@@ -19,7 +19,6 @@ Feature: Viewing and downloading claim evidence
 
   Scenario: Caseworker views a document
     Given I am signed in and on the case worker dashboard
-      And There are fee schemes in place
       And I have been assigned claims with evidence attached
     When I visit the detail link for a claim
       And click on a link to view some evidence
@@ -35,14 +34,12 @@ Feature: Viewing and downloading claim evidence
 
   Scenario: Documents available to advocates in evidence list
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have claims
      When I view the claim
      Then I see links to view/download each document submitted with the claim
 
   Scenario: Advocate downloads a document
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have claims
     When I view the claim
       And click on a link to download some evidence
@@ -50,7 +47,6 @@ Feature: Viewing and downloading claim evidence
 
   Scenario: Caseworker views a document
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have claims
      When I view the claim
       And click on a link to view some evidence
@@ -58,7 +54,6 @@ Feature: Viewing and downloading claim evidence
 
   Scenario: Advocate views a document
     Given I am a signed in advocate
-      And There are fee schemes in place
       And I have claims
      When I view the claim
       And click on a link to view some evidence

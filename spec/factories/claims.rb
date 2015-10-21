@@ -19,7 +19,6 @@
 #  advocate_id              :integer
 #  court_id                 :integer
 #  offence_id               :integer
-#  scheme_id                :integer
 #  created_at               :datetime
 #  updated_at               :datetime
 #  valid_until              :datetime
@@ -44,7 +43,6 @@
 FactoryGirl.define do
   factory :claim do
     court
-    scheme      { random_scheme }
     case_number { random_case_number }
     advocate
     source { 'web' }
@@ -64,8 +62,6 @@ FactoryGirl.define do
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
       create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
-      claim.scheme.start_date = Date.parse('31/12/2011')
-      claim.scheme.end_date = nil
       claim.reload
     end
 
@@ -189,10 +185,6 @@ def populate_required_fields(claim)
       claim.actual_trial_length ||= 2
     end
   end
-end
-
-def random_scheme
-  Scheme.all.sample || FactoryGirl.create(:older_scheme)
 end
 
 # random capital letter followed by random 8 digits

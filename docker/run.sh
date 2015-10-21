@@ -72,8 +72,8 @@ reload)
     bundle exec rake db:create 
     echo "executing rake db:schema:load"
     bundle exec rake db:schema:load
-    echo "executing rake db:data:load"
-    bundle exec rake db:data:load
+    echo "executing rake claims:restore"
+    bundle exec rake claims:restore
     ;;
 reseed)
     # db:clear

@@ -13,7 +13,11 @@
 
 %p
   = label_tag :api_key, "#{t('.api_key')}:", class: "form-label"
-  = @chamber.api_key
+  .grid-row
+    .column-third#api-key
+      = @chamber.api_key
+    .column-two-thirds
+      = button_to 'Generate new key', regenerate_api_key_advocates_admin_chamber_path(@chamber), method: :patch, data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this chamber." }, class: 'button'
 
 - if can? :edit, @chamber
   = link_to 'Edit', edit_advocates_admin_chamber_path(@chamber), class: 'button'

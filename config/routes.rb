@@ -71,7 +71,9 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
 
-      resources :chambers, only: [:show, :edit, :update]
+      resources :chambers, only: [:show, :edit, :update] do
+       patch :regenerate_api_key, on: :member
+      end
     end
 
   end

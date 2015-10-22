@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
@@ -31,6 +30,8 @@ Rails.application.routes.draw do
 
   mount API::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
+
+  resources :feedback, only: [:new, :create]
 
   resources :claim_intentions, only: [:create], format: :json
 

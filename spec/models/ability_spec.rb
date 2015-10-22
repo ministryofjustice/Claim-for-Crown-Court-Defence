@@ -11,6 +11,8 @@ describe Ability do
     it { should_not be_able_to(:index, UserMessageStatus) }
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
+    it { should_not be_able_to(:new, Feedback.new) }
+    it { should_not be_able_to(:create, Feedback.new) }
   end
 
   context 'when a signed in user' do
@@ -20,6 +22,8 @@ describe Ability do
     it { should be_able_to(:download_attachment, Message.new) }
     it { should be_able_to(:index, UserMessageStatus) }
     it { should be_able_to(:update, UserMessageStatus.new) }
+    it { should be_able_to(:new, Feedback.new) }
+    it { should be_able_to(:create, Feedback.new) }
   end
 
   context 'advocate' do

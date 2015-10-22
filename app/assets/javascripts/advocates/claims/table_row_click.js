@@ -3,21 +3,22 @@
 var adp = adp || {};
 
 adp.tableRowClick = {
-  $selector: null,
+  $selector: $('.js-checkbox-table'),
 
-  init : function(table_id) {
-    if($('#' + table_id).length) {
-      adp.tableRowClick.$selector = '#' + table_id;
-      adp.tableRowClick.attach();
+  init : function() {
+    if($(adp.tableRowClick.$selector).length) {
+      adp.tableRowClick.$selector.each(function(index, element) {
+        adp.tableRowClick.attach(element);
+      });
     }
   },
-  attach : function() {
-    $(adp.tableRowClick.$selector + ' tr').click(function(event) {
-      if (event.target.type !== 'checkbox') {
-        event.preventDefault();
-        event.stopPropagation();
-        $(':checkbox', this).trigger('click');
-      }
+  attach : function(element) {
+    $(element).on('click', 'tr', function(event) {
+      var $element = $(this);
+      var $checkbox = $element.find(':checkbox');
+      var newState = $checkbox.is(':checked') ? false : true;
+
+      $checkbox.prop('checked', newState)
     });
   }
 };

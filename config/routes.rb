@@ -31,7 +31,9 @@ Rails.application.routes.draw do
   mount API::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
 
-  resources :feedback, only: [:new, :create]
+  resources :feedback, only: [:new, :create] do
+    get '/', to: 'feedback#new', on: :collection
+  end
 
   resources :claim_intentions, only: [:create], format: :json
 

@@ -41,6 +41,7 @@ function initialise(){
   moj.Modules.CookieMessage.init();
 
   adp.select2.init();
+  adp.tableRowClick.init('allocation_table');
   adp.newClaim.init();
   adp.crackedTrial.init();
   adp.claimCompletion.init();

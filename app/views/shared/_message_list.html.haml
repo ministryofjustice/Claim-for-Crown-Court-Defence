@@ -1,13 +1,13 @@
 - present(@message.claim, ClaimHistoryPresenter) do |claim|
-  - if claim.history_and_messages.none?
+  - if claim.history_items_by_date.none?
     %span.no-messages
       No messages found
   - else
-    - claim.history_and_messages.each do |date, events|
+    - claim.history_items_by_date.each do |date, history_items|
       %fieldset.single-date
         %legend.visuallyhidden
           = date
         .event-date
           = date
-        - events.each do |event|
-          = render partial: 'shared/message', locals: {message: event }
+        - history_items.each do |history_item|
+          = render partial: 'shared/message', locals: {history_item: history_item }

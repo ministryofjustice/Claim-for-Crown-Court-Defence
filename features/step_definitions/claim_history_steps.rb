@@ -12,7 +12,7 @@ Then(/^I should see the state change to submitted reflected in the history$/) do
   within '#messages' do
     within '.messages-list' do
       history = all('.event').last
-      expect(history).to have_content(/Changed "State" from "draft" to "submitted"/)
+      expect(history).to have_content(/Claim submitted/)
     end
   end
 end
@@ -37,7 +37,7 @@ Then(/^I should see the state change to authorised reflected in the history$/) d
   within '#messages' do
     within '.messages-list' do
       history = all('.event').last
-      expect(history).to have_content(/Changed "State" from "allocated" to "authorised"/)
+      expect(history).to have_content(/Claim authorised/)
     end
   end
 end

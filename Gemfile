@@ -49,6 +49,7 @@ gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
 gem 'gov_uk_date_fields',      '0.0.2'
 gem 'yaml_db'
+gem 'zendesk_api'  ,       '1.12.1'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

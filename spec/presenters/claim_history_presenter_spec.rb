@@ -4,7 +4,7 @@ RSpec.describe ClaimHistoryPresenter do
   let(:claim) { create :claim }
   subject { ClaimHistoryPresenter.new(claim, view) }
 
-  describe '#history_and_messages' do
+  describe '#history_items_by_date' do
     let(:first_message) do
       Timecop.travel(Time.zone.local(2015, 9, 21, 13, 0, 0)) do
         create(:message, claim: claim, body: 'Hello world')
@@ -68,7 +68,7 @@ RSpec.describe ClaimHistoryPresenter do
 
     it 'returns a claims message and history hash in chronological order' do
       claim.reload
-      expect(subject.history_and_messages).to eq(expected_hash)
+      expect(subject.history_items_by_date).to eq(expected_hash)
     end
   end
 end

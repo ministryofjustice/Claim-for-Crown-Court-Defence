@@ -142,6 +142,22 @@ section{
   width: 2em;
 }
 
+ol.questions{
+  margin-top:0;
+  list-style-type: decimal;
+  list-style-position: inside;
+  li{
+    margin-top: $gutter;
+    padding-top: $gutter;
+    .clear-float, textarea{
+      margin-top:25px;
+    }
+  }
+}
+p.questions{
+  margin-bottom: 0;
+}
+
 @import "grid_layout";
 
 .text-small{

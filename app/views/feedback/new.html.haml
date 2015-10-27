@@ -1,2 +1,35 @@
-%h1 Feedback#new
-%p Find me in app/views/feedback/new.html.haml
+%h1.page-title
+  Help us improve this service
+%p.medium.questions
+  Please tell us about your experience of using this service today.
+  %br
+  Your answers to the following questions will help us improve this service.
+
+= form_for @feedback, :url => feedback_index_path, :html => {:novalidate => 'novalidate', :class => 'normal'} do |f|
+  %fieldset
+
+    %ol.questions
+      %li
+        = "Overall how satisfied were you with this service?"
+        .clear-float
+          = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
+            - b.label(class: 'block-label') { b.radio_button + b.object.first  }
+
+        =# f.input :rating, label:false, :collection => Feedback::RATING.map {|k,v| [v,k]}, :wrapper => :gds_radio_button, as: :radio_buttons
+        -# do |b|
+          -# b.label(class: "block-label") { b.radio_button + b.value }
+
+      %li
+        = "Is there anything else you would like to tell us about this service?"
+
+        %p.form-hint
+          = "Give details below. Please don't include any sensitive personal information"
+        .grid-row
+          .column-half
+            = f.text_area :comment, :rows => 5, :placeholder => '(Optional)'
+          .column-half
+            &nbsp
+
+
+  .actions
+    = f.submit 'Send', :class => 'button button-primary', :id => 'submit-button'

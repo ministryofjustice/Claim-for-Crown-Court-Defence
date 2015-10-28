@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe FeedbackController, type: :controller do
-  let(:advocate) { create(:advocate) }
-
-  before do
-    sign_in advocate.user
-  end
-
   describe "GET #new" do
     before do
       get :new
@@ -26,12 +20,24 @@ RSpec.describe FeedbackController, type: :controller do
   end
 
   describe "POST #create" do
-    before do
-      post :create
+    context 'when user signed in' do
+      let(:advocate) { create(:advocate) }
+
+      before do
+        sign_in advocate.user
+      end
+
+      it "redirects to the users home" do
+        post :create
+        expect(response).to redirect_to(advocates_root_url)
+      end
     end
 
-    it "redirects to the users home" do
-      expect(response).to redirect_to(advocates_root_url)
+    context 'when no user signed in' do
+      it "redirects to the sign in page" do
+        post :create
+        expect(response).to redirect_to(new_user_session_url)
+      end
     end
   end
 end

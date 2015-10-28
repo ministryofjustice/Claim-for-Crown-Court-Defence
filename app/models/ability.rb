@@ -8,7 +8,6 @@ class Ability
 
     can [:create, :download_attachment], Message
     can [:index, :update], UserMessageStatus
-    can [:new, :create], Feedback
 
     if persona.is_a? Advocate
       if persona.admin?

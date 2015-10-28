@@ -27,21 +27,21 @@
             = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
             = validation_error_message(@claim, :advocate_category)
       - else
-        = f.label t('.advocate_category')
+        = f.label :advocate_category, t('.advocate_category')
         = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
         = validation_error_message(@claim, :advocate_category)
 
-      = f.label t('.court')
+      = f.label :court_id, t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2', style:'width:300px' }
       = validation_error_message(@claim, :court)
 
       .grid-row
         .column-half
-          = f.label t('.case_type')
+          = f.label :case_type_id, t('.case_type')
           = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
           = validation_error_message(@claim, :case_type_id)
         .column-half
-          = f.label t('.case_number')
+          = f.label :case_number, t('.case_number')
           = f.text_field :case_number
           = validation_error_message(@claim, :case_number)
 

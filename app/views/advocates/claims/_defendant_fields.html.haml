@@ -1,14 +1,14 @@
 .nested-fields
   %span.auto-width
-    = f.label t('.first_name')
+    = f.label :first_name, t('.first_name')
     = f.text_field :first_name
     = validation_error_message(f.object, :first_name)
   %span.auto-width
-    = f.label t('.last_name')
+    = f.label :last_name, t('.last_name')
     = f.text_field :last_name
     = validation_error_message(f.object, :last_name)
   %span.auto-width
-    = f.label t('.date_of_birth')
+    = f.label :date_of_birth, t('.date_of_birth')
     = f.gov_uk_date_field :date_of_birth
     = validation_error_message(f.object, :date_of_birth)
 

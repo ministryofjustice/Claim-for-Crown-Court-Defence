@@ -12,6 +12,7 @@
 #
 
 class CaseWorker < ActiveRecord::Base
+
   auto_strip_attributes :role, :approval_level, squish: true, nullify: true
 
   ROLES = %w{ admin case_worker }

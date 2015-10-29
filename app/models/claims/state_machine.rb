@@ -61,8 +61,8 @@ module Claims::StateMachine
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
-      before_transition any => any,  do: :set_paper_trail_event!
+      before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
+      before_transition any => any,                   do: :set_paper_trail_event!
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination

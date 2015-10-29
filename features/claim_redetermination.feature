@@ -22,12 +22,12 @@ Feature: Claim redetermination
      Then I should not see a control in the messages section to request a redetermination
 
     Examples:
-      | state                           |
-      | draft_claim                     |
-      | submitted_claim                 |
-      | allocated_claim                 |
-      | rejected_claim                  |
-      | redetermination_claim           |
+      | state                     |
+      | draft                     |
+      | submitted                 |
+      | allocated                 |
+      | rejected                  |
+      | redetermination           |
 
   Scenario: Re-open claim for redetermination
     Given I am a signed in advocate

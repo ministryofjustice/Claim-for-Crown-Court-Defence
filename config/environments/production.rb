@@ -112,4 +112,15 @@ Rails.application.configure do
   config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)
 
   config.active_record.raise_in_transactional_callbacks = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              ENV['SMTP_SERVER'],
+    port:                 ENV['SMTP_PORT'],
+    domain:               'advocatedefencepayments.dsd.io',
+    user_name:            ENV['SMTP_USER'],
+    password:             ENV['SMTP_PASSWORD'],
+    authentication:       :login,
+    enable_starttls_auto: true
+  }
 end

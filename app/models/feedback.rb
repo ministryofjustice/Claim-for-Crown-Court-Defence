@@ -2,8 +2,6 @@ class Feedback
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :text, :email, :referrer, :user_agent, :comment, :rating
-
   RATINGS = {
     5 => 'Very satisfied',
     4 => 'Satisfied',
@@ -11,4 +9,23 @@ class Feedback
     2 => 'Dissatisfied',
     1 => 'Very dissatisfied'
   }
+
+  attr_accessor :email, :referrer, :user_agent, :comment, :rating
+
+  validates :rating, inclusion: { in: '1'..'5' }
+
+  def initialize(attributes = {})
+    @email      = attributes[:email]
+    @referrer   = attributes[:referrer]
+    @user_agent = attributes[:user_agent]
+    @comment    = attributes[:comment]
+    @rating     = attributes[:rating]
+  end
+
+  def save
+    return false unless valid?
+
+    ZendeskFeedbackSender.send!(self)
+    true
+  end
 end

@@ -61,4 +61,6 @@
         .event
           %ul
             %li
-              = state_change.change
+              %strong
+                = state_change.change
+              = " - #{history_item.created_at.strftime('%H:%M')}"

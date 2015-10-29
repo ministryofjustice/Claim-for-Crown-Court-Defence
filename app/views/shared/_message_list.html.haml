@@ -6,8 +6,8 @@
     - claim.history_items_by_date.each do |date, history_items|
       %fieldset.single-date
         %legend.visuallyhidden
-          = date
+          = casual_date(date)
         .event-date
-          = date
+          = casual_date(date)
         - history_items.each do |history_item|
           = render partial: 'shared/message', locals: {history_item: history_item }

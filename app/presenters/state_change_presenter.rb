@@ -13,12 +13,12 @@ private
 
   def state_change_descriptions
     {
-      'redetermination'               => {"CaseWorker" => "A redetermination requested",   "Advocate" => "You requested redetermination"},
+      'redetermination'               => {"CaseWorker" => "Redetermination requested",     "Advocate" => "You requested redetermination"},
       'awaiting_written_reasons'      => {"CaseWorker" => "Written reasons requested",     "Advocate" => "You requested written reasons"},
       'submitted'                     => {"CaseWorker" => "Claim submitted",               "Advocate" => "Your claim has been submitted"},
       'allocated'                     => {"CaseWorker" => "Claim allocated",               "Advocate" => "Your claim has been allocated"},
       'authorised'                    => {"CaseWorker" => "Claim authorised",              "Advocate" => "Your claim has been authorised"},
-      'part_autorised'                => {"CaseWorker" => "Claim part authorised",         "Advocate" => "Your claim has been part-authorised"},
+      'part_authorised'               => {"CaseWorker" => "Claim part authorised",         "Advocate" => "Your claim has been part-authorised"},
       'rejected'                      => {"CaseWorker" => "Claim rejected",                "Advocate" => "Your claim has been rejected"},
       'refused'                       => {"CaseWorker" => "Claim refused",                 "Advocate" => "Your claim has been refused"}
     }

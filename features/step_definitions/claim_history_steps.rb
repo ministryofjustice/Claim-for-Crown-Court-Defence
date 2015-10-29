@@ -12,7 +12,7 @@ Then(/^I should see the state change to submitted reflected in the history$/) do
   within '#messages' do
     within '.messages-list' do
       history = all('.event').last
-      expect(history).to have_content(/Claim submitted/)
+      expect(history).to have_content(/Your claim has been submitted/)
     end
   end
 end

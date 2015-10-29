@@ -44,7 +44,9 @@
       &nbsp;
     .column-third
       .event
-        = "#{history_item.event} - #{history_item.created_at.strftime('%H:%M')}"
+        %strong
+          = history_item.event
+        = "- #{history_item.created_at.strftime('%H:%M')}"
         %table
           - history_item.changeset.each do |attribute, changes|
             %tr

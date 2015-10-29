@@ -30,4 +30,15 @@ module ApplicationHelper
   def signed_in_user_profile_path
     eval("#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path(#{current_user.persona_id})")
   end
+
+  def casual_date(date)
+    if Date.parse(date) == Date.today
+      "Today"
+    elsif Date.parse(date) == Date.yesterday
+      "Yesterday"
+    else
+      date
+    end
+  end
+
 end

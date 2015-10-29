@@ -41,3 +41,7 @@ Given(/^I have a submitted claim with messages$/) do
   @messages = create_list(:message, 5, claim_id: @claim.id)
   @messages.each { |m| m.update_column(:sender_id, create(:advocate).user.id) }
 end
+
+Then(/^I should not be able to leave a message$/) do
+  
+end

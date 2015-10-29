@@ -1,5 +1,5 @@
 Given(/^I have a (.+) claim$/) do |state|
-  @claim = create(state.to_sym, advocate: @advocate)
+  @claim = create("#{state}_claim".to_sym, advocate: @advocate)
 end
 
 Given(/^the claim has a case worker assigned to it$/) do

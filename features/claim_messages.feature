@@ -28,3 +28,9 @@ Feature: Claim messages
      When I visit that claim's "advocate" detail page
       And I leave a message
      Then I should see my message at the bottom of the message list
+
+  Scenario: Advocate cannot leave messages on completed claims
+    Given I am a signed in advocate
+      And I have a rejected claim
+    When I visit that claim's "advocate" detail page
+      Then I should not be able to leave a message

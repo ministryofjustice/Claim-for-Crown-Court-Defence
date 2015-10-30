@@ -3,8 +3,8 @@ class StateChangePresenter < BasePresenter
   presents :version
 
   def change
-    version.changeset.each do |attribute, changes|
-      new_state = changes.last
+    if version.changeset['state'].present?
+      new_state = version.changeset['state'].last
       return "#{state_change_descriptions[new_state][current_user_persona]}"
     end
   end

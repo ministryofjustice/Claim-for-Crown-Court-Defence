@@ -123,4 +123,6 @@ Rails.application.configure do
     authentication:       :login,
     enable_starttls_auto: true
   }
+
+  config.action_mailer.perform_deliveries = true
 end

@@ -96,7 +96,7 @@
 
     = f.submit params[:tab] == 'allocated' ? 'Re-allocate' : 'Allocate', class: 'button'
 
-  %table.claims_table
+  %table{class: 'claims_table js-checkbox-table'}
     %thead
       %th
         = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }

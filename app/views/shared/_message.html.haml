@@ -1,4 +1,5 @@
-- if message.is_a? Message
+- if history_item.is_a? Message
+  - message = history_item
   .grid-row{id: dom_id(message) }
     - if message.sender.persona.is_a?(Advocate)
       .column-two-thirds
@@ -37,33 +38,29 @@
                 (#{message.sender.persona.class.to_s.humanize})
               .column-half.sent
                 = message.created_at
-- elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Determination'
+- elsif history_item.is_a?(PaperTrail::Version) && history_item.item_type == 'Determination'
   .grid-row.history
     .column-two-thirds
       &nbsp;
     .column-third
       .event
-        = message.event
+        %strong
+          = history_item.event
+        = "- #{history_item.created_at.strftime('%H:%M')}"
         %table
-          - message.changeset.each do |attribute, changes|
+          - history_item.changeset.each do |attribute, changes|
             %tr
               %td
                 #{attribute.humanize}:
               %td
                 #{number_to_currency(changes.last)}
-- elsif message.is_a?(PaperTrail::Version) && message.item_type == 'Claim'
-  .grid-row.history
-    .column-quarter
-      &nbsp;
-    .column-three-quarter
-      .event
-        %ul
-          - message.changeset.each do |attribute, changes|
+- elsif history_item.is_a?(PaperTrail::Version) && history_item.event == 'State change'
+  - present(history_item, StateChangePresenter) do |state_change|
+    .grid-row.history
+      .column-quarter
+        &nbsp;
+      .column-three-quarter
+        .event
+          %ul
             %li
-              - if changes.first.present? && changes.last.present?
-                Changed
-                "#{attribute.humanize}"
-                from
-                "#{changes.first}"
-                to
-                "#{changes.last}"
+              = state_change.change

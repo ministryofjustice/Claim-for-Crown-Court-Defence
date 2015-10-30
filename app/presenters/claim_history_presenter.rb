@@ -1,7 +1,7 @@
 class ClaimHistoryPresenter < BasePresenter
   presents :claim
 
-  def history_and_messages
+  def history_items_by_date
     unique_formatted_dates.inject({}) do |hash, date_string|
       arr = select_by_date_string(versions, date_string) + select_by_date_string(messages, date_string) + select_by_date_string(assessments, date_string) + select_by_date_string(redetermination_versions, date_string)
       hash[date_string] = arr.flatten.sort_by { |e| e.created_at } if arr.any?

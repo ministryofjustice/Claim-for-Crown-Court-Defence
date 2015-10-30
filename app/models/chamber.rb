@@ -29,6 +29,10 @@ class Chamber < ActiveRecord::Base
   validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
 
+  def regenerate_api_key!
+    update_column(:api_key, SecureRandom.uuid)
+  end
+
 private
 
   def set_api_key

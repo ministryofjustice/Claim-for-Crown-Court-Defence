@@ -52,7 +52,7 @@
           = validation_error_message(@error_presenter, :offence)
         .column-half
           .offence-class-select
-            = render partial: "offence_select", locals: { offences: @offences }
+            = render partial: 'offence_select', locals: { offences: @offences }
 
           = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
 

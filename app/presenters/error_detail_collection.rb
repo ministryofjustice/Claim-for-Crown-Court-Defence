@@ -21,14 +21,6 @@ class ErrorDetailCollection
     @error_details[fieldname]
   end
 
-  # def each(&block) 
-  #   @error_details.each do |key, value_array|
-  #     value_array.each do |detail|
-  #       block.call(detail)
-  #     end
-  #   end
-  # end
-
   def short_messages_for(fieldname)
     error_detail_array = @error_details[fieldname]
     return '' if error_detail_array.nil?

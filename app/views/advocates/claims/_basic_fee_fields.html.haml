@@ -12,8 +12,7 @@
     %td
       %a{name: "basic_fee_#{@basic_fee_count}_amount"}
       %div.pound-wrapper
-        %div.pound-sign.bold-xsmall
-          &pound;
+        = f.label :amount, '£', class: 'pound-sign bold-xsmall'
         = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
       = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")
     %td.add-basic-fee-date-attended

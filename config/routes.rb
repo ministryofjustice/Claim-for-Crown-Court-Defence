@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
@@ -31,6 +30,10 @@ Rails.application.routes.draw do
 
   mount API::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
+
+  resources :feedback, only: [:new, :create] do
+    get '/', to: 'feedback#new', on: :collection
+  end
 
   resources :claim_intentions, only: [:create], format: :json
 
@@ -71,7 +74,9 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
 
-      resources :chambers, only: [:show, :edit, :update]
+      resources :chambers, only: [:show, :edit, :update] do
+       patch :regenerate_api_key, on: :member
+      end
     end
 
   end

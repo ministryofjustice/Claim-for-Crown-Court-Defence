@@ -29,7 +29,6 @@ Styling for Claims Messaging
     padding: 5px;
     margin-bottom: 1em;
     .single-date{
-      border-top: 1px solid $border-colour;
       text-align: center;
       legend{
         text-align: center;
@@ -193,6 +192,9 @@ Styling for Claims Messaging
       margin-bottom: 5px;
       margin-right: 1em;
       text-align: right;
+      strong{
+        font-weight: bold;
+      }
       table{
         @extend .claims_table;
         td{

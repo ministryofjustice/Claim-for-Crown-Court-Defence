@@ -59,8 +59,6 @@
         &nbsp;
       .column-three-quarter
         .event
-          %ul
-            %li
-              %strong
-                = state_change.change
-              = " - #{history_item.created_at.strftime('%H:%M')}"
+          %strong
+            = state_change.change
+          = " - #{history_item.created_at.strftime('%H:%M')}"

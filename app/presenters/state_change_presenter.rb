@@ -3,9 +3,9 @@ class StateChangePresenter < BasePresenter
   presents :version
 
   def change
-    version.changeset.each do |attribute, changes|
-      new_state = changes.last
-      return "#{state_change_descriptions[new_state]} - #{version.created_at.strftime('%H:%M')}"
+    if version.changeset['state'].present?
+      new_state = version.changeset['state'].last
+      return "#{state_change_descriptions[new_state][current_user_persona]}"
     end
   end
 
@@ -13,15 +13,19 @@ private
 
   def state_change_descriptions
     {
-      'redetermiation'                => 'Redetermination requested',
-      'awaiting_written_reasons'      => 'Written reasons requested',
-      'submitted'                     => 'Claim submitted',
-      'allocated'                     => 'Claim allocated',
-      'authorised'                    => 'Claim authorised',
-      'part_autorised'                => 'Claim part authorised',
-      'rejected'                      => 'Claim rejected',
-      'refused'                       => 'Claim refused'
+      'redetermination'               => {"CaseWorker" => "Redetermination requested",     "Advocate" => "You requested redetermination"},
+      'awaiting_written_reasons'      => {"CaseWorker" => "Written reasons requested",     "Advocate" => "You requested written reasons"},
+      'submitted'                     => {"CaseWorker" => "Claim submitted",               "Advocate" => "Your claim has been submitted"},
+      'allocated'                     => {"CaseWorker" => "Claim allocated",               "Advocate" => "Your claim has been allocated"},
+      'authorised'                    => {"CaseWorker" => "Claim authorised",              "Advocate" => "Your claim has been authorised"},
+      'part_authorised'               => {"CaseWorker" => "Claim part authorised",         "Advocate" => "Your claim has been part-authorised"},
+      'rejected'                      => {"CaseWorker" => "Claim rejected",                "Advocate" => "Your claim has been rejected"},
+      'refused'                       => {"CaseWorker" => "Claim refused",                 "Advocate" => "Your claim has been refused"}
     }
+  end
+
+  def current_user_persona
+    @view.current_user.persona.class.to_s
   end
 
 end

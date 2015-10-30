@@ -6,6 +6,7 @@ describe ErrorMessageTranslator do
   let(:translations) do
     {
     "name"=>{
+      "_seq" => 50,
       "cannot_be_blank"=>{
         "long"  => "The claimant name must not be blank, please enter a name",
         "short" => "Enter a name"},
@@ -18,16 +19,21 @@ describe ErrorMessageTranslator do
         "short" => "Invalid date"}
       },
     "trial_date"=>{
+      "_seq" => 20,
       "not_future"=>{
         "long"  => "The trial date may not be in the future",
         "short" => "Invalid date"}},
     "defendant"=>{
+      "_seq" => 30,
       "first_name"=>{
+        "_seq" => 10,
         "blank"=>{
           "long"  => "Enter the \#{defendant} defendant's first name",
           "short" => "Cannot be blank"}},
       "representation_order"=>{
+        "_seq" => 80,
         "maat_reference" => {
+          "seq" => 20,
           "blank" =>{
             "long"  => "The \#{defendant} defendant's \#{representation_order} representaion order's MAAT Reference must be 7-10 numeric digits",
             "short" => "Invalid format"}}}}}

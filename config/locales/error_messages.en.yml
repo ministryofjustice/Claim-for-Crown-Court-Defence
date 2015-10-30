@@ -1,15 +1,18 @@
 
 actual_trial_length:
+  _seq: 80
   invalid:
     long: Enter a whole number of days for actual trial length
     short: Enter a whole number of days
 
 advocate:
+  _seq: 10
   blank:
     long: Choose an advocate
     short: Choose an advocate
 
 advocate_category:
+  _seq: 20
   blank:
     long: Choose an advocate category
     short: Choose an advocate category
@@ -131,11 +134,13 @@ case_number:
     short: Enter a case number eg A12345678
 
 case_type:
+  _seq: 40
   blank:
     long: Choose a case type
     short: Choose a case type
 
 court:
+  _seq: 30
   blank:
     long: Choose a court
     short: Choose a court
@@ -147,12 +152,15 @@ court:
 #                                                                               #
 #################################################################################
 defendant:
+  _seq: 200
   claim:
+    _seq: 5
     blank:
       long: You must specify a claim
       short: You must specify a claim
 
   date_of_birth:
+    _seq: 30
     blank:
       long: "Enter the #{defendant} defendant's date of birth"
       short: Enter a date of birth
@@ -161,11 +169,13 @@ defendant:
       short: Check the date of birth
 
   first_name:
+    _seq: 10
     blank:
       long: "Enter the #{defendant} defendant's first name"
       short: Enter a first name
 
   last_name:
+    _seq: 20
     blank:
       long: "Enter the #{defendant} defendant's last name"
       short: Enter a last name
@@ -173,6 +183,7 @@ defendant:
   
 
   representation_orders:
+    _seq: 40
     no_reporder:
       long: "Enter the representation order details for the #{defendant} defendant"
       short: "Enter representation order details"
@@ -200,6 +211,7 @@ defendant:
 
 
 estimated_trial_length:
+  _seq: 70
   invalid:
     long: Enter a whole number of days for the trial length
     short: Enter a whole number of days
@@ -213,6 +225,7 @@ expense:
       short: Cannot be blank
 
 first_day_of_trial:
+  _seq: 60
   blank:
     long: Enter a valid date for the first day of trial
     short: Enter a valid date
@@ -220,17 +233,20 @@ first_day_of_trial:
 
 
 offence:
+  _seq: 150
   blank:
     long: Choose an offence category
     short: Choose an offence category
 
 trial_concluded_at:
+  _seq: 90
   blank:
     long: Enter the date on which the trial concluded
     short: Enter a valid date
 
 
 trial_cracked_at:
+  _seq: 130
   blank_cracked_trial_date:
     long: Enter the cracked trial date
     short: You must enter a date
@@ -246,11 +262,13 @@ trial_cracked_at:
 
 
 trial_cracked_at_third:
+  _seq: 140
   blank:
     long: You must select an option for a cracked trial
     short: Select an option
 
 trial_fixed_at:
+  _seq: 120
   blank_cracked_trial_date:
     long: Enter the cracked trial date
     short: You must enter a date
@@ -266,6 +284,7 @@ trial_fixed_at:
 
 
 trial_fixed_notice_at:
+  _seq: 110
   blank_cracked_trial_date:
     long: Enter the cracked trial date
     short: You must enter a date

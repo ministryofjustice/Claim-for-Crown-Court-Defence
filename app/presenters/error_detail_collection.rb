@@ -5,6 +5,7 @@
 #
 class ErrorDetailCollection
 
+
   def initialize
     @error_details = {}
   end
@@ -35,7 +36,7 @@ class ErrorDetailCollection
         result_array << error_detail
       end
     end
-    result_array
+    result_array.sort!
   end
 
 

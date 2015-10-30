@@ -14,6 +14,22 @@ describe ErrorPresenter do
   let(:presenter)       { ErrorPresenter.new(claim, filename) }
 
 
+  describe 'generate_sequence' do
+    context 'base class level fieldnames' do
+      context 'fieldname present' do
+        it 'should return the value from the error messages file' do
+          expect(presenter.send(:generate_sequence, 'name')).to eq 50
+        end
+      end
+
+      context 'fieldname not present' do
+        it 'should return 9999 ' do
+          expect(presenter.send(:generate_sequence, 'nokey')).to eq 9999
+        end
+      end
+    end
+  end
+
 
   context 'one error message per attribute' do
     context 'header_errors' do

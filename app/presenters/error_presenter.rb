@@ -24,10 +24,12 @@ class ErrorPresenter
     @error_details.size
   end
 
+
   private
 
   def generate_messages
     @errors.each do |fieldname, error|
+
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
       if emt.translation_found?
         long_message = emt.long_message
@@ -36,7 +38,20 @@ class ErrorPresenter
         long_message = generate_standard_long_message(fieldname, error)
         short_message = generate_standard_short_message(fieldname, error)
       end
-      @error_details[fieldname] = ErrorDetail.new(fieldname, long_message, short_message)
+      @error_details[fieldname] = ErrorDetail.new(fieldname, long_message, short_message, generate_sequence(fieldname))
+    end
+  end
+
+
+  def generate_sequence(fieldname)
+    fieldname = fieldname.to_s
+    if fieldname =~ /^(\S+)_id$/
+      fieldname = $1
+    end
+    if @translations[fieldname]
+      @translations[fieldname]['_seq']
+    else
+      99999
     end
   end
 

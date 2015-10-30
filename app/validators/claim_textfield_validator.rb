@@ -33,7 +33,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   # ALWAYS required/mandatory
   def validate_advocate
-    validate_presence(:advocate, "Advocate cannot be blank, you must provide an advocate")
+    validate_presence(:advocate, "blank")
   end
 
   # ALWAYS required/mandatory
@@ -43,52 +43,56 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   # must be present
   def validate_case_type
-    validate_presence(:case_type, "Case type cannot be blank, you must select a case type")
+    validate_presence(:case_type, "blank")
   end
 
   # must be present
   def validate_court
-    validate_presence(:court, "Court cannot be blank, you must select a court")
+    validate_presence(:court, "blank")
   end
 
   # must be present
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
-    validate_presence(:case_number, "Case number cannot be blank, you must enter a case number")
-    validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "Case number must be in format A12345678") unless @record.case_number.blank?
+    validate_presence(:case_number, "blank")
+    validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "invalid") unless @record.case_number.blank?
   end
 
 # must be present
 # must be one of values in list
 def validate_advocate_category
-  validate_presence(:advocate_category, "Advocate category cannot be blank, you must select an appropriate advocate category")
+  validate_presence(:advocate_category, "blank")
   validate_inclusion(:advocate_category, Settings.advocate_categories, "Advocate category must be one of those in the provided list") unless @record.advocate_category.blank?
 end
 
 # must be present unless case type is breach of crown court order
 def validate_offence
-  validate_presence(:offence, "Offence Category cannot be blank, you must select an offence category") unless case_type_in("Breach of Crown Court order")
+  validate_presence(:offence, "blank") unless case_type_in("Breach of Crown Court order")
 end
 
 # must be present
 # must be greater than or eqaul zero
 def validate_estimated_trial_length
-  validate_presence(:estimated_trial_length, "Estimated trial length cannot be blank, you must enter an estimated trial length") if trial_dates_required?
-  validate_numericality(:estimated_trial_length, 0, nil, "Estimated trial length must be a whole number (0 or above)") unless @record.estimated_trial_length.nil?
+  if trial_dates_required?
+    validate_presence(:estimated_trial_length, "invalid")
+    validate_numericality(:estimated_trial_length, 1, nil, "invalid") unless @record.estimated_trial_length.nil?
+  end
 end
 
 # must be present
 # must be greater than or equal to zero
 def validate_actual_trial_length
-  validate_presence(:actual_trial_length, "Actual trial length cannot be blank, you must enter an actual trial length") if trial_dates_required?
-  validate_numericality(:actual_trial_length, 0, nil, "Actual trial length must be a whole number (0 or above)") unless @record.actual_trial_length.nil?
+  if trial_dates_required?
+    validate_presence(:actual_trial_length, "invalid") 
+    validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
+  end
 end
 
 
 # must be present if case type is cracked trial or cracked before retial
 # must be final third if case type is cracked before retrial (cannot be first or second third)
 def validate_trial_cracked_at_third
-  validate_presence(:trial_cracked_at_third,"Case cracked in cannot be blank for a #{@record.case_type.name}, please inidicate the third in which the case cracked") if cracked_case?
+  validate_presence(:trial_cracked_at_third, "blank") if cracked_case?
   validate_pattern(:trial_cracked_at_third, /^final_third$/, "Case cracked in can only be Final Third for trials that cracked before retrial") if (@record.case_type.name == 'Cracked before retrial' rescue false)
 end
 

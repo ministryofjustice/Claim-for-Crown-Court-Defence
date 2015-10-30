@@ -68,6 +68,7 @@ And(/^The entered values should be preserved on the page$/) do
 end
 
 
+
 And(/^I should see a summary error message "(.+)"$/) do | error_message |
   within('.validation-summary') do
     expect(page).to have_content(error_message)

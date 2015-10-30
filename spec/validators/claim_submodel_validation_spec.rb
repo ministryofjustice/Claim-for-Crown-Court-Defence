@@ -53,5 +53,61 @@ describe 'Validations on Claim submodels' do
     end
   end
 
+  context 'bubbling up errors to the claim' do
+    before(:each) do
+      claim.force_validation = false
+    end
+
+    context 'bubbling up errors from defendant to claim' do
+      before(:each) do
+        claim.force_validation = false
+        claim.defendants << FactoryGirl.build(:defendant)
+      end
+      it 'should transfer errors up to claim' do
+        claim.defendants.first.update(date_of_birth: nil)
+        claim.defendants.last.update(first_name: nil)
+        claim.force_validation = true
+        claim.reload.valid?
+
+        expect(claim.errors[:defendant_1_date_of_birth]).to eq(['blank'])
+        expect(claim.errors[:defendant_2_first_name]).to eq(['blank'])
+      end
+    end
+
+
+    context 'bubbling up errors two levels to the claim' do
+      it 'should bubble up the error from reporder to defendant and then to the claim' do
+
+        claim.defendants << Defendant.new
+        claim.save!
+        claim.defendants.last.representation_orders << RepresentationOrder.new
+        claim.save!
+        claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
+        claim.defendants.first.representation_orders.last.update(granting_body: nil)
+        claim.defendants.last.representation_orders.first.update(representation_order_date: 20.years.ago)
+        claim.save!
+        claim.force_validation = true
+
+        claim.valid?
+
+        expected_results = {
+          defendant_1_representation_order_1_maat_reference:            "invalid",
+          defendant_1_representation_order_2_granting_body:             "blank",
+          defendant_2_date_of_birth:                                    "blank",
+          defendant_2_first_name:                                       "blank",
+          defendant_2_last_name:                                        "blank",
+          defendant_2_representation_order_1_representation_order_date: "invalid",
+          defendant_2_representation_order_1_granting_body:             "blank"
+        }
+
+        expected_results.each do |key, message|
+          expect(claim.errors[key]).to eq( [message] )
+        end
+        
+      end
+    end
+
+  end
+
   
 end

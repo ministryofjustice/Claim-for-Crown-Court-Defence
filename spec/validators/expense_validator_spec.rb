@@ -20,7 +20,7 @@ describe ExpenseValidator do
   describe 'quantity' do
     it { should_be_valid_if_equal_to_value(expense, :quantity, 0) }
     it { should_error_if_equal_to_value(expense, :quantity, -1,   "Quantity must be greater than or equal to 0") }
-    it { should_error_if_equal_to_value(expense, :quantity, nil,  "Quantity cannot be blank") }
+    it { should_error_if_equal_to_value(expense, :quantity, nil,  "blank") }
   end
 
   describe 'rate' do

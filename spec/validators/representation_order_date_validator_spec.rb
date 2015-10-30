@@ -9,9 +9,9 @@ describe RepresentationOrderValidator do
   let(:reporder)      { FactoryGirl.build :representation_order, defendant: defendant }
 
   context 'representation_order_date' do
-    it { should_error_if_not_present(reporder, :representation_order_date, "Please enter a valid representation order date") }
-    it { should_error_if_in_future(reporder, :representation_order_date, "Representation order date must not be in the future") }
-    it { should_error_if_not_too_far_in_the_past(reporder, :representation_order_date, "The representation order date may not be more than 5 years ago") }
+    it { should_error_if_not_present(reporder, :representation_order_date, "invalid") }
+    it { should_error_if_in_future(reporder, :representation_order_date, "invalid") }
+    it { should_error_if_not_too_far_in_the_past(reporder, :representation_order_date, "invalid") }
   end
 
   context 'stand-alone rep order' do
@@ -39,7 +39,7 @@ describe RepresentationOrderValidator do
       ro2.representation_order_date = ro1.representation_order_date - 1.day
       claim.force_validation = true
       expect(ro2).not_to be_valid
-      expect(ro2.errors[:representation_order_date]).to include('The date of the second and subsequent representation orders must not be before the date of the first represenation order')
+      expect(ro2.errors[:representation_order_date]).to include('invalid')
     end
   end
 

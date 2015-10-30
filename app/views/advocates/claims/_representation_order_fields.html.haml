@@ -1,26 +1,29 @@
 .nested-fields
+  - @representation_order_count += 1
   %h4
     = t('.representation_order')
 
   %span.auto-width
+    = f.anchored_label '', "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_granting_body"
     = t('.granting_body')
+
     %span{display: 'inline'}
       - Settings.court_types.each do |court_type|
         = f.label :granting_body, court_type, value: court_type do
           = f.radio_button :granting_body, court_type
           = court_type
-    = validation_error_message(f.object, :granting_body)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_granting_body")
   %div
 
   %span.auto-width
-    = f.label :representation_order_date
+    = f.anchored_label 'Representation order date', "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date"
     = f.gov_uk_date_field :representation_order_date
-    = validation_error_message(f.object, :representation_order_date)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
 
   %span.auto-width
-    = f.label :maat_reference, t('maat_reference_number')
+    = f.anchored_label t('maat_reference_number'), "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference"
     = f.text_field :maat_reference
-    = validation_error_message(f.object, :maat_reference)
+    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference")
 
   %br
   %br

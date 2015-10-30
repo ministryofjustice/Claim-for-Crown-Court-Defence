@@ -112,6 +112,8 @@ When(/^I fill in the claim details(.*)$/) do |details|
   fill_in 'claim_trial_concluded_at_dd', with: 2.days.ago.day.to_s
   fill_in 'claim_trial_concluded_at_mm', with: 2.days.ago.month.to_s
   fill_in 'claim_trial_concluded_at_yyyy', with: 2.days.ago.year.to_s
+  fill_in 'claim_estimated_trial_length', with: 1
+  fill_in 'claim_actual_trial_length', with: 1
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
   first('#claim_offence_id', visible: false).set(murder_offence_id)
   select('QC', from: 'claim_advocate_category')
@@ -186,7 +188,7 @@ end
 Then(/^I should be redirected back to the claim form with error$/) do
   expect(page).to have_content('Claim for advocate graduated fees')
   expect(page).to have_content(/This claim has \d+ errors?/)
-  expect(page).to have_content("Advocate cannot be blank")
+  expect(page).to have_content("Choose an advocate")
 end
 
 

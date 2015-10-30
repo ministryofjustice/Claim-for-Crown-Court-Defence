@@ -15,7 +15,7 @@ class ExpenseValidator < BaseClaimValidator
   end
 
   def validate_quantity
-    validate_presence(:quantity, error_message_for(:expense, :quantity, :blank))
+    validate_presence(:quantity, 'blank')
     validate_numericality(:quantity, 0, nil, error_message_for(:expense, :quantity, :numericality) )
   end
 

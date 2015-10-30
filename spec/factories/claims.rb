@@ -47,6 +47,7 @@ FactoryGirl.define do
     advocate
     source { 'web' }
     apply_vat  false
+    estimated_trial_length 1
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.fees << build(:fee, claim: claim, fee_type: FactoryGirl.build(:fee_type))

@@ -1,0 +1,194 @@
+require 'rails_helper'
+
+
+describe ErrorMessageTranslator do
+
+  let(:translations) do
+    {
+    "name"=>{
+      "cannot_be_blank"=>{
+        "long"  => "The claimant name must not be blank, please enter a name",
+        "short" => "Enter a name"},
+      "too_long"=>{
+        "long"  => "The name cannot be longer than 50 characters",
+        "short" => "Too long"}},
+    "date_of_birth"=>{
+      "too_early"=>{
+        "long"  => "The date of birth may not be more than 100 years old",
+        "short" => "Invalid date"}
+      },
+    "trial_date"=>{
+      "not_future"=>{
+        "long"  => "The trial date may not be in the future",
+        "short" => "Invalid date"}},
+    "defendant"=>{
+      "first_name"=>{
+        "blank"=>{
+          "long"  => "Enter the \#{defendant} defendant's first name",
+          "short" => "Cannot be blank"}},
+      "representation_order"=>{
+        "maat_reference" => {
+          "blank" =>{
+            "long"  => "The \#{defendant} defendant's \#{representation_order} representaion order's MAAT Reference must be 7-10 numeric digits",
+            "short" => "Invalid format"}}}}}
+  end
+
+  let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }
+
+
+  context 'single_level_translations' do
+    let(:key)           { :name }
+    let(:error)         { 'cannot_be_blank' }
+
+    context 'key and error exists in translations table' do
+      it 'returns top level long and short messages' do
+        expect(emt.translation_found?).to be true
+        expect(emt.long_message).to eq 'The claimant name must not be blank, please enter a name'
+        expect(emt.short_message).to eq 'Enter a name'
+      end
+    end
+
+    context 'key does not exist in translations table' do
+      let(:key)           { :stepmother }
+      let(:error)         { 'too_long' }      
+      it 'returns nil and responds true to unable_to_find_translation' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to be_nil
+        expect(emt.short_message).to be_nil
+      end
+    end
+
+    context 'key exists but error does not exist in translations table' do
+      let(:key)           { :name }
+      let(:error)         { 'rubbish' }      
+      it 'returns nil and responds true to unable_to_find_translation' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to be_nil
+        expect(emt.short_message).to be_nil
+      end
+    end
+  end
+
+  context 'sub-model translations' do
+    context 'key and error exist in translations table' do
+      let(:key)           { :defendant_2_first_name }
+      let(:error)         { 'blank' }
+      it 'returns defendant 2 error messages' do
+        expect(emt.translation_found?).to be true
+        expect(emt.long_message).to eq "Enter the second defendant's first name"
+        expect(emt.short_message).to eq 'Cannot be blank'
+      end
+    end
+
+    context 'key for submodel does not exist in base model' do
+      let(:key)           { :person_2_first_name }
+      let(:error)         { 'blank' }
+      it 'returns defendant 2 error messages' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to eq nil
+        expect(emt.short_message).to eq nil
+      end
+    end
+
+    context 'key for submodel exists but key for field in submodel does not' do
+      let(:key)           { :defendant_2_age }
+      let(:error)         { 'blank' }
+      it 'returns defendant 2 error messages' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to eq nil
+        expect(emt.short_message).to eq nil
+      end
+    end
+
+    context 'key for submodel and field on submodel exists but error does not' do
+      let(:key)           { :defendant_2_first_name }
+      let(:error)         { 'baslderdash' }
+      it 'returns defendant 2 error messages' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to eq nil
+        expect(emt.short_message).to eq nil
+      end
+    end
+  end
+
+  context 'sub-sub-model translations' do
+    context 'all keys and errors exist' do
+      let(:key)           { :defendant_5_representation_order_2_maat_reference }
+      let(:error)         { 'blank' }
+      it 'returns defendant 5 reporder 2 errors' do
+        expect(emt.translation_found?).to be true
+        expect(emt.long_message).to eq "The fifth defendant's second representaion order's MAAT Reference must be 7-10 numeric digits"
+        expect(emt.short_message).to eq 'Invalid format'
+      end
+    end
+
+    context 'key for sub sub model does not exist' do
+      let(:key)           { :defendant_5_court_order_2_maat_reference }
+      let(:error)         { 'blank' }
+      it 'returns defendant 5 reporder 2 errors' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to be_nil
+        expect(emt.short_message).to be_nil
+      end
+    end
+
+    context 'key for field on sub sub model does not exist' do
+      let(:key)           { :defendant_5_representation_order_2_court }
+      let(:error)         { 'blank' }
+      it 'returns defendant 5 reporder 2 errors' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to be_nil
+        expect(emt.short_message).to be_nil
+      end
+    end
+
+    context 'key for error on sub sub model does not exist' do
+      let(:key)           { :defendant_5_representation_order_2_maat_reference }
+      let(:error)         { 'no_such_error' }
+      it 'returns defendant 5 reporder 2 errors' do
+        expect(emt.translation_found?).to be false
+        expect(emt.long_message).to be_nil
+        expect(emt.short_message).to be_nil
+      end
+    end
+  end
+
+  describe 'to_ordinal' do
+    let(:key)           { :defendant_5_representation_order_2_maat_reference }
+    let(:error)         { 'no_such_error' }
+    it 'should give the correct ordinals' do
+      expect(emt.send(:to_ordinal, '1')).to eq 'first'
+      expect(emt.send(:to_ordinal, '2')).to eq 'second'
+      expect(emt.send(:to_ordinal, '3')).to eq 'third'
+      expect(emt.send(:to_ordinal, '4')).to eq 'fourth'
+      expect(emt.send(:to_ordinal, '5')).to eq 'fifth'
+      expect(emt.send(:to_ordinal, '6')).to eq 'sixth'
+      expect(emt.send(:to_ordinal, '7')).to eq 'seventh'
+      expect(emt.send(:to_ordinal, '8')).to eq 'eighth'
+      expect(emt.send(:to_ordinal, '9')).to eq 'ninth'
+      expect(emt.send(:to_ordinal, '10')).to eq 'tenth'
+      expect(emt.send(:to_ordinal, '11')).to eq '11th'
+      expect(emt.send(:to_ordinal, '12')).to eq '12th'
+      expect(emt.send(:to_ordinal, '21')).to eq '21st'
+      expect(emt.send(:to_ordinal, '43')).to eq '43rd'
+      expect(emt.send(:to_ordinal, '67')).to eq '67th'
+    end
+  end
+
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

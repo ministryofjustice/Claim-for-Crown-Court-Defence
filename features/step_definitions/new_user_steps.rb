@@ -33,4 +33,5 @@ end
 Then(/^an email is sent to the new user$/) do
   expect(ActionMailer::Base.deliveries.length).to eq 1
   expect(ActionMailer::Base.deliveries.first.to).to eq ["harold.hughes@example.com"]
+  expect(ActionMailer::Base.deliveries.first.subject).to eq "Advocate Defense Payments - Change your password"
 end

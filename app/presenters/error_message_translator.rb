@@ -47,7 +47,7 @@ class ErrorMessageTranslator
   end
 
   def submodel_key_exists?(translations, key)
-    parent_model, submodel_id, attribute = last_parent_key_attribute(translations,key)
+    parent_model, attribute = last_parent_attribute(translations,key)
     translations[parent_model].nil? ? false : true
   end
 
@@ -55,7 +55,7 @@ class ErrorMessageTranslator
     key =~ @regex
   end
 
-  def last_parent_key_attribute(translations, key)
+  def last_parent_attribute(translations, key)
     attribute = key
     while attribute =~ @regex do
       parent_model = $1
@@ -65,11 +65,11 @@ class ErrorMessageTranslator
       # store each submodel instance number against parent model too
       @submodel_numbers[parent_model] = submodel_id
     end
-    return parent_model, submodel_id, attribute
+    return parent_model, attribute
   end
 
   def extract_last_submodel_attribute(translations, key)
-    parent_model, submodel_id, attribute = last_parent_key_attribute(translations,key)
+    parent_model, attribute = last_parent_attribute(translations,key)
     translation_subset = translations[parent_model]
     [translation_subset, attribute]
   end

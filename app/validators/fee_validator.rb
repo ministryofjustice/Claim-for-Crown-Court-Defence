@@ -7,7 +7,7 @@ class FeeValidator < BaseClaimValidator
   private
 
   def validate_fee_type
-    validate_presence(:fee_type, "Fee type cannot be blank")
+    validate_presence(:fee_type, 'blank')
   end
 
   def validate_quantity
@@ -34,7 +34,6 @@ class FeeValidator < BaseClaimValidator
     if @record.claim.case_type.try(:is_fixed_fee?)
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
-      # validate_numericality(:quantity, 1, 1, 'Quantity for basic fee must be exactly one')
       validate_numericality(:quantity, 1, 1, 'baf_qty1')
     end
   end
@@ -85,12 +84,12 @@ class FeeValidator < BaseClaimValidator
   def validate_amount
     case_type = @record.fee_type.try(:code)
     case case_type
-    when 'BAF'
-      validate_baf_amount
-    when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-      validate_non_baf_basic_fee_amount(case_type)
-    else
-      validate_misc_and_fixed_fee_amount
+      when 'BAF'
+        validate_baf_amount
+      when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
+        validate_non_baf_basic_fee_amount(case_type)
+      else
+        validate_misc_and_fixed_fee_amount
     end
   end
 
@@ -101,10 +100,10 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_misc_and_fixed_fee_amount
-    if @record.quantity > 0
-      add_error(:amount, "You have specified #{@record.try(:fee_type).try(:description)} fees - now enter an amount claimed for these fees") if @record.amount == 0
-    else
-      add_error(:amount, "Enter a valid amount for #{@record.try(:fee_type).try(:description)} fees") unless @record.amount == 0
+    if @record.quantity > 0 && @record.amount <= 0
+      add_error(:amount, 'invalid')
+    elsif @record.quantity <= 0 && @record.amount > 0
+      add_error(:quantity, 'invalid')
     end
   end
 

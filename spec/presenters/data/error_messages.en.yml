@@ -1,4 +1,5 @@
 name:
+  _seq: 50
   cannot_be_blank:
     long: 'The claimant name must not be blank, please enter a name'
     short: 'Enter a name'
@@ -6,22 +7,25 @@ name:
     long: The name cannot be longer than 50 characters
     short: 'Too long'
 date_of_birth:
+  _seq: 20
   too_early:
     long: 'The date of birth may not be more than 100 years old'
     short: 'Invalid date'
 trial_date:
+  _seq: 30
   not_future:
     long: 'The trial date may not be in the future'
     short: 'Invalid date'
 defendant:
+  _seq: 40
   first_name:
+    _seq: 10
     blank:
       long: "Enter a first name for the #{defendant} defendant"
       short: Enter a name
   representation_order:
+    _seq: 10
     granting_body:
       blank:
         long: "Choose the court that issued the #{representation_order} representation order for the #{defendant} defendant"
         short: Choose a court
-
-

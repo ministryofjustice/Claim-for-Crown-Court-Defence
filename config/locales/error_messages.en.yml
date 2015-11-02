@@ -1,19 +1,195 @@
-
-actual_trial_length:
-  invalid:
-    long: Enter a whole number of days for actual trial length
-    short: Enter a whole number of days
-
 advocate:
+  _seq: 10
   blank:
     long: Choose an advocate
     short: Choose an advocate
 
 advocate_category:
+  _seq: 20
   blank:
     long: Choose an advocate category
     short: Choose an advocate category
 
+court:
+  _seq: 30
+  blank:
+    long: Choose a court
+    short: Choose a court
+
+case_type:
+  _seq: 40
+  blank:
+    long: Choose a case type
+    short: Choose a case type
+
+case_number:
+  _seq: 50
+  blank:
+    long: Enter a case number
+    short: Enter a case number eg A12345678
+  invalid:
+    long: The case number must be in the format A12345678
+    short: Enter a case number eg A12345678
+
+first_day_of_trial:
+  _seq: 60
+  blank:
+    long: Enter a valid date for the first day of trial
+    short: Enter a valid date
+
+estimated_trial_length:
+  _seq: 70
+  invalid:
+    long: Enter a whole number of days for the trial length
+    short: Enter a whole number of days
+
+actual_trial_length:
+  _seq: 80
+  invalid:
+    long: Enter a whole number of days for actual trial length
+    short: Enter a whole number of days
+
+trial_concluded_at:
+  _seq: 90
+  blank:
+    long: Enter the date on which the trial concluded
+    short: Enter a valid date
+
+expense:
+  quantity:
+    blank:
+      long: "Expense #{expense} quantity cannot be blank"
+      short: Cannot be blank
+
+trial_fixed_notice_at:
+  _seq: 110
+  blank_cracked_trial_date:
+    long: Enter the cracked trial date
+    short: You must enter a date
+  blank_cracked_before_retrial_date:
+    long: Enter the cracked before retrial date
+    short: You must enter a date
+  check_cracked_trial_date:
+    long: Check the cracked trial date
+    short: Check this date
+  check_cracked_before_retrial_date:
+    long: Check the cracked before retrial date
+    short: Check this date
+
+trial_fixed_at:
+  _seq: 120
+  blank_cracked_trial_date:
+    long: Enter the cracked trial date
+    short: You must enter a date
+  blank_cracked_before_retrial_date:
+    long: Enter the cracked before retrial date
+    short: You must enter a date
+  check_cracked_trial_date:
+    long: Check the cracked trial date
+    short: Check this date
+  check_cracked_before_retrial_date:
+    long: Check the cracked before retrial date
+    short: Check this date
+
+trial_cracked_at:
+  _seq: 130
+  blank_cracked_trial_date:
+    long: Enter the cracked trial date
+    short: You must enter a date
+  blank_cracked_before_retrial_date:
+    long: Enter the cracked before retrial date
+    short: You must enter a date
+  check_cracked_trial_date:
+    long: Check the cracked trial date
+    short: Check this date
+  check_cracked_before_retrial_date:
+    long: Check the cracked before retrial date
+    short: Check this date
+
+trial_cracked_at_third:
+  _seq: 140
+  blank:
+    long: You must select an option for a cracked trial
+    short: Select an option
+
+offence:
+  _seq: 150
+  blank:
+    long: Choose an offence category
+    short: Choose an offence category
+
+#################################################################################
+#                                                                               #
+#   DEFENDANT                                                                   #
+#                                                                               #
+#################################################################################
+
+defendant:
+  _seq: 200
+  claim:
+    _seq: 5
+    blank:
+      long: You must specify a claim
+      short: You must specify a claim
+
+  first_name:
+    _seq: 10
+    blank:
+      long: "Enter the #{defendant} defendant's first name"
+      short: Enter a first name
+
+  last_name:
+    _seq: 20
+    blank:
+      long: "Enter the #{defendant} defendant's last name"
+      short: Enter a last name
+
+  date_of_birth:
+    _seq: 30
+    blank:
+      long: "Enter the #{defendant} defendant's date of birth"
+      short: Enter a date of birth
+    check:
+      long: "Check the #{defendant} defendant's last name"
+      short: Check the date of birth
+
+  representation_orders:
+    _seq: 40
+    no_reporder:
+      long: "Enter the representation order details for the #{defendant} defendant"
+      short: "Enter representation order details"
+
+  #################################################################################
+  #                                                                               #
+  #   REPRESENTATION ORDER                                                        #
+  #                                                                               #
+  #################################################################################
+
+representation_order:
+  _seq: 300
+  defandant:
+    _seq: 5
+    blank:
+      long: You must specify a defendant
+      short: You must specify a defendant
+
+  granting_body:
+    _seq: 10
+    blank:
+      long: "Choose the court that issued the #{representation_order} representation order for the #{defendant} defendant"
+      short: Choose a court
+
+  representation_order_date:
+    _seq: 20
+    invalid:
+      long: 'Enter a valid representation order date for the #{defendant} defendant'
+      short: Enter a valid representation order date
+
+  maat_reference:
+    _seq: 30
+    invalid:
+      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant" 
+      short: Enter a valid MAAT reference
 
 #################################################################################
 #                                                                               #
@@ -107,7 +283,6 @@ basic_fee:
       long: Enter a valid amount for pages of prosecution evidence fees
       short: Enter a valid amount
 
-
 #################################################################################
 #                                                                               #
 #   MISCELLANEOUS FEES                                                          #
@@ -119,169 +294,6 @@ misc_fee:
     qty_zero:
       long: 'The amount on miscellaneous fee #{misc_fee} cannot be specified if the quantity is zero'
       short: Invalid amount
-
-   
-
-case_number:
-  blank:
-    long: Enter a case number
-    short: Enter a case number eg A12345678
-  invalid:
-    long: The case number must be in the format A12345678
-    short: Enter a case number eg A12345678
-
-case_type:
-  blank:
-    long: Choose a case type
-    short: Choose a case type
-
-court:
-  blank:
-    long: Choose a court
-    short: Choose a court
-
-
-#################################################################################
-#                                                                               #
-#   DEFENDANT                                                                   #
-#                                                                               #
-#################################################################################
-defendant:
-  claim:
-    blank:
-      long: You must specify a claim
-      short: You must specify a claim
-
-  date_of_birth:
-    blank:
-      long: "Enter the #{defendant} defendant's date of birth"
-      short: Enter a date of birth
-    check:
-      long: "Check the #{defendant} defendant's last name"
-      short: Check the date of birth
-
-  first_name:
-    blank:
-      long: "Enter the #{defendant} defendant's first name"
-      short: Enter a first name
-
-  last_name:
-    blank:
-      long: "Enter the #{defendant} defendant's last name"
-      short: Enter a last name
-
-  
-
-  representation_orders:
-    no_reporder:
-      long: "Enter the representation order details for the #{defendant} defendant"
-      short: "Enter representation order details"
-
-  #################################################################################
-  #                                                                               #
-  #   REPRESENTATION ORDER                                                        #
-  #                                                                               #
-  #################################################################################      
-  representation_order:
-    granting_body:
-      blank:
-        long: "Choose the court that issued the #{representation_order} representation order for the #{defendant} defendant"
-        short: Choose a court
-
-    representation_order_date:
-      invalid:
-        long: 'Enter a valid representation order date for the #{defendant} defendant'
-        short: Enter a valid representation order date
-
-    maat_reference:
-      invalid:
-        long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant" 
-        short: Enter a valid MAAT reference 
-
-
-estimated_trial_length:
-  invalid:
-    long: Enter a whole number of days for the trial length
-    short: Enter a whole number of days
-
-
-
-expense:
-  quantity:
-    blank:
-      long: "Expense #{expense} quantity cannot be blank"
-      short: Cannot be blank
-
-first_day_of_trial:
-  blank:
-    long: Enter a valid date for the first day of trial
-    short: Enter a valid date
-
-
-
-offence:
-  blank:
-    long: Choose an offence category
-    short: Choose an offence category
-
-trial_concluded_at:
-  blank:
-    long: Enter the date on which the trial concluded
-    short: Enter a valid date
-
-
-trial_cracked_at:
-  blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
-  blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
-  check_cracked_trial_date:
-    long: Check the cracked trial date
-    short: Check this date
-  check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
-    short: Check this date
-
-
-trial_cracked_at_third:
-  blank:
-    long: You must select an option for a cracked trial
-    short: Select an option
-
-trial_fixed_at:
-  blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
-  blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
-  check_cracked_trial_date:
-    long: Check the cracked trial date
-    short: Check this date
-  check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
-    short: Check this date
-
-
-trial_fixed_notice_at:
-  blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
-  blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
-  check_cracked_trial_date:
-    long: Check the cracked trial date
-    short: Check this date
-  check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
-    short: Check this date
-
-
-
-
 
   # invalid:
   #   long: Please enter valid date notice of first fixed/warned issued

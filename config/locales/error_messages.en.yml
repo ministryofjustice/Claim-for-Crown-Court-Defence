@@ -70,53 +70,53 @@ trial_concluded_at:
 trial_fixed_notice_at:
   _seq: 110
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date of notice of trial being fixed/warned
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date of notice of trial being fixed/warned
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date of notice of trial being fixed/warned
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date of notice of trial being fixed/warned
     short: Check this date
 
 trial_fixed_at:
   _seq: 120
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date the trial was fixed/warned
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date the trial was fixed/warned
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date the trial was fixed/warned
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date the trial was fixed/warned
     short: Check this date
 
 trial_cracked_at:
   _seq: 130
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date the trial cracked
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date the case cracked
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date the trial cracked
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date the case cracked
     short: Check this date
 
 trial_cracked_at_third:
   _seq: 140
   blank:
-    long: You must select an option for a cracked trial
-    short: Select an option
+    long: Choose the stage in which the case cracked
+    short: Choose an option
 
 offence:
   _seq: 150
@@ -341,5 +341,3 @@ expense:
   # too_early:
   #   long: Date notice of first fixed/warned issued may not be more than <%= Settings.earliest_permitted_date_in_words %>
   #   short: too far in the past
-
-

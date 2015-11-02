@@ -137,7 +137,7 @@ describe ErrorPresenter do
                          'Choose a court') ] )
     end
 
-    it 'should be able to retreive the field-level error message' do
+    it 'should be able to retrieve the field-level error message' do
       expect(presenter.field_level_error_for(:defendant_1_representation_order_1_granting_body)).to eq 'Choose a court'
     end
 

@@ -44,8 +44,8 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     | "claim_case_number"                        | "Enter a case number"                                                                |
     | "claim_defendants_attributes_0_first_name" | "Enter the first defendant's first name"                                             |
     | "claim_basic_fees_attributes_0_quantity"   | "Quantity for basic fee must be exactly one"                                         |
-    | "claim_misc_fees_attributes_0_quantity"    | "Misc fee 1 amount enter a valid amount for miscellaneous fee example fees"          |
-    | "claim_expenses_attributes_0_quantity"     | "Expense first quantity cannot be blank"                                             |
+    | "claim_misc_fees_attributes_0_quantity"    | "Enter the first miscellaneous fee quantity"          |
+    | "claim_expenses_attributes_0_quantity"     | "Enter the first expense's quantity"                                             |
 
     # TODO: unhappy paths for representation order details
 

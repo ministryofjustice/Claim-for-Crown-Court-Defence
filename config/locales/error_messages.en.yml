@@ -8,7 +8,7 @@ creator:
   _seq: 15
   blank:
     long: Enter a creator
-    long: Enter a creator
+    short: Enter a creator
 
 advocate_category:
   _seq: 20
@@ -191,7 +191,7 @@ representation_order:
       long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
       short: Enter a representation order date
     invalid:
-      long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
+      long: 'Enter a valid representation order date for the #{representation_order} representation order of the #{defendant} defendant'
       short: Enter a valid representation order date
 
   maat_reference:

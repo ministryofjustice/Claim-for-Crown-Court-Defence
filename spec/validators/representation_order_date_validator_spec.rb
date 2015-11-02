@@ -9,7 +9,7 @@ describe RepresentationOrderValidator do
   let(:reporder)      { FactoryGirl.build :representation_order, defendant: defendant }
 
   context 'representation_order_date' do
-    it { should_error_if_not_present(reporder, :representation_order_date, "invalid") }
+    it { should_error_if_not_present(reporder, :representation_order_date, "blank") }
     it { should_error_if_in_future(reporder, :representation_order_date, "invalid") }
     it { should_error_if_not_too_far_in_the_past(reporder, :representation_order_date, "invalid") }
   end

@@ -1,6 +1,6 @@
 class RailsHost
 
-  VALID_ENVS = %w{ dev demo staging api-sandbox }
+  VALID_ENVS = %w{ dev demo staging api-sandbox gamma }
 
 
   def self.env

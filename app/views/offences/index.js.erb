@@ -4,8 +4,8 @@
 <% else %>
   $('.offence-class-select').html('<%=j render partial: "advocates/claims/offence_select", locals: { offences: @offences } %>');
   $('.offence-class-select select').select2({
-    matcher: adp.select2.startOfMatcher
+    matcher: moj.Modules.Select2.startOfMatcher
   });
-  adp.newClaim.attachToOffenceClassSelect();
+  moj.Modules.NewClaim.attachToOffenceClassSelect();
   $('.offence-class-select').slideDown();
 <% end %>

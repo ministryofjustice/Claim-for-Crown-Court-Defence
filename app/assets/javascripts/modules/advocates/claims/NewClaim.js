@@ -1,19 +1,19 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.newClaim = {
+moj.Modules.NewClaim = {
   init : function() {
-    adp.newClaim.$offenceCategorySelect = $('#offence_category_description');
+    this.$offenceCategorySelect = $('#offence_category_description');
 
-    adp.newClaim.$offenceCategorySelect.change(function() {
+    this.$offenceCategorySelect.change(function() {
       var selectedText = $(this).find(":selected").text();
       $.getScript("/offences?description=" + selectedText);
     });
 
     if(!$('#claim_offence_id').val()) {
       $('.offence-class-select').hide();
-      adp.newClaim.$offenceCategorySelect.change();
+      this.$offenceCategorySelect.change();
     }
     else {
       $('#offence_class_description').select2('val', $('#claim_offence_id').val(  ));

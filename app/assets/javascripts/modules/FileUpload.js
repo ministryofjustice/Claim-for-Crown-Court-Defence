@@ -1,14 +1,14 @@
 var moj = moj || {};
-moj.Modules.fileUpload = {
+moj.Modules.FileUpload = {
   init: function(){
     $('.supporting_evidence_upload').each(function(){
       if($(this).parent().find('.file-exists').length > 0){
         $(this).hide();
-        moj.Modules.fileUpload.chooseAlternative($(this));
+        moj.Modules.FileUpload.chooseAlternative($(this));
         }
       });
     $('form').on('change', 'input[type="file"]', function(){
-      moj.Modules.fileUpload.state($(this));
+      moj.Modules.FileUpload.state($(this));
     });
   },
   state: function(that){

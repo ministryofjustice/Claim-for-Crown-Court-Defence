@@ -1,9 +1,9 @@
 var moj = moj || {};
-moj.Modules.amountAssessed = {
+moj.Modules.AmountAssessed = {
   init: function(){
-    moj.Modules.amountAssessed.state();
+    this.state();
     $('#claim_state_for_form').change(function(){
-      moj.Modules.amountAssessed.state();
+      moj.Modules.AmountAssessed.state();
     });
   },
   state: function(){

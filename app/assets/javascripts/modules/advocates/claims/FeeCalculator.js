@@ -1,10 +1,12 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.feeCalculator = {
-  init : function(container_id) {
-    this.addChangeEvent(container_id);
+moj.Modules.FeeCalculator = {
+  el: '#expenses',
+
+  init : function() {
+    this.addChangeEvent();
   },
   calculateAmount: function(rate, quantity, modifier) {
 
@@ -16,14 +18,15 @@ adp.feeCalculator = {
     return t;
 
   },
-  addChangeEvent: function(container_id) {
-    $('#' + container_id).on('change', '.quantity, .rate', function(e) {
+  addChangeEvent: function() {
+    var self = this;
 
+    $(this.el).on('change', '.quantity, .rate', function(e) {
       var wrapper  = $(e.target).closest('.nested-fields');
       var quantity = parseFloat(wrapper.find('.quantity').val());
       var modifier = parseFloat(wrapper.find('.quantity-modifier').text());
       var rate     = parseFloat(wrapper.find('.rate').val());
-      var total = adp.feeCalculator.calculateAmount(rate,quantity,modifier);
+      var total = self.calculateAmount(rate,quantity,modifier);
       if (isNaN(total) ){
         wrapper.find('.amount').text(' ');
       }

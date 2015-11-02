@@ -1,21 +1,22 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.dropzone = {
-
+moj.Modules.Dropzone = {
   $target: {},
   init : function() {
-    adp.dropzone.$target = $('.dropzone');
-    adp.dropzone.$document_ids = $('.document-ids');
+    var self = this;
+
+    this.$target = $('.dropzone');
+    this.$document_ids = $('.document-ids');
 
     Dropzone.autoDiscover = false;
 
-    adp.dropzone.$target.dropzone({
+    this.$target.dropzone({
       url: "/documents",
       addRemoveLinks: true,
       maxFilesize: 20,
-      previewTemplate: adp.dropzone.$target.data('dz-template'),
+      previewTemplate: this.$target.data('dz-template'),
       paramName: "document[document]",
       createImageThumbnails: false,
       headers: { "X-CSRF-Token" : $('meta[name="csrf-token"]').attr('content') },
@@ -50,7 +51,7 @@ adp.dropzone = {
           $(file.previewElement).find('.dz-upload').css('width', '100%');
         }
 
-        adp.dropzone.createDocumentIdInput(id);
+        self.createDocumentIdInput(id);
       },
       removedfile: function(file) {
         var id = $(file.previewTemplate).find('.dz-remove').attr('id');
@@ -61,7 +62,7 @@ adp.dropzone = {
             url: '/documents/' + id,
             success : function(data) {
               $(file.previewElement).remove();
-              adp.dropzone.removeDocumentIdInput(data.document.id);
+              self.removeDocumentIdInput(data.document.id);
             }
           });
         }
@@ -73,7 +74,7 @@ adp.dropzone = {
   },
   createDocumentIdInput : function(id) {
     var input = "<input id=\"claim_document_ids_" + id + "\" multiple=\"multiple\" name=\"claim[document_ids][]\" type=\"hidden\" value=\"" + id + "\">"
-    adp.dropzone.$document_ids.append(input);
+    this.$document_ids.append(input);
   },
   removeDocumentIdInput : function(id) {
     $('#claim_document_ids_' + id).remove();

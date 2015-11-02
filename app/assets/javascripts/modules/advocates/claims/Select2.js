@@ -1,11 +1,11 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.select2 = {
+moj.Modules.Select2 = {
   init : function() {
     $('.select2').select2({
-      matcher: adp.select2.startOfMatcher
+      matcher: this.startOfMatcher
     });
   },
   startOfMatcher : function(term, text) {

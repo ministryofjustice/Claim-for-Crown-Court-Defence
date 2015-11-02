@@ -22,9 +22,15 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   end
 
   def create
-    @case_worker = CaseWorker.new(case_worker_params)
+    new_case_worker_params = case_worker_params
+    temporary_password = SecureRandom.uuid
+    new_case_worker_params['user_attributes']['password'] = temporary_password
+    new_case_worker_params['user_attributes']['password_confirmation'] = temporary_password
+
+    @case_worker = CaseWorker.new(new_case_worker_params)
 
     if @case_worker.save
+      @case_worker.user.send_reset_password_instructions
       redirect_to case_workers_admin_case_workers_url, notice: 'Case worker successfully created'
     else
       render :new

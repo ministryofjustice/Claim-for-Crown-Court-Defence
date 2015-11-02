@@ -120,13 +120,20 @@ form {
 }
 
 #importer{
-  .button {
-    @include core-19();
+  label {
+    display: block;
   }
-  input[type="file"]{
-    padding: 0;
-    border : 0;
-    color: $black;
+
+  .file-upload-name {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .js-enabled & {
+    input[type="file"],
+    .no-file-selected [type="submit"] {
+      @include visually-hidden;
+    }
   }
 }
 

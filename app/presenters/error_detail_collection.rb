@@ -5,7 +5,6 @@
 #
 class ErrorDetailCollection
 
-
   def initialize
     @error_details = {}
   end

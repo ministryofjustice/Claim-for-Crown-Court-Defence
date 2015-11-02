@@ -29,5 +29,3 @@ defendant:
       blank:
         long: "Choose the court that issued the #{representation_order} representation order for the #{defendant} defendant"
         short: Choose a court
-
-

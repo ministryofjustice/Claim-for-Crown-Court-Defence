@@ -1,7 +1,6 @@
 
 class ErrorPresenter
 
-
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
@@ -10,7 +9,6 @@ class ErrorPresenter
     @error_details = ErrorDetailCollection.new
     generate_messages
   end
-
 
   def field_level_error_for(fieldname)
     @error_details.short_messages_for(fieldname)
@@ -23,7 +21,6 @@ class ErrorPresenter
   def size
     @error_details.size
   end
-
 
   private
 
@@ -42,7 +39,6 @@ class ErrorPresenter
     end
   end
 
-
   def generate_sequence(fieldname)
     fieldname = fieldname.to_s
     if fieldname =~ /^(\S+)_id$/
@@ -54,7 +50,6 @@ class ErrorPresenter
       99999
     end
   end
-
 
   def generate_link(fieldname)
     "#" + fieldname

@@ -67,12 +67,6 @@ trial_concluded_at:
     long: Enter the date on which the trial concluded
     short: Enter a valid date
 
-expense:
-  quantity:
-    blank:
-      long: "Expense #{expense} quantity cannot be blank"
-      short: Cannot be blank
-
 trial_fixed_notice_at:
   _seq: 110
   blank_cracked_trial_date:
@@ -213,6 +207,7 @@ representation_order:
 #################################################################################
 
 basic_fee:
+  _seq: 400
   quantity:
     baf_qty1:
       long: "Quantity for basic fee must be exactly one"
@@ -304,10 +299,38 @@ basic_fee:
 #################################################################################
 
 misc_fee:
+  _seq: 500
   amount:
     qty_zero:
       long: 'The amount on miscellaneous fee #{misc_fee} cannot be specified if the quantity is zero'
       short: Invalid amount
+
+#################################################################################
+#                                                                               #
+#   EXPENSES                                                                    #
+#                                                                               #
+#################################################################################
+
+expense:
+  _seq: 600
+  expense_type:
+    blank:
+      long: 'Choose the #{expense} expense''s type'
+      short: Choose an expense type
+  quantity:
+    blank:
+      long: 'Enter the #{expense} expense''s quantity'
+      short: Enter a whole number
+    numericality:
+      long: 'Enter a valid #{expense} expense''s quantity'
+      short: Enter zero or more
+  rate:
+    blank:
+      long: 'Enter the #{expense} expense''s rate'
+      short: Enter a number
+    numericality:
+      long: 'Enter a valid #{expense} expense''s rate'
+      short: Enter zero or more
 
   # invalid:
   #   long: Please enter valid date notice of first fixed/warned issued

@@ -26,7 +26,6 @@ class ErrorPresenter
 
   def generate_messages
     @errors.each do |fieldname, error|
-
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
       if emt.translation_found?
         long_message = emt.long_message

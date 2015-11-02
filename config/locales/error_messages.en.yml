@@ -4,6 +4,12 @@ advocate:
     long: Choose an advocate
     short: Choose an advocate
 
+creator:
+  _seq: 15
+  blank:
+    long: Enter a creator
+    long: Enter a creator
+
 advocate_category:
   _seq: 20
   blank:
@@ -39,14 +45,20 @@ first_day_of_trial:
 
 estimated_trial_length:
   _seq: 70
+  blank:
+    long: Enter an estimated trial length
+    short: Enter a whole number of days
   invalid:
-    long: Enter a whole number of days for the trial length
+    long: Enter a whole number of days for the estimated trial length
     short: Enter a whole number of days
 
 actual_trial_length:
   _seq: 80
+  blank:
+    long: Enter an actual trial length
+    short: Enter a whole number of days
   invalid:
-    long: Enter a whole number of days for actual trial length
+    long: Enter an actual trial length
     short: Enter a whole number of days
 
 trial_concluded_at:
@@ -167,7 +179,7 @@ defendant:
 
 representation_order:
   _seq: 300
-  defandant:
+  defendant:
     _seq: 5
     blank:
       long: You must specify a defendant
@@ -181,14 +193,17 @@ representation_order:
 
   representation_order_date:
     _seq: 20
+    blank:
+      long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
+      short: Enter a representation order date
     invalid:
-      long: 'Enter a valid representation order date for the #{defendant} defendant'
+      long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
       short: Enter a valid representation order date
 
   maat_reference:
     _seq: 30
     invalid:
-      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant" 
+      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant"
       short: Enter a valid MAAT reference
 
 #################################################################################
@@ -224,7 +239,6 @@ basic_fee:
     daf_zero:
       long: You have selected daily attendance fees (3-40 days) - now enter an amount claimed for these fees
       short: Enter a valid amount
-    daf_invalid:
     daf_invalid:
       long: Enter a valid amount for daily attendance fees (3-40 days)
       short: Enter a valid amount

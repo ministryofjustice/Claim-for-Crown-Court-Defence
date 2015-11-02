@@ -94,7 +94,6 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
   def validate_baf_amount
     unless @record.claim.case_type.try(:is_fixed_fee?)
       add_error(:amount, 'baf_invalid') if @record.amount < 1
@@ -109,7 +108,6 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
   def validate_non_baf_basic_fee_amount(case_type)
     if @record.quantity > 0
       add_error(:amount, "#{case_type.downcase}_zero") if @record.amount < 1
@@ -118,12 +116,9 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-
-
   # TODO - still to be done
   def validate_dates_attended
   end
-
 
 end
 

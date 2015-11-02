@@ -163,12 +163,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when invalid' do
       it 'does not create a case worker' do
         expect {
-          post :create, case_worker: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+          post :create, case_worker: { role: 'case_worker', user_attributes: {email: 'invalidemail'} }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, case_worker: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx', role: 'case_worker' }
+        post :create, case_worker: { role: 'case_worker', user_attributes: {email: 'invalidemail'} }
         expect(response).to render_template(:new)
       end
     end

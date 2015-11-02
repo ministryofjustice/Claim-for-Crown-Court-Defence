@@ -17,9 +17,15 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   end
 
   def create
-    @advocate = Advocate.new(advocate_params.merge(chamber_id: current_user.persona.chamber.id))
+    new_advocate_params = advocate_params
+    temporary_password = SecureRandom.uuid
+    new_advocate_params['user_attributes']['password'] = temporary_password
+    new_advocate_params['user_attributes']['password_confirmation'] = temporary_password
+
+    @advocate = Advocate.new(new_advocate_params.merge(chamber_id: current_user.persona.chamber.id))
 
     if @advocate.save
+      @advocate.user.send_reset_password_instructions
       redirect_to advocates_admin_advocates_url, notice: 'Advocate successfully created'
     else
       render :new
@@ -68,4 +74,5 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
       user_attributes: [:id, :email, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )
   end
+
 end

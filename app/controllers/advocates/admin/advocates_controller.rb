@@ -1,4 +1,7 @@
 class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationController
+  
+  include PasswordHelpers
+
   before_action :set_advocate, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
 
   def index
@@ -17,12 +20,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   end
 
   def create
-    new_advocate_params = advocate_params
-    temporary_password = SecureRandom.uuid
-    new_advocate_params['user_attributes']['password'] = temporary_password
-    new_advocate_params['user_attributes']['password_confirmation'] = temporary_password
-
-    @advocate = Advocate.new(new_advocate_params.merge(chamber_id: current_user.persona.chamber.id))
+    @advocate = Advocate.new(params_with_temporary_password.merge(chamber_id: current_user.persona.chamber.id))
 
     if @advocate.save
       @advocate.user.send_reset_password_instructions
@@ -41,11 +39,6 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   end
 
   def update_password
-    password_params = advocate_params.slice(:user_attributes)
-    password_params[:user_attributes].delete(:email)
-    password_params[:user_attributes].delete(:first_name)
-    password_params[:user_attributes].delete(:last_name)
-
     user = @advocate.user
     if user.update_with_password(password_params[:user_attributes])
       sign_in(user, bypass: true)

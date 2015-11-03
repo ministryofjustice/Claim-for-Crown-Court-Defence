@@ -1,5 +1,5 @@
 .grid-row
-  .column-three-quarter
+  .column-two-thirds
     %h1.page-title
       - if current_user.persona.admin?
         = t('.all_claims')
@@ -7,7 +7,7 @@
         = t('.your_claims')
     #summary
       = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
-  .column-quarter
+  .column-third
     = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'

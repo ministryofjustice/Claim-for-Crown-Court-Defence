@@ -13,7 +13,7 @@
     #summary
       = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .column-quarter
-    #importer
+    .claims-importer#importer
       = render partial: 'json_document_importer'
 
 %span#import_results.success

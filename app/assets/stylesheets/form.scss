@@ -119,24 +119,6 @@ form {
   display:inline;
 }
 
-#importer{
-  label {
-    display: block;
-  }
-
-  .file-upload-name {
-    display: block;
-    margin: 10px 0;
-  }
-
-  .js-enabled & {
-    input[type="file"],
-    .no-file-selected [type="submit"] {
-      @include visually-hidden;
-    }
-  }
-}
-
 .remove-expense:first-child a{
   display: none;
 }

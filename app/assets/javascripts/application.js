@@ -59,6 +59,7 @@ function initialise(){
   });
   moj.Modules.selectAll.init();
   moj.Modules.allocationFilterSubmit.init();
+  moj.Modules.CustomFileUpload.init();
 }
 
 

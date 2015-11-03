@@ -328,7 +328,7 @@ en:
         rejected: Rejected
         submitted: Submitted to LAA
       json_document_importer:
-        import_claim: 'Import claim'
+        import_claim: 'Import claim(s)'
       new:
         heading: Claim for advocate graduated fees
       outstanding:

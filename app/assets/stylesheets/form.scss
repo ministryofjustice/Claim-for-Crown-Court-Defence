@@ -119,17 +119,6 @@ form {
   display:inline;
 }
 
-#importer{
-  .button {
-    @include core-19();
-  }
-  input[type="file"]{
-    padding: 0;
-    border : 0;
-    color: $black;
-  }
-}
-
 .remove-expense:first-child a{
   display: none;
 }

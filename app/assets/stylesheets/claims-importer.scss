@@ -1,0 +1,38 @@
+.claims-importer {
+  margin-top: 15px;
+  padding-left: 15px;
+  border-left: 6px solid $grey-3;
+
+  .button {
+    margin: 0 5px 5px 0;
+  }
+
+  .js-enabled & {
+    input[type="file"],
+    .no-file-selected [type="submit"] {
+      @include visually-hidden;
+    }
+  }
+
+  .file-upload-name {
+    margin: 5px 0;
+    font-style: italic;
+  }
+
+  .errors {
+    margin-top: 5px;
+    line-height: 1.2;
+    color: $red;
+  }
+}
+
+.claim-importer-header {
+  label {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .claim-importer-description {
+    margin: 5px 0;
+  }
+}

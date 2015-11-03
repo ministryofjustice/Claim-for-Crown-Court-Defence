@@ -13,6 +13,8 @@
 @import "design-patterns/alpha-beta";
 @import "design-patterns/buttons";
 
+@import "@mixins";
+
 @import "layout";
 @import "form";
 @import "button-secondary";
@@ -25,6 +27,7 @@
 @import "statuses";
 @import "claims-table";
 @import "claim-detail";
+@import "claims-importer";
 @import "api-documentation";
 
 

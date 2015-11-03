@@ -41,7 +41,6 @@ describe ErrorMessageTranslator do
 
   let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }
 
-
   context 'single_level_translations' do
     let(:key)           { :name }
     let(:error)         { 'cannot_be_blank' }

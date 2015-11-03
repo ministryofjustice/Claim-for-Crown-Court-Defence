@@ -1,6 +1,6 @@
 %tbody.misc-fee-group
   %tr.nested-fields
-    
+
     %td
       %a{name: "misc_fee_#{@misc_fee_count}_fee_type"}
       = f.collection_select :fee_type_id, FeeType.misc, :id, :description, {prompt: true}, {class: 'select2', style: 'width:350px'}
@@ -21,4 +21,5 @@
       = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
 
   = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended
+    - @misc_fee_date_attended_count += 1
+    = render 'date_attended_fields', f: date_attended, submodel_count: @misc_fee_date_attended_count, parent_model_prefix: "misc_fee_#{@misc_fee_count}"

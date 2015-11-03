@@ -1,6 +1,7 @@
 class DefendantSubModelValidator < BaseSubModelValidator
 
-  HAS_MANY_ASSOCIATION_NAMES = [ :representation_orders ]
+  # TODO to be removed if not required
+  # HAS_MANY_ASSOCIATION_NAMES = [ :representation_orders ]
 
   def has_many_association_names
     [ :representation_orders ]

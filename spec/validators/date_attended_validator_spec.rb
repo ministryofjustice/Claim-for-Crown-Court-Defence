@@ -39,5 +39,4 @@ describe DateAttendedValidator do
     end
   end
 
-
 end

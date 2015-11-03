@@ -50,6 +50,17 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     # TODO: unhappy paths for representation order details
 
     # TODO: unhappy paths for invalid dates attended dates and dates in general
+    # @javascript @webmock_allow_localhost_connect
+    # Scenario: Attempt to submit claim to LAA with invalid date attended
+    #   Given I am a signed in advocate
+    #   And There are case types in place
+    #   And I am on the new claim page
+    #   And I fill in the claim details
+    #   And I add dates attended for the first miscellaneous fee
+    #   And I fill in an invalid date from
+    #   And I submit to LAA
+    #  Then I should be redirected back to the create claim page
+    #   And I should see a summary error message "The first date-attended-from for the first fee or expense is invalid"
 
     # TODO: - unhappy paths for select list items
     # Scenario Outline: Attempt to submit claim to LAA without specifying required select-list fields

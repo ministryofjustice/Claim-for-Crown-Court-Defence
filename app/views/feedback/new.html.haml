@@ -1,9 +1,7 @@
 %h1.page-title
   Help us improve this service
 %p.medium.questions
-  Please tell us about your experience of using this service today.
-  %br
-  Your answers to the following questions will help us improve this service.
+  We will use your answers to the questions below to help us build a better service.
 
 = form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
   - if @feedback.errors.any?
@@ -16,21 +14,20 @@
   %fieldset
     %ol.questions
       %li
-        = "Overall how satisfied were you with this service?"
-        .clear-float
-          = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
-            - b.label(class: 'block-label') { b.radio_button + b.object.first  }
-
-      %li
-        = "Is there anything else you would like to tell us about this service?"
-
+        = f.label :comment, 'Please tell us about your experience of using this service today.'
         %p.form-hint
-          = "Give details below. Please don't include any sensitive personal information"
+          = 'Please don\'t include any personal or sensitive information.'
+
         .grid-row
           .column-half
             = f.text_area :comment, rows: 5, placeholder: '(Optional)'
           .column-half
             &nbsp
+      %li
+        = 'Overall, how satisfied were you with this service?'
+        .clear-float
+          = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
+            - b.label(class: 'block-label') { b.radio_button + b.object.first  }
 
   .actions
     = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

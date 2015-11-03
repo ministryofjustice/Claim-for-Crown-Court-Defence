@@ -11,7 +11,7 @@ class RepresentationOrderValidator < BaseClaimValidator
   # must not be in the future
   # must not be earlier than the first rep order date
   def validate_representation_order_date
-    validate_presence(:representation_order_date, "invalid")
+    validate_presence(:representation_order_date, "blank")
     validate_not_after(Date.today, :representation_order_date, "invalid")
     validate_not_before(Settings.earliest_permitted_date, :representation_order_date, "invalid")
 

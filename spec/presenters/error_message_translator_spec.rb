@@ -29,14 +29,14 @@ describe ErrorMessageTranslator do
         "_seq" => 10,
         "blank"=>{
           "long"  => "Enter the \#{defendant} defendant's first name",
-          "short" => "Cannot be blank"}},
-      "representation_order"=>{
+          "short" => "Cannot be blank"}}},
+    "representation_order"=>{
         "_seq" => 80,
         "maat_reference" => {
           "seq" => 20,
           "blank" =>{
-            "long"  => "The \#{defendant} defendant's \#{representation_order} representaion order's MAAT Reference must be 7-10 numeric digits",
-            "short" => "Invalid format"}}}}}
+            "long"  => "The \#{defendant} defendant's \#{representation_order} representation order's MAAT Reference must be 7-10 numeric digits",
+            "short" => "Invalid format"}}}}
   end
 
   let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }
@@ -123,7 +123,7 @@ describe ErrorMessageTranslator do
       let(:error)         { 'blank' }
       it 'returns defendant 5 reporder 2 errors' do
         expect(emt.translation_found?).to be true
-        expect(emt.long_message).to eq "The fifth defendant's second representaion order's MAAT Reference must be 7-10 numeric digits"
+        expect(emt.long_message).to eq "The fifth defendant's second representation order's MAAT Reference must be 7-10 numeric digits"
         expect(emt.short_message).to eq 'Invalid format'
       end
     end

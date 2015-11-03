@@ -96,7 +96,7 @@ context '#perform_validation?' do
   context 'creator' do
     it 'should error if not present, regardless' do
       claim.creator = nil
-      should_error_with(claim, :creator, "Creator cannot be blank, you must provide an creator")
+      should_error_with(claim, :creator, "blank")
     end
   end
 
@@ -168,7 +168,7 @@ context '#perform_validation?' do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.estimated_trial_length = nil
-      should_error_with(claim, :estimated_trial_length, "invalid")
+      should_error_with(claim, :estimated_trial_length, "blank")
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do
@@ -188,7 +188,7 @@ context '#perform_validation?' do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.actual_trial_length = nil
-      should_error_with(claim, :actual_trial_length, "invalid")
+      should_error_with(claim, :actual_trial_length, "blank")
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do

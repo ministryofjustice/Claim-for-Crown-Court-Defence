@@ -4,6 +4,12 @@ advocate:
     long: Choose an advocate
     short: Choose an advocate
 
+creator:
+  _seq: 15
+  blank:
+    long: Enter a creator
+    short: Enter a creator
+
 advocate_category:
   _seq: 20
   blank:
@@ -39,14 +45,20 @@ first_day_of_trial:
 
 estimated_trial_length:
   _seq: 70
+  blank:
+    long: Enter an estimated trial length
+    short: Enter a whole number of days
   invalid:
-    long: Enter a whole number of days for the trial length
+    long: Enter a whole number of days for the estimated trial length
     short: Enter a whole number of days
 
 actual_trial_length:
   _seq: 80
+  blank:
+    long: Enter an actual trial length
+    short: Enter a whole number of days
   invalid:
-    long: Enter a whole number of days for actual trial length
+    long: Enter an actual trial length
     short: Enter a whole number of days
 
 trial_concluded_at:
@@ -55,62 +67,56 @@ trial_concluded_at:
     long: Enter the date on which the trial concluded
     short: Enter a valid date
 
-expense:
-  quantity:
-    blank:
-      long: "Expense #{expense} quantity cannot be blank"
-      short: Cannot be blank
-
 trial_fixed_notice_at:
   _seq: 110
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date of notice of trial being fixed/warned
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date of notice of trial being fixed/warned
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date of notice of trial being fixed/warned
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date of notice of trial being fixed/warned
     short: Check this date
 
 trial_fixed_at:
   _seq: 120
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date the trial was fixed/warned
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date the trial was fixed/warned
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date the trial was fixed/warned
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date the trial was fixed/warned
     short: Check this date
 
 trial_cracked_at:
   _seq: 130
   blank_cracked_trial_date:
-    long: Enter the cracked trial date
-    short: You must enter a date
+    long: Enter the date the trial cracked
+    short: Enter a date
   blank_cracked_before_retrial_date:
-    long: Enter the cracked before retrial date
-    short: You must enter a date
+    long: Enter the date the case cracked
+    short: Enter a date
   check_cracked_trial_date:
-    long: Check the cracked trial date
+    long: Check the date the trial cracked
     short: Check this date
   check_cracked_before_retrial_date:
-    long: Check the cracked before retrial date
+    long: Check the date the case cracked
     short: Check this date
 
 trial_cracked_at_third:
   _seq: 140
   blank:
-    long: You must select an option for a cracked trial
-    short: Select an option
+    long: Choose the stage in which the case cracked
+    short: Choose an option
 
 offence:
   _seq: 150
@@ -167,7 +173,7 @@ defendant:
 
 representation_order:
   _seq: 300
-  defandant:
+  defendant:
     _seq: 5
     blank:
       long: You must specify a defendant
@@ -181,14 +187,17 @@ representation_order:
 
   representation_order_date:
     _seq: 20
+    blank:
+      long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
+      short: Enter a representation order date
     invalid:
-      long: 'Enter a valid representation order date for the #{defendant} defendant'
+      long: 'Enter a valid representation order date for the #{representation_order} representation order of the #{defendant} defendant'
       short: Enter a valid representation order date
 
   maat_reference:
     _seq: 30
     invalid:
-      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant" 
+      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant"
       short: Enter a valid MAAT reference
 
 #################################################################################
@@ -198,6 +207,7 @@ representation_order:
 #################################################################################
 
 basic_fee:
+  _seq: 400
   quantity:
     baf_qty1:
       long: "Quantity for basic fee must be exactly one"
@@ -224,7 +234,6 @@ basic_fee:
     daf_zero:
       long: You have selected daily attendance fees (3-40 days) - now enter an amount claimed for these fees
       short: Enter a valid amount
-    daf_invalid:
     daf_invalid:
       long: Enter a valid amount for daily attendance fees (3-40 days)
       short: Enter a valid amount
@@ -290,19 +299,73 @@ basic_fee:
 #################################################################################
 
 misc_fee:
+  _seq: 500
+  fee_type:
+    _seq: 10
+    blank:
+      long: 'Choose the #{misc_fee} miscellaneous fee type'
+      short: Choose a fee type
+
   amount:
-    qty_zero:
-      long: 'The amount on miscellaneous fee #{misc_fee} cannot be specified if the quantity is zero'
-      short: Invalid amount
+    _seq: 20
+    invalid:
+      long: 'Enter the #{misc_fee} miscellaneous fee amount'
+      short: Enter an amount
 
-  # invalid:
-  #   long: Please enter valid date notice of first fixed/warned issued
-  #   short: invalid date
-  # cannot_be_in_future:
-  #   long: Date notice of first fixed/warned issued may not be in the future
-  #   short: cannot be in future
-  # too_early:
-  #   long: Date notice of first fixed/warned issued may not be more than <%= Settings.earliest_permitted_date_in_words %>
-  #   short: too far in the past
+  quantity:
+    _seq: 30
+    invalid:
+      long: 'Enter the #{misc_fee} miscellaneous fee quantity'
+      short: Enter a quantity
 
+fixed_fee:
+  _seq: 600
+  fee_type:
+    _seq: 10
+    blank:
+      long: 'Choose the #{fixed_fee} fixed fee type'
+      short: Choose a fee type
 
+  amount:
+    _seq: 20
+    invalid:
+      long: 'Enter the #{fixed_fee} fixed fee amount'
+      short: Enter an amount
+
+  quantity:
+    _seq: 30
+    invalid:
+      long: 'Enter the #{fixed_fee} fixed fee quantity'
+      short: Enter a quantity
+
+#################################################################################
+#                                                                               #
+#   EXPENSES                                                                    #
+#                                                                               #
+#################################################################################
+
+expense:
+  _seq: 700
+  expense_type:
+    _seq: 10
+    blank:
+      long: 'Choose the #{expense} expense''s type'
+      short: Choose an expense type
+
+  quantity:
+    _seq: 20
+    blank:
+      long: 'Enter the #{expense} expense''s quantity'
+      short: Enter a whole number
+    numericality:
+      long: 'Enter a valid #{expense} expense''s quantity'
+      short: Enter zero or more
+
+  rate:
+    _seq: 30
+    blank:
+      long: 'Enter the #{expense} expense''s rate'
+      short: Enter a number
+    numericality:
+      long: 'Enter a valid #{expense} expense''s rate'
+      short: Enter zero or more

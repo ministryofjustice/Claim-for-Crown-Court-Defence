@@ -27,7 +27,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   def validate_total
     unless @record.source == 'api'
-      validate_numericality(:total, 0.01, nil, "Total value claimed must be greater than £0.00")
+      validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")
     end
   end
 
@@ -38,7 +38,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   # ALWAYS required/mandatory
   def validate_creator
-    validate_presence(:creator, "Creator cannot be blank, you must provide an creator")
+    validate_presence(:creator, "blank")
   end
 
   # must be present
@@ -74,7 +74,7 @@ end
 # must be greater than or eqaul zero
 def validate_estimated_trial_length
   if trial_dates_required?
-    validate_presence(:estimated_trial_length, "invalid")
+    validate_presence(:estimated_trial_length, "blank")
     validate_numericality(:estimated_trial_length, 1, nil, "invalid") unless @record.estimated_trial_length.nil?
   end
 end
@@ -83,11 +83,10 @@ end
 # must be greater than or equal to zero
 def validate_actual_trial_length
   if trial_dates_required?
-    validate_presence(:actual_trial_length, "invalid") 
+    validate_presence(:actual_trial_length, "blank") 
     validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
   end
 end
-
 
 # must be present if case type is cracked trial or cracked before retial
 # must be final third if case type is cracked before retrial (cannot be first or second third)

@@ -14,7 +14,7 @@ describe FeeValidator do
   let(:pcm_fee)                   { FactoryGirl.build :fee, :pcm_fee, claim: claim }
 
   describe 'fee type' do
-    it { should_error_if_not_present(fee, :fee_type, 'Fee type cannot be blank') }
+    it { should_error_if_not_present(fee, :fee_type, 'blank') }
   end
 
 

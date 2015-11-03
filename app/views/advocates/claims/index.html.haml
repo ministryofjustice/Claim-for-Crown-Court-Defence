@@ -5,14 +5,10 @@
         = t('.all_claims')
       - else
         = t('.your_claims')
-  .columm-quarter
-    = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started right'
-
-.grid-row
-  .column-three-quarter
     #summary
       = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .column-quarter
+    = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'
 

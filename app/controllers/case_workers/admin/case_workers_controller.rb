@@ -1,4 +1,7 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
+
+  include PasswordHelpers
+
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
 
   def index
@@ -22,9 +25,10 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   end
 
   def create
-    @case_worker = CaseWorker.new(case_worker_params)
+    @case_worker = CaseWorker.new(params_with_temporary_password)
 
     if @case_worker.save
+      @case_worker.user.send_reset_password_instructions
       redirect_to case_workers_admin_case_workers_url, notice: 'Case worker successfully created'
     else
       render :new
@@ -40,11 +44,6 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   end
 
   def update_password
-    password_params = case_worker_params.slice(:user_attributes)
-    password_params[:user_attributes].delete(:email)
-    password_params[:user_attributes].delete(:first_name)
-    password_params[:user_attributes].delete(:last_name)
-
     user = @case_worker.user
     if user.update_with_password(password_params[:user_attributes])
       sign_in(user, bypass: true)

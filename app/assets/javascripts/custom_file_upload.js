@@ -15,19 +15,21 @@ moj.Modules.CustomFileUpload = {
   },
 
   bindEvents: function() {
-    this.$forms.on('click', function(e) {
-      var $target = $(e.target);
-      if ($target.attr('type') === 'button') {
-        $target.siblings(':file').click();
-      }
-    });
-
-    this.$fileInputs.change(function(e) {
-      var $form = $(e.target).closest('form');
-      var fileName = this.value.replace('C:\\fakepath\\', '');
-      $form.removeClass('no-file-selected');
-      $form.find('.file-upload-name').text(fileName);
-    });
+    this.$forms
+      .on('click', function(e) {
+        var $target = $(e.target);
+        if ($target.attr('type') === 'button') {
+          $target.siblings(':file').click();
+        }
+      })
+      .on('change', ':file', function(e) {
+        var fileName = this.value.replace('C:\\fakepath\\', '');
+        $(e.target).closest('form')
+            .removeClass('no-file-selected')
+            .find('.file-upload-name').text(fileName)
+            .parent()
+            .find('.errors').empty();
+      });
   },
 
   cacheEls: function() {

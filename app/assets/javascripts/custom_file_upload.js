@@ -10,8 +10,8 @@ moj.Modules.CustomFileUpload = {
   setUp: function() {
     this.$forms.addClass('no-file-selected');
     this.$fileInputs
-        .after(this.$chooseFileButtonTmpl.clone())
-        .after(this.$chooseFileNameTmpl.clone());
+      .after(this.$chooseFileButtonTmpl.clone())
+      .after(this.$chooseFileNameTmpl.clone());
   },
 
   bindEvents: function() {

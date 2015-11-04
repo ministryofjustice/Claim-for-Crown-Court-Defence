@@ -12,17 +12,17 @@ class DateAttendedValidator < BaseClaimValidator
   # must not be before 1st reporder date
   # must not be before the earliest_permitted_date
   def validate_date
-    validate_presence(:date, "Date attended cannot be blank")
-    validate_not_before(@record.claim.first_day_of_trial, :date, "Date attended cannot be before first day of trial") if @record.attended_item_type != 'Expense'
-    validate_not_before(@record.try(:claim).try(:earliest_representation_order).try(:representation_order_date), :date, "Date attended cannot be before the date of the first representation order")
-    validate_not_before(Settings.earliest_permitted_date, :date, "Date attended cannot be more than #{Settings.earliest_permitted_date_in_words}")
+    validate_presence(:date, 'blank')
+    validate_not_before(@record.claim.first_day_of_trial, :date, 'not_before_first_day_of_trial') if @record.attended_item_type != 'Expense'
+    validate_not_before(@record.try(:claim).try(:earliest_representation_order).try(:representation_order_date), :date, 'not_before_earliest_representation_order_date')
+    validate_not_before(Settings.earliest_permitted_date, :date, 'not_before_earliest_permitted_date')
   end
 
   # must not be before DateAttended#date
   # must not be in the future
   def validate_date_to
-    validate_not_before(@record.date, :date_to, "Date attended to cannot be before the date attended")
-    validate_not_after(Date.today, :date_to, "Date attended to cannot be in the future")
+    validate_not_before(@record.date, :date_to, 'not_before_date_from')
+    validate_not_after(Date.today, :date_to, 'not_after_today')
   end
 
 end

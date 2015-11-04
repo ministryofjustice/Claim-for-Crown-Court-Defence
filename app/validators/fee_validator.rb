@@ -115,9 +115,5 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-  # TODO - still to be done
-  def validate_dates_attended
-  end
-
 end
 

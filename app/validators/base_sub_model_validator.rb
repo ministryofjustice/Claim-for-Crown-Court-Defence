@@ -10,7 +10,6 @@ class BaseSubModelValidator < BaseClaimValidator
     []
   end
 
-
   def validate(record)
     @result = true
     super
@@ -48,7 +47,7 @@ class BaseSubModelValidator < BaseClaimValidator
     associated_record.errors.each do |fieldname, error_message|
       base_record_error_key = "#{error_prefix}_#{fieldname}".to_sym
       base_record.errors[base_record_error_key] << error_message
-    end  
+    end
   end
 
   def remove_unnumbered_submodel_errors_from_base_record(base_record)
@@ -63,7 +62,5 @@ class BaseSubModelValidator < BaseClaimValidator
     key_as_string = key.to_s
     key_as_string =~ /^(.*)\./ && has_many_association_names.include?($1.to_sym)
   end
-
-   
 
 end

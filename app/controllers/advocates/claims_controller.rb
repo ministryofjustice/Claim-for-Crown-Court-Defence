@@ -360,16 +360,19 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @defendant_count            = 0
     @representation_order_count = 0
     @basic_fee_count            = 0
+    @basic_fee_date_attended_count = 0
     @misc_fee_count             = 0
+    @misc_fee_date_attended_count = 0
     @fixed_fee_count            = 0
+    @fixed_fee_date_attended_count = 0
     @expense_count              = 0
+    @expense_date_attended_count= 0
   end
 
   def create_and_submit
     Claim.transaction do
       @claim.save
       @claim.force_validation = true
-      # TODO: use @claim.save return value instead of @claim.valid? ?
 
       if @claim.valid?
         @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }

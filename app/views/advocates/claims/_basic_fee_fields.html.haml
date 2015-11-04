@@ -6,7 +6,7 @@
         .form-hint
           = raw t('.basic_fee_prompt_text')
     %td
-      %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
+      %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
       = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 999, maxlength: 3
       = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
     %td
@@ -22,4 +22,5 @@
     = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
   = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended
+    - @basic_fee_date_attended_count += 1
+    = render 'date_attended_fields', { f: date_attended, submodel_count: @basic_fee_date_attended_count,  parent_model_prefix: "basic_fee_#{@basic_fee_count}" }

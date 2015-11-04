@@ -25,4 +25,5 @@
       = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
 
   = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended
+    - @expense_date_attended_count += 1
+    = render 'date_attended_fields', { f: date_attended, submodel_count: @expense_date_attended_count,parent_model_prefix: "expense_#{@expense_count}" }

@@ -19,8 +19,8 @@ class ErrorMessageTranslator
   def translate!
     get_messages(@translations, @key, @error)
     if translation_found?
-      @long_message = substitute_submodel_numbers(@long_message)
-      @short_message = substitute_submodel_numbers(@short_message)
+      @long_message = substitute_submodel_numbers_and_names(@long_message)
+      @short_message = substitute_submodel_numbers_and_names(@short_message)
     end
   end
 
@@ -74,12 +74,20 @@ class ErrorMessageTranslator
     [translation_subset, attribute]
   end
 
+  def is_date_attended_submodel_error?(message, submodel_name)
+    message =~ /date attended/ && [:basic_fee,:misc_fee,:fixed_fee,:expense].include?(submodel_name)
+  end
 
-  def substitute_submodel_numbers(message)
+  def humanize_submodel_name(submodel_name)
+    submodel_name.humanize.downcase.gsub(/misc fee/,'miscellaneous fee')
+  end
+
+  def substitute_submodel_numbers_and_names(message)
     @submodel_numbers.each do |submodel_name, number|
       substitution_key = '#{' + submodel_name + '}'
-      message = message.sub(substitution_key, to_ordinal(number))
+      message = message.sub(substitution_key, to_ordinal(number) + ' ' + humanize_submodel_name(submodel_name))
     end
+    message = message.gsub(/#\{.*\}/,'')
     message
   end
 

@@ -102,6 +102,19 @@ When(/^I fill in the certification details and submit/) do
   click_on 'Certify and submit claim'
 end
 
+Given(/^I add dates attended for the first miscellaneous fee$/) do
+  within '#misc-fees' do
+    click_on 'Add date(s)'
+  end
+end
+
+Given(/^I fill in an invalid date from$/) do
+  save_and_open_page
+  fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_dd', with: 32
+  fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_mm', with: 01
+  fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_yyy', with: 1832
+end
+
 When(/^I fill in the claim details(.*)$/) do |details|
   select('Guilty plea', from: 'claim_case_type_id')
   select('some court', from: 'claim_court_id')

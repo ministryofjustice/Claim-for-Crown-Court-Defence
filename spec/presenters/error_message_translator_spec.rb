@@ -28,19 +28,18 @@ describe ErrorMessageTranslator do
       "first_name"=>{
         "_seq" => 10,
         "blank"=>{
-          "long"  => "Enter the \#{defendant} defendant's first name",
+          "long"  => "Enter a first name for the \#{defendant}",
           "short" => "Cannot be blank"}}},
     "representation_order"=>{
         "_seq" => 80,
         "maat_reference" => {
           "seq" => 20,
           "blank" =>{
-            "long"  => "The \#{defendant} defendant's \#{representation_order} representation order's MAAT Reference must be 7-10 numeric digits",
+            "long"  => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}",
             "short" => "Invalid format"}}}}
   end
 
   let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }
-
 
   context 'single_level_translations' do
     let(:key)           { :name }
@@ -56,7 +55,7 @@ describe ErrorMessageTranslator do
 
     context 'key does not exist in translations table' do
       let(:key)           { :stepmother }
-      let(:error)         { 'too_long' }      
+      let(:error)         { 'too_long' }
       it 'returns nil and responds true to unable_to_find_translation' do
         expect(emt.translation_found?).to be false
         expect(emt.long_message).to be_nil
@@ -66,7 +65,7 @@ describe ErrorMessageTranslator do
 
     context 'key exists but error does not exist in translations table' do
       let(:key)           { :name }
-      let(:error)         { 'rubbish' }      
+      let(:error)         { 'rubbish' }
       it 'returns nil and responds true to unable_to_find_translation' do
         expect(emt.translation_found?).to be false
         expect(emt.long_message).to be_nil
@@ -81,7 +80,7 @@ describe ErrorMessageTranslator do
       let(:error)         { 'blank' }
       it 'returns defendant 2 error messages' do
         expect(emt.translation_found?).to be true
-        expect(emt.long_message).to eq "Enter the second defendant's first name"
+        expect(emt.long_message).to eq "Enter a first name for the second defendant"
         expect(emt.short_message).to eq 'Cannot be blank'
       end
     end
@@ -123,7 +122,8 @@ describe ErrorMessageTranslator do
       let(:error)         { 'blank' }
       it 'returns defendant 5 reporder 2 errors' do
         expect(emt.translation_found?).to be true
-        expect(emt.long_message).to eq "The fifth defendant's second representation order's MAAT Reference must be 7-10 numeric digits"
+        expect(emt.long_message).to eq "The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant"
+
         expect(emt.short_message).to eq 'Invalid format'
       end
     end

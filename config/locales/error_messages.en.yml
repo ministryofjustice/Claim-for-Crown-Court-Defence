@@ -141,28 +141,29 @@ defendant:
   first_name:
     _seq: 10
     blank:
-      long: "Enter the #{defendant} defendant's first name"
+      long: "Enter a first name for the #{defendant}"
       short: Enter a first name
 
   last_name:
     _seq: 20
     blank:
-      long: "Enter the #{defendant} defendant's last name"
+      long: "Enter a last name for the #{defendant}"
       short: Enter a last name
 
   date_of_birth:
     _seq: 30
     blank:
-      long: "Enter the #{defendant} defendant's date of birth"
+      long: "Enter a date of birth for the #{defendant}"
       short: Enter a date of birth
     check:
-      long: "Check the #{defendant} defendant's last name"
+      long: "Check the last name of the #{defendant}"
       short: Check the date of birth
 
   representation_orders:
-    _seq: 40
+    _seq: 200
     no_reporder:
-      long: "Enter the representation order details for the #{defendant} defendant"
+      _seq: 50
+      long: "Enter the representation order details for the #{defendant}"
       short: "Enter representation order details"
 
   #################################################################################
@@ -182,22 +183,22 @@ representation_order:
   granting_body:
     _seq: 10
     blank:
-      long: "Choose the court that issued the #{representation_order} representation order for the #{defendant} defendant"
+      long: "Choose the court that issued the #{representation_order} for the #{defendant}"
       short: Choose a court
 
   representation_order_date:
     _seq: 20
     blank:
-      long: 'Enter a representation order date for the #{representation_order} representation order of the #{defendant} defendant'
+      long: 'Enter a representation order date for the #{representation_order} of the #{defendant}'
       short: Enter a representation order date
     invalid:
-      long: 'Enter a valid representation order date for the #{representation_order} representation order of the #{defendant} defendant'
+      long: 'Enter a valid representation order date for the #{representation_order} of the #{defendant}'
       short: Enter a valid representation order date
 
   maat_reference:
     _seq: 30
     invalid:
-      long: "Enter a valid MAAT reference for the #{representation_order} representation order on the #{defendant} defendant"
+      long: "Enter a valid MAAT reference for the #{representation_order} on the #{defendant}"
       short: Enter a valid MAAT reference
 
 #################################################################################
@@ -229,7 +230,7 @@ basic_fee:
       short: Enter a valid quantity
   amount:
     baf_invalid:
-      long: You must enter a valid amount for the Basic Fee
+      long: You must enter a valid amount for the basic fee
       short: Enter a valid amount
     daf_zero:
       long: You have selected daily attendance fees (3-40 days) - now enter an amount claimed for these fees
@@ -303,39 +304,46 @@ misc_fee:
   fee_type:
     _seq: 10
     blank:
-      long: 'Choose the #{misc_fee} miscellaneous fee type'
+      long: 'Choose a type for the #{misc_fee}'
       short: Choose a fee type
 
   amount:
     _seq: 20
     invalid:
-      long: 'Enter the #{misc_fee} miscellaneous fee amount'
+      long: 'Enter an amount for the #{misc_fee}'
       short: Enter an amount
 
   quantity:
     _seq: 30
     invalid:
-      long: 'Enter the #{misc_fee} miscellaneous fee quantity'
+      long: 'Enter a quantity for the #{misc_fee}'
       short: Enter a quantity
+
+
+#################################################################################
+#                                                                               #
+#   FIXED FEES                                                                  #
+#                                                                               #
+#################################################################################
 
 fixed_fee:
   _seq: 600
   fee_type:
     _seq: 10
     blank:
-      long: 'Choose the #{fixed_fee} fixed fee type'
+      long: 'Choose the #{fixed_fee} type'
       short: Choose a fee type
 
   amount:
     _seq: 20
     invalid:
-      long: 'Enter the #{fixed_fee} fixed fee amount'
+      long: 'Enter the #{fixed_fee} amount'
       short: Enter an amount
 
   quantity:
     _seq: 30
     invalid:
-      long: 'Enter the #{fixed_fee} fixed fee quantity'
+      long: 'Enter the #{fixed_fee} quantity'
       short: Enter a quantity
 
 #################################################################################
@@ -349,23 +357,55 @@ expense:
   expense_type:
     _seq: 10
     blank:
-      long: 'Choose the #{expense} expense''s type'
+      long: 'Choose a type for the #{expense}'
       short: Choose an expense type
 
   quantity:
     _seq: 20
     blank:
-      long: 'Enter the #{expense} expense''s quantity'
+      long: 'Enter a quantity for the #{expense}'
       short: Enter a whole number
     numericality:
-      long: 'Enter a valid #{expense} expense''s quantity'
+      long: 'Enter a valid quantity for the #{expense}'
       short: Enter zero or more
 
   rate:
     _seq: 30
     blank:
-      long: 'Enter the #{expense} expense''s rate'
+      long: 'Enter a rate for the #{expense}'
       short: Enter a number
     numericality:
-      long: 'Enter a valid #{expense} expense''s rate'
+      long: 'Enter a valid rate for the #{expense}'
       short: Enter zero or more
+
+#################################################################################
+#                                                                               #
+#   DATES_ATTENDED                                                               #
+#                                                                               #
+#################################################################################
+
+date_attended:
+  _seq: 800
+  date:
+    _seq: 10
+    blank:
+      long: 'Enter the "#{date_attended} from" for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      short: Enter a date
+    not_before_first_day_of_trial:
+      long: 'The "#{date_attended} from" of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      short: Must be after first day of trial
+    not_before_earliest_representation_order_date:
+      long: 'The "#{date_attended} from" for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      short: Must be after earliest representation order date
+    not_before_earliest_permitted_date:
+      long: 'The "#{date_attended} from" for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is more than 5 years ago'
+      short: 'Must not be more than 5 years ago'
+
+  date_to:
+    _seq: 20
+    not_before_date_from:
+      long: 'The "#{date_attended} to" for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      short: "Must be after date from"
+    not_after_today:
+      long: 'The "#{date_attended} to" for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      short: Must not be after today

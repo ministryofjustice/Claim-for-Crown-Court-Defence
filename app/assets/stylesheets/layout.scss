@@ -155,10 +155,9 @@ section{
 
 ol.questions{
   margin-top:0;
-  list-style-type: decimal;
+  list-style-type: none;
   list-style-position: inside;
   li{
-    margin-top: $gutter;
     padding-top: $gutter;
     .clear-float, textarea{
       margin-top:25px;

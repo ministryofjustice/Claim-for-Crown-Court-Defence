@@ -120,6 +120,7 @@ moj.Modules.FeeSectionDisplay = {
   },
   applyVAT : function(){
     var $vatReport = this.$vatReport;
+    var self = this;
 
     if(this.$vatApplyChkbox.is(':checked')){
 
@@ -132,7 +133,7 @@ moj.Modules.FeeSectionDisplay = {
       })
       .then(function(){
         if($vatReport.filter(':visible').length === 0){
-          this.showHideVAT();
+          self.showHideVAT();
         }
       });
     }else{

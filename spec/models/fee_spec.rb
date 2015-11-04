@@ -119,11 +119,18 @@ RSpec.describe Fee, type: :model do
   end
 
   describe '#clear' do
+    let(:fee) {FactoryGirl.build :fee, :with_date_attended, quantity: 1, amount: 9.99}
+
     it 'should set fee amount and quantity to nil' do
-      fee = FactoryGirl.build :fee, quantity: 1, amount: 9.99
       fee.clear
       expect(fee.quantity).to eql nil
       expect(fee.amount).to eql nil
+    end
+
+    it 'should destroy any child relations (dates attended)' do
+      expect(fee.dates_attended.size).to eql 1
+      fee.clear
+      expect(fee.dates_attended.size).to eql 0
     end
   end
 

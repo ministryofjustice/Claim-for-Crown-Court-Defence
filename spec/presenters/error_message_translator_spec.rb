@@ -123,7 +123,6 @@ describe ErrorMessageTranslator do
       it 'returns defendant 5 reporder 2 errors' do
         expect(emt.translation_found?).to be true
         expect(emt.long_message).to eq "The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant"
-
         expect(emt.short_message).to eq 'Invalid format'
       end
     end

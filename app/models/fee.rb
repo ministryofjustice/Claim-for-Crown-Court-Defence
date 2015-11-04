@@ -90,6 +90,8 @@ class Fee < ActiveRecord::Base
   def clear
     self.quantity = nil;
     self.amount = nil;
+    # explicitly destroy child relations
+    self.dates_attended.destroy_all unless self.dates_attended.empty?
   end
 
   private

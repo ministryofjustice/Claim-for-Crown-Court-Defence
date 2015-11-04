@@ -26,6 +26,7 @@ en:
   datetime:
     formats:
       default: "%d/%m/%Y %H:%M"
+
   dictionary:
     errors:
       blank: &blank "cannot be blank"
@@ -37,29 +38,36 @@ en:
       view: &view 'View'
     models:
       advocate: &advocate 'Advocate'
+      case_worker: &case_worker 'Case worker'
     attributes:
       users:
         role: &role 'Role'
         email: &email 'Email'
+        email_confirmation: &email_confirmation 'Email confirmation'
         password: &password 'Password'
         password_confirmation: &password_confirmation 'Password confirmation'
         first_name: &first_name 'First name'
         middle_name: &middle_name 'Middle name'
         lasst_name: &last_name 'Last name'
+
   activerecord:
     models:
       advocate: *advocate
+      case_worker: *case_worker
       claim: 'Claim'
       defendant: 'Defendant'
     attributes:
       advocate:
         role: *role
         supplier_number: 'Supplier number'
+      case_worker:
+        role: *role
       user:
         email: *email
         password: *password
         first_name: *first_name
         last_name: *last_name
+        email_confirmation: *email_confirmation
       claim:
         advocate: *advocate
         offence: 'Offence'
@@ -77,10 +85,17 @@ en:
             supplier_number:
               blank: cannot be blank
               invalid: 'must be 5 alhpa-numeric characters'
+        case_worker:
+          attributes:
+            role:
+              blank: Role cannot be blank
         user:
           attributes:
             email:
               blank: *blank
+            email_confirmation:
+              confirmation: 'and email must match'
+              blank: You must enter an email confirmation
             password:
               blank: cannot be blank
             password_confirmation:
@@ -157,6 +172,7 @@ en:
           error: 'error'
           prohibited_save: 'This advocate has'
           email: *email
+          email_confirmation: *email_confirmation
           password: *password
           password_confirmation: *password_confirmation
           first_name: *first_name
@@ -391,7 +407,7 @@ en:
       net_total: Net total
       vat_amount: VAT Amount
 
-
+# en.case_workers
   case_workers:
     admin:
       case_workers:
@@ -402,6 +418,11 @@ en:
           approval_limit: Approval limit
           location: Location
           working_days: Working days
+        form:
+          first_name: *first_name
+          last_name: *last_name
+          email: *email
+          email_confirmation: *email_confirmation
         change_password:
           error: 'error'
           prohibited_save: 'This case worker password change has'

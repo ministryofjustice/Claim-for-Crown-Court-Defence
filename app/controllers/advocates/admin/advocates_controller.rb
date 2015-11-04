@@ -21,7 +21,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
 
   def create
     @advocate = Advocate.new(params_with_temporary_password.merge(chamber_id: current_user.persona.chamber.id))
-
+    
     if @advocate.save
       @advocate.user.send_reset_password_instructions
       redirect_to advocates_admin_advocates_url, notice: 'Advocate successfully created'
@@ -64,7 +64,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
      :role,
      :apply_vat,
      :supplier_number,
-      user_attributes: [:id, :email, :password, :password_confirmation, :current_password, :first_name, :last_name]
+     user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )
   end
 

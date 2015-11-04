@@ -41,6 +41,8 @@ class User < ActiveRecord::Base
   has_many :user_message_statuses, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
+  validates :email, confirmation: true
+  attr_accessor :email_confirmation
 
   delegate :claims, to: :persona
 
@@ -53,4 +55,5 @@ class User < ActiveRecord::Base
   def sortable_name
     [last_name, first_name] * ' '
   end
+
 end

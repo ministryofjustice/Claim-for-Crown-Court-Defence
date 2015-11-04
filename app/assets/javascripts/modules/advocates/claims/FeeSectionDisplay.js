@@ -1,9 +1,4 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.FeeSectionDisplay = {
-
   $caseTypeSelect: {},
   $basicFeesSet: {},
   $fixedFeesSet: {},

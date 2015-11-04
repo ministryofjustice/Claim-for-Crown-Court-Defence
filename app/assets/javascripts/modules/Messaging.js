@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.Messaging = {
   init :function(){
     if($('.messages-list').length > 0){

@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.TableRowClick = {
   init: function() {
     $('.js-checkbox-table').on('click', function(e) {

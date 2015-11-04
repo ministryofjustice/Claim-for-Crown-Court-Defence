@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.Dropzone = {
   $target: {},
   init : function() {
@@ -43,7 +39,7 @@ moj.Modules.Dropzone = {
         formData.append("document[form_id]", form_id);
       },
       success: function (file, response) {
-        var id = response['document']['id'];
+        var id = response.id;
         $(file.previewTemplate).find('.dz-remove').attr('id', id);
         file.previewElement.classList.add('dz-success');
 
@@ -65,15 +61,14 @@ moj.Modules.Dropzone = {
               self.removeDocumentIdInput(data.document.id);
             }
           });
-        }
-        else {
+        } else {
           $(file.previewElement).remove();
         }
       }
     });
   },
   createDocumentIdInput : function(id) {
-    var input = "<input id=\"claim_document_ids_" + id + "\" multiple=\"multiple\" name=\"claim[document_ids][]\" type=\"hidden\" value=\"" + id + "\">"
+    var input = "<input id=\"claim_document_ids_" + id + "\" multiple=\"multiple\" name=\"claim[document_ids][]\" type=\"hidden\" value=\"" + id + "\">";
     this.$document_ids.append(input);
   },
   removeDocumentIdInput : function(id) {

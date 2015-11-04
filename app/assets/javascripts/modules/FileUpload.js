@@ -1,4 +1,3 @@
-var moj = moj || {};
 moj.Modules.FileUpload = {
   init: function(){
     $('.supporting_evidence_upload').each(function(){

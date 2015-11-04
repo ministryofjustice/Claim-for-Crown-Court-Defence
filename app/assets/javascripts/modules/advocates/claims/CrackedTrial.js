@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.CrackedTrial = {
   $caseTypeSelect: {},
   $fieldSet: {},

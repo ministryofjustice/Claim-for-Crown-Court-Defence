@@ -1,4 +1,3 @@
-var moj = moj || {};
 moj.Modules.JudicialApportionment = {
   reminder: 'Remember: You must attach the Order for judicial apportionment in the Supporting evidence documents section',
   init: function(){

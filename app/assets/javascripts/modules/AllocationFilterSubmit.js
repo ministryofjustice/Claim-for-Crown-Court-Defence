@@ -1,5 +1,3 @@
-var moj = moj || {};
-
 moj.Modules.AllocationFilterSubmit = {
   init: function() {
     $('.allocation-filter-form input[type="submit"]').hide();

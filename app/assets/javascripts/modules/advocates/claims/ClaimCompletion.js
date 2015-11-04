@@ -1,9 +1,4 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.ClaimCompletion = {
-
   $valueChanged: false,
 
   init : function() {

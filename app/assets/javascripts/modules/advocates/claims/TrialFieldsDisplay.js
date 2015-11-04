@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.TrialFieldsDisplay = {
   $caseTypeSelect: {},
   $container: {},
@@ -24,7 +20,7 @@ moj.Modules.TrialFieldsDisplay = {
   addCaseTypeChangeEvent : function() {
     var caseTypeLabel = this.$caseTypeSelect.find('option:selected').text();
     if (caseTypeLabel) {
-      if (this.regex.test(caseTypeLabel) || this.$caseTypeSelect.val() == '') {
+      if (this.regex.test(caseTypeLabel) || this.$caseTypeSelect.val() === '') {
         this.$container.hide();
       } else {
         this.$container.slideDown();

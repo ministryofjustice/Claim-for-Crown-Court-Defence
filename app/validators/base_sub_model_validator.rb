@@ -48,7 +48,6 @@ class BaseSubModelValidator < BaseClaimValidator
     associated_record.errors.each do |fieldname, error_message|
       base_record_error_key = "#{error_prefix}_#{fieldname}".to_sym
       base_record.errors[base_record_error_key] << error_message
-      ap "copied #{base_record.errors[base_record_error_key]}"
     end
   end
 

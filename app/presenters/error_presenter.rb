@@ -25,8 +25,6 @@ class ErrorPresenter
   private
 
   def generate_messages
-    ap "<<<<<<<<<<<<< GENERATE_MESSAGES >>>>>>>>>>>>"
-    ap @errors
     @errors.each do |fieldname, error|
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
       if emt.translation_found?

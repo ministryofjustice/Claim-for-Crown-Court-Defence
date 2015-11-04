@@ -4,12 +4,6 @@ describe ErrorPresenter do
 
   let(:claim)           { FactoryGirl.build :claim }
 
-  # before(:each) do
-  #   claim.errors[:name] << 'cannot be blank'
-  #   claim.errors[:date_of_birth]  << 'cannot be blank'
-  #   claim.errors[:defendant_2_name] << 'is invalid'
-  # end
-
   let(:filename)        { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
   let(:presenter)       { ErrorPresenter.new(claim, filename) }
 

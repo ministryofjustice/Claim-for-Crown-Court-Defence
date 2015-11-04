@@ -39,13 +39,12 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
       And I should see a summary error message <error_message>
 
     Examples:
-
-    | field_id                                   | error_message                                |
-    | "claim_case_number"                        | "Enter a case number"                        |
-    | "claim_defendants_attributes_0_first_name" | "Enter a first name for the first defendant" |
-    | "claim_basic_fees_attributes_0_quantity"   | "Quantity for basic fee must be exactly one" |
-    | "claim_misc_fees_attributes_0_quantity"    | "Enter a quantity for the first misc fee"    |
-    | "claim_expenses_attributes_0_quantity"     | "Enter a quantity for the first expense"     |
+    | field_id                                   | error_message                                      |
+    | "claim_case_number"                        | "Enter a case number"                              |
+    | "claim_defendants_attributes_0_first_name" | "Enter a first name for the first defendant"       |
+    | "claim_basic_fees_attributes_0_quantity"   | "Quantity for basic fee must be exactly one"       |
+    | "claim_misc_fees_attributes_0_quantity"    | "Enter a quantity for the first miscellaneous fee" |
+    | "claim_expenses_attributes_0_quantity"     | "Enter a quantity for the first expense"           |
 
     # TODO: unhappy paths for representation order details
 

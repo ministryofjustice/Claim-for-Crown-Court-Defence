@@ -78,14 +78,14 @@ class ErrorMessageTranslator
     message =~ /date attended/ && [:basic_fee,:misc_fee,:fixed_fee,:expense].include?(submodel_name)
   end
 
+  def humanize_submodel_name(submodel_name)
+    submodel_name.humanize.downcase.gsub(/misc fee/,'miscellaneous fee')
+  end
+
   def substitute_submodel_numbers_and_names(message)
     @submodel_numbers.each do |submodel_name, number|
       substitution_key = '#{' + submodel_name + '}'
-      # if is_date_attended_submodel_error?(message, submodel_name)
-        message = message.sub(substitution_key, to_ordinal(number) + ' ' + submodel_name.humanize.downcase)
-      # else
-        # message = message.sub(substitution_key, to_ordinal(number))
-      # end
+      message = message.sub(substitution_key, to_ordinal(number) + ' ' + humanize_submodel_name(submodel_name))
     end
     message = message.gsub(/#\{.*\}/,'')
     message

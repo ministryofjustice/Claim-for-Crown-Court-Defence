@@ -29,9 +29,6 @@ class Expense < ActiveRecord::Base
   validates_with ExpenseValidator
   validates_with ExpenseSubModelValidator
 
-  # TODO to be removed once expense submodel validator working
-  # validates_associated :dates_attended, message: 'There is a problem with one or more expense dates attended'
-
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do

@@ -10,7 +10,6 @@ class BaseSubModelValidator < BaseClaimValidator
     []
   end
 
-
   def validate(record)
     @result = true
     super

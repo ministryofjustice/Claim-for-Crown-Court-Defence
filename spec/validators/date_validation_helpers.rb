@@ -12,7 +12,7 @@ module RspecDateValidationHelpers
     expect(record.errors[field]).to include( message )
   end
 
-  def should_error_if_not_too_far_in_the_past(record, field, message) 
+  def should_error_if_not_too_far_in_the_past(record, field, message)
     record.send("#{field}=", Settings.earliest_permitted_date - 1.day )
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )

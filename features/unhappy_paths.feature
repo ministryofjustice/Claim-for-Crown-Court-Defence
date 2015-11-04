@@ -42,7 +42,7 @@ Scenario Outline: Attempt to submit claim to LAA without specifying required tex
     | field_id                                   | error_message                                      |
     | "claim_case_number"                        | "Enter a case number"                              |
     | "claim_defendants_attributes_0_first_name" | "Enter a first name for the first defendant"       |
-    | "claim_basic_fees_attributes_0_quantity"   | "Quantity for basic fee must be exactly one"       |
+    | "claim_basic_fees_attributes_0_quantity"   | "Enter a quantity of 1 for basic fee"       |
     | "claim_misc_fees_attributes_0_quantity"    | "Enter a quantity for the first miscellaneous fee" |
     | "claim_expenses_attributes_0_quantity"     | "Enter a quantity for the first expense"           |
 

@@ -71,7 +71,6 @@ FactoryGirl.define do
       fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
     end
 
-
   end
 
 end

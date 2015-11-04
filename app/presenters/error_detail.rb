@@ -14,7 +14,6 @@ class ErrorDetail
     @sequence || 99999
   end
 
-
   def ==(other)
     return false unless other.is_a?(self.class)
     @attribute == other.attribute &&
@@ -26,8 +25,8 @@ class ErrorDetail
     sequence <=> other.sequence
   end
 
-
   def long_message_link
     %Q[<a href="##{@attribute.to_s}">#{@long_message}</a>].html_safe
   end
+
 end

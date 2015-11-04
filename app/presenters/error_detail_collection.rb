@@ -35,6 +35,11 @@ class ErrorDetailCollection
         result_array << error_detail
       end
     end
+    # ap "<<<<<<<<<<<<< HEADER_ERRORS >>>>>>>>>>>>"
+    # result_array.sort!
+    # result_array.each do |ed|
+    # ap "message #{ed.long_message} has sequence #{ed.sequence}"
+    # end
     result_array.sort!
   end
 

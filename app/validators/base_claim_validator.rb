@@ -67,8 +67,4 @@ class BaseClaimValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
   end
 
-  # TODO: this needs to be removed by seems to be require by representation_order_spec for API at least
-  def validate_dates_attended
-  end
-
 end

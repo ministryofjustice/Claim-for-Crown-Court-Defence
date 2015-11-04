@@ -7,19 +7,11 @@
         = t('.your_claims')
     #summary
       = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+    .importer-results
   .column-third
     = link_to t('link.add_claim'), new_advocates_claim_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'
-
-%span#import_results.success
-  %ul
-
-%span#import_results.failure
-  %ul
-
-%span#import_results.schema_fails
-  %ul
 
 #report-options.container
   = render partial: 'search_form'

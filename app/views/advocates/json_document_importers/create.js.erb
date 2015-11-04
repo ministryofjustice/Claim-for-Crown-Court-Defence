@@ -1,24 +1,71 @@
-<% if @json_document_importer.imported_claims.count > 0 %>
-	$('#import_results.success ul').html("<li>Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, 'new claim') %> in draft state</li>");
+var $importerResults = $('.importer-results');
+
+<% if @json_document_importer.imported_claims.any? %>
+	$importerResults.html(
+      '<div class="results-body import-success">' +
+        '<h4>Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, "new claim") %> in draft state</h4>' +
+      '</div>'
+  );
 	<% @json_document_importer.imported_claims.each do |imported_claim| %>
 		<% present(imported_claim) do |claim| %>
-			$('table.claims_table').prepend('<tr><td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), advocates_claim_path(claim) %></td><% if current_user.persona.admin? %><td><%= claim.advocate.name %></td><% end %><td><%= claim.defendant_names %></td><td><%= claim.total_inc_vat %></td><td><%= claim.amount_assessed %></td><td><%= claim.state.humanize %></td><td><%= claim.last_submitted_at %></td><td><span class="none">None</td></span></tr>')
+			$('table.claims_table').prepend(
+        '<tr>' +
+          '<td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), advocates_claim_path(claim) %></td>' +
+          <% if current_user.persona.admin? %>
+            '<td><%= claim.advocate.name %></td>' +
+          <% end %>
+          '<td><%= claim.defendant_names %></td>' +
+          '<td><%= claim.total_inc_vat %></td>' +
+          '<td><%= claim.amount_assessed %></td>' +
+          '<td><%= claim.state.humanize %></td>' +
+          '<td><%= claim.last_submitted_at %></td>' +
+          '<td><span class="none">None</span></td>' +
+        '</tr>'
+      );
 		<% end %>
 	<% end %>
+  $('#importer')
+    .removeClass('has-errors')
+    .find('form')
+      .addClass('no-file-selected')
+      .find('.file-upload-name')
+        .empty();
 <% else %>
-	$('#import_results.success ul').empty();
+	$importerResults.find('.import-success').remove();
 <% end %>
 
-<% if @json_document_importer.failed_imports.count > 0 %>
-	$('#import_results.failure ul').html("<li>There were errors in the following <%= pluralize(@json_document_importer.failed_imports.count, 'claim') %> and these were not imported</li><% @json_document_importer.failed_imports.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
+<% if @json_document_importer.failed_imports.any? %>
+	$importerResults.html(
+      '<div class="results-body import-failed">' +
+        '<h4>There were errors in the following <%= pluralize(@json_document_importer.failed_imports.count, "claim") %> and these were not imported</h4>' +
+        '<ul>' +
+        <% @json_document_importer.failed_imports.each do |fail| %>
+          '<li><%= fail["claim"]["case_number"] %></li>' +
+        <% end %>
+        '</ul>' +
+      '</div>'
+    );
+  $('#importer').addClass('has-errors');
 <% else %>
-	$('#import_results.failure ul').empty();
+  $importerResults.find('.import-failed').remove();
 <% end %>
 
 <% if @json_document_importer.failed_schema_validation.any? %>
-	$('#import_results.schema_fails ul').html("<li>The following <%= pluralize(@json_document_importer.failed_schema_validation.count, 'claim was') %> formatted incorrectly in the uploaded document.  Please contact your case management system vendor.</li><% @json_document_importer.failed_schema_validation.each do |fail| %><li><%= fail['claim']['case_number'] %></li><% end %>");
+  $importerResults.html(
+    '<div class="results-body import-failed">' +
+      '<h4>The following <%= pluralize(@json_document_importer.failed_schema_validation.count, "claim was") %> formatted incorrectly in the uploaded document</h4>' +
+      '<ul>' +
+      <% @json_document_importer.failed_schema_validation.each do |fail| %>
+        '<li><%= fail["claim"]["case_number"] %></li>' +
+      <% end %>
+      '</ul>' +
+      '<p>Please contact your case management system vendor.</p>' +
+    '</div>'
+  );
+  $('#importer').addClass('has-errors');
 <% else %>
-	$('#import_results.schema_fails ul').empty();
+	$importerResults.find('.import-schema-failed').remove();
 <% end %>
 
-$('#errors').empty() // empty the field where format errors would occur, regardless of the result here, incase a previous error is shown
+// empty the field where format errors would occur, regardless of the result here, incase a previous error is shown
+$('.claims-importer .errors').empty();

@@ -141,19 +141,19 @@ defendant:
   first_name:
     _seq: 10
     blank:
-      long: "Enter the first name of the #{defendant}"
+      long: "Enter a first name for the #{defendant}"
       short: Enter a first name
 
   last_name:
     _seq: 20
     blank:
-      long: "Enter the last name of the #{defendant}"
+      long: "Enter a last name for the #{defendant}"
       short: Enter a last name
 
   date_of_birth:
     _seq: 30
     blank:
-      long: "Enter the date of birth of the #{defendant}"
+      long: "Enter a date of birth for the #{defendant}"
       short: Enter a date of birth
     check:
       long: "Check the last name of the #{defendant}"
@@ -304,19 +304,19 @@ misc_fee:
   fee_type:
     _seq: 10
     blank:
-      long: 'Choose the #{misc_fee} fee type'
+      long: 'Choose a type for the #{misc_fee}'
       short: Choose a fee type
 
   amount:
     _seq: 20
     invalid:
-      long: 'Enter the #{misc_fee} fee amount'
+      long: 'Enter an amount for the #{misc_fee}'
       short: Enter an amount
 
   quantity:
     _seq: 30
     invalid:
-      long: 'Enter the #{misc_fee} fee quantity'
+      long: 'Enter a quantity for the #{misc_fee}'
       short: Enter a quantity
 
 

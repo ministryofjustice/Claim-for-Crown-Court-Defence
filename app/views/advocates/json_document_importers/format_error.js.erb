@@ -1,4 +1,5 @@
-$('#importer .errors').html("<em><%= filename %></em> is either not JSON or contains errors");
-$('#import_results.success ul').empty();
-$('#import_results.failure ul').empty();
-$('#import_results.schema_fails ul').empty();
+$('#importer')
+  .addClass('has-errors')
+  .find('.errors')
+    .html("<em><%= filename %></em> is either not JSON or contains errors");
+$('.importer-results').empty();

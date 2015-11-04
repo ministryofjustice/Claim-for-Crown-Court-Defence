@@ -1,8 +1,15 @@
- *{
-  box-sizing:border-box;
- }
-#global-header-bar{
-  border-bottom: 1px solid $ministry-of-justice;
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @include display(flex);
+  @include flex-direction(column);
+
+  > * {
+    @include flex(none);
+  }
 }
 
 #primary-nav-bar{
@@ -20,6 +27,8 @@
  }
 
 #footer {
+  margin-top: 40px;
+
   .ogl-logo{
     background: url(https://assets.digital.cabinet-office.gov.uk/static/images/open-government-…cence-c1aedc8257961b938b4c7a21a2b0db3f2716dd9ef782cea73110dc69107c9042.png) 0 0 no-repeat;
   }
@@ -59,6 +68,8 @@
 
 .outer-block {
   @include outer-block;
+  @include flex(1 0 auto);
+  width: 100%;
 }
 
 .inner-block {

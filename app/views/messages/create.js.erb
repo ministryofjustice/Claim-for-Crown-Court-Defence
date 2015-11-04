@@ -4,7 +4,7 @@
     statusMessage : '<%=j @notification[:notice].html_safe %>',
     sentMessage : '<%=j render "shared/message_list", message: @message.claim %>'
   }
-  adp.messaging.processMsg(data);
+  moj.Modules.Messaging.processMsg(data);
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
     $('.js-hide-status').hide();
@@ -14,9 +14,9 @@
     $('.written-reasons-checkbox').hide();
   <% end %>
 <% else %>
-  var data ={
+  var data = {
     success : false,
     statusMessage : '<%=j @notification[:alert].html_safe %>'
   }
-  adp.messaging.processMsg(data);
+  moj.Modules.Messaging.processMsg(data);
 <% end %>

@@ -1,6 +1,6 @@
 var moj = moj || {};
 
-moj.Modules.selectAll = {
+moj.Modules.SelectAll = {
   init: function() {
     $('.select-all').click(function() {
       var $element = $(this),

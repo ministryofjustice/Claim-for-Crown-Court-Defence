@@ -1,16 +1,18 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.claimCompletion = {
+moj.Modules.ClaimCompletion = {
 
   $valueChanged: false,
 
   init : function() {
+    var self = this;
+
     if($('#claim-form .new_claim').length) {
       $('input, select').change(function(e) {
-        if(!adp.claimCompletion.valueChanged) {
-          adp.claimCompletion.valueChanged = true;
+        if(!self.valueChanged) {
+          self.valueChanged = true;
 
           $.ajax({
             type: 'POST',

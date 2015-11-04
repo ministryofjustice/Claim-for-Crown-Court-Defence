@@ -1,8 +1,8 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.feeSectionDisplay = {
+moj.Modules.FeeSectionDisplay = {
 
   $caseTypeSelect: {},
   $basicFeesSet: {},
@@ -12,52 +12,52 @@ adp.feeSectionDisplay = {
   $vatApplyChkbox: {},
   $vatReport: {},
   regex: {},
-  init : function() {
 
-    //This relates to adp.feeSectionDisplay
-    var $this = adp.feeSectionDisplay;
+  init : function() {
+    //This relates to moj.Modules.FeeSectionDisplay
+    var self = this;
 
     //initialise handles
-    $this.$caseTypeSelect = $('#claim_case_type_id');
+    self.$caseTypeSelect = $('#claim_case_type_id');
     //Initial Fees
-    var $basicFeesSet = $this.$basicFeesSet = $('#basic-fees').closest('fieldset'),
+    var $basicFeesSet = self.$basicFeesSet = $('#basic-fees').closest('fieldset'),
     //Fixed Fees Section
-    $fixedFeesSet = $this.$fixedFeesSet = $('#fixed-fees').closest('fieldset'),
+    $fixedFeesSet = self.$fixedFeesSet = $('#fixed-fees').closest('fieldset'),
     //Miscellaneous Fees Section
-    $miscFeesSet = $this.$miscFeesSet  = $('#misc-fees').closest('fieldset'),
+    $miscFeesSet = self.$miscFeesSet  = $('#misc-fees').closest('fieldset'),
     //Expenses Section
-    $expenseSet = $this.$expenseSet = $('#expenses').closest('fieldset');
+    $expenseSet = self.$expenseSet = $('#expenses').closest('fieldset');
     //Apply VAT checkbox
-    $this.$vatApplyChkbox = $('#claim_apply_vat');
+    self.$vatApplyChkbox = $('#claim_apply_vat');
     // VAT Report Section
-    $this.$vatReport = $('#vat-report');
+    self.$vatReport = $('#vat-report');
 
     // add change listener
-    $this.$caseTypeSelect.change(function(){
-      $this.addCaseTypeChangeEvent();
+    self.$caseTypeSelect.change(function(){
+      self.addCaseTypeChangeEvent();
     });
 
     // add change listener
-    $this.$vatApplyChkbox
+    self.$vatApplyChkbox
     .add($basicFeesSet)
     .add($fixedFeesSet)
     .add($miscFeesSet)
     .add($expenseSet)
       .on('change',':checkbox,.amount,.rate, #expenses .quantity',function(){
-        $this.applyVAT();
+        self.applyVAT();
       });
 
     //Show the VAT report if "Apply VAT"is checked
-    $this.showHideVAT();
+    self.showHideVAT();
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
     var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
-    $this.applyFixedFeeState(is_fixed_fee === true);
+    self.applyFixedFeeState(is_fixed_fee === true);
 
   },
 
   caseTypeSelected : function () {
-    return adp.feeSectionDisplay.$caseTypeSelect.find('option:selected').text();
+    return this.$caseTypeSelect.find('option:selected').text();
   },
 
   applyWarning : function (warningText, isFixedFee) {
@@ -77,57 +77,53 @@ adp.feeSectionDisplay = {
     $warning.remove();
 
     if (isFixedFee && (feeExists('.basic-fee-group'))) {
-      adp.feeSectionDisplay.$caseTypeSelect.after(warningMsg);
+      this.$caseTypeSelect.after(warningMsg);
     } else if (!isFixedFee && feeExists('.fixed-fee-group')) {
-      adp.feeSectionDisplay.$caseTypeSelect.after(warningMsg);
+      this.$caseTypeSelect.after(warningMsg);
     }
 
   },
 
   applyFixedFeeState : function(state) {
     if (state) {
-      adp.feeSectionDisplay.applyWarning('Initial fees exist that will be removed if you save this claim as a Fixed Fee', state);
-      adp.feeSectionDisplay.$basicFeesSet.slideUp();
-      adp.feeSectionDisplay.$fixedFeesSet.slideDown();
+      this.applyWarning('Initial fees exist that will be removed if you save this claim as a Fixed Fee', state);
+      this.$basicFeesSet.slideUp();
+      this.$fixedFeesSet.slideDown();
 
     } else {
-      adp.feeSectionDisplay.applyWarning('Fixed fees exist that will be removed if you save this non-fixed-fee case type claim', state);
-      adp.feeSectionDisplay.$basicFeesSet.slideDown();
-      adp.feeSectionDisplay.$miscFeesSet.slideDown();
-      adp.feeSectionDisplay.$fixedFeesSet.slideUp();
+      this.applyWarning('Fixed fees exist that will be removed if you save this non-fixed-fee case type claim', state);
+      this.$basicFeesSet.slideDown();
+      this.$miscFeesSet.slideDown();
+      this.$fixedFeesSet.slideUp();
     }
   },
 
   addCaseTypeChangeEvent : function() {
     var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
-    adp.feeSectionDisplay.applyFixedFeeState(is_fixed_fee === true);
+    this.applyFixedFeeState(is_fixed_fee === true);
   },
 
   showHideVAT :function(){
-    var $this = adp.feeSectionDisplay;
-
-    if($this.$vatApplyChkbox.is(':checked')){
-      $this.$vatReport.show();
+    if(this.$vatApplyChkbox.is(':checked')){
+      this.$vatReport.show();
     }else{
-      $this.$vatReport.hide();
+      this.$vatReport.hide();
     }
   },
 
   getVAT :function(){
-    var $this = this;
     return $.ajax({
-      url: $this.$vatReport.data('vat-url'),
-      data: { "date": $this.$vatReport.data('submitted-date'),
-               "net_amount": adp.feeCalculator.totalFee() }
+      url: this.$vatReport.data('vat-url'),
+      data: { "date": this.$vatReport.data('submitted-date'),
+               "net_amount": moj.Modules.FeeCalculator.totalFee() }
     });
   },
   applyVAT : function(){
-    var $this = this,
-    $vatReport = $this.$vatReport;
+    var $vatReport = this.$vatReport;
 
-    if($this.$vatApplyChkbox.is(':checked')){
+    if(this.$vatApplyChkbox.is(':checked')){
 
-      $.when($this.getVAT())
+      $.when(this.getVAT())
       .then(function( data){
         $vatReport.find('.vat-date').text(data.date);
         $vatReport.find('.vat-rate').text(data.rate);
@@ -136,11 +132,11 @@ adp.feeSectionDisplay = {
       })
       .then(function(){
         if($vatReport.filter(':visible').length === 0){
-          $this.showHideVAT();
+          this.showHideVAT();
         }
       });
     }else{
-      $this.showHideVAT();
+      this.showHideVAT();
     }
   }
 };

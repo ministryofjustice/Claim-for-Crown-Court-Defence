@@ -1,12 +1,15 @@
 "use strict";
 
-var adp = adp || {};
+var moj = moj || {};
 
-adp.determination = {
-  init : function(container_id) {
-    this.addChangeEvent(container_id);
+moj.Modules.DeterminationCalculator = {
+  el: '#determinations',
 
-    $(container_id)
+  init : function() {
+    this.addChangeEvent();
+    var self = this;
+
+    $(this.el)
       //Find all the rows
       .find('tr')
       //that have input fields
@@ -19,7 +22,7 @@ adp.determination = {
         firstInput = $tr.find(':text').get(0);
 
         //Calculate the rows total.
-        adp.redetermination.calculateRow(firstInput);
+        self.calculateRow(firstInput);
       })
 
   },
@@ -34,10 +37,10 @@ adp.determination = {
     return t;
 
   },
-  addChangeEvent: function(container_id) {
-
-    $('#' + container_id).on('change', ':text', function(e) {
-      adp.determination.calculateRow(this);
+  addChangeEvent: function() {
+    var self = this;
+    $(this.el).on('change', ':text', function(e) {
+      self.calculateRow(this);
     });
   },
   calculateRow : function(element){
@@ -54,7 +57,7 @@ adp.determination = {
     // Parse the value
     expenses = parseFloat($expenses.val().replace(/,/g, "")),
     //Work out the total
-    total = adp.determination.calculateAmount(fees,expenses);
+    total = this.calculateAmount(fees,expenses);
 
     if (isNaN(total) ){
       $('.js-total-determination').text('£0.00');

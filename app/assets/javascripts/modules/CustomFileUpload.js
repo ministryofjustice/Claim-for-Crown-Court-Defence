@@ -25,10 +25,10 @@ moj.Modules.CustomFileUpload = {
       .on('change', ':file', function(e) {
         var fileName = this.value.replace('C:\\fakepath\\', '');
         $(e.target).closest('form')
-            .removeClass('no-file-selected')
-            .find('.file-upload-name').text(fileName)
-            .parent()
-            .find('.errors').empty();
+          .removeClass('no-file-selected')
+          .find('.file-upload-name').text(fileName)
+          .parent()
+          .find('.errors').empty();
       });
   },
 

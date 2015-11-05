@@ -39,7 +39,7 @@ moj.Modules.Dropzone = {
         formData.append("document[form_id]", form_id);
       },
       success: function (file, response) {
-        var id = response.id;
+        var id = response.document.id;
         $(file.previewTemplate).find('.dz-remove').attr('id', id);
         file.previewElement.classList.add('dz-success');
 

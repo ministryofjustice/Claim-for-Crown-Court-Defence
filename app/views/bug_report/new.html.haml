@@ -1,0 +1,35 @@
+%h1.page-title
+  Help us improve this service
+%p.medium.questions
+  Please tell us about your experience of using this service today.
+  %br
+  Your answers to the following questions will help us improve this service.
+
+= form_for @bug_report, url: bug_report_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+  - if @bug_report.errors.any?
+    .validation-summary
+      %h3.heading-small= "The form you submitted has #{pluralize(@bug_report.errors.count, 'error')}"
+      %ul
+        - @bug_report.errors.full_messages.each do |msg|
+          %li= msg
+
+  %fieldset
+    %ol
+      %li
+        .bold-normal= "What you were doing"
+        .grid-row
+          .column-half
+            = f.text_field :event, style: "width:100%; margin-bottom: 15px"
+          .column-half
+            &nbsp
+      %li
+        .bold-normal= "What went wrong"
+        .grid-row
+          .column-half
+            = f.text_field :outcome, style: "width:100%"
+          .column-half
+            &nbsp
+
+
+  .actions
+    = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

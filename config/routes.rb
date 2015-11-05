@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
   get '/api_landing',   to: 'pages#api_landing',      as: :api_landing_page
-  get '/contact_us',    to: 'pages#contact_us',       as: :contact_us_page
 
   get 'vat'                 => "vat_rates#index"
 
@@ -33,6 +32,10 @@ Rails.application.routes.draw do
 
   resources :feedback, only: [:new, :create] do
     get '/', to: 'feedback#new', on: :collection
+  end
+
+  resources :bug_report, only: [:new, :create] do
+    get '/', to: 'bug_report#new', on: :collection
   end
 
   resources :claim_intentions, only: [:create], format: :json

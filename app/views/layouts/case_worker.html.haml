@@ -36,6 +36,8 @@
       = render partial: 'layouts/flashes' unless flash.empty?
       %main.main-content
         = yield
+    .contact-us-footer
+      = link_to 'Is there anything wrong with this service?', new_bug_report_path
 
 - content_for :footer_support_links do
   = render partial: 'layouts/footer'

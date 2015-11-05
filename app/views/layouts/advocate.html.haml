@@ -38,8 +38,7 @@
         = yield
 
     .contact-us-footer
-      If you're having trouble with this service,
-      = link_to 'get in touch', contact_us_page_path
+      = link_to 'Is there anything wrong with this service?', new_bug_report_path
 
 - content_for :footer_support_links do
   = render partial: 'layouts/footer'

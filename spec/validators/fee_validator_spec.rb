@@ -17,7 +17,6 @@ describe FeeValidator do
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
   end
 
-
   describe 'amount' do
     before(:each) do
       daf_fee.claim.actual_trial_length = 10
@@ -141,6 +140,4 @@ describe FeeValidator do
     end
   end
 
-
 end
-

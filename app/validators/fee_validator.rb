@@ -1,7 +1,7 @@
 class FeeValidator < BaseClaimValidator
 
   def self.fields
-    [ :fee_type, :quantity, :amount, :dates_attended ]
+    [ :fee_type, :quantity, :amount ]
   end
 
   private
@@ -32,6 +32,7 @@ class FeeValidator < BaseClaimValidator
 
   def validate_basic_fee_quantity
     if @record.claim.case_type.try(:is_fixed_fee?)
+      # TODO: remove? this should never be raised because a before validation hook will clear basic fees for fixed fee cases
       validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
     else
       validate_numericality(:quantity, 1, 1, 'baf_qty1')

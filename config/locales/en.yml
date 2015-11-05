@@ -238,7 +238,7 @@ en:
       cracked_trial_fields:
         cracked_trial_detail: Cracked trial detail
         trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
-        trial_fixed_at: '1st Fixed/warned trial'
+        trial_fixed_at: '1st fixed/warned trial'
         trial_cracked_at: 'Case cracked'
         trial_cracked_at_third: 'Case cracked in'
       date_attended_fields:

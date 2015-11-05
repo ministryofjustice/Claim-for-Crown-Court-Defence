@@ -1,6 +1,9 @@
 
 class ErrorPresenter
 
+
+  SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/
+
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
@@ -26,6 +29,7 @@ class ErrorPresenter
 
   def generate_messages
     @errors.each do |fieldname, error|
+      
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
       if emt.translation_found?
         long_message = emt.long_message
@@ -38,17 +42,40 @@ class ErrorPresenter
     end
   end
 
-  def generate_sequence(fieldname)
-    fieldname = fieldname.to_s
-    if fieldname =~ /^(\S+)_id$/
-      fieldname = $1
+  def last_parent_attribute(translations, key)
+    attribute = key
+    while attribute =~ SUBMODEL_REGEX do
+      parent_model = $1
+      attribute = $4
     end
-    if @translations[fieldname]
-      @translations[fieldname]['_seq']
-    else
-      99999
-    end
+    return parent_model, attribute
   end
+
+  def is_submodel_key?(key)
+    key =~ SUBMODEL_REGEX
+  end
+
+  def translations_sub_set_and_parent_sequence(key)
+    key = key.to_s
+    parent_sequence = 0
+    if is_submodel_key?(key)
+      parent_model, attribute = last_parent_attribute(@translations, key)
+      parent_sequence = @translations[parent_model]['_seq'] rescue 0
+      translations_subset = @translations[parent_model][attribute]
+    else
+      translations_subset = @translations[key]
+    end
+
+    return translations_subset, parent_sequence
+  end
+
+  # NOTE:
+  # sequence = (attribute's _seq value + parent's _seq value) or parents _seq or 99999
+  #
+  def generate_sequence(key)
+    translations_subset, parent_sequence = translations_sub_set_and_parent_sequence(key)
+    translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequnece || 99999 rescue 99999
+ end
 
   def generate_link(fieldname)
     "#" + fieldname

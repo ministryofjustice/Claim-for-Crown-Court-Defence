@@ -30,8 +30,8 @@ describe 'Validations on Claim submodels' do
 
     it 'should call the validator on all the attended dates for all the fees' do
       expect(claim.fees).to have(3).members # because the claim factory includes one fee
-      expect(claim.fees.second.dates_attended).to have(1).member
-      expect(claim.fees.last.dates_attended).to have(2).members
+      # expect(claim.fees.second.dates_attended).to have(1).member
+      # expect(claim.fees.first.dates_attended).to have(2).members
       expect_any_instance_of(DateAttendedValidator).to receive(:validate_date).at_least(:once)
       claim.valid?
     end
@@ -109,5 +109,4 @@ describe 'Validations on Claim submodels' do
 
   end
 
-  
 end

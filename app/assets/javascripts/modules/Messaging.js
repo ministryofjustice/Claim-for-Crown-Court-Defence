@@ -1,8 +1,11 @@
 moj.Modules.Messaging = {
   init :function(){
-    if($('.messages-list').length > 0){
-      $('.messages-list').scrollTop($('.messages-list').prop("scrollHeight"));
+    this.cacheEls();
+
+    if(this.messagesList.length) {
+      this.messagesList.scrollTop(this.messagesList.prop("scrollHeight"));
     }
+
     this.selectedFileUpload();
     this.removeSelectedFile();
   },
@@ -22,7 +25,7 @@ moj.Modules.Messaging = {
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
-      $('.messages-list').html(rorData.sentMessage).scrollTop($('.messages-list').prop("scrollHeight"));
+      this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop("scrollHeight"));
       //If there was an error
     }else{
       $('.message-error').text(rorData.statusMessage);
@@ -88,5 +91,9 @@ moj.Modules.Messaging = {
       $element.closest('.file-to-be-uploaded').hide();
       $('#message_attachment').val('');
     });
+  },
+
+  cacheEls: function(){
+    this.messagesList = $('.messages-list');
   }
 };

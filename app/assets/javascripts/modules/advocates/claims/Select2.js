@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.Select2 = {
   init : function() {
     $('.select2').select2({
@@ -9,6 +5,6 @@ moj.Modules.Select2 = {
     });
   },
   startOfMatcher : function(term, text) {
-    return text.toUpperCase().indexOf(term.toUpperCase()) == 0;
+    return text.toUpperCase().indexOf(term.toUpperCase()) === 0;
   }
 };

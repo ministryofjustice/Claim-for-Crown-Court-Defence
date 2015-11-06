@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.NewClaim = {
   init : function() {
     this.$offenceCategorySelect = $('#offence_category_description');

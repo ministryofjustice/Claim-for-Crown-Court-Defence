@@ -1,4 +1,3 @@
-var moj = moj || {};
 moj.Modules.AmountAssessed = {
   init: function(){
     this.state();

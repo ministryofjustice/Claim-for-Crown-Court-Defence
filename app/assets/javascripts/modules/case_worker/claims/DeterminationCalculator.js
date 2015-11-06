@@ -1,7 +1,3 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.DeterminationCalculator = {
   el: '#determinations',
 
@@ -23,7 +19,7 @@ moj.Modules.DeterminationCalculator = {
 
         //Calculate the rows total.
         self.calculateRow(firstInput);
-      })
+      });
 
   },
   calculateAmount: function(fee, expenses) {

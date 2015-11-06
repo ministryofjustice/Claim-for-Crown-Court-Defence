@@ -1,5 +1,3 @@
-var moj = moj || {};
-
 moj.Modules.SelectAll = {
   init: function() {
     $('.select-all').click(function() {

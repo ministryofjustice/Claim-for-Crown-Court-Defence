@@ -1,15 +1,11 @@
-"use strict";
-
-var moj = moj || {};
-
 moj.Modules.FeeCalculator = {
   el: '#expenses',
 
   init : function() {
     this.addChangeEvent();
   },
-  calculateAmount: function(rate, quantity, modifier) {
 
+  calculateAmount: function(rate, quantity, modifier) {
     var r = rate || 0;
     var q = (quantity || 0) + (modifier || 0);
     q = q < 0 ? 0 : q;

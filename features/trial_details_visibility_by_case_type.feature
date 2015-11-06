@@ -18,12 +18,12 @@ Feature: Trial detail visibility by case type
     | Appeal against conviction   | should not |
     | Appeal against sentence     | should not |
     | Breach of Crown Court order | should not |
-    | Committal for Sentence       | should not |
+    | Committal for Sentence      | should not |
     | Contempt                    | should not |
     | Cracked Trial               | should not |
     | Cracked before retrial      | should not |
     | Elected cases not proceeded | should not |
-    | Guilty plea                 | should     |
+    | Guilty plea                 | should not |
     | Discontinuance              | should     |
     | Retrial                     | should     |
     | Trial                       | should     |
@@ -39,12 +39,12 @@ Feature: Trial detail visibility by case type
       | Appeal against conviction   | should not |
       | Appeal against sentence     | should not |
       | Breach of Crown Court order | should not |
-      | Committal for Sentence       | should not |
+      | Committal for Sentence      | should not |
       | Contempt                    | should not |
       | Cracked Trial               | should not |
       | Cracked before retrial      | should not |
       | Elected cases not proceeded | should not |
-      | Guilty plea                 | should     |
+      | Guilty plea                 | should not |
       | Discontinuance              | should     |
       | Retrial                     | should     |
       | Trial                       | should     |

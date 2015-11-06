@@ -12,7 +12,7 @@ moj.Modules.TrialFieldsDisplay = {
     //initialise handles
     this.$caseTypeSelect = $('#claim_case_type_id');
     this.$container = $('#trial-details');
-    this.regex = /(Appeal against conviction|Appeal against sentence|Breach of Crown Court order|Committal for Sentence|Contempt|Cracked Trial|Cracked before retrial|Elected cases not proceeded).*/i;
+    this.regex = /(Appeal against conviction|Appeal against sentence|Breach of Crown Court order|Committal for Sentence|Contempt|Cracked Trial|Cracked before retrial|Elected cases not proceeded|Guilty plea).*/i;
 
     // add change listener
     this.$caseTypeSelect.change(function(){

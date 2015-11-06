@@ -26,6 +26,9 @@
     = claim.total_inc_vat
 
   %p
+    = link_to "Please could you spare 2 minutes of your time to complete two questions. This will help us improve this service for you.", new_feedback_path
+
+  %p
     = link_to t('link.file_another_claim'), new_advocates_claim_path, class: 'button'
     &nbsp;
     = t('common.or')

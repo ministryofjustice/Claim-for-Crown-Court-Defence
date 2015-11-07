@@ -11,13 +11,11 @@ class ClaimDateValidator < BaseClaimValidator
     ]
   end
 
-
   private
 
   def snake_case_type
     @record.case_type.name.downcase.gsub(' ', '_')
   end
-
 
   # required when case type is cracked, cracked before retrial
   # cannot be in the future

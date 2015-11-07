@@ -5,7 +5,6 @@ describe DateAttendedValidator do
 
   include RspecDateValidationHelpers
 
-
   let(:claim) do
     claim = FactoryGirl.build :claim,
                       force_validation: true,

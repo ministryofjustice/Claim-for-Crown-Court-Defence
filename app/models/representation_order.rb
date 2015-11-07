@@ -17,13 +17,12 @@ class RepresentationOrder < ActiveRecord::Base
 
   before_save :upcase_maat_ref
 
-  validates_with RepresentationOrderValidator
-
   acts_as_gov_uk_date :representation_order_date
 
   default_scope { order('id ASC') }
 
   belongs_to :defendant
+  validates_with RepresentationOrderValidator
 
   def claim
     self.defendant.try(:claim)

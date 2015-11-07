@@ -8,7 +8,15 @@ class ExpenseValidator < BaseClaimValidator
     ]
   end
 
+  def self.mandatory_fields
+    [:claim]
+  end
+
   private
+
+  def validate_claim
+    validate_presence(:claim, 'blank')
+  end
 
   def validate_expense_type
     validate_presence(:expense_type, 'blank')

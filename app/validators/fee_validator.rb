@@ -4,8 +4,15 @@ class FeeValidator < BaseClaimValidator
     [ :fee_type, :quantity, :amount ]
   end
 
+  def self.mandatory_fields
+    [:claim]
+  end
+
   private
 
+  def validate_claim
+    validate_presence(:claim, 'blank')
+  end
   def validate_fee_type
     validate_presence(:fee_type, 'blank')
   end

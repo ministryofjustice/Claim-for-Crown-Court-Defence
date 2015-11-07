@@ -1,6 +1,4 @@
-
 class ErrorPresenter
-
 
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/
 
@@ -29,16 +27,17 @@ class ErrorPresenter
 
   def generate_messages
     @errors.each do |fieldname, error|
-      
       emt = ErrorMessageTranslator.new(@translations, fieldname, error)
       if emt.translation_found?
         long_message = emt.long_message
         short_message = emt.short_message
+        api_message = emt.api_message
       else
-        long_message = generate_standard_long_message(fieldname, error)
+        long_message  = generate_standard_long_message(fieldname, error)
         short_message = generate_standard_short_message(fieldname, error)
+        api_message    = generate_standard_api_message(fieldname, error)
       end
-      @error_details[fieldname] = ErrorDetail.new(fieldname, long_message, short_message, generate_sequence(fieldname))
+      @error_details[fieldname] = ErrorDetail.new(fieldname, long_message, short_message, api_message, generate_sequence(fieldname))
     end
   end
 
@@ -87,6 +86,10 @@ class ErrorPresenter
 
   def generate_standard_short_message(fieldname, error)
     error.humanize
+  end
+
+  def generate_standard_api_message(fieldname, error)
+    "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
 
 end

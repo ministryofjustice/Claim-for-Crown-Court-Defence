@@ -22,7 +22,7 @@ RSpec.describe Expense, type: :model do
   it { should belong_to(:claim) }
   it { should have_many(:dates_attended) }
 
-  it { should validate_presence_of(:claim).with_message('Claim cannot be blank') }
+  it { should validate_presence_of(:claim).with_message('blank') }
 
   describe 'set and update amount' do
     subject { build(:expense, rate: 2.5, quantity: 3, amount: 0) }

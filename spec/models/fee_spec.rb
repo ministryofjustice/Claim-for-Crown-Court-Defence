@@ -19,6 +19,8 @@ RSpec.describe Fee, type: :model do
   it { should belong_to(:fee_type) }
   it { should have_many(:dates_attended) }
 
+  it { should validate_presence_of(:claim).with_message('blank')}
+
   describe 'blank quantity should be set to zero' do
     it 'should replace blank quantities with zero before save' do
       fee = FactoryGirl.build :fee, quantity: nil
@@ -61,7 +63,6 @@ RSpec.describe Fee, type: :model do
     end
   end
 
-
   describe '#blank?' do
     it 'should return true if all value fields are zero' do
       fee = FactoryGirl.create :fee, :all_zero
@@ -72,7 +73,6 @@ RSpec.describe Fee, type: :model do
       expect(fee.blank?).to be false
     end
   end
-
 
   describe '#present?' do
     it 'should return false if all value fields are zero' do

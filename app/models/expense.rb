@@ -25,7 +25,8 @@ class Expense < ActiveRecord::Base
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-  validates :claim, presence: { message: 'Claim cannot be blank' }
+  # TODO: to be removed if it does snot cause further problems (see validator for replacement)
+  # validates :claim, presence: { message: 'Claim cannot be blank' }
   validates_with ExpenseValidator
   validates_with ExpenseSubModelValidator
 

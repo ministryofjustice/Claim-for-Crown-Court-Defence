@@ -5,10 +5,14 @@ class DefendantValidator < BaseClaimValidator
   end
 
   def self.mandatory_fields
-    [ :claim ]
+    [:claim]
   end
 
   private
+
+  def validate_claim
+    validate_presence(:claim, 'blank')
+  end
 
   def validate_date_of_birth
     validate_presence(:date_of_birth, 'blank')
@@ -19,13 +23,9 @@ class DefendantValidator < BaseClaimValidator
   def validate_representation_orders
     unless @record.claim && @record.claim.api_draft?
       if @record.representation_orders.none?
-        add_error(:representation_orders, 'no_reporder') 
+        add_error(:representation_orders, 'no_reporder')
       end
     end
-  end
-
-  def validate_claim
-    validate_presence(:claim, 'blank')
   end
 
   def validate_first_name

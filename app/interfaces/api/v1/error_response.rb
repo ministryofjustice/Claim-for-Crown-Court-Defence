@@ -12,8 +12,8 @@ class ErrorResponse
       @model = object
       build_error_response
     else
-      @body = error_messages.push({ error: object.message })
-      @status = object.message == 'Unauthorised' ? 401 : 400
+      @status = object.try(:message) == 'Unauthorised' ? 401 : 400
+      @body = error_messages.push({ error: object.try(:message).nil? ? "No message provided by object #{object.class.name}" : object.message })
     end
   end
 
@@ -38,27 +38,30 @@ private
   # - Fee error translations are broken down into
   #   the three different types plus a fallback type
   #   ,in case the type is unknown.
-  # - Any other claim submodel should use its name.
+  # - Any other claim submodel should use its model
+  #   name in snake case.
   # NOTE: for API we "spoof" the submodel count/number/instance as 1
   def submodel_prefix
-    submodel_prefix = ''
+    submodel_instance_num = ''
+    m = @model
 
-    if @model.is_a?(Fee)
-      if @model.is_basic?
-        submodel  ='basic_fee'
-      elsif @model.is_misc?
-        submodel  ='misc_fee'
-      elsif @model.is_fixed?
-        submodel  ='fixed_fee'
-      else
-        submodel = 'fee' # no fee type may have been specified
+    if m.is_a?(Fee)
+      case
+        when m.is_basic?
+          submodel ='basic_fee'
+        when m.is_misc?
+          submodel ='misc_fee'
+        when m.is_fixed?
+          submodel ='fixed_fee'
+        else
+          submodel = 'fee' # no fee type may have been specified
       end
-      submodel_prefix = "#{submodel}_1_"
-    elsif !@model.try(:claim).nil?
-      submodel_prefix = "#{@model.class.name.downcase}_1_"
+      submodel_instance_num = "#{submodel}_1_"
+    elsif !m.try(:claim).nil?
+      submodel_instance_num = "#{m.class.name.underscore}_1_"
     end
 
-    submodel_prefix
+    submodel_instance_num
   end
 
   # format of field name determines lookup in translations

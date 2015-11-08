@@ -90,12 +90,12 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_amount
-    case_type = @record.fee_type.try(:code)
-    case case_type
+    fee_code = @record.fee_type.try(:code)
+    case fee_code
       when 'BAF'
         validate_baf_amount
       when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-        validate_non_baf_basic_fee_amount(case_type)
+        validate_non_baf_basic_fee_amount(fee_code)
       else
         validate_misc_and_fixed_fee_amount
     end

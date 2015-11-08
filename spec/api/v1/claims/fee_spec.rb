@@ -18,6 +18,7 @@ describe API::V1::Advocates::Fee do
   let!(:chamber)            { create(:chamber) }
   let!(:basic_fee_type)     { create(:fee_type, :basic) }
   let!(:misc_fee_type)      { create(:fee_type, :misc) }
+  let!(:fixed_fee_type)      { create(:fee_type, :fixed) }
   let!(:claim)              { create(:claim, source: 'api').reload }
   let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, amount: 150.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
@@ -95,6 +96,43 @@ describe API::V1::Advocates::Fee do
 
     end
 
+    context "fee type specific errors" do
+
+      let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, amount: 150.00 } }
+      before (:each) { valid_params.delete(:amount) }
+
+      it 'THE basic fee should raise basic fee (code BAF) errors' do
+        valid_params[:fee_type_id] = basic_fee_type.id
+        basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Enter a quantity of 1 for basic fee",0)
+        expect_error_response("Enter a valid amount for the basic fee",1)
+      end
+
+      # NOT exhaustive
+      it 'OTHER basic fees should raise basic fee errors' do
+        valid_params[:fee_type_id] = basic_fee_type.id
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Enter a valid amount for the basic fee",0)
+      end
+
+      it 'misc fees should raise misc fee errors from translations' do
+        valid_params[:fee_type_id] = misc_fee_type.id
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Enter an amount for the miscellaneous fee",0)
+      end
+
+      it 'fixed fees should raise misc fee errors from translations' do
+        valid_params[:fee_type_id] = fixed_fee_type.id
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Enter an amount for the fixed fee",0)
+      end
+    end
+
     context 'when fee params are invalid' do
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
@@ -125,7 +163,7 @@ describe API::V1::Advocates::Fee do
           valid_params.delete(:claim_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect(last_response.body).to eq "[{\"error\":\"Claim uuid is invalid or blank\"}]"
+          expect_error_response("Claim cannot be blank",0)
         end
       end
 
@@ -134,7 +172,7 @@ describe API::V1::Advocates::Fee do
           valid_params[:claim_id] = SecureRandom.uuid
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect(last_response.body).to eq "[{\"error\":\"Claim uuid is invalid or blank\"}]"
+          expect_error_response("Claim cannot be blank",0)
         end
       end
 
@@ -143,9 +181,10 @@ describe API::V1::Advocates::Fee do
           valid_params[:claim_id] = 'any-old-rubbish'
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          expect(last_response.body).to eq "[{\"error\":\"Claim uuid is invalid or blank\"}]"
+          expect_error_response("Claim cannot be blank",0)
         end
       end
+
     end
 
   end

@@ -28,7 +28,7 @@ module API
             def validate_claim_presence
               claim_id = ::Claim.find_by(uuid: params[:claim_id]).try(:id)
               if claim_id.nil?
-                raise API::V1::ArgumentError, 'Claim uuid is invalid or blank'
+                raise API::V1::ArgumentError, 'Claim cannot be blank'
               end
               claim_id
             end

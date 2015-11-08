@@ -70,12 +70,10 @@ describe API::V1::Advocates::RepresentationOrder do
       end
 
       context "missing expected params" do
-        skip 'pending validation errors sorted' do
-          it "should return a JSON error array with required model attributes" do
-            valid_params.delete(:granting_body)
-            post_to_create_endpoint
-            expect_error_response("Select the granting body")
-          end
+        it "should return a JSON error array with required model attributes" do
+          valid_params.delete(:granting_body)
+          post_to_create_endpoint
+          expect_error_response("Choose the court that issued the representation order for the defendant")
         end
       end
 
@@ -113,12 +111,10 @@ describe API::V1::Advocates::RepresentationOrder do
       include_examples "invalid API key validate endpoint"
     end
 
-    skip 'pending getting API validation messages sorted' do
-      it 'missing required params should return 400 and a JSON error array' do
-        valid_params.delete(:representation_order_date)
-        post_to_validate_endpoint
-        expect_error_response("Please enter a valid representation order date")
-      end
+    it 'missing required params should return 400 and a JSON error array' do
+      valid_params.delete(:representation_order_date)
+      post_to_validate_endpoint
+      expect_error_response("Enter a representation order date for the representation order of the defendant")
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do

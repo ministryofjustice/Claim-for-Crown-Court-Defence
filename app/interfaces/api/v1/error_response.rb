@@ -1,3 +1,20 @@
+# #############################################################
+# ErrorResponse Class: Retrieves validation error messages from
+# translations file(s) and responds to erroneous API endpoint
+# request with those error messages.
+#
+# error translations are divided into submodels:
+# - Claim errors have no submodel.
+# - Fee error translations are broken down into
+#   the three different types plus a fallback type
+#   ,in case the type is unknown.
+# - Any other claim submodel should use its model
+#   name in snake case.
+#
+# NOTE: for API we "spoof" the submodel count/number/instance
+#       as 1
+# #############################################################
+
 class ErrorResponse
 
   attr :body
@@ -32,15 +49,6 @@ private
     "#{field_name.to_s.humanize} #{error.humanize.downcase}"
   end
 
-  #
-  # error translations are divided into submodels.
-  # - Claim errors have no submodel.
-  # - Fee error translations are broken down into
-  #   the three different types plus a fallback type
-  #   ,in case the type is unknown.
-  # - Any other claim submodel should use its model
-  #   name in snake case.
-  # NOTE: for API we "spoof" the submodel count/number/instance as 1
   def submodel_prefix
     submodel_instance_num = ''
     m = @model

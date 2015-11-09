@@ -106,7 +106,7 @@ trial_concluded_at:
   blank:
     long: Enter the date on which the trial concluded
     short: Enter a valid date
-    api:
+    api: Enter the date on which the trial concluded
 
 trial_fixed_notice_at:
   _seq: 110

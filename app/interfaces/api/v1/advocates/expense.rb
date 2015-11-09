@@ -19,7 +19,7 @@ module API
               optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
               optional :quantity, type: Integer,        desc: "REQUIRED: Quantity of expenses of this type and rate."
               optional :rate, type: Float,              desc: "REQUIRED: Rate for each expense."
-              optional :location, type:  String,        desc: "Location (e.g. of hotel) where applicable."
+              optional :location, type:  String,        desc: "OPTIONAL: Location (e.g. of hotel) where applicable."
             end
 
             def build_arguments

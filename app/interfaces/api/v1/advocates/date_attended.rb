@@ -19,7 +19,7 @@ module API
               optional :attended_item_id, type: String,   desc: 'REQUIRED: The ID of the corresponding Fee or Expense.'
               optional :attended_item_type, type: String, desc: 'REQUIRED: The Type of item to which this date range relates - Fee or Expense.'
               optional :date, type: String,               desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY-MM-DD)', standard_json_format: true
-              optional :date_to, type: String,            desc: 'The last date in the date-range (YYYY-MM-DD)', standard_json_format: true
+              optional :date_to, type: String,            desc: 'OPTIONAL: The last date in the date-range (YYYY-MM-DD)', standard_json_format: true
             end
 
             # NOTE: explicit error raising because attended_id's presence is not validated by model due to instatiation issues# TODO review in code review

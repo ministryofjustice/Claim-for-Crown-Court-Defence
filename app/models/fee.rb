@@ -23,8 +23,6 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
-  # TODO: to be removed if it does snot cause further problems (see validator for replacement)
-  # validates :claim, presence: { message: 'Claim cannot be blank'}
   validates_with FeeValidator
   validates_with FeeSubModelValidator
 

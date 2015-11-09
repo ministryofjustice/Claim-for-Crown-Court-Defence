@@ -19,8 +19,6 @@ class Defendant < ActiveRecord::Base
   belongs_to  :claim
   has_many    :representation_orders, dependent: :destroy, inverse_of: :defendant
 
-  # TODO: to be removed (see validator for replacement)
-  # validates :claim, presence: { message: 'Claim cannot be blank'}
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 

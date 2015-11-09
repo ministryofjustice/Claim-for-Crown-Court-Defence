@@ -1,0 +1,5 @@
+<% if @case_type.requires_trial_dates? %>
+  $('#trial-details').slideDown();
+<% else %>
+  $('#trial-details').hide();
+<% end %>

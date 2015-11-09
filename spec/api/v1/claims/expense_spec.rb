@@ -20,9 +20,9 @@ describe API::V1::Advocates::Expense do
   let!(:params)                     { { api_key: chamber.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let(:json_error_response)   do
     [
-      {"error" => "Expense type cannot be blank"},
-      {"error" => "Quantity cannot be blank"},
-      {"error" => "Rate cannot be blank"}
+      {"error" => "Choose a type for the expense"},
+      {"error" => "Enter a quantity for the expense"},
+      {"error" => "Enter a rate for the expense"}
     ].to_json
   end
 
@@ -80,13 +80,11 @@ describe API::V1::Advocates::Expense do
       end
 
       context "missing expected params" do
-        skip 'pending getting API error messages working' do
-          it "should return a JSON error array with required model attributes" do
-            [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
-            post_to_create_endpoint
-            expect(last_response.status).to eq 400
-            expect(last_response.body).to eq(json_error_response)
-          end
+        it "should return a JSON error array with required model attributes" do
+          [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect(last_response.body).to eq(json_error_response)
         end
       end
 
@@ -140,13 +138,11 @@ describe API::V1::Advocates::Expense do
       include_examples "invalid API key validate endpoint"
     end
 
-    skip 'pending getting API error messages working' do
-      it 'missing required params should return 400 and a JSON error array' do
-        [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
-        post_to_validate_endpoint
-        expect(last_response.status).to eq 400
-        expect(last_response.body).to eq(json_error_response)
-      end
+    it 'missing required params should return 400 and a JSON error array' do
+      [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+      post_to_validate_endpoint
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq(json_error_response)
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do

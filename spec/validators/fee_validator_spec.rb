@@ -13,6 +13,10 @@ describe FeeValidator do
   let(:daj_fee)                   { FactoryGirl.build :fee, :daj_fee, claim: claim }
   let(:pcm_fee)                   { FactoryGirl.build :fee, :pcm_fee, claim: claim }
 
+  describe 'claim' do
+    it { should_error_if_not_present(fee, :claim, 'blank') }
+  end
+
   describe 'fee type' do
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
   end

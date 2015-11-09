@@ -3,7 +3,7 @@
 
 class ErrorMessageTranslator
 
-  attr_reader :long_message, :short_message
+  attr_reader :long_message, :short_message, :api_message
 
   def initialize(translations, fieldname, error)
     @translations     = translations
@@ -12,6 +12,7 @@ class ErrorMessageTranslator
     @submodel_numbers = {}
     @long_message     = nil
     @short_message    = nil
+    @api_message      = nil
     @regex            = /^(\S+?)(_(\d+)_)(\S+)$/
     translate!
   end
@@ -19,8 +20,9 @@ class ErrorMessageTranslator
   def translate!
     get_messages(@translations, @key, @error)
     if translation_found?
-      @long_message = substitute_submodel_numbers_and_names(@long_message)
+      @long_message  = substitute_submodel_numbers_and_names(@long_message)
       @short_message = substitute_submodel_numbers_and_names(@short_message)
+      @api_message    = substitute_submodel_numbers_and_names(@api_message)
     end
   end
 
@@ -29,7 +31,7 @@ class ErrorMessageTranslator
   end
 
   def translation_not_found?
-    @long_message.nil? || @short_message.nil?
+    @long_message.nil? || @short_message.nil? || @api_message.nil?
   end
 
   private
@@ -42,6 +44,7 @@ class ErrorMessageTranslator
       if translation_exists?(translations, key, error)
         @long_message  = translations[key][error]['long']
         @short_message = translations[key][error]['short']
+        @api_message   = translations[key][error]['api']
       end
     end
   end

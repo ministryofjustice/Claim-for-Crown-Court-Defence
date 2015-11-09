@@ -17,7 +17,7 @@ describe ErrorPresenter do
       end
 
       context 'fieldname not present' do
-        it 'should return 9999 ' do
+        it 'should return 99999 ' do
           expect(presenter.send(:generate_sequence, 'nokey')).to eq 99999
         end
       end
@@ -33,7 +33,7 @@ describe ErrorPresenter do
             claim.errors[:name] << 'cannot_be_blank'
             expect(presenter.header_errors).to eq(
               [
-                ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 10)
+                ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 10)
               ]
             )
           end
@@ -44,7 +44,7 @@ describe ErrorPresenter do
             claim.errors[:date_of_birth]  << 'cannot_be_blank'
             expect(presenter.header_errors).to eq(
               [
-                ErrorDetail.new(:date_of_birth, 'Date of birth cannot be blank', 'Cannot be blank')
+                ErrorDetail.new(:date_of_birth, 'Date of birth cannot be blank', 'Cannot be blank', 'Date of birth cannot be blank')
               ]
             )
           end
@@ -56,13 +56,12 @@ describe ErrorPresenter do
           claim.errors[:defendant_2_name] << 'is invalid'
           expect(presenter.header_errors).to eq(
               [
-                ErrorDetail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid')
+                ErrorDetail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
               ]
             )
         end
       end
     end
-
 
     context '#field_level_error_for' do
       context 'fieldname present in translations file' do
@@ -91,18 +90,16 @@ describe ErrorPresenter do
     end
   end
 
-
   context 'multiple error messages per attribute' do
-
     context 'header messages' do
       context 'fieldname present in translation file' do
         it 'should use the long forms of the translation' do
             claim.errors[:name] << 'cannot_be_blank'
             claim.errors[:name] << 'too_long'
-            expect(presenter.header_errors).to eq( 
+            expect(presenter.header_errors).to eq(
               [
-                ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name'),
-                ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long')
+                ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name','The claimant name must not be blank', 50),
+                ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long','The name cannot be longer than 50 characters', 50)
               ] )
           end
       end
@@ -114,7 +111,7 @@ describe ErrorPresenter do
       it 'should replace the numbered submodel in the title' do
         claim.errors[:defendant_2_first_name]  << 'blank'
         expect(presenter.header_errors).to eq( [
-          ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name')
+          ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', "The first name for the second defendant must not be blank")
           ] )
       end
     end
@@ -128,7 +125,8 @@ describe ErrorPresenter do
       expect(presenter.header_errors).to eq( [
         ErrorDetail.new(:defendant_1_representation_order_1_granting_body,
                          'Choose the court that issued the first representation order for the first defendant',
-                         'Choose a court') ] )
+                         'Choose a court',
+                         'Choose the court that issued the first representation order for the first defendant') ] )
     end
 
     it 'should be able to retrieve the field-level error message' do

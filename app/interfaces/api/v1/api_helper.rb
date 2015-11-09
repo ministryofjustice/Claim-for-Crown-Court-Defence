@@ -4,59 +4,8 @@ module API
     module ApiHelper
 
       require Rails.root.join('app', 'interfaces', 'api','custom_validations','date_format.rb')
-
-      # --------------------
-      class ApiResponse
-        attr_accessor :status, :body
-
-        def success?(status_code=nil)
-          code = status_code ||= '2'
-          status.to_s =~ /^#{code}/ ? true : false
-        end
-      end
-
-      # --------------------
-      class ErrorResponse
-
-        attr :body
-        attr :status
-
-        VALID_MODELS = [Fee, Expense, Claim, Defendant, DateAttended, RepresentationOrder]
-
-        def initialize(object)
-          @error_messages = []
-
-          if VALID_MODELS.include? object.class
-            @model = object
-            build_error_response
-          else
-            @body = error_messages.push({ error: object.message })
-            @status = object.message == 'Unauthorised' ? 401 : 400
-          end
-
-        end
-
-      private
-
-        def error_messages
-          @error_messages
-        end
-
-        def build_error_response
-          unless @model.errors.empty?
-
-            @model.errors.full_messages.each do |error_message|
-              error_messages.push({ error: error_message })
-            end
-
-            @body = error_messages
-            @status = 400
-
-          else
-             raise "unable to build error response as no errors were found"
-           end
-        end
-      end
+      require_relative 'api_response'
+      require_relative 'error_response'
 
       def self.authenticate_key!(params)
         chamber = Chamber.find_by(api_key: params[:api_key])

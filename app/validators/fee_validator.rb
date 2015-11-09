@@ -4,7 +4,15 @@ class FeeValidator < BaseClaimValidator
     [ :fee_type, :quantity, :amount ]
   end
 
+  def self.mandatory_fields
+    [:claim]
+  end
+
   private
+
+  def validate_claim
+    validate_presence(:claim, 'blank')
+  end
 
   def validate_fee_type
     validate_presence(:fee_type, 'blank')
@@ -83,20 +91,26 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_amount
-    case_type = @record.fee_type.try(:code)
-    case case_type
+    fee_code = @record.fee_type.try(:code)
+    case fee_code
       when 'BAF'
         validate_baf_amount
       when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-        validate_non_baf_basic_fee_amount(case_type)
+        validate_non_baf_basic_fee_amount(fee_code)
       else
         validate_misc_and_fixed_fee_amount
     end
   end
 
   def validate_baf_amount
-    unless @record.claim.case_type.try(:is_fixed_fee?)
-      add_error(:amount, 'baf_invalid') if @record.amount < 1
+    # we want to validate the Basic fee has an amount of more than 0 as quantity must be 1
+    # NOTE: this should be combinable with other non_baf logic
+    # ignore for fixed fees (no baf required)
+    # ignore if from the api (because basic fee instantiation sets
+    # the BAF to 1 and amount to 0 as part of claim creation
+    # however we could test if action is an update)
+    unless @record.claim.case_type.try(:is_fixed_fee?) || (@record.claim.try(:api_draft?) && @record.new_record?)
+      add_error(:amount, 'baf_invalid') if @record.amount <= 0
     end
   end
 
@@ -110,7 +124,7 @@ class FeeValidator < BaseClaimValidator
 
   def validate_non_baf_basic_fee_amount(case_type)
     if @record.quantity > 0
-      add_error(:amount, "#{case_type.downcase}_zero") if @record.amount < 1
+      add_error(:amount, "#{case_type.downcase}_zero") if @record.amount <=0
     else
       add_error(:amount, "#{case_type.downcase}_invalid") if @record.amount != 0
     end

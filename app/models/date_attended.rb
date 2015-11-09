@@ -15,11 +15,10 @@
 class DateAttended < ActiveRecord::Base
 
   belongs_to :attended_item, polymorphic: true
-  
+
   validates_with DateAttendedValidator
 
   acts_as_gov_uk_date :date, :date_to
-
 
   def claim
     self.attended_item.try(:claim)

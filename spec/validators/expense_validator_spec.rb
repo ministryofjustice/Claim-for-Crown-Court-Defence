@@ -8,10 +8,9 @@ describe ExpenseValidator do
   let(:claim)                     { FactoryGirl.build :claim, force_validation: true }
   let(:expense)                   { FactoryGirl.build :expense, claim: claim }
 
-  # TODO: validator should spec claim existence
-  # describe 'claim' do
-  #   it { should_error_if_not_present(expense, :claim, 'Claim cannot be blank') }
-  # end
+  describe 'claim' do
+    it { should_error_if_not_present(expense, :claim, 'blank') }
+  end
 
   describe 'expense type' do
     it { should_error_if_not_present(expense, :expense_type, 'blank') }

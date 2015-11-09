@@ -1,12 +1,13 @@
 class ErrorDetail
   include Comparable
 
-  attr_reader :attribute, :long_message, :short_message
+  attr_reader :attribute, :long_message, :short_message, :api_message
 
-  def initialize(attribute, long_message, short_message, sequence=99999)
+  def initialize(attribute, long_message, short_message, api_message, sequence=99999)
     @attribute     = attribute
     @long_message  = long_message
     @short_message = short_message
+    @api_message   = api_message
     @sequence      = sequence
   end
 
@@ -18,7 +19,8 @@ class ErrorDetail
     return false unless other.is_a?(self.class)
     @attribute == other.attribute &&
     @long_message == other.long_message &&
-    @short_message == other.short_message
+    @short_message == other.short_message &&
+    @api_message == other.api_message
   end
 
   def <=>(other)

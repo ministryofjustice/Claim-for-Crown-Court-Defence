@@ -21,16 +21,16 @@ module API
               optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the chamber"
               optional :creator_email, type: String,              desc: "REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim."
               optional :advocate_email, type: String,             desc: "REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs."
-              optional :case_number, type: String,                desc: "REQUIRED: The case number"
+              optional :advocate_category, type: String,          desc: "REQUIRED: The category of the advocate", values: Settings.advocate_categories
+              optional :court_id, type: Integer,                  desc: "REQUIRED: The unique identifier for this court"
               optional :case_type_id, type: Integer,              desc: "REQUIRED: The unique identifier of the case type"
-              optional :indictment_number, type: String,          desc: "REQUIRED: The indictment number"
+              optional :case_number, type: String,                desc: "REQUIRED: The case number"
+              # optional :indictment_number, type: String,          desc: "REQUIRED: The indictment number" # TODO removed? to be confirmed and extended to rest of app
+              optional :offence_id, type: Integer,                desc: "REQUIRED: The unique identifier for this offence"
               optional :first_day_of_trial, type: String,         desc: "REQUIRED: YYYY-MM-DD", standard_json_format: true
               optional :estimated_trial_length, type: Integer,    desc: "REQUIRED: The estimated trial length in days"
               optional :actual_trial_length, type: Integer,       desc: "REQUIRED: The actual trial length in days"
               optional :trial_concluded_at, type: String,         desc: "REQUIRED: The date the trial concluded (YYYY-MM-DD)", standard_json_format: true
-              optional :advocate_category, type: String,          desc: "REQUIRED: The category of the advocate", values: Settings.advocate_categories
-              optional :offence_id, type: Integer,                desc: "REQUIRED: The unique identifier for this offence"
-              optional :court_id, type: Integer,                  desc: "REQUIRED: The unique identifier for this court"
 
               # OPTIONAL params
               optional :cms_number, type: String,               desc: "OPTIONAL: The CMS number"

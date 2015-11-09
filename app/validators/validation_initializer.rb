@@ -4,5 +4,4 @@ class ValidationInitializer < ActiveModel::Validator
     record.errors.clear
   end
 
-
 end

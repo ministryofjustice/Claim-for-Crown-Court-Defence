@@ -23,7 +23,6 @@ class Fee < ActiveRecord::Base
 
   default_scope { includes(:fee_type) }
 
-  validates :claim, presence: { message: 'Claim cannot be blank'}
   validates_with FeeValidator
   validates_with FeeSubModelValidator
 
@@ -75,8 +74,12 @@ class Fee < ActiveRecord::Base
     !blank?
   end
 
-  def is_basic?
-    fee_type.fee_category.is_basic?
+  def method_missing(method, *args)
+    if [:is_misc?,:is_basic?,:is_fixed?].include?(method)
+      fee_type.fee_category.__send__(method) unless fee_type.nil?
+    else
+      super
+    end
   end
 
   def description

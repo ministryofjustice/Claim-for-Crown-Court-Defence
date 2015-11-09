@@ -100,12 +100,10 @@ describe API::V1::Advocates::Claim do
       expect_error_response("Advocate email is invalid")
     end
 
-    skip 'pending getting API error messages working' do
-      it 'missing required params should return 400 and a JSON error array' do
-        valid_params.delete(:case_number)
-        post_to_validate_endpoint
-        expect_error_response("Case number cannot be blank, you must enter a case number")
-      end
+    it 'missing required params should return 400 and a JSON error array' do
+      valid_params.delete(:case_number)
+      post_to_validate_endpoint
+      expect_error_response("Enter a case number")
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
@@ -172,7 +170,6 @@ describe API::V1::Advocates::Claim do
           expected_owner = User.find_by(email: valid_params[:advocate_email])
           expect(@new_claim.advocate).to eq expected_owner.persona
         end
-
       end
 
     end
@@ -198,26 +195,30 @@ describe API::V1::Advocates::Claim do
       end
 
       context "missing expected params" do
-        skip 'pending getting API error messages working' do
-          it "should return a JSON error array when required model attributes are missing" do
-            valid_params.delete(:case_type_id)
-            valid_params.delete(:case_number)
-            post_to_create_endpoint
-            expect_error_response("Case type cannot be blank, you must select a case type",0)
-            expect_error_response("Case number cannot be blank, you must enter a case number",1)
-          end
+        it "should return a JSON error array when required model attributes are missing" do
+          valid_params.delete(:case_type_id)
+          valid_params.delete(:case_number)
+          post_to_create_endpoint
+          expect_error_response("Choose a case type",0)
+          expect_error_response("Enter a case number",1)
         end
       end
 
       context "existing but invalid value" do
-        skip 'pending api error messages being fixed' do
-          it "should return 400 and JSON error array of model validation errors" do
-            valid_params[:estimated_trial_length] = -1
-            valid_params[:actual_trial_length] = -1
-            post_to_create_endpoint
-            expect_error_response("Estimated trial length must be a whole number (0 or above)",0)
-            expect_error_response("Actual trial length must be a whole number (0 or above)",1)
-          end
+        it "should return 400 and JSON error array of model validation BLANK errors" do
+          valid_params[:estimated_trial_length] = -1
+          valid_params[:actual_trial_length] = -1
+          post_to_create_endpoint
+          expect_error_response("Enter a whole number of days for the estimated trial length",0)
+          expect_error_response("Enter a whole number of days for the actual trial length",1)
+        end
+
+        it "should return 400 and JSON error array of model validation INVALID errors" do
+          valid_params[:estimated_trial_length] = nil
+          valid_params[:actual_trial_length] = nil
+          post_to_create_endpoint
+          expect_error_response("Enter an estimated trial length",0)
+          expect_error_response("Enter an actual trial length",1)
         end
       end
 

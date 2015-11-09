@@ -3,21 +3,25 @@ name:
   cannot_be_blank:
     long: 'The claimant name must not be blank, please enter a name'
     short: 'Enter a name'
+    api: 'The claimant name must not be blank'
   too_long:
     long: The name cannot be longer than 50 characters
     short: 'Too long'
+    api: The name cannot be longer than 50 characters
 
 date_of_birth:
   _seq: 20
   too_early:
     long: 'The date of birth may not be more than 100 years old'
     short: 'Invalid date'
+    api: 'The date of birth may not be more than 100 years old'
 
 trial_date:
   _seq: 30
   not_future:
     long: 'The trial date may not be in the future'
     short: 'Invalid date'
+    api: 'The trial date may not be in the future'
 
 defendant:
   _seq: 40
@@ -26,10 +30,13 @@ defendant:
     blank:
       long: "Enter a first name for the #{defendant}"
       short: Enter a name
+      api: "The first name for the #{defendant} must not be blank"
 
 representation_order:
-  _seq: 10
+  _seq: 300
   granting_body:
+    _seq: 10
     blank:
       long: "Choose the court that issued the #{representation_order} for the #{defendant}"
       short: Choose a court
+      api: "Choose the court that issued the #{representation_order} for the #{defendant}"

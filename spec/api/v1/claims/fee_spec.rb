@@ -107,6 +107,7 @@ describe API::V1::Advocates::Fee do
         post_to_create_endpoint
         expect(last_response.status).to eq 400
         expect_error_response("Enter a quantity of 1 for basic fee",0)
+        # NOTE: basic fee should allow 0 amount for claim basic fee at instantiontion/creation but not thereafter
         expect_error_response("Enter a valid amount for the basic fee",1)
       end
 

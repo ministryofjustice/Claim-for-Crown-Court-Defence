@@ -104,7 +104,7 @@ class FeeValidator < BaseClaimValidator
 
   def validate_baf_amount
     # we want to validate the Basic fee has an amount of more than 0 as quantity must be 1
-    # NOTE: this hould be combinable with other non_baf logic
+    # NOTE: this should be combinable with other non_baf logic
     # ignore for fixed fees (no baf required)
     # ignore if from the api (because basic fee instantiation sets
     # the BAF to 1 and amount to 0 as part of claim creation

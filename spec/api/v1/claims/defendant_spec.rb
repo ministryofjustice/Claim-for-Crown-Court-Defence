@@ -118,22 +118,17 @@ describe API::V1::Advocates::Defendant do
       include_examples "invalid API key validate endpoint"
     end
 
-    context 'pending getting error messages for API sorted' do
-      it 'missing required params should return 400 and a JSON error array' do
-        [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
-        post_to_validate_endpoint
-        expect(last_response.status).to eq 400
-        expect(last_response.body).to eq(json_error_response)
-      end
+    it 'missing required params should return 400 and a JSON error array' do
+      [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
+      post_to_validate_endpoint
+      expect(last_response.status).to eq 400
+      expect(last_response.body).to eq(json_error_response)
     end
 
-
-    context 'pending getting error messages for API sorted' do
-      it 'invalid claim id should return 400 and a JSON error array' do
-        valid_params[:claim_id] = SecureRandom.uuid
-        post_to_validate_endpoint
-        expect_error_response("Claim cannot be blank")
-      end
+    it 'invalid claim id should return 400 and a JSON error array' do
+      valid_params[:claim_id] = SecureRandom.uuid
+      post_to_validate_endpoint
+      expect_error_response("Claim cannot be blank")
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do

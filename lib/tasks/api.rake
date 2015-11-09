@@ -13,8 +13,6 @@ namespace :api do
       raise ArgumentError, 'Invalid IO provided'
     end
 
-    # io.puts "SMOKE TEST TEMPORARILY SUSPENDED PENDING CHANGES TO API ERROR MESSAGES"
-
     api_client = ApiTestClient.new()
     api_client.run
 

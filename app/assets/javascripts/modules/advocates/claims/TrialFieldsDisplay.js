@@ -1,31 +1,24 @@
 moj.Modules.TrialFieldsDisplay = {
   $caseTypeSelect: {},
-  $container: {},
-  regex: {},
 
   init : function() {
     var self = this;
     //initialise handles
     this.$caseTypeSelect = $('#claim_case_type_id');
-    this.$container = $('#trial-details');
-    this.regex = /(Appeal against conviction|Appeal against sentence|Breach of Crown Court order|Committal for Sentence|Contempt|Cracked Trial|Cracked before retrial|Elected cases not proceeded|Guilty plea).*/i;
 
     // add change listener
     this.$caseTypeSelect.change(function(){
-      self.addCaseTypeChangeEvent();
+      self.caseTypeChanged();
     });
 
-    this.addCaseTypeChangeEvent();
+    this.caseTypeChanged();
   },
-  addCaseTypeChangeEvent : function() {
-    var caseTypeLabel = this.$caseTypeSelect.find('option:selected').text();
-    if (caseTypeLabel) {
-      if (this.regex.test(caseTypeLabel) || this.$caseTypeSelect.val() === '') {
-        this.$container.hide();
-      } else {
-        this.$container.slideDown();
-      }
+  caseTypeChanged : function() {
+    if(this.$caseTypeSelect.val()) {
+      $.getScript("/case_types/" + this.$caseTypeSelect.val());
+    }
+    else {
+      $('#trial-details').hide();
     }
   }
-
 };

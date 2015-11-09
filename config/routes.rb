@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   end
 
   resources :offences, only: [:index], format: :js
+  resources :case_types, only: [:show], format: :js
 
   resources :user_message_statuses, only: [:index, :update]
 

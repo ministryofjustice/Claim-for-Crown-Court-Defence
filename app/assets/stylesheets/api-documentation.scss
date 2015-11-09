@@ -1,7 +1,25 @@
 .api-documentation {
+
+  $fontsize: 25px;
+
+  h3 {
+    font-size: $fontsize;
+  }
   ul {
-    list-style-type: circle;
+    list-style-type: square;
     font-weight: normal;
     padding-left: 50px;
+    margin-top: 1.2em;
+    font-size: $fontsize;
   }
+  ol {
+    font-weight: normal;
+    padding-left: 20px;
+    margin-top: 1.2em;
+    font-size: $fontsize;
+  }
+  p {
+    font-size: $fontsize;
+  }
+
 }

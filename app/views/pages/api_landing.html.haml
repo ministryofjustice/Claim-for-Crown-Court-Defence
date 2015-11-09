@@ -5,71 +5,74 @@
   %h3
     Overview
 
-    %p
-      An Application Program Interface (API) is a protocol which enables one computer system to talk to another. The Advocate Defence Payment system provides an API which allows external applications to create claims.
+  %p
+    An Application Program Interface (API) enables one computer system to talk to another. The Advocate Defence Payments system has an API that allows external applications to create claims.
 
-    %p
-      Typical users of the API will be commercial Case Management Systems, and this page is primarily intended for Software Vendors of such systems so that they can provide the functionality to submit claims to the ADP system automatically.
-    %p
-      Currently, the functionality of the API is limited to submitting a draft claim.  The end user would then log on to the ADP system in the normal way to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
+  %p
+    The API’s typical users are commercial case management systems.  This page is mainly for software vendors of these systems, to help them provide the functionality to submit claims to the ADP system automatically.
+  %p
+    The API only submits draft claims. The end user then logs on to the ADP system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
 
   %h3
     Documentation
 
-    %p
-      The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim.  Detailed interactive documentation is provided (see link at the bottom of the page) allowing developers to try out the API from a browser. All endpoints require an API key for authentication purposes (see Sign Up below).
+  %p
+    The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided 
+    = link_to 'detailed interactive documentation', grape_swagger_rails_path
+    , allowing developers to try out the API from a browser.
+
+  %h3
+    A note on authentication
+  %p
+    To authenticate the submission to any endpoint you will need to provide an API key. (To get an API key, you’ll need to sign up). The claim endpoint also requires the following:
+
+    %ul
+      %li
+        an ADP advocate administrator account's email address for the chamber - to be used as the creator of the claim
+      %li
+        an ADP advocate account's email address for the advocate for whom the claim is being submitted
+
     %p
       The normal course of events to submit a claim would be:
-      %p
-        Perform a GET operation to retrieve the current set of various object types from their respective endpoints. You will need to supply a chambers API key for authentication purposes. These GET endpoints are:
+      %ol.list-number
+        %li Perform a GET operation to retrieve the current set of various object types from their respective endpoints. These GET endpoints are:
         %ul
           %li
-            Case types
+            case types
           %li
-            Courts
+            courts
           %li
-            Advocate Categories
+            advocate categories
           %li
-            Trial Cracked at Thirds
+            trial cracked at thirds
           %li
-            Offences (and Offence Classes)
+            offences (and offence classes)
           %li
-            Granting Body Types
+            granting body types
           %li
-            Expense Types
+            expense types
           %li
-            Fee Categories
+            fee categories
           %li
-            Fee Types
+            fee types
 
-      %p
-        Each endpoint returns a set of JSON formatted objects, each with an id, which can then be used when submitting a claim and subsequent fees and expenses.
-      %ul
+        %p{:style => "margin-top:1em"}
+          Each endpoint returns a set of JSON formatted objects, each with an id, which can then be used when submitting a claim and associated fees and expenses.
+
         %li
-          Perform a POST operation to upload the basic details of a claim * &sect;
+          Perform a POST operation to upload the basic details of a claim
         %li
-          Perform one or more POST operations to add defendants to the claim *
+          Perform one or more POST operations to add defendants to the claim
         %li
           Perform one or more POST operations to add representation order details to a defendant
         %li
-          Perform multiple POST operations to add fees to a claim *
+          Perform one or more POST operations to add fees to a claim
         %li
-          Perform multiple POST operations to add expenses to a claim *
+          Perform zero or more POST operations to add expenses to a claim
         %li
-          Perform one or more POST operations to add dates attended to a fee or expense
+          Perform zero or more POST operations to add dates attended to a fee or expense
       %p
-        &sect; To authenticate the submission to the claim endpoint you will need to provide:
-        %ul
-          %li
-            a valid API key for the chamber
-          %li
-            an ADP advocate administrator account's email address for the chamber - to be used as the creator of the claim
-          %li
-            an ADP advocate account's email address for the advocate for whom the claim is being submitted
-
-          \- see Sign Up below
-      %p
-        * The responses of these endpoints include an ID attribute that will need to be used in subsequent calls to its sub-components (child relations). In addition, each sub-component will also require the API key to authenticate the submission. These relations are summarized below:
+        The responses of endpoints 2, 3, 5 and 6 above include a universally unique identifier (UUID) as an id attribute that must be used in subsequent calls to create or validate its sub-components (child relations). To summarise:
         %ul
           %li
             claim id required for defendants, fees, expenses
@@ -81,42 +84,55 @@
   %h3
     JSON file importer
 
-    %p
-      The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the
-      = link_to "JSON schema defintion", json_schema_path
-      which is outlined 
-      = link_to "here", json_schema_path
+  %p
+    The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the
+    = link_to "JSON schema defintion", json_schema_path
 
   %h3
     API versioning
-    %p
 
-      From time to time, we may add enhancements/amendments to the API. We are currently working on implementing and publishing a versioning strategy but are not currently intending to increment the version number before going live. However, the version is likely to be requested via the header of the request to the API and be endpoint specific. We are intending to apply semantic versioning (for a full explantion of semantic versioning, see
-      = link_to 'semantic versioning','http://semver.org/', rel: 'external'
-      ).  Non backwards compatible versions therefore will always be signalled by a change in the first digit of the version number, for example moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions concurrently for a period, and always give 6 months notice before stopping support to an old deprecated version.
+  %p
+    We may make changes and improvements to the API from time to time. We’re working on putting in place and publishing a versioning strategy but we’re not going to increment the version number before going live.
+
+  %p
+    We plan to require a version parameter with every request and apply
+    = link_to 'semantic versioning','http://semver.org/', rel: 'external'
+
+  %p
+    Once our versioning strategy has been finalised, we’ll inform all software vendors and update this page and the documentation.
+  %p
+    We will always signal non-backwards-compatible versions by changing the first digit of the version number, eg moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions at the same time and always give 6 months’ notice before we stop supporting an old deprecated version.
 
   %h3
-    Sign Up as Software Vendor
-    %p
-      In order to get access to our Software Vendor API development environments (our API sandbox), you will need to complete a short registration form
-      = link_to "here", new_registration_path('user')
-      and sign our API Users’ Terms and Conditions. You will then be assigned advocate administrator credentials with which to access the web application. You can retrieve the API key assigned to your (randomly named) chamber from the "Manage chamber" page, which, together with your admin account's email address and another advocate account (you can create new advocates from the "Manage advocates" page) can be used to successfully submit claims through the Interactive API documentation (see below) in the sandbox environment.
+    Sign up as software vendor
 
+  %p
+    To access our software vendor API development environment (our API sandbox), 
+    you must complete a 
+    = link_to "short registration form ", new_registration_path('user')
+    and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
+
+  %p
+    You can retrieve the API key assigned to your chamber from the "Manage chamber" page.  You can use the key, along with your admin account's email address and another advocate account, to submit claims through the interactive API documentation in the sandbox environment. You can create new advocates from the "Manage advocates" page.
+
+  %p
+    = link_to "Sign up", new_registration_path('user'), class: 'button'
+    
   %h3
     Example Desktop Application
-    %p
-      A basic example of a desktop application written in .NET (C#) that consumes the ADP API has been produced to provide assistance in writing your own CMS extension. You can download the source code from github
-      = link_to 'here', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'
+  %p
+    A basic example of a desktop application written in .NET (C#) that consumes the ADP API has been produced to provide assistance in writing your own CMS extension. You can download the source code from 
+    = link_to 'github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'
 
-    %p
-      We will endeavour to keep this application up-to-date with any changes to the API to ensure that it can successfully submit a basic claim.
+  %p
+    We will endeavour to keep this application up-to-date with any changes to the API to ensure that it can successfully submit a basic claim.
 
   %h3
     API Sandbox - Testing Environment
 
-    %p
-      The following link will take you to our interactive API testing environment where you can create claims and their sub-components, retrieve lookup data needed for successful component creation and view responses from the various API endpoints.
-    %p
-      Note that you will need the email address that you used to sign up in order to successfully submit to the Claim creation endpoint.
-    %p
-      = link_to 'Interactive API', grape_swagger_rails_path, class: 'button'
+  %p
+    The following link will take you to our interactive API testing environment where you can create claims and their sub-components, retrieve lookup data needed for successful component creation and view responses from the various API endpoints.
+  %p
+    Note that you will need the email address that you used to sign up in order to successfully submit to the Claim creation endpoint.
+  %p
+    = link_to 'Interactive API', grape_swagger_rails_path, class: 'button'

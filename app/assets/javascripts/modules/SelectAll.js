@@ -1,9 +1,9 @@
 moj.Modules.SelectAll = {
   init: function() {
     $('.select-all').click(function() {
-      var $element = $(this),
-      index = $element.parent().index(),
-      checkedState = $element.data('all-checked');
+      var $element = $(this);
+      var index = $element.parent().index();
+      var checkedState = $element.data('all-checked');
       $element.data('all-checked', !checkedState);
 
       $('tr').each(function(i, val) {

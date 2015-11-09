@@ -3,7 +3,7 @@ moj.Modules.Messaging = {
     this.cacheEls();
 
     if(this.messagesList.length) {
-      this.messagesList.scrollTop(this.messagesList.prop("scrollHeight"));
+      this.messagesList.scrollTop(this.messagesList.prop('scrollHeight'));
     }
 
     this.selectedFileUpload();
@@ -14,8 +14,8 @@ moj.Modules.Messaging = {
    ******************************/
   processMsg : function(rorData){
     //Cache the flag that says whether msg was sent
-    var status = rorData.success,
-        adpMsg = this;
+    var status = rorData.success;
+    var adpMsg = this;
 
     //if successful
     if(status === true){
@@ -25,7 +25,7 @@ moj.Modules.Messaging = {
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
-      this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop("scrollHeight"));
+      this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'));
       //If there was an error
     }else{
       $('.message-error').text(rorData.statusMessage);
@@ -42,7 +42,6 @@ moj.Modules.Messaging = {
     $('.message-status')
         .animate({left:'0px'},{
           complete : function(){
-
             setTimeout(function(){
               $('.message-status').animate({left: '-9999px'});
             },5000);
@@ -73,9 +72,9 @@ moj.Modules.Messaging = {
    ********************************/
   selectedFileUpload : function(){
     $('#message_attachment').on('change',function(){
-      var $element = $(this),
-          filename = $element.val().replace(/C:\\fakepath\\/i, ''),
-          $controls = $element.closest('.message-controls');
+      var $element = $(this);
+      var filename = $element.val().replace(/C:\\fakepath\\/i, '');
+      var $controls = $element.closest('.message-controls');
       $controls.find('.filename').text(filename);
       $('.file-to-be-uploaded').show();
     });

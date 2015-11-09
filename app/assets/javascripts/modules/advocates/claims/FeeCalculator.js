@@ -33,12 +33,11 @@ moj.Modules.FeeCalculator = {
   },
   totalFee: function(){
     //get all the amount values on the page
-    var $allAmounts = $('.amount'),
-    //Array of cash amounts as the user inputted
-    arrDirtyAmounts =[],
-    arrCleanAmounts = [],
-    totalAmount = 0,
-    index = 0;
+    var $allAmounts = $('.amount');
+    var arrDirtyAmounts = [];
+    var arrCleanAmounts = [];
+    var totalAmount = 0;
+    var index = 0;
 
     //For each amount stick it into an array
     $allAmounts.each(function(){

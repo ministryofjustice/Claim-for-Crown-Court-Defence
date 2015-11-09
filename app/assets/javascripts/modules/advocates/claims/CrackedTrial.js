@@ -14,8 +14,8 @@ moj.Modules.CrackedTrial = {
 
     // show fieldset if cracked trial type already selected (i.e. if editing existing claim)
     var caseTypeLabel = this.$caseTypeSelect.find('option:selected').text();
-    if (typeof caseTypeLabel === "undefined" || !this.regex.test(caseTypeLabel)) {
-        this.$fieldSet.hide();
+    if (typeof caseTypeLabel === 'undefined' || !this.regex.test(caseTypeLabel)) {
+      this.$fieldSet.hide();
     }
   },
 
@@ -29,5 +29,4 @@ moj.Modules.CrackedTrial = {
       }
     }
   }
-
 };

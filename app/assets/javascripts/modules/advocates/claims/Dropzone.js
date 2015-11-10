@@ -6,7 +6,7 @@ moj.Modules.Dropzone = {
     this.$target = $('.dropzone');
     this.$document_ids = $('.document-ids');
 
-    this.autoDiscover = false;
+    Dropzone.autoDiscover = false;
 
     this.$target.dropzone({
       url: '/documents',

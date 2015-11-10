@@ -6,7 +6,8 @@
     "semi": [2, "always"]
   },
   "globals": {
-    "moj": true
+    "moj": true,
+    "Dropzone": true
   },
   "env": {
     "browser": true,

@@ -15,13 +15,10 @@ moj.Modules.FeeSectionDisplay = {
     //initialise handles
     self.$caseTypeSelect = $('#claim_case_type_id');
     //Initial Fees
-    var $basicFeesSet = self.$basicFeesSet = $('#basic-fees').closest('fieldset'),
-    //Fixed Fees Section
-    $fixedFeesSet = self.$fixedFeesSet = $('#fixed-fees').closest('fieldset'),
-    //Miscellaneous Fees Section
-    $miscFeesSet = self.$miscFeesSet  = $('#misc-fees').closest('fieldset'),
-    //Expenses Section
-    $expenseSet = self.$expenseSet = $('#expenses').closest('fieldset');
+    var $basicFeesSet = self.$basicFeesSet = $('#basic-fees').closest('fieldset');
+    var $fixedFeesSet = self.$fixedFeesSet = $('#fixed-fees').closest('fieldset');
+    var $miscFeesSet = self.$miscFeesSet = $('#misc-fees').closest('fieldset');
+    var $expenseSet = self.$expenseSet = $('#expenses').closest('fieldset');
     //Apply VAT checkbox
     self.$vatApplyChkbox = $('#claim_apply_vat');
     // VAT Report Section
@@ -46,9 +43,8 @@ moj.Modules.FeeSectionDisplay = {
     self.showHideVAT();
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
-    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    var is_fixed_fee = $('#claim_case_type_id').find(':selected').data('is-fixed-fee');
     self.applyFixedFeeState(is_fixed_fee === true);
-
   },
 
   caseTypeSelected : function () {
@@ -58,15 +54,15 @@ moj.Modules.FeeSectionDisplay = {
   applyWarning : function (warningText, isFixedFee) {
 
     function feeExists (container) {
-        // if there is 1 or more amount input elements with value attribute containing digits 1 to 9
-        return $(container).find('.amount')
-                  .filter( function (index, el) {
-                    return /[1-9]/.test($(el).val());
-                  }).length > 0;
+      // if there is 1 or more amount input elements with value attribute containing digits 1 to 9
+      return $(container).find('.amount')
+        .filter( function (index, el) {
+          return /[1-9]/.test($(el).val());
+        }).length > 0;
     }
 
     var warningId   = 'fee-deletion-warning';
-    var warningMsg  = "<div id='" + warningId + "' class='warning'>Warning: " + warningText +"</div>";
+    var warningMsg  = '<div id="' + warningId + '" class="warning">Warning: ' + warningText + '</div>';
     var $warning    = $('#'+warningId);
 
     $warning.remove();
@@ -94,7 +90,7 @@ moj.Modules.FeeSectionDisplay = {
   },
 
   addCaseTypeChangeEvent : function() {
-    var is_fixed_fee = $('#claim_case_type_id').find(":selected").data('is-fixed-fee');
+    var is_fixed_fee = $('#claim_case_type_id').find(':selected').data('is-fixed-fee');
     this.applyFixedFeeState(is_fixed_fee === true);
   },
 
@@ -109,8 +105,10 @@ moj.Modules.FeeSectionDisplay = {
   getVAT :function(){
     return $.ajax({
       url: this.$vatReport.data('vat-url'),
-      data: { "date": this.$vatReport.data('submitted-date'),
-               "net_amount": moj.Modules.FeeCalculator.totalFee() }
+      data: {
+        date: this.$vatReport.data('submitted-date'),
+        net_amount: moj.Modules.FeeCalculator.totalFee()
+      }
     });
   },
   applyVAT : function(){

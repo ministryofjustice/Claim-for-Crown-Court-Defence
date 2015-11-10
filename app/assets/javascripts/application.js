@@ -9,7 +9,7 @@
 //= require_tree .
 
 (function () {
-  "use strict";
+  'use strict';
 
   delete moj.Modules.devs;
 

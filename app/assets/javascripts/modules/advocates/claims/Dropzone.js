@@ -6,16 +6,16 @@ moj.Modules.Dropzone = {
     this.$target = $('.dropzone');
     this.$document_ids = $('.document-ids');
 
-    Dropzone.autoDiscover = false;
+    this.autoDiscover = false;
 
     this.$target.dropzone({
-      url: "/documents",
+      url: '/documents',
       addRemoveLinks: true,
       maxFilesize: 20,
       previewTemplate: this.$target.data('dz-template'),
-      paramName: "document[document]",
+      paramName: 'document[document]',
       createImageThumbnails: false,
-      headers: { "X-CSRF-Token" : $('meta[name="csrf-token"]').attr('content') },
+      headers: { 'X-CSRF-Token' : $('meta[name="csrf-token"]').attr('content') },
       init: function() {
         var thisDropzone = this;
 
@@ -36,7 +36,7 @@ moj.Modules.Dropzone = {
       },
       sending: function(file, xhr, formData) {
         var form_id = $('#claim_form_id').val();
-        formData.append("document[form_id]", form_id);
+        formData.append('document[form_id]', form_id);
       },
       success: function (file, response) {
         var id = response.document.id;
@@ -68,7 +68,7 @@ moj.Modules.Dropzone = {
     });
   },
   createDocumentIdInput : function(id) {
-    var input = "<input id=\"claim_document_ids_" + id + "\" multiple=\"multiple\" name=\"claim[document_ids][]\" type=\"hidden\" value=\"" + id + "\">";
+    var input = '<input id="claim_document_ids_' + id + '" multiple="multiple" name="claim[document_ids][]" type="hidden" value="' + id + '">';
     this.$document_ids.append(input);
   },
   removeDocumentIdInput : function(id) {

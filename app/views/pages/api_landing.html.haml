@@ -24,13 +24,13 @@
   %h3
     A note on authentication
   %p
-    To authenticate the submission to any endpoint you will need to provide an API key. (To get an API key, you’ll need to sign up). The claim endpoint also requires the following:
+    To authenticate a request to any endpoint you will need to provide an API key. (To get an API key, you’ll need to sign up). The claim endpoint also requires the following:
 
     %ul
       %li
         an ADP advocate administrator account's email address for the chamber - to be used as the creator of the claim
       %li
-        an ADP advocate account's email address for the advocate for whom the claim is being submitted
+        an ADP advocate account's email address for the advocate for whom the claim is being created
 
     %p
       The normal course of events to submit a claim would be:
@@ -57,7 +57,7 @@
             fee types
 
         %p{:style => "margin-top:1em"}
-          Each endpoint returns a set of JSON formatted objects, each with an id, which can then be used when submitting a claim and associated fees and expenses.
+          Each endpoint returns a set of JSON formatted objects, each with an id, which you can use when submitting a claim and associated fees and expenses.
 
         %li
           Perform a POST operation to upload the basic details of a claim
@@ -104,12 +104,12 @@
     We will always signal non-backwards-compatible versions by changing the first digit of the version number, eg moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions at the same time and always give 6 months’ notice before we stop supporting an old deprecated version.
 
   %h3
-    Sign up as software vendor
+    Sign up as a software vendor
 
   %p
     To access our software vendor API development environment (our API sandbox), 
-    you must complete a 
-    = link_to "short registration form ", new_registration_path('user')
+    you must 
+    = link_to "complete a short registration form ", new_registration_path('user')
     and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
 
   %p
@@ -120,19 +120,16 @@
     
   %h3
     Example Desktop Application
-  %p
-    A basic example of a desktop application written in .NET (C#) that consumes the ADP API has been produced to provide assistance in writing your own CMS extension. You can download the source code from 
-    = link_to 'github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'
 
   %p
-    We will endeavour to keep this application up-to-date with any changes to the API to ensure that it can successfully submit a basic claim.
+    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the ADP API to help you write your own CMS extension. You can 
+    = link_to 'download the source code from github.', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'
+  %p
+    We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
 
   %h3
     API Sandbox - Testing Environment
-
   %p
-    The following link will take you to our interactive API testing environment where you can create claims and their sub-components, retrieve lookup data needed for successful component creation and view responses from the various API endpoints.
-  %p
-    Note that you will need the email address that you used to sign up in order to successfully submit to the Claim creation endpoint.
+    The Interactive API button below will take you to our interactive API testing page where you can create claims and their sub-components, retrieve lookup data needed to create components, and view responses from the various API endpoints.
   %p
     = link_to 'Interactive API', grape_swagger_rails_path, class: 'button'

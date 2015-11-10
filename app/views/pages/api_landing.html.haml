@@ -17,14 +17,12 @@
     Documentation
 
   %p
-    The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided 
-    = link_to 'detailed interactive documentation', grape_swagger_rails_path
-    , allowing developers to try out the API from a browser.
+    The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided #{link_to 'detailed interactive documentation', grape_swagger_rails_path}, allowing developers to try out the API from a browser.
 
   %h3
     A note on authentication
   %p
-    To authenticate a request to any endpoint you will need to provide an API key. (To get an API key, you’ll need to sign up). The claim endpoint also requires the following:
+    To authenticate a request to any endpoint you will need to provide an API key. (To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}. The claim endpoint also requires the following:
 
     %ul
       %li
@@ -85,8 +83,7 @@
     JSON file importer
 
   %p
-    The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the
-    = link_to "JSON schema defintion", json_schema_path
+    The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the #{link_to "JSON schema definition", json_schema_path}.
 
   %h3
     API versioning
@@ -95,8 +92,7 @@
     We may make changes and improvements to the API from time to time. We’re working on putting in place and publishing a versioning strategy but we’re not going to increment the version number before going live.
 
   %p
-    We plan to require a version parameter with every request and apply
-    = link_to 'semantic versioning','http://semver.org/', rel: 'external'
+    We plan to require a version parameter with every request and apply #{link_to 'semantic versioning','http://semver.org/', rel: 'external'}.
 
   %p
     Once our versioning strategy has been finalised, we’ll inform all software vendors and update this page and the documentation.
@@ -107,10 +103,7 @@
     Sign up as a software vendor
 
   %p
-    To access our software vendor API development environment (our API sandbox), 
-    you must 
-    = link_to "complete a short registration form ", new_registration_path('user')
-    and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
+    To access our software vendor API development environment (our API sandbox), you must #{link_to "complete a short registration form ", new_registration_path('user')} and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
 
   %p
     You can retrieve the API key assigned to your chamber from the "Manage chamber" page.  You can use the key, along with your admin account's email address and another advocate account, to submit claims through the interactive API documentation in the sandbox environment. You can create new advocates from the "Manage advocates" page.
@@ -122,8 +115,7 @@
     Example Desktop Application
 
   %p
-    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the ADP API to help you write your own CMS extension. You can 
-    = link_to 'download the source code from github.', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'
+    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the ADP API to help you write your own CMS extension. You can #{link_to 'download the source code from github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'}.
   %p
     We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
 

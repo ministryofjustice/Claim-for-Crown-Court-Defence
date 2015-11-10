@@ -75,6 +75,10 @@ case_number:
 first_day_of_trial:
   _seq: 60
   blank:
+    long: Enter a date for the first day of trial
+    short: Enter a date
+    api: Enter a date for the first day of trial
+  invalid_date:
     long: Enter a valid date for the first day of trial
     short: Enter a valid date
     api: Enter a valid date for the first day of trial
@@ -105,8 +109,12 @@ trial_concluded_at:
   _seq: 90
   blank:
     long: Enter the date on which the trial concluded
-    short: Enter a valid date
+    short: Enter a date
     api: Enter the date on which the trial concluded
+  invalid_date:
+    long: 'Enter a valid date for trial concluded'
+    short: Enter a valid date
+    api: 'Enter a valid date for trial concluded'
 
 trial_fixed_notice_at:
   _seq: 110
@@ -126,6 +134,10 @@ trial_fixed_notice_at:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
     short: Check this date
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
+  invalid_date:
+    long: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
+    short: Enter a valid date
+    api: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
 
 trial_fixed_at:
   _seq: 120
@@ -145,6 +157,10 @@ trial_fixed_at:
     long: Check the date for "1st fixed/warned trial"
     short: Check this date
     api: Check the date for "1st fixed/warned trial"
+  invalid_date:
+      long: 'Enter a valid date for the "1st fixed/warned trial"'
+      short: Enter a valid date
+      api: 'Enter a valid date for the "1st fixed/warned trial"'
 
 trial_cracked_at:
   _seq: 130
@@ -164,6 +180,10 @@ trial_cracked_at:
     long: Check the date for "Case cracked"
     short: Check this date
     api: Check the date for "Case cracked"
+  invalid_date:
+    long: 'Enter a valid date for "Case cracked"'
+    short: Enter a valid date
+    api: 'Enter a valid date for "Case cracked"'
 
 trial_cracked_at_third:
   _seq: 140
@@ -212,6 +232,11 @@ defendant:
       long: "Check the date of birth for of the #{defendant}"
       short: Check the date of birth
       api: "Check the date of birth for the defendant"
+    invalid:
+      long: "Enter a valid date of birth for the #{defendant}"
+      short: Enter a valid date
+      api: "Enter a valid date of birth for the defendant"
+
 
   representation_orders:
     _seq: 200
@@ -247,6 +272,10 @@ representation_order:
       long: 'Enter a valid representation order date for the #{representation_order} of the #{defendant}'
       short: Enter a valid date
       api: 'Enter a valid representation order date for the representation order of the defendant'
+    invalid_date:
+      long: 'Enter a valid date for the representation order date of the #{representation_order} of the #{defendant}'
+      short: Enter a valid date
+      api: 'Enter a valid date for the representation order date of the representation order of the defendant'
 
   maat_reference:
     _seq: 30
@@ -531,6 +560,10 @@ date_attended:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is more than 5 years ago'
       short: Enter a date less than 5 years ago
       api: The date attended (from) must be less than 5 years ago
+    invalid_date:
+      long: 'Enter a valid date for the #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      short: Enter a valid date
+      api: 'Enter a valid date for the date attended (from)'
 
   date_to:
     _seq: 20
@@ -542,3 +575,7 @@ date_attended:
       long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
       short: Enter a date that is not in the future
       api: The date attended (to) cannot be in the future
+    invalid_date:
+      long: 'Enter a valid date for the #{date_attended} (to) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      short: Enter a valid date
+      api: 'Enter a valid date for the date attended (to)'

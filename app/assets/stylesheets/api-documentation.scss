@@ -1,7 +1,13 @@
 .api-documentation {
-  ul {
-    list-style-type: circle;
-    font-weight: normal;
-    padding-left: 50px;
+  @include core-24;
+
+  ul,
+  ol {
+    margin: 1em 0;
+    padding-left: 1.1em;
+  }
+
+  h3 {
+    font-size: 1.1em;
   }
 }

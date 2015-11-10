@@ -24,7 +24,7 @@
   %p
     To authenticate a request to any endpoint you will need to provide an API key. (To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}. The claim endpoint also requires the following:
 
-    %ul
+    %ul.list-bullet
       %li
         an ADP advocate administrator account's email address for the chamber - to be used as the creator of the claim
       %li
@@ -34,7 +34,7 @@
       The normal course of events to submit a claim would be:
       %ol.list-number
         %li Perform a GET operation to retrieve the current set of various object types from their respective endpoints. These GET endpoints are:
-        %ul
+        %ul.list-bullet
           %li
             case types
           %li
@@ -54,7 +54,7 @@
           %li
             fee types
 
-        %p{:style => "margin-top:1em"}
+        %p
           Each endpoint returns a set of JSON formatted objects, each with an id, which you can use when submitting a claim and associated fees and expenses.
 
         %li
@@ -71,7 +71,7 @@
           Perform zero or more POST operations to add dates attended to a fee or expense
       %p
         The responses of endpoints 2, 3, 5 and 6 above include a universally unique identifier (UUID) as an id attribute that must be used in subsequent calls to create or validate its sub-components (child relations). To summarise:
-        %ul
+        %ul.list-bullet
           %li
             claim id required for defendants, fees, expenses
           %li

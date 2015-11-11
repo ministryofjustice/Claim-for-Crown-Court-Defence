@@ -31,14 +31,13 @@ class ClaimDateValidator < BaseClaimValidator
   end
 
   # required when case type is cracked, cracked before retrieal
-  # cannot be in the future
+  # REMOVED as trial may never have occured - cannot be in the future
   # cannot be before earliest rep order
   # cannot be more than 5 years old
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
     if @record.case_type  && @record.case_type.requires_cracked_dates?
       validate_presence(:trial_fixed_at, "blank_#{snake_case_type}_date")
-      validate_not_after(Date.today, :trial_fixed_at, "check_#{snake_case_type}_date")
       validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, "check_#{snake_case_type}_date")
       validate_not_before(earliest_rep_order, :trial_fixed_at, "check_#{snake_case_type}_date")
       validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, "check_#{snake_case_type}_date")

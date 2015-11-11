@@ -7,7 +7,7 @@
           = raw t('.basic_fee_prompt_text')
     %td
       %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
-      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 999, maxlength: 3
+      = f.number_field :quantity, value: number_with_precision_or_blank(f.object.quantity), class: 'quantity', min: 0, max: 99999, maxlength: 5
       = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
     %td
       %a{name: "basic_fee_#{@basic_fee_count}_amount"}

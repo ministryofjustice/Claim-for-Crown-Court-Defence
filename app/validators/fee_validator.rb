@@ -87,7 +87,7 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_any_quantity
-    add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 100
+    add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99999
   end
 
   def validate_amount
@@ -107,8 +107,7 @@ class FeeValidator < BaseClaimValidator
     # NOTE: this should be combinable with other non_baf logic
     # ignore for fixed fees (no baf required)
     # ignore if from the api (because basic fee instantiation sets
-    # the BAF to 1 and amount to 0 as part of claim creation
-    # however we could test if action is an update)
+    # the BAF to 1 and amount to 0 via claim creation endpoint)
     unless @record.claim.case_type.try(:is_fixed_fee?) || (@record.claim.try(:api_draft?) && @record.new_record?)
       add_error(:amount, 'baf_invalid') if @record.amount <= 0
     end

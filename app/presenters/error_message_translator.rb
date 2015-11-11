@@ -36,7 +36,13 @@ class ErrorMessageTranslator
 
   private
 
+  # needed for GovUkDateField error handling (at least)
+  def format_error(error)
+    error.gsub(/\s+/,'_').downcase
+  end
+
   def get_messages(translations, key, error)
+    error = format_error(error)
     if key_refers_to_numbered_submodel?(key)  && submodel_key_exists?(translations, key)
       translation_subset, submodel_key = extract_last_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)

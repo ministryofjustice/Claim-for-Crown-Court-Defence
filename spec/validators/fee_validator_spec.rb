@@ -53,6 +53,7 @@ describe FeeValidator do
   end
 
   describe 'quantity' do
+
     context 'basic fee (BAF)' do
       expected_error_message = 'baf_qty1'
       it { should_be_valid_if_equal_to_value(baf_fee, :quantity, 1) }
@@ -140,6 +141,16 @@ describe FeeValidator do
         end
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_invalid') }
         it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_invalid') }
+      end
+    end
+
+    context 'any other fee' do
+      it { should_error_if_equal_to_value(fee, :quantity, -1, 'invalid') }
+      it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
+      it { should_error_if_equal_to_value(fee, :quantity, 100000,    'invalid') }
+
+      it 'should not allow zero if amount is not zero' do
+        should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
       end
     end
   end

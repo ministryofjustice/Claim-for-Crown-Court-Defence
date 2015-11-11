@@ -101,6 +101,14 @@ describe API::V1::Advocates::DateAttended do
         end
       end
 
+      context 'malformed date format' do
+          it 'rejects malformed dates' do
+            valid_params[:date] = '2015-05-32'
+            post_to_create_endpoint
+            expect_error_response("Enter a valid date for the date attended (from)",1)
+          end
+      end
+
     end
 
   end

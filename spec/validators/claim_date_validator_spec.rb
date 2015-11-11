@@ -53,7 +53,6 @@ describe ClaimDateValidator do
   context 'trial fixed at' do
     context 'cracked trial claim' do
       it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'blank_cracked_trial_date') }
-      it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
       it { should_error_if_not_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'check_cracked_trial_date') }
       it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_cracked_trial_date') }
@@ -61,7 +60,6 @@ describe ClaimDateValidator do
 
     context 'cracked before retrial' do
       it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'blank_cracked_before_retrial_date') }
-      it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
       it { should_error_if_not_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
       it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'check_cracked_before_retrial_date') }
       it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_cracked_before_retrial_date') }

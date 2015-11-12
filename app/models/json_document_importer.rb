@@ -25,6 +25,7 @@ class JsonDocumentImporter
     @failed_imports = []
     @imported_claims = []
     @failed_schema_validation = []
+    @api_key = attributes[:api_key]
   end
 
   def parse_file
@@ -81,7 +82,7 @@ class JsonDocumentImporter
   def create_claim(claim_hash)
     claim_params = {source: 'json_import'}
     claim_hash['claim'].each {|key, value| claim_params[key] = value if value.class != Array}
-    response = CLAIM_CREATION.post(claim_params) {|response, request, result| response }
+    response = CLAIM_CREATION.post(claim_params.merge(api_key: @api_key)) {|response, request, result| response }
     if response.code == 201
       @claim_id = JSON.parse(response.body)['id']
     else
@@ -106,7 +107,7 @@ class JsonDocumentImporter
   def create(attributes_hash, rest_client_resource) # used to create defendants, fees and expenses
     obj_params = {}
     attributes_hash.each {|key, value| obj_params[key] = value if value.class != Array}
-    response = rest_client_resource.post(obj_params) {|response, request, result| response }
+    response = rest_client_resource.post(obj_params.merge(api_key: @api_key)) {|response, request, result| response }
     if response.code == 201 || response.code == 200
       @id_of_owner = JSON.parse(response.body)['id']
     else
@@ -117,7 +118,7 @@ class JsonDocumentImporter
   def create_rep_orders(defendant)
     defendant['representation_orders'].each do |rep_order|
       rep_order['defendant_id'] = @id_of_owner
-      response = REPRESENTATION_ORDER_CREATION.post(rep_order) {|response, request, result| response }
+      response = REPRESENTATION_ORDER_CREATION.post(rep_order.merge(api_key: @api_key)) {|response, request, result| response }
       if response.code != 201
         raise ArgumentError.new(response.body)
       end
@@ -136,7 +137,7 @@ class JsonDocumentImporter
     fee_or_expense['dates_attended'].each do |date_attended|
       date_attended['attended_item_id'] = @id_of_owner
       date_attended['attended_item_type'].capitalize!
-      response = DATE_ATTENDED_CREATION.post(date_attended) {|response, request, result| response }
+      response = DATE_ATTENDED_CREATION.post(date_attended.merge(api_key: @api_key)) {|response, request, result| response }
       if response.code != 201
         raise ArgumentError.new(response.body)
       end

@@ -38,8 +38,8 @@ module API
 
       def self.find_creator_by_email(email)
         user = User.advocates.find_by(email: email)
-        if user.blank? || !user.persona.admin?
-          raise API::V1::ArgumentError, 'Creator email is invalid or does not have administrator privileges'
+        if user.blank?
+          raise API::V1::ArgumentError, 'Creator email is invalid'
         else
           @advocate = user.persona
         end

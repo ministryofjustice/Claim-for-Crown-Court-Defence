@@ -157,7 +157,9 @@ class JsonTemplate
     end
 
     def get_route_params(const)
-      API::V1::Advocates.const_get(const).endpoints.first.routes.first.route_params
+      route_params = API::V1::Advocates.const_get(const).endpoints.first.routes.first.route_params
+      route_params.delete("api_key")
+      route_params
     end
 
   end

@@ -84,14 +84,7 @@ describe API::V1::Advocates::Claim do
     it "should return 400 and JSON error array when creator email is invalid" do
       valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
       post_to_validate_endpoint
-      expect_error_response("Creator email is invalid or does not have administrator privileges")
-    end
-
-     it "should return 400 and JSON error array when creator does not have admin role" do
-      vendor.update!(role: 'advocate')
-      valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
-      post_to_validate_endpoint
-      expect_error_response("Creator email is invalid or does not have administrator privileges")
+      expect_error_response("Creator email is invalid")
     end
 
     it "should return 400 and JSON error array when advocate email is invalid" do

@@ -424,7 +424,7 @@ basic_fee:
       api: Enter a valid amount for pages of prosecution evidence fees
     invalid:
       long: Enter a valid amount for the basic fee
-      short: Enter a valid quantity
+      short: Enter a valid amount
       api: Enter a valid amount for the basic fee
 
 #################################################################################

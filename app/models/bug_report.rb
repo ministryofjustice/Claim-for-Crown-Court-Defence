@@ -18,7 +18,16 @@ class BugReport
   def save
     return false unless valid?
 
-    ZendeskBugReportSender.send!(self)
+    ZendeskSender.send!(self)
     true
   end
+
+  def subject
+    "Bug report (#{Rails.host.env})"
+  end
+
+  def description
+    "#{self.event} - #{self.outcome} - #{self.email}"
+  end
+
 end

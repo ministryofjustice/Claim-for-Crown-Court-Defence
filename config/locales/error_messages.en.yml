@@ -232,7 +232,7 @@ defendant:
       long: "Check the date of birth for of the #{defendant}"
       short: Check the date of birth
       api: "Check the date of birth for the defendant"
-    invalid:
+    invalid_date:
       long: "Enter a valid date of birth for the #{defendant}"
       short: Enter a valid date
       api: "Enter a valid date of birth for the defendant"

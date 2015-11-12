@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/getsentry/raven-ruby.git
+  revision: 8e338102938275e96484583c3cce818cc6f05f37
+  specs:
+    sentry-raven (0.16.0.dev0)
+      faraday (>= 0.7.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -545,6 +552,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   select2-rails (~> 3.5.9.3)
   selenium-webdriver
+  sentry-raven!
   shoulda-matchers (~> 2.8.0)
   simple_form (~> 3.1.0)
   simplecov

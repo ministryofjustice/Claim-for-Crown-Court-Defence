@@ -41,6 +41,7 @@ gem 'responder',              '~> 0.2.4'
 gem 'rest-client',            '~> 1.8' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 4.0.4'
 gem 'select2-rails',          '~> 3.5.9.3'
+gem 'sentry-raven',           git: 'https://github.com/getsentry/raven-ruby.git'
 gem 'simple_form',            '~> 3.1.0'
 gem 'squeel',                 '~> 1.2.3'
 gem 'state_machine',          '~> 1.2.0'

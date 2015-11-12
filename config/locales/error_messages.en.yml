@@ -424,7 +424,7 @@ basic_fee:
       api: Enter a valid amount for pages of prosecution evidence fees
     invalid:
       long: Enter a valid amount for the basic fee
-      short: Enter a valid quantity
+      short: Enter a valid amount
       api: Enter a valid amount for the basic fee
 
 #################################################################################
@@ -453,9 +453,9 @@ misc_fee:
   quantity:
     _seq: 30
     invalid:
-      long: 'Enter a quantity for the #{misc_fee}'
-      short: Enter a quantity
-      api: Enter a quantity for the miscellaneous fee
+      long: 'Enter a valid quantity for the #{misc_fee}'
+      short: Enter a valid quantity
+      api: Enter a valid quantity for the miscellaneous fee
 
 #################################################################################
 #                                                                               #
@@ -483,9 +483,9 @@ fixed_fee:
   quantity:
     _seq: 30
     invalid:
-      long: 'Enter a quantity for the #{fixed_fee}'
-      short: Enter a quantity
-      api: Enter a quantity for the fixed fee
+      long: 'Enter a valid quantity for the #{fixed_fee}'
+      short: Enter a valid quantity
+      api: Enter a valid quantity for the fixed fee
 
 #################################################################################
 #                                                                               #

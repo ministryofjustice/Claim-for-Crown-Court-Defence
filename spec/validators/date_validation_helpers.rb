@@ -55,7 +55,7 @@ module RspecDateValidationHelpers
 
   def should_be_valid_if_equal_to_value(record, field, value)
     record.send("#{field}=", value)
-    expect(record.send(:valid?)).to be true
     expect(record.errors[field]).to be_empty
+    expect(record.send(:valid?)).to be true
   end
 end

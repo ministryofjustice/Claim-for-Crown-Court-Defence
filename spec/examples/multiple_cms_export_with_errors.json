@@ -2,6 +2,7 @@
 [
   {
     "claim": {
+      "creator_email": "advocateadmin@example.com",
       "case_number": "A12345678",
       "case_type_id": 1,
       "indictment_number": "12345678",
@@ -66,6 +67,7 @@
   },
   {
     "claim": {
+      "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
       "case_number": "A12345678",
       "case_type_id": 1,
@@ -131,6 +133,7 @@
   },
   {
     "claim": {
+      "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
       "case_number": "A12345678",
       "case_type_id": 1,
@@ -196,6 +199,7 @@
   },
   {
     "claim": {
+      "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
       "case_number": "A12345678",
       "case_type_id": 1,

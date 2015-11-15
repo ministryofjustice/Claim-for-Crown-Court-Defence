@@ -21,6 +21,10 @@ Rails.application.routes.draw do
     root to: 'case_workers/claims#index', as: :case_workers_home
   end
 
+ authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
+    root to: 'super_admin/chambers#index', as: :super_admins_home
+  end
+
   devise_scope :user do
     unauthenticated :user do
       root 'sessions#new', as: :unauthenticated_root

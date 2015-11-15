@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151021091610) do
+ActiveRecord::Schema.define(version: 20151115214327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -343,6 +343,11 @@ ActiveRecord::Schema.define(version: 20151021091610) do
     t.string   "maat_reference"
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
+  end
+
+  create_table "super_admins", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_message_statuses", force: :cascade do |t|

@@ -59,8 +59,8 @@ class JsonDocumentImporter
     data.each_with_index do |claim_hash, index|
       begin
         JSON::Validator.validate!(@schema, claim_hash)
-        create_claim(claim_hash)
-        set_defendants_fees_and_expenses(claim_hash)
+        create_claim(claim_hash['claim'])
+        set_defendants_fees_and_expenses(claim_hash['claim'])
         create_defendants_and_rep_orders
         create_expenses_or_fees_and_dates_attended(@fees, FEE_CREATION)
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
@@ -79,21 +79,22 @@ class JsonDocumentImporter
 
   private
 
-  def create_claim(claim_hash)
-    claim_params = {source: 'json_import'}
-    claim_hash['claim'].each {|key, value| claim_params[key] = value if value.class != Array}
-    response = CLAIM_CREATION.post(claim_params.merge(api_key: @api_key)) {|response, request, result| response }
-    if response.code == 201
-      @claim_id = JSON.parse(response.body)['id']
-    else
-      raise ArgumentError.new(response.body)
-    end
+  def create_claim(hash)
+    claim_params = parse_hash(hash)
+    response = CLAIM_CREATION.post(claim_params.merge(source: 'json_import')) {|response, request, result| response }
+    response.code == 201 ? @claim_id = JSON.parse(response.body)['id'] : raise(ArgumentError.new(response.body))
   end
 
-  def set_defendants_fees_and_expenses(claim_hash)
-    @defendants = claim_hash['claim']['defendants']
-    @fees = claim_hash['claim']['fees']
-    @expenses = claim_hash['claim']['expenses']
+  def parse_hash(hash)
+    params = {api_key: @api_key}
+    hash.each {|key, value| params[key] = value if value.class != Array}
+    params
+  end
+
+  def set_defendants_fees_and_expenses(claim)
+    @defendants = claim['defendants']
+    @fees = claim['fees']
+    @expenses = claim['expenses']
   end
 
   def create_defendants_and_rep_orders
@@ -105,23 +106,16 @@ class JsonDocumentImporter
   end
 
   def create(attributes_hash, rest_client_resource) # used to create defendants, fees and expenses
-    obj_params = {}
-    attributes_hash.each {|key, value| obj_params[key] = value if value.class != Array}
+    obj_params = parse_hash(attributes_hash)
     response = rest_client_resource.post(obj_params.merge(api_key: @api_key)) {|response, request, result| response }
-    if response.code == 201 || response.code == 200
-      @id_of_owner = JSON.parse(response.body)['id']
-    else
-      raise ArgumentError.new(response.body)
-    end
+    (response.code == 201 || response.code == 200) ? @id_of_owner = JSON.parse(response.body)['id'] : raise(ArgumentError.new(response.body))
   end
 
   def create_rep_orders(defendant)
     defendant['representation_orders'].each do |rep_order|
       rep_order['defendant_id'] = @id_of_owner
       response = REPRESENTATION_ORDER_CREATION.post(rep_order.merge(api_key: @api_key)) {|response, request, result| response }
-      if response.code != 201
-        raise ArgumentError.new(response.body)
-      end
+      raise ArgumentError.new(response.body) if response.code != 201
     end
   end
 
@@ -138,9 +132,7 @@ class JsonDocumentImporter
       date_attended['attended_item_id'] = @id_of_owner
       date_attended['attended_item_type'].capitalize!
       response = DATE_ATTENDED_CREATION.post(date_attended.merge(api_key: @api_key)) {|response, request, result| response }
-      if response.code != 201
-        raise ArgumentError.new(response.body)
-      end
+      raise ArgumentError.new(response.body) if response.code != 201
     end
   end
 

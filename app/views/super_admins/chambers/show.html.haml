@@ -1,0 +1,16 @@
+%h1.page-title Chamber
+
+%h2
+  = @chamber.name
+
+%p
+  = label_tag :supplier_number, 'Supplier number', class: "form-label"
+  = @chamber.supplier_number
+
+%p
+  = label_tag :vat_registered, 'VAT registered', class: "form-label"
+  = @chamber.vat_registered == true ? 'Yes' : 'No'
+
+- if can? :edit, @chamber
+  = link_to 'Edit', edit_super_admins_chamber_path(@chamber), class: 'button'
+

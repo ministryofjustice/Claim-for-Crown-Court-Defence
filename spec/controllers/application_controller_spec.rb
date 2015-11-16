@@ -2,10 +2,20 @@ require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
   describe '#after_sign_in_path_for' do
+    let(:super_admin) { create(:super_admin) }
     let(:advocate) { create(:advocate) }
     let(:advocate_admin) { create(:advocate, :admin) }
     let(:case_worker) { create(:case_worker) }
     let(:case_worker_admin) { create(:case_worker, :admin) }
+
+    context 'given a super admin' do
+      before { sign_in super_admin.user }
+
+      it 'returns super admins root url' do
+        expect(subject.after_sign_in_path_for(super_admin.user)).to eq(super_admin_root_url)
+      end
+
+    end
 
     context 'given an advocate' do
       before { sign_in advocate.user }

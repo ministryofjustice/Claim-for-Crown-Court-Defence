@@ -1,0 +1,10 @@
+.grid-row
+  .column-two-thirds
+    %h1.page-title
+      = 'Chambers'
+    %h2 #{pluralize(@chambers.count, 'chamber')}
+  .column-third
+    = link_to 'Add a chamber', new_super_admins_chamber_path, class: 'button button-get-started'
+
+#chamber-details
+  = render partial: 'chambers', locals: { chambers: @chambers }

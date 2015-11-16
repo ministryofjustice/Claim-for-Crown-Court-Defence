@@ -1,0 +1,21 @@
+- if chambers.none?
+  %p
+    = "No chambers found"
+- else
+  %table.chambers_table
+    %thead
+      %th
+        = 'Supplier number'
+      %th
+        = 'Name'
+      %th
+        = 'VAT registered'
+    %tbody
+      - chambers.each do |chamber|
+        %tr{id: dom_id(chamber) }
+          %td
+            = link_to (chamber.supplier_number.blank? ? 'not-provided' : chamber.supplier_number), super_admins_chamber_path(chamber)
+          %td
+            = chamber.name
+          %td
+            = chamber.vat_registered == true ? 'Yes' : 'No'

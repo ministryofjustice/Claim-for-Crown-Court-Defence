@@ -1,0 +1,95 @@
+digraph CLA_User_Journey {
+	compound 	= true
+	labelloc 	= t
+	ordering 	= out
+	splines 	= ortho
+	nodesep		= .5
+	ranksep 	= .3
+
+	label 		= "Advocate Defence Payments - Claim Allocation User Journey Map"
+	fontsize	= 16
+	size 		= "11x8"
+
+	graph  [ style="rounded, filled" fillcolor=grey80 fontname=Helvetica penwidth=0 ]
+	node   [ shape=box style=filled fillcolor=bisque fontname=Helvetica fontsize=16 height=1.2 width=3 ]
+	edge   [ minlen=2 arrowsize=1.2 fontname=Helvetica fontsize=12 fontcolor=grey40 ]
+
+	subgraph cluster_digital_channel {
+		label="Digital Channel"
+
+		browser [ label = "Web browser" ]
+	}
+
+	subgraph cluster_adp_digital_service {
+		label="ADP Digital Service"
+
+		sign_in [ label="Sign in\n\n/" ]
+
+		subgraph logged_in {
+			label="User logged in"
+			fillcolor=grey90
+
+			subgraph cluster_caseworker {
+				label="Caseworker"
+
+				claims [ label="Your allocated claims view\n\n/case_workers" shape="folder" ]
+				allocated_claim [ label="Allocated claim" ]
+				part_authorised_claim [ label="Part-authorised claim" ]
+				authorised_claim [ label="Authorised claim" ]
+				refused_claim [ label="Refused claim" ]
+				rejected_claim [ label="Rejected claim" ]
+				update_claim [ label="Update claim status\n\nVPV" fillcolor=darkolivegreen2 ]
+				account [ label="User account\n\n/case_workers/admin/case_workers/{id}" ]
+
+				account -> {
+					edit [ label="Edit" fillcolor=darkolivegreen2 ]
+					change_password [ label="Change password" fillcolor=darkolivegreen2 ]
+				}
+
+				archive [ label="Archive\n\n/advocates/claims/archived" ]
+				delete_archive [ label="Automatically\ndelete archive item"  fillcolor=indianred1 ]
+
+				subgraph cluster_caseworker_admin {
+					label="Admin"
+					fillcolor=grey80
+					penwidth=3
+					color=gray50
+					style="filled,dashed"
+
+					allocation [ label="Allocation\n\n/case_workers/admin/allocations" ]
+					reallocation [ label="Re-allocation\n\n/case_workers/admin/allocations?tab=allocated" ]
+					manage_caseworkers [ label="Manage caseworkers\n\n/case_workers/admin/case_workers" ]
+
+					# Admin connections
+					manage_caseworkers -> {
+						add_caseworker [ label="Add\n\n/case_workers/admin/case_workers/new" fillcolor=darkolivegreen2 ]
+						edit_caseworker [ label="Edit\n\n/case_workers/admin/case_workers/{id}/edit" fillcolor=darkolivegreen2 ]
+						delete_caseworker [ label="Delete\n\nVPV" fillcolor=indianred1 ]
+					}
+
+					allocation -> {
+						allocate_claim [ label="Allocate" fillcolor=darkolivegreen2 ]
+					}
+					reallocation -> {
+						reallocate_claim [ label="Re-allocate" fillcolor=darkolivegreen2 ]
+					}
+				}
+			}
+		}
+	}
+
+	browser -> sign_in -> claims -> allocated_claim -> update_claim
+
+	sign_in -> account
+
+	{ allocate_claim, reallocate_claim } -> allocated_claim
+
+	update_claim -> {
+		part_authorised_claim
+		authorised_claim
+		refused_claim
+		rejected_claim
+	} -> archive
+
+	archive -> delete_archive [ taillabel="After 16 weeks in archive" labeldistance="8" labelangle="75" ]
+}

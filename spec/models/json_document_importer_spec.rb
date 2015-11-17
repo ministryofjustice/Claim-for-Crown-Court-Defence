@@ -123,6 +123,7 @@ describe JsonDocumentImporter do
 
       context 'and collates errors' do
 
+        # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema: schema, api_key: 'test_key') }
 
         it 'one Claim model error from each of two claims' do
@@ -143,7 +144,7 @@ describe JsonDocumentImporter do
           expect(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).exactly(2).times # claim creation end point is hit and returns an error
           expect(JsonDocumentImporter::DEFENDANT_CREATION).not_to receive(:post) # defendant creation is, therefore, not hit
           subject.import!
-          expect(subject.errors).to eq({:claim_1=>[{"error"=>"Advocate email is invalid"}], :claim_2=>[{"error"=>"Advocate email is invalid"}]}) # claim model error is received and stored but no error is returned from defendant model
+          expect(subject.errors).to eq({:claim_1=>[{"error"=>"Advocate email is invalid"}], :claim_2=>[{"error"=>"Advocate email is invalid"}]}) # claim model errors are received and stored but no error is returned from defendant model
         end
       end
     end

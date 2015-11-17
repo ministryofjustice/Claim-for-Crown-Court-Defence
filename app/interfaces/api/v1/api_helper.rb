@@ -17,8 +17,8 @@ module API
 
       def self.authenticate_claim!(params)
         chamber  = authenticate_key!(params)
-        creator  = find_creator_by_email(params[:creator_email])
-        advocate = find_advocate_by_email(params[:advocate_email])
+        creator  = find_advocate_by_email(email: params[:creator_email], relation: 'Creator' )
+        advocate = find_advocate_by_email(email: params[:advocate_email], relation: 'Advocate')
 
         if creator.chamber != chamber || advocate.chamber != chamber
           raise API::V1::ArgumentError, 'Creator and advocate must belong to the chamber'
@@ -27,19 +27,10 @@ module API
         return { chamber: chamber, creator: creator, advocate: advocate }
       end
 
-      def self.find_advocate_by_email(email)
-        user = User.advocates.find_by(email: email)
+      def self.find_advocate_by_email(options = {})
+        user = User.advocates.find_by(email: options[:email])
         if user.blank?
-          raise API::V1::ArgumentError, 'Advocate email is invalid'
-        else
-          @advocate = user.persona
-        end
-      end
-
-      def self.find_creator_by_email(email)
-        user = User.advocates.find_by(email: email)
-        if user.blank?
-          raise API::V1::ArgumentError, 'Creator email is invalid'
+          raise API::V1::ArgumentError, "#{options[:relation]} email is invalid"
         else
           @advocate = user.persona
         end

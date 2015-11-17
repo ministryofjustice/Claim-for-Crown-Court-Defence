@@ -7,6 +7,13 @@ module Claims::Cloner
       nullify :last_submitted_at
       nullify :original_submission_date
       nullify :uuid
+      exclude_association :messages
+      exclude_association :case_worker_claims
+      exclude_association :case_workers
+      exclude_association :claim_state_transitions
+      exclude_association :versions
+      exclude_association :fees
+      exclude_association :expenses
       clone [:fees, :documents, :defendants, :expenses]
     end
 

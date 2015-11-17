@@ -53,6 +53,10 @@ Rails.application.routes.draw do
     get 'download_attachment', on: :member
   end
 
+  resources :messages, only: [:show] do
+    get 'control',to: 'messages#show_control', on: :member
+  end
+
   resources :offences, only: [:index], format: :js
   resources :case_types, only: [:show], format: :js
 

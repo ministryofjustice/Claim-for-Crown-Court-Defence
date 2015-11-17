@@ -1,13 +1,20 @@
 moj.Modules.Messaging = {
   init :function(){
-    this.cacheEls();
+    var self = this;
 
-    if(this.messagesList.length) {
-      this.messagesList.scrollTop(this.messagesList.prop('scrollHeight'));
+    self.cacheEls();
+
+    if(self.messagesList.length) {
+      self.messagesList.scrollTop(self.messagesList.prop('scrollHeight'));
     }
 
-    this.selectedFileUpload();
-    this.removeSelectedFile();
+    self.selectedFileUpload();
+    self.removeSelectedFile();
+
+    self.messageControls.on('change', ':radio',function() {
+      var data = $.param($('.new_message :radio').serializeArray());
+      $.getScript(self.messageControls.data('auth-url') + '?' + data);
+    });
   },
   /******************************
    rorData = Data object received from Ruby on Rails
@@ -25,8 +32,10 @@ moj.Modules.Messaging = {
 
       adpMsg.clearUserMessageBody();
       $('.no-messages').hide();
+      $('.file-to-be-uploaded').hide();
+      $('#message_attachment').val('');
       this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'));
-      //If there was an error
+    //If there was an error
     }else{
       $('.message-error').text(rorData.statusMessage);
       adpMsg.clearSuccessMsg();
@@ -71,10 +80,13 @@ moj.Modules.Messaging = {
    Upload button functionality
    ********************************/
   selectedFileUpload : function(){
-    $('#message_attachment').on('change',function(){
+    var self = this;
+
+    self.messageControls.on('change','#message_attachment', function(){
       var $element = $(this);
       var filename = $element.val().replace(/C:\\fakepath\\/i, '');
-      var $controls = $element.closest('.message-controls');
+      var $controls = self.messageControls;
+
       $controls.find('.filename').text(filename);
       $('.file-to-be-uploaded').show();
     });
@@ -83,7 +95,7 @@ moj.Modules.Messaging = {
    Remove selected file to be uploaded
    ********************************/
   removeSelectedFile : function(){
-    $('.file-to-be-uploaded').on('click', 'a',function(event){
+    this.messageControls.on('click', '.file-to-be-uploaded a',function(event){
       var $element = $(this);
 
       event.preventDefault();
@@ -94,5 +106,6 @@ moj.Modules.Messaging = {
 
   cacheEls: function(){
     this.messagesList = $('.messages-list');
+    this.messageControls = $('.message-controls');
   }
 };

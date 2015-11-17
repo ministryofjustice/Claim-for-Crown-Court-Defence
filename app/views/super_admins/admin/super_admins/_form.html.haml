@@ -1,9 +1,9 @@
-= form_for [:super_admins, :admin, @superadmin] do |f|
-  - if @superadmin.errors.any?
+= form_for [:super_admins, :admin, @super_admin] do |f|
+  - if @super_admin.errors.any?
     .validation-summary
-      %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@superadmin.errors.count, t('.error'))}"
+      %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@super_admin.errors.count, t('.error'))}"
       %ul
-        - @superadmin.errors._full_messages.each do |msg|
+        - @super_admin.errors._full_messages.each do |msg|
           %li= msg
 
   = f.fields_for :user do |user_fields|
@@ -17,4 +17,4 @@
       = user_fields.label t(".email_confirmation"), class: "form-label"
       = user_fields.email_field :email_confirmation, class: "form-control"
 
-  = f.submit 'Save', class: "button"
+  = f.submit t('.submit'), class: "button"

@@ -9,7 +9,7 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
   def edit; end
 
   def update
-    if @superadmin.update(superadmin_params)
+    if @super_admin.update(superadmin_params)
       redirect_to advocates_admin_advocates_url, notice: 'Super Administrator successfully updated'
     else
       render :edit
@@ -19,10 +19,10 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
   def change_password; end
 
   def update_password
-    user = @superadmin.user
+    user = @super_admin.user
     if user.update_with_password(password_params[:user_attributes])
       sign_in(user, bypass: true)
-      redirect_to super_admins_admin_super_admin_path(@superadmin), notice: 'Password successfully updated'
+      redirect_to super_admins_admin_super_admin_path(@super_admin), notice: 'Password successfully updated'
     else
       render :change_password
     end
@@ -31,12 +31,19 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
   private
 
   def set_super_admin
-    @superadmin = SuperAdmin.find(params[:id])
+    @super_admin = SuperAdmin.find(params[:id])
   end
 
   def superadmin_params
-    params.require(:superadmin).permit(
-     user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
+    params.require(:super_admin).permit(
+     user_attributes: [:id,
+                      :email,
+                      :email_confirmation,
+                      :password,
+                      :password_confirmation,
+                      :current_password,
+                      :first_name,
+                      :last_name]
     )
   end
 

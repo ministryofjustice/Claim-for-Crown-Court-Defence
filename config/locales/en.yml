@@ -36,7 +36,9 @@ en:
       delete: &delete 'Delete'
       remove: &remove 'Remove'
       view: &view 'View'
+      save: &save 'Save'
     models:
+      super_admin: &super_admin 'Super administrator'
       advocate: &advocate 'Advocate'
       case_worker: &case_worker 'Case worker'
     attributes:
@@ -52,6 +54,7 @@ en:
 
   activerecord:
     models:
+      super_admin: *super_admin
       advocate: *advocate
       case_worker: *case_worker
       claim: 'Claim'
@@ -153,6 +156,34 @@ en:
     remove_rep_order: Remove representation order
     start_claim: Start a new claim
     view_claim: View your claims
+
+# en.super_admins
+  super_admins:
+    admin:
+      super_admins:
+        show:
+          super_admins: 'Super administrators'
+          add_super_admin: 'Add Super administrator'
+          edit: *edit
+        edit:
+          edit_super_admin: 'Edit advocate'
+        form:
+          error: 'error'
+          prohibited_save: 'This Super administrator has'
+          email: *email
+          email_confirmation: *email_confirmation
+          password: *password
+          password_confirmation: *password_confirmation
+          first_name: *first_name
+          last_name: *last_name
+          submit: *save
+        change_password:
+          error: 'error'
+          prohibited_save: 'This super administrator password change has'
+          current_password: Current password
+          password: *password
+          password_confirmation: *password_confirmation
+          submit: 'Change password'
 
 # en.advocates
   advocates:

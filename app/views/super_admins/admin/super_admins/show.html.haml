@@ -1,14 +1,14 @@
 %h1.page-title Manage super administrators
 
 %h2
-  = @superadmin.email
+  = @super_admin.email
 
 %p
   Name:
-  = @superadmin.name
+  = @super_admin.name
 
-- if can? :edit, @superadmin
-  = link_to 'Edit', edit_super_admins_admin_super_admin_path(@superadmin), class: 'button'
+- if can? :edit, @super_admin
+  = link_to 'Edit', edit_super_admins_admin_super_admin_path(@super_admin), class: 'button'
 
-- if can? :change_password, @superadmin
-  = link_to 'Change password', change_password_super_admins_admin_super_admin_path(@superadmin), class: 'button'
+- if can? :change_password, @super_admin
+  = link_to 'Change password', change_password_super_admins_admin_super_admin_path(@super_admin), class: 'button'

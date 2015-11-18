@@ -15,7 +15,7 @@ class SuperAdmins::ChambersController < ApplicationController
   def create
     @chamber = Chamber.new(chamber_params)
     if @chamber.save
-      redirect_to super_admins_root_path
+      redirect_to super_admins_root_path, notice: 'Chamber successfully created'
     else
       render :new
     end

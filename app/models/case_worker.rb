@@ -81,7 +81,6 @@ class CaseWorker < ActiveRecord::Base
     self.days_worked.map(&:class).uniq == [ Fixnum ] && days_worked_valid_values?
   end
 
-
   def days_worked_valid_values?
     uniqs = self.days_worked.uniq.sort
     uniqs == [1] || uniqs == [0, 1] || uniqs == [0]

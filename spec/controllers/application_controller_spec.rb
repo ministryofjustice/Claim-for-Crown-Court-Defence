@@ -12,7 +12,7 @@ RSpec.describe ApplicationController, type: :controller do
       before { sign_in super_admin.user }
 
       it 'returns super admins root url' do
-        expect(subject.after_sign_in_path_for(super_admin.user)).to eq(super_admin_root_url)
+        expect(subject.after_sign_in_path_for(super_admin.user)).to eq(super_admins_root_url)
       end
 
     end

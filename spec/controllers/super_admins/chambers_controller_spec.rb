@@ -4,9 +4,10 @@ RSpec.describe SuperAdmins::ChambersController, type: :controller do
 
   let(:super_admin) { create(:super_admin) }
   let(:params)      { {name: 'St Johns', supplier_number: '4321'} }
-  let(:chambers)    { FactoryGirl.create_list(:chamber, 5) }
+  let(:chambers)    { create_list(:chamber, 5) }
+  let(:chamber)     { create(:chamber) }
 
-  subject { FactoryGirl.create(:chamber) }
+  subject { chamber }
 
   before { sign_in super_admin.user }
 
@@ -18,7 +19,7 @@ RSpec.describe SuperAdmins::ChambersController, type: :controller do
     end
 
     it 'assigns @chamber' do
-      expect(assigns(:chamber)).to subject
+      expect(assigns(:chamber)).to eql(subject)
     end
   end
 
@@ -29,8 +30,10 @@ RSpec.describe SuperAdmins::ChambersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @chambers' do
-      expect(assigns(:chambers)).to chambers
+    it 'assigns @chambers to ALL chambers' do
+      chambers.each do |chamber|
+        expect(assigns(:chambers)).to include(chamber)
+      end
     end
 
   end
@@ -52,8 +55,8 @@ RSpec.describe SuperAdmins::ChambersController, type: :controller do
       post :create, chamber: params
     end
 
-    it "creates a new chmaber" do
-      expect(flash[:success]).to eq 'Chamber created'
+    it "creates a new chamber" do
+      expect(flash[:notice]).to eq 'Chamber successfully created'
     end
 
     it 'redirects to index' do

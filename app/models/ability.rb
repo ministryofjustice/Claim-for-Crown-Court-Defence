@@ -6,13 +6,17 @@ class Ability
 
     persona = user.persona
 
-    can [:create, :download_attachment], Message
-    can [:index, :update], UserMessageStatus
-
     if persona.is_a? SuperAdmin
       can [:show, :index, :new, :create, :edit, :update], Chamber
       can [:show, :edit, :update, :change_password, :update_password], SuperAdmin, id: persona.id
-    elsif persona.is_a? Advocate
+      return
+    end
+
+    # applies to all advocates and case workers
+    can [:create, :download_attachment], Message
+    can [:index, :update], UserMessageStatus
+
+    if persona.is_a? Advocate
       if persona.admin?
         can [:create], ClaimIntention
         can [:show, :edit, :update, :regenerate_api_key], Chamber, id: persona.chamber_id

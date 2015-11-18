@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
  authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
-    root to: 'super_admin/chambers#index', as: :super_admins_home
+    root to: 'super_admins/chambers#index', as: :super_admins_home
   end
 
   devise_scope :user do

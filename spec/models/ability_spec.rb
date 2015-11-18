@@ -285,4 +285,33 @@ describe Ability do
       end
     end
   end
+
+  context 'super admin' do
+
+    let(:super_admin)       { create(:super_admin) }
+    let(:user)              { super_admin.user }
+    let(:other_super_admin) { create(:super_admin) }
+    let(:chamber)           { create(:chamber) }
+
+     context 'can manage any chamber' do
+      [:show, :index, :new, :create, :edit, :update].each do |action|
+        it { should be_able_to(action, chamber) }
+      end
+    end
+
+    context 'can view and change own details' do
+      [:show, :edit, :update, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, super_admin) }
+      end
+    end
+
+    context 'cannot view or change other super admins details' do
+      [:show, :edit, :update, :change_password, :update_password].each do |action|
+        it { should_not be_able_to(action, other_super_admin) }
+      end
+    end
+
+  end
+
+
 end

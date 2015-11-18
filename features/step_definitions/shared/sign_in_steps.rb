@@ -10,6 +10,8 @@ def make_accounts(role, number = 1)
       @case_workers = create_list(:case_worker, number)
     when 'case worker admin'
       create(:case_worker, :admin)
+    when 'super admin'
+      @super_admin = create(:super_admin)
   end
 end
 

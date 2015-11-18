@@ -1,6 +1,9 @@
 - if user_signed_in?
   %nav#primary-nav{:role =>'navigation'}
-    - if current_user.persona.is_a?(Advocate)
+    - if current_user.persona.is_a?(SuperAdmin)
+      = link_to 'Manage chambers', super_admins_chambers_path, class: cp(super_admins_chambers_path)
+      = link_to 'Add a chamber', new_super_admins_chamber_path, class: cp(new_super_admins_chamber_path)
+    - elsif current_user.persona.is_a?(Advocate)
       = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", advocates_root_path, class: cp(advocates_root_path)
       = link_to "Archive", archived_advocates_claims_path, title: "View archived claims", class: cp(archived_advocates_claims_path)
       - if Rails.host.api_sandbox?

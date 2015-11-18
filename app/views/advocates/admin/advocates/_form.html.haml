@@ -16,7 +16,7 @@
       = user_fields.email_field :email, class: "form-control"
       = user_fields.label t(".email_confirmation"), class: "form-label"
       = user_fields.email_field :email_confirmation, class: "form-control"
-      
+
       = f.label :apply_vat, class: "form-label"
       %div.form-group.inline
         =f.collection_radio_buttons(:apply_vat, [true, false], :to_s, :to_s) do |b|

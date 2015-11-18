@@ -35,10 +35,13 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for_superadmin
+    super_admins_root_url
+  end
+
   def after_sign_in_path_for_advocate
     advocates_root_url
   end
-
 
   def after_sign_in_path_for_caseworker
     case current_user.persona.role

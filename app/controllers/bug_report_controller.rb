@@ -26,7 +26,6 @@ class BugReportController < ApplicationController
 
   def after_create_url
     if current_user
-      #byebug
       root_path_url_for_user
     else
       new_user_session_url

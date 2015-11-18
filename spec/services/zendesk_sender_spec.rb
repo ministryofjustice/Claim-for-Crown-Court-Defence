@@ -6,10 +6,11 @@ RSpec.describe ZendeskSender do
   subject { ZendeskSender.new(ticket_payload) }
 
   before(:each) do
-    stub_request(:post, "https://ministryofjustice.zendesk.com/api/v2/tickets").with(
-        :body => "{\"ticket\":{\"subject\":\"Bug report\",\"description\":\"event - outcome - email address\",\"custom_fields\":[{\"id\":\"26047167\",\"value\":\"/claims\"},{\"id\":\"23757677\",\"value\":\"advocate_defence_payments\"},{\"id\":\"23791776\",\"value\":\"chrome\"}]}}",
+    stub_request(:post, %r{\Ahttps://.*ministryofjustice.zendesk.com/api/v2/tickets\z}).
+            with(
+              :body => "{\"ticket\":{\"subject\":\"Bug report\",\"description\":\"event - outcome - email address\",\"custom_fields\":[{\"id\":\"26047167\",\"value\":\"/claims\"},{\"id\":\"23757677\",\"value\":\"advocate_defence_payments\"},{\"id\":\"23791776\",\"value\":\"chrome\"}]}}",
               :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'ZendeskAPI Ruby 1.12.1'}).
-         to_return(:status => 201, :body => "", :headers => {})
+            to_return(:status => 201, :body => "", :headers => {})
   end
 
   describe '.send!' do
@@ -30,7 +31,6 @@ RSpec.describe ZendeskSender do
         expect(ticket_payload).to receive(:description)
         expect(ticket_payload).to receive(:referrer)
         expect(ticket_payload).to receive(:user_agent)
-        require 'pry'; binding.pry
         subject.send!
       end
     end

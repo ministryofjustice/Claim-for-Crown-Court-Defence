@@ -5,11 +5,11 @@
   %table.chambers_table
     %thead
       %th
-        = 'Supplier number'
+        = t('.supplier_number')
       %th
-        = 'Name'
+        = t('.chamber_name')
       %th
-        = 'VAT registered'
+        = t('.vat_registered')
     %tbody
       - chambers.each do |chamber|
         %tr{id: dom_id(chamber) }

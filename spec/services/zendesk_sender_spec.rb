@@ -30,6 +30,7 @@ RSpec.describe ZendeskSender do
         expect(ticket_payload).to receive(:description)
         expect(ticket_payload).to receive(:referrer)
         expect(ticket_payload).to receive(:user_agent)
+        require 'pry'; binding.pry
         subject.send!
       end
     end

@@ -37,3 +37,10 @@ Feature: Sign in
       And I enter my email and the wrong password 3 times
      Then I should no longer be able to sign in
      When the 10 minute lockout duration has expired then I should be able to sign in again
+
+  Scenario: Sign in as a super admin
+    Given a "super admin" user account exists
+     When I visit the user sign in page
+      And I enter my email, password and click sign in
+     Then I should be redirected to the "super admins" root url
+      And I should see the superadmins correct working primary navigation

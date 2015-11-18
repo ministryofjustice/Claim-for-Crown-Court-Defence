@@ -293,9 +293,15 @@ describe Ability do
     let(:other_super_admin) { create(:super_admin) }
     let(:chamber)           { create(:chamber) }
 
-     context 'can manage any chamber' do
+    context 'can manage any chamber' do
       [:show, :index, :new, :create, :edit, :update].each do |action|
         it { should be_able_to(action, chamber) }
+      end
+    end
+
+    context 'cannot destroy chambers' do
+      [:destroy].each do |action|
+        it { should_not be_able_to(action, chamber) }
       end
     end
 

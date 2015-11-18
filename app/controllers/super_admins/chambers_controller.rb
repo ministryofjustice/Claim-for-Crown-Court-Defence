@@ -1,8 +1,9 @@
 class SuperAdmins::ChambersController < ApplicationController
 
-  def show
-    @chamber = Chamber.find(params[:id])
-  end
+
+  before_action :set_chamber, only: [:show, :edit, :update]
+
+  def show; end
 
   def index
     @chambers = Chamber.all
@@ -10,6 +11,16 @@ class SuperAdmins::ChambersController < ApplicationController
 
   def new
     @chamber = Chamber.new
+  end
+
+  def edit; end
+
+  def update
+    if @chamber.update(chamber_params)
+     redirect_to super_admins_chamber_path(@chamber), notice: 'Chamber successfully updated'
+    else
+      render :edit
+    end
   end
 
   def create
@@ -29,6 +40,10 @@ private
       :supplier_number,
       :vat_registered
       )
+  end
+
+  def set_chamber
+    @chamber = Chamber.find(params[:id])
   end
 
 end

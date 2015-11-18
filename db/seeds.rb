@@ -1,3 +1,5 @@
+
+# TODO: add super_admins once env vars available in deployed environments
 %w(
   case_types
   offence_classes
@@ -8,7 +10,6 @@
   locations
   case_workers
   advocates
-  super_admins
   courts
   chambers
   vat_rates

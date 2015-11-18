@@ -14,7 +14,7 @@ class DocType
     DocType.new(2,  200,  'LAC1 - memo of conviction'),
     DocType.new(3,  300,  'Committal bundle front sheet(s)'),
     DocType.new(4,  400,  'A copy of the indictment'),
-    DocType.new(5,  500,  'Order in respect of Judicial appointment'),
+    DocType.new(5,  500,  'Order in respect of judicial apportionment'),
     DocType.new(6,  600,  'Expenses invoices'),
     DocType.new(7,  700,  'Hardship supporting evidence'),
     DocType.new(8,  700,  'Details of previous fee advancements'),

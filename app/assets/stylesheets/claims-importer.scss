@@ -44,6 +44,10 @@
 .importer-results {
   .results-body {
     padding: 20px;
+
+    & + .results-body {
+      margin-top: 10px;
+    }
   }
 
   ul {

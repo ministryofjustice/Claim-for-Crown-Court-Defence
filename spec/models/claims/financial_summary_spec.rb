@@ -8,18 +8,25 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     # TODO should not rely on values in factory which may change
     let!(:submitted_claim)  { create(:submitted_claim,) }
     let!(:allocated_claim)  { create(:allocated_claim,) }
+
     let!(:old_part_authorised_claim) do
-      Timecop.freeze(Time.now - 1.week) do
+      Timecop.freeze(Time.now - 2.week) do
         claim = create(:part_authorised_claim)
-        create(:assessment, claim: claim, fees: claim.fees_total/2, expenses: claim.expenses_total)
-        claim
+        Timecop.freeze(Time.now + 1.week) do
+          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+          claim
+        end
       end
     end
 
     let!(:part_authorised_claim) do
-      claim = create(:part_authorised_claim)
-      create(:assessment, claim: claim, fees: claim.fees_total/2, expenses: claim.expenses_total)
-      claim
+      Timecop.freeze(Time.now - 2.week) do
+        claim = create(:part_authorised_claim)
+        Timecop.freeze(Time.now + 2.week) do
+          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+          claim
+        end
+      end
     end
 
     let!(:authorised_claim) do
@@ -51,7 +58,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
-          expect(summary.total_outstanding_claim_value).to eq(58.76)
+          expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + submitted_claim.vat_amount + allocated_claim.total + allocated_claim.vat_amount)
         end
       end
 
@@ -62,7 +69,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
         end
 
         it 'calculates the value of authorised claims since the beginning of the week' do
-          expect(summary.total_authorised_claim_value).to eq(44.07)
+          expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
       end
     end
@@ -80,14 +87,14 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
-          expect(summary.total_outstanding_claim_value).to eq(50.00)
+          expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + allocated_claim.total)
         end
       end
 
       describe '#total_authorised_claim_value' do
 
         it 'calculates the value of authorised claims since the beginning of the week' do
-          expect(summary.total_authorised_claim_value).to eq(37.5)
+          expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
       end
     end
@@ -137,13 +144,13 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
-          expect(summary.total_outstanding_claim_value).to eq(58.76)
+          expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + submitted_claim.vat_amount + allocated_claim.total + allocated_claim.vat_amount)
         end
       end
 
       describe '#total_authorised_claim_value' do
         it 'calculates the value of authorised claims' do
-          expect(summary.total_authorised_claim_value).to eq(118.14)
+          expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
       end
     end
@@ -159,11 +166,11 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       end
 
       it 'calculates the value of outstanding claims' do
-        expect(summary.total_outstanding_claim_value).to eq(50.0)
+        expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + allocated_claim.total)
       end
 
       it 'calculates the value of authorised claims' do
-        expect(summary.total_authorised_claim_value).to eq(100.54)
+        expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
       end
 
       describe '#outstanding_claims' do

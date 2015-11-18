@@ -115,9 +115,11 @@ class JsonTemplate
 
     def snake_case_keys(hash)
       hash.keys.each do |key|
-        hash[key.to_s.underscore] = hash.delete(key)
-        snake_case_keys(hash[key.to_s.underscore]) if hash[key.to_s.underscore].is_a? Hash
-        snake_case_keys(hash[key.to_s.underscore][0]) if hash[key.to_s.underscore].is_a? Array
+        new_key = key.to_s.underscore
+        value = hash.delete(key)
+        hash[new_key] = value
+        snake_case_keys(hash[new_key]) if hash[new_key].is_a? Hash
+        snake_case_keys(hash[new_key].first) if hash[new_key].is_a? Array
       end
     end
 
@@ -125,9 +127,9 @@ class JsonTemplate
       hash.keys.each do |key|
         if hash[key].is_a? Hash
           pluralize_keys_pointing_to_arrays(hash[key])
-        elsif hash[key].class == Array
+        elsif hash[key].is_a? Array
           hash[key.pluralize] = hash.delete(key)
-          pluralize_keys_pointing_to_arrays(hash[key.pluralize][0])
+          pluralize_keys_pointing_to_arrays(hash[key.pluralize].first)
         end
       end
     end

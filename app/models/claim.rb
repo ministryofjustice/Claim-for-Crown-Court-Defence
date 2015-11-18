@@ -240,6 +240,10 @@ class Claim < ActiveRecord::Base
     draft?
   end
 
+  def archivable?
+    VALID_STATES_FOR_ARCHIVAL.include?(self.state)
+  end
+
   def perform_validation?
     self.force_validation? || self.validation_required?
   end

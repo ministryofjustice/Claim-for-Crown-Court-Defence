@@ -9,7 +9,7 @@ class Claims::FinancialSummary
 
   def authorised_claims
     @context.claims.any_authorised.joins(:determinations)
-      .where('determinations.created_at >= ?', Time.now.beginning_of_week).group('claims.id')
+      .where('determinations.updated_at >= ?', Time.now.beginning_of_week).group('claims.id')
   end
 
   def total_outstanding_claim_value

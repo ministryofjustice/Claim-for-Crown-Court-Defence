@@ -2,7 +2,7 @@ if User.find_by(email: 'superadmin@example.com').blank?
   user = User.create!(
     first_name: 'Adam',
     last_name: 'Smith',
-    email: 'superadmin@example.com',
+    email: ENV['SUPERADMIN_USERNAME'],
     password: ENV['SUPERADMIN_PASSWORD'],
     password_confirmation: ENV['SUPERADMIN_PASSWORD']
   )

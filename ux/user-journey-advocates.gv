@@ -1,0 +1,153 @@
+digraph ADP_Advocate_Journey {
+	compound 	= true
+	labelloc 	= t
+	ordering 	= out
+	splines 	= ortho
+	nodesep		= .7
+	ranksep 	= .5
+
+	label 		= "Advocate Defence Payments - Advocate User Journey Map"
+	fontsize	= 16
+	size 		= "11x8"
+
+	graph  [ style="rounded, filled" fillcolor=grey80 fontname=Helvetica penwidth=0 fontsize=18 ]
+	node   [ shape=box style=filled fillcolor=bisque fontname=Helvetica fontsize=16 height=1.2 width=3 ]
+	edge   [ minlen=2 arrowsize=1.5 fontname=Helvetica fontsize=12 fontcolor=grey40 ]
+
+	subgraph cluster_digital_channel {
+		label="Digital Channel"
+
+		browser [ label = "Web browser" ]
+	}
+
+	subgraph cluster_adp_digital_service {
+		label="ADP Digital Service"
+
+		sign_in [ label="Sign in\n\n/" ]
+
+		# Advocate user
+		subgraph cluster_advocate {
+			label="Advocate"
+			fillcolor=grey90
+
+			new_claim [ label="New claim(s)" shape=diamond fillcolor=white ]
+			start_claim [ label="Start claim\n\n/advocates/claims/new" fillcolor=darkolivegreen2 ]
+			edit_claim [ label="Edit claim\n\n/advocates/claims/{id}/edit" fillcolor=darkolivegreen2 ]
+			import_claims [ label="Import claims\n\nVPV" fillcolor=darkolivegreen2 ]
+
+			claims [ label="Your claims view\n\n/advocates" shape="folder" ]
+			outstanding_claims [ label="Outstanding claims\n\n/advocates/claims/outstanding" shape=folder ]
+			authorised_claims [ label="Authorised claims\n\n/advocates/claims/authorised" shape=folder ]
+			archive [ label="Archive\n\n/advocates/claims/archived" ]
+			delete_archive [ label="Automatically\ndelete archive item"  fillcolor=indianred1 ]
+
+			account [ label="User account\n\n/advocates/admin/advocates/{id}" ]
+
+			account -> {
+				edit [ label="Edit" fillcolor=darkolivegreen2 ]
+				change_password [ label="Change password" fillcolor=darkolivegreen2 ]
+			}
+
+			subgraph cluster_claim_submission {
+				label="Claim submission"
+				penwidth=1
+				fillcolor=grey80
+				style="filled,dotted"
+
+				certification [ label="Certification\n\n/advocates/claims/{id}/certification/new" fillcolor=lightcyan2 ]
+				confirmation [ label="Confirmation\n\n/advocates/claims/{id}/confirmation" fillcolor=lightcyan2 ]
+			}
+
+			# Claim cluster
+			subgraph cluster_individual_claim {
+				node [ fillcolor=antiquewhite ]
+				penwidth=1
+				label="Individual claim"
+				style=filled
+				fillcolor=bisque
+				color=black
+
+				submitted_claim [ label="Submitted" ]
+				authorised_claim [ label="Authorised" ]
+				refused_claim [ label="Refused" ]
+				rejected_claim [ label="Rejected" ]
+				part_authorised_claim [ label="Part-authorised" ]
+				draft_claim [ label="Draft claim" ]
+				create_draft [ label="Create draft\n\nVPV" ]
+
+				delete_claim [ label="Delete claim\n\nVPV" fillcolor=indianred1 ]
+				update_claim_status [ label="Redetermine claim status\n\nVPV" fillcolor=darkolivegreen2 ]
+			}
+
+			# Advocate admin
+			subgraph cluster_advocate_admin {
+				label="Admin"
+				penwidth=3
+				fillcolor=grey80
+				color=gray50
+				style="filled,dotted"
+
+				manage_advocates [ label="Manage advocates\n\n/advocates/admin/advocates" ]
+				manage_chamber [ label="Manage chamber\n\n/advocates/admin/chambers/{id}" ]
+
+				# Admin connections
+				manage_advocates -> {
+					add_advocate [ label="Add\n\n/advocates/admin/advocates/new" fillcolor=darkolivegreen2 ]
+					edit_advocate [ label="Edit\n\n/advocates/admin/advocates/{id}/edit" fillcolor=darkolivegreen2 ]
+					delete_advocate [ label="Delete\n\nVPV" fillcolor=indianred1 ]
+				}
+
+				manage_chamber -> {
+					edit_chamber [ label="Edit\n\n/advocates/admin/chambers/{id}/edit" fillcolor=darkolivegreen2 ]
+					generate_api_key [ label="Generate\n\nVPV" fillcolor=darkolivegreen2 ]
+				}
+			}
+		}
+	}
+
+	# Advocate connections
+
+	browser -> sign_in -> {
+		new_claim
+		claims
+		archive
+		account
+	}
+
+	claims -> {
+		outstanding_claims
+		authorised_claims
+	}
+
+	claims -> archive [ taillabel="Archived after 8 weeks" labeldistance="7" labelangle="72"]
+
+	claims -> submitted_claim [ lhead=cluster_individual_claim ]
+	archive -> refused_claim [ lhead=cluster_individual_claim ]
+
+	archive -> delete_archive [ taillabel="After 8 weeks in archive" labeldistance="9" labelangle="65" ]
+
+	outstanding_claims -> submitted_claim
+	authorised_claims -> authorised_claim
+
+	rejected_claim -> create_draft -> start_claim
+
+
+	{
+		refused_claim
+		rejected_claim
+		part_authorised_claim
+	} -> update_claim_status
+
+	new_claim -> { import_claims, start_claim }
+
+	import_claims -> claims [ taillabel="Create drafts" labeldistance="5" labelangle="-70" ]
+
+	{ start_claim, edit_claim } -> certification -> confirmation -> {
+		start_claim
+		claims
+	}
+
+	start_claim -> draft_claim
+
+	draft_claim -> { edit_claim, delete_claim }
+}

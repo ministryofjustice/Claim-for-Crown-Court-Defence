@@ -1,19 +1,19 @@
 %div.grid-row.claim-header
   %div.column-third
     %span.normal
-      = "Case number:"
+      = 'Case number:'
     %div.bold-xlarge
       = claim.case_number.blank? ? 'not-provided' : claim.case_number
   %div.column-two-thirds
     %div.left
       %span.normal
-        = "Status:"
+        = 'Status:'
       %div{class: "medium status #{claim.state}"}
         = claim.state.humanize
     - if current_user.persona.is_a?(CaseWorker)
       %div.right
         %span.normal
-          = "Other claims:"
+          = 'Other claims:'
         %div.normal.other-claims
           - if claim_ids.present? && claim_ids.include?(@claim.id)
             = claim_position_and_count
@@ -22,10 +22,12 @@
     - if current_user.persona.is_a?(Advocate)
       - if claim.editable?
         %div.right
-          = link_to "Edit this claim", edit_advocates_claim_path(claim), class: 'button'
-          = link_to "Delete draft", advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
-      - if claim.rejected?
+          = link_to 'Edit this claim', edit_advocates_claim_path(claim), class: 'button'
+          = link_to 'Delete draft', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
+      - if claim.archivable?
         %div.right
-          = button_to 'Create draft and resubmit', clone_rejected_advocates_claim_path(claim), method: 'patch', class: 'button'
+          - if claim.rejected?
+            = button_to 'Create draft and resubmit', clone_rejected_advocates_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
+          = link_to 'Archive', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
 %div.bold-medium.claim-detail-header
-  = "Claim details"
+  = 'Claim details'

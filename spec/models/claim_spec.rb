@@ -664,6 +664,22 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  describe '#archivable?' do
+    it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
+      %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
+        claim = create("#{state}_claim".to_sym)
+        expect(claim.archivable?).to eq(false)
+      end
+    end
+
+    it 'should be archivable from states: refused, rejected, part authorised, authorised' do
+      %w( refused rejected part_authorised authorised ).each do |state|
+        claim = create("#{state}_claim".to_sym)
+        expect(claim.archivable?).to eq(true)
+      end
+    end
+  end
+
   describe '#validation_required?' do
 
     let(:claim) { FactoryGirl.create(:claim, source: 'web') }

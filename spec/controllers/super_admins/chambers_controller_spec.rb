@@ -38,6 +38,49 @@ RSpec.describe SuperAdmins::ChambersController, type: :controller do
 
   end
 
+  describe "GET #edit" do
+    before { get :edit, id: subject}
+
+    it "returns http success" do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns @chamber' do
+      expect(assigns(:chamber)).to eql(subject)
+    end
+
+  end
+
+  describe "PUT #update" do
+    before { subject.update(supplier_number: 'AB123') }
+
+    context 'when valid' do
+      before(:each) { put :update, id: subject, chamber: { supplier_number: 'XY123' } }
+
+      it 'updates successfully' do
+        subject.reload
+        expect(subject.reload.supplier_number).to eq('XY123')
+      end
+
+      it 'redirects to chambers show page' do
+        expect(response).to redirect_to(super_admins_chamber_path(subject))
+      end
+    end
+
+    context 'when invalid' do
+      before(:each) { put :update, id: subject, chamber: { supplier_number: '' } }
+
+      it 'does not update chamber' do
+        subject.reload
+        expect(subject.supplier_number).to eq('AB123')
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
   describe "GET #new" do
     before { get :new }
 

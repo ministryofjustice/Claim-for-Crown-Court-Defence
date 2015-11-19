@@ -20,7 +20,8 @@ private
       'authorised'                    => {"CaseWorker" => "Claim authorised",              "Advocate" => "Your claim has been authorised"},
       'part_authorised'               => {"CaseWorker" => "Claim part authorised",         "Advocate" => "Your claim has been part-authorised"},
       'rejected'                      => {"CaseWorker" => "Claim rejected",                "Advocate" => "Your claim has been rejected"},
-      'refused'                       => {"CaseWorker" => "Claim refused",                 "Advocate" => "Your claim has been refused"}
+      'refused'                       => {"CaseWorker" => "Claim refused",                 "Advocate" => "Your claim has been refused"},
+      'archived_pending_delete'       => {"CaseWorker" => "Claim archived",                "Advocate" => "Your claim has been archived"}
     }
   end
 

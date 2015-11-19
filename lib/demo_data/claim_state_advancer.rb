@@ -24,8 +24,6 @@ module DemoData
     end
 
     def advance_to(desired_state)
-      puts "DESIRED STATE"
-      p desired_state
       transition_methods = TRANSITION_METHODS[desired_state]
       transition_methods.each do |method|
         send(method, @claim)

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception unless ENV['DISABLE_CSRF'] == '1'
 
   helper_method :current_user_messages_count
+  helper_method :signed_in_user_profile_path
 
   load_and_authorize_resource
 
@@ -17,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path_url_for_user, alert: 'Unauthorised'
+  end
+
+  def signed_in_user_profile_path
+    eval("#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path(#{current_user.persona_id})")
   end
 
   def root_path_url_for_user

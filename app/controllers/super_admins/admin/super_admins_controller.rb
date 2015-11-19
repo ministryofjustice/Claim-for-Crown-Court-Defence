@@ -18,16 +18,7 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
 
   def change_password; end
 
-  def update_password
-    user = @super_admin.user
-
-    if user.update_with_password(password_params[:user_attributes])
-      sign_in(user, bypass: true)
-      redirect_to super_admins_admin_super_admin_path(@super_admin), notice: 'Password successfully updated'
-    else
-      render :change_password
-    end
-  end
+  # NOTE: update_password in PasswordHelper
 
   private
 

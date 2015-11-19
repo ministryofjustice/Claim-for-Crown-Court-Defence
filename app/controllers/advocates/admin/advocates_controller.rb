@@ -38,15 +38,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
     end
   end
 
-  def update_password
-    user = @advocate.user
-    if user.update_with_password(password_params[:user_attributes])
-      sign_in(user, bypass: true)
-      redirect_to advocates_admin_advocate_path(@advocate), notice: 'Password successfully updated'
-    else
-      render :change_password
-    end
-  end
+  # NOTE: update_password in PasswordHelper
 
   def destroy
     @advocate.destroy

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115214327) do
+ActiveRecord::Schema.define(version: 20151119175237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,7 +240,7 @@ ActiveRecord::Schema.define(version: 20151115214327) do
     t.integer  "expense_type_id"
     t.integer  "claim_id"
     t.string   "location"
-    t.integer  "quantity"
+    t.float    "quantity"
     t.decimal  "rate"
     t.decimal  "amount"
     t.datetime "created_at"

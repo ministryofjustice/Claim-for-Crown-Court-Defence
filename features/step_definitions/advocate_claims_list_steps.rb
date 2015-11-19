@@ -49,7 +49,7 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   claims.each do |claim|
     claim.update_column(:advocate_id, advocate.id)
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
-    if claim.state == 'completed'
+    if claim.state == 'authorised'
       claim.assessment.update(fees: claim.total)
     elsif claim.state == 'part_authorised'
       claim.assessment.update(fees: claim.total / 2)     # arbitrarily authorise half the total for part-authorised
@@ -58,7 +58,6 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
 end
 
 Given(/^my chamber has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number, state, advocate_name|
-
   # add advocate to my chamber
   advocate = create_advocate_with_full_name(advocate_name)
   chamber = @advocate.chamber

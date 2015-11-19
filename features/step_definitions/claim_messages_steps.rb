@@ -41,3 +41,17 @@ Given(/^I have a submitted claim with messages$/) do
   @messages = create_list(:message, 5, claim_id: @claim.id)
   @messages.each { |m| m.update_column(:sender_id, create(:advocate).user.id) }
 end
+
+When(/^I edit the claim and save to draft$/) do
+  claim = Claim.last
+  visit "/advocates/claims/#{claim.id}/edit"
+  click_on 'Save to drafts'
+end
+
+Then(/^I should not see any dates in the message history field$/) do
+  expect(page.all('div.event-date').count).to eq 0
+end
+
+Then(/^I should see 'no messages found' in the claim history$/) do
+  expect(page).to have_content('No messages found')
+end

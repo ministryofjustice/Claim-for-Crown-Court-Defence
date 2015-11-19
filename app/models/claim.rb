@@ -89,7 +89,7 @@ class Claim < ActiveRecord::Base
 
   has_one  :certification
 
-  has_paper_trail on: [:update], ignore: [:created_at, :updated_at, :original_submission_date, :last_submitted_at, :evidence_checklist_ids]
+  has_paper_trail on: [:update], only: [:state]
 
   # advocate-relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }

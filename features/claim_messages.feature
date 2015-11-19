@@ -16,6 +16,18 @@ Feature: Claim messages
       And I leave a message
      Then I should see my message at the bottom of the message list
 
+  Scenario: Only updates to state are tracked by papertrail
+    Given I am a signed in advocate
+      And There are case types in place
+      And I am on the new claim page
+      And I fill in the claim details
+      And I save to drafts
+    When I edit the claim and save to draft
+      And I view the claim
+    Then I should not see any dates in the message history field
+      And I should see 'no messages found' in the claim history
+
+
   Scenario: View messages as an advocate
     Given I am a signed in advocate
       And I have a submitted claim with messages

@@ -40,6 +40,6 @@ module DocumentAttachment
   end
 
   def add_converted_preview_document
-    self.converted_preview_document = self.pdf_tmpfile
+    self.converted_preview_document = self.pdf_tmpfile if self.converted_preview_document_file_name.nil?
   end
 end

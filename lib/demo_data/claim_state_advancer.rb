@@ -4,13 +4,15 @@ module DemoData
   class ClaimStateAdvancer
 
     TRANSITION_METHODS = {
-      'draft'            => [],
-      'submitted'        => [ :submit ],
-      'allocated'        => [ :submit, :allocate ],
-      'rejected'         => [ :submit, :allocate, :reject ],
-      'part_authorised'  => [ :submit, :allocate, :authorise_part],
-      'authorised'       => [ :submit, :allocate, :authorise],
-      'refused'          => [ :submit, :allocate, :refuse ]
+      'draft'                     => [],
+      'submitted'                 => [ :submit ],
+      'allocated'                 => [ :submit, :allocate ],
+      'rejected'                  => [ :submit, :allocate, :reject ],
+      'part_authorised'           => [ :submit, :allocate, :authorise_part],
+      'authorised'                => [ :submit, :allocate, :authorise],
+      'refused'                   => [ :submit, :allocate, :refuse ],
+      'redetermination'           => [ :submit, :allocate, :authorise, :redetermine ],
+      'awaiting_written_reasons'  => [ :submit, :allocate, :authorise, :await_written_reasons ]
     }
 
 
@@ -18,9 +20,12 @@ module DemoData
     def initialize(claim)
       @claim                = claim
       @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").map(&:persona).sample
+      @advocate             = User.where("email like '%example.com' and  persona_type = 'Advocate'").map(&:persona).sample
     end
 
     def advance_to(desired_state)
+      puts "DESIRED STATE"
+      p desired_state
       transition_methods = TRANSITION_METHODS[desired_state]
       transition_methods.each do |method|
         send(method, @claim)
@@ -75,6 +80,16 @@ module DemoData
     def refuse(claim)
       add_message(claim, @case_worker)
       claim.refuse!
+    end
+
+    def redetermine(claim)
+      add_message(claim, @advocate)
+      claim.redetermine!
+    end
+
+    def await_written_reasons(claim)
+      add_message(claim, @advocate)
+      claim.redetermine!
     end
 
   end

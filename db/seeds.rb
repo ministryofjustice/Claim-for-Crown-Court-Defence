@@ -7,9 +7,7 @@
   expense_types
   locations
   case_workers
-  advocates
   courts
-  chambers
   vat_rates
 ).
 each do |seed|

@@ -9,6 +9,10 @@ class StateChangePresenter < BasePresenter
     end
   end
 
+  def timestamp
+    " - #{version.created_at.strftime('%H:%M')}"
+  end
+
 private
 
   def state_change_descriptions

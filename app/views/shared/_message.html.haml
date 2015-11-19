@@ -1,6 +1,7 @@
 - if history_item.is_a? Message
   - message = history_item
   .grid-row{id: dom_id(message) }
+
     - if message.sender.persona.is_a?(Advocate)
       .column-two-thirds
         .message-left
@@ -19,6 +20,7 @@
                 = message.created_at
       .column-third
         &nbsp;
+
     - if message.sender.persona.is_a?(CaseWorker)
       .column-third
         &nbsp;
@@ -38,22 +40,25 @@
                 (#{message.sender.persona.class.to_s.humanize})
               .column-half.sent
                 = message.created_at
+
 - elsif history_item.is_a?(PaperTrail::Version) && history_item.item_type == 'Determination'
-  .grid-row.history
-    .column-two-thirds
-      &nbsp;
-    .column-third
-      .event
-        %strong
-          = history_item.event
-        = "- #{history_item.created_at.strftime('%H:%M')}"
-        %table
-          - history_item.changeset.each do |attribute, changes|
-            %tr
-              %td
-                #{attribute.humanize}:
-              %td
-                #{number_to_currency(changes.last)}
+  - present(history_item, DeterminationPresenter) do |determination|
+    .grid-row.history
+      .column-two-thirds
+        &nbsp;
+      .column-third
+        .event
+          %strong
+            = determination.event
+          = determination.timestamp
+          %table
+            - determination.itemise do |item, amount|
+              %tr
+                %td
+                  #{item.humanize}:
+                %td
+                  #{number_to_currency(amount)}
+
 - elsif history_item.is_a?(PaperTrail::Version) && history_item.event == 'State change'
   - present(history_item, StateChangePresenter) do |state_change|
     .grid-row.history
@@ -63,4 +68,4 @@
         .event
           %strong
             = state_change.change
-          = " - #{history_item.created_at.strftime('%H:%M')}"
+          = state_change.timestamp

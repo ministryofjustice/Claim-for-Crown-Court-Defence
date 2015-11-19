@@ -13,7 +13,6 @@ class DateAttendedValidator < BaseClaimValidator
   # must not be before the earliest_permitted_date
   def validate_date
     validate_presence(:date, 'blank')
-    validate_not_before(@record.attended_item.claim.first_day_of_trial, :date, 'not_before_first_day_of_trial') unless @record.attended_item.is_a?(Expense)
     validate_not_before(@record.attended_item.claim.try(:earliest_representation_order).try(:representation_order_date), :date, 'not_before_earliest_representation_order_date')
     validate_not_before(Settings.earliest_permitted_date, :date, 'not_before_earliest_permitted_date')
   end

@@ -1,6 +1,7 @@
 %w(
   advocates
   chambers
+  case_workers
 ).
 each do |seed|
   puts "Seeding '#{seed}'..."

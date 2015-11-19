@@ -6,6 +6,10 @@ namespace :claims do
     FileUtils.rm_rf('./public/assets/test/images/')
   end
 
+  desc 'Creates sample users'
+  task :sample_users => :environment do
+    load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
+  end
 
   desc 'Loads dummy claims'
   task :demo_data => 'db:seed' do

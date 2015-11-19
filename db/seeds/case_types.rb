@@ -70,4 +70,3 @@ CaseType.find_or_create_by!(name: 'Trial',
                             requires_trial_dates:     true,
                             allow_pcmh_fee_type:      true,
                             requires_maat_reference:  true)
-

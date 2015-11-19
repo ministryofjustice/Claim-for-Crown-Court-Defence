@@ -4,10 +4,11 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   let(:chamber) { create(:chamber) }
   let(:admin) { create(:advocate, :admin, chamber: chamber) }
 
+  subject { create(:advocate, chamber: chamber) }
+
   before { sign_in admin.user }
 
   describe "GET #index" do
-    # before { get :index }
 
     it "returns http success" do
       get :index
@@ -28,8 +29,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:advocate, chamber: chamber) }
-
     before { get :show, id: subject }
 
     it "returns http success" do
@@ -62,8 +61,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:advocate, chamber: chamber) }
-
     before { get :edit, id: subject }
 
     it "returns http success" do
@@ -80,8 +77,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "GET #change_password" do
-    subject { create(:advocate, chamber: chamber) }
-
     before { get :change_password, id: subject }
 
     it "returns http success" do
@@ -130,7 +125,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:advocate, chamber: chamber) }
 
     context 'when valid' do
       before(:each) { put :update, id: subject, advocate: { role: 'admin' } }
@@ -161,10 +155,10 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "PUT #update_password" do
-    subject { create(:advocate, chamber: chamber) }
 
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
+      sign_in subject.user #need to sign in again after password change
     end
 
     context 'when valid' do
@@ -173,6 +167,7 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
       end
 
       it 'redirects to advocate show action' do
+        # put :update_password, id: advocate, advocate: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } }
         expect(response).to redirect_to(advocates_admin_advocate_path(subject))
       end
     end
@@ -187,7 +182,6 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:advocate, chamber: chamber) }
 
     before { delete :destroy, id: subject }
 

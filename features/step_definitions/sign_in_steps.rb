@@ -49,6 +49,8 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
       expect(current_url).to eq(case_workers_root_url)
     when 'case workers admin'
       expect(current_url).to eq(case_workers_admin_root_url)
+    when 'super admins'
+      expect(current_url).to eq(super_admins_root_url)
   end
 end
 
@@ -146,6 +148,23 @@ end
 Then(/^I should see the admin caseworkers Manage case workers link and it should work$/) do
   find('#primary-nav').click_link('Manage case workers')
   expect(find('h1.page-title')).to have_content('Manage case workers')
+end
+
+Then(/^I should see the superadmins correct working primary navigation$/) do
+  step "I should see the superadmins Manage chambers link and it should work"
+  step "I should see the superadmins Add a chamber link and it should work"
+end
+
+Then(/^I should see the superadmins Manage chambers link and it should work$/) do
+  find('#primary-nav').click_link('Manage chamber')
+  expect(find('h1.page-title')).to have_content('Manage chambers')
+  expect(page).to have_content(/\d+ chambers?/)
+end
+
+Then(/^I should see the superadmins Add a chamber link and it should work$/) do
+  find('#primary-nav').click_link('Add a chamber')
+  expect(find('h1.page-title')).to have_content('Manage chambers')
+  expect(page).to have_content('New chamber details')
 end
 
 When(/^I enter my email and the wrong password (\d+) times$/) do |attempts|

@@ -1,0 +1,2 @@
+module SuperAdmin::ChambersHelper
+end

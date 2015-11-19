@@ -43,15 +43,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
     end
   end
 
-  def update_password
-    user = @case_worker.user
-    if user.update_with_password(password_params[:user_attributes])
-      sign_in(user, bypass: true)
-      redirect_to case_workers_admin_case_worker_path(@case_worker), notice: 'Password successfully updated'
-    else
-      render :change_password
-    end
-  end
+  # NOTE: update_password in PasswordHelper
 
   def destroy
     @case_worker.destroy

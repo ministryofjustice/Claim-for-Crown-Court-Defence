@@ -1,14 +1,14 @@
 [
-  'Conference and View - Car',
-  'Conference and View - Hotel stay',
-  'Conference and View - Train',
-  'Conference and View - Travel time',
-  'Costs Judge application fee',
-  'Costs Judge Preparation award',
-  'Travel and Hotel - Car',
-  'Travel and Hotel - Conference and View',
-  'Travel and Hotel - Hotel stay',
-  'Travel and Hotel - Train',
+  'Conference and view - car',
+  'Conference and view - hotel stay',
+  'Conference and view - train',
+  'Conference and view - travel time',
+  'Costs judge application fee',
+  'Costs judge Preparation award',
+  'Travel and hotel - car',
+  'Travel and hotel - conference and view',
+  'Travel and hotel - hotel stay',
+  'Travel and hotel - train',
 ].each do |expense_type_name|
   ExpenseType.find_or_create_by!(name: expense_type_name)
 end

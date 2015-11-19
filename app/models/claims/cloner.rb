@@ -12,8 +12,9 @@ module Claims::Cloner
       exclude_association :case_workers
       exclude_association :claim_state_transitions
       exclude_association :versions
-      exclude_association :fees
-      exclude_association :expenses
+      exclude_association :basic_fees
+      exclude_association :fixed_fees
+      exclude_association :misc_fees
       clone [:fees, :documents, :defendants, :expenses]
     end
 
@@ -69,6 +70,7 @@ module Claims::Cloner
     draft = amoeba_dup
     draft.state = 'draft'
     draft.save!
+
     draft
   end
 end

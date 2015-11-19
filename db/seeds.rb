@@ -10,6 +10,7 @@
   locations
   case_workers
   advocates
+  super_admins
   courts
   chambers
   vat_rates

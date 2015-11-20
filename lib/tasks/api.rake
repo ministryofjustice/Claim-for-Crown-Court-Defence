@@ -3,6 +3,7 @@ namespace :api do
   desc "Smoke test for the REST API"
 
   task :smoke_test, [:io] => :environment do |task,args|
+    Rake::Task['claims:sample_users'].invoke
 
     require "#{Rails.root.join('lib','api_test_client')}"
 

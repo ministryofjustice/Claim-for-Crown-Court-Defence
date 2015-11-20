@@ -1,29 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :super_admins do
-  get 'advocates/show'
-  end
-
-  namespace :super_admins do
-  get 'advocates/index'
-  end
-
-  namespace :super_admins do
-  get 'advocates/new'
-  end
-
-  namespace :super_admins do
-  get 'advocates/create'
-  end
-
-  namespace :super_admins do
-  get 'advocates/edit'
-  end
-
-  namespace :super_admins do
-  get 'advocates/update'
-  end
-
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page

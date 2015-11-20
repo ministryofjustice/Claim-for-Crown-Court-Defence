@@ -216,8 +216,8 @@ en:
         first_name: *first_name
         last_name: *last_name
         supplier_number: *supplier_number
+        apply_vat: "Apply VAT"
         role: *role
-        
         submit: 'Create advocate'
       change_password:
         error: 'error'

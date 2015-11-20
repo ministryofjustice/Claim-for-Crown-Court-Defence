@@ -17,7 +17,7 @@
       = user_fields.label t(".email_confirmation"), class: "form-label"
       = user_fields.email_field :email_confirmation, class: "form-control"
 
-      = f.label :apply_vat, class: "form-label"
+      = f.label(:apply_vat, t('.apply_vat'), class: "form-label")
       %div.form-group.inline
         =f.collection_radio_buttons(:apply_vat, [true, false], :to_s, :to_s) do |b|
           - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115214327) do
+ActiveRecord::Schema.define(version: 20151120101159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -334,6 +334,21 @@ ActiveRecord::Schema.define(version: 20151115214327) do
   end
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
+
+  create_table "organisations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "supplier_number"
+    t.string   "organisation_type"
+    t.boolean  "vat_registered"
+    t.uuid     "uuid"
+    t.uuid     "api_key"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "organisations", ["name"], name: "index_organisations_on_name", using: :btree
+  add_index "organisations", ["organisation_type"], name: "index_organisations_on_organisation_type", using: :btree
+  add_index "organisations", ["supplier_number"], name: "index_organisations_on_supplier_number", using: :btree
 
   create_table "representation_orders", force: :cascade do |t|
     t.integer  "defendant_id"

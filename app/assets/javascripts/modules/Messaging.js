@@ -12,8 +12,8 @@ moj.Modules.Messaging = {
     self.removeSelectedFile();
 
     self.messageControls.on('change', ':radio',function() {
-      var data = $.param($('.new_message :radio').serializeArray());
-      $.getScript(self.messageControls.data('auth-url') + '?' + data);
+      var data = $('.new_message :radio').val();
+      $.getScript(self.messageControls.data('auth-url') + '&claim_action=' + data);
     });
   },
   /******************************

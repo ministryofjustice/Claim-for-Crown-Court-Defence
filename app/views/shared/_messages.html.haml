@@ -6,5 +6,5 @@
     %span.message-success
     %span.message-error
   - if current_user.persona.is_a?(CaseWorker) || (current_user.persona.is_a?(Advocate) && @message.claim.rejected? == false && @message.claim.draft? == false)
-    .js-controls.message-controls{"data-auth-url" => control_message_path}
+    .js-controls.message-controls{"data-auth-url" => show_control_messages_path(claim_id: @claim.id)}
       = render partial: "shared/message_controls", locals: {message: @message }

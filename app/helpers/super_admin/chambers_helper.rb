@@ -1,2 +1,0 @@
-module SuperAdmin::ChambersHelper
-end

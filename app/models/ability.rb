@@ -8,6 +8,7 @@ class Ability
 
     if persona.is_a? SuperAdmin
       can [:show, :index, :new, :create, :edit, :update], Chamber
+      can [:show, :index, :new, :create, :edit, :update], Advocate # TODO: could restrict to role: 'admin' here possibly
       can [:show, :edit, :update, :change_password, :update_password], SuperAdmin, id: persona.id
       return
     end

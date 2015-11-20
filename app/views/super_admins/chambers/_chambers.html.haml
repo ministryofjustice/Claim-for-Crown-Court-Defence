@@ -10,6 +10,8 @@
         = t('.chamber_name')
       %th
         = t('.vat_registered')
+      %th
+        Advocates
     %tbody
       - chambers.each do |chamber|
         %tr{id: dom_id(chamber) }
@@ -19,3 +21,5 @@
             = chamber.name
           %td
             = chamber.vat_registered == true ? 'Yes' : 'No'
+          %td
+            = link_to 'Manage advocates in chamber', super_admins_chamber_advocates_path(chamber)

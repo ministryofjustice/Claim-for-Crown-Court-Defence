@@ -1,5 +1,3 @@
-
-# TODO: add super_admins once env vars available in deployed environments
 %w(
   case_types
   offence_classes

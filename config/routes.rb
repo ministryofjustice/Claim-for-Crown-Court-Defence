@@ -93,7 +93,7 @@ Rails.application.routes.draw do
     end
 
     namespace :admin do
-      root to: 'chambers#index' #TODO should probably root to superadmin index or show
+      root to: 'chambers#index'
 
       resources :super_admins, only: [:show, :edit, :update] do
         get 'change_password', on: :member

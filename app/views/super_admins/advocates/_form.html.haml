@@ -31,4 +31,4 @@
         = f.collection_radio_buttons(:role, Advocate::ROLES, :to_s, :to_s) do |b|
           - b.label(class: "block-label") { b.radio_button + b.value.humanize }
 
-  = f.submit 'Save', class: "button"
+  = f.submit t('.submit'), class: "button"

@@ -1,7 +1,9 @@
 class SuperAdmins::AdvocatesController < ApplicationController
   
-  before_action :set_chamber,   only: [:show, :index, :edit, :update, :new, :create]
-  before_action :set_advocate,  only: [:show, :edit]
+  include PasswordHelpers
+
+  before_action :set_chamber,   only: [:show, :index, :edit, :update, :new, :create, :change_password, :update_password]
+  before_action :set_advocate,  only: [:show, :edit, :update, :change_password, :update_password]
 
   def show; end
 
@@ -11,6 +13,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
   def new
     @advocate = Advocate.new(chamber: @chamber)
+    @advocate.build_user
   end
 
   def create
@@ -18,7 +21,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
     if @advocate.save
       @advocate.user.send_reset_password_instructions
-      redirect_to super_admins_chamber_advocates_path(@chamber), notice: 'Advocate successfully created'
+      redirect_to super_admins_chamber_advocate_path(@chamber, @advocate), notice: 'Advocate successfully created'
     else
       render :new
     end
@@ -28,9 +31,24 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
   def update
     if @advocate.update(advocate_params)
-     redirect_to super_admins_advocate_path(@chamber,@advocate), notice: 'Advocate successfully updated'
+     redirect_to super_admins_chamber_advocate_path(@chamber,@advocate), notice: 'Advocate successfully updated'
     else
       render :edit
+    end
+  end
+
+  def change_password; end
+
+  # NOTE: do NOT use update_password in PasswordHelper as it will
+  #       sign in as user whos password was changed and redirect to
+  #       their user profile path
+  def update_password
+    user = @advocate.user
+
+    if user.update_with_password(password_params[:user_attributes])
+      redirect_to super_admins_chamber_advocate_path(@chamber,@advocate), notice: 'Advocate password successfully updated'
+    else
+      render :change_password
     end
   end
 

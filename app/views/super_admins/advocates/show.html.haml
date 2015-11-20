@@ -1,2 +1,22 @@
-%h1 SuperAdmins::Advocates#show
-%p Find me in app/views/super_admins/advocates/show.html.haml
+%h1.page-title Manage advocates
+
+%h2
+  = @advocate.email
+
+%p
+  Name:
+  = @advocate.name
+
+%p
+  Supplier number:
+  = @advocate.supplier_number
+
+%p
+  Role:
+  = @advocate.role.humanize
+
+- if can? :edit, @advocate
+  = link_to 'Edit', edit_super_admins_chamber_advocate_path(@chamber, @advocate), class: 'button'
+
+- if can? :change_password, @advocate
+  = link_to 'Change password', change_password_super_admins_chamber_advocate_path(@chamber, @advocate), class: 'button'

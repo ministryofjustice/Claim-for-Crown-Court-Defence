@@ -205,6 +205,36 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
+    advocates:
+      index:
+        advocates: 'Advocates'
+        add_advocate: 'Add Advocate'
+        edit: *edit
+        delete: *delete
+        confirm_delete: 'Are you sure?'
+      new:
+        new_advocate: 'New advocate'
+      edit:
+        edit_advocate: 'Edit advocate'
+      form:
+        error: 'error'
+        prohibited_save: 'This advocate has'
+        email: *email
+        email_confirmation: *email_confirmation
+        password: *password
+        password_confirmation: *password_confirmation
+        first_name: *first_name
+        last_name: *last_name
+        supplier_number: 'Supplier number'
+        role: *role
+        submit: 'Create advocate'
+      change_password:
+        error: 'error'
+        prohibited_save: 'This advocate password change has'
+        current_password: Current password
+        password: *password
+        password_confirmation: *password_confirmation
+        submit: 'Change password'
 
 # en.advocates
   advocates:

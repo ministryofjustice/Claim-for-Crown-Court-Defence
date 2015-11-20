@@ -1,2 +1,5 @@
-%h1 SuperAdmins::Advocates#new
-%p Find me in app/views/super_admins/advocates/new.html.haml
+%h1.page-title Manage advocates
+%h2
+  = "New advocate details for #{@chamber.name}"
+
+= render 'form'

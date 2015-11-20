@@ -29,16 +29,15 @@ class MessagesController < ApplicationController
   end
 
   def show_control
-    @claim = Claim.find(params[:id])
+    @claim = Claim.find(params[:claim_id])
     @message = @claim.messages.build
-    @message.claim_action = params[:message][:claim_action]
+    @message.claim_action = params[:claim_action]
 
     raise 'No claim identified' if @claim.blank?
 
     respond_to do |format|
       format.js
     end
-
   end
 
   private

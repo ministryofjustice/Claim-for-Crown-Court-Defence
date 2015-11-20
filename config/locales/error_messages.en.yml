@@ -548,10 +548,6 @@ date_attended:
       long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
       short: Enter a date
       api: 'Enter the date attended (from)'
-    not_before_first_day_of_trial:
-      long: 'The #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
-      short: Enter a date after first day of trial
-      api: The date attended (from) must be after the first day of the trial
     not_before_earliest_representation_order_date:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
       short: Enter a date after the earliest representation order date

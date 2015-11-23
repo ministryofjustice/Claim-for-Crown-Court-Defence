@@ -292,6 +292,9 @@ describe Ability do
     let(:user)              { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
     let(:chamber)           { create(:chamber) }
+    let(:other_chamber)     { create(:chamber) }
+    let(:advocate)          { create(:advocate, chamber: chamber)}
+    let(:other_advocate)    { create(:advocate, chamber: other_chamber)}
 
     context 'can manage any chamber' do
       [:show, :index, :new, :create, :edit, :update].each do |action|
@@ -314,6 +317,19 @@ describe Ability do
     context 'cannot view or change other super admins details' do
       [:show, :edit, :update, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, other_super_admin) }
+      end
+    end
+
+    context 'can view, create and change any advocate details' do
+      [:show, :edit, :update, :new, :create, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, advocate) }
+        it { should be_able_to(action, other_advocate) }
+      end
+    end
+
+    context 'cannot destroy advocates' do
+      [:destroy].each do |action|
+        it { should_not be_able_to(action, advocate) }
       end
     end
 

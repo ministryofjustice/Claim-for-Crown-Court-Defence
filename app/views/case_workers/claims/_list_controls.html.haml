@@ -5,6 +5,6 @@
     %li{class: ('active' if params[:sort].blank? && params[:direction].blank?) || (params[:sort] == 'submitted_at' && params[:direction] == 'asc')}
       = link_to 'Oldest', case_workers_claims_path(params.except(:controller, :action).merge(sort: 'submitted_at', direction: 'asc'))
     %li{class: ('active' if params[:sort] == 'total_inc_vat' && params[:direction] == 'desc')}
-      = link_to 'Value - Highest first', case_workers_claims_path(params.except(:controller, :action).merge(sort: 'total_inc_vat', direction: 'desc'))
+      = link_to 'Value - highest first', case_workers_claims_path(params.except(:controller, :action).merge(sort: 'total_inc_vat', direction: 'desc'))
     %li{class: ('active' if params[:sort] == 'total_inc_vat' && params[:direction] == 'asc')}
-      = link_to 'Value - Lowest first', case_workers_claims_path(params.except(:controller, :action).merge(sort: 'total_inc_vat', direction: 'asc'))
+      = link_to 'Value - lowest first', case_workers_claims_path(params.except(:controller, :action).merge(sort: 'total_inc_vat', direction: 'asc'))

@@ -75,8 +75,6 @@ Then(/^I (.*?) see the request written reason button$/) do | radio_button_expect
 end
 
 Then(/^I (.*?) see the controls to send messages$/) do | msg_control_expectation |
-  wait_for_ajax
-  save_screenshot('screenshot.png',:full => true)
   case msg_control_expectation
     when 'should not'
       within('.messages-container') do
@@ -89,9 +87,16 @@ Then(/^I (.*?) see the controls to send messages$/) do | msg_control_expectation
   end
 end
 
-When(/^click on (.*?)$/) do | radio_button|
+When(/^click on (.*?) option$/) do | radio_button|
   within('.messages-container') do
     choose radio_button
   end
-  page.save_screenshot
+end
+
+Then(/^I can send a message$/) do
+  within '#messages' do
+    fill_in 'message_body', with: 'Lorem'
+    click_on 'Send'
+  end
+  wait_for_ajax
 end

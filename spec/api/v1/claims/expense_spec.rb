@@ -90,7 +90,7 @@ describe API::V1::Advocates::Expense do
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          params[:quantity] = 1000000000000000000000000
+          params[:location] = 1000000000000000000000000
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           json = JSON.parse(last_response.body)

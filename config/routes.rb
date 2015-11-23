@@ -51,6 +51,7 @@ Rails.application.routes.draw do
 
   resources :messages, only: [:create] do
     get 'download_attachment', on: :member
+    get 'show_control', to: 'messages#show_control', on: :collection, as: :show_control
   end
 
   resources :offences, only: [:index], format: :js

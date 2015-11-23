@@ -143,7 +143,7 @@ When(/^I fill in the claim details(.*)$/) do |details|
   end
 
   within 'fieldset#evidence-checklist' do
-    element = find('div label', text: "Representation Order")
+    element = find('div label', text: "Representation order")
     checkbox_id = element[:for]
     check checkbox_id
   end

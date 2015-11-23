@@ -60,6 +60,7 @@ Scenario Outline: Advocate user can see the correct controls on initial page loa
       | refused                     | should                    | should not              |
       | awaiting_written_reasons    | should not                | should                  |
       | redetermination             | should not                | should                  |
+      | archived_pending_delete     | should not                | should not              |
 
 @javascript @webmock_allow_localhost_connect
 Scenario Outline: Advocate clicking on messages radio button and seeing the controls
@@ -117,6 +118,7 @@ Scenario Outline: Advocate admin user can see the correct controls on first page
       | refused                     | should                    | should not              |
       | awaiting_written_reasons    | should not                | should                  |
       | redetermination             | should not                | should                  |
+      | archived_pending_delete     | should not                | should not              |
 
 
   @javascript @webmock_allow_localhost_connect

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ClaimDateValidator do
 
-  let(:cracked_case_type)                 { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked Trial"  }
+  let(:cracked_case_type)                 { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked trial"  }
   let(:cracked_before_retrial_case_type)  { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked before retrial" }
   let(:contempt_case_type)                { FactoryGirl.build :case_type, :requires_trial_dates,    name: 'Contempt'}
 

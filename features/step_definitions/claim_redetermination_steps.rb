@@ -7,10 +7,6 @@ Given(/^the claim has a case worker assigned to it$/) do
   @claim.case_workers << case_worker
 end
 
-When(/^I visit the claims's detail page$/) do
-  visit advocates_claim_path(@claim)
-end
-
 Then(/^I should (not )?see a control in the messages section to request a redetermination$/) do |negate|
   if negate.present?
     expect(page).to_not have_selector('.js-test-claim-action')
@@ -54,11 +50,6 @@ end
 Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
   choose form_state
   click_button 'Update'
-end
-
-Then(/^the claim should be in the "(.*?)" state$/) do |state|
-  @claim.reload
-  expect(@claim.state).to eq(state)
 end
 
 Then(/^the claim should no longer be open for redetermination$/) do

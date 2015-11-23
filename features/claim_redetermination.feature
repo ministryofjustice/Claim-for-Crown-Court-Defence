@@ -1,43 +1,7 @@
 Feature: Claim redetermination
   Background:
-    As an advocate I want to be able to re-open a claim for redetermination.
     As a case worker I want to be able to review claims submitted for redetermination.
 
-  Scenario Outline: Redetermination control visible
-    Given I am a signed in advocate
-      And I have a <state> claim
-     When I visit the claims's detail page
-     Then I should see a control in the messages section to request a redetermination
-
-    Examples:
-      | state                 |
-      | authorised_claim      |
-      | part_authorised_claim |
-      | refused_claim         |
-
-  Scenario Outline: Redetermination control NOT visible
-    Given I am a signed in advocate
-      And I have a <state> claim
-     When I visit the claims's detail page
-     Then I should not see a control in the messages section to request a redetermination
-
-    Examples:
-      | state                           |
-      | draft_claim                     |
-      | submitted_claim                 |
-      | allocated_claim                 |
-      | rejected_claim                  |
-      | redetermination_claim           |
-
-  Scenario: Re-open claim for redetermination
-    Given I am a signed in advocate
-      And I have a authorised_claim claim
-      And the claim has a case worker assigned to it
-     When I visit the claims's detail page
-      And I select "Apply for redetermination" and send a message
-     Then the claim should be in the "redetermination" state
-      And the claim should no longer have case workers assigned
-      And a redetermination notice should be present in the claim status panel
 
   Scenario: Allow entry of redetermination values
     Given I am a signed in case worker
@@ -63,16 +27,6 @@ Feature: Claim redetermination
       | Authorised                | authorised               |
       | Rejected                  | rejected                 |
       | Refused                   | refused                  |
-
-  Scenario: Request written reasons for claim
-    Given I am a signed in advocate
-      And I have a authorised_claim claim
-      And the claim has a case worker assigned to it
-     When I visit the claims's detail page
-      And I select "Request written reasons" and send a message
-     Then the claim should be in the "awaiting_written_reasons" state
-      And the claim should no longer have case workers assigned
-      And a written reasons notice should be present in the claim status panel
 
   Scenario: Handle written reasons for claim
     Given I am a signed in case worker

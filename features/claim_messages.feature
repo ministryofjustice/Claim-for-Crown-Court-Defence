@@ -66,25 +66,30 @@ Scenario Outline: Advocate clicking on messages radio button and seeing the cont
   Given I am a signed in advocate
     And I have 1 <state> claim
    When I visit that claim's "advocate" detail page
-    And click on <radio_button>
+    And click on <radio_button> option
    Then I <msg_control_expectation> see the controls to send messages
     And I can send a message
+    And I should see my message at the bottom of the message list
+    And the claim should be in the "<next_claim_state>" state
+    And the claim should no longer have case workers assigned
 
     Examples:
-      | state                       | radio_button                 | msg_control_expectation |
-      | authorised                  | Apply for redetermination  | should                  |
-      | authorised                  | Request written reasons    | should                  |
-      | part_authorised             | Apply for redetermination  | should                  |
-      | part_authorised             | Request written reasons    | should                  |
-      | refused                     | Apply for redetermination  | should                  |
-      | refused                     | Request written reasons    | should                  |
+      | state              | radio_button               | msg_control_expectation | next_claim_state          |
+      | authorised         | Apply for redetermination  | should                  | redetermination           |
+      | authorised         | Request written reasons    | should                  | awaiting_written_reasons  |
+      | part_authorised    | Apply for redetermination  | should                  | redetermination           |
+      | part_authorised    | Request written reasons    | should                  | awaiting_written_reasons  |
+      | refused            | Apply for redetermination  | should                  | redetermination           |
+      | refused            | Request written reasons    | should                  | awaiting_written_reasons  |
 
+@javascript @webmock_allow_localhost_connect
 Scenario Outline: Advocate clicking seeing messages control and can send emails
   Given I am a signed in advocate
     And I have 1 <state> claim
    When I visit that claim's "advocate" detail page
-   Then I <msg_control_expectation> see the message controls
+   Then I <msg_control_expectation> see the controls to send messages
     And I can send a message
+    And I should see my message at the bottom of the message list
 
     Examples:
       | state                      | msg_control_expectation |
@@ -93,7 +98,6 @@ Scenario Outline: Advocate clicking seeing messages control and can send emails
       | awaiting_written_reasons   | should                  |
       | redetermination            | should                  |
 
-     #ADVOCATE ADMIN
 Scenario Outline: Advocate admin user can see the correct controls on first page load
   Given I am a signed in advocate admin
     And I have 1 <state> claim
@@ -118,47 +122,34 @@ Scenario Outline: Advocate admin user can see the correct controls on first page
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Advocate admin user clicking on messages radio button and seeing the controls
     Given I am a signed in advocate admin
-      And I have a claim in <state> state
-     When I view a <state> claim
-      And click on <radio_button>
+      And I have 1 <state> claim
+     When I visit that claim's "advocate" detail page
+      And click on <radio_button> option
      Then I <msg_control_expectation> see the controls to send messages
       And I can send a message
 
+
     Examples:
-      | state                       | radio_button     | msg_control_expectation |
-      | authorised                  | redetermination  | should                  |
-      | authorised                  | written_reasons  | should                  |
-      | part_authorised             | redetermination  | should                  |
-      | part_authorised             | written_reasons  | should                  |
-      | refused                     | redetermination  | should                  |
-      | refused                     | written_reasons  | should                  |
+      | state                       | radio_button                 | msg_control_expectation |
+      | authorised                  | Apply for redetermination  | should                  |
+      | authorised                  | Request written reasons    | should                  |
+      | part_authorised             | Apply for redetermination  | should                  |
+      | part_authorised             | Request written reasons    | should                  |
+      | refused                     | Apply for redetermination  | should                  |
+      | refused                     | Request written reasons    | should                  |
 
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Advocate clicking seeing messages control and can send emails
     Given I am a signed in advocate admin
-      And I have a claim in <state> state
-     When I view a <state> claim
-     Then I <msg_control_expectation> see the message controls
+      And I have 1 <state> claim
+     When I visit that claim's "advocate" detail page
+     Then I <msg_control_expectation> see the controls to send messages
       And I can send a message
+      And I should see my message at the bottom of the message list
 
-    Examples:
-      | state                      | msg_control_expectation |
-      | submitted                  | should                  |
-      | allocated                  | should                  |
-      | awaiting_written_reasons   | should                  |
-      | redetermination            | should                  |
-
-
-     #CASEWORKER
-  Scenario Outline: Case worker can send messages
-    Given I am a case worker who is signed in
-      And I have a claim in <state> state allocated to me
-
-     #(WHAT ABOUT WRITTEN REASONS AND redetermination? )
-     Examples:
-       | state              | msg_control_expectation |
-       | allocated          | should                  |
-       | authorised         | should not              |
-       | part_authorised    | should not              |
-       | rejected           | should not              |
-       | refused            | should not              |
+      Examples:
+        | state                      | msg_control_expectation |
+        | submitted                  | should                  |
+        | allocated                  | should                  |
+        | awaiting_written_reasons   | should                  |
+        | redetermination            | should                  |

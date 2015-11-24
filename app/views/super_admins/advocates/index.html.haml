@@ -8,11 +8,11 @@
 %table.advocates_table
   %thead
     %th
-      Name
+      = t('.name')
     %th
-      Supplier Number
+      = t('.supplier_number')
     %th
-      Email
+      = t('.email')
   %tbody
     - @advocates.each do |advocate|
       %tr

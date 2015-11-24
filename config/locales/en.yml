@@ -206,6 +206,10 @@ en:
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
     advocates:
+      index:
+        name: 'Name'
+        supplier_number: *supplier_number
+        email: 'Email'
       form:
         error: 'error'
         prohibited_save: 'This advocate has'

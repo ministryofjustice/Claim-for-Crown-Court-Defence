@@ -19,7 +19,7 @@
       = f.text_field :supplier_number, class: "form-control"
       = validation_error_message(@chamber, :supplier_number)
 
-      = f.label :apply_vat, class: "form-label"
+      = f.label :vat_registered, t('.vat_registered'), class: "form-label"
       %div.form-group.inline
         =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
           - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }

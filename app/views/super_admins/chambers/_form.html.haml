@@ -5,7 +5,7 @@
       .validation-summary
         %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@chamber.errors.count, t('.error'))}"
         %ul
-          - @chamber.errors._full_messages.each do |message|
+          - @chamber.errors.full_messages.each do |message|
             %li
               = message
         %span.form-hint

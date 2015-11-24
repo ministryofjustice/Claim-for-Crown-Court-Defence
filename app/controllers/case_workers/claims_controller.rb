@@ -9,6 +9,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :set_doctypes, only: [:show, :update]
 
   include ReadMessages
+  include MessageControlsDisplay
 
   def index
   end

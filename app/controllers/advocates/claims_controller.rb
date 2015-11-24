@@ -14,6 +14,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :initialize_submodel_counts
 
   include ReadMessages
+  include MessageControlsDisplay
 
   def index
     @json_document_importer = JsonDocumentImporter.new

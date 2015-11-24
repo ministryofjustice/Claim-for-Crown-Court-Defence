@@ -88,6 +88,7 @@ Rails.application.routes.draw do
 
     resources :claims do
       get 'confirmation',     on: :member
+      get 'show_message_controls', on: :member
       get 'outstanding',      on: :collection
       get 'authorised',       on: :collection
       get 'archived',         on: :collection
@@ -115,7 +116,8 @@ Rails.application.routes.draw do
     root to: 'claims#index'
 
     resources :claims, only: [:index, :show, :update] do
-    get 'archived', on: :collection
+      get 'show_message_controls', on: :member
+      get 'archived', on: :collection
     end
 
     namespace :admin do

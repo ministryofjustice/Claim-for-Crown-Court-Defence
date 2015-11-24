@@ -3,7 +3,7 @@
     .validation-summary
       %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@super_admin.errors.count, t('.error'))}"
       %ul
-        - @super_admin.errors._full_messages.each do |msg|
+        - @super_admin.errors.full_messages.each do |msg|
           %li= msg
 
   = f.fields_for :user do |user_fields|

@@ -17,9 +17,8 @@ class Determination < ActiveRecord::Base
 
   belongs_to :claim
 
-  validates :fees,         numericality: { greater_than_or_equal_to: 0, message: 'Assessed fees must be greater than or equal to zero'}
-  validates :expenses,     numericality: { greater_than_or_equal_to: 0, message: 'Assessed expenses must be greater than or equal to zero'}
-
+  validate :fees_valid
+  validate :expenses_valid
 
 
   def calculate_total
@@ -35,6 +34,14 @@ class Determination < ActiveRecord::Base
   end
 
   private
+
+  def fees_valid
+    errors[:base] << 'Assessed fees must be greater than or equal to zero' if fees.nil? || fees < 0
+  end
+
+  def expenses_valid
+    errors[:base] << 'Assessed expenses must be greater than or equal to zero' if expenses.nil? || expenses < 0
+  end
 
   def zero_or_nil?(value)
     value.nil? || value == 0

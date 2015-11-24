@@ -83,7 +83,7 @@ en:
         advocate:
           attributes:
             role:
-              blank: Role cannot be blank
+              blank: cannot be blank
               inclusion: *inclusion
             supplier_number:
               blank: cannot be blank
@@ -91,7 +91,7 @@ en:
         case_worker:
           attributes:
             role:
-              blank: Role cannot be blank
+              blank: cannot be blank
         user:
           attributes:
             email:

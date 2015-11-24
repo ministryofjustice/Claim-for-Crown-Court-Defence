@@ -8,7 +8,6 @@ describe Ability do
   context 'when not a signed in user' do
     it { should_not be_able_to(:create, Message.new) }
     it { should_not be_able_to(:download_attachment, Message.new) }
-    it { should_not be_able_to(:show_control, Message.new) }
     it { should_not be_able_to(:index, UserMessageStatus) }
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
@@ -38,7 +37,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -46,7 +45,7 @@ describe Ability do
     context 'cannot manage claims by another advocate' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -122,7 +121,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -130,7 +129,7 @@ describe Ability do
     context 'can manage claims by another advocate in the same chamber' do
       let(:other_advocate) { create(:advocate, chamber: chamber) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -151,7 +150,7 @@ describe Ability do
     context 'cannot manage claims by another advocate in a different chamber' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -213,7 +212,7 @@ describe Ability do
     let(:case_worker) { create(:case_worker) }
     let(:user) { case_worker.user }
 
-    [:index, :archived, :show].each do |action|
+    [:index, :archived, :show, :show_message_controls].each do |action|
       it { should be_able_to(action, Claim.new) }
     end
 

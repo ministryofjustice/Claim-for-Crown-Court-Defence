@@ -13,7 +13,7 @@ moj.Modules.Messaging = {
 
     self.messageControls.on('change', ':radio',function() {
       var data = $('.js-test-claim-action :radio:checked').val();
-      $.getScript(self.messageControls.data('auth-url') + '&claim_action=' + data);
+      $.getScript(self.messageControls.data('auth-url') + '?claim_action=' + data);
     });
   },
   /******************************

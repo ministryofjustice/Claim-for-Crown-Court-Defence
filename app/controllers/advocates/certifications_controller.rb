@@ -15,6 +15,7 @@ class Advocates::CertificationsController < Advocates::ApplicationController
   def create
     @claim.build_certification(certification_params)
     if @claim.certification.save && @claim.submit
+      send_ga('event', 'submit', 'certified', certification_params.select{|k,v| v == '1'}.keys.join(', '))
       redirect_to confirmation_advocates_claim_path(@claim), notice: 'Claim submitted to LAA'
     else
       @certification = @claim.certification

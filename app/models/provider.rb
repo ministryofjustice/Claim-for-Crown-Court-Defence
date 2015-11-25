@@ -11,6 +11,14 @@ class Provider < ActiveRecord::Base
     scope type.pluralize.to_sym, -> { where(provider_type: type) }
   end
 
+  has_many :advocates do
+    def ordered_by_last_name
+      self.sort { |a, b| a.user.sortable_name <=> b.user.sortable_name }
+    end
+  end
+
+  has_many :claims, through: :advocates
+
   before_validation :set_api_key
 
   validates :provider_type, presence: true

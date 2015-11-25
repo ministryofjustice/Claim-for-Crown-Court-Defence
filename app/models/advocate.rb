@@ -18,6 +18,7 @@ class Advocate < ActiveRecord::Base
   include UserRoles
 
   belongs_to :chamber
+  belongs_to :provider
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :claims,  -> { includes :fee_types }, dependent: :destroy
   has_many :claims_created, dependent: :nullify, class_name: 'Claim', foreign_key: 'creator_id', inverse_of: :creator

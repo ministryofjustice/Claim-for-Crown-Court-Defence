@@ -4,6 +4,9 @@ RSpec.describe Provider, type: :model do
   let!(:firm) { create(:provider, :firm) }
   let!(:chamber) { create(:provider, :chamber) }
 
+  it { should have_many(:advocates) }
+  it { should have_many(:claims) }
+
   it { should validate_presence_of(:provider_type) }
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }

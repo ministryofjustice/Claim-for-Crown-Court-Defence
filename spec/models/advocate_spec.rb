@@ -15,6 +15,7 @@ require 'rails_helper'
 
 RSpec.describe Advocate, type: :model do
   it { should belong_to(:chamber) }
+  it { should belong_to(:provider) }
   it { should have_many(:claims) }
   it { should have_many(:claims_created) }
   it { should have_many(:documents) }

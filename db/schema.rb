@@ -335,20 +335,20 @@ ActiveRecord::Schema.define(version: 20151120101159) do
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
-  create_table "organisations", force: :cascade do |t|
+  create_table "providers", force: :cascade do |t|
     t.string   "name"
     t.string   "supplier_number"
-    t.string   "organisation_type"
+    t.string   "provider_type"
     t.boolean  "vat_registered"
     t.uuid     "uuid"
     t.uuid     "api_key"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  add_index "organisations", ["name"], name: "index_organisations_on_name", using: :btree
-  add_index "organisations", ["organisation_type"], name: "index_organisations_on_organisation_type", using: :btree
-  add_index "organisations", ["supplier_number"], name: "index_organisations_on_supplier_number", using: :btree
+  add_index "providers", ["name"], name: "index_providers_on_name", using: :btree
+  add_index "providers", ["provider_type"], name: "index_providers_on_provider_type", using: :btree
+  add_index "providers", ["supplier_number"], name: "index_providers_on_supplier_number", using: :btree
 
   create_table "representation_orders", force: :cascade do |t|
     t.integer  "defendant_id"

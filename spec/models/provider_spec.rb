@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Organisation, type: :model do
-  let!(:firm) { create(:organisation, :firm) }
-  let!(:chamber) { create(:organisation, :chamber) }
+RSpec.describe Provider, type: :model do
+  let!(:firm) { create(:provider, :firm) }
+  let!(:chamber) { create(:provider, :chamber) }
 
-  it { should validate_presence_of(:organisation_type) }
+  it { should validate_presence_of(:provider_type) }
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
 
@@ -72,13 +72,13 @@ RSpec.describe Organisation, type: :model do
 
   describe '.firms' do
     it 'returns only firms' do
-      expect(Organisation.firms).to match_array([firm])
+      expect(Provider.firms).to match_array([firm])
     end
   end
 
   describe '.chambers' do
     it 'returns only chambers' do
-      expect(Organisation.chambers).to match_array([chamber])
+      expect(Provider.chambers).to match_array([chamber])
     end
   end
 end

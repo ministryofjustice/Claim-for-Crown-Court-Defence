@@ -63,10 +63,19 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_claims
-    if %w( fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons ).include?(params[:filter])
-      @claims = @claims.send(params[:filter].to_sym)
-    end
+    filter_by_state_and_type
+    filter_by_value
+  end
 
+  def filter_by_state_and_type
+    if %w( redetermination awaiting_written_reasons ).include?(params[:filter])
+      @claims = @claims.send(params[:filter].to_sym)
+    elsif %w( fixed_fee cracked trial guilty_plea ).include?(params[:filter])
+      @claims = @claims.where{state << %w( redetermination awaiting_written_reasons )}.send(params[:filter].to_sym)
+    end
+  end
+
+  def filter_by_value
     if params[:claim_value].present? && params[:claim_value] == 'high'
       @claims = @claims.total_greater_than_or_equal_to(Settings.high_value_claim_threshold)
     elsif params[:claim_value].present? && params[:claim_value] == 'low'

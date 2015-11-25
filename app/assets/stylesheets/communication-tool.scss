@@ -21,13 +21,9 @@
           padding: 0;
           .message-from,
           .message-time {
-            //@include grid-column( 1/6 );
             padding: 0;
           }
-          .message{
-            //@include grid-column( 4/6 );
-          }
-          .time-ago{
+          .time-ago {
             display: inline-block;
             padding-left: 0.5em;
             font-size: 0.75em
@@ -37,7 +33,7 @@
           float: left;
           width: 100%;
           padding: 15px;
-          &:nth-child(even){
+          &:nth-child(even) {
             background-color: $grey-4;
           }
         }

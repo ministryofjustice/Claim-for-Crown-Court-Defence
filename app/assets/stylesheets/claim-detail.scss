@@ -5,20 +5,21 @@ page
 
 ***************************************/
 
-.claim-header, .claim-detail-header{
+.claim-header, .claim-detail-header {
   margin-bottom: $gutter-half;
 }
 
 /****************************************
 Other Claim Navigation
 ****************************************/
-.other-claims { background-color: $panel-colour;
+.other-claims {
+  background-color: $panel-colour;
   padding: 10px 15px;
   border: 1px solid $border-colour;
 }
 
-#evidence-checklist-read-only{
-  .selected{
+#evidence-checklist-read-only {
+  .selected {
     width: 16px;
     height:16px;
     margin-right: 10px;

@@ -68,10 +68,11 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_by_state_and_type
-    if %w( redetermination awaiting_written_reasons ).include?(params[:filter])
-      @claims = @claims.send(params[:filter].to_sym)
-    elsif %w( fixed_fee cracked trial guilty_plea ).include?(params[:filter])
-      @claims = @claims.where{state << %w( redetermination awaiting_written_reasons )}.send(params[:filter].to_sym)
+    case params[:filter]
+      when 'redetermination', 'awaiting_written_reasons'
+        @claims = @claims.send(params[:filter].to_sym)
+      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea'
+        @claims = @claims.where{state << %w( redetermination awaiting_written_reasons )}.send(params[:filter].to_sym)
     end
   end
 

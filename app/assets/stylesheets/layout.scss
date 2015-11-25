@@ -12,44 +12,42 @@ body {
   }
 }
 
-#primary-nav-bar{
+#primary-nav-bar {
   background-color: $govuk-blue;
   border-bottom: 1px solid $govuk-blue;
-  padding:0.4em;
+  padding: 0.4em;
   overflow: auto;
 }
 
- #wrapper, #global-header-bar {
-    @include outer-container;
- }
- #global-header-bar .inner-block{
-  padding:0;
- }
+#wrapper, #global-header-bar {
+  @include outer-container;
+}
+
+#global-header-bar .inner-block {
+  padding: 0;
+}
 
 #footer {
   margin-top: 40px;
 
-  .ogl-logo{
+  .ogl-logo {
     background: url(https://assets.digital.cabinet-office.gov.uk/static/images/open-government-…cence-c1aedc8257961b938b4c7a21a2b0db3f2716dd9ef782cea73110dc69107c9042.png) 0 0 no-repeat;
   }
-  .footer-meta .footer-meta-inner{
+  .footer-meta .footer-meta-inner {
     width: 100%;
-    ul{
+    ul {
       margin: 0;
       margin-top: 60px
     }
   }
-  .show{
+  .show {
     font-size: 16px;
   }
-
 }
 
- // ==========================================================================
- // Override gov uk widths
- // ==========================================================================
-
-
+// ==========================================================================
+// Override gov uk widths
+// ==========================================================================
 
 #content,
 #wrapper,
@@ -80,8 +78,8 @@ body {
    // Phase banner
  // ==========================================================================
 
-.phase-banner{
-   clear:both;
+.phase-banner {
+  clear:both;
 }
 
 .phase-tag  {
@@ -89,28 +87,29 @@ body {
   margin-left: 0;
 }
 
-header.page-title{
+header.page-title {
   width: 100%;
   float: left;
   padding-bottom: 0.5em;
   margin-bottom: 1em;
   border-bottom: 1px solid $ministry-of-justice;
-  h1{
+  h1 {
     display: inline-block;
   }
-  .button{
+  .button {
     float: right;
   }
 }
 
-section{
+section {
   display: block
 }
+
 .advocate-loggedin-actions {
   display: block;
   margin: 2em auto;
   padding: 0;
-  li{
+  li {
     border: 1px solid;
     border-radius: 3px;
     display: inline-block;
@@ -121,59 +120,59 @@ section{
     a {
       text-decoration: none;
       color: $white;
-      padding:0 2.5em;
-
+      padding: 0 2.5em;
     }
-    &.new{
-
+    &.new {
       background-color: $mainstream-brand;
       border-color: $mainstream-brand;
     }
-    &.view{
+    &.view {
       background-color: $grey-3;
       border-color: $grey-3;
-      a{
-        color:$ministry-of-justice;
+      a {
+        color: $ministry-of-justice;
       }
     }
   }
 }
 
-.left{
+.left {
   float: left;
 }
-.right{
+
+.right {
   float: right;
 }
-.clear-float{
+
+.clear-float {
   overflow: auto;
 }
 
-.message{
+.message {
   width: 2em;
 }
 
-ol.questions{
-  margin-top:0;
+ol.questions {
+  margin-top: 0;
   list-style-type: none;
   list-style-position: inside;
-  li{
+  li {
     padding-top: $gutter;
     .clear-float, textarea{
       margin-top:25px;
     }
-    textarea{
+    textarea {
       padding: 5px;
     }
   }
 }
-p.questions{
+p.questions {
   margin-bottom: 0;
 }
 
 @import "grid_layout";
 
-.text-small{
+.text-small {
   @include core-19();
 }
 

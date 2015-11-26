@@ -68,6 +68,7 @@ class Claim < ActiveRecord::Base
   belongs_to :case_type
 
   delegate   :chamber_id, to: :advocate
+  delegate   :provider_id, to: :advocate
 
   has_many :case_worker_claims,       dependent: :destroy
   has_many :case_workers,             through: :case_worker_claims
@@ -113,6 +114,7 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimSubModelValidator
 
   validate :creator_and_advocate_in_same_chamber
+  # validate :creator_and_advocate_with_same_provider
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
@@ -325,6 +327,12 @@ class Claim < ActiveRecord::Base
   def creator_and_advocate_in_same_chamber
     valid = creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
     errors[:advocate_id] << 'Creator and advocate must belong to the same chamber' unless valid
+    valid
+  end
+
+  def creator_and_advocate_with_same_provider
+    valid = creator_id == advocate_id || creator.try(:provider) == advocate.try(:provider)
+    errors[:advocate_id] << 'Creator and advocate must belong to the same provider' unless valid
     valid
   end
 

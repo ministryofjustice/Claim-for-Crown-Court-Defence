@@ -26,8 +26,9 @@ class Advocate < ActiveRecord::Base
 
   default_scope { includes(:user, :chamber) }
 
-  validates :user, :chamber, presence: true
+  validates :user, presence: true
   validates :chamber, presence: true
+  # validates :provider, presence: true
   validates :supplier_number,
               presence: true,
               uniqueness: { case_sensitive: false },

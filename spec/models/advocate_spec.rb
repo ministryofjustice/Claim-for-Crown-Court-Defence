@@ -22,6 +22,7 @@ RSpec.describe Advocate, type: :model do
   it { should have_one(:user) }
 
   it { should validate_presence_of(:chamber) }
+  # it { should validate_presence_of(:provider) }
   it { should validate_presence_of(:user) }
 
   it { should accept_nested_attributes_for(:user) }

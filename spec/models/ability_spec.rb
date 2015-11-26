@@ -26,6 +26,7 @@ describe Ability do
   context 'advocate' do
     let(:advocate) { create(:advocate) }
     let(:chamber) { advocate.chamber }
+    let(:provider) { advocate.provider }
     let(:user) { advocate.user }
 
     [:create].each do |action|
@@ -83,6 +84,7 @@ describe Ability do
     context 'cannot manage advocates' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, Advocate.new(chamber: advocate.chamber)) }
+        it { should_not be_able_to(action, Advocate.new(provider: advocate.provider)) }
       end
     end
 
@@ -98,6 +100,12 @@ describe Ability do
       end
     end
 
+    context 'cannot manage their provider' do
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
+        it { should_not be_able_to(action, provider) }
+      end
+    end
+
     context 'cannot manage other chambers' do
       let(:other_chamber) { create(:chamber) }
       [:show, :edit, :update, :regenerate_api_key].each do |action|
@@ -105,11 +113,19 @@ describe Ability do
       end
     end
 
+    context 'cannot manage other providers' do
+      let(:other_provider) { create(:provider) }
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
+        it { should_not be_able_to(action, other_provider) }
+      end
+    end
+
   end
 
   context 'advocate admin' do
     let(:chamber) { create(:chamber) }
-    let(:advocate) { create(:advocate, :admin, chamber: chamber) }
+    let(:provider) { create(:provider) }
+    let(:advocate) { create(:advocate, :admin, chamber: chamber, provider: provider) }
     let(:user) { advocate.user }
 
     [:create].each do |action|
@@ -134,9 +150,23 @@ describe Ability do
       end
     end
 
+    context 'can manage claims by another advocate in the same provider' do
+      let(:other_advocate) { create(:advocate, provider: provider) }
+
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
+      end
+    end
+
     context 'can manage their chamber' do
       [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should be_able_to(action, chamber) }
+      end
+    end
+
+    context 'can manage their provider' do
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
+        it { should be_able_to(action, provider) }
       end
     end
 
@@ -147,7 +177,22 @@ describe Ability do
       end
     end
 
+    context 'cannot manage other providers' do
+      let(:other_provider) { create(:provider) }
+      [:show, :edit, :update, :regenerate_api_key].each do |action|
+        it { should_not be_able_to(action, other_provider) }
+      end
+    end
+
     context 'cannot manage claims by another advocate in a different chamber' do
+      let(:other_advocate) { create(:advocate) }
+
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
+      end
+    end
+
+    context 'cannot manage claims by another advocate with a different provider' do
       let(:other_advocate) { create(:advocate) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
@@ -179,6 +224,14 @@ describe Ability do
       end
     end
 
+    context 'can view/download documents by an advocate in the same provider' do
+      let(:other_advocate) { create(:advocate, provider: provider) }
+
+      [:show, :download].each do |action|
+        it { should be_able_to(action, Document.new(advocate: other_advocate)) }
+      end
+    end
+
     context 'cannot view/download another advocate\'s documents' do
       let(:other_advocate) { create(:advocate) }
 
@@ -199,11 +252,25 @@ describe Ability do
       end
     end
 
+    context 'can manage advocates in their provider' do
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, Advocate.new(provider: provider)) }
+      end
+    end
+
     context 'cannot manage advocates in a different chamber' do
       let(:other_chamber) { create(:chamber) }
 
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
         it { should_not be_able_to(action, Advocate.new(chamber: other_chamber)) }
+      end
+    end
+
+    context 'cannot manage advocates in a different provider' do
+      let(:other_provider) { create(:provider) }
+
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
+        it { should_not be_able_to(action, Advocate.new(provider: other_provider)) }
       end
     end
   end
@@ -294,6 +361,8 @@ describe Ability do
     let(:other_super_admin) { create(:super_admin) }
     let(:chamber)           { create(:chamber) }
     let(:other_chamber)     { create(:chamber) }
+    let(:provider)          { create(:provider) }
+    let(:other_provider)    { create(:provider) }
     let(:advocate)          { create(:advocate, chamber: chamber)}
     let(:other_advocate)    { create(:advocate, chamber: other_chamber)}
 
@@ -303,9 +372,21 @@ describe Ability do
       end
     end
 
+    context 'can manage any provider' do
+      [:show, :index, :new, :create, :edit, :update].each do |action|
+        it { should be_able_to(action, provider) }
+      end
+    end
+
     context 'cannot destroy chambers' do
       [:destroy].each do |action|
         it { should_not be_able_to(action, chamber) }
+      end
+    end
+
+    context 'cannot destroy providers' do
+      [:destroy].each do |action|
+        it { should_not be_able_to(action, provider) }
       end
     end
 

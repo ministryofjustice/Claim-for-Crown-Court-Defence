@@ -1,5 +1,8 @@
 FactoryGirl.define do
   factory :provider do
+    provider_type 'chamber'
+    sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
+
     trait :firm do
       provider_type 'firm'
       sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }

@@ -18,8 +18,8 @@ FactoryGirl.define do
     end
 
     chamber
+    provider
     supplier_number  { generate_unique_supplier_number }
-
 
     role 'advocate'
 
@@ -28,7 +28,6 @@ FactoryGirl.define do
     end
   end
 end
-
 
 def generate_unique_supplier_number
   alpha_part = ""

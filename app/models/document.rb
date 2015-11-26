@@ -44,6 +44,7 @@ class Document < ActiveRecord::Base
                      ]}
 
   delegate   :chamber_id, to: :advocate
+  delegate   :provider_id, to: :advocate
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document

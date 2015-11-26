@@ -31,6 +31,7 @@ class Expense < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
+    self.quantity = (self.quantity*4.round)/4.0
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
   end
 

@@ -12,5 +12,6 @@ Then(/^I visit the claim show page$/) do
 end
 
 Then(/^I should see a list item for "(.*?)" evidence$/) do |text|
+  save_and_open_page
   expect(page).to have_selector('li', text: text)
 end

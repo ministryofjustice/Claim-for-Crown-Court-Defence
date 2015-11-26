@@ -8,11 +8,13 @@ class Advocates::Admin::ChambersController < Advocates::Admin::ApplicationContro
 
   def regenerate_api_key
     @chamber.regenerate_api_key!
+    send_ga('event', 'api-key', 'updated')
     redirect_to advocates_admin_chamber_path(@chamber), notice: 'API key successfully updated'
   end
 
   def update
     if @chamber.update(chamber_params)
+      send_ga('event', 'chamber', 'updated')
       redirect_to advocates_admin_chamber_path, notice: 'Chamber successfully updated'
     else
       render :edit
@@ -33,6 +35,4 @@ class Advocates::Admin::ChambersController < Advocates::Admin::ApplicationContro
      :api_key
     )
   end
-
-
 end

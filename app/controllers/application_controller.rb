@@ -64,4 +64,8 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  def send_ga(type, *args)
+    flash[:ga] ||= []
+    flash[:ga] << Hash[type, args]
+  end
 end

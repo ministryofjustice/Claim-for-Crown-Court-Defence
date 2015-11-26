@@ -1,36 +1,36 @@
 /*********************************
 Styling for Claims Messaging
 *********************************/
-.messages{
-  .none{
+.messages {
+  .none {
     color: $border-colour;
   }
-  .new-message{
+  .new-message {
     width: 26px;
     height: 26px;
     margin-left: 5px;
   }
-   > *{
-   vertical-align: middle;
- }
+  > * {
+    vertical-align: middle;
+  }
 }
 
-.messages-container{
+.messages-container {
   border: 1px solid $border-colour;
   margin-top: 1em;
   margin-bottom: 1em;
   margin-right: 30px;
   overflow: hidden;
-  .messages-list{
+  .messages-list {
     min-height: 200px;
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 5px;
     margin-bottom: 1em;
-    .single-date{
+    .single-date {
       text-align: center;
-      legend{
+      legend {
         text-align: center;
         border: 1px solid $border-colour;
         padding-left: $gutter;
@@ -40,7 +40,7 @@ Styling for Claims Messaging
         font-weight: bold;
         margin-bottom: $gutter-half;
       }
-      .event-date{
+      .event-date {
         color: $date-text;
         border: 2px solid $date-border-colour;
         border-radius: 0.5em;
@@ -51,16 +51,16 @@ Styling for Claims Messaging
         font-weight: bold;
       }
     }
-    .message-container{
+    .message-container {
       margin-bottom: 1em;
       margin-left: 1em;
       margin-right: 1em;
     }
-    .message-body{
+    .message-body {
       padding: 5px 15px;
     }
-    .message-left{
-      .message-body{
+    .message-left {
+      .message-body {
         background-color: $left-message-colour;
         position: relative;
         text-align: left;
@@ -77,8 +77,9 @@ Styling for Claims Messaging
         }
       }
     }
-    .message-right{
-      .message-body{
+
+    .message-right {
+      .message-body {
         background-color: $panel-colour;
         position: relative;
         text-align: left;
@@ -95,109 +96,115 @@ Styling for Claims Messaging
         }
       }
     }
-    .message-audit{
+
+    .message-audit {
       font-size: 80%;
       color: $read-text;
       font-weight: bold;
       text-align: left;
-      .sent{
+      .sent {
         text-align: right;
       }
     }
   }
-  .message-status{
+
+  .message-status {
     position: relative;
     left: -9999px;
-    .message-success{
+
+    .message-success {
       color: $green;
       font-weight: bold;
     }
-    .message-error{
+
+    .message-error {
       color: $mellow-red;
       font-weight: bold;
     }
   }
-  .message-controls{
+  .message-controls {
     padding: $gutter-half;
     border-top: 1px solid $border-colour;
-    .form-group.inline{
+    .form-group.inline {
       margin-bottom: 0.5em;
     }
-    .upload-column{
+
+    .upload-column {
       @include grid-column( 1/7 );
       .upload-button {
-        width:100%;
-        top:0;
-        left:0;
-        cursor:pointer;
-        overflow:hidden;
-        text-align:center;
-        position:relative;
-        margin:0;
+        width: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        overflow: hidden;
+        text-align: center;
+        position: relative;
+        margin: 0;
         .file::-webkit-file-upload-button {
           visibility: hidden;
         }
         input.file {
-          right:0;
-          margin:0;
-          bottom:0;
-          padding:0;
-          opacity:0;
-          height:300px;
-          outline:none;
-          cursor:inherit;
-          position:absolute;
-        }
-        .upload-title{
-
+          right: 0;
+          margin: 0;
+          bottom: 0;
+          padding: 0;
+          opacity: 0;
+          height: 300px;
+          outline: none;
+          cursor: inherit;
+          position: absolute;
         }
       }
     }
-    .message-column{
+
+    .message-column {
       @include grid-column( 5/7 );
-      input[type="text"]{
+      input[type="text"] {
         width: 100%;
         padding: 2px 5px;
         @include core-19();
       }
     }
-    .submit-column{
+
+    .submit-column {
       @include grid-column( 1/7 );
-      .button-secondary{
-        width:100%;
+      .button-secondary {
+        width: 100%;
         margin: 0;
-        padding-left:$gutter;
+        padding-left: $gutter;
         padding-right: $gutter;
         background-color: $link-hover-colour;
         color: $white;
         box-shadow: 0 2px 0 $link-colour;
-        &:hover{
+        &:hover {
           background-color: $link-colour;
         }
       }
     }
-    .file-to-be-uploaded{
+
+    .file-to-be-uploaded {
       border-top: 1px solid $border-colour;
       padding-top: 15px;
       display: none;
-      .filename{
+      .filename {
         font-weight: bold;
       }
     }
   }
-  .history{
-    .event{
+
+  .history {
+    .event {
       color: $message-history-text;
       padding: 5px 10px;
       margin-bottom: 5px;
       margin-right: 1em;
       text-align: right;
-      strong{
+      strong {
         font-weight: bold;
       }
-      table{
+      table {
         @extend .claims_table;
-        td{
+        td {
           border-top: 1px solid $border-colour;
         }
       }

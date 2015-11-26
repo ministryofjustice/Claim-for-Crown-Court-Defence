@@ -23,6 +23,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
     @advocate = Advocate.new(params_with_temporary_password.merge(chamber_id: current_user.persona.chamber.id))
 
     if @advocate.save
+      send_ga('event', 'advocate', 'created')
       @advocate.user.send_reset_password_instructions
       redirect_to advocates_admin_advocates_url, notice: 'Advocate successfully created'
     else
@@ -32,6 +33,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
 
   def update
     if @advocate.update(advocate_params)
+      send_ga('event', 'advocate', 'updated', @advocate.id == @current_user.persona_id ? 'self' : 'other')
       redirect_to advocates_admin_advocates_url, notice: 'Advocate successfully updated'
     else
       render :edit
@@ -42,6 +44,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
 
   def destroy
     @advocate.destroy
+    send_ga('event', 'advocate', 'deleted')
     redirect_to advocates_admin_advocates_url, notice: 'Advocate deleted'
   end
 
@@ -59,5 +62,4 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )
   end
-
 end

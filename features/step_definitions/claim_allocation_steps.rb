@@ -100,55 +100,57 @@ When(/^I filter by "(.*?)"$/) do |filter|
 end
 
 Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, type|
-  number = quantity.to_i
-
   claims = type == 'all' ? Claim.all : Claim.send(type.to_sym)
+  claims.each { |claim| expect(page).to have_selector("#claim_#{claim.id}") }
 
-  claims.each do |claim|
-    expect(page).to have_selector("#claim_#{claim.id}")
-  end
-
-  expect(claims.count).to eq(number)
+  expect(claims.count).to eq(quantity.to_i)
 
   within '.claim-count' do
-    expect(page).to have_content(/#{number} claims?/)
+    expect(page).to have_content(/#{quantity} claims?/)
   end
 end
 
 Given(/^high value claims exist$/) do
-  @claims[0..4].each do |claim|
+  @claims[0..2].each do |claim|
     claim.update_column(:total, Settings.high_value_claim_threshold)
   end
 end
 
 Given(/^low value claims exist$/) do
-  @claims[5..9].each do |claim|
+  @claims[3...5].each do |claim|
     claim.update_column(:total, Settings.high_value_claim_threshold - 100 )
   end
 end
 
 Then(/^I should only see high value claims$/) do
-  @claims[0..4].each do |claim|
+  @claims[0..2].each do |claim|
     expect(page).to have_selector("#claim_#{claim.id}")
   end
 
   within '.claim-count' do
-    expect(page).to have_content(/5 claims/)
+    expect(page).to have_content(/3 claims/)
   end
 end
 
 Then(/^I should only see low value claims$/) do
-  @claims[5..9].each do |claim|
+  @claims[3...5].each do |claim|
     expect(page).to have_selector("#claim_#{claim.id}")
   end
 
   within '.claim-count' do
-    expect(page).to have_content(/5 claims/)
+    expect(page).to have_content(/2 claims/)
   end
 end
 
 Then(/^I should see all claims$/) do
   @claims.each do |claim|
     expect(page).to have_selector("#claim_#{claim.id}")
+  end
+end
+
+Then(/^I should not see any redetermination or awaiting_written_reasons claims$/) do
+  claims = Claim.redetermination + Claim.awaiting_written_reasons
+  claims.each do |claim|
+    expect(page).to_not have_selector("#claim_#{claim.id}")
   end
 end

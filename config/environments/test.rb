@@ -15,6 +15,8 @@ Rails.application.configure do
     url: "assets/test/images/reporders/:id_partition/:filename"
   }
 
+  GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', '')
+
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped

@@ -14,7 +14,7 @@ Feature: Claim evidence checklist
       And I check the first checkbox
       And I submit to LAA
       And I visit the claim show page
-     Then I should see a list item for "Representation Order" evidence
+     Then I should see a list item for "Representation order" evidence
 
   Scenario: New claim checklist
     Given I am a signed in advocate
@@ -24,4 +24,4 @@ Feature: Claim evidence checklist
       And I fill in the claim details
       And I submit to LAA
       And I visit the claim show page
-     Then I should see a list item for "Representation Order" evidence
+     Then I should see a list item for "Representation order" evidence

@@ -5,7 +5,7 @@
       .validation-summary
         %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@chamber.errors.count, t('.error'))}"
         %ul
-          - @chamber.errors._full_messages.each do |message|
+          - @chamber.errors.full_messages.each do |message|
             %li
               = message
         %span.form-hint
@@ -19,9 +19,10 @@
       = f.text_field :supplier_number, class: "form-control"
       = validation_error_message(@chamber, :supplier_number)
 
-      %label
-        = f.check_box :vat_registered
-        = t('.vat_registered')
+      = f.label :vat_registered, t('.vat_registered'), class: "form-label"
+      %div.form-group.inline
+        =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
     %p
       = f.submit 'Save', class: "button"

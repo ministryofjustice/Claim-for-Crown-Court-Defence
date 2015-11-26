@@ -14,6 +14,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :initialize_submodel_counts
 
   include ReadMessages
+  include MessageControlsDisplay
 
   def index
     @json_document_importer = JsonDocumentImporter.new
@@ -84,6 +85,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def clone_rejected
     begin
       draft = @claim.clone_rejected_to_new_draft
+      send_ga('event', 'claim', 'draft', 'clone-rejected')
       redirect_to edit_advocates_claim_url(draft), notice: 'Draft created'
     rescue
       redirect_to advocates_claims_url, alert: 'Can only clone rejected claims'
@@ -97,6 +99,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
       @claim.archive_pending_delete!
     end
 
+    send_ga('event', 'claim', 'deleted')
     respond_with @claim, { location: advocates_claims_url, notice: 'Claim deleted' }
   end
 
@@ -120,12 +123,14 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     if submitting_to_laa?
       @claim.force_validation = true
       if @claim.valid?
+        send_ga('event', 'claim', 'submit', 'started')
         redirect_to new_advocates_claim_certification_path(@claim)
       else
         present_errors
         render_edit_with_resources
       end
     else
+      send_ga('event', 'claim', 'draft', 'updated')
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     end
   end
@@ -350,6 +355,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   def create_draft
     if @claim.save
       @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
+      send_ga('event', 'claim', 'draft', 'created')
       redirect_to advocates_claims_path, notice: 'Draft claim saved'
     else
       render_new_with_resources
@@ -376,6 +382,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
       if @claim.valid?
         @claim.documents.each { |d| d.update_column(:advocate_id, @claim.advocate_id) }
+        send_ga('event', 'claim', 'submit', 'started')
         redirect_to new_advocates_claim_certification_path(@claim) and return
       else
         raise ActiveRecord::Rollback

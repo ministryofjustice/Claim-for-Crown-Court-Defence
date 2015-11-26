@@ -12,6 +12,7 @@ module PasswordHelpers
 
     if user.update_with_password(password_params[:user_attributes])
       sign_in(user, bypass: true)
+      send_ga('event', 'password', 'updated')
       redirect_to signed_in_user_profile_path, notice: 'Password successfully updated'
     else
       render :change_password
@@ -36,7 +37,7 @@ module PasswordHelpers
   end
 
   def get_resource_params
-    resource = self.current_user.persona.class.to_s.underscore.downcase
+    resource = controller_name.singularize
     @resource_params = self.send((resource + '_params').to_sym)
   end
 

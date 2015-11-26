@@ -1,0 +1,24 @@
+%h1.page-title Manage advocates
+%h2.heading-medium.left
+  = "Advocates in #{@chamber.name}"
+
+.grid-row.clear-float
+  = link_to 'Add advocate to chamber', new_super_admins_chamber_advocate_path(@chamber), class: 'button right'
+
+%table.advocates_table
+  %thead
+    %th
+      = t('.name')
+    %th
+      = t('.supplier_number')
+    %th
+      = t('.email')
+  %tbody
+    - @advocates.each do |advocate|
+      %tr
+        %td
+          = link_to advocate.name, super_admins_chamber_advocate_path(@chamber, advocate)
+        %td
+          = advocate.supplier_number
+        %td
+          = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}

@@ -22,11 +22,10 @@ class Certification < ActiveRecord::Base
   belongs_to :claim
 
   validate :one_and_only_one_checkbox_checked
-  validates :certification_date, presence: {message: "Certification date cannot be blank"}
-  validates :certified_by, presence: { message: "Certified by cannot be blank" }
+  validate :certification_date_valid
+  validate :certified_by_valid
 
   acts_as_gov_uk_date :certification_date
-
 
   private
 
@@ -42,6 +41,14 @@ class Certification < ActiveRecord::Base
     unless num_checked_boxes == 1
       errors[:base] << "You must check one and only one checkbox on this form"
     end
+  end
+
+  def certification_date_valid
+    errors[:base] << 'Certification date cannot be blank' if certification_date.blank?
+  end
+
+  def certified_by_valid
+    errors[:base] << 'Certified by cannot be blank' if certified_by.blank?
   end
 
 end

@@ -36,7 +36,6 @@ class Expense < ActiveRecord::Base
   end
 
   after_save do
-    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
     claim.update_expenses_total
     claim.update_total
   end

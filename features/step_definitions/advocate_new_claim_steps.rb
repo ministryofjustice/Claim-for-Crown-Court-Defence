@@ -160,7 +160,7 @@ When(/^I fill in the claim details(.*)$/) do |details|
     within '#expenses' do
       select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
       fill_in 'claim_expenses_attributes_0_location', with: 'London'
-      fill_in 'claim_expenses_attributes_0_quantity', with: 1
+      fill_in 'claim_expenses_attributes_0_quantity', with: 1.1
       fill_in 'claim_expenses_attributes_0_rate', with: 40
     end
   end

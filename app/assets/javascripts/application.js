@@ -23,6 +23,9 @@
     })
     .find('h2:first-of-type').trigger('click', 0);
 
+  $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
+    $(insertedItem).find('.select2').select2();
+  });
   $('.select2').select();
 
   //Stops the form from submitting when the user presses 'Enter' key
@@ -31,6 +34,6 @@
       return false;
     }
   });
-  
+
   moj.init();
 }());

@@ -1,0 +1,2 @@
+module SuperAdmins::AdvocatesHelper
+end

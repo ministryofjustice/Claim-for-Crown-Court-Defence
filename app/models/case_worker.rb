@@ -31,7 +31,7 @@ class CaseWorker < ActiveRecord::Base
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}
   validate  :days_worked_valid
-  validates :approval_level, inclusion: { in: APPROVAL_LEVELS_COLLECTION, message: "Approval level must be high or low" }
+  validate  :approval_level_valid
 
   accepts_nested_attributes_for :user
 
@@ -62,10 +62,16 @@ class CaseWorker < ActiveRecord::Base
 
   def days_worked_valid
     unless days_worked_size? && days_worked_valid_class_and_values?
-      errors[:days_worked] << "Days worked invalid"
+      errors[:base] << 'Days worked invalid'
     end
     unless at_least_one_day_specified_as_working?
-      errors[:days_worked] << "At least one day must be specified as a working day"
+      errors[:base] << 'At least one day must be specified as a working day'
+    end
+  end
+
+  def approval_level_valid
+    unless APPROVAL_LEVELS_COLLECTION.include?(approval_level)
+      errors[:base] << 'Approval level must be high or low'
     end
   end
 
@@ -80,7 +86,6 @@ class CaseWorker < ActiveRecord::Base
   def days_worked_valid_class_and_values?
     self.days_worked.map(&:class).uniq == [ Fixnum ] && days_worked_valid_values?
   end
-
 
   def days_worked_valid_values?
     uniqs = self.days_worked.uniq.sort

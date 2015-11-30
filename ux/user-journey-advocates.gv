@@ -3,8 +3,8 @@ digraph ADP_Advocate_Journey {
 	labelloc 	= t
 	ordering 	= out
 	splines 	= ortho
-	nodesep		= .7
-	ranksep 	= .5
+	nodesep		= 2.4
+	ranksep 	= .9
 
 	label 		= "Advocate Defence Payments - Advocate User Journey Map"
 	fontsize	= 16
@@ -24,16 +24,15 @@ digraph ADP_Advocate_Journey {
 		label="ADP Digital Service"
 
 		sign_in [ label="Sign in\n\n/" ]
+		feedback [ label="User feedback\n\n/feedback/new" ]
+		feedback_submitted [ label="Submit feedback" fillcolor=darkolivegreen2 ]
+
+		feedback -> feedback_submitted
 
 		# Advocate user
 		subgraph cluster_advocate {
 			label="Advocate"
 			fillcolor=grey90
-
-			new_claim [ label="New claim(s)" shape=diamond fillcolor=white ]
-			start_claim [ label="Start claim\n\n/advocates/claims/new" fillcolor=darkolivegreen2 ]
-			edit_claim [ label="Edit claim\n\n/advocates/claims/{id}/edit" fillcolor=darkolivegreen2 ]
-			import_claims [ label="Import claims\n\nVPV" fillcolor=darkolivegreen2 ]
 
 			claims [ label="Your claims view\n\n/advocates" shape="folder" ]
 			outstanding_claims [ label="Outstanding claims\n\n/advocates/claims/outstanding" shape=folder ]
@@ -54,6 +53,11 @@ digraph ADP_Advocate_Journey {
 				fillcolor=grey80
 				style="filled,dotted"
 
+				start_claim [ label="Start claim\n\n/advocates/claims/new" fillcolor=darkolivegreen2 ]
+				edit_claim [ label="Edit claim\n\n/advocates/claims/{id}/edit" fillcolor=darkolivegreen2 ]
+				import_claims [ label="Import claims" fillcolor=darkolivegreen2 ]
+				create_draft [ label="Create draft\n\nVPV" fillcolor=darkolivegreen2 ]
+
 				certification [ label="Certification\n\n/advocates/claims/{id}/certification/new" fillcolor=lightcyan2 ]
 				confirmation [ label="Confirmation\n\n/advocates/claims/{id}/confirmation" fillcolor=lightcyan2 ]
 			}
@@ -73,10 +77,9 @@ digraph ADP_Advocate_Journey {
 				rejected_claim [ label="Rejected" ]
 				part_authorised_claim [ label="Part-authorised" ]
 				draft_claim [ label="Draft claim" ]
-				create_draft [ label="Create draft\n\nVPV" ]
 
 				delete_claim [ label="Delete claim\n\nVPV" fillcolor=indianred1 ]
-				update_claim_status [ label="Redetermine claim status\n\nVPV" fillcolor=darkolivegreen2 ]
+				update_claim_status [ label="Apply for redetermination\nRequest written reasons" fillcolor=darkolivegreen2 ]
 			}
 
 			# Advocate admin
@@ -107,40 +110,39 @@ digraph ADP_Advocate_Journey {
 
 	# Advocate connections
 
-	browser -> sign_in -> {
-		new_claim
-		claims
-		archive
-		account
-	}
+	browser -> sign_in -> claims
 
 	claims -> {
 		outstanding_claims
 		authorised_claims
 	}
 
-	claims -> archive [ taillabel="Archived after 8 weeks" labeldistance="7" labelangle="72"]
+	claims -> archive [ taillabel="Archived after 8 weeks" labeldistance="7" labelangle="80"]
+	claims -> { import_claims, start_claim }
 
 	claims -> submitted_claim [ lhead=cluster_individual_claim ]
-	archive -> refused_claim [ lhead=cluster_individual_claim ]
 
-	archive -> delete_archive [ taillabel="After 8 weeks in archive" labeldistance="9" labelangle="65" ]
+	archive -> delete_archive [ taillabel="After 8 weeks\nin archive" labeldistance="5" labelangle="-60" ]
 
 	outstanding_claims -> submitted_claim
 	authorised_claims -> authorised_claim
 
-	rejected_claim -> create_draft -> start_claim
+	rejected_claim -> create_draft -> edit_claim
 
 
 	{
 		refused_claim
 		rejected_claim
 		part_authorised_claim
+	} -> archive
+
+	{
+		authorised_claim
+		part_authorised_claim
+		refused_claim
 	} -> update_claim_status
 
-	new_claim -> { import_claims, start_claim }
-
-	import_claims -> claims [ taillabel="Create drafts" labeldistance="5" labelangle="-70" ]
+	import_claims -> create_draft
 
 	{ start_claim, edit_claim } -> certification -> confirmation -> {
 		start_claim
@@ -150,4 +152,7 @@ digraph ADP_Advocate_Journey {
 	start_claim -> draft_claim
 
 	draft_claim -> { edit_claim, delete_claim }
+
+	# Stylistic only, used to move cluster underneath
+	delete_claim -> manage_chamber [ style=invis ]
 }

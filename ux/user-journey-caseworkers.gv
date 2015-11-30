@@ -25,6 +25,11 @@ digraph CLA_User_Journey {
 
 		sign_in [ label="Sign in\n\n/" ]
 
+		feedback [ label="User feedback\n\n/feedback/new" ]
+		feedback_submitted [ label="Submit feedback" fillcolor=darkolivegreen2 ]
+
+		feedback -> feedback_submitted
+
 		subgraph logged_in {
 			label="User logged in"
 			fillcolor=grey90
@@ -79,8 +84,6 @@ digraph CLA_User_Journey {
 	}
 
 	browser -> sign_in -> claims -> allocated_claim -> update_claim
-
-	sign_in -> account
 
 	{ allocate_claim, reallocate_claim } -> allocated_claim
 

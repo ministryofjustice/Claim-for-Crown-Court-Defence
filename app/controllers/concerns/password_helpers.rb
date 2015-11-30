@@ -7,7 +7,23 @@ module PasswordHelpers
     before_action :get_user_params, only: :update_password
   end
 
+  def update_password
+    user = user_for_controller_action
+
+    if user.update_with_password(password_params[:user_attributes])
+      sign_in(user, bypass: true)
+      send_ga('event', 'password', 'updated')
+      redirect_to signed_in_user_profile_path, notice: 'Password successfully updated'
+    else
+      render :change_password
+    end
+  end
+
   private
+
+  def user_for_controller_action
+    eval("@#{controller_name.singularize}").user
+  end
 
   def params_with_temporary_password
       @resource_params['user_attributes']['password'] = @temporary_password
@@ -21,7 +37,7 @@ module PasswordHelpers
   end
 
   def get_resource_params
-    resource = self.current_user.persona.class.to_s.underscore.downcase
+    resource = controller_name.singularize
     @resource_params = self.send((resource + '_params').to_sym)
   end
 

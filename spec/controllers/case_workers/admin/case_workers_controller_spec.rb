@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   let(:admin) { create(:case_worker, :admin) }
 
+  subject { create(:case_worker) }
+
   before { sign_in admin.user }
 
 
@@ -25,7 +27,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #show" do
-    subject { create(:case_worker) }
 
     before { get :show, id: subject }
 
@@ -65,7 +66,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #edit" do
-    subject { create(:case_worker) }
 
     before { get :edit, id: subject }
 
@@ -83,7 +83,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #change_password" do
-    subject { create(:case_worker) }
 
     before { get :change_password, id: subject }
 
@@ -101,7 +100,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #allocate" do
-    subject { create(:case_worker) }
 
     before { get :allocate, id: subject }
 
@@ -175,7 +173,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "PUT #update" do
-    subject { create(:case_worker) }
 
     context 'when valid' do
       before(:each) { put :update, id: subject, case_worker: { role: 'admin' } }
@@ -216,10 +213,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "PUT #update_password" do
-    subject { create(:case_worker) }
 
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
+      sign_in subject.user #need to sign in again after password change
     end
 
     context 'when valid' do
@@ -242,7 +239,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    subject { create(:case_worker) }
 
     before { delete :destroy, id: subject }
 

@@ -5,32 +5,6 @@
     = "Status:"
     %span.message-success
     %span.message-error
-  .message-controls
-    = simple_form_for @message, remote: true, authenticity_token: true  do |f|
-      = f.input :claim_id, value: @claim.id, as: :hidden
-      - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(@claim.state)
-        .js-hide-status
-          = f.label "Update your claim status", class: "form-label bold-normal"
-          .form-group.inline.js-test-claim-action
-            = f.collection_radio_buttons(:claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s) do |b|
-              - b.label(class: "block-label") { b.radio_button + b.value.humanize }
-
-      .grid-row
-        .upload-column
-          .upload-button.button-secondary
-            =  f.input :attachment, as: :file, wrapper: false, label: false
-            .upload-title="+ Upload"
-        .message-column
-          = f.input :body, as: :string, placeholder: 'Enter your message here', label: false
-          - if current_user.persona.is_a?(CaseWorker) && @claim.written_reasons_outstanding?
-            .written-reasons-checkbox
-              = f.input :written_reasons_submitted, as: :boolean
-        .submit-column
-          = f.submit 'Send', class: 'button-secondary'
-      .xsmall.form-hint
-        = "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
-      .file-to-be-uploaded
-        %span.filename
-        = " | "
-        %a{href:"#", title: "Remove the file you have selected to upload"}
-          = "Remove"
+  - if (current_user.persona.is_a?(CaseWorker) || (current_user.persona.is_a?(Advocate) && @message.claim.rejected? == false && @message.claim.draft? == false)) && @message.claim.archived_pending_delete? == false
+    .js-controls.message-controls{"data-auth-url" => current_user.persona.is_a?(CaseWorker) ? show_message_controls_case_workers_claim_path(@claim) : show_message_controls_advocates_claim_path(@claim) }
+      = render partial: "shared/message_controls", locals: {message: @message }

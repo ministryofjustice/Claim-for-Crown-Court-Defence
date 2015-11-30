@@ -7,6 +7,14 @@ module Claims::Cloner
       nullify :last_submitted_at
       nullify :original_submission_date
       nullify :uuid
+      exclude_association :messages
+      exclude_association :case_worker_claims
+      exclude_association :case_workers
+      exclude_association :claim_state_transitions
+      exclude_association :versions
+      exclude_association :basic_fees
+      exclude_association :fixed_fees
+      exclude_association :misc_fees
       clone [:fees, :documents, :defendants, :expenses]
     end
 
@@ -62,6 +70,7 @@ module Claims::Cloner
     draft = amoeba_dup
     draft.state = 'draft'
     draft.save!
+
     draft
   end
 end

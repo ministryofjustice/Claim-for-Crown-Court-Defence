@@ -27,9 +27,9 @@ class Advocate < ActiveRecord::Base
 
   validates :user, :chamber, presence: true
   validates :chamber, presence: true
-  validates :supplier_number, 
-              presence: true, 
-              uniqueness: { case_sensitive: false }, 
+  validates :supplier_number,
+              presence: true,
+              uniqueness: { case_sensitive: false },
               format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }
 
   accepts_nested_attributes_for :user

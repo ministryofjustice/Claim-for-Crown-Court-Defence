@@ -18,6 +18,7 @@ describe Ability do
 
     it { should be_able_to(:create, Message.new) }
     it { should be_able_to(:download_attachment, Message.new) }
+    it { should be_able_to(:download_attachment, Message.new) }
     it { should be_able_to(:index, UserMessageStatus) }
     it { should be_able_to(:update, UserMessageStatus.new) }
   end
@@ -36,7 +37,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -44,7 +45,7 @@ describe Ability do
     context 'cannot manage claims by another advocate' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -120,7 +121,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: advocate)) }
       end
     end
@@ -128,7 +129,7 @@ describe Ability do
     context 'can manage claims by another advocate in the same chamber' do
       let(:other_advocate) { create(:advocate, chamber: chamber) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -149,7 +150,7 @@ describe Ability do
     context 'cannot manage claims by another advocate in a different chamber' do
       let(:other_advocate) { create(:advocate) }
 
-      [:show, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
       end
     end
@@ -211,7 +212,7 @@ describe Ability do
     let(:case_worker) { create(:case_worker) }
     let(:user) { case_worker.user }
 
-    [:index, :archived, :show].each do |action|
+    [:index, :archived, :show, :show_message_controls].each do |action|
       it { should be_able_to(action, Claim.new) }
     end
 
@@ -285,4 +286,55 @@ describe Ability do
       end
     end
   end
+
+  context 'super admin' do
+
+    let(:super_admin)       { create(:super_admin) }
+    let(:user)              { super_admin.user }
+    let(:other_super_admin) { create(:super_admin) }
+    let(:chamber)           { create(:chamber) }
+    let(:other_chamber)     { create(:chamber) }
+    let(:advocate)          { create(:advocate, chamber: chamber)}
+    let(:other_advocate)    { create(:advocate, chamber: other_chamber)}
+
+    context 'can manage any chamber' do
+      [:show, :index, :new, :create, :edit, :update].each do |action|
+        it { should be_able_to(action, chamber) }
+      end
+    end
+
+    context 'cannot destroy chambers' do
+      [:destroy].each do |action|
+        it { should_not be_able_to(action, chamber) }
+      end
+    end
+
+    context 'can view and change own details' do
+      [:show, :edit, :update, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, super_admin) }
+      end
+    end
+
+    context 'cannot view or change other super admins details' do
+      [:show, :edit, :update, :change_password, :update_password].each do |action|
+        it { should_not be_able_to(action, other_super_admin) }
+      end
+    end
+
+    context 'can view, create and change any advocate details' do
+      [:show, :edit, :update, :new, :create, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, advocate) }
+        it { should be_able_to(action, other_advocate) }
+      end
+    end
+
+    context 'cannot destroy advocates' do
+      [:destroy].each do |action|
+        it { should_not be_able_to(action, advocate) }
+      end
+    end
+
+  end
+
+
 end

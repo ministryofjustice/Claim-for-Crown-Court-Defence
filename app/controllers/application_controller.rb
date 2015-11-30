@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception unless ENV['DISABLE_CSRF'] == '1'
 
   helper_method :current_user_messages_count
+  helper_method :signed_in_user_profile_path
 
   load_and_authorize_resource
 
@@ -17,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path_url_for_user, alert: 'Unauthorised'
+  end
+
+  def signed_in_user_profile_path
+    eval("#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path(#{current_user.persona_id})")
   end
 
   def root_path_url_for_user
@@ -35,10 +40,13 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for_superadmin
+    super_admins_root_url
+  end
+
   def after_sign_in_path_for_advocate
     advocates_root_url
   end
-
 
   def after_sign_in_path_for_caseworker
     case current_user.persona.role
@@ -56,4 +64,8 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  def send_ga(type, *args)
+    flash[:ga] ||= []
+    flash[:ga] << Hash[type, args]
+  end
 end

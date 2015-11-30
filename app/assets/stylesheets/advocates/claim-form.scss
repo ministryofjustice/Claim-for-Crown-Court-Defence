@@ -4,14 +4,14 @@ form {
   }
 
   fieldset {
-    margin:1em 0;
-    padding:1em 0;
+    margin: 1em 0;
+    padding: 1em 0;
     border-bottom: 1px solid $grey-2;
 
     legend {
       font-weight: bold;
-
     }
+
     label {
       display: block;
       margin-top: 1em;
@@ -29,15 +29,18 @@ form {
       }
     }
   }
+
   h2 + fieldset {
-      margin-top: 0;
-      padding-top: 0;
-    }
+    margin-top: 0;
+    padding-top: 0;
+  }
+
   span.auto-width {
-    width:auto;
+    width: auto;
     display: inline-block;
     margin-right: 1em;
   }
+
   .nested-fields {
     padding: 15px;
     background-color: $grey-4;

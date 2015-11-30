@@ -1,11 +1,11 @@
 @import '_typography';
 
-.column-quarter{
-  .bold-large, .bold-medium, .bold-xlarge{
+.column-quarter {
+  .bold-large, .bold-medium, .bold-xlarge {
     display: table;
   }
 }
-.bold-xlarge{
+.bold-xlarge {
   @include bold-48();
 }
 .bold-large {
@@ -18,21 +18,21 @@
 .normal {
   @include core-19();
 }
-.medium{
+.medium {
    @include core-24();
 }
-.xsmall{
+.xsmall {
   @include core-16();
 }
-.bold-normal{
+.bold-normal {
   @include bold-19();
 }
-.bold-xsmall{
+.bold-xsmall {
   @include bold-16();
 }
 
-.financial_summary{
-  p{
+.financial_summary {
+  p {
     @include core-19();
   }
 }

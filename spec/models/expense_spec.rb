@@ -56,4 +56,14 @@ RSpec.describe Expense, type: :model do
       end
     end
   end
+
+  describe '#quantity' do
+    it 'is rounded to the nearest quarter, in a before save hook, if a float is entered' do
+      subject = build(:expense, rate: 10, quantity: 1.1, amount: 0)
+      expect(subject.quantity).to eq 1.1
+      subject.save!
+      expect(subject.quantity).to eq 1.0      
+    end
+  end
+
 end

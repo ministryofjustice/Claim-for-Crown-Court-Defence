@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
@@ -19,6 +20,10 @@ Rails.application.routes.draw do
 
   authenticated :user, -> (u) { u.persona.is_a?(CaseWorker) } do
     root to: 'case_workers/claims#index', as: :case_workers_home
+  end
+
+ authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
+    root to: 'super_admins/chambers#index', as: :super_admins_home
   end
 
   devise_scope :user do
@@ -53,6 +58,27 @@ Rails.application.routes.draw do
 
   resources :user_message_statuses, only: [:index, :update]
 
+  namespace :super_admins do
+    root to: 'chambers#index'
+
+    resources :chambers, except: [:destroy] do
+      resources :advocates, except: [:destroy] do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
+    end
+
+    namespace :admin do
+      root to: 'chambers#index'
+
+      resources :super_admins, only: [:show, :edit, :update] do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
+    end
+
+  end
+
   namespace :advocates do
     root to: 'claims#index'
 
@@ -62,6 +88,7 @@ Rails.application.routes.draw do
 
     resources :claims do
       get 'confirmation',     on: :member
+      get 'show_message_controls', on: :member
       get 'outstanding',      on: :collection
       get 'authorised',       on: :collection
       get 'archived',         on: :collection
@@ -89,7 +116,8 @@ Rails.application.routes.draw do
     root to: 'claims#index'
 
     resources :claims, only: [:index, :show, :update] do
-    get 'archived', on: :collection
+      get 'show_message_controls', on: :member
+      get 'archived', on: :collection
     end
 
     namespace :admin do

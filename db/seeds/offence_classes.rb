@@ -9,4 +9,3 @@ OffenceClass.find_or_create_by(class_letter: 'H', description: 'Miscellaneous le
 OffenceClass.find_or_create_by(class_letter: 'I', description: 'Offences against public justice and similar offences')
 OffenceClass.find_or_create_by(class_letter: 'J', description: 'Serious sexual offences, offences against children')
 OffenceClass.find_or_create_by(class_letter: 'K', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000')
-

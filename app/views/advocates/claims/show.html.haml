@@ -6,7 +6,7 @@
     %h2
       = t('.h2_messages')
     %section{id: "messages"}
-      = render partial: 'shared/messages', locales: {claim: claim }
+      = render partial: 'shared/claim_history', locales: {claim: claim }
       = render partial: 'shared/claim_status', locals: { claim: claim, disabled: true }
     %h2
       = t(".h2_basic_info")

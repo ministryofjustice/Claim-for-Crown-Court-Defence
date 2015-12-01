@@ -6,6 +6,20 @@ class MessagePresenter < BasePresenter
     message.sender.persona.is_a?(klass)
   end
 
+  def body
+    h.content_tag :div do
+      h.concat(h.content_tag :div, message.body)
+      if message.attachment.present?
+        h.concat("Attachment: ")
+        h.concat(
+          h.content_tag :a, "#{message.attachment.original_filename}",
+          href: "/messages/#{message.id}/download_attachment",
+          title: 'Download '+ message.attachment.original_filename
+        )
+      end
+    end
+  end
+
   def sender_name
     message.sender.name
   end

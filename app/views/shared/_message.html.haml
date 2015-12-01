@@ -6,10 +6,6 @@
         .message-container
           .message-body
             = message.body
-            - if message.attachment.present?
-              .has-attachment
-                = "Attachment:"
-                = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
           .grid-row.message-audit
             .column-half.sender
               = message.sender_name
@@ -27,10 +23,6 @@
         .message-container
           .message-body
             = message.body
-            - if message.attachment.present?
-              .has-attachment
-                = "Attachment:"
-                = link_to(message.attachment.original_filename, download_attachment_message_path(message), title: 'Download '+ message.attachment.original_filename, class: 'attachment')
           .grid-row.message-audit
             .column-half.sender
               - if current_user.persona.is_a?(CaseWorker)

@@ -29,11 +29,19 @@ RSpec.describe Fee, type: :model do
     end
   end
 
- describe 'blank amount should be set to zero' do
-    it 'should replace blank amounts with zero before save' do
-      fee = FactoryGirl.build :fee, amount: nil
+  describe 'blank rate should be set to zero' do
+    it 'should replace blank rate with zero before save' do
+      fee = FactoryGirl.build :fee, rate: nil
       expect(fee).to be_valid
-      expect(fee.amount).to eq 0
+      expect(fee.rate).to eq 0
+    end
+  end
+
+ describe 'amount is calculated as quantity * rate before validation' do
+    it 'should replace blank amounts with zero before save' do
+      fee = FactoryGirl.build :fee, quantity: 12, rate: 3.01
+      expect(fee).to be_valid
+      expect(fee.amount).to eq 36.12
     end
   end
 
@@ -86,7 +94,7 @@ RSpec.describe Fee, type: :model do
   end
 
   describe '#category' do
-    it 'should return the abbreviateion of the fee type category' do
+    it 'should return the abbreviation of the fee type category' do
       cat = FactoryGirl.create :fee_category
       ft  = FactoryGirl.create :fee_type, fee_category: cat
       fee = FactoryGirl.create :fee, fee_type: ft

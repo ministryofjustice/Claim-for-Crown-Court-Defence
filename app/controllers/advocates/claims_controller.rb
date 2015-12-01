@@ -223,7 +223,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :fee_type_id,
        :fee_id,
        :quantity,
-       :amount,
+       :rate,
        :_destroy,
        dates_attended_attributes: [
           :id,
@@ -243,7 +243,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :fee_type_id,
        :fee_id,
        :quantity,
-       :amount,
+       :rate,
        :_destroy,
        dates_attended_attributes: [
           :id,
@@ -263,7 +263,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
        :fee_type_id,
        :fee_id,
        :quantity,
-       :amount,
+       :rate,
        :_destroy,
        dates_attended_attributes: [
           :id,

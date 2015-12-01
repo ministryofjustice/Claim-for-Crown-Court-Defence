@@ -30,7 +30,8 @@ class Fee < ActiveRecord::Base
 
   before_validation do
     self.quantity = 0 if self.quantity.blank?
-    self.amount = 0 if self.amount.blank?
+    self.rate = 0 if self.rate.blank?
+    self.amount = calculate_amount(quantity, rate)
   end
 
   after_save do
@@ -45,6 +46,10 @@ class Fee < ActiveRecord::Base
 
   def perform_validation?
     claim && claim.perform_validation?
+  end
+
+  def calculate_amount (quantity, rate)
+    quantity*rate
   end
 
   def self.new_blank(claim, fee_type)

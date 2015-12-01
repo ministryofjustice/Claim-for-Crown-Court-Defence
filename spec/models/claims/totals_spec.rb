@@ -19,13 +19,13 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
         subject.reload
         expect(subject.fees_total).to eq(27.0)
       end
 
       it 'updates total when claim fee destroyed' do
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
         subject.fees.first.destroy
         subject.reload
         expect(subject.fees_total).to eq(2.0)
@@ -74,7 +74,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, quantity: 3, rate: 1)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 4.00)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 4.00)
         subject.reload
         expect(subject.total).to eq(178.5)
       end

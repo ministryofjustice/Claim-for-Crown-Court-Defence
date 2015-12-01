@@ -1,7 +1,7 @@
 class FeeValidator < BaseClaimValidator
 
   def self.fields
-    [ :fee_type, :quantity, :amount ]
+    [ :fee_type, :quantity, :rate ]
   end
 
   def self.mandatory_fields
@@ -90,42 +90,42 @@ class FeeValidator < BaseClaimValidator
     add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99999
   end
 
-  def validate_amount
+  def validate_rate
     fee_code = @record.fee_type.try(:code)
     case fee_code
       when 'BAF'
-        validate_baf_amount
+        validate_baf_rate
       when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-        validate_non_baf_basic_fee_amount(fee_code)
+        validate_non_baf_basic_fee_rate(fee_code)
       else
-        validate_misc_and_fixed_fee_amount
+        validate_misc_and_fixed_fee_rate
     end
   end
 
-  def validate_baf_amount
-    # we want to validate the Basic fee has an amount of more than 0 as quantity must be 1
-    # NOTE: this should be combinable with other non_baf logic
-    # ignore for fixed fees (no baf required)
-    # ignore if from the api (because basic fee instantiation sets
-    # the BAF to 1 and amount to 0 via claim creation endpoint)
+  def validate_baf_rate
+    # we want to validate the Basic fee has a rate of more than 0 as quantity must be 1
+    # BUT
+    # - ignore for fixed fees (no baf required)
+    # - ignore if from the api (because basic fee instantiation sets
+    #   the BAF to 1 and rate to 0 via claim creation endpoint)
     unless @record.claim.case_type.try(:is_fixed_fee?) || (@record.claim.try(:api_draft?) && @record.new_record?)
-      add_error(:amount, 'baf_invalid') if @record.amount <= 0
+      add_error(:rate, 'baf_invalid') if @record.rate <= 0
     end
   end
 
-  def validate_misc_and_fixed_fee_amount
-    if @record.quantity > 0 && @record.amount <= 0
-      add_error(:amount, 'invalid')
-    elsif @record.quantity <= 0 && @record.amount > 0
+  def validate_misc_and_fixed_fee_rate
+    if @record.quantity > 0 && @record.rate <= 0
+      add_error(:rate, 'invalid')
+    elsif @record.quantity <= 0 && @record.rate > 0
       add_error(:quantity, 'invalid')
     end
   end
 
-  def validate_non_baf_basic_fee_amount(case_type)
+  def validate_non_baf_basic_fee_rate(case_type)
     if @record.quantity > 0
-      add_error(:amount, "#{case_type.downcase}_zero") if @record.amount <=0
+      add_error(:rate, "#{case_type.downcase}_zero") if @record.rate <=0
     else
-      add_error(:amount, "#{case_type.downcase}_invalid") if @record.amount != 0
+      add_error(:rate, "#{case_type.downcase}_invalid") if @record.rate != 0
     end
   end
 

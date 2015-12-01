@@ -104,6 +104,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           current_user.claims.caseworker_dashboard_completed
       end
     end
+
+    @claims = @claims.paginate(page: params[:page], per_page: 10)
   end
 
   def tab

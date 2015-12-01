@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'custom_matchers'
+require 'will_paginate/array'
 
 RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
@@ -40,6 +41,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         query_result = double 'QueryResult'
         expect(controller.current_user).to receive_message_chain(:claims, :dashboard_displayable_states).and_return(query_result)
         allow(query_result).to receive(:order).and_return(non_archived_claims)
+        allow(query_result).to receive(:paginate).and_return(non_archived_claims)
         allow(query_result).to receive(:unscope).and_return(non_archived_claims)
         get :index
         expect(response).to have_http_status(:success)

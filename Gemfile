@@ -49,6 +49,7 @@ gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
 gem 'gov_uk_date_fields',      '0.0.2'
+gem 'will_paginate',           '~> 3.0.6'
 gem 'yaml_db'
 gem 'zendesk_api'  ,       '1.12.1'
 

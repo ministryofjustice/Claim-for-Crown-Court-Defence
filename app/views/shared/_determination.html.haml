@@ -1,0 +1,16 @@
+.grid-row.history
+  .column-two-thirds
+    &nbsp;
+  .column-third
+    .event
+      %strong
+        = determination.event
+      = determination.timestamp
+      %table
+        - determination.itemise do |item, amount|
+          %tr
+            %td
+              #{item.humanize}:
+            %td
+              #{number_to_currency(amount)}
+              

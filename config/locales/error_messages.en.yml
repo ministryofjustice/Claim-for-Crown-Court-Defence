@@ -316,17 +316,17 @@ basic_fee:
       short: Enter 1
       api: Enter a quantity of 1 for basic fee
     daf_qty_mismatch:
-      long: The number of daily attendance fees does not fit the actual trial length
+      long: The number of daily attendance fees (3-40 days) does not fit the actual trial length
       short: Enter a number that fits the actual trial length
-      api: The number of daily attendance fees does not fit the actual trial length
+      api: The number of daily attendance fees (3-40 days) does not fit the actual trial length
     dah_qty_mismatch:
-      long: The number of daily attendance fees does not fit the actual trial length
+      long: The number of daily attendance fees (41-50 days) does not fit the actual trial length
       short: Enter a number that fits the actual trial length
-      api: The number of daily attendance fees does not fit the actual trial length
+      api: The number of daily attendance fees (41-50 days) does not fit the actual trial length
     daj_qty_mismatch:
-      long: The number of daily attendance fees does not fit the actual trial length
+      long: The number of daily attendance fees (51+ days) does not fit the actual trial length
       short: Enter a number that fits the actual trial length
-      api: The number of daily attendance fees does not fit the actual trial length
+      api: The number of daily attendance fees (51+ days) does not fit the actual trial length
     pcm_invalid:
       long: The quantity for plea and case management hearing must be less than or equal to 3
       short: Enter a number less than or equal to 3

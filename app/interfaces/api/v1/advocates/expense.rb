@@ -16,9 +16,9 @@ module API
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,          desc: "REQUIRED: The API authentication key of the chamber"
               optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
-              optional :expense_type_id, type: Integer, desc: "REQUIRED: Reference to the parent expense type."
-              optional :quantity, type: Integer,        desc: "REQUIRED: Quantity of expenses of this type and rate."
-              optional :rate, type: Float,              desc: "REQUIRED: Rate for each expense."
+              optional :expense_type_id, type: Integer, desc: "REQUIRED: The unique identifier for the corresponding expense type."
+              optional :quantity, type: Float,          desc: "REQUIRED: The number of expenses of this type that are being claimed (quantity x rate will equal amount). rounded to nearest quarter."
+              optional :rate, type: Float,              desc: "REQUIRED: The currency value per unit/quantity of the expense (quantity x rate will equal amount)."
               optional :location, type:  String,        desc: "OPTIONAL: Location (e.g. of hotel) where applicable."
             end
 

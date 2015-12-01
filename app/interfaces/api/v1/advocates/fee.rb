@@ -19,9 +19,9 @@ module API
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,      desc: "REQUIRED: The API authentication key of the chamber"
               optional :claim_id, type: String,     desc: 'REQUIRED: The unique identifier for the corresponding claim.'
-              optional :fee_type_id, type: Integer, desc: 'REQUIRED: The unique identifier for the corresponding FeeType'
-              optional :quantity, type: Integer,    desc: 'REQUIRED: The number of Fees being claimed for of this FeeType and Rate'
-              optional :amount, type: Float,        desc: 'REQUIRED: Total value.'
+              optional :fee_type_id, type: Integer, desc: 'REQUIRED: The unique identifier for the corresponding fee type'
+              optional :quantity, type: Integer,    desc: 'REQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount)'
+              optional :rate, type: Float,          desc: 'REQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount).'
             end
 
             # NOTE: explicit error raising because claim_id's presence is not validated by model due to instatiation issues # TODO review in code review
@@ -39,7 +39,7 @@ module API
                 claim_id: claim_id,
                 fee_type_id: params[:fee_type_id],
                 quantity: params[:quantity],
-                amount: params[:amount]
+                rate: params[:rate]
               }
             end
 

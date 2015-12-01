@@ -152,9 +152,9 @@ When(/^I fill in the claim details(.*)$/) do |details|
   unless details == ' but add no fees or expenses' # preceeding space is required for match
     within '#basic-fees' do
       fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_basic_fees_attributes_0_amount', with: 50
+      fill_in 'claim_basic_fees_attributes_0_rate', with: 50
       fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
-      fill_in 'claim_basic_fees_attributes_1_amount', with: 50
+      fill_in 'claim_basic_fees_attributes_1_rate', with: 50
     end
 
     within '#expenses' do
@@ -321,7 +321,7 @@ end
 When(/^I add a fixed fee$/) do
     within '#fixed-fees' do
       fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_fixed_fees_attributes_0_amount', with: 100.00
+      fill_in 'claim_fixed_fees_attributes_0_rate', with: 100.00
       select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     end
 end
@@ -333,7 +333,7 @@ end
 When(/^I add a miscellaneous fee$/) do
     within '#misc-fees' do
       fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_misc_fees_attributes_0_amount', with: 200.00
+      fill_in 'claim_misc_fees_attributes_0_rate', with: 200.00
       select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     end
 end
@@ -381,7 +381,7 @@ end
 Given(/^I fill in an Initial Fee$/) do
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_basic_fees_attributes_0_amount', with: 1.5
+    fill_in 'claim_basic_fees_attributes_0_rate', with: 0.75
   end
 end
 
@@ -389,7 +389,7 @@ Given(/^I fill in a Miscellaneous Fee$/) do
   within '#misc-fees' do
     select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     fill_in 'claim_misc_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_misc_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_misc_fees_attributes_0_rate', with: 1.50
   end
 end
 
@@ -397,7 +397,7 @@ Given(/^I fill in a Fixed Fee$/) do
   within '#fixed-fees' do
     select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.50
   end
 end
 
@@ -405,7 +405,7 @@ Given(/^I fill in a Fixed Fee using select2$/) do
   within '#fixed-fees' do
     # select2 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id' # does not work
     fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.50
   end
 end
 

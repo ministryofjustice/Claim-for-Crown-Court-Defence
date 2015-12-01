@@ -31,7 +31,7 @@ class Fee < ActiveRecord::Base
   before_validation do
     self.quantity = 0 if self.quantity.blank?
     self.rate = 0 if self.rate.blank?
-    self.amount = calculate_amount(quantity, rate)
+    self.amount = self.calculated_amount
   end
 
   after_save do
@@ -48,8 +48,8 @@ class Fee < ActiveRecord::Base
     claim && claim.perform_validation?
   end
 
-  def calculate_amount (quantity, rate)
-    quantity*rate
+  def calculated_amount
+    self.quantity * self.rate
   end
 
   def self.new_blank(claim, fee_type)
@@ -97,6 +97,7 @@ class Fee < ActiveRecord::Base
 
   def clear
     self.quantity = nil;
+    self.rate = nil;
     self.amount = nil;
     # explicitly destroy child relations
     self.dates_attended.destroy_all unless self.dates_attended.empty?

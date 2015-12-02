@@ -20,7 +20,7 @@ module DemoData
     def update_basic_fee(basic_fee_code, quantity, rate)
       fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
       raise "fee code #{basic_fee_code} does not match any known basic fees" if fee.fee_type_id.nil?
-      fee.update(quantity: quantity, rate: rate)
+      fee.update(quantity: quantity, rate: rate.round(2))
       @codes_added << basic_fee_code
     end
 

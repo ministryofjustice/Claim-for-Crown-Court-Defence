@@ -27,6 +27,7 @@ gem 'jbuilder',               '~> 2.2.16'
 gem 'jquery-rails',           '~> 3.1.2'
 gem 'json-schema'
 gem 'json-schema-generator'
+gem 'kaminari',               '~> 0.16.2'
 gem 'libreconv',              '~> 0.9.0'
 gem 'logstasher',             '>= 0.6.5'
 gem 'moj_internal_template',  '~> 0.1.9'
@@ -76,6 +77,7 @@ group :test do
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
   gem 'database_cleaner',           '~> 1.4.1'
+  gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
   gem 'poltergeist',                '~> 1.6.0'
   gem 'rspec-mocks',                '~> 3.2.1'

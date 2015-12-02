@@ -18,23 +18,26 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc)
+    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc).
+      page(params[:page]).
+      per(10)
     search if params[:search].present?
   end
 
   def outstanding
-    @claims = @financial_summary.outstanding_claims
+    @claims = @financial_summary.outstanding_claims.page(params[:page]).per(10)
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
-    @claims = @financial_summary.authorised_claims
+    @claims = @financial_summary.authorised_claims.page(params[:page]).per(10)
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
   def archived
     @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
     search(:archived_pending_delete) if params[:search].present?
+    @claims = @claims.page(params[:page]).per(10)
   end
 
   def show

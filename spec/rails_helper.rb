@@ -31,6 +31,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'paperclip/matchers'
 require 'webmock/rspec'
+require 'kaminari_rspec'
 
 require 'flip'
 Feature.feature(:api, default: true) #ensures api is switched on for rspec suite
@@ -59,8 +60,9 @@ WebMock.disable_net_connect!(allow: [/codeclimate/, /latest\/meta-data\/iam\/sec
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
-  config.include Devise::TestHelpers, type: :controller
   config.include Paperclip::Shoulda::Matchers
+  config.include Devise::TestHelpers, type: :controller
+  config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

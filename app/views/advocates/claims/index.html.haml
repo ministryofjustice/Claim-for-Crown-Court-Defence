@@ -21,3 +21,4 @@
     = render partial: 'shared/search_summary'
 
 = render partial: 'claims', locals: { claims: @claims }
+= paginate @claims

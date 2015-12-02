@@ -21,7 +21,6 @@ RSpec.describe Chamber, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:supplier_number) }
-  it { should validate_uniqueness_of(:supplier_number) }
 
   context '.set_api_key' do
     let(:chamber) { FactoryGirl.create(:chamber) }

@@ -71,7 +71,7 @@
                 %td
                   = expense.quantity
                 %td
-                  = expense.rate
+                  = '%.2f' % expense.rate if expense.rate
                 %td
                   = expense.amount
 

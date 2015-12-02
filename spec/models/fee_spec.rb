@@ -21,7 +21,7 @@ RSpec.describe Fee, type: :model do
 
   it { should validate_presence_of(:claim).with_message('blank')}
 
-  describe 'blank quantity should be set to zero' do
+  describe 'blank quantity should be set to zero before validation' do
     it 'should replace blank quantities with zero before save' do
       fee = FactoryGirl.build :fee, quantity: nil
       expect(fee).to be_valid
@@ -29,12 +29,44 @@ RSpec.describe Fee, type: :model do
     end
   end
 
- describe 'blank amount should be set to zero' do
-    it 'should replace blank amounts with zero before save' do
-      fee = FactoryGirl.build :fee, amount: nil
+  describe 'blank rate should be set to zero before validation' do
+    it 'should replace blank rate with zero before save' do
+      fee = FactoryGirl.build :fee, rate: nil
+      expect(fee).to be_valid
+      expect(fee.rate).to eq 0
+    end
+  end
+
+  describe 'blank amount with blank quantity and rate should be set to zero before validation' do
+    it 'should replace blank amount with zero before save' do
+      fee = FactoryGirl.build :fee, quantity: nil, rate: nil, amount: nil
       expect(fee).to be_valid
       expect(fee.amount).to eq 0
     end
+  end
+
+  describe '#calculate_amount' do
+
+    # this should be removed after gamma/private beta claims archived/deleted
+    context 'for fees entered before rate was reintroduced' do
+      it 'amount is NOT recalculated and rate presence is NOT validated' do
+        fee = FactoryGirl.build :fee, quantity: 10, rate: nil, amount: 255
+        fee.claim.force_validation = true
+        expect(fee).to be_valid
+        expect(fee.amount).to eq 255.00
+      end
+    end
+
+    # this will become default after gamma/private beta claims archived/deleted
+    context 'for fees entered after rate was reintroduced' do
+      it 'amount is calculated as quantity * rate before validation' do
+        fee = FactoryGirl.build :fee, quantity: 12, rate: 3.01
+        fee.claim.force_validation = true
+        expect(fee).to be_valid
+        expect(fee.amount).to eq 36.12
+      end
+    end
+
   end
 
   describe '.new_blank' do
@@ -86,7 +118,7 @@ RSpec.describe Fee, type: :model do
   end
 
   describe '#category' do
-    it 'should return the abbreviateion of the fee type category' do
+    it 'should return the abbreviation of the fee type category' do
       cat = FactoryGirl.create :fee_category
       ft  = FactoryGirl.create :fee_type, fee_category: cat
       fee = FactoryGirl.create :fee, fee_type: ft

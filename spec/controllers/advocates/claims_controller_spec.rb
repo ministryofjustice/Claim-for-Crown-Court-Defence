@@ -599,18 +599,18 @@ def valid_claim_fee_params
      "additional_information" => "",
      "basic_fees_attributes"=>
       {
-        "0"=>{"quantity" => "10", "amount" => "1000", "fee_type_id" => basic_fee_type_1.id.to_s},
-        "1"=>{"quantity" => "0", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-        "2"=>{"quantity" => "1", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
-        "3"=>{"quantity" => "5", "amount" => "125", "fee_type_id" => basic_fee_type_4.id.to_s}
+        "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
+        "1"=>{"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
+        "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
+        "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
         },
       "fixed_fees_attributes"=>
       {
-        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "amount" => "2500", "_destroy" => "false"}
+        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
       },
       "misc_fees_attributes"=>
       {
-        "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "amount" => "250", "_destroy" => "false"},
+        "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
       },
      "expenses_attributes"=>
      {

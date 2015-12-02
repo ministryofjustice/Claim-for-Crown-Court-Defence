@@ -533,10 +533,10 @@ RSpec.describe Claim, type: :model do
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 4.00)
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 3.00)
-      create(:fee, fee_type: fixed_fee, claim_id: subject.id, amount: 0.50)
-      create(:fee, fee_type: misc_fee,  claim_id: subject.id, amount: 0.50)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 4.00)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 3.00)
+      create(:fee, fee_type: fixed_fee, claim_id: subject.id, rate: 0.50)
+      create(:fee, fee_type: misc_fee,  claim_id: subject.id, rate: 0.50)
       subject.reload
     end
 
@@ -558,7 +558,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 2.00)
+        create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.00)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -611,9 +611,9 @@ RSpec.describe Claim, type: :model do
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 3.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 3.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.00)
 
       create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
       create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
@@ -630,7 +630,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 0.5)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 0.5)
         subject.reload
         expect(subject.total).to eq(156.00)
       end
@@ -884,7 +884,7 @@ RSpec.describe Claim, type: :model do
 
       [400, 10_000, 566, 1_000].each do |value|
         claim = create(:submitted_claim)
-        claim.fees << create(:fee, amount: value, claim: claim)
+        claim.fees << create(:fee, rate: value, claim: claim)
         claims << claim
       end
 
@@ -900,9 +900,9 @@ RSpec.describe Claim, type: :model do
 
     let(:claim_with_all_fee_types) do
       claim = FactoryGirl.create :draft_claim
-      FactoryGirl.create(:fee, :basic, :with_date_attended, claim: claim, amount: 9.99)
-      FactoryGirl.create(:fee, :fixed, :with_date_attended, claim: claim, amount: 9.99)
-      FactoryGirl.create(:fee, :misc, claim: claim, amount: 9.99)
+      FactoryGirl.create(:fee, :basic, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryGirl.create(:fee, :fixed, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryGirl.create(:fee, :misc, claim: claim, rate: 9.99)
       claim
     end
 
@@ -1196,9 +1196,9 @@ RSpec.describe Claim, type: :model do
              "_destroy"=>"false"}},
          "additional_information"=>"",
          "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "amount"=>"150", "fee_type_id"=>fee_type.id}},
-         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
-         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
+          {"0"=>{"quantity"=>"1", "rate"=>"150", "fee_type_id"=>fee_type.id}},
+         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
+         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
          "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
          "apply_vat"=>"0",
          "document_ids"=>[""],
@@ -1267,7 +1267,7 @@ RSpec.describe Claim, type: :model do
             "_destroy"=>"false"}},
         "additional_information"=>"",
         "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "amount"=>"450", "fee_type_id"=>@bft1.id}},
+          {"0"=>{"quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id}},
         "apply_vat"=>"0",
         "document_ids"=>[""],
         "evidence_checklist_ids"=>["1", ""]},

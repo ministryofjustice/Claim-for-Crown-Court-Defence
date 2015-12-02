@@ -31,7 +31,8 @@ class Fee < ActiveRecord::Base
   before_validation do
     self.quantity = 0 if self.quantity.blank?
     self.rate = 0 if self.rate.blank?
-    self.amount = self.calculated_amount
+    self.amount = 0 if self.amount.blank?
+    calculate_amount
   end
 
   after_save do
@@ -48,8 +49,15 @@ class Fee < ActiveRecord::Base
     claim && claim.perform_validation?
   end
 
-  def calculated_amount
-    self.quantity * self.rate
+  # TODO: this should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
+  #       have been deleted/archived.
+  def is_before_rate_reintroduced?
+    self.amount > 0 && self.rate == 0
+  end
+
+  def calculate_amount
+    return if is_before_rate_reintroduced?
+    self.amount = self.quantity * self.rate
   end
 
   def self.new_blank(claim, fee_type)

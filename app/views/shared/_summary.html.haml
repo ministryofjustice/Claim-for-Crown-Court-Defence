@@ -16,6 +16,8 @@
             %th
               = t('.quantity')
             %th
+              = t('.rate')
+            %th
               = t('.amount')
         %tbody
           - claim.fees.select(&:present?).each do |fee_object|
@@ -31,6 +33,8 @@
                   = fee.fee_type.description
                 %td
                   = fee.quantity
+                %td
+                  = fee.rate
                 %td
                   = fee.amount
       .totals

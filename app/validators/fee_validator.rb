@@ -91,6 +91,10 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_rate
+    # TODO: this return should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
+    #       have been deleted/archived.
+    return if @record.is_before_rate_reintroduced?
+
     fee_code = @record.fee_type.try(:code)
     case fee_code
       when 'BAF'

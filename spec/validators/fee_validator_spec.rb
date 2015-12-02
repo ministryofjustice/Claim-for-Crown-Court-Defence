@@ -22,10 +22,12 @@ describe FeeValidator do
   end
 
   describe 'rate' do
+
     before(:each) do
       daf_fee.claim.actual_trial_length = 10
     end
-    context 'quantity greater than zero' do
+
+    context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
       it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'baf_invalid') }
       it { should_error_if_equal_to_value(daf_fee, :rate, nil, 'daf_zero') }
@@ -33,14 +35,33 @@ describe FeeValidator do
       it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'daf_zero') }
     end
 
-    context 'quantity = 0' do
+    context 'with quantity of 0' do
       before(:each) do
         daf_fee.quantity = 0
       end
       it { should_error_if_equal_to_value(daf_fee, :rate, 500.00, 'daf_invalid') }
     end
 
-    # TODO max_amount removed in later PR - remove?
+    # this should be removed after gamma/private beta claims archived/deleted
+    context 'for fees entered before rate was reintroduced' do
+      it 'should NOT require a rate of more than zero' do
+        fee.amount = 255
+        fee.rate = nil
+        expect(fee).to be_valid
+      end
+    end
+
+    # this will become default after gamma/private beta claims archived/deleted
+    context 'for fees entered after rate was reintroduced' do
+      it 'should require a rate of more than zero' do
+        fee.amount = nil
+        fee.rate = nil
+        expect(fee).to_not be_valid
+        expect(fee.rate).to eq 0
+      end
+    end
+    
+    # TODO: max_amount removed in later PR - remove?
     # context 'fee with max amount' do
     #   before(:each)       { fee.fee_type.max_amount = 9999 }
     #   it { should_be_valid_if_equal_to_value(fee, :amount, 9999) }

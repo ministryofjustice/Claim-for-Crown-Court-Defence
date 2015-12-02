@@ -1,5 +1,4 @@
 class ExpensePresenter < BasePresenter
-
   presents :expense
 
   def dates_attended_delimited_string
@@ -9,5 +8,4 @@ class ExpensePresenter < BasePresenter
  def amount
     h.number_to_currency(expense.amount)
  end
-
 end

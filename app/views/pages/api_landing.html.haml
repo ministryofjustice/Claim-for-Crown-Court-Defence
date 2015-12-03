@@ -1,17 +1,17 @@
 %section.api-documentation
   %h1.page-title
-    Advocate Defence Payments API
+    Claim for crown court defence work API
 
   %h3
     Overview
 
   %p
-    An Application Program Interface (API) enables one computer system to talk to another. The Advocate Defence Payments system has an API that allows external applications to create claims.
+    An Application Program Interface (API) enables one computer system to talk to another. The "Claim for crown court defence work" system has an API that allows external applications to create claims.
 
   %p
-    The API’s typical users are commercial case management systems.  This page is mainly for software vendors of these systems, to help them provide the functionality to submit claims to the ADP system automatically.
+    The API’s typical users are commercial case management systems.  This page is mainly for software vendors of these systems, to help them provide the functionality to submit claims to the "Claim for crown court defence work" system automatically.
   %p
-    The API only submits draft claims. The end user then logs on to the ADP system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
+    The API only submits draft claims. The end user then logs on to the "Claim for crown court defence work" system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
 
   %h3
     Documentation
@@ -26,9 +26,9 @@
 
     %ul.list-bullet
       %li
-        an ADP advocate administrator account's email address for the chamber - to be used as the creator of the claim
+        an advocate account's email address for the chamber - to be used as the creator of the claim
       %li
-        an ADP advocate account's email address for the advocate for whom the claim is being created
+        an advocate account's email address for the advocate for whom the claim is being created
 
     %p
       The normal course of events to submit a claim would be:
@@ -110,12 +110,12 @@
 
   %p
     = link_to "Sign up", new_registration_path('user'), class: 'button'
-    
+
   %h3
     Example Desktop Application
 
   %p
-    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the ADP API to help you write your own CMS extension. You can #{link_to 'download the source code from github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'}.
+    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the "Claim for crown court defence work" API to help you write your own CMS extension. You can #{link_to 'download the source code from github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'}.
   %p
     We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
 

@@ -950,24 +950,20 @@ RSpec.describe Claim, type: :model do
 
   describe 'calculate_vat' do
 
-    it 'should calaculate vat before saving if vat is applied' do
-      allow(VatRate).to receive(:vat_amount).and_return(99.44)
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, last_submitted_at: Date.today
-      claim.save!
-      expect(claim.vat_amount).to eq 99.44
+    it 'should calaculate vat on submission if vat is applied' do
+      allow(VatRate).to receive(:vat_amount).and_return(10)
+      claim = FactoryGirl.build :unpersisted_claim, total: 100
+      claim.submit!
+      expect(claim.vat_amount).to eq 20
     end
 
     it 'should zeroise the vat amount if vat is not applied' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22, last_submitted_at: Date.today
-      claim.save!
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
+      claim.advocate.apply_vat = false
+      claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
 
-    it 'should zeroise the vat amount if submitted at date is blank' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22
-      claim.save!
-      expect(claim.vat_amount).to eq 0.0
-    end
   end
 
   describe '#opened_for_redetermination?' do
@@ -1114,19 +1110,18 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#amount_assessed' do
-    let!(:claim) do
-      claim = create(:authorised_claim)
-      create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
-      create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
-      claim
-    end
+    let!(:claim)  { create(:claim, state: 'draft') }
 
     context 'when VAT applied' do
       # VAT rate 17.5%
 
       before do
-        claim.apply_vat = true
-        claim.save!
+        claim.advocate.apply_vat = true
+        claim.submit!
+        claim.allocate!
+        create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
+        create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+        claim.authorise!
       end
 
       it 'should return the amount assessed from the last determination' do
@@ -1135,9 +1130,17 @@ RSpec.describe Claim, type: :model do
     end
 
     context 'when VAT not applied' do
+
+      before do
+        claim.advocate.apply_vat = false
+        claim.submit!
+        claim.allocate!
+        create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
+        create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+        claim.authorise!
+      end
+
       it 'should return the amount assessed from the last determination' do
-        claim.advocate.update(apply_vat: false)
-        claim.save
         expect(claim.amount_assessed).to eq(5.76)
       end
     end

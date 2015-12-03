@@ -28,4 +28,27 @@ module Claims::Calculations
   def update_total
     update_column(:total, calculate_total)
   end
+
+  def calculate_expenses_vat
+    VatRate.vat_amount(calculate_expenses_total, self.vat_date)
+  end
+
+  def calculate_fees_vat
+    VatRate.vat_amount(calculate_fees_total, self.vat_date)
+  end
+
+  def calculate_total_vat
+    calculate_expenses_vat + calculate_fees_vat
+  end
+
+  def update_vat
+    return if self.advocate.nil?
+    self.apply_vat = self.advocate.apply_vat
+    if self.apply_vat?
+      update_column(:vat_amount, calculate_total_vat)
+    else
+      update_column(:vat_amount, 0.0)
+    end
+  end
+
 end

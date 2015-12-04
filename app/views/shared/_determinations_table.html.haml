@@ -1,7 +1,6 @@
 %fieldset#claim-status
   = "Current status: #{claim.humanized_state}"
-
-
+  
   %table#determinations
     %thead
       %tr
@@ -13,5 +12,3 @@
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
       - else
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
-
-

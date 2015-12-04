@@ -131,13 +131,11 @@ class Claim < ActiveRecord::Base
 
   after_initialize :instantiate_basic_fees
 
-  before_save :calculate_vat
-
   before_validation do
     documents.each { |d| d.advocate_id = self.advocate_id }
   end
 
-  before_validation :destroy_all_invalid_fee_types, :calculate_vat
+  before_validation :destroy_all_invalid_fee_types
 
   after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
 
@@ -361,13 +359,4 @@ class Claim < ActiveRecord::Base
     self.build_assessment if self.assessment.nil?
   end
 
-  def calculate_vat
-    return if self.advocate.nil?
-    self.apply_vat = self.advocate.apply_vat
-    if self.apply_vat?
-      self.vat_amount = VatRate.vat_amount(self.total, self.vat_date)
-    else
-      self.vat_amount = 0.0
-    end
-  end
 end

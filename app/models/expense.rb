@@ -43,6 +43,7 @@ class Expense < ActiveRecord::Base
   after_destroy do
     claim.update_expenses_total
     claim.update_total
+    claim.update_vat
   end
 
   def perform_validation?

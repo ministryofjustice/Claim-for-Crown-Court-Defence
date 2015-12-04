@@ -3,7 +3,7 @@ class JsonSchema
   class << self
 
     def generate(json_template)
-      schema = JSON::SchemaGenerator.generate 'Advocate Defence Payments - Claim Import', json_template
+      schema = JSON::SchemaGenerator.generate 'Claim for crown court defence work - claim import', json_template
       parsed_schema = JSON.parse(schema)
       edit_required_items(parsed_schema) # schema is used to validate data type and json structure only
       parsed_schema

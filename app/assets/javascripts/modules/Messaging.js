@@ -6,6 +6,7 @@ moj.Modules.Messaging = {
 
     if(self.messagesList.length) {
       self.messagesList.scrollTop(self.messagesList.prop('scrollHeight'));
+      setInterval(self.refreshMessages, 5000);
     }
 
     self.selectedFileUpload();
@@ -15,6 +16,13 @@ moj.Modules.Messaging = {
       var data = $('.js-test-claim-action :radio:checked').val();
       $.getScript(self.messageControls.data('auth-url') + '?claim_action=' + data);
     });
+  },
+  /******************************
+   refresh message list
+   ******************************/
+  refreshMessages : function() {
+   console.log('refreshing');
+   $.getScript($(self.messagesList).data('polling-url'));
   },
   /******************************
    rorData = Data object received from Ruby on Rails

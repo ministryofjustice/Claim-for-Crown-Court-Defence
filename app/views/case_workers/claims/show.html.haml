@@ -19,7 +19,7 @@
   #claim-accordion
     %h2
       = t('.h2_messages')
-    %section{id: "messages"}
+    %section{id: "messages", data: { 'polling-url' => advocates_claim_path(@claim) }}
       = render partial: 'shared/claim_history'
       = render partial: 'shared/claim_status', locals: { claim: claim, disabled: false }
 

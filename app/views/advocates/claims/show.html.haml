@@ -5,7 +5,7 @@
   #claim-accordion{role: "tablist", multiselectable: "true"}
     %h2
       = t('.h2_messages')
-    %section{id: "messages"}
+    %section{id: "messages", data: { 'polling-url' => advocates_claim_path(@claim) }}
       = render partial: 'shared/claim_history', locales: {claim: claim }
       = render partial: 'shared/claim_status', locals: { claim: claim, disabled: true }
     %h2

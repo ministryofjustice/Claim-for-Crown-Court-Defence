@@ -1,4 +1,4 @@
-#claims-list, .case-data {
+#claims-list {
   margin: 0;
   padding: 0;
   li {
@@ -23,30 +23,6 @@
    li {
      @include span-columns(4);
      list-style-type: none;
-  }
-}
-.case-data li {
-  h3.repeated {
-      position: absolute;
-      overflow: hidden;
-      left: -999em;
-  }
-  @include span-columns(4);
-  &:last-child {
-    @include span-columns(3);
-  }
-  dl {
-    margin: 0;
-    word-break: break-word;
-  }
-  dt, dd {
-    @include span-columns(2 of 4);
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  dt {
-    clear: both;
   }
 }
 

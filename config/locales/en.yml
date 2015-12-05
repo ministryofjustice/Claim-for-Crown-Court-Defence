@@ -139,6 +139,7 @@ en:
     advocate: Advocate
     court: Court
     crown_court: Crown court
+    defendant: Defendant
     expenses: Expenses
     fees: Fees
     or: or
@@ -325,6 +326,7 @@ en:
       defendant_fields:
         first_name: *first_name
         last_name: *last_name
+        full_name: Full name
         date_of_birth: 'Date of birth'
         order_for_judicial_apportionment: 'Order for judicial apportionment'
         add_another_rep_order: 'Add another representation order'
@@ -438,6 +440,11 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
+      trial_fields:
+        first_day_of_trial: 'First day of trial'
+        estimated_length: 'Estimated trial length'
+        actual_length: 'Actual trial length'
+        trial_concluded_at: 'Trial concluded on'
 
 # en.shared
   shared:
@@ -446,6 +453,7 @@ en:
       advocate_category: Advocate category
       assignee: "Assigned to:"
       case: Case
+      case_cracked: Case cracked in
       case_num: Case number
       case_type: Case type
       case_worker: Case worker
@@ -456,7 +464,7 @@ en:
       q:
         retrial: "Retrial"
       reporders: Representation order(s)
-      submit_date: Case submitted
+      submit_date: Claim submitted
       trial_concluded: Trial concluded
     evidence_list:
       existing_evidence: Existing evidence

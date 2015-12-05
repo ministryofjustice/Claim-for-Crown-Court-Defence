@@ -21,9 +21,45 @@ Other Claim Navigation
 #evidence-checklist-read-only {
   .selected {
     width: 16px;
-    height:16px;
+    height: 16px;
     margin-right: 10px;
   }
 }
 
+.basic-info-row {
+  @extend .grid-row;
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+}
+
+.defendant-row {
+  margin-left: -30px;
+}
+
+.defendant-card {
+  border: 1px solid $border-colour;
+  padding: $gutter-half 10px $gutter-half $gutter-half;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+  table {
+    @extend .claims_table;
+    th {
+      @include bold-16();
+      padding: 5px;
+    }
+    td{
+      @extend .xsmall;
+    }
+  }
+
+  .title{
+    margin-bottom: $gutter-half;
+  }
+
+  .judical_apportionment {
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+  }
+}
 @import "message"

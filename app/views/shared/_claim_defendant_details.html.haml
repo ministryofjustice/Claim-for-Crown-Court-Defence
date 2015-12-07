@@ -1,0 +1,43 @@
+.defendant-card
+  .bold-normal.title
+    = t('common.defendant')
+    = index + 1
+  .grid-row
+    .column-half
+      .full-name.bold-xsmall
+        = t('advocates.claims.defendant_fields.full_name')
+      .xsmall
+        = defendant.name
+    .column-half
+      .dob.bold-xsmall
+        = t('advocates.claims.defendant_fields.date_of_birth')
+      .xsmall
+        = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
+  .judical_apportionment
+    %span.bold-xsmall
+      Judicial apportionment:
+    %span.xsmall
+      = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+  .rep-orders
+    - if defendant.representation_orders.any?
+      %table
+        %thead
+          %tr
+            %th
+              Representation order
+            %th
+              Court type
+            %th
+              MAAT ref no
+        %tbody
+          - defendant.representation_orders.each do | representation_order |
+            %tr
+              %td
+                = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
+              %td
+                = representation_order.granting_body
+              %td
+                = representation_order.maat_reference
+    - else
+      .bold-xsmall
+        = "No representation orders have been supplied for this defendant." 

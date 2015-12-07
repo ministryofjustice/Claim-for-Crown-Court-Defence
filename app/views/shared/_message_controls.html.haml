@@ -1,4 +1,4 @@
-= simple_form_for message, remote: true, authenticity_token: true  do |f|
+= simple_form_for message, url: messages_path, method: :post, remote: true, authenticity_token: true  do |f|
   = f.input :claim_id, value: message.claim.id, as: :hidden
   - if current_user.persona.is_a?(Advocate) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state)
     .js-hide-status

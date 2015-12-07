@@ -6,7 +6,7 @@ moj.Modules.Messaging = {
 
     if(self.messagesList.length) {
       self.messagesList.scrollTop(self.messagesList.prop('scrollHeight'));
-      setInterval(self.refreshMessages, 15000);
+      setInterval(self.refreshMessages, 60000);
     }
 
     self.selectedFileUpload();
@@ -21,7 +21,7 @@ moj.Modules.Messaging = {
    refresh message list
    ******************************/
   refreshMessages : function() {
-   $.getScript($(self.messagesList).data('polling-url'));
+   $.getScript($('#messages').data('polling-url') + '&after=' + $(".messages-list > fieldset > span:last").data('created-at'));
   },
   /******************************
    rorData = Data object received from Ruby on Rails

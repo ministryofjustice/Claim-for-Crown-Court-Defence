@@ -1,6 +1,19 @@
 class MessagesController < ApplicationController
   respond_to :html
 
+  def index
+    raise 'Must specifiy claim id' if params[:claim_id].blank?
+
+    @claim = Claim.find(params[:claim_id])
+    @messages = Message.for(@claim).most_recent_first
+    @messages = @messages.where('created_at > ?', params[:after]) if params[:after].present?
+    @message = @claim.messages.build
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 

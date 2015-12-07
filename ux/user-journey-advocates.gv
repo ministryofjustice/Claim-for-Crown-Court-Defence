@@ -6,7 +6,7 @@ digraph ADP_Advocate_Journey {
 	nodesep		= 2.4
 	ranksep 	= .9
 
-	label 		= "Claim for crown court defence work - Advocate User Journey Map"
+	label 		= "Claim for crown court defence - Advocate User Journey Map"
 	fontsize	= 16
 	size 		= "11x8"
 

@@ -18,11 +18,11 @@ en:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Claim for crown court defence work - Confirmation instructions"
+        subject: "Claim for crown court defence - Confirmation instructions"
       reset_password_instructions:
-        subject: "Claim for crown court defence work - Change your password"
+        subject: "Claim for crown court defence - Change your password"
       unlock_instructions:
-        subject: "Claim for crown court defence work - Unlock your account"
+        subject: "Claim for crown court defence - Unlock your account"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

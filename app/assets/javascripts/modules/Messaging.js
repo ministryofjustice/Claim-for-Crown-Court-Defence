@@ -6,7 +6,7 @@ moj.Modules.Messaging = {
 
     if(self.messagesList.length) {
       self.messagesList.scrollTop(self.messagesList.prop('scrollHeight'));
-      setInterval(self.refreshMessages, 5000);
+      setInterval(self.refreshMessages, 15000);
     }
 
     self.selectedFileUpload();
@@ -21,7 +21,6 @@ moj.Modules.Messaging = {
    refresh message list
    ******************************/
   refreshMessages : function() {
-   console.log('refreshing');
    $.getScript($(self.messagesList).data('polling-url'));
   },
   /******************************

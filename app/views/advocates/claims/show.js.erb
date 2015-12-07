@@ -1,12 +1,10 @@
-console.log('show show show');
-<% present(@claim) do |claim| %>
-  $('#messages').html("<%=j render partial: 'shared/claim_history' %> <%=j render partial: 'shared/claim_status', locals: { claim: claim, disabled: false } %>");
-  moj.Modules.Messaging.messagesList.scrollTop(moj.Modules.Messaging.messagesList.prop('scrollHeight'));
-  moj.Modules.Messaging.selectedFileUpload();
-  moj.Modules.Messaging.removeSelectedFile();
+var newMessageTime = Date.parse("<%=j @claim.messages.most_recent_first.first.created_at_before_type_cast %>");
 
-  moj.Modules.Messaging.messageControls.on('change', ':radio',function() {
-    var data = $('.js-test-claim-action :radio:checked').val();
-    $.getScript(moj.Modules.Messaging.messageControls.data('auth-url') + '?claim_action=' + data);
-  });
-<% end %>
+var lastMessageTime = Date.parse($(".messages-list > fieldset > span:last").data('created-at'));
+
+if(newMessageTime > lastMessageTime) {
+  <% present(@claim) do |claim| %>
+    $('#messages').html("<%=j render partial: 'shared/claim_history' %>");
+    $(".messages-list").scrollTop($(".messages-list").prop('scrollHeight'));
+  <% end %>
+}

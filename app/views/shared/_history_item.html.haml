@@ -8,4 +8,4 @@
 
 - elsif history_item.is_a?(PaperTrail::Version) && history_item.event == 'State change'
   - present(history_item, StateChangePresenter) do |state_change|
-    = render partial: 'shared/state_change', locals: {state_change: state_change }    
+    = render partial: 'shared/state_change', locals: {state_change: state_change }

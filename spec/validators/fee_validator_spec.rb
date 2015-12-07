@@ -60,7 +60,7 @@ describe FeeValidator do
         expect(fee.rate).to eq 0
       end
     end
-    
+
     # TODO: max_amount removed in later PR - remove?
     # context 'fee with max amount' do
     #   before(:each)       { fee.fee_type.max_amount = 9999 }
@@ -86,7 +86,6 @@ describe FeeValidator do
 
     context 'daily_attendance_3_40 (DAF)' do
       context 'trial length less than three days' do
-
         it 'should error if trial length is less than three days' do
           daf_fee.claim.actual_trial_length = 2
           should_error_if_equal_to_value(daf_fee, :quantity, 1, 'daf_qty_mismatch')
@@ -94,14 +93,14 @@ describe FeeValidator do
       end
 
       context 'trial length greater than three days' do
-        it 'should error if greater than the actual trial length less three days' do
-          daf_fee.claim.actual_trial_length = 20
-          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+        it 'should error if quantity greater than 38 regardless of actual trial length' do
+          daf_fee.claim.actual_trial_length = 45
+          should_error_if_equal_to_value(daf_fee, :quantity, 39, 'daf_qty_mismatch')
         end
 
-        it 'should error if quantiy greater than 37' do
-          daf_fee.claim.actual_trial_length = 45
-          should_error_if_equal_to_value(daf_fee, :quantity, 38, 'daf_qty_mismatch')
+        it 'should error if quantity greater than actual trial length less 2 days' do
+          daf_fee.claim.actual_trial_length = 20
+          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
         end
 
         it 'should not error if quantity is valid' do
@@ -113,36 +112,48 @@ describe FeeValidator do
     end
 
     context 'daily_attendance_41_50 (DAH)' do
-      context 'trial length less than 40 days' do
-        it 'should error if trial length is less than 40 days' do
+      it 'should error if trial length is less than 40 days' do
           dah_fee.claim.actual_trial_length = 35
           should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
-        end
       end
 
       context 'trial length greater than 40 days' do
         it 'should error if greater than trial length less 40 days' do
-          dah_fee.claim.actual_trial_length = 48
-          should_error_if_equal_to_value(dah_fee, :quantity, 9, 'dah_qty_mismatch')
+          dah_fee.claim.actual_trial_length = 45
+          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
         end
-        it 'should error if greater than 10 days' do
-          dah_fee.claim.actual_trial_length = 55
+
+        it 'should error if greater than 10 days regardless of actual trial length' do
+          dah_fee.claim.actual_trial_length = 70
           should_error_if_equal_to_value(dah_fee, :quantity, 12, 'dah_qty_mismatch')
         end
 
         it 'should not error if valid' do
           dah_fee.claim.actual_trial_length = 55
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 8)
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 10)
+          should_be_valid_if_equal_to_value(dah_fee, :quantity, 1)
+          should_be_valid_if_equal_to_value(dah_fee, :quantity, 10)
         end
       end
     end
 
-    context 'daily attendance 50 plus (DAJ)' do
-      context 'trial length less than 50 days' do
-        it 'should error if trial length is less than 40 days' do
-          daj_fee.claim.actual_trial_length = 49
+    context 'daily attendance 51 plus (DAJ)' do
+      context 'trial length less than 51 days' do
+        it 'should error if trial length is less than 51 days' do
+          daj_fee.claim.actual_trial_length = 50
           should_error_if_equal_to_value(daj_fee, :quantity, 2, 'daj_qty_mismatch')
+        end
+      end
+
+      context 'trial length greater than 50 days' do
+        it 'should error if greater than trial length less 50 days' do
+          daj_fee.claim.actual_trial_length = 55
+          should_error_if_equal_to_value(daj_fee, :quantity, 6, 'daj_qty_mismatch')
+        end
+
+        it 'should not error if valid' do
+          daj_fee.claim.actual_trial_length = 60
+          should_be_valid_if_equal_to_value(daj_fee, :quantity, 1)
+          should_be_valid_if_equal_to_value(daj_fee, :quantity, 10)
         end
       end
     end

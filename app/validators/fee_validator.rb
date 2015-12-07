@@ -29,7 +29,7 @@ class FeeValidator < BaseClaimValidator
       when 'DAH'
         validate_daily_attendance_41_50_quantity
       when 'DAJ'
-        validate_daily_attendance_50_plus_quantity
+        validate_daily_attendance_51_plus_quantity
       when 'PCM'
         validate_plea_and_case_management_hearing
     end
@@ -47,35 +47,27 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
+  # cannot claim this fee if trial lasted less than 3 days
+  # can only claim a maximum of 38 (or trial length after first 2 days deducted)
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
-    if @actual_trial_length < 3
-      add_error(:quantity, 'daf_qty_mismatch')
-    elsif @record.quantity > @actual_trial_length - 2
-      add_error(:quantity, 'daf_qty_mismatch')
-    elsif @record.quantity > 37
+    if @actual_trial_length < 3 || @record.quantity > [38, @actual_trial_length - 2].min
       add_error(:quantity, 'daf_qty_mismatch')
     end
   end
 
+  # cannot claim this fee if trial lasted less than 41 days
+  # can only claim a maximum of 10 (or trial length after first 40 days deducted)
   def validate_daily_attendance_41_50_quantity
     return if @record.quantity == 0
-    if @actual_trial_length < 41
-      add_error(:quantity, 'dah_qty_mismatch')
-    elsif @record.quantity > @actual_trial_length - 40
-      add_error(:quantity, 'dah_qty_mismatch')
-    elsif @record.quantity > 10
-      add_error(:quantity, 'dah_qty_mismatch')
-    end
+    add_error(:quantity, 'dah_qty_mismatch') if @actual_trial_length < 41 || @record.quantity > [10, @actual_trial_length - 40].min
   end
 
-  def validate_daily_attendance_50_plus_quantity
+  # cannot claim this fee if trial lasted less than 51 days
+  # can only claim a maximum of 10 (or trial length after first 40 days deducted)
+  def validate_daily_attendance_51_plus_quantity
     return if @record.quantity == 0
-    if @actual_trial_length < 50
-      add_error(:quantity, 'daj_qty_mismatch')
-    elsif @record.quantity > @actual_trial_length - 50
-      add_error(:quantity, 'daj_qty_mismatch')
-    end
+    add_error(:quantity, 'daj_qty_mismatch') if @actual_trial_length < 51 || @record.quantity > @actual_trial_length - 50
   end
 
   def validate_plea_and_case_management_hearing

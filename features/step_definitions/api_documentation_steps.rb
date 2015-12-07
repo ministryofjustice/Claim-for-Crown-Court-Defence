@@ -20,7 +20,7 @@ When(/^I click on the API Sign up and Documentation link$/) do
 end
 
 Then(/^I should be directed to the API landing page$/) do
-  expect(find('.page-title')).to have_content('Claim for crown court defence work API')
+  expect(find('.page-title')).to have_content('Claim for crown court defence API')
 end
 
 When(/^I visit the Interactive API Documentation page$/) do

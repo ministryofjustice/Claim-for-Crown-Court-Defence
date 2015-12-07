@@ -51,9 +51,7 @@ class FeeValidator < BaseClaimValidator
   # can only claim a maximum of 38 (or trial length after first 2 days deducted)
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
-    if @actual_trial_length < 3 || @record.quantity > [38, @actual_trial_length - 2].min
-      add_error(:quantity, 'daf_qty_mismatch')
-    end
+    add_error(:quantity, 'daf_qty_mismatch') if @actual_trial_length < 3 || @record.quantity > [38, @actual_trial_length - 2].min
   end
 
   # cannot claim this fee if trial lasted less than 41 days

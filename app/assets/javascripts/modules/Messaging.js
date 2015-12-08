@@ -21,7 +21,7 @@ moj.Modules.Messaging = {
    refresh message list
    ******************************/
   refreshMessages : function() {
-   $.getScript($('#messages').data('polling-url') + '&after=' + $(".messages-list > fieldset > span:last").data('created-at'));
+    $.getScript($('#messages').data('polling-url') + '&after=' + $('.messages-list > fieldset > span:last').data('created-at'));
   },
   /******************************
    rorData = Data object received from Ruby on Rails

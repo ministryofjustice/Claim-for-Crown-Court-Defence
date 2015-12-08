@@ -48,7 +48,7 @@
             - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
           - else
             - selected_offence_category = @claim.offence.description rescue nil
-          = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
+          = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
           = validation_error_message(@error_presenter, :offence)
         .column-half
           .offence-class-select

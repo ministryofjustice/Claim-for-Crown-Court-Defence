@@ -198,7 +198,8 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type, :allow_pcmh_fee_type
         end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_invalid') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
       end
@@ -210,6 +211,7 @@ describe FeeValidator do
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
         it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
       end
+
     end
 
     context 'any other fee' do

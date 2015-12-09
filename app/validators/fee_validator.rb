@@ -31,7 +31,7 @@ class FeeValidator < BaseClaimValidator
       when 'DAJ'
         validate_daily_attendance_51_plus_quantity
       when 'PCM'
-        validate_plea_and_case_management_hearing
+        validate_pcm_quantity
     end
 
     validate_any_quantity
@@ -63,9 +63,9 @@ class FeeValidator < BaseClaimValidator
     add_error(:quantity, 'daj_qty_mismatch') if @actual_trial_length < 51 || @record.quantity > @actual_trial_length - 50
   end
 
-  def validate_plea_and_case_management_hearing
+  def validate_pcm_quantity
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      add_error(:quantity, 'pcm_invalid') if @record.quantity > 3
+      add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
     else
       add_error(:quantity, 'pcm_not_applicable') unless (@record.quantity == 0 || @record.quantity.blank?)
     end

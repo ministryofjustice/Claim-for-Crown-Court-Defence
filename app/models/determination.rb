@@ -30,6 +30,10 @@ class Determination < ActiveRecord::Base
     self.vat_amount = VatRate.vat_amount(self.total, self.claim.vat_date).round(2)
   end
 
+  def total_including_vat
+    self.total + self.vat_amount
+  end
+
   def blank?
     zero_or_nil?(self.fees) && zero_or_nil?(self.expenses)
   end

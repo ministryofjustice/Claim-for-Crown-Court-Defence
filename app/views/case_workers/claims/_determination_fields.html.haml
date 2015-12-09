@@ -24,9 +24,21 @@
     = validation_error_message(f.object, :expenses)
 %tr.determination-form-fields
   %td
-    Total
+    Total (ex VAT)
   %td
     = claim.total
   %td
     %span.js-total-determination
       = number_to_currency(f.object.total)
+%tr.determination-form-fields
+  %td
+    Value added tax (20%)
+  %td
+    %span.js-total-determination
+      = number_to_currency(f.object.vat_amount)
+%tr.determination-form-fields
+  %td
+    Total (inc VAT) 
+  %td
+    %span.js-total-determination
+      = number_to_currency(f.object.total_including_vat)

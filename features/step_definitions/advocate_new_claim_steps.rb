@@ -374,10 +374,6 @@ Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
   expect(page).method(to_or_not_to).call have_content(content)
 end
 
-Then(/^I should see a Basic Fee quantity of exactly one$/) do
-  expect(page).to have_field('claim_basic_fees_attributes_0_quantity', with: 1)
-end
-
 Given(/^I fill in an Initial Fee$/) do
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 2

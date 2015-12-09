@@ -30,19 +30,26 @@ describe FeeValidator do
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
       it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'baf_invalid') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, nil, 'daf_zero') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'daf_zero') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'daf_zero') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'daf_invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'daf_invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'daf_invalid') }
     end
 
-    context 'with quantity of 0' do
-      before(:each) do
-        daf_fee.quantity = 0
+    context 'with quantity of zero and a rate greater than zero' do
+      it 'BAF fee should raise BAF specific QUANTITY error' do
+        baf_fee.quantity = 0
+        expect(baf_fee.valid?).to be false
+        expect(baf_fee.errors[:quantity]).to include('baf_invalid')
       end
-      it { should_error_if_equal_to_value(daf_fee, :rate, 500.00, 'daf_invalid') }
+
+      it 'DAF fee should raise error DAF specific QUANTITY error' do
+        daf_fee.quantity = 0
+        expect(daf_fee.valid?).to be false
+        expect(daf_fee.errors[:quantity]).to include('daf_invalid')
+      end
     end
 
-    # this should be removed after gamma/private beta claims archived/deleted
+    # TODO: to be removed after gamma/private beta claims archived/deleted
     context 'for fees entered before rate was reintroduced' do
       it 'should NOT require a rate of more than zero' do
         fee.amount = 255
@@ -51,7 +58,7 @@ describe FeeValidator do
       end
     end
 
-    # this will become default after gamma/private beta claims archived/deleted
+    # TODO: this will become default after gamma/private beta claims archived/deleted
     context 'for fees entered after rate was reintroduced' do
       it 'should require a rate of more than zero' do
         fee.amount = nil
@@ -61,7 +68,7 @@ describe FeeValidator do
       end
     end
 
-    # TODO: max_amount removed in later PR - remove?
+    # TODO: max_amount not used in later PR - remove?
     # context 'fee with max amount' do
     #   before(:each)       { fee.fee_type.max_amount = 9999 }
     #   it { should_be_valid_if_equal_to_value(fee, :amount, 9999) }
@@ -77,11 +84,39 @@ describe FeeValidator do
   describe 'quantity' do
 
     context 'basic fee (BAF)' do
-      expected_error_message = 'baf_qty1'
-      it { should_be_valid_if_equal_to_value(baf_fee, :quantity, 1) }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, 0,    expected_error_message) }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, -1,   expected_error_message) }
-      it { should_error_if_equal_to_value(baf_fee, :quantity, nil,  expected_error_message) }
+
+      context 'when rate present' do
+        it 'should be valid with quantity of one' do
+          should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
+        end
+
+        it 'should raise numericality error when quantity not in range 0 to 1' do
+          [-1,2].each do |q|
+            should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
+          end
+        end
+
+        it 'should raise invalid error when quantity is nil or 0' do
+          [nil,0].each do |q|
+            should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
+          end
+        end
+      end
+
+      context 'when rate NOT present' do
+        before(:each) { baf_fee.rate = 0 }
+
+        it 'should be valid when quantity is zero' do
+          should_be_valid_if_equal_to_value(baf_fee, :quantity, 0)
+        end
+
+        it 'should raise invalid RATE error when quantity is one' do
+          baf_fee.quantity = 1
+          expect(baf_fee.valid?).to be false
+          expect(baf_fee.errors[:rate]).to include('baf_invalid')
+        end
+      end
+
     end
 
     context 'daily_attendance_3_40 (DAF)' do
@@ -172,8 +207,8 @@ describe FeeValidator do
         before(:each) do
           claim.case_type = FactoryGirl.build :case_type
         end
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_invalid') }
-        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_invalid') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
+        it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
       end
     end
 

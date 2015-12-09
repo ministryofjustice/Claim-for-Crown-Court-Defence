@@ -107,7 +107,7 @@ describe API::V1::Advocates::Fee do
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a quantity of 1 for basic fee",0)
+        expect_error_response("Enter a quantity of 0 to 1 for basic fee",0)
         # NOTE: basic fee should allow 0 rate for claim basic fee at instantiation/creation but not thereafter
         expect_error_response("Enter a valid rate for the basic fee",1)
       end
@@ -117,7 +117,7 @@ describe API::V1::Advocates::Fee do
         valid_params[:fee_type_id] = basic_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a valid rate for the basic fee",0)
+        expect_error_response("Enter a valid rate for the initial fee",0)
       end
 
       it 'misc fees should raise misc fee errors from translations' do

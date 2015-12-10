@@ -82,14 +82,15 @@ RSpec.describe Fee, type: :model do
       expect(fee).to be_new_record
     end
 
+    # TODO: BAF fee type used to be instatiated to 1 but has been removed - POCA ticket - can remove eventually
     context 'for the BAF basic fee' do
-      it 'should be called as part of claim instatiation and assign 1 as quantity for BAF fee types' do
+      it 'should be called as part of claim instatiation and assign 0 as quantity for BAF fee types' do
         baf_fee_type = FactoryGirl.create :fee_type, :basic, code: 'BAF'
         claim = FactoryGirl.build :claim
         fee = claim.basic_fees.first
         expect(fee.fee_type.code).to eql 'BAF'
         expect(fee.amount).to eq 0.00
-        expect(fee.quantity).to eq 1
+        expect(fee.quantity).to eq 0
         expect(fee).to be_new_record
       end
     end

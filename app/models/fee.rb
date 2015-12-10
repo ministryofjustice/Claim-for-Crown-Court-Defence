@@ -62,8 +62,8 @@ class Fee < ActiveRecord::Base
   end
 
   def self.new_blank(claim, fee_type)
-    quantity = (fee_type.code == 'BAF' ? 1 : 0)
-    Fee.new(claim: claim, fee_type: fee_type, quantity: quantity, amount: 0)
+    # quantity = (fee_type.code == 'BAF' ? 1 : 0)
+    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
   end
 
   def self.new_collection_from_form_params(claim, form_params)
@@ -110,18 +110,6 @@ class Fee < ActiveRecord::Base
     self.amount = nil;
     # explicitly destroy child relations
     self.dates_attended.destroy_all unless self.dates_attended.empty?
-  end
-
-  private
-
-  def basic_fee_quantity
-    if fee_type.present? && more_than_one_basic_fee? # fee_spec.rb:22/24/26 fail unless this fee_type.present? is used here
-      errors[:quantity] << '- only one basic fee can be claimed per case'
-    end
-  end
-
-  def more_than_one_basic_fee?
-    fee_type.description == 'Basic Fee' && quantity > 1
   end
 
 end

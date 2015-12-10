@@ -41,7 +41,7 @@
 
       = render 'cracked_trial_fields', f: f
 
-      .grid-row
+      .grid-row#offence
         .column-half
           = f.anchored_label t('.offence_category')
           - if @claim.new_record?

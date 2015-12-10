@@ -321,9 +321,11 @@ class Claim < ActiveRecord::Base
   private
 
   def creator_and_advocate_in_same_chamber
-    valid = creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
-    errors[:advocate_id] << 'Creator and advocate must belong to the same chamber' unless valid
-    valid
+    return if errors[:advocate].include?('blank')
+
+    unless creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
+      errors[:advocate] << 'Creator and advocate must belong to the same chamber'
+    end
   end
 
   def find_and_associate_documents

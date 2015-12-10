@@ -73,21 +73,21 @@ RSpec.describe Claim, type: :model do
       subject.advocate_id = advocate.id
       subject.creator_id = advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+      expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
     it 'should be valid with different advocate_id and creator_id but same chamber' do
       subject.advocate_id = advocate.id
       subject.creator_id = same_chamber_advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+      expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
     it 'should not be valid when the advocate and creator are not in the same chamber' do
       subject.advocate_id = advocate.id
       subject.creator_id = other_chamber_advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to eq(['Creator and advocate must belong to the same chamber'])
+      expect(subject.reload.errors.messages[:advocate]).to eq(['Creator and advocate must belong to the same chamber'])
     end
   end
 

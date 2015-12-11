@@ -11,15 +11,15 @@ class RedeterminationPresenter < BasePresenter
   end
 
   def vat_amount
-    h.number_to_currency(assessment.vat_amount)
+    h.number_to_currency(redetermination.vat_amount)
   end
 
   def total
-    h.number_to_currency(assessment.total)
+    h.number_to_currency(redetermination.total)
   end
 
   def total_inc_vat
-    h.number_to_currency(assessment.total + assessment.vat_amount)
+    h.number_to_currency(redetermination.total + redetermination.vat_amount)
   end
 
 end

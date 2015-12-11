@@ -31,7 +31,7 @@ class Determination < ActiveRecord::Base
   end
 
   def total_including_vat
-    self.total + self.vat_amount
+    (self.total || 0 ) + (self.vat_amount || 0)
   end
 
   def blank?

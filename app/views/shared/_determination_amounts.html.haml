@@ -1,13 +1,32 @@
 - present(determination) do |determination|
   %tr.determination-display
     %td Fees
-    %td= claim.fees_total
+    %td
+      = claim.fees_total
     %td#determination-fees= determination.fees_total
   %tr.determination-display
     %td Expenses
-    %td= claim.expenses_total
+    %td
+      = claim.expenses_total
     %td#determination-expenses= determination.expenses_total
   %tr.determination-display
-    %td Total
-    %td= claim.total
-    %td#determination-total= determination.total
+    %td
+      Total(excluding VAT)
+    %td
+      = claim.total
+    %td#js-determination-total-exc-vat
+      = determination.total
+  %tr.determination-display
+    %td
+      = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
+    %td
+      = claim.vat_amount
+    %td#js-determination-total-vat
+      = determination.vat_amount
+  %tr.determination-display
+    %td
+      = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
+    %td
+      = claim.total_inc_vat
+    %td#js-determination-total-inc-vat
+      = determination.total_inc_vat

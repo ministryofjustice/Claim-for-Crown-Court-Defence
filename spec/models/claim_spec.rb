@@ -237,7 +237,7 @@ RSpec.describe Claim, type: :model do
     it 'should update the model then transition state to prevent state transition validation errors' do
       # given
       claim = FactoryGirl.create :allocated_claim
-      claim.assessment = Assessment.new
+      claim.assessment = Assessment.new(claim: claim)
       claim_params = {
         "state_for_form"=>"part_authorised",
         "assessment_attributes" => {
@@ -255,15 +255,30 @@ RSpec.describe Claim, type: :model do
 
     it 'should not transition when "state_for_form" is the same as the claim\'s state' do
       claim = FactoryGirl.create :authorised_claim
-      claim_params = {"state_for_form"=>"authorised", 'assessment_attributes' => { "fees"=>"88.55", 'expenses' => '0.00'},"additional_information"=>""}
+      claim.assessment = Assessment.new(claim: claim)
+      claim_params = {
+        "state_for_form"=>"authorised",
+        'assessment_attributes' => {
+          "id" => claim.assessment.id,
+          "fees"=>"88.55",
+          'expenses' => '0.00'
+        },
+        "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('authorised')
     end
 
     it 'should not transition when "state_for_form" is blank' do
       claim = FactoryGirl.create :authorised_claim
-
-      claim_params = {"state_for_form"=>"", 'assessment_attributes' => { "fees"=>"44.55", 'expenses' => '44.00'}, "additional_information"=>""}
+      claim.assessment = Assessment.new(claim: claim)
+      claim_params = {
+        "state_for_form"=>"",
+        'assessment_attributes' => {
+          "id" => claim.assessment.id,
+          "fees"=>"44.55",
+          'expenses' => '44.00'
+        },
+        "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('authorised')
     end

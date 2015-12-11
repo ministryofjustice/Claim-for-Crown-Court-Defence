@@ -4,8 +4,8 @@
       %thead
         %tr
           %th &nbsp;
-          %th Claimed
-          %th Assessed
+          %th Claimed by advocate
+          %th Authorised by LAA
       %tbody
         -if @enable_assessment_input
           = f.fields_for :assessment do |af|
@@ -18,11 +18,11 @@
         - else
           = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
 
-    .form-group.inline.js-test-cw-claim-action
-      = f.label :status, "Update the claim status", class: "form-label bold-normal"
-      = f.collection_radio_buttons(:state_for_form, claim.valid_transitions_for_detail_form, :first, :last) do |b|
-        - b.label(class: "block-label") { b.radio_button + b.text }
+  .form-group.inline.js-test-cw-claim-action
+    = f.label :status, "Update the claim status", class: "form-label bold-normal"
+    = f.collection_radio_buttons(:state_for_form, claim.valid_transitions_for_detail_form, :first, :last) do |b|
+      - b.label(class: "block-label") { b.radio_button + b.text }
 
-    - if current_user.persona.is_a?(CaseWorker)
-      %p
-      = f.submit 'Update', class: 'button', id: 'button'
+  - if current_user.persona.is_a?(CaseWorker)
+    %p
+    = f.submit 'Update', class: 'button', id: 'button'

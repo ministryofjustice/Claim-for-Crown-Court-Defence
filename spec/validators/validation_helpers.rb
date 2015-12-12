@@ -1,4 +1,14 @@
-module RspecDateValidationHelpers
+module ValidationHelpers
+
+
+
+  # needed to work around Total validation on claim
+  def create_and_submit_claim(claim)
+    claim.force_validation = false
+    claim.save
+    claim.force_validation = true
+    claim.submit!
+  end
 
   def should_error_if_not_present(record, field, message)
     record.send("#{field}=", nil)
@@ -46,12 +56,18 @@ module RspecDateValidationHelpers
     expect(record.errors[field]).to include(message)
   end
 
+  def should_errror_if_later_than_other_date(record, field, other_date, message)
+    record.send("#{field}=", 5.day.ago)
+    record.send("#{other_date}=", 7.day.ago)
+    expect(record.send(:valid?)).to be false
+    expect(record.errors[field]).to include(message)
+  end
+
   def should_error_if_equal_to_value(record, field, value, message)
     record.send("#{field}=", value)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end
-
 
   def should_be_valid_if_equal_to_value(record, field, value)
     record.send("#{field}=", value)

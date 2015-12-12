@@ -39,11 +39,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'search by maat' do
-      let(:search) { '12345' }
-
-      before do
-        create :defendant, claim: case_worker.claims.first, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '1234567890') ]
-      end
+      let(:search) { case_worker.claims.first.defendants.first.representation_orders.first.maat_reference }
 
       it 'finds the claims with MAAT reference "12345"' do
         expect(assigns(:claims)).to eq([case_worker.claims.first])
@@ -51,11 +47,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'search by defendant' do
-      let(:search) { 'Joe Bloggs' }
-
-      before do
-        create(:defendant, claim: case_worker.claims.first, first_name: 'Joe', last_name: 'Bloggs')
-      end
+      let(:search) { case_worker.claims.first.defendants.first.name }
 
       it 'finds the claims with specified defendant' do
         expect(assigns(:claims)).to eq([case_worker.claims.first])

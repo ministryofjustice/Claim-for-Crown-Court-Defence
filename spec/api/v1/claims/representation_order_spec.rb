@@ -38,6 +38,16 @@ describe API::V1::Advocates::RepresentationOrder do
       post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
     end
 
+   context 'when claim is not a draft' do
+      let(:claim) { create(:submitted_claim) }
+
+      xit 'should NOT be able to create a representation for non-draft claims ' do
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("You cannot edit a claim that is not in draft state",0)
+      end
+    end
+
     context 'when representation_order params are valid' do
 
       it "should create fee, return 201 and expense JSON output including UUID" do

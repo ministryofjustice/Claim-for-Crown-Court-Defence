@@ -18,7 +18,7 @@ RSpec.describe Claims::StateMachine, type: :model do
     let!(:draft_claim) { create(:claim) }
     let!(:submitted_claim) { create(:submitted_claim) }
     let!(:allocated_claim) { create(:allocated_claim) }
-    let!(:deleted_claim) { create(:archived_pending_delete_claim) }
+    let!(:deleted_claim)   { create(:archived_pending_delete_claim) }
     let!(:redetermination_claim) { create(:redetermination_claim) }
     let!(:awaiting_written_reasons_claim) { create(:awaiting_written_reasons_claim) }
 

@@ -883,7 +883,7 @@ RSpec.describe Claim, type: :model do
       claims = []
 
       [400, 10_000, 566, 1_000].each do |value|
-        claim = create(:submitted_claim)
+        claim = create(:draft_claim)
         claim.fees << create(:fee, rate: value, claim: claim)
         claims << claim
       end

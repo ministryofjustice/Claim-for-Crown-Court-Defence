@@ -46,6 +46,16 @@ describe API::V1::Advocates::Expense do
       post CREATE_EXPENSE_ENDPOINT, params, format: :json
     end
 
+   context 'when claim is not a draft' do
+      before(:each) { claim.submit! }
+
+      it 'should NOT be able to create an expense for non-draft claims ' do
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("You cannot edit a claim that is not in draft state",0)
+      end
+    end
+
     context 'when expense params are valid' do
 
       it "should create expense, return 201 and expense JSON output including UUID" do

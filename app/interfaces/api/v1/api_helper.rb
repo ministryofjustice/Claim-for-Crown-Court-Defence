@@ -71,13 +71,17 @@ module API
         # must be updated if they already exist, otherwise created.
         # all other model class instances must be created.
         #
-
         args = arg_builder_proc.call
         if basic_fee_update_required(model_klass, args)
           model_instance = model_klass.where(fee_type_id: args[:fee_type_id], claim_id: args[:claim_id]).first
           model_instance.assign_attributes(args)
         else
           model_instance = model_klass.new(args)
+        end
+
+        if [Fee,Expense,Defendant].include?(model_klass)
+          # model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
+          raise API::V1::ArgumentError, 'You cannot edit a claim that is not in draft state' unless (model_instance.claim.editable? rescue true)
         end
 
         if model_instance.valid?

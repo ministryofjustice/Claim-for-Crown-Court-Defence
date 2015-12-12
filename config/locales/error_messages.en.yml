@@ -208,6 +208,12 @@ offence:
 defendant:
   _seq: 200
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
   first_name:
     _seq: 10
     blank:
@@ -236,7 +242,6 @@ defendant:
       long: "Enter a valid date of birth for the #{defendant}"
       short: Enter a valid date
       api: "Enter a valid date of birth for the defendant"
-
 
   representation_orders:
     _seq: 200
@@ -308,6 +313,13 @@ fee:
 
 basic_fee:
   _seq: 400
+
+  # TODO remove if not needed
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
 
   quantity:
     _seq: 10
@@ -446,6 +458,12 @@ basic_fee:
 misc_fee:
   _seq: 500
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
   fee_type:
     _seq: 10
     blank:
@@ -476,6 +494,12 @@ misc_fee:
 fixed_fee:
   _seq: 600
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
   fee_type:
     _seq: 10
     blank:
@@ -505,6 +529,12 @@ fixed_fee:
 
 expense:
   _seq: 700
+
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
 
   expense_type:
     _seq: 10

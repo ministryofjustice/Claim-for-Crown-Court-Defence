@@ -37,6 +37,16 @@ describe API::V1::Advocates::DateAttended do
       post CREATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
 
+   context 'when claim is not a draft' do
+      before(:each) { claim.submit! }
+
+      xit 'should NOT be able to create a dates_attended for non-draft claims ' do
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("You cannot edit a claim that is not in draft state",0)
+      end
+    end
+
     context 'when date_attended params are valid' do
 
       it "should create date_attended, return 201 and date_attended JSON output including UUID" do

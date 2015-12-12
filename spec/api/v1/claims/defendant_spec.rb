@@ -46,6 +46,16 @@ describe API::V1::Advocates::Defendant do
       post CREATE_DEFENDANT_ENDPOINT, valid_params, format: :json
     end
 
+    context 'when claim is not a draft' do
+      before(:each) { claim.submit! }
+
+      it 'should NOT be able to create a defendant for non-draft claims ' do
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("You cannot edit a claim that is not in draft state",0)
+      end
+    end
+
     context "when defendant params are valid" do
 
       it "should create defendant, return 201 and defendant JSON output including UUID" do

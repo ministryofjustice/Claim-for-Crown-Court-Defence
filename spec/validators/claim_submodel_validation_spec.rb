@@ -7,9 +7,8 @@ describe 'Validations on Claim submodels' do
 
   before(:each)              { claim.force_validation = true }
 
-
   it 'should call the validators on all the defendants' do
-    expect(claim.defendants).to  have(1).members
+    expect(claim.defendants).to have(1).members
     expect_any_instance_of(DefendantValidator).to receive(:validate_date_of_birth).at_least(:once)
     claim.valid?
   end
@@ -30,8 +29,6 @@ describe 'Validations on Claim submodels' do
 
     it 'should call the validator on all the attended dates for all the fees' do
       expect(claim.fees).to have(3).members # because the claim factory includes one fee
-      # expect(claim.fees.second.dates_attended).to have(1).member
-      # expect(claim.fees.first.dates_attended).to have(2).members
       expect_any_instance_of(DateAttendedValidator).to receive(:validate_date).at_least(:once)
       claim.valid?
     end
@@ -77,7 +74,7 @@ describe 'Validations on Claim submodels' do
     context 'bubbling up errors two levels to the claim' do
 
       let(:expected_results) do
-          { 
+          {
             defendant_1_representation_order_1_maat_reference:            "invalid",
             defendant_1_representation_order_1_representation_order_date: "invalid",
             defendant_1_date_of_birth:                                    "blank",
@@ -97,7 +94,7 @@ describe 'Validations on Claim submodels' do
       it 'should bubble up the error from reporder to defendant and then to the claim' do
         expected_results.each do |key, message|
           expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
-        end  
+        end
       end
 
     end

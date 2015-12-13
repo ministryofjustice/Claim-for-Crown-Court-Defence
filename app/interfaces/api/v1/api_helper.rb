@@ -56,9 +56,7 @@ module API
 
       # unexpected errors could be raised at point of save as well
       rescue Exception => ex
-        err_resp = ErrorResponse.new(ex)
-        api_response.status = err_resp.status
-        api_response.body   = err_resp.body
+        pop_error_response(ex, api_response)
       end
 
       # --------------------
@@ -79,24 +77,31 @@ module API
           model_instance = model_klass.new(args)
         end
 
+        # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         if [Fee,Expense,Defendant,RepresentationOrder,DateAttended].include?(model_klass)
-          # model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
-          raise API::V1::ArgumentError, 'You cannot edit a claim that is not in draft state' unless (model_instance.claim.editable? rescue true)
+          model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
         end
 
-        if model_instance.valid?
+        if model_instance.errors.present?
+          pop_error_response(model_instance, api_response)
+        elsif model_instance.valid?
           api_response.status = 200
           api_response.body =  { valid: true }
         else
-          err_resp = ErrorResponse.new(model_instance)
-          api_response.status = err_resp.status
-          api_response.body   = err_resp.body
+          pop_error_response(model_instance, api_response)
         end
 
         model_instance
 
       rescue Exception => ex
-        err_resp = ErrorResponse.new(ex)
+        pop_error_response(ex, api_response)
+      end
+
+      private
+
+      # --------------------
+      def self.pop_error_response(error_or_model_instance, api_response)
+        err_resp = ErrorResponse.new(error_or_model_instance)
         api_response.status = err_resp.status
         api_response.body   = err_resp.body
       end

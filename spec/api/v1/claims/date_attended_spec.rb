@@ -8,7 +8,6 @@ describe API::V1::Advocates::DateAttended do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  MODEL_KLASS = DateAttended
   CREATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended"
   VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended/validate"
 

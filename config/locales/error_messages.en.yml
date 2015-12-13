@@ -260,6 +260,12 @@ defendant:
 representation_order:
   _seq: 300
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
   granting_body:
     _seq: 10
     blank:
@@ -305,6 +311,12 @@ fee:
       short: Choose a fee type
       api: Choose a type for the fee
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
 #################################################################################
 #                                                                               #
 #   BASIC FEE                                                                   #
@@ -314,7 +326,6 @@ fee:
 basic_fee:
   _seq: 400
 
-  # TODO remove if not needed
   base:
     uneditable_state:
       long: You cannot edit a claim that is not in draft state
@@ -573,6 +584,12 @@ expense:
 
 date_attended:
   _seq: 800
+
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
 
   # applies to fee, expense
   attended_item:

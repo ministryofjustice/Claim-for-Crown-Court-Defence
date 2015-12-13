@@ -79,7 +79,7 @@ module API
           model_instance = model_klass.new(args)
         end
 
-        if [Fee,Expense,Defendant].include?(model_klass)
+        if [Fee,Expense,Defendant,RepresentationOrder,DateAttended].include?(model_klass)
           # model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable?
           raise API::V1::ArgumentError, 'You cannot edit a claim that is not in draft state' unless (model_instance.claim.editable? rescue true)
         end

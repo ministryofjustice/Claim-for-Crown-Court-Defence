@@ -14,10 +14,10 @@ describe API::V1::Advocates::RepresentationOrder do
   ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)          { create(:chamber) }
-  let!(:claim)            { create(:claim, source: 'api') }
-  let!(:defendant)        { create(:defendant, claim: claim).reload }
-  let!(:valid_params)     { {api_key: chamber.api_key, granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
+  let!(:chamber)       { create(:chamber) }
+  let!(:claim)         { create(:claim, source: 'api') }
+  let!(:defendant)     { create(:defendant, claim: claim).reload }
+  let!(:valid_params)  { {api_key: chamber.api_key, granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -38,18 +38,9 @@ describe API::V1::Advocates::RepresentationOrder do
       post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
     end
 
-   context 'when claim is not a draft' do
-      let(:claim) { create(:submitted_claim) }
-
-      xit 'should NOT be able to create a representation for non-draft claims ' do
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("You cannot edit a claim that is not in draft state",0)
-      end
-    end
+    include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when representation_order params are valid' do
-
       it "should create fee, return 201 and expense JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -71,7 +62,6 @@ describe API::V1::Advocates::RepresentationOrder do
         expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
         expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference]
       end
-
     end
 
     context 'when params are invalid' do

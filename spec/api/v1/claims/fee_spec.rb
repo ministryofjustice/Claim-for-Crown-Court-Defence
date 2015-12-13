@@ -15,12 +15,12 @@ describe API::V1::Advocates::Fee do
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)            { create(:chamber) }
-  let!(:basic_fee_type)     { create(:fee_type, :basic) }
-  let!(:misc_fee_type)      { create(:fee_type, :misc) }
-  let!(:fixed_fee_type)     { create(:fee_type, :fixed) }
-  let!(:claim)              { create(:claim, source: 'api').reload }
-  let(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+  let!(:chamber)          { create(:chamber) }
+  let!(:basic_fee_type)   { create(:fee_type, :basic) }
+  let!(:misc_fee_type)    { create(:fee_type, :misc) }
+  let!(:fixed_fee_type)   { create(:fee_type, :fixed) }
+  let!(:claim)            { create(:claim, source: 'api').reload }
+  let(:valid_params)      { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
 
   context 'sending non-permitted verbs' do
@@ -42,22 +42,7 @@ describe API::V1::Advocates::Fee do
       post CREATE_FEE_ENDPOINT, valid_params, format: :json
     end
 
-    context 'when claim is not a draft' do
-      before(:each) { claim.submit! }
-
-      it 'should NOT be able to create a fee' do
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("You cannot edit a claim that is not in draft state",0)
-      end
-
-      it 'should NOT be able to update a basic fee' do
-        valid_params[:fee_type_id] = basic_fee_type.id
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("You cannot edit a claim that is not in draft state",0)
-      end
-    end
+    include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when fee params are valid' do
 

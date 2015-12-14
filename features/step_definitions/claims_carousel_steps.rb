@@ -1,9 +1,11 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
   @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, id: n + 1)
-    @case_worker.claims << claim
-    @claims << claim
+    Timecop.freeze(n.days.ago) do
+      claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
+      @case_worker.claims << claim
+      @claims << claim
+    end
   end
 end
 
@@ -31,6 +33,6 @@ When(/^I click the next claim link$/) do
   find('.next-claim').click
 end
 
-Then(/^I should be on the claim with id (\d+)$/) do |id|
-  expect(page.current_path).to eq(case_workers_claim_path(id))
+Then(/^I should be on the claim case number "(.*?)"$/) do |case_number|
+  expect(page).to have_content(case_number)
 end

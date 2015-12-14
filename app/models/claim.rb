@@ -47,6 +47,7 @@ class Claim < ActiveRecord::Base
 
   include Claims::StateMachine
   extend Claims::Search
+  extend Claims::Sort
   include Claims::Calculations
   include Claims::UserMessages
   include Claims::Cloner

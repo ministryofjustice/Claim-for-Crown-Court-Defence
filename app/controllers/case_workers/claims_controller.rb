@@ -1,6 +1,8 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
+  helper_method :sort_column, :sort_direction
+
   respond_to :html
   
   # callback order is important (must set claims before filtering and sorting)
@@ -54,6 +56,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def search(states=nil)
     @claims = @claims.search(params[:search], states, *search_options)
+  end
+
+  def sort
+    @claims = @claims.sort(params[:sort], params[:direction])
   end
 
   def search_options
@@ -143,6 +149,15 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def sort_claims
     @claims = @claims.order("#{sort_column} #{sort_direction}")
     set_claim_ids_and_count
+    sort if params[:sort].present?
+  end
+
+  def sort_column
+    params[:sort] || 'submitted_at'
+  end
+
+  def sort_direction
+    params[:direction] || 'desc'
   end
 
 end

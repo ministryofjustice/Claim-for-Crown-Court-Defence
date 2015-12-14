@@ -18,12 +18,12 @@ Feature: Caseworker claims list
     Then I should see only my claims
      And I should see the claims sorted by oldest first
 
-  Scenario: Sort current claims by oldest first
-    Given I am signed in and on the case worker dashboard
-     When I sort the claims by oldest first
-     Then I should see the claims sorted by oldest first
-
   #TODO Reintroduce when sorting columns is implemented
+  # Scenario: Sort current claims by oldest first
+  #   Given I am signed in and on the case worker dashboard
+  #    When I sort the claims by oldest first
+  #    Then I should see the claims sorted by oldest first
+
   #Scenario: Sort current claims by highest value
   #  Given I am signed in and on the case worker dashboard
   #   When I sort the claims by highest value first

@@ -5,22 +5,22 @@
   %thead
     %tr
       %th
-        = t(".case_number")
+        = sortable 'case_number', t('.case_number')
       %th
-        = t(".advocate")
+        = sortable 'advocate', t('.advocate')
       %th
-        = t(".defendants")
-      %th{:title => "Including VAT"}
-        = t(".total")
+        = sortable 'defendants', t(".defendants")
+      %th{ title:  'Including VAT' }
+        = sortable 'total', t('.total')
       - if params[:action] == 'archived'
         %th
-          = t(".status")
+          = sortable 'state', t('.status')
       %th
-        = "Type"
+        = sortable 'case_type', t('.case_type')
       %th
-        = t(".submission_date")
+        = sortable 'submitted_at', t('.submission_date')
       %th.message-placeholder
-        = t(".messages")
+        = sortable 'messages', t('.messages')
   %tbody
     - @claims.each do |claim_object|
       - present(claim_object) do |claim|

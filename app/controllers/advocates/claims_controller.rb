@@ -3,6 +3,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DateParamProcessor
   include DocTypes
 
+  helper_method :sort_column, :sort_direction
+
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
   before_action :set_doctypes, only: [:show]
@@ -11,6 +13,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
+  before_action :initialize_json_document_importer, only: [:index]
 
   include ReadMessages
   include MessageControlsDisplay
@@ -20,6 +23,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').
       page(params[:page]).
       per(10)
+    sort if params[:sort].present?
     search if params[:search].present?
   end
 
@@ -34,9 +38,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc)
+    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc).page(params[:page]).per(10)
     search(:archived_pending_delete) if params[:search].present?
-    @claims = @claims.page(params[:page]).per(10)
   end
 
   def show
@@ -139,6 +142,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def search(states=nil)
     @claims = @claims.search(params[:search], states, *search_options)
+  end
+
+  def sort
+    @claims = @claims.sort(params[:sort], params[:direction])
   end
 
   def search_options
@@ -387,6 +394,18 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def present_errors
     @error_presenter = ErrorPresenter.new(@claim)
+  end
+
+  def initialize_json_document_importer
+    @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def sort_column
+    params[:sort] || 'submitted_at'
+  end
+
+  def sort_direction
+    params[:direction] || 'desc'
   end
 
 end

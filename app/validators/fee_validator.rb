@@ -1,7 +1,11 @@
 class FeeValidator < BaseClaimValidator
 
   def self.fields
-    [ :fee_type, :quantity, :rate ]
+    [
+      :fee_type,
+      :quantity,
+      :rate
+    ]
   end
 
   def self.mandatory_fields

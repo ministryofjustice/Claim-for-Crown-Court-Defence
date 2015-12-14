@@ -1,27 +1,27 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/date_validation_helpers'
+require File.dirname(__FILE__) + '/validation_helpers'
 
 describe FeeValidator do
 
-  include RspecDateValidationHelpers
+  include ValidationHelpers
 
-  let(:claim)                     { FactoryGirl.build :claim, force_validation: true }
-  let(:fee)                       { FactoryGirl.build :fee, claim: claim }
-  let(:baf_fee)                   { FactoryGirl.build :fee, :baf_fee, claim: claim }
-  let(:daf_fee)                   { FactoryGirl.build :fee, :daf_fee, claim: claim }
-  let(:dah_fee)                   { FactoryGirl.build :fee, :dah_fee, claim: claim }
-  let(:daj_fee)                   { FactoryGirl.build :fee, :daj_fee, claim: claim }
-  let(:pcm_fee)                   { FactoryGirl.build :fee, :pcm_fee, claim: claim }
+  let(:claim)      { FactoryGirl.build :claim, force_validation: true }
+  let(:fee)        { FactoryGirl.build :fee, claim: claim }
+  let(:baf_fee)    { FactoryGirl.build :fee, :baf_fee, claim: claim }
+  let(:daf_fee)    { FactoryGirl.build :fee, :daf_fee, claim: claim }
+  let(:dah_fee)    { FactoryGirl.build :fee, :dah_fee, claim: claim }
+  let(:daj_fee)    { FactoryGirl.build :fee, :daj_fee, claim: claim }
+  let(:pcm_fee)    { FactoryGirl.build :fee, :pcm_fee, claim: claim }
 
-  describe 'claim' do
+  describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
   end
 
-  describe 'fee type' do
+  describe '#validate_fee_type' do
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
   end
 
-  describe 'rate' do
+  describe '#validate_rate' do
 
     before(:each) do
       daf_fee.claim.actual_trial_length = 10
@@ -42,7 +42,7 @@ describe FeeValidator do
         expect(baf_fee.errors[:quantity]).to include('baf_invalid')
       end
 
-      it 'DAF fee should raise error DAF specific QUANTITY error' do
+      it 'DAF fee should raise DAF specific QUANTITY error' do
         daf_fee.quantity = 0
         expect(daf_fee.valid?).to be false
         expect(daf_fee.errors[:quantity]).to include('daf_invalid')
@@ -81,7 +81,7 @@ describe FeeValidator do
 
   end
 
-  describe 'quantity' do
+  describe '#validate_quantity' do
 
     context 'basic fee (BAF)' do
 

@@ -24,7 +24,7 @@ class Defendant < ActiveRecord::Base
 
   acts_as_gov_uk_date :date_of_birth
 
-  accepts_nested_attributes_for :representation_orders, reject_if: :all_blank,  allow_destroy: true
+  accepts_nested_attributes_for :representation_orders, reject_if: :all_blank, allow_destroy: true
 
   def name
       [first_name, last_name].join(' ').gsub("  ", " ")

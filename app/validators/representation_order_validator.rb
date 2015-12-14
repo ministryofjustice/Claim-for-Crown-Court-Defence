@@ -1,7 +1,11 @@
 class RepresentationOrderValidator < BaseClaimValidator
 
   def self.fields
-    [ :representation_order_date, :granting_body, :maat_reference ]
+    [
+      :representation_order_date,
+      :granting_body,
+      :maat_reference
+    ]
   end
 
   private

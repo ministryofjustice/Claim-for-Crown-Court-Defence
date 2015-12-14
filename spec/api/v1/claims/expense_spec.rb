@@ -14,10 +14,10 @@ describe API::V1::Advocates::Expense do
   ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)                    { create(:chamber) }
-  let!(:claim)                      { create(:claim, source: 'api').reload }
-  let!(:expense_type)               { create(:expense_type) }
-  let!(:params)                     { { api_key: chamber.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
+  let!(:chamber)        { create(:chamber) }
+  let!(:claim)          { create(:claim, source: 'api').reload }
+  let!(:expense_type)   { create(:expense_type) }
+  let!(:params)         { { api_key: chamber.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let(:json_error_response)   do
     [
       {"error" => "Choose a type for the expense"},
@@ -25,7 +25,6 @@ describe API::V1::Advocates::Expense do
       {"error" => "Enter a rate for the expense"}
     ].to_json
   end
-
 
   context 'sending non-permitted verbs' do
     ALL_EXPENSE_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -45,6 +44,8 @@ describe API::V1::Advocates::Expense do
     def post_to_create_endpoint
       post CREATE_EXPENSE_ENDPOINT, params, format: :json
     end
+
+    include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when expense params are valid' do
 

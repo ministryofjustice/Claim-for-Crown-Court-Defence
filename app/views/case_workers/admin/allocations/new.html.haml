@@ -48,7 +48,8 @@
       = hidden_field_tag :high_value, params[:high_value]
       = hidden_field_tag :tab, params[:tab]
 
-      = submit_tag 'Filter'
+      %noscript
+        = submit_tag 'Filter'
 
       != "&nbsp";
 

@@ -411,6 +411,32 @@ Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end
 
+Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
+  create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
+  create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)', code: 'DAF')
+  create(:fee_type, :basic, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
+  create(:fee_type, :basic, description: 'Daily attendance fee (51+)', code: 'DAJ')
+  visit new_advocates_claim_path
+end
+
+When(/^I fill in the trial details$/) do
+  select2('Trial', from: 'claim_case_type_id')
+  fill_in 'claim_actual_trial_length', with: 1
+end
+
+When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|
+  fill_in 'claim_actual_trial_length', with: actual_trial_length.to_i
+end
+
+Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/) do |daf_quantity, dah_quantity, daj_quantity|
+  daf_quantity  = '' if daf_quantity.nil? || daf_quantity.to_i == 0
+  dah_quantity  = '' if dah_quantity.nil? || dah_quantity.to_i == 0
+  daj_quantity  = '' if daj_quantity.nil? || daj_quantity.to_i == 0
+  expect(page).to have_field("claim_basic_fees_attributes_1_quantity", with: "#{daf_quantity}")
+  expect(page).to have_field("claim_basic_fees_attributes_2_quantity", with: "#{dah_quantity}")
+  expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")
+end
+
 # local helpers
 # -----------------
 def fee_type_to_id(fee_type)

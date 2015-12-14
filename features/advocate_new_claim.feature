@@ -181,3 +181,24 @@ Feature: Advocate new claim
       And I submit to LAA
      Then There should not be any Initial Fees saved
       And There should be a Miscellaneous Fee Saved
+
+  @javascript @webmock_allow_localhost_connect
+  Scenario Outline: Daily attendance fees derived from actual trial length
+  Given I am a signed in advocate
+    And There are case types in place
+    And I am on the new claim page with Daily Attendance Fees in place
+   When I fill in the trial details
+    And I fill in actual trial length with <actual_trial_length>
+   Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
+
+  Examples:
+    | actual_trial_length         | daf_quantity | dah_quantity | daj_quantity |
+    | 1                           | 0            | 0            | 0            |
+    | 2                           | 0            | 0            | 0            |
+    | 3                           | 1            | 0            | 0            |
+    | 40                          | 38           | 0            | 0            |
+    | 41                          | 38           | 1            | 0            |
+    | 50                          | 38           | 10           | 0            |
+    | 51                          | 38           | 10           | 1            |
+    | 60                          | 38           | 10           | 10           |
+    | 70                          | 38           | 10           | 20           |

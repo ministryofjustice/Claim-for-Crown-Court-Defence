@@ -18,9 +18,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc).
+    @claims = @context.claims.dashboard_displayable_states.
       page(params[:page]).
       per(10)
+    sort if params[:sort].present?
     search if params[:search].present?
   end
 
@@ -140,6 +141,10 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def search(states=nil)
     @claims = @claims.search(params[:search], states, *search_options)
+  end
+
+  def sort
+    @claims = @claims.sort(params[:sort], params[:direction])
   end
 
   def search_options

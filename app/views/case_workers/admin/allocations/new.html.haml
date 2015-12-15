@@ -11,9 +11,10 @@
 - unless params[:tab] == 'allocated'
   %h1.page-title
     Allocation
-  = form_tag case_workers_admin_allocations_path, method: :get do
-    = label_tag :filter, t('case_workers.admin.allocations.new.case_types')
 
+  = form_tag case_workers_admin_allocations_path, method: :get do
+
+    = label_tag :filter, t('case_workers.admin.allocations.new.case_types')
     .form-group.inline.allocation-filter-form
       -  allocation_filters.each do | filter_name |
         = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
@@ -23,28 +24,46 @@
     %noscript
       = submit_tag 'Filter'
 
-      %span.claim-count
-        = pluralize(@claims.count, 'claim')
 - else
   %h1.page-title
     Re-Allocation
-  %p
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
 
-      = text_field_tag :search, params[:search], placeholder: 'Search by case worker name'
-      = submit_tag 'Search', class: 'button'
+  = form_tag case_workers_admin_allocations_path, method: :get do
+    = hidden_field_tag :tab, params[:tab]
 
-
+    = text_field_tag :search, params[:search], placeholder: 'Search by case worker name'
+    = submit_tag 'Search', class: 'button'
 
 = form_for [:case_workers, :admin, @allocation] do |f|
-  %p
-    - unless params[:tab] == 'allocated'
-      = number_field_tag :quantity_to_allocate, nil, { placeholder: params[:tab] == 'allocated' ? 'Number to re-allocate' : 'Number to allocate', min: 0 }
-      = hidden_field_tag :filter, params[:filter] if params[:filter]
-    = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2 extra-margin', style: 'display: inline-block; width: 200px;' }
-
-    = f.submit params[:tab] == 'allocated' ? 'Re-allocate' : 'Allocate', class: 'button'
+  = hidden_field_tag :tab, params[:tab]
+  - unless params[:tab] == 'allocated'
+    = hidden_field_tag :filter, params[:filter] if params[:filter]
+    .grid-row
+      .column-half
+        .grid-row
+          .column-quarter
+            = label_tag :quantity_to_allocate, t('case_workers.admin.allocations.new.no_of_claims')
+          .column-two-quarter
+            = f.label :case_worker_id, t('dictionary.models.case_worker')
+          .column-quarter
+            &nbsp;
+        .grid-row
+          .column-quarter
+            = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5 }
+          .column-two-quarter
+            = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'width: 100%;' }
+          .column-quarter
+            = f.submit 'Allocate', class: 'button'
+      .column-half
+        &nbsp;
+  - else
+    .grid-row
+      .column-quarter
+        = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'width: 100%;' }
+      .column-quarter
+        = f.submit 'Re-allocate', class: 'button'
+      .column-half
+        &nbsp;
 
   - if @claims.any?
     .claim-count

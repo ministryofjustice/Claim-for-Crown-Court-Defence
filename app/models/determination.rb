@@ -14,7 +14,8 @@
 #
 
 class Determination < ActiveRecord::Base
-  before_save :calculate_total, :calculate_vat
+  before_save :calculate_total
+  before_save :calculate_vat
 
   belongs_to :claim
 

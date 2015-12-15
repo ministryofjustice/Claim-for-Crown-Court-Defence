@@ -410,11 +410,11 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def sort_column
-    params[:sort] || 'case_number'
+    params[:sort] || 'submitted_at'
   end
 
   def sort_direction
-    params[:direction] || 'asc'
+    params[:direction] || 'desc'
   end
 
 end

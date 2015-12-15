@@ -144,17 +144,16 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def filter_claims
     search if params[:search].present?
-    # @claims = @claims.order("#{sort_column} #{sort_direction}")
-    sort if params[:sort].present?
     set_claim_ids_and_count
+    sort if params[:sort].present?
   end
 
   def sort_column
-    params[:sort] || 'case_number'
+    params[:sort] || 'submitted_at'
   end
 
   def sort_direction
-    params[:direction] || 'asc'
+    params[:direction] || 'submitted_at'
   end
 
 end

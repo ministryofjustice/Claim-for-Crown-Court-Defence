@@ -1,7 +1,12 @@
 class DefendantValidator < BaseClaimValidator
 
   def self.fields
-    [ :date_of_birth, :representation_orders, :first_name, :last_name ]
+    [
+      :date_of_birth,
+      :representation_orders,
+      :first_name,
+      :last_name
+    ]
   end
 
   def self.mandatory_fields

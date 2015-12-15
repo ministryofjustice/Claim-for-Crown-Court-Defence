@@ -19,11 +19,12 @@ module ApplicationHelper
     "current" if current_page?(path)
   end
 
-  def number_with_precision_or_blank(number, options = {})
+  def number_with_precision_or_default(number, options = {})
+    default = options.delete(:default) || ''
     if options.has_key?(:precision)
-      number == 0 ? '' : number_with_precision(number, options)
+      number == 0 ? default : number_with_precision(number, options)
     else
-      number == 0 ? '' : number.to_s
+      number == 0 ? default : number.to_s
     end
   end
 

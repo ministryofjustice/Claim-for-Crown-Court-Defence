@@ -54,20 +54,11 @@ class Claim < ActiveRecord::Base
   include NumberCommaParser
   numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
 
-  # STATES_FOR_FORM = {
-  #   part_authorised: "Part authorised",
-  #   authorised: "Authorised",
-  #   rejected: "Rejected",
-  #   refused: "Refused"
-  # }
-
   belongs_to :court
   belongs_to :offence
   belongs_to :advocate
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
   belongs_to :case_type
-
-  delegate   :chamber_id, to: :advocate
 
   has_many :case_worker_claims,       dependent: :destroy
   has_many :case_workers,             through: :case_worker_claims
@@ -88,6 +79,8 @@ class Claim < ActiveRecord::Base
   has_many :redeterminations
 
   has_one  :certification
+
+  delegate :chamber_id, to: :advocate
 
   has_paper_trail on: [:update], only: [:state]
 
@@ -171,7 +164,9 @@ class Claim < ActiveRecord::Base
   end
 
   def earliest_representation_order
-    representation_orders.sort { |a, b| (a.representation_order_date || 100.years.from_now) <=> (b.representation_order_date || 100.years.from_now) }.first
+    representation_orders.sort do |a, b|
+      (a.representation_order_date || 100.years.from_now) <=> (b.representation_order_date || 100.years.from_now)
+    end.first
   end
 
   # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
@@ -216,11 +211,13 @@ class Claim < ActiveRecord::Base
   end
 
   def form_input_to_event
-    { "authorised"               => :authorise!,
-      "part_authorised"          => :authorise_part!,
-      "rejected"                 => :reject!,
-      "refused"                  => :refuse!,
-      "redetermination"          => :redetermine!}
+    {
+      'authorised'               => :authorise!,
+      'part_authorised'          => :authorise_part!,
+      'rejected'                 => :reject!,
+      'refused'                  => :refuse!,
+      'redetermination'          => :redetermine!
+    }
   end
 
   def transition_state(form_input)
@@ -321,9 +318,11 @@ class Claim < ActiveRecord::Base
   private
 
   def creator_and_advocate_in_same_chamber
-    valid = creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
-    errors[:advocate_id] << 'Creator and advocate must belong to the same chamber' unless valid
-    valid
+    return if errors[:advocate].include?('blank')
+
+    unless creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
+      errors[:advocate] << 'Creator and advocate must belong to the same chamber'
+    end
   end
 
   def find_and_associate_documents

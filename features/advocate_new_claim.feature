@@ -2,11 +2,6 @@
 
 Feature: Advocate new claim
 
-  Scenario: New claim instantiates Basic Fee Type (BAF) to quantity of 1
-   Given I am a signed in advocate
-     And I am on the new claim page
-    Then I should see a Basic Fee quantity of exactly one
-
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate
       And There are case types in place

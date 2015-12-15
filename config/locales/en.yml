@@ -388,7 +388,7 @@ en:
         additional_information: 'Additional information'
         basic_fees: 'Initial fees'
         fee_prompt_text: |
-          You must enter a quantity and calculate the amount.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+          You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
           for help.
         fee_type: 'Type of fee'
         quantity: 'Quantity'

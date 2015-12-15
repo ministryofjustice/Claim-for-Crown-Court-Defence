@@ -1,7 +1,11 @@
 class FeeValidator < BaseClaimValidator
 
   def self.fields
-    [ :fee_type, :quantity, :rate ]
+    [
+      :fee_type,
+      :quantity,
+      :rate
+    ]
   end
 
   def self.mandatory_fields
@@ -23,7 +27,7 @@ class FeeValidator < BaseClaimValidator
 
     case @record.fee_type.try(:code)
       when 'BAF'
-        validate_basic_fee_quantity
+        validate_baf_quantity
       when 'DAF'
         validate_daily_attendance_3_40_quantity
       when 'DAH'
@@ -31,20 +35,15 @@ class FeeValidator < BaseClaimValidator
       when 'DAJ'
         validate_daily_attendance_51_plus_quantity
       when 'PCM'
-        validate_plea_and_case_management_hearing
+        validate_pcm_quantity
     end
 
     validate_any_quantity
 
   end
 
-  def validate_basic_fee_quantity
-    if @record.claim.case_type.try(:is_fixed_fee?)
-      # TODO: remove? this should never be raised because a before validation hook will clear basic fees for fixed fee cases
-      validate_numericality(:quantity, 0, 0, 'You cannot claim a basic fee for this case type')
-    else
-      validate_numericality(:quantity, 1, 1, 'baf_qty1')
-    end
+  def validate_baf_quantity
+    validate_numericality(:quantity, 0, 1, 'baf_qty_numericality')
   end
 
   # cannot claim this fee if trial lasted less than 3 days
@@ -62,17 +61,17 @@ class FeeValidator < BaseClaimValidator
   end
 
   # cannot claim this fee if trial lasted less than 51 days
-  # can only claim a maximum of 10 (or trial length after first 40 days deducted)
+  # can only claim a maximum of trial length after first 50 days deducted
   def validate_daily_attendance_51_plus_quantity
     return if @record.quantity == 0
     add_error(:quantity, 'daj_qty_mismatch') if @actual_trial_length < 51 || @record.quantity > @actual_trial_length - 50
   end
 
-  def validate_plea_and_case_management_hearing
+  def validate_pcm_quantity
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
-      add_error(:quantity, 'pcm_invalid') if @record.quantity > 3
+      add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
     else
-      add_error(:quantity, 'pcm_invalid') unless (@record.quantity == 0 || @record.quantity.blank?)
+      add_error(:quantity, 'pcm_not_applicable') unless (@record.quantity == 0 || @record.quantity.blank?)
     end
   end
 
@@ -87,27 +86,15 @@ class FeeValidator < BaseClaimValidator
 
     fee_code = @record.fee_type.try(:code)
     case fee_code
-      when 'BAF'
-        validate_baf_rate
-      when "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-        validate_non_baf_basic_fee_rate(fee_code)
+      when "BAF", "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
+        validate_basic_fee_rate(fee_code)
       else
-        validate_misc_and_fixed_fee_rate
+        validate_any_quantity_rate_combination
     end
   end
 
-  def validate_baf_rate
-    # we want to validate the Basic fee has a rate of more than 0 as quantity must be 1
-    # BUT
-    # - ignore for fixed fees (no baf required)
-    # - ignore if from the api (because basic fee instantiation sets
-    #   the BAF to 1 and rate to 0 via claim creation endpoint)
-    unless @record.claim.case_type.try(:is_fixed_fee?) || (@record.claim.try(:api_draft?) && @record.new_record?)
-      add_error(:rate, 'baf_invalid') if @record.rate <= 0
-    end
-  end
-
-  def validate_misc_and_fixed_fee_rate
+  # if one has a value and the other doesn't then we add error to the one that does NOT have a value
+  def validate_any_quantity_rate_combination
     if @record.quantity > 0 && @record.rate <= 0
       add_error(:rate, 'invalid')
     elsif @record.quantity <= 0 && @record.rate > 0
@@ -115,11 +102,13 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
-  def validate_non_baf_basic_fee_rate(case_type)
-    if @record.quantity > 0
-      add_error(:rate, "#{case_type.downcase}_zero") if @record.rate <=0
-    else
-      add_error(:rate, "#{case_type.downcase}_invalid") if @record.rate != 0
+  # if one has a value and the other doesn't then we add error to the one that does NOT have a value
+  # NOTE: we have specific error messages for basic fees
+  def validate_basic_fee_rate(case_type)
+    if @record.quantity > 0 && @record.rate <=0
+      add_error(:rate, "#{case_type.downcase}_invalid")
+    elsif @record.quantity <= 0 && @record.rate > 0
+      add_error(:quantity, "#{case_type.downcase}_invalid")
     end
   end
 

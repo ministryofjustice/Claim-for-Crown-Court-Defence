@@ -1,6 +1,8 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
+  helper_method :sort_column, :sort_direction
+
   respond_to :html
   before_action :set_claims,          only: [:index, :archived]
   before_action :set_search_options,  only: [:index, :archived]
@@ -50,6 +52,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def search(states=nil)
     @claims = @claims.search(params[:search], states, *search_options)
+  end
+
+  def sort
+    @claims = @claims.sort(params[:sort], params[:direction])
   end
 
   def search_options
@@ -138,8 +144,17 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def filter_claims
     search if params[:search].present?
-    @claims = @claims.order("#{sort_column} #{sort_direction}")
+    # @claims = @claims.order("#{sort_column} #{sort_direction}")
+    sort if params[:sort].present?
     set_claim_ids_and_count
+  end
+
+  def sort_column
+    params[:sort] || 'case_number'
+  end
+
+  def sort_direction
+    params[:direction] || 'asc'
   end
 
 end

@@ -5,22 +5,22 @@
   %table.claims_table
     %thead
       %th
-        = link_to t(".case_number"), advocates_claims_path(sort: 'case_number', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'case_number', t(".case_number")
       - if current_user.persona.admin?
         %th
-          = link_to t(".advocate"), advocates_claims_path(sort: 'advocate', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+          = sortable 'advocate', t(".advocate")
       %th
-        = link_to t(".defendants"), advocates_claims_path(sort: 'defendants', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'defendants', t(".defendants")
       %th
-        = link_to t(".total"), advocates_claims_path(sort: 'total', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'total', t(".total")
       %th
-        = link_to t(".assessed"), advocates_claims_path(sort: 'amount_assessed', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'amount_assessed', t(".assessed")
       %th
-        = link_to t(".status"), advocates_claims_path(sort: 'state', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'state', t(".status")
       %th
-        = link_to t(".submission_date"), advocates_claims_path(sort: 'submitted_at', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'submitted_at', t(".submission_date")
       %th
-        = link_to t(".messages"), advocates_claims_path(sort: 'messages', direction: params[:direction] == 'asc' ? 'desc' : 'asc')
+        = sortable 'messages', t(".messages")
     %tbody
       - claims.each do |claim_object|
         - present(claim_object) do |claim|

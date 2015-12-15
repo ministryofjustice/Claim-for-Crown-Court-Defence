@@ -3,6 +3,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include DateParamProcessor
   include DocTypes
 
+  helper_method :sort_column, :sort_direction
+
   respond_to :html
   before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
   before_action :set_doctypes, only: [:show]
@@ -12,12 +14,12 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
+  before_action :initialize_json_document_importer, only: [:index]
 
   include ReadMessages
   include MessageControlsDisplay
 
   def index
-    @json_document_importer = JsonDocumentImporter.new
     @claims = @context.claims.dashboard_displayable_states.
       page(params[:page]).
       per(10)
@@ -401,6 +403,18 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def present_errors
     @error_presenter = ErrorPresenter.new(@claim)
+  end
+
+  def initialize_json_document_importer
+    @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def sort_column
+    params[:sort] || 'case_number'
+  end
+
+  def sort_direction
+    params[:direction] || 'asc'
   end
 
 end

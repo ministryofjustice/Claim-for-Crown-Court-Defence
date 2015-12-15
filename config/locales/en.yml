@@ -399,7 +399,7 @@ en:
         add_misc_fee: 'Add another miscellaneous fee'
         expenses: 'Expenses'
         expenses_help_text: Enter details and relevant dates for each separate expense
-        hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 25 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
+        hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
         expense_type: 'Type of expense'
         location: 'Destination'
         quantity_hours: 'Quantity / Hours'

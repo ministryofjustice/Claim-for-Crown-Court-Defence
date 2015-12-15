@@ -521,6 +521,8 @@ en:
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)
+          no_of_claims: 'No. of claims'
+          case_types: 'Case types'
     claims:
       archived:
         archived_claims: Archived claims

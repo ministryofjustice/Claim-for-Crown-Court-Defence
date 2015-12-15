@@ -30,22 +30,11 @@
     Re-Allocation
   %p
     = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :high_value, params[:high_value]
       = hidden_field_tag :tab, params[:tab]
 
       = text_field_tag :search, params[:search], placeholder: 'Search by case worker name'
       = submit_tag 'Search', class: 'button'
 
-%p
-  Show
-  - if params[:claim_value].blank?
-    only
-    = link_to 'high-value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'high')), class: 'filter-by-value'
-    or
-    = link_to 'low-value', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: 'low')), class: 'filter-by-value'
-    claims
-  - else
-    = link_to 'all claims', case_workers_admin_allocations_path(params.except(:search, :filter,:action, :controller).merge(claim_value: nil)), class: 'filter-by-value'
 
 
 = form_for [:case_workers, :admin, @allocation] do |f|

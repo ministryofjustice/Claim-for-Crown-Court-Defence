@@ -11,57 +11,17 @@
 - unless params[:tab] == 'allocated'
   %h1.page-title
     Allocation
-  %p
-    = form_tag case_workers_admin_allocations_path, method: :get, class: 'allocation-filter-form' do
-      = label_tag do
-        = radio_button_tag :filter, 'all', params[:filter].blank? || params[:filter] == 'all'
-        All
+  = form_tag case_workers_admin_allocations_path, method: :get do
+    = label_tag :filter, t('case_workers.admin.allocations.new.case_types')
 
-      != "&nbsp";
+    .form-group.inline.allocation-filter-form
+      -  allocation_filters.each do | filter_name |
+        = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
+          = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
+          = filter_name.humanize
 
-      = label_tag do
-        = radio_button_tag :filter, 'fixed_fee', params[:filter] == 'fixed_fee'
-        Fixed fee
-
-      != "&nbsp";
-
-      = label_tag do
-        = radio_button_tag :filter, 'cracked', params[:filter] == 'cracked'
-        Cracked
-
-      != "&nbsp";
-
-      = label_tag do
-        = radio_button_tag :filter, 'trial', params[:filter] == 'trial'
-        Trial
-
-      != "&nbsp";
-
-      = label_tag do
-        = radio_button_tag :filter, 'guilty_plea', params[:filter] == 'guilty_plea'
-        Guilty plea
-
-      != "&nbsp";
-
-      = label_tag do
-        = radio_button_tag :filter, 'redetermination', params[:filter] == 'redetermination'
-        Redetermination
-
-      != "&nbsp";
-
-      = label_tag do
-        = radio_button_tag :filter, 'awaiting_written_reasons', params[:filter] == 'awaiting_written_reasons'
-        Awaiting written reasons
-
-      != "&nbsp";
-
-      = hidden_field_tag :high_value, params[:high_value]
-      = hidden_field_tag :tab, params[:tab]
-
-      %noscript
-        = submit_tag 'Filter'
-
-      != "&nbsp";
+    %noscript
+      = submit_tag 'Filter'
 
       %span.claim-count
         = pluralize(@claims.count, 'claim')

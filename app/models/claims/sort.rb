@@ -12,7 +12,7 @@ module Claims::Sort
       when 'advocate'
         joins(advocate: :user).order("users.last_name #{direction}, users.first_name #{direction}")
       when 'defendants'
-        joins(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
+        includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
       when 'submitted_at'
         order("last_submitted_at #{direction}")
       when 'amount_assessed'

@@ -153,7 +153,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_direction
-    params[:direction] || 'submitted_at'
+    params[:direction] || 'desc'
   end
 
 end

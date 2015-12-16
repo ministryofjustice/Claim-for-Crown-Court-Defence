@@ -187,7 +187,7 @@ Feature: Advocate new claim
   Given I am a signed in advocate
     And There are case types in place
     And I am on the new claim page with Daily Attendance Fees in place
-   When I fill in the trial details
+    And I select2 a Case Type of "Trial"
     And I fill in actual trial length with <actual_trial_length>
    Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
 

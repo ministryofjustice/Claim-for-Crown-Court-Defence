@@ -356,10 +356,6 @@ Then(/^There should not be any Initial Fees saved$/) do
   expect(Claim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
 end
 
-# Then(/^There should not be any Miscellaneous Fees Saved$/) do
-#   expect(Claim.last.misc_fees.size).to eql(0)
-# end
-
 Then(/^There should be a Miscellaneous Fee Saved$/) do
   expect(Claim.last.misc_fees.size).to eql(1)
 end
@@ -413,15 +409,10 @@ end
 
 Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
   create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
-  create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)', code: 'DAF')
+  create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
   create(:fee_type, :basic, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
-  create(:fee_type, :basic, description: 'Daily attendance fee (51+)', code: 'DAJ')
+  create(:fee_type, :basic, description: 'Daily attendance fee (51+)',      code: 'DAJ')
   visit new_advocates_claim_path
-end
-
-When(/^I fill in the trial details$/) do
-  select2('Trial', from: 'claim_case_type_id')
-  fill_in 'claim_actual_trial_length', with: 1
 end
 
 When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|
@@ -429,9 +420,9 @@ When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|
 end
 
 Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/) do |daf_quantity, dah_quantity, daj_quantity|
-  daf_quantity  = '' if daf_quantity.nil? || daf_quantity.to_i == 0
-  dah_quantity  = '' if dah_quantity.nil? || dah_quantity.to_i == 0
-  daj_quantity  = '' if daj_quantity.nil? || daj_quantity.to_i == 0
+  daf_quantity = '' if daf_quantity.nil? || daf_quantity.to_i == 0
+  dah_quantity = '' if dah_quantity.nil? || dah_quantity.to_i == 0
+  daj_quantity = '' if daj_quantity.nil? || daj_quantity.to_i == 0
   expect(page).to have_field("claim_basic_fees_attributes_1_quantity", with: "#{daf_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_2_quantity", with: "#{dah_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")

@@ -38,9 +38,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
+    @claims = @context.claims.archived_pending_delete.page(params[:page]).per(10)
     search(:archived_pending_delete) if params[:search].present?
-    @claims = @claims.page(params[:page]).per(10)
   end
 
   def show

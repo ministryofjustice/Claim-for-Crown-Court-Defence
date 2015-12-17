@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe RedeterminationPresenter do
 
-  let(:rd)              { FactoryGirl.create :redetermination, fees: 1452.33, expenses: 2455.77 }
+  let(:claim)           { FactoryGirl.create :claim, apply_vat: true }
+  let(:rd)              { FactoryGirl.create :redetermination, fees: 1452.33, expenses: 2455.77, claim: claim }
   let(:presenter)       { RedeterminationPresenter.new(rd, view) }
 
 

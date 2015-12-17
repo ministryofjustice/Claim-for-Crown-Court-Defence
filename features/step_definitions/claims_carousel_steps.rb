@@ -5,6 +5,8 @@ Given(/^(\d+) claims have been assigned to me$/) do |count|
     @case_worker.claims << claim
     @claims << claim
   end
+
+  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
 end
 
 When(/^I visit the caseworkers dashboard$/) do
@@ -31,6 +33,6 @@ When(/^I click the next claim link$/) do
   find('.next-claim').click
 end
 
-Then(/^I should be on the claim with id (\d+)$/) do |id|
-  expect(page.current_path).to eq(case_workers_claim_path(id))
+Then(/^I should be on the next claim$/) do
+  expect(page.current_path).to eq(case_workers_claim_path(@claims[1].id))
 end

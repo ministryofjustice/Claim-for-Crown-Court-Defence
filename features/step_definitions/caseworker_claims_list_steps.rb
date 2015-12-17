@@ -43,8 +43,9 @@ Given(/^I have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number,st
 end
 
 Given(/^I have been assigned claims with evidence attached$/) do
-  claim = @claims.first
-  claim.documents << create(:document)
+  @claims.each do |claim|
+    claim.documents << create(:document)
+  end
 end
 
 When(/^I visit my dashboard$/) do

@@ -12,7 +12,7 @@ Feature: Claims carousel
      Then I should see the text "1 of 5"
       And I should see a link to the next claim
      When I click the next claim link
-     Then I should be on the claim with id 2
+     Then I should be on the next claim
 
   Scenario: View second claim and step through to the next claim
     Given 5 claims have been assigned to me

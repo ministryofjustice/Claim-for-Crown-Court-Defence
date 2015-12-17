@@ -21,7 +21,7 @@ Feature: Claims carousel
      Then I should see the text "2 of 5"
       And I should see a link to the next claim
      When I click the next claim link
-     Then I should be on the claim with id 3
+     Then I should be on the third claim
 
   Scenario: View penultimate claim and step through to the last claim
     Given 5 claims have been assigned to me
@@ -30,6 +30,6 @@ Feature: Claims carousel
      Then I should see the text "4 of 5"
       And I should see a link to the next claim
      When I click the next claim link
-     Then I should be on the claim with id 5
+     Then I should be on the last claim
       And I should see the text "5 of 5"
       And I should not see a link to the next claim

@@ -36,3 +36,11 @@ end
 Then(/^I should be on the next claim$/) do
   expect(page.current_path).to eq(case_workers_claim_path(@claims[1].id))
 end
+
+Then(/^I should be on the third claim$/) do
+  expect(page.current_path).to eq(case_workers_claim_path(@claims[2].id))
+end
+
+Then(/^I should be on the last claim$/) do
+  expect(page.current_path).to eq(case_workers_claim_path(@claims[-1].id))
+end

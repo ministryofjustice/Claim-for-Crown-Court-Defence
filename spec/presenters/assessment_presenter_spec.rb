@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe AssessmentPresenter do
   
-  let(:assessment)  { FactoryGirl.create :assessment, fees: 1452.33, expenses: 2455.77 }
+  let(:claim)       { FactoryGirl.create :claim, apply_vat: true }
+  let(:assessment)  { FactoryGirl.create :assessment, fees: 1452.33, expenses: 2455.77, claim: claim }
   let(:subject)     { AssessmentPresenter.new(assessment, view) }
   
   context 'currency fields' do

@@ -65,7 +65,8 @@ describe Assessment do
 
   context '#calculate_vat' do
     it 'automatically calculates the vat amount based on the total assessed and the claim vat_date' do
-      ass = FactoryGirl.create :assessment
+      claim = FactoryGirl.create :claim, apply_vat: true
+      ass = FactoryGirl.create :assessment, claim: claim
       expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
     end
   end

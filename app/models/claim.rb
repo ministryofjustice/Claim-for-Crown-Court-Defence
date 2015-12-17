@@ -304,11 +304,7 @@ class Claim < ActiveRecord::Base
   end
 
   def amount_assessed
-    if self.apply_vat?
-      determinations.last.total + VatRate.vat_amount(determinations.last.total, self.vat_date)
-    else
-      determinations.last.total
-    end
+    determinations.last.total_including_vat
   end
 
   def total_including_vat

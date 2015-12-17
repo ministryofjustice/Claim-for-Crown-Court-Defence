@@ -23,7 +23,7 @@ Then(/^I should see the total value of outstanding claims for my chamber$/) do
 end
 
 Then(/^I should see my total value of authorised and part authorised claims$/) do
-  total = ActiveSupport::NumberHelper.number_to_delimited(@advocate.claims.any_authorised.map(&:amount_assessed).sum)
+  total = ActiveSupport::NumberHelper.number_to_delimited(@advocate.claims.any_authorised.map(&:amount_assessed).sum.round(2))
   expect(page).to have_content(total)
 end
 

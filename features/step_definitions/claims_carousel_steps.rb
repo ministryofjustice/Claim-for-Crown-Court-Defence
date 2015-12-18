@@ -5,9 +5,6 @@ Given(/^(\d+) claims have been assigned to me$/) do |count|
     @case_worker.claims << claim
     @claims << claim
   end
-
-  # @claims = @claims.sort_by { |c| c.id }
-  # p @claims.map(&:id)
 end
 
 When(/^I visit the caseworkers dashboard$/) do

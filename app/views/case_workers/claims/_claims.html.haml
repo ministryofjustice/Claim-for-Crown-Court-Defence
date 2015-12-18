@@ -16,6 +16,8 @@
         %th
           = t(".status")
       %th
+        = "Case Type"
+      %th
         = t(".submission_date")
       %th.message-placeholder
         = t(".messages")
@@ -34,6 +36,8 @@
           - if params[:action] == 'archived'
             %td
               = claim.state.humanize
+          %td
+            = claim.case_type.name
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages

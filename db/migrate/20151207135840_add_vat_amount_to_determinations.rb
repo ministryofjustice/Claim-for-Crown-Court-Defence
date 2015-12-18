@@ -8,7 +8,7 @@ class AddVatAmountToDeterminations < ActiveRecord::Migration
 
       if @claim.apply_vat? && d.vat_amount == 0.0
         vat_amount = d.calculate_vat
-        d.update_attribute(:vat_amount, vat_amount)
+        d.update_column(:vat_amount, vat_amount)
       end
     end
   end

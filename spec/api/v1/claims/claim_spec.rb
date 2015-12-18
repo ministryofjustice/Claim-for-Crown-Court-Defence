@@ -14,14 +14,14 @@ describe API::V1::Advocates::Claim do
   ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)          { create(:chamber) }
-  let!(:other_chamber)    { create(:chamber) }
-  let!(:vendor)           { create(:advocate, :admin, chamber: chamber) }
-  let!(:advocate)         { create(:advocate, chamber: chamber) }
-  let!(:other_vendor)     { create(:advocate, :admin, chamber: other_chamber) }
-  let!(:offence)          { create(:offence)}
-  let!(:court)            { create(:court)}
-  let!(:valid_params) { {
+  let!(:chamber)        { create(:chamber) }
+  let!(:other_chamber)  { create(:chamber) }
+  let!(:vendor)         { create(:advocate, :admin, chamber: chamber) }
+  let!(:advocate)       { create(:advocate, chamber: chamber) }
+  let!(:other_vendor)   { create(:advocate, :admin, chamber: other_chamber) }
+  let!(:offence)        { create(:offence)}
+  let!(:court)          { create(:court)}
+  let!(:valid_params)   { {
                           :api_key => chamber.api_key,
                           :creator_email => vendor.user.email,
                           :advocate_email => advocate.user.email,

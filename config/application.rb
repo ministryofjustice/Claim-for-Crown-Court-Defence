@@ -26,9 +26,9 @@ module AdvocateDefencePayments
     end
 
     # Application Title (Populates <title>)
-    config.app_title = 'Advocate Defence Payments'
+    config.app_title = 'Claim for crown court defence'
     # Proposition Title (Populates proposition header)
-    config.proposition_title = 'Advocate Defence Payments'
+    config.proposition_title = 'Claim for crown court defence'
     # Current Phase (Sets the current phase and the colour of phase tags)
     # Presumed values: alpha, beta, live
     config.phase = 'ALPHA'

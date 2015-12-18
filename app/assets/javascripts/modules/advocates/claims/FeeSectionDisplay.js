@@ -57,7 +57,7 @@ moj.Modules.FeeSectionDisplay = {
       // if there is 1 or more amount input elements with value attribute containing digits 1 to 9
       return $(container).find('.amount')
         .filter( function (index, el) {
-          return /[1-9]/.test($(el).val());
+          return /[1-9]/.test($(el).text());
         }).length > 0;
     }
 

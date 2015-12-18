@@ -73,21 +73,21 @@ RSpec.describe Claim, type: :model do
       subject.advocate_id = advocate.id
       subject.creator_id = advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+      expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
     it 'should be valid with different advocate_id and creator_id but same chamber' do
       subject.advocate_id = advocate.id
       subject.creator_id = same_chamber_advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to be_nil
+      expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
     it 'should not be valid when the advocate and creator are not in the same chamber' do
       subject.advocate_id = advocate.id
       subject.creator_id = other_chamber_advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate_id]).to eq(['Creator and advocate must belong to the same chamber'])
+      expect(subject.reload.errors.messages[:advocate]).to eq(['Creator and advocate must belong to the same chamber'])
     end
   end
 
@@ -237,7 +237,7 @@ RSpec.describe Claim, type: :model do
     it 'should update the model then transition state to prevent state transition validation errors' do
       # given
       claim = FactoryGirl.create :allocated_claim
-      claim.assessment = Assessment.new
+      claim.assessment = Assessment.new(claim: claim)
       claim_params = {
         "state_for_form"=>"part_authorised",
         "assessment_attributes" => {
@@ -255,15 +255,30 @@ RSpec.describe Claim, type: :model do
 
     it 'should not transition when "state_for_form" is the same as the claim\'s state' do
       claim = FactoryGirl.create :authorised_claim
-      claim_params = {"state_for_form"=>"authorised", 'assessment_attributes' => { "fees"=>"88.55", 'expenses' => '0.00'},"additional_information"=>""}
+      claim.assessment = Assessment.new(claim: claim)
+      claim_params = {
+        "state_for_form"=>"authorised",
+        'assessment_attributes' => {
+          "id" => claim.assessment.id,
+          "fees"=>"88.55",
+          'expenses' => '0.00'
+        },
+        "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('authorised')
     end
 
     it 'should not transition when "state_for_form" is blank' do
       claim = FactoryGirl.create :authorised_claim
-
-      claim_params = {"state_for_form"=>"", 'assessment_attributes' => { "fees"=>"44.55", 'expenses' => '44.00'}, "additional_information"=>""}
+      claim.assessment = Assessment.new(claim: claim)
+      claim_params = {
+        "state_for_form"=>"",
+        'assessment_attributes' => {
+          "id" => claim.assessment.id,
+          "fees"=>"44.55",
+          'expenses' => '44.00'
+        },
+        "additional_information"=>""}
       claim.update_model_and_transition_state(claim_params)
       expect(claim.reload.state).to eq('authorised')
     end
@@ -533,10 +548,10 @@ RSpec.describe Claim, type: :model do
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 4.00)
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 3.00)
-      create(:fee, fee_type: fixed_fee, claim_id: subject.id, amount: 0.50)
-      create(:fee, fee_type: misc_fee,  claim_id: subject.id, amount: 0.50)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 4.00)
+      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 3.00)
+      create(:fee, fee_type: fixed_fee, claim_id: subject.id, rate: 0.50)
+      create(:fee, fee_type: misc_fee,  claim_id: subject.id, rate: 0.50)
       subject.reload
     end
 
@@ -558,7 +573,7 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: basic_fee, claim_id: subject.id, amount: 2.00)
+        create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.00)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -611,9 +626,9 @@ RSpec.describe Claim, type: :model do
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 3.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 2.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 1.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 3.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
+      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.00)
 
       create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
       create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
@@ -630,7 +645,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, amount: 0.5)
+        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 0.5)
         subject.reload
         expect(subject.total).to eq(156.00)
       end
@@ -883,8 +898,8 @@ RSpec.describe Claim, type: :model do
       claims = []
 
       [400, 10_000, 566, 1_000].each do |value|
-        claim = create(:submitted_claim)
-        claim.fees << create(:fee, amount: value, claim: claim)
+        claim = create(:draft_claim)
+        claim.fees << create(:fee, rate: value, claim: claim)
         claims << claim
       end
 
@@ -900,9 +915,9 @@ RSpec.describe Claim, type: :model do
 
     let(:claim_with_all_fee_types) do
       claim = FactoryGirl.create :draft_claim
-      FactoryGirl.create(:fee, :basic, :with_date_attended, claim: claim, amount: 9.99)
-      FactoryGirl.create(:fee, :fixed, :with_date_attended, claim: claim, amount: 9.99)
-      FactoryGirl.create(:fee, :misc, claim: claim, amount: 9.99)
+      FactoryGirl.create(:fee, :basic, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryGirl.create(:fee, :fixed, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryGirl.create(:fee, :misc, claim: claim, rate: 9.99)
       claim
     end
 
@@ -950,24 +965,20 @@ RSpec.describe Claim, type: :model do
 
   describe 'calculate_vat' do
 
-    it 'should calaculate vat before saving if vat is applied' do
-      allow(VatRate).to receive(:vat_amount).and_return(99.44)
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: true, last_submitted_at: Date.today
-      claim.save!
-      expect(claim.vat_amount).to eq 99.44
+    it 'should calaculate vat on submission if vat is applied' do
+      allow(VatRate).to receive(:vat_amount).and_return(10)
+      claim = FactoryGirl.build :unpersisted_claim, total: 100
+      claim.submit!
+      expect(claim.vat_amount).to eq 20
     end
 
     it 'should zeroise the vat amount if vat is not applied' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22, last_submitted_at: Date.today
-      claim.save!
+      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
+      claim.advocate.apply_vat = false
+      claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
 
-    it 'should zeroise the vat amount if submitted at date is blank' do
-      claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, apply_vat: false, vat_amount: 88.22
-      claim.save!
-      expect(claim.vat_amount).to eq 0.0
-    end
   end
 
   describe '#opened_for_redetermination?' do
@@ -1114,19 +1125,18 @@ RSpec.describe Claim, type: :model do
   end
 
   describe '#amount_assessed' do
-    let!(:claim) do
-      claim = create(:authorised_claim)
-      create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
-      create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
-      claim
-    end
+    let!(:claim)  { create(:claim, state: 'draft') }
 
     context 'when VAT applied' do
       # VAT rate 17.5%
 
       before do
-        claim.apply_vat = true
-        claim.save!
+        claim.advocate.apply_vat = true
+        claim.submit!
+        claim.allocate!
+        create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
+        create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+        claim.authorise!
       end
 
       it 'should return the amount assessed from the last determination' do
@@ -1135,9 +1145,17 @@ RSpec.describe Claim, type: :model do
     end
 
     context 'when VAT not applied' do
+
+      before do
+        claim.advocate.apply_vat = false
+        claim.submit!
+        claim.allocate!
+        create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
+        create(:assessment, claim: claim, fees: 1.55, expenses: 4.21)
+        claim.authorise!
+      end
+
       it 'should return the amount assessed from the last determination' do
-        claim.advocate.update(apply_vat: false)
-        claim.save
         expect(claim.amount_assessed).to eq(5.76)
       end
     end
@@ -1196,9 +1214,9 @@ RSpec.describe Claim, type: :model do
              "_destroy"=>"false"}},
          "additional_information"=>"",
          "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "amount"=>"150", "fee_type_id"=>fee_type.id}},
-         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
-         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "amount"=>"", "_destroy"=>"false"}},
+          {"0"=>{"quantity"=>"1", "rate"=>"150", "fee_type_id"=>fee_type.id}},
+         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
+         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
          "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
          "apply_vat"=>"0",
          "document_ids"=>[""],
@@ -1267,7 +1285,7 @@ RSpec.describe Claim, type: :model do
             "_destroy"=>"false"}},
         "additional_information"=>"",
         "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "amount"=>"450", "fee_type_id"=>@bft1.id}},
+          {"0"=>{"quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id}},
         "apply_vat"=>"0",
         "document_ids"=>[""],
         "evidence_checklist_ids"=>["1", ""]},

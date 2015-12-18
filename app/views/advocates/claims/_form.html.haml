@@ -41,14 +41,14 @@
 
       = render 'cracked_trial_fields', f: f
 
-      .grid-row
+      .grid-row#offence
         .column-half
           = f.anchored_label t('.offence_category')
           - if @claim.new_record?
             - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
           - else
             - selected_offence_category = @claim.offence.description rescue nil
-          = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt:  t('.select_category'), selected: selected_offence_category }, {  class: 'select2' }
+          = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
           = validation_error_message(@error_presenter, :offence)
         .column-half
           .offence-class-select
@@ -100,6 +100,8 @@
               %th
                 = t('.quantity')
               %th
+                = t('.rate')
+              %th
                 = t('.amount')
               %th
             = f.fields_for :basic_fees do |basic_fee_fields|
@@ -117,6 +119,8 @@
                 = t('.fee_type')
               %th
                 = t('.quantity')
+              %th
+                = t('.rate')
               %th
                 = t('.amount')
               %th
@@ -138,6 +142,8 @@
                 = t('.fee_type')
               %th
                 = t('.quantity')
+              %th
+                = t('.rate')
               %th
                 = t('.amount')
               %th
@@ -235,8 +241,9 @@
           = validation_error_message(@claim, :additional_information)
         .column-half
           &nbsp;
-    %p
-      = f.submit t('.submit_to_laa'), class: 'button left'
-      - if @claim.draft?
-        = f.submit t('.save_to_drafts'), class: 'button button-secondary left'
-      = link_to t('.clear_form'), new_advocates_claim_path, class: 'button button-secondary right', data: { confirm: 'Are you sure you want to clear this form?' }
+    .sticky-section
+      %p
+        = f.submit t('.submit_to_laa'), class: 'button left'
+        - if @claim.draft?
+          = f.submit t('.save_to_drafts'), class: 'button button-secondary left'
+        = link_to t('.clear_form'), new_advocates_claim_path, class: 'button button-secondary right', data: { confirm: 'Are you sure you want to clear this form?' }

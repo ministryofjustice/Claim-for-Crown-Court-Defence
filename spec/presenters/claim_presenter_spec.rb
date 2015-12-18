@@ -195,7 +195,10 @@ RSpec.describe ClaimPresenter do
   describe '#amount_assessed' do
     context 'when assessment present' do
       before do
+        claim.submit!
+        claim.allocate!
         create(:assessment, claim: claim, fees: 100, expenses: 20.43)
+        claim.authorise!
       end
 
       it 'display a currency formatted amount assessed' do

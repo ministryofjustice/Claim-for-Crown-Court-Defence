@@ -8,6 +8,7 @@
 #  fees       :decimal(, )
 #  expenses   :decimal(, )
 #  total      :decimal(, )
+#  vat_amount :float, default: 0.0
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -16,7 +17,7 @@ class Assessment < Determination
 
   self.table_name = 'determinations'
 
-  has_paper_trail on: [:update], only: [:fees, :expenses, :total]
+  has_paper_trail on: [:update], only: [:fees, :expenses, :vat_amount, :total]
 
   after_initialize :set_default_values
   before_save :set_paper_trail_event!

@@ -275,7 +275,7 @@ private
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 1,
-      "amount": 2.1,
+      "rate": 2.1,
     }
   end
 
@@ -289,7 +289,7 @@ private
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 2,
-      "amount": 3.1,
+      "rate": 1.55,
     }
   end
 

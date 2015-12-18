@@ -24,7 +24,7 @@ Feature: Trial detail visibility by case type
     | Cracked before retrial      | should not |
     | Elected cases not proceeded | should not |
     | Guilty plea                 | should not |
-    | Discontinuance              | should     |
+    | Discontinuance              | should not |
     | Retrial                     | should     |
     | Trial                       | should     |
 
@@ -45,6 +45,6 @@ Feature: Trial detail visibility by case type
       | Cracked before retrial      | should not |
       | Elected cases not proceeded | should not |
       | Guilty plea                 | should not |
-      | Discontinuance              | should     |
+      | Discontinuance              | should not |
       | Retrial                     | should     |
       | Trial                       | should     |

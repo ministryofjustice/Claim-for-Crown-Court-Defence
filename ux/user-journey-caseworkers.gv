@@ -6,7 +6,7 @@ digraph CLA_User_Journey {
 	nodesep		= .5
 	ranksep 	= .3
 
-	label 		= "Advocate Defence Payments - Claim Allocation User Journey Map"
+	label 		= "Claim for crown court defence - Claim Allocation User Journey Map"
 	fontsize	= 16
 	size 		= "11x8"
 
@@ -21,7 +21,7 @@ digraph CLA_User_Journey {
 	}
 
 	subgraph cluster_adp_digital_service {
-		label="ADP Digital Service"
+		label="Claim for crown court defence - Digital Service"
 
 		sign_in [ label="Sign in\n\n/" ]
 

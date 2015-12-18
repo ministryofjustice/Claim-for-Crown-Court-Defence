@@ -43,7 +43,7 @@ CaseType.find_or_create_by!(name: 'Cracked before retrial',
 CaseType.find_or_create_by!(name: 'Discontinuance',
                             is_fixed_fee:             false,
                             requires_cracked_dates:   false,
-                            requires_trial_dates:     true,
+                            requires_trial_dates:     false,
                             allow_pcmh_fee_type:      true,
                             requires_maat_reference:  true)
 CaseType.find_or_create_by!(name: 'Elected cases not proceeded',

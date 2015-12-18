@@ -139,6 +139,7 @@ en:
     advocate: Advocate
     court: Court
     crown_court: Crown court
+    defendant: Defendant
     expenses: Expenses
     fees: Fees
     or: or
@@ -371,6 +372,7 @@ en:
       defendant_fields:
         first_name: *first_name
         last_name: *last_name
+        full_name: Full name
         date_of_birth: 'Date of birth'
         order_for_judicial_apportionment: 'Order for judicial apportionment'
         add_another_rep_order: 'Add another representation order'
@@ -432,7 +434,7 @@ en:
         additional_information: 'Additional information'
         basic_fees: 'Initial fees'
         fee_prompt_text: |
-          You must enter a quantity and calculate the amount.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+          You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
           for help.
         fee_type: 'Type of fee'
         quantity: 'Quantity'
@@ -442,7 +444,8 @@ en:
         add_fixed_fee: 'Add another Fixed fee'
         add_misc_fee: 'Add another miscellaneous fee'
         expenses: 'Expenses'
-        expenses_help_text: 'Please enter details for each separate date'
+        expenses_help_text: Enter details and relevant dates for each separate expense
+        hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
         expense_type: 'Type of expense'
         location: 'Destination'
         quantity_hours: 'Quantity / Hours'
@@ -484,6 +487,11 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
+      trial_fields:
+        first_day_of_trial: 'First day of trial'
+        estimated_length: 'Estimated trial length'
+        actual_length: 'Actual trial length'
+        trial_concluded_at: 'Trial concluded on'
 
 # en.shared
   shared:
@@ -492,6 +500,7 @@ en:
       advocate_category: Advocate category
       assignee: "Assigned to:"
       case: Case
+      case_cracked: Case cracked in
       case_num: Case number
       case_type: Case type
       case_worker: Case worker
@@ -502,7 +511,7 @@ en:
       q:
         retrial: "Retrial"
       reporders: Representation order(s)
-      submit_date: Case submitted
+      submit_date: Claim submitted
       trial_concluded: Trial concluded
     evidence_list:
       existing_evidence: Existing evidence
@@ -558,6 +567,8 @@ en:
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)
+          no_of_claims: 'No. of claims'
+          case_types: 'Case types'
     claims:
       archived:
         archived_claims: Archived claims

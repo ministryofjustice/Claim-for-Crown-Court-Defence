@@ -14,10 +14,10 @@ describe API::V1::Advocates::Defendant do
   ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
   FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
 
-# NOTE: need to specify claim.source as api to ensure defendant model validations applied
-  let!(:chamber)          { create(:chamber) }
-  let!(:claim)            { create(:claim, source: 'api').reload }
-  let!(:valid_params)     { {api_key: chamber.api_key, claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
+  # NOTE: need to specify claim.source as api to ensure defendant model validations applied
+  let!(:chamber)       { create(:chamber) }
+  let!(:claim)         { create(:claim, source: 'api').reload }
+  let!(:valid_params)  { {api_key: chamber.api_key, claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
 
   let(:json_error_response) do
     [
@@ -45,6 +45,8 @@ describe API::V1::Advocates::Defendant do
     def post_to_create_endpoint
       post CREATE_DEFENDANT_ENDPOINT, valid_params, format: :json
     end
+
+    include_examples "should NOT be able to amend a non-draft claim"
 
     context "when defendant params are valid" do
 

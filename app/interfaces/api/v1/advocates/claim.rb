@@ -25,7 +25,6 @@ module API
               optional :court_id, type: Integer,                  desc: "REQUIRED: The unique identifier for this court"
               optional :case_type_id, type: Integer,              desc: "REQUIRED: The unique identifier of the case type"
               optional :case_number, type: String,                desc: "REQUIRED: The case number"
-              # optional :indictment_number, type: String,          desc: "REQUIRED: The indictment number" # TODO removed? to be confirmed and extended to rest of app
               optional :offence_id, type: Integer,                desc: "REQUIRED: The unique identifier for this offence"
               optional :first_day_of_trial, type: String,         desc: "REQUIRED: YYYY-MM-DD", standard_json_format: true
               optional :estimated_trial_length, type: Integer,    desc: "REQUIRED: The estimated trial length in days"

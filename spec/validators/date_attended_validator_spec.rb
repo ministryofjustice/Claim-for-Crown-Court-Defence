@@ -1,9 +1,9 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/date_validation_helpers'
+require File.dirname(__FILE__) + '/validation_helpers'
 
 describe DateAttendedValidator do
 
-  include RspecDateValidationHelpers
+  include ValidationHelpers
 
   let(:claim) do
     claim = FactoryGirl.build :claim,

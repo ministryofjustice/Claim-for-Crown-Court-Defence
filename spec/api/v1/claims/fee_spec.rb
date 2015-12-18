@@ -15,12 +15,12 @@ describe API::V1::Advocates::Fee do
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)            { create(:chamber) }
-  let!(:basic_fee_type)     { create(:fee_type, :basic) }
-  let!(:misc_fee_type)      { create(:fee_type, :misc) }
-  let!(:fixed_fee_type)      { create(:fee_type, :fixed) }
-  let!(:claim)              { create(:claim, source: 'api').reload }
-  let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, amount: 150.00 } }
+  let!(:chamber)          { create(:chamber) }
+  let!(:basic_fee_type)   { create(:fee_type, :basic) }
+  let!(:misc_fee_type)    { create(:fee_type, :misc) }
+  let!(:fixed_fee_type)   { create(:fee_type, :fixed) }
+  let!(:claim)            { create(:claim, source: 'api').reload }
+  let(:valid_params)      { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
 
   context 'sending non-permitted verbs' do
@@ -41,6 +41,8 @@ describe API::V1::Advocates::Fee do
     def post_to_create_endpoint
       post CREATE_FEE_ENDPOINT, valid_params, format: :json
     end
+
+    include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when fee params are valid' do
 
@@ -63,12 +65,12 @@ describe API::V1::Advocates::Fee do
         expect(fee.claim_id).to eq claim.id
         expect(fee.fee_type_id).to eq misc_fee_type.id
         expect(fee.quantity).to eq valid_params[:quantity]
-        expect(fee.amount).to eq valid_params[:amount]
+        expect(fee.rate).to eq valid_params[:rate]
       end
 
       context 'basic fees' do
 
-        let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, amount: 210.00 } }
+        let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
 
         it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
           post_to_create_endpoint
@@ -83,13 +85,14 @@ describe API::V1::Advocates::Fee do
           expect{ post_to_create_endpoint }.to change { Fee.count }.by(0)
         end
 
-        it 'should update the basic fee with the quantity and amount' do
+        it 'should update the basic fee with the quantity, rate and amount' do
           post_to_create_endpoint
           json = JSON.parse(last_response.body)
           fee = Fee.find_by(uuid: json['id'])
           expect(fee.claim_id).to eq claim.id
           expect(fee.fee_type_id).to eq basic_fee_type.id
           expect(fee.quantity).to eq 1
+          expect(fee.rate).to eq 210.00
           expect(fee.amount).to eq 210.00
         end
       end
@@ -98,17 +101,17 @@ describe API::V1::Advocates::Fee do
 
     context "fee type specific errors" do
 
-      let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, amount: 150.00 } }
-      before (:each) { valid_params.delete(:amount) }
+      let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+      before (:each) { valid_params.delete(:rate) }
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
         valid_params[:fee_type_id] = basic_fee_type.id
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a quantity of 1 for basic fee",0)
-        # NOTE: basic fee should allow 0 amount for claim basic fee at instantiontion/creation but not thereafter
-        expect_error_response("Enter a valid amount for the basic fee",1)
+        expect_error_response("Enter a quantity of 0 to 1 for basic fee",0)
+        # NOTE: basic fee should allow 0 rate for claim basic fee at instantiation/creation but not thereafter
+        expect_error_response("Enter a valid rate for the basic fee",1)
       end
 
       # NOT exhaustive
@@ -116,21 +119,21 @@ describe API::V1::Advocates::Fee do
         valid_params[:fee_type_id] = basic_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a valid amount for the basic fee",0)
+        expect_error_response("Enter a valid rate for the initial fee",0)
       end
 
       it 'misc fees should raise misc fee errors from translations' do
         valid_params[:fee_type_id] = misc_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter an amount for the miscellaneous fee",0)
+        expect_error_response("Enter a rate for the miscellaneous fee",0)
       end
 
       it 'fixed fees should raise misc fee errors from translations' do
         valid_params[:fee_type_id] = fixed_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter an amount for the fixed fee",0)
+        expect_error_response("Enter a rate for the fixed fee",0)
       end
     end
 
@@ -201,7 +204,7 @@ describe API::V1::Advocates::Fee do
     end
 
     context 'basic fees' do
-      let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, amount: 210.00 } }
+      let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
       include_examples "fee validate endpoint"
     end
 

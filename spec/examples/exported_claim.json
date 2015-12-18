@@ -38,7 +38,7 @@
         {
           "fee_type_id": 2,
           "quantity": 1,
-          "amount": 1.1,
+          "rate": 1.1,
           "dates_attended": [
             {
               "attended_item_type": "fee",

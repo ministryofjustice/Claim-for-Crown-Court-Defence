@@ -43,6 +43,15 @@ nav.dashboard-tabs {
   }
 }
 
+nav.pagination {
+  text-align: right;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+  span {
+    padding-left: 5px;
+  }
+}
+
 #primary-nav {
   float:left;
   a {

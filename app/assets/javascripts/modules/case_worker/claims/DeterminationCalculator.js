@@ -1,15 +1,37 @@
 moj.Modules.DeterminationCalculator = {
-  el: '#determinations',
+  el                   : '#determinations',
+  $determinationsTable : {},
+  $totalExclVat        : {},
+  $totalInclVat        : {},
+  $totalVat            : {},
+  ajaxVat              : false,
+  vatUrl               : '',
+  vatDate              : '',
+
+  cacheEls: function(){
+    this.$determinationsTable = $(this.el);
+    this.$totalExclVat = $('.js-total-exc-vat-determination', this.$determinationsTable);
+    this.$totalVat = $('.js-vat-determination', this.$determinationsTable);
+    this.$totalInclVat = $('.js-total-determination', this.$determinationsTable);
+    this.ajaxVat = this.$determinationsTable.data('applyVat');
+    this.vatUrl = this.$determinationsTable.data('vatUrl');
+    this.vatDate = this.$determinationsTable.data('submittedDate');
+  },
 
   init : function() {
+
+    this.cacheEls();
+
     this.addChangeEvent();
+
     var self = this;
 
-    $(this.el)
+    this.$determinationsTable
       //Find all the rows
       .find('tr')
       //that have input fields
       .has(':text')
+      .first()
       //Work out the total for each row
       .each(function(){
         //cache the current row
@@ -17,12 +39,11 @@ moj.Modules.DeterminationCalculator = {
         var firstInput = $tr.find(':text').get(0);
 
         //Calculate the rows total.
-        self.calculateRow(firstInput);
+        self.calculateTotalRows(firstInput);
       });
-
   },
-  calculateAmount: function(fee, expenses) {
 
+  calculateAmount: function(fee, expenses) {
     var f = fee || 0,
       e = expenses || 0;
     f = f < 0 ? 0 : f;
@@ -30,15 +51,16 @@ moj.Modules.DeterminationCalculator = {
     var t = (f + e).toFixed(2);
     t = t < 0 ? 0 : t;
     return t;
-
   },
+
   addChangeEvent: function() {
     var self = this;
     $(this.el).on('change', ':text', function() {
-      self.calculateRow(this);
+      self.calculateTotalRows(this);
     });
   },
-  calculateRow : function(element){
+
+  calculateTotalRows : function(element){
     //Cache the element that triggered the event
     var $element = $(element);
     var $table = $element.closest('table');
@@ -48,10 +70,37 @@ moj.Modules.DeterminationCalculator = {
     var expenses = parseFloat($expenses.val().replace(/,/g, ''));
     var total = this.calculateAmount(fees, expenses);
 
-    if (isNaN(total) ){
-      $('.js-total-determination').text('£0.00');
+    this.applyVAT(total);
+  },
+
+  getVAT: function(netAmount) {
+    return $.ajax({
+      url: this.vatUrl,
+      data: {
+        date: this.vatDate,
+        apply_vat: this.ajaxVat,
+        net_amount: netAmount
+      }
+    });
+  },
+
+  applyVAT : function(netAmount){
+
+    var self = this;
+
+    //If Total is not a valid number
+    if(isNaN(netAmount)){
+      self.$totalExclVat.text('£0.00');
+      self.$totalVat.text('£0.00');
+      self.$totalExclVat.text('£0.00');
+
     }else{
-      $('.js-total-determination').text('£ '+ total);
+      $.when(this.getVAT(netAmount))
+      .then(function( data){
+        self.$totalExclVat.text(data.net_amount);
+        self.$totalVat.text(data.vat_amount);
+        self.$totalInclVat.text(data.total_inc_vat);
+      });
     }
   }
 };

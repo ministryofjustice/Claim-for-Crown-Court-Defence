@@ -74,6 +74,11 @@ body {
   @include inner-block;
 }
 
+@media (min-width: 769px) {
+  #global-header .header-wrapper .header-global .header-app-name {
+    width: auto;
+  }
+}
  // ==========================================================================
    // Phase banner
  // ==========================================================================

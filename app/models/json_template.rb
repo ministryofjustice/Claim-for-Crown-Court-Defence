@@ -155,6 +155,7 @@ class JsonTemplate
         text: 'string',
         date: 'string',
         decimal: 1.1,
+        float: 1.1
       }
     end
 

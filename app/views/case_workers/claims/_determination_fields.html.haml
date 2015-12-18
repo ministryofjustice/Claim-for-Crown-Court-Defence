@@ -1,32 +1,47 @@
-.nested-fields
-  %tr.determination-form-fields
-    %td
-      Fees
-    %td
-      %span.currency-symbol
-      = claim.fees_total
-    %td
-      %div.pound-wrapper
-        %div.pound-sign.bold-xsmall
-          &pound;
-        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'js-fees', size: 10, maxlength: 8
-      = validation_error_message(f.object, :fees)
-  %tr.determination-form-fields
-    %td
-      Expenses
-    %td
-      = claim.expenses_total
-    %td
-      %div.pound-wrapper
-        %div.pound-sign.bold-xsmall
-          &pound;
-        = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'js-expenses', size: 10, maxlength: 8
-      = validation_error_message(f.object, :expenses)
-  %tr.determination-form-fields
-    %td
-      Total
-    %td
-      = claim.total
-    %td
-      %span.js-total-determination
-        = number_to_currency(f.object.total)
+%tr.determination-form-fields
+  %td
+    Fees
+  %td
+    %span.currency-symbol
+    = claim.fees_total
+  %td
+    %div.pound-wrapper
+      %div.pound-sign.bold-xsmall
+        &pound;
+      = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'js-fees', size: 10, maxlength: 8
+    = validation_error_message(f.object, :fees)
+%tr.determination-form-fields
+  %td
+    Expenses
+  %td
+    = claim.expenses_total
+  %td
+    %div.pound-wrapper
+      %div.pound-sign.bold-xsmall
+        &pound;
+      = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'js-expenses', size: 10, maxlength: 8
+    = validation_error_message(f.object, :expenses)
+%tr.determination-form-fields
+  %td
+    Total(excluding VAT)
+  %td
+    = claim.total
+  %td
+    %span.js-total-exc-vat-determination
+      = number_to_currency(f.object.total || 0)
+%tr.determination-form-fields
+  %td
+    = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
+  %td
+    = claim.vat_amount
+  %td
+    %span.js-vat-determination
+      = number_to_currency(f.object.vat_amount)
+%tr.determination-form-fields
+  %td
+    = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
+  %td
+    = claim.total_inc_vat
+  %td
+    %span.js-total-determination
+      = number_to_currency(f.object.total_including_vat)

@@ -1,5 +1,5 @@
 # Advocate Defence Payments
-##To test jenkins
+###a.k.a Claim for crown court defence
 
 [![Build Status](https://travis-ci.org/ministryofjustice/advocate-defence-payments.svg)](https://travis-ci.org/ministryofjustice/advocate-defence-payments)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/crime-billing-online/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/crime-billing-online)
@@ -35,11 +35,13 @@ Install gems
 ```
 bundle install
 ```
+
 Setup dummy users and data:
 
 ```
-CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data[1,1]
+CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data
 ```
+
 Run the application (claim import feature will not work in the default environment):
 
 ```
@@ -49,7 +51,21 @@ rails server
 To use the Claim Import feature locally, the devunicorn environment must be used:
 
 ```
-RAILS_ENV=devunicorn rails server
+rails server -e devunicorn
 ```
 
+
+## Other useful rake tasks
+
+```
+rake db:reseed --clear, migrate, seed
+```
+
+```
+rake db:reload --clear, migrate, seed, demo data
+```
+
+```
+rake api:smoke_test  -- test basic API functionality
+```
 

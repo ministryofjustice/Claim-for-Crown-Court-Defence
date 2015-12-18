@@ -23,14 +23,17 @@
     })
     .find('h2:first-of-type').trigger('click', 0);
 
+  $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
+    $(insertedItem).find('.select2').select2();
+  });
   $('.select2').select();
 
   //Stops the form from submitting when the user presses 'Enter' key
-  $('#claim-form').on('keypress', function(e) {
+  $('#claim-form, #claim-status').on('keypress', function(e) {
     if (e.keyCode === 13) {
       return false;
     }
   });
-  
+
   moj.init();
 }());

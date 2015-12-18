@@ -43,10 +43,22 @@ When(/^I view status details of my first claim$/) do
   visit advocates_claim_path(@claim)
 end
 
-Then(/^I should see "(.*?)" total assessed value of "(.*?)"$/) do |disabled, total|
+Then(/^I should see "(.*?)" total excluding vat assessed value of "(.*?)"$/) do |disabled, total|
 	total = "£0.00" if total.empty?
 	disabled = disabled == "disabled" ? true : false
-  expect(find_by_id('determination-total').text).to eql total
+  expect(find_by_id('js-determination-total-exc-vat').text).to eql total
+end
+
+Then(/^I should see "(.*?)" total vat assessed value of  "(.*?)"$/) do |disabled, total|
+	total = "£0.00" if total.empty?
+	disabled = disabled == "disabled" ? true : false
+  expect(find_by_id('js-determination-total-vat').text).to eql total
+end
+
+Then(/^I should see "(.*?)" total including vat assessed value of "(.*?)"$/) do |disabled, total|
+	total = "£0.00" if total.empty?
+	disabled = disabled == "disabled" ? true : false
+  expect(find_by_id('js-determination-total-inc-vat').text).to eql total
 end
 
 Then(/^I should see "(.*?)" status select with "(.*?)" selected$/) do |disabled, status|

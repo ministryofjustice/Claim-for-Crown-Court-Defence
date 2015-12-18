@@ -42,6 +42,7 @@
 
 FactoryGirl.define do
   factory :claim do
+
     court
     case_number { random_case_number }
     advocate

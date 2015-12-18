@@ -21,7 +21,7 @@ module DemoData
       while @codes_added.include?(fee_type.code)
         fee_type = @fee_types.sample
       end
-      Fee.create(claim: @claim, fee_type: fee_type, quantity: rand(1..10), amount: rand(100..900))
+      Fee.create(claim: @claim, fee_type: fee_type, quantity: rand(1..10), rate: rand(25..75).round(2))
       @codes_added << fee_type.code
     end
 

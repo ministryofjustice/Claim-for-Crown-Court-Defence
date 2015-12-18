@@ -29,18 +29,6 @@
     }
   }
 
-  ul.case-data {
-    overflow: hidden;
-    padding-bottom: 1em;
-    li {
-      h3.repeated {
-        position: absolute;
-        overflow: hidden;
-        left: -999em;
-      }
-      @include span-columns(6);
-    }
-  }
   section {
     padding-top: $gutter-half;
     padding-left: $gutter;

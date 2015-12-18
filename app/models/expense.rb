@@ -31,6 +31,7 @@ class Expense < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
+    round_hours
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
   end
 
@@ -42,9 +43,15 @@ class Expense < ActiveRecord::Base
   after_destroy do
     claim.update_expenses_total
     claim.update_total
+    claim.update_vat
   end
 
   def perform_validation?
     claim && claim.perform_validation?
   end
+
+  def round_hours
+    self.quantity = (self.quantity*4).round/4.0 if self.quantity
+  end
+
 end

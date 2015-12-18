@@ -15,7 +15,8 @@ describe API::V1::Advocates::DateAttended do
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
   let!(:chamber)      { create(:chamber) }
-  let!(:fee)          { create(:fee, :from_api) }
+  let!(:claim)        { create(:claim, source: 'api') }
+  let!(:fee)          { create(:fee, claim: claim) }
   let!(:valid_params) { { api_key: chamber.api_key, attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
 
   context 'when sending non-permitted verbs' do
@@ -37,8 +38,9 @@ describe API::V1::Advocates::DateAttended do
       post CREATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
 
-    context 'when date_attended params are valid' do
+    include_examples "should NOT be able to amend a non-draft claim"
 
+    context 'when date_attended params are valid' do
       it "should create date_attended, return 201 and date_attended JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -60,11 +62,9 @@ describe API::V1::Advocates::DateAttended do
         expect(date_attended.attended_item_id).to eq fee.id
         expect(date_attended.attended_item_type).to eq valid_params[:attended_item_type]
       end
-
     end
 
     context 'when date_attended params are invalid' do
-
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
       end
@@ -108,9 +108,7 @@ describe API::V1::Advocates::DateAttended do
             expect_error_response("Enter a valid date for the date attended (from)",1)
           end
       end
-
     end
-
   end
 
   describe "POST #{VALIDATE_DATE_ATTENDED_ENDPOINT}" do
@@ -147,7 +145,6 @@ describe API::V1::Advocates::DateAttended do
       expect_error_response("date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",0)
       expect_error_response("date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",1)
     end
-
   end
 
 end

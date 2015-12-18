@@ -17,10 +17,10 @@ module DemoData
 
     private
 
-    def update_basic_fee(basic_fee_code, quantity, amount)
+    def update_basic_fee(basic_fee_code, quantity, rate)
       fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
       raise "fee code #{basic_fee_code} does not match any known basic fees" if fee.fee_type_id.nil?
-      fee.update(quantity: quantity, amount: amount)
+      fee.update(quantity: quantity, rate: rate.round(2))
       @codes_added << basic_fee_code
     end
 
@@ -38,22 +38,22 @@ module DemoData
     def add_daf
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 0
       quantity = @claim.case_type.requires_trial_dates? ? [@claim.actual_trial_length,39].min - 2 : 1
-      amount   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
-      update_basic_fee('DAF', quantity, amount)
+      rate   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
+      update_basic_fee('DAF', quantity, rate)
     end
 
     def add_dah
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 40
       quantity = [@claim.actual_trial_length,50].min - 40
-      amount = 10 * @claim.actual_trial_length - 40
-      update_basic_fee('DAH', quantity, amount)
+      rate = 10 * @claim.actual_trial_length - 40
+      update_basic_fee('DAH', quantity, rate)
     end
 
     def add_daj
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 50
       quantity = [@claim.actual_trial_length,60].min - 50
-      amount = 10 * @claim.actual_trial_length - 50
-      update_basic_fee('DAJ', quantity , amount)
+      rate = 10 * @claim.actual_trial_length - 50
+      update_basic_fee('DAJ', quantity , rate)
     end
 
     def add_pcm

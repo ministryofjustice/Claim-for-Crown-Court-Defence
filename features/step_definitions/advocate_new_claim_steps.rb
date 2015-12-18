@@ -152,15 +152,15 @@ When(/^I fill in the claim details(.*)$/) do |details|
   unless details == ' but add no fees or expenses' # preceeding space is required for match
     within '#basic-fees' do
       fill_in 'claim_basic_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_basic_fees_attributes_0_amount', with: 50
+      fill_in 'claim_basic_fees_attributes_0_rate', with: 50
       fill_in 'claim_basic_fees_attributes_1_quantity', with: 1
-      fill_in 'claim_basic_fees_attributes_1_amount', with: 50
+      fill_in 'claim_basic_fees_attributes_1_rate', with: 50
     end
 
     within '#expenses' do
       select 'Travel', from: 'claim_expenses_attributes_0_expense_type_id'
       fill_in 'claim_expenses_attributes_0_location', with: 'London'
-      fill_in 'claim_expenses_attributes_0_quantity', with: 1
+      fill_in 'claim_expenses_attributes_0_quantity', with: 1.1
       fill_in 'claim_expenses_attributes_0_rate', with: 40
     end
   end
@@ -321,7 +321,7 @@ end
 When(/^I add a fixed fee$/) do
     within '#fixed-fees' do
       fill_in 'claim_fixed_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_fixed_fees_attributes_0_amount', with: 100.00
+      fill_in 'claim_fixed_fees_attributes_0_rate', with: 100.00
       select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     end
 end
@@ -333,7 +333,7 @@ end
 When(/^I add a miscellaneous fee$/) do
     within '#misc-fees' do
       fill_in 'claim_misc_fees_attributes_0_quantity', with: 1
-      fill_in 'claim_misc_fees_attributes_0_amount', with: 200.00
+      fill_in 'claim_misc_fees_attributes_0_rate', with: 200.00
       select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     end
 end
@@ -356,10 +356,6 @@ Then(/^There should not be any Initial Fees saved$/) do
   expect(Claim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
 end
 
-# Then(/^There should not be any Miscellaneous Fees Saved$/) do
-#   expect(Claim.last.misc_fees.size).to eql(0)
-# end
-
 Then(/^There should be a Miscellaneous Fee Saved$/) do
   expect(Claim.last.misc_fees.size).to eql(1)
 end
@@ -374,14 +370,10 @@ Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
   expect(page).method(to_or_not_to).call have_content(content)
 end
 
-Then(/^I should see a Basic Fee quantity of exactly one$/) do
-  expect(page).to have_field('claim_basic_fees_attributes_0_quantity', with: 1)
-end
-
 Given(/^I fill in an Initial Fee$/) do
   within '#basic-fees' do
     fill_in 'claim_basic_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_basic_fees_attributes_0_amount', with: 1.5
+    fill_in 'claim_basic_fees_attributes_0_rate', with: 0.75
   end
 end
 
@@ -389,7 +381,7 @@ Given(/^I fill in a Miscellaneous Fee$/) do
   within '#misc-fees' do
     select 'Miscellaneous Fee example', from: 'claim_misc_fees_attributes_0_fee_type_id'
     fill_in 'claim_misc_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_misc_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_misc_fees_attributes_0_rate', with: 1.50
   end
 end
 
@@ -397,7 +389,7 @@ Given(/^I fill in a Fixed Fee$/) do
   within '#fixed-fees' do
     select 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id'
     fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.50
   end
 end
 
@@ -405,7 +397,7 @@ Given(/^I fill in a Fixed Fee using select2$/) do
   within '#fixed-fees' do
     # select2 'Fixed Fee example', from: 'claim_fixed_fees_attributes_0_fee_type_id' # does not work
     fill_in 'claim_fixed_fees_attributes_0_quantity', with: 2
-    fill_in 'claim_fixed_fees_attributes_0_amount', with: 3.00
+    fill_in 'claim_fixed_fees_attributes_0_rate', with: 1.50
   end
 end
 
@@ -413,6 +405,27 @@ Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
   claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
   create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
+end
+
+Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
+  create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
+  create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
+  create(:fee_type, :basic, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
+  create(:fee_type, :basic, description: 'Daily attendance fee (51+)',      code: 'DAJ')
+  visit new_advocates_claim_path
+end
+
+When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|
+  fill_in 'claim_actual_trial_length', with: actual_trial_length.to_i
+end
+
+Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/) do |daf_quantity, dah_quantity, daj_quantity|
+  daf_quantity = '' if daf_quantity.nil? || daf_quantity.to_i == 0
+  dah_quantity = '' if dah_quantity.nil? || dah_quantity.to_i == 0
+  daj_quantity = '' if daj_quantity.nil? || daj_quantity.to_i == 0
+  expect(page).to have_field("claim_basic_fees_attributes_1_quantity", with: "#{daf_quantity}")
+  expect(page).to have_field("claim_basic_fees_attributes_2_quantity", with: "#{dah_quantity}")
+  expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")
 end
 
 # local helpers

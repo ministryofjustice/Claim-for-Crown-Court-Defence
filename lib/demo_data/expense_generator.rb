@@ -19,10 +19,10 @@ module DemoData
       while @ids_added.include?(expense_type.id)
         expense_type = @expense_types.sample
       end
-      expense = Expense.create(claim: @claim, expense_type: expense_type, quantity: rand(1..10), rate: rand(1.0..99.99),amount: rand(100.0..2500.0), location: Faker::Address.city)
+      expense = Expense.create(claim: @claim, expense_type: expense_type, quantity: rand(1..10).round(2), rate: rand(1.0..99.99).round(2), amount: rand(100.0..2500.0), location: Faker::Address.city)
       @ids_added << expense_type.id
     end
-  
+
   end
 end
 

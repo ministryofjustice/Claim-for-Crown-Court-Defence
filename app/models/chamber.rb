@@ -26,7 +26,7 @@ class Chamber < ActiveRecord::Base
   before_validation :set_api_key
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }
+  validates :supplier_number, presence: true
   validates :api_key, presence: true
 
   def regenerate_api_key!

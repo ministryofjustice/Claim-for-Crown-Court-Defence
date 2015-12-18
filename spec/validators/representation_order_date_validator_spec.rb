@@ -1,8 +1,9 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/date_validation_helpers'
+require File.dirname(__FILE__) + '/validation_helpers'
 
-describe RepresentationOrderValidator do 
-  include RspecDateValidationHelpers
+describe RepresentationOrderValidator do
+
+  include ValidationHelpers
 
   let(:claim)         { FactoryGirl.build :claim, force_validation: true }
   let(:defendant)     { FactoryGirl.build :defendant, claim: claim }
@@ -27,7 +28,6 @@ describe RepresentationOrderValidator do
     let(:ro1)         { claim.defendants.first.representation_orders.first }
     let(:ro2)         { claim.defendants.first.representation_orders.last }
 
-
     it 'should be valid if the second reporder is dated after the first' do
       ro1.update(representation_order_date: 2.weeks.ago)
       ro2.update(representation_order_date: 1.day.ago)
@@ -42,6 +42,5 @@ describe RepresentationOrderValidator do
       expect(ro2.errors[:representation_order_date]).to include('invalid')
     end
   end
-
 
 end

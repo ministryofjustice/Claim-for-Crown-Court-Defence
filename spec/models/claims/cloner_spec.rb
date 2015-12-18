@@ -95,7 +95,7 @@ RSpec.describe Claims::Cloner, type: :model do
     end
 
     it 'clones the expenses' do
-      expect(cloned_claim.reload.expenses.count).to eq(rejected_claim.expenses.count)
+      expect(cloned_claim.expenses.size).to eq(rejected_claim.expenses.size)
     end
 
     it 'clones the expense\'s dates attended' do

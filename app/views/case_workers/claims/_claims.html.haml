@@ -1,3 +1,6 @@
+.claim-count
+  = "Number of claims: "
+  = @claims.total_count
 %table.claims_table
   %thead
     %tr
@@ -12,6 +15,8 @@
       - if params[:action] == 'archived'
         %th
           = t(".status")
+      %th
+        = "Case Type"
       %th
         = t(".submission_date")
       %th.message-placeholder
@@ -31,6 +36,8 @@
           - if params[:action] == 'archived'
             %td
               = claim.state.humanize
+          %td
+            = claim.case_type.name
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages

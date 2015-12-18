@@ -14,7 +14,7 @@ class Ability
     end
 
     # applies to all advocates and case workers
-    can [:create, :download_attachment], Message
+    can [:index, :create, :download_attachment], Message
     can [:index, :update], UserMessageStatus
 
     if persona.is_a? Advocate

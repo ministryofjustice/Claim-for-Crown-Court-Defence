@@ -1,0 +1,12 @@
+<% if @messages.any? %>
+  var newMessageTime = Date.parse("<%=j @messages.first.created_at_before_type_cast %>");
+
+  var lastMessageTime = Date.parse($(".messages-list > fieldset > span:last").data('created-at'));
+
+  if(newMessageTime > lastMessageTime) {
+    <% present(@claim) do |claim| %>
+      $('#messages').html("<%=j render partial: 'shared/claim_history' %>");
+      $(".messages-list").scrollTop($(".messages-list").prop('scrollHeight'));
+    <% end %>
+  }
+<% end %>

@@ -49,7 +49,7 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
-  resources :messages, only: [:create] do
+  resources :messages, only: [:index, :create] do
     get 'download_attachment', on: :member
   end
 

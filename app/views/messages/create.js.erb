@@ -2,8 +2,9 @@
   var data = {
     success : true,
     statusMessage : '<%=j @notification[:notice].html_safe %>',
-    sentMessage : '<%=j render "shared/history_items_list", message: @message.claim %>'
+    sentMessage : '<%=j render "shared/history_items_list", message: @message %>'
   }
+
   moj.Modules.Messaging.processMsg(data);
 
   <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>

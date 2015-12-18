@@ -10,4 +10,5 @@
         .event-date
           = casual_date(date)
         - history_items.each do |history_item|
-          = render partial: 'shared/history_item', locals: {history_item: history_item }
+          %span{ data: { 'created-at': history_item.created_at_before_type_cast } }
+            = render partial: 'shared/history_item', locals: {history_item: history_item }

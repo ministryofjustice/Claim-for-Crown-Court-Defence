@@ -7,6 +7,28 @@ RSpec.describe MessagesController, type: :controller do
     sign_in sender.user
   end
 
+  describe "GET #index" do
+    context 'when claim_id present' do
+      let!(:claim) { create(:submitted_claim) }
+      let!(:another_claim) { create(:submitted_claim) }
+
+      let!(:message_1) { create(:message, claim: claim) }
+      let!(:message_2) { create(:message, claim: claim) }
+      let!(:message_3) { create(:message, claim: another_claim) }
+
+      it 'returns all messages for specified claim id' do
+        xhr :get, :index, claim_id: claim.id
+        expect(assigns(:messages)).to match_array([message_1, message_2])
+      end
+    end
+
+    context 'when no claim id present' do
+      it 'raises error' do
+        expect{get :index}.to raise_error('Must specifiy claim id')
+      end
+    end
+  end
+
   describe "POST #create" do
     let(:claim) { create(:claim) }
     let(:message_params) do

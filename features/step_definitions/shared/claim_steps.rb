@@ -10,3 +10,9 @@ Then(/^the claim should be in the "(.*?)" state$/) do |state|
   @claim.reload
   expect(@claim.state).to eq(state)
 end
+
+Then(/the claim count should show (\d+)/) do | quantity |
+  within '.claim-count' do
+    expect(page).to have_content(/Number of claims: #{quantity}?/)
+  end
+end

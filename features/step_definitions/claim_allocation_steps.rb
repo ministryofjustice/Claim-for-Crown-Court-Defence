@@ -105,9 +105,6 @@ Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, 
 
   expect(claims.count).to eq(quantity.to_i)
 
-  within '.claim-count' do
-    expect(page).to have_content(/Number of claims: #{quantity}?/)
-  end
 end
 
 Then(/^I should see all claims$/) do

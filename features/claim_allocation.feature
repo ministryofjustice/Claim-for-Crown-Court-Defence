@@ -29,6 +29,7 @@ Feature: Claim allocation
      When I visit the allocation page
       And I filter by "<type>"
      Then I should only see <quantity> "<type>" claims after filtering
+      And the claim count should show <quantity>
 
     Examples:
       | type                     | quantity  |
@@ -48,6 +49,7 @@ Feature: Claim allocation
      When I visit the allocation page
       And I filter by "<type>"
      Then I should only see <quantity> "<type>" claims after filtering
+      And the claim count should show <quantity>
       And I should not see any redetermination or awaiting_written_reasons claims
 
     Examples:
@@ -64,6 +66,7 @@ Feature: Claim allocation
       And I visit the allocation page
       And I filter by "fixed_fee"
       And I should only see 2 "fixed_fee" claims after filtering
+      And the claim count should show 2
      When I enter 1 in the quantity text field
       And I select a case worker
       And I click Allocate

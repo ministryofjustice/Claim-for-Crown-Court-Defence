@@ -6,7 +6,8 @@ Given(/^(\d+) claims have been assigned to me$/) do |count|
     @claims << claim
   end
 
-  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
+  # @claims = @claims.sort_by { |c| c.id }
+  # p @claims.map(&:id)
 end
 
 When(/^I visit the caseworkers dashboard$/) do
@@ -43,4 +44,8 @@ end
 
 Then(/^I should be on the last claim$/) do
   expect(page.current_path).to eq(case_workers_claim_path(@claims[-1].id))
+end
+
+Then(/^I should be on the claim with id (\d+)$/) do |id|
+  expect(page.current_path).to eq(case_workers_claim_path(id))
 end

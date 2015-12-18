@@ -8,5 +8,7 @@
         = hidden_field_tag :direction, params[:direction]
         = text_field_tag :search, params[:search], placeholder: 'eg MAAT reference, defendant name, case worker name or email', class: 'form-control-3-4'
         = submit_tag t('common.search'), class: 'button button-secondary'
+        = button_tag(type: 'submit', class: 'button', title: "Search") do
+          %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
   %div.column-half
     &nbsp;

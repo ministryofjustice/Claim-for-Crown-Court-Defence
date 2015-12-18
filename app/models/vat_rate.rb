@@ -33,7 +33,6 @@ class VatRate < ActiveRecord::Base
       (amount_excluding_vat * rate / 10000.0).round(2)
     end
 
-
     # returns "22.25%", "17/5%', 8%", etc
     def pretty_rate(date)
       rate = rate_for_date(date) / 100.0

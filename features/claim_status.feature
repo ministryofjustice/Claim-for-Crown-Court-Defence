@@ -54,9 +54,12 @@ Scenario Outline: View claim status
       And I view status details of my first claim
      Then I should not see status select
       And I should see the current status set to <status>
-      And I should see "disabled" total assessed value of <total>
+      And I should see "disabled" total excluding vat assessed value of <total_exc_vat>
+      And I should see "disabled" total vat assessed value of  <vat>
+      And I should see "disabled" total including vat assessed value of <total_inc_vat>
+
 
    Examples:
-      | status              | fees     |  expenses   | total      |
-      | "Part authorised"   | "60.01"  |  "40.00"    | "£100.01"  |
-      | "Rejected"          | ""       |  ""         | ""         |
+      | status              | fees     |  expenses   | total_exc_vat | vat      | total_inc_vat |
+      | "Part authorised"   | "60.01"  |  "40.00"    | "£100.01"     | "£17.50" | "£117.51"     |
+      | "Rejected"          | ""       |  ""         | ""            | ""       | ""            |

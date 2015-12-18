@@ -10,13 +10,16 @@ class RedeterminationPresenter < BasePresenter
     h.number_to_currency(redetermination.expenses)
   end
 
+  def vat_amount
+    h.number_to_currency(redetermination.vat_amount)
+  end
+
   def total
     h.number_to_currency(redetermination.total)
   end
 
-  def created_at
-    redetermination.created_at.strftime(Settings.date_time_format.to_s)
+  def total_inc_vat
+    h.number_to_currency(redetermination.total + redetermination.vat_amount)
   end
-
 
 end

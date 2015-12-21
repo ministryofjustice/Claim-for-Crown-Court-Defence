@@ -8,3 +8,9 @@
 .button-get-started {
   background-image: image-url('icons/icon-pointer.png');
 }
+
+.button{
+  &.search {
+    padding-bottom: 0;
+  }
+}

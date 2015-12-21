@@ -5,7 +5,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
 
   def index
-    @case_workers = CaseWorker.joins(:user).order('users.last_name', 'users.first_name')
+    @case_workers = CaseWorker.includes(:location).joins(:user).order('users.last_name', 'users.first_name')
   end
 
   def show; end

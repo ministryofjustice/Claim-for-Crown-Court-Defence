@@ -1,14 +1,14 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
   @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, id: n + 1)
+    claim = create(:submitted_claim, last_submitted_at: Time.now + n, id: n + 1)
     @case_worker.claims << claim
     @claims << claim
   end
 end
 
-Given(/^the claims are sorted by submission date, most recent first$/) do
-  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
+Given(/^the claims are sorted most recent first$/) do
+  @claims = @claims.sort_by { |c| c.id }.reverse
 end
 
 When(/^I visit the caseworkers dashboard$/) do

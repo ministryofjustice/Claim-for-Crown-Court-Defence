@@ -7,6 +7,10 @@ Given(/^(\d+) claims have been assigned to me$/) do |count|
   end
 end
 
+Given(/^the claims are sorted by submission date, most recent first$/) do
+  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
+end
+
 When(/^I visit the caseworkers dashboard$/) do
   visit case_workers_claims_path
 end

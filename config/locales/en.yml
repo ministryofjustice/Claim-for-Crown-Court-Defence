@@ -296,6 +296,7 @@ en:
         messages: 'Messages'
         defendants: 'Defendant(s)'
         case_number: 'Case number'
+        case_type: 'Case type'
         submission_date: 'Date submitted'
         authorised_date: 'Date authorised'
         total: 'Claimed'
@@ -540,6 +541,7 @@ en:
         case_number: Case number
         advocate: Advocate
         defendants: Defendant(s)
+        case_type: Case type
         total: Claimed
         status: Status
         submission_date: Date submitted

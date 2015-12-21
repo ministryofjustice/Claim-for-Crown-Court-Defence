@@ -1,6 +1,6 @@
 module Claims::Sort
 
-  META_SORT_COLUMNS = %w( advocate defendants amount_assessed messages submitted_at )
+  META_SORT_COLUMNS = %w( advocate defendants amount_assessed messages submitted_at case_type )
 
   def sort(column, direction)
     sort_columns = column_names + META_SORT_COLUMNS
@@ -15,6 +15,8 @@ module Claims::Sort
         includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
       when 'submitted_at'
         order("last_submitted_at #{direction}")
+      when 'case_type'
+        joins(:case_type).order("case_types.name #{direction}")
       when 'amount_assessed'
         joins(:determinations).order("determinations.total #{direction}")
       when 'messages'

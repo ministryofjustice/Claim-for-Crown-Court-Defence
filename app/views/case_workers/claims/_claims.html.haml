@@ -13,6 +13,8 @@
         %th
           = sortable 'state', t('.status')
       %th
+        = sortable 'case_type', t('.case_type')
+      %th
         = sortable 'submitted_at', t('.submission_date')
       %th.message-placeholder
         = sortable 'messages', t('.messages')
@@ -31,6 +33,8 @@
           - if params[:action] == 'archived'
             %td
               = claim.state.humanize
+          %td
+            = claim.case_type.name
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages

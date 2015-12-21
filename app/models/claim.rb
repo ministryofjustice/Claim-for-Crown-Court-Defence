@@ -74,9 +74,9 @@ class Claim < ActiveRecord::Base
   has_many :fixed_fees,     -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, class_name: 'Fee', inverse_of: :claim
   has_many :misc_fees,      -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, class_name: 'Fee', inverse_of: :claim
 
-  has_many :determinations
-  has_one  :assessment
-  has_many :redeterminations
+  has_many :determinations, dependent: :destroy
+  has_one  :assessment, dependent: :destroy
+  has_many :redeterminations, dependent: :destroy
 
   has_one  :certification
 

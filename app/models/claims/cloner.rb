@@ -15,6 +15,9 @@ module Claims::Cloner
       exclude_association :basic_fees
       exclude_association :fixed_fees
       exclude_association :misc_fees
+      exclude_association :determinations
+      exclude_association :assessment
+      exclude_association :redeterminations
       clone [:fees, :documents, :defendants, :expenses]
     end
 

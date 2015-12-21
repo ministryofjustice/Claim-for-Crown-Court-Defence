@@ -32,11 +32,6 @@
               = f.check_box "days_worked_#{i}"
               = Settings.day_names[i]
 
-      = f.label :approval_level, class: "form-label"
-      %div.form-group.inline
-        = f.collection_radio_buttons(:approval_level, CaseWorker::APPROVAL_LEVELS_COLLECTION, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.value }
-
       = f.label :location_id, class: "form-label"
       %div.form-group.inline
         = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|

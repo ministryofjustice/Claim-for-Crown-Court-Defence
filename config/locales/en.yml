@@ -501,7 +501,6 @@ en:
           case_workers_list: List of case workers
           surname: Surname
           name: Name
-          approval_limit: Approval limit
           location: Location
           working_days: Working days
         form:

@@ -1,3 +1,6 @@
+.claim-count
+  = "Number of claims: "
+  = @claims.total_count
 %table.claims_table
   %thead
     %tr
@@ -13,7 +16,7 @@
         %th
           = sortable 'state', t('.status')
       %th
-        = sortable 'case_type', t('.case_type')
+        = sortable 'case_type', 'Type'
       %th
         = sortable 'submitted_at', t('.submission_date')
       %th.message-placeholder

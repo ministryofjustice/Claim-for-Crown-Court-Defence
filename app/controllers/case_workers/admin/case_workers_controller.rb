@@ -5,7 +5,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
 
   def index
-    @case_workers = CaseWorker.joins(:user).order('users.last_name', 'users.first_name')
+    @case_workers = CaseWorker.includes(:location).joins(:user).order('users.last_name', 'users.first_name')
   end
 
   def show; end
@@ -65,7 +65,6 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
      :days_worked_2,
      :days_worked_3,
      :days_worked_4,
-     :approval_level,
      user_attributes: [:id, :email, :email_confirmation, :current_password, :password, :password_confirmation, :first_name, :last_name],
      claim_ids: []
     )

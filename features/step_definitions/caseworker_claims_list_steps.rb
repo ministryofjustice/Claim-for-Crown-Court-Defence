@@ -137,7 +137,7 @@ When(/^I search claims by defendant name "(.*?)"$/) do |defendant_name|
 end
 
 Then(/^I should only see (\d+) claims$/) do |number|
-  expect(page).to have_content(/#{number} claims? matching/)
+  expect(page).to have_content(/#{number} claims? of #{number} matching/)
 end
 
 When(/^I search for a claim by MAAT reference$/) do

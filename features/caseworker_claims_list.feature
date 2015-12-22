@@ -51,9 +51,11 @@ Feature: Caseworker claims list
      When I visit my dashboard
       And I search claims by defendant name <defendant_name>
      Then I should only see <current_number> claims
+      And the claim count should show <current_number>
      When I click "Archive"
       And I search claims by defendant name <defendant_name>
      Then I should only see <archive_number> claims
+      And the claim count should show <archive_number>
 
      Examples:
         | defendant_name | current_number | archive_number |

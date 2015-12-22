@@ -4,9 +4,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   helper_method :sort_column, :sort_direction
 
   respond_to :html
+  
+  # callback order is important (must set claims before resetting pagination)
   before_action :set_claims,          only: [:index, :archived]
-  before_action :set_search_options,  only: [:index, :archived]
   before_action :filter_claims,       only: [:index, :archived]
+  
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
 
@@ -132,14 +134,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def set_claim
     @claim = Claim.find(params[:id])
-  end
-
-  def set_search_options
-    if current_user.persona.admin?
-      @search_options = ['All', 'MAAT Reference', 'Defendant', 'Case worker']
-    else
-      @search_options = ['All', 'MAAT Reference', 'Defendant']
-    end
   end
 
   def filter_claims

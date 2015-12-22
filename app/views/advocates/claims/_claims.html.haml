@@ -2,6 +2,9 @@
   %p
     = t(".no_claims_found")
 - else
+  .claim-count
+    = "Number of claims: "
+    = @claims.total_count
   %table.claims_table
     %thead
       %th

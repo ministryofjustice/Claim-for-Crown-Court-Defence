@@ -12,7 +12,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     @allocation = Allocation.new(allocation_params)
 
     if @allocation.save
-      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab])), notice: "Successfully allocated #{@allocation.claim_ids.size} claims"
+      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab]))
     else
       render :new
     end

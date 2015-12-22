@@ -200,11 +200,11 @@ Then(/^I should see only claims that I have created$/) do
 end
 
 Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? matching "#{name}"/)
+  expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
 end
 
 Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? matching "#{name}"/)
+  expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
 end
 
 Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|

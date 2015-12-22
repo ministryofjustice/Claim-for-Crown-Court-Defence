@@ -28,6 +28,7 @@ module Claims::Search
     states.each do |state|
       raise "Invalid state, #{state}, specified" unless Claim.state_machine.states.map(&:name).include?(state.to_sym)
     end
+
     relation.where(sql, term: "%#{term.downcase}%").where(state: states).uniq
   end
 end

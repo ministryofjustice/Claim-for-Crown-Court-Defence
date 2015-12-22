@@ -10,19 +10,45 @@ module Claims::Sort
 
     case column
       when 'advocate'
-        joins(advocate: :user).order("users.last_name #{direction}, users.first_name #{direction}")
+        sort_advocates(direction)
       when 'defendants'
-        includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
+        sort_defendants(direction)
       when 'submitted_at'
-        order("last_submitted_at #{direction}")
+        sort_submitted_at(direction)
       when 'case_type'
-        joins(:case_type).order("case_types.name #{direction}")
+        sort_case_type(direction)
       when 'amount_assessed'
-        joins(:determinations).order("determinations.total #{direction}")
+        sort_amount_assessed(direction)
       when 'messages'
-        select('claims.*, COUNT(messages.id) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")
+        sort_messages(direction)
       else
         order(column => direction)
     end
+  end
+
+  private
+
+  def sort_advocates(direction)
+    joins(advocate: :user).order("users.last_name #{direction}, users.first_name #{direction}")
+  end
+
+  def sort_defendants(direction)
+    includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
+  end
+
+  def sort_submitted_at(direction)
+    order("last_submitted_at #{direction}")
+  end
+
+  def sort_case_type(direction)
+    joins(:case_type).order("case_types.name #{direction}")
+  end
+
+  def sort_amount_assessed(direction)
+    joins(:determinations).order("determinations.total #{direction}")
+  end
+
+  def sort_messages(direction)
+    select('claims.*, COUNT(messages.id) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")
   end
 end

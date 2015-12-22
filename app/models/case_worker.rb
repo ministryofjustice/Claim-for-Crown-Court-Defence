@@ -8,14 +8,13 @@
 #  updated_at     :datetime
 #  location_id    :integer
 #  days_worked    :string
-#  approval_level :string           default("Low")
 #
 
 class CaseWorker < ActiveRecord::Base
-  auto_strip_attributes :role, :approval_level, squish: true, nullify: true
+  auto_strip_attributes :role,  squish: true, nullify: true
 
   ROLES = %w{ admin case_worker }
-  APPROVAL_LEVELS_COLLECTION = %w{ High Low }
+
   include UserRoles
 
   serialize :days_worked, Array
@@ -31,7 +30,6 @@ class CaseWorker < ActiveRecord::Base
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}
   validate  :days_worked_valid
-  validate  :approval_level_valid
 
   accepts_nested_attributes_for :user
 
@@ -66,12 +64,6 @@ class CaseWorker < ActiveRecord::Base
     end
     unless at_least_one_day_specified_as_working?
       errors[:base] << 'At least one day must be specified as a working day'
-    end
-  end
-
-  def approval_level_valid
-    unless APPROVAL_LEVELS_COLLECTION.include?(approval_level)
-      errors[:base] << 'Approval level must be high or low'
     end
   end
 

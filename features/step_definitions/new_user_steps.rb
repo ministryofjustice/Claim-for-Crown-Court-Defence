@@ -15,7 +15,6 @@ When(/^I fill in the "(.*?)" details$/) do |persona|
     choose(("#{persona}[role]").first)
   when 'case_worker'
     check('case_worker[days_worked_0]')
-    choose('case_worker_approval_level_high')
     choose('case_worker[location_id]')
     choose('case_worker_role_case_worker')
   end
@@ -33,7 +32,6 @@ When(/^I fill in the "(.*?)" details but email and email_confirmation do not mat
     choose(("#{persona}[role]").first)
   when 'case_worker'
     check('case_worker[days_worked_0]')
-    choose('case_worker_approval_level_high')
     choose('case_worker[location_id]')
     choose('case_worker_role_case_worker')
   end

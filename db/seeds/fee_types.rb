@@ -5,8 +5,6 @@ FeeCategory.all.each do |rec|
   fee_categories[rec.abbreviation] = rec
 end
 
-FeeType.delete_all
-
 file_path = Rails.root.join('lib', 'assets', 'data', 'fee_types.csv')
 data = CSV.read(file_path)
 data.shift

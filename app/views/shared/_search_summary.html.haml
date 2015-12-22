@@ -1,4 +1,4 @@
 %section
   %h1
     %p
-      #{pluralize(@claims.count, 'claim')} matching "#{params[:search]}"
+      #{pluralize(@claims.count, 'claim')} of #{@claims.total_count} matching "#{params[:search]}"

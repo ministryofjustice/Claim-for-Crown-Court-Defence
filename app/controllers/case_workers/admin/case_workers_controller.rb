@@ -5,7 +5,9 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
 
   def index
-    @case_workers = CaseWorker.includes(:location).joins(:user).order('users.last_name', 'users.first_name')
+    @case_workers = CaseWorker.includes(:location).joins(:user)
+    @case_workers = @case_workers.where("lower(users.first_name || ' ' || users.last_name) ILIKE :term", term: "%#{params[:search]}%") if params[:search].present?
+    @case_workers = @case_workers.order('users.last_name', 'users.first_name')
   end
 
   def show; end

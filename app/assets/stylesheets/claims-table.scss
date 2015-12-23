@@ -11,6 +11,11 @@
           border-left: 10px solid #DF3034;
         }
       }
+      &.opened_for_redetermination {
+        td:first-child {
+          border-left: 10px solid #0b0c0c;
+        }
+      }
     }
 
     th,td {

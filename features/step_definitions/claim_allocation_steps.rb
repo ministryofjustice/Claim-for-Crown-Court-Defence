@@ -1,8 +1,3 @@
-
-Given(/^(\d+) case workers? exists?$/) do |quantity|
-  @case_workers = create_list(:case_worker, quantity.to_i)
-end
-
 Given(/^(\d+) submitted claims? exists?$/) do |quantity|
   @claims = create_list(:submitted_claim, quantity.to_i)
 end

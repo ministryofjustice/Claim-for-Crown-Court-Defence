@@ -1,10 +1,4 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
-  - if @case_worker.errors.any?
-    .validation-summary
-      %h3.heading-small= "This case worker has #{pluralize(@case_worker.errors.count, 'error')}"
-      %ul
-        - @case_worker.errors.full_messages.each do |msg|
-          %li= msg
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form

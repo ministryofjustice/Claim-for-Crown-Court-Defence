@@ -4,11 +4,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   helper_method :sort_column, :sort_direction
 
   respond_to :html
-  
-  # callback order is important (must set claims before resetting pagination)
-  before_action :set_claims,          only: [:index, :archived]
-  before_action :filter_claims,       only: [:index, :archived]
-  
+
+  # callback order is important (must set claims before filtering and sorting)
+  before_action :set_claims,              only: [:index, :archived]
+  before_action :filter_current_claims,   only: [:index]
+  before_action :filter_archived_claims,  only: [:archived]
+  before_action :sort_claims,             only: [:index, :archived]
+
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
 
@@ -136,8 +138,15 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claim = Claim.find(params[:id])
   end
 
-  def filter_claims
-    search if params[:search].present?
+  def filter_current_claims
+    search(Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) if params[:search].present?
+  end
+
+  def filter_archived_claims
+    search(Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES) if params[:search].present?
+  end
+
+  def sort_claims
     set_claim_ids_and_count
     sort if params[:sort].present?
   end

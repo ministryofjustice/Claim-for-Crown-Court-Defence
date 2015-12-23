@@ -41,7 +41,7 @@ class ClaimPresenter < BasePresenter
   def submitted_at(options={})
     options.assert_valid_keys(:include_time)
     format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.original_submission_date.strftime(format) unless claim.original_submission_date.nil?
+    claim.last_submitted_at.strftime(format) unless claim.last_submitted_at.nil?
   end
 
   def authorised_at (options={})

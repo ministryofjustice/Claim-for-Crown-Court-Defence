@@ -503,6 +503,7 @@ en:
           name: Name
           location: Location
           working_days: Working days
+          actions: Manage details
         form:
           first_name: *first_name
           last_name: *last_name

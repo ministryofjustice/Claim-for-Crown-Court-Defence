@@ -39,7 +39,7 @@ Then(/^I should see a notification of the claims that were allocated$/) do
 end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
-  within('table.claims_table') do
+  within('.report') do
     @case_numbers = all('label.case-number').map(&:text)
   end
   @claims_on_page = []

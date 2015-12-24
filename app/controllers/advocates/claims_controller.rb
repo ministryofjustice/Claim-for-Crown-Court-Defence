@@ -17,7 +17,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').
+    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').
       page(params[:page]).
       per(10)
     search if params[:search].present?

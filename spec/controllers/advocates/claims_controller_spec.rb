@@ -64,8 +64,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     before(:each) do
       Timecop.freeze
       create_list(:draft_claim, 1, advocate: advocate)
-      create_list(:draft_claim, 5, advocate: advocate, created_at: 5.days.ago)
-      create_list(:draft_claim, 2, advocate: advocate, created_at: 1.day.ago)
+      create_list(:draft_claim, 1, advocate: advocate, created_at: 5.days.ago)
+      create_list(:draft_claim, 6, advocate: advocate, created_at: 1.day.ago)
+      create_list(:draft_claim, 1, advocate: advocate, created_at: 2.days.ago)
       create(:submitted_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
       create(:refused_claim, advocate: advocate).update_column(:last_submitted_at, 2.days.ago)
       get :index
@@ -73,9 +74,9 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     after { Timecop.return }
 
-    it 'orders claims with draft first (most recently created first) then most recently submitted' do
-      expect(assigns(:claims).first.created_at).to eq(Time.now)
-      expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
+    it 'orders claims with draft first (oldest created first) then oldest submitted' do
+      expect(assigns(:claims).first.created_at).to eq(5.days.ago)
+      expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').page(1).per(10))
     end
 
     it 'paginates to 10 per page' do

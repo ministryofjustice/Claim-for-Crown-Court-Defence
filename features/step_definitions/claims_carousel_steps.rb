@@ -8,7 +8,7 @@ Given(/^(\d+) claims have been assigned to me$/) do |count|
 end
 
 Given(/^the claims are sorted most recent first$/) do
-  @claims = @claims.sort_by { |c| c.id }.reverse
+  @claims = @claims.sort_by { |c| c.original_submission_date }.reverse
 end
 
 When(/^I visit the caseworkers dashboard$/) do

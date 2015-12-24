@@ -59,19 +59,27 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 
-  describe '#GET index order' do
-    context 'ordering' do
-      before(:each) do
-        create_list(:draft_claim, 1, advocate: advocate)
-        create_list(:draft_claim, 2, advocate: advocate, created_at: 1.day.ago)
-        create(:submitted_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
-        create(:refused_claim, advocate: advocate).update_column(:last_submitted_at, 2.day.ago)
-      end
+  describe '#GET index - unstubbed' do
 
-      it 'orders claims so that most recently submitted is first with nulls/unsubmitted first' do
-        get :index
-        expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
-      end
+    before(:each) do
+      Timecop.freeze
+      create_list(:draft_claim, 1, advocate: advocate)
+      create_list(:draft_claim, 5, advocate: advocate, created_at: 5.days.ago)
+      create_list(:draft_claim, 2, advocate: advocate, created_at: 1.day.ago)
+      create(:submitted_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
+      create(:refused_claim, advocate: advocate).update_column(:last_submitted_at, 2.days.ago)
+      get :index
+    end
+
+    after { Timecop.return }
+
+    it 'orders claims with draft first (most recently created first) then most recently submitted' do
+      expect(assigns(:claims).first.created_at).to eq(Time.now)
+      expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
+    end
+
+    it 'paginates to 10 per page' do
+      expect(assigns(:claims).count).to eq(10)
     end
   end
 
@@ -113,17 +121,25 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
     end
   end
 
-  describe '#GET archived order' do
-    context 'ordering' do
-      before(:each) do
-        create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
-        create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 2.day.ago)
-      end
+  describe '#GET archived - unstubbed' do
+    before(:each) do
+      Timecop.freeze
+      create_list(:archived_pending_delete_claim, 8, advocate: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
+      create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 3.days.ago)
+      create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
+      create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 2.days.ago)
+      get :archived
+    end
 
-      it 'most recently submitted claim first' do
-        get :archived
-        expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
-      end
+    after { Timecop.return }
+
+    it 'orders claims with most recently submitted first' do
+      expect(assigns(:claims).first.last_submitted_at).to eq(1.day.ago)
+      expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc).page(1).per(10))
+    end
+
+    it 'paginates to 10 per page' do
+      expect(assigns(:claims).count).to eq(10)
     end
   end
 

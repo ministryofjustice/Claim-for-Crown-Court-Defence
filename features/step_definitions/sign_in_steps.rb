@@ -142,7 +142,7 @@ end
 
 Then(/^I should see the admin caseworkers Re-allocation link and it should work$/) do
   find('#primary-nav').click_link('Re-allocation')
-  expect(find('h1.page-title')).to have_content('Re-Allocation')
+  expect(find('h1.page-title')).to have_content('Re-allocation')
 end
 
 Then(/^I should see the admin caseworkers Manage case workers link and it should work$/) do

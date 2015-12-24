@@ -17,7 +17,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST').
+    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').
       page(params[:page]).
       per(10)
     search if params[:search].present?
@@ -34,7 +34,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc)
+    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc)
     search(:archived_pending_delete) if params[:search].present?
     @claims = @claims.page(params[:page]).per(10)
   end

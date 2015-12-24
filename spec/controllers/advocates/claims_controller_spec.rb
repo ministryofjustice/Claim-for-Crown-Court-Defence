@@ -21,14 +21,14 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
       allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
     end
 
-    let(:non_archived_claims) {
-                          [
-                            @allocated_claim,
-                            @draft_claim,
-                            @part_authorised_claim,
-                            @refused_claim,
-                            @rejected_claim,
-                            @submitted_claim ] }
+    let(:non_archived_claims) {[
+                                @draft_claim,
+                                @submitted_claim,
+                                @allocated_claim,
+                                @part_authorised_claim,
+                                @refused_claim,
+                                @rejected_claim
+                              ]}
 
     it 'renders the template' do
       get :index
@@ -42,12 +42,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(non_archived_claims))
         get :index
         expect(response).to have_http_status(:success)
-        expect(assigns(:claims)).to contain_claims( @draft_claim,
-                                            @rejected_claim,
-                                            @allocated_claim,
-                                            @submitted_claim,
-                                            @part_authorised_claim,
-                                            @refused_claim)
+        expect(assigns(:claims)).to contain_claims(*non_archived_claims)
       end
     end
 
@@ -59,12 +54,23 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
         allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(non_archived_claims))
         get :index
         expect(response).to have_http_status(:success)
-        expect(assigns(:claims)).to contain_claims( @draft_claim,
-                                            @rejected_claim,
-                                            @allocated_claim,
-                                            @submitted_claim,
-                                            @part_authorised_claim,
-                                            @refused_claim)
+        expect(assigns(:claims)).to contain_claims(*non_archived_claims)
+      end
+    end
+  end
+
+  describe '#GET index order' do
+    context 'ordering' do
+      before(:each) do
+        create_list(:draft_claim, 1, advocate: advocate)
+        create_list(:draft_claim, 2, advocate: advocate, created_at: 1.day.ago)
+        create(:submitted_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
+        create(:refused_claim, advocate: advocate).update_column(:last_submitted_at, 2.day.ago)
+      end
+
+      it 'orders claims so that most recently submitted is first with nulls/unsubmitted first' do
+        get :index
+        expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
       end
     end
   end
@@ -104,6 +110,20 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
           expect(response).to have_http_status(:success)
           expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )
        end
+    end
+  end
+
+  describe '#GET archived order' do
+    context 'ordering' do
+      before(:each) do
+        create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 1.day.ago)
+        create(:archived_pending_delete_claim, advocate: advocate).update_column(:last_submitted_at, 2.day.ago)
+      end
+
+      it 'most recently submitted claim first' do
+        get :archived
+        expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.order('last_submitted_at desc NULLS FIRST, created_at desc').page(1).per(10))
+      end
     end
   end
 

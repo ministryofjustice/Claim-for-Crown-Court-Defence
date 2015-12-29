@@ -1,14 +1,12 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
   @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, last_submitted_at: Time.now + n, case_number: "A0000000#{n + 1}")
+    claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
+    claim.update_column(:original_submission_date, n.days.ago)
+    claim.update_column(:last_submitted_at, n.days.ago)
     @case_worker.claims << claim
     @claims << claim
   end
-end
-
-Given(/^the claims are sorted most recent first$/) do
-  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
 end
 
 When(/^I visit the caseworkers dashboard$/) do

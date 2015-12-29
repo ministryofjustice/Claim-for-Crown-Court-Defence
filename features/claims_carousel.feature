@@ -5,7 +5,6 @@ Feature: Claims carousel
 
     Given I am a signed in case worker
       And 5 claims have been assigned to me
-      And the claims are sorted most recent first
 
   Scenario: View first claim and step through to the next claim
      When I visit the caseworkers dashboard

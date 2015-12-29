@@ -1,7 +1,6 @@
 class ClaimPresenter < BasePresenter
   presents :claim
 
-
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
   #
   def valid_transitions(options = {include_submitted: true} )
@@ -38,16 +37,17 @@ class ClaimPresenter < BasePresenter
     end
   end
 
-  def submitted_at(options={})
+  def date_format(options={})
     options.assert_valid_keys(:include_time)
-    format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.original_submission_date.strftime(format) unless claim.original_submission_date.nil?
+    options[:include_time] ? Settings.date_time_format : Settings.date_format
+  end
+
+  def submitted_at(options={})
+    claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
   end
 
   def authorised_at (options={})
-    options.assert_valid_keys(:include_time)
-    format = options[:include_time] ? Settings.date_time_format : Settings.date_format
-    claim.authorised_at.strftime(format) unless claim.authorised_at.nil?
+    claim.authorised_at.strftime(date_format(options)) unless claim.authorised_at.nil?
   end
 
   def retrial

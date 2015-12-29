@@ -19,7 +19,8 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   include MessageControlsDisplay
 
   def index
-    @claims = @context.claims.dashboard_displayable_states.
+    @json_document_importer = JsonDocumentImporter.new
+    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').
       page(params[:page]).
       per(10)
     sort if params[:sort].present?
@@ -37,7 +38,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete.page(params[:page]).per(10)
+    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc).page(params[:page]).per(10)
     search(:archived_pending_delete) if params[:search].present?
   end
 

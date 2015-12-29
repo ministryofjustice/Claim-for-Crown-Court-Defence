@@ -154,7 +154,7 @@ class Claim < ActiveRecord::Base
 
   def redetermination_since_allocation?
     if last_state_transition.from == 'redetermination'
-      last_state_transition_later_than_redeterination?(last_state_transition)
+      last_state_transition_later_than_redetermination?(last_state_transition)
     else
       false
     end
@@ -289,7 +289,6 @@ class Claim < ActiveRecord::Base
     last_state_transition.created_at
   end
 
-
   def opened_for_redetermination?
     return true if self.redetermination?
 
@@ -331,7 +330,7 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def last_state_transition_later_than_redeterination?(last_state_transition)
+  def last_state_transition_later_than_redetermination?(last_state_transition)
     last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
   end
 

@@ -1,8 +1,3 @@
-
-Given(/^(\d+) case workers? exists?$/) do |quantity|
-  @case_workers = create_list(:case_worker, quantity.to_i)
-end
-
 Given(/^(\d+) submitted claims? exists?$/) do |quantity|
   @claims = create_list(:submitted_claim, quantity.to_i)
 end
@@ -44,7 +39,7 @@ Then(/^I should see a notification of the claims that were allocated$/) do
 end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
-  within('table.claims_table') do
+  within('.report') do
     @case_numbers = all('label.case-number').map(&:text)
   end
   @claims_on_page = []

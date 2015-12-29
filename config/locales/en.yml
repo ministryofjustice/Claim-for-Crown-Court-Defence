@@ -504,6 +504,7 @@ en:
           name: Name
           location: Location
           working_days: Working days
+          actions: Manage details
         form:
           first_name: *first_name
           last_name: *last_name
@@ -517,7 +518,17 @@ en:
           password_confirmation: *password_confirmation
           submit: 'Change password'
       allocations:
-        new:
+        allocation:
+          advocate: 'Advocate'
+          case_number: 'Case number'
+          submitted_date: 'Date submitted'
+          claim_total: 'Claim total'
+          defendants: Defendant(s)
+          no_of_claims: 'No. of claims'
+          case_types: 'Case types'
+        re_allocation:
+          advocate: 'Advocate'
+          case_number: 'Case number'
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)

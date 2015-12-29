@@ -1,13 +1,13 @@
 
 When(/^I visit the detail link for a claim$/) do
-  within(".claims_table") do
+  within(".report") do
 	  first('a.js-test-case-number-link').click
 	end
 end
 
 When(/^I view the claim$/) do
   visit advocates_root_path
-  within('.claims_table') do
+  within('.report') do
     first('a.js-test-case-number-link').click
   end
 end

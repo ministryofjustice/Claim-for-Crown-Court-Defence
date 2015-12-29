@@ -1,17 +1,21 @@
 .working-pattern {
   span {
-    border: 1px solid $grey-3;
+    &:first-child {
+      border-left: 1px solid $black;
+    }
+    border-top: 1px solid $black;
+    border-bottom: 1px solid $black;
+    border-right: 1px solid $black;
     padding-top: 0.3em;
     padding-left: 0.3em;
     padding-right:0.3em;
     text-align: center;
     width: 15%;
     display: inline-block;
-    font-weight: bold;
-    color: $grey-3;
+    color: $black;
+    background-color: $white;
     &.working-day{
       background-color: $grey-2;
-      color: $white;
     }
   }
 }

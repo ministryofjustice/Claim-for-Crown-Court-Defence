@@ -8,7 +8,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
-  before_action :set_search_options, only: [:index]
   before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
@@ -18,7 +17,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def index
     @json_document_importer = JsonDocumentImporter.new
-    @claims = @context.claims.dashboard_displayable_states.order(created_at: :desc).
+    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').
       page(params[:page]).
       per(10)
     search if params[:search].present?
@@ -35,7 +34,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete.order(created_at: :desc)
+    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc)
     search(:archived_pending_delete) if params[:search].present?
     @claims = @claims.page(params[:page]).per(10)
   end
@@ -313,14 +312,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def build_nested_resource(object, association)
     object.send(association).build if object.send(association).none?
-  end
-
-  def set_search_options
-    if current_user.persona.admin?
-      @search_options = ['All', 'Advocate', 'Defendant']
-    else
-      @search_options = ['All', 'Defendant']
-    end
   end
 
   def update_source_for_api

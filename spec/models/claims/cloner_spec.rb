@@ -10,6 +10,8 @@ RSpec.describe Claims::Cloner, type: :model do
     rejected_claim.expenses.each do |expense|
       expense.dates_attended << create(:date_attended)
     end
+    create(:assessment, claim: rejected_claim)
+    create(:redetermination, claim: rejected_claim)
     rejected_claim.documents << create(:document)
     rejected_claim
   end
@@ -114,6 +116,14 @@ RSpec.describe Claims::Cloner, type: :model do
     it 'clones the documents' do
       expect(cloned_claim.documents.count).to eq(1)
       expect(cloned_claim.documents.count).to eq(rejected_claim.documents.count)
+    end
+
+    it 'does not clone determinations - assessments or redeterminations' do
+      expect(rejected_claim.redeterminations.count).to eq(1)
+      expect(cloned_claim.redeterminations.count).to eq(0)
+
+      expect(rejected_claim.assessment.nil?).to eq(false)
+      expect(cloned_claim.assessment.nil?).to eq(true)
     end
   end
 end

@@ -29,6 +29,8 @@
 /*.REMOTE.*
 *.orig
 
+/.byebug_history
+
 public/system/documents
 public/paperclip
 public/uploads

@@ -15,11 +15,11 @@ class AssessmentPresenter < BasePresenter
   end
 
   def total
-    h.number_to_currency(assessment.total)
+    h.number_to_currency(assessment.total || 0)
   end
 
   def total_inc_vat
-    h.number_to_currency(assessment.total + assessment.vat_amount)
+    h.number_to_currency((assessment.total || 0) + assessment.vat_amount)
   end
 
 end

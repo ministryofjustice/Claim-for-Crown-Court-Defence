@@ -1,5 +1,5 @@
 When(/^I view status details for a claim$/) do
-	within(".claims_table") do
+	within(".report") do
 	  first('a.js-test-case-number-link').click
 	end
 end

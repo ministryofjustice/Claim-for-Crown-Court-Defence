@@ -175,7 +175,7 @@ Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
 
   expect(claim_dom_ids.size).to eq(number.to_i)
 
-  within('.claims_table') do
+  within('.report') do
     #look through the tbody part of the report
     expect(find(:xpath, './tbody')).to have_content(state.humanize, count: number.to_i)
   end
@@ -208,7 +208,7 @@ Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |num
 end
 
 Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|
-  node = find("section##{section_id}").find('.claims_table')
+  node = find("section##{section_id}").find('.report')
   expect(node).not_to have_selector('th', text: column_name)
 end
 

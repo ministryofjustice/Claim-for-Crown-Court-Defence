@@ -1,14 +1,14 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
   @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, last_submitted_at: Time.now + n, id: n + 1)
+    claim = create(:submitted_claim, last_submitted_at: Time.now + n, case_number: "A0000000#{n + 1}")
     @case_worker.claims << claim
     @claims << claim
   end
 end
 
 Given(/^the claims are sorted most recent first$/) do
-  @claims = @claims.sort_by { |c| c.original_submission_date }
+  @claims = @claims.sort_by { |c| c.last_submitted_at }.reverse
 end
 
 When(/^I visit the caseworkers dashboard$/) do
@@ -35,18 +35,6 @@ When(/^I click the next claim link$/) do
   find('.next-claim').click
 end
 
-Then(/^I should be on the next claim$/) do
-  expect(page.current_path).to eq(case_workers_claim_path(@claims[1].id))
-end
-
-Then(/^I should be on the third claim$/) do
-  expect(page.current_path).to eq(case_workers_claim_path(@claims[2].id))
-end
-
-Then(/^I should be on the last claim$/) do
-  expect(page.current_path).to eq(case_workers_claim_path(@claims[-1].id))
-end
-
-Then(/^I should be on the claim with id (\d+)$/) do |id|
-  expect(page.current_path).to eq(case_workers_claim_path(id))
+Then(/^I should be on the claim case number "(.*?)"$/) do |case_number|
+  expect(page).to have_content(case_number)
 end

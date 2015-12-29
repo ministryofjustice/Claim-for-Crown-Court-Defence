@@ -1,11 +1,11 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
   @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
-    claim.update_column(:original_submission_date, n.days.ago)
-    claim.update_column(:last_submitted_at, n.days.ago)
-    @case_worker.claims << claim
-    @claims << claim
+    Timecop.freeze(n.days.ago) do
+      claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
+      @case_worker.claims << claim
+      @claims << claim
+    end
   end
 end
 

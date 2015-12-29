@@ -15,7 +15,7 @@ class Advocates::Admin::ProvidersController < Advocates::Admin::ApplicationContr
   def update
     if @provider.update(provider_params)
       send_ga('event', 'provider', 'updated')
-      redirect_to advocates_admin_provider_path, notice: 'Provider successfully updated'
+      redirect_to advocates_admin_provider_path, notice: "#{@provider.provider_type.humanize} successfully updated"
     else
       render :edit
     end

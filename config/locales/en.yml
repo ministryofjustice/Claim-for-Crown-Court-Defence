@@ -206,6 +206,31 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
+    providers:
+      provider_type: &provider_type 'Provider type'
+      provider_name: &provider_name 'Provider name'
+      supplier_number: &supplier_number 'Supplier number'
+      vat_registered: &vat_registered 'VAT registered'
+      show:
+        provider_type: *provider_type
+        provider_name: *provider_name
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+      index:
+        add_a_provider: Add a provider
+      providers:
+        provider_type: *provider_type
+        provider_name: *provider_name
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+      form:
+        error: 'error'
+        prohibited_save: 'This provider has'
+        provider_type: *provider_type
+        provider_name: *provider_name
+        supplier_number: *supplier_number
+        vat_registered: *vat_registered
+        form_error_hint: 'Check below for more detail'
     advocates:
       index:
         name: 'Name'
@@ -279,6 +304,27 @@ en:
           error: 'error'
           prohibited_save: 'This chamber has'
           chamber_name: *chamber_name
+          supplier_number: *supplier_number
+          api_key: *api_key
+          vat_registered: *vat_registered
+          form_error_hint: 'Check below for more detail'
+      providers:
+        provider_type: &provider_type 'Provider type'
+        provider_name: &provider_name 'Provider name'
+        supplier_number: &supplier_number 'Supplier number'
+        vat_registered: &vat_registered 'VAT registered'
+        api_key: &api_key 'API key'
+        show:
+          provider_type: *provider_type
+          provider_name: *provider_name
+          supplier_number: *supplier_number
+          vat_registered: *vat_registered
+          api_key: *api_key
+        edit:
+          error: 'error'
+          prohibited_save: 'This provider has'
+          provider_type: *provider_type
+          provider_name: *provider_name
           supplier_number: *supplier_number
           api_key: *api_key
           vat_registered: *vat_registered

@@ -1,4 +1,3 @@
-
 When(/^I visit the Edit chamber page$/) do
   visit edit_advocates_admin_chamber_path(@advocate.chamber)
   expect(page.current_path).to eq(edit_advocates_admin_chamber_path(@advocate.chamber))

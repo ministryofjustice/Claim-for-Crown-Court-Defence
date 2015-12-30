@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
  authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
     root to: 'super_admins/chambers#index', as: :super_admins_home
+    # root to: 'super_admins/providers#index', as: :super_admins_home
   end
 
   devise_scope :user do
@@ -60,6 +61,7 @@ Rails.application.routes.draw do
 
   namespace :super_admins do
     root to: 'chambers#index'
+    # root to: 'providers#index'
 
     resources :chambers, except: [:destroy] do
       resources :advocates, except: [:destroy] do
@@ -68,8 +70,16 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :providers, except: [:destroy] do
+      resources :advocates, except: [:destroy] do
+        get 'change_password', on: :member
+        patch 'update_password', on: :member
+      end
+    end
+
     namespace :admin do
       root to: 'chambers#index'
+      # root to: 'providers#index'
 
       resources :super_admins, only: [:show, :edit, :update] do
         get 'change_password', on: :member
@@ -106,6 +116,10 @@ Rails.application.routes.draw do
       end
 
       resources :chambers, only: [:show, :edit, :update] do
+       patch :regenerate_api_key, on: :member
+      end
+
+      resources :providers, only: [:show, :edit, :update] do
        patch :regenerate_api_key, on: :member
       end
     end

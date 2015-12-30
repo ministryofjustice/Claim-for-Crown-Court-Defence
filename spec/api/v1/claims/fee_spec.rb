@@ -15,12 +15,12 @@ describe API::V1::Advocates::Fee do
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)          { create(:chamber) }
+  let!(:provider)         { create(:provider) }
   let!(:basic_fee_type)   { create(:fee_type, :basic) }
   let!(:misc_fee_type)    { create(:fee_type, :misc) }
   let!(:fixed_fee_type)   { create(:fee_type, :fixed) }
   let!(:claim)            { create(:claim, source: 'api').reload }
-  let(:valid_params)      { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+  let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
 
   context 'sending non-permitted verbs' do
@@ -70,7 +70,7 @@ describe API::V1::Advocates::Fee do
 
       context 'basic fees' do
 
-        let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
+        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
 
         it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
           post_to_create_endpoint
@@ -101,7 +101,7 @@ describe API::V1::Advocates::Fee do
 
     context "fee type specific errors" do
 
-      let!(:valid_params)       { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+      let!(:valid_params)       { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
       before (:each) { valid_params.delete(:rate) }
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
@@ -204,7 +204,7 @@ describe API::V1::Advocates::Fee do
     end
 
     context 'basic fees' do
-      let!(:valid_params) { { api_key: chamber.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
+      let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
       include_examples "fee validate endpoint"
     end
 

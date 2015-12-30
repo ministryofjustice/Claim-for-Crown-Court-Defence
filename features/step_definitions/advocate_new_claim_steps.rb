@@ -1,10 +1,10 @@
-Given(/^There are other advocates in my chamber$/) do
+Given(/^There are other advocates in my provider$/) do
   FactoryGirl.create(:advocate,
-        chamber: @advocate.chamber,
+        provider: @advocate.provider,
         user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
         supplier_number: 'AC135')
   FactoryGirl.create(:advocate,
-        chamber: @advocate.chamber,
+        provider: @advocate.provider,
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
         supplier_number: 'XY455')
 end
@@ -263,7 +263,7 @@ When(/^I am on the claim edit page$/) do
   visit edit_advocates_claim_path(claim)
 end
 
-Then(/^I can view a select of all advocates in my chamber$/) do
+Then(/^I can view a select of all advocates in my provider$/) do
   expect(page).to have_selector('select#claim_advocate_id')
   expect(page).to have_content('Doe, John: AC135')
   expect(page).to have_content('Blow, Joe: XY455')

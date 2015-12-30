@@ -108,8 +108,8 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
 
-  validate :creator_and_advocate_in_same_chamber
-  # validate :creator_and_advocate_with_same_provider
+  # validate :creator_and_advocate_in_same_chamber
+  validate :creator_and_advocate_with_same_provider
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
@@ -325,9 +325,11 @@ class Claim < ActiveRecord::Base
   end
 
   def creator_and_advocate_with_same_provider
-    valid = creator_id == advocate_id || creator.try(:provider) == advocate.try(:provider)
-    errors[:advocate_id] << 'Creator and advocate must belong to the same provider' unless valid
-    valid
+    return if errors[:advocate].include?('blank')
+
+    unless creator_id == advocate_id || creator.try(:provider) == advocate.try(:provider)
+      errors[:advocate] << 'Creator and advocate must belong to the same provider'
+    end
   end
 
   def find_and_associate_documents

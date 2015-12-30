@@ -13,7 +13,7 @@
         .grid-row
           .column-half
             = f.anchored_label t('.advocate')
-            = f.collection_select :advocate_id, @advocates_in_chamber, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+            = f.collection_select :advocate_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
             = validation_error_message(@error_presenter, :advocate)
           .column-half
             = f.anchored_label t('.advocate_category')

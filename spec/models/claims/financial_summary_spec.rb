@@ -76,7 +76,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
 
     context 'with no VAT applied' do
-      
+
       let(:submitted_claim)           { create(:submitted_claim, advocate: advocate_without_vat) }
       let(:allocated_claim)           { create(:allocated_claim, advocate: advocate_without_vat) }
       let(:part_authorised_claim)     { create(:part_authorised_claim, advocate: advocate_without_vat)}
@@ -107,9 +107,9 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
   end
 
- 
 
-  context 'by Chambers' do
+
+  context 'by Providers' do
     let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
     let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
 
@@ -124,18 +124,18 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       claim
     end
 
-    let(:chamber)                 { create(:chamber) }
-    let(:other_chamber)           { create(:chamber) }
-    let(:advocate_admin)          { create(:advocate, role: 'admin', chamber: chamber, apply_vat: true) }
-    let(:advocate_with_vat)       { create(:advocate, chamber: chamber, apply_vat: true) }
-    let(:advocate_without_vat)    { create(:advocate, chamber: chamber, apply_vat: false) }
-    let(:another_advocate_admin)  { create(:advocate, role: 'admin', chamber: other_chamber) }
-    let(:other_chamber_claim)     { create(:claim) }
+    let(:provider)                { create(:provider) }
+    let(:other_provider)          { create(:provider) }
+    let(:advocate_admin)          { create(:advocate, role: 'admin', provider: provider, apply_vat: true) }
+    let(:advocate_with_vat)       { create(:advocate, provider: provider, apply_vat: true) }
+    let(:advocate_without_vat)    { create(:advocate, provider: provider, apply_vat: false) }
+    let(:another_advocate_admin)  { create(:advocate, role: 'admin', provider: other_provider) }
+    let(:other_provider_claim)     { create(:claim) }
 
 
     before do
-      other_chamber_claim.advocate = another_advocate_admin
-      other_chamber_claim.creator = another_advocate_admin
+      other_provider_claim.advocate = another_advocate_admin
+      other_provider_claim.creator = another_advocate_admin
     end
 
     context 'with VAT' do
@@ -195,14 +195,14 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       describe '#outstanding_claims' do
         it 'returns outstanding claims only' do
           expect(summary.outstanding_claims).to include(submitted_claim, allocated_claim)
-          expect(summary.outstanding_claims).to_not include(authorised_claim, part_authorised_claim, other_chamber_claim)
+          expect(summary.outstanding_claims).to_not include(authorised_claim, part_authorised_claim, other_provider_claim)
         end
       end
 
       describe '#authorised_claims' do
         it 'returns authorised claims only' do
           expect(summary.authorised_claims).to include(authorised_claim, authorised_claim)
-          expect(summary.authorised_claims).to_not include(submitted_claim, allocated_claim, other_chamber_claim)
+          expect(summary.authorised_claims).to_not include(submitted_claim, allocated_claim, other_provider_claim)
         end
       end
     end

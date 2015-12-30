@@ -32,8 +32,8 @@ RSpec.describe Advocates::RegistrationsController, type: :controller do
         expect(Advocate.count).to eq(0)
       end
 
-      it 'does not create a chamber' do
-        expect(Chamber.count).to eq(0)
+      it 'does not create a provider' do
+        expect(Provider.count).to eq(0)
       end
     end
 
@@ -53,8 +53,8 @@ RSpec.describe Advocates::RegistrationsController, type: :controller do
             expect(User.first.persona).to be_a(Advocate)
           end
 
-          it 'creates a chamber' do
-            expect(User.first.persona.chamber).to_not eq(nil)
+          it 'creates a provider' do
+            expect(User.first.persona.provider).to_not eq(nil)
           end
         end
 
@@ -73,8 +73,8 @@ RSpec.describe Advocates::RegistrationsController, type: :controller do
             expect(Advocate.count).to eq(0)
           end
 
-          it 'does not create a chamber' do
-            expect(Chamber.count).to eq(0)
+          it 'does not create a provider' do
+            expect(Provider.count).to eq(0)
           end
         end
       end
@@ -93,8 +93,8 @@ RSpec.describe Advocates::RegistrationsController, type: :controller do
           expect(Advocate.count).to eq(0)
         end
 
-        it 'does not create a chamber' do
-          expect(Chamber.count).to eq(0)
+        it 'does not create a provider' do
+          expect(Provider.count).to eq(0)
         end
       end
     end

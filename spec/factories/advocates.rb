@@ -5,6 +5,7 @@
 #  id              :integer          not null, primary key
 #  role            :string
 #  chamber_id      :integer
+#  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime
 #  supplier_number :string

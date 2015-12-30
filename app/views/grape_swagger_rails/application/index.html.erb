@@ -172,7 +172,7 @@
             <%= link_to t('link.add_claim'), '/advocates/claims/new', title: "Start a new claim" %>
             <% if current_user.persona.admin? %>
               <%= link_to 'Manage advocates', '/advocates/admin/advocates' %>
-              <%= link_to 'Manage chamber', "/advocates/admin/chambers/#{current_user.persona.chamber.id}" %>
+              <%= link_to "Manage #{current_user.persona.provider.provider_type}", "/advocates/admin/providers/#{current_user.persona.provider.id}" %>
             <% end %>
           <% elsif current_user.persona.is_a?(CaseWorker) %>
             <% if current_user.persona.admin? %>

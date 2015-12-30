@@ -1,6 +1,6 @@
 %w(
   advocates
-  chambers
+  providers
   case_workers
 ).
 each do |seed|

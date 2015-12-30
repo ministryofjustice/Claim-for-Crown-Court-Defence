@@ -15,7 +15,7 @@ module API
             include ExtractDate
             params :date_attended_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :api_key, type: String,            desc: "REQUIRED: The API authentication key of the chamber"
+              optional :api_key, type: String,            desc: "REQUIRED: The API authentication key of the provider"
               optional :attended_item_id, type: String,   desc: 'REQUIRED: The ID of the corresponding Fee or Expense.'
               optional :attended_item_type, type: String, desc: 'REQUIRED: The Type of item to which this date range relates - Fee or Expense.'
               optional :date, type: String,               desc: 'REQUIRED: The date, or first date in the date-range, applicable to this Fee (YYYY-MM-DD)', standard_json_format: true

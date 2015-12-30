@@ -41,9 +41,9 @@ class Advocates::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_advocate
-    chamber = Chamber.create!(name: Faker::Company.name, supplier_number: generate_unique_supplier_number)
+    provider = Provider.create!(name: Faker::Company.name, supplier_number: generate_unique_supplier_number, provider_type: 'firm')
     advocate = Advocate.new(
-      chamber: chamber,
+      provider: provider,
       role: 'admin',
       supplier_number: generate_unique_supplier_number
     )

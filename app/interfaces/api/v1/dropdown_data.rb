@@ -14,7 +14,7 @@ module API
         include API::V1::ApiHelper
 
         params :api_key_params do
-          optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the chamber"
+          optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
         end
 
         def authenticate!(params)

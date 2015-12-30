@@ -57,7 +57,7 @@ class ApiTestClient
 
   def run
     # retrieve api key
-    @api_key = test_chamber_api_key
+    @api_key = test_provider_api_key
 
     test_dropdown_endpoints
     test_claim_creation_endpoints
@@ -138,9 +138,9 @@ private
       end
   end
 
-  def test_chamber_api_key
+  def test_provider_api_key
     user = User.advocates.find_by(email: 'advocateadmin@example.com')
-    user.persona.chamber.api_key
+    user.persona.provider.api_key
   end
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)

@@ -5,6 +5,7 @@
 #  id              :integer          not null, primary key
 #  role            :string
 #  chamber_id      :integer
+#  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime
 #  supplier_number :string
@@ -21,8 +22,8 @@ RSpec.describe Advocate, type: :model do
   it { should have_many(:documents) }
   it { should have_one(:user) }
 
-  it { should validate_presence_of(:chamber) }
-  # it { should validate_presence_of(:provider) }
+  # it { should validate_presence_of(:chamber) }
+  it { should validate_presence_of(:provider) }
   it { should validate_presence_of(:user) }
 
   it { should accept_nested_attributes_for(:user) }
@@ -170,30 +171,30 @@ RSpec.describe Advocate, type: :model do
     end
   end
 
-  describe '#advocates_in_chamber' do
+  describe '#advocates_in_provider' do
 
     it 'should raise and exception if called on a advocate who isnt an admin' do
       advocate = FactoryGirl.create :advocate
       expect {
-        advocate.advocates_in_chamber
-      }.to raise_error RuntimeError, "Cannot call #advocates_in_chamber on advocates who are not admins"
+        advocate.advocates_in_provider
+      }.to raise_error RuntimeError, "Cannot call #advocates_in_provider on advocates who are not admins"
     end
 
-    it 'should return a collection of advocates in same chamber in alphabetic order' do
-      chamber1      = FactoryGirl.create :chamber
-      chamber2      = FactoryGirl.create :chamber
+    it 'should return a collection of advocates in same provider in alphabetic order' do
+      provider1      = FactoryGirl.create :provider
+      provider2      = FactoryGirl.create :provider
 
-      admin1_ch1    = create_admin chamber1, 'Lucy', 'Zebra'
-      advocate1_ch1 = create_advocate chamber1, 'Miranda', 'Bison'
-      advocate3_ch1 = create_advocate chamber1, 'Geoff', 'Elephant'
+      admin1_ch1    = create_admin provider1, 'Lucy', 'Zebra'
+      advocate1_ch1 = create_advocate provider1, 'Miranda', 'Bison'
+      advocate3_ch1 = create_advocate provider1, 'Geoff', 'Elephant'
 
-      admin1_ch2    = create_admin chamber2, 'Martin', 'Tiger'
-      admin2_ch2    = create_admin chamber2, 'Robert', 'Lion'
-      advocate1_ch2 = create_advocate chamber2, 'Mary', 'Hippo'
-      advocate2_ch2 = create_advocate chamber2, 'Anna', 'Wildebeest'
-      advocate3_ch2 = create_advocate chamber2, 'George', 'Meerkat'
+      admin1_ch2    = create_admin provider2, 'Martin', 'Tiger'
+      admin2_ch2    = create_admin provider2, 'Robert', 'Lion'
+      advocate1_ch2 = create_advocate provider2, 'Mary', 'Hippo'
+      advocate2_ch2 = create_advocate provider2, 'Anna', 'Wildebeest'
+      advocate3_ch2 = create_advocate provider2, 'George', 'Meerkat'
 
-      advocates = admin2_ch2.advocates_in_chamber
+      advocates = admin2_ch2.advocates_in_provider
       expect(advocates.map(&:user).map(&:last_name)).to eq ( ["Hippo", "Lion", "Meerkat", "Tiger", "Wildebeest"] )
     end
 
@@ -201,10 +202,10 @@ RSpec.describe Advocate, type: :model do
 end
 
 
-def create_admin(chamber, first_name, last_name)
-  FactoryGirl.create :advocate, :admin, chamber: chamber, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
+def create_admin(provider, first_name, last_name)
+  FactoryGirl.create :advocate, :admin, provider: provider, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
 end
 
-def create_advocate(chamber, first_name, last_name)
-  FactoryGirl.create :advocate, chamber: chamber, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
+def create_advocate(provider, first_name, last_name)
+  FactoryGirl.create :advocate, provider: provider, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
 end

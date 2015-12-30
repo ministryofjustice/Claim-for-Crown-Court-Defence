@@ -4,9 +4,9 @@ Given(/^I have authorised and part authorised claims$/) do
   @other_claims = create_list(:allocated_claim, 3)
 end
 
-Given(/^my chamber has authorised and part authorised claims$/) do
+Given(/^my provider has authorised and part authorised claims$/) do
   another_advocate = create(:advocate)
-  @advocate.chamber.advocates << another_advocate
+  @advocate.provider.advocates << another_advocate
   @claims = create_list(:authorised_claim, 2)
   @claims += create_list(:part_authorised_claim, 1)
   @claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
@@ -18,7 +18,7 @@ Then(/^I should see my total value of outstanding claims$/) do
   expect(page).to have_content(@advocate.claims.outstanding.map(&:total_including_vat).sum)
 end
 
-Then(/^I should see the total value of outstanding claims for my chamber$/) do
+Then(/^I should see the total value of outstanding claims for my provider$/) do
   expect(page).to have_content(@advocate.claims.outstanding.map(&:total).sum)
 end
 
@@ -27,7 +27,7 @@ Then(/^I should see my total value of authorised and part authorised claims$/) d
   expect(page).to have_content(total)
 end
 
-Then(/^I should see the total value of authorised and part authorised claims for my chamber$/) do
+Then(/^I should see the total value of authorised and part authorised claims for my provider$/) do
   expect(page).to have_content(@advocate.claims.any_authorised.map(&:total).sum)
 end
 

@@ -49,6 +49,7 @@ RSpec.describe Claim, type: :model do
   it { should belong_to(:advocate) }
   it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
   it { should delegate_method(:chamber_id).to(:advocate) }
+  it { should delegate_method(:provider_id).to(:advocate) }
 
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
@@ -62,12 +63,12 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_workers) }
   it { should have_many(:claim_state_transitions) }
 
-  describe 'validates advocate and creator in same chamber' do
-    let(:chamber) { create(:chamber) }
-    let(:other_chamber) { create(:chamber) }
-    let(:advocate) { create(:advocate, chamber: chamber) }
-    let(:same_chamber_advocate) { create(:advocate, chamber: chamber) }
-    let(:other_chamber_advocate) { create(:advocate, chamber: other_chamber) }
+  describe 'validates advocate and creator with same provider' do
+    let(:provider) { create(:provider) }
+    let(:other_provider) { create(:provider) }
+    let(:advocate) { create(:advocate, provider: provider) }
+    let(:same_provider_advocate) { create(:advocate, provider: provider) }
+    let(:other_provider_advocate) { create(:advocate, provider: other_provider) }
 
     it 'should be valid with the same advocate_id and creator_id' do
       subject.advocate_id = advocate.id
@@ -76,18 +77,18 @@ RSpec.describe Claim, type: :model do
       expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
-    it 'should be valid with different advocate_id and creator_id but same chamber' do
+    it 'should be valid with different advocate_id and creator_id but same provider' do
       subject.advocate_id = advocate.id
-      subject.creator_id = same_chamber_advocate.id
+      subject.creator_id = same_provider_advocate.id
       subject.save
       expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
-    it 'should not be valid when the advocate and creator are not in the same chamber' do
+    it 'should not be valid when the advocate and creator are with the same provider' do
       subject.advocate_id = advocate.id
-      subject.creator_id = other_chamber_advocate.id
+      subject.creator_id = other_provider_advocate.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate]).to eq(['Creator and advocate must belong to the same chamber'])
+      expect(subject.reload.errors.messages[:advocate]).to eq(['Creator and advocate must belong to the same provider'])
     end
   end
 
@@ -367,7 +368,7 @@ RSpec.describe Claim, type: :model do
     context 'find by Defendant name' do
 
       let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate)   { create(:advocate, chamber: current_advocate.chamber ) }
+      let!(:other_advocate)   { create(:advocate, provider: current_advocate.provider ) }
       let(:search_options)    { :defendant_name }
 
       before do
@@ -463,7 +464,7 @@ RSpec.describe Claim, type: :model do
     context 'find by advocate and defendant' do
 
       let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate)   { create(:advocate, chamber: current_advocate.chamber ) }
+      let!(:other_advocate)   { create(:advocate, provider: current_advocate.provider ) }
       let(:search_options)    { [:advocate_name, :defendant_name] }
 
       before do

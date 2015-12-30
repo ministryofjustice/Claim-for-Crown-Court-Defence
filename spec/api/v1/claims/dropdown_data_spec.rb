@@ -21,8 +21,8 @@ describe API::V1::DropdownData do
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, GRANTING_BODY_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
 
-  let(:chamber) { create(:chamber) }
-  let(:params)  { {api_key: chamber.api_key} }
+  let(:provider) { create(:provider) }
+  let(:params)   { {api_key: provider.api_key} }
 
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint

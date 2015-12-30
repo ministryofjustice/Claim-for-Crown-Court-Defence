@@ -10,9 +10,9 @@ Feature: Advocate Claims Financial Summary
 
   Scenario: View summary of outstanding claims as an advocate admin
     Given I am a signed in advocate admin
-      And my chamber has claims
+      And my provider has claims
      When I visit the advocates dashboard
-     Then I should see the total value of outstanding claims for my chamber
+     Then I should see the total value of outstanding claims for my provider
 
   Scenario: View summary of authorised claims as an advocate
     Given I am a signed in advocate
@@ -22,6 +22,6 @@ Feature: Advocate Claims Financial Summary
 
   Scenario: View summary of authorised claims as an advocate admin
     Given I am a signed in advocate admin
-      And my chamber has authorised and part authorised claims
+      And my provider has authorised and part authorised claims
      When I visit the advocates dashboard
-     Then I should see the total value of authorised and part authorised claims for my chamber
+     Then I should see the total value of authorised and part authorised claims for my provider

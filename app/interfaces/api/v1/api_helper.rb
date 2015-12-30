@@ -8,23 +8,23 @@ module API
       require_relative 'error_response'
 
       def self.authenticate_key!(params)
-        chamber = Chamber.find_by(api_key: params[:api_key])
-        if chamber.blank? || chamber.api_key.blank?
+        provider = Provider.find_by(api_key: params[:api_key])
+        if provider.blank? || provider.api_key.blank?
           raise API::V1::ArgumentError, 'Unauthorised'
         end
-        chamber
+        provider
       end
 
       def self.authenticate_claim!(params)
-        chamber  = authenticate_key!(params)
+        provider = authenticate_key!(params)
         creator  = find_advocate_by_email(email: params[:creator_email], relation: 'Creator' )
         advocate = find_advocate_by_email(email: params[:advocate_email], relation: 'Advocate')
 
-        if creator.chamber != chamber || advocate.chamber != chamber
-          raise API::V1::ArgumentError, 'Creator and advocate must belong to the chamber'
+        if creator.provider != provider || advocate.provider != provider
+          raise API::V1::ArgumentError, 'Creator and advocate must belong to the provider'
         end
 
-        return { chamber: chamber, creator: creator, advocate: advocate }
+        return { provider: provider, creator: creator, advocate: advocate }
       end
 
       def self.find_advocate_by_email(options = {})

@@ -14,10 +14,10 @@ describe API::V1::Advocates::DateAttended do
   ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)      { create(:chamber) }
+  let!(:provider)     { create(:provider) }
   let!(:claim)        { create(:claim, source: 'api') }
   let!(:fee)          { create(:fee, claim: claim) }
-  let!(:valid_params) { { api_key: chamber.api_key, attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
+  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, attended_item_type: 'Fee', date: '2015-05-10', date_to: '2015-05-12'} }
 
   context 'when sending non-permitted verbs' do
     ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint

@@ -14,15 +14,15 @@ describe API::V1::Advocates::Claim do
   ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)        { create(:chamber) }
-  let!(:other_chamber)  { create(:chamber) }
-  let!(:vendor)         { create(:advocate, :admin, chamber: chamber) }
-  let!(:advocate)       { create(:advocate, chamber: chamber) }
-  let!(:other_vendor)   { create(:advocate, :admin, chamber: other_chamber) }
+  let!(:provider)       { create(:provider) }
+  let!(:other_provider) { create(:provider) }
+  let!(:vendor)         { create(:advocate, :admin, provider: provider) }
+  let!(:advocate)       { create(:advocate, provider: provider) }
+  let!(:other_vendor)   { create(:advocate, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence)}
   let!(:court)          { create(:court)}
   let!(:valid_params)   { {
-                          :api_key => chamber.api_key,
+                          :api_key => provider.api_key,
                           :creator_email => vendor.user.email,
                           :advocate_email => advocate.user.email,
                           :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true).id,
@@ -37,8 +37,8 @@ describe API::V1::Advocates::Claim do
                           :court_id => court.id } }
 
   describe 'vendor' do
-    it 'should belong to same chamber as advocate' do
-      expect(vendor.chamber).to eql(advocate.chamber)
+    it 'should belong to same provider as advocate' do
+      expect(vendor.provider).to eql(advocate.provider)
     end
   end
 
@@ -62,7 +62,7 @@ describe API::V1::Advocates::Claim do
     end
 
     it 'valid requests should return 200 and String true' do
-      expect(vendor.chamber).to eql(advocate.chamber)
+      expect(vendor.provider).to eql(advocate.provider)
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       json = JSON.parse(last_response.body)
@@ -73,10 +73,10 @@ describe API::V1::Advocates::Claim do
 
       include_examples "invalid API key validate endpoint"
 
-      it "should return 400 and JSON error array when it is an API key from another chamber's admin" do
-        valid_params[:api_key] = other_chamber.api_key
+      it "should return 400 and JSON error array when it is an API key from another provider's admin" do
+        valid_params[:api_key] = other_provider.api_key
         post_to_validate_endpoint
-        expect_error_response("Creator and advocate must belong to the chamber")
+        expect_error_response("Creator and advocate must belong to the provider")
       end
 
     end
@@ -172,10 +172,10 @@ describe API::V1::Advocates::Claim do
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
-        it "should return 400 and JSON error array when it is an API key from another chamber" do
-          valid_params[:api_key] = other_chamber.api_key
+        it "should return 400 and JSON error array when it is an API key from another provider" do
+          valid_params[:api_key] = other_provider.api_key
           post_to_create_endpoint
-          expect_error_response("Creator and advocate must belong to the chamber")
+          expect_error_response("Creator and advocate must belong to the provider")
         end
       end
 

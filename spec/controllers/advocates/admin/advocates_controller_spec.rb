@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
-  let(:chamber) { create(:chamber) }
-  let(:admin) { create(:advocate, :admin, chamber: chamber) }
+  let(:provider)  { create(:provider) }
+  let(:admin)     { create(:advocate, :admin, provider: provider) }
 
-  subject { create(:advocate, chamber: chamber) }
+  subject { create(:advocate, provider: provider) }
 
   before { sign_in admin.user }
 
@@ -16,8 +16,8 @@ RSpec.describe Advocates::Admin::AdvocatesController, type: :controller do
     end
 
     it 'assigns @advocates' do
-      advocate = create(:advocate, chamber: admin.chamber)
-      other_chamber_advocate = create(:advocate)
+      advocate = create(:advocate, provider: admin.provider)
+      other_provider_advocate = create(:advocate)
       get :index
       expect(assigns(:advocates)).to match_array([admin, advocate])
     end

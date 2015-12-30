@@ -14,20 +14,20 @@ Feature: Documents are only accessible to the correct authorised users
     When a document exists that belongs to the advocate
     Then the advocate can access the document
 
-  Scenario: Advocates from the same chamber cannot access each others documents
-    Given 2 "advocate" user accounts exist who work for the same chamber
+  Scenario: Advocates from the same provider cannot access each others documents
+    Given 2 "advocate" user accounts exist who work for the same provider
     When a document exists that belongs to the 1st advocate
     And the 2nd advocate signs in
     Then that advocate cannot access the document
 
-  Scenario: Advocates from different chambers cannot access each others documents
-    Given 2 "advocate" user accounts exist who work for different chambers
+  Scenario: Advocates from different providers cannot access each others documents
+    Given 2 "advocate" user accounts exist who work for different providers
     When a document exists that belongs to the 1st advocate
     And the 2nd advocate signs in
     Then that advocate cannot access the document
 
   Scenario: Case worker can access all documents
-    Given 2 "advocate" user accounts exist who work for different chambers
+    Given 2 "advocate" user accounts exist who work for different providers
     And a "case worker" user account exists
     When a document exists that belongs to the 1st advocate
     When a document exists that belongs to the 2nd advocate

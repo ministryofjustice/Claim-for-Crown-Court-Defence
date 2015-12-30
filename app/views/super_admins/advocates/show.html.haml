@@ -16,7 +16,7 @@
   = @advocate.role.humanize
 
 - if can? :edit, @advocate
-  = link_to 'Edit', edit_super_admins_chamber_advocate_path(@chamber, @advocate), class: 'button'
+  = link_to 'Edit', edit_super_admins_provider_advocate_path(@provider, @advocate), class: 'button'
 
 - if can? :change_password, @advocate
-  = link_to 'Change password', change_password_super_admins_chamber_advocate_path(@chamber, @advocate), class: 'button'
+  = link_to 'Change password', change_password_super_admins_provider_advocate_path(@provider, @advocate), class: 'button'

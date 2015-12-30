@@ -3,43 +3,40 @@ require 'json'
 
 RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
 
-  let(:super_admin) { create(:super_admin) }
-  let(:chamber)     { create(:chamber) }
+  let(:super_admin)   { create(:super_admin) }
+  let(:provider)      { create(:provider) }
 
   let(:frozen_time)  { 6.months.ago }
   let(:advocate)   do
-    Timecop.freeze(frozen_time) { create(:advocate, :admin, chamber: chamber) }
+    Timecop.freeze(frozen_time) { create(:advocate, :admin, provider: provider) }
   end
-
-  # subject { create(:advocate, chamber: chamber) }
-  # subject { super_admin }
 
   before { sign_in super_admin.user }
 
 
   describe "GET #show" do
-    before { get :show, chamber_id: chamber, id: advocate }
+    before { get :show, provider_id: provider, id: advocate }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @chamber and @advocate' do
-      expect(assigns(:chamber)).to eq(chamber)
+    it 'assigns @provider and @advocate' do
+      expect(assigns(:provider)).to eq(provider)
       expect(assigns(:advocate)).to eq(advocate)
     end
 
   end
 
   describe "GET #index" do
-    before { get :index, chamber_id: chamber }
+    before { get :index, provider_id: provider }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @chamber' do
-      expect(assigns(:chamber)).to eq(chamber)
+    it 'assigns @provider' do
+      expect(assigns(:provider)).to eq(provider)
     end
 
     it 'assigns @advocates' do
@@ -50,12 +47,12 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
 
   describe "GET #new" do
     let(:advocate) do
-     a = Advocate.new(chamber: chamber)
+     a = Advocate.new(provider: provider)
      a.build_user
      a
     end
 
-    before { get :new, chamber_id: chamber }
+    before { get :new, provider_id: provider }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -64,8 +61,8 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
     # NOTE: use json comparison because we are not interested in
     #       whether the object is the same just that it creates a
     #       new one and builds its user
-    it 'assigns @chamber and @advocate' do
-      expect(assigns(:chamber)).to eq(chamber)
+    it 'assigns @provider and @advocate' do
+      expect(assigns(:provider)).to eq(provider)
       expect(assigns(:advocate).to_json).to eq(advocate.to_json)
     end
 
@@ -83,7 +80,7 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
 
     def post_to_create_advocate_action(options={})
       post :create,
-            chamber_id: chamber,
+            provider_id: provider,
             advocate: { user_attributes: {  email: 'foo@foobar.com',
                                             first_name: options[:valid]==false ? '' : 'john',
                                             last_name: 'Smith' },
@@ -98,7 +95,7 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
 
       it 'redirects to advocates show view' do
         post_to_create_advocate_action
-        expect(response).to redirect_to(super_admins_chamber_advocate_path(chamber, Advocate.last))
+        expect(response).to redirect_to(super_admins_provider_advocate_path(provider, Advocate.last))
       end
     end
 
@@ -115,14 +112,14 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
   end
 
   describe "GET #edit" do
-    before { get :edit, chamber_id: chamber, id: advocate }
+    before { get :edit, provider_id: provider, id: advocate }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-   it 'assigns @chamber and @advocate' do
-      expect(assigns(:chamber)).to eq(chamber)
+   it 'assigns @provider and @advocate' do
+      expect(assigns(:provider)).to eq(provider)
       expect(assigns(:advocate)).to eq(advocate)
     end
 
@@ -134,7 +131,7 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, chamber_id: chamber, id: advocate, advocate: { role: 'advocate' } }
+      before(:each) { put :update, provider_id: provider, id: advocate, advocate: { role: 'advocate' } }
 
       it 'updates a advocate' do
         advocate.reload
@@ -142,12 +139,12 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
       end
 
       it 'redirects to advocates index' do
-        expect(response).to redirect_to(super_admins_chamber_advocate_path(chamber, advocate))
+        expect(response).to redirect_to(super_admins_provider_advocate_path(provider, advocate))
       end
     end
 
     context 'when invalid' do
-      before(:each) { put :update, chamber_id: chamber, id: advocate, advocate: { role: 'foo' } }
+      before(:each) { put :update, provider_id: provider, id: advocate, advocate: { role: 'foo' } }
 
       it 'does not update advocate' do
         advocate.reload
@@ -161,15 +158,15 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
   end
 
   describe "GET #change_password" do
-    before { get :change_password, chamber_id: chamber, id: advocate }
+    before { get :change_password, provider_id: provider, id: advocate }
 
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns @chamber and @advocate' do
+    it 'assigns @provider and @advocate' do
       expect(assigns(:advocate)).to eq(advocate)
-      expect(assigns(:chamber)).to eq(chamber)
+      expect(assigns(:provider)).to eq(provider)
     end
 
     it 'renders the change password template' do
@@ -182,7 +179,7 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
     context 'when valid' do
 
       before(:each) do
-        put :update_password, chamber_id: chamber, id: advocate, advocate: { user_attributes: { password: 'password123', password_confirmation: 'password123' } }
+        put :update_password, provider_id: provider, id: advocate, advocate: { user_attributes: { password: 'password123', password_confirmation: 'password123' } }
         advocate.reload
       end
 
@@ -191,14 +188,14 @@ RSpec.describe SuperAdmins::AdvocatesController, type: :controller do
       end
 
       it 'redirects to advocate show action' do
-        expect(response).to redirect_to(super_admins_chamber_advocate_path(chamber,advocate))
+        expect(response).to redirect_to(super_admins_provider_advocate_path(provider, advocate))
       end
     end
 
     context 'when invalid' do
 
       before(:each) do
-        put :update_password, chamber_id: chamber, id: advocate, advocate: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } }
+        put :update_password, provider_id: provider, id: advocate, advocate: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } }
       end
 
       it 'does not update the user record' do

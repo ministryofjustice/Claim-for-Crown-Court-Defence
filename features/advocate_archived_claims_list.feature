@@ -4,8 +4,8 @@ Feature: Advocate archived claims list
 
  Scenario: View archived claims list as an advocate admin
     Given I am a signed in advocate admin
-      And my chamber has 3 "submitted" claims for advocate "John Smith"
-      And my chamber has 2 "archived_pending_delete" claims for advocate "Bob Smith"
+      And my provider has 3 "submitted" claims for advocate "John Smith"
+      And my provider has 2 "archived_pending_delete" claims for advocate "Bob Smith"
      When I visit the advocate archive
      Then I should see 2 "archived_pending_delete" claims listed
       And I should not see non-archived claims listed

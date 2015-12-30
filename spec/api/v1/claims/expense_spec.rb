@@ -14,10 +14,10 @@ describe API::V1::Advocates::Expense do
   ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
 
-  let!(:chamber)        { create(:chamber) }
+  let!(:provider)       { create(:provider) }
   let!(:claim)          { create(:claim, source: 'api').reload }
   let!(:expense_type)   { create(:expense_type) }
-  let!(:params)         { { api_key: chamber.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
+  let!(:params)         { { api_key: provider.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
   let(:json_error_response)   do
     [
       {"error" => "Choose a type for the expense"},

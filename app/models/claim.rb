@@ -108,7 +108,6 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
 
-  # validate :creator_and_advocate_in_same_chamber
   validate :creator_and_advocate_with_same_provider
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
@@ -315,14 +314,6 @@ class Claim < ActiveRecord::Base
   end
 
   private
-
-  def creator_and_advocate_in_same_chamber
-    return if errors[:advocate].include?('blank')
-
-    unless creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
-      errors[:advocate] << 'Creator and advocate must belong to the same chamber'
-    end
-  end
 
   def creator_and_advocate_with_same_provider
     return if errors[:advocate].include?('blank')

@@ -63,7 +63,7 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_workers) }
   it { should have_many(:claim_state_transitions) }
 
-  describe 'validates advocate and creator in same provider' do
+  describe 'validates advocate and creator with same provider' do
     let(:provider) { create(:provider) }
     let(:other_provider) { create(:provider) }
     let(:advocate) { create(:advocate, provider: provider) }
@@ -84,7 +84,7 @@ RSpec.describe Claim, type: :model do
       expect(subject.reload.errors.messages[:advocate]).to be_empty
     end
 
-    it 'should not be valid when the advocate and creator are not in the same provider' do
+    it 'should not be valid when the advocate and creator are with the same provider' do
       subject.advocate_id = advocate.id
       subject.creator_id = other_provider_advocate.id
       subject.save

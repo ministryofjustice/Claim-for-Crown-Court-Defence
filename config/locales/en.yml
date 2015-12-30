@@ -185,27 +185,6 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
-    chambers:
-      chamber_name: &chamber_name 'Chamber name'
-      supplier_number: &supplier_number 'Supplier number'
-      vat_registered: &vat_registered 'VAT registered'
-      show:
-        chamber_name: *chamber_name
-        supplier_number: *supplier_number
-        vat_registered: *vat_registered
-      index:
-        add_a_chamber: Add a chamber
-      chambers:
-        chamber_name: *chamber_name
-        supplier_number: *supplier_number
-        vat_registered: *vat_registered
-      form:
-        error: 'error'
-        prohibited_save: 'This chamber has'
-        chamber_name: *chamber_name
-        supplier_number: *supplier_number
-        vat_registered: *vat_registered
-        form_error_hint: 'Check below for more detail'
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -290,24 +269,6 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
-      chambers:
-        chamber_name: &chamber_name 'Chamber name'
-        supplier_number: &supplier_number 'Supplier number'
-        vat_registered: &vat_registered 'VAT registered'
-        api_key: &api_key 'API key'
-        show:
-          chamber_name: *chamber_name
-          supplier_number: *supplier_number
-          vat_registered: *vat_registered
-          api_key: *api_key
-        edit:
-          error: 'error'
-          prohibited_save: 'This chamber has'
-          chamber_name: *chamber_name
-          supplier_number: *supplier_number
-          api_key: *api_key
-          vat_registered: *vat_registered
-          form_error_hint: 'Check below for more detail'
       providers:
         provider_type: &provider_type 'Provider type'
         provider_name: &provider_name 'Provider name'

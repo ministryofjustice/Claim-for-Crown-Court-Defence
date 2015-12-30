@@ -60,7 +60,6 @@ class Claim < ActiveRecord::Base
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
   belongs_to :case_type
 
-  delegate   :chamber_id, to: :advocate
   delegate   :provider_id, to: :advocate
 
   has_many :case_worker_claims,       dependent: :destroy
@@ -82,8 +81,6 @@ class Claim < ActiveRecord::Base
   has_many :redeterminations, dependent: :destroy
 
   has_one  :certification
-
-  delegate :chamber_id, to: :advocate
 
   has_paper_trail on: [:update], only: [:state]
 

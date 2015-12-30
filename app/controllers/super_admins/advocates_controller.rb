@@ -21,7 +21,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
     if @advocate.save
       @advocate.user.send_reset_password_instructions
-      redirect_to super_admins_provider_advocate_path(@provider, @provider), notice: 'Advocate successfully created'
+      redirect_to super_admins_provider_advocate_path(@provider, @advocate), notice: 'Advocate successfully created'
     else
       render :new
     end

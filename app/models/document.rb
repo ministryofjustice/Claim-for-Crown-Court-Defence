@@ -43,7 +43,6 @@ class Document < ActiveRecord::Base
                      'image/x-bitmap'
                      ]}
 
-  delegate   :chamber_id, to: :advocate
   delegate   :provider_id, to: :advocate
 
   before_save :generate_pdf_tmpfile

@@ -4,7 +4,6 @@
 #
 #  id              :integer          not null, primary key
 #  role            :string
-#  chamber_id      :integer
 #  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime
@@ -15,14 +14,12 @@
 require 'rails_helper'
 
 RSpec.describe Advocate, type: :model do
-  it { should belong_to(:chamber) }
   it { should belong_to(:provider) }
   it { should have_many(:claims) }
   it { should have_many(:claims_created) }
   it { should have_many(:documents) }
   it { should have_one(:user) }
 
-  # it { should validate_presence_of(:chamber) }
   it { should validate_presence_of(:provider) }
   it { should validate_presence_of(:user) }
 

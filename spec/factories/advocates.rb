@@ -4,7 +4,6 @@
 #
 #  id              :integer          not null, primary key
 #  role            :string
-#  chamber_id      :integer
 #  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime
@@ -18,7 +17,6 @@ FactoryGirl.define do
       advocate.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')
     end
 
-    chamber
     provider
     supplier_number  { generate_unique_supplier_number }
 

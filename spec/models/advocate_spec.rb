@@ -39,19 +39,19 @@ RSpec.describe Advocate, type: :model do
     it 'should fail validation if too long' do
       a = FactoryGirl.build :advocate, supplier_number: 'ACC123'
       expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
     end
 
     it 'should fail validation if too short' do
       a = FactoryGirl.build :advocate, supplier_number: 'AC12'
       expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
     end
 
     it 'should fail validation if not alpha-numeric' do
       a = FactoryGirl.build :advocate, supplier_number: 'AC-12'
       expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alhpa-numeric characters'] )
+      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
     end
 
     it 'should pass validation if 5 alpha-numeric' do

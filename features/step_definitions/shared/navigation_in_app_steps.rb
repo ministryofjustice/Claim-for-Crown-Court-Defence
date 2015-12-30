@@ -15,3 +15,7 @@ end
 When(/^I visit Manage case workers page/) do
   visit case_workers_admin_case_workers_path
 end
+
+When(/^I visit Manage advocates page/) do
+  visit advocates_admin_advocates_path
+end

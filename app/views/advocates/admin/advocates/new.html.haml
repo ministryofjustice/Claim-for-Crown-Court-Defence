@@ -1,4 +1,11 @@
-%h1.page-title Manage advocates
-%h2 New advocate details
+- if @advocate.errors.any?
+  .validation-summary
+    %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@advocate.errors.count, t('.error'))}"
+    %ul
+      - @advocate.errors.full_messages.each do |msg|
+        %li= msg
+        
+%h1.page-title
+  = t('.new_advocate')
 
 = render 'form'

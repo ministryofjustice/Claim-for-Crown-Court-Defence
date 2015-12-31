@@ -8,13 +8,13 @@
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
-      = user_fields.label t(".first_name"), class: "form-label"
+      = user_fields.label :first_name, t(".first_name"), class: "form-label"
       = user_fields.text_field :first_name, class: "form-control"
-      = user_fields.label t(".last_name"), class: "form-label"
+      = user_fields.label :last_name, t(".last_name"), class: "form-label"
       = user_fields.text_field :last_name, class: "form-control"
-      = user_fields.label t(".email"), class: "form-label"
+      = user_fields.label :email, t(".email"), class: "form-label"
       = user_fields.email_field :email, class: "form-control"
-      = user_fields.label t(".email_confirmation"), class: "form-label"
+      = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
       = user_fields.email_field :email_confirmation, class: "form-control"
 
       = f.label :apply_vat, class: "form-label"
@@ -23,7 +23,7 @@
           - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
     %fieldset.user-form
-      = f.label t(".supplier_number"), class: "form-label"
+      = f.label :supplier_number, t(".supplier_number"), class: "form-label"
       = f.text_field :supplier_number, class: "form-control"
 
       = f.label :role, class: "form-label"

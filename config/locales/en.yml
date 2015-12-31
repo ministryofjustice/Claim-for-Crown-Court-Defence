@@ -247,12 +247,14 @@ en:
           delete: *delete
           confirm_delete: 'Are you sure?'
         new:
+          error: 'error'
           new_advocate: 'New advocate'
+          prohibited_save: 'This advocate has'
         edit:
           edit_advocate: 'Edit advocate'
-        form:
           error: 'error'
           prohibited_save: 'This advocate has'
+        form:
           email: *email
           email_confirmation: *email_confirmation
           password: *password

@@ -52,7 +52,7 @@ Then(/^I should (not )?see VAT registration status of "(.*?)"$/) do |negate, val
   if negate.present?
     expect(page).to_not have_content(/VAT registered/i)
   else
-    expect(page).to have_content(/VAT registered: Yes/i)
+    expect(page).to have_content(/VAT registered Yes/i)
   end
 end
 

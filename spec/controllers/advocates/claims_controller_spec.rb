@@ -446,7 +446,7 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
       context 'and deleting a rep order' do
         before {
-          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: 1, representation_orders_attributes: {'0' => {id: 1, _destroy: 1}}}}}, commit: 'Save to drafts'
+          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit: 'Save to drafts'
         }
         it 'reduces the number of associated rep order by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1

@@ -40,7 +40,21 @@ class Advocate < ActiveRecord::Base
   delegate :last_name, to: :user
   delegate :name, to: :user
 
+  def supplier_number
+    if provider.firm?
+      provider.supplier_number
+    else
+      read_attribute(:supplier_number)
+    end
+  end
 
+  def apply_vat?
+    if provider.firm?
+      provider.vat_registered?
+    else
+      read_attribute(:apply_vat)
+    end
+  end
 
   def advocates_in_provider
     raise "Cannot call #advocates_in_provider on advocates who are not admins" unless self.is?('admin')

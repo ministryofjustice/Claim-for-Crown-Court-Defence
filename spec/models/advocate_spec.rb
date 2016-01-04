@@ -114,14 +114,14 @@ RSpec.describe Advocate, type: :model do
     end
   end
 
-  describe '#apply_vat?' do
-    subject { create(:advocate, provider: provider, apply_vat: false) }
+  describe '#vat_registered?' do
+    subject { create(:advocate, provider: provider, vat_registered: false) }
 
     context 'when advocate in chamber' do
       let(:provider) { create(:provider, :chamber, vat_registered: true) }
 
       it "returns the advocate's VAT registration status" do
-        expect(subject.apply_vat?).to eq(false)
+        expect(subject.vat_registered?).to eq(false)
       end
     end
 
@@ -129,7 +129,7 @@ RSpec.describe Advocate, type: :model do
       let(:provider) { create(:provider, :firm, vat_registered: true) }
 
       it "returns the provider's VAT registration status" do
-        expect(subject.apply_vat?).to eq(true)
+        expect(subject.vat_registered?).to eq(true)
       end
     end
   end

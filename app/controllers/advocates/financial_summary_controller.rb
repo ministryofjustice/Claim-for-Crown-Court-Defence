@@ -17,8 +17,8 @@ class Advocates::FinancialSummaryController < Advocates::ApplicationController
   private
 
   def set_context
-    if current_user.persona.admin? && current_user.persona.chamber
-      @context = current_user.persona.chamber
+    if current_user.persona.admin? && current_user.persona.provider
+      @context = current_user.persona.provider
     else
       @context = current_user
     end

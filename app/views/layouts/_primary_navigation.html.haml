@@ -1,8 +1,8 @@
 - if user_signed_in?
   %nav#primary-nav{:role =>'navigation'}
     - if current_user.persona.is_a?(SuperAdmin)
-      = link_to 'Manage chambers', super_admins_chambers_path, class: cp(super_admins_chambers_path)
-      = link_to 'Add a chamber', new_super_admins_chamber_path, class: cp(new_super_admins_chamber_path)
+      = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)
+      = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
     - elsif current_user.persona.is_a?(Advocate)
       = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", advocates_root_path, class: cp(advocates_root_path)
       = link_to "Archive", archived_advocates_claims_path, title: "View archived claims", class: cp(archived_advocates_claims_path)
@@ -11,7 +11,7 @@
       = link_to t('link.add_claim'), new_advocates_claim_path, title: "Start a new claim", class: cp(new_advocates_claim_path)
       - if current_user.persona.admin?
         = link_to 'Manage advocates', advocates_admin_advocates_path, class: cp(advocates_admin_advocates_path)
-        = link_to 'Manage chamber', advocates_admin_chamber_path(current_user.persona.chamber), class: cp(advocates_admin_chamber_path(current_user.persona.chamber))
+        = link_to "Manage #{current_user.persona.provider.provider_type}", advocates_admin_provider_path(current_user.persona.provider), class: cp(advocates_admin_provider_path(current_user.persona.provider))
     - elsif current_user.persona.is_a?(CaseWorker)
       - if current_user.persona.admin?
         = link_to 'Your claims', case_workers_claims_path(params.except(:controller, :action, :id, :page, :sort, :direction).merge(tab: 'current')), class: cp( case_workers_claims_path(params.except(:controller, :action).merge(tab: 'current')))

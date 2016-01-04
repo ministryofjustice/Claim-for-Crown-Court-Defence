@@ -7,7 +7,7 @@ class Ability
     persona = user.persona
 
     if persona.is_a? SuperAdmin
-      can [:show, :index, :new, :create, :edit, :update], Chamber
+      can [:show, :index, :new, :create, :edit, :update], Provider
       can [:show, :index, :new, :create, :edit, :update, :change_password, :update_password ], Advocate
       can [:show, :edit, :update, :change_password, :update_password], SuperAdmin, id: persona.id
       return
@@ -20,20 +20,20 @@ class Ability
     if persona.is_a? Advocate
       if persona.admin?
         can [:create], ClaimIntention
-        can [:show, :edit, :update, :regenerate_api_key], Chamber, id: persona.chamber_id
+        can [:show, :edit, :update, :regenerate_api_key], Provider, id: persona.provider_id
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, chamber_id: persona.chamber_id
-        can [:show, :download], Document, chamber_id: persona.chamber_id
+        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, provider_id: persona.provider_id
+        can [:show, :download], Document, provider_id: persona.provider_id
         can [:destroy], Document do |document|
           if document.advocate_id.nil?
             document.creator_id == user.id
           else
-            document.advocate.chamber_id == persona.chamber_id
+            document.advocate.provider_id == persona.provider_id
           end
         end
         can [:index, :create], Document
         can [:index, :new, :create], Advocate
-        can [:show, :change_password, :update_password, :edit, :update, :destroy], Advocate, chamber_id: persona.chamber_id
+        can [:show, :change_password, :update_password, :edit, :update, :destroy], Advocate, provider_id: persona.provider_id
         can [:show, :create], Certification
       else
         can [:create], ClaimIntention

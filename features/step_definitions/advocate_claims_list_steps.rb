@@ -21,11 +21,11 @@ Given(/^There are basic and non-basic fee types$/) do
   create :fee_type, :basic
 end
 
-Given(/^my chamber has claims$/) do
+Given(/^my provider has claims$/) do
   advocate = Advocate.first
   another_advocate = create(:advocate)
-  chamber = create(:chamber)
-  chamber.advocates << advocate
+  provider = create(:provider)
+  provider.advocates << advocate
   @claims = create_list(:claim, 5)
   @claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
   @other_claims = create_list(:claim, 3)
@@ -40,10 +40,10 @@ Given(/^I have (\d+) claims of each state$/) do | claims_per_state |
   end
 end
 
-Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
+Given(/^my provider has (\d+) "(.*?)" claims$/) do |number, state|
   advocate = Advocate.first
-  chamber = Chamber.first
-  chamber.advocates << advocate
+  provider = Provider.first
+  provider.advocates << advocate
 
   claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|
@@ -57,12 +57,12 @@ Given(/^my chamber has (\d+) "(.*?)" claims$/) do |number, state|
   end
 end
 
-Given(/^my chamber has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number, state, advocate_name|
-  # add advocate to my chamber
+Given(/^my provider has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number, state, advocate_name|
+  # add advocate to my provider
   advocate = create_advocate_with_full_name(advocate_name)
-  chamber = @advocate.chamber
-  chamber.advocates << advocate
-  chamber.save!
+  provider = @advocate.provider
+  provider.advocates << advocate
+  provider.save!
 
   # add claim(s) to the new advocate
   claims =  (state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i))
@@ -78,12 +78,12 @@ Given(/^my chamber has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number, 
 
 end
 
-Given(/^my chamber has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
+Given(/^my provider has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
   advocate = Advocate.first
   claim_advocate = create_advocate_with_full_name(advocate_name)
-  chamber = create(:chamber)
-  chamber.advocates << advocate
-  chamber.advocates << claim_advocate
+  provider = create(:provider)
+  provider.advocates << advocate
+  provider.advocates << claim_advocate
   claims = create_list(:claim, number.to_i)
   claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
 end
@@ -147,18 +147,18 @@ Given(/^I should see section titles of "(.*?)"$/) do |section_title|
   expect(page).to have_selector('h2', text: section_title)
 end
 
-Given(/^signed in advocate's chamber has (\d+) claims for advocate "(.*?)" with defendant "(.*?)"$/) do |number, advocate_name, defendant_name|
-  new_advocate = create_advocate_with_full_name(advocate_name, @advocate.chamber)
-  new_advocate.chamber = @advocate.chamber
+Given(/^signed in advocate's provider has (\d+) claims for advocate "(.*?)" with defendant "(.*?)"$/) do |number, advocate_name, defendant_name|
+  new_advocate = create_advocate_with_full_name(advocate_name, @advocate.provider)
+  new_advocate.provider = @advocate.provider
   claims = create_list(:submitted_claim, number.to_i, advocate: new_advocate )
   claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
 end
 
-Then(/^I should see my chamber's claims$/) do
-  chamber = Chamber.first
-  claim_dom_ids = chamber.claims.map { |c| "claim_#{c.id}" }
+Then(/^I should see my provider's claims$/) do
+  provider = Provider.first
+  claim_dom_ids = provider.claims.map { |c| "claim_#{c.id}" }
   claim_dom_ids.each do |dom_id|
     expect(page).to have_selector("##{dom_id}")
   end
@@ -169,13 +169,13 @@ Then(/^I should see my chamber's claims$/) do
   end
 end
 
-Then(/^I should see my chamber's (\d+) "(.*?)" claims$/) do |number, state|
-  chamber = Chamber.first
-  claim_dom_ids = chamber.claims.send(state.to_sym).map { |c| "claim_#{c.id}" }
+Then(/^I should see my provider's (\d+) "(.*?)" claims$/) do |number, state|
+  provider = Provider.first
+  claim_dom_ids = provider.claims.send(state.to_sym).map { |c| "claim_#{c.id}" }
 
   expect(claim_dom_ids.size).to eq(number.to_i)
 
-  within('.claims_table') do
+  within('.report') do
     #look through the tbody part of the report
     expect(find(:xpath, './tbody')).to have_content(state.humanize, count: number.to_i)
   end
@@ -208,7 +208,7 @@ Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |num
 end
 
 Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|
-  node = find("section##{section_id}").find('.claims_table')
+  node = find("section##{section_id}").find('.report')
   expect(node).not_to have_selector('th', text: column_name)
 end
 

@@ -69,8 +69,8 @@ FactoryGirl.define do
 
     trait :admin_creator do
       after(:build) do |claim|
-        advocate_admin = claim.advocate.chamber.advocates.where(role:'admin').sample
-        advocate_admin ||= create(:advocate, :admin, chamber: claim.advocate.chamber)
+        advocate_admin = claim.advocate.provider.advocates.where(role:'admin').sample
+        advocate_admin ||= create(:advocate, :admin, provider: claim.advocate.provider)
         claim.creator = advocate_admin
       end
     end
@@ -81,7 +81,7 @@ FactoryGirl.define do
 
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
-      advocate      { FactoryGirl.build :advocate, chamber: FactoryGirl.build(:chamber) }
+      advocate      { FactoryGirl.build :advocate, provider: FactoryGirl.build(:provider) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
         claim.defendants << build(:defendant, claim: claim)

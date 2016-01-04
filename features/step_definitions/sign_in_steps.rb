@@ -1,13 +1,13 @@
 
-Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) chambers?$/) do |number, role, chambers|
+Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) providers?$/) do |number, role, providers|
   make_accounts(role, number.to_i)
-  if chambers == 'the same'
-    the_chamber = create(:chamber)
-    @advocates.each { |a| a.chamber = the_chamber; a.save } if @advocates
-    @advocate_admins.each { |a| a.chamber = the_chamber; a.save } if @advocate_admins
+  if providers == 'the same'
+    the_provider = create(:provider)
+    @advocates.each { |a| a.provider = the_provider; a.save } if @advocates
+    @advocate_admins.each { |a| a.provider = the_provider; a.save } if @advocate_admins
   else
-    @advocates.each { |a| a.chamber = create(:chamber); a.save } if @advocates
-    @advocate_admins.each { |a| a.chamber = create(:chamber); a.save } if @advocate_admins
+    @advocates.each { |a| a.provider = create(:provider); a.save } if @advocates
+    @advocate_admins.each { |a| a.provider = create(:provider); a.save } if @advocate_admins
   end
 end
 
@@ -69,7 +69,7 @@ Then(/^I should see the admin advocates correct working primary navigation$/) do
   step "I should see the advocates Archive link and it should work"
   step "I should see the advocates Start a claim link and it should work"
   step "I should see the admin advocates Manage advocates link and it should work"
-  step "I should see the admin advocates Manage chamber link and it should work"
+  step "I should see the admin advocates Manage provider link and it should work"
 end
 
 Then(/^I should see the advocates Your claims link and it should work$/) do
@@ -97,7 +97,7 @@ Then(/^I should see the admin advocates Manage advocates link and it should work
   expect(find('h1.page-title')).to have_content('Manage advocates')
 end
 
-Then(/^I should see the admin advocates Manage chamber link and it should work$/) do
+Then(/^I should see the admin advocates Manage provider link and it should work$/) do
   find('#primary-nav').click_link('Manage chamber')
   expect(find('h1.page-title')).to have_content("Manage chamber")
 end
@@ -151,20 +151,20 @@ Then(/^I should see the admin caseworkers Manage case workers link and it should
 end
 
 Then(/^I should see the superadmins correct working primary navigation$/) do
-  step "I should see the superadmins Manage chambers link and it should work"
-  step "I should see the superadmins Add a chamber link and it should work"
+  step "I should see the superadmins Manage providers link and it should work"
+  step "I should see the superadmins Add a provider link and it should work"
 end
 
-Then(/^I should see the superadmins Manage chambers link and it should work$/) do
-  find('#primary-nav').click_link('Manage chamber')
-  expect(find('h1.page-title')).to have_content('Manage chambers')
-  expect(page).to have_content(/\d+ chambers?/)
+Then(/^I should see the superadmins Manage providers link and it should work$/) do
+  find('#primary-nav').click_link('Manage provider')
+  expect(find('h1.page-title')).to have_content('Manage providers')
+  expect(page).to have_content(/\d+ providers?/)
 end
 
-Then(/^I should see the superadmins Add a chamber link and it should work$/) do
-  find('#primary-nav').click_link('Add a chamber')
-  expect(find('h1.page-title')).to have_content('Manage chambers')
-  expect(page).to have_content('New chamber details')
+Then(/^I should see the superadmins Add a provider link and it should work$/) do
+  find('#primary-nav').click_link('Add a provider')
+  expect(find('h1.page-title')).to have_content('Manage providers')
+  expect(page).to have_content('New provider details')
 end
 
 When(/^I enter my email and the wrong password (\d+) times$/) do |attempts|

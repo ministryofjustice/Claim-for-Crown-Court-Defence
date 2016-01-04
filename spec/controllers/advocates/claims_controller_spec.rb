@@ -4,7 +4,7 @@ require 'custom_matchers'
 RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
   let!(:advocate)       { create(:advocate) }
-  let!(:advocate_admin) { create(:advocate, :admin, chamber_id: advocate.chamber.id) }
+  let!(:advocate_admin) { create(:advocate, :admin, provider_id: advocate.provider.id) }
 
   before { sign_in advocate.user }
 
@@ -48,10 +48,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
-      it 'should retrieve dashboard displayable state claims for the chamber' do
+      it 'should retrieve dashboard displayable state claims for the provider' do
         query_result = double 'QueryResult'
-        expect(controller.current_user.persona.chamber).to receive_message_chain(:claims, :dashboard_displayable_states, :order).and_return(query_result)
-        allow(query_result).to receive_message_chain(:page, :per).and_return(stub_pagination(non_archived_claims))
+        expect(controller.current_user.persona.provider).to receive_message_chain(:claims, :dashboard_displayable_states).and_return(query_result)
+        allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(non_archived_claims))
         get :index
         expect(response).to have_http_status(:success)
         expect(assigns(:claims)).to contain_claims(*non_archived_claims)
@@ -107,10 +107,10 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
-      it 'should return http success and assign @claims to archived claims for the advocates chamber' do
+      it 'should return http success and assign @claims to archived claims for the advocates provider' do
           query_result = double 'QueryResult'
-          expect(controller.current_user.persona.chamber).to receive_message_chain(:claims, :archived_pending_delete, :order).and_return(query_result)
-          allow(query_result).to receive_message_chain(:page, :per).and_return(stub_pagination(archived_claims))
+          expect(controller.current_user.persona.provider).to receive_message_chain(:claims, :archived_pending_delete).and_return(query_result)
+          allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(archived_claims))
           get :archived
           expect(response).to have_http_status(:success)
           expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )

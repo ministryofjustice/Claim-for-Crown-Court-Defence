@@ -87,7 +87,7 @@ en:
               inclusion: *inclusion
             supplier_number:
               blank: cannot be blank
-              invalid: 'must be 5 alhpa-numeric characters'
+              invalid: 'must be 5 alpha-numeric characters'
         case_worker:
           attributes:
             role:
@@ -185,24 +185,28 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
-    chambers:
-      chamber_name: &chamber_name 'Chamber name'
+    providers:
+      provider_type: &provider_type 'Provider type'
+      provider_name: &provider_name 'Provider name'
       supplier_number: &supplier_number 'Supplier number'
       vat_registered: &vat_registered 'VAT registered'
       show:
-        chamber_name: *chamber_name
+        provider_type: *provider_type
+        provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
       index:
-        add_a_chamber: Add a chamber
-      chambers:
-        chamber_name: *chamber_name
+        add_a_provider: Add a provider
+      providers:
+        provider_type: *provider_type
+        provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
       form:
         error: 'error'
-        prohibited_save: 'This chamber has'
-        chamber_name: *chamber_name
+        prohibited_save: 'This provider has'
+        provider_type: *provider_type
+        provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
@@ -243,12 +247,14 @@ en:
           delete: *delete
           confirm_delete: 'Are you sure?'
         new:
+          error: 'error'
           new_advocate: 'New advocate'
+          prohibited_save: 'This advocate has'
         edit:
           edit_advocate: 'Edit advocate'
-        form:
           error: 'error'
           prohibited_save: 'This advocate has'
+        form:
           email: *email
           email_confirmation: *email_confirmation
           password: *password
@@ -265,20 +271,23 @@ en:
           password: *password
           password_confirmation: *password_confirmation
           submit: 'Change password'
-      chambers:
-        chamber_name: &chamber_name 'Chamber name'
+      providers:
+        provider_type: &provider_type 'Provider type'
+        provider_name: &provider_name 'Provider name'
         supplier_number: &supplier_number 'Supplier number'
         vat_registered: &vat_registered 'VAT registered'
         api_key: &api_key 'API key'
         show:
-          chamber_name: *chamber_name
+          provider_type: *provider_type
+          provider_name: *provider_name
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
         edit:
           error: 'error'
-          prohibited_save: 'This chamber has'
-          chamber_name: *chamber_name
+          prohibited_save: 'This provider has'
+          provider_type: *provider_type
+          provider_name: *provider_name
           supplier_number: *supplier_number
           api_key: *api_key
           vat_registered: *vat_registered

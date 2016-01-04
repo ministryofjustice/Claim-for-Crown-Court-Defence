@@ -18,7 +18,7 @@ module API
 
             params :claim_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the chamber"
+              optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the provider"
               optional :creator_email, type: String,              desc: "REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim."
               optional :advocate_email, type: String,             desc: "REQUIRED: The ADP account email address that uniquely identifies the advocate to whom this claim belongs."
               optional :advocate_category, type: String,          desc: "REQUIRED: The category of the advocate", values: Settings.advocate_categories

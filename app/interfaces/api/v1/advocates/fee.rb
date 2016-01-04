@@ -17,7 +17,7 @@ module API
 
             params :fee_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :api_key, type: String,      desc: "REQUIRED: The API authentication key of the chamber"
+              optional :api_key, type: String,      desc: "REQUIRED: The API authentication key of the provider"
               optional :claim_id, type: String,     desc: 'REQUIRED: The unique identifier for the corresponding claim.'
               optional :fee_type_id, type: Integer, desc: 'REQUIRED: The unique identifier for the corresponding fee type'
               optional :quantity, type: Integer,    desc: 'REQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount)'

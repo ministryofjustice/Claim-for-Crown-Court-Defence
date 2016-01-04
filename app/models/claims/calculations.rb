@@ -43,7 +43,7 @@ module Claims::Calculations
 
   def update_vat
     return if self.advocate.nil?
-    update_column(:apply_vat, self.advocate.apply_vat) if self.advocate.apply_vat
+    update_column(:apply_vat, self.advocate.vat_registered?) if self.advocate.vat_registered?
     if self.apply_vat?
       update_column(:vat_amount, calculate_total_vat)
     else

@@ -1,0 +1,29 @@
+- if providers.none?
+  %p
+    No providers found
+- else
+  %table.providers_table
+    %thead
+      %th
+        = t('.supplier_number')
+      %th
+        = t('.provider_name')
+      %th
+        = t('.provider_type')
+      %th
+        = t('.vat_registered')
+      %th
+        Advocates
+    %tbody
+      - providers.each do |provider|
+        %tr{id: dom_id(provider) }
+          %td
+            = link_to (provider.supplier_number.blank? ? 'not-provided' : provider.supplier_number), super_admins_provider_path(provider)
+          %td
+            = provider.name
+          %td
+            = provider.provider_type.humanize
+          %td
+            = provider.vat_registered == true ? 'Yes' : 'No'
+          %td
+            = link_to "Manage advocates in #{provider.provider_type}", super_admins_provider_advocates_path(provider)

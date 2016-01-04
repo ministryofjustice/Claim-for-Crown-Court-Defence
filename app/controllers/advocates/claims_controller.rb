@@ -10,7 +10,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
   before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
-  before_action :load_advocates_in_chamber, only: [:new, :edit, :create, :update]
+  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
   before_action :initialize_json_document_importer, only: [:index]
@@ -50,7 +50,7 @@ class Advocates::ClaimsController < Advocates::ApplicationController
 
   def new
     @claim = Claim.new
-    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
+    @advocates_in_provider = current_user.persona.advocates_in_provider if current_user.persona.admin?
     load_offences_and_case_types
 
     build_nested_resources
@@ -154,13 +154,13 @@ class Advocates::ClaimsController < Advocates::ApplicationController
     options
   end
 
-  def load_advocates_in_chamber
-    @advocates_in_chamber = current_user.persona.advocates_in_chamber if current_user.persona.admin?
+  def load_advocates_in_provider
+    @advocates_in_provider = current_user.persona.advocates_in_provider if current_user.persona.admin?
   end
 
   def set_context
-    if current_user.persona.admin? && current_user.persona.chamber
-      @context = current_user.persona.chamber
+    if current_user.persona.admin? && current_user.persona.provider
+      @context = current_user.persona.provider
     else
       @context = current_user
     end

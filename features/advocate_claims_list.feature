@@ -10,15 +10,15 @@ Feature: Advocate claims list
 
   Scenario: View claims as an advocate admin
     Given I am a signed in advocate admin
-      And my chamber has claims
+      And my provider has claims
      When I visit the advocates dashboard
-     Then I should see my chamber's claims
+     Then I should see my provider's claims
 
   Scenario Outline: View claims
     Given I am a signed in advocate admin
-      And my chamber has <number> <state> claims
+      And my provider has <number> <state> claims
      When I visit the advocates dashboard
-     Then I should see my chamber's <number> <state> claims
+     Then I should see my provider's <number> <state> claims
 
      Examples:
        | state                      | number |
@@ -32,8 +32,8 @@ Feature: Advocate claims list
 
   Scenario: Claims list exludes archived claims (advocate admin)
     Given I am a signed in advocate admin
-      And my chamber has 3 "submitted" claims for advocate "John Smith"
-      And my chamber has 2 "archived_pending_delete" claims for advocate "Bob Smith"
+      And my provider has 3 "submitted" claims for advocate "John Smith"
+      And my provider has 2 "archived_pending_delete" claims for advocate "Bob Smith"
      When I visit the advocates dashboard
      Then I should see 3 "submitted" claims listed
       And I should not see archived claims listed
@@ -48,15 +48,15 @@ Feature: Advocate claims list
 
   Scenario: Search claims by advocate name
     Given I am a signed in advocate admin
-      And my chamber has 4 claims for advocate "John Smith"
+      And my provider has 4 claims for advocate "John Smith"
      When I visit the advocates dashboard
       And I search by the name "John Smith"
      Then I should only see the 4 claims for the advocate "John Smith"
 
   Scenario: Search claims by advocate name excludes archived
     Given I am a signed in advocate admin
-      And my chamber has 3 "submitted" claims for advocate "John Smith"
-      And my chamber has 2 "archived_pending_delete" claims for advocate "John Smith"
+      And my provider has 3 "submitted" claims for advocate "John Smith"
+      And my provider has 2 "archived_pending_delete" claims for advocate "John Smith"
      When I visit the advocates dashboard
       And I search by the name "John Smith"
      Then I should only see the 3 claims for the advocate "John Smith"

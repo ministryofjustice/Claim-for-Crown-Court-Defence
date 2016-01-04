@@ -106,9 +106,9 @@ Feature: Advocate new claim
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
       And There are case types in place
-      And There are other advocates in my chamber
+      And There are other advocates in my provider
       And I am on the new claim page
-     Then I can view a select of all advocates in my chamber
+     Then I can view a select of all advocates in my provider
      When I select Advocate name "Doe, John: AC135"
       And I fill in the claim details
       And I submit to LAA

@@ -16,7 +16,7 @@ module API
 
             params :defendant_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :api_key, type: String,                            desc: "REQUIRED: The API authentication key of the chamber"
+              optional :api_key, type: String,                            desc: "REQUIRED: The API authentication key of the provider"
               optional :claim_id, type: String,                           desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :first_name, type: String,                         desc: "REQUIRED: First name of the defedant."
               optional :last_name, type: String,                          desc: "REQUIRED: Last name of the defendant."

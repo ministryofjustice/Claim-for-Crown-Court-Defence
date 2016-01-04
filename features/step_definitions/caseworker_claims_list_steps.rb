@@ -66,24 +66,24 @@ end
 
 Then(/^I should see all archived claims$/) do
   @claims.each do | claim |
-    expect(find('.claims_table')).to have_link(claim.case_number,
+    expect(find('.report')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end
 
   @other_claims.each do | other_claim |
-    expect(find('.claims_table')).to have_link(other_claim.case_number,
+    expect(find('.report')).to have_link(other_claim.case_number,
           href: case_workers_claim_path(other_claim))
   end
 end
 
 Then(/^I should see only my claims$/) do
   @claims.each do | claim |
-    expect(find('.claims_table')).to have_link(claim.case_number,
+    expect(find('.report')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end
 
   @other_claims.each do | other_claim |
-    expect(find('.claims_table')).to_not have_link(other_claim.case_number,
+    expect(find('.report')).to_not have_link(other_claim.case_number,
           href: case_workers_claim_path(other_claim))
   end
 end
@@ -104,7 +104,7 @@ end
 
 Then(/^I should see the claims sorted by oldest first$/) do
   @claims.sort_by(&:last_submitted_at).each do | claim |
-    expect(find('.claims_table')).to have_link(claim.case_number,
+    expect(find('.report')).to have_link(claim.case_number,
           href: case_workers_claim_path(claim))
   end
 end
@@ -146,7 +146,7 @@ When(/^I search for a claim by MAAT reference$/) do
 end
 
 Then(/^I should only see claims matching the MAAT reference$/) do
-  expect(find('.claims_table')).to have_link(@claims.first.case_number)
+  expect(find('.report')).to have_link(@claims.first.case_number)
 end
 
 Then(/^I should see the case workers edit and delete link$/) do

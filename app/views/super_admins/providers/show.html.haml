@@ -1,0 +1,15 @@
+%h1.page-title Manage providers
+
+%h2
+  = @provider.name
+
+%p
+  = label_tag :supplier_number, t('.supplier_number'), class: "form-label"
+  = @provider.supplier_number
+
+%p
+  = label_tag :vat_registered, t('.vat_registered'), class: "form-label"
+  = @provider.vat_registered == true ? 'Yes' : 'No'
+
+- if can? :edit, @provider
+  = link_to 'Edit', edit_super_admins_provider_path(@provider), class: 'button'

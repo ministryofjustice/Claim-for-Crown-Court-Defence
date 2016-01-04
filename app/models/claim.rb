@@ -61,6 +61,8 @@ class Claim < ActiveRecord::Base
   belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
   belongs_to :case_type
 
+  delegate   :provider_id, to: :advocate
+
   has_many :case_worker_claims,       dependent: :destroy
   has_many :case_workers,             through: :case_worker_claims
   has_many :fees,                     dependent: :destroy,          inverse_of: :claim
@@ -80,8 +82,6 @@ class Claim < ActiveRecord::Base
   has_many :redeterminations, dependent: :destroy
 
   has_one  :certification
-
-  delegate :chamber_id, to: :advocate
 
   has_paper_trail on: [:update], only: [:state]
 
@@ -106,7 +106,7 @@ class Claim < ActiveRecord::Base
   validates_with ::ClaimTextfieldValidator
   validates_with ::ClaimSubModelValidator
 
-  validate :creator_and_advocate_in_same_chamber
+  validate :creator_and_advocate_with_same_provider
 
   accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
@@ -313,11 +313,11 @@ class Claim < ActiveRecord::Base
 
   private
 
-  def creator_and_advocate_in_same_chamber
+  def creator_and_advocate_with_same_provider
     return if errors[:advocate].include?('blank')
 
-    unless creator_id == advocate_id || creator.try(:chamber) == advocate.try(:chamber)
-      errors[:advocate] << 'Creator and advocate must belong to the same chamber'
+    unless creator_id == advocate_id || creator.try(:provider) == advocate.try(:provider)
+      errors[:advocate] << 'Creator and advocate must belong to the same provider'
     end
   end
 

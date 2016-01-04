@@ -31,7 +31,7 @@ class Advocates::JsonDocumentImportersController < ApplicationController
   end
 
   def get_api_key
-    @api_key = current_user.persona.chamber.api_key
+    @api_key = current_user.persona.provider.api_key
   end
 
 end

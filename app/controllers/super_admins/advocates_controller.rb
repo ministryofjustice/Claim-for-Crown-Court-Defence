@@ -2,26 +2,26 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
   include PasswordHelpers
 
-  before_action :set_chamber,   only: [:show, :index, :edit, :update, :new, :create, :change_password, :update_password]
+  before_action :set_provider,  only: [:show, :index, :edit, :update, :new, :create, :change_password, :update_password]
   before_action :set_advocate,  only: [:show, :edit, :update, :change_password, :update_password]
 
   def show; end
 
   def index
-    @advocates = Advocate.where(chamber: @chamber)
+    @advocates = Advocate.where(provider: @provider)
   end
 
   def new
-    @advocate = Advocate.new(chamber: @chamber)
+    @advocate = Advocate.new(provider: @provider)
     @advocate.build_user
   end
 
   def create
-    @advocate = Advocate.new(params_with_temporary_password.merge(chamber: @chamber))
+    @advocate = Advocate.new(params_with_temporary_password.merge(provider: @provider))
 
     if @advocate.save
       @advocate.user.send_reset_password_instructions
-      redirect_to super_admins_chamber_advocate_path(@chamber, @advocate), notice: 'Advocate successfully created'
+      redirect_to super_admins_provider_advocate_path(@provider, @advocate), notice: 'Advocate successfully created'
     else
       render :new
     end
@@ -31,7 +31,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
 
   def update
     if @advocate.update(advocate_params)
-     redirect_to super_admins_chamber_advocate_path(@chamber,@advocate), notice: 'Advocate successfully updated'
+     redirect_to super_admins_provider_advocate_path(@provider, @advocate), notice: 'Advocate successfully updated'
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
     user = @advocate.user
 
     if user.update(password_params[:user_attributes])
-      redirect_to super_admins_chamber_advocate_path(@chamber,@advocate), notice: 'Advocate password successfully updated'
+      redirect_to super_admins_provider_advocate_path(@provider, @advocate), notice: 'Advocate password successfully updated'
     else
       render :change_password
     end
@@ -67,8 +67,8 @@ class SuperAdmins::AdvocatesController < ApplicationController
     @advocate  = Advocate.find(params[:id])
   end
 
-  def set_chamber
-    @chamber = Chamber.find(params[:chamber_id])
+  def set_provider
+    @provider = Provider.find(params[:provider_id])
   end
 
 end

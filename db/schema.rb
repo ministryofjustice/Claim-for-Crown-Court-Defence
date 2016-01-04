@@ -11,23 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221141154) do
+ActiveRecord::Schema.define(version: 20151230155527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "advocates", force: :cascade do |t|
     t.string   "role"
-    t.integer  "chamber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "supplier_number"
     t.uuid     "uuid",            default: "uuid_generate_v4()"
     t.boolean  "apply_vat",       default: true
+    t.integer  "provider_id"
   end
 
-  add_index "advocates", ["chamber_id"], name: "index_advocates_on_chamber_id", using: :btree
+  add_index "advocates", ["provider_id"], name: "index_advocates_on_provider_id", using: :btree
   add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
   add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
@@ -76,19 +77,6 @@ ActiveRecord::Schema.define(version: 20151221141154) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "chambers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "supplier_number"
-    t.boolean  "vat_registered"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.uuid     "uuid",            default: "uuid_generate_v4()"
-    t.uuid     "api_key",         default: "uuid_generate_v4()"
-  end
-
-  add_index "chambers", ["name"], name: "index_chambers_on_name", using: :btree
-  add_index "chambers", ["supplier_number"], name: "index_chambers_on_supplier_number", using: :btree
 
   create_table "claim_intentions", force: :cascade do |t|
     t.string   "form_id"
@@ -336,6 +324,21 @@ ActiveRecord::Schema.define(version: 20151221141154) do
 
   add_index "offences", ["offence_class_id"], name: "index_offences_on_offence_class_id", using: :btree
 
+  create_table "providers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "supplier_number"
+    t.string   "provider_type"
+    t.boolean  "vat_registered"
+    t.uuid     "uuid"
+    t.uuid     "api_key"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "providers", ["name"], name: "index_providers_on_name", using: :btree
+  add_index "providers", ["provider_type"], name: "index_providers_on_provider_type", using: :btree
+  add_index "providers", ["supplier_number"], name: "index_providers_on_supplier_number", using: :btree
+
   create_table "representation_orders", force: :cascade do |t|
     t.integer  "defendant_id"
     t.datetime "created_at"
@@ -406,4 +409,5 @@ ActiveRecord::Schema.define(version: 20151221141154) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "advocates", "providers"
 end

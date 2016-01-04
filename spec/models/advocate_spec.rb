@@ -94,6 +94,45 @@ RSpec.describe Advocate, type: :model do
     end
   end
 
+  describe '#supplier_number' do
+    subject { create(:advocate, provider: provider, supplier_number: 'XY123') }
+
+    context 'when advocate in chamber' do
+      let(:provider) { create(:provider, :chamber, supplier_number: 'AB123') }
+
+      it "returns the advocate's supplier number" do
+        expect(subject.supplier_number).to eq('XY123')
+      end
+    end
+
+    context 'when advocate in firm' do
+      let(:provider) { create(:provider, :firm, supplier_number: 'AB123') }
+
+      it "returns the provider's supplier number" do
+        expect(subject.supplier_number).to eq('AB123')
+      end
+    end
+  end
+
+  describe '#apply_vat?' do
+    subject { create(:advocate, provider: provider, apply_vat: false) }
+
+    context 'when advocate in chamber' do
+      let(:provider) { create(:provider, :chamber, vat_registered: true) }
+
+      it "returns the advocate's VAT registration status" do
+        expect(subject.apply_vat?).to eq(false)
+      end
+    end
+
+    context 'when advocate in firm' do
+      let(:provider) { create(:provider, :firm, vat_registered: true) }
+
+      it "returns the provider's VAT registration status" do
+        expect(subject.apply_vat?).to eq(true)
+      end
+    end
+  end
 
   describe '#name' do
     subject { create(:advocate) }

@@ -14,7 +14,7 @@
 = form_for [:advocates, :admin, @provider], html: { novalidate: true } do |f|
 
   %fieldset.user-form
-    = f.label t('.provider_name'), class: "form-label"
+    = f.label :name, t('.provider_name'), class: "form-label"
     = f.text_field :name
     = validation_error_message(@provider, :name)
 
@@ -23,6 +23,7 @@
       = f.text_field :supplier_number
       = validation_error_message(@provider, :supplier_number)
 
+    - if @provider.firm?
       %label
         = f.check_box :vat_registered
         = t('.vat_registered')

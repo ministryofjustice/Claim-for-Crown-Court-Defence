@@ -41,7 +41,7 @@ class Advocate < ActiveRecord::Base
   delegate :name, to: :user
 
   def supplier_number
-    if provider.firm?
+    if provider && provider.firm?
       provider.supplier_number
     else
       read_attribute(:supplier_number)
@@ -49,7 +49,7 @@ class Advocate < ActiveRecord::Base
   end
 
   def apply_vat?
-    if provider.firm?
+    if provider && provider.firm?
       provider.vat_registered?
     else
       read_attribute(:apply_vat)

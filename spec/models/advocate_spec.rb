@@ -32,31 +32,65 @@ RSpec.describe Advocate, type: :model do
 
   it { should validate_inclusion_of(:role).in_array(%w( admin advocate )) }
 
-  it { should validate_presence_of(:supplier_number) }
-
   context 'supplier number validation' do
-
-    it 'should fail validation if too long' do
-      a = FactoryGirl.build :advocate, supplier_number: 'ACC123'
-      expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+    context 'when no Provider present' do
+      it 'should be valid' do
+        a = FactoryGirl.build :advocate
+        expect(a).to be_valid
+      end
     end
 
-    it 'should fail validation if too short' do
-      a = FactoryGirl.build :advocate, supplier_number: 'AC12'
-      expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+    context 'when Provider present and Provider is a "firm"' do
+      let!(:provider) { create(:provider, provider_type: 'firm', supplier_number: 'ZZ123') }
+
+      before do
+        subject.provider = provider
+      end
+
+      it { should_not validate_presence_of(:supplier_number) }
+
+      it 'should be valid without a supplier number' do
+        a = FactoryGirl.build :advocate, provider: provider, supplier_number: nil
+        expect(a).to be_valid
+      end
     end
 
-    it 'should fail validation if not alpha-numeric' do
-      a = FactoryGirl.build :advocate, supplier_number: 'AC-12'
-      expect(a).not_to be_valid
-      expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
-    end
+    context 'when provider present and Provider is a "chamber"' do
+      let(:provider) { create(:provider, provider_type: 'chamber', supplier_number: 'XX123') }
 
-    it 'should pass validation if 5 alpha-numeric' do
-      a = FactoryGirl.build :advocate, supplier_number: 'AC123'
-      expect(a).to be_valid
+      before do
+        subject.provider = provider
+      end
+
+      it { should validate_presence_of(:supplier_number) }
+
+      it 'should not be valid without a supplier number' do
+        a = FactoryGirl.build :advocate, provider: provider, supplier_number: nil
+        expect(a).not_to be_valid
+      end
+
+      it 'should fail validation if too long' do
+        a = FactoryGirl.build :advocate, supplier_number: 'ACC123', provider: provider
+        expect(a).not_to be_valid
+        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+      end
+
+      it 'should fail validation if too short' do
+        a = FactoryGirl.build :advocate, supplier_number: 'AC12', provider: provider
+        expect(a).not_to be_valid
+        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+      end
+
+      it 'should fail validation if not alpha-numeric' do
+        a = FactoryGirl.build :advocate, supplier_number: 'AC-12', provider: provider
+        expect(a).not_to be_valid
+        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+      end
+
+      it 'should pass validation if 5 alpha-numeric' do
+        a = FactoryGirl.build :advocate, supplier_number: 'AC123', provider: provider
+        expect(a).to be_valid
+      end
     end
   end
 

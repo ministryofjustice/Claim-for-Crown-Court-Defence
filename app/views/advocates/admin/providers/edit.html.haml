@@ -1,4 +1,3 @@
-%h1.page-title Manage #{@provider.provider_type}
 - if @provider.errors.any?
   .validation-summary
     %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@provider.errors.count, t('.error'))}"
@@ -9,7 +8,8 @@
     %span.form-hint
       = t('.form_error_hint')
 
-%h2 Edit #{@provider.provider_type} details
+%h1.page-title
+  = "Edit #{@provider.provider_type} details"
 
 = form_for [:advocates, :admin, @provider], html: { novalidate: true } do |f|
 

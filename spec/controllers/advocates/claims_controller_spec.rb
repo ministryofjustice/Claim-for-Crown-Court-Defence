@@ -444,6 +444,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     context 'when valid' do
 
+      context 'and deleting a rep order' do
+        before {
+          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit: 'Save to drafts'
+        }
+        it 'reduces the number of associated rep order by 1' do
+          expect(subject.reload.defendants.first.representation_orders.count).to eq 1
+        end
+      end
+
       context 'and editing an API created claim' do
 
         before(:each) do

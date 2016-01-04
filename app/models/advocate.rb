@@ -28,9 +28,10 @@ class Advocate < ActiveRecord::Base
 
   validates :user, presence: true
   validates :provider, presence: true
-  validates :supplier_number,
-              presence: true,
-              format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }
+  validates :supplier_number, presence: true, if: :validate_supplier_number?
+  validates :supplier_number, format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }, if: :validate_supplier_number?
+
+
 
   accepts_nested_attributes_for :user
 
@@ -51,5 +52,10 @@ class Advocate < ActiveRecord::Base
     "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
   end
 
+  private
+
+  def validate_supplier_number?
+    self.provider && self.provider.chamber?
+  end
 
 end

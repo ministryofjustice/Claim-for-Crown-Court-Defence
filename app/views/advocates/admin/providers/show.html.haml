@@ -3,13 +3,14 @@
 %h2
   = @provider.name
 
-%p
-  = label_tag :supplier_number, "#{t('.supplier_number')}:", class: "form-label"
-  = @provider.supplier_number
+- if @provider.firm?
+  %p
+    = label_tag :supplier_number, "#{t('.supplier_number')}:", class: "form-label"
+    = @provider.supplier_number
 
-%p
-  = label_tag :vat_registered, "#{t('.vat_registered')}:", class: "form-label"
-  = @provider.vat_registered == true ? 'Yes' : 'No'
+  %p
+    = label_tag :vat_registered, "#{t('.vat_registered')}:", class: "form-label"
+    = @provider.vat_registered == true ? 'Yes' : 'No'
 
 %p
   = label_tag :api_key, "#{t('.api_key')}:", class: "form-label"

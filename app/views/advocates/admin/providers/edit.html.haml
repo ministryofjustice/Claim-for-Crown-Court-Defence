@@ -18,13 +18,14 @@
     = f.text_field :name
     = validation_error_message(@provider, :name)
 
-    = f.label t('.supplier_number'), class: "form-label"
-    = f.text_field :supplier_number
-    = validation_error_message(@provider, :supplier_number)
+    - if @provider.firm?
+      = f.label t('.supplier_number'), class: "form-label"
+      = f.text_field :supplier_number
+      = validation_error_message(@provider, :supplier_number)
 
-    %label
-      = f.check_box :vat_registered
-      = t('.vat_registered')
+      %label
+        = f.check_box :vat_registered
+        = t('.vat_registered')
 
     = f.label :api_key, t('.api_key'), class: "form-label"
     = @provider.api_key

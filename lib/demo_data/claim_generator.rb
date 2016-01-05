@@ -10,7 +10,7 @@ module DemoData
 
 
     def initialize(param_options = {})
-      default_options = { states: :all, num_advocates: 2, num_claims_per_state: 2 }
+      default_options = { states: :all, num_advocates: 6, num_claims_per_state: 2 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_advocates = options[:num_advocates]
@@ -21,9 +21,9 @@ module DemoData
     def run
       generate_advocates_if_required
       advocates = Advocate.all.limit(@num_advocates)
-      advocates.each do |advocate| 
-        @num_claims.times do 
-          generate_claims_for_advocate(advocate) 
+      advocates.each do |advocate|
+        @num_claims.times do
+          generate_claims_for_advocate(advocate)
         end
       end
     end
@@ -128,7 +128,7 @@ module DemoData
 
     def generate_claim_in_state_for_advocate(state, advocate)
       claim = generate_claim(advocate)
-      advance_claim_to_state(claim, state) 
+      advance_claim_to_state(claim, state)
     end
 
 

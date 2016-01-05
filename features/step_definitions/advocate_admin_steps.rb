@@ -1,14 +1,10 @@
 Then(/^I should see all advocates?$/) do
-
-  @advocates << @advocate
-
-  @advocates.sort!{ |a, b| a.user.last_name != b.user.last_name ? a.user.last_name <=> b.user.last_name : a.user.first_name <=> b.user.first_name}
+  @advocates = @advocate.provider.advocates.ordered_by_last_name
 
   within('.report') do
     #For each row in the report
-    page.all('tbody tr').each_with_index do | row, index |
-
-      advocate = @advocate[index]
+    page.all('tbody tr').each_with_index do |row, index|
+      advocate = @advocates[index]
       first_name = advocate.user.first_name
       last_name = advocate.user.last_name
 

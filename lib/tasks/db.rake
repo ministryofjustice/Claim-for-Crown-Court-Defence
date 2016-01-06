@@ -16,4 +16,14 @@ namespace :db do
   desc 'ADP task: clear the database, run migrations, seeds and reloads demo data'
   task :reload => [:clear, 'db:migrate', 'claims:demo_data'] {}
 
+  namespace :data do
+
+    desc 'ADP task: migrate offence to full offence list seeds and update claims'
+    task :migrate_offences => :environment do
+      require Rails.root.join('lib', 'offence_migration')
+      om = OffenceMigration.new()
+      om.up
+    end
+  end
+
 end

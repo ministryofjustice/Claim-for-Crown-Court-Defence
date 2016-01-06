@@ -1,20 +1,34 @@
-%h1.page-title Manage advocates
-%h2.heading-medium.left List of Advocates
+%h1.page-title
+  = t('.title')
 
-.grid-row.clear-float
-  = link_to 'New advocate', new_advocates_admin_advocate_path, class: 'button right'
+.grid-row
+  .column-half
+    .normal
+      = label_tag :search, t('.search')
+  .column-half
+    &nbsp;
+.grid-row
+  .column-half
+    = form_tag advocates_admin_advocates_path, method: :get do
+      = text_field_tag :search, params[:search], class: 'normal form-control-3-4'
+      = button_tag(type: 'submit', class: 'button search', title: "Search") do
+        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  .column-half.clear-float
+    = link_to t('.new_user'), new_advocates_admin_advocate_path, class: 'button right'
 
-%table
+
+%table.report
   %thead
     %th
-      Surname
+      = t('.last_name')
     %th
-      Name
+      = t('.first_name')
     %th
-      Supplier Number
+      = t('.supplier_number')
     %th
-      Email
-    %%th
+      = t('.email')
+    %th
+      = t('.actions')
   %tbody
     - @advocates.each do |advocate|
       %tr

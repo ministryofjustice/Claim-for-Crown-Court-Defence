@@ -19,3 +19,7 @@ end
 When(/^I visit Manage advocates page/) do
   visit advocates_admin_advocates_path
 end
+
+When(/^I visit add new provider page/) do
+  visit new_super_admins_provider_path
+end

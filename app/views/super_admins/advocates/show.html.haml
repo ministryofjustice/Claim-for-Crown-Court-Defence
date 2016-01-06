@@ -12,6 +12,10 @@
   = @advocate.supplier_number
 
 %p
+  VAT Registered:
+  = @advocate.vat_registered? ? 'Yes' : 'No'
+
+%p
   Role:
   = @advocate.role.humanize
 

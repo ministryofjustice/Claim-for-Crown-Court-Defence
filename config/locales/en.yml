@@ -241,11 +241,19 @@ en:
     admin:
       advocates:
         index:
+          title: 'Manage advocates'
+          actions: Manage details
           advocates: 'Advocates'
           add_advocate: 'Add Advocate'
           edit: *edit
+          email: 'Email'
           delete: *delete
           confirm_delete: 'Are you sure?'
+          first_name: 'Name'
+          last_name: 'Surname'
+          new_user: 'New advocate'
+          search: 'Search for advocate'
+          supplier_number: 'Supplier number'
         new:
           error: 'error'
           new_advocate: 'New advocate'

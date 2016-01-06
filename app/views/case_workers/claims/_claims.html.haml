@@ -37,7 +37,7 @@
             %td
               = claim.state.humanize
           %td
-            = claim.opened_for_redetermination? ? claim.case_type.name + "\n(redetermination)" : claim.case_type.name
+            = claim.case_type_name
           %td
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages

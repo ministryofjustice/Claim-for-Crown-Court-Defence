@@ -28,6 +28,12 @@ Feature: Claim redetermination
       | Rejected                  | rejected                 |
       | Refused                   | refused                  |
 
+  Scenario: View redetermination claims
+    Given I am a signed in case worker
+      And a redetermined claim is assigned to me
+      And I visit my dashboard
+     Then I should see a claim marked as a redetermination
+
   Scenario: Handle written reasons for claim
     Given I am a signed in case worker
       And a written reasons claim is assigned to me

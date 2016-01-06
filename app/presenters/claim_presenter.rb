@@ -23,6 +23,10 @@ class ClaimPresenter < BasePresenter
     claim.state.humanize
   end
 
+  def advocate_name
+    claim.advocate.user.name
+  end
+
   def defendant_names
     defendant_names = claim.defendants.order('id ASC').map(&:name)
 

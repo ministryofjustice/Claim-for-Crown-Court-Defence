@@ -23,6 +23,10 @@ class ClaimPresenter < BasePresenter
     claim.state.humanize
   end
 
+  def case_type_name
+    claim.opened_for_redetermination? ? claim.case_type.name + "\n(redetermination)" : claim.case_type.name
+  end
+
   def defendant_names
     defendant_names = claim.defendants.order('id ASC').map(&:name)
 

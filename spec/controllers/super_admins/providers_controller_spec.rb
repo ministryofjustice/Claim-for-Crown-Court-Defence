@@ -52,6 +52,12 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
   describe "PUT #update" do
     before { subject.update(supplier_number: 'AB123') }
 
+    it 'does not allow updating of provider type' do
+      provider = create(:provider, :firm)
+      put :update, id: provider, provider: { provider_type: 'chamber' }
+      expect(provider).to be_firm
+    end
+
     context 'when valid' do
       before(:each) { put :update, id: subject, provider: { supplier_number: 'XY123' } }
 
@@ -66,7 +72,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, provider: { provider_type: '' } }
+      before(:each) { put :update, id: subject, provider: { name: '' } }
 
       it 'does not update provider' do
         subject.reload

@@ -15,7 +15,7 @@
         = f.label :provider_type, t('.provider_type'), class: "form-label"
         %div.form-group.inline
           =f.collection_radio_buttons(:provider_type, Provider::PROVIDER_TYPES, :to_s, :to_s) do |b|
-            - b.label(class: 'block-label') { b.radio_button + b.value.capitalize }
+            - b.label(class: 'block-label') { b.radio_button(disabled: @provider.persisted?) + b.value.capitalize }
         = validation_error_message(@provider, :provider_type)
 
       #js-provider-name

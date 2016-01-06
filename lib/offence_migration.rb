@@ -6,6 +6,7 @@ class OffenceMigration
     file_path = Rails.root.join('lib', 'assets', 'data', 'offence_to_full_offence_mappings.csv')
     csv_file = File.open(file_path, 'r:ISO-8859-1')
     @csv = CSV.parse(csv_file, headers: true)
+    @conn = ActiveRecord::Base.connection
   end
 
 
@@ -50,17 +51,11 @@ private
     mappings
   end
 
-  def old_offence_arr(old_offence_description)
-    sql = "SELECT * FROM old_offences o WHERE o.description = '#{old_offence_description}'"
-    result = ActiveRecord::Base.connection.execute(sql)
-    raise "Transformation Error: #{result.to_a.count} offence records found for #{old_offence_description}" if result.to_a.count != 1
-    result.to_a[0]
-  end
-
   def update_claim_offences
     mappings_csv.each do |row|
       map = map_row(row)
-      old_offence = old_offence_arr(map[:old_desc])
+      sql = "SELECT * FROM old_offences o WHERE o.description = '#{map[:old_desc]}'"
+      old_offence = old_offence_query_one(sql)
       new_offence = Offence.find_by(description: "#{map[:new_desc]} (#{map[:new_act]})")
 
       Claim.where(offence_id: old_offence['id']).update_all(offence_id: new_offence.id)
@@ -68,24 +63,26 @@ private
     end
   end
 
+  def old_offence_query_one(sql)
+    result = @conn.execute(sql)
+    raise "Transformation Error: #{result.to_a.count} offence records found for #{old_offence_description}" if result.to_a.count != 1
+    result.to_a[0]
+  end
+
   def update_claim_misc_offences
     ('A'..'K').each do |letter|
       offence_class = OffenceClass.find_by(class_letter: letter)
       sql = "SELECT * FROM old_offences o WHERE o.description = 'Miscellaneous/other' and o.offence_class_id = #{offence_class.id}"
-      result = ActiveRecord::Base.connection.execute(sql)
-      raise "Transformation Error" if result.to_a.count != 1
-      old_offence = result.to_a[0]
-
+      old_offence = old_offence_query_one(sql)
       new_offence = Offence.find_by(offence_class: offence_class, description: 'Miscellaneous/other')
 
-      # ap "UPDATE claims SET offence_id = #{new_offence.id} WHERE offence_id = #{old_offence['id']};"
       Claim.where(offence_id: old_offence['id']).update_all(offence_id: new_offence.id)
       ap "UPDATE claims SET offence_id = #{new_offence.id} WHERE offence_id = #{old_offence['id']};"
     end
   end
 
   def cleanup
-    ActiveRecord::Base.connection.execute("DROP TABLE old_offences;")
+    @conn.execute("DROP TABLE old_offences;")
   end
 
 end

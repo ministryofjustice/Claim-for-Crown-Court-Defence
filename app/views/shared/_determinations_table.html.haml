@@ -1,12 +1,12 @@
 %fieldset#claim-status
-  = "Current status: #{claim.humanized_state}"
+  = "Current status: #{claim.state.humanize}"
 
   %table#determinations
     %thead
       %tr
         %th &nbsp;
         %th Claimed by advocate
-        %th Authorised by LAA
+        %th Total authorised by LAA
     %tbody
       - if claim.redeterminations.any?
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }

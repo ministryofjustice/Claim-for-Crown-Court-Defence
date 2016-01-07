@@ -30,10 +30,19 @@ Scenario: Edit VAT registration for firm
     Given I am a signed in advocate admin
       And my provider is a "firm"
      When I visit the Edit provider page
-      And I check the VAT registration box
+      And I fill in supplier number with "D9998"
+      And I choose "Yes" for VAT registration
       And I click "Save"
      Then I should be redirected to the Manage provider page
       And I should see VAT registration status of "Yes"
+      And I should see a supplier of "D9998"
+     When I visit the Edit provider page
+      And I fill in supplier number with "D9997"
+      And I choose "No" for VAT registration
+      And I click "Save"
+     Then I should be redirected to the Manage provider page
+      And I should see VAT registration status of "No"
+      And I should see a supplier of "D9997"
 
 Scenario: Edit VAT registration for chamber
     Given I am a signed in advocate admin

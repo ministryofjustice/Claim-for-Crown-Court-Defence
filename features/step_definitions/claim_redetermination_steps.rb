@@ -47,9 +47,23 @@ Given(/^a written reasons claim is assigned to me$/) do
   @claim.case_workers << @case_worker
 end
 
-Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
+When(/^I select a state of "(.*?)" and update the claim$/) do |form_state|
   choose form_state
   click_button 'Update'
+end
+
+Then(/^only the allowed status updates should be offered$/) do
+  allowed_updates = ['Part authorised', 'Authorised', 'Refused']
+  disallowed_updates = ['Rejected']
+
+  allowed_updates.each do |allowed_update|
+    within('.edit_claim') { expect(page).to have_content allowed_update }
+  end
+
+  disallowed_updates.each do |disallowed_update|
+    within('.edit_claim') { expect(page).to_not have_content disallowed_update }
+  end
+
 end
 
 Then(/^the claim should no longer be open for redetermination$/) do

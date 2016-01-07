@@ -26,8 +26,6 @@
             %th
               Representation order
             %th
-              Court type
-            %th
               MAAT ref no
         %tbody
           - defendant.representation_orders.each do | representation_order |
@@ -35,9 +33,7 @@
               %td
                 = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
               %td
-                = representation_order.granting_body
-              %td
                 = representation_order.maat_reference
     - else
       .bold-xsmall
-        = "No representation orders have been supplied for this defendant." 
+        = "No representation orders have been supplied for this defendant."

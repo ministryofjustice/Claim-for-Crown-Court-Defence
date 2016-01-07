@@ -31,12 +31,3 @@ defendant:
       long: "Enter a first name for the #{defendant}"
       short: Enter a name
       api: "The first name for the #{defendant} must not be blank"
-
-representation_order:
-  _seq: 300
-  granting_body:
-    _seq: 10
-    blank:
-      long: "Choose the court that issued the #{representation_order} for the #{defendant}"
-      short: Choose a court
-      api: "Choose the court that issued the #{representation_order} for the #{defendant}"

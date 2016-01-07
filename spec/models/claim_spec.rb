@@ -1205,8 +1205,7 @@ RSpec.describe Claim, type: :model do
              "order_for_judicial_apportionment"=>"0",
              "representation_orders_attributes"=>
               {"0"=>
-                {"granting_body"=>"Crown Court",
-                 "representation_order_date_dd"=>"30",
+                {"representation_order_date_dd"=>"30",
                  "representation_order_date_mm"=>"08",
                  "representation_order_date_yyyy"=>"2015",
                  "maat_reference"=>"1234567890",
@@ -1276,8 +1275,7 @@ RSpec.describe Claim, type: :model do
             "order_for_judicial_apportionment"=>"0",
             "representation_orders_attributes"=>
               {"0"=>
-                {"granting_body"=>"Crown Court",
-                "representation_order_date_dd"=>"30",
+                {"representation_order_date_dd"=>"30",
                 "representation_order_date_mm"=>"08",
                 "representation_order_date_yyyy"=>"2015",
                 "maat_reference"=>"aaa1111",

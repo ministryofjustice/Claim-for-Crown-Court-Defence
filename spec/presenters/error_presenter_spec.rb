@@ -116,24 +116,4 @@ describe ErrorPresenter do
       end
     end
   end
-
-  context 'numbered sub sub model errors' do
-    before(:each) do
-      claim.errors[:defendant_1_representation_order_1_granting_body] << 'blank'
-    end
-    it 'should find the error in the tranlations error' do
-      expect(presenter.header_errors).to eq( [
-        ErrorDetail.new(:defendant_1_representation_order_1_granting_body,
-                         'Choose the court that issued the first representation order for the first defendant',
-                         'Choose a court',
-                         'Choose the court that issued the first representation order for the first defendant') ] )
-    end
-
-    it 'should be able to retrieve the field-level error message' do
-      expect(presenter.field_level_error_for(:defendant_1_representation_order_1_granting_body)).to eq 'Choose a court'
-    end
-
-  end
 end
-
-

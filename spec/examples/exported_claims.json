@@ -27,7 +27,6 @@
           "order_for_judicial_apportionment": true,
           "representation_orders": [
             {
-              "granting_body": "Crown Court",
               "maat_reference": "1234567892",
               "representation_order_date": "2015-05-01"
             }
@@ -93,7 +92,6 @@
           "order_for_judicial_apportionment": true,
           "representation_orders": [
             {
-              "granting_body": "Crown Court",
               "maat_reference": "1234567893",
               "representation_order_date": "2015-05-01"
             }

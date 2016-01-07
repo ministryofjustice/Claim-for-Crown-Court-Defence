@@ -216,7 +216,6 @@ class Advocates::ClaimsController < Advocates::ApplicationController
          :representation_order_date_dd,
          :representation_order_date_mm,
          :representation_order_date_yyyy,
-         :granting_body,
          :_destroy
         ]
      ],

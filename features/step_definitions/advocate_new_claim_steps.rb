@@ -146,7 +146,6 @@ When(/^I fill in the claim details(.*)$/) do |details|
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_mm', with: date.strftime('%m')
     fill_in 'claim_defendants_attributes_0_representation_orders_attributes_0_representation_order_date_yyyy', with: date.strftime('%Y')
 
-    choose 'Crown Court'
   end
 
   unless details == ' but add no fees or expenses' # preceeding space is required for match

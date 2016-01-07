@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104152536) do
+ActiveRecord::Schema.define(version: 20160106161350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "advocates", force: :cascade do |t|
@@ -342,7 +343,6 @@ ActiveRecord::Schema.define(version: 20160104152536) do
     t.integer  "defendant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "granting_body"
     t.string   "maat_reference"
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: "uuid_generate_v4()"

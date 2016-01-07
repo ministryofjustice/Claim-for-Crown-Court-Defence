@@ -61,14 +61,6 @@ module API
         end
       end
 
-      resource :granting_body_types do
-        desc "Return all granting body types (as used to specify which court issued a defendants Rep. Order)"
-        params { use :api_key_params }
-        get do
-          Settings.court_types
-        end
-      end
-
       resource :offence_classes do
         desc "Return all Offence Class Types."
         params { use :api_key_params }

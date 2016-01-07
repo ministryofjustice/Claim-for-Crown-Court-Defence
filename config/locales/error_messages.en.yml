@@ -266,13 +266,6 @@ representation_order:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
 
-  granting_body:
-    _seq: 10
-    blank:
-      long: "Choose the court that issued the #{representation_order} for the #{defendant}"
-      short: Choose a court
-      api: "Choose the court that issued the representation order for the defendant"
-
   representation_order_date:
     _seq: 20
     blank:

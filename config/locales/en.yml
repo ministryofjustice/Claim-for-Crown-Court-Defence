@@ -448,7 +448,6 @@ en:
         heading: Outstanding claims
         claims_value: claims with a total value of
       representation_order_fields:
-        granting_body: 'Issued by:'
         representation_order: 'Representation order'
       show:
         created_by: "Created by:"

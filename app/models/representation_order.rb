@@ -6,14 +6,13 @@
 #  defendant_id              :integer
 #  created_at                :datetime
 #  updated_at                :datetime
-#  granting_body             :string
 #  maat_reference            :string
 #  representation_order_date :date
 #  uuid                      :uuid
 #
 
 class RepresentationOrder < ActiveRecord::Base
-  auto_strip_attributes :granting_body, :maat_reference, squish: true, nullify: true
+  auto_strip_attributes :maat_reference, squish: true, nullify: true
 
   before_save :upcase_maat_ref
 
@@ -33,7 +32,7 @@ class RepresentationOrder < ActiveRecord::Base
   end
 
   def detail
-    "#{self.granting_body} #{self.representation_order_date.try(:strftime, Settings.date_format)} #{self.maat_reference}".squish
+    "#{self.representation_order_date.try(:strftime, Settings.date_format)} #{self.maat_reference}".squish
   end
 
   def perform_validation?

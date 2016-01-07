@@ -108,13 +108,6 @@ Then(/^I should see the claims sorted by oldest first$/) do
   end
 end
 
-Then(/^I should see a claim marked as a redetermination$/) do
-  within('.report') do
-    expect(find(:xpath, './tbody').find('tr')[:class]).to include('opened_for_redetermination')
-    expect(find(:xpath, './tbody')).to have_content("(redetermination)")
-  end
-end
-
 #TODO Reintroduce when sorting columns is implemented
 #When(/^I sort the claims by highest value first$/) do
 #  click_on 'Value - Highest first'

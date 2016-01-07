@@ -83,7 +83,6 @@ When(/^I enter redetermination amounts$/) do
   click_button 'Update'
 end
 
-
 Then(/^There should be no form to enter redetermination amounts$/) do
   expect(page).not_to have_selector('#claim_redeterminations_attributes_0_fees')
 end
@@ -94,5 +93,11 @@ Then(/^The redetermination I just entered should be visible$/) do
   end
   within('#determination-expenses') do
     expect(page).to have_content('£805.75')
+  end
+end
+
+Then(/^I should see a claim marked as a redetermination$/) do
+  within('.report') do
+    expect(find(:xpath, './tbody')).to have_content("(redetermination)")
   end
 end

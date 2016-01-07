@@ -19,12 +19,8 @@ class ClaimPresenter < BasePresenter
     end
   end
 
-  def humanized_state
-    claim.state.humanize
-  end
-
   def case_type_name
-    claim.opened_for_redetermination? ? claim.case_type.name + "\n(redetermination)" : claim.case_type.name
+    claim.opened_for_redetermination? ? claim.case_type.name + ' (redetermination)' : claim.case_type.name
   end
 
   def defendant_names

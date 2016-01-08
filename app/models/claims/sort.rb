@@ -1,11 +1,18 @@
 module Claims::Sort
 
-  META_SORT_COLUMNS = %w( advocate defendants amount_assessed messages submitted_at case_type )
+  META_SORT_COLUMNS = %w( advocate defendants amount_assessed case_type )
+
+  def sortable_columns
+    column_names + META_SORT_COLUMNS
+  end
+
+  def sortable_by?(column)
+    sortable_columns.include?(column)
+  end
 
   def sort(column, direction)
-    sort_columns = column_names + META_SORT_COLUMNS
 
-    raise 'Invalid column' unless sort_columns.include?(column)
+    raise 'Invalid column' unless sortable_by?(column)
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
     case column
@@ -19,8 +26,9 @@ module Claims::Sort
         sort_case_type(direction)
       when 'amount_assessed'
         sort_amount_assessed(direction)
-      when 'messages'
-        sort_messages(direction)
+      # disabled til functional
+      # when 'messages'
+        # sort_messages(direction)
       else
         order(column => direction)
     end
@@ -36,10 +44,6 @@ module Claims::Sort
     includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
   end
 
-  def sort_submitted_at(direction)
-    order("last_submitted_at #{direction}")
-  end
-
   def sort_case_type(direction)
     joins(:case_type).order("case_types.name #{direction}")
   end
@@ -49,6 +53,12 @@ module Claims::Sort
   end
 
   def sort_messages(direction)
-    select('claims.*, COUNT(messages.id) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")
+    # TODO: sort_messages - broken
+
+    # seems to work but breaks claim carousel
+    joins(:messages).group('claims.id').order("count(messages.*) #{direction}")
+
+    # does not work
+    # select('claims.id, COUNT(messages.*) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")
   end
 end

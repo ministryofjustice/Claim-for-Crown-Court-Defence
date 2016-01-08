@@ -1,10 +1,8 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
-  @claims = []
   count.to_i.times do |n|
     Timecop.freeze(n.days.ago) do
-      claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
+      claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
       @case_worker.claims << claim
-      @claims << claim
     end
   end
 end

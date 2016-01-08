@@ -26,6 +26,7 @@ Feature: Claims carousel
      When I visit the caseworkers dashboard
       And I click claim 4 in the list
      Then I should see the text "4 of 5"
+     Then I should be on the claim case number "A00000002"
       And I should see a link to the next claim
      When I click the next claim link
      Then I should be on the claim case number "A00000001"

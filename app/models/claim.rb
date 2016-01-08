@@ -239,6 +239,10 @@ class Claim < ActiveRecord::Base
     VALID_STATES_FOR_ARCHIVAL.include?(self.state)
   end
 
+  def rejectable?
+    allocated? && !opened_for_redetermination?
+  end
+
   def perform_validation?
     self.force_validation? || self.validation_required?
   end

@@ -8,22 +8,22 @@
   %table.report
     %thead
       %th
-        = t(".case_number")
+        = sortable 'case_number', t(".case_number")
       - if current_user.persona.admin?
         %th
-          = t(".advocate")
+          = sortable 'advocate', t(".advocate")
       %th
-        = t(".defendants")
+        = sortable 'defendants', t(".defendants")
       %th
-        = t(".total")
+        = sortable 'total', t(".total")
       %th
-        = t(".assessed")
+        = sortable 'amount_assessed', t(".assessed")
       %th
-        = t(".status")
+        = sortable 'state', t(".status")
       %th
-        = t(".submission_date")
+        = sortable 'submitted_at', t(".submission_date")
       %th
-        = t(".messages")
+        = sortable 'messages', t(".messages")
     %tbody
       - claims.each do |claim_object|
         - present(claim_object) do |claim|

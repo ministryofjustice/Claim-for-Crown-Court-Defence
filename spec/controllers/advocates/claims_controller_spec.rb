@@ -246,7 +246,6 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
                     representation_order_date_dd: Time.now.day.to_s,
                     representation_order_date_mm: Time.now.month.to_s,
                     representation_order_date_yyyy: Time.now.year.to_s,
-                    granting_body: 'Crown Court',
                     maat_reference: '4561237895'
                   }
                 ]
@@ -444,6 +443,15 @@ RSpec.describe Advocates::ClaimsController, type: :controller, focus: true do
 
     context 'when valid' do
 
+      context 'and deleting a rep order' do
+        before {
+          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit: 'Save to drafts'
+        }
+        it 'reduces the number of associated rep order by 1' do
+          expect(subject.reload.defendants.first.representation_orders.count).to eq 1
+        end
+      end
+
       context 'and editing an API created claim' do
 
         before(:each) do
@@ -621,7 +629,7 @@ def valid_claim_fee_params
              "representation_order_date_mm" => "05",
              "representation_order_date_yyyy" => "2015",
              "maat_reference" => "1594851269",
-             "granting_body" => "Crown Court"}
+           }
           }
         }
       },

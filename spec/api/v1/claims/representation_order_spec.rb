@@ -17,7 +17,7 @@ describe API::V1::Advocates::RepresentationOrder do
   let!(:provider)      { create(:provider) }
   let!(:claim)         { create(:claim, source: 'api') }
   let!(:defendant)     { create(:defendant, claim: claim).reload }
-  let!(:valid_params)  { {api_key: provider.api_key, granting_body: "Magistrates' Court", defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
+  let!(:valid_params)  { {api_key: provider.api_key, defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -57,7 +57,6 @@ describe API::V1::Advocates::RepresentationOrder do
       it 'creates a new representation_order record with all provided attributes' do
         post_to_create_endpoint
         new_representation_order = RepresentationOrder.last
-        expect(new_representation_order.granting_body).to eq valid_params[:granting_body]
         expect(new_representation_order.defendant_id).to eq defendant.id
         expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
         expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference]
@@ -67,14 +66,6 @@ describe API::V1::Advocates::RepresentationOrder do
     context 'when params are invalid' do
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
-      end
-
-      context "missing expected params" do
-        it "should return a JSON error array with required model attributes" do
-          valid_params.delete(:granting_body)
-          post_to_create_endpoint
-          expect_error_response("Choose the court that issued the representation order for the defendant")
-        end
       end
 
       context 'missing defendant id' do

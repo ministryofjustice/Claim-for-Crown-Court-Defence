@@ -225,7 +225,7 @@ en:
         first_name: *first_name
         last_name: *last_name
         supplier_number: *supplier_number
-        apply_vat: "Apply VAT"
+        apply_vat: "VAT registered"
         role: *role
         submit: 'Create advocate'
       change_password:
@@ -241,11 +241,19 @@ en:
     admin:
       advocates:
         index:
+          title: 'Manage advocates'
+          actions: Manage details
           advocates: 'Advocates'
           add_advocate: 'Add Advocate'
           edit: *edit
+          email: 'Email'
           delete: *delete
           confirm_delete: 'Are you sure?'
+          first_name: 'Name'
+          last_name: 'Surname'
+          new_user: 'New advocate'
+          search: 'Search for advocate'
+          supplier_number: 'Supplier number'
         new:
           error: 'error'
           new_advocate: 'New advocate'
@@ -441,7 +449,6 @@ en:
         heading: Outstanding claims
         claims_value: claims with a total value of
       representation_order_fields:
-        granting_body: 'Issued by:'
         representation_order: 'Representation order'
       show:
         created_by: "Created by:"

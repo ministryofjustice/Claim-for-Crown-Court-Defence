@@ -974,7 +974,7 @@ RSpec.describe Claim, type: :model do
 
     it 'should zeroise the vat amount if vat is not applied' do
       claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
-      claim.advocate.apply_vat = false
+      claim.advocate.vat_registered = false
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
@@ -1131,7 +1131,7 @@ RSpec.describe Claim, type: :model do
       # VAT rate 17.5%
 
       before do
-        claim.advocate.apply_vat = true
+        claim.advocate.vat_registered = true
         claim.submit!
         claim.allocate!
         create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
@@ -1147,7 +1147,7 @@ RSpec.describe Claim, type: :model do
     context 'when VAT not applied' do
 
       before do
-        claim.advocate.apply_vat = false
+        claim.advocate.vat_registered = false
         claim.submit!
         claim.allocate!
         create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
@@ -1205,8 +1205,7 @@ RSpec.describe Claim, type: :model do
              "order_for_judicial_apportionment"=>"0",
              "representation_orders_attributes"=>
               {"0"=>
-                {"granting_body"=>"Crown Court",
-                 "representation_order_date_dd"=>"30",
+                {"representation_order_date_dd"=>"30",
                  "representation_order_date_mm"=>"08",
                  "representation_order_date_yyyy"=>"2015",
                  "maat_reference"=>"1234567890",
@@ -1276,8 +1275,7 @@ RSpec.describe Claim, type: :model do
             "order_for_judicial_apportionment"=>"0",
             "representation_orders_attributes"=>
               {"0"=>
-                {"granting_body"=>"Crown Court",
-                "representation_order_date_dd"=>"30",
+                {"representation_order_date_dd"=>"30",
                 "representation_order_date_mm"=>"08",
                 "representation_order_date_yyyy"=>"2015",
                 "maat_reference"=>"aaa1111",

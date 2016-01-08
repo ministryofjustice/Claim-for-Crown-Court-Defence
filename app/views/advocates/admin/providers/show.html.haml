@@ -1,23 +1,38 @@
 %h1.page-title Manage #{@provider.provider_type}
 
-%h2
-  = @provider.name
+.grid-row.basic-info-row
+  .column-quarter
+    .bold-xsmall
+      = "#{@provider.provider_type.titlecase} name"
+    .xsmall
+      = @provider.name
 
-%p
-  = label_tag :supplier_number, "#{t('.supplier_number')}:", class: "form-label"
-  = @provider.supplier_number
-
-%p
-  = label_tag :vat_registered, "#{t('.vat_registered')}:", class: "form-label"
-  = @provider.vat_registered == true ? 'Yes' : 'No'
-
-%p
-  = label_tag :api_key, "#{t('.api_key')}:", class: "form-label"
-  .grid-row
-    .column-third#api-key
+  - if @provider.firm?
+    .column-quarter
+      .bold-xsmall
+        = t('.supplier_number')
+      .xsmall
+        = @provider.supplier_number
+    .column-quarter
+      .bold-xsmall
+        = t('.vat_registered')
+      .xsmall
+        = @provider.vat_registered == true ? 'Yes' : 'No'
+    .column-quarter
+      &nbsp;
+  - else
+    .column-three-quarter
+      &nbsp;
+.grid-row.basic-info-row
+  .column-half
+    .bold-xsmall
+      = t('.api_key')
+    .xsmall#api-key
       = @provider.api_key
-    .column-two-thirds
-      = button_to 'Generate new key', regenerate_api_key_advocates_admin_provider_path(@provider), method: :patch, data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button'
+  .column-half
+    &nbsp;
 
 - if can? :edit, @provider
-  = link_to 'Edit', edit_advocates_admin_provider_path(@provider), class: 'button'
+  = link_to 'Edit', edit_advocates_admin_provider_path(@provider), class: 'button-secondary'
+
+= button_to 'Generate new key', regenerate_api_key_advocates_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button-secondary'

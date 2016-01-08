@@ -2,10 +2,13 @@
   %fieldset#claim-status
     %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db)}}
       %thead
-        %tr
+        %tr{:style => "vertical-align: top;"}
           %th &nbsp;
           %th Claimed by advocate
-          %th Authorised by LAA
+          %th
+            Total authorised by LAA
+            - if claim.opened_for_redetermination?
+              .form-hint.xsmall include any amount already authorised
       %tbody
         -if @enable_assessment_input
           = f.fields_for :assessment do |af|

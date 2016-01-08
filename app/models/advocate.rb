@@ -48,11 +48,11 @@ class Advocate < ActiveRecord::Base
     end
   end
 
-  def apply_vat?
+  def vat_registered?
     if provider && provider.firm?
       provider.vat_registered?
     else
-      read_attribute(:apply_vat)
+      vat_registered
     end
   end
 

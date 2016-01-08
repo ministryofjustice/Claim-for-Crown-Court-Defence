@@ -5,7 +5,9 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   before_action :set_advocate, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
 
   def index
-    @advocates = current_user.persona.provider.advocates.ordered_by_last_name
+    @advocates = current_user.persona.provider.advocates.joins(:user)
+    @advocates = @advocates.where("lower(users.first_name || ' ' || users.last_name) ILIKE :term", term: "%#{params[:search]}%") if params[:search].present?
+    @advocates = @advocates.ordered_by_last_name
   end
 
   def show; end
@@ -57,7 +59,7 @@ class Advocates::Admin::AdvocatesController < Advocates::Admin::ApplicationContr
   def advocate_params
     params.require(:advocate).permit(
      :role,
-     :apply_vat,
+     :vat_registered,
      :supplier_number,
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )

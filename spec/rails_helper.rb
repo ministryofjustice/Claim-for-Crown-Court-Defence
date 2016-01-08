@@ -33,8 +33,6 @@ require 'paperclip/matchers'
 require 'webmock/rspec'
 require 'kaminari_rspec'
 
-require 'flip'
-Feature.feature(:api, default: true) #ensures api is switched on for rspec suite
 include ActionDispatch::TestProcess #required for fixture_file_upload
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

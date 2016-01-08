@@ -6,7 +6,6 @@
 #  defendant_id              :integer
 #  created_at                :datetime
 #  updated_at                :datetime
-#  granting_body             :string
 #  maat_reference            :string
 #  representation_order_date :date
 #  uuid                      :uuid
@@ -23,34 +22,6 @@ describe RepresentationOrder do
     representation_order.defendant = defendant
     representation_order.defendant.claim = claim
     representation_order.defendant.claim.force_validation = true
-  end
-
-  context 'non_draft claim validations' do
-
-    before(:each) do
-      allow(claim).to receive(:state).and_return('allocated')
-    end
-
-    it 'should validate court type' do
-      { "Crown Court" => true, "Magistrates' Court" => true, "Other Court" => false}.each do |court_type, expected_result|
-        representation_order.granting_body = court_type
-        expect(representation_order.valid?).to eq expected_result
-      end
-    end
-  end
-
-
-  context 'draft claim validations' do
-    before(:each) do
-      allow(claim).to receive(:state).and_return('draft')
-    end
-
-    it 'should validate court type' do
-      { "Crown Court" => true, "Magistrates' Court" => true, "Other Court" => false}.each do |court_type, expected_result|
-        representation_order.granting_body = court_type
-        expect(representation_order.valid?).to eq expected_result
-      end
-    end
   end
 
   context 'maat_reference' do
@@ -139,12 +110,12 @@ describe RepresentationOrder do
 
   describe '#detail' do
     let(:rep_order) do
-      create(:representation_order, maat_reference: '1234567', granting_body: 'Crown Court', representation_order_date: Date.parse('20150925'))
+      create(:representation_order, maat_reference: '1234567', representation_order_date: Date.parse('20150925'))
     end
 
     context 'when rep order date present' do
-      it 'returns a string with the granting body, MAAT reference and rep order date' do
-        expect(rep_order.detail).to eq("Crown Court 25/09/2015 1234567")
+      it 'returns a string with the MAAT reference and rep order date' do
+        expect(rep_order.detail).to eq("25/09/2015 1234567")
       end
     end
 
@@ -153,8 +124,8 @@ describe RepresentationOrder do
         rep_order.representation_order_date = nil
       end
 
-      it 'returns a string with the granting body and MAAT reference' do
-        expect(rep_order.detail).to eq("Crown Court 1234567")
+      it 'returns a string with the MAAT reference' do
+        expect(rep_order.detail).to eq("1234567")
       end
     end
   end

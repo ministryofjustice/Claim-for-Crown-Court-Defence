@@ -1,31 +1,34 @@
-%h1.page-title Manage #{@provider.provider_type}
+- if @provider.errors.any?
+  .validation-summary
+    %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@provider.errors.count, t('.error'))}"
+    %ul
+      - @provider.errors.full_messages.each do |message|
+        %li
+          = message
+    %span.form-hint
+      = t('.form_error_hint')
 
-%h2 Edit #{@provider.provider_type} details
+%h1.page-title
+  = "Edit #{@provider.provider_type} details"
 
 = form_for [:advocates, :admin, @provider], html: { novalidate: true } do |f|
 
-  - if @provider.errors.any?
-    .validation-summary
-      %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@provider.errors.count, t('.error'))}"
-      %ul
-        - @provider.errors.full_messages.each do |message|
-          %li
-            = message
-      %span.form-hint
-        = t('.form_error_hint')
   %fieldset.user-form
-    = f.label t('.provider_name'), class: "form-label"
+    = f.label :name, t('.provider_name'), class: "form-label"
     = f.text_field :name
     = validation_error_message(@provider, :name)
 
-    = f.label t('.supplier_number'), class: "form-label"
-    = f.text_field :supplier_number
-    = validation_error_message(@provider, :supplier_number)
+    - if @provider.firm?
+      = f.label :supplier_number, t('.supplier_number'), class: "form-label"
+      = f.text_field :supplier_number
+      = validation_error_message(@provider, :supplier_number)
 
-    %label
-      = f.check_box :vat_registered
-      = t('.vat_registered')
-
+    - if @provider.firm?
+      = f.label :vat_registered, class: "form-label"
+      %div.form-group.inline
+        =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+  
     = f.label :api_key, t('.api_key'), class: "form-label"
     = @provider.api_key
 

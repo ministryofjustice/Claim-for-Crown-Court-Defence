@@ -57,7 +57,7 @@ class SuperAdmins::AdvocatesController < ApplicationController
   def advocate_params
     params.require(:advocate).permit(
      :role,
-     :apply_vat,
+     :vat_registered,
      :supplier_number,
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :first_name, :last_name]
     )

@@ -3,8 +3,8 @@ moj.Modules.NewClaim = {
     this.$offenceCategorySelect = $('#offence_category_description');
 
     this.$offenceCategorySelect.change(function() {
-      var selectedText = $(this).find(':selected').text();
-      $.getScript('/offences?description=' + selectedText);
+      var param = $.param({description : $(this).find(':selected').text()});
+      $.getScript('/offences?' + param);
     });
 
     if(!$('#claim_offence_id').val()) {

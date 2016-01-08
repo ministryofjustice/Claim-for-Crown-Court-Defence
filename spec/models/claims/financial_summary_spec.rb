@@ -35,8 +35,8 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       claim
     end
 
-    let(:advocate_with_vat)           { create(:advocate, apply_vat: true) }
-    let(:advocate_without_vat)        { create(:advocate, apply_vat: false) }
+    let(:advocate_with_vat)           { create(:advocate, vat_registered: true) }
+    let(:advocate_without_vat)        { create(:advocate, vat_registered: false) }
     let(:another_advocate)            { create(:advocate) }
     let(:other_advocate_claim)        { create(:claim) }
 
@@ -126,9 +126,9 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     let(:provider)                { create(:provider) }
     let(:other_provider)          { create(:provider) }
-    let(:advocate_admin)          { create(:advocate, role: 'admin', provider: provider, apply_vat: true) }
-    let(:advocate_with_vat)       { create(:advocate, provider: provider, apply_vat: true) }
-    let(:advocate_without_vat)    { create(:advocate, provider: provider, apply_vat: false) }
+    let(:advocate_admin)          { create(:advocate, role: 'admin', provider: provider, vat_registered: true) }
+    let(:advocate_with_vat)       { create(:advocate, provider: provider, vat_registered: true) }
+    let(:advocate_without_vat)    { create(:advocate, provider: provider, vat_registered: false) }
     let(:another_advocate_admin)  { create(:advocate, role: 'admin', provider: other_provider) }
     let(:other_provider_claim)     { create(:claim) }
 

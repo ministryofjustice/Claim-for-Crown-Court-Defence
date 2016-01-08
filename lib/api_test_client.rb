@@ -29,7 +29,6 @@ class ApiTestClient
   COURT_ENDPOINT              = "courts"
   ADVOCATE_CATEGORY_ENDPOINT  = "advocate_categories"
   CRACKED_THIRD_ENDPOINT      = "trial_cracked_at_thirds"
-  GRANTING_BODY_ENDPOINT      = "granting_body_types"
   OFFENCE_CLASS_ENDPOINT      = "offence_classes"
   OFFENCE_ENDPOINT            = "offences"
   FEE_CATEGORY_ENDPOINT       = "fee_categories"
@@ -40,7 +39,6 @@ class ApiTestClient
                                 COURT_ENDPOINT,
                                 ADVOCATE_CATEGORY_ENDPOINT,
                                 CRACKED_THIRD_ENDPOINT,
-                                GRANTING_BODY_ENDPOINT,
                                 OFFENCE_CLASS_ENDPOINT,
                                 OFFENCE_ENDPOINT,
                                 FEE_CATEGORY_ENDPOINT,
@@ -240,13 +238,9 @@ private
   end
 
   def representation_order_data(defendant_uuid)
-
-    granted_by = json_value_at_index(get_dropdown_endpoint(GRANTING_BODY_ENDPOINT))
-
     {
       "api_key": @api_key,
       "defendant_id": defendant_uuid,
-      "granting_body": granted_by,
       "maat_reference": "4546963741",
       "representation_order_date": "2015-05-21"
     }

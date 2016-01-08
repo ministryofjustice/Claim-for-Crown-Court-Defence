@@ -10,8 +10,10 @@ When(/^I fill in the "(.*?)" details$/) do |persona|
   fill_in "#{persona}_user_attributes_email_confirmation", with: 'harold.hughes@example.com'
   case persona
   when 'advocate'
-    choose(('advocate[apply_vat]').first)
-    fill_in 'advocate_supplier_number', with: '31425'
+    if @advocate.provider.chamber?
+      choose(('advocate[vat_registered]').first)
+      fill_in 'advocate_supplier_number', with: '31425'
+    end
     choose(("#{persona}[role]").first)
   when 'case_worker'
     check('case_worker[days_worked_0]')
@@ -27,7 +29,7 @@ When(/^I fill in the "(.*?)" details but email and email_confirmation do not mat
   fill_in "#{persona}_user_attributes_email_confirmation", with: 'another_email@example.com'
   case persona
   when 'advocate'
-    choose(('advocate[apply_vat]').first)
+    choose(('advocate[vat_registered]').first)
     fill_in 'advocate_supplier_number', with: '31425'
     choose(("#{persona}[role]").first)
   when 'case_worker'

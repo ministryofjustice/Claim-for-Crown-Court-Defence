@@ -11,7 +11,7 @@ describe JsonDocumentImporter do
   let(:exported_claim_with_nulls)           { double 'cms_export_with_nulls', tempfile: './spec/examples/exported_claim_with_nulls.json', content_type: 'application/json'}
   let(:claim_params)                        { {:source=>"json_import", "creator_email"=>"advocateadmin@example.com", "advocate_email"=>"advocate@example.com", "case_number"=>"A12345678", "case_type_id"=>1, "indictment_number"=>"12345678", "first_day_of_trial"=>"2015-06-01", "estimated_trial_length"=>3, "actual_trial_length"=>3, "trial_concluded_at"=>"2015-06-03", "advocate_category"=>"QC", "offence_id"=>1, "court_id"=>1, "cms_number"=>"12345678", "additional_information"=>"string", "apply_vat"=>true, "trial_fixed_notice_at"=>"2015-06-01", "trial_fixed_at"=>"2015-06-01", "trial_cracked_at"=>"2015-06-01", api_key: 'test_key'} }
   let(:defendant_params)                    { {"first_name"=>"case", "last_name"=>"system", "date_of_birth"=>"1979-12-10", "order_for_judicial_apportionment"=>true, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7", api_key: 'test_key'} }
-  let(:rep_order_params)                    { {"granting_body"=>"Crown Court", "maat_reference"=>"1234567891", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7", api_key: 'test_key'} }
+  let(:rep_order_params)                    { {"maat_reference"=>"1234567891", "representation_order_date"=>"2015-05-01", "defendant_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7", api_key: 'test_key'} }
   let(:fee_params)                          { {"fee_type_id"=>2, "quantity"=>1, "rate"=>1.1, "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7", api_key: 'test_key'} }
   let(:expense_params)                      { {"expense_type_id"=>1, "quantity"=>1, "rate"=>1.1, "location"=>"London", "claim_id"=>"642ec639-5037-4d64-a3aa-27c377e51ea7", api_key: 'test_key'} }
   let(:date_attended_params)                { {"attended_item_type"=>/Fee|Expense/, "date"=>"2015-06-01", "date_to"=>"2015-06-01", "attended_item_id"=>"1234", api_key: 'test_key'} }
@@ -23,7 +23,7 @@ describe JsonDocumentImporter do
   let(:successful_date_attended_response)   { double 'api_response', code: 201 }
   let(:failed_claim_response)               { double 'api_error_response', code: 400, body: [{"error"=>"Advocate email is invalid"}].to_json }
   let(:failed_claim_response_2)             { double 'api_error_response', code: 400, body: [{"error"=>"Case type cannot be blank, you must select a case type"}, {"error"=>"Court cannot be blank, you must select a court"}, {"error"=>"Case number cannot be blank, you must enter a case number"}, {"error"=>"Advocate category cannot be blank, you must select an appropriate advocate category"}, {"error"=>"Offence Category cannot be blank, you must select an offence category"}].to_json }
-  let(:failed_defendant_response)           { double 'api_error_response', code: 400, body: [{"error"=> "Claim cannot be blank"}].to_json } 
+  let(:failed_defendant_response)           { double 'api_error_response', code: 400, body: [{"error"=> "Claim cannot be blank"}].to_json }
 
   context 'parses a json document and' do
 
@@ -118,7 +118,7 @@ describe JsonDocumentImporter do
           expect(subject).to receive(:create_claim).exactly(2).times
           subject.import!
           expect(subject.errors.blank?).to be true
-        end  
+        end
       end
 
       context 'and collates errors' do

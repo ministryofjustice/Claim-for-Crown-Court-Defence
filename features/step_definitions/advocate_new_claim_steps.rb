@@ -1,9 +1,11 @@
 Given(/^There are other advocates in my provider$/) do
-  FactoryGirl.create(:advocate,
+  FactoryGirl.create(:external_user,
+        :advocate,
         provider: @advocate.provider,
         user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
         supplier_number: 'AC135')
-  FactoryGirl.create(:advocate,
+  FactoryGirl.create(:external_user,
+        :advocate,
         provider: @advocate.provider,
         user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
         supplier_number: 'XY455')
@@ -19,7 +21,7 @@ Given(/^I am on the new claim page$/) do
   create(:fee_type, :fixed, description: 'Fixed Fee example')
   create(:fee_type, :misc,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
-  visit new_advocates_claim_path
+  visit new_external_users_claim_path
 end
 
 Given(/^There are case types in place$/) do
@@ -40,7 +42,7 @@ When(/^I then choose to remove the additional rep order$/) do
 end
 
 Given(/^I am creating a new claim$/) do
-  visit new_advocates_claim_path
+  visit new_external_users_claim_path
 end
 
 # NOTE: this step is js-reliant (i.e. cocoon)
@@ -189,12 +191,12 @@ end
 
 Then(/^I should be redirected to the claim confirmation page$/) do
   claim = Claim.first
-  expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+  expect(page.current_path).to eq(confirmation_external_users_claim_path(claim))
 end
 
 Then(/^I should be redirected to the claim certification page$/) do
   claim = Claim.first
-  expect(page.current_path).to eq(new_advocates_claim_certification_path(claim))
+  expect(page.current_path).to eq(new_external_users_claim_certification_path(claim))
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
@@ -227,24 +229,24 @@ end
 
 Then(/^I should be on the claim edit form$/) do
   claim = Claim.first
-  expect(page.current_path).to eq(edit_advocates_claim_path(claim))
+  expect(page.current_path).to eq(edit_external_users_claim_path(claim))
 end
 
 Then(/^I should be on the claim confirmation page$/) do
   claim = @claim || Claim.first
-  expect(page.current_path).to eq(confirmation_advocates_claim_path(claim))
+  expect(page.current_path).to eq(confirmation_external_users_claim_path(claim))
 end
 
 Given(/^a claim exists$/) do
-  create(:claim, advocate_id: Advocate.first.id)
+  create(:claim, external_user_id: ExternalUser.first.id)
 end
 
 Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
   @claim = case claim_state
     when "draft"
-      create(:claim, advocate_id: Advocate.first.id)
+      create(:claim, external_user_id: ExternalUser.first.id)
     else
-      create(:claim, advocate_id: Advocate.first.id)
+      create(:claim, external_user_id: ExternalUser.first.id)
   end
 end
 
@@ -259,21 +261,21 @@ end
 
 When(/^I am on the claim edit page$/) do
   claim = Claim.first
-  visit edit_advocates_claim_path(claim)
+  visit edit_external_users_claim_path(claim)
 end
 
 Then(/^I can view a select of all advocates in my provider$/) do
-  expect(page).to have_selector('select#claim_advocate_id')
+  expect(page).to have_selector('select#claim_external_user_id')
   expect(page).to have_content('Doe, John: AC135')
   expect(page).to have_content('Blow, Joe: XY455')
 end
 
 When(/^I select Advocate name "(.*?)"$/) do |advocate_name|
-  select(advocate_name, from: 'claim_advocate_id')
+  select(advocate_name, from: 'claim_external_user_id')
 end
 
 Then(/^I should be redirected to the claims list page$/) do
-  expect(page.current_path).to eq(advocates_claims_path)
+  expect(page.current_path).to eq(external_users_claims_path)
 end
 
 Then(/^I should see my claim under drafts$/) do
@@ -288,7 +290,7 @@ When(/^I clear the form$/) do
 end
 
 Then(/^I should be redirected to the new claim page$/) do
-  expect(page.current_path).to eq(new_advocates_claim_path)
+  expect(page.current_path).to eq(new_external_users_claim_path)
 end
 
 Then(/^the claim should be in a "(.*?)" state$/) do |state|
@@ -401,7 +403,7 @@ Given(/^I fill in a Fixed Fee using select2$/) do
 end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
-  claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, advocate_id: Advocate.first.id)
+  claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, external_user_id: ExternalUser.first.id)
   create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
   create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
 end
@@ -411,7 +413,7 @@ Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
   create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
   create(:fee_type, :basic, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
   create(:fee_type, :basic, description: 'Daily attendance fee (51+)',      code: 'DAJ')
-  visit new_advocates_claim_path
+  visit new_external_users_claim_path
 end
 
 When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|

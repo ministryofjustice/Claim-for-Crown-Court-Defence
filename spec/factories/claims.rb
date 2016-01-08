@@ -16,7 +16,7 @@
 #  fees_total               :decimal(, )      default(0.0)
 #  expenses_total           :decimal(, )      default(0.0)
 #  total                    :decimal(, )      default(0.0)
-#  advocate_id              :integer
+#  external_user_id          :integer
 #  court_id                 :integer
 #  offence_id               :integer
 #  created_at               :datetime
@@ -45,14 +45,14 @@ FactoryGirl.define do
 
     court
     case_number { random_case_number }
-    advocate
+    external_user
     source { 'web' }
     apply_vat  false
     estimated_trial_length 1
     assessment    { Assessment.new }
     after(:build) do |claim|
       claim.fees << build(:fee, claim: claim, fee_type: FactoryGirl.build(:fee_type))
-      claim.creator = claim.advocate
+      claim.creator = claim.external_user
       populate_required_fields(claim)
     end
 
@@ -69,8 +69,8 @@ FactoryGirl.define do
 
     trait :admin_creator do
       after(:build) do |claim|
-        advocate_admin = claim.advocate.provider.advocates.where(role:'admin').sample
-        advocate_admin ||= create(:advocate, :admin, provider: claim.advocate.provider)
+        advocate_admin = claim.external_user.provider.external_users.where(role:'admin').sample
+        advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)
         claim.creator = advocate_admin
       end
     end
@@ -81,7 +81,7 @@ FactoryGirl.define do
 
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
-      advocate      { FactoryGirl.build :advocate, provider: FactoryGirl.build(:provider) }
+      external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
         claim.defendants << build(:defendant, claim: claim)

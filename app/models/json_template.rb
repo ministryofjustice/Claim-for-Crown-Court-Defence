@@ -15,7 +15,7 @@ class JsonTemplate
     private
 
     def constants
-      api_constants = API::V1::Advocates.constants
+      api_constants = API::V1::ExternalUsers.constants
       [:Root, :ErrorResponse].each {|non_model_constant| api_constants.delete(non_model_constant) }
       api_constants
     end
@@ -160,7 +160,7 @@ class JsonTemplate
     end
 
     def get_route_params(const)
-      route_params = API::V1::Advocates.const_get(const).endpoints.first.routes.first.route_params
+      route_params = API::V1::ExternalUsers.const_get(const).endpoints.first.routes.first.route_params
       route_params.delete("api_key")
       route_params
     end

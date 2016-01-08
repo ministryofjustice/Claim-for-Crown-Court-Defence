@@ -16,7 +16,7 @@
 #  fees_total               :decimal(, )      default(0.0)
 #  expenses_total           :decimal(, )      default(0.0)
 #  total                    :decimal(, )      default(0.0)
-#  advocate_id              :integer
+#  external_user_id         :integer
 #  court_id                 :integer
 #  offence_id               :integer
 #  created_at               :datetime
@@ -56,11 +56,11 @@ class Claim < ActiveRecord::Base
 
   belongs_to :court
   belongs_to :offence
-  belongs_to :advocate
-  belongs_to :creator, foreign_key: 'creator_id', class_name: 'Advocate'
+  belongs_to :external_user
+  belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
   belongs_to :case_type
 
-  delegate   :provider_id, to: :advocate
+  delegate   :provider_id, to: :external_user
 
   has_many :case_worker_claims,       dependent: :destroy
   has_many :case_workers,             through: :case_worker_claims
@@ -84,7 +84,7 @@ class Claim < ActiveRecord::Base
 
   has_paper_trail on: [:update], only: [:state]
 
-  # advocate-relevant scopes
+  # external user relevant scopes
   scope :outstanding, -> { where(state: %w( submitted allocated )) }
   scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
 
@@ -125,7 +125,7 @@ class Claim < ActiveRecord::Base
   after_initialize :instantiate_basic_fees
 
   before_validation do
-    documents.each { |d| d.advocate_id = self.advocate_id }
+    documents.each { |d| d.external_user_id = self.external_user_id }
   end
 
   before_validation :destroy_all_invalid_fee_types
@@ -169,7 +169,7 @@ class Claim < ActiveRecord::Base
     end.first
   end
 
-  # responds to methods like claim.advocate_dashboard_submitted? which correspond to the constant ADVOCATE_DASHBOARD_REJECTED_STATES in Claims::StateMachine
+  # responds to methods like claim.external_user_dashboard_submitted? which correspond to the constant EXTERNAL_USER_DASHBOARD_REJECTED_STATES in Claims::StateMachine
   def method_missing(method, *args)
     if Claims::StateMachine.has_state?(method)
       Claims::StateMachine.is_in_state?(method, self)
@@ -313,10 +313,10 @@ class Claim < ActiveRecord::Base
   private
 
   def creator_and_advocate_with_same_provider
-    return if errors[:advocate].include?('blank')
+    return if errors[:external_user].include?('blank')
 
-    unless creator_id == advocate_id || creator.try(:provider) == advocate.try(:provider)
-      errors[:advocate] << 'Creator and advocate must belong to the same provider'
+    unless creator_id == external_user_id || creator.try(:provider) == external_user.try(:provider)
+      errors[:external_user] << 'Creator and advocate must belong to the same provider'
     end
   end
 
@@ -325,7 +325,7 @@ class Claim < ActiveRecord::Base
 
     Document.where(form_id: self.form_id).each do |document|
       document.update_column(:claim_id, self.id)
-      document.update_column(:advocate_id, self.advocate_id)
+      document.update_column(:external_user_id, self.external_user_id)
     end
   end
 

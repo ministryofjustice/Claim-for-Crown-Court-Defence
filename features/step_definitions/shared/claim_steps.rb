@@ -1,8 +1,8 @@
 Given(/^I have (\d+) (.*?) claim$/) do |number,state|
   if number.to_i == 1
-    @claim = create("#{state}_claim".to_sym,  advocate: @advocate)
+    @claim = create("#{state}_claim".to_sym,  external_user: @advocate)
   else
-    @claims = create_list("#{state}_claim".to_sym, number.to_i, advocate: @advocate)
+    @claims = create_list("#{state}_claim".to_sym, number.to_i, external_user: @advocate)
   end
 end
 

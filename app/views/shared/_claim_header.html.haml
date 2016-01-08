@@ -19,15 +19,15 @@
             = claim_position_and_count
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-    - if current_user.persona.is_a?(Advocate)
+    - if current_user.persona.is_a?(ExternalUser)
       - if claim.editable?
         %div.right
-          = link_to 'Edit this claim', edit_advocates_claim_path(claim), class: 'button'
-          = link_to 'Delete draft', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
+          = link_to 'Edit this claim', edit_external_users_claim_path(claim), class: 'button'
+          = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
       - if claim.archivable?
         %div.right
           - if claim.rejected?
-            = button_to 'Create draft and resubmit', clone_rejected_advocates_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
-          = link_to 'Archive', advocates_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
+            = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
+          = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
 %div.bold-medium.claim-detail-header
   = 'Claim details'

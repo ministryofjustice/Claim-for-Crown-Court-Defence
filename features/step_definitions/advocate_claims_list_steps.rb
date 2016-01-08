@@ -1,8 +1,8 @@
 Given(/^I have claims$/) do
   FactoryGirl.create :vat_rate
-  @claims = create_list(:submitted_claim, 5, advocate: @advocate)
+  @claims = create_list(:submitted_claim, 5, external_user: @advocate)
   @claims.each do |claim|
-    claim.documents << create(:document, advocate: @advocate)
+    claim.documents << create(:document, external_user: @advocate)
   end
   @other_claims = create_list(:submitted_claim, 3)
   @claims.each_with_index { |claim, index| claim.update(total: index + 1, fees_total: index + 1, expenses_total: 0) }
@@ -11,7 +11,7 @@ Given(/^I have claims$/) do
 end
 
 When(/^I visit the advocates dashboard$/) do
-  visit advocates_claims_path
+  visit external_users_claims_path
 end
 
 Given(/^There are basic and non-basic fee types$/) do
@@ -22,12 +22,12 @@ Given(/^There are basic and non-basic fee types$/) do
 end
 
 Given(/^my provider has claims$/) do
-  advocate = Advocate.first
-  another_advocate = create(:advocate)
+  advocate = ExternalUser.first
+  another_advocate = create(:external_user, :advocate)
   provider = create(:provider)
-  provider.advocates << advocate
+  provider.external_users << advocate
   @claims = create_list(:claim, 5)
-  @claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
+  @claims.each { |claim| claim.update_column(:external_user_id, another_advocate.id) }
   @other_claims = create_list(:claim, 3)
 end
 
@@ -36,18 +36,18 @@ Given(/^I have (\d+) claims of each state$/) do | claims_per_state |
   states = Claim.state_machine.states.map(&:name)
   states = states.map { |s| if s != :deleted && s != :archived_pending_delete then  s; end; }.compact
   states.each do | state |
-    claims = create_list("#{state}_claim".to_sym, claims_per_state.to_i, advocate: @advocate)
+    claims = create_list("#{state}_claim".to_sym, claims_per_state.to_i, external_user: @advocate)
   end
 end
 
 Given(/^my provider has (\d+) "(.*?)" claims$/) do |number, state|
-  advocate = Advocate.first
+  advocate = ExternalUser.first
   provider = Provider.first
-  provider.advocates << advocate
+  provider.external_users << advocate
 
   claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|
-    claim.update_column(:advocate_id, advocate.id)
+    claim.update_column(:external_user_id, advocate.id)
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
     if claim.state == 'authorised'
       claim.assessment.update(fees: claim.total)
@@ -61,13 +61,13 @@ Given(/^my provider has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number,
   # add advocate to my provider
   advocate = create_advocate_with_full_name(advocate_name)
   provider = @advocate.provider
-  provider.advocates << advocate
+  provider.external_users << advocate
   provider.save!
 
   # add claim(s) to the new advocate
   claims =  (state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i))
   claims.each do |claim|
-    claim.update_column(:advocate_id, advocate.id)
+    claim.update_column(:external_user_id, advocate.id)
     claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
     if claim.state == 'completed'
       claim.assessment.update(fees: claim.total)
@@ -79,13 +79,13 @@ Given(/^my provider has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number,
 end
 
 Given(/^my provider has (\d+) claims for advocate "(.*?)"$/) do |number, advocate_name|
-  advocate = Advocate.first
+  advocate = ExternalUser.first
   claim_advocate = create_advocate_with_full_name(advocate_name)
   provider = create(:provider)
-  provider.advocates << advocate
-  provider.advocates << claim_advocate
+  provider.external_users << advocate
+  provider.external_users << claim_advocate
   claims = create_list(:claim, number.to_i)
-  claims.each { |claim| claim.update_column(:advocate_id, claim_advocate.id) }
+  claims.each { |claim| claim.update_column(:external_user_id, claim_advocate.id) }
 end
 
 Then(/^I see a column called amount assesed for "(.*?)" claims$/) do |state|
@@ -126,18 +126,18 @@ When(/^I search by the name "(.*?)"$/) do |name|
 end
 
 Given(/^I have (\d+) "(.*?)" claims$/) do |number,state|
-  @claims = create_list("#{state}_claim".to_sym, number.to_i, advocate: @advocate)
+  @claims = create_list("#{state}_claim".to_sym, number.to_i, external_user: @advocate)
 end
 
 Given(/^I have (\d+) claims involving defendant "(.*?)"$/) do |number,defendant_name|
-  @claims = create_list(:submitted_claim, number.to_i, advocate: @advocate)
+  @claims = create_list(:submitted_claim, number.to_i, external_user: @advocate)
   @claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
 end
 
 Given(/^I, advocate, have (\d+) "(.*?)" claims involving defendant "(.*?)"$/) do |number, state, defendant_name|
-  @claims = create_list("#{state}_claim".to_sym, number.to_i, advocate: @advocate)
+  @claims = create_list("#{state}_claim".to_sym, number.to_i, external_user: @advocate)
   @claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
@@ -150,7 +150,7 @@ end
 Given(/^signed in advocate's provider has (\d+) claims for advocate "(.*?)" with defendant "(.*?)"$/) do |number, advocate_name, defendant_name|
   new_advocate = create_advocate_with_full_name(advocate_name, @advocate.provider)
   new_advocate.provider = @advocate.provider
-  claims = create_list(:submitted_claim, number.to_i, advocate: new_advocate )
+  claims = create_list(:submitted_claim, number.to_i, external_user: new_advocate )
   claims.each do |claim|
     create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
   end
@@ -224,7 +224,7 @@ end
 # ------------------
 
 def create_advocate_with_full_name(full_name)
-  advocate = create(:advocate)
+  advocate = create(:external_user, :advocate)
   advocate.user.first_name = full_name.split.first
   advocate.user.last_name = full_name.split.last
   advocate.user.save!

@@ -17,15 +17,15 @@ private
 
   def state_change_descriptions
     {
-      'redetermination'               => {"CaseWorker" => "Redetermination requested",     "Advocate" => "You requested redetermination"},
-      'awaiting_written_reasons'      => {"CaseWorker" => "Written reasons requested",     "Advocate" => "You requested written reasons"},
-      'submitted'                     => {"CaseWorker" => "Claim submitted",               "Advocate" => "Your claim has been submitted"},
-      'allocated'                     => {"CaseWorker" => "Claim allocated",               "Advocate" => "Your claim has been allocated"},
-      'authorised'                    => {"CaseWorker" => "Claim authorised",              "Advocate" => "Your claim has been authorised"},
-      'part_authorised'               => {"CaseWorker" => "Claim part authorised",         "Advocate" => "Your claim has been part-authorised"},
-      'rejected'                      => {"CaseWorker" => "Claim rejected",                "Advocate" => "Your claim has been rejected"},
-      'refused'                       => {"CaseWorker" => "Claim refused",                 "Advocate" => "Your claim has been refused"},
-      'archived_pending_delete'       => {"CaseWorker" => "Claim archived",                "Advocate" => "Your claim has been archived"}
+      'redetermination'               => {"CaseWorker" => "Redetermination requested",     "ExternalUser" => "You requested redetermination"},
+      'awaiting_written_reasons'      => {"CaseWorker" => "Written reasons requested",     "ExternalUser" => "You requested written reasons"},
+      'submitted'                     => {"CaseWorker" => "Claim submitted",               "ExternalUser" => "Your claim has been submitted"},
+      'allocated'                     => {"CaseWorker" => "Claim allocated",               "ExternalUser" => "Your claim has been allocated"},
+      'authorised'                    => {"CaseWorker" => "Claim authorised",              "ExternalUser" => "Your claim has been authorised"},
+      'part_authorised'               => {"CaseWorker" => "Claim part authorised",         "ExternalUser" => "Your claim has been part-authorised"},
+      'rejected'                      => {"CaseWorker" => "Claim rejected",                "ExternalUser" => "Your claim has been rejected"},
+      'refused'                       => {"CaseWorker" => "Claim refused",                 "ExternalUser" => "Your claim has been refused"},
+      'archived_pending_delete'       => {"CaseWorker" => "Claim archived",                "ExternalUser" => "Your claim has been archived"}
     }
   end
 

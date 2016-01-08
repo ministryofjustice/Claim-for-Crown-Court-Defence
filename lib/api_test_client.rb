@@ -137,7 +137,7 @@ private
   end
 
   def test_provider_api_key
-    user = User.advocates.find_by(email: 'advocateadmin@example.com')
+    user = User.external_users.find_by(email: 'advocateadmin@example.com')
     user.persona.provider.api_key
   end
 

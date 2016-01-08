@@ -10,7 +10,7 @@
 #  document_content_type                   :string
 #  document_file_size                      :integer
 #  document_updated_at                     :datetime
-#  advocate_id                             :integer
+#  external_user_id                        :integer
 #  converted_preview_document_file_name    :string
 #  converted_preview_document_content_type :string
 #  converted_preview_document_file_size    :integer
@@ -24,9 +24,9 @@ require 'rails_helper'
 
 RSpec.describe Document, type: :model do
 
-  it { should belong_to(:advocate) }
+  it { should belong_to(:external_user) }
   it { should belong_to(:claim) }
-  it { should delegate_method(:provider_id).to(:advocate) }
+  it { should delegate_method(:provider_id).to(:external_user) }
 
   it { should have_attached_file(:document) }
   it { should validate_attachment_presence(:document) }

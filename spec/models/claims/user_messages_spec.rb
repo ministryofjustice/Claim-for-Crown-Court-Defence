@@ -120,7 +120,7 @@ RSpec.describe Claims::UserMessages, type: :model do
   end
 
   describe '#unread_messages_for' do
-    let(:user) { claim.advocate.user }
+    let(:user) { claim.external_user.user }
     let(:message_1) { create(:message, claim: claim) }
     let(:message_2) { create(:message, claim: claim) }
 
@@ -154,7 +154,7 @@ RSpec.describe Claims::UserMessages, type: :model do
   end
 
   describe '#read_messages_for' do
-    let(:user) { claim.advocate.user }
+    let(:user) { claim.external_user.user }
     let(:message_1) { create(:message, claim: claim) }
     let(:message_2) { create(:message, claim: claim) }
 
@@ -182,7 +182,7 @@ RSpec.describe Claims::UserMessages, type: :model do
   end
 
   describe '#has_unread_messages_for?' do
-    let(:user) { claim.advocate.user }
+    let(:user) { claim.external_user.user }
 
     context 'when unread messages present' do
       before { create(:message, claim: claim) }
@@ -211,7 +211,7 @@ RSpec.describe Claims::UserMessages, type: :model do
   end
 
   describe '#has_read_messages_for?' do
-    let(:user) { claim.advocate.user }
+    let(:user) { claim.external_user.user }
 
     context 'when read messages present' do
       before do

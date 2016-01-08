@@ -17,7 +17,8 @@ Feature: Claim redetermination
       And a redetermined claim is assigned to me
      When I visit the claim's case worker detail page
      Then a redetermination notice should be present in the claim status panel
-      And when I select a state of "<form_state>" and update the claim
+      And only the allowed status updates should be offered
+     When I select a state of "<form_state>" and update the claim
      Then the claim should be in the "<state>" state
       And the claim should no longer be open for redetermination
 
@@ -25,10 +26,9 @@ Feature: Claim redetermination
       | form_state                | state                    |
       | Part authorised           | part_authorised          |
       | Authorised                | authorised               |
-      | Rejected                  | rejected                 |
       | Refused                   | refused                  |
 
-  Scenario: View redetermination claims
+  Scenario: View redetermination claims in dashboard
     Given I am a signed in case worker
       And a redetermined claim is assigned to me
       And I visit my dashboard

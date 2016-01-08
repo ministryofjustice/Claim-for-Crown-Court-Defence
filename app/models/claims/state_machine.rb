@@ -97,7 +97,7 @@ module Claims::StateMachine
       end
 
       event :reject do
-        transition [:allocated] => :rejected
+        transition [:allocated] => :rejected, :if => :rejectable?
       end
 
       event :submit do
@@ -114,14 +114,14 @@ module Claims::StateMachine
 
     klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }
 
-    klass.scope :external_user_dashboard_draft,                -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES )             }
-    klass.scope :external_user_dashboard_rejected,             -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES )          }
-    klass.scope :external_user_dashboard_submitted,            -> { klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES )         }
-    klass.scope :external_user_dashboard_part_authorised,      -> { klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES )   }
-    klass.scope :external_user_dashboard_completed,            -> { klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES )         }
-    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)        }
+    klass.scope :external_user_dashboard_draft,           -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES ) }
+    klass.scope :external_user_dashboard_rejected,        -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES ) }
+    klass.scope :external_user_dashboard_submitted,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES ) }
+    klass.scope :external_user_dashboard_part_authorised, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES ) }
+    klass.scope :external_user_dashboard_completed,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES ) }
+    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
-    klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES)         }
+    klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
   end
 

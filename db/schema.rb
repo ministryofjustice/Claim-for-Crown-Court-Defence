@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107125913) do
+ActiveRecord::Schema.define(version: 20160107163538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -238,13 +238,6 @@ ActiveRecord::Schema.define(version: 20160107125913) do
   add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree
   add_index "external_users", ["role"], name: "index_external_users_on_role", using: :btree
   add_index "external_users", ["supplier_number"], name: "index_external_users_on_supplier_number", using: :btree
-
-  create_table "features", force: :cascade do |t|
-    t.string   "key",                        null: false
-    t.boolean  "enabled",    default: false, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
 
   create_table "fee_categories", force: :cascade do |t|
     t.string   "name"

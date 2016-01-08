@@ -47,9 +47,23 @@ Given(/^a written reasons claim is assigned to me$/) do
   @claim.case_workers << @case_worker
 end
 
-Then(/^when I select a state of "(.*?)" and update the claim$/) do |form_state|
+When(/^I select a state of "(.*?)" and update the claim$/) do |form_state|
   choose form_state
   click_button 'Update'
+end
+
+Then(/^only the allowed status updates should be offered$/) do
+  allowed_updates = ['Part authorised', 'Authorised', 'Refused']
+  disallowed_updates = ['Rejected']
+
+  allowed_updates.each do |allowed_update|
+    within('.edit_claim') { expect(page).to have_content allowed_update }
+  end
+
+  disallowed_updates.each do |disallowed_update|
+    within('.edit_claim') { expect(page).to_not have_content disallowed_update }
+  end
+
 end
 
 Then(/^the claim should no longer be open for redetermination$/) do
@@ -83,7 +97,6 @@ When(/^I enter redetermination amounts$/) do
   click_button 'Update'
 end
 
-
 Then(/^There should be no form to enter redetermination amounts$/) do
   expect(page).not_to have_selector('#claim_redeterminations_attributes_0_fees')
 end
@@ -94,5 +107,11 @@ Then(/^The redetermination I just entered should be visible$/) do
   end
   within('#determination-expenses') do
     expect(page).to have_content('£805.75')
+  end
+end
+
+Then(/^I should see a claim marked as a redetermination$/) do
+  within('.report') do
+    expect(find(:xpath, './tbody')).to have_content("(redetermination)")
   end
 end

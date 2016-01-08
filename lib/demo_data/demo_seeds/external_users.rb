@@ -1,4 +1,4 @@
-provider = Provider.find_or_create_by!(name: 'Test firm A', supplier_number: 'A1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm')
+provider = Provider.find_or_create_by!(name: 'Test firm A', supplier_number: 'A1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm', vat_registered: true)
 
 if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(
@@ -30,7 +30,7 @@ end
 
 #Create an external user who belongs to a firm
 
-provider = Provider.find_or_create_by!(name: 'Test firm B', supplier_number: 'B1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm')
+provider = Provider.find_or_create_by!(name: 'Test firm B', supplier_number: 'B1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm', vat_registered: false)
 
 if User.find_by(email: 'advocatefirm@example.com').blank?
   user = User.create!(

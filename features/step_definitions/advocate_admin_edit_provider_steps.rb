@@ -43,16 +43,15 @@ Then(/^I should (not )?see the supplier number field$/) do |negate|
   end
 end
 
-When(/^I check the VAT registration box$/) do
-  fill_in 'provider_supplier_number', with: 'XX111'
-  check 'provider_vat_registered'
+When(/^I choose "(.*?)" for VAT registration$/) do | vat_registered |
+  choose vat_registered
 end
 
 Then(/^I should (not )?see VAT registration status of "(.*?)"$/) do |negate, value|
   if negate.present?
     expect(page).to_not have_content(/VAT registered/i)
   else
-    expect(page).to have_content(/VAT registered Yes/i)
+    expect(page).to have_content(/VAT registered #{value}/i)
   end
 end
 

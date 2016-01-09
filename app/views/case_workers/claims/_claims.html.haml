@@ -7,20 +7,20 @@
       %th
         = sortable 'case_number', t('.case_number')
       %th
-        = sortable 'advocate', t('.advocate')
+        = t('.advocate')
       %th
-        = sortable 'defendants', t(".defendants")
+        = t(".defendants")
       %th{ title:  'Including VAT' }
         = sortable 'total', t('.total')
       - if params[:action] == 'archived'
         %th
           = sortable 'state', t('.status')
       %th
-        = sortable 'case_type', 'Type'
+        = sortable 'case_type_id', 'Type'
       %th
-        = sortable 'submitted_at', t('.submission_date')
+        = sortable 'last_submitted_at', t('.submission_date')
       %th.message-placeholder
-        = sortable 'messages', t('.messages')
+        = t('.messages')
   %tbody
     - @claims.each do |claim_object|
       - present(claim_object) do |claim|
@@ -28,7 +28,7 @@
           %td
             = link_to claim.case_number , case_workers_claim_path(claim),{:class => 'js-test-case-number-link'}
           %td
-            = claim.advocate.user.name
+            = claim.advocate.name
           %td
             = claim.defendant_names
           %td.js-test-total

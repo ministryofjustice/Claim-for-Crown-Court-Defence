@@ -1,16 +1,10 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
-  # @claims = []
   count.to_i.times do |n|
     Timecop.freeze(n.days.ago) do
-      claim = create(:submitted_claim, case_number: "A0000000#{n + 1}")
+      claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
       @case_worker.claims << claim
-      # @claims << claim
     end
   end
-
-  # @case_worker.claims.each do |c|
-  #   ap c.case_number
-  # end
 end
 
 When(/^I visit the caseworkers dashboard$/) do
@@ -39,7 +33,7 @@ end
 
 Then(/^I should be on the claim case number "(.*?)"$/) do |case_number|
   @case_worker.claims.caseworker_dashboard_under_assessment.each do |c|
-    ap "#{c.case_number}: #{c.created_at.strftime('%d:%m:%Y:%H%M:%S:%L')}"
+    ap "#{c.case_number}: #{c.last_submitted_at.strftime('%d:%m:%Y:%H%M:%S:%L')}"
   end
   expect(page).to have_content(case_number)
 end

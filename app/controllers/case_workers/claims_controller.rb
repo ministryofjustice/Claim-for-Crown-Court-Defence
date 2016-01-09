@@ -10,6 +10,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_current_claims,   only: [:index]
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: [:index, :archived]
+  before_action :paginate_claims,         only: [:index, :archived]
 
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
@@ -58,10 +59,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @claims = @claims.search(params[:search], states, *search_options)
   end
 
-  def sort
-    @claims = @claims.sort(params[:sort], params[:direction])
-  end
-
   def search_options
     options = [:maat_reference, :defendant_name]
     options << :case_worker_name_or_email if current_user.persona.admin?
@@ -96,11 +93,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
           Claim.submitted_or_redetermination_or_awaiting_written_reasons
-
-        # TODO: no longer used? - remove
-        when 'completed'
-          Claim.caseworker_dashboard_completed
-
       end
     else
       @claims = case tab
@@ -108,14 +100,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           current_user.claims.caseworker_dashboard_under_assessment
         when 'archived'
           current_user.claims.caseworker_dashboard_archived
-
-        # TODO: no longer used? - remove
-        when 'completed'
-          current_user.claims.caseworker_dashboard_completed
       end
     end
-
-    @claims = @claims.page(params[:page]).per(10)
   end
 
   def tab
@@ -124,14 +110,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     else
       %w(current archived completed).include?(params[:tab]) ? params[:tab] : 'current'
     end
-  end
-
-  def sort_column
-    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'last_submitted_at'
-  end
-
-  def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
   def set_claim
@@ -146,17 +124,25 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     search(Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES) if params[:search].present?
   end
 
-  def sort_claims
-    set_claim_ids_and_count
-    sort if params[:sort].present?
-  end
-
   def sort_column
-    params[:sort] || 'submitted_at'
+    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'last_submitted_at'
   end
 
   def sort_direction
-    params[:direction] || 'desc'
+    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+  end
+
+  def sort
+    @claims = @claims.sort(sort_column, sort_direction)
+  end
+
+  def sort_claims
+    set_claim_ids_and_count
+    sort
+  end
+
+  def paginate_claims
+    @claims = @claims.page(params[:page]).per(10)
   end
 
 end

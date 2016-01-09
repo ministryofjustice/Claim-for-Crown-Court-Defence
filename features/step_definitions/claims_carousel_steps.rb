@@ -16,6 +16,9 @@ When(/^I click claim (\d+) in the list$/) do |position|
 end
 
 Then(/^I should see the text "(.*?)"$/) do |text|
+  @case_worker.claims.caseworker_dashboard_under_assessment.each do |c|
+    ap "#{c.case_number}: #{c.last_submitted_at.strftime('%d:%m:%Y:%H%M:%S:%L')}"
+  end
   expect(page).to have_content(text)
 end
 

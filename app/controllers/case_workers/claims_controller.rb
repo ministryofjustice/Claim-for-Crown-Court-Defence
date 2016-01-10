@@ -124,7 +124,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_column
-    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'last_submitted_at'
+    @claims.sortable_by?(params[:sort]) ? params[:sort] : 'last_submitted_at'
   end
 
   def sort_direction

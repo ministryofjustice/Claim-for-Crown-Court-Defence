@@ -7,16 +7,16 @@
       %th
         = sortable 'case_number', t('.case_number')
       %th
-        = t('.advocate')
+        = sortable 'advocate', t('.advocate')
       %th
-        = t(".defendants")
+        = sortable 'defendants', t(".defendants")
       %th{ title:  'Including VAT' }
         = sortable 'total', t('.total')
       - if params[:action] == 'archived'
         %th
           = sortable 'state', t('.status')
       %th
-        = sortable 'case_type_id', 'Type'
+        = sortable 'case_type', 'Type'
       %th
         = sortable 'last_submitted_at', t('.submission_date')
       %th.message-placeholder

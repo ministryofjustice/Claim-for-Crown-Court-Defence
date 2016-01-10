@@ -21,9 +21,9 @@
       %th
         = sortable 'state', t(".status")
       %th
-        = sortable 'submitted_at', t(".submission_date")
+        = sortable 'last_submitted_at', t(".submission_date")
       %th
-        = sortable 'messages', t(".messages")
+        = t(".messages")
     %tbody
       - claims.each do |claim_object|
         - present(claim_object) do |claim|

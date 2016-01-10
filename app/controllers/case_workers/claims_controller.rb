@@ -133,8 +133,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort
-    ap "sorting by #{sort_column}: : #{sort_direction}"
     @claims = @claims.sort(sort_column, sort_direction)
+    ap "sorting by #{sort_column}: : #{sort_direction}"
   end
 
   def sort_claims

@@ -138,8 +138,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_claims
-    set_claim_ids_and_count
     sort
+    set_claim_ids_and_count
   end
 
   def paginate_claims

@@ -105,9 +105,9 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def tab
     if current_user.persona.admin?
-      %w(allocated unallocated current archived completed).include?(params[:tab]) ? params[:tab] : 'allocated'
+      %w(allocated unallocated current archived).include?(params[:tab]) ? params[:tab] : 'allocated'
     else
-      %w(current archived completed).include?(params[:tab]) ? params[:tab] : 'current'
+      %w(current archived).include?(params[:tab]) ? params[:tab] : 'current'
     end
   end
 

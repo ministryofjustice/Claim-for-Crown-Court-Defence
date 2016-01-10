@@ -10,7 +10,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_current_claims,   only: [:index]
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: [:index, :archived]
-  before_action :paginate_claims,         only: [:index, :archived]
 
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
@@ -50,7 +49,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   private
 
-  def set_claim_ids_and_count
+  def set_claim_carousel_info
     session[:claim_ids] = @claims.all.map(&:id)
     session[:claim_count] = @claims.try(:count)
   end
@@ -134,16 +133,17 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def sort
     @claims = @claims.sort(sort_column, sort_direction)
-    ap "sorting by #{sort_column}: : #{sort_direction}"
-  end
-
-  def sort_claims
-    sort
-    set_claim_ids_and_count
   end
 
   def paginate_claims
     @claims = @claims.page(params[:page]).per(10)
+  end
+
+  def sort_claims
+    # NOTE: order MUST be sort, set carousel ids then paginate
+    sort
+    set_claim_carousel_info
+    paginate_claims
   end
 
 end

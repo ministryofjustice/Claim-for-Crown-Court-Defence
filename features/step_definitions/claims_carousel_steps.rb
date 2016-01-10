@@ -1,9 +1,9 @@
 Given(/^(\d+) claims have been assigned to me$/) do |count|
-  @claims = []
   count.to_i.times do |n|
-    claim = create(:submitted_claim, id: n + 1)
-    @case_worker.claims << claim
-    @claims << claim
+    Timecop.freeze(n.days.ago) do
+      claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
+      @case_worker.claims << claim
+    end
   end
 end
 
@@ -16,6 +16,9 @@ When(/^I click claim (\d+) in the list$/) do |position|
 end
 
 Then(/^I should see the text "(.*?)"$/) do |text|
+  @case_worker.claims.caseworker_dashboard_under_assessment.each do |c|
+    ap "#{c.case_number}: #{c.last_submitted_at.strftime('%d:%m:%Y:%H%M:%S:%L')}"
+  end
   expect(page).to have_content(text)
 end
 
@@ -31,6 +34,9 @@ When(/^I click the next claim link$/) do
   find('.next-claim').click
 end
 
-Then(/^I should be on the claim with id (\d+)$/) do |id|
-  expect(page.current_path).to eq(case_workers_claim_path(id))
+Then(/^I should be on the claim case number "(.*?)"$/) do |case_number|
+  @case_worker.claims.caseworker_dashboard_under_assessment.each do |c|
+    ap "#{c.case_number}: #{c.last_submitted_at.strftime('%d:%m:%Y:%H%M:%S:%L')}"
+  end
+  expect(page).to have_content(case_number)
 end

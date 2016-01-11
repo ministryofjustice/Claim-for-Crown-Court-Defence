@@ -8,20 +8,20 @@
   %table.report
     %thead
       %th
-        = sortable 'case_number', t(".case_number")
+        = t(".case_number")
       - if current_user.persona.admin?
         %th
-          = sortable 'advocate', t(".advocate")
+          = t(".advocate")
       %th
-        = sortable 'defendants', t(".defendants")
+        = t(".defendants")
       %th
-        = sortable 'total', t(".total")
+        = t(".total")
       %th
-        = sortable 'amount_assessed', t(".assessed")
+        = t(".assessed")
       %th
-        = sortable 'state', t(".status")
+        = t(".status")
       %th
-        = sortable 'last_submitted_at', t(".submission_date")
+        = t(".submission_date")
       %th
         = t(".messages")
     %tbody

@@ -131,19 +131,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
-  def sort
-    @claims = @claims.sort(sort_column, sort_direction)
-  end
-
-  def paginate_claims
-    @claims = @claims.page(params[:page]).per(10)
+  def sort_and_paginate
+    # GOTCHA: must paginate in same call that sorts/orders
+    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(10)
   end
 
   def sort_claims
-    # NOTE: order MUST be sort, set carousel ids then paginate
-    sort
+    sort_and_paginate
     set_claim_carousel_info
-    paginate_claims
   end
 
 end

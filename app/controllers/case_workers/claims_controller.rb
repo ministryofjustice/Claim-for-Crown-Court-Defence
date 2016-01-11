@@ -1,14 +1,16 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
+  helper_method :sort_column, :sort_direction
+
   respond_to :html
-  
+
   # callback order is important (must set claims before filtering and sorting)
   before_action :set_claims,              only: [:index, :archived]
   before_action :filter_current_claims,   only: [:index]
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: [:index, :archived]
-  
+
   before_action :set_claim, only: [:show]
   before_action :set_doctypes, only: [:show, :update]
 
@@ -47,7 +49,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   private
 
-  def set_claim_ids_and_count
+  def set_claim_carousel_info
     session[:claim_ids] = @claims.all.map(&:id)
     session[:claim_count] = @claims.try(:count)
   end
@@ -90,11 +92,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           Claim.caseworker_dashboard_under_assessment
         when 'unallocated'
           Claim.submitted_or_redetermination_or_awaiting_written_reasons
-
-        # TODO: no longer used? - remove
-        when 'completed'
-          Claim.caseworker_dashboard_completed
-
       end
     else
       @claims = case tab
@@ -102,30 +99,16 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
           current_user.claims.caseworker_dashboard_under_assessment
         when 'archived'
           current_user.claims.caseworker_dashboard_archived
-
-        # TODO: no longer used? - remove
-        when 'completed'
-          current_user.claims.caseworker_dashboard_completed
       end
     end
-
-    @claims = @claims.page(params[:page]).per(10)
   end
 
   def tab
     if current_user.persona.admin?
-      %w(allocated unallocated current archived completed).include?(params[:tab]) ? params[:tab] : 'allocated'
+      %w(allocated unallocated current archived).include?(params[:tab]) ? params[:tab] : 'allocated'
     else
-      %w(current archived completed).include?(params[:tab]) ? params[:tab] : 'current'
+      %w(current archived).include?(params[:tab]) ? params[:tab] : 'current'
     end
-  end
-
-  def sort_column
-    Claim.column_names.include?(params[:sort]) ? params[:sort] : 'last_submitted_at'
-  end
-
-  def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
   def set_claim
@@ -140,9 +123,22 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     search(Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES) if params[:search].present?
   end
 
+  def sort_column
+    @claims.sortable_by?(params[:sort]) ? params[:sort] : 'last_submitted_at'
+  end
+
+  def sort_direction
+    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+  end
+
+  def sort_and_paginate
+    # GOTCHA: must paginate in same call that sorts/orders
+    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(10)
+  end
+
   def sort_claims
-    @claims = @claims.order("#{sort_column} #{sort_direction}")
-    set_claim_ids_and_count
+    sort_and_paginate
+    set_claim_carousel_info
   end
 
 end

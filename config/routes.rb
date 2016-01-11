@@ -132,6 +132,9 @@ Rails.application.routes.draw do
       resources :allocations, only: [:new, :create] do
         get '/', to: 'allocations#new', on: :collection
       end
+
+      get 'management_information', to: 'management_information#index', as: :management_information
+      get 'management_information/report', to: 'management_information#report', as: :management_information_report
     end
   end
 

@@ -65,6 +65,8 @@ class Ability
         end
         can [:show, :download], Document
         can [:show, :change_password, :update_password], CaseWorker, id: persona.id
+
+        can :view, :management_information
       end
     end
   end

@@ -285,6 +285,12 @@ describe Ability do
         it { should be_able_to(action, Allocation.new) }
       end
     end
+
+    context 'can view management information' do
+      [:view].each do |action|
+        it { should be_able_to(action, :management_information) }
+      end
+    end
   end
 
   context 'super admin' do

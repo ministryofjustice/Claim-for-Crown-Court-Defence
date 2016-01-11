@@ -56,7 +56,7 @@ module Claims::Sort
     # TODO: sort_messages - broken
 
     # seems to work but breaks claim carousel
-    joins(:messages).group(claims: :id).order("count(messages.*) #{direction}")
+    joins(:messages).group('claims.id').order("count(messages.*) #{direction}")
 
     # does not work
     # select('claims.id, COUNT(messages.*) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")

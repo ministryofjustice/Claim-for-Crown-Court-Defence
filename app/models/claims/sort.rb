@@ -1,6 +1,6 @@
 module Claims::Sort
 
-  META_SORT_COLUMNS = %w( advocate defendants amount_assessed case_type )
+  META_SORT_COLUMNS = %w( advocate amount_assessed case_type )
 
   def sortable_columns
     column_names + META_SORT_COLUMNS
@@ -18,8 +18,6 @@ module Claims::Sort
     case column
       when 'advocate'
         sort_advocates(direction)
-      when 'defendants'
-        sort_defendants(direction)
       when 'submitted_at'
         sort_submitted_at(direction)
       when 'case_type'
@@ -37,11 +35,7 @@ module Claims::Sort
   private
 
   def sort_advocates(direction)
-    joins(advocate: :user).order("users.last_name #{direction}, users.first_name #{direction}")
-  end
-
-  def sort_defendants(direction)
-    includes(:defendants).order("defendants.last_name #{direction}, defendants.first_name #{direction}")
+    joins(external_user: :user).order("users.last_name #{direction}, users.first_name #{direction}")
   end
 
   def sort_case_type(direction)
@@ -53,12 +47,9 @@ module Claims::Sort
   end
 
   def sort_messages(direction)
-    # TODO: sort_messages - broken
 
-    # seems to work but breaks claim carousel
+    # TODO: sort_messages - broken and should be ordered by any with unread first, then last_submitted_at
+    #       from conversation with PM.
     joins(:messages).group('claims.id').order("count(messages.*) #{direction}")
-
-    # does not work
-    # select('claims.id, COUNT(messages.*) AS messages_count').joins(:messages).group('claims.id').order("messages_count #{direction}")
   end
 end

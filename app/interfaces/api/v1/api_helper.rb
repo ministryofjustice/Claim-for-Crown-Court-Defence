@@ -28,7 +28,7 @@ module API
       end
 
       def self.find_advocate_by_email(options = {})
-        user = User.advocates.find_by(email: options[:email])
+        user = User.external_users.find_by(email: options[:email])
         if user.blank?
           raise API::V1::ArgumentError, "#{options[:relation]} email is invalid"
         else

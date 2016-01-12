@@ -16,7 +16,7 @@ class ClaimTextfieldValidator < BaseClaimValidator
 
   def self.mandatory_fields
     [
-    :advocate,
+    :external_user,
     :creator,
     :amount_assessed,
     :evidence_checklist_ids
@@ -32,8 +32,8 @@ class ClaimTextfieldValidator < BaseClaimValidator
   end
 
   # ALWAYS required/mandatory
-  def validate_advocate
-    validate_presence(:advocate, "blank")
+  def validate_external_user
+    validate_presence(:external_user, "blank")
   end
 
   # ALWAYS required/mandatory
@@ -83,7 +83,7 @@ end
 # must be greater than or equal to zero
 def validate_actual_trial_length
   if trial_dates_required?
-    validate_presence(:actual_trial_length, "blank") 
+    validate_presence(:actual_trial_length, "blank")
     validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
   end
 end

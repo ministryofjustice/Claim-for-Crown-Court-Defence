@@ -1,7 +1,0 @@
-= form_for [:advocates, @json_document_importer], html: {multipart: true}, remote: true do |f|
-  .claim-importer-header
-    = f.label :json_file, t('.import_claim')
-    .claim-importer-description Add your JSON report
-  = f.file_field :json_file, class: 'custom-uploader'
-  = f.submit t('common.upload'), class: "button button-secondary"
-  .errors

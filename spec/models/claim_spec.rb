@@ -17,7 +17,7 @@
 #  fees_total               :decimal(, )      default(0.0)
 #  expenses_total           :decimal(, )      default(0.0)
 #  total                    :decimal(, )      default(0.0)
-#  advocate_id              :integer
+#  external_user_id         :integer
 #  court_id                 :integer
 #  offence_id               :integer
 #  created_at               :datetime
@@ -46,9 +46,9 @@ require 'custom_matchers'
 
 RSpec.describe Claim, type: :model do
 
-  it { should belong_to(:advocate) }
-  it { should belong_to(:creator).class_name('Advocate').with_foreign_key('creator_id') }
-  it { should delegate_method(:provider_id).to(:advocate) }
+  it { should belong_to(:external_user) }
+  it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
+  it { should delegate_method(:provider_id).to(:external_user) }
 
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
@@ -62,32 +62,32 @@ RSpec.describe Claim, type: :model do
   it { should have_many(:case_workers) }
   it { should have_many(:claim_state_transitions) }
 
-  describe 'validates advocate and creator with same provider' do
+  describe 'validates external user and creator with same provider' do
     let(:provider) { create(:provider) }
     let(:other_provider) { create(:provider) }
-    let(:advocate) { create(:advocate, provider: provider) }
-    let(:same_provider_advocate) { create(:advocate, provider: provider) }
-    let(:other_provider_advocate) { create(:advocate, provider: other_provider) }
+    let(:external_user) { create(:external_user, provider: provider) }
+    let(:same_provider_external_user) { create(:external_user, provider: provider) }
+    let(:other_provider_external_user) { create(:external_user, provider: other_provider) }
 
-    it 'should be valid with the same advocate_id and creator_id' do
-      subject.advocate_id = advocate.id
-      subject.creator_id = advocate.id
+    it 'should be valid with the same external_user_id and creator_id' do
+      subject.external_user_id = external_user.id
+      subject.creator_id = external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate]).to be_empty
+      expect(subject.reload.errors.messages[:external_user]).to be_empty
     end
 
-    it 'should be valid with different advocate_id and creator_id but same provider' do
-      subject.advocate_id = advocate.id
-      subject.creator_id = same_provider_advocate.id
+    it 'should be valid with different external_user_id and creator_id but same provider' do
+      subject.external_user_id = external_user.id
+      subject.creator_id = same_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate]).to be_empty
+      expect(subject.reload.errors.messages[:external_user]).to be_empty
     end
 
-    it 'should not be valid when the advocate and creator are with the same provider' do
-      subject.advocate_id = advocate.id
-      subject.creator_id = other_provider_advocate.id
+    it 'should not be valid when the external_user and creator are with the same provider' do
+      subject.external_user_id = external_user.id
+      subject.creator_id = other_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:advocate]).to eq(['Creator and advocate must belong to the same provider'])
+      expect(subject.reload.errors.messages[:external_user]).to eq(['Creator and advocate must belong to the same provider'])
     end
   end
 
@@ -96,81 +96,81 @@ RSpec.describe Claim, type: :model do
     let(:all_states)  { [  'allocated', 'archived_pending_delete',
                            'deleted', 'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
 
-    context 'advocate_dashboard_draft?' do
+    context 'external_user_dashboard_draft?' do
       before(:each)     { allow(claim).to receive(:state).and_return('draft') }
 
       it 'should respond true in draft' do
         allow(claim).to receive(:state).and_return('draft')
-        expect(claim.advocate_dashboard_draft?).to be true
+        expect(claim.external_user_dashboard_draft?).to be true
       end
 
       it 'should respond false to anything else' do
         (all_states - ['draft']).each do |state|
           allow(claim).to receive(:state).and_return(state)
-          expect(claim.advocate_dashboard_draft?).to be false
+          expect(claim.external_user_dashboard_draft?).to be false
         end
       end
     end
 
-    context 'advocate_dashboard_rejected?' do
+    context 'external_user_dashboard_rejected?' do
       before(:each)     { allow(claim).to receive(:state).and_return('rejected') }
       it 'should respond true' do
         allow(claim).to receive(:state).and_return('rejected')
-        expect(claim.advocate_dashboard_rejected?).to be true
+        expect(claim.external_user_dashboard_rejected?).to be true
       end
 
       it 'should respond false to anything else' do
         (all_states - ['rejected']).each do |state|
           allow(claim).to receive(:state).and_return(state)
-          expect(claim.advocate_dashboard_rejected?).to be false
+          expect(claim.external_user_dashboard_rejected?).to be false
         end
       end
     end
 
-    context 'advocate_dashboard_submitted?' do
+    context 'external_user_dashboard_submitted?' do
       it 'should respond true' do
         [ 'allocated', 'submitted' ].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
-          expect(claim.advocate_dashboard_submitted?).to be true
+          expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
       it 'should respond false to anything else' do
         (all_states - [ 'allocated', 'submitted' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
-          expect(claim.advocate_dashboard_submitted?).to be false
+          expect(claim.external_user_dashboard_submitted?).to be false
         end
       end
     end
 
-    context 'advocate_dashboard_part_authorised' do
+    context 'external_user_dashboard_part_authorised' do
       it 'should respond true' do
         [ 'part_authorised' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
-          expect(claim.advocate_dashboard_part_authorised?).to be true
+          expect(claim.external_user_dashboard_part_authorised?).to be true
         end
       end
 
       it 'should respond false to anything else' do
         (all_states - [ 'part_authorised' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
-          expect(claim.advocate_dashboard_part_authorised?).to be false
+          expect(claim.external_user_dashboard_part_authorised?).to be false
         end
       end
     end
 
-    context 'advocate_dashboard_completed_states' do
+    context 'external_user_dashboard_completed_states' do
       it 'should respond true' do
         [ 'refused', 'authorised' ].each do |state|
           allow(claim).to receive(:state).and_return(state)
-          expect(claim.advocate_dashboard_completed?).to be true
+          expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
         (all_states - [ 'refused', 'authorised' ]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
-          expect(claim.advocate_dashboard_completed?).to be false
+          expect(claim.external_user_dashboard_completed?).to be false
         end
       end
     end
@@ -366,15 +366,15 @@ RSpec.describe Claim, type: :model do
 
     context 'find by Defendant name' do
 
-      let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate)   { create(:advocate, provider: current_advocate.provider ) }
+      let!(:current_external_user) { create(:external_user) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
       let(:search_options)    { :defendant_name }
 
       before do
-        subject.advocate = current_advocate
-        subject.creator = current_advocate
-        other_claim.advocate = other_advocate
-        other_claim.creator = other_advocate
+        subject.external_user = current_external_user
+        subject.creator = current_external_user
+        other_claim.external_user = other_external_user
+        other_claim.creator = other_external_user
         subject.save!
         other_claim.save!
         create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
@@ -402,19 +402,19 @@ RSpec.describe Claim, type: :model do
       let(:search_options) { :advocate_name }
 
       before do
-        subject.advocate = create(:advocate)
-        subject.creator = subject.advocate
-        other_claim.advocate = create(:advocate)
-        other_claim.creator = other_claim.advocate
-        subject.advocate.user.first_name = 'John'
-        subject.advocate.user.last_name = 'Smith'
-        subject.advocate.user.save!
+        subject.external_user = create(:external_user)
+        subject.creator = subject.external_user
+        other_claim.external_user = create(:external_user)
+        other_claim.creator = other_claim.external_user
+        subject.external_user.user.first_name = 'John'
+        subject.external_user.user.last_name = 'Smith'
+        subject.external_user.user.save!
 
         subject.save!
 
-        other_claim.advocate.user.first_name = 'Bob'
-        other_claim.advocate.user.last_name = 'Hoskins'
-        other_claim.advocate.user.save!
+        other_claim.external_user.user.first_name = 'Bob'
+        other_claim.external_user.user.last_name = 'Hoskins'
+        other_claim.external_user.user.save!
 
         other_claim.save!
       end
@@ -438,11 +438,11 @@ RSpec.describe Claim, type: :model do
       before do
         bob_hoskins = create(:user, first_name: 'Bob', last_name: 'Hoskins')
         bob_hoskins.save!
-        adv_bob_hoskins = create(:advocate, user: bob_hoskins)
+        adv_bob_hoskins = create(:external_user, user: bob_hoskins)
         adv_bob_hoskins.save!
-        create_list(:archived_pending_delete_claim,   2,  advocate: adv_bob_hoskins)
-        create_list(:authorised_claim,                      2,  advocate: adv_bob_hoskins)
-        create(:allocated_claim,                          advocate: adv_bob_hoskins)
+        create_list(:archived_pending_delete_claim,   2,  external_user: adv_bob_hoskins)
+        create_list(:authorised_claim,                      2,  external_user: adv_bob_hoskins)
+        create(:allocated_claim,                          external_user: adv_bob_hoskins)
       end
 
       it 'finds only claims of the single state specified' do
@@ -462,25 +462,25 @@ RSpec.describe Claim, type: :model do
 
     context 'find by advocate and defendant' do
 
-      let!(:current_advocate) { create(:advocate) }
-      let!(:other_advocate)   { create(:advocate, provider: current_advocate.provider ) }
+      let!(:current_external_user) { create(:external_user) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
       let(:search_options)    { [:advocate_name, :defendant_name] }
 
       before do
 
-        subject.advocate = current_advocate
-        subject.creator = current_advocate
-        subject.advocate.user.first_name = 'Fred'
-        subject.advocate.user.last_name = 'Bloggs'
-        subject.advocate.user.save!
+        subject.external_user = current_external_user
+        subject.creator = current_external_user
+        subject.external_user.user.first_name = 'Fred'
+        subject.external_user.user.last_name = 'Bloggs'
+        subject.external_user.user.save!
         create(:defendant, first_name: 'Joexx', last_name: 'Bloggs', claim: subject)
         subject.save!
 
-        other_claim.advocate = other_advocate
-        other_claim.creator = other_advocate
-        other_claim.advocate.user.first_name = 'Johncz'
-        other_claim.advocate.user.last_name = 'Hoskins'
-        other_claim.advocate.user.save!
+        other_claim.external_user = other_external_user
+        other_claim.creator = other_external_user
+        other_claim.external_user.user.first_name = 'Johncz'
+        other_claim.external_user.user.last_name = 'Hoskins'
+        other_claim.external_user.user.save!
         create(:defendant, first_name: 'Fred', last_name: 'Hoskins', claim: other_claim)
         other_claim.save!
 
@@ -974,7 +974,7 @@ RSpec.describe Claim, type: :model do
 
     it 'should zeroise the vat amount if vat is not applied' do
       claim = FactoryGirl.build :unpersisted_claim, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100
-      claim.advocate.vat_registered = false
+      claim.external_user.vat_registered = false
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
@@ -1131,7 +1131,7 @@ RSpec.describe Claim, type: :model do
       # VAT rate 17.5%
 
       before do
-        claim.advocate.vat_registered = true
+        claim.external_user.vat_registered = true
         claim.submit!
         claim.allocate!
         create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
@@ -1147,7 +1147,7 @@ RSpec.describe Claim, type: :model do
     context 'when VAT not applied' do
 
       before do
-        claim.advocate.vat_registered = false
+        claim.external_user.vat_registered = false
         claim.submit!
         claim.allocate!
         create(:assessment, claim: claim, fees: 12.55, expenses: 10.21)
@@ -1163,7 +1163,7 @@ RSpec.describe Claim, type: :model do
 
   describe 'not saving the expenses model' do
     it 'should save the expenses model' do
-      advocate = FactoryGirl.create :advocate
+      external_user = FactoryGirl.create :external_user
       expense_type = FactoryGirl.create :expense_type
       fee_type = FactoryGirl.create :fee_type
       case_type = FactoryGirl.create :case_type
@@ -1185,7 +1185,7 @@ RSpec.describe Claim, type: :model do
          "court_id"=>court.id,
          "case_number"=>"A12345678",
          "advocate_category"=>"QC",
-         "advocate_id" => advocate.id,
+         "external_user_id" => external_user.id,
          "offence_id"=>offence.id,
          "first_day_of_trial_dd"=>"8",
          "first_day_of_trial_mm"=>"9",
@@ -1224,7 +1224,7 @@ RSpec.describe Claim, type: :model do
        "offence_class"=>{"description"=>"64"},
        "commit"=>"Submit to LAA"}
       claim = Claim.new(params['claim'])
-      claim.creator = advocate
+      claim.creator = external_user
       expect(claim.save).to be true
       claim.force_validation = true
       result = claim.valid?
@@ -1238,10 +1238,10 @@ RSpec.describe Claim, type: :model do
 # local helpers
 # ---------------------
   def valid_params
-    advocate = FactoryGirl.create :advocate
+    external_user = FactoryGirl.create :external_user
     {"claim"=>
-        {"advocate_id" => advocate.id,
-        "creator_id" => advocate.id,
+        {"external_user_id" => external_user.id,
+        "creator_id" => external_user.id,
         "case_type_id"=>"1",
         "trial_fixed_notice_at_dd"=>"",
         "trial_fixed_notice_at_mm"=>"",

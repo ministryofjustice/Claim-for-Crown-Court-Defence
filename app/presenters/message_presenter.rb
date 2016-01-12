@@ -33,7 +33,12 @@ class MessagePresenter < BasePresenter
   end
 
   def sender_persona
-    message.sender.persona.class.to_s.humanize
+    case message.sender.persona
+      when CaseWorker
+        'Caseworker'
+      when ExternalUser
+        'Advocate'
+    end
   end
 
   def timestamp

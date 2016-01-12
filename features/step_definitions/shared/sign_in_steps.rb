@@ -3,9 +3,9 @@ def make_accounts(role, number = 1)
   @password = 'password'
   case role
     when 'advocate'
-      @advocates = create_list(:advocate, number)
+      @advocates = create_list(:external_user, number)
     when 'advocate admin'
-      @advocate_admins = create_list(:advocate, number, :admin)
+      @advocate_admins = create_list(:external_user, number, :admin)
     when 'case worker'
       @case_workers = create_list(:case_worker, number)
     when 'case worker admin'
@@ -20,13 +20,13 @@ Given(/an? "(.*?)" user account exists$/) do |role|
 end
 
 Given(/^I am a signed in advocate$/) do
-  @advocate = create(:advocate)
+  @advocate = create(:external_user)
   visit new_user_session_path
   sign_in(@advocate.user, 'password')
 end
 
 Given(/^I am a signed in advocate admin$/) do
-  @advocate = create(:advocate, :admin)
+  @advocate = create(:external_user, :admin)
   visit new_user_session_path
   sign_in(@advocate.user, 'password')
 end

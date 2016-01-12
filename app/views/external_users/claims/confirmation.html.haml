@@ -1,0 +1,36 @@
+- present(@claim) do |claim|
+  %h1.page-title
+    = t('.thanks')
+
+  %p
+    = t('.will_be_processed')
+
+  %h2
+    =t('.claim_summary')
+
+  %p
+    =t('.fees_summary')
+    = claim.fees_total
+
+  %p
+    =t('.expenses_total')
+    = claim.expenses_total
+
+  - if claim.apply_vat?
+    %p
+      =t('.vat_amount')
+      = claim.vat_amount
+
+  %h2
+    = t('.total')
+    = claim.total_inc_vat
+
+  %p
+    = link_to "Please could you spare 2 minutes of your time to complete two questions. This will help us improve this service for you.", new_feedback_path
+
+  %p
+    = link_to t('link.file_another_claim'), new_external_users_claim_path, class: 'button'
+    &nbsp;
+    = t('common.or')
+    &nbsp;
+    = link_to t('link.view_claim'), external_users_root_url, class: 'button'

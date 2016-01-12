@@ -86,10 +86,10 @@ context '#perform_validation?' do
 
   end
 
-  context 'advocate' do
+  context 'external_user' do
     it 'should error if not present, regardless' do
-      claim.advocate = nil
-      should_error_with(claim, :advocate, "blank")
+      claim.external_user = nil
+      should_error_with(claim, :external_user, "blank")
     end
   end
 

@@ -22,7 +22,7 @@ require 'rest-client'
 class ApiTestClient
 
   DROPDOWN_PREFIX = 'api'
-  ADVOCATE_PREFIX = 'api/advocates'
+  EXTERNAL_USER_PREFIX = 'api/external_users'
 
   # dropdown endpoints
   CASE_TYPE_ENDPOINT          = "case_types"
@@ -137,12 +137,12 @@ private
   end
 
   def test_provider_api_key
-    user = User.advocates.find_by(email: 'advocateadmin@example.com')
+    user = User.external_users.find_by(email: 'advocateadmin@example.com')
     user.persona.provider.api_key
   end
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
-    endpoint = RestClient::Resource.new([api_root_url, prefix || ADVOCATE_PREFIX, resource].join('/'))
+    endpoint = RestClient::Resource.new([api_root_url, prefix || EXTERNAL_USER_PREFIX, resource].join('/'))
     endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, result|
       if response.code.to_s =~ /^2/
         @messages << "#{resource} Endpoint returned success code - #{response.code}"

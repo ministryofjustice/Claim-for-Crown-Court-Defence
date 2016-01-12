@@ -2,7 +2,7 @@ require 'cucumber/rspec/doubles'
 
 Given(/^I am( not)? on the API sandbox$/) do |negation|
   true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
-  allow(Rails).to receive_message_chain(:host,:api_sandbox?).and_return true_or_false
+  allow(Rails).to receive_message_chain(:host, :api_sandbox?).and_return true_or_false
 end
 
 Then(/^I should( not)? see a link to the API sign up and documentation$/) do |have|

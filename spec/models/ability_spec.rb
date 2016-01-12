@@ -14,7 +14,7 @@ describe Ability do
   end
 
   context 'when a signed in user' do
-    let(:user) { create(:advocate).user }
+    let(:user) { create(:external_user).user }
 
     it { should be_able_to(:create, Message.new) }
     it { should be_able_to(:download_attachment, Message.new) }
@@ -23,10 +23,10 @@ describe Ability do
     it { should be_able_to(:update, UserMessageStatus.new) }
   end
 
-  context 'advocate' do
-    let(:advocate) { create(:advocate) }
-    let(:provider) { advocate.provider }
-    let(:user) { advocate.user }
+  context 'external_user' do
+    let(:external_user) { create(:external_user) }
+    let(:provider) { external_user.provider }
+    let(:user) { external_user.user }
 
     [:create].each do |action|
       it { should be_able_to(action, ClaimIntention) }
@@ -38,57 +38,57 @@ describe Ability do
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim.new(advocate: advocate)) }
+        it { should be_able_to(action, Claim.new(external_user: external_user)) }
       end
     end
 
-    context 'cannot manage claims by another advocate' do
-      let(:other_advocate) { create(:advocate) }
+    context 'cannot manage claims by another external_user' do
+      let(:other_external_user) { create(:external_user) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
+        it { should_not be_able_to(action, Claim.new(external_user: other_external_user)) }
       end
     end
 
     context 'can view/download their own documents' do
       [:show, :download].each do |action|
-        it { should be_able_to(action, Document.new(advocate: advocate)) }
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(advocate: advocate)) }
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
 
     context 'can destroy own documents' do
-      it { should be_able_to(:destroy, Document.new(advocate: advocate)) }
+      it { should be_able_to(:destroy, Document.new(external_user: external_user)) }
     end
 
-    context 'cannot view/download another advocate\'s documents' do
-      let(:other_advocate) { create(:advocate) }
+    context 'cannot view/download another external_user\'s documents' do
+      let(:other_external_user) { create(:external_user) }
 
       [:show, :download].each do |action|
-        it { should_not be_able_to(action, Document.new(advocate: other_advocate)) }
+        it { should_not be_able_to(action, Document.new(external_user: other_external_user)) }
       end
     end
 
     context 'cannot destroy another\'s documents' do
-      let(:other_advocate) { create(:advocate) }
+      let(:other_external_user) { create(:external_user) }
 
-      it { should_not be_able_to(:destroy, Document.new(advocate: other_advocate)) }
+      it { should_not be_able_to(:destroy, Document.new(external_user: other_external_user)) }
     end
 
-    context 'cannot manage advocates' do
+    context 'cannot manage external_user:s' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should_not be_able_to(action, Advocate.new(provider: advocate.provider)) }
+        it { should_not be_able_to(action, ExternalUser.new(provider: external_user.provider)) }
       end
     end
 
     context 'can view profile and change own password' do
       [:show, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, advocate) }
+        it { should be_able_to(action, external_user) }
       end
     end
 
@@ -107,10 +107,10 @@ describe Ability do
 
   end
 
-  context 'advocate admin' do
+  context 'external_user admin' do
     let(:provider) { create(:provider) }
-    let(:advocate) { create(:advocate, :admin, provider: provider) }
-    let(:user) { advocate.user }
+    let(:external_user) { create(:external_user, :admin, provider: provider) }
+    let(:user) { external_user.user }
 
     [:create].each do |action|
       it { should be_able_to(action, ClaimIntention) }
@@ -122,15 +122,15 @@ describe Ability do
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim.new(advocate: advocate)) }
+        it { should be_able_to(action, Claim.new(external_user: external_user)) }
       end
     end
 
-    context 'can manage claims by another advocate in the same provider' do
-      let(:other_advocate) { create(:advocate, provider: provider) }
+    context 'can manage claims by another external_user in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim.new(advocate: other_advocate)) }
+        it { should be_able_to(action, Claim.new(external_user: other_external_user)) }
       end
     end
 
@@ -147,63 +147,63 @@ describe Ability do
       end
     end
 
-    context 'cannot manage claims by another advocate with a different provider' do
-      let(:other_advocate) { create(:advocate) }
+    context 'cannot manage claims by another external_user with a different provider' do
+      let(:other_external_user) { create(:external_user) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should_not be_able_to(action, Claim.new(advocate: other_advocate)) }
+        it { should_not be_able_to(action, Claim.new(external_user: other_external_user)) }
       end
     end
 
     context 'can view/download their own documents' do
       [:show, :download].each do |action|
-        it { should be_able_to(action, Document.new(advocate: advocate)) }
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(advocate: advocate)) }
+        it { should be_able_to(action, Document.new(external_user: external_user)) }
       end
     end
 
     context 'can destroy own documents' do
-      it { should be_able_to(:destroy, Document.new(advocate: advocate)) }
+      it { should be_able_to(:destroy, Document.new(external_user: external_user)) }
     end
 
-    context 'can view/download documents by an advocate in the same provider' do
-      let(:other_advocate) { create(:advocate, provider: provider) }
+    context 'can view/download documents by an external_user in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
 
       [:show, :download].each do |action|
-        it { should be_able_to(action, Document.new(advocate: other_advocate)) }
+        it { should be_able_to(action, Document.new(external_user: other_external_user)) }
       end
     end
 
-    context 'cannot view/download another advocate\'s documents' do
-      let(:other_advocate) { create(:advocate) }
+    context 'cannot view/`download another external_user\'s documents' do
+      let(:other_external_user) { create(:external_user) }
 
       [:show, :download].each do |action|
-        it { should_not be_able_to(action, Document.new(advocate: other_advocate)) }
+        it { should_not be_able_to(action, Document.new(external_user: other_external_user)) }
       end
     end
 
     context 'cannot destroy another\'s documents' do
-      let(:other_advocate) { create(:advocate) }
+      let(:other_external_user) { create(:external_user) }
 
-      it { should_not be_able_to(:destroy, Document.new(advocate: other_advocate)) }
+      it { should_not be_able_to(:destroy, Document.new(external_user: other_external_user)) }
     end
 
-    context 'can manage advocates in their provider' do
+    context 'can manage external_users in their provider' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, Advocate.new(provider: provider)) }
+        it { should be_able_to(action, ExternalUser.new(provider: provider)) }
       end
     end
 
-    context 'cannot manage advocates in a different provider' do
+    context 'cannot manage external_users in a different provider' do
       let(:other_provider) { create(:provider) }
 
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should_not be_able_to(action, Advocate.new(provider: other_provider)) }
+        it { should_not be_able_to(action, ExternalUser.new(provider: other_provider)) }
       end
     end
   end
@@ -294,8 +294,8 @@ describe Ability do
     let(:other_super_admin) { create(:super_admin) }
     let(:provider)          { create(:provider) }
     let(:other_provider)    { create(:provider) }
-    let(:advocate)          { create(:advocate, provider: provider)}
-    let(:other_advocate)    { create(:advocate, provider: other_provider)}
+    let(:external_user)          { create(:external_user, provider: provider)}
+    let(:other_external_user)    { create(:external_user, provider: other_provider)}
 
     context 'can manage any provider' do
       [:show, :index, :new, :create, :edit, :update].each do |action|
@@ -321,16 +321,16 @@ describe Ability do
       end
     end
 
-    context 'can view, create and change any advocate details' do
+    context 'can view, create and change any external_users details' do
       [:show, :edit, :update, :new, :create, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, advocate) }
-        it { should be_able_to(action, other_advocate) }
+        it { should be_able_to(action, external_user) }
+        it { should be_able_to(action, other_external_user) }
       end
     end
 
-    context 'cannot destroy advocates' do
+    context 'cannot destroy external_users' do
       [:destroy].each do |action|
-        it { should_not be_able_to(action, advocate) }
+        it { should_not be_able_to(action, external_user) }
       end
     end
 

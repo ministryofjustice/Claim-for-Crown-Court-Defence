@@ -2,7 +2,7 @@ Given(/^a claim with messages exists that I have been assigned to$/) do
   @case_worker = CaseWorker.first
   @claim = create(:submitted_claim)
   @messages = create_list(:message, 5, claim_id: @claim.id)
-  @messages.each { |m| m.update_column(:sender_id, create(:advocate).user.id) }
+  @messages.each { |m| m.update_column(:sender_id, create(:external_user, :advocate).user.id) }
   @claim.case_workers << @case_worker
 end
 
@@ -28,15 +28,15 @@ Then(/^I should see my message at the bottom of the message list$/) do
 end
 
 Given(/^I have a submitted claim with messages$/) do
-  @claim = create(:submitted_claim, advocate_id: Advocate.first.id)
+  @claim = create(:submitted_claim, external_user_id: ExternalUser.first.id)
   @messages = create_list(:message, 5, claim_id: @claim.id)
-  @messages.each { |m| m.update_column(:sender_id, create(:advocate).user.id) }
+  @messages.each { |m| m.update_column(:sender_id, create(:external_user, :advocate).user.id) }
 end
 
 
 When(/^I edit the claim and save to draft$/) do
   claim = Claim.last
-  visit "/advocates/claims/#{claim.id}/edit"
+  visit "/external_users/claims/#{claim.id}/edit"
   click_on 'Save to drafts'
 end
 

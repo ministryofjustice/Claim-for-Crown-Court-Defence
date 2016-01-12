@@ -171,19 +171,19 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe '.is_in_state?' do
     let(:claim)         { build :unpersisted_claim }
 
-    it 'should be true if state is in ADVOCATE_DASHBOARD_SUBMITTED_STATES' do
+    it 'should be true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')
-      expect(Claims::StateMachine.is_in_state?(:advocate_dashboard_submitted?, claim)).to be true
+      expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be true
     end
 
-    it 'should return false if the state is not one of the ADVOCATE_DASHBOARD_SUBMITTED_STATES' do
+    it 'should return false if the state is not one of the EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(Claims::StateMachine.is_in_state?(:advocate_dashboard_submitted?, claim)).to be false
+      expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be false
     end
 
     it 'should return false if the method name is not recognised' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(Claims::StateMachine.is_in_state?(:advocate_rubbish_submitted?, claim)).to be false
+      expect(Claims::StateMachine.is_in_state?(:external_user_rubbish_submitted?, claim)).to be false
     end
   end
 

@@ -1,0 +1,53 @@
+- if claims.none?
+  %p
+    = t(".no_claims_found")
+- else
+  .claim-count
+    = "Number of claims: "
+    = @claims.total_count
+  %table.report
+    %thead
+      %th
+        = t(".case_number")
+      - if current_user.persona.admin?
+        %th
+          = t(".advocate")
+      %th
+        = t(".defendants")
+      %th
+        = t(".total")
+      %th
+        = t(".assessed")
+      %th
+        = t(".status")
+      %th
+        = t(".submission_date")
+      %th
+        = t(".messages")
+    %tbody
+      - claims.each do |claim_object|
+        - present(claim_object) do |claim|
+          %tr{id: dom_id(claim),class: claim.state}
+            %td
+              = link_to (claim.case_number.blank? ? 'not-provided' : claim.case_number), external_users_claim_path(claim), class: "js-test-case-number-link"
+            - if current_user.persona.admin?
+              %td
+                = claim.external_user.name
+            %td
+              = claim.defendant_names
+            %td
+              = claim.total_inc_vat
+            %td
+              = claim.amount_assessed
+            %td
+              = claim.state.humanize
+            %td
+              = claim.submitted_at
+            %td.messages
+              - if claim.messages.any?
+                = link_to "View", "#{external_users_claim_path(claim)}#messages"
+                - if claim.has_unread_messages_for?(current_user)
+                  %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
+              - else
+                %span.none
+                  = "None"

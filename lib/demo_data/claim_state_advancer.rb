@@ -20,7 +20,7 @@ module DemoData
     def initialize(claim)
       @claim                = claim
       @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").map(&:persona).sample
-      @advocate             = User.where("email like '%example.com' and  persona_type = 'Advocate'").map(&:persona).sample
+      @advocate             = User.where("email like '%example.com' and  persona_type = 'ExternalUser'").map(&:persona).sample
     end
 
     def advance_to(desired_state)
@@ -39,7 +39,7 @@ module DemoData
     end
 
     def submit(claim)
-      add_message(claim, claim.advocate)
+      add_message(claim, claim.external_user)
       claim.update(last_submitted_at: rand(0..180).days.ago)
       claim.submit!
     end

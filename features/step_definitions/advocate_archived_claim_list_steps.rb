@@ -1,5 +1,5 @@
 When(/^I visit the advocate archive$/) do
-  visit archived_advocates_claims_path
+  visit archived_external_users_claims_path
 end
 
 Then(/^I should not see non\-archived claims listed$/) do

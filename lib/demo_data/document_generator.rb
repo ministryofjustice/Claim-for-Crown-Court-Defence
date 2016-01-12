@@ -42,7 +42,7 @@ module DemoData
         claim: @claim,
         document: file,
         document_content_type: 'application/pdf',
-        advocate: @claim.advocate)
+        external_user: @claim.external_user)
     end
   end
 end

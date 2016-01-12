@@ -1,5 +1,5 @@
 %w(
-  advocates
+  external_users
   providers
   case_workers
 ).

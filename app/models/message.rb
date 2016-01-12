@@ -77,7 +77,7 @@ class Message < ActiveRecord::Base
   end
 
   def users_for_statuses
-    self.claim.advocate.provider.advocates.map(&:user) + self.claim.case_workers.map(&:user)
+    self.claim.external_user.provider.external_users.map(&:user) + self.claim.case_workers.map(&:user)
   end
 
   def process_claim_action

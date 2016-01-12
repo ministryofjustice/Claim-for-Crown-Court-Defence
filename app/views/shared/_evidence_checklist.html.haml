@@ -1,11 +1,11 @@
 #evidence-checklist-read-only
   %h3
     = "Supporting evidence checklist"
-  - if current_user.persona.is_a? Advocate
+  - if current_user.persona.is_a? ExternalUser
     %p.form-hint
       If you don't provide enough evidence, your claim may be rejected.
-  - if current_user == @claim.advocate.user && @claim.editable?
-    = link_to 'Edit', "#{edit_advocates_claim_path(@claim)}#evidence-checklist"
+  - if current_user == @claim.external_user.user && @claim.editable?
+    = link_to 'Edit', "#{edit_external_users_claim_path(@claim)}#evidence-checklist"
   - if @claim.evidence_checklist_ids.empty?
     %p
       No documentary evidence specified as having been provided.

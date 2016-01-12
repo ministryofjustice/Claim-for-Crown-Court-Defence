@@ -39,7 +39,7 @@ en:
       save: &save 'Save'
     models:
       super_admin: &super_admin 'Super administrator'
-      advocate: &advocate 'Advocate'
+      external_user: &advocate 'Advocate'
       case_worker: &case_worker 'Case worker'
     attributes:
       users:
@@ -60,7 +60,7 @@ en:
       claim: 'Claim'
       defendant: 'Defendant'
     attributes:
-      advocate:
+      external_user:
         role: *role
         supplier_number: 'Supplier number'
       case_worker:
@@ -72,7 +72,7 @@ en:
         last_name: *last_name
         email_confirmation: *email_confirmation
       claim:
-        advocate: *advocate
+        external_user: *advocate
         offence: 'Offence'
         court: 'Court'
         case_number: 'Case number'
@@ -80,7 +80,7 @@ en:
         advocate_category: 'Advocate category'
     errors:
       models:
-        advocate:
+        external_user:
           attributes:
             role:
               blank: cannot be blank
@@ -136,7 +136,7 @@ en:
 
 # en.common
   common:
-    advocate: Advocate
+    external_user: Advocate
     court: Court
     crown_court: Crown court
     defendant: Defendant
@@ -210,7 +210,7 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
-    advocates:
+    external_users:
       index:
         name: 'Name'
         supplier_number: *supplier_number
@@ -236,10 +236,10 @@ en:
         password_confirmation: *password_confirmation
         submit: 'Change password'
 
-# en.advocates
-  advocates:
+# en.external_users
+  external_users:
     admin:
-      advocates:
+      external_users:
         index:
           title: 'Manage advocates'
           actions: Manage details

@@ -3,13 +3,13 @@ require 'spec_helper'
 require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::Advocates::RepresentationOrder do
+describe API::V1::ExternalUsers::RepresentationOrder do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders"
-  VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/advocates/representation_orders/validate"
+  CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders"
+  VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders/validate"
 
   ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]

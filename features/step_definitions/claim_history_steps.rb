@@ -1,9 +1,9 @@
 Given(/^I have a claim in draft state$/) do
-  @claim = create(:claim, advocate: @advocate)
+  @claim = create(:claim, external_user: @advocate)
 end
 
 Given(/^I submit the claim$/) do
-  visit edit_advocates_claim_path(@claim)
+  visit edit_external_users_claim_path(@claim)
   click_on 'Submit to LAA'
 end
 
@@ -43,5 +43,5 @@ Then(/^I should see the state change to authorised reflected in the history$/) d
 end
 
 When(/^I visit the claim's detail page$/) do
-  visit advocates_claim_path(@claim)
+  visit external_users_claim_path(@claim)
 end

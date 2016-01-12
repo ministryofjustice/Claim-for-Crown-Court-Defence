@@ -1,5 +1,5 @@
 Then(/^I should see all advocates?$/) do
-  @advocates = @advocate.provider.advocates.ordered_by_last_name
+  @advocates = @advocate.provider.external_users.ordered_by_last_name
 
   within('.report') do
     #For each row in the report

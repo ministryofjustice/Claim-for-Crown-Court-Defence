@@ -3,22 +3,22 @@ require 'spec_helper'
 require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::Advocates::Claim do
+describe API::V1::ExternalUsers::Claim do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  VALIDATE_CLAIM_ENDPOINT = "/api/advocates/claims/validate"
-  CREATE_CLAIM_ENDPOINT = "/api/advocates/claims"
+  VALIDATE_CLAIM_ENDPOINT = "/api/external_users/claims/validate"
+  CREATE_CLAIM_ENDPOINT = "/api/external_users/claims"
 
   ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
 
   let!(:provider)       { create(:provider) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor)         { create(:advocate, :admin, provider: provider) }
-  let!(:advocate)       { create(:advocate, provider: provider) }
-  let!(:other_vendor)   { create(:advocate, :admin, provider: other_provider) }
+  let!(:vendor)         { create(:external_user, :admin, provider: provider) }
+  let!(:advocate)       { create(:external_user, :advocate, provider: provider) }
+  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence)}
   let!(:court)          { create(:court)}
   let!(:valid_params)   { {
@@ -161,7 +161,7 @@ describe API::V1::Advocates::Claim do
 
         it "belong to the advocate whose email was specified in params" do
           expected_owner = User.find_by(email: valid_params[:advocate_email])
-          expect(@new_claim.advocate).to eq expected_owner.persona
+          expect(@new_claim.external_user).to eq expected_owner.persona
         end
       end
 

@@ -28,7 +28,7 @@
           %td
             = link_to claim.case_number , case_workers_claim_path(claim),{:class => 'js-test-case-number-link'}
           %td
-            = claim.advocate.name
+            = claim.external_user.name
           %td
             = claim.defendant_names
           %td.js-test-total

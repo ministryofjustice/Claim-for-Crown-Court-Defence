@@ -163,16 +163,16 @@
     <div id="primary-nav-bar">
       <% if user_signed_in? %>
         <nav id="primary-nav" role="navigation">
-          <% if current_user.persona.is_a?(Advocate) %>
-            <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", '/advocates' %>
-            <%= link_to "Archive", '/advocates/claims/archived', title: "View archived claims"   %>
+          <% if current_user.persona.is_a?(ExternalUser) %>
+            <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", '/external_users' %>
+            <%= link_to "Archive", '/external_users/claims/archived', title: "View archived claims"   %>
             <% if Rails.host.api_sandbox? %>
               <%= link_to "API Documentation", '/api_landing', class: "current" %>
             <% end %>
-            <%= link_to t('link.add_claim'), '/advocates/claims/new', title: "Start a new claim" %>
+            <%= link_to t('link.add_claim'), '/external_users/claims/new', title: "Start a new claim" %>
             <% if current_user.persona.admin? %>
-              <%= link_to 'Manage advocates', '/advocates/admin/advocates' %>
-              <%= link_to "Manage #{current_user.persona.provider.provider_type}", "/advocates/admin/providers/#{current_user.persona.provider.id}" %>
+              <%= link_to 'Manage advocates', '/external_users/admin/external_users' %>
+              <%= link_to "Manage #{current_user.persona.provider.provider_type}", "/external_users/admin/providers/#{current_user.persona.provider.id}" %>
             <% end %>
           <% elsif current_user.persona.is_a?(CaseWorker) %>
             <% if current_user.persona.admin? %>
@@ -187,7 +187,7 @@
           <% end %>
         </nav>
         <div id='user_links'>
-          <%= link_to current_user.name, "/advocates/admin/advocates/#{current_user.persona.id}"%>
+          <%= link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}"%>
           <%= " | " %>
           <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
         </div>

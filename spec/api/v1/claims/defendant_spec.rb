@@ -3,13 +3,13 @@ require 'spec_helper'
 require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::Advocates::Defendant do
+describe API::V1::ExternalUsers::Defendant do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants"
-  VALIDATE_DEFENDANT_ENDPOINT = "/api/advocates/defendants/validate"
+  CREATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants"
+  VALIDATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants/validate"
 
   ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
   FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]

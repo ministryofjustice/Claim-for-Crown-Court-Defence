@@ -4,7 +4,7 @@ end
 
 When(/^a document exists that belongs to the(?: (\d+)\w+)? advocate$/) do |cardinality|
   card = cardinality.nil? ? 0 : cardinality.to_i - 1
-  @document = create(:document, advocate: @advocates[card])
+  @document = create(:document, external_user: @advocates[card])
 end
 
 Then(/^an anonymous user cannot access the document$/) do

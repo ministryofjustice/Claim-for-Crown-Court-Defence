@@ -20,7 +20,7 @@ When(/^I press update button$/) do
 end
 
 Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed of "(.*?)" and expenses assessed of "(.*?)"$/) do |number, status, fees, expenses|
-  claims = create_list(:allocated_claim, number.to_i, advocate: @advocate)
+  claims = create_list(:allocated_claim, number.to_i, external_user: @advocate)
   claims.each do |claim|
     claim.assessment.update!(fees: fees) unless fees.empty?
     claim.assessment.update!(expenses: expenses) unless expenses.empty?
@@ -39,8 +39,8 @@ Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed 
 end
 
 When(/^I view status details of my first claim$/) do
-	@claim = Claim.where(advocate: @advocate).first
-  visit advocates_claim_path(@claim)
+	@claim = Claim.where(external_user: @advocate).first
+  visit external_users_claim_path(@claim)
 end
 
 Then(/^I should see "(.*?)" total excluding vat assessed value of "(.*?)"$/) do |disabled, total|

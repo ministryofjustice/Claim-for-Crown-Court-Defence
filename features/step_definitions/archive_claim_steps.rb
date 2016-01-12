@@ -19,6 +19,6 @@ end
 Then(/^I should( not)? see the claim on the archive page$/) do |negation|
   claim = Claim.last
   does = negation.nil? ? 'to' : negation.gsub(/\s+/,'').downcase == 'not' ? 'to_not' : 'to'
-  visit archived_advocates_claims_path
+  visit archived_external_users_claims_path
   expect(page).method(does).call have_content(claim.case_number)
 end

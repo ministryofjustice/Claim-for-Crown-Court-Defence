@@ -1,5 +1,5 @@
 Given(/^I attempt to sign in with an incorrect password$/) do
-  @advocate = create(:advocate, :admin)
+  @advocate = create(:external_user, :admin)
   visit new_user_session_path
   sign_in(@advocate.user, 'passwordXXXXX')
 end
@@ -48,7 +48,7 @@ And(/^I blank out the "(.*)" field$/) do |field_id|
 end
 
 Given(/^I should be redirected back to the create claim page$/) do
-  expect(current_path).to eq '/advocates/claims'
+  expect(current_path).to eq '/external_users/claims'
 end
 
 And(/^The entered values should be preserved on the page$/) do

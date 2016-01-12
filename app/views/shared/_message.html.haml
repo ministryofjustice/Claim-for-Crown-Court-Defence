@@ -1,6 +1,6 @@
 .grid-row{id: dom_id(message) }
 
-  - if message.sender_is_a?(Advocate)
+  - if message.sender_is_a?(ExternalUser)
     .column-two-thirds
       .message-left
         .message-container

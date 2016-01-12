@@ -10,7 +10,7 @@
 #  document_content_type                   :string
 #  document_file_size                      :integer
 #  document_updated_at                     :datetime
-#  advocate_id                             :integer
+#  external_user_id                        :integer
 #  converted_preview_document_file_name    :string
 #  converted_preview_document_content_type :string
 #  converted_preview_document_file_size    :integer
@@ -23,7 +23,7 @@
 class Document < ActiveRecord::Base
   include DocumentAttachment
 
-  belongs_to :advocate
+  belongs_to :external_user
   belongs_to :claim
 
   validates_attachment :document,
@@ -43,7 +43,7 @@ class Document < ActiveRecord::Base
                      'image/x-bitmap'
                      ]}
 
-  delegate   :provider_id, to: :advocate
+  delegate   :provider_id, to: :external_user
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document

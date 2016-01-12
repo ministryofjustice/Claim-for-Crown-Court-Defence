@@ -1,17 +1,17 @@
 Given(/^I have authorised and part authorised claims$/) do
-  @claims = create_list(:authorised_claim, 2, advocate: @advocate)
-  @claims += create_list(:part_authorised_claim, 3, advocate: @advocate)
+  @claims = create_list(:authorised_claim, 2, external_user: @advocate)
+  @claims += create_list(:part_authorised_claim, 3, external_user: @advocate)
   @other_claims = create_list(:allocated_claim, 3)
 end
 
 Given(/^my provider has authorised and part authorised claims$/) do
-  another_advocate = create(:advocate)
-  @advocate.provider.advocates << another_advocate
+  another_advocate = create(:external_user, :advocate)
+  @advocate.provider.external_users << another_advocate
   @claims = create_list(:authorised_claim, 2)
   @claims += create_list(:part_authorised_claim, 1)
-  @claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
+  @claims.each { |claim| claim.update_column(:external_user_id, another_advocate.id) }
   @other_claims = create_list(:allocated_claim, 3)
-  @other_claims.each { |claim| claim.update_column(:advocate_id, another_advocate.id) }
+  @other_claims.each { |claim| claim.update_column(:external_user_id, another_advocate.id) }
 end
 
 Then(/^I should see my total value of outstanding claims$/) do

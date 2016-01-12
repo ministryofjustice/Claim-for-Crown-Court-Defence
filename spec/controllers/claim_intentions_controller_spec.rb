@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ClaimIntentionsController, type: :controller do
-  let!(:advocate)       { create(:advocate) }
-  before { sign_in advocate.user }
+  let!(:external_user) { create(:external_user) }
+
+  before { sign_in external_user.user }
 
   describe 'POST #create' do
     context 'when form_id present' do

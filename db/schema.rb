@@ -11,25 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107163538) do
+ActiveRecord::Schema.define(version: 20160111111547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
-
-  create_table "advocates", force: :cascade do |t|
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "supplier_number"
-    t.uuid     "uuid",            default: "uuid_generate_v4()"
-    t.boolean  "vat_registered",  default: true
-    t.integer  "provider_id"
-  end
-
-  add_index "advocates", ["provider_id"], name: "index_advocates_on_provider_id", using: :btree
-  add_index "advocates", ["role"], name: "index_advocates_on_role", using: :btree
-  add_index "advocates", ["supplier_number"], name: "index_advocates_on_supplier_number", using: :btree
 
   create_table "case_types", force: :cascade do |t|
     t.string   "name"
@@ -110,7 +97,7 @@ ActiveRecord::Schema.define(version: 20160107163538) do
     t.decimal  "fees_total",               default: 0.0
     t.decimal  "expenses_total",           default: 0.0
     t.decimal  "total",                    default: 0.0
-    t.integer  "advocate_id"
+    t.integer  "external_user_id"
     t.integer  "court_id"
     t.integer  "offence_id"
     t.datetime "created_at"
@@ -134,11 +121,11 @@ ActiveRecord::Schema.define(version: 20160107163538) do
     t.datetime "original_submission_date"
   end
 
-  add_index "claims", ["advocate_id"], name: "index_claims_on_advocate_id", using: :btree
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
   add_index "claims", ["cms_number"], name: "index_claims_on_cms_number", using: :btree
   add_index "claims", ["court_id"], name: "index_claims_on_court_id", using: :btree
   add_index "claims", ["creator_id"], name: "index_claims_on_creator_id", using: :btree
+  add_index "claims", ["external_user_id"], name: "index_claims_on_external_user_id", using: :btree
   add_index "claims", ["form_id"], name: "index_claims_on_form_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["state"], name: "index_claims_on_state", using: :btree
@@ -200,7 +187,7 @@ ActiveRecord::Schema.define(version: 20160107163538) do
     t.string   "document_content_type"
     t.integer  "document_file_size"
     t.datetime "document_updated_at"
-    t.integer  "advocate_id"
+    t.integer  "external_user_id"
     t.string   "converted_preview_document_file_name"
     t.string   "converted_preview_document_content_type"
     t.integer  "converted_preview_document_file_size"
@@ -210,10 +197,10 @@ ActiveRecord::Schema.define(version: 20160107163538) do
     t.integer  "creator_id"
   end
 
-  add_index "documents", ["advocate_id"], name: "index_documents_on_advocate_id", using: :btree
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
   add_index "documents", ["creator_id"], name: "index_documents_on_creator_id", using: :btree
   add_index "documents", ["document_file_name"], name: "index_documents_on_document_file_name", using: :btree
+  add_index "documents", ["external_user_id"], name: "index_documents_on_external_user_id", using: :btree
 
   create_table "expense_types", force: :cascade do |t|
     t.string   "name"
@@ -237,6 +224,20 @@ ActiveRecord::Schema.define(version: 20160107163538) do
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
+
+  create_table "external_users", force: :cascade do |t|
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "supplier_number"
+    t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.boolean  "vat_registered",  default: true
+    t.integer  "provider_id"
+  end
+
+  add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree
+  add_index "external_users", ["role"], name: "index_external_users_on_role", using: :btree
+  add_index "external_users", ["supplier_number"], name: "index_external_users_on_supplier_number", using: :btree
 
   create_table "fee_categories", force: :cascade do |t|
     t.string   "name"
@@ -400,5 +401,5 @@ ActiveRecord::Schema.define(version: 20160107163538) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  add_foreign_key "advocates", "providers"
+  add_foreign_key "external_users", "providers"
 end

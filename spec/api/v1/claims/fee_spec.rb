@@ -4,13 +4,13 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
-describe API::V1::Advocates::Fee do
+describe API::V1::ExternalUsers::Fee do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_FEE_ENDPOINT = "/api/advocates/fees"
-  VALIDATE_FEE_ENDPOINT = "/api/advocates/fees/validate"
+  CREATE_FEE_ENDPOINT = "/api/external_users/fees"
+  VALIDATE_FEE_ENDPOINT = "/api/external_users/fees/validate"
 
   ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]

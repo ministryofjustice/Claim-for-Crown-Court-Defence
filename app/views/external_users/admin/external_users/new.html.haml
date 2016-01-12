@@ -1,0 +1,11 @@
+- if @external_user.errors.any?
+  .validation-summary
+    %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@external_user.errors.count, t('.error'))}"
+    %ul
+      - @external_user.errors.full_messages.each do |msg|
+        %li= msg
+
+%h1.page-title
+  = t('.new_advocate')
+
+= render 'form'

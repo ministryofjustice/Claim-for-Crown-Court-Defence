@@ -8,7 +8,7 @@ end
 
 Then(/^I visit the claim show page$/) do
   @claim = @claim || Claim.first
-  visit advocates_claim_path(@claim)
+  visit external_users_claim_path(@claim)
 end
 
 Then(/^I should see a list item for "(.*?)" evidence$/) do |text|

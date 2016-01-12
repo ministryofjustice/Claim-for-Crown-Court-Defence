@@ -1,4 +1,3 @@
-
 Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) providers?$/) do |number, role, providers|
   make_accounts(role, number.to_i)
   if providers == 'the same'
@@ -55,7 +54,7 @@ Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
 end
 
 Then(/^I should be redirected to the advocates root url$/) do
-  expect(current_url).to eq(advocates_root_url)
+  expect(current_url).to eq(external_users_root_url)
 end
 
 Then(/^I should see the advocates correct working primary navigation$/) do

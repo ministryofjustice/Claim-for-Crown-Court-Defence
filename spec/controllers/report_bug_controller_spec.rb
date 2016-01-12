@@ -33,7 +33,7 @@ RSpec.describe BugReportController, type: :controller do
 
     context 'when valid' do
       context 'and user signed in' do
-        let(:advocate) { create(:advocate) }
+        let(:advocate) { create(:external_user) }
 
         before do
           sign_in advocate.user
@@ -41,7 +41,7 @@ RSpec.describe BugReportController, type: :controller do
 
         it "redirects to the users home" do
           post :create, bug_report: params
-          expect(response).to redirect_to(advocates_root_url)
+          expect(response).to redirect_to(external_users_root_url)
         end
       end
 

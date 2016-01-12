@@ -59,7 +59,7 @@ Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
   end
 end
 
-When(/^I then choose to remove the additional rep order$/) do
+When(/^I choose to remove the additional rep order$/) do
   within('#defendants') do
     page.all('a', text: "Remove representation order").last.click
   end

@@ -84,7 +84,9 @@
 
 
     %fieldset
-      %legend.bold-medium
+      %legend.visuallyhidden
+        = t('.defendants')
+      .bold-medium
         = t('.defendants')
       #defendants
         = f.fields_for :defendants do |defendant|

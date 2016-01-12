@@ -3,7 +3,7 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string
+#  roles          :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer

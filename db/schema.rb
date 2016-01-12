@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111111547) do
+ActiveRecord::Schema.define(version: 20160112165430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20160111111547) do
   add_index "case_worker_claims", ["claim_id"], name: "index_case_worker_claims_on_claim_id", using: :btree
 
   create_table "case_workers", force: :cascade do |t|
-    t.string   "role"
+    t.string   "roles"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20160111111547) do
   end
 
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
-  add_index "case_workers", ["role"], name: "index_case_workers_on_role", using: :btree
+  add_index "case_workers", ["roles"], name: "index_case_workers_on_roles", using: :btree
 
   create_table "certifications", force: :cascade do |t|
     t.integer  "claim_id"
@@ -226,7 +226,7 @@ ActiveRecord::Schema.define(version: 20160111111547) do
   add_index "expenses", ["expense_type_id"], name: "index_expenses_on_expense_type_id", using: :btree
 
   create_table "external_users", force: :cascade do |t|
-    t.string   "role"
+    t.string   "roles"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "supplier_number"
@@ -236,7 +236,7 @@ ActiveRecord::Schema.define(version: 20160111111547) do
   end
 
   add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree
-  add_index "external_users", ["role"], name: "index_external_users_on_role", using: :btree
+  add_index "external_users", ["roles"], name: "index_external_users_on_roles", using: :btree
   add_index "external_users", ["supplier_number"], name: "index_external_users_on_supplier_number", using: :btree
 
   create_table "fee_categories", force: :cascade do |t|

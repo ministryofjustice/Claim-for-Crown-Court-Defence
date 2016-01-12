@@ -3,7 +3,7 @@
 # Table name: external_users
 #
 #  id              :integer          not null, primary key
-#  role            :string
+#  roles           :string
 #  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime

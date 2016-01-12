@@ -2,10 +2,12 @@ module UserRoles
   extend ActiveSupport::Concern
 
   included do |klass|
-    validates :role, presence: true, inclusion: { in: klass::ROLES }
+    klass.serialize :roles, Array
+
+    # validates :role, presence: true, inclusion: { in: klass::ROLES }
 
     klass::ROLES.each do |role|
-      scope role.pluralize.to_sym, -> { where(role: role) }
+      scope role.pluralize.to_sym, -> { where(role: roles) }
     end
 
     klass::ROLES.each do |role|
@@ -16,6 +18,6 @@ module UserRoles
   end
 
   def is?(role)
-    self.role == role.to_s
+    self.roles.include?(role.to_s)
   end
 end

@@ -38,12 +38,15 @@ Feature: Advocate new claim
      Then I should be redirected to the new claim page
 
   Scenario: Add mulitple rep orders for a single defendant
+  @javascript @webmock_allow_localhost_connect
     Given I am a signed in advocate
       And I am on the new claim page
      When I click Add Another Representation Order
      Then I see 2 fields for adding a rep order
+  @javascript @webmock_allow_localhost_connect
 
   Scenario: Add too many rep orders for a single defendant and remove one
+  @javascript @webmock_allow_localhost_connect
     Given I am a signed in advocate
       And I am on the new claim page
      When I click Add Another Representation Order

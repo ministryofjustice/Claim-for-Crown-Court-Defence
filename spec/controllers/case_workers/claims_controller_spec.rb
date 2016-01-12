@@ -2,7 +2,25 @@ require 'rails_helper'
 
 RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   let!(:case_worker) { create(:case_worker) }
-  let!(:claims) { create_list(:allocated_claim, 5) }
+  # let!(:claims)      { create_list(:allocated_claim, 5) }
+
+  let!(:claims) do
+    claims = []
+    10.times do |n|
+      Timecop.freeze(n.days.ago) do
+        claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
+        claims << claim
+      end
+    end
+
+    # make the oldest/5th one be resubmitted for redetermination so we can test ordering by last_submitted_at
+    # i.e. A00000005 to A00000001 is oldest to most recently CREATED, but A00000005 was LAST_SUBMITTED most recently
+    oldest = claims.last
+    oldest.assessment.update(fees: random_amount, expenses: random_amount)
+    oldest.authorise!; oldest.redetermine!
+    claims
+  end
+
   let!(:other_claim) { create(:submitted_claim) }
 
   before do
@@ -25,16 +43,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     context 'current claims' do
-      it 'assigns allocated @claims' do
-        expect(assigns(:claims)).to match_array(case_worker.claims.allocated)
+      it 'shows claims allocated to current user' do
+        expect(assigns(:claims)).to match_array(case_worker.claims.caseworker_dashboard_under_assessment.limit(10))
       end
-    end
 
-    context 'completed claims' do
-      let(:tab) { 'completed' }
+      it 'defaults ordering of claims to oldest first based on last submitted date' do
+        expect(assigns(:claims)).to eq(case_worker.claims.caseworker_dashboard_under_assessment.order(last_submitted_at: :asc).page(1).per(10))
+      end
 
-      it 'assigns completed @claims' do
-        expect(assigns(:claims)).to eq(case_worker.claims.caseworker_dashboard_completed)
+      it 'paginates to 10 per page' do
+        case_worker.claims << create(:allocated_claim)
+        expect(case_worker.claims.caseworker_dashboard_under_assessment.count).to eql(11)
+        expect(assigns(:claims).count).to eq(10)
       end
     end
 

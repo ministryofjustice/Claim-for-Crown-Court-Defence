@@ -29,16 +29,40 @@ Given(/^There are case types in place$/) do
   CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
 end
 
+When(/^I click Add another defendant$/) do
+  within('#defendants') do
+    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another defendant"}.first.click
+  end
+end
+
+Then(/^I see (\d+) defendant sections?$/) do |number|
+  within('#defendants') do
+    expect(page.all('.js-test-defendant').count).to eq(number.to_i)
+  end
+end
+
+When(/^I choose to remove the additional defendant$/) do
+  within('#defendants') do
+    page.all('a', text: "Remove defendant").last.click
+  end
+end
+
 When(/^I click Add Another Representation Order$/) do
-  page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+  within('#defendants') do
+    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+  end
 end
 
 Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
-  page.all('.rep_order').count == number
+  within('#defendants') do
+    expect(page.all('.js-test-rep-order').count).to eq(number.to_i)
+  end
 end
 
-When(/^I then choose to remove the additional rep order$/) do
-  page.all('a', text: "Remove representation order").last.click
+When(/^I choose to remove the additional rep order$/) do
+  within('#defendants') do
+    page.all('a', text: "Remove representation order").last.click
+  end
 end
 
 Given(/^I am creating a new claim$/) do

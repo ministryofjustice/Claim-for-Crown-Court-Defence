@@ -5,9 +5,6 @@
   - if params[:search].present?
     = render partial: 'shared/search_summary'
 
-#list-controls
-  = render partial: 'list_controls'
-
 - if @claims.none?
   %p
     = t(".no_claims_found")

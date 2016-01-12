@@ -37,18 +37,30 @@ Feature: Advocate new claim
       And I clear the form
      Then I should be redirected to the new claim page
 
-  Scenario: Add mulitple rep orders for a single defendant
+  @javascript @webmock_allow_localhost_connect
+  Scenario: Add mulitple defendants to a new claim
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I click Add another defendant
+     Then I see 2 defendant sections
+
+  @javascript @webmock_allow_localhost_connect
+  Scenario: Add and remove defendants from a claim
+    Given I am a signed in advocate
+      And I am on the new claim page
+     When I click Add another defendant
+     Then I see 2 defendant sections
+     When I choose to remove the additional defendant
+     Then I see 1 defendant section
+
+  @javascript @webmock_allow_localhost_connect
+  Scenario: Add and remove rep orders for a single defendant
     Given I am a signed in advocate
       And I am on the new claim page
      When I click Add Another Representation Order
      Then I see 2 fields for adding a rep order
-
-  Scenario: Add too many rep orders for a single defendant and remove one
-    Given I am a signed in advocate
-      And I am on the new claim page
-     When I click Add Another Representation Order
-      And I then choose to remove the additional rep order
-     Then I see 1 field for adding a rep order
+     When I choose to remove the additional rep order
+    Then I see 1 field for adding a rep order
 
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Add fees with dates attended then remove fee

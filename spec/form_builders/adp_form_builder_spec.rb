@@ -18,23 +18,23 @@ describe AdpFormBuilder do
 
 
     it 'should output select with data attributes on each option' do
-      html = builder.collection_select2_with_data(:case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true } )  
+      html = builder.collection_select2_with_data(:case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true } )
       expect(html).to eq(squash(expected_output_with_one_data_attribute))
     end
-  end 
+  end
 
 
   describe 'anchored_label' do
     context 'no anchor name supplied' do
       it 'should take the label as the anchor name' do
-        expected_html = %Q[<a name="advocate_category"></a><label for="claim_Advocate category">Advocate category</label>]
+        expected_html = %Q[<a name="advocate_category"></a><label for="claim_advocate_category">Advocate category</label>]
         expect(builder.anchored_label('Advocate category')).to eq expected_html
       end
-    end 
+    end
 
     context 'anchor name supplied' do
       it 'should use anchor name supplied' do
-        expected_html = %Q[<a name="ad_cat"></a><label for="claim_Advocate category">Advocate category</label>]
+        expected_html = %Q[<a name="ad_cat"></a><label for="claim_ad_cat">Advocate category</label>]
         expect(builder.anchored_label('Advocate category', 'ad_cat')).to eq expected_html
       end
     end

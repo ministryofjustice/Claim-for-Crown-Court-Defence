@@ -169,3 +169,11 @@ form {
 .inline-form {
   display: inline;
 }
+
+.indent-fieldset {
+  border-left: 5px solid $border-colour;
+  border-bottom: 0;
+  padding-left: $gutter;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

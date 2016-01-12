@@ -58,6 +58,7 @@ class Ability
         can [:index, :new, :create], CaseWorker
         can [:show, :show_message_controls, :edit, :change_password, :update_password, :allocate, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
+        can :view, :management_information
       else
         can [:index, :show, :show_message_controls, :archived], Claim
         can [:update], Claim do |claim|
@@ -65,8 +66,6 @@ class Ability
         end
         can [:show, :download], Document
         can [:show, :change_password, :update_password], CaseWorker, id: persona.id
-
-        can :view, :management_information
       end
     end
   end

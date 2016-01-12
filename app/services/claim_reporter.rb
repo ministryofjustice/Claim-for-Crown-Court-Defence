@@ -78,11 +78,7 @@ class ClaimReporter
   end
 
   def processed_claims
-    Claim.where(state: processed_states)
-  end
-
-  def processed_states
-    %w( rejected refused part_authorised authorised )
+    Claim.caseworker_dashboard_completed
   end
 
   def claims_percentage(percentage_claims, all_claims)

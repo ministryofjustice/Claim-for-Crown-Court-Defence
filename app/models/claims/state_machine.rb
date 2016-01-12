@@ -13,7 +13,7 @@ module Claims::StateMachine
   CASEWORKER_DASHBOARD_ARCHIVED_STATES          = %w( authorised part_authorised rejected refused archived_pending_delete)
   VALID_STATES_FOR_REDETERMINATION              = %w( authorised part_authorised refused )
   VALID_STATES_FOR_ARCHIVAL                     = %w( authorised part_authorised refused rejected )
-  NON_DRAFT_STATES                              = %w( allocated deleted authorised part_authorised refused rejected submitted )
+  NON_DRAFT_STATES                              = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
   AUTHORISED_STATES                             = ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states

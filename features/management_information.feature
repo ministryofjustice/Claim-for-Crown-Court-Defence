@@ -6,5 +6,5 @@ Feature: Management information
 
   Scenario: Download management information as CSV
     Given I am on the management information page
-     When I click "Download report"
-     Then I should have a CSV of the report
+    When I click "Download report"
+    Then I should have a CSV of the report

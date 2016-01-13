@@ -27,8 +27,6 @@ RSpec.describe CaseWorker, type: :model do
 
   it { should validate_presence_of(:location).with_message('Location cannot be blank') }
   it { should validate_presence_of(:user).with_message('User cannot be blank') }
-  it { should validate_presence_of(:role) }
-  it { should validate_inclusion_of(:role).in_array(%w( admin case_worker )) }
 
   describe 'ROLES' do
     it 'should have "admin" and "case_worker"' do
@@ -36,6 +34,24 @@ RSpec.describe CaseWorker, type: :model do
     end
   end
 
+  context 'roles' do
+    it 'is not valid when no roles present' do
+      external_user = build(:case_worker, roles: [])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('at least one role must be present')
+    end
+
+    it 'is not valid for roles not in the ROLES array' do
+      external_user = build(:case_worker, roles: ['foobar', 'admin', 'case_worker'])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('must be one or more of: admin, case worker')
+    end
+
+    it 'is valid for roles in the ROLES array' do
+      external_user = build(:case_worker, roles: ['case_worker', 'admin'])
+      expect(external_user).to be_valid
+    end
+  end
 
   context 'validations' do
     context 'days_worked' do
@@ -82,6 +98,13 @@ RSpec.describe CaseWorker, type: :model do
     it 'only returns case workers with role "admin"' do
       expect(CaseWorker.admins.count).to eq(1)
     end
+
+    it 'returns case workers with role "admin" and "case_worker"' do
+      c = CaseWorker.first
+      c.roles = ['admin', 'case_worker']
+      c.save!
+      expect(CaseWorker.admins.count).to eq(1)
+    end
   end
 
   describe '.case_workers' do
@@ -92,6 +115,13 @@ RSpec.describe CaseWorker, type: :model do
     end
 
     it 'only returns case workers with role "case_worker"' do
+      expect(CaseWorker.case_workers.count).to eq(1)
+    end
+
+    it 'returns external_users with role "admin" and "case_worker"' do
+      c = CaseWorker.last
+      c.roles = ['admin', 'case_worker']
+      c.save!
       expect(CaseWorker.case_workers.count).to eq(1)
     end
   end

@@ -30,7 +30,24 @@ RSpec.describe ExternalUser, type: :model do
   it { should delegate_method(:last_name).to(:user) }
   it { should delegate_method(:name).to(:user) }
 
-  it { should validate_inclusion_of(:role).in_array(%w( admin advocate )) }
+  context 'roles' do
+    it 'is not valid when no roles present' do
+      external_user = build(:external_user, roles: [])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('at least one role must be present')
+    end
+
+    it 'is not valid for roles not in the ROLES array' do
+      external_user = build(:external_user, roles: ['foobar', 'admin', 'advocate'])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('must be one or more of: admin, advocate')
+    end
+
+    it 'is valid for roles in the ROLES array' do
+      external_user = build(:external_user, roles: ['advocate', 'admin'])
+      expect(external_user).to be_valid
+    end
+  end
 
   context 'supplier number validation' do
     context 'when no Provider present' do
@@ -151,10 +168,17 @@ RSpec.describe ExternalUser, type: :model do
   describe '.admins' do
     before do
       create(:external_user, :admin)
-      create(:external_user)
+      create(:external_user, :advocate)
     end
 
     it 'only returns external_users with role "admin"' do
+      expect(ExternalUser.admins.count).to eq(1)
+    end
+
+    it 'returns external_users with role "admin" and "advocate"' do
+      e = ExternalUser.first
+      e.roles = ['admin', 'advocate']
+      e.save!
       expect(ExternalUser.admins.count).to eq(1)
     end
   end
@@ -169,11 +193,18 @@ RSpec.describe ExternalUser, type: :model do
     it 'only returns external_users with role "advocate"' do
       expect(ExternalUser.advocates.count).to eq(1)
     end
+
+    it 'returns external_users with role "admin" and "advocate"' do
+      e = ExternalUser.last
+      e.roles = ['admin', 'advocate']
+      e.save!
+      expect(ExternalUser.advocates.count).to eq(1)
+    end
   end
 
   describe 'roles' do
     let(:admin) { create(:external_user, :admin) }
-    let(:advocate) { create(:external_user) }
+    let(:advocate) { create(:external_user, :advocate) }
 
     describe '#is?' do
       context 'given advocate' do

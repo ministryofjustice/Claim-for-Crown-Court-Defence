@@ -49,11 +49,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for_case_worker
-    case current_user.persona.role
-    when 'case_worker'
-      case_workers_root_url
-    when 'admin'
+    if current_user.persona.admin?
       case_workers_admin_root_url
+    else
+      case_workers_root_url
     end
   end
 

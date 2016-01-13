@@ -12,7 +12,7 @@
 #
 
 class ExternalUser < ActiveRecord::Base
-  auto_strip_attributes :role, :supplier_number, squish: true, nullify: true
+  auto_strip_attributes :supplier_number, squish: true, nullify: true
 
   ROLES = %w{ admin advocate }
   include UserRoles

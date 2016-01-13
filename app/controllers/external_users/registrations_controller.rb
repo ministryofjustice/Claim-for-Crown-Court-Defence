@@ -44,7 +44,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
     provider = Provider.create!(name: Faker::Company.name, supplier_number: generate_unique_supplier_number, provider_type: 'firm')
     external_user = ExternalUser.new(
       provider: provider,
-      role: 'admin',
+      roles: ['admin'],
       supplier_number: generate_unique_supplier_number
     )
     external_user.user = resource

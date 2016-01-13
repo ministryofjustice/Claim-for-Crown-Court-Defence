@@ -20,14 +20,18 @@ FactoryGirl.define do
     provider
     supplier_number  { generate_unique_supplier_number }
 
-    role 'advocate'
+    roles ['advocate']
 
     trait :advocate do
-      role 'advocate'
+      roles ['advocate']
     end
 
     trait :admin do
-      role 'admin'
+      roles ['admin']
+    end
+
+    trait :advocate_and_admin do
+      roles ['admin', 'advocate']
     end
   end
 end

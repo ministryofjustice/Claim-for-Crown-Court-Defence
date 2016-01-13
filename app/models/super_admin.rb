@@ -1,7 +1,4 @@
 class SuperAdmin < ActiveRecord::Base
-
-  # auto_strip_attributes :role, squish: true, nullify: true
-
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   validates :user, presence: true
 

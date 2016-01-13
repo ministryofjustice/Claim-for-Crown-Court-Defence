@@ -14,11 +14,11 @@ When(/^I fill in the "(.*?)" details$/) do |persona|
       choose('external_user_vat_registered_true')
       fill_in 'external_user_supplier_number', with: '31425'
     end
-    choose('external_user_role_admin')
+    check('external_user_roles_admin')
   when 'case_worker'
     check('case_worker[days_worked_0]')
     choose('case_worker[location_id]')
-    choose('case_worker_role_case_worker')
+    check('case_worker_roles_case_worker')
   end
 end
 
@@ -31,11 +31,11 @@ When(/^I fill in the "(.*?)" details but email and email_confirmation do not mat
   when 'external_user'
     choose('external_user_vat_registered_true')
     fill_in 'external_user_supplier_number', with: '31425'
-    choose('external_user_role_admin')
+    check('external_user_roles_admin')
   when 'case_worker'
     check('case_worker[days_worked_0]')
     choose('case_worker[location_id]')
-    choose('case_worker_role_case_worker')
+    check('case_worker_roles_case_worker')
   end
 end
 

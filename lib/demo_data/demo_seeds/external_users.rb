@@ -9,7 +9,7 @@ if User.find_by(email: 'advocate@example.com').blank?
     password_confirmation: ENV['ADVOCATE_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'advocate', provider_id: provider.id)
+  external_user = ExternalUser.new(roles: ['advocate'], provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end
@@ -23,7 +23,7 @@ if User.find_by(email: 'advocateadmin@example.com').blank?
     password_confirmation: ENV['ADMIN_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'admin', provider_id: provider.id)
+  external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end
@@ -41,7 +41,7 @@ if User.find_by(email: 'advocatefirm@example.com').blank?
     password_confirmation: ENV['ADVOCATE_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'advocate', provider_id: provider.id)
+  external_user = ExternalUser.new(roles: ['advocate'], provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end
@@ -55,7 +55,7 @@ if User.find_by(email: 'advocatefirmadmin@example.com').blank?
     password_confirmation: ENV['ADMIN_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'admin', provider_id: provider.id)
+  external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end
@@ -73,7 +73,7 @@ if User.find_by(email: 'advocatechamber@example.com').blank?
     password_confirmation: ENV['ADVOCATE_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'advocate', provider_id: provider.id, supplier_number: 'XA123')
+  external_user = ExternalUser.new(roles: ['advocate'], provider_id: provider.id, supplier_number: 'XA123')
   external_user.user = user
   external_user.save!
 end
@@ -87,7 +87,7 @@ if User.find_by(email: 'advocatechamberadmin@example.com').blank?
     password_confirmation: ENV['ADMIN_PASSWORD']
   )
 
-  external_user = ExternalUser.new(role: 'admin', provider_id: provider.id, supplier_number: 'XA123')
+  external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id, supplier_number: 'XA123')
   external_user.user = user
   external_user.save!
 end

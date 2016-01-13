@@ -43,7 +43,7 @@ en:
       case_worker: &case_worker 'Case worker'
     attributes:
       users:
-        role: &role 'Role'
+        roles: &roles 'Roles'
         email: &email 'Email'
         email_confirmation: &email_confirmation 'Email confirmation'
         password: &password 'Password'
@@ -61,10 +61,10 @@ en:
       defendant: 'Defendant'
     attributes:
       external_user:
-        role: *role
+        roles: *roles
         supplier_number: 'Supplier number'
       case_worker:
-        role: *role
+        roles: *roles
       user:
         email: *email
         password: *password
@@ -82,7 +82,7 @@ en:
       models:
         external_user:
           attributes:
-            role:
+            roles:
               blank: cannot be blank
               inclusion: *inclusion
             supplier_number:
@@ -90,7 +90,7 @@ en:
               invalid: 'must be 5 alpha-numeric characters'
         case_worker:
           attributes:
-            role:
+            roles:
               blank: cannot be blank
         user:
           attributes:
@@ -226,7 +226,7 @@ en:
         last_name: *last_name
         supplier_number: *supplier_number
         apply_vat: "VAT registered"
-        role: *role
+        roles: *roles
         submit: 'Create advocate'
       change_password:
         error: 'error'
@@ -270,7 +270,7 @@ en:
           first_name: *first_name
           last_name: *last_name
           supplier_number: 'Supplier number'
-          role: *role
+          roles: *roles
           submit: 'Create advocate'
         change_password:
           error: 'error'

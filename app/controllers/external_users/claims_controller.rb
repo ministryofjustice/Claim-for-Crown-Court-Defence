@@ -6,39 +6,40 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   helper_method :sort_column, :sort_direction
 
   respond_to :html
+  before_action :set_context, only: [:index, :archived, :outstanding, :authorised]
+  before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
+  before_action :initialize_json_document_importer, only: [:index]
   before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
   before_action :set_doctypes, only: [:show]
-  before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
-  before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
-  before_action :initialize_json_document_importer, only: [:index]
 
   include ReadMessages
   include MessageControlsDisplay
 
   def index
-    @claims = @context.claims.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, created_at asc').
-      page(params[:page]).
-      per(10)
-    sort if params[:sort].present?
+    @claims = @context.claims.dashboard_displayable_states
     search if params[:search].present?
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
+  end
+
+  def archived
+    @claims = @context.claims.archived_pending_delete
+    search(:archived_pending_delete) if params[:search].present?
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
   end
 
   def outstanding
-    @claims = @financial_summary.outstanding_claims.page(params[:page]).per(10)
+    @claims = @financial_summary.outstanding_claims
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
-    @claims = @financial_summary.authorised_claims.page(params[:page]).per(10)
+    @claims = @financial_summary.authorised_claims
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
     @total_value = @financial_summary.total_authorised_claim_value
-  end
-
-  def archived
-    @claims = @context.claims.archived_pending_delete.order(last_submitted_at: :desc, created_at: :desc).page(params[:page]).per(10)
-    search(:archived_pending_delete) if params[:search].present?
   end
 
   def show
@@ -139,12 +140,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     end
   end
 
-  def search(states=nil)
-    @claims = @claims.search(params[:search], states, *search_options)
+  def set_context
+    if current_user.persona.admin? && current_user.persona.provider
+      @context = current_user.persona.provider
+    else
+      @context = current_user
+    end
   end
 
-  def sort
-    @claims = @claims.sort(params[:sort], params[:direction])
+  def search(states=nil)
+    @claims = @claims.search(params[:search], states, *search_options)
   end
 
   def search_options
@@ -153,16 +158,29 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     options
   end
 
-  def load_advocates_in_provider
-    @advocates_in_provider = current_user.persona.external_users_in_provider if current_user.persona.admin?
+  def set_sort_defaults(defaults={})
+    @sort_defaults = {  column:     defaults.has_key?(:column)      ? defaults[:column]     : 'last_submitted_at',
+                        direction:  defaults.has_key?(:direction)   ? defaults[:direction]  : 'asc',
+                        pagination: defaults.has_key?(:pagination)  ? defaults[:pagination] : 10
+                      }
   end
 
-  def set_context
-    if current_user.persona.admin? && current_user.persona.provider
-      @context = current_user.persona.provider
-    else
-      @context = current_user
-    end
+  def sort_column
+    @claims.sortable_by?(params[:sort]) ? params[:sort] : @sort_defaults[:column]
+  end
+
+  def sort_direction
+    %w(asc desc).include?(params[:direction]) ? params[:direction] : @sort_defaults[:direction]
+  end
+
+  def sort_and_paginate(options={})
+    set_sort_defaults(options)
+    # GOTCHA: must paginate in same call that sorts/orders
+    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
+  end
+
+  def load_advocates_in_provider
+    @advocates_in_provider = current_user.persona.external_users_in_provider if current_user.persona.admin?
   end
 
   def set_claim
@@ -399,12 +417,5 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @json_document_importer = JsonDocumentImporter.new
   end
 
-  def sort_column
-    params[:sort] || 'submitted_at'
-  end
-
-  def sort_direction
-    params[:direction] || 'desc'
-  end
 
 end

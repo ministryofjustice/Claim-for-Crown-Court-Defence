@@ -2,9 +2,9 @@
   = t('.heading')
 
 %h2
-  #{@claims.count}
-  =t('.claims_value')
-  #{number_to_currency(@total_value)}
+  = "#{@claims.size} of #{@claims.total_count}"
+  = t('.claims_value')
+  = number_to_currency(@total_value)
 
 #details
   = render partial: 'claims', locals: { claims: @claims }

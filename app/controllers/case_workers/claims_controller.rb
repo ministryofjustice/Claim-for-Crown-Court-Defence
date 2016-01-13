@@ -51,7 +51,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def set_claim_carousel_info
     session[:claim_ids] = @claims.all.map(&:id)
-    session[:claim_count] = @claims.try(:count)
+    session[:claim_count] = @claims.try(:size)
   end
 
   def search(states=nil)

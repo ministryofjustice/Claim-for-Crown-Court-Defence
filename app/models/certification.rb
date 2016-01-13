@@ -4,12 +4,7 @@
 #
 #  id                               :integer          not null, primary key
 #  claim_id                         :integer
-#  main_hearing                     :boolean
-#  notified_court                   :boolean
-#  attended_pcmh                    :boolean
-#  attended_first_hearing           :boolean
-#  previous_advocate_notified_court :boolean
-#  fixed_fee_case                   :boolean
+#  certification_type_id            :integer
 #  certified_by                     :string
 #  certification_date               :date
 #  created_at                       :datetime
@@ -21,7 +16,11 @@ class Certification < ActiveRecord::Base
 
   belongs_to :claim
 
-  validate :one_and_only_one_checkbox_checked
+  has_one :certification_type
+
+  validates :certification_type_id, presence: true, inclusion: { in: CertificationType.pluck(:id) }
+
+  validate :certification_type_id_valid
   validate :certification_date_valid
   validate :certified_by_valid
 
@@ -29,18 +28,8 @@ class Certification < ActiveRecord::Base
 
   private
 
-  def one_and_only_one_checkbox_checked
-    num_checked_boxes = [
-      self.main_hearing,
-      self.notified_court,
-      self.attended_pcmh,
-      self.attended_first_hearing,
-      self.previous_advocate_notified_court,
-      self.fixed_fee_case
-    ].count(true)
-    unless num_checked_boxes == 1
-      errors[:base] << "You must check one and only one checkbox on this form"
-    end
+  def certification_type_id_valid
+    errors[:base] << "You must select one option on this form" if certification_type_id.blank?
   end
 
   def certification_date_valid

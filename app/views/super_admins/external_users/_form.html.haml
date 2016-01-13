@@ -6,6 +6,11 @@
         - @external_user.errors.full_messages.each do |msg|
           %li= msg
 
+  = f.label :roles, class: "form-label"
+  %div.form-group.inline
+    = f.collection_check_boxes(:roles, ExternalUser::ROLES, :to_s, :to_s) do |b|
+      - b.label(class: "block-label") { b.check_box + b.value.humanize }
+
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
       = user_fields.label t(".first_name"), class: "form-label"
@@ -27,10 +32,5 @@
       - if @provider.chamber?
         = f.label t(".supplier_number"), class: "form-label"
         = f.text_field :supplier_number, class: "form-control"
-
-      = f.label :roles, class: "form-label"
-      %div.form-group.inline
-        = f.collection_check_boxes(:roles, ExternalUser::ROLES, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
   = f.submit t('.submit'), class: "button"

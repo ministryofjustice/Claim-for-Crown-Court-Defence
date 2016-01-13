@@ -1,6 +1,11 @@
 = form_for [:external_users, :admin, @external_user] do |f|
 
   = f.fields_for :user do |user_fields|
+    = f.label :roles, class: "form-label"
+    %div.form-group.inline
+      = f.collection_check_boxes(:roles, ExternalUser::ROLES, :to_s, :to_s) do |b|
+        - b.label(class: "block-label") { b.check_box + b.value.humanize }
+
     %fieldset.user-form
       = user_fields.label :first_name, t(".first_name"), class: "form-label"
       = user_fields.text_field :first_name, class: "form-control"
@@ -23,10 +28,5 @@
       - if current_user.persona.provider.chamber?
         = f.label :supplier_number, t(".supplier_number"), class: "form-label"
         = f.text_field :supplier_number, class: "form-control"
-
-      = f.label :roles, class: "form-label"
-      %div.form-group.inline
-        = f.collection_check_boxes(:roles, ExternalUser::ROLES, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
   = f.submit 'Save', class: "button"

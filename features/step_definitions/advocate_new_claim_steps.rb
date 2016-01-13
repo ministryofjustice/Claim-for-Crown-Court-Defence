@@ -1,3 +1,7 @@
+Given(/^certification types are seeded$/) do
+  load File.join(Rails.root, 'db', 'seeds', 'certification_types.rb')
+end
+
 Given(/^There are other advocates in my provider$/) do
   FactoryGirl.create(:external_user,
         :advocate,
@@ -124,7 +128,7 @@ Given(/^I am creating a "(.*?)" claim$/) do |case_type|
 end
 
 When(/^I fill in the certification details and submit/) do
-  check 'certification_main_hearing'
+  choose 'I attended the Main Hearing (1st day of trial)'
   click_on 'Certify and submit claim'
 end
 

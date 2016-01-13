@@ -83,10 +83,10 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     context 'invalid certification' do
       it 'should redirect to new' do
         params = valid_certification_params(claim)
-        params['certification']['notified_court'] = '1'
+        params['certification']['certification_type_id'] = 99
         post :create, params
         expect(response).to render_template(:new)
-        expect(assigns(:certification).errors.full_messages).to eq( [ 'You must check one and only one checkbox on this form'] )
+        expect(assigns(:certification).errors.full_messages).to eq( [ 'Certification type is not included in the list'] )
       end
     end
   end
@@ -98,17 +98,11 @@ def valid_certification_params(claim)
     'claim_id'      => claim.id,
     'commit'        => "Certify and Submit Claim",
     'certification' => {
-      'main_hearing'                     => '1',
-      'notified_court'                   => '0',
-      'attended_pcmh'                    => '0',
-      'attended_first_hearing'           => '0',
-      'previous_advocate_notified_court' => '0',
-      'fixed_fee_case'                   => '0',
+      'certification_type_id'            => 1,
       'certified_by'                     => 'David Cameron',
-      "certification_date_dd"            => "20",
-      "certification_date_mm"            => "08",
-      "certification_date_yyyy"          => "2015"
+      'certification_date_dd'            => '20',
+      'certification_date_mm'            => '08',
+      'certification_date_yyyy'          => '2015'
     }
   }
 end
-

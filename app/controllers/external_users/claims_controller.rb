@@ -50,7 +50,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def new
     @claim = Claim.new
-    @advocates_in_provider = @external_user.external_users_in_provider if @external_user.admin?
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
 
     build_nested_resources
@@ -160,7 +160,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def load_advocates_in_provider
-    @advocates_in_provider = @external_user.external_users_in_provider if @external_user.admin?
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
   def set_context

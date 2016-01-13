@@ -51,9 +51,22 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'supplier number validation' do
     context 'when no Provider present' do
-      it 'should be valid' do
-        a = FactoryGirl.build :external_user
-        expect(a).to be_valid
+      context 'for advocate' do
+        before { subject.roles = ['advocate'] }
+
+        it 'should be valid' do
+          a = FactoryGirl.build :external_user, :advocate
+          expect(a).to be_valid
+        end
+      end
+
+      context 'for admin' do
+        before { subject.roles = ['admin'] }
+
+        it 'should be valid' do
+          a = FactoryGirl.build :external_user, :admin
+          expect(a).to be_valid
+        end
       end
     end
 
@@ -66,9 +79,24 @@ RSpec.describe ExternalUser, type: :model do
 
       it { should_not validate_presence_of(:supplier_number) }
 
-      it 'should be valid without a supplier number' do
-        a = FactoryGirl.build :external_user, provider: provider, supplier_number: nil
-        expect(a).to be_valid
+      context 'for advocate' do
+        before { subject.roles = ['advocate'] }
+
+        it 'should be valid without a supplier number' do
+          a = FactoryGirl.build :external_user, :advocate, provider: provider, supplier_number: nil
+          expect(a).to be_valid
+        end
+      end
+
+      context 'for admin' do
+        before { subject.roles = ['admin'] }
+
+        it { should_not validate_presence_of(:supplier_number) }
+
+        it 'should be valid without a supplier number' do
+          a = FactoryGirl.build :external_user, :admin, provider: provider, supplier_number: nil
+          expect(a).to be_valid
+        end
       end
     end
 
@@ -79,34 +107,49 @@ RSpec.describe ExternalUser, type: :model do
         subject.provider = provider
       end
 
-      it { should validate_presence_of(:supplier_number) }
+      context 'for advocate' do
+        before { subject.roles = ['advocate'] }
 
-      it 'should not be valid without a supplier number' do
-        a = FactoryGirl.build :external_user, provider: provider, supplier_number: nil
-        expect(a).not_to be_valid
+        it { should validate_presence_of(:supplier_number) }
+
+        it 'should not be valid without a supplier number' do
+          a = FactoryGirl.build :external_user, provider: provider, supplier_number: nil
+          expect(a).not_to be_valid
+        end
+
+        it 'should fail validation if too long' do
+          a = FactoryGirl.build :external_user, supplier_number: 'ACC123', provider: provider
+          expect(a).not_to be_valid
+          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+        end
+
+        it 'should fail validation if too short' do
+          a = FactoryGirl.build :external_user, supplier_number: 'AC12', provider: provider
+          expect(a).not_to be_valid
+          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+        end
+
+        it 'should fail validation if not alpha-numeric' do
+          a = FactoryGirl.build :external_user, supplier_number: 'AC-12', provider: provider
+          expect(a).not_to be_valid
+          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+        end
+
+        it 'should pass validation if 5 alpha-numeric' do
+          a = FactoryGirl.build :external_user, supplier_number: 'AC123', provider: provider
+          expect(a).to be_valid
+        end
       end
 
-      it 'should fail validation if too long' do
-        a = FactoryGirl.build :external_user, supplier_number: 'ACC123', provider: provider
-        expect(a).not_to be_valid
-        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
-      end
+      context 'for admin' do
+        before { subject.roles = ['admin'] }
 
-      it 'should fail validation if too short' do
-        a = FactoryGirl.build :external_user, supplier_number: 'AC12', provider: provider
-        expect(a).not_to be_valid
-        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
-      end
+        it { should_not validate_presence_of(:supplier_number) }
 
-      it 'should fail validation if not alpha-numeric' do
-        a = FactoryGirl.build :external_user, supplier_number: 'AC-12', provider: provider
-        expect(a).not_to be_valid
-        expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
-      end
-
-      it 'should pass validation if 5 alpha-numeric' do
-        a = FactoryGirl.build :external_user, supplier_number: 'AC123', provider: provider
-        expect(a).to be_valid
+        it 'should be valid without a supplier number' do
+          a = FactoryGirl.build :external_user, :admin, provider: provider, supplier_number: nil
+          expect(a).to be_valid
+        end
       end
     end
   end
@@ -270,35 +313,6 @@ RSpec.describe ExternalUser, type: :model do
       a = FactoryGirl.create(:external_user, supplier_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
       expect(a.name_and_number).to eq "Smith, John: XX878"
     end
-  end
-
-  describe '#external_users_in_provider' do
-
-    it 'should raise and exception if called on a advocate who isnt an admin' do
-      external_user = FactoryGirl.create :external_user
-      expect {
-        external_user.external_users_in_provider
-      }.to raise_error RuntimeError, "Cannot call #external_users_in_provider on external users who are not admins"
-    end
-
-    it 'should return a collection of external users in same provider in alphabetic order' do
-      provider1      = FactoryGirl.create :provider
-      provider2      = FactoryGirl.create :provider
-
-      admin1_ch1    = create_admin provider1, 'Lucy', 'Zebra'
-      external_user1_ch1 = create_external_user provider1, 'Miranda', 'Bison'
-      external_user3_ch1 = create_external_user provider1, 'Geoff', 'Elephant'
-
-      admin1_ch2    = create_admin provider2, 'Martin', 'Tiger'
-      admin2_ch2    = create_admin provider2, 'Robert', 'Lion'
-      external_user1_ch2 = create_external_user provider2, 'Mary', 'Hippo'
-      external_user2_ch2 = create_external_user provider2, 'Anna', 'Wildebeest'
-      external_user3_ch2 = create_external_user provider2, 'George', 'Meerkat'
-
-      external_users = admin2_ch2.external_users_in_provider
-      expect(external_users.map(&:user).map(&:last_name)).to eq ( ["Hippo", "Lion", "Meerkat", "Tiger", "Wildebeest"] )
-    end
-
   end
 end
 

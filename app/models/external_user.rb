@@ -31,8 +31,6 @@ class ExternalUser < ActiveRecord::Base
   validates :supplier_number, presence: true, if: :validate_supplier_number?
   validates :supplier_number, format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }, if: :validate_supplier_number?
 
-
-
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user
@@ -56,12 +54,6 @@ class ExternalUser < ActiveRecord::Base
     end
   end
 
-  def external_users_in_provider
-    raise "Cannot call #external_users_in_provider on external users who are not admins" unless self.is?('admin')
-    ExternalUser.where('provider_id = ?', self.provider_id).order('users.last_name')
-  end
-
-
   def name_and_number
     "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
   end
@@ -69,7 +61,6 @@ class ExternalUser < ActiveRecord::Base
   private
 
   def validate_supplier_number?
-    self.provider && self.provider.chamber?
+    self.provider && self.provider.chamber? && self.advocate?
   end
-
 end

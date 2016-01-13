@@ -11,6 +11,9 @@ RSpec.describe Provider, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
 
+  it { should delegate_method(:advocates).to(:external_users) }
+  it { should delegate_method(:admins).to(:external_users) }
+
   context 'when firm' do
     subject { firm }
 
@@ -82,6 +85,31 @@ RSpec.describe Provider, type: :model do
   describe '.chambers' do
     it 'returns only chambers' do
       expect(Provider.chambers).to match_array([chamber])
+    end
+  end
+
+  context 'delegated external_user scopes/methods' do
+    let!(:provider) { create(:provider) }
+    let!(:advocate) { create(:external_user, :advocate) }
+    let!(:admin_1) { create(:external_user, :admin) }
+    let!(:admin_2) { create(:external_user, :admin) }
+
+    before do
+      provider.external_users << advocate
+      provider.external_users << admin_1
+      provider.external_users << admin_2
+    end
+
+    describe '#admins' do
+      it 'only returns admins in the provider' do
+        expect(provider.admins).to match_array([admin_1, admin_2])
+      end
+    end
+
+    describe '#advocates' do
+      it 'only returns advocates in the provider' do
+        expect(provider.advocates).to match_array([advocate])
+      end
     end
   end
 end

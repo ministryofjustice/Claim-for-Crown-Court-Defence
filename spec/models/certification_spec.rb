@@ -19,6 +19,7 @@ RSpec.describe Certification, type: :model do
 
   context 'validations' do
     it 'should be valid with only one certification type' do
+      byebug
       expect(cert).to be_valid
     end
 

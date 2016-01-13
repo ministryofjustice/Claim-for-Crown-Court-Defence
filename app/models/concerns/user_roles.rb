@@ -28,7 +28,7 @@ module UserRoles
   end
 
   def roles_valid
-    if self.roles.empty? || self.roles.blank? || self.roles == ['']
+    if self.roles.empty?
       errors[:roles] << 'at least one role must be present'
     elsif (self.roles - self.class::ROLES).any?
       errors[:roles] << "must be one or more of: #{self.class::ROLES.map{ |r| r.humanize.downcase }.join(', ')}"

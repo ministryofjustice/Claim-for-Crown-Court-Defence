@@ -58,3 +58,17 @@ end
 Then(/^I see an error message$/) do
   expect(page).to have_content "Email confirmation and email must match"
 end
+
+Then(/^I should (not )?see the supplier number or VAT registration fields$/) do |negate|
+  if negate.present?
+    expect(page).to_not have_content(/supplier number/i)
+    expect(page).to_not have_content(/vat registered/i)
+  else
+    expect(page).to have_content(/supplier number/i)
+    expect(page).to have_content(/vat registered/i)
+  end
+end
+
+When(/^I check "(.*?)"$/) do |role|
+  check role
+end

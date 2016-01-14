@@ -18,6 +18,24 @@ Scenario: New advocate user for chamber
    Then I see confirmation that a new "User" user has been created
     And an email is sent to the new user
 
+@javascript @webmock_allow_localhost_connect
+Scenario: New external user advocate for chamber
+  Given I am a signed in advocate admin
+    And my provider is a "chamber"
+    And I am on the new "external_user" page
+   Then I should not see the supplier number or VAT registration fields
+   When I check "Advocate"
+   Then I should see the supplier number or VAT registration fields
+
+@javascript @webmock_allow_localhost_connect
+Scenario: New external user admin for chamber
+  Given I am a signed in advocate admin
+    And my provider is a "chamber"
+    And I am on the new "external_user" page
+   Then I should not see the supplier number or VAT registration fields
+   When I check "Admin"
+   Then I should not see the supplier number or VAT registration fields
+
 Scenario: New advocate with mismatching email_confirmation
   Given I am a signed in advocate admin
     And my provider is a "chamber"

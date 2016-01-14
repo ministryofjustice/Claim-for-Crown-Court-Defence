@@ -8,7 +8,6 @@ class Claims::FinancialSummary
   end
 
   def authorised_claims
-    # @context.claims.any_authorised.joins(:determinations).where('determinations.created_at = (SELECT MAX(d.created_at) from "determinations" d WHERE d.claim_id = "claim".id').where('determinations.updated_at >= ?', Time.now.beginning_of_week).group('claims.id') - prevents sorting and do not see why it matter
     @context.claims.any_authorised
       .joins(:determinations)
       .where('determinations.created_at = (SELECT MAX(d.created_at) FROM "determinations" d WHERE d."claim_id" = "claims"."id")') #latest determination

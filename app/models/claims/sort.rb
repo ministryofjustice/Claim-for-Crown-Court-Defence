@@ -33,9 +33,8 @@ module Claims::Sort
 
   private
 
-
   # NOTE:
-  # since searching occurs before sorting and searching calls a uniq/disitinct
+  # since searching occurs before sorting and searching calls a uniq/distinct
   # we need to explcitly select values being ordered by to avoid Invalid SQL
   #
 
@@ -44,7 +43,6 @@ module Claims::Sort
   end
 
   def sort_submitted_at(direction)
-    # draft/unsubmitted at top for asc at bottom for desc
     order("last_submitted_at #{direction} #{nulls_at_top_asc(direction)}")
   end
 
@@ -72,11 +70,4 @@ module Claims::Sort
       .order("total_inc_vat #{direction}")
   end
 
-  # TODO: sort_messages - unused and currently broken
-  #       question over logic of ordering should be
-  #       i.e. ordered by any with unread first, then date of unread message??
-    #          from conversation with PM.
-  def sort_messages(direction)
-    joins(:messages).group('claims.id').order("count(messages.*) #{direction}")
-  end
 end

@@ -2,7 +2,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   include PasswordHelpers
 
-  before_action :set_case_worker, only: [:show, :edit, :allocate, :update, :destroy, :change_password, :update_password]
+  before_action :set_case_worker, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
 
   def index
     @case_workers = CaseWorker.includes(:location).joins(:user)
@@ -15,10 +15,6 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def edit; end
 
   def change_password; end
-
-  def allocate
-    @claims = Claim.unscope(:includes).includes( [ {:defendants => :representation_orders}, :advocate, :court, :case_workers ] ).non_draft.order(created_at: :asc)
-  end
 
   def new
     @case_worker = CaseWorker.new

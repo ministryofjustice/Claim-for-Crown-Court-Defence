@@ -24,7 +24,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe '.non_draft' do
       it 'only returns non-draft claims' do
-        expect(Claim.non_draft).to match_array([allocated_claim, submitted_claim])
+        expect(Claim.non_draft).to match_array([allocated_claim, submitted_claim, redetermination_claim, awaiting_written_reasons_claim, deleted_claim])
       end
     end
 

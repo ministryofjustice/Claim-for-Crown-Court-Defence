@@ -58,6 +58,7 @@ class Ability
         can [:index, :new, :create], CaseWorker
         can [:show, :show_message_controls, :edit, :change_password, :update_password, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
+        can :view, :management_information
       else
         can [:index, :show, :show_message_controls, :archived], Claim
         can [:update], Claim do |claim|

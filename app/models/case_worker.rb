@@ -3,7 +3,7 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string
+#  roles          :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer
@@ -11,14 +11,13 @@
 #
 
 class CaseWorker < ActiveRecord::Base
-  auto_strip_attributes :role,  squish: true, nullify: true
+  auto_strip_attributes squish: true, nullify: true
 
   ROLES = %w{ admin case_worker }
 
   include UserRoles
 
   serialize :days_worked, Array
-
 
   belongs_to :location
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy

@@ -3,7 +3,7 @@
 # Table name: case_workers
 #
 #  id             :integer          not null, primary key
-#  role           :string
+#  roles          :string
 #  created_at     :datetime
 #  updated_at     :datetime
 #  location_id    :integer
@@ -21,10 +21,14 @@ FactoryGirl.define do
 
     location
 
-    role 'case_worker'
+    roles ['case_worker']
+
+    trait :case_worker do
+      roles ['case_worker']
+    end
 
     trait :admin do
-      role 'admin'
+      roles ['admin']
     end
   end
 end

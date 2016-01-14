@@ -17,7 +17,7 @@
 
 %p
   Role:
-  = @external_user.role.humanize
+  = @external_user.roles.map(&:humanize).join(', ')
 
 - if can? :edit, @external_user
   = link_to 'Edit', edit_super_admins_provider_external_user_path(@provider, @external_user), class: 'button'

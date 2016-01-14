@@ -6,6 +6,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   helper_method :sort_column, :sort_direction
 
   respond_to :html
+  before_action :set_user_and_provider
   before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
   before_action :set_doctypes, only: [:show]
   before_action :set_context, only: [:index, :outstanding, :authorised, :archived ]
@@ -49,7 +50,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def new
     @claim = Claim.new
-    @advocates_in_provider = current_user.persona.external_users_in_provider if current_user.persona.admin?
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
 
     build_nested_resources
@@ -109,6 +110,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   private
 
+  def set_user_and_provider
+    @external_user = current_user.persona
+    @provider = @external_user.provider
+  end
+
   def generate_form_id
     @form_id = SecureRandom.uuid
   end
@@ -149,17 +155,17 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def search_options
     options = [:defendant_name]
-    options << :advocate_name if current_user.persona.admin?
+    options << :advocate_name if @external_user.admin?
     options
   end
 
   def load_advocates_in_provider
-    @advocates_in_provider = current_user.persona.external_users_in_provider if current_user.persona.admin?
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
   def set_context
-    if current_user.persona.admin? && current_user.persona.provider
-      @context = current_user.persona.provider
+    if @external_user.admin? && @provider
+      @context = @provider
     else
       @context = current_user
     end
@@ -347,8 +353,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def params_with_advocate_and_creator
     form_params = claim_params
-    form_params[:external_user_id] = current_user.persona.id unless current_user.persona.admin?
-    form_params[:creator_id] = current_user.persona.id
+    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
+    form_params[:creator_id] = @external_user.id
     form_params
   end
 

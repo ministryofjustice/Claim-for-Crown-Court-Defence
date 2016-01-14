@@ -19,7 +19,7 @@ data.each_with_index do |row, index|
     last_name: lname,
     email: email,
     location: location,
-    role: role,
+    roles: [role],
     days_worked: days_worked[ index % 3 ],
     password_env_var: 'CASE_WORKER_PASSWORD')
 end

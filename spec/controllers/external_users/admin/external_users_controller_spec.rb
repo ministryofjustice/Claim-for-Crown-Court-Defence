@@ -97,14 +97,14 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       it 'creates a external_user' do
         expect {
           post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' },
-                                    role: 'advocate',
+                                    roles: ['advocate'],
                                     supplier_number: 'AB124' }
         }.to change(User, :count).by(1)
       end
 
       it 'redirects to external_users index' do
         post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'},
-                                  role: 'advocate',
+                                  roles: ['advocate'],
                                   supplier_number: 'XY123'  }
         expect(response).to redirect_to(external_users_admin_external_users_url)
       end
@@ -113,12 +113,12 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     context 'when invalid' do
       it 'does not create a external_user' do
         expect {
-          post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, role: 'advocate' }
+          post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, role: 'advocate' }
+        post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] }
         expect(response).to render_template(:new)
       end
     end
@@ -127,11 +127,11 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, external_user: { role: 'admin' } }
+      before(:each) { put :update, id: subject, external_user: { roles: ['admin'] } }
 
       it 'updates a external_user' do
         subject.reload
-        expect(subject.reload.role).to eq('admin')
+        expect(subject.reload.roles).to eq(['admin'])
       end
 
       it 'redirects to external_users index' do
@@ -140,11 +140,11 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, external_user: { role: 'foo' } }
+      before(:each) { put :update, id: subject, external_user: { roles: ['foo'] } }
 
       it 'does not update external_user' do
         subject.reload
-        expect(subject.role).to eq('advocate')
+        expect(subject.roles).to eq(['advocate'])
         expect(subject.email).to_not eq('emailexample.com')
       end
 

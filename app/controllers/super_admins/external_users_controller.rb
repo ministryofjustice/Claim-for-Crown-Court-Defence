@@ -56,9 +56,9 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   def external_user_params
     params.require(:external_user).permit(
-     :role,
      :vat_registered,
      :supplier_number,
+     roles: [],
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :first_name, :last_name]
     )
   end

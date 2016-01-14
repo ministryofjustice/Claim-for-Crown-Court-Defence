@@ -9,8 +9,9 @@
     %fieldset.user-form
       = user_fields.label :email, t('.email'), class: "form-label"
       = user_fields.email_field :email, class: "form-control"
-      = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
-      = user_fields.email_field :email_confirmation, class: "form-control"
+      - if @case_worker.new_record?
+        = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
+        = user_fields.email_field :email_confirmation, class: "form-control"
 
     %fieldset.user-form
       %div.form-group

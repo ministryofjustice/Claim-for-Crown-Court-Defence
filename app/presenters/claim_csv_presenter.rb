@@ -2,31 +2,16 @@ class ClaimCsvPresenter < BasePresenter
 
   presents :claim
 
-  CASE_TYPE_TO_ALLOCATION_TYPE = {
-        'trial'                       => 'Trial',
-        'retrial'                     => 'Trial',
-        'cracked trial'               => 'Cracked',
-        'cracked before retrial'      => 'Cracked',
-        'guilty plea'                 => 'Guilty',
-        'discontinuance'              => 'Guilty',
-        'appeal against conviction'   => 'Fixed',
-        'appeal against sentence'     => 'Fixed',
-        'breach of crown court order' => 'Fixed',
-        'committal for sentence'      => 'Fixed',
-        'contempt'                    => 'Fixed',
-        'elected cases not proceeded' => 'Fixed'
-      }
-
   def present!
     Settings.csv_column_names.map { |column_name| send(column_name) }
   end
 
   def supplier_number
-    advocate.supplier_number
+    external_user.supplier_number
   end
 
   def organisation
-    advocate.provider.name
+    external_user.provider.name
   end
 
   def case_type_name
@@ -57,7 +42,19 @@ class ClaimCsvPresenter < BasePresenter
     elsif claim.opened_for_redetermination?
       'Redetermination'
     else
-      CASE_TYPE_TO_ALLOCATION_TYPE[case_type_name.downcase]
+      case_type_to_allocation_type
+    end
+  end
+
+  def case_type_to_allocation_type
+    if case_type.is_fixed_fee
+      'Fixed'
+    elsif case_type.requires_cracked_dates
+      'Cracked'
+    elsif case_type.requires_trial_dates
+      'Trial'
+    else
+      'Guilty'
     end
   end
 

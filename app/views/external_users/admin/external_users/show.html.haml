@@ -18,9 +18,9 @@
 .grid-row.basic-info-row
   .column-quarter
     .bold-xsmall
-      Role:
+      Roles:
     .xsmall
-      = @external_user.role.humanize
+      = @external_user.roles.map(&:humanize).join(', ')
   .column-quarter
     .bold-xsmall
       Supplier number:

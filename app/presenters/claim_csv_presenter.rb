@@ -7,11 +7,11 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def supplier_number
-    advocate.supplier_number
+    external_user.supplier_number
   end
 
   def organisation
-    advocate.provider.name
+    external_user.provider.name
   end
 
   def case_type_name

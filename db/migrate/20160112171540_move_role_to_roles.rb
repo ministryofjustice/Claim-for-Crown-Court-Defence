@@ -3,13 +3,10 @@ class MoveRoleToRoles < ActiveRecord::Migration
     add_column :external_users, :roles, :string
     add_column :case_workers, :roles, :string
 
-    ExternalUser.all.each { |external_user| external_user.roles << external_user.role }
-
-    CaseWorker.all.each do |case_worker|
-      if case_worker.role == 'admin'
-        case_worker.roles << 'admin'
-      else
-        case_worker.roles << 'case_worker'
+    [CaseWorker, ExternalUser].each do |model|
+      model.all.each do |record|
+        record.roles << record.role
+        record.save!
       end
     end
 

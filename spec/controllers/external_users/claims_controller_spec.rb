@@ -8,133 +8,93 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
   before { sign_in advocate.user }
 
-  describe 'GET #index' do
-    before(:each) do
-      @allocated_claim                = build_claim_in_state(:allocated)
-      @draft_claim                    = build_claim_in_state(:draft)
-      @part_authorised_claim          = build_claim_in_state(:part_authorised)
-      @refused_claim                  = build_claim_in_state(:refused)
-      @rejected_claim                 = build_claim_in_state(:rejected)
-      @submitted_claim                = build_claim_in_state(:submitted)
-      allow_any_instance_of(Claim).to receive(:id).and_return(777)
-      allow_any_instance_of(Claims::FinancialSummary).to receive(:total_authorised_claim_value).and_return( 45454.45 )
-      allow_any_instance_of(Claims::FinancialSummary).to receive(:total_outstanding_claim_value).and_return( 1323.44 )
-    end
+  describe '#GET index' do
 
-    let(:non_archived_claims) {[
-                                @draft_claim,
-                                @submitted_claim,
-                                @allocated_claim,
-                                @part_authorised_claim,
-                                @refused_claim,
-                                @rejected_claim
-                              ]}
+    it 'returns success' do
+      get :index
+      expect(response).to have_http_status(:success)
+    end
 
     it 'renders the template' do
       get :index
       expect(response).to render_template(:index)
     end
 
-    context 'advocate' do
-      xit 'should retrieve dashboard displayable state claims for the advocate' do
-        query_result = double 'QueryResult'
-        allow(controller.current_user).to receive_message_chain(:claims, :dashboard_displayable_states, :sortable_by?).with(nil).and_return(double = sorted)
-        expect(sorted).to receive_message_chain(:sort).with('last_submitted_at','asc').and_return(query_result)
-
-        allow(query_result).to receive_message_chain(:page, :per).and_return(stub_pagination(non_archived_claims))
-        get :index
-        expect(response).to have_http_status(:success)
-        expect(assigns(:claims)).to contain_claims(*non_archived_claims)
-      end
+    it 'should retrieve dashboard displayable state claims for the advocate' do
+      get :index
+      expect(assigns(:context)).to eq(advocate.user)
     end
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
-      xit 'should retrieve dashboard displayable state claims for the provider' do
-        query_result = double 'QueryResult'
-        expect(controller.current_user.persona.provider).to receive_message_chain(:claims, :dashboard_displayable_states).and_return(query_result)
-        allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(non_archived_claims))
+      it 'should retrieve dashboard displayable state claims for the provider' do
         get :index
-        expect(response).to have_http_status(:success)
-        expect(assigns(:claims)).to contain_claims(*non_archived_claims)
+        expect(assigns(:context)).to eq(advocate_admin.provider)
+      end
+    end
+
+    context "sorting" do
+      before(:each) do
+        create_list(:draft_claim, 1, external_user: advocate)
+        create_list(:draft_claim, 1, external_user: advocate, created_at: 5.days.ago)
+        create_list(:draft_claim, 6, external_user: advocate, created_at: 1.day.ago)
+        create_list(:draft_claim, 1, external_user: advocate, created_at: 2.days.ago)
+        create(:submitted_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
+        create(:refused_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+        get :index
+      end
+
+      it 'orders claims with draft first (oldest created first) then oldest submitted' do
+        expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc').page(1).per(10))
+      end
+
+      it 'paginates to 10 per page' do
+        expect(assigns(:claims).count).to eq(10)
       end
     end
   end
 
-  describe '#GET index - unstubbed' do
+  describe '#GET archived' do
 
-    before(:each) do
-      create_list(:draft_claim, 1, external_user: advocate)
-      create_list(:draft_claim, 1, external_user: advocate, created_at: 5.days.ago)
-      create_list(:draft_claim, 6, external_user: advocate, created_at: 1.day.ago)
-      create_list(:draft_claim, 1, external_user: advocate, created_at: 2.days.ago)
-      create(:submitted_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
-      create(:refused_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
-      get :index
+    it 'returns success' do
+      get :archived
+      expect(response).to have_http_status(:success)
     end
-
-    it 'orders claims with draft first (oldest created first) then oldest submitted' do
-      expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc').page(1).per(10))
-    end
-
-    it 'paginates to 10 per page' do
-      expect(assigns(:claims).count).to eq(10)
-    end
-  end
-
-  describe 'GET #archived' do
-    before(:each) do
-      @archived_pending_delete_claim = build_claim_in_state(:archived_pending_delete)
-      @allocated_claim                = build_claim_in_state(:allocated)
-      allow_any_instance_of(Claim).to receive(:id).and_return(777)
-    end
-
-    let(:archived_claims) { [ @archived_pending_delete_claim, @allocated_claim ] }
 
     it 'renders the template' do
       get :archived
       expect(response).to render_template(:archived)
     end
 
-    context 'advocate' do
-      xit 'should return http success and assign @claims to archived claims for the advocate' do
-          query_result = double 'QueryResult'
-          expect(controller.current_user).to receive_message_chain(:claims, :archived_pending_delete, :order).and_return(query_result)
-          allow(query_result).to receive_message_chain(:page, :per).and_return(stub_pagination(archived_claims))
-          get :archived
-          expect(response).to have_http_status(:success)
-          expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )
-      end
+    it 'should assign context for claims to advocate' do
+      get :index
+      expect(assigns(:context)).to eq(advocate.user)
     end
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
-      xit 'should return http success and assign @claims to archived claims for the advocates provider' do
-          query_result = double 'QueryResult'
-          expect(controller.current_user.persona.provider).to receive_message_chain(:claims, :archived_pending_delete).and_return(query_result)
-          allow(query_result).to receive_message_chain(:order, :page, :per).and_return(stub_pagination(archived_claims))
-          get :archived
-          expect(response).to have_http_status(:success)
-          expect(assigns(:claims)).to contain_claims( @archived_pending_delete_claim )
-       end
-    end
-  end
-
-  describe '#GET archived - unstubbed' do
-    before(:each) do
-      create_list(:archived_pending_delete_claim, 8, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
-      create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 3.days.ago)
-      create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
-      create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
-      get :archived
+      it 'should assign context for claims to provider' do
+        get :index
+        expect(assigns(:context)).to eq(advocate_admin.provider)
+      end
     end
 
-    it 'orders claims with most recently submitted first' do
-      expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc').page(1).per(10))
-    end
+    context "sorting" do
+      before(:each) do
+        create_list(:archived_pending_delete_claim, 8, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
+        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 3.days.ago)
+        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
+        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+        get :archived
+      end
 
-    it 'paginates to 10 per page' do
-      expect(assigns(:claims).count).to eq(10)
+      it 'orders claims with most recently submitted first' do
+        expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc').page(1).per(10))
+      end
+
+      it 'paginates to 10 per page' do
+        expect(assigns(:claims).count).to eq(10)
+      end
     end
   end
 

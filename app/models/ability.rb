@@ -56,7 +56,7 @@ class Ability
         can [:index, :show, :update, :archived], Claim
         can [:show, :download], Document
         can [:index, :new, :create], CaseWorker
-        can [:show, :show_message_controls, :edit, :change_password, :update_password, :allocate, :update, :destroy], CaseWorker
+        can [:show, :show_message_controls, :edit, :change_password, :update_password, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
       else
         can [:index, :show, :show_message_controls, :archived], Claim

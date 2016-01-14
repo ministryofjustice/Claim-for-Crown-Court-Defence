@@ -99,30 +99,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "GET #allocate" do
-
-    before { get :allocate, id: subject }
-
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
-    end
-
-    it 'assigns @case_worker' do
-      expect(assigns(:case_worker)).to eq(subject)
-    end
-
-    it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(Claim.non_draft.order(created_at: :asc))
-    end
-
-    it 'renders the template' do
-      expect(response).to render_template(:allocate)
-    end
-
-    render_views
-
-  end
-
   describe "POST #create" do
     context 'when valid' do
       let(:case_worker_params) {

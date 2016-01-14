@@ -242,7 +242,7 @@ describe Ability do
     end
 
     context 'cannot manage case workers' do
-      [:index, :show, :new, :create, :edit, :change_password, :update_password, :allocate, :update, :destroy].each do |action|
+      [:index, :show, :new, :create, :edit, :change_password, :update_password, :update, :destroy].each do |action|
         it { should_not be_able_to(action, CaseWorker.new) }
       end
     end
@@ -275,7 +275,7 @@ describe Ability do
     end
 
     context 'can manage case workers' do
-      [:index, :show, :new, :create, :edit, :change_password, :update_password, :allocate, :update, :destroy].each do |action|
+      [:index, :show, :new, :create, :edit, :change_password, :update_password, :update, :destroy].each do |action|
         it { should be_able_to(action, CaseWorker.new) }
       end
     end

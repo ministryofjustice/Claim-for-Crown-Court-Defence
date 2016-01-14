@@ -124,7 +124,6 @@ Rails.application.routes.draw do
       root to: 'allocations#new'
 
       resources :case_workers do
-        get 'allocate', on: :member
         get 'change_password', on: :member
         patch 'update_password', on: :member
       end

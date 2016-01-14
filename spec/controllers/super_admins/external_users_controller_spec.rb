@@ -84,7 +84,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
             external_user: { user_attributes: {  email: 'foo@foobar.com',
                                             first_name: options[:valid]==false ? '' : 'john',
                                             last_name: 'Smith' },
-                        role: 'advocate',
+                        roles: ['advocate'],
                         supplier_number: 'AB124' }
     end
 
@@ -131,11 +131,11 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { role: 'advocate' } }
+      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { roles: ['advocate'] } }
 
       it 'updates an external_user' do
         external_user.reload
-        expect(external_user.reload.role).to eq('advocate')
+        expect(external_user.reload.roles).to eq(['advocate'])
       end
 
       it 'redirects to external_users index' do
@@ -144,11 +144,11 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { role: 'foo' } }
+      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { roles: ['foo'] } }
 
       it 'does not update external_user' do
         external_user.reload
-        expect(external_user.role).to eq('admin')
+        expect(external_user.roles).to eq(['admin'])
       end
 
       it 'renders the edit template' do

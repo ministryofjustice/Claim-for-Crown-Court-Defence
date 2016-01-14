@@ -23,9 +23,9 @@
 .grid-row.basic-info-row
   .column-quarter
     .bold-xsmall
-      Role:
+      Roles:
     .xsmall
-      = @case_worker.role.humanize
+      = @case_worker.roles.map(&:humanize).join(', ')
   .column-quarter
     .bold-xsmall
       Working days:

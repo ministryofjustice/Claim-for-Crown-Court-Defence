@@ -99,30 +99,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "GET #allocate" do
-
-    before { get :allocate, id: subject }
-
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
-    end
-
-    it 'assigns @case_worker' do
-      expect(assigns(:case_worker)).to eq(subject)
-    end
-
-    it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(Claim.non_draft.order(created_at: :asc))
-    end
-
-    it 'renders the template' do
-      expect(response).to render_template(:allocate)
-    end
-
-    render_views
-
-  end
-
   describe "POST #create" do
     context 'when valid' do
       let(:case_worker_params) {
@@ -140,7 +116,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
             days_worked_2: '1',
             days_worked_3: '1',
             days_worked_4: '1',
-            role: 'case_worker',
+            roles: ['case_worker'],
             location_id: create(:location).id
           }
         }
@@ -161,12 +137,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when invalid' do
       it 'does not create a case worker' do
         expect {
-          post :create, case_worker: { role: 'case_worker', user_attributes: {email: 'invalidemail'} }
+          post :create, case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, case_worker: { role: 'case_worker', user_attributes: {email: 'invalidemail'} }
+        post :create, case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} }
         expect(response).to render_template(:new)
       end
     end
@@ -175,11 +151,11 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, case_worker: { role: 'admin' } }
+      before(:each) { put :update, id: subject, case_worker: { roles: ['admin'] } }
 
       it 'updates a case_worker' do
         subject.reload
-        expect(subject.reload.role).to eq('admin')
+        expect(subject.reload.roles).to eq(['admin'])
       end
 
       it 'redirects to case workers index' do
@@ -188,11 +164,11 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, id: subject, case_worker: { role: 'foo' } }
+      before(:each) { put :update, id: subject, case_worker: { roles: ['foo'] } }
 
       it 'does not update case worker' do
         subject.reload
-        expect(subject.role).to eq('case_worker')
+        expect(subject.roles).to eq(['case_worker'])
         expect(subject.email).to_not eq('emailexample.com')
       end
 

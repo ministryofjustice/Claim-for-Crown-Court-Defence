@@ -8,9 +8,7 @@ module UserRoles
 
     klass::ROLES.each do |role|
       klass.scope role.pluralize.to_sym, -> { klass.select { |m| m.roles.include?(role) } }
-    end
 
-    klass::ROLES.each do |role|
       define_method "#{role}?" do
         is?(role)
       end

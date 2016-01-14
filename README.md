@@ -39,7 +39,7 @@ bundle install
 Setup dummy users and data:
 
 ```
-CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data
+SUPERADMIN_USERNAME=superadmin@example.com SUPERADMIN_PASSWORD='12345678' CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data
 ```
 
 Run the application (claim import feature will not work in the default environment):

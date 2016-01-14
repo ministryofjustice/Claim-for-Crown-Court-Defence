@@ -2,11 +2,11 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY = 180.days
   STANDARD_VALIDITY = 21.days
 
-  ADVOCATE_DASHBOARD_DRAFT_STATES               = %w( draft )
-  ADVOCATE_DASHBOARD_REJECTED_STATES            = %w( rejected )
-  ADVOCATE_DASHBOARD_SUBMITTED_STATES           = %w( allocated submitted )
-  ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES     = %w( part_authorised )
-  ADVOCATE_DASHBOARD_COMPLETED_STATES           = %w( refused authorised )
+  EXTERNAL_USER_DASHBOARD_DRAFT_STATES               = %w( draft )
+  EXTERNAL_USER_DASHBOARD_REJECTED_STATES            = %w( rejected )
+  EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES           = %w( allocated submitted )
+  EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES     = %w( part_authorised )
+  EXTERNAL_USER_DASHBOARD_COMPLETED_STATES           = %w( refused authorised )
   CASEWORKER_DASHBOARD_COMPLETED_STATES         = %w( authorised part_authorised rejected refused )
   CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES  = %w( allocated )
   CASEWORKER_DASHBOARD_UNALLOCATED_STATES       = %w( submitted redetermination awaiting_written_reasons )
@@ -14,16 +14,16 @@ module Claims::StateMachine
   VALID_STATES_FOR_REDETERMINATION              = %w( authorised part_authorised refused )
   VALID_STATES_FOR_ARCHIVAL                     = %w( authorised part_authorised refused rejected )
   NON_DRAFT_STATES                              = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
-  AUTHORISED_STATES                             = ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES + ADVOCATE_DASHBOARD_COMPLETED_STATES
+  AUTHORISED_STATES                             = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
     (
-      ADVOCATE_DASHBOARD_DRAFT_STATES +
-      ADVOCATE_DASHBOARD_REJECTED_STATES +
-      ADVOCATE_DASHBOARD_SUBMITTED_STATES +
+      EXTERNAL_USER_DASHBOARD_DRAFT_STATES +
+      EXTERNAL_USER_DASHBOARD_REJECTED_STATES +
+      EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES +
       CASEWORKER_DASHBOARD_UNALLOCATED_STATES +
-      ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES +
-      ADVOCATE_DASHBOARD_COMPLETED_STATES
+      EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
+      EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
     ).uniq
   end
 
@@ -114,14 +114,14 @@ module Claims::StateMachine
 
     klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }
 
-    klass.scope :advocate_dashboard_draft,                -> { klass.where(state: ADVOCATE_DASHBOARD_DRAFT_STATES )                 }
-    klass.scope :advocate_dashboard_rejected,             -> { klass.where(state: ADVOCATE_DASHBOARD_REJECTED_STATES )              }
-    klass.scope :advocate_dashboard_submitted,            -> { klass.where(state: ADVOCATE_DASHBOARD_SUBMITTED_STATES )             }
-    klass.scope :advocate_dashboard_part_authorised,      -> { klass.where(state: ADVOCATE_DASHBOARD_PART_AUTHORISED_STATES )       }
-    klass.scope :advocate_dashboard_completed,            -> { klass.where(state: ADVOCATE_DASHBOARD_COMPLETED_STATES )             }
-    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES)            }
-    klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)     }
-    klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES)             }
+    klass.scope :external_user_dashboard_draft,           -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES ) }
+    klass.scope :external_user_dashboard_rejected,        -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES ) }
+    klass.scope :external_user_dashboard_submitted,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES ) }
+    klass.scope :external_user_dashboard_part_authorised, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES ) }
+    klass.scope :external_user_dashboard_completed,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES ) }
+    klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
+    klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
+    klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
   end
 

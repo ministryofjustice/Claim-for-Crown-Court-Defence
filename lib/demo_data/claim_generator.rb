@@ -20,7 +20,7 @@ module DemoData
 
     def run
       generate_advocates_if_required
-      advocates = Advocate.all.limit(@num_advocates)
+      advocates = ExternalUser.all.limit(@num_advocates)
       advocates.each do |advocate|
         @num_claims.times do
           generate_claims_for_advocate(advocate)
@@ -38,7 +38,7 @@ module DemoData
         state: "draft",
         case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
         advocate_category: Settings.advocate_categories.sample,
-        advocate: advocate,
+        external_user: advocate,
         court: Court.all.sample,
         offence: Offence.all.sample,
         cms_number: "CMS-2015-195-1",
@@ -138,7 +138,7 @@ module DemoData
 
 
     def generate_advocates_if_required
-      num_advocates_required = @num_advocates - Advocate.count
+      num_advocates_required = @num_advocates - ExternalUser.count
       if num_advocates_required > 0
         num_advocates.times do
           FactoryGirl.create :acvocate

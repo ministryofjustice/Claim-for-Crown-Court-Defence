@@ -1,0 +1,46 @@
+%h1.page-title
+  = t('.title')
+
+.grid-row
+  .column-half
+    .normal
+      = label_tag :search, t('.search')
+  .column-half
+    &nbsp;
+.grid-row
+  .column-half
+    = form_tag external_users_admin_external_users_path, method: :get do
+      = text_field_tag :search, params[:search], class: 'normal form-control-3-4'
+      = button_tag(type: 'submit', class: 'button search', title: "Search") do
+        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  .column-half.clear-float
+    = link_to t('.new_user'), new_external_users_admin_external_user_path, class: 'button right'
+
+
+%table.report
+  %thead
+    %th
+      = t('.last_name')
+    %th
+      = t('.first_name')
+    %th
+      = t('.supplier_number')
+    %th
+      = t('.email')
+    %th
+      = t('.actions')
+  %tbody
+    - @external_users.each do |advocate|
+      %tr
+        %td
+          = advocate.last_name
+        %td
+          = advocate.first_name
+        %td
+          = advocate.supplier_number
+        %td
+          = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
+        %td.user-controls
+          = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)
+          = " | "
+          = link_to 'Delete', external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }

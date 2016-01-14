@@ -9,16 +9,16 @@ When(/^I fill in the "(.*?)" details$/) do |persona|
   fill_in "#{persona}_user_attributes_email", with: 'harold.hughes@example.com'
   fill_in "#{persona}_user_attributes_email_confirmation", with: 'harold.hughes@example.com'
   case persona
-  when 'advocate'
+  when 'external_user'
     if @advocate.provider.chamber?
-      choose(('advocate[vat_registered]').first)
-      fill_in 'advocate_supplier_number', with: '31425'
+      choose('external_user_vat_registered_true')
+      fill_in 'external_user_supplier_number', with: '31425'
     end
-    choose(("#{persona}[role]").first)
+    check('external_user_roles_admin')
   when 'case_worker'
     check('case_worker[days_worked_0]')
     choose('case_worker[location_id]')
-    choose('case_worker_role_case_worker')
+    check('case_worker_roles_case_worker')
   end
 end
 
@@ -28,14 +28,14 @@ When(/^I fill in the "(.*?)" details but email and email_confirmation do not mat
   fill_in "#{persona}_user_attributes_email", with: 'harold.hughes@example.com'
   fill_in "#{persona}_user_attributes_email_confirmation", with: 'another_email@example.com'
   case persona
-  when 'advocate'
-    choose(('advocate[vat_registered]').first)
-    fill_in 'advocate_supplier_number', with: '31425'
-    choose(("#{persona}[role]").first)
+  when 'external_user'
+    choose('external_user_vat_registered_true')
+    fill_in 'external_user_supplier_number', with: '31425'
+    check('external_user_roles_admin')
   when 'case_worker'
     check('case_worker[days_worked_0]')
     choose('case_worker[location_id]')
-    choose('case_worker_role_case_worker')
+    check('case_worker_roles_case_worker')
   end
 end
 
@@ -57,4 +57,18 @@ end
 
 Then(/^I see an error message$/) do
   expect(page).to have_content "Email confirmation and email must match"
+end
+
+Then(/^I should (not )?see the supplier number or VAT registration fields$/) do |negate|
+  if negate.present?
+    expect(page).to_not have_content(/supplier number/i)
+    expect(page).to_not have_content(/vat registered/i)
+  else
+    expect(page).to have_content(/supplier number/i)
+    expect(page).to have_content(/vat registered/i)
+  end
+end
+
+When(/^I check "(.*?)"$/) do |role|
+  check role
 end

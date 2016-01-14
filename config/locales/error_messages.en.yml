@@ -26,7 +26,7 @@ defendant:
 #                                                                               #
 #################################################################################
 
-advocate:
+external_user:
   _seq: 10
   blank:
     long: Choose an advocate

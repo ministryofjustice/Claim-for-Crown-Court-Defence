@@ -8,9 +8,9 @@
   .basic-info-row
     .column-quarter
       .bold-xsmall
-        = t('common.advocate')
+        = t('common.external_user')
       .xsmall
-        = claim.advocate.name
+        = claim.external_user.name
     .column-quarter
       .bold-xsmall
         = t('.advocate_category')
@@ -20,7 +20,7 @@
       .bold-xsmall
         = t('.adv_acc_no')
       .xsmall
-        = claim.advocate.supplier_number
+        = claim.external_user.supplier_number
     .column-quarter
       &nbsp;
 
@@ -60,22 +60,22 @@
     .basic-info-row
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.cracked_trial_fields.trial_fixed_notice_at')
+          = t('external_users.claims.cracked_trial_fields.trial_fixed_notice_at')
         .xsmall
           = claim.trial_fixed_notice_at.strftime('%d/%m/%Y')  rescue ''
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.cracked_trial_fields.trial_fixed_at')
+          = t('external_users.claims.cracked_trial_fields.trial_fixed_at')
         .xsmall
           = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.cracked_trial_fields.trial_cracked_at')
+          = t('external_users.claims.cracked_trial_fields.trial_cracked_at')
         .xsmall
           =  claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.cracked_trial_fields.trial_cracked_at_third')
+          = t('external_users.claims.cracked_trial_fields.trial_cracked_at_third')
         .xsmall
           = claim.trial_cracked_at_third.humanize
 
@@ -83,26 +83,26 @@
     .basic-info-row
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.trial_fields.first_day_of_trial')
+          = t('external_users.claims.trial_fields.first_day_of_trial')
         .xsmall
           = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.trial_fields.estimated_length')
+          = t('external_users.claims.trial_fields.estimated_length')
         .xsmall
           = claim.estimated_trial_length
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.trial_fields.actual_length')
+          = t('external_users.claims.trial_fields.actual_length')
         .xsmall
           = claim.actual_trial_length
       .column-quarter
         .bold-xsmall
-          = t('advocates.claims.trial_fields.trial_concluded_at')
+          = t('external_users.claims.trial_fields.trial_concluded_at')
         .xsmall
           = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
 
   - if claim.defendants.any?
     = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
   - else
-    = "No defendant details have been supplied for this claim." 
+    = "No defendant details have been supplied for this claim."

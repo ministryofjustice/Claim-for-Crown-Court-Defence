@@ -39,11 +39,11 @@ en:
       save: &save 'Save'
     models:
       super_admin: &super_admin 'Super administrator'
-      advocate: &advocate 'Advocate'
+      external_user: &advocate 'Advocate'
       case_worker: &case_worker 'Case worker'
     attributes:
       users:
-        role: &role 'Role'
+        roles: &roles 'Roles'
         email: &email 'Email'
         email_confirmation: &email_confirmation 'Email confirmation'
         password: &password 'Password'
@@ -60,11 +60,11 @@ en:
       claim: 'Claim'
       defendant: 'Defendant'
     attributes:
-      advocate:
-        role: *role
+      external_user:
+        roles: *roles
         supplier_number: 'Supplier number'
       case_worker:
-        role: *role
+        roles: *roles
       user:
         email: *email
         password: *password
@@ -72,7 +72,7 @@ en:
         last_name: *last_name
         email_confirmation: *email_confirmation
       claim:
-        advocate: *advocate
+        external_user: *advocate
         offence: 'Offence'
         court: 'Court'
         case_number: 'Case number'
@@ -80,9 +80,9 @@ en:
         advocate_category: 'Advocate category'
     errors:
       models:
-        advocate:
+        external_user:
           attributes:
-            role:
+            roles:
               blank: cannot be blank
               inclusion: *inclusion
             supplier_number:
@@ -90,7 +90,7 @@ en:
               invalid: 'must be 5 alpha-numeric characters'
         case_worker:
           attributes:
-            role:
+            roles:
               blank: cannot be blank
         user:
           attributes:
@@ -136,7 +136,7 @@ en:
 
 # en.common
   common:
-    advocate: Advocate
+    external_user: Advocate
     court: Court
     crown_court: Crown court
     defendant: Defendant
@@ -210,7 +210,7 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
-    advocates:
+    external_users:
       index:
         name: 'Name'
         supplier_number: *supplier_number
@@ -226,7 +226,7 @@ en:
         last_name: *last_name
         supplier_number: *supplier_number
         apply_vat: "VAT registered"
-        role: *role
+        roles: *roles
         submit: 'Create advocate'
       change_password:
         error: 'error'
@@ -236,10 +236,10 @@ en:
         password_confirmation: *password_confirmation
         submit: 'Change password'
 
-# en.advocates
-  advocates:
+# en.external_users
+  external_users:
     admin:
-      advocates:
+      external_users:
         index:
           title: 'Manage advocates'
           actions: Manage details
@@ -270,7 +270,7 @@ en:
           first_name: *first_name
           last_name: *last_name
           supplier_number: 'Supplier number'
-          role: *role
+          roles: *roles
           submit: 'Create advocate'
         change_password:
           error: 'error'
@@ -313,6 +313,7 @@ en:
         messages: 'Messages'
         defendants: 'Defendant(s)'
         case_number: 'Case number'
+        case_type: 'Case type'
         submission_date: 'Date submitted'
         authorised_date: 'Date authorised'
         total: 'Claimed'
@@ -568,6 +569,7 @@ en:
         case_number: Case number
         advocate: Advocate
         defendants: Defendant(s)
+        case_type: Case type
         total: Claimed
         status: Status
         submission_date: Date submitted

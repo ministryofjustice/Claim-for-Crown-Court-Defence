@@ -6,7 +6,7 @@ module Claims::Search
       query: "lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term "
     },
     advocate_name: {
-      joins: { advocate: :user },
+      joins: { external_user: :user },
       query: "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     },
     maat_reference: {

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   def root_path_url_for_user
     if current_user
-      method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.downcase}"
+      method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.underscore.downcase}"
       send(method_name)
     else
       new_user_session_url
@@ -34,26 +34,25 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.downcase}"
+    method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.underscore.downcase}"
     send(method_name)
   end
 
   private
 
-  def after_sign_in_path_for_superadmin
+  def after_sign_in_path_for_super_admin
     super_admins_root_url
   end
 
-  def after_sign_in_path_for_advocate
-    advocates_root_url
+  def after_sign_in_path_for_external_user
+    external_users_root_url
   end
 
-  def after_sign_in_path_for_caseworker
-    case current_user.persona.role
-    when 'case_worker'
-      case_workers_root_url
-    when 'admin'
+  def after_sign_in_path_for_case_worker
+    if current_user.persona.admin?
       case_workers_admin_root_url
+    else
+      case_workers_root_url
     end
   end
 

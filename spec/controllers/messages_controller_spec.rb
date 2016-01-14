@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
-  let(:sender) { create(:advocate) }
+  let(:sender) { create(:external_user) }
 
   before do
     sign_in sender.user
@@ -18,7 +18,7 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     before do
-      request.env['HTTP_REFERER'] = advocates_claim_path(claim)
+      request.env['HTTP_REFERER'] = external_users_claim_path(claim)
     end
 
     context 'when valid' do

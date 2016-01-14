@@ -35,22 +35,20 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       claim
     end
 
-    let(:advocate_with_vat)           { create(:advocate, vat_registered: true) }
-    let(:advocate_without_vat)        { create(:advocate, vat_registered: false) }
-    let(:another_advocate)            { create(:advocate) }
+    let(:advocate_with_vat)           { create(:external_user, :advocate, vat_registered: true) }
+    let(:advocate_without_vat)        { create(:external_user, :advocate, vat_registered: false) }
+    let(:another_advocate)            { create(:external_user, :advocate) }
     let(:other_advocate_claim)        { create(:claim) }
-
-    # subject { Claims::FinancialSummary.new(advocate) }
 
     context 'with VAT applied' do
       before do
         [submitted_claim, allocated_claim, part_authorised_claim, authorised_claim, old_part_authorised_claim].each do |claim|
-          claim.advocate = advocate_with_vat
+          claim.external_user = advocate_with_vat
           claim.creator = advocate_with_vat
           claim.save!
         end
 
-        other_advocate_claim.advocate = another_advocate
+        other_advocate_claim.external_user = another_advocate
         other_advocate_claim.creator = another_advocate
       end
 
@@ -64,7 +62,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
       describe '#total_authorised_claim_value' do
         before do
-          part_authorised_claim.advocate = advocate_with_vat
+          part_authorised_claim.external_user = advocate_with_vat
           part_authorised_claim.save!
         end
 
@@ -77,10 +75,10 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     context 'with no VAT applied' do
 
-      let(:submitted_claim)           { create(:submitted_claim, advocate: advocate_without_vat) }
-      let(:allocated_claim)           { create(:allocated_claim, advocate: advocate_without_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, advocate: advocate_without_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, advocate: advocate_without_vat)}
+      let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_without_vat) }
+      let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_without_vat) }
+      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_without_vat)}
+      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat)}
       let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat) }
       let!(:old_part_authorised_claim) do
         Timecop.freeze(Time.now - 2.week) do
@@ -126,23 +124,23 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     let(:provider)                { create(:provider) }
     let(:other_provider)          { create(:provider) }
-    let(:advocate_admin)          { create(:advocate, role: 'admin', provider: provider, vat_registered: true) }
-    let(:advocate_with_vat)       { create(:advocate, provider: provider, vat_registered: true) }
-    let(:advocate_without_vat)    { create(:advocate, provider: provider, vat_registered: false) }
-    let(:another_advocate_admin)  { create(:advocate, role: 'admin', provider: other_provider) }
-    let(:other_provider_claim)     { create(:claim) }
+    let(:advocate_admin)          { create(:external_user, :admin, provider: provider, vat_registered: true) }
+    let(:advocate_with_vat)       { create(:external_user, provider: provider, vat_registered: true) }
+    let(:advocate_without_vat)    { create(:external_user, provider: provider, vat_registered: false) }
+    let(:another_advocate_admin)  { create(:external_user, :admin, provider: other_provider) }
+    let(:other_provider_claim)    { create(:claim) }
 
 
     before do
-      other_provider_claim.advocate = another_advocate_admin
+      other_provider_claim.external_user = another_advocate_admin
       other_provider_claim.creator = another_advocate_admin
     end
 
     context 'with VAT' do
-      let(:submitted_claim)           { create(:submitted_claim, advocate: advocate_with_vat) }
-      let(:allocated_claim)           { create(:allocated_claim, advocate: advocate_with_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, advocate: advocate_with_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, advocate: advocate_with_vat)}
+      let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_with_vat) }
+      let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_with_vat) }
+      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_with_vat)}
+      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_with_vat)}
       let(:summary)                   { Claims::FinancialSummary.new(advocate_with_vat) }
       let!(:old_part_authorised_claim) do
         Timecop.freeze(Time.now - 2.week) do
@@ -169,10 +167,10 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
     context 'claim without VAT applied' do
 
-      let(:submitted_claim)           { create(:submitted_claim, advocate: advocate_without_vat) }
-      let(:allocated_claim)           { create(:allocated_claim, advocate: advocate_without_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, advocate: advocate_without_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, advocate: advocate_without_vat)}
+      let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_without_vat) }
+      let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_without_vat) }
+      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_without_vat)}
+      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat)}
       let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat) }
       let!(:old_part_authorised_claim) do
         Timecop.freeze(Time.now - 2.week) do

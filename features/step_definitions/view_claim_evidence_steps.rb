@@ -6,7 +6,7 @@ When(/^I visit the detail link for a claim$/) do
 end
 
 When(/^I view the claim$/) do
-  visit advocates_root_path
+  visit external_users_root_path
   within('.report') do
     first('a.js-test-case-number-link').click
   end

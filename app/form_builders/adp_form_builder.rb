@@ -1,6 +1,6 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
-  
-  def collection_select2_with_data(method, collection, value_method, text_method, data_options,  options_hash = {}, html_option_hash = {}) 
+
+  def collection_select2_with_data(method, collection, value_method, text_method, data_options,  options_hash = {}, html_option_hash = {})
     result = make_select_start(method)
     result += make_prompt if options_hash[:prompt] == true
     collection.each do |member|
@@ -13,7 +13,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
   def anchored_label(label, anchor_name = nil)
     anchor_name ||= label.gsub(' ', '_').downcase
-    label_for = "#{object.class.to_s.camelize(:lower)}_#{label}"
+    label_for = "#{object.class.to_s.camelize(:lower)}_#{anchor_name}"
     %Q[<a name="#{anchor_name}"></a><label for="#{label_for}">#{label}</label>].html_safe
   end
 

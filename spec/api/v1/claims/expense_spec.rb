@@ -3,13 +3,13 @@ require 'spec_helper'
 require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::Advocates::Expense do
+describe API::V1::ExternalUsers::Expense do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_EXPENSE_ENDPOINT = "/api/advocates/expenses"
-  VALIDATE_EXPENSE_ENDPOINT = "/api/advocates/expenses/validate"
+  CREATE_EXPENSE_ENDPOINT = "/api/external_users/expenses"
+  VALIDATE_EXPENSE_ENDPOINT = "/api/external_users/expenses/validate"
 
   ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
   FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]

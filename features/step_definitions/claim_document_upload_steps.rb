@@ -65,17 +65,17 @@ end
 Then(/^the document's claim and advocate IDs should be set$/) do
   claim = Claim.first
   document = claim.documents.last
-  expect(document.advocate_id).to eq(claim.advocate_id)
+  expect(document.external_user_id).to eq(claim.external_user_id)
 end
 
 Given(/^a draft claim with documents exists$/) do
-  claim = create(:draft_claim, advocate: @advocate)
-  create(:document, claim: claim, advocate: @advocate, creator_id: @advocate.user.id)
+  claim = create(:draft_claim, external_user: @advocate)
+  create(:document, claim: claim, external_user: @advocate, creator_id: @advocate.user.id)
 end
 
 Given(/^I am on the edit page for the claim$/) do
   claim = Claim.first
-  visit edit_advocates_claim_path(claim)
+  visit edit_external_users_claim_path(claim)
 end
 
 Then(/^I should see the previously uploaded documents$/) do

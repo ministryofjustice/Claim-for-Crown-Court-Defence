@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
 
   delegate :claims, to: :persona
 
-  scope :advocates, -> { where(persona_type: 'Advocate') }
+  scope :external_users, -> { where(persona_type: 'ExternalUser') }
 
   def name
     [first_name, last_name] * ' '

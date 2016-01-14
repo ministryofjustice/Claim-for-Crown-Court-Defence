@@ -11,12 +11,12 @@ class JsonDocumentImporter
   validates :file, json_format: true
 
   BASE_URL                      = GrapeSwaggerRails.options.app_url
-  CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/advocates/claims'
-  DEFENDANT_CREATION            = RestClient::Resource.new BASE_URL + '/api/advocates/defendants'
-  REPRESENTATION_ORDER_CREATION = RestClient::Resource.new BASE_URL + '/api/advocates/representation_orders'
-  FEE_CREATION                  = RestClient::Resource.new BASE_URL + '/api/advocates/fees'
-  EXPENSE_CREATION              = RestClient::Resource.new BASE_URL + '/api/advocates/expenses'
-  DATE_ATTENDED_CREATION        = RestClient::Resource.new BASE_URL + '/api/advocates/dates_attended'
+  CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/external_users/claims'
+  DEFENDANT_CREATION            = RestClient::Resource.new BASE_URL + '/api/external_users/defendants'
+  REPRESENTATION_ORDER_CREATION = RestClient::Resource.new BASE_URL + '/api/external_users/representation_orders'
+  FEE_CREATION                  = RestClient::Resource.new BASE_URL + '/api/external_users/fees'
+  EXPENSE_CREATION              = RestClient::Resource.new BASE_URL + '/api/external_users/expenses'
+  DATE_ATTENDED_CREATION        = RestClient::Resource.new BASE_URL + '/api/external_users/dates_attended'
 
   def initialize(attributes = {})
     @file   = attributes[:json_file] # this expects an ActionDispatch::Http::UploadedFile object

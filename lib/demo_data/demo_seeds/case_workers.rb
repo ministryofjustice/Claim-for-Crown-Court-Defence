@@ -7,7 +7,7 @@ SeedHelper.find_or_create_caseworker!(
   email: 'caseworker@example.com',
   days_worked: [ 1,1,1,1,0],
   location: 'Nottingham',
-  role: 'case_worker',
+  roles: ['case_worker'],
   password_env_var: 'CASE_WORKER_PASSWORD'
 )
 
@@ -17,6 +17,6 @@ SeedHelper.find_or_create_caseworker!(
   email: 'caseworkeradmin@example.com',
   days_worked: [ 1,1,1,1,1],
   location: 'Nottingham',
-  role: 'admin',
+  roles: ['admin'],
   password_env_var: 'ADMIN_PASSWORD'
 )

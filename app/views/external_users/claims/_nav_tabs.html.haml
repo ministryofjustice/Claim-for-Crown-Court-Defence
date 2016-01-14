@@ -1,0 +1,6 @@
+%nav.dashboard-tabs
+  %ul
+    %li{class: ( 'active' if controller.controller_name == 'claims' ) }
+      = link_to 'Dashboard', external_users_claims_path
+    %li{class: ( 'active' if controller.controller_name == 'external_users' ) }
+      = link_to 'Advocates', external_users_admin_external_users_path

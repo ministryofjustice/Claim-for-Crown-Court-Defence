@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
-  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', registrations: 'advocates/registrations' }
+  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', registrations: 'external_users/registrations' }
 
-  authenticated :user, -> (u) { u.persona.is_a?(Advocate) } do
-    root to: 'advocates/claims#index', as: :advocates_home
+  authenticated :user, -> (u) { u.persona.is_a?(ExternalUser) } do
+    root to: 'external_users/claims#index', as: :external_users_home
   end
 
   authenticated :user, -> (u) { u.persona.is_a?(CaseWorker) } do
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     root to: 'providers#index'
 
     resources :providers, except: [:destroy] do
-      resources :advocates, except: [:destroy] do
+      resources :external_users, except: [:destroy] do
         get 'change_password', on: :member
         patch 'update_password', on: :member
       end
@@ -79,12 +79,12 @@ Rails.application.routes.draw do
 
   end
 
-  namespace :advocates do
+  namespace :external_users do
     root to: 'claims#index'
 
     resources :json_document_importers, only: [:create], format: :js
 
-    post '/advocates/json_importer' => 'json_document_importer#create'
+    post '/external_users/json_importer' => 'json_document_importer#create'
 
     resources :claims do
       get 'confirmation',     on: :member
@@ -100,7 +100,7 @@ Rails.application.routes.draw do
     namespace :admin do
       root to: 'claims#index'
 
-      resources :advocates do
+      resources :external_users do
         get 'change_password', on: :member
         patch 'update_password', on: :member
       end

@@ -11,13 +11,13 @@ class Provider < ActiveRecord::Base
     scope type.pluralize.to_sym, -> { where(provider_type: type) }
   end
 
-  has_many :advocates do
+  has_many :external_users do
     def ordered_by_last_name
       self.sort { |a, b| a.user.sortable_name <=> b.user.sortable_name }
     end
   end
 
-  has_many :claims, through: :advocates
+  has_many :claims, through: :external_users
 
   before_validation :set_api_key
 
@@ -25,6 +25,11 @@ class Provider < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }, if: :firm?
   validates :api_key, presence: true
+
+  # Allows calling of provider.admins or provider.advocates
+  ExternalUser::ROLES.each do |role|
+    delegate role.pluralize.to_sym, to: :external_users
+  end
 
   def regenerate_api_key!
     update_column(:api_key, SecureRandom.uuid)

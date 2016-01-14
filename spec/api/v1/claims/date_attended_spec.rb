@@ -3,13 +3,13 @@ require 'spec_helper'
 require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
-describe API::V1::Advocates::DateAttended do
+describe API::V1::ExternalUsers::DateAttended do
 
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended"
-  VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/advocates/dates_attended/validate"
+  CREATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended"
+  VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended/validate"
 
   ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]

@@ -12,7 +12,7 @@ Feature: Claims list sorting
       And I click "Date submitted"
      Then I should see "10/01/2016" in top cell of column with link "Date submitted"
 
-  Scenario Outline: Sort claims by case number
+  Scenario Outline: Sort claims using header links
       And I click <link_text>
      Then I should see <asc_value> in top cell of column with link <link_text>
       And I click <link_text>
@@ -25,3 +25,8 @@ Feature: Claims list sorting
       | "Claimed"      | "£1.00"         | "£25.00"        |
       | "Assessed"     | "-"             | "£18.80"        |
       | "Status"       | "Allocated"     | "Submitted"     |
+
+  Scenario: Search then sort claims list by joined attribute does not break
+      And I search by the name "%"
+      And I click "Assessed"
+     Then I should see "-" in top cell of column with link "Assessed"

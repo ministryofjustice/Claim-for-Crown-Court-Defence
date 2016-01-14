@@ -23,3 +23,8 @@ Feature: Claims list sorting
       | "Advocate"     | "Billy Smith-A" | "Billy Smith-E" |
       | "Claimed"      | "£1.00"         | "£25.00"        |
       | "Case type"    | "Case Type A"   | "Case Type E"   |
+
+  Scenario: Search then sort claims list by joined attribute does not break
+      And I search by the name "%"
+      And I click "Claimed"
+     Then I should see "£1.00" in top cell of column with link "Claimed"

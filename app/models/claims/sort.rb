@@ -72,7 +72,7 @@ module Claims::Sort
       .order("total_inc_vat #{direction}")
   end
 
-  # TODO: sort_messages - unused and curently broken
+  # TODO: sort_messages - unused and currently broken
   #       question over logic of ordering should be
   #       i.e. ordered by any with unread first, then date of unread message??
     #          from conversation with PM.

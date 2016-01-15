@@ -552,6 +552,7 @@ en:
           case_types: 'Case types'
       management_information:
         index:
+          h1_managment_info: Management information
           all_claims_report: 'All claims report'
     claims:
       archived:

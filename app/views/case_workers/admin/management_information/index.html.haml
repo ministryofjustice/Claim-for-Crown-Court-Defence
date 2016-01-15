@@ -1,4 +1,6 @@
 %h1
-  Management Information
+  Management information
 
-= link_to 'Download report', case_workers_admin_management_information_report_url(format: :csv), class: "button"
+.form.fieldset.label
+  = label_tag t('.all_claims_report')
+= link_to 'Download', case_workers_admin_management_information_report_url(format: :csv), class: "button"

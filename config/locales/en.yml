@@ -550,6 +550,9 @@ en:
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
+      management_information:
+        index:
+          all_claims_report: 'All claims report'
     claims:
       archived:
         archived_claims: Archived claims

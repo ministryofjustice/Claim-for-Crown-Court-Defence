@@ -3,5 +3,5 @@ Given(/^I am on the management information page$/) do
 end
 
 Then(/^I should have a CSV of the report$/) do
-  expect(page.driver.response.headers['Content-Disposition']).to include("filename=\"report.csv\"")
+  expect(page.driver.response.headers['Content-Disposition']).to include("filename=\"all_claims_report.csv\"")
 end

@@ -11,7 +11,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def report
     respond_to do |format|
-      format.csv { send_data csv_report, filename: "report.csv" }
+      format.csv { send_data csv_report, filename: "all_claims_report.csv" }
     end
   end
 

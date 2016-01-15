@@ -1,15 +1,16 @@
 Feature: Claims list sorting
   Background:
-    As a caseworker I want to be able to sort the claims I have been allocated and those in the archive
+    As an advocate I want to be able to sort the claims in my lists of current, archived, outstanding
+    and authorised claims
 
-    Given I am a signed in case worker
-      And 5 sortable claims have been assigned to me
-     When I visit the caseworkers dashboard
+    Given I am a signed in advocate admin
+      And I have 5 sortable claims
+     When I visit the advocates dashboard
 
-  Scenario: Default sorting of claims
-     Then I should see "07/01/2016" in top cell of column with link "Date submitted"
+  Scenario: Default sorting of claims (draft/unsubmitted first)
+     Then I should see "" in top cell of column with link "Date submitted"
       And I click "Date submitted"
-     Then I should see "11/01/2016" in top cell of column with link "Date submitted"
+     Then I should see "10/01/2016" in top cell of column with link "Date submitted"
 
   Scenario Outline: Sort claims using header links
       And I click <link_text>
@@ -22,9 +23,10 @@ Feature: Claims list sorting
       | "Case number"  | "A00000001"     | "A00000005"     |
       | "Advocate"     | "Billy Smith-A" | "Billy Smith-E" |
       | "Claimed"      | "£1.00"         | "£25.00"        |
-      | "Case type"    | "Case Type A"   | "Case Type E"   |
+      | "Assessed"     | "-"             | "£18.80"        |
+      | "Status"       | "Allocated"     | "Submitted"     |
 
   Scenario: Search then sort claims list by joined attribute does not break
       And I search by the name "%"
-      And I click "Claimed"
-     Then I should see "£1.00" in top cell of column with link "Claimed"
+      And I click "Assessed"
+     Then I should see "-" in top cell of column with link "Assessed"

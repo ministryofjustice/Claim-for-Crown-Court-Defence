@@ -1,6 +1,6 @@
 module Claims::Sort
 
-  META_SORT_COLUMNS = %w( advocate amount_assessed case_type )
+  META_SORT_COLUMNS = %w( advocate amount_assessed case_type total_inc_vat )
 
   def sortable_columns
     column_names + META_SORT_COLUMNS
@@ -16,17 +16,16 @@ module Claims::Sort
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
     case column
+      when 'last_submitted_at'
+        sort_submitted_at(direction)
       when 'advocate'
         sort_advocates(direction)
-      when 'submitted_at'
-        sort_submitted_at(direction)
       when 'case_type'
         sort_case_type(direction)
+      when 'total_inc_vat'
+        sort_total_inc_vat(direction)
       when 'amount_assessed'
         sort_amount_assessed(direction)
-      # disabled til functional
-      # when 'messages'
-        # sort_messages(direction)
       else
         order(column => direction)
     end
@@ -34,22 +33,41 @@ module Claims::Sort
 
   private
 
+  # NOTE:
+  # since searching occurs before sorting and searching calls a uniq/distinct
+  # we need to explcitly select values being ordered by to avoid Invalid SQL
+  #
+
+  def nulls_at_top_asc(direction)
+    'NULLS ' + (direction=='asc' ? 'FIRST' : 'LAST')
+  end
+
+  def sort_submitted_at(direction)
+    order("last_submitted_at #{direction} #{nulls_at_top_asc(direction)}")
+  end
+
   def sort_advocates(direction)
-    joins(external_user: :user).order("users.last_name #{direction}, users.first_name #{direction}")
+    select('claims.*, ("users"."last_name" || \', \' || "users"."first_name") AS user_name')
+      .joins(external_user: :user)
+      .order("user_name #{direction}, created_at #{direction}")
   end
 
   def sort_case_type(direction)
-    joins(:case_type).order("case_types.name #{direction}")
+    select('claims.*, "case_types"."name" AS case_type_name')
+      .joins(:case_type)
+      .order("case_type_name #{direction}")
   end
 
+  def sort_total_inc_vat(direction)
+    select('claims.*, (claims.total+claims.vat_amount) AS total_inc_vat').order("total_inc_vat #{direction}")
+  end
+
+  # NOTE: amount assessed is the most recent determinations' total including vat
   def sort_amount_assessed(direction)
-    joins(:determinations).order("determinations.total #{direction}")
+    select('claims.*, (determinations.total + determinations.vat_amount) AS total_inc_vat')
+      .joins(:determinations)
+      .where('determinations.created_at = (SELECT MAX(d.created_at) FROM "determinations" d WHERE d."claim_id" = "claims"."id")')
+      .order("total_inc_vat #{direction}")
   end
 
-  def sort_messages(direction)
-
-    # TODO: sort_messages - broken and should be ordered by any with unread first, then last_submitted_at
-    #       from conversation with PM.
-    joins(:messages).group('claims.id').order("count(messages.*) #{direction}")
-  end
 end

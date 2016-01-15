@@ -14,12 +14,3 @@ Given(/^(\d+) sortable claims have been assigned to me$/) do |count|
     end
   end
 end
-
-Then(/^I should see "(.*?)" in top cell of column (.*?)$/) do |cell_value, column_header|
-  within('.report') do
-    th = find(:xpath,"./thead/tr/th/a[contains(text(),#{column_header})]/..")
-    column = th.path.slice(-2,1)
-    top_cell = find(:xpath, "./tbody/tr[1]/td[#{column}]")
-    expect(top_cell.text).to eq cell_value
-  end
-end

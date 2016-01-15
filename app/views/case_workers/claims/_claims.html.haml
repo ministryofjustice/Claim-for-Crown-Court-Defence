@@ -11,7 +11,7 @@
       %th
         = t(".defendants")
       %th{ title:  'Including VAT' }
-        = sortable 'total', t('.total')
+        = sortable 'total_inc_vat', t('.total')
       - if params[:action] == 'archived'
         %th
           = sortable 'state', t('.status')

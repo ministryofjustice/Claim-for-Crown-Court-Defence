@@ -19,7 +19,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def csv_report
     CSV.generate(headers: true) do |csv|
-      csv << Settings.csv_column_names
+      csv << Settings.csv_column_names.map { |h| h.to_s.humanize }
       @claims.each do |claim|
         csv << ClaimCsvPresenter.new(claim, 'view').present!
       end

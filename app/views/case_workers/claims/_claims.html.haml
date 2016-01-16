@@ -42,7 +42,7 @@
             = claim.submitted_at(include_time: false) unless claim.draft?
           %td.messages
             - if claim.messages.any?
-              = link_to "View", "#{case_workers_claim_path(claim)}#messages"
+              = link_to "View", "#{case_workers_claim_path(claim, messages: true)}#messages"
               - if claim.has_unread_messages_for?(current_user)
                 %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
             - else

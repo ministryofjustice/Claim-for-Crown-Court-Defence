@@ -45,7 +45,7 @@
               = claim.submitted_at
             %td.messages
               - if claim.messages.any?
-                = link_to "View", "#{external_users_claim_path(claim)}#messages"
+                = link_to "View", "#{external_users_claim_path(claim, messages: true)}#messages"
                 - if claim.has_unread_messages_for?(current_user)
                   %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
               - else

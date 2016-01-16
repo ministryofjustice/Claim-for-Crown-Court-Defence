@@ -13,16 +13,6 @@
 
   delete moj.Modules.devs;
 
-  // Accordion
-  $('#claim-accordion')
-    .find('h2')
-      .next('section').hide()
-      .parent()
-    .on('click', 'h2', function(e, animationDuration) {
-      $(this).toggleClass('open').next('section').slideToggle(animationDuration);
-    })
-    .find('h2:first-of-type').trigger('click', 0);
-
   $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
     $(insertedItem).find('.select2').select2();
   });

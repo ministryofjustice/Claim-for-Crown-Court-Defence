@@ -12,18 +12,16 @@ Then(/^I should see the messages for that claim in chronological order$/) do
 end
 
 When(/^I leave a message$/) do
-  within '#messages' do
+  within '#panel1' do
     fill_in 'message_body', with: 'Lorem'
     click_on 'Send'
   end
 end
 
 Then(/^I should see my message at the bottom of the message list$/) do
-  within '#messages' do
-    within '.messages-list' do
-      message_body = all('.message-body').last
-      expect(message_body).to have_content(/Lorem/)
-    end
+  within '#panel1' do
+    message_body = all('.message-body').last
+    expect(message_body).to have_content(/Lorem/)
   end
 end
 
@@ -75,6 +73,7 @@ Then(/^I (.*?) see the request written reason button$/) do | radio_button_expect
 end
 
 Then(/^I (.*?) see the controls to send messages$/) do | msg_control_expectation |
+
   case msg_control_expectation
     when 'should not'
       within('.messages-container') do
@@ -94,9 +93,15 @@ When(/^click on (.*?) option$/) do | radio_button|
 end
 
 Then(/^I can send a message$/) do
-  within '#messages' do
+  within '#panel1' do
     fill_in 'message_body', with: 'Lorem'
     click_on 'Send'
   end
   wait_for_ajax
+end
+
+When(/^I expand the accordion$/) do
+  within('#claim-accordion') do
+    page.find('h2', text: 'Messages').click
+  end
 end

@@ -10,6 +10,7 @@
 #  total      :decimal(, )
 #  created_at :datetime
 #  updated_at :datetime
+#  vat_amount :float            default(0.0)
 #
 
 require 'rails_helper'

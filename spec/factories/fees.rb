@@ -10,6 +10,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  uuid        :uuid
+#  rate        :decimal(, )
 #
 
 FactoryGirl.define do

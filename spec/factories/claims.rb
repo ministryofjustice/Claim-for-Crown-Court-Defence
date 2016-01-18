@@ -16,7 +16,7 @@
 #  fees_total               :decimal(, )      default(0.0)
 #  expenses_total           :decimal(, )      default(0.0)
 #  total                    :decimal(, )      default(0.0)
-#  external_user_id          :integer
+#  external_user_id         :integer
 #  court_id                 :integer
 #  offence_id               :integer
 #  created_at               :datetime

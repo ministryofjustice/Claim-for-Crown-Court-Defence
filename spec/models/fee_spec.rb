@@ -10,6 +10,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  uuid        :uuid
+#  rate        :decimal(, )
 #
 
 require 'rails_helper'
@@ -146,30 +147,6 @@ RSpec.describe Fee, type: :model do
       ft  = FactoryGirl.create :fee_type, fee_category: cat
       fee = FactoryGirl.create :fee, fee_type: ft
       expect(fee.category).to eq cat.abbreviation
-    end
-  end
-
-  describe '.new_from_form_params' do
-    it 'should build a new record and attach it to the claim' do
-      claim = FactoryGirl.create :claim
-      ft = FactoryGirl.create :fee_type
-      params = {"fee_type_id"=> ft.id.to_s, "quantity"=>"25", "amount"=>"1125", "_destroy"=>"false"}
-      fee = Fee.new_from_form_params(claim, params)
-      expect(fee).to be_new_record
-      expect(fee.claim).to eq claim
-      expect(fee.fee_type).to eq ft
-      expect(fee.quantity).to eq 25
-      expect(fee.amount.to_f).to eq 1125
-    end
-  end
-
-  describe '.new_collection_from_form_params' do
-    it 'should call Fee.new_from_form_params for every instance in the form params' do
-      claim = double claim
-      params = { '0' => 'first lot', '1' => 'second lot'}
-      expect(Fee).to receive(:new_from_form_params).with(claim, 'first lot')
-      expect(Fee).to receive(:new_from_form_params).with(claim, 'second lot')
-      Fee.new_collection_from_form_params(claim, params)
     end
   end
 

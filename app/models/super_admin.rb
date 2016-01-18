@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: super_admins
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class SuperAdmin < ActiveRecord::Base
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   validates :user, presence: true

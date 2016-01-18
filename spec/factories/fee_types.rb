@@ -9,6 +9,7 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  max_amount      :decimal(, )
+#  calculated      :boolean          default(TRUE)
 #
 
 FactoryGirl.define do

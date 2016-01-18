@@ -10,6 +10,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  uuid        :uuid
+#  rate        :decimal(, )
 #
 
 class Fee < ActiveRecord::Base
@@ -46,6 +47,10 @@ class Fee < ActiveRecord::Base
     claim.update_vat
   end
 
+  def self.new_blank(claim, fee_type)
+    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
+  end
+
   def perform_validation?
     claim && claim.perform_validation?
   end
@@ -57,30 +62,12 @@ class Fee < ActiveRecord::Base
   end
 
   def calculated?
-    self.fee_type.calculated
+    fee_type.calculated? rescue true
   end
 
   def calculate_amount
     return if is_before_rate_reintroduced? || !calculated?
     self.amount = self.quantity * self.rate
-  end
-
-  def self.new_blank(claim, fee_type)
-    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
-  end
-
-  def self.new_collection_from_form_params(claim, form_params)
-    collection = []
-    form_params.values.each { |params| collection << Fee.new_from_form_params(claim, params) }
-    collection
-  end
-
-  def self.new_from_form_params(claim, params)
-    Fee.new(claim: claim,
-            fee_type: FeeType.find(params['fee_type_id']),
-            quantity: params['quantity'],
-            amount: params['amount']
-            )
   end
 
   def blank?
@@ -89,14 +76,6 @@ class Fee < ActiveRecord::Base
 
   def present?
     !blank?
-  end
-
-  def method_missing(method, *args)
-    if [:is_misc?,:is_basic?,:is_fixed?].include?(method)
-      fee_type.fee_category.__send__(method) unless fee_type.nil?
-    else
-      super
-    end
   end
 
   def description
@@ -113,6 +92,14 @@ class Fee < ActiveRecord::Base
     self.amount = nil;
     # explicitly destroy child relations
     self.dates_attended.destroy_all unless self.dates_attended.empty?
+  end
+
+  def method_missing(method, *args)
+    if [:is_misc?,:is_basic?,:is_fixed?].include?(method)
+      fee_type.fee_category.__send__(method) unless fee_type.nil?
+    else
+      super
+    end
   end
 
 end

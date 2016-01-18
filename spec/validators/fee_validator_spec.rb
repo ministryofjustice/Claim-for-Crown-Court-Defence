@@ -12,6 +12,8 @@ describe FeeValidator do
   let(:dah_fee)    { FactoryGirl.build :fee, :dah_fee, claim: claim }
   let(:daj_fee)    { FactoryGirl.build :fee, :daj_fee, claim: claim }
   let(:pcm_fee)    { FactoryGirl.build :fee, :pcm_fee, claim: claim }
+  let(:ppe_fee)    { FactoryGirl.build :fee, :ppe_fee, claim: claim }
+  let(:npw_fee)    { FactoryGirl.build :fee, :npw_fee, claim: claim }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
@@ -65,6 +67,16 @@ describe FeeValidator do
         fee.rate = nil
         expect(fee).to_not be_valid
         expect(fee.rate).to eq 0
+      end
+    end
+
+    context 'for uncalculated fees (PPE and NPW)' do
+      it 'should raise an error when rate present' do
+        [ppe_fee, npw_fee].each do |f|
+          f.rate = 25
+          expect(f).to_not be_valid
+          expect(f.errors[:rate]).to include("#{f.fee_type.code.downcase}_must_be_blank")
+        end
       end
     end
 

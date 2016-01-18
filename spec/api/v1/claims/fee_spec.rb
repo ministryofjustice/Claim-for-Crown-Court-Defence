@@ -114,6 +114,15 @@ describe API::V1::ExternalUsers::Fee do
         expect_error_response("Enter a valid rate for the basic fee",1)
       end
 
+      it 'uncalculated fees (PPE/NPW) should raise an error when rate provided' do
+        valid_params[:fee_type_id] = basic_fee_type.id
+        valid_params.merge!(rate: 25)
+        basic_fee_type.update(code: 'PPE', calculated: false) # need to use real basic fee codes to trigger code specific validation and errors
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Pages of prosecution evidence fees must not a have rate",0)
+      end
+
       # NOT exhaustive
       it 'OTHER basic fees should raise basic fee errors' do
         valid_params[:fee_type_id] = basic_fee_type.id

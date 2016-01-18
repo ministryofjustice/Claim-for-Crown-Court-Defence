@@ -77,6 +77,10 @@ FactoryGirl.define do
       fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
     end
 
+    trait :npw_fee do
+      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
+    end
+
   end
 
 end

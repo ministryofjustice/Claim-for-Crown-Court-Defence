@@ -69,9 +69,8 @@ RSpec.describe Fee, type: :model do
     end
 
     context 'for fees not requiring calculation' do
+      let(:fee) { fee = FactoryGirl.build :fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999 }
       it 'should not calculate the amount' do
-        fee = FactoryGirl.build :fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999
-        fee.claim.force_validation = true
         expect(fee).to be_valid
         expect(fee.amount).to eq 999
       end

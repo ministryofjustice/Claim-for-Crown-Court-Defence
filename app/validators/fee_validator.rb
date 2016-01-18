@@ -25,7 +25,7 @@ class FeeValidator < BaseClaimValidator
   def validate_quantity
     @actual_trial_length = @record.try(:claim).try(:actual_trial_length) || 0
 
-    case @record.fee_type.try(:code)
+    case fee_code
       when 'BAF'
         validate_baf_quantity
       when 'DAF'
@@ -84,13 +84,25 @@ class FeeValidator < BaseClaimValidator
     #       have been deleted/archived.
     return if @record.is_before_rate_reintroduced?
 
-    fee_code = @record.fee_type.try(:code)
-    case fee_code
-      when "BAF", "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC", "NPW", "PPE"
-        validate_basic_fee_rate(fee_code)
+    code = fee_code
+    if @record.calculated?
+      validate_calculated_fee(code)
+    else
+      validate_uncalculated_fee(code)
+    end
+  end
+
+  def validate_calculated_fee(code)
+    case code
+      when "BAF", "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC"
+        validate_basic_fee_rate(code)
       else
         validate_any_quantity_rate_combination
     end
+  end
+
+  def validate_uncalculated_fee(code)
+    add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate > 0
   end
 
   # if one has a value and the other doesn't then we add error to the one that does NOT have a value
@@ -104,12 +116,16 @@ class FeeValidator < BaseClaimValidator
 
   # if one has a value and the other doesn't then we add error to the one that does NOT have a value
   # NOTE: we have specific error messages for basic fees
-  def validate_basic_fee_rate(case_type)
+  def validate_basic_fee_rate(code)
     if @record.quantity > 0 && @record.rate <=0
-      add_error(:rate, "#{case_type.downcase}_invalid")
+      add_error(:rate, "#{code.downcase}_invalid")
     elsif @record.quantity <= 0 && @record.rate > 0
-      add_error(:quantity, "#{case_type.downcase}_invalid")
+      add_error(:quantity, "#{code.downcase}_invalid")
     end
+  end
+
+  def fee_code
+    @record.fee_type.try(:code)
   end
 
 end

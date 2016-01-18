@@ -67,6 +67,15 @@ RSpec.describe Fee, type: :model do
       end
     end
 
+    context 'for fees not requiring calculation' do
+      it 'should not calculate the amount' do
+        fee = FactoryGirl.build :fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999
+        fee.claim.force_validation = true
+        expect(fee).to be_valid
+        expect(fee.amount).to eq 999
+      end
+    end
+
   end
 
   describe '.new_blank' do
@@ -93,6 +102,19 @@ RSpec.describe Fee, type: :model do
         expect(fee.quantity).to eq 0
         expect(fee).to be_new_record
       end
+    end
+  end
+
+  describe '#calculated?' do
+    it 'should return false for fees flagged as uncalculated' do
+      ppe = FactoryGirl.create(:fee_type, :basic, code: 'PPE', calculated: false)
+      fee = FactoryGirl.create(:fee, fee_type: ppe)
+      expect(fee.calculated?).to be false
+    end
+    it 'should return true for any other fees' do
+      saf = FactoryGirl.create(:fee_type, :basic, code: 'SAF')
+      fee = FactoryGirl.create(:fee, fee_type: saf)
+      expect(fee.calculated?).to be true
     end
   end
 

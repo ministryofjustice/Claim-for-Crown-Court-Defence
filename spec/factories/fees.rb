@@ -72,6 +72,10 @@ FactoryGirl.define do
       fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
     end
 
+    trait :ppe_fee do
+      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
+    end
+
   end
 
 end

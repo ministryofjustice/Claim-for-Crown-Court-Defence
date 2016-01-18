@@ -12,6 +12,8 @@ module DemoData
       add_baf
       add_daily_attendances
       add_pcm if @claim.case_type.allow_pcmh_fee_type?
+      add_ppe if rand(2)==1
+      add_npw if rand(2)==1
       rand(0..3).times { add_fee }
     end
 
@@ -19,14 +21,18 @@ module DemoData
 
     def update_basic_fee(basic_fee_code, quantity, rate)
       fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
-      raise "fee code #{basic_fee_code} does not match any known basic fees" if fee.fee_type_id.nil?
       fee.update(quantity: quantity, rate: rate.round(2))
+      @codes_added << basic_fee_code
+    end
+
+    def update_uncalculated_fee(basic_fee_code, quantity, amount)
+      fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
+      fee.update(quantity: quantity, amount: amount.round(2))
       @codes_added << basic_fee_code
     end
 
     def add_baf
       update_basic_fee('BAF', 1, 250)
-      @codes_added << 'BAF'
     end
 
     def add_daily_attendances
@@ -60,10 +66,18 @@ module DemoData
       update_basic_fee('PCM', rand(1..3), 125)
     end
 
+    def add_npw
+      update_uncalculated_fee('NPW',777,200)
+    end
+
+    def add_ppe
+      update_uncalculated_fee('PPE',888,200)
+    end
+
     def add_fee
-      fee_type = @fee_types.sample
+      fee_type = @fee_types.where(calculated: true).sample
       while @codes_added.include?(fee_type.code) || ['BAF','DAF','DAH','DAJ','PCM'].include?(fee_type.code)
-        fee_type = @fee_types.sample
+        fee_type = @fee_types.where(calculated: true).sample
       end
       update_basic_fee(fee_type.code, rand(1..10), rand(100..900) )
     end

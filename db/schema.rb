@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 20160119133748) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "max_amount"
+    t.boolean  "calculated",      default: true
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

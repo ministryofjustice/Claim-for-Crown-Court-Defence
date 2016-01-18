@@ -29,9 +29,9 @@ class Fee < ActiveRecord::Base
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
-    self.quantity = 0 if self.quantity.blank?
-    self.rate = 0 if self.rate.blank?
-    self.amount = 0 if self.amount.blank?
+    self.quantity   = 0 if self.quantity.blank?
+    self.rate       = 0 if self.rate.blank?
+    self.amount     = 0 if self.amount.blank?
     calculate_amount
   end
 
@@ -56,13 +56,16 @@ class Fee < ActiveRecord::Base
     self.amount > 0 && self.rate == 0
   end
 
+  def calculated?
+    self.fee_type.calculated
+  end
+
   def calculate_amount
-    return if is_before_rate_reintroduced?
+    return if is_before_rate_reintroduced? || !calculated?
     self.amount = self.quantity * self.rate
   end
 
   def self.new_blank(claim, fee_type)
-    # quantity = (fee_type.code == 'BAF' ? 1 : 0)
     Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
   end
 

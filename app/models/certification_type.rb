@@ -9,7 +9,7 @@
 #
 
 class CertificationType < ActiveRecord::Base
-  belongs_to :certification
+  has_many :certification
 
   scope :pre_may_2015,              -> { where('id > ?', 1) }
   scope :post_may_2015,             -> { where( id: 1) }

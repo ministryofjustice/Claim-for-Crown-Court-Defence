@@ -8,7 +8,7 @@
 #  updated_at              :datetime
 
 FactoryGirl.define do
-  factory :certificate_type do
+  factory :certification_type do
 
     #id, name
     #1, I attended the Main Hearing (1st day of trial)
@@ -21,7 +21,7 @@ FactoryGirl.define do
 
     name 'I attended the Main Hearing (1st day of trial)'
 
-    
+
 
   end
 end

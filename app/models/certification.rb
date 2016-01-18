@@ -16,7 +16,7 @@ class Certification < ActiveRecord::Base
 
   belongs_to :claim
 
-  has_one :certification_type
+  belongs_to :certification_type
 
   validates :certification_type_id, presence: true, inclusion: { in: CertificationType.pluck(:id) }
 

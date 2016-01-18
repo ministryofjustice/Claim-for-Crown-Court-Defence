@@ -106,7 +106,7 @@ private
   #
   def get_dropdown_endpoint(resource, prefix=nil)
     endpoint = RestClient::Resource.new([api_root_url, prefix || DROPDOWN_PREFIX, resource].join('/') <<  "?api_key=#{@api_key}" )
-    endpoint.get do |response, request, result|
+    endpoint.get do |response, request, _result|
       if response.code.to_s =~ /^2/
         @messages << "#{resource} Endpoint returned success code - #{response.code}"
       else
@@ -120,7 +120,7 @@ private
 
   def test_dropdown_endpoints
     ALL_DROPDOWN_ENDPOINTS.each do |resource|
-      response = get_dropdown_endpoint(resource)
+      get_dropdown_endpoint(resource)
     end
   end
 
@@ -143,7 +143,7 @@ private
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
     endpoint = RestClient::Resource.new([api_root_url, prefix || EXTERNAL_USER_PREFIX, resource].join('/'))
-    endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, result|
+    endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, _result|
       if response.code.to_s =~ /^2/
         @messages << "#{resource} Endpoint returned success code - #{response.code}"
       else
@@ -168,24 +168,24 @@ private
 
     # add representation order
     defendant_id = id_from_json(response)
-    response = post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
+    post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # UPDATE basic fee
-    response = post_to_advocate_endpoint('fees', basic_fee_data(@claim_id))
+    post_to_advocate_endpoint('fees', basic_fee_data(@claim_id))
 
     # CREATE miscellaneous fee
     response = post_to_advocate_endpoint('fees', misc_fee_data(@claim_id))
 
     # add date attended to miscellaneous fee
     attended_item_id = id_from_json(response)
-    response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
+    post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"fee"))
 
     # add expense
     response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
 
     # add date attended to expense
     attended_item_id = id_from_json(response)
-    response = post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"expense"))
+    post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"expense"))
 
   ensure
     clean_up

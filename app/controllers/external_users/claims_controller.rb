@@ -113,11 +113,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   private
 
-  def set_user_and_provider
-    @external_user = current_user.persona
-    @provider = @external_user.provider
-  end
-
   def generate_form_id
     @form_id = SecureRandom.uuid
   end
@@ -148,9 +143,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     end
   end
 
+  def set_user_and_provider
+    @external_user = current_user.persona
+    @provider = @external_user.provider
+  end
+
   def set_context
-    if current_user.persona.admin? && current_user.persona.provider
-      @context = current_user.persona.provider
+    if @external_user.admin? && @provider
+      @context = @provider
     else
       @context = current_user
     end
@@ -189,14 +189,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def load_advocates_in_provider
     @advocates_in_provider = @provider.advocates if @external_user.admin?
-  end
-
-  def set_context
-    if @external_user.admin? && @provider
-      @context = @provider
-    else
-      @context = current_user
-    end
   end
 
   def set_claim

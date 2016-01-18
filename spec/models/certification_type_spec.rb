@@ -8,11 +8,11 @@
 #  updated_at                       :datetime
 #
 
-class CertificationType < ActiveRecord::Base
-  has_many :certifications
+require 'rails_helper'
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+RSpec.describe CertificationType, type: :model do
+  it { should have_many(:certifications) }
 
-  scope :pre_may_2015,              -> { where('id > ?', 1) }
-  scope :post_may_2015,             -> { where( id: 1) }
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
 end

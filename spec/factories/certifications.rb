@@ -14,9 +14,7 @@
 FactoryGirl.define do
   factory :certification do
 
-    certification_type { FactoryGirl.build  :certification_type }
-
-    certification_type_id               1
+    certification_type
     certified_by                        'Stepriponikas Bonstart'
     certification_date                  Date.today
 

@@ -14,39 +14,31 @@
 require 'rails_helper'
 
 RSpec.describe Certification, type: :model do
+  it { should belong_to(:claim) }
+  it { should belong_to(:certification_type) }
 
-  let(:cert)          { FactoryGirl.build :certification }
+  it { should validate_presence_of(:certification_type_id) }
+  it { should validate_presence_of(:certified_by) }
+  it { should validate_presence_of(:certification_date) }
+
+  let!(:certification_type) { create(:certification_type) }
+  subject { build(:certification, certification_type: certification_type) }
 
   context 'validations' do
-    it 'should be valid with only one certification type' do
-      expect(cert).to be_valid
-    end
-
     it 'should be invalid with no bools true' do
-      cert.certification_type_id = ''
-      expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ['You must select one option on this form'] )
-    end
+      [
+       "main_hearing",
+       "notified_court",
+       "attended_pcmh",
+       "attended_first_hearing",
+       "previous_advocate_notified_court",
+       "fixed_fee_case"
+      ].each do |attribute|
+        subject.attributes[attribute] = false
+      end
 
-    @wip
-    it 'should be invalid with invalid id' do
-      cert.certification_type_id = 999
-      expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ['You must select one option on this form'] )
-    end
-
-    it 'should be invalid if certified by is emtpy' do
-      cert.certified_by = ''
-      expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ["Certified by cannot be blank"] )
-    end
-
-    it 'should be invalid if certification date is nil' do
-      cert.certification_date = nil
-      expect(cert).not_to be_valid
-      expect(cert.errors.full_messages).to eq( ["Certification date cannot be blank"] )
+      expect(subject).not_to be_valid
+      expect(subject.errors.full_messages).to eq( ['You must select one option on this form'] )
     end
   end
-
-
 end

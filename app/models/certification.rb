@@ -15,29 +15,22 @@ class Certification < ActiveRecord::Base
   auto_strip_attributes :certified_by, squish: true, nullify: true
 
   belongs_to :claim
-
   belongs_to :certification_type
 
-  validates :certification_type_id, presence: true, inclusion: { in: CertificationType.pluck(:id) }
+  validates :certification_type_id, presence: true
+  validates :certification_date, presence: true
+  validates :certified_by, presence: true
 
-  validate :certification_type_id_valid
-  validate :certification_date_valid
-  validate :certified_by_valid
+  validate :at_least_one_boolean_selected
 
   acts_as_gov_uk_date :certification_date
 
   private
 
-  def certification_type_id_valid
-    errors[:base] << "You must select one option on this form" if certification_type_id.blank?
+  def at_least_one_boolean_selected
+    values = attributes.slice(%w(main_hearing notified_court attended_pcmh attended_first_hearing previous_advocate_notified_court fixed_fee_case)).values
+    unless values.uniq.include?(true)
+      errors[:base] << 'You must select one option on this form'
+    end
   end
-
-  def certification_date_valid
-    errors[:base] << 'Certification date cannot be blank' if certification_date.blank?
-  end
-
-  def certified_by_valid
-    errors[:base] << 'Certified by cannot be blank' if certified_by.blank?
-  end
-
 end

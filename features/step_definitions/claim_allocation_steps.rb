@@ -114,3 +114,24 @@ Then(/^I should not see any redetermination or awaiting_written_reasons claims$/
     expect(page).to_not have_selector("#claim_#{claim.id}")
   end
 end
+
+When(/^I click on a claim row cell$/) do
+
+  within('.report') do
+    #click first row's 2nd column
+    page.find('tbody').all('tr')[0].all('td')[1].click()
+  end
+end
+
+When(/^I click on a claims row label$/) do
+  #click the first row's first 2nd label
+  page.find('tbody').all('tr')[0].all('label')[1].click()
+end
+
+Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_state|
+  if checkbox_state == 'ticked'
+    expect(page.find('tbody').all('tr')[0].all('input[type=checkbox]')[0]).to be_checked
+  else
+    expect(page.find('tbody').all('tr')[0].all('input[type=checkbox]')[0]).not_to be_checked
+  end
+end

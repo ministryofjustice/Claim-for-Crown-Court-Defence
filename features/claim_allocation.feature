@@ -72,3 +72,16 @@ Feature: Claim allocation
       And I click Allocate
      Then the first 1 claims in the list should be allocated to the case worker
       And the first 1 claims should no longer be displayed
+
+
+@javascript @webmock_allow_localhost_connect
+  Scenario: Case worker admin user decides to click on the row select claims to allocate
+    When I visit the allocation page
+     And I click on a claim row cell
+    Then I should see that claims checkbox ticked
+     And I click on a claim row cell
+    Then I should see that claims checkbox unticked
+    When I click on a claims row label
+    Then I should see that claims checkbox ticked
+    When I click on a claims row label
+    Then I should see that claims checkbox unticked

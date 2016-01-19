@@ -30,6 +30,10 @@ FactoryGirl.define do
     trait :fixed do
       fee_category    { FeeCategory.fixed || FactoryGirl.create(:fixed_fee_category) }
     end
+
+    trait :ppe do
+      FactoryGirl.create :fee_type, :basic, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
+    end
   end
 
 end

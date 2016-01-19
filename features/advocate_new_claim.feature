@@ -216,3 +216,15 @@ Feature: Advocate new claim
     | 51                          | 38           | 10           | 1            |
     | 60                          | 38           | 10           | 10           |
     | 70                          | 38           | 10           | 20           |
+
+  Scenario: Uncalculated fees (PPE and NPW) accepts total amount only
+    Given I am a signed in advocate
+      And There are case types in place
+      And I am on the new claim page with PPE and NPW Fees in place
+      And I fill in the claim details
+     Then I should not see a rate field for "PPE"
+     Then I should not see a rate field for "NPW"
+      And I fill in quantity and amount for "PPE"
+      And I fill in quantity and amount for "NPW"
+      And I submit to LAA
+     Then The total should reflect the amounts entered

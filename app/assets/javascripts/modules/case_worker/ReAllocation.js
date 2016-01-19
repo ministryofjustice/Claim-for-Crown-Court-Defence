@@ -5,15 +5,19 @@ moj.Modules.ReAllocation = {
   init: function (){
     var self = this;
 
-    $('.report').on('change', ':checkbox', function (){
-      var $element = $(this);
+    //Only work on the re-allocation page
+    if($('.js-reallocation-report').length > 0){
+      $('.report').on('change', ':checkbox', function (){
+        var $element = $(this);
 
-      if($element.is(':checked')){
-        self.addCheckedClaim($element.val());
-      }else{
-        self.removeUnCheckedClaim($element.val());
-      }
-    });
+        if($element.is(':checked')){
+          self.addCheckedClaim($element.val());
+        }else{
+          //TODO investigate why this was needed?
+          self.removeUnCheckedClaim($element.val());
+        }
+      });
+    }
   },
 
   addCheckedClaim: function (claim_id){

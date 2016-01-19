@@ -23,13 +23,21 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def last_allocated_at
-    last_allocation = versions.select { |version| version.changeset['state'][1] == 'allocated' }.last
+    last_allocation = versions.select { |version| transition_to_allocated?(version) }.last
     last_allocation ? last_allocation.created_at.to_s : 'n/a'
   end
 
+  def transition_to_allocated?(version)
+    version.changeset['state'].present? && version.changeset['state'][1] == 'allocated'
+  end
+
   def last_determined_at
-    last_determination = versions.select { |version| determined_states.include?(version.changeset['state'][1]) }.last
+    last_determination = versions.select { |version| transition_to_determined_state?(version) }.last
     last_determination ? last_determination.created_at.to_s : 'n/a'
+  end
+
+  def transition_to_determined_state?(version)
+    version.changeset['state'].present? && determined_states.include?(version.changeset['state'][1])
   end
 
   def determined_states

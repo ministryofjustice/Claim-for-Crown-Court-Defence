@@ -24,7 +24,6 @@ Feature: Caseworker claims list
     When I visit my dashboard
      And I click "Allocation"
     Then I should see the unallocated claims
-     # And I should see the claims sorted by oldest first
 
   Scenario: View re-allocation tool
    Given I am a signed in case worker admin
@@ -32,7 +31,6 @@ Feature: Caseworker claims list
     When I visit my dashboard
      And I click "Re-allocation"
     Then I should see the allocated claims
-     # And I should see the claims sorted by oldest first
 
   Scenario: View case workers
       Given I am a signed in case worker admin

@@ -29,9 +29,14 @@ Feature: Claim redetermination
       | Refused                   | refused                  |
 
   Scenario: View redetermination claims in dashboard
-    Given I am a signed in case worker
+    Given I am a signed in case worker admin
+      And there are 1 "redetermination" claims
+     When I visit the allocation page
+     Then I should see a claim marked as a redetermination
       And a redetermined claim is assigned to me
       And I visit my dashboard
+     Then I should see a claim marked as a redetermination
+      And I visit the re-allocation page
      Then I should see a claim marked as a redetermination
 
   Scenario: Handle written reasons for claim

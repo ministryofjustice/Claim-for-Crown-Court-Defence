@@ -6,6 +6,10 @@ When(/^I visit the allocation page$/) do
   visit case_workers_admin_allocations_path
 end
 
+Then(/^I visit the re\-allocation page$/) do
+  visit case_workers_admin_allocations_path(tab: 'allocated')
+end
+
 When(/^I select claims$/) do
   check(@claims.first.case_number)
   check(@claims.second.case_number)

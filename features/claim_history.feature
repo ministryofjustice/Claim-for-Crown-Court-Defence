@@ -4,6 +4,7 @@ Feature: Claim history
 
   Scenario: Advocate claim history should reflect a state change
     Given I am a signed in advocate
+      And certification types are seeded
       And I have a claim in draft state
       And I submit the claim
      Then I should be redirected to the claim certification page

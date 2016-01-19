@@ -1,6 +1,5 @@
 %w(
   case_types
-  certification_types
   offence_classes
   offences
   fee_categories

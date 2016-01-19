@@ -4,6 +4,7 @@
 #
 #  id                               :integer          not null, primary key
 #  name                             :string
+#  pre_may_2015                     :boolean
 #  created_at                       :datetime
 #  updated_at                       :datetime
 #

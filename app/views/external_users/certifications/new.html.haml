@@ -6,7 +6,7 @@
         %li= msg
 
 
-=form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
+= form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %section.certification
     %h2 Certification
 
@@ -18,11 +18,10 @@
     %h3 Final fee claims where the representation order was granted on or after 5th May 2015.
 
     %p I certify that I am the Trial Advocate as:
-    
+
     %div.form-group.inline
       = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
         - b.label(class: "block-label") { b.radio_button + b.object.name }
-
 
     %h3 All other claims:
 

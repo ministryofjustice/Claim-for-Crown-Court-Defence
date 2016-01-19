@@ -59,13 +59,22 @@ describe API::V1::ExternalUsers::Fee do
         expect{ post_to_create_endpoint }.to change { Fee.count }.by(1)
       end
 
-      it 'should create a new fee record with all provided attributes' do
+      it 'should create a new fee record with all provided attributes except amount' do
         post_to_create_endpoint
         fee = Fee.last
         expect(fee.claim_id).to eq claim.id
         expect(fee.fee_type_id).to eq misc_fee_type.id
         expect(fee.quantity).to eq valid_params[:quantity]
         expect(fee.rate).to eq valid_params[:rate]
+      end
+
+      context 'with fee amount provided' do
+        it 'should ignore amount for all fee types that are calculated (all except PPE/NPW)' do
+          valid_params.merge!(amount: 155.50)
+          post_to_create_endpoint
+          fee = Fee.last
+          expect(fee.amount).to eq 150.00
+        end
       end
 
       context 'basic fees' do

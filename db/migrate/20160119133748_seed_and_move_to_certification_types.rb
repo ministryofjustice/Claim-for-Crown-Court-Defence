@@ -14,7 +14,7 @@ class SeedAndMoveToCertificationTypes < ActiveRecord::Migration
         end
       end
 
-      c.update_column(:certification_type_id, certification_type.id)
+      certification.update_column(:certification_type_id, certification_type.id)
     end
 
     remove_column :certifications, :main_hearing, :boolean

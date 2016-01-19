@@ -8,6 +8,8 @@ class SeedAndMoveToCertificationTypes < ActiveRecord::Migration
     fixed_fee_case                    = CertificationType.find_or_create_by!(name: 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.', pre_may_2015: true)
 
     Certification.all.each do |certification|
+      certification_type = nil
+
       [:main_hearing, :notified_court, :attended_pcmh, :attended_first_hearing, :previous_advocate_notified_court, :fixed_fee_case].each do |method|
         if certification.send(method) == true
           certification_type = eval(method.to_s)

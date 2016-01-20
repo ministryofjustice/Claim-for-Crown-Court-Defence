@@ -461,6 +461,17 @@ basic_fee:
       short: Enter a valid rate
       api: Enter a valid rate for the initial fee
 
+  amount:
+    _seq: 30
+    npw_invalid:
+      long: Enter a valid amount for number of prosecution witnesses fees
+      short: Enter a valid amount
+      api: Enter a valid amount for number of prosecution witnesses fees
+    ppe_invalid:
+      long: Enter a valid amount for pages of prosecution evidence fees
+      short: Enter a valid amount
+      api: Enter a valid amount for pages of prosecution evidence fees
+
 #################################################################################
 #                                                                               #
 #   MISCELLANEOUS FEE                                                           #

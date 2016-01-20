@@ -78,6 +78,13 @@ describe FeeValidator do
           expect(f.errors[:rate]).to include("#{f.fee_type.code.downcase}_must_be_blank")
         end
       end
+
+      it 'should NOT raise an error when rate NOT present' do
+        [ppe_fee, npw_fee].each do |f|
+          f.rate = nil
+          expect(f).to be_valid
+        end
+      end
     end
 
     # TODO: max_amount not used in later PR - remove?
@@ -235,6 +242,42 @@ describe FeeValidator do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
       end
     end
+  end
+
+  describe '#validate_amount' do
+
+    context 'uncalculated fee validate amount against quantity' do
+      it 'should be valid if quantity and amount greater than zero' do
+        should_be_valid_if_equal_to_value(ppe_fee, :amount, 350.00)
+      end
+
+      it 'should error if amount less than or eqaul to zero or nil' do
+        should_error_if_equal_to_value(ppe_fee, :amount, 0.00, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, nil,  'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, -200, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, 0.00, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, nil,  'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, -200, 'npw_invalid')
+      end
+
+      it 'should error if quantity less than or equal to zero or nil' do
+        should_error_if_equal_to_value(ppe_fee, :quantity, 0.00, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, nil,  'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, -200, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, 0.00, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, nil,  'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, -200, 'npw_invalid')
+      end
+    end
+
+    context 'calculated fees do NOT validate amount against quantity' do
+      it 'should always be valid since amount is derived from rate * quantity' do
+        should_be_valid_if_equal_to_value(baf_fee, :amount, nil)
+        should_be_valid_if_equal_to_value(baf_fee, :amount, 0.00)
+        should_be_valid_if_equal_to_value(baf_fee, :amount, 350.00)
+      end
+    end
+
   end
 
 end

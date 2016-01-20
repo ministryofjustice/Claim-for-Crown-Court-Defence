@@ -4,7 +4,8 @@ class FeeValidator < BaseClaimValidator
     [
       :fee_type,
       :quantity,
-      :rate
+      :rate,
+      :amount
     ]
   end
 
@@ -97,7 +98,7 @@ class FeeValidator < BaseClaimValidator
       when "BAF", "DAF", "DAH", "DAJ", "SAF", "PCM", "CAV", "NDR", "NOC"
         validate_basic_fee_rate(code)
       else
-        validate_any_quantity_rate_combination
+        validate_calculated_quantity_rate_combination
     end
   end
 
@@ -106,7 +107,7 @@ class FeeValidator < BaseClaimValidator
   end
 
   # if one has a value and the other doesn't then we add error to the one that does NOT have a value
-  def validate_any_quantity_rate_combination
+  def validate_calculated_quantity_rate_combination
     if @record.quantity > 0 && @record.rate <= 0
       add_error(:rate, 'invalid')
     elsif @record.quantity <= 0 && @record.rate > 0
@@ -121,6 +122,16 @@ class FeeValidator < BaseClaimValidator
       add_error(:rate, "#{code.downcase}_invalid")
     elsif @record.quantity <= 0 && @record.rate > 0
       add_error(:quantity, "#{code.downcase}_invalid")
+    end
+  end
+
+  def validate_amount
+    if !@record.calculated?
+      if @record.quantity > 0 && @record.amount <= 0
+        add_error(:amount,"#{fee_code.downcase}_invalid")
+      elsif @record.quantity <= 0 && @record.amount > 0
+        add_error(:quantity,"#{fee_code.downcase}_invalid")
+      end
     end
   end
 

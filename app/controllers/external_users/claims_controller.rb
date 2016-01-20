@@ -258,6 +258,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :fee_id,
        :quantity,
        :rate,
+       :amount,
        :_destroy,
        dates_attended_attributes: [
           :id,

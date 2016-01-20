@@ -114,6 +114,7 @@
               %th
                 = t('.amount')
               %th
+          %tbody.basic-fee-group
             = f.fields_for :basic_fees do |basic_fee_fields|
               - @basic_fee_count += 1
               = render 'basic_fee_fields', f: basic_fee_fields

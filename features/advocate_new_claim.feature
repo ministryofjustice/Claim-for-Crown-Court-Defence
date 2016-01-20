@@ -220,11 +220,10 @@ Feature: Advocate new claim
   Scenario: Uncalculated fees (PPE and NPW) accepts total amount only
     Given I am a signed in advocate
       And There are case types in place
-      And I am on the new claim page with PPE and NPW Fees in place
-      And I fill in the claim details
-     Then I should not see a rate field for "PPE"
-     Then I should not see a rate field for "NPW"
-      And I fill in quantity and amount for "PPE"
-      And I fill in quantity and amount for "NPW"
+      And There are PPE and NPW fees in place
+      And I am on the new claim page
+     When I fill in the claim details but add no fees or expenses
+      And I fill in quantity 2 and amount 25 for "PPE"
+      And I fill in quantity 1 and amount 25 for "NPW"
       And I submit to LAA
-     Then The total should reflect the amounts entered
+     Then The total claimed should equal 50

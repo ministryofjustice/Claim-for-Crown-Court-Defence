@@ -462,22 +462,27 @@ Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/)
   expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")
 end
 
-Given(/^I am on the new claim page with PPE and NPW Fees in place$/) do
-  create(:fee_type, :ppe_fee)
-  create(:fee_type, :npw_fee)
-  visit new_external_users_claim_path
+Given(/^There are PPE and NPW fees in place$/) do
+  create(:fee_type, :npw)
+  create(:fee_type, :ppe)
 end
 
-Then(/^I should not see a rate field for "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, amount, fee_code|
+  if fee_code == 'NPW'
+    id_no = 0
+  elsif fee_code == 'PPE'
+    id_no = 1
+  else
+    raise ArgumentError
+  end
+  quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
+  amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
+  fill_in quantity_input, with: quantity.to_i
+  fill_in amount_input, with: amount.to_f
 end
 
-Then(/^I fill in quantity and amount for "(.*?)"$/) do |arg1|
-  pending
-end
-
-Then(/^The total should reflect the amounts entered$/) do
-  pending # express the regexp above with the code you wish you had
+Then(/^The total claimed should equal (\d+)$/) do |total_claimed|
+  expect(Claim.last.total).to eq total_claimed.to_f
 end
 
 # local helpers

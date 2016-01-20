@@ -1,16 +1,14 @@
+- if @certification.errors.any?
+  .validation-summary
+    %h3.heading-small= "This claim certification has #{pluralize(@certification.errors.count, 'error')}"
+    %ul
+      - @certification.errors.full_messages.each do |msg|
+        %li= msg
 
-=form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
+
+= form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %section.certification
     %h2 Certification
-
-    - if @certification.errors.any?
-      .validation-summary
-        %h3.heading-small= "This claim certification has #{pluralize(@certification.errors.count, 'error')}"
-        %ul
-          - @certification.errors.full_messages.each do |msg|
-            %li= msg
-
-
 
     %p
       By ticking a box, you are confirming you are the Trial Advocate (in cases where legal aid was granted on or after 5th May 2015) or Instructed Advocate and that you are entitled to submit a claim in respect of this case. If our records indicate that you are not the Trial or Instructed Advocate, this may result in the claim being rejected without payment
@@ -21,31 +19,17 @@
 
     %p I certify that I am the Trial Advocate as:
 
-    =f.check_box :main_hearing
-    =f.label :main_hearing, 'I attended the Main Hearing (1st day of trial)'
-
+    %div.form-group.inline
+      = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
+        - b.label(class: "block-label") { b.radio_button + b.object.name }
 
     %h3 All other claims:
 
     %p I certify that I am the Instructed Advocate as:
-    = f.check_box :notified_court
-    = f.label :notified_court, 'I notified the court, in writing before the PCMH that I was the Instructed Advocate. <br/>A copy of the letter is attached.'.html_safe
 
-    %p
-    = f.check_box :attended_pcmh
-    = f.label :attended_pcmh, 'I attended the PCMH (where the client was arraigned) and no other advocate wrote to the court prior to this to advice that they were the Instructed Advocate.'
-
-    %p
-    = f.check_box :attended_first_hearing
-    = f.label :attended_first_hearing, 'I attended the first hearing after the PCMH and no other advocate attended the PCMH or wrote to the court prior to this to advise that they were the Instructed Advocate.'
-
-    %p
-    = f.check_box :previous_advocate_notified_court
-    = f.label :previous_advocate_notified_court, 'The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.'
-
-    %p
-    = f.check_box :fixed_fee_case
-    = f.label :fixed_fee_case, 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.'
+    %div.form-group.inline
+      = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015, :id, :name) do |b|
+        - b.label(class: "block-label") { b.radio_button + b.object.name }
 
 
     %p All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.

@@ -1,6 +1,8 @@
 @stub_s3_upload
 
 Feature: Advocate new claim
+  Background:
+    Given certification types are seeded
 
   Scenario: Fill in claim form and submit to LAA
     Given I am a signed in advocate

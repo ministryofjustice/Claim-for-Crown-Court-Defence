@@ -1,4 +1,5 @@
 %w(
+  certification_types
   case_types
   offence_classes
   offences

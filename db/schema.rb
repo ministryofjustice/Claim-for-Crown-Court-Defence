@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160112171540) do
+ActiveRecord::Schema.define(version: 20160119133748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "case_types", force: :cascade do |t|
@@ -48,18 +49,22 @@ ActiveRecord::Schema.define(version: 20160112171540) do
 
   add_index "case_workers", ["location_id"], name: "index_case_workers_on_location_id", using: :btree
 
+  create_table "certification_types", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "pre_may_2015", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "certification_types", ["name"], name: "index_certification_types_on_name", using: :btree
+
   create_table "certifications", force: :cascade do |t|
     t.integer  "claim_id"
-    t.boolean  "main_hearing"
-    t.boolean  "notified_court"
-    t.boolean  "attended_pcmh"
-    t.boolean  "attended_first_hearing"
-    t.boolean  "previous_advocate_notified_court"
-    t.boolean  "fixed_fee_case"
     t.string   "certified_by"
     t.date     "certification_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "certification_type_id"
   end
 
   create_table "claim_intentions", force: :cascade do |t|

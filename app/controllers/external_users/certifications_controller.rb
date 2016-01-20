@@ -33,12 +33,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
 
   def certification_params
     params.require(:certification).permit(
-      :main_hearing,
-      :notified_court,
-      :attended_pcmh,
-      :attended_first_hearing,
-      :previous_advocate_notified_court,
-      :fixed_fee_case,
+      :certification_type_id,
       :certified_by,
       :certification_date_dd,
       :certification_date_mm,

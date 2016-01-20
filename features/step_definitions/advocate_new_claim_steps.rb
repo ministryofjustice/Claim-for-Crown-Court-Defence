@@ -1,3 +1,12 @@
+Given(/^certification types are seeded$/) do
+  CertificationType.find_or_create_by!(name: 'I attended the Main Hearing (1st day of trial)', pre_may_2015: false)
+  CertificationType.find_or_create_by!(name: 'I notified the court, in writing before the PCMH that I was the Instructed Advocate. A copy of the letter is attached.', pre_may_2015: true)
+  CertificationType.find_or_create_by!(name: 'I attended the PCMH (where the client was arraigned) and no other advocate wrote to the court prior to this to advice that they were the Instructed Advocate.', pre_may_2015: true)
+  CertificationType.find_or_create_by!(name: 'I attended the first hearing after the PCMH and no other advocate attended the PCMH or wrote to the court prior to this to advise that they were the Instructed Advocate.', pre_may_2015: true)
+  CertificationType.find_or_create_by!(name: 'The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.', pre_may_2015: true)
+  CertificationType.find_or_create_by!(name: 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.', pre_may_2015: true)
+end
+
 Given(/^There are other advocates in my provider$/) do
   FactoryGirl.create(:external_user,
         :advocate,
@@ -124,7 +133,7 @@ Given(/^I am creating a "(.*?)" claim$/) do |case_type|
 end
 
 When(/^I fill in the certification details and submit/) do
-  check 'certification_main_hearing'
+  choose 'I attended the Main Hearing (1st day of trial)'
   click_on 'Certify and submit claim'
 end
 

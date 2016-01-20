@@ -33,6 +33,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_sign_out_path_for(resource)
+    new_feedback_url
+  end
+
   def after_sign_in_path_for(resource)
     method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.underscore.downcase}"
     send(method_name)

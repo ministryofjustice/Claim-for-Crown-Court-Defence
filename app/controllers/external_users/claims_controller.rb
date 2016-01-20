@@ -199,6 +199,34 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
+  def common_dates_attended_attributes
+    { dates_attended_attributes: [
+          :id,
+          :fee_id,
+          :date_dd,
+          :date_mm,
+          :date_yyyy,
+          :date_to_dd,
+          :date_to_mm,
+          :date_to_yyyy,
+          :_destroy
+        ]
+    }
+  end
+
+  def common_fees_attributes
+     [
+       :id,
+       :claim_id,
+       :fee_type_id,
+       :fee_id,
+       :quantity,
+       :rate,
+       :_destroy,
+       common_dates_attended_attributes
+      ]
+  end
+
   def claim_params
     params.require(:claim).permit(
      :form_id,
@@ -260,58 +288,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :rate,
        :amount,
        :_destroy,
-       dates_attended_attributes: [
-          :id,
-          :fee_id,
-          :date_dd,
-          :date_mm,
-          :date_yyyy,
-          :date_to_dd,
-          :date_to_mm,
-          :date_to_yyyy,
-          :_destroy
-        ]
+       common_dates_attended_attributes
      ],
-      fixed_fees_attributes: [
-       :id,
-       :claim_id,
-       :fee_type_id,
-       :fee_id,
-       :quantity,
-       :rate,
-       :_destroy,
-       dates_attended_attributes: [
-          :id,
-          :fee_id,
-          :date_dd,
-          :date_mm,
-          :date_yyyy,
-          :date_to_dd,
-          :date_to_mm,
-          :date_to_yyyy,
-          :_destroy
-        ]
-      ],
-      misc_fees_attributes: [
-       :id,
-       :claim_id,
-       :fee_type_id,
-       :fee_id,
-       :quantity,
-       :rate,
-       :_destroy,
-       dates_attended_attributes: [
-          :id,
-          :fee_id,
-          :date_dd,
-          :date_mm,
-          :date_yyyy,
-          :date_to_dd,
-          :date_to_mm,
-          :date_to_yyyy,
-          :_destroy
-        ]
-      ],
+      fixed_fees_attributes: common_fees_attributes,
+      misc_fees_attributes: common_fees_attributes,
      expenses_attributes: [
        :id,
        :claim_id,
@@ -320,17 +300,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :quantity,
        :rate,
        :_destroy,
-       dates_attended_attributes: [
-          :id,
-          :expense_id,
-          :date_dd,
-          :date_mm,
-          :date_yyyy,
-          :date_to_dd,
-          :date_to_mm,
-          :date_to_yyyy,
-          :_destroy
-        ]
+       common_dates_attended_attributes
      ]
     )
   end

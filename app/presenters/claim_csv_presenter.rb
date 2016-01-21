@@ -3,7 +3,21 @@ class ClaimCsvPresenter < BasePresenter
   presents :claim
 
   def present!
-    Settings.csv_column_names.map { |column_name| send(column_name) }
+    state_transitions = claim_state_transitions.sort.reject {|transition| (transition.from == nil || transition.to == 'archived_pending_delete') }
+    journeys = state_transitions.slice_after {|transition| completed_states.include?(transition.to) }
+    parsed_journeys = parse(journeys)
+    yield parsed_journeys
+  end
+
+  def parse(journeys)
+    journeys.map do |journey|
+      @journey = journey
+      Settings.claim_csv_headers.map {|method_call| send(method_call)}
+    end
+  end
+
+  def claim_details
+    Settings.csv_claim_details.map { |detail| send(detail) }
   end
 
   def supplier_number
@@ -22,48 +36,34 @@ class ClaimCsvPresenter < BasePresenter
     total.to_s
   end
 
-  def last_allocated_at
-    last_allocation = versions.select { |version| transition_to_allocated?(version) }.last
-    last_allocation ? last_allocation.created_at.to_s : 'n/a'
+  def submission_type
+    @journey.first.to == 'submitted' ? 'new' : @journey.first.to
   end
 
-  def transition_to_allocated?(version)
-    version.changeset['state'].present? && version.changeset['state'][1] == 'allocated'
+  def submitted_at
+    @journey.select { |step| submitted_states.include?(step.to) }.first.created_at
   end
 
-  def last_determined_at
-    last_determination = versions.select { |version| transition_to_determined_state?(version) }.last
-    last_determination ? last_determination.created_at.to_s : 'n/a'
+  def allocated_at
+    allocations = @journey.select { |step| step.to == 'allocated' }
+    allocations.present? ? allocations.first.created_at : 'n/a'
   end
 
-  def transition_to_determined_state?(version)
-    version.changeset['state'].present? && determined_states.include?(version.changeset['state'][1])
+  def completed_at
+    completed_state = @journey.select { |step| completed_states.include?(step.to) }.first
+    completed_state.present? ? completed_state.created_at : 'n/a'
   end
 
-  def determined_states
+  def current_or_end_state
+    @journey.last.to
+  end
+
+  def submitted_states
+    ['submitted', 'redetermination', 'awaiting_written_reasons']
+  end
+
+  def completed_states
     ['rejected', 'refused', 'authorised', 'part_authorised']
-  end
-
-  def allocation_type
-    if claim.awaiting_written_reasons?
-      'Written reasons'
-    elsif claim.opened_for_redetermination?
-      'Redetermination'
-    else
-      case_type_to_allocation_type
-    end
-  end
-
-  def case_type_to_allocation_type
-    if case_type.is_fixed_fee
-      'Fixed'
-    elsif case_type.requires_cracked_dates
-      'Cracked'
-    elsif case_type.requires_trial_dates
-      'Trial'
-    else
-      'Guilty'
-    end
   end
 
 end

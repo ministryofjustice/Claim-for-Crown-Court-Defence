@@ -38,14 +38,14 @@ earliest_permitted_date_in_words: 5 years ago
 max_document_upload_size_mb: 400
 max_document_upload_count: 20
 
-csv_column_names:
+claim_csv_headers:
   - :case_number
   - :supplier_number
   - :organisation
-  - :last_submitted_at
-  - :allocation_type
   - :case_type_name
   - :claim_total
-  - :state
-  - :last_allocated_at
-  - :last_determined_at
+  - :submission_type
+  - :submitted_at
+  - :allocated_at
+  - :completed_at
+  - :current_or_end_state

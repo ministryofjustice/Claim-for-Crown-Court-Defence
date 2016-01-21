@@ -12,21 +12,22 @@ module DemoData
       add_baf
       add_daily_attendances
       add_pcm if @claim.case_type.allow_pcmh_fee_type?
+      add_ppe if rand(2)==1
+      add_npw if rand(2)==1
       rand(0..3).times { add_fee }
     end
 
     private
 
-    def update_basic_fee(basic_fee_code, quantity, rate)
+
+    def update_basic_fee(basic_fee_code, attributes={})
       fee = @claim.basic_fees.find_by(fee_type_id: basic_fee_type_by_code(basic_fee_code))
-      raise "fee code #{basic_fee_code} does not match any known basic fees" if fee.fee_type_id.nil?
-      fee.update(quantity: quantity, rate: rate.round(2))
+      fee.update(attributes)
       @codes_added << basic_fee_code
     end
 
     def add_baf
-      update_basic_fee('BAF', 1, 250)
-      @codes_added << 'BAF'
+      update_basic_fee('BAF', quantity: 1, rate: 250)
     end
 
     def add_daily_attendances
@@ -39,33 +40,41 @@ module DemoData
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 0
       quantity = @claim.case_type.requires_trial_dates? ? [@claim.actual_trial_length,39].min - 2 : 1
       rate   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
-      update_basic_fee('DAF', quantity, rate)
+      update_basic_fee('DAF', quantity: quantity, rate: rate.round(2))
     end
 
     def add_dah
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 40
       quantity = [@claim.actual_trial_length,50].min - 40
       rate = 10 * @claim.actual_trial_length - 40
-      update_basic_fee('DAH', quantity, rate)
+      update_basic_fee('DAH', quantity: quantity, rate: rate.round(2))
     end
 
     def add_daj
       return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 50
       quantity = [@claim.actual_trial_length,60].min - 50
       rate = 10 * @claim.actual_trial_length - 50
-      update_basic_fee('DAJ', quantity , rate)
+      update_basic_fee('DAJ', quantity: quantity, rate: rate.round(2))
     end
 
     def add_pcm
-      update_basic_fee('PCM', rand(1..3), 125)
+      update_basic_fee('PCM', quantity: rand(1..3), rate: 125)
+    end
+
+    def add_npw
+      update_basic_fee('NPW',quantity: 777, amount: 200)
+    end
+
+    def add_ppe
+      update_basic_fee('PPE',quantity: 800, amount: 200)
     end
 
     def add_fee
-      fee_type = @fee_types.sample
+      fee_type = @fee_types.where(calculated: true).sample
       while @codes_added.include?(fee_type.code) || ['BAF','DAF','DAH','DAJ','PCM'].include?(fee_type.code)
-        fee_type = @fee_types.sample
+        fee_type = @fee_types.where(calculated: true).sample
       end
-      update_basic_fee(fee_type.code, rand(1..10), rand(100..900) )
+      update_basic_fee(fee_type.code, quantity: rand(1..10), rate: rand(100..900) )
     end
 
     def basic_fee_type_by_code(code)

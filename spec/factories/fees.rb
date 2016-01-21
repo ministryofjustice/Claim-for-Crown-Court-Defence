@@ -10,6 +10,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  uuid        :uuid
+#  rate        :decimal(, )
 #
 
 FactoryGirl.define do
@@ -70,6 +71,18 @@ FactoryGirl.define do
 
     trait :pcm_fee do
       fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
+    end
+
+    trait :ppe_fee do
+      rate 0
+      amount 25
+      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
+    end
+
+    trait :npw_fee do
+      rate 0
+      amount 25
+      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
     end
 
   end

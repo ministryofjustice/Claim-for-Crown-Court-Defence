@@ -144,7 +144,6 @@ Given(/^I add dates attended for the first miscellaneous fee$/) do
 end
 
 Given(/^I fill in an invalid date from$/) do
-  save_and_open_page
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_dd', with: 32
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_mm', with: 01
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_yyy', with: 1832
@@ -460,6 +459,29 @@ Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/)
   expect(page).to have_field("claim_basic_fees_attributes_1_quantity", with: "#{daf_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_2_quantity", with: "#{dah_quantity}")
   expect(page).to have_field("claim_basic_fees_attributes_3_quantity", with: "#{daj_quantity}")
+end
+
+Given(/^There are PPE and NPW fees in place$/) do
+  create(:fee_type, :npw)
+  create(:fee_type, :ppe)
+end
+
+Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, amount, fee_code|
+  if fee_code == 'NPW'
+    id_no = 0
+  elsif fee_code == 'PPE'
+    id_no = 1
+  else
+    raise ArgumentError
+  end
+  quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
+  amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
+  fill_in quantity_input, with: quantity.to_i
+  fill_in amount_input, with: amount.to_f
+end
+
+Then(/^The total claimed should equal (\d+)$/) do |total_claimed|
+  expect(Claim.last.total).to eq total_claimed.to_f
 end
 
 # local helpers

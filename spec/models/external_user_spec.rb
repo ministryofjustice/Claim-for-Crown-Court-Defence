@@ -3,12 +3,13 @@
 # Table name: external_users
 #
 #  id              :integer          not null, primary key
-#  roles           :string
-#  provider_id     :integer
 #  created_at      :datetime
 #  updated_at      :datetime
 #  supplier_number :string
 #  uuid            :uuid
+#  vat_registered  :boolean          default(TRUE)
+#  provider_id     :integer
+#  roles           :string
 #
 
 require 'rails_helper'

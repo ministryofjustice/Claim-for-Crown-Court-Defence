@@ -1,5 +1,5 @@
 %td
-  = fee.header_and_hint('external_users.claims.basic_fee_uncalculated_fields')
+  = fee.section_header('external_users.claims.basic_fee_uncalculated_fields')
 %td
   %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
   = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'quantity', min: 0, max: 99999, maxlength: 5

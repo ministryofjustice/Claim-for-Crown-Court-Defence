@@ -6,23 +6,35 @@ class FeePresenter < BasePresenter
     fee.dates_attended.order(date: :asc).map(&:to_s).join(', ')
   end
 
- def rate
+  def rate
     '%.2f' % fee.rate if fee.rate
- end
+  end
 
- def amount
+  def amount
     h.number_to_currency(fee.amount)
- end
+  end
 
- def header_and_hint(scope)
+  def section_header(t_scope)
     if ['PPE','NPW'].include?(fee.fee_type.code.upcase)
-      header = I18n.t("#{scope}.#{fee.fee_type.code.downcase}_section_header")
-      hint = I18n.t("#{scope}.#{fee.fee_type.code.downcase}_section_hint")
-      html = "<legend class='bold-medium'>#{header}</legend><div class='form-hint'>#{hint}</div>"
+      header = header_tag(t(t_scope),'_section_header') + hint_tag(t(t_scope),'_section_hint')
     else
-      html = fee.fee_type.description
+      header = fee.fee_type.description
     end
-    html.html_safe
- end
+    header.html_safe
+  end
+
+private
+
+  def t(scope, suffix=nil)
+    I18n.t("#{scope}.#{fee.fee_type.code.downcase}#{suffix}")
+  end
+
+  def header_tag(text)
+    h.content_tag :h3, text, class: 'bold-medium'
+  end
+
+  def hint_tag(text)
+    h.content_tag :div, text, class: 'form-hint'
+  end
 
 end

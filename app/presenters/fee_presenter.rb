@@ -16,7 +16,7 @@ class FeePresenter < BasePresenter
 
   def section_header(t_scope)
     if ['PPE','NPW'].include?(fee.fee_type.code.upcase)
-      header = header_tag(t(t_scope),'_section_header') + hint_tag(t(t_scope),'_section_hint')
+      header = header_tag(t(t_scope,'_section_header')) + hint_tag(t(t_scope,'_section_hint'))
     else
       header = fee.fee_type.description
     end

@@ -144,7 +144,6 @@ Given(/^I add dates attended for the first miscellaneous fee$/) do
 end
 
 Given(/^I fill in an invalid date from$/) do
-  save_and_open_page
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_dd', with: 32
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_mm', with: 01
   fill_in 'claim_misc_fees_attributes_0_dates_attended_attributes_0_date_yyy', with: 1832

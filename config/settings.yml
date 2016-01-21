@@ -46,6 +46,6 @@ csv_column_names:
   - :allocation_type
   - :case_type_name
   - :claim_total
-  - :state
+  - :claim_state
   - :last_allocated_at
   - :last_determined_at

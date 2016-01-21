@@ -42,7 +42,7 @@ RSpec.describe ClaimCsvPresenter do
       expect(subject.present!).to include(claim.total.to_s)
     end
 
-    it 'current state' do
+    it 'caseworker-relent state' do
       expect(subject.present!).to include(claim.state)
     end
 

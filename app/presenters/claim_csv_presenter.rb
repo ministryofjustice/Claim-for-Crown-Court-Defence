@@ -10,6 +10,14 @@ class ClaimCsvPresenter < BasePresenter
     external_user.supplier_number
   end
 
+  def claim_state
+    unless state == 'archived_pending_delete'
+      state
+    else
+      claim_state_transitions.sort.last.from
+    end
+  end
+
   def organisation
     external_user.provider.name
   end

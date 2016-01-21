@@ -53,3 +53,7 @@ Then(/^I should see an Manage advocates link and it should work$/) do
   find('#primary-nav').click_link('Manage advocates')
   expect(find('h1.page-title')).to have_content('Manage advocates')
 end
+
+Given(/^I sign out$/) do
+  click_link 'Sign out' rescue nil
+end

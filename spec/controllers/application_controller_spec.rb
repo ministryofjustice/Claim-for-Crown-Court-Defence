@@ -57,4 +57,57 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
   end
+
+  describe '#after_sign_out_path_for' do
+    let(:super_admin) { create(:super_admin) }
+    let(:advocate) { create(:external_user, :advocate) }
+    let(:advocate_admin) { create(:external_user, :admin) }
+    let(:case_worker) { create(:case_worker) }
+    let(:case_worker_admin) { create(:case_worker, :admin) }
+
+    before do
+      sign_in user
+      sign_out user
+    end
+
+    context 'given a super admin' do
+      let(:user) { super_admin.user }
+
+      it 'returns super admins root url' do
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+      end
+    end
+
+    context 'given an advocate' do
+      let(:user) { advocate.user }
+
+      it 'returns advocates root url ' do
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+      end
+    end
+
+    context 'given a case worker' do
+      let(:user) { case_worker.user }
+
+      it 'returns case workers root url ' do
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+      end
+    end
+
+    context 'given an admin advocate' do
+      let(:user) { advocate_admin.user }
+
+      it 'returns advocates admin root url ' do
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+      end
+    end
+
+    context 'given an admin case worker' do
+      let(:user) { case_worker_admin.user }
+
+      it 'returns case workers root url ' do
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+      end
+    end
+  end
 end

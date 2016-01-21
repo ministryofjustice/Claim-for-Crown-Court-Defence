@@ -26,7 +26,7 @@
   .claim-count
     = "Number of claims: "
     = @claims.count
-  %table{class: 'report js-checkbox-table'}
+  %table{class: 'report js-checkbox-table js-reallocation-report'}
     %thead
       %th
         = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }

@@ -5,7 +5,7 @@
   = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'quantity', min: 0, max: 99999, maxlength: 5
   = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
 %td
-  .form-hint='N/A'
+  = fee.rate
 %td
   %a{name: "basic_fee_#{@basic_fee_count}_amount"}
   %div.pound-wrapper

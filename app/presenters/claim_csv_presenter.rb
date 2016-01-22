@@ -3,13 +3,18 @@ class ClaimCsvPresenter < BasePresenter
   presents :claim
 
   def present!
-    state_transitions = claim_state_transitions.sort.reject {|transition| (transition.from == nil || transition.to == 'archived_pending_delete') }
-    journeys = state_transitions.slice_after {|transition| completed_states.include?(transition.to) }
-    parsed_journeys = parse(journeys)
     yield parsed_journeys
   end
 
-  def parse(journeys)
+  def journeys
+    sorted_and_filtered_state_transitions.slice_after {|transition| completed_states.include?(transition.to) }
+  end
+
+  def sorted_and_filtered_state_transitions
+    claim_state_transitions.sort.reject {|transition| (transition.from == nil || transition.to == 'archived_pending_delete') }
+  end
+
+  def parsed_journeys
     journeys.map do |journey|
       @journey = journey
       Settings.claim_csv_headers.map {|method_call| send(method_call)}
@@ -41,17 +46,17 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def submitted_at
-    @journey.select { |step| submitted_states.include?(step.to) }.first.created_at
+    @journey.select { |step| submitted_states.include?(step.to) }.first.created_at.to_s
   end
 
   def allocated_at
     allocations = @journey.select { |step| step.to == 'allocated' }
-    allocations.present? ? allocations.first.created_at : 'n/a'
+    allocations.present? ? allocations.first.created_at.to_s : 'n/a'
   end
 
   def completed_at
     completed_state = @journey.select { |step| completed_states.include?(step.to) }.first
-    completed_state.present? ? completed_state.created_at : 'n/a'
+    completed_state.present? ? completed_state.created_at.to_s : 'n/a'
   end
 
   def current_or_end_state

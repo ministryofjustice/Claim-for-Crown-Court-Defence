@@ -7,7 +7,10 @@ moj.Modules.TableRowClick = {
       }
       var $tr = $target.closest('tr');
       var $checkbox = $tr.find(':checkbox');
+
       $checkbox.prop('checked', !$checkbox.is(':checked'));
+
+      e.preventDefault();
     });
   }
 };

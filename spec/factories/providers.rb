@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: providers
+#
+#  id              :integer          not null, primary key
+#  name            :string
+#  supplier_number :string
+#  provider_type   :string
+#  vat_registered  :boolean
+#  uuid            :uuid
+#  api_key         :uuid
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 FactoryGirl.define do
   factory :provider do
     provider_type 'chamber'

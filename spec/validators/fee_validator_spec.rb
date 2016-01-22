@@ -12,6 +12,8 @@ describe FeeValidator do
   let(:dah_fee)    { FactoryGirl.build :fee, :dah_fee, claim: claim }
   let(:daj_fee)    { FactoryGirl.build :fee, :daj_fee, claim: claim }
   let(:pcm_fee)    { FactoryGirl.build :fee, :pcm_fee, claim: claim }
+  let(:ppe_fee)    { FactoryGirl.build :fee, :ppe_fee, claim: claim }
+  let(:npw_fee)    { FactoryGirl.build :fee, :npw_fee, claim: claim }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
@@ -65,6 +67,23 @@ describe FeeValidator do
         fee.rate = nil
         expect(fee).to_not be_valid
         expect(fee.rate).to eq 0
+      end
+    end
+
+    context 'for uncalculated fees (PPE and NPW)' do
+      it 'should raise an error when rate present' do
+        [ppe_fee, npw_fee].each do |f|
+          f.rate = 25
+          expect(f).to_not be_valid
+          expect(f.errors[:rate]).to include("#{f.fee_type.code.downcase}_must_be_blank")
+        end
+      end
+
+      it 'should NOT raise an error when rate NOT present' do
+        [ppe_fee, npw_fee].each do |f|
+          f.rate = nil
+          expect(f).to be_valid
+        end
       end
     end
 
@@ -223,6 +242,42 @@ describe FeeValidator do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
       end
     end
+  end
+
+  describe '#validate_amount' do
+
+    context 'uncalculated fee validate amount against quantity' do
+      it 'should be valid if quantity and amount greater than zero' do
+        should_be_valid_if_equal_to_value(ppe_fee, :amount, 350.00)
+      end
+
+      it 'should error if amount less than or eqaul to zero or nil' do
+        should_error_if_equal_to_value(ppe_fee, :amount, 0.00, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, nil,  'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, -200, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, 0.00, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, nil,  'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, -200, 'npw_invalid')
+      end
+
+      it 'should error if quantity less than or equal to zero or nil' do
+        should_error_if_equal_to_value(ppe_fee, :quantity, 0.00, 'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, nil,  'ppe_invalid')
+        should_error_if_equal_to_value(ppe_fee, :quantity, -200, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, 0.00, 'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, nil,  'npw_invalid')
+        should_error_if_equal_to_value(npw_fee, :quantity, -200, 'npw_invalid')
+      end
+    end
+
+    context 'calculated fees do NOT validate amount against quantity' do
+      it 'should always be valid since amount is derived from rate * quantity' do
+        should_be_valid_if_equal_to_value(baf_fee, :amount, nil)
+        should_be_valid_if_equal_to_value(baf_fee, :amount, 0.00)
+        should_be_valid_if_equal_to_value(baf_fee, :amount, 350.00)
+      end
+    end
+
   end
 
 end

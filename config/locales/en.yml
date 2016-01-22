@@ -359,11 +359,17 @@ en:
       edit:
         edit: Edit claim
       basic_fee_fields:
+        add_date_attended: 'Add date(s)'
+        remove: *remove
+      basic_fee_calculated_fields:
         basic_fee_prompt_text: |
           Please include dates for those Standard appearance<br />
           fees and PCMH's included in the Basic Fee
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+      basic_fee_uncalculated_fields:
+        ppe_section_header: PPE
+        ppe_section_hint: Total number of pages of prosecution evidence
+        npw_section_header: Witnesses
+        npw_section_hint: Total number of prosecution witnesses
       expense_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove

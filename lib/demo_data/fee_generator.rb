@@ -2,7 +2,7 @@ module DemoData
 
   class FeeGenerator
 
-    # Call as FeeGenerator.new(claim, :fixed)  or FeeGenerator.new(claim, :misc)
+    # Call as FeeGenerator.new(claim, :fixed) or FeeGenerator.new(claim, :misc)
     #
     def initialize(claim, misc_or_fixed)
       @claim       = claim
@@ -17,7 +17,7 @@ module DemoData
     private
 
     def add_fee
-      fee_type = @fee_types.sample
+      fee_type = @fee_types.where(calculated: true).sample
       while @codes_added.include?(fee_type.code)
         fee_type = @fee_types.sample
       end

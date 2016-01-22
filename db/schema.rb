@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119133748) do
+ActiveRecord::Schema.define(version: 20160121161705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "case_types", force: :cascade do |t|
@@ -257,6 +256,7 @@ ActiveRecord::Schema.define(version: 20160119133748) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "max_amount"
+    t.boolean  "calculated",      default: true
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

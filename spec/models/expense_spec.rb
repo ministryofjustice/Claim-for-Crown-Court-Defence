@@ -6,7 +6,7 @@
 #  expense_type_id :integer
 #  claim_id        :integer
 #  location        :string
-#  quantity        :integer
+#  quantity        :float
 #  rate            :decimal(, )
 #  amount          :decimal(, )
 #  created_at      :datetime

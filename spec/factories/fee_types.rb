@@ -9,6 +9,7 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  max_amount      :decimal(, )
+#  calculated      :boolean          default(TRUE)
 #
 
 FactoryGirl.define do
@@ -16,6 +17,7 @@ FactoryGirl.define do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     sequence(:code) { ('A'..'Z').to_a.sample(3).join }
     fee_category
+    calculated true
 
     trait :basic do
       fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
@@ -27,6 +29,20 @@ FactoryGirl.define do
 
     trait :fixed do
       fee_category    { FeeCategory.fixed || FactoryGirl.create(:fixed_fee_category) }
+    end
+
+    trait :ppe do
+      fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
+      description 'Pages of prosecution evidence'
+      code 'PPE'
+      calculated false
+    end
+
+    trait :npw do
+      fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
+      description 'Numberof prosecution witnesses'
+      code 'NPW'
+      calculated false
     end
   end
 

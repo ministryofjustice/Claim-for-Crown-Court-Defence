@@ -23,3 +23,11 @@ Then(/^I see confirmation that my '(.*?)' was received$/) do |payload|
     expect(page).to have_content "Feedback submitted"
   end
 end
+
+Then(/^I should be redirected to the feedback page$/) do
+  expect(current_path).to eq(new_feedback_path)
+end
+
+Then(/^I should be on the sign in page$/) do
+  expect(current_path).to eq(new_user_session_path)
+end

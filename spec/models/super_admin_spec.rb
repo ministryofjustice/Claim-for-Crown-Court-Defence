@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: super_admins
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe SuperAdmin, type: :model do

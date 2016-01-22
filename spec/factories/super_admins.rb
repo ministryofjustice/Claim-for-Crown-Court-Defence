@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: super_admins
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 FactoryGirl.define do
   factory :super_admin do
     after(:build) do |super_admin|

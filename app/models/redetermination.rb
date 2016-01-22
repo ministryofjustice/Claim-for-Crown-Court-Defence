@@ -8,9 +8,9 @@
 #  fees       :decimal(, )
 #  expenses   :decimal(, )
 #  total      :decimal(, )
-#  vat_amount :float, default: 0.0
 #  created_at :datetime
 #  updated_at :datetime
+#  vat_amount :float            default(0.0)
 #
 
 class Redetermination < Determination

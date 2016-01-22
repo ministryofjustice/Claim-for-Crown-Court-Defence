@@ -51,6 +51,12 @@ en:
         first_name: &first_name 'First name'
         middle_name: &middle_name 'Middle name'
         lasst_name: &last_name 'Last name'
+    not_provided: &not_provided 'Not provided'
+    not_applicable: &not_applicable 'n/a'
+
+  general:
+    not_provided: *not_provided
+    not_applicable: *not_applicable
 
   activerecord:
     models:

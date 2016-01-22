@@ -49,12 +49,12 @@
       .bold-xsmall
         = t('.offence')
       .xsmall
-        = claim.offence ? claim.offence.description : 'Not specified'
+        = claim.offence ? claim.offence.description : t('general.not_provided')
     .column-quarter
       .bold-xsmall
         = t('.offence_class')
       .xsmall
-        = claim.offence ? claim.offence.offence_class : 'Not specified'
+        = claim.offence ? claim.offence.offence_class : t('general.not_provided')
 
   - if claim.case_type && claim.case_type.requires_cracked_dates
     .basic-info-row

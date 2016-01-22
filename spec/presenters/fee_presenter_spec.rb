@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe FeePresenter do
 
-  let(:claim)         { create(:claim) }
-  let(:fee_type)      { create(:fee_type, description: 'Basic fee type C') }
-  let(:fee)           { create(:fee, quantity: 4, claim: claim, fee_type: fee_type) }
-
+  let(:claim)     { create(:claim) }
+  let(:fee_type)  { create(:fee_type, description: 'Basic fee type C') }
+  let(:fee)       { create(:fee, quantity: 4, claim: claim, fee_type: fee_type) }
+  let(:presenter) {FeePresenter.new(fee, view) }
 
   describe '#dates_attended_delimited_string' do
 
@@ -24,11 +24,41 @@ RSpec.describe FeePresenter do
     end
   end
 
-  describe 'amount' do
+  describe '#amount' do
     it 'formats as currency' do
       fee.amount = 32456.3
-      presenter = FeePresenter.new(fee, view)
       expect(presenter.amount).to eq '£32,456.30'
+    end
+  end
+
+  describe '#rate' do
+    context 'calcluated fees' do
+      it 'rounds to 2 decimal places in string format' do
+        fee.rate = 12.505
+        expect(presenter.rate).to eq '12.51'
+      end
+    end
+    context 'for uncalculated fees' do
+      it 'outputs placeholder html indicating rate is not applicable' do
+        fee.rate = nil
+        fee.fee_type.calculated = false
+        expect(presenter.rate).to eq "<div class=\"form-hint\">n/a</div>"
+      end
+    end
+  end
+
+  describe '#section_header' do
+    context 'NOT PPE and NPW fees' do
+      it 'outputs fee type description' do
+        expect(presenter.section_header(nil)).to eq 'Basic fee type C'
+      end
+    end
+    context 'PPE and NPW fees' do
+      it 'outputs header and hint' do
+        allow(I18n).to receive(:t).and_return('header_and_hint_text')
+        fee.fee_type.code = 'PPE'
+        expect(presenter.section_header('scope.for.translation')).to eq "<h3 class=\"bold-medium\">header_and_hint_text</h3><div class=\"form-hint\">header_and_hint_text</div>"
+      end
     end
   end
 

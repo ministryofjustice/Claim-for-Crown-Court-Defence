@@ -7,7 +7,11 @@ class FeePresenter < BasePresenter
   end
 
   def rate
-    '%.2f' % fee.rate if fee.rate
+    if fee.calculated?
+      '%.2f' % fee.rate if fee.rate
+    else
+      h.content_tag :div, 'n/a', class: 'form-hint'
+    end
   end
 
   def amount

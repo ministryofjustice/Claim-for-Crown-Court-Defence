@@ -118,7 +118,12 @@ FactoryGirl.define do
     end
 
     factory :redetermination_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.redetermine! }
+      after(:create) do |c|
+        Timecop.freeze(Time.now - 3.day) { c.submit! }
+        Timecop.freeze(Time.now - 2.day) { c.allocate! }
+        Timecop.freeze(Time.now - 1.day) { set_amount_assessed(c); c.authorise! }
+        c.redetermine! 
+      end
     end
 
     factory :awaiting_written_reasons_claim do

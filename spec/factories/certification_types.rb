@@ -19,7 +19,14 @@ FactoryGirl.define do
     #5, The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.
     #6, The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.
 
+    sequence(:name) do |n|
+        [
+        "I attended the Main Hearing (1st day of trial) #{n}",
+        "I notified the court, in writing before the PCMH that I was the Instructed Advocate. A copy of the letter is attached #{n}.",
+        "I attended the PCMH (where the client was arraigned) and no other advocate wrote to the court prior to this to advice that they were the Instructed Advocate #{n}."
+        ].sample
+    end
 
-    name 'I attended the Main Hearing (1st day of trial)'
+    pre_may_2015 { rand(2)==0 }
   end
 end

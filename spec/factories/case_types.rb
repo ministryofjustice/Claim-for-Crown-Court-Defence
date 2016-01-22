@@ -40,7 +40,5 @@ FactoryGirl.define do
     trait :allow_pcmh_fee_type do
       allow_pcmh_fee_type true
     end
-
-
   end
 end

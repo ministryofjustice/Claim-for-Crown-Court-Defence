@@ -67,7 +67,7 @@ end
 
 # must be present unless case type is breach of crown court order
 def validate_offence
-  validate_presence(:offence, "blank") unless case_type_in("Breach of Crown Court order")
+  validate_presence(:offence, "blank") unless fixed_fee_case?
 end
 
 # must be present
@@ -142,6 +142,10 @@ end
 
 def has_fees_or_expenses_attributes?
   (@record.fixed_fees.present? || @record.misc_fees.present?) || (@record.basic_fees.present? || @record.expenses.present?)
+end
+
+def fixed_fee_case?
+  @record.case_type.is_fixed_fee? rescue false
 end
 
 end

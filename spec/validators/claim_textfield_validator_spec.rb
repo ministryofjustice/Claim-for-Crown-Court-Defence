@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ClaimTextfieldValidator do
 
   let(:claim)                       { FactoryGirl.create :claim }
-  let(:guilty_plea)                 { FactoryGirl.build :case_type, name: 'Guilty plea'}
+  let(:guilty_plea)                 { FactoryGirl.build :case_type, :fixed_fee, name: 'Guilty plea'}
   let(:contempt)                    { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
   let(:cracked_before_retrial)      { FactoryGirl.build :case_type, name: 'Cracked before retrial'}
@@ -151,15 +151,15 @@ context '#perform_validation?' do
   end
 
   context 'offence' do
-    it 'should error if not present and case type is not "Breach of Crown Court order"' do
-      claim.case_type = guilty_plea
-      claim.offence = nil
+    before { claim.offence = nil }
+
+    it 'should error if not present for non-fixed fee case types' do
+      claim.case_type.is_fixed_fee = false
       should_error_with(claim, :offence, "blank")
     end
 
-    it 'should NOT error if not present and case type is "Breach of Crown Court order"' do
-      claim.case_type = breach_of_crown_court_order
-      claim.offence = nil
+    it 'should NOT error if not present for fixed fee case types' do
+      claim.case_type.is_fixed_fee = true
       should_not_error(claim,:offence)
     end
   end

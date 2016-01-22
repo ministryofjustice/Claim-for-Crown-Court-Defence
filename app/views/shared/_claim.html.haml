@@ -1,9 +1,24 @@
 %section
+
+  .certification-info-row
+    .bold-xsmall{ style: 'margin-bottom: 5px;' }
+      = t('.certification_box_title')
+    %div.bold-xsmall
+      = t('.certified_by') + ':'
+      %span.xsmall
+        = claim.certification.certified_by
+    %div.bold-xsmall
+      = t('.certification_reason') + ':'
+      %span.xsmall
+        = claim.certification.certification_type.name
+
   - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
-    .bold-xsmall
-      = t ('.assignee')
-    .xsmall
-      = claim.case_worker_names
+    .basic-info-row
+      .column-quarter
+        .bold-xsmall
+          = t ('.assignee')
+        .xsmall
+          = claim.case_worker_names
 
   .basic-info-row
     .column-quarter

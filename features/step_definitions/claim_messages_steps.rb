@@ -1,6 +1,6 @@
 Given(/^a claim with messages exists that I have been assigned to$/) do
   @case_worker = CaseWorker.first
-  @claim = create(:submitted_claim)
+  @claim = create(:allocated_claim)
   @messages = create_list(:message, 5, claim_id: @claim.id)
   @messages.each { |m| m.update_column(:sender_id, create(:external_user, :advocate).user.id) }
   @claim.case_workers << @case_worker

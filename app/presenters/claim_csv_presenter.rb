@@ -69,7 +69,8 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def current_or_end_state
-    @journey.last.to
+    state = @journey.last.to
+    submitted_states.include?(state) ? 'submitted' : state
   end
 
   def submitted_states

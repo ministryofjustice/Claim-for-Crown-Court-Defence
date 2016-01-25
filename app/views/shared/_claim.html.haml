@@ -93,7 +93,7 @@
         .bold-xsmall
           = t('external_users.claims.cracked_trial_fields.trial_cracked_at_third')
         .xsmall
-          = claim.trial_cracked_at_third.humanize
+          = claim.trial_cracked_at_third.humanize rescue ''
 
   - if claim.case_type && claim.case_type.requires_trial_dates
     .basic-info-row
@@ -106,12 +106,12 @@
         .bold-xsmall
           = t('external_users.claims.trial_fields.estimated_length')
         .xsmall
-          = claim.estimated_trial_length
+          = claim.estimated_trial_length rescue ''
       .column-quarter
         .bold-xsmall
           = t('external_users.claims.trial_fields.actual_length')
         .xsmall
-          = claim.actual_trial_length
+          = claim.actual_trial_length rescue ''
       .column-quarter
         .bold-xsmall
           = t('external_users.claims.trial_fields.trial_concluded_at')

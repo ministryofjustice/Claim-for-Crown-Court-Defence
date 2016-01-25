@@ -81,7 +81,7 @@ RSpec.describe ClaimCsvPresenter do
         it 'current/end state' do
           subject.present! do |claim_journeys|
             expect(claim_journeys.first).to include('authorised')
-            expect(claim_journeys.second).to include('redetermination')
+            expect(claim_journeys.second).to include('submitted')
           end
         end
 

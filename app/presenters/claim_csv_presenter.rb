@@ -11,7 +11,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject! {|transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete') }
+    claim_state_transitions.sort.reject {|transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete') }
   end
 
   def parsed_journeys

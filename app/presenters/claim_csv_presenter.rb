@@ -11,7 +11,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject {|transition| (transition.from == nil || transition.to == 'archived_pending_delete') }
+    claim_state_transitions.sort.reject! {|transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete') }
   end
 
   def parsed_journeys
@@ -54,17 +54,18 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def submitted_at
-    @journey.select { |step| submitted_states.include?(step.to) }.first.created_at.to_s
+    submission_steps = @journey.select { |step| submitted_states.include?(step.to) }
+    submission_steps.present? ? submission_steps.first.created_at.to_s : 'n/a'
   end
 
   def allocated_at
-    allocations = @journey.select { |step| step.to == 'allocated' }
-    allocations.present? ? allocations.first.created_at.to_s : 'n/a'
+    allocation_steps = @journey.select { |step| step.to == 'allocated' }
+    allocation_steps.present? ? allocation_steps.first.created_at.to_s : 'n/a'
   end
 
   def completed_at
-    completed_state = @journey.select { |step| completed_states.include?(step.to) }.first
-    completed_state.present? ? completed_state.created_at.to_s : 'n/a'
+    completion_steps = @journey.select { |step| completed_states.include?(step.to) }
+    completion_steps.present? ? completion_steps.first.created_at.to_s : 'n/a'
   end
 
   def current_or_end_state

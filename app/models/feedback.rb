@@ -1,6 +1,6 @@
 class Feedback
   include ActiveModel::Model
-  include ActiveModel::Validations  
+  include ActiveModel::Validations
 
   attr_accessor :email, :referrer, :user_agent, :comment, :rating
 
@@ -18,6 +18,7 @@ class Feedback
     return false unless valid?
 
     ZendeskSender.send!(self)
+
     true
   end
 

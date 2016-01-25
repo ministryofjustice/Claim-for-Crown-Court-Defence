@@ -18,7 +18,7 @@ class FeedbackController < ApplicationController
 
   def merged_feedback_params
     feedback_params.merge({
-      email: (current_user.email rescue 'anonymous'),
+      email: (current_user.email rescue (params[:email] || 'anonymous')),
       referrer: request.referer,
       user_agent: request.user_agent
     })

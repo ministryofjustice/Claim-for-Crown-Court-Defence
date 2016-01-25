@@ -8,7 +8,6 @@ module DemoData
 
   class ClaimGenerator
 
-
     def initialize(param_options = {})
       default_options = { states: :all, num_advocates: 6, num_claims_per_state: 2 }
       options = default_options.merge(param_options)
@@ -16,7 +15,6 @@ module DemoData
       @num_advocates = options[:num_advocates]
       @num_claims = options[:num_claims_per_state]
     end
-
 
     def run
       generate_advocates_if_required
@@ -28,8 +26,7 @@ module DemoData
       end
     end
 
-
-    private
+  private
 
     def generate_claim(advocate)
       claim = Claim.new(
@@ -63,6 +60,11 @@ module DemoData
       claim
     end
 
+    def add_certification(claim)
+      FactoryGirl.create(:certification,  claim: claim, certified_by: claim.external_user.name, certification_type: CertificationType.all.sample)
+      claim.save!
+    end
+
     def add_trial_dates(claim)
       claim.first_day_of_trial     = rand(60..90).days.ago
       claim.estimated_trial_length = rand(4..60)
@@ -77,9 +79,8 @@ module DemoData
       claim.trial_cracked_at_third = populate_cracked_at_third(claim)
     end
 
-
     def populate_cracked_at_third(claim)
-      if  claim.case_type.name == 'Cracked Trial'
+      if claim.case_type.name == 'Cracked Trial'
         claim.trial_cracked_at_third = [ 'first_third', 'second_third', 'final_third'].sample
       else
         claim.trial_cracked_at_third = 'final_third'
@@ -112,7 +113,6 @@ module DemoData
       ExpenseGenerator.new(claim).generate!
     end
 
-
     def advance_claim_to_state(claim, state)
       begin
         ClaimStateAdvancer.new(claim).advance_to(state)
@@ -124,24 +124,21 @@ module DemoData
       end
     end
 
-
-
     def generate_claim_in_state_for_advocate(state, advocate)
       claim = generate_claim(advocate)
       advance_claim_to_state(claim, state)
+      add_certification(claim) if !claim.draft?
     end
-
 
     def generate_claims_for_advocate(advocate)
       @states.each { |state| generate_claim_in_state_for_advocate(state, advocate) }
     end
 
-
     def generate_advocates_if_required
       num_advocates_required = @num_advocates - ExternalUser.count
       if num_advocates_required > 0
         num_advocates.times do
-          FactoryGirl.create :acvocate
+          FactoryGirl.create :external_user
         end
       end
     end
@@ -168,7 +165,6 @@ module DemoData
         'The cold passed reluctantly from the earth, and the retiring fogs revealed an army stretched out on the hills, resting.'
       ].sample
     end
-
 
   end
 

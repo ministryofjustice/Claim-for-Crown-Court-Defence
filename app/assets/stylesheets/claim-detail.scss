@@ -32,6 +32,14 @@ Other Claim Navigation
   margin-bottom: $gutter;
 }
 
+.certification-info-row {
+  @extend .grid-row;
+  border: 1px solid $border-colour;
+  padding: $gutter-half;
+  margin-left: -$gutter-half;
+  margin-right: 0px;
+}
+
 .defendant-row {
   margin-left: -30px;
 }

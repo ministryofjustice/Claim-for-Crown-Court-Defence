@@ -65,7 +65,6 @@ def validate_advocate_category
   validate_inclusion(:advocate_category, Settings.advocate_categories, "Advocate category must be one of those in the provided list") unless @record.advocate_category.blank?
 end
 
-# must be present unless case type is breach of crown court order
 def validate_offence
   validate_presence(:offence, "blank") unless fixed_fee_case?
 end

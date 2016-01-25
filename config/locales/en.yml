@@ -479,6 +479,9 @@ en:
 # en.shared
   shared:
     claim:
+      certification_box_title: Certification
+      certified_by: Certified by
+      certification_reason: Reason
       adv_acc_no: Advocate account number
       advocate_category: Advocate category
       assignee: "Assigned to:"

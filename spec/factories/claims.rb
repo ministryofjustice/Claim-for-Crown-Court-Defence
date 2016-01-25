@@ -50,22 +50,24 @@ FactoryGirl.define do
     apply_vat  false
     estimated_trial_length 1
     assessment    { Assessment.new }
+
     after(:build) do |claim|
+      build(:certification, claim: claim)
       claim.fees << build(:fee, claim: claim, fee_type: FactoryGirl.build(:fee_type))
       claim.creator = claim.external_user
       populate_required_fields(claim)
     end
-
-    case_type { FactoryGirl.build  :case_type }
-    offence
-    advocate_category 'QC'
-    sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
       create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
       claim.reload
     end
+
+    case_type { FactoryGirl.build  :case_type }
+    offence
+    advocate_category 'QC'
+    sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     trait :admin_creator do
       after(:build) do |claim|
@@ -84,6 +86,7 @@ FactoryGirl.define do
       external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
+        build(:certification, claim: claim)
         claim.defendants << build(:defendant, claim: claim)
         claim.fees << build(:fee, :with_date_attended, claim: claim, fee_type: FactoryGirl.build(:fee_type))
         claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
@@ -98,6 +101,12 @@ FactoryGirl.define do
       # do nothing as default state is draft
       # only here for iteration of all states in
       # rake task
+
+      # NOTE: remove the certification that general build would have added
+      #       as only submitted+ states need certifying
+      after(:build) do |claim|
+        claim.certification = nil if claim.certification
+      end
     end
 
     #
@@ -105,12 +114,11 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c|  publicise_errors(c) {c.submit!}; c.allocate!; }
+      after(:create) { |c| publicise_errors(c) {c.submit!}; c.allocate!; }
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c|
-        c.archive_pending_delete! }
+      after(:create) { |c| c.archive_pending_delete! }
     end
 
     factory :authorised_claim do

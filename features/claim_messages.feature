@@ -27,7 +27,6 @@ Feature: Claim messages
     Then I should not see any dates in the message history field
       And I should see 'no messages found' in the claim history
 
-
   Scenario: View messages as an advocate
     Given I am a signed in advocate
       And I have a submitted claim with messages
@@ -120,7 +119,6 @@ Scenario Outline: Advocate admin user can see the correct controls on first page
       | redetermination             | should not                | should                  |
       | archived_pending_delete     | should not                | should not              |
 
-
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Advocate admin user clicking on messages radio button and seeing the controls
     Given I am a signed in advocate admin
@@ -129,7 +127,6 @@ Scenario Outline: Advocate admin user can see the correct controls on first page
       And click on <radio_button> option
      Then I <msg_control_expectation> see the controls to send messages
       And I can send a message
-
 
     Examples:
       | state                       | radio_button                 | msg_control_expectation |

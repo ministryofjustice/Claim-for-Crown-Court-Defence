@@ -18,10 +18,14 @@ class FeedbackController < ApplicationController
 
   def merged_feedback_params
     feedback_params.merge({
-      email: (current_user.email rescue (params[:email] || 'anonymous')),
+      email: (current_user.email rescue (email_from_user_id || 'anonymous')),
       referrer: request.referer,
       user_agent: request.user_agent
     })
+  end
+
+  def email_from_user_id
+    User.find(params[:user_id]).try(:email) rescue nil
   end
 
   def after_create_url

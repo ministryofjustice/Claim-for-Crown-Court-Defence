@@ -1,21 +1,19 @@
-class StateChangePresenter < BasePresenter
+class ClaimStateTransitionPresenter < BasePresenter
 
-  presents :version
+  presents :claim_state_transition
 
-  def change
-    if version.changeset['state'].present?
-      new_state = version.changeset['state'].last
-      return "#{state_change_descriptions[new_state][current_user_persona]}"
-    end
+  def transition_message
+    new_state = claim_state_transition.to
+    return "#{transition_messages[new_state][current_user_persona]}"
   end
 
   def timestamp
-    " - #{version.created_at.strftime('%H:%M')}"
+    " - #{claim_state_transition.created_at.strftime('%H:%M')}"
   end
 
 private
 
-  def state_change_descriptions
+  def transition_messages
     {
       'redetermination'               => {"CaseWorker" => "Redetermination requested",     "ExternalUser" => "You requested redetermination"},
       'awaiting_written_reasons'      => {"CaseWorker" => "Written reasons requested",     "ExternalUser" => "You requested written reasons"},

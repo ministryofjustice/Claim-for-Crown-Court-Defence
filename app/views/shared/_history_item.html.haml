@@ -6,6 +6,6 @@
   - present(history_item, DeterminationPresenter) do |determination|
     = render partial: 'shared/determination', locals: {determination: determination }
 
-- elsif history_item.is_a?(PaperTrail::Version) && history_item.event == 'State change'
-  - present(history_item, StateChangePresenter) do |state_change|
-    = render partial: 'shared/state_change', locals: {state_change: state_change }    
+- elsif history_item.is_a?(ClaimStateTransition)
+  - present(history_item, ClaimStateTransitionPresenter) do |claim_state_transition|
+    = render partial: 'shared/state_change', locals: {claim_state_transition: claim_state_transition }

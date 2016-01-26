@@ -38,42 +38,13 @@ moj.Modules.Accordion = {
     this.$panel = $('#' + this.accordionId);
     this.$tabs = this.$panel.find('.tab'); // Array of panel tabs.
     this.$panels = this.$panel.children('.panel'); // Array of panels.
+    this.lastHeadingIndex = this.$tabs.length-1;
     this.setKeyCodes();
-  },
-
-
-  //
-  // tabpanel() is a class constructor to create a ARIA-enabled tab panel widget.
-  //
-  // @param (id string) id is the id of the div containing the tab panel.
-  //
-  // @param (accordian boolean) accordian is true if the tab panel should operate
-  //         as an accordian; false if a tab panel
-  //
-  // @return N/A
-  //
-  // Usage: Requires a div container and children as follows:
-  //
-  //         1. tabs/accordian headers have class 'tab'
-  //
-  //         2. panels are divs with class 'panel'
-  //
-
-  tabpanel : function (accordian){
-
-    // define the class properties
-
-    this.panel_id = this.accordionId; // store the id of the containing div
-    this.accordian = accordian; // true if this is an accordian control
-
-
   },
 
   init : function() {
 
     this.cacheEl();
-
-    this.tabpanel(true);
 
     // Bind event handlers
     this.bindHandlers();
@@ -106,36 +77,17 @@ moj.Modules.Accordion = {
   switchTabs : function($curTab, $newTab) {
 
     // Remove the highlighting from the current tab
-    $curTab.removeClass('focus');
-
-    // remove tab from the tab order and update its aria-selected attribute
-    $curTab.attr('tabindex', '-1').attr('aria-selected', 'false');
-
+    $curTab.removeClass('focus')
+      // remove tab from the tab order and update its aria-selected attribute
+      .attr('tabindex', '-1')
+      .attr('aria-selected', 'false');
 
     // Highlight the new tab and update its aria-selected attribute
-    $newTab.attr('aria-selected', 'true');
-
-    // If activating new tab/panel, swap the displayed panels
-    if (this.accordian === false) {
-      // hide the current tab panel and set aria-hidden to true
-      this.$panel.find('#' + $curTab.attr('aria-controls')).attr('aria-hidden', 'true');
-
-      // update the aria-expanded attribute for the old tab
-      $curTab.attr('aria-expanded', 'false');
-
-      // show the new tab panel and set aria-hidden to false
-      this.$panel.find('#' + $newTab.attr('aria-controls')).attr('aria-hidden', 'false');
-
-      // update the aria-expanded attribute for the new tab
-      $newTab.attr('aria-expanded', 'true');
-
-    }
-
-    // Make new tab navigable
-    $newTab.attr('tabindex', '0');
-
-    // give the new tab focus
-    $newTab.focus();
+    $newTab.attr('aria-selected', 'true')
+      // Make new tab navigable
+      .attr('tabindex', '0')
+      // give the new tab focus
+      .focus();
   },
 
   //
@@ -181,47 +133,26 @@ moj.Modules.Accordion = {
     // Bind handlers for the tabs / accordian headers
 
     // bind a tab keydown handler
-    this.$tabs.keydown(function(e) {
+    this.$tabs.on('keydown', function(e) {
       return thisObj.handleTabKeyDown($(this), e);
-    });
-
-    // bind a tab keypress handler
-    this.$tabs.keypress(function(e) {
+    })
+    .on('keypress',function(e) {
+      // bind a tab keypress handler
       return thisObj.handleTabKeyPress($(this), e);
-    });
-
-    // bind a tab click handler
-    this.$tabs.click(function(e) {
+    })
+    .on('click', function(e) {
+      // bind a tab click handler
       return thisObj.handleTabClick($(this), e);
-    });
-
-    // bind a tab focus handler
-    this.$tabs.focus(function() {
+    })
+    .on('focus', function() {
+      // bind a tab focus handler
       return thisObj.handleTabFocus();
-    });
-
-    // bind a tab blur handler
-    this.$tabs.blur(function() {
+    })
+    .on('blur',function() {
+      // bind a tab blur handler
       return thisObj.handleTabBlur();
     });
 
-    /////////////////////////////
-    // Bind handlers for the panels
-
-    // bind a keydown handlers for the panel focusable elements
-    this.$panels.keydown(function(e) {
-      return thisObj.handlePanelKeyDown($(this), e);
-    });
-
-    // bind a keypress handler for the panel
-    this.$panels.keypress(function(e) {
-      return thisObj.handlePanelKeyPress($(this), e);
-    });
-
-    // bind a panel click handler
-    this.$panels.click(function() {
-      return thisObj.handlePanelClick();
-    });
   },
 
 
@@ -236,6 +167,9 @@ moj.Modules.Accordion = {
   //
   handleTabKeyDown : function($tab, e) {
 
+    //current heading position
+    this.curNdx = this.$tabs.index($tab);
+
     if (e.altKey) {
       // do nothing
       return true;
@@ -247,82 +181,70 @@ moj.Modules.Accordion = {
     case this.keyCodes.enter:
     case this.keyCodes.space: {
 
-      // Only process if this is an accordian widget
-      if (this.accordian === true) {
-        // display or collapse the panel
-        this.togglePanel($tab);
-
-        e.stopPropagation();
-        return false;
-      }
-
-      return true;
+      // display or collapse the panel
+      this.togglePanel($tab);
+      break;
     }
     case this.keyCodes.left:
     case this.keyCodes.up: {
 
-      if (e.ctrlKey) {
-        // Ctrl+arrow moves focus from panel content to the open
-        // tab/accordian header.
-      } else {
-        var curNdx = this.$tabs.index($tab);
+      if (!e.ctrlKey) {
 
-        if (curNdx === 0) {
-          // tab is the first one:
-          // set newTab to last tab
-          $newTab = this.$tabs.last();
-        }
-        else {
-          // set newTab to previous
-          $newTab = this.$tabs.eq(curNdx - 1);
-        }
+        $newTab = this.moveToHeading(this.curNdx, 'up');
 
         // switch to the new tab
         this.switchTabs($tab, $newTab);
       }
-
-      e.stopPropagation();
-      return false;
+      break;
     }
     case this.keyCodes.right:
     case this.keyCodes.down: {
 
-      this.curNdx = this.$tabs.index($tab);
-
-      if (this.curNdx == this.$tabs.length-1) {
-        // tab is the last one:
-        // set newTab to first tab
-        $newTab = this.$tabs.first();
-      } else {
-        // set newTab to next tab
-        $newTab = this.$tabs.eq(this.curNdx + 1);
-      }
+      $newTab = this.moveToHeading(this.curNdx, 'down');
 
       // switch to the new tab
       this.switchTabs($tab, $newTab);
-
-      e.stopPropagation();
-      return false;
+      break;
     }
-
     case this.keyCodes.home: {
       // switch to the first tab
-      this.switchTabs($tab, this.$tabs.first());
-
-      e.stopPropagation();
-      return false;
+      this.switchTabs($tab, this.moveToHeading(this.lastHeadingIndex));
+      break;
     }
     case this.keyCodes.end: {
 
       // switch to the last tab
       this.switchTabs($tab, this.$tabs.last());
 
-      e.stopPropagation();
-      return false;
     }
     }
+
+    e.stopPropagation();
+    return false;
   },
 
+  moveToHeading: function (index, direction){
+    if(index === 0 && direction == 'up') {
+      // tab is the first one:
+      // set return the last heading
+      return this.$tabs.last();
+    //move to previous
+    }else if(index > 0 && index <= this.$tabs.length-1 && direction == 'up') {
+      // set return the previous heading
+      return this.$tabs.eq(index - 1);
+    }else if(index > 0 && index <= this.$tabs.length-1 && direction == 'down') {
+      // set return the next heading
+      return this.$tabs.eq(index + 1);
+
+    }else if (index === this.lastHeadingIndex) {
+      // heading is the last one:
+      // set heading to first tab
+      return this.$tabs.first();
+    } else {
+      // set newTab to next tab
+      return this.$tabs.eq(index + 1);
+    }
+  },
 
   //
   // Function handleTabKeyPress() is a member function to process keypress events for a tab.
@@ -432,255 +354,8 @@ moj.Modules.Accordion = {
     this.$tab.removeClass('focus');
 
     return true;
-
-  },
-
-
-
-  /////////////////////////////////////////////////////////
-  // Panel Event handlers
-  //
-
-  //
-  // Function handlePanelKeyDown() is a member function to process keydown events for a panel
-  //
-  // @param ($panel obj) $panel is the jquery object of the panel being processed
-  //
-  // @paran (e obj) e is the associated event object
-  //
-  // @return (boolean) Returns true if propagating; false if consuming event
-  //
-  handlePanelKeyDown : function($panel, e) {
-
-    if (e.altKey) {
-      // do nothing
-      return true;
-    }
-
-    switch (e.keyCode) {
-    case this.keyCodes.tab: {
-      var $focusable = $panel.find(':focusable');
-      var curNdx = $focusable.index($(e.target));
-      var panelNdx = this.$panels.index($panel);
-      var numPanels = this.$panels.length;
-
-      if (e.shiftKey) {
-        // if this is the first focusable item in the panel
-        // find the preceding expanded panel (if any) that has
-        // focusable items and set focus to the last one in that
-        // panel. If there is no preceding panel or no focusable items
-        // do not process.
-        if (curNdx === 0 && panelNdx > 0) {
-
-          // Iterate through previous panels until we find one that
-          // is expanded and has focusable elements
-          //
-          for (var ndx = panelNdx - 1; ndx >= 0; ndx--) {
-
-            var $prevPanel = this.$panels.eq(ndx);
-            var $prevTab = $('#' + $prevPanel.attr('aria-labelledby'));
-
-            // get the focusable items in the panel
-            $focusable.length = 0;
-            $focusable = $prevPanel.find(':focusable');
-
-            if ($focusable.length > 0) {
-              // there are focusable items in the panel.
-              // Set focus to the last item.
-              $focusable.last().focus();
-
-              // Reset the aria-selected state of the tabs
-              this.$tabs.attr('aria-selected', 'false');
-
-              // Set that associated tab's aria-selected state to true
-              $prevTab.attr('aria-selected', 'true');
-            }
-          }
-          e.stopPropagation();
-          return false;
-        }
-
-      } else if(panelNdx < numPanels) {
-
-        // if this is the last focusable item in the panel
-        // find the nearest following expanded panel (if any) that has
-        // focusable items and set focus to the first one in that
-        // panel. If there is no preceding panel or no focusable items
-        // do not process.
-        if (curNdx == $focusable.length - 1) {
-
-          // Iterate through following panels until we find one that
-          // is expanded and has focusable elements
-          //
-          for (var panelIndex = panelNdx + 1; panelIndex < numPanels; panelIndex++) {
-
-            var $nextPanel = this.$panels.eq(panelIndex);
-            var $nextTab = $('#' + $nextPanel.attr('aria-labelledby'));
-
-            // get the focusable items in the panel
-            $focusable.length = 0;
-            $focusable = $nextPanel.find(':focusable');
-
-            if ($focusable.length > 0) {
-              // there are focusable items in the panel.
-              // Set focus to the first item.
-              $focusable.first().focus();
-
-              // Reset the aria-selected state of the tabs
-              this.$tabs.attr('aria-selected', 'false');
-
-              // Set that associated tab's aria-selected state to true
-              $nextTab.attr('aria-selected', 'true');
-
-              e.stopPropagation();
-              return false;
-            }
-          }
-        }
-      }
-
-      break;
-    }
-
-    case this.keyCodes.left:
-    case this.keyCodes.up: {
-
-      if (!e.ctrlKey) {
-        // do not process
-        return true;
-      }
-
-      // get the jQuery object of the tab
-      var $tab = $('#' + $panel.attr('aria-labelledby'));
-
-      // Move focus to the tab
-      $tab.focus();
-
-      e.stopPropagation();
-      return false;
-    }
-    case this.keyCodes.pageup: {
-
-      var $newTab;
-
-      if (!e.ctrlKey) {
-        // do not process
-        return true;
-      }
-
-      // get the jQuery object of the tab
-      this.$tab = this.$tabs.filter('[aria-selected="true"]');
-
-      // get the index of the tab in the tab list
-      this.curNdx = this.$tabs.index(this.$tab);
-
-      if (this.curNdx === 0) {
-        // this is the first tab, set focus on the last one
-        $newTab = this.$tabs.last();
-
-      }else {
-        // set focus on the previous tab
-        $newTab = this.$tabs.eq(curNdx - 1);
-      }
-
-      // switch to the new tab
-      this.switchTabs($tab, $newTab);
-
-      e.stopPropagation();
-      e.preventDefault();
-      return false;
-    }
-    case this.keyCodes.pagedown: {
-
-      if (!e.ctrlKey) {
-        // do not process
-        return true;
-      }
-
-      // get the jQuery object of the tab
-      this.$tab = $('#' + $panel.attr('aria-labelledby'));
-
-      // get the index of the tab in the tab list
-      this.curNdx = this.$tabs.index(this.$tab);
-
-      if (curNdx == this.$tabs.length-1) {
-        // this is the last tab, set focus on the first one
-        $newTab = this.$tabs.first();
-      }
-      else {
-        // set focus on the next tab
-        $newTab = this.$tabs.eq(curNdx + 1);
-      }
-
-      // switch to the new tab
-      this.switchTabs($tab, $newTab);
-
-      e.stopPropagation();
-      e.preventDefault();
-      return false;
-    }
-    }
-
-    return true;
-  },
-
-
-  //
-  // Function handlePanelKeyPress() is a member function to process keypress events for a panel
-  //
-  // @param ($panel obj) $panel is the jquery object of the panel being processed
-  //
-  // @paran (e obj) e is the associated event object
-  //
-  // @return (boolean) Returns true if propagating; false if consuming event
-  //
-  handlePanelKeyPress : function($panel, e) {
-
-    if (e.altKey) {
-      // do nothing
-      return true;
-    }
-
-    if (e.ctrlKey && (e.keyCode == this.keyCodes.pageup || e.keyCode == this.keyCodes.pagedown)) {
-      e.stopPropagation();
-      e.preventDefault();
-      return false;
-    }
-
-    switch (e.keyCode) {
-    case this.keyCodes.esc: {
-      e.stopPropagation();
-      e.preventDefault();
-      return false;
-    }
-    }
-
-    return true;
-
-  },
-
-
-  //
-  // Function handlePanelClick() is a member function to process click events for panels
-  //
-  // @param ($panel object) $panel is the jQuery object of the panel being processed
-  //
-  // @param (e object) e is the associated event object
-  //
-  // @return (boolean) returns true
-  //
-  handlePanelClick: function () {
-
-    var $tab = $('#' + this.$panel.attr('aria-labelledby'));
-
-    // make clicked panel's tab navigable
-    $tab.attr('tabindex', '0').attr('aria-selected', 'true');
-
-    // remove all tabs from the tab order and update their aria-selected attribute
-    this.$tabs.not($tab).attr('tabindex', '-1').attr('aria-selected', 'false');
-
-    return true;
   }
+
 };
 
 

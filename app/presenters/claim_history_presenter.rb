@@ -3,7 +3,7 @@ class ClaimHistoryPresenter < BasePresenter
 
   def history_items_by_date
     unique_formatted_dates.inject({}) do |hash, date_string|
-      arr = select_by_date_string(versions, date_string) + select_by_date_string(messages, date_string) + select_by_date_string(assessments, date_string) + select_by_date_string(redetermination_versions, date_string)
+      arr = select_by_date_string(messages, date_string) + select_by_date_string(state_transitions, date_string) + select_by_date_string(assessments, date_string) + select_by_date_string(redetermination_versions, date_string)
       hash[date_string] = arr.flatten.sort_by { |e| e.created_at } if arr.any?
       hash
     end
@@ -16,15 +16,19 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def unique_sorted_dates
-    (message_dates + version_dates + assessment_dates + redetermination_dates).compact.uniq.sort
+    (message_dates + state_transition_dates + assessment_dates + redetermination_dates).compact.uniq.sort
   end
 
   def message_dates
     messages.map(&:created_at)
   end
 
-  def version_dates
-    versions.map(&:created_at)
+  def state_transitions
+    claim_state_transitions.reject{ |transition| transition.to == 'draft' }
+  end
+
+  def state_transition_dates
+    state_transitions.map(&:created_at)
   end
 
   def assessment_dates
@@ -37,10 +41,6 @@ class ClaimHistoryPresenter < BasePresenter
 
   def messages
     claim.messages.where('created_at IS NOT NULL').order(created_at: :asc)
-  end
-
-  def versions
-    claim.versions.order(created_at: :asc)
   end
 
   def assessments

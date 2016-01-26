@@ -32,7 +32,6 @@ describe API::V1::ExternalUsers::Claim do
                           :actual_trial_length => 9,
                           :trial_concluded_at => "2015-01-09",
                           :advocate_category => 'Led junior',
-                          :indictment_number => 1234,
                           :offence_id => offence.id,
                           :court_id => court.id } }
 

@@ -13,7 +13,7 @@
       %th
         = t('.vat_registered')
       %th
-        Advocates
+        Users
     %tbody
       - providers.each do |provider|
         %tr{id: dom_id(provider) }
@@ -26,4 +26,4 @@
           %td
             = provider.vat_registered == true ? 'Yes' : 'No'
           %td
-            = link_to "Manage advocates in #{provider.provider_type}", super_admins_provider_external_users_path(provider)
+            = link_to "Manage users in provider", super_admins_provider_external_users_path(provider)

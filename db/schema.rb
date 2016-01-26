@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121161705) do
+ActiveRecord::Schema.define(version: 20160126103102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "case_types", force: :cascade do |t|
@@ -93,7 +92,6 @@ ActiveRecord::Schema.define(version: 20160121161705) do
     t.datetime "last_submitted_at"
     t.string   "case_number"
     t.string   "advocate_category"
-    t.string   "indictment_number"
     t.date     "first_day_of_trial"
     t.integer  "estimated_trial_length",   default: 0
     t.integer  "actual_trial_length",      default: 0

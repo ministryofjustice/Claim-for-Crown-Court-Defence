@@ -257,7 +257,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
      :trial_concluded_at_yyyy,
      :advocate_category,
      :additional_information,
-     :indictment_number,
      evidence_checklist_ids: [],
      defendants_attributes: [
        :id,

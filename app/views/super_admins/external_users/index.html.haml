@@ -1,9 +1,9 @@
-%h1.page-title Manage advocates
+%h1.page-title Manage users
 %h2.heading-medium.left
-  = "Advocates in #{@provider.name}"
+  = "Users in #{@provider.name}"
 
 .grid-row.clear-float
-  = link_to "Add advocate to #{@provider.provider_type}", new_super_admins_provider_external_user_path(@provider), class: 'button right'
+  = link_to "Add user to provider", new_super_admins_provider_external_user_path(@provider), class: 'button right'
 
 %table.external_users_table
   %thead

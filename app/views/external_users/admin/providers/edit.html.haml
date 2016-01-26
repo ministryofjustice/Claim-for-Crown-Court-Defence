@@ -9,7 +9,7 @@
       = t('.form_error_hint')
 
 %h1.page-title
-  = "Edit #{@provider.provider_type} details"
+  = "Edit provider details"
 
 = form_for [:external_users, :admin, @provider], html: { novalidate: true } do |f|
 
@@ -28,7 +28,7 @@
       %div.form-group.inline
         =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
           - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
-  
+
     = f.label :api_key, t('.api_key'), class: "form-label"
     = @provider.api_key
 

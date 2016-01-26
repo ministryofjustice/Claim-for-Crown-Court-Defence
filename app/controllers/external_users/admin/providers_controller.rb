@@ -15,7 +15,7 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
   def update
     if @provider.update(provider_params)
       send_ga('event', 'provider', 'updated')
-      redirect_to external_users_admin_provider_path, notice: "#{@provider.provider_type.humanize} successfully updated"
+      redirect_to external_users_admin_provider_path, notice: "Provider successfully updated"
     else
       render :edit
     end

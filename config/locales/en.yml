@@ -173,7 +173,7 @@ en:
           add_super_admin: 'Add Super administrator'
           edit: *edit
         edit:
-          edit_super_admin: 'Edit advocate'
+          edit_super_admin: 'Edit user'
         form:
           error: 'error'
           prohibited_save: 'This Super administrator has'
@@ -223,7 +223,7 @@ en:
         email: 'Email'
       form:
         error: 'error'
-        prohibited_save: 'This advocate has'
+        prohibited_save: 'This user has'
         email: *email
         email_confirmation: *email_confirmation
         password: *password
@@ -233,10 +233,10 @@ en:
         supplier_number: *supplier_number
         apply_vat: "VAT registered"
         roles: *roles
-        submit: 'Create advocate'
+        submit: 'Create user'
       change_password:
         error: 'error'
-        prohibited_save: 'This advocate password change has'
+        prohibited_save: 'This user password change has'
         current_password: Current password
         password: *password
         password_confirmation: *password_confirmation
@@ -247,27 +247,27 @@ en:
     admin:
       external_users:
         index:
-          title: 'Manage advocates'
+          title: 'Manage users'
           actions: Manage details
-          advocates: 'Advocates'
-          add_advocate: 'Add Advocate'
+          advocates: 'Users'
+          add_advocate: 'Add User'
           edit: *edit
           email: 'Email'
           delete: *delete
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
-          new_user: 'New advocate'
-          search: 'Search for advocate'
+          new_user: 'New user'
+          search: 'Search for user'
           supplier_number: 'Supplier number'
         new:
           error: 'error'
-          new_advocate: 'New advocate'
-          prohibited_save: 'This advocate has'
+          new_advocate: 'New user'
+          prohibited_save: 'This user has'
         edit:
-          edit_advocate: 'Edit advocate'
+          edit_advocate: 'Edit user'
           error: 'error'
-          prohibited_save: 'This advocate has'
+          prohibited_save: 'This user has'
         form:
           email: *email
           email_confirmation: *email_confirmation
@@ -277,10 +277,10 @@ en:
           last_name: *last_name
           supplier_number: 'Supplier number'
           roles: *roles
-          submit: 'Create advocate'
+          submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: 'This advocate password change has'
+          prohibited_save: 'This user password change has'
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation

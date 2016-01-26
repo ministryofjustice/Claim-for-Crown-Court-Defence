@@ -9,7 +9,6 @@
 #  last_submitted_at        :datetime
 #  case_number              :string
 #  advocate_category        :string
-#  indictment_number        :string
 #  first_day_of_trial       :date
 #  estimated_trial_length   :integer          default(0)
 #  actual_trial_length      :integer          default(0)

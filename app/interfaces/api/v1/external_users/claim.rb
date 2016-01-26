@@ -50,7 +50,6 @@ module API
                 source:                   params[:source] || 'api',
                 case_number:              params[:case_number],
                 case_type_id:             params[:case_type_id],
-                indictment_number:        params[:indictment_number],
                 first_day_of_trial_dd:    extract_date(:day, params[:first_day_of_trial]),
                 first_day_of_trial_mm:    extract_date(:month, params[:first_day_of_trial]),
                 first_day_of_trial_yyyy:  extract_date(:year, params[:first_day_of_trial]),

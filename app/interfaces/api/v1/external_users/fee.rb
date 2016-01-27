@@ -13,8 +13,6 @@ module API
 
           helpers do
 
-            include API::V1::ApiHelper
-
             params :fee_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type:      String,  desc: "REQUIRED: The API authentication key of the provider"
@@ -38,10 +36,10 @@ module API
               claim_id = validate_claim_presence
               {
                 claim_id: claim_id,
-                fee_type_id: params[:fee_type_id],
-                quantity: params[:quantity],
-                rate: params[:rate],
-                amount: params[:amount]
+                fee_type_id:  params[:fee_type_id],
+                quantity:     params[:quantity],
+                rate:         params[:rate],
+                amount:       params[:amount]
               }
             end
 

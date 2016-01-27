@@ -12,7 +12,6 @@ module API
         resource :defendants, desc: 'Create or Validate' do
 
           helpers do
-            include ExtractDate
 
             params :defendant_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -25,15 +24,15 @@ module API
             end
 
             def build_arguments
-              {
+              non_date_fields = {
                 claim_id:       ::Claim.find_by(uuid: params[:claim_id]).try(:id),
                 first_name:     params[:first_name],
                 last_name:      params[:last_name],
-                date_of_birth_dd:    extract_date(:day, params[:date_of_birth]),
-                date_of_birth_mm:    extract_date(:month, params[:date_of_birth]),
-                date_of_birth_yyyy:  extract_date(:year, params[:date_of_birth]),
                 order_for_judicial_apportionment: params[:order_for_judicial_apportionment]
               }
+              args = Hash.new
+              args.merge!(non_date_fields).merge_date_fields!([:date_of_birth], params)
+              args
             end
 
           end

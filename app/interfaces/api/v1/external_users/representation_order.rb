@@ -12,8 +12,8 @@ module API
         resource :representation_orders, desc: 'Create or Validate' do
 
           helpers do
-            include ExtractDate
-            include API::V1::ApiHelper
+            # include ExtractDate
+            # include API::V1::ApiHelper
 
             params :representation_order_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -34,13 +34,13 @@ module API
 
             def build_arguments
               defendant_id = validate_defendant_presence
-              {
+              non_date_fields = {
                 defendant_id: defendant_id,
-                maat_reference: params[:maat_reference],
-                representation_order_date_dd:   extract_date(:day, params[:representation_order_date]),
-                representation_order_date_mm:   extract_date(:month, params[:representation_order_date]),
-                representation_order_date_yyyy: extract_date(:year, params[:representation_order_date])
+                maat_reference: params[:maat_reference]
               }
+              args = Hash.new
+              args.merge!(non_date_fields).merge_date_fields!([:representation_order_date], params)
+              args
             end
 
           end

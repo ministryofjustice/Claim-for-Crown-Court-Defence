@@ -249,7 +249,6 @@
           = validation_error_message(@claim, :additional_information)
         .column-half
           &nbsp;
-    .sticky-section
       %p
         = f.submit t('.submit_to_laa'), class: 'button left'
         - if @claim.draft?

@@ -9,6 +9,8 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :offence,
     :estimated_trial_length,
     :actual_trial_length,
+    :retrial_estimated_length,
+    :retrial_actual_length,
     :trial_cracked_at_third,
     :total
     ]
@@ -72,18 +74,36 @@ end
 # must be present
 # must be greater than or eqaul zero
 def validate_estimated_trial_length
-  if trial_dates_required?
+  if requires_trial_dates?
     validate_presence(:estimated_trial_length, "blank")
-    validate_numericality(:estimated_trial_length, 1, nil, "invalid") unless @record.estimated_trial_length.nil?
+    validate_numericality(:estimated_trial_length, 0, nil, "invalid") unless @record.estimated_trial_length.nil?
   end
 end
 
 # must be present
 # must be greater than or equal to zero
 def validate_actual_trial_length
-  if trial_dates_required?
+  if requires_trial_dates?
     validate_presence(:actual_trial_length, "blank")
     validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
+  end
+end
+
+# must be present
+# must be greater than or eqaul zero
+def validate_retrial_estimated_length
+  if requires_retrial_dates?
+    validate_presence(:retrial_estimated_length, "blank")
+    validate_numericality(:retrial_estimated_length, 0, nil, "invalid") unless @record.retrial_estimated_length.nil?
+  end
+end
+
+# must be present
+# must be greater than or equal to zero
+def validate_retrial_actual_length
+  if requires_retrial_dates?
+    validate_presence(:retrial_actual_length, "blank")
+    validate_numericality(:retrial_actual_length, 0, nil, "invalid") unless @record.retrial_actual_length.nil?
   end
 end
 
@@ -127,12 +147,12 @@ end
 
 # local helpers
 # ---------------------------
-# def claim_total
-#   @record.fees.map(&:amount).compact.sum + @record.expenses.map(&:amount).compact.sum
-# end
-
-def trial_dates_required?
-  @record.case_type.requires_trial_dates rescue false
+def method_missing(method, *args)
+  if method.to_s =~ /^requires_(re){0,1}trial_dates\?/
+    @record.case_type.__send__(method) rescue false
+  else
+    super
+  end
 end
 
 def cracked_case?

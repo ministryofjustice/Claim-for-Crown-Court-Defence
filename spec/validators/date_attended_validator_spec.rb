@@ -24,7 +24,7 @@ describe DateAttendedValidator do
   context 'date' do
     it { should_error_if_not_present(date_attended, :date, 'blank') }
     it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date, 'not_before_earliest_representation_order_date') }
-    it { should_error_if_not_too_far_in_the_past(date_attended, :date, 'not_before_earliest_permitted_date') }
+    it { should_error_if_too_far_in_the_past(date_attended, :date, 'not_before_earliest_permitted_date') }
   end
 
   context 'date to' do

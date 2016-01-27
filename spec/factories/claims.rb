@@ -47,7 +47,6 @@ FactoryGirl.define do
     external_user
     source { 'web' }
     apply_vat  false
-    estimated_trial_length 1
     assessment    { Assessment.new }
 
     after(:build) do |claim|

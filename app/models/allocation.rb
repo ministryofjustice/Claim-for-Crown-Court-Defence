@@ -16,7 +16,7 @@ class Allocation
   def initialize(attributes = {})
     @case_worker_id = attributes[:case_worker_id]
     @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
-    @deallocate = ['1', true].include?(attributes[:deallocate])
+    @deallocate = attributes[:deallocate]
   end
 
   def save
@@ -25,7 +25,7 @@ class Allocation
     claims.each do |claim|
       claim.case_workers.destroy_all
       claim.case_workers << case_worker unless deallocating?
-      claim.submit! if deallocating?
+      claim.update_column(:state, 'submitted') if deallocating?
     end
 
     true

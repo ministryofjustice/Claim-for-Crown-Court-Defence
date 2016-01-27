@@ -1,83 +1,79 @@
 %h1.page-title
   Re-allocation
-.grid-row
-  .column-third
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
-      .normal
-        = label_tag :search, 'Search by case worker name'
-      = text_field_tag :search, params[:search], class: 'normal'
-      = button_tag(type: 'submit', class: 'button search', title: "Search") do
-        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
-  .column-two-thirds
 
-    = form_for [:case_workers, :admin, @allocation] do |f|
-      = hidden_field_tag :tab, params[:tab]
-      .normal
-        = f.label :case_worker_id, 'Allocate to'
-      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%;display: inline-block' }
+= form_for [:case_workers, :admin, @allocation] do |f|
+  = hidden_field_tag :tab, params[:tab]
 
-      = f.label :deallocate do
-        or return to allocation pool
-        = f.check_box :deallocate
+  %p
+    help text goes here...
 
-      = f.submit 'Submit', class: 'button'
+  .normal
+    Allocate to
+  %div.form-group.inline
+    = f.label :deallocate, value: false, class: 'block-label' do
+      Case worker
+      = f.radio_button :deallocate, false, checked: true, value: false
+    = f.label :deallocate, value: true, class: 'block-label' do
+      Allocation pool
+      = f.radio_button :deallocate, true, checked: false, value: true
 
-      -# if params[:claim_ids].present?
-        -# params[:claim_ids].each do |claim_id|
-          =# hidden_field_tag :claim_ids, claim_id
+  .normal
+    = f.label :case_worker_id
+  = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%;display: inline-block' }
+  .normal
+    = f.submit 'Re-allocate', class: 'button'
 
-      - if @claims.any?
-        .claim-count
-          = "Number of claims: "
-          = @claims.count
-        %table{class: 'report js-checkbox-table js-reallocation-report'}
-          %thead
-            %th
-              = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
-            %th
-              = t('.case_number')
-            %th
-              = t('.advocate')
-            %th
-              = t('.defendants')
-            %th
-              Type
-            %th
-              = t('.submitted_date')
-            %th
-              = t('.claim_total')
-            - if params[:tab] == 'allocated'
-              %th
-                Allocated to
-          %tbody
-            = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
-              - present(b.object) do |claim|
-                %tr{id: dom_id(claim)}
-                  %td
-                    = b.check_box
-                  %td
-                    = b.label(class: "case-number") do
-                      = claim.case_number
-                  %td
-                    = b.label do
-                      = claim.external_user.name
-                  %td
-                    = b.label do
-                      = claim.defendant_names
-                  %td
-                    = b.label do
-                      = claim.case_type_name
-                  %td
-                    = b.label do
-                      = claim.submitted_at
-                  %td
-                    = b.label do
-                      = claim.total_inc_vat
-                  - if params[:tab] == 'allocated'
-                    %td
-                      = b.label do
-                        = claim.case_workers.map(&:name).join(', ')
+  - if @claims.any?
+    .claim-count
+      = "Number of claims: "
+      = @claims.count
+    %table{class: 'report js-checkbox-table js-reallocation-report'}
+      %thead
+        %th
+          = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
+        %th
+          = t('.case_number')
+        %th
+          = t('.advocate')
+        %th
+          = t('.defendants')
+        %th
+          Type
+        %th
+          = t('.submitted_date')
+        %th
+          = t('.claim_total')
+        - if params[:tab] == 'allocated'
+          %th
+            Allocated to
+      %tbody
+        = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
+          - present(b.object) do |claim|
+            %tr{id: dom_id(claim)}
+              %td
+                = b.check_box
+              %td
+                = b.label(class: "case-number") do
+                  = claim.case_number
+              %td
+                = b.label do
+                  = claim.external_user.name
+              %td
+                = b.label do
+                  = claim.defendant_names
+              %td
+                = b.label do
+                  = claim.case_type_name
+              %td
+                = b.label do
+                  = claim.submitted_at
+              %td
+                = b.label do
+                  = claim.total_inc_vat
+              - if params[:tab] == 'allocated'
+                %td
+                  = b.label do
+                    = claim.case_workers.map(&:name).join(', ')
 
-      - else
-        = "No claims need to be allocated."
+  - else
+    = "No claims need to be allocated."

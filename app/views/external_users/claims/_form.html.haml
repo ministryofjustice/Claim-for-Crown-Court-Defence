@@ -9,20 +9,17 @@
       %legend.bold-medium
         = t('.case_advocate_offence')
 
-      - if current_user.persona.admin?
-        .grid-row
-          .column-half
-            = f.anchored_label t('.advocate'), 'external_user'
-            = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-            = validation_error_message(@error_presenter, :external_user)
-          .column-half
-            = f.anchored_label t('.advocate_category')
-            = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
-            = validation_error_message(@error_presenter, :advocate_category)
-      - else
-        = f.anchored_label t('.advocate_category')
-        = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
+
+      = f.anchored_label t('.advocate_category')
+      .form-group.inline
+        = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
+          - b.label(class: "block-label") { b.radio_button + b.value.to_s }
         = validation_error_message(@error_presenter, :advocate_category)
+
+      - if current_user.persona.admin?
+        = f.anchored_label t('.advocate'), 'external_user'
+        = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+        = validation_error_message(@error_presenter, :external_user)
 
       = f.anchored_label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2', style:'width:300px' }

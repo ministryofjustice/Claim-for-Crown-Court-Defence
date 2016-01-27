@@ -38,9 +38,9 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'from allocated' do
       before { subject.submit!; subject.allocate! }
-      it { expect{ subject.reject! }.to  change{ subject.state }.to('rejected') }
-      it { expect{ subject.submit! }.to  change{ subject.state }.to('submitted') }
-      it { expect{ subject.refuse! }.to  change{ subject.state }.to('refused') }
+      it { expect{ subject.reject! }.to      change{ subject.state }.to('rejected') }
+      it { expect{ subject.submit! }.to      change{ subject.state }.to('submitted') }
+      it { expect{ subject.refuse! }.to      change{ subject.state }.to('refused') }
       it {
         expect{
           subject.assessment.update(fees: 100.00, expenses: 23.45)

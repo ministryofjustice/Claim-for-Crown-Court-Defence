@@ -87,6 +87,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def allocation_params
     params.require(:allocation).permit(
      :case_worker_id,
+     :deallocate,
      claim_ids: []
     )
   end

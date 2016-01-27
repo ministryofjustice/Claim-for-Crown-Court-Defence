@@ -17,37 +17,107 @@ RSpec.describe Allocation, type: :model do
   end
 
   describe '#save' do
-    let(:claims) { create_list(:submitted_claim, 5) }
-    let(:case_worker) { create(:case_worker) }
+    context 'allocating and re-allocating' do
+      let(:claims) { create_list(:submitted_claim, 5) }
+      let(:case_worker) { create(:case_worker) }
 
-    context 'when valid' do
-      subject { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+      context 'when valid' do
+        subject { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
 
-      it 'creates case worker claim join records' do
-        subject.save
-        expect(CaseWorkerClaim.where(case_worker_id: case_worker.id).map(&:claim_id)).to match_array(claims.map(&:id))
+        it 'creates case worker claim join records' do
+          subject.save
+          expect(CaseWorkerClaim.where(case_worker_id: case_worker.id).map(&:claim_id)).to match_array(claims.map(&:id))
+        end
+
+        it 'sets the claims to "allocated"' do
+          subject.save
+          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+        end
+
+        it 'returns true' do
+          expect(subject.save).to eq(true)
+        end
       end
 
-      it 'returns true' do
-        expect(subject.save).to eq(true)
+      context 'when invalid' do
+        subject { Allocation.new(claim_ids: claims.map(&:id)) }
+
+        it 'does not create case worker claim join records' do
+          subject.save
+          expect(CaseWorkerClaim.count).to eq(0)
+        end
+
+        it 'returns false' do
+          expect(subject.save).to eq(false)
+        end
+
+        it 'contains errors' do
+          subject.save
+          expect(subject.errors).to_not be_empty
+        end
       end
     end
 
-    context 'when invalid' do
-      subject { Allocation.new(claim_ids: claims.map(&:id)) }
+    context 'deallocating' do
+      let(:claims) { create_list(:submitted_claim, 5) }
+      let(:case_worker) { create(:case_worker) }
 
-      it 'does not create case worker claim join records' do
-        subject.save
-        expect(CaseWorkerClaim.count).to eq(0)
+      context 'when valid' do
+        before do
+          claims.each do |claim|
+            claim.case_workers << case_worker
+          end
+        end
+
+        subject { Allocation.new(claim_ids: claims.map(&:id), deallocate: true) }
+
+        it 'deletes case worker claim join records' do
+          subject.save
+          expect(case_worker.reload.claims).to be_empty
+        end
+
+        it 'sets the claims to "submitted"' do
+          subject.save
+          expect(claims.map(&:reload).map(&:state).uniq).to eq(['submitted'])
+        end
+
+        it 'returns true' do
+          expect(subject.save).to eq(true)
+        end
       end
 
-      it 'returns false' do
-        expect(subject.save).to eq(false)
-      end
+      context 'when invalid' do
+        subject { Allocation.new(claim_ids: claims.map(&:id)) }
 
-      it 'contains errors' do
-        subject.save
-        expect(subject.errors).to_not be_empty
+        before do
+          claims.each do |claim|
+            claim.case_workers << case_worker
+          end
+        end
+
+        it 'does not create case worker claim join records' do
+          subject.save
+          expect(CaseWorkerClaim.count).to eq(5)
+        end
+
+        it 'does not delete case worker claim join records' do
+          subject.save
+          expect(CaseWorkerClaim.count).to eq(5)
+        end
+
+        it 'leaves the claims as "allocated"' do
+          subject.save
+          expect(claims.map(&:state).uniq).to eq(['allocated'])
+        end
+
+        it 'returns false' do
+          expect(subject.save).to eq(false)
+        end
+
+        it 'contains errors' do
+          subject.save
+          expect(subject.errors).to_not be_empty
+        end
       end
     end
   end

@@ -183,7 +183,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def sort_and_paginate(options={})
     set_sort_defaults(options)
-    # GOTCHA: must paginate in same call that sorts/orders
     @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
   end
 
@@ -199,86 +198,44 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
-  def common_dates_attended_attributes
-    { dates_attended_attributes: [
-          :id,
-          :fee_id,
-          :date_dd,
-          :date_mm,
-          :date_yyyy,
-          :date_to_dd,
-          :date_to_mm,
-          :date_to_yyyy,
-          :_destroy
-        ]
-    }
-  end
-
-  def common_fees_attributes
-     [
-       :id,
-       :claim_id,
-       :fee_type_id,
-       :fee_id,
-       :quantity,
-       :rate,
-       :_destroy,
-       common_dates_attended_attributes
-      ]
-  end
-
   def claim_params
     params.require(:claim).permit(
-     :form_id,
-     :state_for_form,
-     :source,
-     :external_user_id,
-     :court_id,
-     :case_number,
-     :case_type_id,
-     :trial_fixed_notice_at_dd,
-     :trial_fixed_notice_at_mm,
-     :trial_fixed_notice_at_yyyy,
-     :trial_fixed_at_dd,
-     :trial_fixed_at_mm,
-     :trial_fixed_at_yyyy,
-     :trial_cracked_at_dd,
-     :trial_cracked_at_mm,
-     :trial_cracked_at_yyyy,
-     :trial_cracked_at_third,
-     :offence_id,
-     :first_day_of_trial_dd,
-     :first_day_of_trial_mm,
-     :first_day_of_trial_yyyy,
-     :estimated_trial_length,
-     :actual_trial_length,
-     :trial_concluded_at_dd,
-     :trial_concluded_at_mm,
-     :trial_concluded_at_yyyy,
-     :advocate_category,
-     :additional_information,
-     evidence_checklist_ids: [],
-     defendants_attributes: [
+      :form_id,
+      :state_for_form,
+      :advocate_category,
+      :source,
+      :external_user_id,
+      :court_id,
+      :case_number,
+      :case_type_id,
+      :offence_id,
+      date_attributes_for(:first_day_of_trial),
+      :estimated_trial_length,
+      :actual_trial_length,
+      date_attributes_for(:trial_concluded_at),
+      date_attributes_for(:trial_fixed_notice_at),
+      date_attributes_for(:trial_fixed_at),
+      date_attributes_for(:trial_cracked_at),
+      :trial_cracked_at_third,
+      :additional_information,
+      evidence_checklist_ids: [],
+      defendants_attributes: [
        :id,
        :claim_id,
        :first_name,
        :last_name,
-       :date_of_birth_dd,
-       :date_of_birth_mm,
-       :date_of_birth_yyyy,
+       date_attributes_for(:date_of_birth),
        :order_for_judicial_apportionment,
        :_destroy,
        representation_orders_attributes: [
          :id,
          :document,
          :maat_reference,
-         :representation_order_date_dd,
-         :representation_order_date_mm,
-         :representation_order_date_yyyy,
+         date_attributes_for(:representation_order_date),
          :_destroy
         ]
-     ],
-     basic_fees_attributes: [
+      ],
+      basic_fees_attributes: [
        :id,
        :claim_id,
        :fee_type_id,
@@ -288,10 +245,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :amount,
        :_destroy,
        common_dates_attended_attributes
-     ],
+      ],
       fixed_fees_attributes: common_fees_attributes,
       misc_fees_attributes: common_fees_attributes,
-     expenses_attributes: [
+      expenses_attributes: [
        :id,
        :claim_id,
        :expense_type_id,
@@ -300,7 +257,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :rate,
        :_destroy,
        common_dates_attended_attributes
-     ]
+      ]
     )
   end
 
@@ -394,6 +351,5 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def initialize_json_document_importer
     @json_document_importer = JsonDocumentImporter.new
   end
-
 
 end

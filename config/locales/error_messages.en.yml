@@ -87,7 +87,7 @@ estimated_trial_length:
   _seq: 70
   blank:
     long: Enter an estimated trial length
-    short: Enter a whole number of days
+    short: Enter number of days
     api: Enter an estimated trial length
   invalid:
     long: Enter a whole number of days for the estimated trial length
@@ -131,7 +131,7 @@ retrial_estimated_length:
   _seq: 110
   blank:
     long: Enter an estimated retrial length
-    short: Enter a whole number of days
+    short: Enter number of days
     api: Enter an estimated retrial length
   invalid:
     long: Enter a whole number of days for the estimated retrial length

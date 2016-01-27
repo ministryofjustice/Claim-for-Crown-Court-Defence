@@ -19,6 +19,7 @@ moj.Modules.TrialFieldsDisplay = {
     }
     else {
       $('#trial-details').hide();
+      $('#retrial-details').hide();
     }
   }
 };

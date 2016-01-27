@@ -1,6 +1,6 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
-  def collection_select2_with_data(method, collection, value_method, text_method, data_options,  options_hash = {}, html_option_hash = {})
+  def collection_select2_with_data(method, collection, value_method, text_method, data_options, options_hash = {}, html_option_hash = {})
     result = make_select_start(method)
     result += make_prompt if options_hash[:prompt] == true
     collection.each do |member|

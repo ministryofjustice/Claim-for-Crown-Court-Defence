@@ -3,3 +3,9 @@
 <% else %>
   $('#trial-details').hide();
 <% end %>
+
+<% if @case_type.requires_retrial_dates? %>
+  $('#retrial-details').slideDown();
+<% else %>
+  $('#retrial-details').hide();
+<% end %>

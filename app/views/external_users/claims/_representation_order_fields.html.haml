@@ -5,11 +5,15 @@
 
   %span.auto-width
     = f.anchored_label 'Representation order date', "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date"
+    .form-hint.xsmall.zero-vert-margin
+      &nbsp;
     = f.gov_uk_date_field :representation_order_date
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
 
   %span.auto-width
     = f.anchored_label t('maat_reference_number'), "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference"
+    .form-hint.xsmall.zero-vert-margin
+      = t("maat_reference_number_eg")
     = f.text_field :maat_reference
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference")
 

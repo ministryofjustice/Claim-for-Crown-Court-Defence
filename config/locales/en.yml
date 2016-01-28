@@ -138,7 +138,8 @@ en:
   documents:
     form:
       upload: 'Choose file to upload'
-  maat_reference_number: 'MAAT Reference'
+  maat_reference_number: 'MAAT reference'
+  maat_reference_number_eg: 'eg. 1234567890'
 
 # en.common
   common:
@@ -173,7 +174,7 @@ en:
           add_super_admin: 'Add Super administrator'
           edit: *edit
         edit:
-          edit_super_admin: 'Edit advocate'
+          edit_super_admin: 'Edit user'
         form:
           error: 'error'
           prohibited_save: 'This Super administrator has'
@@ -223,7 +224,7 @@ en:
         email: 'Email'
       form:
         error: 'error'
-        prohibited_save: 'This advocate has'
+        prohibited_save: 'This user has'
         email: *email
         email_confirmation: *email_confirmation
         password: *password
@@ -233,10 +234,10 @@ en:
         supplier_number: *supplier_number
         apply_vat: "VAT registered"
         roles: *roles
-        submit: 'Create advocate'
+        submit: 'Create user'
       change_password:
         error: 'error'
-        prohibited_save: 'This advocate password change has'
+        prohibited_save: 'This user password change has'
         current_password: Current password
         password: *password
         password_confirmation: *password_confirmation
@@ -247,27 +248,27 @@ en:
     admin:
       external_users:
         index:
-          title: 'Manage advocates'
+          title: 'Manage users'
           actions: Manage details
-          advocates: 'Advocates'
-          add_advocate: 'Add Advocate'
+          advocates: 'Users'
+          add_advocate: 'Add User'
           edit: *edit
           email: 'Email'
           delete: *delete
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
-          new_user: 'New advocate'
-          search: 'Search for advocate'
+          new_user: 'New user'
+          search: 'Search for user'
           supplier_number: 'Supplier number'
         new:
           error: 'error'
-          new_advocate: 'New advocate'
-          prohibited_save: 'This advocate has'
+          new_advocate: 'New user'
+          prohibited_save: 'This user has'
         edit:
-          edit_advocate: 'Edit advocate'
+          edit_advocate: 'Edit user'
           error: 'error'
-          prohibited_save: 'This advocate has'
+          prohibited_save: 'This user has'
         form:
           email: *email
           email_confirmation: *email_confirmation
@@ -277,10 +278,10 @@ en:
           last_name: *last_name
           supplier_number: 'Supplier number'
           roles: *roles
-          submit: 'Create advocate'
+          submit: 'Create user'
         change_password:
           error: 'error'
-          prohibited_save: 'This advocate password change has'
+          prohibited_save: 'This user password change has'
           current_password: Current password
           password: *password
           password_confirmation: *password_confirmation
@@ -352,7 +353,9 @@ en:
         last_name: *last_name
         full_name: Full name
         date_of_birth: 'Date of birth'
-        order_for_judicial_apportionment: 'Order for judicial apportionment'
+        order_for_judicial_apportionment:  |
+          Order for judicial apportionment
+          (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
         add_another_rep_order: 'Add another representation order'
         remove_defendant: 'Remove defendant'
       error_summary:
@@ -361,7 +364,7 @@ en:
         form_error_hint: 'Check below for more detail'
       offence_select:
         offence_class: 'Offence class'
-        select_offence_class: ' -- Select offence class -- '
+        select_offence_class: 'Please select'
       edit:
         edit: Edit claim
       basic_fee_fields:
@@ -371,6 +374,7 @@ en:
         basic_fee_prompt_text: |
           Please include dates for those Standard appearance<br />
           fees and PCMH's included in the Basic Fee
+        saf_prompt_text: Include any additional PCMH fees under SAF
       basic_fee_uncalculated_fields:
         ppe_section_header: PPE
         ppe_section_hint: Total number of pages of prosecution evidence
@@ -408,10 +412,11 @@ en:
         advocate_category: 'Advocate category'
         offence_class: 'Offence class'
         offence_category: 'Offence category'
-        select_category: ' -- Select offence -- '
+        select_category: 'Please select'
         defendants: 'Defendants'
         add_another_defendant: 'Add another defendant'
         additional_information: 'Additional information'
+        additional_information_prompt_text: 'eg any other information that will help us process your claim'
         basic_fees: 'Initial fees'
         fee_prompt_text: |
           You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
@@ -424,7 +429,7 @@ en:
         add_fixed_fee: 'Add another Fixed fee'
         add_misc_fee: 'Add another miscellaneous fee'
         expenses: 'Expenses'
-        expenses_help_text: Enter details and relevant dates for each separate expense
+        expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
         hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
         expense_type: 'Type of expense'
         location: 'Destination'

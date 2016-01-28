@@ -112,12 +112,6 @@ form {
   }
 }
 
-.reminder {
-  display: block;
-  padding: 5px;
-  border:1px solid $ministry-of-justice;
-}
-
 .warning {
   display: block;
   padding: 15px;
@@ -153,16 +147,11 @@ form {
 }
 
 .controller-claims {
-  .fixed-panel-bar {
-    @include outer-block;
-    @include flex(1 0 auto);
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: #fff;
-    margin-bottom: 0;
-    padding-top: 15px;
-    border-top: 1px solid $border-colour;
+  fieldset {
+    border-bottom: 0;
+  }
+  .judicial-apportionment-notice{
+    margin-top: $gutter-half;
   }
 }
 

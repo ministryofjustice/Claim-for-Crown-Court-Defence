@@ -55,16 +55,19 @@ And(/^The entered values should be preserved on the page$/) do
   murder_offence_id = Offence.find_by(description: 'Murder').id
   expect(page).to have_selector("input[value='#{murder_offence_id}']")
 
+
+  expect(find(:css,'#claim_advocate_category_qc')).to be_checked
+
   expected_drop_down_values = {
             'claim_case_type_id'          => 'Guilty plea',
             'claim_court_id'              => 'some court',
-            'claim_advocate_category'     => 'QC'
           }
   expected_drop_down_values.each do |selector_id, selected_item|
     within('#new_claim') do
       expect(page.has_select?(selector_id, selected: selected_item)).to be true
     end
   end
+
 end
 
 
@@ -78,4 +81,3 @@ end
 Then(/^I should see a field level error message "(.*?)"$/) do |error_message|
   expect(page).to have_content(error_message)
 end
-

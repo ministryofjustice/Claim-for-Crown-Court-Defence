@@ -44,6 +44,8 @@ class User < ActiveRecord::Base
   validates :email, confirmation: true
   attr_accessor :email_confirmation
 
+  validate :validate_no_plus_suffix
+
   delegate :claims, to: :persona
 
   scope :external_users, -> { where(persona_type: 'ExternalUser') }
@@ -56,4 +58,11 @@ class User < ActiveRecord::Base
     [last_name, first_name] * ' '
   end
 
+  private
+
+  def validate_no_plus_suffix
+    if self.email =~ /\+/
+      errors[:email] << '"+" not allowed in addresses'
+    end
+  end
 end

@@ -40,7 +40,7 @@ end
 
 When(/^I click Add another defendant$/) do
   within('#defendants') do
-    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another defendant"}.first.click
+    page.all('a.add_fields').select {|link| link.text == "Add another defendant"}.first.click
   end
 end
 
@@ -58,7 +58,7 @@ end
 
 When(/^I click Add Another Representation Order$/) do
   within('#defendants') do
-    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+    page.all('a.add_fields').select {|link| link.text == "Add another representation order"}.first.click
   end
 end
 
@@ -161,9 +161,10 @@ When(/^I fill in the claim details(.*)$/) do |details|
   fill_in 'claim_trial_concluded_at_yyyy', with: 2.days.ago.year.to_s
   fill_in 'claim_estimated_trial_length', with: 1
   fill_in 'claim_actual_trial_length', with: 1
+
   murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
   first('#claim_offence_id', visible: false).set(murder_offence_id)
-  select('QC', from: 'claim_advocate_category')
+  choose 'QC'
 
   within '#defendants' do
     fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'

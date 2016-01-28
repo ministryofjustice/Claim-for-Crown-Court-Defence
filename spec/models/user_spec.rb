@@ -34,8 +34,18 @@ RSpec.describe User, type: :model do
 
   it { should delegate_method(:claims).to(:persona) }
 
+  describe 'email "+" character validation' do
+    subject { build(:user) }
+
+    it 'is not valid with a "+" in the email address' do
+      subject.email = 'user+1@example.com'
+      subject.valid?
+      expect(subject.errors.full_messages).to include('Email "+" not allowed in addresses')
+    end
+  end
+
   describe '#name' do
-    subject { create(:user) }
+    subject { build(:user) }
 
     it 'returns the first and last names' do
       expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")

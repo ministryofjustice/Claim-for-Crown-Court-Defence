@@ -9,20 +9,17 @@
       %legend.bold-medium
         = t('.case_advocate_offence')
 
-      - if current_user.persona.admin?
-        .grid-row
-          .column-half
-            = f.anchored_label t('.advocate'), 'external_user'
-            = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-            = validation_error_message(@error_presenter, :external_user)
-          .column-half
-            = f.anchored_label t('.advocate_category')
-            = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
-            = validation_error_message(@error_presenter, :advocate_category)
-      - else
-        = f.anchored_label t('.advocate_category')
-        = f.collection_select :advocate_category, Settings.advocate_categories, :to_s, :to_s, { prompt: true }, { class: 'select2', style:'width:200px' }
+
+      = f.anchored_label t('.advocate_category')
+      .form-group.inline
+        = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
+          - b.label(class: "block-label") { b.radio_button + b.value.to_s }
         = validation_error_message(@error_presenter, :advocate_category)
+
+      - if current_user.persona.admin?
+        = f.anchored_label t('.advocate'), 'external_user'
+        = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+        = validation_error_message(@error_presenter, :external_user)
 
       = f.anchored_label t('.court')
       = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2', style:'width:300px' }
@@ -31,11 +28,15 @@
       .grid-row
         .column-half
           = f.anchored_label t('.case_type')
+          .form-hint.xsmall.zero-vert-margin
+            &nbsp;
           = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
           = validation_error_message(@error_presenter, :case_type)
 
         .column-half
           = f.anchored_label t('.case_number')
+          .form-hint.xsmall.zero-vert-margin
+            = "eg A12345678"
           = f.text_field :case_number
           = validation_error_message(@error_presenter, :case_number)
 
@@ -74,7 +75,7 @@
         = f.fields_for :defendants do |defendant|
           = render partial: 'defendant_fields', locals: { f: defendant }
         %div
-          = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
+          = link_to_add_association t('.add_another_defendant'), f, :defendants
 
     %fieldset
       %legend.bold-medium
@@ -150,7 +151,7 @@
       %legend.bold-medium
         = t('.expenses')
       %span.form-hint.xsmall
-        = t('.expenses_help_text')
+        = t('.expenses_prompt_text')
       #expenses
         %table
           %thead
@@ -227,13 +228,14 @@
     %fieldset
       %legend.bold-medium
         = t('.additional_information')
+      .form-hint.xsmall
+        = t('.additional_information_prompt_text')
       .grid-row
         .column-half
           = f.text_area :additional_information, rows: 7
           = validation_error_message(@claim, :additional_information)
         .column-half
           &nbsp;
-    .sticky-section
       %p
         = f.submit t('.submit_to_laa'), class: 'button left'
         - if @claim.draft?

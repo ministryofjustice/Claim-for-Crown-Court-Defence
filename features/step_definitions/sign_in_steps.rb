@@ -92,13 +92,13 @@ Then(/^I should see the advocates Start a claim link and it should work$/) do
 end
 
 Then(/^I should see the admin advocates Manage advocates link and it should work$/) do
-  find('#primary-nav').click_link('Manage advocates')
-  expect(find('h1.page-title')).to have_content('Manage advocates')
+  find('#primary-nav').click_link('Manage users')
+  expect(find('h1.page-title')).to have_content('Manage users')
 end
 
 Then(/^I should see the admin advocates Manage provider link and it should work$/) do
-  find('#primary-nav').click_link('Manage chamber')
-  expect(find('h1.page-title')).to have_content("Manage chamber")
+  find('#primary-nav').click_link('Manage provider')
+  expect(find('h1.page-title')).to have_content("Manage provider")
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do

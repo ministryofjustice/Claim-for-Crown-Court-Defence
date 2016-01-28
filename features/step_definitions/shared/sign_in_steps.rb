@@ -50,8 +50,8 @@ Given(/^I am a signed in super admin$/) do
 end
 
 Then(/^I should see an Manage advocates link and it should work$/) do
-  find('#primary-nav').click_link('Manage advocates')
-  expect(find('h1.page-title')).to have_content('Manage advocates')
+  find('#primary-nav').click_link('Manage users')
+  expect(find('h1.page-title')).to have_content('Manage users')
 end
 
 Given(/^I sign out$/) do

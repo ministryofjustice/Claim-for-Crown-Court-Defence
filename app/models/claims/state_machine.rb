@@ -66,7 +66,6 @@ module Claims::StateMachine
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
-      before_transition any => any, do: :set_paper_trail_event!
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
@@ -142,10 +141,6 @@ module Claims::StateMachine
   def set_valid_until!(transition)
     validity = (transition.to == 'archived_pending_delete') ? ARCHIVE_VALIDITY : STANDARD_VALIDITY
     update_column(:valid_until, Time.now + validity)
-  end
-
-  def set_paper_trail_event!
-    self.paper_trail_event = 'State change'
   end
 
   def set_amount_assessed_zero!

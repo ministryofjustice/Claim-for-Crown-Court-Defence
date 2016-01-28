@@ -13,21 +13,21 @@
     = f.anchored_label t('.date_of_birth'), "defendant_#{@defendant_count}_date_of_birth"
     = f.gov_uk_date_field :date_of_birth
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym)
+  .grid-row
+    .column-two-thirds
+      %label.block-label{style: "margin-top: 15px;"}
+        = f.check_box :order_for_judicial_apportionment
+        = raw t('.order_for_judicial_apportionment')
+        = validation_error_message(f.object, :order_for_judicial_apportionment)
+    .column-third
+      &nbsp;
 
-  %label
-    = f.check_box :order_for_judicial_apportionment
-    = t('.order_for_judicial_apportionment')
-    = validation_error_message(f.object, :order_for_judicial_apportionment)
-
-  %p
-    #documents
-      = f.anchored_label '', "defendant_#{@defendant_count}_representation_orders"
-      = f.fields_for :representation_orders do |repo_form|
-        = render 'representation_order_fields', f: repo_form
-    .links
-      = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, class: 'button-secondary'
+  #documents
+    = f.anchored_label '', "defendant_#{@defendant_count}_representation_orders"
+    = f.fields_for :representation_orders do |repo_form|
+      = render 'representation_order_fields', f: repo_form
+  .links
+    = link_to_add_association t('.add_another_rep_order'), f, :representation_orders
 
   %p
     = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 1
-
-  %hr

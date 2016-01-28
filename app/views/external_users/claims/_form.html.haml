@@ -94,7 +94,7 @@
         = f.fields_for :defendants do |defendant|
           = render partial: 'defendant_fields', locals: { f: defendant }
         %div
-          = link_to_add_association t('.add_another_defendant'), f, :defendants, class: 'button-secondary'
+          = link_to_add_association t('.add_another_defendant'), f, :defendants
 
     %fieldset
       %legend.bold-medium

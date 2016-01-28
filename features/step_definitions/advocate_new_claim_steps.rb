@@ -40,7 +40,7 @@ end
 
 When(/^I click Add another defendant$/) do
   within('#defendants') do
-    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another defendant"}.first.click
+    page.all('a.add_fields').select {|link| link.text == "Add another defendant"}.first.click
   end
 end
 
@@ -58,7 +58,7 @@ end
 
 When(/^I click Add Another Representation Order$/) do
   within('#defendants') do
-    page.all('a.button-secondary.add_fields').select {|link| link.text == "Add another representation order"}.first.click
+    page.all('a.add_fields').select {|link| link.text == "Add another representation order"}.first.click
   end
 end
 

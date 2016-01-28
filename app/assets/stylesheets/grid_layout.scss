@@ -150,3 +150,9 @@ $site-width: 960px;
       @include grid-column( 1/2 );
   }
 }
+
+.grid-row-with-margin {
+  @extend .grid-row;
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+}

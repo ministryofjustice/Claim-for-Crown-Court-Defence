@@ -4,24 +4,36 @@
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
 
-  %p
-    To de-allocate claims, choose "Allocation pool". To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
+  .form-hint
+    To de-allocate claims, choose "Allocation pool".
+    %br
+    To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
 
   .normal
     Allocate to
-  %div.form-group.inline
-    = f.label :deallocate, value: false, class: 'block-label' do
-      Case worker
-      = f.radio_button :deallocate, false, checked: true, value: false
+  %div.form-group.inline.js-re-allocation-options
     = f.label :deallocate, value: true, class: 'block-label' do
       Allocation pool
       = f.radio_button :deallocate, true, checked: false, value: true
 
-  .normal
-    = f.label :case_worker_id
-  = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%;display: inline-block' }
-  .normal
-    = f.submit 'Re-allocate', class: 'button'
+    = f.label :deallocate, value: false, class: 'block-label' do
+      Case worker
+      = f.radio_button :deallocate, false, checked: true, value: false
+
+  .grid-row-with-margin.js-case-worker-list
+    .column-half
+      .normal
+        = f.label :case_worker_id
+      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%;display: inline-block' }
+    .column-half
+      &nbsp;
+
+  .grid-row
+    .column-half
+      .normal
+      = f.submit 'Re-allocate', class: 'button'
+    .column-half
+      &nbsp;
 
   - if @claims.any?
     .claim-count

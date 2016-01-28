@@ -11,7 +11,7 @@
 
 
       = f.anchored_label t('.advocate_category')
-      .form-group.inline
+      .form-group.inline{style: "margin-bottom: 15px;"}
         = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
           - b.label(class: "block-label") { b.radio_button + b.value.to_s }
         = validation_error_message(@error_presenter, :advocate_category)

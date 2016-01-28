@@ -9,7 +9,9 @@
 = render 'allocated_summary' if @allocated_claims
 
 - unless params[:tab] == 'allocated'
-  = render partial: 'allocation'
+  .js-allocation-page
+    = render partial: 'allocation'
 
 - else
-  = render partial: 're_allocation'
+  .js-re-allocation-page
+    = render partial: 're_allocation'

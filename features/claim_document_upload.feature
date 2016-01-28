@@ -1,5 +1,6 @@
 @javascript @webmock_allow_localhost_connect
 
+@wip
 Feature: Claim document upload
   Background:
     As an advocate I want to be able to attach multiple files as evidence

@@ -1,5 +1,6 @@
 @stub_s3_upload
 
+@wip
 Feature: Advocate new claim
   Background:
     Given certification types are seeded

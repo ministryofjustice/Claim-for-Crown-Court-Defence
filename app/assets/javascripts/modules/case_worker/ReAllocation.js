@@ -1,12 +1,23 @@
 moj.Modules.ReAllocation = {
   $CheckedClaimIdTemplate: $('<input type="hidden" name="allocation[claim_ids][]">'),
   $form: $('#new_allocation'),
+  $ReAllocationRadioButtons: $('.js-re-allocation-options'),
+  $CaseWorkerList: $('.js-case-worker-list'),
 
   init: function (){
     var self = this;
 
     //Only work on the re-allocation page
-    if($('.js-reallocation-report').length > 0){
+    if($('.js-re-allocation-page').length > 0){
+
+      //Show/Hide Case Workers select lists
+      self.showHideCaseWorkersList();
+
+      this.$ReAllocationRadioButtons.on('change', ':radio', function(){
+        self.showHideCaseWorkersList();
+      });
+
+      //Selecting claims to be re-allocated functionality
       $('.report').on('change', ':checkbox', function (){
         var $element = $(this);
 
@@ -17,6 +28,14 @@ moj.Modules.ReAllocation = {
           self.removeUnCheckedClaim($element.val());
         }
       });
+    }
+  },
+
+  showHideCaseWorkersList: function(){
+    if(this.$ReAllocationRadioButtons.find(':checked').val() === 'false' ){
+      this.$CaseWorkerList.slideDown();
+    }else{
+      this.$CaseWorkerList.slideUp();
     }
   },
 

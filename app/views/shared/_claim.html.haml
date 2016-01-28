@@ -73,76 +73,13 @@
         = claim.offence ? claim.offence.offence_class : t('general.not_provided')
 
   - if claim.case_type && claim.case_type.requires_cracked_dates
-    .basic-info-row
-      .column-quarter
-        .bold-xsmall
-          = t('external_users.claims.cracked_trial_fields.trial_fixed_notice_at')
-        .xsmall
-          = claim.trial_fixed_notice_at.strftime('%d/%m/%Y')  rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t('external_users.claims.cracked_trial_fields.trial_fixed_at')
-        .xsmall
-          = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t('external_users.claims.cracked_trial_fields.trial_cracked_at')
-        .xsmall
-          =  claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t('external_users.claims.cracked_trial_fields.trial_cracked_at_third')
-        .xsmall
-          = claim.trial_cracked_at_third.humanize rescue ''
+    = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
   - if claim.case_type && claim.case_type.requires_trial_dates
-    - trial_detail_translations = 'external_users.claims.trial_detail_fields'
-    .basic-info-row
-      .column-quarter
-        .bold-xsmall
-          = t("#{trial_detail_translations}.first_day_of_trial")
-        .xsmall
-          = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{trial_detail_translations}.estimated_trial_length")
-        .xsmall
-          = claim.estimated_trial_length rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{trial_detail_translations}.actual_trial_length")
-        .xsmall
-          = claim.actual_trial_length rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{trial_detail_translations}.trial_concluded_at")
-        .xsmall
-          = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
+    = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
   - if claim.case_type && claim.case_type.requires_retrial_dates
-    - retrial_detail_translations = 'external_users.claims.retrial_detail_fields'
-    .basic-info-row
-      .column-quarter
-        .bold-xsmall
-          = t("#{retrial_detail_translations}.retrial_started_at")
-        .xsmall
-          = claim.retrial_started_at.strftime('%d/%m/%Y') rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{retrial_detail_translations}.estimated_length")
-        .xsmall
-          = claim.retrial_estimated_length rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{retrial_detail_translations}.actual_length")
-        .xsmall
-          = claim.retrial_actual_length rescue ''
-      .column-quarter
-        .bold-xsmall
-          = t("#{retrial_detail_translations}.retrial_concluded_at")
-        .xsmall
-          = claim.retrial_concluded_at.strftime('%d/%m/%Y') rescue ''
-
+    = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if claim.defendants.any?
     = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }

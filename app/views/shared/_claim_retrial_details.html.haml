@@ -7,12 +7,12 @@
       = claim.retrial_started_at.strftime('%d/%m/%Y') rescue ''
   .column-quarter
     .bold-xsmall
-      = t("#{retrial_detail_translations}.estimated_length")
+      = t("#{retrial_detail_translations}.retrial_estimated_length")
     .xsmall
       = claim.retrial_estimated_length rescue ''
   .column-quarter
     .bold-xsmall
-      = t("#{retrial_detail_translations}.actual_length")
+      = t("#{retrial_detail_translations}.retrial_actual_length")
     .xsmall
       = claim.retrial_actual_length rescue ''
   .column-quarter

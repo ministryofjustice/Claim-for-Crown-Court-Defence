@@ -37,6 +37,11 @@ FactoryGirl.define do
       requires_retrial_dates true
     end
 
+    trait :trial do
+      name 'Trial'
+      requires_trial_dates true
+    end
+
     trait :retrial do
       name 'Retrial'
       requires_trial_dates true

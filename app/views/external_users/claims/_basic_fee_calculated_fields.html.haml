@@ -3,6 +3,9 @@
   - if f.object.fee_type.code == 'BAF'
     .form-hint
       = raw t('.basic_fee_prompt_text')
+  - if f.object.fee_type.code == 'SAF'
+    .form-hint
+      = raw t('.saf_prompt_text')
 %td
   %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
   = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'quantity', min: 0, max: 99999, maxlength: 5

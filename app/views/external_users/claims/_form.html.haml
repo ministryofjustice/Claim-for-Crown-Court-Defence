@@ -28,11 +28,15 @@
       .grid-row
         .column-half
           = f.anchored_label t('.case_type')
+          .form-hint.xsmall.zero-vert-margin
+            &nbsp;
           = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
           = validation_error_message(@error_presenter, :case_type)
 
         .column-half
           = f.anchored_label t('.case_number')
+          .form-hint.xsmall.zero-vert-margin
+            = "eg A12345678"
           = f.text_field :case_number
           = validation_error_message(@error_presenter, :case_number)
 
@@ -166,7 +170,7 @@
       %legend.bold-medium
         = t('.expenses')
       %span.form-hint.xsmall
-        = t('.expenses_help_text')
+        = t('.expenses_prompt_text')
       #expenses
         %table
           %thead
@@ -243,6 +247,8 @@
     %fieldset
       %legend.bold-medium
         = t('.additional_information')
+      .form-hint.xsmall
+        = t('.additional_information_prompt_text')
       .grid-row
         .column-half
           = f.text_area :additional_information, rows: 7

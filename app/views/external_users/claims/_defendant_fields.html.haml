@@ -15,7 +15,7 @@
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym)
   .grid-row
     .column-two-thirds
-      %label.block-label
+      %label.block-label.judicial-apportionment-notice
         = f.check_box :order_for_judicial_apportionment
         = raw t('.order_for_judicial_apportionment')
         = validation_error_message(f.object, :order_for_judicial_apportionment)

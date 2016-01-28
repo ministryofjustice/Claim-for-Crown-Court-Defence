@@ -152,6 +152,12 @@ form {
   padding-bottom: 0;
 }
 
+.controller-claims {
+  fieldset {
+    border-bottom: 0;
+  }
+}
+
 .inline-form {
   display: inline;
 }

@@ -8,7 +8,6 @@
 //
 moj.Modules.FeePopulator = {
   $caseTypeSelect: {},
-  $actualTrialLengthField: {},
   $actualTrialLength: {},
   $retrialActualLength: {},
   $dafQuantity: {},
@@ -26,7 +25,7 @@ moj.Modules.FeePopulator = {
     self.$dajQuantity = $('#claim_basic_fees_attributes_3_quantity');
 
     self.$actualTrialLength.change(function(e){
-      self.trialLengthChanged(event);
+      self.trialLengthChanged(e);
     });
 
     self.$retrialActualLength.change(function(e){

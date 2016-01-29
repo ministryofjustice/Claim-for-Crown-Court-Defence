@@ -71,40 +71,20 @@ def validate_offence
   validate_presence(:offence, "blank") unless fixed_fee_case?
 end
 
-# must be present
-# must be greater than or eqaul zero
 def validate_estimated_trial_length
-  if requires_trial_dates?
-    validate_presence(:estimated_trial_length, "blank")
-    validate_numericality(:estimated_trial_length, 0, nil, "invalid") unless @record.estimated_trial_length.nil?
-  end
+  validate_trial_length(:estimated_trial_length)
 end
 
-# must be present
-# must be greater than or equal to zero
 def validate_actual_trial_length
-  if requires_trial_dates?
-    validate_presence(:actual_trial_length, "blank")
-    validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
-  end
+  validate_trial_length(:actual_trial_length)
 end
 
-# must be present
-# must be greater than or eqaul zero
 def validate_retrial_estimated_length
-  if requires_retrial_dates?
-    validate_presence(:retrial_estimated_length, "blank")
-    validate_numericality(:retrial_estimated_length, 0, nil, "invalid") unless @record.retrial_estimated_length.nil?
-  end
+  validate_retrial_length(:retrial_estimated_length)
 end
 
-# must be present
-# must be greater than or equal to zero
 def validate_retrial_actual_length
-  if requires_retrial_dates?
-    validate_presence(:retrial_actual_length, "blank")
-    validate_numericality(:retrial_actual_length, 0, nil, "invalid") unless @record.retrial_actual_length.nil?
-  end
+  validate_retrial_length(:retrial_actual_length)
 end
 
 # must be present if case type is cracked trial or cracked before retial
@@ -144,7 +124,6 @@ def validate_evidence_checklist_ids
 
 end
 
-
 # local helpers
 # ---------------------------
 def method_missing(method, *args)
@@ -152,6 +131,20 @@ def method_missing(method, *args)
     @record.case_type.__send__(method) rescue false
   else
     super
+  end
+end
+
+def validate_trial_length(field)
+  if requires_trial_dates?
+    validate_presence(field, "blank")
+    validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+  end
+end
+
+def validate_retrial_length(field)
+  if requires_retrial_dates?
+    validate_presence(field, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+    validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
   end
 end
 

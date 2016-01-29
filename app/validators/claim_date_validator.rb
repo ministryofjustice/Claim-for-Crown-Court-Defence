@@ -109,7 +109,7 @@ class ClaimDateValidator < BaseClaimValidator
   def validate_retrial_start_and_end(start_attribute, end_attribute, inverse=false)
     if @record.case_type && @record.case_type.requires_retrial_dates?
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
-      validate_presence(start_attribute, "blank")
+      validate_presence(start_attribute, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
       method("validate_not_#{inverse ? 'before' : 'after' }".to_sym).call(@record.__send__(end_attribute), start_attribute, "blank")
       validate_not_before(earliest_rep_order, start_attribute, "blank")
       validate_not_before(Settings.earliest_permitted_date, start_attribute, "blank")

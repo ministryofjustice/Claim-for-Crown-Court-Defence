@@ -5,22 +5,29 @@ Given(/^case worker "(.*?)" exists$/) do |name|
   create(:case_worker, :case_worker, user: user)
 end
 
-When(/^I select (\d+) claims$/) do |quantity|
-  quantity.to_i.times do |n|
-    check(@claims[n].case_number)
-  end
+When(/^I select claims "(.*?)"$/) do |case_numbers|
+  case_numbers = case_numbers.split(',').map(&:strip)
+  case_numbers.each { |case_number| check(case_number) }
 end
 
 When(/^I select case worker "(.*?)"$/) do |name|
   select name, from: 'allocation_case_worker_id'
 end
 
-Then(/^(\d+) claims? should be allocated to case worker "(.*?)"$/) do |quantity, name|
+Then(/^claims? "(.*?)" should be allocated to case worker "(.*?)"$/) do |case_numbers, name|
   case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
-  quantity.to_i.times do |n|
-    expect(case_worker.claims[n]).to eq(@claims[n])
-    expect(case_worker.claims[n]).to be_allocated
-  end
+  case_numbers = case_numbers.split(',').map(&:strip)
+  expect(case_worker.claims.map(&:case_number)).to match_array(case_numbers)
+end
+
+Then(/^(\d+) claims should be allocated to case worker "(.*?)"$/) do |quantity, name|
+  case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
+  expect(case_worker.claims.count).to eq(quantity.to_i)
+end
+
+Then(/^claims? "(.*?)" should no longer be displayed$/) do |case_numbers|
+  case_numbers = case_numbers.split(',').map(&:strip)
+  case_numbers.each { |case_number| expect(page).to_not have_content(case_number) }
 end
 
 Then(/^the (\d+) allocated claims should no longer be displayed$/) do |quantity|
@@ -29,14 +36,26 @@ Then(/^the (\d+) allocated claims should no longer be displayed$/) do |quantity|
   end
 end
 
+Given(/^claims "(.*?)" have been allocated to "(.*?)"$/) do |case_numbers, name|
+  case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
+  case_numbers = case_numbers.split(',').map(&:strip)
+  claims = Claim.where(case_number: case_numbers)
+  case_worker.claims << claims
+end
+
 Then(/^I should see a notification (\d+) claims were allocated to "(.*?)"$/) do |quantity, name|
   within '.allocated-summary' do
     expect(page).to have_content(/#{quantity} claims? allocated to #{name}/)
   end
 end
 
-Given(/^(\d+) submitted claims? exists?$/) do |quantity|
-  @claims = create_list(:submitted_claim, quantity.to_i)
+Given(/^submitted claims? exists? with case numbers? "(.*?)$/) do |case_numbers|
+  case_numbers = case_numbers[0..-2].split(',').map(&:strip)
+  @claims = []
+
+  case_numbers.each do |case_number|
+    @claims << create(:submitted_claim, case_number: case_number)
+  end
 end
 
 When(/^I visit the allocation page$/) do
@@ -146,11 +165,6 @@ Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_sta
   else
     expect(page.find('tbody').all('tr')[0].all('input[type=checkbox]')[0]).not_to be_checked
   end
-end
-
-Given(/^(\d+) claims have been allocated to "(.*?)"$/) do |quantity, name|
-  case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
-  case_worker.claims = @claims[0...quantity.to_i]
 end
 
 When(/^I click Re\-allocate$/) do

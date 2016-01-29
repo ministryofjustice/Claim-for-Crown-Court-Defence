@@ -449,8 +449,9 @@ Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
   visit new_external_users_claim_path
 end
 
-When(/^I fill in actual trial length with (\d+)$/) do |actual_trial_length|
-  fill_in 'claim_actual_trial_length', with: actual_trial_length.to_i
+When(/^I fill in actual (re)?trial length with (\d+)$/) do |trial_prefix,trial_Length|
+  id = trial_prefix.blank? ? 'claim_actual_trial_length' : 'claim_retrial_actual_length'
+  fill_in id, with: trial_Length.to_i
 end
 
 Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/) do |daf_quantity, dah_quantity, daj_quantity|

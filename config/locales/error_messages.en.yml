@@ -87,7 +87,7 @@ estimated_trial_length:
   _seq: 70
   blank:
     long: Enter an estimated trial length
-    short: Enter a whole number of days
+    short: Enter number of days
     api: Enter an estimated trial length
   invalid:
     long: Enter a whole number of days for the estimated trial length
@@ -116,8 +116,52 @@ trial_concluded_at:
     short: Enter a valid date
     api: 'Enter a valid date for trial concluded'
 
-trial_fixed_notice_at:
+retrial_started_at:
+  _seq: 100
+  blank:
+    long: Enter a date for the first day of retrial
+    short: Enter a date
+    api: Enter a date for the first day of retrial
+  invalid_date:
+    long: Enter a valid date for the first day of retrial
+    short: Enter a valid date
+    api: Enter a valid date for the first day of retrial
+
+retrial_estimated_length:
   _seq: 110
+  blank:
+    long: Enter an estimated retrial length
+    short: Enter number of days
+    api: Enter an estimated retrial length
+  invalid:
+    long: Enter a whole number of days for the estimated retrial length
+    short: Enter a whole number of days
+    api: Enter a whole number of days for the estimated retrial length
+
+retrial_actual_length:
+  _seq: 120
+  blank:
+    long: Enter an actual retrial length
+    short: Enter number of days
+    api: Enter an actual retrial length
+  invalid:
+    long: Enter a whole number of days for the actual retrial length
+    short: Enter a whole number of days
+    api: Enter a whole number of days for the actual retrial length
+
+retrial_concluded_at:
+  _seq: 130
+  blank:
+    long: Enter the date on which the retrial concluded
+    short: Enter a date
+    api: Enter the date on which the retrial concluded
+  invalid_date:
+    long: 'Enter a valid date for retrial concluded'
+    short: Enter a valid date
+    api: 'Enter a valid date for retrial concluded'
+
+trial_fixed_notice_at:
+  _seq: 140
   blank_cracked_trial_date:
     long: 'Enter a date for "Notice of 1st fixed/warned issued"'
     short: Enter a date
@@ -140,7 +184,7 @@ trial_fixed_notice_at:
     api: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
 
 trial_fixed_at:
-  _seq: 120
+  _seq: 150
   blank_cracked_trial_date:
     long: Enter a date for "1st fixed/warned trial"
     short: Enter a date
@@ -163,7 +207,7 @@ trial_fixed_at:
       api: 'Enter a valid date for the "1st fixed/warned trial"'
 
 trial_cracked_at:
-  _seq: 130
+  _seq: 160
   blank_cracked_trial_date:
     long: Enter a date for "Case cracked"
     short: Enter a date
@@ -186,14 +230,14 @@ trial_cracked_at:
     api: 'Enter a valid date for "Case cracked"'
 
 trial_cracked_at_third:
-  _seq: 140
+  _seq: 170
   blank:
     long: Choose an option for "Case cracked in"
     short: Choose an option
     api:  Choose an option for "Case cracked in"
 
 offence:
-  _seq: 150
+  _seq: 180
   blank:
     long: Choose an offence category
     short: Choose an offence category

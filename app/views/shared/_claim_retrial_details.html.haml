@@ -1,0 +1,22 @@
+- retrial_detail_translations = 'external_users.claims.retrial_detail_fields'
+.basic-info-row
+  .column-quarter
+    .bold-xsmall
+      = t("#{retrial_detail_translations}.retrial_started_at")
+    .xsmall
+      = claim.retrial_started_at.strftime('%d/%m/%Y') rescue ''
+  .column-quarter
+    .bold-xsmall
+      = t("#{retrial_detail_translations}.retrial_estimated_length")
+    .xsmall
+      = claim.retrial_estimated_length rescue ''
+  .column-quarter
+    .bold-xsmall
+      = t("#{retrial_detail_translations}.retrial_actual_length")
+    .xsmall
+      = claim.retrial_actual_length rescue ''
+  .column-quarter
+    .bold-xsmall
+      = t("#{retrial_detail_translations}.retrial_concluded_at")
+    .xsmall
+      = claim.retrial_concluded_at.strftime('%d/%m/%Y') rescue ''

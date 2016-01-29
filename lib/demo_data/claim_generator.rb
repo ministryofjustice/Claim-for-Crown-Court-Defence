@@ -48,12 +48,9 @@ module DemoData
       puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
       add_defendants(claim)
       add_documents(claim)
-      add_trial_dates(claim) if claim.case_type.requires_trial_dates?
-      add_cracked_dates(claim) if claim.case_type.requires_cracked_dates?
+      add_claim_detail(claim)
       claim.save
-      add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
-      add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
-      add_misc_fees(claim)
+      add_fees(claim)
       add_expenses(claim)
       claim.reload              # load all the fees and expenses that have been created
       claim.save                # save in order to update fee and expense totals
@@ -65,11 +62,30 @@ module DemoData
       claim.save!
     end
 
+    def add_claim_detail(claim)
+      add_trial_dates(claim) if claim.case_type.requires_trial_dates?
+      add_retrial_dates(claim) if claim.case_type.requires_retrial_dates?
+      add_cracked_dates(claim) if claim.case_type.requires_cracked_dates?
+    end
+
+    def add_fees(claim)
+      add_basic_fees(claim) unless claim.case_type.is_fixed_fee?
+      add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
+      add_misc_fees(claim)
+    end
+
     def add_trial_dates(claim)
       claim.first_day_of_trial     = rand(60..90).days.ago
       claim.estimated_trial_length = rand(4..60)
       claim.actual_trial_length    = claim.estimated_trial_length + rand(-2..5)
       claim.trial_concluded_at     = claim.first_day_of_trial + (claim.actual_trial_length / 5 * 7).days
+    end
+
+    def add_retrial_dates(claim)
+      claim.retrial_started_at       = rand(30..40).days.ago
+      claim.retrial_estimated_length = rand(4..60)
+      claim.retrial_actual_length    = claim.retrial_estimated_length + rand(-2..5)
+      claim.retrial_concluded_at     = claim.retrial_started_at + (claim.retrial_actual_length / 5 * 7).days
     end
 
     def add_cracked_dates(claim)

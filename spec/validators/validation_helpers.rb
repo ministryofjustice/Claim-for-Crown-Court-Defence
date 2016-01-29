@@ -1,7 +1,5 @@
 module ValidationHelpers
 
-
-
   # needed to work around Total validation on claim
   def create_and_submit_claim(claim)
     claim.force_validation = false
@@ -22,16 +20,16 @@ module ValidationHelpers
     expect(record.errors[field]).to include( message )
   end
 
-  def should_error_if_not_too_far_in_the_past(record, field, message)
+  def should_error_if_too_far_in_the_past(record, field, message)
     record.send("#{field}=", Settings.earliest_permitted_date - 1.day )
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
   end
 
   def should_error_if_earlier_than_earliest_repo_date(record, field, message)
-    repo = double RepresentationOrder
-    allow(record).to receive(:earliest_representation_order).and_return(repo)
-    allow(repo).to receive(:representation_order_date).and_return(1.year.ago.to_date)
+    # repo = double RepresentationOrder
+    # allow(record).to receive_message_chain(:earliest_representation_order,:representation_order_date).and_return(1.year.ago.to_date)
+    stub_earliest_rep_order(record,1.year.ago.to_date)
     record.send("#{field}=", 13.months.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
@@ -74,4 +72,17 @@ module ValidationHelpers
     expect(record.errors[field]).to be_empty
     expect(record.send(:valid?)).to be true
   end
+
+  def stub_earliest_rep_order(claim, date)
+    repo = double RepresentationOrder
+    allow(claim).to receive_message_chain(:earliest_representation_order,:representation_order_date).and_return(date)
+  end
+
+  def nulify_fields_on_record(record, *fields)
+    fields.each do |field|
+      record.send("#{field}=", nil)
+    end
+    record
+  end
+
 end

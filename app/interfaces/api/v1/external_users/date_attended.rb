@@ -12,7 +12,6 @@ module API
         resource :dates_attended, desc: 'Create or Validate' do
 
           helpers do
-            include ExtractDate
             params :date_attended_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,            desc: "REQUIRED: The API authentication key of the provider"
@@ -34,16 +33,13 @@ module API
 
             def build_arguments
               attended_item_id = validate_attended_item_presence
-              {
-                attended_item_id: attended_item_id,
+              non_date_fields = {
+                attended_item_id:    attended_item_id,
                 attended_item_type:  params[:attended_item_type].capitalize,
-                date_dd:      extract_date(:day, params[:date]),
-                date_mm:      extract_date(:month, params[:date]),
-                date_yyyy:    extract_date(:year, params[:date]),
-                date_to_dd:   extract_date(:day, params[:date_to]),
-                date_to_mm:   extract_date(:month, params[:date_to]),
-                date_to_yyyy: extract_date(:year, params[:date_to]),
               }
+              args = Hash.new
+              args.merge!(non_date_fields).merge_date_fields!([:date, :date_to], params)
+              args
             end
 
           end

@@ -9,6 +9,8 @@ class ClaimTextfieldValidator < BaseClaimValidator
     :offence,
     :estimated_trial_length,
     :actual_trial_length,
+    :retrial_estimated_length,
+    :retrial_actual_length,
     :trial_cracked_at_third,
     :total
     ]
@@ -69,22 +71,20 @@ def validate_offence
   validate_presence(:offence, "blank") unless fixed_fee_case?
 end
 
-# must be present
-# must be greater than or eqaul zero
 def validate_estimated_trial_length
-  if trial_dates_required?
-    validate_presence(:estimated_trial_length, "blank")
-    validate_numericality(:estimated_trial_length, 1, nil, "invalid") unless @record.estimated_trial_length.nil?
-  end
+  validate_trial_length(:estimated_trial_length)
 end
 
-# must be present
-# must be greater than or equal to zero
 def validate_actual_trial_length
-  if trial_dates_required?
-    validate_presence(:actual_trial_length, "blank")
-    validate_numericality(:actual_trial_length, 0, nil, "invalid") unless @record.actual_trial_length.nil?
-  end
+  validate_trial_length(:actual_trial_length)
+end
+
+def validate_retrial_estimated_length
+  validate_retrial_length(:retrial_estimated_length)
+end
+
+def validate_retrial_actual_length
+  validate_retrial_length(:retrial_actual_length)
 end
 
 # must be present if case type is cracked trial or cracked before retial
@@ -124,15 +124,28 @@ def validate_evidence_checklist_ids
 
 end
 
-
 # local helpers
 # ---------------------------
-# def claim_total
-#   @record.fees.map(&:amount).compact.sum + @record.expenses.map(&:amount).compact.sum
-# end
+def method_missing(method, *args)
+  if method.to_s =~ /^requires_(re){0,1}trial_dates\?/
+    @record.case_type.__send__(method) rescue false
+  else
+    super
+  end
+end
 
-def trial_dates_required?
-  @record.case_type.requires_trial_dates rescue false
+def validate_trial_length(field)
+  if requires_trial_dates?
+    validate_presence(field, "blank")
+    validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+  end
+end
+
+def validate_retrial_length(field)
+  if requires_retrial_dates?
+    validate_presence(field, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
+    validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+  end
 end
 
 def cracked_case?

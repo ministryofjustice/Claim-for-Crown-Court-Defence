@@ -47,7 +47,6 @@ FactoryGirl.define do
     external_user
     source { 'web' }
     apply_vat  false
-    estimated_trial_length 1
     assessment    { Assessment.new }
 
     after(:build) do |claim|
@@ -192,12 +191,22 @@ def populate_required_fields(claim)
       claim.trial_fixed_at ||= 2.months.ago
       claim.trial_cracked_at ||= 1.months.ago
       claim.trial_cracked_at_third ||= 'final_third'
-    elsif claim.case_type.requires_trial_dates?
+    end
+
+    if claim.case_type.requires_trial_dates?
       claim.first_day_of_trial ||= 10.days.ago
-      claim.trial_concluded_at ||= 9.days.ago
+      claim.trial_concluded_at ||= 8.days.ago
       claim.estimated_trial_length ||= 1
       claim.actual_trial_length ||= 2
     end
+
+    if claim.case_type.requires_retrial_dates?
+      claim.retrial_started_at ||= 5.days.ago
+      claim.retrial_estimated_length ||= 1
+      claim.retrial_actual_length ||= 2
+      claim.retrial_concluded_at ||= 3.days.ago
+    end
+
   end
 end
 

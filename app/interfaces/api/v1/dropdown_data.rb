@@ -11,8 +11,6 @@ module API
 
       helpers do
 
-        include API::V1::ApiHelper
-
         params :api_key_params do
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
         end
@@ -126,8 +124,5 @@ module API
       end
 
     end
-    # -----------------------
-
-end
-
+  end
 end

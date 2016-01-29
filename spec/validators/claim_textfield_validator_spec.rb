@@ -5,6 +5,7 @@ describe ClaimTextfieldValidator do
   let(:claim)                       { FactoryGirl.create :claim }
   let(:guilty_plea)                 { FactoryGirl.build :case_type, :fixed_fee, name: 'Guilty plea'}
   let(:contempt)                    { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
+  let(:retrial)                     { FactoryGirl.build :case_type, :retrial }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
   let(:cracked_before_retrial)      { FactoryGirl.build :case_type, name: 'Cracked before retrial'}
 
@@ -201,6 +202,46 @@ context '#perform_validation?' do
       claim.case_type = contempt
       claim.actual_trial_length = -1
       should_error_with(claim, :actual_trial_length, "invalid")
+    end
+  end
+
+  context 'retrial_estimated_length' do
+    it 'should error if not present and case type requires retrial dates' do
+      claim.case_type = retrial
+      claim.retrial_estimated_length = nil
+      should_error_with(claim, :retrial_estimated_length, "blank")
+    end
+
+    it 'should NOT error if not present and case type does NOT require retrial dates' do
+      claim.case_type = guilty_plea
+      claim.retrial_estimated_length = nil
+      should_not_error(claim,:retrial_estimated_length)
+    end
+
+    it 'should error if less than zero' do
+      claim.case_type = retrial
+      claim.retrial_estimated_length = -1
+      should_error_with(claim, :retrial_estimated_length, "invalid")
+    end
+  end
+
+  context 'retrial_actual_length' do
+    it 'should error if not present and case type requires retrial dates' do
+      claim.case_type = retrial
+      claim.retrial_actual_length = nil
+      should_error_with(claim, :retrial_actual_length, "blank")
+    end
+
+    it 'should NOT error if not present and case type does NOT require retrial dates' do
+      claim.case_type = guilty_plea
+      claim.retrial_actual_length = nil
+      should_not_error(claim,:retrial_actual_length)
+    end
+
+    it 'should error if less than zero' do
+      claim.case_type = retrial
+      claim.retrial_actual_length = -1
+      should_error_with(claim, :retrial_actual_length, "invalid")
     end
   end
 

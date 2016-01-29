@@ -119,8 +119,9 @@ class Claim < ActiveRecord::Base
                       :trial_concluded_at,
                       :trial_fixed_notice_at,
                       :trial_fixed_at,
-                      :trial_cracked_at
-
+                      :trial_cracked_at,
+                      :retrial_started_at,
+                      :retrial_concluded_at
 
   after_initialize :instantiate_basic_fees
 

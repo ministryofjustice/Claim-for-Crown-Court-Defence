@@ -197,7 +197,7 @@ Feature: Advocate new claim
       And There should be a Miscellaneous Fee Saved
 
   @javascript @webmock_allow_localhost_connect
-  Scenario Outline: Daily attendance fees derived from actual trial length
+  Scenario Outline: Daily attendance fees derived from actual length of Trial
   Given I am a signed in advocate
     And There are case types in place
     And I am on the new claim page with Daily Attendance Fees in place
@@ -206,16 +206,37 @@ Feature: Advocate new claim
    Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
 
   Examples:
-    | actual_trial_length         | daf_quantity | dah_quantity | daj_quantity |
-    | 1                           | 0            | 0            | 0            |
-    | 2                           | 0            | 0            | 0            |
-    | 3                           | 1            | 0            | 0            |
-    | 40                          | 38           | 0            | 0            |
-    | 41                          | 38           | 1            | 0            |
-    | 50                          | 38           | 10           | 0            |
-    | 51                          | 38           | 10           | 1            |
-    | 60                          | 38           | 10           | 10           |
-    | 70                          | 38           | 10           | 20           |
+    | actual_trial_length   | daf_quantity | dah_quantity | daj_quantity |
+    | 1                     | 0            | 0            | 0            |
+    | 2                     | 0            | 0            | 0            |
+    | 3                     | 1            | 0            | 0            |
+    | 40                    | 38           | 0            | 0            |
+    | 41                    | 38           | 1            | 0            |
+    | 50                    | 38           | 10           | 0            |
+    | 51                    | 38           | 10           | 1            |
+    | 60                    | 38           | 10           | 10           |
+    | 70                    | 38           | 10           | 20           |
+
+  @javascript @webmock_allow_localhost_connect
+  Scenario Outline: Daily attendance fees derived from actual length of Retrial
+  Given I am a signed in advocate
+    And There are case types in place
+    And I am on the new claim page with Daily Attendance Fees in place
+    And I select2 a Case Type of "Retrial"
+    And I fill in actual retrial length with <actual_retrial_length>
+   Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
+
+  Examples:
+    | actual_retrial_length | daf_quantity | dah_quantity | daj_quantity |
+    | 1                     | 0            | 0            | 0            |
+    | 2                     | 0            | 0            | 0            |
+    | 3                     | 1            | 0            | 0            |
+    | 40                    | 38           | 0            | 0            |
+    | 41                    | 38           | 1            | 0            |
+    | 50                    | 38           | 10           | 0            |
+    | 51                    | 38           | 10           | 1            |
+    | 60                    | 38           | 10           | 10           |
+    | 70                    | 38           | 10           | 20           |
 
   Scenario: Uncalculated fees (PPE and NPW) accepts total amount only
     Given I am a signed in advocate

@@ -16,7 +16,7 @@ class Allocation
   def initialize(attributes = {})
     @case_worker_id = attributes[:case_worker_id]
     @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
-    @deallocate = attributes[:deallocate]
+    @deallocate = [true, 'true'].include?(attributes[:deallocate])
   end
 
   def save
@@ -34,7 +34,7 @@ class Allocation
   private
 
   def deallocating?
-    !!@deallocate
+    @deallocate
   end
 
   def claims

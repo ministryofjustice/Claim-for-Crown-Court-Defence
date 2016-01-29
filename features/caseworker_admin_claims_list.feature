@@ -33,8 +33,8 @@ Feature: Caseworker claims list
     Then I should see the allocated claims
 
   Scenario: View case workers
-      Given I am a signed in case worker admin
-        And 2 case workers exist
-       When I visit my dashboard
-       Then I should see the admin caseworkers Manage case workers link and it should work
-        And I should see the case workers edit and delete link
+    Given I am a signed in case worker admin
+      And 2 case workers exist
+     When I visit my dashboard
+     Then I should see the admin caseworkers Manage case workers link and it should work
+      And I should see the case workers edit and delete link

@@ -65,24 +65,14 @@ class ClaimDateValidator < BaseClaimValidator
   # cannot be before first rep order date (except for retrials)
   # cannot be more than 5 years in the past
   def validate_first_day_of_trial
-    if @record.case_type && @record.case_type.requires_trial_dates?
-      validate_presence(:first_day_of_trial, "blank")
-      validate_not_after(@record.trial_concluded_at, :first_day_of_trial, "blank")
-      validate_not_before(earliest_rep_order, :first_day_of_trial, "blank") unless @record.case_type.requires_retrial_dates?
-      validate_not_before(Settings.earliest_permitted_date, :first_day_of_trial, "blank")
-    end
+    validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, false)
   end
 
   # cannot be before the first day of trial
   # cannot be before the first rep order was granted
   # cannot be more than 5 years in sthe past
   def validate_trial_concluded_at
-    if @record.case_type && @record.case_type.requires_trial_dates?
-      validate_presence(:trial_concluded_at, "blank")
-      validate_not_before(@record.first_day_of_trial, :trial_concluded_at, "blank")
-      validate_not_before(earliest_rep_order, :trial_concluded_at, "blank") unless @record.case_type.requires_retrial_dates?
-      validate_not_before(Settings.earliest_permitted_date, :trial_concluded_at, "blank")
-    end
+    validate_trial_start_and_end(:first_day_of_trial, :trial_concluded_at, true)
   end
 
   # must exist for retrial claims
@@ -90,30 +80,40 @@ class ClaimDateValidator < BaseClaimValidator
   # cannot be before earliest rep order date
   # cannot be more than 5 years in the past
   def validate_retrial_started_at
-    if @record.case_type && @record.case_type.requires_retrial_dates?
-      validate_presence(:retrial_started_at, "blank")
-      validate_not_after(@record.retrial_concluded_at, :retrial_started_at, "blank")
-      validate_not_before(earliest_rep_order, :retrial_started_at, "blank")
-      validate_not_before(Settings.earliest_permitted_date, :retrial_started_at, "blank")
-    end
+    validate_retrial_start_and_end(:retrial_started_at, :retrial_concluded_at, false)
   end
 
   # cannot be before the first day of retrial
   # cannot be before the first rep order was granted
   # cannot be more than 5 years in the past
   def validate_retrial_concluded_at
-    if @record.case_type && @record.case_type.requires_retrial_dates?
-      validate_presence(:retrial_concluded_at, "blank")
-      validate_not_before(@record.retrial_started_at, :retrial_concluded_at, "blank")
-      validate_not_before(earliest_rep_order, :retrial_concluded_at, "blank")
-      validate_not_before(Settings.earliest_permitted_date, :retrial_concluded_at, "blank")
-    end
+    validate_retrial_start_and_end(:retrial_started_at, :retrial_concluded_at, true)
   end
 
   # local helpers
   # ---------------
   def earliest_rep_order
     @record.try(:earliest_representation_order).try(:representation_order_date)
+  end
+
+  def validate_trial_start_and_end(start_attribute, end_attribute, inverse=false)
+    if @record.case_type && @record.case_type.requires_trial_dates?
+      start_attribute, end_attribute = end_attribute, start_attribute if inverse
+      validate_presence(start_attribute, "blank")
+      method("validate_not_#{inverse ? 'before' : 'after' }".to_sym).call(@record.__send__(end_attribute), start_attribute, "blank")
+      validate_not_before(earliest_rep_order, start_attribute, "blank") unless @record.case_type.requires_retrial_dates?
+      validate_not_before(Settings.earliest_permitted_date, start_attribute, "blank")
+    end
+  end
+
+  def validate_retrial_start_and_end(start_attribute, end_attribute, inverse=false)
+    if @record.case_type && @record.case_type.requires_retrial_dates?
+      start_attribute, end_attribute = end_attribute, start_attribute if inverse
+      validate_presence(start_attribute, "blank")
+      method("validate_not_#{inverse ? 'before' : 'after' }".to_sym).call(@record.__send__(end_attribute), start_attribute, "blank")
+      validate_not_before(earliest_rep_order, start_attribute, "blank")
+      validate_not_before(Settings.earliest_permitted_date, start_attribute, "blank")
+    end
   end
 
 end

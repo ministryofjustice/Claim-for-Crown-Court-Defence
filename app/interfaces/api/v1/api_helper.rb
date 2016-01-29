@@ -107,10 +107,7 @@ module API
             model_instance = model_klass.new(args)
           end
 
-          # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
-          if [Fee,Expense,Defendant,RepresentationOrder,DateAttended].include?(model_klass)
-            model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
-          end
+          test_editability(model_instance)
 
           if model_instance.errors.present?
             pop_error_response(model_instance, api_response)
@@ -128,6 +125,13 @@ module API
         end
 
         private
+
+        # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
+        def test_editability(model_instance)
+          if [Fee,Expense,Defendant,RepresentationOrder,DateAttended].include?(model_instance.class)
+            model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
+          end
+        end
 
         # --------------------
         def pop_error_response(error_or_model_instance, api_response)

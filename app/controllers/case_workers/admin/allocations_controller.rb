@@ -21,11 +21,11 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   private
 
   def summary_from_previous_request?
-    params[:case_worker_id].present? && params[:claim_ids].present?
+    params[:claim_ids].present? && (params[:case_worker_id].present? || params[:deallocate])
   end
 
   def set_summary_values
-    @case_worker = CaseWorker.find(params[:case_worker_id])
+    @case_worker = CaseWorker.find(params[:case_worker_id]) rescue nil
     @allocated_claims = Claim.find(params[:claim_ids].reject(&:blank?))
     params.delete(:case_worker_id)
     params.delete(:claim_ids)
@@ -87,6 +87,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def allocation_params
     params.require(:allocation).permit(
      :case_worker_id,
+     :deallocate,
      claim_ids: []
     )
   end

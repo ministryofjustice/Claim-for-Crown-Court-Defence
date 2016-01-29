@@ -3,25 +3,25 @@ Feature: Claim allocation
     As a case worker admin I would like to allocate claims to case workers
 
     Given I am a signed in case worker admin
-      And 2 case workers exist
-      And 5 submitted claims exist
+      And case worker "John Smith" exists
+      And submitted claims exist with case numbers "T00000001, T00000002, T00000003, T00000004, T00000005"
 
-  Scenario: Allocate claims to case worker
+  Scenario: Allocate claims to case worker John Smith
      When I visit the allocation page
-      And I select claims
-      And I select a case worker
+      And I select claims "T00000001, T00000002"
+      And I select case worker "John Smith"
       And I click Allocate
-     Then the claims should be allocated to the case worker
-      And the allocated claims should no longer be displayed
-      And I should see a notification of the claims that were allocated
+     Then claims "T00000001, T00000002" should be allocated to case worker "John Smith"
+      And claims "T00000001, T00000002" should no longer be displayed
+      And I should see a notification 2 claims were allocated to "John Smith"
 
   Scenario: Allocate by specifying quantity
     When I visit the allocation page
-     And I enter 5 in the quantity text field
-     And I select a case worker
+     And I enter 4 in the quantity text field
+     And I select case worker "John Smith"
      And I click Allocate
-    Then the first 5 claims in the list should be allocated to the case worker
-     And the first 5 claims should no longer be displayed
+    Then claims "T00000001, T00000002, T00000003, T00000004" should be allocated to case worker "John Smith"
+     And claims "T00000001, T00000002, T00000003, T00000004" should no longer be displayed
 
   Scenario Outline: Filtering claims
      Given There are case types in place
@@ -68,7 +68,7 @@ Feature: Claim allocation
       And I should only see 2 "fixed_fee" claims after filtering
       And the claim count should show 2
      When I enter 1 in the quantity text field
-      And I select a case worker
+      And I select case worker "John Smith"
       And I click Allocate
      Then the first 1 claims in the list should be allocated to the case worker
       And the first 1 claims should no longer be displayed

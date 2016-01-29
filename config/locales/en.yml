@@ -66,6 +66,9 @@ en:
       claim: 'Claim'
       defendant: 'Defendant'
     attributes:
+      allocation:
+        case_worker_id: 'Case worker'
+        claim_ids: 'Claims'
       external_user:
         roles: *roles
         supplier_number: 'Supplier number'
@@ -86,6 +89,12 @@ en:
         advocate_category: 'Advocate category'
     errors:
       models:
+        allocation:
+          attributes:
+            case_worker_id:
+              blank: "can't be blank"
+            claim_ids:
+              blank: "can't be blank"
         external_user:
           attributes:
             roles:

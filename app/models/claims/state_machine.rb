@@ -102,7 +102,6 @@ module Claims::StateMachine
       event :submit do
         transition [:draft, :allocated] => :submitted
       end
-
     end
 
     klass.state_machine.states.map(&:name).each do |s|

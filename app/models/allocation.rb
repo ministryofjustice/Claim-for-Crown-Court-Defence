@@ -2,13 +2,21 @@ class Allocation
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :case_worker_id, :claim_ids
+  class << self
+    def i18n_scope
+      :activerecord
+    end
+  end
 
-  validates :case_worker_id, :claim_ids, presence: true
+  attr_accessor :case_worker_id, :claim_ids, :deallocate
+
+  validates :case_worker_id, presence: true, unless: :deallocating?
+  validates :claim_ids, presence: true
 
   def initialize(attributes = {})
     @case_worker_id = attributes[:case_worker_id]
     @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
+    @deallocate = [true, 'true'].include?(attributes[:deallocate])
   end
 
   def save
@@ -16,13 +24,18 @@ class Allocation
 
     claims.each do |claim|
       claim.case_workers.destroy_all
-      claim.case_workers << case_worker
+      claim.case_workers << case_worker unless deallocating?
+      claim.update_column(:state, 'submitted') if deallocating?
     end
 
     true
   end
 
   private
+
+  def deallocating?
+    @deallocate
+  end
 
   def claims
     Claim.find(@claim_ids)

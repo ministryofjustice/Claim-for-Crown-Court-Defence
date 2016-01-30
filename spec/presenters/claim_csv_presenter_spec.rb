@@ -49,6 +49,8 @@ RSpec.describe ClaimCsvPresenter do
       end
 
       context 'and unique values for' do
+        before { Timecop.freeze(Time.now) }
+        after  { Timecop.return }
 
         it 'submission type' do
           subject.present! do |claim_journeys|
@@ -64,7 +66,7 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
-        it 'date allocated' do      
+        it 'date allocated' do
           subject.present! do |claim_journeys|
             expect(claim_journeys.first).to include((Time.now - 2.day).to_s)
             expect(claim_journeys.second).to include('n/a', 'n/a')

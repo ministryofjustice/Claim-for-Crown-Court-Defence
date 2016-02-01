@@ -16,7 +16,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     @claim.build_certification(certification_params)
     if @claim.certification.save && @claim.submit
       send_ga('event', 'submit', 'certified', certification_params.select{|k,v| v == '1'}.keys.join(', '))
-      redirect_to confirmation_external_users_claim_path(@claim), notice: 'Claim submitted to LAA'
+      redirect_to confirmation_external_users_claim_path(@claim)
     else
       @certification = @claim.certification
       render action: :new

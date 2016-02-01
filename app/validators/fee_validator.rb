@@ -24,7 +24,7 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_quantity
-    @actual_trial_length = @record.try(:claim).try(:actual_trial_length) || 0
+    @actual_trial_length = trial_length
 
     case fee_code
       when 'BAF'
@@ -51,21 +51,21 @@ class FeeValidator < BaseClaimValidator
   # can only claim a maximum of 38 (or trial length after first 2 days deducted)
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'daf_qty_mismatch') if @actual_trial_length < 3 || @record.quantity > [38, @actual_trial_length - 2].min
+    add_error(:quantity, 'daf_qty_mismatch') if daf_trial_length_combination_invalid(3,-2,38)
   end
 
   # cannot claim this fee if trial lasted less than 41 days
   # can only claim a maximum of 10 (or trial length after first 40 days deducted)
   def validate_daily_attendance_41_50_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'dah_qty_mismatch') if @actual_trial_length < 41 || @record.quantity > [10, @actual_trial_length - 40].min
+    add_error(:quantity, 'dah_qty_mismatch') if daf_trial_length_combination_invalid(41,-40,10)
   end
 
   # cannot claim this fee if trial lasted less than 51 days
   # can only claim a maximum of trial length after first 50 days deducted
   def validate_daily_attendance_51_plus_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'daj_qty_mismatch') if @actual_trial_length < 51 || @record.quantity > @actual_trial_length - 50
+    add_error(:quantity, 'daj_qty_mismatch') if daf_trial_length_combination_invalid(51,-50,nil)
   end
 
   def validate_pcm_quantity
@@ -135,8 +135,25 @@ class FeeValidator < BaseClaimValidator
     end
   end
 
+  # local helpers
+  # ---------------------
+
   def fee_code
     @record.fee_type.try(:code)
+  end
+
+  def trial_length
+    if @record.claim.try(:case_type).try(:requires_retrial_dates?)
+      @record.try(:claim).try(:retrial_actual_length) || 0
+    else
+      @record.try(:claim).try(:actual_trial_length) || 0
+    end
+  end
+
+  def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity=nil)
+    raise ArgumentError if trial_length_modifier > 0
+    max_quantity = infinity if max_quantity.blank?
+    @actual_trial_length < lower_bound || @record.quantity > [max_quantity, @actual_trial_length + trial_length_modifier].min
   end
 
 end

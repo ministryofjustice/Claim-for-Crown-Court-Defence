@@ -163,6 +163,15 @@ describe FeeValidator do
           should_be_valid_if_equal_to_value(daf_fee, :quantity, 10)
         end
       end
+
+      it 'should validate based on retrial length for retrials' do
+          daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+          daf_fee.claim.actual_trial_length = 2
+          daf_fee.claim.retrial_actual_length = 20
+          should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
+          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+      end
+
     end
 
     context 'daily_attendance_41_50 (DAH)' do
@@ -188,6 +197,14 @@ describe FeeValidator do
           should_be_valid_if_equal_to_value(dah_fee, :quantity, 10)
         end
       end
+
+      it 'should validate based on retrial length for retrials' do
+          dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+          dah_fee.claim.actual_trial_length = 2
+          dah_fee.claim.retrial_actual_length = 45
+          should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
+          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
+      end
     end
 
     context 'daily attendance 51 plus (DAJ)' do
@@ -209,6 +226,14 @@ describe FeeValidator do
           should_be_valid_if_equal_to_value(daj_fee, :quantity, 1)
           should_be_valid_if_equal_to_value(daj_fee, :quantity, 10)
         end
+      end
+
+      it 'should validate based on retrial length for retrials' do
+          daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+          daj_fee.claim.actual_trial_length = 2
+          daj_fee.claim.retrial_actual_length = 70
+          should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
+          should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
       end
     end
 

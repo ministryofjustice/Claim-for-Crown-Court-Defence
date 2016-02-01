@@ -43,7 +43,6 @@ class BaseClaimValidator < ActiveModel::Validator
 
   def validate_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
     return if attr_nil?(attribute)
-    infinity = 1.0/0
     lower_bound = lower_bound.blank? ? -infinity : lower_bound
     upper_bound = upper_bound.blank? ? infinity : upper_bound
     add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_i)
@@ -65,6 +64,10 @@ class BaseClaimValidator < ActiveModel::Validator
   def validate_not_before(date, attribute, message)
     return if attr_nil?(attribute)|| date.nil?
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
+  end
+
+  def infinity
+    1.0/0
   end
 
 end

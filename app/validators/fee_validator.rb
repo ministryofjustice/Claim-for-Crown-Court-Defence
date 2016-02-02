@@ -152,8 +152,15 @@ class FeeValidator < BaseClaimValidator
 
   def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity=nil)
     raise ArgumentError if trial_length_modifier > 0
+    return false if daf_retrial_combo_ignorable
+
     max_quantity = infinity if max_quantity.blank?
     @actual_trial_length < lower_bound || @record.quantity > [max_quantity, @actual_trial_length + trial_length_modifier].min
+  end
+
+  # This is required for retrial claims created prior to retrial fields being added.
+  def daf_retrial_combo_ignorable
+     @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable? rescue false
   end
 
 end

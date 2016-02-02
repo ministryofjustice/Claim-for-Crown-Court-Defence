@@ -316,6 +316,11 @@ en:
           api_key: *api_key
           vat_registered: *vat_registered
           form_error_hint: 'Check below for more detail'
+    certifications:
+      new:
+        certified_by: 'Name of person certifying'
+        certified_by_prompt_text: 'Enter full name'
+        certification_date: 'Date'
     claims:
       archived:
         archived_claims: 'Archived claims'
@@ -339,6 +344,8 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
+
+
       confirmation:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"

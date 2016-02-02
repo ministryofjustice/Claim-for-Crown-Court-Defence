@@ -48,7 +48,7 @@ gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
-gem 'gov_uk_date_fields',      '0.0.2'
+gem 'gov_uk_date_fields',      '0.1.0'
 gem 'yaml_db'
 gem 'zendesk_api'  ,       '1.12.1'
 

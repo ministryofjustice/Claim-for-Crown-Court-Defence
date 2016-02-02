@@ -31,6 +31,7 @@ module DemoData
     end
 
     def add_daily_attendances
+      return if @claim.case_type.requires_retrial_dates?
       add_daf if @claim.actual_trial_length > 2
       add_dah if @claim.actual_trial_length > 40
       add_daj if @claim.actual_trial_length > 50

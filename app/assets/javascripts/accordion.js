@@ -105,14 +105,12 @@ moj.Modules.Accordion = {
 
     if ($panel.attr('aria-hidden') == 'true') {
       $panel.attr('aria-hidden', 'false');
-      $tab.find('img').attr('src', 'http://www.oaa-accessibility.org/media/examples/images/expanded.gif').attr('alt', 'expanded');
 
       // update the aria-expanded attribute
       $tab.attr('aria-expanded', 'true');
     } else {
       $panel.attr('aria-hidden', 'true');
       $panel.slideUp(100);
-      $tab.find('img').attr('src', 'http://www.oaa-accessibility.org/media/examples/images/contracted.gif').attr('alt', 'collapsed');
 
       // update the aria-expanded attribute
       $tab.attr('aria-expanded', 'false');

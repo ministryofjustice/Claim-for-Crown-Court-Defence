@@ -85,4 +85,4 @@
         &nbsp;
     .button-holder
       = f.submit "Certify and submit claim", class: "button"
-      = button_to 'Return to claim', edit_external_users_claim_path(@claim), class: 'button-secondary'
+      = link_to 'Return to claim', edit_external_users_claim_path(@claim), class: 'button-secondary'

@@ -1,6 +1,16 @@
 %h1.page-title
   Re-allocation
 
+%div.grid-row
+  %div.column-half
+    %div.form-inputs
+      = form_tag case_workers_admin_allocations_path, method: :get do
+        = hidden_field_tag :tab, params[:tab]
+        = label_tag :search, 'eg case worker name or email'
+        = text_field_tag :search, params[:search], class: "normal form-control-3-4"
+        = button_tag(type: 'submit', class: 'button search', title: "Search") do
+          %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
 

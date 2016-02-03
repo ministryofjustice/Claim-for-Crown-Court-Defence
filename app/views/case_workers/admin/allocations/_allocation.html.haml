@@ -13,6 +13,7 @@
   %noscript
     = submit_tag 'Filter'
 
+
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :filter, params[:filter] if params[:filter]

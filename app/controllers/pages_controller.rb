@@ -4,12 +4,10 @@ class PagesController < ApplicationController
 
   skip_load_and_authorize_resource
 
-  def tandcs
-    render
-  end
+  def tandcs; end
 
-  def api_landing
-    render
-  end
+  def api_landing; end
+
+  def api_release_notes; end
 
 end

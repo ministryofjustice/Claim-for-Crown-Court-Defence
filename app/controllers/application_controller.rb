@@ -34,7 +34,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource, params={})
-    new_feedback_url(params)
+    if Rails.env.development? || RailsHost.demo? || RailsHost.dev?
+      new_user_session_url
+    else
+      new_feedback_url(params)
+    end
   end
 
   def after_sign_in_path_for(resource)
@@ -43,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
+  
   def after_sign_in_path_for_super_admin
     super_admins_root_url
   end

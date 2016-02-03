@@ -31,31 +31,42 @@ module DemoData
     end
 
     def add_daily_attendances
-      return if @claim.case_type.requires_retrial_dates?
-      add_daf if @claim.actual_trial_length > 2
-      add_dah if @claim.actual_trial_length > 40
-      add_daj if @claim.actual_trial_length > 50
+      if @claim.case_type.requires_retrial_dates?
+        @trial_length = @claim.retrial_actual_length
+      elsif @claim.case_type.requires_trial_dates?
+        @trial_length = @claim.actual_trial_length
+      else
+        return
+      end
+
+      add_daf if @trial_length > 2
+      add_dah if @trial_length > 40
+      add_daj if @trial_length > 50
+
+    end
+
+    def add_daily_attendance(type_code)
+        options = { daf: { modifier: -2, max: 40 },
+          dah: { modifier: -40, max: 50 },
+          daj: { modifier: -50, max: 60 }
+        }
+
+        trial_length_field = @claim.case_type.requires_retrial_dates? ? :retrial_actual_length : :actual_trial_length
+        quantity = [@claim.try(trial_length_field),options[type_code][:max]].min + options[type_code][:modifier]
+        rate   = 10 * @claim.try(trial_length_field) + options[type_code][:modifier]
+        update_basic_fee(type_code.to_s.upcase, quantity: quantity, rate: rate.round(2))
     end
 
     def add_daf
-      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 0
-      quantity = @claim.case_type.requires_trial_dates? ? [@claim.actual_trial_length,39].min - 2 : 1
-      rate   = @claim.case_type.requires_trial_dates? ? 10 * @claim.actual_trial_length - 2 : 250
-      update_basic_fee('DAF', quantity: quantity, rate: rate.round(2))
+      add_daily_attendance(:daf)
     end
 
     def add_dah
-      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 40
-      quantity = [@claim.actual_trial_length,50].min - 40
-      rate = 10 * @claim.actual_trial_length - 40
-      update_basic_fee('DAH', quantity: quantity, rate: rate.round(2))
+      add_daily_attendance(:dah)
     end
 
     def add_daj
-      return unless @claim.case_type.requires_trial_dates? && @claim.actual_trial_length > 50
-      quantity = [@claim.actual_trial_length,60].min - 50
-      rate = 10 * @claim.actual_trial_length - 50
-      update_basic_fee('DAJ', quantity: quantity, rate: rate.round(2))
+      add_daily_attendance(:daj)
     end
 
     def add_pcm

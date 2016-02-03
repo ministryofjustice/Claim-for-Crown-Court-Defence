@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
   get '/api_landing',   to: 'pages#api_landing',      as: :api_landing_page
+  get '/api_release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
 
   get 'vat'                 => "vat_rates#index"
 

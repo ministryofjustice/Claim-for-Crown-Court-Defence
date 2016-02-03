@@ -2,8 +2,8 @@ provider = Provider.find_or_create_by!(name: 'Test firm A', supplier_number: 'A1
 
 if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(
-    first_name: 'Bob',
-    last_name: 'Smith',
+    first_name: 'Barry',
+    last_name: 'Stir',
     email: 'advocate@example.com',
     password: ENV['ADVOCATE_PASSWORD'],
     password_confirmation: ENV['ADVOCATE_PASSWORD']
@@ -16,8 +16,8 @@ end
 
 if User.find_by(email: 'advocateadmin@example.com').blank?
   user = User.create!(
-    first_name: 'John',
-    last_name: 'Smith',
+    first_name: 'Advo',
+    last_name: 'Kate-Admin',
     email: 'advocateadmin@example.com',
     password: ENV['ADMIN_PASSWORD'],
     password_confirmation: ENV['ADMIN_PASSWORD']

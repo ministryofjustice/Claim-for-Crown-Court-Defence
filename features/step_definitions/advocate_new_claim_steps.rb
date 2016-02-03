@@ -119,7 +119,8 @@ end
 
 Then(/^I should not see any dates attended fields for "(.*?)" fees$/) do |fee_type|
   within fee_type_to_id(fee_type) do
-    expect(page).to_not have_content('Date attended (from)', wait: 5)
+    wait_for_ajax
+    expect(page).to_not have_content('Date attended (from)')
   end
 end
 

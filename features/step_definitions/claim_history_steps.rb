@@ -9,11 +9,10 @@ end
 
 Then(/^I should see the state change to submitted reflected in the history$/) do
   @claim.reload
-  within '#messages' do
-    within '.messages-list' do
-      history = all('.event').last
-      expect(history).to have_content(/Your claim has been submitted/)
-    end
+
+  within '#panel1' do
+    history = all('.event').last
+    expect(history).to have_content(/Your claim has been submitted/)
   end
 end
 
@@ -34,11 +33,9 @@ end
 
 Then(/^I should see the state change to authorised reflected in the history$/) do
   @claim.reload
-  within '#messages' do
-    within '.messages-list' do
-      history = all('.event').last
-      expect(history).to have_content(/Claim authorised/)
-    end
+  within '#panel1' do
+    history = all('.event').last
+    expect(history).to have_content(/Claim authorised/)
   end
 end
 

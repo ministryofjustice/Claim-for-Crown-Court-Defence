@@ -87,8 +87,6 @@
       = t('.claim_total')
       = claim.total_inc_vat
 
-    = render partial: "shared/vat_summary", locals: { claim:  claim }
-
     - unless @claim.additional_information.blank?
       %h3
         = t('.additional_information')

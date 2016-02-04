@@ -78,7 +78,7 @@ describe JsonDocumentImporter do
         expect(subject.errors.blank?).to be true
         subject.import!
         expect(subject.errors.blank?).to be false
-        expect(subject.errors).to eq({:claim_1=>[{"error"=>"Advocate email is invalid"}]})
+        expect(subject.errors).to eq({"Claim 1 (no readable case number)"=>["Advocate email is invalid"]})
       end
     end
 
@@ -129,13 +129,28 @@ describe JsonDocumentImporter do
         it 'one Claim model error from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
           subject.import!
-          expect(subject.errors).to eq({:claim_1=>[{"error"=>"Advocate email is invalid"}], :claim_2=>[{"error"=>"Advocate email is invalid"}]})
+          expect(subject.errors).to eq({'A12345678'=>["Advocate email is invalid"], 'A987654321' => ["Advocate email is invalid"]})
         end
 
         it 'multiple Claim model errors from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response_2)
           subject.import!
-          expect(subject.errors).to eq({:claim_1=>[{"error"=>"Case type cannot be blank, you must select a case type"}, {"error"=>"Court cannot be blank, you must select a court"}, {"error"=>"Case number cannot be blank, you must enter a case number"}, {"error"=>"Advocate category cannot be blank, you must select an appropriate advocate category"}, {"error"=>"Offence Category cannot be blank, you must select an offence category"}], :claim_2=>[{"error"=>"Case type cannot be blank, you must select a case type"}, {"error"=>"Court cannot be blank, you must select a court"}, {"error"=>"Case number cannot be blank, you must enter a case number"}, {"error"=>"Advocate category cannot be blank, you must select an appropriate advocate category"}, {"error"=>"Offence Category cannot be blank, you must select an offence category"}]})
+          expect(subject.errors).to eq({
+            'A12345678'=>[
+              "Case type cannot be blank, you must select a case type", 
+              "Court cannot be blank, you must select a court", 
+              "Case number cannot be blank, you must enter a case number", 
+              "Advocate category cannot be blank, you must select an appropriate advocate category", 
+              "Offence Category cannot be blank, you must select an offence category"
+            ], 
+            'A987654321'=>[
+              "Case type cannot be blank, you must select a case type",
+              "Court cannot be blank, you must select a court",
+              "Case number cannot be blank, you must enter a case number",
+              "Advocate category cannot be blank, you must select an appropriate advocate category",
+              "Offence Category cannot be blank, you must select an offence category"
+            ]
+          })
         end
 
         it "but stops when the first validation fail is met" do
@@ -144,7 +159,7 @@ describe JsonDocumentImporter do
           expect(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).exactly(2).times # claim creation end point is hit and returns an error
           expect(JsonDocumentImporter::DEFENDANT_CREATION).not_to receive(:post) # defendant creation is, therefore, not hit
           subject.import!
-          expect(subject.errors).to eq({:claim_1=>[{"error"=>"Advocate email is invalid"}], :claim_2=>[{"error"=>"Advocate email is invalid"}]}) # claim model errors are received and stored but no error is returned from defendant model
+          expect(subject.errors).to eq({'A12345678' => ["Advocate email is invalid"], 'A987654321'=>["Advocate email is invalid"]}) # claim model errors are received and stored but no error is returned from defendant model
         end
       end
     end

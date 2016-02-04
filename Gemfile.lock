@@ -279,6 +279,9 @@ GEM
       activesupport (>= 3.2.0)
       cocaine (~> 0.5.5)
       mime-types
+    parallel (1.6.1)
+    parallel_tests (2.3.1)
+      parallel
     pg (0.18.4)
     poltergeist (1.6.0)
       capybara (~> 2.1)
@@ -537,6 +540,7 @@ DEPENDENCIES
   neat (~> 1.5.1)
   paper_trail (~> 4.0.0.rc)
   paperclip (~> 4.2.2)
+  parallel_tests
   pg (~> 0.18.2)
   poltergeist (~> 1.6.0)
   pry-byebug

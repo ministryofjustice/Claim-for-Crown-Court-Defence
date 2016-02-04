@@ -46,6 +46,14 @@ RSpec.describe Fee, type: :model do
     end
   end
 
+  describe 'non-existent fee_type_id' do
+    it 'does not validate' do
+      fee = FactoryGirl.build :fee, quantity: 1, rate: 5, amount: 5, fee_type_id: 0
+      expect(fee).not_to be_valid
+      expect(fee.errors.full_messages).to eq(["Fee type blank"])
+    end
+  end
+
   describe '#calculate_amount' do
 
     # this should be removed after gamma/private beta claims archived/deleted

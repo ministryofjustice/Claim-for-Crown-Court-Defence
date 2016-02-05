@@ -16,8 +16,8 @@ module ApplicationHelper
     presenter
   end
 
-  #Returns a "current" css class if the path = current_page
-  # TODO: this will not work on those routes that are also root for the namespace
+  # Returns a "current" css class if the path = current_page
+  # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that strips
   def cp(path)
     tab = extract_uri_param(path, 'tab')
     if tab.present?

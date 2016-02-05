@@ -96,6 +96,15 @@ Feature: Advocate new claim
      Then I should be on the claim confirmation page
       And the claim should be in state "submitted"
 
+  Scenario: Return to claim from certification page
+    Given I am a signed in advocate
+      And a claim exists with state "draft"
+     When I am on the claim edit page
+      And I submit to LAA
+     Then I should be redirected to the claim certification page
+     When I click "Return to claim"
+     Then I should be on the claim edit form
+
   Scenario: Attempt to submit invalid draft claim to LAA
     Given I am a signed in advocate
       And a claim exists with state "draft"

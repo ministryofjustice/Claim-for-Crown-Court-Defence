@@ -104,7 +104,6 @@ Feature: Advocate new claim
      Then I should be redirected to the claim certification page
      When I click "Return to claim"
      Then I should be on the claim edit form
-      And the claim should be in state "draft"
 
   Scenario: Attempt to submit invalid draft claim to LAA
     Given I am a signed in advocate

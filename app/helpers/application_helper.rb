@@ -57,4 +57,12 @@ module ApplicationHelper
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
     link_to title, params.except(:page).merge({ sort: column, direction: direction }), { class: css_class }
   end
+
+  def dom_id(record, prefix = nil)
+    result = ActionView::RecordIdentifier.dom_id(record, prefix)
+    if record.is_a?(Claim::BaseClaim) || record.is_a?(Claim::BaseClaimPresenter)
+      result.sub!('claim_base_claim', 'claim')
+    end
+    result
+  end
 end

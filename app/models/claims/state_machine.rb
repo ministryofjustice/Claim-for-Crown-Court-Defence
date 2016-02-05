@@ -45,7 +45,7 @@ module Claims::StateMachine
 
   def self.included(klass)
     klass.state_machine :state, initial: :draft do
-      audit_trail
+      audit_trail class: ClaimStateTransition
 
       state :allocated,
             :archived_pending_delete,

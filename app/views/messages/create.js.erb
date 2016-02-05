@@ -6,7 +6,7 @@
   }
   moj.Modules.Messaging.processMsg(data);
 
-  <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
+  <% unless Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
     $('.js-hide-status').hide();
   <% end %>
 

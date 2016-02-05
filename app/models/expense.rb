@@ -21,7 +21,7 @@ class Expense < ActiveRecord::Base
   numeric_attributes :rate, :amount, :quantity
 
   belongs_to :expense_type
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 

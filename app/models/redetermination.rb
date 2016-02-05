@@ -17,7 +17,7 @@ class Redetermination < Determination
 
   self.table_name = 'determinations'
 
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   has_paper_trail on: [:create, :update], only: [:fees, :expenses, :vat_amount, :total]
   before_save :set_paper_trail_event!

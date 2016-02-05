@@ -11,7 +11,7 @@ Given(/^I have (\d+) sortable claims$/) do |count|
         claim.fees.destroy_all
         claim.expenses.destroy_all
         create(:fee, claim: claim, quantity: n*1, rate: n*1)
-        create(:assessment, claim: claim, fees: claim.fees_total, expenses: 0) if claim.authorised?
+        claim.assessment.update_values!(claim.fees_total, 0) if claim.authorised?
       end
     end
   end

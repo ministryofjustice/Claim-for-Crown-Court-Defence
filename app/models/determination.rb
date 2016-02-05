@@ -17,7 +17,7 @@ class Determination < ActiveRecord::Base
   before_save :calculate_total
   before_save :calculate_vat
 
-  belongs_to :claim
+  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: 'claim_id'
 
   validate :fees_valid
   validate :expenses_valid

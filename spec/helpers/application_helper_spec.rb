@@ -7,11 +7,11 @@ describe ApplicationHelper do
     let(:claim) { create(:claim) }
 
     it 'returns a <Classname>Presenter instance' do
-     expect(present(claim)).to be_a ClaimPresenter
+     expect(present(claim)).to be_a Claim::BaseClaimPresenter
     end
 
     it 'yields a <Classname>Presenter Class' do
-      expect{ |b| present(claim, &b) }.to yield_with_args(ClaimPresenter)
+      expect{ |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
     end
 
   end

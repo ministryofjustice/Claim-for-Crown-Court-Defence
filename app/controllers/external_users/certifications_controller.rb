@@ -42,6 +42,6 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   end
 
   def set_claim
-    @claim = Claim.find(params[:claim_id])
+    @claim = Claim::BaseClaim.find(params[:claim_id])
   end
 end

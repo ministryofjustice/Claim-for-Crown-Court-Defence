@@ -13,12 +13,16 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
   def anchored_label(label, anchor_name = nil)
     anchor_name ||= label.gsub(' ', '_').downcase
-    label_for = "#{object.class.to_s.camelize(:lower)}_#{anchor_name}"
+    label_for = "#{full_anchor_name_for(object, anchor_name)}"
     %Q[<a name="#{anchor_name}"></a><label for="#{label_for}">#{label}</label>].html_safe
   end
 
 
   private
+
+  def full_anchor_name_for(object, anchor_name)
+    "#{make_object_name}_#{anchor_name}"
+  end
 
   def make_option(current_value, member, value_method, text_method, data_options)
     value = member.send(value_method)
@@ -51,7 +55,9 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def make_object_name
-    object.class.to_s.downcase
+    klass_name = object.class.to_s
+    klass_name = 'Claim' if klass_name =~ /^Claim::/
+    klass_name.camelize.downcase
   end
 
 

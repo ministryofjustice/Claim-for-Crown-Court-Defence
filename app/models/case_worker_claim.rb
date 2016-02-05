@@ -11,7 +11,7 @@
 
 class CaseWorkerClaim < ActiveRecord::Base
   belongs_to :case_worker
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   after_create :generate_message_statuses
   after_create :set_claim_allocated!

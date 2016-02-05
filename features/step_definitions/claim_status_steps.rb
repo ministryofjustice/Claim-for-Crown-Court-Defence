@@ -39,7 +39,7 @@ Given(/^I have (\d+) allocated claims whos status is "(.*?)" with fees assessed 
 end
 
 When(/^I view status details of my first claim$/) do
-	@claim = Claim.where(external_user: @advocate).first
+	@claim = Claim::BaseClaim.where(external_user: @advocate).first
   visit external_users_claim_path(@claim)
 end
 
@@ -67,7 +67,7 @@ Then(/^I should see "(.*?)" status select with "(.*?)" selected$/) do |disabled,
 end
 
 When(/^the claim state should be allocated$/) do
-  expect(Claim.all.pluck(:state).uniq).to eq(['allocated'])
+  expect(Claim::BaseClaim.all.pluck(:state).uniq).to eq(['allocated'])
 end
 
 Then(/^I should see error "(.*?)"$/) do |error_message|

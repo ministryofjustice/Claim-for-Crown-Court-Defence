@@ -2,13 +2,13 @@
 #
 # Table name: certifications
 #
-#  id                               :integer          not null, primary key
-#  claim_id                         :integer
-#  certification_type_id            :integer
-#  certified_by                     :string
-#  certification_date               :date
-#  created_at                       :datetime
-#  updated_at                       :datetime
+#  id                    :integer          not null, primary key
+#  claim_id              :integer
+#  certified_by          :string
+#  certification_date    :date
+#  created_at            :datetime
+#  updated_at            :datetime
+#  certification_type_id :integer
 #
 
 require 'rails_helper'

@@ -33,7 +33,7 @@ end
 
 
 When(/^I edit the claim and save to draft$/) do
-  claim = Claim.last
+  claim = Claim::BaseClaim.last
   visit "/external_users/claims/#{claim.id}/edit"
   click_on 'Save to drafts'
 end

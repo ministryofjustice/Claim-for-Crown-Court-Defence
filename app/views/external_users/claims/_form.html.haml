@@ -1,5 +1,6 @@
 #claim-form
-  = form_for [:external_users, @claim], builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
+  - url = @claim.persisted? ? external_users_claim_path(@claim) : external_users_claims_path
+  = form_for [:external_users, @claim], as: :claim, url: url, builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
 
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
 

@@ -1,5 +1,3 @@
-require 'CGI'
-
 module ApplicationHelper
 
   #

@@ -5,9 +5,9 @@ set -ex
 if [ "$TRAVIS" = "true" ]; then
   echo "INFO: this is travis - not running smoke test"
   bundle exec rake db:migrate
-  bunlde exec rake parallel:prepare
+  bundle exec rake parallel:prepare
   bundle exec rake parallel:spec
-  bunlde exec rake parallel:features
+  bundle exec rake parallel:features
   exit 0
 else
   # Script executing all the test tasks.

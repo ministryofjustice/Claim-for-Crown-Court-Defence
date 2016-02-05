@@ -18,7 +18,7 @@ module ApplicationHelper
   def cp(path)
     tab = extract_uri_param(path, 'tab')
     if tab.present?
-      "current" if request.path == strip_params(path) && extract_uri_param(request.fullpath,'tab') == tab
+      "current" if request.path == strip_params(path) && request.GET[:tab] == tab
     else
       "current" if request.path == strip_params(path)
     end
@@ -64,13 +64,11 @@ module ApplicationHelper
   end
 
   def extract_uri_param(path,param)
-    uri = URI.parse(path)
-    CGI.parse(uri.query)[param][0]
-  rescue
-    nil
+    CGI.parse(URI.parse(path).query)[param][0] rescue nil
   end
 
   def strip_params(path)
-    path.split('?')[0]
+    URI.parse(path).path rescue nil
   end
+
 end

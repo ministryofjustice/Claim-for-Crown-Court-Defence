@@ -1,17 +1,28 @@
 %h1.page-title
   Re-allocation
 
+.grid-row
+  .column-half
+    .form-inputs
+      = form_tag case_workers_admin_allocations_path, method: :get do
+        = hidden_field_tag :tab, params[:tab]
+        .normal
+          = label_tag :search, 'Search'
+        .form-hint.xsmall
+          case worker name or email
+        = text_field_tag :search, params[:search], class: "normal form-control-3-4"
+        = button_tag(type: 'submit', class: 'button search', title: "Search") do
+          %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
-
+  .normal
+    Allocate to
   .form-hint
     To de-allocate claims, choose "Allocation pool".
     %br
     To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
-
-  .normal
-    Allocate to
-  %div.form-group.inline.js-re-allocation-options
+  .form-group.inline.js-re-allocation-options
     = f.label :deallocate, value: true, class: 'block-label' do
       Allocation pool
       = f.radio_button :deallocate, true, checked: false, value: true
@@ -24,7 +35,7 @@
     .column-half
       .normal
         = f.label :case_worker_id
-      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%;display: inline-block' }
+      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: true }, { class: 'select2', style: 'width: 50%; display: inline-block;' }
     .column-half
       &nbsp;
 

@@ -1,7 +1,7 @@
 - if user_signed_in?
   %nav#primary-nav{:role =>'navigation'}
     - if current_user.persona.is_a?(SuperAdmin)
-      = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)
+      = link_to 'Manage providers ', super_admins_providers_path, class: cp(super_admins_providers_path)
       = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
     - elsif current_user.persona.is_a?(ExternalUser)
       = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", external_users_root_path, class: cp(external_users_root_path)

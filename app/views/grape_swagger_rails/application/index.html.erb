@@ -167,7 +167,7 @@
             <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", '/external_users' %>
             <%= link_to "Archive", '/external_users/claims/archived', title: "View archived claims"   %>
             <% if Rails.host.api_sandbox? %>
-              <%= link_to "API Documentation", '/api_landing', class: "current" %>
+              <%= link_to "API Documentation", '/api/landing', class: "current" %>
             <% end %>
             <%= link_to t('link.add_claim'), '/external_users/claims/new', title: "Start a new claim" %>
             <% if current_user.persona.admin? %>

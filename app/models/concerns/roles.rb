@@ -1,4 +1,4 @@
-module UserRoles
+module Roles
   extend ActiveSupport::Concern
 
   included do |klass|

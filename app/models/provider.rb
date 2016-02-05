@@ -18,6 +18,9 @@ class Provider < ActiveRecord::Base
 
   PROVIDER_TYPES = %w( chamber firm )
 
+  ROLES = %w( agfs lgfs )
+  include Roles
+
   PROVIDER_TYPES.each do |type|
     define_method "#{type}?" do
       provider_type == type

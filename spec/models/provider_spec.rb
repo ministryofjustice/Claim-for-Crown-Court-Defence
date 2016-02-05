@@ -43,6 +43,12 @@ RSpec.describe Provider, type: :model do
     it { should_not validate_uniqueness_of(:supplier_number) }
   end
 
+  context 'ROLES' do
+    it 'should have "agfs" and "lgfs"' do
+      expect(Provider::ROLES).to match_array(%w( agfs lgfs ))
+    end
+  end
+
   context '.set_api_key' do
     it 'should set API key at creation' do
       expect(chamber.api_key.present?).to eql true

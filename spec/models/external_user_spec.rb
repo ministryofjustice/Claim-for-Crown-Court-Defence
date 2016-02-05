@@ -30,6 +30,8 @@ RSpec.describe ExternalUser, type: :model do
   it { should delegate_method(:first_name).to(:user) }
   it { should delegate_method(:last_name).to(:user) }
   it { should delegate_method(:name).to(:user) }
+  it { should delegate_method(:agfs?).to(:provider) }
+  it { should delegate_method(:lgfs?).to(:provider) }
 
   context 'roles' do
     it 'is not valid when no roles present' do
@@ -41,7 +43,7 @@ RSpec.describe ExternalUser, type: :model do
     it 'is not valid for roles not in the ROLES array' do
       external_user = build(:external_user, roles: ['foobar', 'admin', 'advocate'])
       expect(external_user).to_not be_valid
-      expect(external_user.errors[:roles]).to include('must be one or more of: admin, advocate')
+      expect(external_user.errors[:roles]).to include('must be one or more of: admin, advocate, litigator')
     end
 
     it 'is valid for roles in the ROLES array' do
@@ -205,7 +207,7 @@ RSpec.describe ExternalUser, type: :model do
 
   describe 'ROLES' do
     it 'should have "admin" and "advocate"' do
-      expect(ExternalUser::ROLES).to match_array(%w( admin advocate ))
+      expect(ExternalUser::ROLES).to match_array(%w( admin advocate litigator))
     end
   end
 
@@ -305,6 +307,41 @@ RSpec.describe ExternalUser, type: :model do
         it 'returns false' do
           expect(advocate.admin?).to eq(false)
         end
+      end
+    end
+  end
+
+  describe '#available_roles' do
+    let(:advocate)            { create(:external_user, :advocate)           }
+    let(:litigator)           { create(:external_user, :litigator)          }
+    let(:advocate_litigator)  { create(:external_user, :advocate_litigator) }
+    context 'when the user does not belong to a provider' do
+      it 'returns admin' do
+        advocate.provider = nil
+        expect(advocate.available_roles).to eq ['admin']
+      end
+    end
+    context 'when the user belongs to a provider that' do
+      context 'handles both AGFS and LGFS claims' do
+        it 'returns admin advocate and litigator' do
+          expect(advocate_litigator.available_roles).to eq ['admin', 'advocate', 'litigator']
+        end
+      end
+      context 'handles only AGFS claims' do
+        it 'returns admin and advocate' do
+          expect(advocate.available_roles).to eq ['admin', 'advocate']
+        end
+      end
+      context 'handles only LGFS claims' do
+        it 'returns admin and litigator' do 
+          expect(litigator.available_roles).to eq ['admin', 'litigator']
+        end
+      end
+    end
+    context 'when an invalid fee scheme is used' do
+      it 'raises an error' do
+        advocate.provider.roles = %w( invalid_role )
+        expect { advocate.available_roles }.to raise_error
       end
     end
   end

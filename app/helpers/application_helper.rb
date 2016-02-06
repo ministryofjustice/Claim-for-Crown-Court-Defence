@@ -14,6 +14,20 @@ module ApplicationHelper
     presenter
   end
 
+  # use to decorate/present a collection of model instances
+  #   e.g. @claims = present_collection(@claims)
+  #
+  # optionally specify the presenter to use to present the collection
+  #   e.g. @claims = present_collection(@claims, ClaimPresenter)
+  #
+  def present_collection(model_collection, presenter_class=nil)
+    presenter_collection = model_collection.each.map do |model_instance|
+      present(model_instance,presenter_class)
+    end
+    yield(presenter_collection) if block_given?
+    presenter_collection
+  end
+
   #Returns a "current" css class if the path = current_page
   def cp(path)
     "current" if current_page?(path)

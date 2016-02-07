@@ -3,9 +3,15 @@ module ApplicationHelper
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
   # following the <Model>Presenter naming convention or, optionally, a named presenter
-  # class:
+  # class.
+  #
+  # For instances:
   # e.g. - present(@advocate)
   # e.g. - present(@advocate, AdminAdvocatePresenter)
+  #
+  # For collections:
+  # e.g. - present_collection(@claims)
+  # e.g. - present_collection(@claims, ClaimPresenter)
   #
   def present(model, presenter_class=nil)
     presenter_class ||= "#{model.class}Presenter".constantize
@@ -14,12 +20,6 @@ module ApplicationHelper
     presenter
   end
 
-  # use to decorate/present a collection of model instances
-  #   e.g. @claims = present_collection(@claims)
-  #
-  # optionally specify the presenter to use to present the collection
-  #   e.g. @claims = present_collection(@claims, ClaimPresenter)
-  #
   def present_collection(model_collection, presenter_class=nil)
     presenter_collection = model_collection.each.map do |model_instance|
       present(model_instance,presenter_class)

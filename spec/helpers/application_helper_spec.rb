@@ -6,12 +6,27 @@ describe ApplicationHelper do
   context '#present' do
     let(:claim) { create(:claim) }
 
-    it 'returns a <Classname>Presenter instance' do
-     expect(present(claim)).to be_a ClaimPresenter
+    it 'should return a <Classname>Presenter instance' do
+     expect(present(claim)).to be_instance_of ClaimPresenter
     end
 
-    it 'yields a <Classname>Presenter Class' do
+    it 'should yield a <Classname>Presenter Class' do
       expect{ |b| present(claim, &b) }.to yield_with_args(ClaimPresenter)
+    end
+
+  end
+
+  context '#present_collection' do
+    let(:claims) { create_list(:claim, 2) }
+
+    it 'should return a collection of <Classname>Presenter instances' do
+      present_collection(claims).each do |claim|
+        expect(claim).to be_instance_of ClaimPresenter
+      end
+    end
+
+    it 'should yield a collection of <Classname>Presenter Class instances' do
+      expect { |block| present_collection(claims, &block) }.to yield_with_args([ClaimPresenter,ClaimPresenter])
     end
 
   end

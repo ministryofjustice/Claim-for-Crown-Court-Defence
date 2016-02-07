@@ -126,12 +126,12 @@ form {
   display: none;
 }
 
-#evidence-checklist div {
+.evidence-checklist div {
   float: left;
   margin-right: 10px;
 }
 
-#defendants {
+.defendants {
   .nested-fields .indent-fieldset {
     padding: 0;
     padding-left: $gutter-half;

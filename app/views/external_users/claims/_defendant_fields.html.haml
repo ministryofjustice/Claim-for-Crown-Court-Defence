@@ -22,8 +22,8 @@
     .column-third
       &nbsp;
 
-  #documents
-    = f.anchored_label '', "defendant_#{@defendant_count}_representation_orders"
+  .documents
+    %a{name: "defendant_#{@defendant_count}_representation_orders"}
     = f.fields_for :representation_orders do |repo_form|
       = render 'representation_order_fields', f: repo_form
   .links

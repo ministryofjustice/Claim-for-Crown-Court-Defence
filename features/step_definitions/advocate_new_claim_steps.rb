@@ -39,37 +39,37 @@ Given(/^There are case types in place$/) do
 end
 
 When(/^I click Add another defendant$/) do
-  within('#defendants') do
+  within('.defendants') do
     page.all('a.add_fields').select {|link| link.text == "Add another defendant"}.first.click
   end
 end
 
 Then(/^I see (\d+) defendant sections?$/) do |number|
-  within('#defendants') do
+  within('.defendants') do
     expect(page.all('.js-test-defendant').count).to eq(number.to_i)
   end
 end
 
 When(/^I choose to remove the additional defendant$/) do
-  within('#defendants') do
+  within('.defendants') do
     page.all('a', text: "Remove defendant").last.click
   end
 end
 
 When(/^I click Add Another Representation Order$/) do
-  within('#defendants') do
+  within('.defendants') do
     page.all('a.add_fields').select {|link| link.text == "Add another representation order"}.first.click
   end
 end
 
 Then(/^I see (\d+) fields? for adding a rep order$/) do |number|
-  within('#defendants') do
+  within('.defendants') do
     expect(page.all('.js-test-rep-order').count).to eq(number.to_i)
   end
 end
 
 When(/^I choose to remove the additional rep order$/) do
-  within('#defendants') do
+  within('.defendants') do
     page.all('a', text: "Remove representation order").last.click
   end
 end
@@ -167,7 +167,7 @@ When(/^I fill in the claim details(.*)$/) do |details|
   first('#claim_offence_id', visible: false).set(murder_offence_id)
   choose 'QC'
 
-  within '#defendants' do
+  within '.defendants' do
     fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'
     fill_in 'claim_defendants_attributes_0_last_name', with: 'Bar'
 
@@ -200,7 +200,7 @@ When(/^I fill in the claim details(.*)$/) do |details|
     end
   end
 
-  within 'fieldset#evidence-checklist' do
+  within '.evidence-checklist' do
     element = find('div label', text: "Representation order")
     checkbox_id = element[:for]
     check checkbox_id

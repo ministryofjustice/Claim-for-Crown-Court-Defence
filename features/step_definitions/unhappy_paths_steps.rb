@@ -33,7 +33,7 @@ Given(/^I attempt to submit to LAA without specifying defendant details$/) do
 end
 
 And(/^I blank out the defendant details$/) do
- within '#defendants' do
+ within '.defendants' do
     fill_in 'claim_defendants_attributes_0_first_name', with: ''
     fill_in 'claim_defendants_attributes_0_last_name', with: ''
 

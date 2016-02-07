@@ -57,7 +57,7 @@ RSpec.describe FeePresenter do
       it 'outputs header and hint' do
         allow(I18n).to receive(:t).and_return('header_and_hint_text')
         fee.fee_type.code = 'PPE'
-        expect(presenter.section_header('scope.for.translation')).to eq "<h3 class=\"bold-medium\">header_and_hint_text</h3><div class=\"form-hint\">header_and_hint_text</div>"
+        expect(presenter.section_header('scope.for.translation')).to eq "header_and_hint_text<div class=\"form-hint\">header_and_hint_text</div>"
       end
     end
   end

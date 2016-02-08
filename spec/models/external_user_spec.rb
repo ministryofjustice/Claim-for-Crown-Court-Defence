@@ -213,7 +213,6 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
-<<<<<<< HEAD
   describe '.admins' do
     before do
       create(:external_user, :admin)
@@ -349,8 +348,6 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
-=======
->>>>>>> develop
   describe '#name_and_number' do
     it 'should print last name, first name and supplier number' do
       a = create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John'))

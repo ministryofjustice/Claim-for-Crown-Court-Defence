@@ -428,7 +428,20 @@ en:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove_date: 'Remove date attended'
-
+      expenses:
+        expense_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+        form:
+          add_another_expense: 'Add another expense'
+          amount: 'Amount'
+          expenses: 'Expenses'
+          expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
+          expense_type: 'Type of expense'
+          hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
+          location: 'Destination'
+          quantity_hours: 'Quantity / Hours'
+          rate: 'Rate'
       error_summary:
         prohibited_save: This claim has
         error: 'error'
@@ -438,9 +451,7 @@ en:
         select_offence_class: 'Please select'
       edit:
         edit: Edit claim
-      expense_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+
       fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
@@ -480,14 +491,6 @@ en:
         # prohibited_save: 'This claim has'
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
-        expenses: 'Expenses'
-        expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
-        hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
-        expense_type: 'Type of expense'
-        location: 'Destination'
-        quantity_hours: 'Quantity / Hours'
-        amount: 'Amount'
-        add_another_expense: 'Add another expense'
         vat_required: 'VAT on fees & expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
         supporting_evidence_docs: 'Upload supporting evidence'

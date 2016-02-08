@@ -7,13 +7,7 @@
 
     = render partial: 'external_users/claims/case_details/form', locals: { f: f }
 
-    %h2.bold-medium
-      = t('.defendants')
-    .defendants
-      = f.fields_for :defendants do |defendant|
-        = render partial: 'defendant_fields', locals: { f: defendant }
-      %div
-        = link_to_add_association t('.add_another_defendant'), f, :defendants
+    = render partial: 'external_users/claims/defendants/form', locals: { f: f }
 
     %h2.bold-medium
       = t('.basic_fees')

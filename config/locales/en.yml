@@ -359,7 +359,22 @@ en:
           retrial_concluded_at: 'Retrial concluded on'
           retrial_estimated_length: 'Estimated retrial length'
           retrial_started_at: 'First day of retrial'
-
+      defendants:
+        defendant_fields:
+          first_name: *first_name
+          last_name: *last_name
+          full_name: Full name
+          date_of_birth: 'Date of birth'
+          order_for_judicial_apportionment:  |
+            Order for judicial apportionment
+            (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
+          add_another_rep_order: 'Add another representation order'
+          remove_defendant: 'Remove defendant'
+        form:
+          defendants: 'Defendants'
+          add_another_defendant: 'Add another defendant'
+        representation_order_fields:
+          representation_order: 'Representation order'
       claims:
         no_claims_found: 'No claims found'
         advocate: *advocate
@@ -390,16 +405,7 @@ en:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove_date: 'Remove date attended'
-      defendant_fields:
-        first_name: *first_name
-        last_name: *last_name
-        full_name: Full name
-        date_of_birth: 'Date of birth'
-        order_for_judicial_apportionment:  |
-          Order for judicial apportionment
-          (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
-        add_another_rep_order: 'Add another representation order'
-        remove_defendant: 'Remove defendant'
+
       error_summary:
         prohibited_save: This claim has
         error: 'error'
@@ -445,9 +451,6 @@ en:
         # error: 'error'
         # form_error_hint: 'Check below for more detail'
         # prohibited_save: 'This claim has'
-
-        defendants: 'Defendants'
-        add_another_defendant: 'Add another defendant'
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
         basic_fees: 'Initial fees'
@@ -494,8 +497,6 @@ en:
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of
-      representation_order_fields:
-        representation_order: 'Representation order'
       show:
         created_by: "Created by:"
         h2_basic_info: Basic claim information

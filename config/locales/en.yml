@@ -331,6 +331,29 @@ en:
       authorised:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
+      basic_fees:
+        basic_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+        basic_fee_calculated_fields:
+          basic_fee_prompt_text: |
+            Please include dates for those Standard appearance<br />
+            fees and PCMH's included in the Basic Fee
+          saf_prompt_text: Include any additional PCMH fees under SAF
+        basic_fee_uncalculated_fields:
+          ppe_section_header: PPE
+          ppe_section_hint: Total number of pages of prosecution evidence
+          npw_section_header: Witnesses
+          npw_section_hint: Total number of prosecution witnesses
+        form:
+          amount: 'Amount'
+          basic_fees: 'Initial fees'
+          fee_prompt_text: |
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+            for help.
+          fee_type: 'Type of fee'
+          quantity: 'Quantity'
+          rate: 'Rate'
       case_details:
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail
@@ -415,19 +438,7 @@ en:
         select_offence_class: 'Please select'
       edit:
         edit: Edit claim
-      basic_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
-      basic_fee_calculated_fields:
-        basic_fee_prompt_text: |
-          Please include dates for those Standard appearance<br />
-          fees and PCMH's included in the Basic Fee
-        saf_prompt_text: Include any additional PCMH fees under SAF
-      basic_fee_uncalculated_fields:
-        ppe_section_header: PPE
-        ppe_section_hint: Total number of pages of prosecution evidence
-        npw_section_header: Witnesses
-        npw_section_hint: Total number of prosecution witnesses
+
       expense_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
@@ -453,13 +464,6 @@ en:
         # prohibited_save: 'This claim has'
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
-        basic_fees: 'Initial fees'
-        fee_prompt_text: |
-          You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
-          for help.
-        fee_type: 'Type of fee'
-        quantity: 'Quantity'
-        amount: 'Amount'
         fixed_fees: 'Fixed fees'
         misc_fees: 'Miscellaneous fees'
         add_fixed_fee: 'Add another Fixed fee'
@@ -470,7 +474,6 @@ en:
         expense_type: 'Type of expense'
         location: 'Destination'
         quantity_hours: 'Quantity / Hours'
-        rate: 'Rate'
         amount: 'Amount'
         add_another_expense: 'Add another expense'
         vat_required: 'VAT on fees & expenses (please tick if required)'
@@ -481,6 +484,12 @@ en:
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'
         clear_form: 'Clear form'
+
+
+        #these three are being shared across form.
+        fee_type: 'Type of fee'
+        quantity: 'Quantity'
+        rate: 'Rate'
       index:
         all_claims: All claims
         your_claims: Your claims

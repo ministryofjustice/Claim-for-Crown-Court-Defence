@@ -486,7 +486,6 @@ en:
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
         vat_required: 'VAT on fees & expenses (please tick if required)'
-        supporting_evidence_checklist: 'Supporting evidence checklist'
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'
         clear_form: 'Clear form'
@@ -531,6 +530,9 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+      supporting_evidence_checklist:
+        form:
+          supporting_evidence_checklist: 'Supporting evidence checklist'
 # en.shared
   shared:
     claim:

@@ -414,8 +414,6 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
-
-
       confirmation:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"
@@ -477,15 +475,11 @@ en:
         misc_fee_fields:
           add_date_attended: 'Add date(s)'
           remove: *remove
-
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
         view_details: 'View details'
       form:
-        choose_file: 'Choose a file'
-        file_name: "File name"
-        action: "Action"
         # error: 'error'
         # form_error_hint: 'Check below for more detail'
         # prohibited_save: 'This claim has'
@@ -493,9 +487,6 @@ en:
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
         vat_required: 'VAT on fees & expenses (please tick if required)'
         supporting_evidence_checklist: 'Supporting evidence checklist'
-        supporting_evidence_docs: 'Upload supporting evidence'
-        previously_uploaded_docs: 'Previously uploaded documents'
-        add_another_doc: 'Add another document'
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'
         clear_form: 'Clear form'
@@ -529,8 +520,17 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-
-
+      supporting_documents:
+        existing:
+          action: "Action"
+          add_another_doc: 'Add another document'
+          file_name: "File name"
+          previously_uploaded_docs: 'Previously uploaded documents'
+        new:
+          action: "Action"
+          choose_file: 'Choose a file'
+          file_name: "File name"
+          supporting_evidence_docs: 'Upload supporting evidence'
 # en.shared
   shared:
     claim:

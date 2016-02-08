@@ -19,49 +19,8 @@
 
     = render partial: "shared/vat_summary", locals: { claim:  present(@claim) }
 
-    .evidence
-      %h2.bold-medium
-        = t('.supporting_evidence_docs')
-
-      .document-ids
-        - @claim.documents.each do |document|
-          = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
-
-      .dropzone{data: {'dz-template' => render('shared/dropzone_js')}}
-        .dz-default.dz-message.grid-row
-          .column-third
-            &nbsp;
-          .column-third.drag-helptext
-            %span.normal="Drag and drop files here"
-            %br
-            %span.bold-normal= "or"
-            %br
-            .button-secondary
-              = t('.choose_file')
-          .column-third
-            &nbsp;
-
-      - if @claim.documents.count > 0
-        %h3.bold-medium
-          = t('.previously_uploaded_docs')
-
-        %table.previously-uploaded
-          %thead
-            %th
-              = t('.file_name')
-            %th
-              = t('.action')
-          %tbody
-            - @claim.documents.order(created_at: :asc).each do |document|
-              %tr{id: dom_id(document)}
-                %td
-                  = document.document_file_name
-                %td
-                  = link_to t('common.download'), download_document_path(document), class: 'download'
-                  = " | "
-                  = link_to t('common.remove'), document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
-
-
+    = render partial: 'external_users/claims/supporting_documents/form', locals: { f: f }
+    
     %fieldset
       %h2
         %legend.bold-medium

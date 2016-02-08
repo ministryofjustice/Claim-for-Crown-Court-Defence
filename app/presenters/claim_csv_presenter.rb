@@ -46,7 +46,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def claim_total
-    total.to_s
+    total_including_vat.to_s
   end
 
   def submission_type

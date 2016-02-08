@@ -11,27 +11,7 @@
 
     = render partial: 'external_users/claims/basic_fees/form', locals: { f: f }
 
-    %h2.bold-medium
-      = t('.misc_fees')
-    #misc-fees
-      %table
-        %thead
-          %tr
-            %th
-              = t('.fee_type')
-            %th
-              = t('.quantity')
-            %th
-              = t('.rate')
-            %th
-              = t('.amount')
-            %td
-            %td
-        = f.fields_for :misc_fees do |misc_fee_fields|
-          - @misc_fee_count += 1
-          = render 'misc_fee_fields', f: misc_fee_fields
-
-      = link_to_add_association t('.add_misc_fee'), f, :misc_fees, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+    = render partial: 'external_users/claims/misc_fees/form', locals: { f: f }
 
     %h2.bold-medium
       = t('.fixed_fees')

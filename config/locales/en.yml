@@ -448,9 +448,18 @@ en:
       fixed_fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
-      misc_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+      misc_fees:
+        form:
+          add_misc_fee: 'Add another miscellaneous fee'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          misc_fees: 'Miscellaneous fees'
+          quantity: 'Quantity'
+          rate: 'Rate'
+        misc_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
@@ -465,9 +474,7 @@ en:
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
         fixed_fees: 'Fixed fees'
-        misc_fees: 'Miscellaneous fees'
         add_fixed_fee: 'Add another Fixed fee'
-        add_misc_fee: 'Add another miscellaneous fee'
         expenses: 'Expenses'
         expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
         hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)

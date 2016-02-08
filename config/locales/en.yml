@@ -358,6 +358,11 @@ en:
           fee_type: 'Type of fee'
           quantity: 'Quantity'
           rate: 'Rate'
+      buttons:
+        new:
+          submit_to_laa: 'Submit to LAA'
+          save_to_drafts: 'Save to drafts'
+          clear_form: 'Clear form'
       case_details:
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail
@@ -483,21 +488,6 @@ en:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
         view_details: 'View details'
-      form:
-        # error: 'error'
-        # form_error_hint: 'Check below for more detail'
-        # prohibited_save: 'This claim has'
-
-        vat_required: 'VAT on fees & expenses (please tick if required)'
-        submit_to_laa: 'Submit to LAA'
-        save_to_drafts: 'Save to drafts'
-        clear_form: 'Clear form'
-
-
-        #these three are being shared across form.
-        fee_type: 'Type of fee'
-        quantity: 'Quantity'
-        rate: 'Rate'
       index:
         all_claims: All claims
         your_claims: Your claims

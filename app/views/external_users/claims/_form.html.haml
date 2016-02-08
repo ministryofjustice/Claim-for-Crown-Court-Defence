@@ -24,9 +24,5 @@
     = render partial: 'external_users/claims/supporting_evidence_checklist/form', locals: { f: f }
 
     = render partial: 'external_users/claims/additional_information/form', locals: { f: f }
-    
-    .button-holder
-      = f.submit t('.submit_to_laa'), class: 'button left'
-      - if @claim.draft?
-        = f.submit t('.save_to_drafts'), class: 'button button-secondary left'
-      = link_to t('.clear_form'), new_external_users_claim_path, class: 'button button-secondary right', data: { confirm: 'Are you sure you want to clear this form?' }
+
+    = render partial: 'external_users/claims/buttons/new', locals: { f: f }

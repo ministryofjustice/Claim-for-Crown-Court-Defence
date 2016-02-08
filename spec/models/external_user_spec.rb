@@ -15,7 +15,7 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUser, type: :model do
-  it_behaves_like 'user_roles', ExternalUser, ExternalUser::ROLES
+  it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
 
   it { should belong_to(:provider) }
   it { should have_many(:claims) }
@@ -335,7 +335,7 @@ RSpec.describe ExternalUser, type: :model do
         end
       end
       context 'handles only LGFS claims' do
-        it 'returns admin and litigator' do 
+        it 'returns admin and litigator' do
           expect(litigator.available_roles).to eq ['admin', 'litigator']
         end
       end

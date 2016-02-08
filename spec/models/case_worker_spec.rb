@@ -13,7 +13,7 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorker, type: :model do
-  it_behaves_like 'user_roles', CaseWorker, CaseWorker::ROLES
+  it_behaves_like 'roles', CaseWorker, CaseWorker::ROLES
 
   it { should belong_to(:location) }
   it { should have_one(:user) }

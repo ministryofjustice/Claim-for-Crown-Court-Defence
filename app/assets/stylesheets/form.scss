@@ -14,9 +14,6 @@ form {
   }
 
   fieldset {
-    margin: 1em 0;
-    padding: 1em 0;
-    border-bottom: 1px solid $grey-2;
 
     &.user-form {
       border-bottom: 0;
@@ -29,10 +26,11 @@ form {
       display: block;
       margin-top: 1em;
     }
-    textarea {
-      width: 100%;
-      font-size: 1em;
-    }
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 1em;
   }
 
   h2 + fieldset {
@@ -126,12 +124,12 @@ form {
   display: none;
 }
 
-#evidence-checklist div {
+.evidence-checklist div {
   float: left;
   margin-right: 10px;
 }
 
-#defendants {
+.defendants {
   .nested-fields .indent-fieldset {
     padding: 0;
     padding-left: $gutter-half;
@@ -147,12 +145,26 @@ form {
 }
 
 .controller-claims {
+  h2 {
+    margin-top: $gutter * 1.5;
+  }
   fieldset {
     border-bottom: 0;
+    .form-group.inline{
+      margin-bottom: 0;
+    }
   }
   .judicial-apportionment-notice{
     margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
   }
+
+  label {
+    display: block;
+    margin-top: $gutter-half;
+  }
+
+
 }
 
 .inline-form {

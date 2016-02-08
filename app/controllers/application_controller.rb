@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
+
   def after_sign_in_path_for_super_admin
     super_admins_root_url
   end

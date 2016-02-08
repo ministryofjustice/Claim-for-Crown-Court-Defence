@@ -39,10 +39,10 @@ RSpec.describe ClaimCsvPresenter do
           end
         end
 
-        it 'total (ex VAT)' do
+        it 'total (inc VAT)' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include(claim.total.to_s)
-            expect(claim_journeys.second).to include(claim.total.to_s)
+            expect(claim_journeys.first).to include(claim.total_including_vat.to_s)
+            expect(claim_journeys.second).to include(claim.total_including_vat.to_s)
           end
         end
 

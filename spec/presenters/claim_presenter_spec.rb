@@ -156,7 +156,7 @@ RSpec.describe ClaimPresenter do
     cw2.user.email = 'bob@bigblackhole.com'
     claim.case_workers << cw1
     claim.case_workers << cw2
-    expect(subject.case_worker_email_addresses).to eql('john@bigblackhole.com, bob@bigblackhole.com')
+    expect(subject.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com')
   end
 
   it '#caseworker_claim_id' do

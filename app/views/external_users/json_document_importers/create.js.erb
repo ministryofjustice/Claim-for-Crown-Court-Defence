@@ -6,6 +6,11 @@ var $importerResults = $('.importer-results');
 	$importerResults.html(
       '<div class="results-body import-success">' +
         '<h4>Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, "new claim") %> in draft state</h4>' +
+        '<ul>' +
+        <% @json_document_importer.imported_claims.each do |claim| %>
+          '<li><%= claim.case_number %></li>' +
+        <% end %>
+        '</ul>' +
       '</div>'
   );
 	<% @json_document_importer.imported_claims.each do |imported_claim| %>
@@ -43,8 +48,12 @@ var $importerResults = $('.importer-results');
       '<div class="results-body import-failed">' +
         '<h4>There were errors in the following <%= pluralize(@json_document_importer.failed_imports.count, "claim") %> and these were not imported</h4>' +
         '<ul>' +
-        <% @json_document_importer.failed_imports.each do |fail| %>
-          '<li><%= fail["claim"]["case_number"] %></li>' +
+        <% @json_document_importer.errors.each do |case_number, error_messages| %>
+          '<li><%= "#{case_number}:" %><ul>' +
+          <% error_messages.each do |msg| %>
+            '<li><%= msg %></li>' +
+          <% end %>
+          '</ul>' + 
         <% end %>
         '</ul>' +
       '</div>'

@@ -66,9 +66,10 @@ class JsonDocumentImporter
         create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
         @imported_claims << Claim.find_by(uuid: @claim_id)
       rescue ArgumentError => e
-        claim_hash['claim']['case_number'] = "Claim #{index+1} (no readable case number)" if claim_hash['claim']['case_number'].blank?
+        case_number =  claim_hash['claim']['case_number'].blank? ? "Claim #{index+1} (no readable case number)" : claim_hash['claim']['case_number']
+        claim_hash['claim']['case_number'] = case_number
         @failed_imports << claim_hash
-        @errors["claim_#{index + 1}".to_sym] = JSON.parse(e.message)
+        @errors[case_number] = JSON.parse(e.message).map{ |error_hash| error_hash['error'] }
         claim = Claim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
         claim.destroy if claim.present?
       rescue JSON::Schema::ValidationError => e

@@ -15,6 +15,8 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUser, type: :model do
+  it_behaves_like 'user_roles', ExternalUser, ExternalUser::ROLES
+
   it { should belong_to(:provider) }
   it { should have_many(:claims) }
   it { should have_many(:claims_created) }
@@ -58,7 +60,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['advocate'] }
 
         it 'should be valid' do
-          a = FactoryGirl.build :external_user, :advocate
+          a = build :external_user, :advocate
           expect(a).to be_valid
         end
       end
@@ -67,7 +69,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['admin'] }
 
         it 'should be valid' do
-          a = FactoryGirl.build :external_user, :admin
+          a = build :external_user, :admin
           expect(a).to be_valid
         end
       end
@@ -86,7 +88,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['advocate'] }
 
         it 'should be valid without a supplier number' do
-          a = FactoryGirl.build :external_user, :advocate, provider: provider, supplier_number: nil
+          a = build :external_user, :advocate, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
       end
@@ -97,7 +99,7 @@ RSpec.describe ExternalUser, type: :model do
         it { should_not validate_presence_of(:supplier_number) }
 
         it 'should be valid without a supplier number' do
-          a = FactoryGirl.build :external_user, :admin, provider: provider, supplier_number: nil
+          a = build :external_user, :admin, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
       end
@@ -116,30 +118,30 @@ RSpec.describe ExternalUser, type: :model do
         it { should validate_presence_of(:supplier_number) }
 
         it 'should not be valid without a supplier number' do
-          a = FactoryGirl.build :external_user, provider: provider, supplier_number: nil
+          a = build :external_user, provider: provider, supplier_number: nil
           expect(a).not_to be_valid
         end
 
         it 'should fail validation if too long' do
-          a = FactoryGirl.build :external_user, supplier_number: 'ACC123', provider: provider
+          a = build :external_user, supplier_number: 'ACC123', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
         end
 
         it 'should fail validation if too short' do
-          a = FactoryGirl.build :external_user, supplier_number: 'AC12', provider: provider
+          a = build :external_user, supplier_number: 'AC12', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
         end
 
         it 'should fail validation if not alpha-numeric' do
-          a = FactoryGirl.build :external_user, supplier_number: 'AC-12', provider: provider
+          a = build :external_user, supplier_number: 'AC-12', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
         end
 
         it 'should pass validation if 5 alpha-numeric' do
-          a = FactoryGirl.build :external_user, supplier_number: 'AC123', provider: provider
+          a = build :external_user, supplier_number: 'AC123', provider: provider
           expect(a).to be_valid
         end
       end
@@ -150,7 +152,7 @@ RSpec.describe ExternalUser, type: :model do
         it { should_not validate_presence_of(:supplier_number) }
 
         it 'should be valid without a supplier number' do
-          a = FactoryGirl.build :external_user, :admin, provider: provider, supplier_number: nil
+          a = build :external_user, :admin, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
       end
@@ -211,6 +213,7 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
+<<<<<<< HEAD
   describe '.admins' do
     before do
       create(:external_user, :admin)
@@ -346,9 +349,11 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
+=======
+>>>>>>> develop
   describe '#name_and_number' do
     it 'should print last name, first name and supplier number' do
-      a = FactoryGirl.create(:external_user, supplier_number: 'XX878', user: FactoryGirl.create(:user, last_name: 'Smith', first_name: 'John'))
+      a = create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John'))
       expect(a.name_and_number).to eq "Smith, John: XX878"
     end
   end
@@ -356,9 +361,9 @@ end
 
 
 def create_admin(provider, first_name, last_name)
-  FactoryGirl.create :external_user, :admin, provider: provider, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
+  create :external_user, :admin, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
 end
 
 def create_external_user(provider, first_name, last_name)
-  FactoryGirl.create :external_user, provider: provider, user: FactoryGirl.create(:user, first_name: first_name, last_name: last_name)
+  create :external_user, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
 end

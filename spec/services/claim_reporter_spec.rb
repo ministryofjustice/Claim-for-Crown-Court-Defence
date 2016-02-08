@@ -1,20 +1,29 @@
 require 'rails_helper'
+require 'support/database_housekeeping'
 
 RSpec.describe ClaimReporter do
+  include DatabaseHousekeeping
+  before(:all) do
+    @draft_claim_1 = create(:draft_claim, form_id: SecureRandom.uuid)
+    @authorised_claim_1 = create(:authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
+    @submitted_claim_1 = create(:submitted_claim, form_id: SecureRandom.uuid)
+    @allocated_claim_1 = create(:allocated_claim, form_id: SecureRandom.uuid)
+    @allocated_claim_2 = create(:allocated_claim, form_id: SecureRandom.uuid)
+    @part_authorised_claim_1 = create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
+    @part_authorised_claim_2 = create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
+    @rejected_claim_1 = create(:rejected_claim, form_id: SecureRandom.uuid)
+    @rejected_claim_2 = create(:rejected_claim, form_id: SecureRandom.uuid)
+
+    @old_part_authorised_claim = create(:part_authorised_claim, form_id: SecureRandom.uuid).update_column(:authorised_at, 5.weeks.ago)
+    @old_rejected_claim = create(:rejected_claim, form_id: SecureRandom.uuid).claim_state_transitions.last.update_column(:created_at, 5.weeks.ago)
+  end
+
+  after(:all) do
+    clean_database
+  end
+
+
   subject { ClaimReporter.new }
-
-  let!(:draft_claim_1) { create(:draft_claim, form_id: SecureRandom.uuid) }
-  let!(:authorised_claim_1) { create(:authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid) }
-  let!(:submitted_claim_1) { create(:submitted_claim, form_id: SecureRandom.uuid) }
-  let!(:allocated_claim_1) { create(:allocated_claim, form_id: SecureRandom.uuid) }
-  let!(:allocated_claim_2) { create(:allocated_claim, form_id: SecureRandom.uuid) }
-  let!(:part_authorised_claim_1) { create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid) }
-  let!(:part_authorised_claim_2) { create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid) }
-  let!(:rejected_claim_1) { create(:rejected_claim, form_id: SecureRandom.uuid) }
-  let!(:rejected_claim_2) { create(:rejected_claim, form_id: SecureRandom.uuid) }
-
-  let!(:old_part_authorised_claim) { create(:part_authorised_claim, form_id: SecureRandom.uuid).update_column(:authorised_at, 5.weeks.ago) }
-  let!(:old_rejected_claim) { create(:rejected_claim, form_id: SecureRandom.uuid).claim_state_transitions.last.update_column(:created_at, 5.weeks.ago) }
 
   describe '#authorised_in_full' do
     it 'returns the percentage of claims authorised in full this month' do
@@ -54,20 +63,20 @@ RSpec.describe ClaimReporter do
 
   describe '#outstanding' do
     it 'returns all outstanding claims' do
-      expect(subject.outstanding).to match_array([submitted_claim_1, allocated_claim_1, allocated_claim_2])
+      expect(subject.outstanding).to match_array([@submitted_claim_1, @allocated_claim_1, @allocated_claim_2])
     end
   end
 
   describe '#oldest_outstanding' do
     it 'returns the oldest outstanding claim' do
-      expect(subject.oldest_outstanding).to eq(submitted_claim_1)
+      expect(subject.oldest_outstanding).to eq(@submitted_claim_1)
     end
   end
 
   describe '#completion_rate' do
     before do
-      create(:claim_intention, form_id: submitted_claim_1.form_id)
-      create(:claim_intention, form_id: allocated_claim_1.form_id)
+      create(:claim_intention, form_id: @submitted_claim_1.form_id)
+      create(:claim_intention, form_id: @allocated_claim_1.form_id)
 
       create(:claim_intention, form_id: SecureRandom.uuid)
       create(:claim_intention, form_id: SecureRandom.uuid)

@@ -108,11 +108,11 @@ class ClaimPresenter < BasePresenter
   end
 
   def case_worker_names
-    claim.case_workers.map(&:name).join(', ')
+    claim.case_workers.map(&:name).sort.join(', ')
   end
 
   def case_worker_email_addresses
-    claim.case_workers.map(&:email).join(', ')
+    claim.case_workers.map(&:email).sort.join(', ')
   end
 
   def caseworker_claim_id

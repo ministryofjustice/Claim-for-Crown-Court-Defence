@@ -1,17 +1,16 @@
-- claims.each do |claim_object|
-  - present(claim_object) do |claim|
-    %tr
-      %td.defendants
-        = f.label(claim.caseworker_claim_id) do
-          = claim.defendant_names
-      %td.case_number
-        = f.label(claim.caseworker_claim_id) do
-          = claim.case_number
-      %td.advocate
-        = f.label(claim.caseworker_claim_id) do
-          = claim.advocate.email
-      %td.court_name
-        = f.label(claim.caseworker_claim_id) do
-          = claim.court.name
-      %td
-        = claim_allocation_checkbox_helper(claim, case_worker)
+- present_collection(claims).each do |claim|
+  %tr
+    %td.defendants
+      = f.label(claim.caseworker_claim_id) do
+        = claim.defendant_names
+    %td.case_number
+      = f.label(claim.caseworker_claim_id) do
+        = claim.case_number
+    %td.advocate
+      = f.label(claim.caseworker_claim_id) do
+        = claim.advocate.email
+    %td.court_name
+      = f.label(claim.caseworker_claim_id) do
+        = claim.court.name
+    %td
+      = claim_allocation_checkbox_helper(claim, case_worker)

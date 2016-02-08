@@ -569,11 +569,6 @@ en:
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       additional_information: Additional information
-    vat_summary:
-      tax_date: Tax date
-      vat_rate: VAT Rate
-      net_total: Net total
-      vat_amount: VAT Amount
 
 # en.case_workers
   case_workers:

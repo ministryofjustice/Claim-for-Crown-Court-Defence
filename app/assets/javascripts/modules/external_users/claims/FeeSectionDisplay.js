@@ -4,8 +4,6 @@ moj.Modules.FeeSectionDisplay = {
   $fixedFeesSet: {},
   $expenseSet: {},
   $miscFeesSet: {},
-  $vatApplyChkbox: {},
-  $vatReport: {},
   regex: {},
 
   init : function() {
@@ -15,32 +13,15 @@ moj.Modules.FeeSectionDisplay = {
     //initialise handles
     self.$caseTypeSelect = $('#claim_case_type_id');
     //Initial Fees
-    var $basicFeesSet = self.$basicFeesSet = $('#basic-fees').closest('fieldset');
-    var $fixedFeesSet = self.$fixedFeesSet = $('#fixed-fees').closest('fieldset');
-    var $miscFeesSet = self.$miscFeesSet = $('#misc-fees').closest('fieldset');
-    var $expenseSet = self.$expenseSet = $('#expenses').closest('fieldset');
-    //Apply VAT checkbox
-    self.$vatApplyChkbox = $('#claim_apply_vat');
-    // VAT Report Section
-    self.$vatReport = $('#vat-report');
+    self.$basicFeesSet = $('#basic-fees').closest('fieldset');
+    self.$fixedFeesSet = $('#fixed-fees').closest('fieldset');
+    self.$miscFeesSet = $('#misc-fees').closest('fieldset');
+    self.$expenseSet = $('#expenses').closest('fieldset');
 
     // add change listener
     self.$caseTypeSelect.change(function(){
       self.addCaseTypeChangeEvent();
     });
-
-    // add change listener
-    self.$vatApplyChkbox
-    .add($basicFeesSet)
-    .add($fixedFeesSet)
-    .add($miscFeesSet)
-    .add($expenseSet)
-      .on('change',':checkbox,.amount,.rate, #expenses .quantity',function(){
-        self.applyVAT();
-      });
-
-    //Show the VAT report if "Apply VAT"is checked
-    self.showHideVAT();
 
     // show the relevant fees fieldset if case type already selected (i.e. if editing existing claim)
     var is_fixed_fee = $('#claim_case_type_id').find(':selected').data('is-fixed-fee');
@@ -92,45 +73,6 @@ moj.Modules.FeeSectionDisplay = {
   addCaseTypeChangeEvent : function() {
     var is_fixed_fee = $('#claim_case_type_id').find(':selected').data('is-fixed-fee');
     this.applyFixedFeeState(is_fixed_fee === true);
-  },
-
-  showHideVAT :function(){
-    if(this.$vatApplyChkbox.is(':checked')){
-      this.$vatReport.show();
-    }else{
-      this.$vatReport.hide();
-    }
-  },
-
-  getVAT :function(){
-    return $.ajax({
-      url: this.$vatReport.data('vat-url'),
-      data: {
-        date: this.$vatReport.data('submitted-date'),
-        net_amount: moj.Modules.FeeCalculator.totalFee()
-      }
-    });
-  },
-  applyVAT : function(){
-    var $vatReport = this.$vatReport;
-    var self = this;
-
-    if(this.$vatApplyChkbox.is(':checked')){
-
-      $.when(this.getVAT())
-      .then(function( data){
-        $vatReport.find('.vat-date').text(data.date);
-        $vatReport.find('.vat-rate').text(data.rate);
-        $vatReport.find('.vat-total').text(data.net_amount);
-        $vatReport.find('.vat-amount').text(data.vat_amount);
-      })
-      .then(function(){
-        if($vatReport.filter(':visible').length === 0){
-          self.showHideVAT();
-        }
-      });
-    }else{
-      this.showHideVAT();
-    }
   }
+
 };

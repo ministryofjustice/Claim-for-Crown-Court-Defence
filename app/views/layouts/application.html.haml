@@ -36,7 +36,7 @@
           will help us to improve it.
           You can
           = link_to "report a fault here.", new_bug_report_path
-    .container
+    #content.container
       = render partial: 'layouts/flashes' unless flash.empty?
       %main.main-content
         = yield

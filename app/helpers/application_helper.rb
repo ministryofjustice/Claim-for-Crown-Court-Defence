@@ -29,8 +29,14 @@ module ApplicationHelper
   end
 
   #Returns a "current" css class if the path = current_page
+  # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
   def cp(path)
-    "current" if current_page?(path)
+    tab = extract_uri_param(path, 'tab')
+    if tab.present?
+      "current" if request.path == strip_params(path) && request.GET[:tab] == tab
+    else
+      "current" if request.path == strip_params(path)
+    end
   end
 
   def number_with_precision_or_default(number, options = {})
@@ -71,4 +77,13 @@ module ApplicationHelper
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
     link_to title, params.except(:page).merge({ sort: column, direction: direction }), { class: css_class }
   end
+
+  def extract_uri_param(path,param)
+    CGI.parse(URI.parse(path).query)[param][0] rescue nil
+  end
+
+  def strip_params(path)
+    URI.parse(path).path rescue nil
+  end
+
 end

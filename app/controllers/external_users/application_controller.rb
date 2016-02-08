@@ -9,7 +9,7 @@ class ExternalUsers::ApplicationController < ApplicationController
       redirect_to root_path_url_for_user, alert: 'Must be signed in as an external user'
     end
   end
-  
+
   def date_attributes_for(date_param)
     date_params = []
     %w(dd mm yyyy).each do |part|

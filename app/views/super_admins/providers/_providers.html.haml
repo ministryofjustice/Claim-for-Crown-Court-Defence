@@ -11,6 +11,8 @@
       %th
         = t('.provider_type')
       %th
+        = t('.fee_schemes')
+      %th
         = t('.vat_registered')
       %th
         Users
@@ -23,6 +25,8 @@
             = provider.name
           %td
             = provider.provider_type.humanize
+          %td
+            = provider.roles.map(&:upcase) * ', '
           %td
             = provider.vat_registered == true ? 'Yes' : 'No'
           %td

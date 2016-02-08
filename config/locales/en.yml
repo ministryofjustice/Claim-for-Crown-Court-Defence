@@ -207,6 +207,7 @@ en:
       supplier_number: &supplier_number 'Supplier number'
       vat_registered: &vat_registered 'VAT registered'
       show:
+        fee_schemes: Fee schemes 
         provider_type: *provider_type
         provider_name: *provider_name
         supplier_number: *supplier_number
@@ -214,6 +215,7 @@ en:
       index:
         add_a_provider: Add a provider
       providers:
+        fee_schemes: Fee schemes
         provider_type: *provider_type
         provider_name: *provider_name
         supplier_number: *supplier_number
@@ -222,6 +224,7 @@ en:
         error: 'error'
         prohibited_save: 'This provider has'
         provider_type: *provider_type
+        fee_schemes: 'Fee schemes'
         provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered

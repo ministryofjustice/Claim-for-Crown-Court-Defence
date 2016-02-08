@@ -3,13 +3,23 @@
 %h2
   = @provider.name
 
-%p
-  = label_tag :supplier_number, t('.supplier_number'), class: "form-label"
-  = @provider.supplier_number
+%h3
+  = t('.provider_type')
+= @provider.provider_type.capitalize
 
-%p
-  = label_tag :vat_registered, t('.vat_registered'), class: "form-label"
-  = @provider.vat_registered == true ? 'Yes' : 'No'
+
+%h3
+  = t('.fee_schemes')
+= @provider.roles.map(&:upcase) * ', '
+
+%h3
+  = t('.supplier_number')
+= @provider.supplier_number
+
+%h3
+  =t('.vat_registered')
+= @provider.vat_registered == true ? 'Yes' : 'No'
 
 - if can? :edit, @provider
-  = link_to 'Edit', edit_super_admins_provider_path(@provider), class: 'button'
+  %p
+    = link_to 'Edit', edit_super_admins_provider_path(@provider), class: 'button'

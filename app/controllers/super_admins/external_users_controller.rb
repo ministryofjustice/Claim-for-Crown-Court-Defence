@@ -2,7 +2,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
 
   include PasswordHelpers
 
-  before_action :set_provider,  only: [:show, :index, :edit, :update, :new, :create, :change_password, :update_password]
+  before_action :set_provider
   before_action :set_external_user,  only: [:show, :edit, :update, :change_password, :update_password]
 
   def show; end

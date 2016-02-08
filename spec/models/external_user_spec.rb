@@ -32,6 +32,27 @@ RSpec.describe ExternalUser, type: :model do
   it { should delegate_method(:first_name).to(:user) }
   it { should delegate_method(:last_name).to(:user) }
   it { should delegate_method(:name).to(:user) }
+  it { should delegate_method(:agfs?).to(:provider) }
+  it { should delegate_method(:lgfs?).to(:provider) }
+
+  context 'roles' do
+    it 'is not valid when no roles present' do
+      external_user = build(:external_user, roles: [])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('at least one role must be present')
+    end
+
+    it 'is not valid for roles not in the ROLES array' do
+      external_user = build(:external_user, roles: ['foobar', 'admin', 'advocate'])
+      expect(external_user).to_not be_valid
+      expect(external_user.errors[:roles]).to include('must be one or more of: admin, advocate, litigator')
+    end
+
+    it 'is valid for roles in the ROLES array' do
+      external_user = build(:external_user, roles: ['advocate', 'admin'])
+      expect(external_user).to be_valid
+    end
+  end
 
   context 'supplier number validation' do
     context 'when no Provider present' do
@@ -188,7 +209,142 @@ RSpec.describe ExternalUser, type: :model do
 
   describe 'ROLES' do
     it 'should have "admin" and "advocate"' do
-      expect(ExternalUser::ROLES).to match_array(%w( admin advocate ))
+      expect(ExternalUser::ROLES).to match_array(%w( admin advocate litigator))
+    end
+  end
+
+  describe '.admins' do
+    before do
+      create(:external_user, :admin)
+      create(:external_user, :advocate)
+    end
+
+    it 'only returns external_users with role "admin"' do
+      expect(ExternalUser.admins.count).to eq(1)
+    end
+
+    it 'returns external_users with role "admin" and "advocate"' do
+      e = ExternalUser.first
+      e.roles = ['admin', 'advocate']
+      e.save!
+      expect(ExternalUser.admins.count).to eq(1)
+    end
+  end
+
+  describe '.advocates' do
+    before do
+      create(:external_user, :admin)
+      create(:external_user, :admin)
+      create(:external_user)
+    end
+
+    it 'only returns external_users with role "advocate"' do
+      expect(ExternalUser.advocates.count).to eq(1)
+    end
+
+    it 'returns external_users with role "admin" and "advocate"' do
+      e = ExternalUser.last
+      e.roles = ['admin', 'advocate']
+      e.save!
+      expect(ExternalUser.advocates.count).to eq(1)
+    end
+  end
+
+  describe 'roles' do
+    let(:admin) { create(:external_user, :admin) }
+    let(:advocate) { create(:external_user, :advocate) }
+
+    describe '#is?' do
+      context 'given advocate' do
+        context 'if advocate' do
+          it 'returns true' do
+            expect(advocate.is? :advocate).to eq(true)
+          end
+        end
+
+        context 'for an admin' do
+          it 'returns false' do
+            expect(admin.is? :advocate).to eq(false)
+          end
+        end
+      end
+
+      context 'given admin' do
+        context 'for an admin' do
+          it 'returns true' do
+            expect(admin.is? :admin).to eq(true)
+          end
+        end
+
+        context 'for a advocate' do
+          it 'returns false' do
+            expect(advocate.is? :admin).to eq(false)
+          end
+        end
+      end
+    end
+
+    describe '#advocate?' do
+      context 'for an advocate' do
+        it 'returns true' do
+          expect(advocate.advocate?).to eq(true)
+        end
+      end
+
+      context 'for an admin' do
+        it 'returns false' do
+          expect(admin.advocate?).to eq(false)
+        end
+      end
+    end
+
+    describe '#admin?' do
+      context 'for an admin' do
+        it 'returns true' do
+          expect(admin.admin?).to eq(true)
+        end
+      end
+
+      context 'for a advocate' do
+        it 'returns false' do
+          expect(advocate.admin?).to eq(false)
+        end
+      end
+    end
+  end
+
+  describe '#available_roles' do
+    let(:advocate)            { create(:external_user, :advocate)           }
+    let(:litigator)           { create(:external_user, :litigator)          }
+    let(:advocate_litigator)  { create(:external_user, :advocate_litigator) }
+    context 'when the user does not belong to a provider' do
+      it 'returns admin' do
+        advocate.provider = nil
+        expect(advocate.available_roles).to eq ['admin']
+      end
+    end
+    context 'when the user belongs to a provider that' do
+      context 'handles both AGFS and LGFS claims' do
+        it 'returns admin advocate and litigator' do
+          expect(advocate_litigator.available_roles).to eq ['admin', 'advocate', 'litigator']
+        end
+      end
+      context 'handles only AGFS claims' do
+        it 'returns admin and advocate' do
+          expect(advocate.available_roles).to eq ['admin', 'advocate']
+        end
+      end
+      context 'handles only LGFS claims' do
+        it 'returns admin and litigator' do 
+          expect(litigator.available_roles).to eq ['admin', 'litigator']
+        end
+      end
+    end
+    context 'when an invalid fee scheme is used' do
+      it 'raises an error' do
+        advocate.provider.roles = %w( invalid_role )
+        expect { advocate.available_roles }.to raise_error
+      end
     end
   end
 

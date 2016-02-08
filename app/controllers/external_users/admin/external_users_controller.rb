@@ -5,7 +5,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   before_action :set_external_user, only: [:show, :edit, :update, :destroy, :change_password, :update_password]
 
   def index
-    @external_users = current_user.persona.provider.external_users.joins(:user)
+    @external_users = current_provider.external_users.joins(:user)
     @external_users = @external_users.where("lower(users.first_name || ' ' || users.last_name) ILIKE :term", term: "%#{params[:search]}%") if params[:search].present?
     @external_users = @external_users.ordered_by_last_name
   end
@@ -17,12 +17,12 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   def change_password; end
 
   def new
-    @external_user = ExternalUser.new
+    @external_user = ExternalUser.new(provider_id: current_provider.id)
     @external_user.build_user
   end
 
   def create
-    @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_user.persona.provider.id))
+    @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_provider.id))
 
     if @external_user.save
       send_ga('event', 'external_user', 'created')
@@ -51,6 +51,10 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   end
 
   private
+
+  def current_provider
+    @current_provider ||= current_user.persona.provider
+  end
 
   def set_external_user
     @external_user = ExternalUser.find(params[:id])

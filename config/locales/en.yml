@@ -438,16 +438,23 @@ en:
         select_offence_class: 'Please select'
       edit:
         edit: Edit claim
-
       expense_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
       fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
-      fixed_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+      fixed_fees:
+        form:
+          add_fixed_fee: 'Add another fixed fee'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          fixed_fees: 'Fixed fees'
+          quantity: 'Quantity'
+          rate: 'Rate'
+        fixed_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
       misc_fees:
         form:
           add_misc_fee: 'Add another miscellaneous fee'
@@ -473,8 +480,6 @@ en:
         # prohibited_save: 'This claim has'
         additional_information: 'Additional information'
         additional_information_prompt_text: 'eg any other information that will help us process your claim'
-        fixed_fees: 'Fixed fees'
-        add_fixed_fee: 'Add another Fixed fee'
         expenses: 'Expenses'
         expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
         hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)

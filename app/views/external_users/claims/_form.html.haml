@@ -13,27 +13,7 @@
 
     = render partial: 'external_users/claims/misc_fees/form', locals: { f: f }
 
-    %h2.bold-medium
-      = t('.fixed_fees')
-    #fixed-fees
-      %table
-        %thead
-          %tr
-            %th
-              = t('.fee_type')
-            %th
-              = t('.quantity')
-            %th
-              = t('.rate')
-            %th
-              = t('.amount')
-            %td
-            %td
-        = f.fields_for :fixed_fees do |fixed_fee_fields|
-          - @fixed_fee_count += 1
-          = render 'fixed_fee_fields', f: fixed_fee_fields
-
-      = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+    = render partial: 'external_users/claims/fixed_fees/form', locals: { f: f }
 
     %h2.bold-medium
       = t('.expenses')

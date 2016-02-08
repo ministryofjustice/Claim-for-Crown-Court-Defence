@@ -331,6 +331,35 @@ en:
       authorised:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
+      case_details:
+        cracked_trial_fields:
+          cracked_trial_detail: Cracked trial detail
+          trial_cracked_at: 'Case cracked'
+          trial_cracked_at_third: 'Case cracked in'
+          trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
+          trial_fixed_at: '1st fixed/warned trial'
+        form:
+          advocate: *advocate
+          advocate_category: 'Advocate category'
+          case_advocate_offence: 'Case, instructed advocate & offence'
+          case_number: 'Case number'
+          case_type: 'Case type'
+          court: 'Court'
+          cracked_trial_detail: 'Cracked trial detail'
+          offence_category: 'Offence category'
+          offence_class: 'Offence class'
+          select_category: 'Please select'
+        trial_detail_fields:
+          actual_trial_length: 'Actual trial length'
+          estimated_trial_length: 'Estimated trial length'
+          first_day_of_trial: 'First day of trial'
+          trial_concluded_at: 'Trial concluded on'
+        retrial_detail_fields:
+          retrial_actual_length: 'Actual retrial length'
+          retrial_concluded_at: 'Retrial concluded on'
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_started_at: 'First day of retrial'
+
       claims:
         no_claims_found: 'No claims found'
         advocate: *advocate
@@ -357,12 +386,6 @@ en:
         thanks: Thank you for submitting your claim
         total: "Total:"
         will_be_processed: Your claim will be processed shortly
-      cracked_trial_fields:
-        cracked_trial_detail: Cracked trial detail
-        trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
-        trial_fixed_at: '1st fixed/warned trial'
-        trial_cracked_at: 'Case cracked'
-        trial_cracked_at_third: 'Case cracked in'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
@@ -422,16 +445,7 @@ en:
         # error: 'error'
         # form_error_hint: 'Check below for more detail'
         # prohibited_save: 'This claim has'
-        case_advocate_offence: 'Case, instructed advocate & offence'
-        advocate: *advocate
-        case_type: 'Case type'
-        cracked_trial_detail: 'Cracked trial detail'
-        court: 'Court'
-        case_number: 'Case number'
-        advocate_category: 'Advocate category'
-        offence_class: 'Offence class'
-        offence_category: 'Offence category'
-        select_category: 'Please select'
+
         defendants: 'Defendants'
         add_another_defendant: 'Add another defendant'
         additional_information: 'Additional information'
@@ -490,16 +504,7 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-      trial_detail_fields:
-        first_day_of_trial: 'First day of trial'
-        estimated_trial_length: 'Estimated trial length'
-        actual_trial_length: 'Actual trial length'
-        trial_concluded_at: 'Trial concluded on'
-      retrial_detail_fields:
-        retrial_started_at: 'First day of retrial'
-        retrial_estimated_length: 'Estimated retrial length'
-        retrial_actual_length: 'Actual retrial length'
-        retrial_concluded_at: 'Retrial concluded on'
+
 
 # en.shared
   shared:

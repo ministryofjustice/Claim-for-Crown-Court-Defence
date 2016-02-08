@@ -325,6 +325,10 @@ en:
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
     claims:
+      additional_information:
+        form:
+          additional_information: 'Additional information'
+          additional_information_prompt_text: 'eg any other information that will help us process your claim'
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -483,8 +487,7 @@ en:
         # error: 'error'
         # form_error_hint: 'Check below for more detail'
         # prohibited_save: 'This claim has'
-        additional_information: 'Additional information'
-        additional_information_prompt_text: 'eg any other information that will help us process your claim'
+
         vat_required: 'VAT on fees & expenses (please tick if required)'
         submit_to_laa: 'Submit to LAA'
         save_to_drafts: 'Save to drafts'

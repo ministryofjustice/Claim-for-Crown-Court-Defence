@@ -13,10 +13,10 @@ moj.Modules.FeeSectionDisplay = {
     //initialise handles
     self.$caseTypeSelect = $('#claim_case_type_id');
     //Initial Fees
-    self.$basicFeesSet = $('#basic-fees').closest('fieldset');
-    self.$fixedFeesSet = $('#fixed-fees').closest('fieldset');
-    self.$miscFeesSet = $('#misc-fees').closest('fieldset');
-    self.$expenseSet = $('#expenses').closest('fieldset');
+    self.$basicFeesSet = $('#basic-fees');
+    self.$fixedFeesSet = $('#fixed-fees');
+    self.$miscFeesSet = $('#misc-fees');
+    self.$expenseSet = $('#expenses');
 
     // add change listener
     self.$caseTypeSelect.change(function(){

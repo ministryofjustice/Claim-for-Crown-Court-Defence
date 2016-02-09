@@ -21,6 +21,8 @@ en:
         subject: "Claim for crown court defence - confirmation instructions"
       reset_password_instructions:
         subject: "Claim for crown court defence - change your password"
+      welcome_password_instructions:
+        subject: "Welcome to Claim for crown court defence"
       unlock_instructions:
         subject: "Claim for crown court defence - unlock your account"
     omniauth_callbacks:

@@ -21,7 +21,7 @@
         = f.label :roles, t('.fee_schemes'), class: "form-label"
         %div.form-group.inline
           =f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
-            - b.label(class: 'block-label') { b.check_box(disabled: @provider.persisted?) + b.value.upcase }
+            - b.label(class: 'block-label') { b.check_box + b.value.upcase }
 
       #js-provider-name
         = f.label t('.provider_name'), class: "form-label"

@@ -17,6 +17,7 @@ Scenario: New advocate user for chamber
     And click save
    Then I see confirmation that a new "User" user has been created
     And an email is sent to the new user
+    And the email body should be as expected
 
 @javascript @webmock_allow_localhost_connect
 Scenario: New external user advocate for chamber

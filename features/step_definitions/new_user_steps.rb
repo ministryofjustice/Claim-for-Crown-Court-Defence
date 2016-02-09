@@ -52,7 +52,11 @@ end
 Then(/^an email is sent to the new user$/) do
   expect(ActionMailer::Base.deliveries.length).to eq 1
   expect(ActionMailer::Base.deliveries.first.to).to eq ["harold.hughes@example.com"]
-  expect(ActionMailer::Base.deliveries.first.subject).to eq "Claim for crown court defence - Change your password"
+  expect(ActionMailer::Base.deliveries.first.subject).to eq "Claim for crown court defence - change your password"
+end
+
+Then(/^the email body should be as expected$/) do
+  expect(ActionMailer::Base.deliveries.first.body).to include("Dear Harold Hughes,")
 end
 
 Then(/^I see an error message$/) do

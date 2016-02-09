@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-shared_examples_for 'user_roles' do |klass, roles|
+shared_examples_for 'roles' do |klass, roles|
   describe 'validation' do
     let(:assigned_roles) { [] }
     subject { build(klass.to_s.underscore.to_sym, roles: assigned_roles) }

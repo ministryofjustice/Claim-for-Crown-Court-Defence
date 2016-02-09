@@ -55,4 +55,10 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.active_record.raise_in_transactional_callbacks = true
+
+  # enable the ability to preview devise emails
+  # And index of all can, be viewed at:
+  # using webrick defaults at http://localhost:3000/rails/mailers
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+
 end

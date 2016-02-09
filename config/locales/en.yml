@@ -325,12 +325,88 @@ en:
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
     claims:
+      additional_information:
+        form:
+          additional_information: 'Additional information'
+          additional_information_prompt_text: 'eg any other information that will help us process your claim'
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
       authorised:
         authorised_claims: 'Authorised claims for last week'
         with_total_assessed_value_of: 'claims with a total assessed value of'
+      basic_fees:
+        basic_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+        basic_fee_calculated_fields:
+          basic_fee_prompt_text: |
+            Please include dates for those Standard appearance<br />
+            fees and PCMH's included in the Basic Fee
+          saf_prompt_text: Include any additional PCMH fees under SAF
+        basic_fee_uncalculated_fields:
+          ppe_section_header: PPE
+          ppe_section_hint: Total number of pages of prosecution evidence
+          npw_section_header: Witnesses
+          npw_section_hint: Total number of prosecution witnesses
+        form:
+          amount: 'Amount'
+          basic_fees: 'Initial fees'
+          fee_prompt_text: |
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+            for help.
+          fee_type: 'Type of fee'
+          quantity: 'Quantity'
+          rate: 'Rate'
+      buttons:
+        new:
+          submit_to_laa: 'Submit to LAA'
+          save_to_drafts: 'Save to drafts'
+          clear_form: 'Clear form'
+      case_details:
+        cracked_trial_fields:
+          cracked_trial_detail: Cracked trial detail
+          trial_cracked_at: 'Case cracked'
+          trial_cracked_at_third: 'Case cracked in'
+          trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
+          trial_fixed_at: '1st fixed/warned trial'
+        form:
+          advocate: *advocate
+          advocate_category: 'Advocate category'
+          case_advocate_offence: 'Case, instructed advocate & offence'
+          case_number: 'Case number'
+          case_type: 'Case type'
+          court: 'Court'
+          cracked_trial_detail: 'Cracked trial detail'
+          offence_category: 'Offence category'
+          offence_class: 'Offence class'
+          select_category: 'Please select'
+        trial_detail_fields:
+          actual_trial_length: 'Actual trial length'
+          estimated_trial_length: 'Estimated trial length'
+          first_day_of_trial: 'First day of trial'
+          trial_concluded_at: 'Trial concluded on'
+        retrial_detail_fields:
+          retrial_actual_length: 'Actual retrial length'
+          retrial_concluded_at: 'Retrial concluded on'
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_started_at: 'First day of retrial'
+      defendants:
+        defendant_fields:
+          first_name: *first_name
+          last_name: *last_name
+          full_name: Full name
+          date_of_birth: 'Date of birth'
+          order_for_judicial_apportionment:  |
+            Order for judicial apportionment
+            (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
+          add_another_rep_order: 'Add another representation order'
+          remove_defendant: 'Remove defendant'
+        form:
+          defendants: 'Defendants'
+          add_another_defendant: 'Add another defendant'
+        representation_order_fields:
+          representation_order: 'Representation order'
       claims:
         no_claims_found: 'No claims found'
         advocate: *advocate
@@ -347,8 +423,6 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
-
-
       confirmation:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"
@@ -357,26 +431,24 @@ en:
         thanks: Thank you for submitting your claim
         total: "Total:"
         will_be_processed: Your claim will be processed shortly
-      cracked_trial_fields:
-        cracked_trial_detail: Cracked trial detail
-        trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
-        trial_fixed_at: '1st fixed/warned trial'
-        trial_cracked_at: 'Case cracked'
-        trial_cracked_at_third: 'Case cracked in'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove_date: 'Remove date attended'
-      defendant_fields:
-        first_name: *first_name
-        last_name: *last_name
-        full_name: Full name
-        date_of_birth: 'Date of birth'
-        order_for_judicial_apportionment:  |
-          Order for judicial apportionment
-          (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
-        add_another_rep_order: 'Add another representation order'
-        remove_defendant: 'Remove defendant'
+      expenses:
+        expense_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+        form:
+          add_another_expense: 'Add another expense'
+          amount: 'Amount'
+          expenses: 'Expenses'
+          expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
+          expense_type: 'Type of expense'
+          hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
+          location: 'Destination'
+          quantity_hours: 'Quantity / Hours'
+          rate: 'Rate'
       error_summary:
         prohibited_save: This claim has
         error: 'error'
@@ -386,84 +458,36 @@ en:
         select_offence_class: 'Please select'
       edit:
         edit: Edit claim
-      basic_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
-      basic_fee_calculated_fields:
-        basic_fee_prompt_text: |
-          Please include dates for those Standard appearance<br />
-          fees and PCMH's included in the Basic Fee
-        saf_prompt_text: Include any additional PCMH fees under SAF
-      basic_fee_uncalculated_fields:
-        ppe_section_header: PPE
-        ppe_section_hint: Total number of pages of prosecution evidence
-        npw_section_header: Witnesses
-        npw_section_hint: Total number of prosecution witnesses
-      expense_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+
       fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
-      fixed_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
-      misc_fee_fields:
-        add_date_attended: 'Add date(s)'
-        remove: *remove
+      fixed_fees:
+        form:
+          add_fixed_fee: 'Add another fixed fee'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          fixed_fees: 'Fixed fees'
+          quantity: 'Quantity'
+          rate: 'Rate'
+        fixed_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
+      misc_fees:
+        form:
+          add_misc_fee: 'Add another miscellaneous fee'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          misc_fees: 'Miscellaneous fees'
+          quantity: 'Quantity'
+          rate: 'Rate'
+        misc_fee_fields:
+          add_date_attended: 'Add date(s)'
+          remove: *remove
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
         view_details: 'View details'
-      form:
-        choose_file: 'Choose a file'
-        file_name: "File name"
-        action: "Action"
-        # error: 'error'
-        # form_error_hint: 'Check below for more detail'
-        # prohibited_save: 'This claim has'
-        case_advocate_offence: 'Case, instructed advocate & offence'
-        advocate: *advocate
-        case_type: 'Case type'
-        cracked_trial_detail: 'Cracked trial detail'
-        court: 'Court'
-        case_number: 'Case number'
-        advocate_category: 'Advocate category'
-        offence_class: 'Offence class'
-        offence_category: 'Offence category'
-        select_category: 'Please select'
-        defendants: 'Defendants'
-        add_another_defendant: 'Add another defendant'
-        additional_information: 'Additional information'
-        additional_information_prompt_text: 'eg any other information that will help us process your claim'
-        basic_fees: 'Initial fees'
-        fee_prompt_text: |
-          You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
-          for help.
-        fee_type: 'Type of fee'
-        quantity: 'Quantity'
-        amount: 'Amount'
-        fixed_fees: 'Fixed fees'
-        misc_fees: 'Miscellaneous fees'
-        add_fixed_fee: 'Add another Fixed fee'
-        add_misc_fee: 'Add another miscellaneous fee'
-        expenses: 'Expenses'
-        expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
-        hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
-        expense_type: 'Type of expense'
-        location: 'Destination'
-        quantity_hours: 'Quantity / Hours'
-        rate: 'Rate'
-        amount: 'Amount'
-        add_another_expense: 'Add another expense'
-        vat_required: 'VAT on fees & expenses (please tick if required)'
-        supporting_evidence_checklist: 'Supporting evidence checklist'
-        supporting_evidence_docs: 'Upload supporting evidence'
-        previously_uploaded_docs: 'Previously uploaded documents'
-        add_another_doc: 'Add another document'
-        submit_to_laa: 'Submit to LAA'
-        save_to_drafts: 'Save to drafts'
-        clear_form: 'Clear form'
       index:
         all_claims: All claims
         your_claims: Your claims
@@ -480,8 +504,6 @@ en:
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of
-      representation_order_fields:
-        representation_order: 'Representation order'
       show:
         created_by: "Created by:"
         h2_basic_info: Basic claim information
@@ -490,17 +512,20 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-      trial_detail_fields:
-        first_day_of_trial: 'First day of trial'
-        estimated_trial_length: 'Estimated trial length'
-        actual_trial_length: 'Actual trial length'
-        trial_concluded_at: 'Trial concluded on'
-      retrial_detail_fields:
-        retrial_started_at: 'First day of retrial'
-        retrial_estimated_length: 'Estimated retrial length'
-        retrial_actual_length: 'Actual retrial length'
-        retrial_concluded_at: 'Retrial concluded on'
-
+      supporting_documents:
+        existing:
+          action: "Action"
+          add_another_doc: 'Add another document'
+          file_name: "File name"
+          previously_uploaded_docs: 'Previously uploaded documents'
+        new:
+          action: "Action"
+          choose_file: 'Choose a file'
+          file_name: "File name"
+          supporting_evidence_docs: 'Upload supporting evidence'
+      supporting_evidence_checklist:
+        form:
+          supporting_evidence_checklist: 'Supporting evidence checklist'
 # en.shared
   shared:
     claim:
@@ -544,11 +569,6 @@ en:
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       additional_information: Additional information
-    vat_summary:
-      tax_date: Tax date
-      vat_rate: VAT Rate
-      net_total: Net total
-      vat_amount: VAT Amount
 
 # en.case_workers
   case_workers:

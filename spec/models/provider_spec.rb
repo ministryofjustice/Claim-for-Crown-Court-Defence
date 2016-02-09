@@ -16,8 +16,10 @@
 require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
-  let!(:firm) { create(:provider, :firm) }
-  let!(:chamber) { create(:provider, :chamber) }
+  it_behaves_like 'roles', Provider, Provider::ROLES
+
+  let(:firm) { create(:provider, :firm) }
+  let(:chamber) { create(:provider, :chamber) }
 
   it { should have_many(:external_users) }
   it { should have_many(:claims) }

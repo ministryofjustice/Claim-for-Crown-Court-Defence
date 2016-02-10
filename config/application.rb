@@ -46,5 +46,9 @@ module AdvocateDefencePayments
     config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
 
     config.exceptions_app = self.routes
+
+    config.to_prepare do
+      Devise::Mailer.layout "email" # email.haml or email.erb
+    end
   end
 end

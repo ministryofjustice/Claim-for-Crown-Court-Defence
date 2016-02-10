@@ -55,4 +55,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.active_record.raise_in_transactional_callbacks = true
+
+  #Rack livereload for frontend development
+  config.middleware.use Rack::LiveReload
 end

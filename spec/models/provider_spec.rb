@@ -31,6 +31,15 @@ RSpec.describe Provider, type: :model do
   it { should delegate_method(:advocates).to(:external_users) }
   it { should delegate_method(:admins).to(:external_users) }
 
+  context '#destroy' do
+    before { create(:external_user, :advocate, provider: chamber) }
+    it 'should destroy external users' do
+      expect(ExternalUser.count).to eq 1
+      expect(Provider.count).to eq 1
+      expect{ chamber.destroy }.to change {ExternalUser.count}.by(-1)
+    end
+  end
+
   context 'when firm' do
     subject { firm }
 

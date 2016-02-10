@@ -66,6 +66,10 @@ To use the Claim Import feature locally, the devunicorn environment must be used
 rails server -e devunicorn
 ```
 
+## Developing Cucumber tests
+
+A detailed guide can be found [here](https://github.com/ministryofjustice/advocate-defence-payments/tree/plan-cukes-structure/features#cucumber-test-structure) which sets out the directory structure and expectations on future developed cucumber tests.
+
 
 ## Other useful rake tasks
 

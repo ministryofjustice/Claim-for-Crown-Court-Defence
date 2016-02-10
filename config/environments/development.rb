@@ -56,6 +56,11 @@ Rails.application.configure do
 
   config.active_record.raise_in_transactional_callbacks = true
 
+  # enable the ability to preview devise emails
+  # And index of all can, be viewed at:
+  # using webrick defaults at http://localhost:3000/rails/mailers
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+  
   #Rack livereload for frontend development
   config.middleware.use Rack::LiveReload
 end

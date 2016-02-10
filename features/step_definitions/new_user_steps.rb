@@ -49,10 +49,11 @@ Then(/^I see confirmation that a new "(.*?)" user has been created$/) do |person
   expect(page).to have_content "#{persona} successfully created"
 end
 
-Then(/^an email is sent to the new user$/) do
+Then(/^a welcome email is sent to the new user$/) do
   expect(ActionMailer::Base.deliveries.length).to eq 1
-  expect(ActionMailer::Base.deliveries.first.to).to eq ["harold.hughes@example.com"]
-  expect(ActionMailer::Base.deliveries.first.subject).to eq "Claim for crown court defence - Change your password"
+  expect(ActionMailer::Base.deliveries.last.to).to eq ["harold.hughes@example.com"]
+  expect(ActionMailer::Base.deliveries.last.to_s).to include("Dear Harold Hughes,","You have been registered") #multipart email so need to stringify it
+  expect(ActionMailer::Base.deliveries.last.subject).to eq "Welcome to Claim for crown court defence"
 end
 
 Then(/^I see an error message$/) do

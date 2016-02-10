@@ -1,0 +1,20 @@
+%head
+  %meta{:charset => "UTF-8"}/
+  %title Claim for crown court defence
+  = stylesheet_link_tag "email", media: "all"
+
+%body
+
+  %table#mail-header
+    %tr
+      %td#govuk-logo
+        = image_tag 'govuk_logotype_email.png'
+    %tr
+      %td#moj-logo
+        = image_tag 'moj_logotype_email.png'
+    %tr
+      %td
+        .title
+          Claim for crown court defence
+
+        = yield

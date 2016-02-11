@@ -1,5 +1,7 @@
 //= require select2
-// this stuff should be shared
+
+// grid system
+@import "susy";
 
 //GDS
 @import "fonts";
@@ -9,9 +11,11 @@
 @import "shims";
 @import "typography";
 @import "css3";
+
 @import "design-patterns/alpha-beta";
 @import "design-patterns/buttons";
 
+// custom mixins
 @import "@mixins";
 
 //project specific

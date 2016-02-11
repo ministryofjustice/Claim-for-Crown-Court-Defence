@@ -1,5 +1,4 @@
 class ExternalUsers::ApplicationController < ApplicationController
-	layout 'external_users'
   before_action :authenticate_external_user!
 
   private

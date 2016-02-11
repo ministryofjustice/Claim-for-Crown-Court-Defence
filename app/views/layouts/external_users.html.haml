@@ -1,7 +1,7 @@
 - @disable_logo_link  = true
 - content_for :head do
   %meta{:name =>"format-detection", :content => "telephone=no"}/
-  = stylesheet_link_tag "external_users/application", media: "all"
+  = stylesheet_link_tag "application", media: "all"
 
 - content_for :body_classes do
   = "controller-" + controller.controller_name

@@ -1,5 +1,4 @@
 class CaseWorkers::ApplicationController < ApplicationController
-	layout 'case_worker'
   before_action :authenticate_case_worker!
 
   private

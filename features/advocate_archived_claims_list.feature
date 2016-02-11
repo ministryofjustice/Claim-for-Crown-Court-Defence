@@ -1,6 +1,6 @@
 Feature: Advocate archived claims list
   Background:
-    As an advocate I want to see all my archivedclaims.
+    As an advocate I want to see all my archived claims.
 
  Scenario: View archived claims list as an advocate admin
     Given I am a signed in advocate admin

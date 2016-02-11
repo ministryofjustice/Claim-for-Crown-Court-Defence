@@ -8,8 +8,7 @@ Feature: Archive claim
       Given I am on the detail page for a <state> claim
        Then I should see the archive button
        When I click on the archive button
-       Then the claim should be archived
-        And I should see the claim on the archive page
+        Then I should see the claim on the archive page
 
       Examples:
         | state                      |
@@ -21,7 +20,6 @@ Feature: Archive claim
     Scenario Outline: Archive claims in valid states
       Given I am on the detail page for a <state> claim
        Then I should not see the archive button
-        And I should not see the claim on the archive page
 
       Examples:
         | state                      |

@@ -14,21 +14,23 @@ Feature: Advocate claims list
      When I visit the advocates dashboard
      Then I should see my provider's claims
 
-  Scenario Outline: View claims
+  Scenario: View claims
     Given I am a signed in advocate admin
-      And my provider has <number> <state> claims
+      And my provider has 1 "submitted" claims
+      And my provider has 1 "rejected" claims
+      And my provider has 1 "part_authorised" claims
+      And my provider has 1 "authorised" claims
+      And my provider has 1 "draft" claims
+      And my provider has 1 "redetermination" claims
+      And my provider has 1 "awaiting_written_reasons" claims
      When I visit the advocates dashboard
-     Then I should see my provider's <number> <state> claims
-
-     Examples:
-       | state                      | number |
-       | "submitted"                | 3      |
-       | "rejected"                 | 3      |
-       | "part_authorised"          | 3      |
-       | "authorised"               | 3      |
-       | "draft"                    | 3      |
-       | "redetermination"          | 3      |
-       | "awaiting_written_reasons" | 3      |
+     Then I should see my provider's 1 "submitted" claims
+      And I should see my provider's 1 "rejected" claims
+      And I should see my provider's 1 "part_authorised" claims
+      And I should see my provider's 1 "authorised" claims
+      And I should see my provider's 1 "draft" claims
+      And I should see my provider's 1 "redetermination" claims
+      And I should see my provider's 1 "awaiting_written_reasons" claims
 
   Scenario: Claims list exludes archived claims (advocate admin)
     Given I am a signed in advocate admin
@@ -45,13 +47,6 @@ Feature: Advocate claims list
      When I visit the advocates dashboard
      Then I should see 3 "submitted" claims listed
       And I should not see archived claims listed
-
-  Scenario: Search claims by advocate name
-    Given I am a signed in advocate admin
-      And my provider has 4 claims for advocate "John Smith"
-     When I visit the advocates dashboard
-      And I search by the name "John Smith"
-     Then I should only see the 4 claims for the advocate "John Smith"
 
   Scenario: Search claims by advocate name excludes archived
     Given I am a signed in advocate admin

@@ -36,17 +36,7 @@ Feature: Claim document upload
     Given I am on the new claim page and have attached valid documents
      When I remove a file
      Then the document should be deleted
-
-  Scenario: Save to drafts after attaching documents
-    Given I am on the new claim page and have attached valid documents
-     When I save to drafts
-     Then the document's claim and advocate IDs should be set
-
-  Scenario: Edit a draft claim and view previously uploaded documents
-    Given a draft claim with documents exists
-      And I am on the edit page for the claim
-     Then I should see the previously uploaded documents
-
+     
   Scenario: Edit a draft claim and add another document
     Given a draft claim with documents exists
       And I am on the edit page for the claim

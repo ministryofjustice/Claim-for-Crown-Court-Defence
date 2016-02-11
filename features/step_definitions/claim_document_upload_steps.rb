@@ -62,12 +62,6 @@ Then(/^the document should be deleted$/) do
   expect(Document.count).to eq(0)
 end
 
-Then(/^the document's claim and advocate IDs should be set$/) do
-  claim = Claim.first
-  document = claim.documents.last
-  expect(document.external_user_id).to eq(claim.external_user_id)
-end
-
 Given(/^a draft claim with documents exists$/) do
   claim = create(:draft_claim, external_user: @advocate)
   create(:document, claim: claim, external_user: @advocate, creator_id: @advocate.user.id)

@@ -9,17 +9,8 @@ Scenario: New advocate user for firm
    Then I see confirmation that a new "User" user has been created
     And a welcome email is sent to the new user
 
-Scenario: New advocate user for chamber
-  Given I am a signed in advocate admin
-    And my provider is a "chamber"
-    And I am on the new "external_user" page
-   When I fill in the "external_user" details
-    And click save
-   Then I see confirmation that a new "User" user has been created
-    And a welcome email is sent to the new user
-
 @javascript @webmock_allow_localhost_connect
-Scenario: New external user advocate for chamber
+Scenario: VAT registration and supplier number field visibility
   Given I am a signed in advocate admin
     And my provider is a "chamber"
     And I am on the new "external_user" page
@@ -51,10 +42,3 @@ Scenario: New caseworker user
     And click save
    Then I see confirmation that a new "Case worker" user has been created
     And a welcome email is sent to the new user
-
-Scenario: New caseworker with mismatching email_confirmation
-  Given I am a signed in case worker admin
-    And I am on the new "case_worker" page
-   When I fill in the "case_worker" details but email and email_confirmation do not match
-    And click save
-   Then I see an error message

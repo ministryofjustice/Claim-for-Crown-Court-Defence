@@ -40,13 +40,6 @@ Feature: Advocate new claim
      Then I should be redirected to the new claim page
 
   @javascript @webmock_allow_localhost_connect
-  Scenario: Add mulitple defendants to a new claim
-    Given I am a signed in advocate
-      And I am on the new claim page
-     When I click Add another defendant
-     Then I see 2 defendant sections
-
-  @javascript @webmock_allow_localhost_connect
   Scenario: Add and remove defendants from a claim
     Given I am a signed in advocate
       And I am on the new claim page
@@ -72,14 +65,12 @@ Feature: Advocate new claim
       And I update the claim to be of casetype <case_type>
       And I have one fee of type <fee_type>
       And I have <dates_attended_count> dates attended for my one fee
-     Then the dates attended are saved for <fee_type>
      When I am on the claim edit page
      Then I should see <dates_attended_count> dates attended fields amongst <fee_type> fees
      When I click remove fee for <fee_type>
       And I save to drafts
      When I am on the claim edit page
      Then I should not see any dates attended fields for <fee_type> fees
-      And the dates attended are not saved for <fee_type>
 
   Examples:
     | case_type                   | dates_attended_count | fee_type |
@@ -174,36 +165,37 @@ Feature: Advocate new claim
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals accounting for the miscellaneous fee
 
-  Scenario: Fixed Fee case type does not save Initial Fees
-     Given I am a signed in advocate
-       And There are case types in place
-       And I am on the new claim page
-      When I fill in the claim details
-       And I fill in a Miscellaneous Fee
-       And I select a Case Type of "Fixed fee"
-       And I submit to LAA
-      Then There should not be any Initial Fees saved
-       And There should be a Miscellaneous Fee Saved
+# TO DO: replace with specs
+  # Scenario: Fixed Fee case type does not save Initial Fees
+  #    Given I am a signed in advocate
+  #      And There are case types in place
+  #      And I am on the new claim page
+  #     When I fill in the claim details
+  #      And I fill in a Miscellaneous Fee
+  #      And I select a Case Type of "Fixed fee"
+  #      And I submit to LAA
+  #     Then There should not be any Initial Fees saved
+  #      And There should be a Miscellaneous Fee Saved
 
-  Scenario: Non-Fixed Fee case type does not save Fixed Fees
-     Given I am a signed in advocate
-       And There are case types in place
-       And I am on the new claim page
-      When I fill in the claim details
-       And I fill in a Fixed Fee
-       And I select a Case Type of "Trial"
-       And I submit to LAA
-      Then There should not be any Fixed Fees saved
+  # Scenario: Non-Fixed Fee case type does not save Fixed Fees
+  #    Given I am a signed in advocate
+  #      And There are case types in place
+  #      And I am on the new claim page
+  #     When I fill in the claim details
+  #      And I fill in a Fixed Fee
+  #      And I select a Case Type of "Trial"
+  #      And I submit to LAA
+  #     Then There should not be any Fixed Fees saved
 
-  Scenario: Edit existing non-Fixed case type to be Fixed
-    Given I am a signed in advocate
-      And There are case types in place
-      And a non-fixed-fee claim exists with basic and miscellaneous fees
-     When I am on the claim edit page
-      And I select a Case Type of "Fixed fee"
-      And I submit to LAA
-     Then There should not be any Initial Fees saved
-      And There should be a Miscellaneous Fee Saved
+  # Scenario: Edit existing non-Fixed case type to be Fixed
+  #   Given I am a signed in advocate
+  #     And There are case types in place
+  #     And a non-fixed-fee claim exists with basic and miscellaneous fees
+  #    When I am on the claim edit page
+  #     And I select a Case Type of "Fixed fee"
+  #     And I submit to LAA
+  #    Then There should not be any Initial Fees saved
+  #     And There should be a Miscellaneous Fee Saved
 
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Daily attendance fees derived from actual length of Trial
@@ -216,7 +208,6 @@ Feature: Advocate new claim
 
   Examples:
     | actual_trial_length   | daf_quantity | dah_quantity | daj_quantity |
-    | 1                     | 0            | 0            | 0            |
     | 2                     | 0            | 0            | 0            |
     | 3                     | 1            | 0            | 0            |
     | 40                    | 38           | 0            | 0            |
@@ -237,7 +228,6 @@ Feature: Advocate new claim
 
   Examples:
     | actual_retrial_length | daf_quantity | dah_quantity | daj_quantity |
-    | 1                     | 0            | 0            | 0            |
     | 2                     | 0            | 0            | 0            |
     | 3                     | 1            | 0            | 0            |
     | 40                    | 38           | 0            | 0            |
@@ -247,13 +237,14 @@ Feature: Advocate new claim
     | 60                    | 38           | 10           | 10           |
     | 70                    | 38           | 10           | 20           |
 
-  Scenario: Uncalculated fees (PPE and NPW) accepts total amount only
-    Given I am a signed in advocate
-      And There are case types in place
-      And There are PPE and NPW fees in place
-      And I am on the new claim page
-     When I fill in the claim details but add no fees or expenses
-      And I fill in quantity 2 and amount 25 for "PPE"
-      And I fill in quantity 1 and amount 25 for "NPW"
-      And I submit to LAA
-     Then The total claimed should equal 50
+# TO DO: replace with spec
+  # Scenario: Uncalculated fees (PPE and NPW) accepts total amount only
+  #   Given I am a signed in advocate
+  #     And There are case types in place
+  #     And There are PPE and NPW fees in place
+  #     And I am on the new claim page
+  #    When I fill in the claim details but add no fees or expenses
+  #     And I fill in quantity 2 and amount 25 for "PPE"
+  #     And I fill in quantity 1 and amount 25 for "NPW"
+  #     And I submit to LAA
+  #    Then The total claimed should equal 50

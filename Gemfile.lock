@@ -67,9 +67,6 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bourbon (3.2.4)
-      sass (~> 3.2)
-      thor
     breakpoint (2.0.7)
       compass (>= 0.12.1)
       sass (>= 3.2.0)
@@ -288,9 +285,6 @@ GEM
     multi_test (0.1.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    neat (1.5.1)
-      bourbon (>= 3.1)
-      sass (~> 3.2.19)
     nenv (0.2.0)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
@@ -540,7 +534,6 @@ DEPENDENCIES
   aws-sdk-v1 (= 1.64.0)
   better_errors
   binding_of_caller
-  bourbon (~> 3.2.4)
   breakpoint (~> 2.0.7)
   byebug
   cancancan (~> 1.10)
@@ -576,7 +569,6 @@ DEPENDENCIES
   listen (~> 2.10.0)
   logstasher (>= 0.6.5)
   moj_internal_template (~> 0.1.9)
-  neat (~> 1.5.1)
   paper_trail (~> 4.0.0.rc)
   paperclip (~> 4.2.2)
   parallel_tests

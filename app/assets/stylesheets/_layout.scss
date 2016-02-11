@@ -1,0 +1,13 @@
+.outer-block {
+  @include outer-block;
+}
+
+.inner-block {
+  @include inner-block;
+}
+
+.container{
+  @include container;
+  text-align:left;
+  padding:0 $gutter $gutter;
+}

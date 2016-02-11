@@ -1,0 +1,71 @@
+table {
+  &.table tr th:first-child,
+  &.table tr td:first-child {
+    padding-left: 15px;
+  }
+  &.table {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #bfc1c3;
+  }
+  &.claims_table,
+  &.report,
+  &.providers_table,
+  &.external_users_table {
+    border-collapse: collapse;
+      tr {
+        border-bottom: 1px solid #fff;
+        overflow: hidden;
+        &:nth-child(even) {
+          background-color: $grey-4;
+        }
+        &.rejected {
+          td:first-child {
+            border-left: 10px solid #DF3034;
+          }
+        }
+      }
+
+      th,td {
+        border-left: 1px solid $border-colour;
+        border-right: 1px solid $border-colour;
+        padding-left: $gutter-half;
+      }
+      th {
+        @include bold-16();
+        text-align: left;
+        background-color: $table-th-colour;
+        color: $link-colour;
+      }
+      .currency {
+        text-align: right;
+      }
+  }
+  &.allocate {
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      text-align: left;
+      padding: 0 15px;
+      background-color: $grey-3;
+    }
+    tr {
+      line-height: 2;
+      &:nth-child(even) {
+        background-color: $grey-4;
+      }
+      label {
+        margin: 0;
+        padding: 0 15px;
+      }
+      td input {
+        display: block;
+        margin: auto;
+      }
+    }
+  }
+  &#claims-list {
+    thead {
+      background-color: $grey-3;
+    }
+  }
+}

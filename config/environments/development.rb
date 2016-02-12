@@ -33,7 +33,8 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  config.action_mailer.default_url_options = { host: 'localhost' }
+  config.action_mailer.default_url_options = { host: ENV["GRAPE_SWAGGER_ROOT_URL"] || 'http://localhost:3000' }
+  config.action_mailer.asset_host = config.action_mailer.default_url_options[:host]
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -60,7 +61,22 @@ Rails.application.configure do
   # And index of all can, be viewed at:
   # using webrick defaults at http://localhost:3000/rails/mailers
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
-  
+
   #Rack livereload for frontend development
   config.middleware.use Rack::LiveReload
+
+  config.action_mailer.perform_deliveries = false
+  config.action_mailer.delivery_method = :file
+
+  # set local dev vars, uncomment and change delivery_emthod to :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address:              ENV['SMTP_SERVER'],
+  #   port:                 ENV['SMTP_PORT'],
+  #   domain:               ENV['SMTP_DOMAIN'],
+  #   user_name:            ENV['SMTP_USER'],
+  #   password:             ENV['SMTP_PASSWORD'],
+  #   authentication:       :login,
+  #   enable_starttls_auto: true
+  # }
+
 end

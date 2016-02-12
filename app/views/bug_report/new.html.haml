@@ -1,5 +1,6 @@
 %h1.page-title
   Help us improve this service
+
 %p.medium.questions
   Please tell us about your experience of using this service today.
   %br
@@ -13,23 +14,20 @@
         - @bug_report.errors.full_messages.each do |msg|
           %li= msg
 
-  %fieldset
-    %ol
-      %li
-        .bold-normal= "What you were doing"
-        .grid-row
-          .column-half
-            = f.text_field :event, style: "width:100%; margin-bottom: 15px"
-          .column-half
-            &nbsp
-      %li
-        .bold-normal= "What went wrong"
-        .grid-row
-          .column-half
-            = f.text_field :outcome, style: "width:100%"
-          .column-half
-            &nbsp
+  .grid-row-with-margin
+    .column-half
+      .bold-normal
+        = f.label :event, "What you were doing"
+      = f.text_field :event, style: "width:100%;"
+    .column-half
+      &nbsp
+  .grid-row-with-margin
+    .column-half
+      .bold-normal
+        = f.label :outcome, "What went wrong"
+      = f.text_field :outcome, style: "width:100%"
+    .column-half
+      &nbsp
 
-
-  .actions
+  .button-holder
     = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

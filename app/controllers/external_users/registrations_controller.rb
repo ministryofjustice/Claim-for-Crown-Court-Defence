@@ -41,7 +41,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_external_user
-    provider = Provider.create!(name: Faker::Company.name, supplier_number: generate_unique_supplier_number, provider_type: 'firm')
+    provider = Provider.create!(name: Faker::Company.name, supplier_number: generate_unique_supplier_number, provider_type: 'firm', roles: ['agfs'])
     external_user = ExternalUser.new(
       provider: provider,
       roles: ['admin'],

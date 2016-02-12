@@ -15,8 +15,8 @@
 class ExternalUser < ActiveRecord::Base
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 
-  ROLES = %w{ admin advocate }
-  include UserRoles
+  ROLES = %w{ admin advocate litigator }
+  include Roles
 
   belongs_to :provider
 
@@ -38,6 +38,24 @@ class ExternalUser < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+
+  Provider::ROLES.each do |role|
+    delegate "#{role}?".to_sym, to: :provider
+  end
+
+  def available_roles
+    return %w( admin ) if provider.nil?
+
+    if provider.agfs? && provider.lgfs?
+      %w( admin advocate litigator )
+    elsif provider.agfs?
+      %w( admin advocate )
+    elsif provider.lgfs?
+      %w( admin litigator )
+    else
+      raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
+    end
+  end
 
   def supplier_number
     if provider && provider.firm?

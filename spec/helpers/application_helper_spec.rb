@@ -16,6 +16,21 @@ describe ApplicationHelper do
 
   end
 
+  context '#present_collection' do
+    let(:claims) { create_list(:claim, 2) }
+
+    it 'should return a collection of <Classname>Presenter instances' do
+      present_collection(claims).each do |claim|
+        expect(claim).to be_instance_of Claim::BaseClaimPresenter
+      end
+    end
+
+    it 'should yield a collection of <Classname>Presenter Class instances' do
+      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter,Claim::BaseClaimPresenter])
+    end
+
+  end
+
   context '#number_with_precision_or_default' do
 
     it 'should return empty string if given integer zero and no precision' do

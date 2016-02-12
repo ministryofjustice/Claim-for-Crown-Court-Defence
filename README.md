@@ -36,10 +36,22 @@ Install gems
 bundle install
 ```
 
+Put the following environment variables into your shell profile
+
+```
+export SUPERADMIN_USERNAME='superadmin@example.com'
+export SUPERADMIN_PASSWORD='whichever'
+export ADVOCATE_PASSWORD='whatever'
+export CASE_WORKER_PASSWORD='whatever'
+export ADMIN_PASSWORD='whatever'
+export TEST_CHAMBER_API_KEY='--create your own uuid--'
+export GRAPE_SWAGGER_ROOT_URL='http://localhost:3000'
+```
+
 Setup dummy users and data:
 
 ```
-SUPERADMIN_USERNAME=superadmin@example.com SUPERADMIN_PASSWORD='12345678' CASE_WORKER_PASSWORD='12345678' ADMIN_PASSWORD='12345678' ADVOCATE_PASSWORD='12345678' rake db:drop db:create db:migrate db:seed claims:demo_data
+rake db:drop db:create db:migrate db:seed claims:demo_data
 ```
 
 Run the application (claim import feature will not work in the default environment):
@@ -53,6 +65,10 @@ To use the Claim Import feature locally, the devunicorn environment must be used
 ```
 rails server -e devunicorn
 ```
+
+## Developing Cucumber tests
+
+A detailed guide can be found [here](https://github.com/ministryofjustice/advocate-defence-payments/tree/plan-cukes-structure/features#cucumber-test-structure) which sets out the directory structure and expectations on future developed cucumber tests.
 
 
 ## Other useful rake tasks
@@ -69,3 +85,6 @@ rake db:reload --clear, migrate, seed, demo data
 rake api:smoke_test  -- test basic API functionality
 ```
 
+## Mailer previewing
+
+With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates

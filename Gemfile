@@ -51,6 +51,7 @@ gem 'uglifier',                '>= 1.3.0'
 gem 'gov_uk_date_fields',      '0.1.0'
 gem 'yaml_db'
 gem 'zendesk_api'  ,       '1.12.1'
+gem 'premailer-rails', '~> 1.9'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

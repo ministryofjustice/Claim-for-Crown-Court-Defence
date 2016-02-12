@@ -3,9 +3,15 @@ module ApplicationHelper
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
   # following the <Model>Presenter naming convention or, optionally, a named presenter
-  # class:
+  # class.
+  #
+  # For instances:
   # e.g. - present(@advocate)
   # e.g. - present(@advocate, AdminAdvocatePresenter)
+  #
+  # For collections:
+  # e.g. - present_collection(@claims)
+  # e.g. - present_collection(@claims, ClaimPresenter)
   #
   def present(model, presenter_class=nil)
     presenter_class ||= "#{model.class}Presenter".constantize
@@ -14,9 +20,23 @@ module ApplicationHelper
     presenter
   end
 
+  def present_collection(model_collection, presenter_class=nil)
+    presenter_collection = model_collection.each.map do |model_instance|
+      present(model_instance,presenter_class)
+    end
+    yield(presenter_collection) if block_given?
+    presenter_collection
+  end
+
   #Returns a "current" css class if the path = current_page
+  # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
   def cp(path)
-    "current" if current_page?(path)
+    tab = extract_uri_param(path, 'tab')
+    if tab.present?
+      "current" if request.path == strip_params(path) && request.GET[:tab] == tab
+    else
+      "current" if request.path == strip_params(path)
+    end
   end
 
   def number_with_precision_or_default(number, options = {})
@@ -65,4 +85,13 @@ module ApplicationHelper
     end
     result
   end
+
+  def extract_uri_param(path,param)
+    CGI.parse(URI.parse(path).query)[param][0] rescue nil
+  end
+
+  def strip_params(path)
+    URI.parse(path).path rescue nil
+  end
+
 end

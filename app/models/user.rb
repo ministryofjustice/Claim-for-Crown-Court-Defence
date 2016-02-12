@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :email, confirmation: true
   attr_accessor :email_confirmation
+  attr_accessor :email_creator # used to supply contact details in mailers
 
   validate :validate_no_plus_suffix
 
@@ -65,4 +66,5 @@ class User < ActiveRecord::Base
       errors[:email] << '"+" not allowed in addresses'
     end
   end
+
 end

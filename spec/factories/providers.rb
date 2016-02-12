@@ -18,6 +18,20 @@ FactoryGirl.define do
     provider_type 'chamber'
     sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
 
+    roles ['agfs']
+
+    trait :agfs do
+      roles ['agfs']
+    end
+
+    trait :lgfs do
+      roles ['lgfs']
+    end
+
+    trait :agfs_lgfs do
+      roles ['agfs', 'lgfs']
+    end
+
     trait :firm do
       provider_type 'firm'
       sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }

@@ -39,8 +39,23 @@ describe AdpFormBuilder do
       end
     end
   end
-end
 
+  describe 'anchored_without_label' do
+    context 'no anchor name supplied' do
+      it 'should take the label as the anchor name' do
+        expected_html = %Q[<a name="advocate_category"></a>]
+        expect(builder.anchored_without_label('Advocate category')).to eq expected_html
+      end
+    end
+
+    context 'anchor name supplied' do
+      it 'should use anchor name supplied' do
+        expected_html = %Q[<a name="ad_cat"></a>]
+        expect(builder.anchored_without_label('Advocate category', 'ad_cat')).to eq expected_html
+      end
+    end
+  end
+end
 
 def expected_output_with_one_data_attribute
   html = <<EOS

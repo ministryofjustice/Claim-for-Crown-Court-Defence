@@ -37,7 +37,8 @@ class SuperAdmins::ProvidersController < ApplicationController
       :name,
       :provider_type,
       :supplier_number,
-      :vat_registered
+      :vat_registered,
+      roles: []
       )
   end
 

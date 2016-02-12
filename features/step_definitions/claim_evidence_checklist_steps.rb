@@ -1,5 +1,5 @@
 Then(/^I should see an evidence checklist section$/) do
-  expect(page).to have_selector('fieldset#evidence-checklist')
+  expect(page).to have_selector('.evidence-checklist')
 end
 
 Then(/^I check the first checkbox$/) do

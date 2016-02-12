@@ -15,7 +15,7 @@ class CaseWorker < ActiveRecord::Base
 
   ROLES = %w{ admin case_worker }
 
-  include UserRoles
+  include Roles
 
   serialize :days_worked, Array
 

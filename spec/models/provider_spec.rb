@@ -16,8 +16,10 @@
 require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
-  let!(:firm) { create(:provider, :firm) }
-  let!(:chamber) { create(:provider, :chamber) }
+  it_behaves_like 'roles', Provider, Provider::ROLES
+
+  let(:firm) { create(:provider, :firm) }
+  let(:chamber) { create(:provider, :chamber) }
 
   it { should have_many(:external_users) }
   it { should have_many(:claims) }
@@ -28,6 +30,15 @@ RSpec.describe Provider, type: :model do
 
   it { should delegate_method(:advocates).to(:external_users) }
   it { should delegate_method(:admins).to(:external_users) }
+
+  context '#destroy' do
+    before { create(:external_user, :advocate, provider: chamber) }
+    it 'should destroy external users' do
+      expect(ExternalUser.count).to eq 1
+      expect(Provider.count).to eq 1
+      expect{ chamber.destroy }.to change {ExternalUser.count}.by(-1)
+    end
+  end
 
   context 'when firm' do
     subject { firm }
@@ -41,6 +52,12 @@ RSpec.describe Provider, type: :model do
 
     it { should_not validate_presence_of(:supplier_number) }
     it { should_not validate_uniqueness_of(:supplier_number) }
+  end
+
+  context 'ROLES' do
+    it 'should have "agfs" and "lgfs"' do
+      expect(Provider::ROLES).to match_array(%w( agfs lgfs ))
+    end
   end
 
   context '.set_api_key' do

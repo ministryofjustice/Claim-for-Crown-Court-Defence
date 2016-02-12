@@ -333,6 +333,7 @@ ActiveRecord::Schema.define(version: 20160208131812) do
     t.uuid     "api_key"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "roles"
   end
 
   add_index "providers", ["name"], name: "index_providers_on_name", using: :btree

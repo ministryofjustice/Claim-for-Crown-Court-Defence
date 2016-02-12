@@ -18,6 +18,9 @@ class Provider < ActiveRecord::Base
 
   PROVIDER_TYPES = %w( chamber firm )
 
+  ROLES = %w( agfs lgfs )
+  include Roles
+
   PROVIDER_TYPES.each do |type|
     define_method "#{type}?" do
       provider_type == type
@@ -26,7 +29,7 @@ class Provider < ActiveRecord::Base
     scope type.pluralize.to_sym, -> { where(provider_type: type) }
   end
 
-  has_many :external_users do
+  has_many :external_users, dependent: :destroy do
     def ordered_by_last_name
       self.sort { |a, b| a.user.sortable_name <=> b.user.sortable_name }
     end

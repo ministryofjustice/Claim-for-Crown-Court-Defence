@@ -1,6 +1,7 @@
 #claim-accordion {
   h2 {
     @include core-19();
+    margin-top: 0;
     color: $text-colour;
     background-color: $panel-colour;
     cursor: pointer;

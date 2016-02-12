@@ -17,6 +17,12 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     %Q[<a name="#{anchor_name}"></a><label for="#{label_for}">#{label}</label>].html_safe
   end
 
+  def anchored_without_label(label, anchor_name = nil)
+    anchor_name ||= label.gsub(' ', '_').downcase
+    %Q[<a name="#{anchor_name}"></a>].html_safe
+  end
+
+
 
   private
 
@@ -65,5 +71,3 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     %q[<option value="">Please select</option>]
   end
 end
-
-

@@ -7,7 +7,7 @@ Scenario: New advocate user for firm
    When I fill in the "external_user" details
     And click save
    Then I see confirmation that a new "User" user has been created
-    And an email is sent to the new user
+    And a welcome email is sent to the new user
 
 Scenario: New advocate user for chamber
   Given I am a signed in advocate admin
@@ -16,7 +16,7 @@ Scenario: New advocate user for chamber
    When I fill in the "external_user" details
     And click save
    Then I see confirmation that a new "User" user has been created
-    And an email is sent to the new user
+    And a welcome email is sent to the new user
 
 @javascript @webmock_allow_localhost_connect
 Scenario: New external user advocate for chamber
@@ -50,7 +50,7 @@ Scenario: New caseworker user
    When I fill in the "case_worker" details
     And click save
    Then I see confirmation that a new "Case worker" user has been created
-    And an email is sent to the new user
+    And a welcome email is sent to the new user
 
 Scenario: New caseworker with mismatching email_confirmation
   Given I am a signed in case worker admin

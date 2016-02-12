@@ -125,10 +125,9 @@ class FeeValidator < BaseClaimValidator
   end
 
   def validate_amount
+    add_error(:amount,"#{fee_code.downcase}_invalid") if @record.amount < 0
     if !@record.calculated?
-      if @record.quantity > 0 && @record.amount <= 0
-        add_error(:amount,"#{fee_code.downcase}_invalid")
-      elsif @record.quantity <= 0 && @record.amount > 0
+      if @record.quantity <= 0 && @record.amount > 0
         add_error(:quantity,"#{fee_code.downcase}_invalid")
       end
     end

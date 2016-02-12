@@ -4,18 +4,24 @@
 .header-global {
   @include container;
 }
-.header-logo{
 
-}
-.header-app-name {
-  margin:0;
-}
 #global-header {
   #logo {
     img {
       margin:0;
     }
   }
+  .header-wrapper {
+    max-width: 1020px;
+    padding:$gutter-half 0;
+  }
+  .header-logo{
+    margin:0;
+  }
+  .header-app-name {
+    margin:0;
+  }
+
 }
 #global-header-bar {
   // @include outer-container;
@@ -353,7 +359,7 @@ form {
     margin-bottom: 1em;
   }
 
-  
+
   .nested-fields {
     td, th {
       border-bottom: 0;

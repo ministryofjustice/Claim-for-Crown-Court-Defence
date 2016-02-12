@@ -1,4 +1,3 @@
-@javascript @webmock_allow_localhost_connect
 
 Feature: Provider Administration
   Background:
@@ -10,6 +9,7 @@ Scenario: Check page based on the provider type
    Then I should see supplier number
     And I should see vat registered
 
+@javascript @webmock_allow_localhost_connect
 Scenario Outline: Check when provider type button clicked that supplier number/vat registered are shown/hidden
   Given I am a signed in super admin
    When I visit add new provider page

@@ -124,10 +124,10 @@ Then(/^I should not see any dates attended fields for "(.*?)" fees$/) do |fee_ty
   end
 end
 
-Then(/^the dates attended are( not)? saved for "(.*?)"$/) do |negation, fee_type|
-  true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
-  expect(@claim.__send__("#{fee_type}_fees").count > 0).to eql true_or_false
-end
+# Then(/^the dates attended are( not)? saved for "(.*?)"$/) do |negation, fee_type|
+#   true_or_false = negation.nil? ? true : negation.gsub(/\s+/,'').downcase == 'not' ? false : true
+#   expect(@claim.__send__("#{fee_type}_fees").count > 0).to eql true_or_false
+# end
 
 Given(/^I am creating a "(.*?)" claim$/) do |case_type|
   select2 case_type, from: 'claim_case_type_id'

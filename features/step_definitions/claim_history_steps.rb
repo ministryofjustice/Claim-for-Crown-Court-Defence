@@ -1,12 +1,3 @@
-Given(/^I have a claim in draft state$/) do
-  @claim = create(:claim, external_user: @advocate)
-end
-
-Given(/^I submit the claim$/) do
-  visit edit_external_users_claim_path(@claim)
-  click_on 'Submit to LAA'
-end
-
 Then(/^I should see the state change to submitted reflected in the history$/) do
   @claim.reload
 
@@ -25,17 +16,11 @@ Given(/^I have been allocated a claim$/) do
   @case_worker.claims << @claim
 end
 
-When(/^I mark the claim authorised$/) do
-  choose 'Authorised'
-  fill_in 'claim_assessment_attributes_fees', with: '100.00'
-  click_on 'Update'
-end
-
-Then(/^I should see the state change to authorised reflected in the history$/) do
+Then(/^I should see the state change to allocated reflected in the history$/) do
   @claim.reload
   within '#panel1' do
     history = all('.event').last
-    expect(history).to have_content(/Claim authorised/)
+    expect(history).to have_content(/Claim allocated/)
   end
 end
 

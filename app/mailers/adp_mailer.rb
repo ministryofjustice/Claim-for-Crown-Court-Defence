@@ -1,6 +1,6 @@
 class AdpMailer < Devise::Mailer
 
-  MAILER_ADMIM_CONTACT = 'laa-product@digital.justice.gov.uk'
+  MAILER_ADMIN_CONTACT = 'laa-product@digital.justice.gov.uk'
 
   # gives access to all helpers defined within `application_helper`.
   helper :application
@@ -22,11 +22,13 @@ private
   # If user is being created by a superadmin we include a specific email contact in the mail
   # otherwise we include the email of the creator of the user
   def set_email_contact(record)
-    @email_contact = if record.email_creator.is_a?(SuperAdmin)
-                      MAILER_ADMIM_CONTACT
-                    else
-                      record.email_creator.email rescue MAILER_ADMIM_CONTACT
-                    end
+    @email_contact  = if record.email_creator.persona.is_a?(SuperAdmin)
+                        MAILER_ADMIN_CONTACT
+                      else
+                        record.email_creator.email
+                      end
+  rescue
+    @email_contact = MAILER_ADMIN_CONTACT
   end
 
 end

@@ -23,10 +23,9 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def create
     @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_provider.id))
-
     if @external_user.save
       send_ga('event', 'external_user', 'created')
-      @external_user.user.send_reset_password_instructions
+      deliver_reset_password_instructions(@external_user.user)
       redirect_to external_users_admin_external_users_url, notice: 'User successfully created'
     else
       render :new

@@ -19,6 +19,11 @@ module PasswordHelpers
     end
   end
 
+  def deliver_reset_password_instructions(user)
+    user.email_creator = current_user
+    user.send_reset_password_instructions
+  end
+
   private
 
   def user_for_controller_action

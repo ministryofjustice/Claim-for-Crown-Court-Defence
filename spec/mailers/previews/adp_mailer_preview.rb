@@ -6,7 +6,9 @@ class AdpMailerPreview < ActionMailer::Preview
   # end
 
   def welcome_password_instructions
+    creator = FactoryGirl.create(:external_user, :advocate, :advocate_and_admin)
     advocate = FactoryGirl.create(:external_user, :advocate)
+    advocate.user.email_creator = creator
     AdpMailer.reset_password_instructions(advocate.user, "faketoken")
   end
 

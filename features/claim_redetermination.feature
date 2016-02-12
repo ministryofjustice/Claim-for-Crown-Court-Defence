@@ -20,7 +20,6 @@ Feature: Claim redetermination
       And only the allowed status updates should be offered
      When I select a state of "<form_state>" and update the claim
      Then the claim should be in the "<state>" state
-      And the claim should no longer be open for redetermination
 
     Examples:
       | form_state                | state                    |

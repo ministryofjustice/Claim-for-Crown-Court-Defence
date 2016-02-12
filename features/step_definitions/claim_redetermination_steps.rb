@@ -66,10 +66,6 @@ Then(/^only the allowed status updates should be offered$/) do
 
 end
 
-Then(/^the claim should no longer be open for redetermination$/) do
-  expect(@claim.opened_for_redetermination?).to eq(false)
-end
-
 Then(/^when I check "(.*?)" and send a message$/) do |checkbox_label_text|
   check checkbox_label_text
   fill_in 'message_body', with: 'lorem ipsum'

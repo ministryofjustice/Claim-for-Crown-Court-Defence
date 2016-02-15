@@ -29,7 +29,7 @@ module DemoData
   private
 
     def generate_claim(advocate)
-      claim = Claim::BaseClaim.new(
+      claim = Claim::AdvocateClaim.new(
         additional_information: generate_additional_info,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),
         state: "draft",

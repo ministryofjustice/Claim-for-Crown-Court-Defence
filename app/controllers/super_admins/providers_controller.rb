@@ -4,7 +4,7 @@ class SuperAdmins::ProvidersController < ApplicationController
   def show; end
 
   def index
-    @providers = Provider.all
+    @providers = Provider.all.sort_by(&:name)
   end
 
   def new

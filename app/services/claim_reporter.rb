@@ -2,7 +2,7 @@ class ClaimReporter
   include ActionView::Helpers::DateHelper
 
   def authorised_in_full
-    claims = Claim.non_draft
+    claims = Claim::BaseClaim.non_draft
     authorised_claims_this_month = claims.where{ authorised_at >= Time.now.beginning_of_month }.authorised
 
     {
@@ -12,7 +12,7 @@ class ClaimReporter
   end
 
   def authorised_in_part
-    claims = Claim.non_draft
+    claims = Claim::BaseClaim.non_draft
     part_authorised_claims_this_month = claims.where{ authorised_at >= Time.now.beginning_of_month }.part_authorised
 
     {
@@ -22,7 +22,7 @@ class ClaimReporter
   end
 
   def rejected
-    claims = Claim.non_draft
+    claims = Claim::BaseClaim.non_draft
     transitions = ClaimStateTransition.where{ (to == 'rejected') & (created_at >= Time.now.beginning_of_month) }
     rejected_claims_this_month = transitions.map(&:claim).uniq
 
@@ -33,12 +33,12 @@ class ClaimReporter
   end
 
   def rejected_count
-    rejected_claims = Claim.where(state: 'rejected')
+    rejected_claims = Claim::BaseClaim.where(state: 'rejected')
     rejected_claims.count
   end
 
   def outstanding
-    Claim.where(state: %w( allocated submitted redetermination )).order(original_submission_date: :asc)
+    Claim::BaseClaim.where(state: %w( allocated submitted redetermination )).order(original_submission_date: :asc)
   end
 
   def oldest_outstanding
@@ -47,7 +47,7 @@ class ClaimReporter
 
   def completion_rate
     intentions = ClaimIntention.where{ created_at >= 16.weeks.ago }
-    claims = Claim.non_draft.where{ created_at >= 16.weeks.ago }
+    claims = Claim::BaseClaim.non_draft.where{ created_at >= 16.weeks.ago }
 
     completed = claims.map(&:form_id) & intentions.map(&:form_id)
 
@@ -78,7 +78,7 @@ class ClaimReporter
   end
 
   def processed_claims
-    Claim.caseworker_dashboard_completed
+    Claim::BaseClaim.caseworker_dashboard_completed
   end
 
   def claims_percentage(percentage_claims, all_claims)

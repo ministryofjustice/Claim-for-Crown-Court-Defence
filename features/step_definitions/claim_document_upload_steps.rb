@@ -63,7 +63,7 @@ Then(/^the document should be deleted$/) do
 end
 
 Then(/^the document's claim and advocate IDs should be set$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   document = claim.documents.last
   expect(document.external_user_id).to eq(claim.external_user_id)
 end
@@ -74,12 +74,12 @@ Given(/^a draft claim with documents exists$/) do
 end
 
 Given(/^I am on the edit page for the claim$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   visit edit_external_users_claim_path(claim)
 end
 
 Then(/^I should see the previously uploaded documents$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
 
   within '.previously-uploaded' do
     expect(page).to have_content(claim.documents.first.document_file_name)
@@ -87,7 +87,7 @@ Then(/^I should see the previously uploaded documents$/) do
 end
 
 When(/^I remove a previously uploaded document$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   document_id = claim.documents.first.id
 
   within "#document_#{document_id}" do

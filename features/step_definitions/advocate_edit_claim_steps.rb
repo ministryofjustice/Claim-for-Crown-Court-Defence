@@ -3,7 +3,7 @@ When(/^I render the claim invalid$/) do
 end
 
 When(/^I delete all fees and expenses$/) do
-  Claim.first.fees.destroy_all
+  Claim::BaseClaim.first.fees.destroy_all
 end
 
 Then(/^I should be redirected back and errors displayed$/) do
@@ -20,5 +20,5 @@ When(/^save the claim in draft state$/) do
 end
 
 Then(/^the claim should have one less rep order associated$/) do
-  expect(Claim.last.defendants.last.representation_orders.count).to eq 1
+  expect(Claim::BaseClaim.last.defendants.last.representation_orders.count).to eq 1
 end

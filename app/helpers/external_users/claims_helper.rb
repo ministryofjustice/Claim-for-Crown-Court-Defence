@@ -24,4 +24,9 @@ module ExternalUsers::ClaimsHelper
     end
   end
 
+
+  def url_for_external_users_claim(claim)
+    claim.persisted? ? external_users_claim_path(claim) : external_users_claims_path
+  end
+
 end

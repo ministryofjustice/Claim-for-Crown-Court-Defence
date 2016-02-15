@@ -15,7 +15,7 @@ class Court < ActiveRecord::Base
 
   COURT_TYPES = %w( crown magistrate )
 
-  has_many :claims, dependent: :nullify
+  has_many :claims, class_name: Claim::BaseClaim, dependent: :nullify
 
   validates :code, presence: true, uniqueness: { case_sensitve: false, message: "Court code must be unique" }
   validates :name, presence: true, uniqueness: { case_sensitve: false, message: "Court name must be unique" }

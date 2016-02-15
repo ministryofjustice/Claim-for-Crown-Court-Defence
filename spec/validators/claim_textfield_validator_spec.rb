@@ -333,7 +333,7 @@ context '#perform_validation?' do
       claim.evidence_checklist_ids = doc_types
       should_not_error(claim,:evidence_checklist_ids)
       claim.save!
-      dup = Claim.find claim.id
+      dup = Claim::BaseClaim.find claim.id
       expect(dup.evidence_checklist_ids).to eq( doc_types )
 
     end

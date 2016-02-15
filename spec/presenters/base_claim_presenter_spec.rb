@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'cgi'
 
-RSpec.describe ClaimPresenter do
+RSpec.describe Claim::BaseClaimPresenter do
 
   let(:claim) { create :claim }
-  subject { ClaimPresenter.new(claim, view) }
+  subject { Claim::BaseClaimPresenter.new(claim, view) }
 
   before do
     Timecop.freeze(Time.current)
@@ -39,7 +39,7 @@ RSpec.describe ClaimPresenter do
   describe '#valid_transitions' do
     it 'should list valid transitions from allocated' do
       claim.state = 'allocated'
-      presenter = ClaimPresenter.new(claim, view)
+      presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq(
         {
             :part_authorised => "Part authorised",
@@ -53,7 +53,7 @@ RSpec.describe ClaimPresenter do
 
     it 'should list valid transitions from allocated with include_submitted => false' do
       claim.state = 'allocated'
-      presenter = ClaimPresenter.new(claim, view)
+      presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions_for_detail_form).to eq(
         {
             :part_authorised => "Part authorised",
@@ -66,7 +66,7 @@ RSpec.describe ClaimPresenter do
 
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
-      presenter = ClaimPresenter.new(claim, view)
+      presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
     end
   end
@@ -79,22 +79,23 @@ RSpec.describe ClaimPresenter do
 
     it 'should return the creation date of the assessment' do
       Timecop.freeze Time.new(2015, 8, 13, 14, 55, 23) do
-        assessment = FactoryGirl.create :assessment, claim: claim
+        claim.assessment.update_values(100.0, 200.0)
         expect(subject.assessment_date).to eq '13/08/2015'
       end
     end
   end
 
   describe 'assessment_fees' do
-    it 'should return formatted assessment fees' do
-      assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56
+    it 'should  return formatted assessment fees' do
+      claim.assessment.update_values(1234.56, 0.0)
+      # assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_expenses' do
     it 'should return formatted assessment expense' do
-      assessment = FactoryGirl.create :assessment, claim: claim, expenses: 1234.56
+      claim.assessment.update_values(0.0, 1234.56)
       expect(subject.assessment_expenses).to eq '£1,234.56'
     end
   end
@@ -166,7 +167,7 @@ RSpec.describe ClaimPresenter do
   describe '#representation_order_details' do
 
     claim = FactoryGirl.build :unpersisted_claim
-    subject { ClaimPresenter.new(claim, view) }
+    subject { Claim::BaseClaimPresenter.new(claim, view) }
 
     it 'should return an html safe string of all the dates' do
 
@@ -197,7 +198,7 @@ RSpec.describe ClaimPresenter do
       before do
         claim.submit!
         claim.allocate!
-        create(:assessment, claim: claim, fees: 100, expenses: 20.43)
+        claim.assessment.update_values(100, 20.43)
         claim.authorise!
       end
 

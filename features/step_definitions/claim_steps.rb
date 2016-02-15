@@ -6,7 +6,7 @@ end
 Then(/^an anonymous user cannot access the claim$/) do
   click 'Sign out' rescue nil
   visit external_users_claim_url(@claim)
-  expect(page).to have_content(/unauthorised/i)
+  expect(page).to have_content(/Must be signed in as an external user/i)
 end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) can (?:access|manage) the claim$/) do
@@ -20,7 +20,7 @@ Then(/^(?:the|that) (?:advocate(?: admin)?) cannot (?:access|manage) the claim$/
 end
 
 Then(/^the case worker can access all claims$/) do
-  Claim.all.each do |claim|
+  Claim::BaseClaim.all.each do |claim|
     visit case_workers_claim_path(claim)
     expect(page).to have_content(/#{claim.case_number}/)
   end

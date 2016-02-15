@@ -141,7 +141,6 @@ RSpec.describe Claims::Cloner, type: :model do
       rejected_claim.expenses.each do |expense|
         expense.dates_attended << create(:date_attended)
       end
-      create(:assessment, claim: rejected_claim)
       create(:redetermination, claim: rejected_claim)
       rejected_claim.documents << create(:document)
       rejected_claim

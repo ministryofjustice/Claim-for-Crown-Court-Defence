@@ -107,7 +107,7 @@ RSpec.describe Allocation, type: :model do
 
         it 'leaves the claims as "allocated"' do
           subject.save
-          expect(claims.map(&:state).uniq).to eq(['allocated'])
+          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
         end
 
         it 'returns false' do

@@ -17,7 +17,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     end
 
     it 'assigns @claims' do
-      expect(assigns(:claims)).to eq(Claim.submitted_or_redetermination_or_awaiting_written_reasons.order(last_submitted_at: :asc))
+      expect(assigns(:claims)).to eq(Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons.order(last_submitted_at: :asc))
     end
 
     it 'assigns @allocation' do

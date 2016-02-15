@@ -24,7 +24,7 @@ class Allocation
     claims.each do |claim|
       claim.case_workers.destroy_all
       claim.case_workers << case_worker unless deallocating?
-      claim.update_column(:state, 'submitted') if deallocating?
+      claim.update_column(:state, claim.last_state_transition.from) if deallocating?
     end
     true
   end

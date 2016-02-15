@@ -1,4 +1,4 @@
-class ClaimTextfieldValidator < BaseClaimValidator
+class ClaimTextfieldValidator < BaseValidator
 
   def self.fields
     [

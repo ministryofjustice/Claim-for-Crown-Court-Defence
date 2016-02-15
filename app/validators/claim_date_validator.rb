@@ -1,5 +1,5 @@
 # class ClaimDateValidator < ActiveModel::Validator
-class ClaimDateValidator < BaseClaimValidator
+class ClaimDateValidator < BaseValidator
 
   def self.fields
     [

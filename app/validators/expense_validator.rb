@@ -1,4 +1,4 @@
-class ExpenseValidator < BaseClaimValidator
+class ExpenseValidator < BaseValidator
 
   def self.fields
     [

@@ -1,4 +1,4 @@
-class RepresentationOrderValidator < BaseClaimValidator
+class RepresentationOrderValidator < BaseValidator
 
   def self.fields
     [

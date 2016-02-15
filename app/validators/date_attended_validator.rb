@@ -1,4 +1,4 @@
-class DateAttendedValidator < BaseClaimValidator
+class DateAttendedValidator < BaseValidator
 
   def self.fields
     [

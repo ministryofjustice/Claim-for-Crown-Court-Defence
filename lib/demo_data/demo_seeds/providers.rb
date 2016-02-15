@@ -1,2 +1,13 @@
-Provider.find_or_create_by!(provider_type: 'chamber', name: 'Doughty Street Chambers', roles: ['agfs'])
-Provider.find_or_create_by!(provider_type: 'chamber', name: 'Matrix Chambers', roles: ['lgfs'] )
+require Rails.root.join('db','seeds','seed_helper')
+
+SeedHelper.find_or_create_provider!(
+  name: 'Doughty Street Chambers',
+  provider_type: 'chamber',
+  roles: ['agfs']
+)
+
+SeedHelper.find_or_create_provider!(
+  name: 'Matrix Chambers',
+  provider_type: 'chamber',
+  roles: ['lgfs']
+)

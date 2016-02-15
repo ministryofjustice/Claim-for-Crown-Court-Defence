@@ -105,20 +105,3 @@ describe Assessment do
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

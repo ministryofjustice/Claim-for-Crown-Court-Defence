@@ -85,8 +85,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe 'asse
-  ssment_fees' do
+  describe 'assessment_fees' do
     it 'should  return formatted assessment fees' do
       claim.assessment.update_values(1234.56, 0.0)
       # assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56

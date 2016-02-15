@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :certification_type do
-    name { LiterateRandomizer.sentence }
+    name { Faker::Lorem.sentence }
     pre_may_2015 false
 
     trait :pre_may do

@@ -45,8 +45,8 @@
 #
 
 module Claim
-	class AdvocateClaim < BaseClaim
+  class AdvocateClaim < BaseClaim
 
-	end
+  end
 end
 

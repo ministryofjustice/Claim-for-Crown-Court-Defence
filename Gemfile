@@ -71,7 +71,6 @@ group :development, :test do
   gem 'rspec-collection_matchers'
   gem 'webrick',        '~> 1.3'
   gem 'parallel_tests'
-  gem 'literate_randomizer'
 end
 
 group :test do

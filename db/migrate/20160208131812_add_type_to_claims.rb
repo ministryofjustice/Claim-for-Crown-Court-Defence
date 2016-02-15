@@ -5,6 +5,6 @@ class AddTypeToClaims < ActiveRecord::Migration
   end
 
   def remove_column
-  	remove_column :claims, :type
+    remove_column :claims, :type
   end
 end

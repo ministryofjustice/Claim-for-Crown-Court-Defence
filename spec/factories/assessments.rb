@@ -5,8 +5,8 @@ FactoryGirl.define do
     expenses      845.89
 
     trait :blank do
-    	fees				0
-    	expenses    0
+      fees 0
+      expenses 0
     end
   end
 end

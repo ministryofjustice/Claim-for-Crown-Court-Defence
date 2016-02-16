@@ -93,7 +93,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'deleted', 'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
+                           'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
 
     context 'external_user_dashboard_draft?' do
       before(:each)     { allow(claim).to receive(:state).and_return('draft') }
@@ -709,13 +709,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'archived_pending_delete claims' do
-        claim.archive_pending_delete!
-        expect(claim.validation_required?).to eq false
-      end
-
-      it 'deleted claims' do
-        # NOTE: there is no state machine transition mechanism to deleted state (delete! would clash with rails??)
-        claim.state = 'deleted'
+        claim = create(:archived_pending_delete_claim)
         expect(claim.validation_required?).to eq false
       end
     end
@@ -726,9 +720,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         expect(claim.validation_required?).to eq true
       end
 
-      it 'claims in any state other than draft, archived_pending_delete or deleted' do
+      it 'claims in any state other than draft or archived_pending_delete' do
         states = Claim::AdvocateClaim.state_machine.states.map(&:name)
-        states = states.map { |s| if not [:draft,:deleted,:archived_pending_delete].include?(s) then s; end; }.compact
+        states = states.map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }.compact
         states.each do | state |
           claim.state = state
           expect(claim.validation_required?).to eq true

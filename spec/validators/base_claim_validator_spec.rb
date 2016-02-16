@@ -72,6 +72,7 @@ describe Claim::BaseClaimValidator do
 
       context 'a submitted claim' do
         before { claim.submit! }
+
         it 'should error on any state-conditional validations (non-exhaustive test)' do
           nulify_fields_on_record(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
           expect(claim).to_not be_valid
@@ -79,7 +80,8 @@ describe Claim::BaseClaimValidator do
       end
 
       context 'an archived_pending_delete claim' do
-        before { claim.archive_pending_delete! }
+        let(:claim) { create(:archived_pending_delete_claim) }
+
         it 'should NOT validate presence of case_type, court, case_number, advocate_category, offence' do
           nulify_fields_on_record(claim,:case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
           expect(claim).to be_valid

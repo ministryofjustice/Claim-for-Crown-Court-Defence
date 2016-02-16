@@ -20,7 +20,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       ]
     end
 
-    it('exist')       { expect(Claim::BaseClaim.state_machine.states.map(&:name).sort).to eq(states.sort) }
+    it('exist') { expect(Claim::BaseClaim.state_machine.states.map(&:name).sort).to eq(states.sort) }
   end
 
   describe 'valid transitions' do
@@ -37,25 +37,32 @@ RSpec.describe Claims::StateMachine, type: :model do
     end
 
     describe 'from allocated' do
-      before { subject.submit!; subject.allocate! }
+      before do
+        subject.submit!
+        subject.allocate!
+      end
+
       it { expect{ subject.reject! }.to      change{ subject.state }.to('rejected') }
       it { expect{ subject.submit! }.to      change{ subject.state }.to('submitted') }
       it { expect{ subject.refuse! }.to      change{ subject.state }.to('refused') }
+
       it {
         expect{
           subject.assessment.update(fees: 100.00, expenses: 23.45)
           subject.authorise_part!
         }.to change{ subject.state }.to('part_authorised') }
+
       it { expect{
         subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.authorise!
       }.to change{ subject.state }.to('authorised') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
+
+      it { expect{ subject.archive_pending_delete! }.to raise_error }
     end
 
     describe 'from draft' do
       it { expect{ subject.submit! }.to change{ subject.state }.to('submitted') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
+      it { expect{ subject.archive_pending_delete! }.to raise_error }
     end
 
     describe 'from authorised' do
@@ -65,6 +72,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.authorise!
       }
+
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
@@ -76,27 +84,37 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.assessment.update(fees: 100.00, expenses: 23.45)
         subject.authorise_part!
       }
+
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
+
       it { expect{ subject.await_written_reasons! }.to change{ subject.state }.to('awaiting_written_reasons') }
+
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from refused' do
       before { subject.submit!; subject.allocate!; subject.refuse! }
+
       it { expect{ subject.redetermine! }.to change{ subject.state }.to('redetermination') }
+
       it { expect{ subject.await_written_reasons! }.to change{ subject.state }.to('awaiting_written_reasons') }
+
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
     end
 
     describe 'from rejected' do
       before { subject.submit!; subject.allocate!; subject.reject! }
+
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
+
     end
 
     describe 'from submitted' do
       before { subject.submit! }
+
       it { expect{ subject.allocate! }.to change{ subject.state }.to('allocated') }
-      it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
+
+      it { expect{ subject.archive_pending_delete! }.to raise_error }
     end
   end # describe 'valid transitions'
 
@@ -105,6 +123,8 @@ RSpec.describe Claims::StateMachine, type: :model do
     after  { Timecop.return }
 
     describe 'make archive_pending_delete valid for 180 days' do
+      subject { create(:authorised_claim) }
+
       it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
     end
 
@@ -150,6 +170,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'authorise! makes authorised_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
+
       it {
         expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
@@ -159,6 +180,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     describe 'authorise_part! makes authorised_at attribute equal now' do
       before { subject.submit!; subject.allocate! }
+
       it {
         expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
@@ -166,7 +188,6 @@ RSpec.describe Claims::StateMachine, type: :model do
       }
     end
   end # describe 'set triggers'
-
 
   describe '.is_in_state?' do
     let(:claim)         { build :unpersisted_claim }

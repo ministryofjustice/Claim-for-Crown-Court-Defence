@@ -16,20 +16,22 @@
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
-  .normal
-    Allocate to
-  .form-hint
-    To de-allocate claims, choose "Allocation pool".
-    %br
-    To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
-  .form-group.inline.js-re-allocation-options
-    = f.label :deallocate, value: true, class: 'block-label' do
-      Allocation pool
-      = f.radio_button :deallocate, true, checked: false, value: true
+  %fieldset
+    %legend.normal
+      = "Allocate to"
+    .form-hint
+      To de-allocate claims, choose "Allocation pool".
+      %br
+      To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
 
-    = f.label :deallocate, value: false, class: 'block-label' do
-      Case worker
-      = f.radio_button :deallocate, false, checked: true, value: false
+    .form-group.inline.js-re-allocation-options
+      = f.label :deallocate, value: true, class: 'block-label' do
+        Allocation pool
+        = f.radio_button :deallocate, true, checked: false, value: true
+
+      = f.label :deallocate, value: false, class: 'block-label' do
+        Case worker
+        = f.radio_button :deallocate, false, checked: true, value: false
 
   .grid-row-with-margin.js-case-worker-list
     .column-half
@@ -74,29 +76,23 @@
           - present(b.object) do |claim|
             %tr{id: dom_id(claim)}
               %td
+                = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
                 = b.check_box
               %td
-                = b.label(class: "case-number") do
-                  = claim.case_number
+                = claim.case_number
               %td
-                = b.label do
-                  = claim.external_user.name
+                = claim.external_user.name
               %td
-                = b.label do
-                  = claim.defendant_names
+                = claim.defendant_names
               %td
-                = b.label do
-                  = claim.case_type_name
+                = claim.case_type_name
               %td
-                = b.label do
-                  = claim.submitted_at
+                = claim.submitted_at
               %td
-                = b.label do
-                  = claim.total_inc_vat
+                = claim.total_inc_vat
               - if params[:tab] == 'allocated'
                 %td
-                  = b.label do
-                    = claim.case_workers.map(&:name).join(', ')
+                  = claim.case_workers.map(&:name).join(', ')
 
   - else
     = "No claims need to be allocated."

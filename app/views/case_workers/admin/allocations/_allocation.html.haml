@@ -3,12 +3,14 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
 
-  = label_tag :filter, t('.case_types')
-  .form-group.inline.allocation-filter-form
-    -  allocation_filters.each do | filter_name |
-      = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
-        = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
-        = filter_name.humanize
+  %fieldset
+    %legend.xsmall
+      = t('.case_types')
+    .form-group.inline.allocation-filter-form
+      -  allocation_filters.each do | filter_name |
+        = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
+          = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
+          = filter_name.humanize
 
   %noscript
     = submit_tag 'Filter'
@@ -63,29 +65,24 @@
           - present(b.object) do |claim|
             %tr{id: dom_id(claim)}
               %td
+                = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
                 = b.check_box
               %td
-                = b.label(class: "case-number") do
+                %span.js-test-case-number
                   = claim.case_number
               %td
-                = b.label do
-                  = claim.external_user.name
+                = claim.external_user.name
               %td
-                = b.label do
-                  = claim.defendant_names
+                = claim.defendant_names
               %td
-                = b.label do
-                  = claim.case_type_name
+                = claim.case_type_name
               %td
-                = b.label do
-                  = claim.submitted_at
+                = claim.submitted_at
               %td
-                = b.label do
-                  = claim.total_inc_vat
+                = claim.total_inc_vat
               - if params[:tab] == 'allocated'
                 %td
-                  = b.label do
-                    = claim.case_workers.map(&:name).join(', ')
+                  = claim.case_workers.map(&:name).join(', ')
 
   - else
     = "No claims need to be allocated."

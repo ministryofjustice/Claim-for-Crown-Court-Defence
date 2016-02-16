@@ -81,7 +81,7 @@ Feature: Claim allocation
     Then I should see that claims checkbox ticked
      And I click on a claim row cell
     Then I should see that claims checkbox unticked
-    When I click on a claims row label
+    When I click on a claims row cell
     Then I should see that claims checkbox ticked
-    When I click on a claims row label
+    When I click on a claims row cell
     Then I should see that claims checkbox unticked

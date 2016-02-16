@@ -72,7 +72,7 @@ end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
   within('.report') do
-    @case_numbers = all('label.case-number').map(&:text)
+    @case_numbers = all('.js-test-case-number').map(&:text)
   end
   @claims_on_page = []
   @case_numbers.each do |case_number|
@@ -84,7 +84,6 @@ end
 
 Then(/^the first (\d+) claims in the list should be allocated to the case worker$/) do |quantity|
   expect(CaseWorker.last.claims.count).to eq(quantity.to_i)
-
   CaseWorker.last.claims.each do |claim|
     expect(claim).to be_allocated
   end
@@ -154,9 +153,9 @@ When(/^I click on a claim row cell$/) do
   end
 end
 
-When(/^I click on a claims row label$/) do
-  #click the first row's first 2nd label
-  page.find('tbody').all('tr')[0].all('label')[1].click()
+When(/^I click on a claims row cell$/) do
+  #click the first row's first 2nd cell
+  page.find('tbody').all('tr')[0].all('td')[1].click()
 end
 
 Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_state|

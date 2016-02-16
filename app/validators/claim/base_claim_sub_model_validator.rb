@@ -1,4 +1,4 @@
-class ClaimSubModelValidator < BaseSubModelValidator
+class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def has_many_association_names
     [

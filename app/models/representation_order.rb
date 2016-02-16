@@ -12,6 +12,8 @@
 #
 
 class RepresentationOrder < ActiveRecord::Base
+  include Duplicable
+  
   auto_strip_attributes :maat_reference, squish: true, nullify: true
 
   before_save :upcase_maat_ref

@@ -18,6 +18,7 @@ class Expense < ActiveRecord::Base
   auto_strip_attributes :location, squish: true, nullify: true
 
   include NumberCommaParser
+  include Duplicable
   numeric_attributes :rate, :amount, :quantity
 
   belongs_to :expense_type

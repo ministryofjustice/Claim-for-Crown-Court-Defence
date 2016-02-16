@@ -54,7 +54,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
-    @claim = Claim::BaseClaim.new
+    @claim = Claim::AdvocateClaim.new
     @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
 
@@ -72,7 +72,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim::BaseClaim.new(params_with_advocate_and_creator)
+    @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -193,7 +193,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_and_authorize_claim
-    @claim = Claim::BaseClaim.find(params[:id])
+    @claim = Claim::AdvocateClaim.find(params[:id])
     authorize! params[:action].to_sym, @claim
   end
 
@@ -336,7 +336,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
-    Claim::BaseClaim.transaction do
+    Claim::AdvocateClaim.transaction do
       @claim.save
       @claim.force_validation = true
 

@@ -13,6 +13,7 @@
 #
 
 class DateAttended < ActiveRecord::Base
+  include Duplicable
 
   belongs_to :attended_item, polymorphic: true
 

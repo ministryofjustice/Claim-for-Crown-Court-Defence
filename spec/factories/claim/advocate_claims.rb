@@ -1,6 +1,6 @@
 
 FactoryGirl.define do
-  factory :claim, class: Claim::BaseClaim do
+  factory :claim, class: Claim::AdvocateClaim do
 
     court
     case_number { random_case_number }

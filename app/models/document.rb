@@ -22,6 +22,7 @@
 
 class Document < ActiveRecord::Base
   include DocumentAttachment
+  include Duplicable
 
   belongs_to :external_user
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id

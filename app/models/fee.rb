@@ -15,6 +15,7 @@
 
 class Fee < ActiveRecord::Base
   include NumberCommaParser
+  include Duplicable
   numeric_attributes :quantity, :amount
 
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id

@@ -33,12 +33,12 @@ describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      it { should be_able_to(action, Claim::BaseClaim) }
+      it { should be_able_to(action, Claim::AdvocateClaim) }
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim::BaseClaim.new(external_user: external_user)) }
+        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user)) }
       end
     end
 
@@ -46,7 +46,7 @@ describe Ability do
       let(:other_external_user) { create(:external_user) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should_not be_able_to(action, Claim::BaseClaim.new(external_user: other_external_user)) }
+        it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user)) }
       end
     end
 
@@ -117,12 +117,12 @@ describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      it { should be_able_to(action, Claim::BaseClaim) }
+      it { should be_able_to(action, Claim::AdvocateClaim) }
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim::BaseClaim.new(external_user: external_user)) }
+        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user)) }
       end
     end
 
@@ -130,7 +130,7 @@ describe Ability do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should be_able_to(action, Claim::BaseClaim.new(external_user: other_external_user)) }
+        it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user)) }
       end
     end
 
@@ -151,7 +151,7 @@ describe Ability do
       let(:other_external_user) { create(:external_user) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
-        it { should_not be_able_to(action, Claim::BaseClaim.new(external_user: other_external_user)) }
+        it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user)) }
       end
     end
 
@@ -213,7 +213,7 @@ describe Ability do
     let(:user) { case_worker.user }
 
     [:index, :archived, :show, :show_message_controls].each do |action|
-      it { should be_able_to(action, Claim::BaseClaim.new) }
+      it { should be_able_to(action, Claim::AdvocateClaim.new) }
     end
 
     context 'can update claim when assigned to claim' do
@@ -224,7 +224,7 @@ describe Ability do
     end
 
     context 'cannot update claim when not assigned to claim' do
-      it { should_not be_able_to(:update, Claim::BaseClaim.new) }
+      it { should_not be_able_to(:update, Claim::AdvocateClaim.new) }
     end
 
     context 'can view/download documents' do
@@ -265,7 +265,7 @@ describe Ability do
     let(:user) { case_worker.user }
 
     [:index, :archived, :show, :update].each do |action|
-      it { should be_able_to(action, Claim::BaseClaim.new) }
+      it { should be_able_to(action, Claim::AdvocateClaim.new) }
     end
 
     context 'can view/download documents' do

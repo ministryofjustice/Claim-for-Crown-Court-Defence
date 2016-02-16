@@ -45,13 +45,16 @@
 #
 
 module Claim
+
+  class BaseClaimAbstractClassError < RuntimeError
+    def initialize(message = 'Claim::BaseClaim is an abstract class and cannot be instantiated')
+      super(message)
+    end
+  end
+
   class BaseClaim < ActiveRecord::Base
 
     self.table_name = 'claims'
-
-    # def abstract_class?
-    #   true
-    # end
 
     auto_strip_attributes :case_number, :cms_number, squish: true, nullify: true
 
@@ -143,9 +146,13 @@ module Claim
 
     before_validation :destroy_all_invalid_fee_types
 
-    after_initialize :default_values, :instantiate_assessment, :set_force_validation_to_false
+    after_initialize :ensure_not_abstract_class, :default_values, :instantiate_assessment, :set_force_validation_to_false
 
     after_save :find_and_associate_documents
+
+    def ensure_not_abstract_class
+      raise BaseClaimAbstractClassError if self.class == BaseClaim
+    end
 
     def set_force_validation_to_false
       @force_validation = false

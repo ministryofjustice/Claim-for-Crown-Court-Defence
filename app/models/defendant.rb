@@ -14,6 +14,7 @@
 #
 
 class Defendant < ActiveRecord::Base
+  include Duplicable
   auto_strip_attributes :first_name, :last_name, squish: true, nullify: true
 
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id

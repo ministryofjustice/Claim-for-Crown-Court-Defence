@@ -43,7 +43,7 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-RSpec.describe Claim::BaseClaim, type: :model do
+RSpec.describe Claim::AdvocateClaim, type: :model do
 
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
@@ -305,7 +305,7 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'should create a persisted basic fee record for every basic fee type in params plus blank basic fees for those not specified by params' do
-        claim = Claim::BaseClaim.new(valid_params['claim'])
+        claim = Claim::AdvocateClaim.new(valid_params['claim'])
         claim.save
         claim.reload
         expect(claim.fees.size).to eq 3
@@ -329,9 +329,9 @@ RSpec.describe Claim::BaseClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::BaseClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map{ |s| "\'#{s}\'"}.join(', ')
-      expect(sql.downcase).to include('where "claims"."state" in (' << state_in_list_clause << ')')
+      expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'find by MAAT reference' do
@@ -347,19 +347,19 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds the claim by MAAT reference "111111"' do
-        expect(Claim::BaseClaim.search('111111', states, search_options)).to eq([subject])
+        expect(Claim::AdvocateClaim.search('111111', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "222222"' do
-        expect(Claim::BaseClaim.search('222222', states, search_options)).to eq([subject])
+        expect(Claim::AdvocateClaim.search('222222', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "333333"' do
-        expect(Claim::BaseClaim.search('333333', states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('333333', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with MAAT reference "444444"' do
-        expect(Claim::BaseClaim.search('444444', states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('444444', states, search_options)).to be_empty
       end
     end
 
@@ -384,15 +384,15 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds all claims involving specified defendant' do
-        expect(Claim::BaseClaim.search('Joe Bloggs', states, search_options).count).to eq(2)
+        expect(Claim::AdvocateClaim.search('Joe Bloggs', states, search_options).count).to eq(2)
       end
 
       it 'finds claim involving other specified defendant' do
-        expect(Claim::BaseClaim.search('Hart',states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Hart',states, search_options)).to eq([other_claim])
       end
 
       it 'does not find claims involving non-existent defendant"' do
-        expect(Claim::BaseClaim.search('Foo Bar',states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('Foo Bar',states, search_options)).to be_empty
       end
     end
 
@@ -419,15 +419,15 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds the claim by advocate name "John Smith"' do
-        expect(Claim::BaseClaim.search('John Smith', states, search_options)).to eq([subject])
+        expect(Claim::AdvocateClaim.search('John Smith', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by advocate name "Bob Hoskins"' do
-        expect(Claim::BaseClaim.search('Bob Hoskins', states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with advocate name "Foo Bar"' do
-        expect(Claim::BaseClaim.search('Foo Bar', states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
@@ -445,15 +445,15 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::BaseClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::BaseClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
-        expect(Claim::BaseClaim.search('Bob Hoskins', nil, search_options).count).to eql 3
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eql 3
       end
 
     end
@@ -486,15 +486,15 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds claims with either advocate or defendant matching names' do
-        expect(Claim::BaseClaim.search('Bloggs', states, *search_options)).to eq([subject])
-        expect(Claim::BaseClaim.search('Hoskins',states, *search_options)).to eq([other_claim])
-        expect(Claim::BaseClaim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
-        expect(Claim::BaseClaim.search('Johncz',   states, *search_options).count).to eq(1) #advocate only search
-        expect(Claim::BaseClaim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
+        expect(Claim::AdvocateClaim.search('Bloggs', states, *search_options)).to eq([subject])
+        expect(Claim::AdvocateClaim.search('Hoskins',states, *search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
+        expect(Claim::AdvocateClaim.search('Johncz',   states, *search_options).count).to eq(1) #advocate only search
+        expect(Claim::AdvocateClaim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
       end
 
       it 'does not find claims that do not match the name' do
-        expect(Claim::BaseClaim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
+        expect(Claim::AdvocateClaim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
 
     end
@@ -510,22 +510,22 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'finds the claim by case_worker name' do
-        expect(Claim::BaseClaim.search(case_worker.name, states, search_options)).to eq([subject])
+        expect(Claim::AdvocateClaim.search(case_worker.name, states, search_options)).to eq([subject])
       end
 
       it 'finds the other claim by case worker name' do
-        expect(Claim::BaseClaim.search(other_case_worker.name, states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search(other_case_worker.name, states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with a non existent case worker' do
-        expect(Claim::BaseClaim.search('Foo Bar', states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
     context 'with invalid option' do
       it 'raises error for invalid option' do
         expect{
-          Claim::BaseClaim.search('foo', states, :case_worker_name_or_email, :foo)
+          Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo)
         }.to raise_error(/Invalid search option/)
       end
     end
@@ -533,7 +533,7 @@ RSpec.describe Claim::BaseClaim, type: :model do
     context 'with invalid state' do
       it 'raises error for invalid option' do
         expect{
-          Claim::BaseClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
+          Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
@@ -727,7 +727,7 @@ RSpec.describe Claim::BaseClaim, type: :model do
       end
 
       it 'claims in any state other than draft, archived_pending_delete or deleted' do
-        states = Claim::BaseClaim.state_machine.states.map(&:name)
+        states = Claim::AdvocateClaim.state_machine.states.map(&:name)
         states = states.map { |s| if not [:draft,:deleted,:archived_pending_delete].include?(s) then s; end; }.compact
         states.each do | state |
           claim.state = state
@@ -847,19 +847,19 @@ RSpec.describe Claim::BaseClaim, type: :model do
 
     describe '.trial' do
       it 'returns trials and retrials' do
-        expect(Claim::BaseClaim.trial).to match_array(trials + retrials)
+        expect(Claim::AdvocateClaim.trial).to match_array(trials + retrials)
       end
     end
 
     describe '.cracked' do
       it 'returns cracked trials and retrials' do
-        expect(Claim::BaseClaim.cracked).to match_array(cracked_trials + cracked_retrials)
+        expect(Claim::AdvocateClaim.cracked).to match_array(cracked_trials + cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
       it 'returns guilty pleas' do
-        expect(Claim::BaseClaim.guilty_plea).to match_array(guilty_pleas)
+        expect(Claim::AdvocateClaim.guilty_plea).to match_array(guilty_pleas)
       end
     end
   end
@@ -875,9 +875,9 @@ RSpec.describe Claim::BaseClaim, type: :model do
       claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
       claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
       claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
-      expect(Claim::BaseClaim.fixed_fee.count).to eq 2
-      expect(Claim::BaseClaim.fixed_fee).to include claim_1
-      expect(Claim::BaseClaim.fixed_fee).to include claim_2
+      expect(Claim::AdvocateClaim.fixed_fee.count).to eq 2
+      expect(Claim::AdvocateClaim.fixed_fee).to include claim_1
+      expect(Claim::AdvocateClaim.fixed_fee).to include claim_2
     end
   end
 
@@ -906,7 +906,7 @@ RSpec.describe Claim::BaseClaim, type: :model do
     end
 
     it 'only returns claims with total value greater than the specified value' do
-      expect(Claim::BaseClaim.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
+      expect(Claim::AdvocateClaim.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
     end
   end
 
@@ -1220,7 +1220,7 @@ RSpec.describe Claim::BaseClaim, type: :model do
        "offence_category"=>{"description"=>""},
        "offence_class"=>{"description"=>"64"},
        "commit"=>"Submit to LAA"}
-      claim = Claim::BaseClaim.new(params['claim'])
+      claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true
       claim.force_validation = true

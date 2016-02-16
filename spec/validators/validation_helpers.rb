@@ -8,6 +8,16 @@ module ValidationHelpers
     claim.submit!
   end
 
+   def should_error_with(record, field, message)
+    expect(record.valid?).to be false
+    expect(record.errors[field]).to eq ([ message ])
+  end
+
+  def should_not_error(record, field)
+    expect(record.valid?).to be true
+    expect(record.errors[field]).to be_empty
+  end
+
   def should_error_if_not_present(record, field, message)
     record.send("#{field}=", nil)
     expect(record.send(:valid?)).to be false
@@ -27,8 +37,6 @@ module ValidationHelpers
   end
 
   def should_error_if_earlier_than_earliest_repo_date(record, field, message)
-    # repo = double RepresentationOrder
-    # allow(record).to receive_message_chain(:earliest_representation_order,:representation_order_date).and_return(1.year.ago.to_date)
     stub_earliest_rep_order(record,1.year.ago.to_date)
     record.send("#{field}=", 13.months.ago)
     expect(record.send(:valid?)).to be false

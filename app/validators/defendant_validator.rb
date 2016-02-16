@@ -1,4 +1,4 @@
-class DefendantValidator < BaseClaimValidator
+class DefendantValidator < BaseValidator
 
   def self.fields
     [

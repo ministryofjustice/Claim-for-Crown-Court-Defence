@@ -1,6 +1,15 @@
-# Create a external users for AGFS firm
+require Rails.root.join('db','seeds','seed_helper')
 
-provider = Provider.find_or_create_by!(name: 'Test firm A', supplier_number: 'A1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm', vat_registered: true, roles: ['agfs'])
+# Create a external users for AGFS firm
+# -------------------------------------------------------
+provider = SeedHelper.find_or_create_provider!(
+  name: 'Test firm A',
+  supplier_number: 'A1234567',
+  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'firm',
+  vat_registered: true,
+  roles: ['agfs']
+)
 
 if User.find_by(email: 'advocate@example.com').blank?
   user = User.create!(
@@ -31,8 +40,15 @@ if User.find_by(email: 'advocateadmin@example.com').blank?
 end
 
 # Create a external users for LGFS firm
-
-provider = Provider.find_or_create_by!(name: 'Test firm B', supplier_number: 'C1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm', vat_registered: true, roles: ['lgfs'])
+# -------------------------------------------------------
+SeedHelper.find_or_create_provider!(
+  name: 'Test firm B',
+  supplier_number: 'B1234567',
+  api_key: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'firm',
+  vat_registered: true,
+  roles: ['lgfs']
+)
 
 if User.find_by(email: 'litigator@example.com').blank?
   user = User.create!(
@@ -62,9 +78,16 @@ if User.find_by(email: 'litigatoradmin@example.com').blank?
   external_user.save!
 end
 
-#Create external users belonging to AGFS firm
-
-provider = Provider.find_or_create_by!(name: 'Test firm C', supplier_number: 'B1234567', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'firm', vat_registered: false, roles: ['agfs'])
+# Create external users belonging to AGFS firm
+# -------------------------------------------------------
+provider = SeedHelper.find_or_create_provider!(
+  name: 'Test firm C',
+  supplier_number: 'C1234567',
+  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'firm',
+  vat_registered: false,
+  roles: ['agfs']
+)
 
 if User.find_by(email: 'advocatefirm@example.com').blank?
   user = User.create!(
@@ -94,10 +117,14 @@ if User.find_by(email: 'advocatefirmadmin@example.com').blank?
   external_user.save!
 end
 
-
 # Create an external_user who belongs to a AGFS and LGFS chamber
-
-provider = Provider.find_or_create_by!(name: 'Test chamber', api_key: ENV['TEST_CHAMBER_API_KEY'], provider_type: 'chamber', roles: ['agfs', 'lgfs'])
+# -------------------------------------------------------
+provider = SeedHelper.find_or_create_provider!(
+  name: 'Test chamber',
+  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'chamber',
+  roles: ['agfs', 'lgfs']
+)
 
 if User.find_by(email: 'advocatechamber@example.com').blank?
   user = User.create!(

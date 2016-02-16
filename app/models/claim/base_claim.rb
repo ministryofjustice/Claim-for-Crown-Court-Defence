@@ -117,8 +117,7 @@ module Claim
 
     # custom validators
     validates_with ::ValidationInitializer
-    validates_with ::ClaimDateValidator
-    validates_with ::ClaimTextfieldValidator
+    validates_with ::ClaimValidator
     validates_with ::ClaimSubModelValidator
 
     validate :creator_and_advocate_with_same_provider

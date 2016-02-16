@@ -1,4 +1,4 @@
-class BaseClaimValidator < ActiveModel::Validator
+class BaseValidator < ActiveModel::Validator
 
   def validate(record)
     @record = record

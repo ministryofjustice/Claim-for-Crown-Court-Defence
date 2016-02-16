@@ -115,13 +115,6 @@ module Claim
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }
 
-    # custom validators
-    # validates_with ::ValidationInitializer
-    # validates_with ::Claim::BaseClaimValidator
-    # validates_with ::Claim::BaseClaimSubModelValidator
-
-    # validate :creator_and_advocate_with_same_provider
-
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true

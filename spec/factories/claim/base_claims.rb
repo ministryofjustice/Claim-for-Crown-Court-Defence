@@ -76,7 +76,7 @@ FactoryGirl.define do
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c| c.archive_pending_delete! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
     end
 
     factory :authorised_claim do
@@ -88,7 +88,7 @@ FactoryGirl.define do
         Timecop.freeze(Time.now - 3.day) { c.submit! }
         Timecop.freeze(Time.now - 2.day) { c.allocate! }
         Timecop.freeze(Time.now - 1.day) { set_amount_assessed(c); c.authorise! }
-        c.redetermine! 
+        c.redetermine!
       end
     end
 

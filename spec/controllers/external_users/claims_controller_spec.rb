@@ -539,8 +539,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
     end
 
-    context 'when non-draft claim' do
-      subject { create(:submitted_claim, external_user: advocate) }
+    context 'when non-draft claim valid for archival' do
+      subject { create(:authorised_claim, external_user: advocate) }
 
       it "sets the claim's state to 'archived_pending_delete'" do
         expect(Claim::BaseClaim.count).to eq(1)

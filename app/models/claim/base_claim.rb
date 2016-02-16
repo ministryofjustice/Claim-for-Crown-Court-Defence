@@ -262,7 +262,7 @@ module Claim
 
     # we must validate unless it is being created as draft from any source except API or is in state of archive_pending_delete or deleted
     def validation_required?
-      from_api? || (!draft? && !archived_pending_delete? && !deleted?)
+      from_api? || !(draft? || archived_pending_delete?)
     end
 
     def from_api?

@@ -90,6 +90,21 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  describe 'validate external user is advocate role' do
+    let(:claim)   { build :unpersisted_claim }
+
+    it 'validates external user with advocate role' do
+      expect(claim.external_user.is?(:advocate)).to be true
+      expect(claim).to be_valid
+    end
+
+    it 'rejects external user without advocate role' do
+      claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
+      expect(claim).not_to be_valid
+      expect(claim.errors[:external_user]).to include('External user must have advocate role')
+    end
+  end
+
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',

@@ -47,7 +47,8 @@
 module Claim
   class AdvocateClaim < BaseClaim
 
-    include ::Claims::Cloner
+    validates_with ::Claim::AdvocateClaimValidator
+    validates_with ::Claim::AdvocateClaimSubModelValidator
 
   end
 end

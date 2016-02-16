@@ -43,6 +43,11 @@ class Claim::BaseClaimValidator < BaseValidator
   # ALWAYS required/mandatory
   def validate_external_user
     validate_presence(:external_user, "blank")
+    if @record.errors[:external_user].empty?
+      unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
+        @record.errors[:external_user] << 'Creator and advocate must belong to the same provider'
+      end
+    end
   end
 
   # ALWAYS required/mandatory

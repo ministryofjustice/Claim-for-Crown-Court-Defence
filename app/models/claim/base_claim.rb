@@ -328,15 +328,7 @@ module Claim
       self.total + self.vat_amount
     end
 
-    private
-
-    # def creator_and_advocate_with_same_provider
-    #   return if errors[:external_user].include?('blank')
-
-    #   unless creator_id == external_user_id || creator.try(:provider) == external_user.try(:provider)
-    #     errors[:external_user] << 'Creator and advocate must belong to the same provider'
-    #   end
-    # end
+  private
 
     def find_and_associate_documents
       return if self.form_id.nil?

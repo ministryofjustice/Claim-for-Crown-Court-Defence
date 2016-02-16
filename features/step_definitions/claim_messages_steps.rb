@@ -19,6 +19,8 @@ When(/^I leave a message$/) do
 end
 
 Then(/^I should see my message at the bottom of the message list$/) do
+  sleep 1
+
   within '#panel1' do
     message_body = all('.message-body').last
     expect(message_body).to have_content(/Lorem/)

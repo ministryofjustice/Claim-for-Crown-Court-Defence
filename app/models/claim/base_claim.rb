@@ -115,13 +115,6 @@ module Claim
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }
 
-    # custom validators
-    validates_with ::ValidationInitializer
-    validates_with ::Claim::BaseClaimValidator
-    validates_with ::Claim::BaseClaimSubModelValidator
-
-    validate :creator_and_advocate_with_same_provider
-
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
@@ -141,10 +134,11 @@ module Claim
     after_initialize :instantiate_basic_fees
 
     before_validation do
+      errors.clear
+      destroy_all_invalid_fee_types
       documents.each { |d| d.external_user_id = self.external_user_id }
     end
 
-    before_validation :destroy_all_invalid_fee_types
 
     after_initialize :ensure_not_abstract_class, :default_values, :instantiate_assessment, :set_force_validation_to_false
 
@@ -334,15 +328,7 @@ module Claim
       self.total + self.vat_amount
     end
 
-    private
-
-    def creator_and_advocate_with_same_provider
-      return if errors[:external_user].include?('blank')
-
-      unless creator_id == external_user_id || creator.try(:provider) == external_user.try(:provider)
-        errors[:external_user] << 'Creator and advocate must belong to the same provider'
-      end
-    end
+  private
 
     def find_and_associate_documents
       return if self.form_id.nil?

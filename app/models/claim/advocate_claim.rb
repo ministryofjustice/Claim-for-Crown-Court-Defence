@@ -47,6 +47,8 @@
 module Claim
   class AdvocateClaim < BaseClaim
 
+    include ::Claims::Cloner
+
   end
 end
 

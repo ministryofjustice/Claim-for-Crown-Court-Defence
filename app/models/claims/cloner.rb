@@ -1,8 +1,9 @@
 module Claims::Cloner
   extend ActiveSupport::Concern
+  include Duplicable
 
   included do |klass|
-    klass.amoeba do
+    klass.duplicate_this do
       enable
       nullify :last_submitted_at
       nullify :original_submission_date
@@ -22,7 +23,7 @@ module Claims::Cloner
     end
 
     Fee.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
         clone [:dates_attended]
@@ -30,7 +31,7 @@ module Claims::Cloner
     end
 
     Defendant.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
         clone [:representation_orders]
@@ -38,7 +39,7 @@ module Claims::Cloner
     end
 
     Expense.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
         clone [:dates_attended]
@@ -46,21 +47,21 @@ module Claims::Cloner
     end
 
     RepresentationOrder.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
       end
     end
 
     Document.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
       end
     end
 
     DateAttended.class_eval do |klass|
-      klass.amoeba do
+      klass.duplicate_this do
         enable
         nullify :uuid
       end
@@ -69,11 +70,9 @@ module Claims::Cloner
 
   def clone_rejected_to_new_draft
     raise 'Can only clone claims in state "rejected"' unless rejected?
-
-    draft = amoeba_dup
+    draft = duplicate
     draft.state = 'draft'
     draft.save!
-
     draft
   end
 end

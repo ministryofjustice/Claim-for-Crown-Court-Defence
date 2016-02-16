@@ -81,7 +81,7 @@ module ApplicationHelper
   def dom_id(record, prefix = nil)
     result = ActionView::RecordIdentifier.dom_id(record, prefix)
     if record.is_a?(Claim::BaseClaim) || record.is_a?(Claim::BaseClaimPresenter)
-      result.sub!('claim_base_claim', 'claim')
+      result.sub!(/claim_((base)|(advocate))_claim/, 'claim')
     end
     result
   end

@@ -3,20 +3,6 @@ require 'support/database_housekeeping'
 
 RSpec.describe Claims::Cloner, type: :model do
   include DatabaseHousekeeping
-  # let!(:rejected_claim) do
-  #   rejected_claim = create(:rejected_claim)
-  #   rejected_claim.fees.each do |fee|
-  #     fee.dates_attended << create(:date_attended)
-  #   end
-  #   rejected_claim.expenses << create(:expense)
-  #   rejected_claim.expenses.each do |expense|
-  #     expense.dates_attended << create(:date_attended)
-  #   end
-  #   create(:assessment, claim: rejected_claim)
-  #   create(:redetermination, claim: rejected_claim)
-  #   rejected_claim.documents << create(:document)
-  #   rejected_claim
-  # end
 
   describe '#clone_rejected_to_new_draft' do
     context 'non-rejected_claims' do

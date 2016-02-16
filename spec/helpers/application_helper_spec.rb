@@ -21,7 +21,7 @@ describe ApplicationHelper do
 
     it 'should return a collection of <Classname>Presenter instances' do
       present_collection(claims).each do |claim|
-        expect(claim).to be_instance_of Claim::BaseClaimPresenter
+        expect(claim).to be_instance_of Claim::AdvocateClaimPresenter
       end
     end
 

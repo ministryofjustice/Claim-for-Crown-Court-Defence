@@ -114,8 +114,8 @@ module Claim
 
     # custom validators
     validates_with ::ValidationInitializer
-    validates_with ::ClaimValidator
-    validates_with ::ClaimSubModelValidator
+    validates_with ::Claim::BaseClaimValidator
+    validates_with ::Claim::BaseClaimSubModelValidator
 
     validate :creator_and_advocate_with_same_provider
 

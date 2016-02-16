@@ -1,7 +1,7 @@
 require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
-describe ClaimValidator do
+describe Claim::BaseClaimValidator do
 
   include ValidationHelpers
 

@@ -52,7 +52,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   # ALWAYS required/mandatory
   def validate_creator
-    validate_presence(:creator, "blank")
+    validate_presence(:creator, "blank") unless @record.errors.key?(:creator)
   end
 
   # must be present

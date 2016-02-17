@@ -9,4 +9,14 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
     end
     super
   end
+
+
+  def validate_creator
+    unless @record.creator.nil?
+      unless @record.creator.provider.is?(:lgfs)
+        @record.errors[:creator] << "Creator must be from a Provider that has LGFS fee scheme"
+      end
+    end
+    super
+  end
 end

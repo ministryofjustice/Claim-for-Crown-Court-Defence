@@ -7,9 +7,13 @@ FactoryGirl.define do
     source { 'web' }
     apply_vat  false
 
+     after(:build) do |claim|
+      claim.creator = claim.external_user
+    end
+
     factory :unpersisted_litigator_claim do
       court         { FactoryGirl.build :court }
-      external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
+      external_user { FactoryGirl.build :external_user, :litigator, provider: FactoryGirl.build(:provider, :lgfs) }
       offence       { FactoryGirl.build :offence, offence_class: FactoryGirl.build(:offence_class) }
       after(:build) do |claim|
         build(:certification, claim: claim)

@@ -20,7 +20,7 @@ end
 
 Then(/^I should see my message at the bottom of the message list$/) do
   within '#panel1' do
-    expect(find('.message-body')).to have_content(/Lorem/)
+    expect(all('.message-body').last || find('.message-body')).to have_content(/Lorem/)
   end
 end
 

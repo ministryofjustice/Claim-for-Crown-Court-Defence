@@ -5,34 +5,15 @@ class AdpMailerPreview < ActionMailer::Preview
   #   Devise::Mailer.confirmation_instructions(User.first, "faketoken")
   # end
 
-  def welcome_password_instructions_for_advocate_created_by_admin
-    creator = FactoryGirl.create(:external_user, :advocate, :advocate_and_admin)
+  def welcome_password_instructions
     advocate = FactoryGirl.create(:external_user, :advocate)
-    advocate.user.email_creator = creator.user
-    AdpMailer.reset_password_instructions(advocate.user, "faketoken")
-  end
-
-  def welcome_password_instructions_for_advocate_created_by_superadmin
-    creator = FactoryGirl.create(:super_admin)
-    advocate = FactoryGirl.create(:external_user, :advocate)
-    advocate.user.email_creator = creator.user
     AdpMailer.reset_password_instructions(advocate.user, "faketoken")
   end
 
   def welcome_password_instructions_for_advocate_admin
-    creator = FactoryGirl.create(:external_user, :advocate, :advocate_and_admin)
     advocate = FactoryGirl.create(:external_user, :advocate, :advocate_and_admin)
-    advocate.user.email_creator = creator.user
     AdpMailer.reset_password_instructions(advocate.user, "faketoken")
   end
-
-  def welcome_password_instructions_for_caseworker_admin
-    creator = FactoryGirl.create(:case_worker, roles: ['admin','case_worker'])
-    caseworker = FactoryGirl.create(:case_worker, roles: ['admin','case_worker'])
-    caseworker.user.email_creator = creator.user
-    AdpMailer.reset_password_instructions(caseworker.user, "faketoken")
-  end
-
 
   def reset_password_instructions
     advocate = FactoryGirl.create(:external_user, :advocate)

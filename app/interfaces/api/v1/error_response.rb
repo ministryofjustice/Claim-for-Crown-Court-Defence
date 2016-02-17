@@ -20,7 +20,7 @@ class ErrorResponse
   attr :body
   attr :status
 
-  VALID_MODEL_KLASSES = [Fee, Expense, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder]
+  VALID_MODEL_KLASSES = [Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder]
 
   def initialize(object)
     @error_messages = []
@@ -53,7 +53,7 @@ private
     submodel_instance_num = ''
     m = @model
 
-    if m.is_a?(Fee)
+    if m.is_a?(Fee::BaseFee)
       case
         when m.is_basic?
           submodel ='basic_fee'

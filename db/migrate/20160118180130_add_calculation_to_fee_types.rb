@@ -2,8 +2,10 @@ class AddCalculationToFeeTypes < ActiveRecord::Migration
   def up
     add_column :fee_types, :calculated, :boolean, default: true
 
-    FeeType.where(code: ['PPE','NPW']).each do |record|
-        record.update_column(:calculated, false)
+    fee_types = ActiveRecord::Base.connection.execute("SELECT * FROM fee_types WHERE code IN ('PPE', 'NPW')")
+
+    fee_types.each do |record|
+      ActiveRecord::Base.connection.execute("UPDATE fee_types SET calculated = 0 WHERE id = #{record['id']}")      
     end
   end
 

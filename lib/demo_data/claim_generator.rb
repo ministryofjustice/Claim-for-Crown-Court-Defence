@@ -18,7 +18,8 @@ module DemoData
 
     def run
       generate_advocates_if_required
-      advocates = ExternalUser.all.limit(@num_advocates)
+      # advocates = ExternalUser.all.limit(@num_advocates)
+      advocates = ExternalUser.advocates.slice(0, @num_advocates)
       advocates.each do |advocate|
         @num_claims.times do
           generate_claims_for_advocate(advocate)
@@ -27,7 +28,6 @@ module DemoData
     end
 
   private
-
     def generate_claim(advocate)
       claim = Claim::AdvocateClaim.new(
         additional_information: generate_additional_info,
@@ -118,11 +118,11 @@ module DemoData
     end
 
     def add_misc_fees(claim)
-      FeeGenerator.new(claim, :misc).generate!
+      FeeGenerator.new(claim, Fee::MiscFeeType).generate!
     end
 
     def add_fixed_fees(claim)
-      FeeGenerator.new(claim, :fixed).generate!
+      FeeGenerator.new(claim, Fee::FixedFeeType).generate!
     end
 
     def add_expenses(claim)

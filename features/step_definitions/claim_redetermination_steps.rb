@@ -37,7 +37,7 @@ end
 
 Given(/^a redetermined claim is assigned to me$/) do
   @claim = create(:redetermination_claim)
-  @claim.fees << build(:fee, :with_date_attended, claim: @claim, fee_type: FactoryGirl.build(:fee_type))
+  @claim.fees << build(:misc_fee, :with_date_attended, claim: @claim)
   @claim.expenses << build(:expense, :with_date_attended, claim: @claim, expense_type: FactoryGirl.build(:expense_type))
   @claim.case_workers << @case_worker
 end

@@ -10,7 +10,7 @@ Given(/^I have (\d+) sortable claims$/) do |count|
         claim = create("#{states[i%states.size]}_claim".to_sym, external_user: advocate, case_number: "A#{(n).to_s.rjust(8,"0")}")
         claim.fees.destroy_all
         claim.expenses.destroy_all
-        create(:fee, claim: claim, quantity: n*1, rate: n*1)
+        create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
         claim.assessment.update_values!(claim.fees_total, 0) if claim.authorised?
       end
     end

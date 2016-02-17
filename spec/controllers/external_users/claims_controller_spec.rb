@@ -279,13 +279,13 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       context 'basic and non-basic fees' do
 
-        let!(:basic_fee_type_1)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 1' }
-        let!(:basic_fee_type_2)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 2' }
-        let!(:basic_fee_type_3)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 3' }
-        let!(:basic_fee_type_4)         { FactoryGirl.create :fee_type, :basic, description: 'Basic Fee Type 4' }
-        let!(:misc_fee_type_1)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 1' }
-        let!(:misc_fee_type_2)          { FactoryGirl.create :fee_type, :misc, description: 'Miscellaneous Fee Type 2' }
-        let!(:fixed_fee_type_1)         { FactoryGirl.create :fee_type, :fixed, description: 'Fixed Fee Type 1' }
+        let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
+        let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
+        let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
+        let!(:basic_fee_type_4)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 4' }
+        let!(:misc_fee_type_1)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
+        let!(:misc_fee_type_2)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
+        let!(:fixed_fee_type_1)         { FactoryGirl.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
@@ -354,10 +354,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
               claim_params['case_type_id'] = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true).id.to_s
+
               response = post :create, claim: claim_params
               claim = assigns(:claim)
 
               # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
+
               expect(claim.basic_fees.size).to eq 4
               expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
 
@@ -555,8 +557,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 end
 
-
 def valid_claim_fee_params
+
   case_type = FactoryGirl.create :case_type
   HashWithIndifferentAccess.new(
     {

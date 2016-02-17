@@ -18,7 +18,7 @@ FactoryGirl.define do
       after(:build) do |claim|
         build(:certification, claim: claim)
         claim.defendants << build(:defendant, claim: claim)
-        claim.fees << build(:fee, :with_date_attended, claim: claim, fee_type: FactoryGirl.build(:fee_type))
+        claim.fees << build(:misc_fee, :with_date_attended, claim: claim)
         claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
       end
     end

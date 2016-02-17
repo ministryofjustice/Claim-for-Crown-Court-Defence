@@ -4,7 +4,7 @@ module DemoData
 
     def initialize(claim)
       @claim       = claim
-      @fee_types   = FeeType.basic
+      @fee_types   = Fee::BasicFeeType.all
       @codes_added = []
     end
 
@@ -90,7 +90,7 @@ module DemoData
     end
 
     def basic_fee_type_by_code(code)
-      fee_type = FeeType.basic.find_by(code: code)
+      fee_type = Fee::BasicFeeType.find_by(code: code)
       raise RuntimeError.new "Unable to find Fee Type with code #{code}" if fee_type.nil?
       fee_type
     end

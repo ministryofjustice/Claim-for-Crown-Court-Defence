@@ -4,10 +4,12 @@ module DemoData
 
     # Call as FeeGenerator.new(claim, :fixed) or FeeGenerator.new(claim, :misc)
     #
-    def initialize(claim, misc_or_fixed)
-      @claim       = claim
-      @fee_types   = FeeType.send(misc_or_fixed)
-      @codes_added = []
+    def initialize(claim, fee_type_class)
+      @claim          = claim
+      @fee_types      = fee_type_class.all
+      @codes_added    = []
+      @fee_type_class = fee_type_class
+      @fee_class      = derive_fee_class_from_fee_type_class
     end
 
     def generate!
@@ -21,8 +23,12 @@ module DemoData
       while @codes_added.include?(fee_type.code)
         fee_type = @fee_types.sample
       end
-      Fee.create(claim: @claim, fee_type: fee_type, quantity: rand(1..10), rate: rand(25..75).round(2))
+      @fee_class.create(claim: @claim, fee_type: fee_type, quantity: rand(1..10), rate: rand(25..75).round(2))
       @codes_added << fee_type.code
+    end
+
+    def derive_fee_class_from_fee_type_class
+      @fee_type_class.to_s.sub(/Type$/,'').constantize
     end
 
   end

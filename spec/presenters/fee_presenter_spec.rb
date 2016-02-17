@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe FeePresenter do
 
   let(:claim)     { create(:claim) }
-  let(:fee_type)  { create(:fee_type, description: 'Basic fee type C') }
-  let(:fee)       { create(:fee, quantity: 4, claim: claim, fee_type: fee_type) }
+  let(:fee_type)  { create(:basic_fee_type, description: 'Basic fee type C') }
+  let(:fee)       { create(:basic_fee, quantity: 4, claim: claim, fee_type: fee_type) }
   let(:presenter) {FeePresenter.new(fee, view) }
 
   describe '#dates_attended_delimited_string' do

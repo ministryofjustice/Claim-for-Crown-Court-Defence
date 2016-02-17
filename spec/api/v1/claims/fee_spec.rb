@@ -16,9 +16,9 @@ describe API::V1::ExternalUsers::Fee do
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
   let!(:provider)         { create(:provider) }
-  let!(:basic_fee_type)   { create(:fee_type, :basic) }
-  let!(:misc_fee_type)    { create(:fee_type, :misc) }
-  let!(:fixed_fee_type)   { create(:fee_type, :fixed) }
+  let!(:basic_fee_type)   { create(:basic_fee_type) }
+  let!(:misc_fee_type)    { create(:misc_fee_type) }
+  let!(:fixed_fee_type)   { create(:fixed_fee_type) }
   let!(:claim)            { create(:claim, source: 'api').reload }
   let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
@@ -51,17 +51,17 @@ describe API::V1::ExternalUsers::Fee do
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
-        expect(Fee.find_by(uuid: json['id']).uuid).to eq(json['id'])
-        expect(Fee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
+        expect(Fee::BaseFee.find_by(uuid: json['id']).uuid).to eq(json['id'])
+        expect(Fee::BaseFee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
       end
 
       it "should create one new fee" do
-        expect{ post_to_create_endpoint }.to change { Fee.count }.by(1)
+        expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
       end
 
       it 'should create a new fee record with all provided attributes except amount' do
         post_to_create_endpoint
-        fee = Fee.last
+        fee = Fee::BaseFee.last
         expect(fee.claim_id).to eq claim.id
         expect(fee.fee_type_id).to eq misc_fee_type.id
         expect(fee.quantity).to eq valid_params[:quantity]
@@ -72,7 +72,7 @@ describe API::V1::ExternalUsers::Fee do
         it 'should ignore amount for all fee types that are calculated (all except PPE/NPW)' do
           valid_params.merge!(amount: 155.50)
           post_to_create_endpoint
-          fee = Fee.last
+          fee = Fee::BaseFee.last
           expect(fee.amount).to eq 150.00
         end
       end
@@ -86,18 +86,18 @@ describe API::V1::ExternalUsers::Fee do
           expect(last_response.status).to eq 200
           json = JSON.parse(last_response.body)
           expect(json['id']).not_to be_nil
-          expect(Fee.find_by(uuid: json['id']).uuid).to eq(json['id'])
-          expect(Fee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
+          expect(Fee::BaseFee.find_by(uuid: json['id']).uuid).to eq(json['id'])
+          expect(Fee::BaseFee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
         end
 
         it 'should update, not create, one basic fee' do
-          expect{ post_to_create_endpoint }.to change { Fee.count }.by(0)
+          expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
         it 'should update the basic fee with the quantity, rate and amount' do
           post_to_create_endpoint
           json = JSON.parse(last_response.body)
-          fee = Fee.find_by(uuid: json['id'])
+          fee = Fee::BaseFee.find_by(uuid: json['id'])
           expect(fee.claim_id).to eq claim.id
           expect(fee.fee_type_id).to eq basic_fee_type.id
           expect(fee.quantity).to eq 1

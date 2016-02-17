@@ -2,7 +2,7 @@ class JsonSchema
 
   class << self
 
-    def generate(json_template)
+    def generate
       schema = File.read(File.join(Rails.root, 'config', 'claim_schema.json'))
       parsed_schema = JSON.parse(schema)
       edit_required_items(parsed_schema) # schema is used to validate data type and json structure only

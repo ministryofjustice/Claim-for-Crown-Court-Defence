@@ -26,7 +26,7 @@ Given(/^I am a signed in advocate$/) do
 end
 
 Given(/^I am a signed in advocate admin$/) do
-  @advocate = create(:external_user, :admin)
+  @advocate = create(:external_user, :advocate_and_admin)
   visit new_user_session_path
   sign_in(@advocate.user, 'password')
 end

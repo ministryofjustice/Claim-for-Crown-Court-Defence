@@ -72,14 +72,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject.external_user_id = external_user.id
       subject.creator_id = external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to be_empty
+      expect(subject.reload.errors.messages[:external_user]).to be_nil
     end
 
     it 'should be valid with different external_user_id and creator_id but same provider' do
       subject.external_user_id = external_user.id
       subject.creator_id = same_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to be_empty
+      expect(subject.reload.errors.messages[:external_user]).to be_nil
     end
 
     it 'should not be valid when the external_user and creator are with the same provider' do
@@ -87,6 +87,21 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject.creator_id = other_provider_external_user.id
       subject.save
       expect(subject.reload.errors.messages[:external_user]).to eq(['Creator and advocate must belong to the same provider'])
+    end
+  end
+
+  describe 'validate external user is advocate role' do
+    let(:claim)   { build :unpersisted_claim }
+
+    it 'validates external user with advocate role' do
+      expect(claim.external_user.is?(:advocate)).to be true
+      expect(claim).to be_valid
+    end
+
+    it 'rejects external user without advocate role' do
+      claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
+      expect(claim).not_to be_valid
+      expect(claim.errors[:external_user]).to include('must have advocate role')
     end
   end
 

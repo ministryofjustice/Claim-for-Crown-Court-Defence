@@ -101,7 +101,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'rejects external user without advocate role' do
       claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
       expect(claim).not_to be_valid
-      expect(claim.errors[:external_user]).to include('External user must have advocate role')
+      expect(claim.errors[:external_user]).to include('must have advocate role')
     end
   end
 

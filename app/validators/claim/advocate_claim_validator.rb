@@ -2,21 +2,12 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   
  # ALWAYS required/mandatory
   def validate_external_user
-    unless @record.external_user.nil?
-      unless @record.external_user.is?(:advocate)
-        @record.errors[:external_user] << 'External user must have advocate role'
-      end
-    end
+    validate_has_role(@record.external_user, :advocate, :external_user, 'must have advocate role')
     super
   end
 
   def validate_creator
-    unless @record.creator.nil?
-      unless @record.creator.provider.is?(:agfs)
-        @record.errors[:creator] << "Creator must be from a Provider that has AGFS fee scheme"
-      end
-    end
+    validate_has_role(@record.creator.try(:provider), :agfs, :creator, 'must be from a Provider that has AGFS fee scheme')
     super
   end
-
 end

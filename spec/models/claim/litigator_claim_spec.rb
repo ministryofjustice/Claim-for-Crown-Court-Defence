@@ -15,7 +15,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'rejects external user without litigator role' do
       claim.external_user = build :external_user, :advocate, provider: claim.creator.provider
       expect(claim).not_to be_valid
-      expect(claim.errors[:external_user]).to include('External user must have litigator role')
+      expect(claim.errors[:external_user]).to include('must have litigator role')
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'rejects creators whose provider is only agfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs))
       expect(claim).not_to be_valid
-      expect(claim.errors[:creator]).to eq(["Creator must be from a Provider that has LGFS fee scheme"])
+      expect(claim.errors[:creator]).to eq(["must be from a provider with the LGFS fee scheme"])
     end
 
     it 'accepts creators whose provider is only lgfs' do

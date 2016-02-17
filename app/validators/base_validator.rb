@@ -70,4 +70,11 @@ class BaseValidator < ActiveModel::Validator
     1.0/0
   end
 
+  def validate_has_role(object, role, error_message_key, error_message)
+    return if object.nil?
+    unless object.is?(role)
+      @record.errors[error_message_key] << error_message
+    end
+  end
+
 end

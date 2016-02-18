@@ -217,25 +217,15 @@ module Claim
     def form_input_invalid?(form_input)
       if form_input.blank?
         true
-      elsif form_input_to_event[form_input] == nil
+      elsif Claims::InputEventMapper.input_event(form_input) == nil
         raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination')
       else
         false
       end
     end
 
-    def form_input_to_event
-      {
-        'authorised'               => :authorise!,
-        'part_authorised'          => :authorise_part!,
-        'rejected'                 => :reject!,
-        'refused'                  => :refuse!,
-        'redetermination'          => :redetermine!
-      }
-    end
-
     def transition_state(form_input)
-      event = form_input_to_event[form_input]
+      event = Claims::InputEventMapper.input_event(form_input)
       self.send(event) unless form_input == self.state || form_input_invalid?(form_input)
     end
 

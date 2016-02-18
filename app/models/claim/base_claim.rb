@@ -84,6 +84,7 @@ module Claim
     has_many :fee_types,                through: :fees
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :representation_orders,    through: :defendants
     has_many :documents,                foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :claim_state_transitions,  foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
@@ -171,10 +172,6 @@ module Claim
       else
         false
       end
-    end
-
-    def representation_orders
-      self.defendants.map(&:representation_orders).flatten
     end
 
     def earliest_representation_order

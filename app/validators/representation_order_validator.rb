@@ -29,9 +29,8 @@ class RepresentationOrderValidator < BaseValidator
   # mandatory where case type isn't breach of crown court order
   # must be exactly 7 - 10 numeric digits
   def validate_maat_reference
-    if @record.try(:defendant).try(:claim).try(:case_type).try(:requires_maat_reference?)
-      validate_presence(:maat_reference, "invalid") if @record.defendant.claim.case_type.requires_maat_reference?
-    end
+    case_type = @record.defendant.claim.case_type rescue nil
+    validate_presence(:maat_reference, "invalid") if case_type && case_type.requires_maat_reference?
     validate_pattern(:maat_reference, /^[0-9]{7,10}$/, 'invalid')
   end
 

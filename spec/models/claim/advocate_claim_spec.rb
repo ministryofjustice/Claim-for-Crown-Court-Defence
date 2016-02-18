@@ -212,10 +212,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     before(:each) do
       # add a second defendant
-      claim.defendants << FactoryGirl.build(:defendant, claim: claim)
+      claim.defendants << FactoryGirl.create(:defendant, claim: claim)
 
       # add a second rep order to the first defendant
-      claim.defendants.first.representation_orders << FactoryGirl.build(:representation_order, representation_order_date: early_date)
+      claim.defendants.first.representation_orders << FactoryGirl.create(:representation_order, representation_order_date: early_date)
     end
 
     it 'should pick the earliest reporder' do

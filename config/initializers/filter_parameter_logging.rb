@@ -8,9 +8,5 @@ Rails.application.config.filter_parameters += [
   :last_name,
   :date_of_birth,
   :supplier_number,
-  :body,
-  :supplier_number,
-  :email,
-  :first_name,
-  :last_name
+  :body
 ]

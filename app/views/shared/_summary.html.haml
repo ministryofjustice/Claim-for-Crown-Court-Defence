@@ -63,7 +63,7 @@
           - present_collection(claim.expenses).each do |expense|
             %tr
               %td
-                = expense.expense_type.name
+                = expense.name
                 - if expense.dates_attended.any?
                   %br
                   Dates attended:

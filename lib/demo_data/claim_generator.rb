@@ -18,7 +18,7 @@ module DemoData
 
     def run
       generate_advocates_if_required
-      advocates = ExternalUser.all.limit(@num_advocates)
+      advocates = ExternalUser.advocates[0, @num_advocates]
       advocates.each do |advocate|
         @num_claims.times do
           generate_claims_for_advocate(advocate)

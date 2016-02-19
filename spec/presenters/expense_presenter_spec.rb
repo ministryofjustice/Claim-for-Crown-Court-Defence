@@ -43,8 +43,4 @@ RSpec.describe ExpensePresenter do
     end
   end
 
-
-
-
-
 end

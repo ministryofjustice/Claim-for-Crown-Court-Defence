@@ -56,6 +56,6 @@
 
   .column-half
     .offence-class-select
-      = render partial: 'offence_select', locals: { offences: @offences }
+      = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
 
     = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil

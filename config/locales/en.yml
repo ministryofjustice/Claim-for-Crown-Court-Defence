@@ -207,7 +207,7 @@ en:
       supplier_number: &supplier_number 'Supplier number'
       vat_registered: &vat_registered 'VAT registered'
       show:
-        fee_schemes: Fee schemes 
+        fee_schemes: Fee schemes
         provider_type: *provider_type
         provider_name: *provider_name
         supplier_number: *supplier_number
@@ -326,7 +326,7 @@ en:
         certification_date: 'Date'
     claims:
       additional_information:
-        form:
+        fields:
           additional_information: 'Additional information'
           additional_information_prompt_text: 'eg any other information that will help us process your claim'
       archived:
@@ -349,7 +349,7 @@ en:
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
           npw_section_hint: Total number of prosecution witnesses
-        form:
+        fields:
           amount: 'Amount'
           basic_fees: 'Initial fees'
           fee_prompt_text: |
@@ -370,7 +370,7 @@ en:
           trial_cracked_at_third: 'Case cracked in'
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
-        form:
+        fields:
           advocate: *advocate
           advocate_category: 'Advocate category'
           case_advocate_offence: 'Case, instructed advocate & offence'
@@ -402,7 +402,7 @@ en:
             (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
-        form:
+        fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
@@ -439,7 +439,7 @@ en:
         expense_fields:
           add_date_attended: 'Add date(s)'
           remove: *remove
-        form:
+        fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
           expenses: 'Expenses'
@@ -463,7 +463,7 @@ en:
         add_date_attended: 'Add date(s)'
         remove: *remove
       fixed_fees:
-        form:
+        fields:
           add_fixed_fee: 'Add another fixed fee'
           amount: 'Amount'
           fee_type: 'Type of fee'
@@ -474,7 +474,7 @@ en:
           add_date_attended: 'Add date(s)'
           remove: *remove
       misc_fees:
-        form:
+        fields:
           add_misc_fee: 'Add another miscellaneous fee'
           amount: 'Amount'
           fee_type: 'Type of fee'
@@ -524,7 +524,7 @@ en:
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
       supporting_evidence_checklist:
-        form:
+        fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
 # en.shared
   shared:

@@ -1,5 +1,0 @@
-= label_tag t('.offence_class')
-.form-hint.xsmall.zero-vert-margin
-  &nbsp;
-- selected_offence = @claim.try(:offence) ? @claim.offence.id : (offences.count == 1 ? offences.first : nil)
-= collection_select :offence_class, :description, offences, :id, :offence_class, options = { prompt: t('.select_offence_class'), selected: selected_offence }, html_options = { class: 'select2', disabled: offences.count == 1 }

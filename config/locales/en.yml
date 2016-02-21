@@ -379,8 +379,10 @@ en:
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
           offence_category: 'Offence category'
-          offence_class: 'Offence class'
           select_category: 'Please select'
+        offence_select:
+          offence_class: 'Offence class'
+          select_offence_class: 'Please select'
         trial_detail_fields:
           actual_trial_length: 'Actual trial length'
           estimated_trial_length: 'Estimated trial length'
@@ -453,9 +455,6 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
-      offence_select:
-        offence_class: 'Offence class'
-        select_offence_class: 'Please select'
       edit:
         edit: Edit claim
 

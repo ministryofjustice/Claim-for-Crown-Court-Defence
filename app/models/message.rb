@@ -80,6 +80,10 @@ class Message < ActiveRecord::Base
     self.claim.external_user.provider.external_users.map(&:user) + self.claim.case_workers.map(&:user)
   end
 
+  def accompanying_redetermination_or_written_reasons?
+    self.claim_action.present? 
+  end
+
   def process_claim_action
     return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
 

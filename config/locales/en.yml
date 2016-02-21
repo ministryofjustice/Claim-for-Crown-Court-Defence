@@ -549,6 +549,14 @@ en:
       reporders: Representation order(s)
       submit_date: Claim submitted
       trial_concluded: Trial concluded
+    message_controls:
+      update_claim_status: Update your claim status
+      upload: "+ Upload"
+      message_placeholder: Enter your message here
+      send: Send
+      accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
+      remove_file_tool_tip: "Remove the file you have selected to upload"
+      remove: Remove
     evidence_list:
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.

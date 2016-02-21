@@ -27,6 +27,10 @@ court_types:
    - Magistrates' Court
    - Crown Court
 
+claim_actions:
+  - Apply for redetermination
+  - Request written reasons
+
 date_format: "%d/%m/%Y"
 date_time_format: "%d/%m/%Y %H:%M"
 

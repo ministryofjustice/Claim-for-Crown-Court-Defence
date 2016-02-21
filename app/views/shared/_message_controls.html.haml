@@ -1,28 +1,31 @@
 = simple_form_for message, remote: true, authenticity_token: true  do |f|
-  = f.input :claim_id, value: message.claim.id, as: :hidden
-  - if current_user.persona.is_a?(ExternalUser) && Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state)
+  = f.input :claim_id, value: @claim.id, as: :hidden
+
+  - if current_user.persona.is_a?(ExternalUser) && @claim.redeterminable?
     .js-hide-status
-      = f.label "Update your claim status", class: "form-label bold-normal"
+      = f.label t('.update_claim_status'), class: "form-label bold-normal"
       .form-group.inline.js-test-claim-action
-        = f.collection_radio_buttons(:claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s) do |b|
+        = f.collection_radio_buttons(:claim_action, Settings.claim_actions, :to_s, :to_s) do |b|
           - b.label(class: "block-label") { b.radio_button + b.value.humanize }
-  - if (current_user.persona.is_a?(ExternalUser) && (Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state) == false)|| message.claim_action.present?) || current_user.persona.is_a?(CaseWorker)
+
+  - if advocate_messaging_permitted?(message) || current_user.persona.is_a?(CaseWorker)
     .grid-row.js-test-send-buttons
       .upload-column
         .upload-button.button-secondary
           =  f.input :attachment, as: :file, wrapper: false, label: false
-          .upload-title="+ Upload"
+          .upload-title
+            = t('.upload')
       .message-column
-        = f.input :body, as: :string, placeholder: 'Enter your message here', label: false
-        - if current_user.persona.is_a?(CaseWorker) && message.claim.written_reasons_outstanding?
+        = f.input :body, as: :string, placeholder: t('.message_placeholder'), label: false
+        - if current_user.persona.is_a?(CaseWorker) && @claim.written_reasons_outstanding?
           .written-reasons-checkbox
             = f.input :written_reasons_submitted, as: :boolean
       .submit-column
-        = f.submit 'Send', class: 'button-secondary'
+        = f.submit t('.send'), class: 'button-secondary'
     .xsmall.form-hint
-      = "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
+      = t('.accepted_files_help_text')
     .file-to-be-uploaded
       %span.filename
       = " | "
-      %a{href:"#", title: "Remove the file you have selected to upload"}
-        = "Remove"
+      %a{href:"#", title: t('.remove_file_tool_tip')}
+        = t('.remove')

@@ -20,7 +20,7 @@ FactoryGirl.define do
     is_fixed_fee                false
     requires_cracked_dates      false
     requires_trial_dates        false
-    requires_maat_reference     false
+    requires_maat_reference     true
 
     trait :fixed_fee do
       is_fixed_fee    true

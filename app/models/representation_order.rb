@@ -13,10 +13,17 @@
 
 class RepresentationOrder < ActiveRecord::Base
   include Duplicable
-  
+
   auto_strip_attributes :maat_reference, squish: true, nullify: true
 
   before_save :upcase_maat_ref
+
+  before_validation do
+    case_type = defendant.claim.case_type rescue nil
+    if case_type && !case_type.requires_maat_reference?
+      self.maat_reference = nil
+    end
+  end
 
   acts_as_gov_uk_date :representation_order_date
 

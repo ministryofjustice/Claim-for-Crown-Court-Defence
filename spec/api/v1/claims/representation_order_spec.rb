@@ -54,12 +54,30 @@ describe API::V1::ExternalUsers::RepresentationOrder do
         expect{ post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1)
       end
 
-      it 'creates a new representation_order record with all provided attributes' do
-        post_to_create_endpoint
-        new_representation_order = RepresentationOrder.last
-        expect(new_representation_order.defendant_id).to eq defendant.id
-        expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
-        expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference]
+      context 'MAAT reference' do
+        context 'when case type requires MAAT reference' do
+          before { claim.case_type.update_column(:requires_maat_reference, true) }
+
+          it 'creates a new representation_order record with all provided attributes' do
+            post_to_create_endpoint
+            new_representation_order = RepresentationOrder.last
+            expect(new_representation_order.defendant_id).to eq defendant.id
+            expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
+            expect(new_representation_order.maat_reference).to eq valid_params[:maat_reference]
+          end
+        end
+
+        context 'when case type does not require MAAT reference' do
+          before { claim.case_type.update_column(:requires_maat_reference, false) }
+
+          it 'creates a new representation_order record with all provided attributes' do
+            post_to_create_endpoint
+            new_representation_order = RepresentationOrder.last
+            expect(new_representation_order.defendant_id).to eq defendant.id
+            expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
+            expect(new_representation_order.maat_reference).to eq nil
+          end
+        end
       end
     end
 

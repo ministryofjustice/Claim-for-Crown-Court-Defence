@@ -72,33 +72,58 @@ describe Claim::BaseClaimSubModelValidator do
 
 
     context 'bubbling up errors two levels to the claim' do
-
       let(:expected_results) do
-          {
-            defendant_1_representation_order_1_maat_reference:            "invalid",
-            defendant_1_representation_order_1_representation_order_date: "invalid",
-            defendant_1_date_of_birth:                                    "blank",
-          }
-        end
-
-      before(:each) do
-        claim.defendants.first.update(date_of_birth: nil)
-        claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
-        claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
-        claim.save!
-        claim.force_validation = true
-
-        claim.valid?
+        {
+          defendant_1_representation_order_1_representation_order_date: 'invalid',
+          defendant_1_date_of_birth:                                    'blank',
+        }
       end
 
-      it 'should bubble up the error from reporder to defendant and then to the claim' do
-        expected_results.each do |key, message|
-          expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+      context 'when claim has case type requiring MAAT reference' do
+        before do
+          expected_results.merge!(defendant_1_representation_order_1_maat_reference: 'invalid')
+
+          claim.case_type.update_column(:requires_maat_reference, true)
+
+          claim.defendants.first.update(date_of_birth: nil)
+          claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
+          claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
+          claim.save!
+          claim.force_validation = true
+
+          claim.valid?
+        end
+
+        it 'should bubble up the error from reporder to defendant and then to the claim' do
+          expected_results.each do |key, message|
+            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+          end
         end
       end
 
+      context 'when claims does not have case type requiring MAAT reference' do
+        before do
+          claim.case_type.update_column(:requires_maat_reference, false)
+
+          claim.defendants.first.update(date_of_birth: nil)
+          claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
+          claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
+          claim.save!
+          claim.force_validation = true
+
+          claim.valid?
+        end
+
+        before do
+          claim.case_type.update_column(:requires_maat_reference, false)
+        end
+
+        it 'should bubble up the error from reporder to defendant and then to the claim' do
+          expected_results.each do |key, message|
+            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+          end
+        end
+      end
     end
-
   end
-
 end

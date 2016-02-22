@@ -35,25 +35,6 @@ RSpec.describe ExternalUser, type: :model do
   it { should delegate_method(:agfs?).to(:provider) }
   it { should delegate_method(:lgfs?).to(:provider) }
 
-  context 'roles' do
-    it 'is not valid when no roles present' do
-      external_user = build(:external_user, roles: [])
-      expect(external_user).to_not be_valid
-      expect(external_user.errors[:roles]).to include('at least one role must be present')
-    end
-
-    it 'is not valid for roles not in the ROLES array' do
-      external_user = build(:external_user, roles: ['foobar', 'admin', 'advocate'])
-      expect(external_user).to_not be_valid
-      expect(external_user.errors[:roles]).to include('must be one or more of: admin, advocate, litigator')
-    end
-
-    it 'is valid for roles in the ROLES array' do
-      external_user = build(:external_user, roles: ['advocate', 'admin'])
-      expect(external_user).to be_valid
-    end
-  end
-
   context 'supplier number validation' do
     context 'when no Provider present' do
       context 'for advocate' do

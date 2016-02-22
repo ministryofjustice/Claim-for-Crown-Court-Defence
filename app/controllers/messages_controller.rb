@@ -5,6 +5,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
     if @message.save
+      set_refresh_required
       @notification = { notice: 'Message successfully sent' }
     else
       @notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
@@ -29,6 +30,10 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def set_refresh_required
+    @refresh = ['Apply for redetermination', 'Request written reasons'].include?(message_params[:claim_action])
+  end
 
   def message_params
     params.require(:message).permit(

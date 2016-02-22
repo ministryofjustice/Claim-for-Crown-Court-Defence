@@ -84,6 +84,7 @@ module Claim
     has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :representation_orders,    through: :defendants
     has_many :documents,                foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :claim_state_transitions,  foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
@@ -176,10 +177,6 @@ module Claim
       end
     end
 
-    def representation_orders
-      self.defendants.map(&:representation_orders).flatten
-    end
-
     def earliest_representation_order
       representation_orders.sort do |a, b|
         (a.representation_order_date || 100.years.from_now) <=> (b.representation_order_date || 100.years.from_now)
@@ -221,25 +218,15 @@ module Claim
     def form_input_invalid?(form_input)
       if form_input.blank?
         true
-      elsif form_input_to_event[form_input] == nil
+      elsif Claims::InputEventMapper.input_event(form_input) == nil
         raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination')
       else
         false
       end
     end
 
-    def form_input_to_event
-      {
-        'authorised'               => :authorise!,
-        'part_authorised'          => :authorise_part!,
-        'rejected'                 => :reject!,
-        'refused'                  => :refuse!,
-        'redetermination'          => :redetermine!
-      }
-    end
-
     def transition_state(form_input)
-      event = form_input_to_event[form_input]
+      event = Claims::InputEventMapper.input_event(form_input)
       self.send(event) unless form_input == self.state || form_input_invalid?(form_input)
     end
 

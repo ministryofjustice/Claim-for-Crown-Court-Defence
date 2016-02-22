@@ -1,59 +1,41 @@
 .primary-nav-bar {
-  background-color: $govuk-blue;
-  overflow: hidden;
+  @include inner-block;
 }
 // nav tabs
 nav {
-  display: block;
-  padding:$gutter-half;
+  @include container;
   ul {
-    margin:0;
+    @include span(8 of 12);
+    @include first;
+    padding-left:0;
     li {
-    display: inline-block;
-    list-style: none;
-      a {
-        display: block;
-        text-decoration: none;
+      display: inline-block;
+      list-style: none;
+      &:last-child a{
+        margin-right:0;
       }
     }
-  }
-  &.pagination {
-    text-align: right;
-    margin-top: $gutter-half;
-    margin-bottom: $gutter-half;
-    span {
-      padding-left: 5px;
+    a {
+      @include core-19;
+      display: block;
     }
   }
   &.primary-nav {
     a {
       margin-right: 1em;
-      color: $white;
-      text-decoration: none;
       &.current {
         font-weight: bold;
       }
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
-}
+  .user_links {
+    @include span(4 of 12);
+    @include last;
+    padding-right:0;
+    ul {
+      float:right;
+      text-align: right;
+    }
+  }
 
-.user_links {
-  float: right;
-  color: $white;
-  a {
-    color: $white;
-    text-decoration: none;
-    &.current{
-      font-weight: bold;
-    }
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  & a:first-child {
-    margin-left: 0.2em;
-  }
 }

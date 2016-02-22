@@ -1,13 +1,15 @@
+#page,
 .outer-block {
   @include outer-block;
 }
-
-.inner-block {
+.inner-block,
+.phase-banner {
   @include inner-block;
 }
 
-.container{
+.container {
   @include container;
-  text-align:left;
-  padding:0 $gutter $gutter;
+}
+#content {
+  @include inner-block;
 }

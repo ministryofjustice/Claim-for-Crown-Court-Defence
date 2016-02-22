@@ -15,8 +15,9 @@
 @import "design-patterns/alpha-beta";
 @import "design-patterns/buttons";
 
-// custom mixins
-@import "@mixins";
+// custom mixins & helpers
+@import "mixins";
+@import "helpers";
 
 //project specific
 @import "shame";

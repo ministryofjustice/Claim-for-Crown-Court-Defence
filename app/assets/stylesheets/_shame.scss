@@ -1,34 +1,42 @@
 // ================================================================//
 // LAYOUT.SCSS
 // ================================================================//
-.header-global {
-  @include container;
-}
 
 #global-header {
-  #logo {
-    img {
-      margin:0;
+  .header-wrapper {
+    @include inner-block;
+    .header-global {
+      @include container;
+      max-width: 960px;
+      padding:$gutter-half/2 0;
+      .header-logo{
+        margin:0;
+        @include span(4 of 12);
+        @include first;
+        padding-left:0;
+      }
+      .header-app-name {
+        margin:0;
+        @include span(8 of 12);
+        text-align: left;
+        line-height: 1em;
+      }
+    }
+    #logo {
+      float:none;
+      img {
+        margin:0;
+        display: block;
+        float:none;
+        padding:0;
+      }
     }
   }
-  .header-wrapper {
-    max-width: 1020px;
-    padding:$gutter-half 0;
-  }
-  .header-logo{
-    margin:0;
-  }
-  .header-app-name {
-    margin:0;
-  }
-
 }
 #global-header-bar {
-  // @include outer-container;
-}
-
-#global-header-bar .inner-block {
-  padding: 0;
+  .header-bar {
+    height:10px;
+  }
 }
 
 #footer {
@@ -72,17 +80,8 @@
   margin: 0;
 }
 
-@media (min-width: 769px) {
-  #global-header .header-wrapper .header-global .header-app-name {
-    width: auto;
-  }
-}
 // ==========================================================================
 // Phase banner
-
-.phase-banner {
-  @include container;
-}
 
 .phase-tag  {
   @include phase-tag(beta);

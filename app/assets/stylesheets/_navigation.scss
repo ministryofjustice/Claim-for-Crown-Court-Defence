@@ -5,9 +5,11 @@
 nav {
   @include container;
   ul {
-    @include span(8 of 12);
-    @include first;
     padding-left:0;
+    &.primary-nav {
+      @include span(8 of 12);
+      @include first;
+    }
     li {
       display: inline-block;
       list-style: none;
@@ -18,10 +20,6 @@ nav {
     a {
       @include core-19;
       display: block;
-    }
-  }
-  &.primary-nav {
-    a {
       margin-right: 1em;
       &.current {
         font-weight: bold;

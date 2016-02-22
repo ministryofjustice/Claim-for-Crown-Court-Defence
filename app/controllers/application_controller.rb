@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user_messages_count
   helper_method :signed_in_user_profile_path
+  helper_method :current_user_persona_is?
 
   load_and_authorize_resource
 
@@ -14,6 +15,10 @@ class ApplicationController < ActionController::Base
 
   def current_user_messages_count
     UserMessageStatus.for(current_user).not_marked_as_read.count
+  end
+
+  def current_user_persona_is?(persona_class)
+    current_user.persona.is_a?(persona_class)
   end
 
   rescue_from CanCan::AccessDenied do |exception|

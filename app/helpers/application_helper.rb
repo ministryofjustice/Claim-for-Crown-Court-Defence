@@ -94,4 +94,8 @@ module ApplicationHelper
     URI.parse(path).path rescue nil
   end
 
+  def advocate_messaging_permitted?(message)
+    (current_user.persona.is_a?(ExternalUser) && !@claim.redeterminable?) || message.claim_action.present?
+  end
+
 end

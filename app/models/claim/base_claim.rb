@@ -244,6 +244,10 @@ module Claim
       allocated? && !opened_for_redetermination?
     end
 
+    def redeterminable?
+      VALID_STATES_FOR_REDETERMINATION.include?(self.state)
+    end
+
     def perform_validation?
       self.force_validation? || self.validation_required?
     end

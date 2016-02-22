@@ -68,18 +68,29 @@
   }
 }
 
-// ==========================================================================
-// Override gov uk widths
+.financial-summary{
+  @include span(8 of 12);
+  padding-left:0;
+  div{
+    @include span(6 of 12);
+    padding-left:0;
+    &:last-child {
 
-
-#global-header-bar{
-  // display: none;
+    }
+  }
+  h3{
+    @include core-24;
+    font-weight:400;
+    color:$grey-1;
+  }
+  h4{
+    @include bold-36();
+  }
 }
-
-#fixed-header{
-  margin: 0;
+.claims-actions {
+  @include span(3 of 12);
+  @include last;
 }
-
 // ==========================================================================
 // Phase banner
 

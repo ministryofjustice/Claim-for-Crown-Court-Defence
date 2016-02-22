@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe FeePresenter do
+RSpec.describe Fee::BaseFeePresenter do
 
   let(:claim)     { create(:claim) }
   let(:fee_type)  { create(:basic_fee_type, description: 'Basic fee type C') }
   let(:fee)       { create(:basic_fee, quantity: 4, claim: claim, fee_type: fee_type) }
-  let(:presenter) {FeePresenter.new(fee, view) }
+  let(:presenter) {Fee::BaseFeePresenter.new(fee, view) }
 
   describe '#dates_attended_delimited_string' do
 
@@ -18,7 +18,7 @@ RSpec.describe FeePresenter do
 
     it 'outputs string of dates or date ranges separated by comma' do
       claim.fees.each do |fee|
-        fee = FeePresenter.new(fee, view)
+        fee = Fee::BaseFeePresenter.new(fee, view)
         expect(fee.dates_attended_delimited_string).to eql('21/05/2015 - 23/05/2015, 25/05/2015')
       end
     end

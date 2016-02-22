@@ -26,7 +26,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_summary_values
     @case_worker = CaseWorker.find(params[:case_worker_id]) rescue nil
-    @allocated_claims = Claim.find(params[:claim_ids].reject(&:blank?))
+    @allocated_claims = Claim::BaseClaim.find(params[:claim_ids].reject(&:blank?))
     params.delete(:case_worker_id)
     params.delete(:claim_ids)
   end
@@ -45,7 +45,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = tab == 'allocated' ? Claim.caseworker_dashboard_under_assessment : Claim.submitted_or_redetermination_or_awaiting_written_reasons
+    @claims = tab == 'allocated' ? Claim::BaseClaim.caseworker_dashboard_under_assessment : Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
     @claims = @claims.order(last_submitted_at: :asc)
 
     search_claims

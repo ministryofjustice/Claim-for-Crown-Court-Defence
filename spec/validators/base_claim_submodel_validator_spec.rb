@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Validations on Claim submodels' do
+describe Claim::BaseClaimSubModelValidator do
 
   let(:claim)               { FactoryGirl.create :claim }
   let(:defendant)           { claim.defendants.first }

@@ -1,53 +1,13 @@
-# == Schema Information
-#
-# Table name: claims
-#
-#  id                       :integer          not null, primary key
-#  additional_information   :text
-#  apply_vat                :boolean
-#  state                    :string
-#  last_submitted_at        :datetime
-#  case_number              :string
-#  advocate_category        :string
-#  first_day_of_trial       :date
-#  estimated_trial_length   :integer          default(0)
-#  actual_trial_length      :integer          default(0)
-#  fees_total               :decimal(, )      default(0.0)
-#  expenses_total           :decimal(, )      default(0.0)
-#  total                    :decimal(, )      default(0.0)
-#  external_user_id         :integer
-#  court_id                 :integer
-#  offence_id               :integer
-#  created_at               :datetime
-#  updated_at               :datetime
-#  valid_until              :datetime
-#  cms_number               :string
-#  authorised_at            :datetime
-#  creator_id               :integer
-#  evidence_notes           :text
-#  evidence_checklist_ids   :string
-#  trial_concluded_at       :date
-#  trial_fixed_notice_at    :date
-#  trial_fixed_at           :date
-#  trial_cracked_at         :date
-#  trial_cracked_at_third   :string
-#  source                   :string
-#  vat_amount               :decimal(, )      default(0.0)
-#  uuid                     :uuid
-#  case_type_id             :integer
-#  form_id                  :string
-#  original_submission_date :datetime
-#
 
 FactoryGirl.define do
-  factory :claim do
+  factory :claim, class: Claim::AdvocateClaim do
 
     court
     case_number { random_case_number }
     external_user
     source { 'web' }
     apply_vat  false
-    assessment    { Assessment.new }
+    # assessment    { Assessment.new }
 
     after(:build) do |claim|
       build(:certification, claim: claim)
@@ -116,7 +76,7 @@ FactoryGirl.define do
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c| c.archive_pending_delete! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
     end
 
     factory :authorised_claim do
@@ -128,7 +88,7 @@ FactoryGirl.define do
         Timecop.freeze(Time.now - 3.day) { c.submit! }
         Timecop.freeze(Time.now - 2.day) { c.allocate! }
         Timecop.freeze(Time.now - 1.day) { set_amount_assessed(c); c.authorise! }
-        c.redetermine! 
+        c.redetermine!
       end
     end
 

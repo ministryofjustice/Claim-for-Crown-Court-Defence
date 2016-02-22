@@ -15,9 +15,10 @@
 
 class Fee < ActiveRecord::Base
   include NumberCommaParser
+  include Duplicable
   numeric_attributes :quantity, :amount
 
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :fee_type
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item

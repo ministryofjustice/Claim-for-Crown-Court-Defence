@@ -2,19 +2,19 @@
 #
 # Table name: certifications
 #
-#  id                               :integer          not null, primary key
-#  claim_id                         :integer
-#  certification_type_id            :integer
-#  certified_by                     :string
-#  certification_date               :date
-#  created_at                       :datetime
-#  updated_at                       :datetime
+#  id                    :integer          not null, primary key
+#  claim_id              :integer
+#  certified_by          :string
+#  certification_date    :date
+#  created_at            :datetime
+#  updated_at            :datetime
+#  certification_type_id :integer
 #
 
 class Certification < ActiveRecord::Base
   auto_strip_attributes :certified_by, squish: true, nullify: true
 
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :certification_type
 
   validates :certification_date, presence: true

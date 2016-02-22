@@ -1,4 +1,4 @@
-= form_for(claim, url: case_workers_claim_path(claim)) do |f|
+= form_for(claim, url: case_workers_claim_path(claim), as: :claim) do |f|
   #claim-status
     %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db)}}
       %thead

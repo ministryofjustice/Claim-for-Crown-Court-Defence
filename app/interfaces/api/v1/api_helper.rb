@@ -6,7 +6,7 @@ module API
       require_relative 'api_response'
       require_relative 'error_response'
 
-      class Hash < Hash
+      class Hash < ::Hash
         def merge_date_fields!(date_fields, params)
           date_fields.each do |field|
             self.merge!(ApiHelper.to_dd_mm_yyyy_args(field, params))

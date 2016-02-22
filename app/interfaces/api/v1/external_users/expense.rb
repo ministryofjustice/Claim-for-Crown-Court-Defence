@@ -24,7 +24,7 @@ module API
 
             def build_arguments
               {
-                claim_id: ::Claim.find_by(uuid: params[:claim_id]).try(:id),
+                claim_id: ::Claim::BaseClaim.find_by(uuid: params[:claim_id]).try(:id),
                 expense_type_id: params[:expense_type_id],
                 quantity: params[:quantity],
                 rate: params[:rate],

@@ -33,7 +33,7 @@ end
 
 Given(/^I have (\d+) claims of each state$/) do | claims_per_state |
   # create n claims for all states except deleted and archived_pending_delete
-  states = Claim.state_machine.states.map(&:name)
+  states = Claim::BaseClaim.state_machine.states.map(&:name)
   states = states.map { |s| if s != :deleted && s != :archived_pending_delete then  s; end; }.compact
   states.each do | state |
     claims = create_list("#{state}_claim".to_sym, claims_per_state.to_i, external_user: @advocate)
@@ -112,7 +112,7 @@ Then(/^a figure representing the amount assessed for "(.*?)" claims$/) do |state
       rows.each do |row|
         within(row) do
           cms = all('td')[3].text
-          claim = Claim.find_by(cms_number: cms) # find claim which corresponds to |row|
+          claim = Claim::BaseClaim.find_by(cms_number: cms) # find claim which corresponds to |row|
           expect(claim.cms_number).to eq cms # check that the correct claim was found
           expect(row.text.include?(ActionController::Base.helpers.number_to_currency(claim.assessment.total))).to be true
         end

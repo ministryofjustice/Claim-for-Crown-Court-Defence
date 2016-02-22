@@ -220,23 +220,23 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           it 'creates a claim' do
             expect {
               post :create, commit: 'Submit to LAA', claim: claim_params
-            }.to change(Claim, :count).by(1)
+            }.to change(Claim::BaseClaim, :count).by(1)
           end
 
           it 'redirects to claim certification if no validation errors' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(response).to redirect_to(new_external_users_claim_certification_path(Claim.first))
+            expect(response).to redirect_to(new_external_users_claim_certification_path(Claim::BaseClaim.first))
           end
 
           it 'sets the created claim\'s advocate to the signed in advocate' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(Claim.first.external_user).to eq(advocate)
+            expect(Claim::BaseClaim.first.external_user).to eq(advocate)
           end
 
           it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim.first).to be_draft
+            expect(Claim::BaseClaim.first).to be_draft
           end
         end
 
@@ -244,7 +244,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           it 'creates a claim' do
             expect {
               post :create, commit: 'Save to drafts', claim: claim_params
-            }.to change(Claim, :count).by(1)
+            }.to change(Claim::BaseClaim, :count).by(1)
           end
 
           it 'redirects to claims list' do
@@ -254,12 +254,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
           it 'sets the created claim\'s advocate to the signed in advocate' do
             post :create, claim: claim_params, commit: 'Save to drafts'
-            expect(Claim.first.external_user).to eq(advocate)
+            expect(Claim::BaseClaim.first.external_user).to eq(advocate)
           end
 
           it 'sets the claim\'s state to "draft"' do
             post :create, claim: claim_params, commit: 'Save to drafts'
-            expect(Claim.first).to be_draft
+            expect(Claim::BaseClaim.first).to be_draft
           end
         end
       end
@@ -268,7 +268,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         it 'does not create a claim' do
           expect {
             post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
-          }.to_not change(Claim, :count)
+          }.to_not change(Claim::BaseClaim, :count)
         end
 
         it 'renders the new template' do
@@ -502,12 +502,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'creates a draft from the rejected claim' do
-        expect(Claim.last).to be_draft
-        expect(Claim.last.case_number).to eq(subject.case_number)
+        expect(Claim::BaseClaim.last).to be_draft
+        expect(Claim::BaseClaim.last.case_number).to eq(subject.case_number)
       end
 
       it 'redirects to the draft\'s edit page' do
-        expect(response).to redirect_to(edit_external_users_claim_url(Claim.last))
+        expect(response).to redirect_to(edit_external_users_claim_url(Claim::BaseClaim.last))
       end
     end
 
@@ -523,7 +523,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'does not create a draft claim' do
-        expect(Claim.last).to_not be_draft
+        expect(Claim::BaseClaim.last).to_not be_draft
       end
     end
   end
@@ -535,16 +535,16 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     context 'when draft claim' do
       it 'deletes the claim' do
-        expect(Claim.count).to eq(0)
+        expect(Claim::BaseClaim.count).to eq(0)
       end
     end
 
-    context 'when non-draft claim' do
-      subject { create(:submitted_claim, external_user: advocate) }
+    context 'when non-draft claim valid for archival' do
+      subject { create(:authorised_claim, external_user: advocate) }
 
       it "sets the claim's state to 'archived_pending_delete'" do
-        expect(Claim.count).to eq(1)
-        claim = Claim.first
+        expect(Claim::BaseClaim.count).to eq(1)
+        claim = Claim::BaseClaim.first
         expect(claim.state).to eq 'archived_pending_delete'
       end
     end

@@ -18,7 +18,7 @@ RSpec.describe Allocation, type: :model do
 
   describe '#save' do
     context 'allocating and re-allocating' do
-      let(:claims) { create_list(:submitted_claim, 5) }
+      let(:claims) { create_list(:submitted_claim, 3) }
       let(:case_worker) { create(:case_worker) }
 
       context 'when valid' do
@@ -59,7 +59,7 @@ RSpec.describe Allocation, type: :model do
     end
 
     context 'deallocating' do
-      let(:claims) { create_list(:submitted_claim, 5) }
+      let(:claims) { create_list(:submitted_claim, 3) }
       let(:case_worker) { create(:case_worker) }
 
       context 'when valid' do
@@ -76,13 +76,28 @@ RSpec.describe Allocation, type: :model do
           expect(case_worker.reload.claims).to be_empty
         end
 
-        it 'sets the claims to "submitted"' do
-          subject.save
-          expect(claims.map(&:reload).map(&:state).uniq).to eq(['submitted'])
-        end
-
         it 'returns true' do
           expect(subject.save).to eq(true)
+        end
+
+        describe 'state change' do
+          before { subject.save }
+
+          context 'for submitted claims' do
+            let(:claims) { create_list(:submitted_claim, 3) }
+
+            it 'sets the claims to the state to "submitted"' do
+              expect(claims.map(&:reload).map(&:state).uniq).to eq(['submitted'])
+            end
+          end
+
+          context 'for redetermination claims' do
+            let(:claims) { create_list(:redetermination_claim, 3) }
+
+            it 'sets the claims state to "redetermination"' do
+              expect(claims.map(&:reload).map(&:state).uniq).to eq(['redetermination'])
+            end
+          end
         end
       end
 
@@ -97,17 +112,17 @@ RSpec.describe Allocation, type: :model do
 
         it 'does not create case worker claim join records' do
           subject.save
-          expect(CaseWorkerClaim.count).to eq(5)
+          expect(CaseWorkerClaim.count).to eq(3)
         end
 
         it 'does not delete case worker claim join records' do
           subject.save
-          expect(CaseWorkerClaim.count).to eq(5)
+          expect(CaseWorkerClaim.count).to eq(3)
         end
 
         it 'leaves the claims as "allocated"' do
           subject.save
-          expect(claims.map(&:state).uniq).to eq(['allocated'])
+          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
         end
 
         it 'returns false' do

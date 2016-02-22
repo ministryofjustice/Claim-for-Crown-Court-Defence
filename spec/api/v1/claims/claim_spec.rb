@@ -138,7 +138,7 @@ describe API::V1::ExternalUsers::Claim do
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
-        expect(Claim.find_by(uuid: json['id']).uuid).to eq(json['id'])
+        expect(Claim::BaseClaim.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
       it "should exclude API key, creator email and advocate email from response" do
@@ -151,14 +151,14 @@ describe API::V1::ExternalUsers::Claim do
       end
 
       it "should create one new claim" do
-        expect{ post_to_create_endpoint }.to change { Claim.count }.by(1)
+        expect{ post_to_create_endpoint }.to change { Claim::BaseClaim.count }.by(1)
       end
 
       context "the new claim should" do
 
         before(:each) {
           post_to_create_endpoint
-          @new_claim = Claim.last
+          @new_claim = Claim::BaseClaim.last
         }
 
         it "have the same attributes as described in params" do

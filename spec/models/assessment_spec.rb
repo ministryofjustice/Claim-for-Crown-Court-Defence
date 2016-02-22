@@ -55,8 +55,6 @@ describe Assessment do
     end
   end
 
-
-
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
       ass = FactoryGirl.create :assessment
@@ -67,7 +65,8 @@ describe Assessment do
   context '#calculate_vat' do
     it 'automatically calculates the vat amount based on the total assessed and the claim vat_date' do
       claim = FactoryGirl.create :claim, apply_vat: true
-      ass = FactoryGirl.create :assessment, claim: claim
+      ass = claim.assessment
+      ass.update_values(100.0, 250.0)
       expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
     end
   end
@@ -84,6 +83,24 @@ describe Assessment do
       expect(reloaded_assessment.fees).to eq 0
       expect(reloaded_assessment.expenses).to eq 0
       expect(reloaded_assessment.total).to eq 0
+    end
+  end
+
+  describe '.update' do
+    it 'should raise error if assessment not blank' do
+      assessment = create :assessment
+      expect {
+        assessment.update_values(100.00, 200.22, DateTime.new(2016, 1, 2, 3, 4, 5))
+      }.to raise_error RuntimeError, "Cannot update a non-blank assessment"
+    end
+
+    it 'should update the fields' do
+      assessment = create :assessment, :blank
+      assessment.update_values(888.88, 333.33, DateTime.new(2016, 1, 2, 3, 4, 5))
+      assessment.reload
+      expect(assessment.fees).to eq 888.88
+      expect(assessment.expenses).to eq 333.33
+      expect(assessment.created_at).to eq DateTime.new(2016, 1, 2, 3, 4, 5)
     end
   end
 

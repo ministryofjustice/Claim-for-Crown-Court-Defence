@@ -22,9 +22,10 @@
 
 class Document < ActiveRecord::Base
   include DocumentAttachment
+  include Duplicable
 
   belongs_to :external_user
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
   validates_attachment :document,
     presence: { message: 'Document must have an attachment' },

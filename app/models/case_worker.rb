@@ -22,7 +22,7 @@ class CaseWorker < ActiveRecord::Base
   belongs_to :location
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :case_worker_claims, dependent: :destroy
-  has_many :claims, through: :case_worker_claims, after_remove: :unallocate!
+  has_many :claims, class_name: Claim::BaseClaim, through: :case_worker_claims, after_remove: :unallocate!
 
   default_scope { includes(:user) }
 

@@ -39,7 +39,7 @@ end
 Given(/^claims "(.*?)" have been allocated to "(.*?)"$/) do |case_numbers, name|
   case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
   case_numbers = case_numbers.split(',').map(&:strip)
-  claims = Claim.where(case_number: case_numbers)
+  claims = Claim::BaseClaim.where(case_number: case_numbers)
   case_worker.claims << claims
 end
 
@@ -72,11 +72,11 @@ end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
   within('.report') do
-    @case_numbers = all('label.case-number').map(&:text)
+    @case_numbers = all('.js-test-case-number').map(&:text)
   end
   @claims_on_page = []
   @case_numbers.each do |case_number|
-    @claims_on_page << Claim.find_by(case_number: case_number)
+    @claims_on_page << Claim::BaseClaim.find_by(case_number: case_number)
   end
   @claims_to_allocate = @claims_on_page.take(quantity.to_i)
   fill_in 'quantity_to_allocate', with: quantity
@@ -84,7 +84,6 @@ end
 
 Then(/^the first (\d+) claims in the list should be allocated to the case worker$/) do |quantity|
   expect(CaseWorker.last.claims.count).to eq(quantity.to_i)
-
   CaseWorker.last.claims.each do |claim|
     expect(claim).to be_allocated
   end
@@ -127,7 +126,7 @@ When(/^I filter by "(.*?)"$/) do |filter|
 end
 
 Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, type|
-  claims = type == 'all' ? Claim.all : Claim.send(type.to_sym)
+  claims = type == 'all' ? Claim::BaseClaim.all : Claim::BaseClaim.send(type.to_sym)
   claims.each { |claim| expect(page).to have_selector("#claim_#{claim.id}") }
 
   expect(claims.count).to eq(quantity.to_i)
@@ -141,7 +140,7 @@ Then(/^I should see all claims$/) do
 end
 
 Then(/^I should not see any redetermination or awaiting_written_reasons claims$/) do
-  claims = Claim.redetermination + Claim.awaiting_written_reasons
+  claims = Claim::BaseClaim.redetermination + Claim::BaseClaim.awaiting_written_reasons
   claims.each do |claim|
     expect(page).to_not have_selector("#claim_#{claim.id}")
   end
@@ -154,9 +153,9 @@ When(/^I click on a claim row cell$/) do
   end
 end
 
-When(/^I click on a claims row label$/) do
-  #click the first row's first 2nd label
-  page.find('tbody').all('tr')[0].all('label')[1].click()
+When(/^I click on a claims row cell$/) do
+  #click the first row's first 2nd cell
+  page.find('tbody').all('tr')[0].all('td')[1].click()
 end
 
 Then (/^I should see that claims checkbox (ticked|unticked)$/) do | checkbox_state|

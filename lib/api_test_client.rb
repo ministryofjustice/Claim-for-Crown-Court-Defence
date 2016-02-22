@@ -126,7 +126,7 @@ private
 
   def clean_up
       puts "smoke test: cleaning up"
-      claim = Claim.find_by(uuid: @claim_id)
+      claim = Claim::BaseClaim.find_by(uuid: @claim_id)
       if claim
         if claim.destroy
           puts "smoke test: claim destroyed"

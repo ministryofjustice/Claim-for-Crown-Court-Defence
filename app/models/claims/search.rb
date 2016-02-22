@@ -26,7 +26,7 @@ module Claims::Search
     states ||= Claims::StateMachine.dashboard_displayable_states
     states = Array[states] unless states.is_a?(Array)
     states.each do |state|
-      raise "Invalid state, #{state}, specified" unless Claim.state_machine.states.map(&:name).include?(state.to_sym)
+      raise "Invalid state, #{state}, specified" unless Claim::BaseClaim.state_machine.states.map(&:name).include?(state.to_sym)
     end
 
     relation.where(sql, term: "%#{term.downcase}%").where(state: states).uniq

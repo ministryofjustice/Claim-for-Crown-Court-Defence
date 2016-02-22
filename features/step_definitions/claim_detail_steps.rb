@@ -1,9 +1,10 @@
 Given(/^a certified claim has been assigned to me$/) do
   @claim = create(:allocated_claim)
-  @claim.certification.destroy
+  @claim.certification.destroy unless @claim.certification.nil?
   certification_type = FactoryGirl.create(:certification_type, name: 'which ever reason i please')
   FactoryGirl.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
   @case_worker.claims << @claim
+  @claim.reload
 end
 
 When(/^I visit the case worker claim's detail page$/) do

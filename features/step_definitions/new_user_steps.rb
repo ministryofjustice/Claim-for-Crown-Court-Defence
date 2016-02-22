@@ -1,3 +1,9 @@
+Given(/^Test mailer is reset$/) do
+  ActionMailer::Base.delivery_method = :test
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.deliveries = []
+end
+
 Given(/^I am on the new "(.*?)" page$/) do |persona|
   personas = persona.pluralize
   visit "/#{personas}/admin/#{personas}/new"
@@ -39,12 +45,6 @@ When(/^I fill in the "(.*?)" details but email and email_confirmation do not mat
   end
 end
 
-When(/^click save$/) do
-  ActionMailer::Base.delivery_method = :test
-  ActionMailer::Base.perform_deliveries = true
-  click_on 'Save'
-end
-
 Then(/^I see confirmation that a new "(.*?)" user has been created$/) do |persona|
   expect(page).to have_content "#{persona} successfully created"
 end
@@ -52,8 +52,8 @@ end
 Then(/^a welcome email is sent to the new user$/) do
   expect(ActionMailer::Base.deliveries.length).to eq 1
   expect(ActionMailer::Base.deliveries.last.to).to eq ["harold.hughes@example.com"]
-  expect(ActionMailer::Base.deliveries.last.to_s).to include("Dear Harold Hughes,","You have been registered") #multipart email so need to stringify it
   expect(ActionMailer::Base.deliveries.last.subject).to eq "Welcome to Claim for crown court defence"
+  expect(ActionMailer::Base.deliveries.last.to_s).to include("Dear Harold Hughes,","You have been registered", "Reset your password", "This link will expire in") #multipart email so need to stringify it
 end
 
 Then(/^I see an error message$/) do
@@ -72,4 +72,28 @@ end
 
 When(/^I check "(.*?)"$/) do |role|
   check role
+end
+
+Given(/^I am an advocate that has signed in before/) do
+  @advocate = create(:external_user, :advocate)
+  @advocate.user.first_name = 'Ned'
+  @advocate.user.last_name = 'Passreset'
+  @advocate.user.email = 'ned.passreset@example.com'
+  @advocate.user.sign_in_count = 21
+  @advocate.save
+end
+
+Given(/^I am on the Forgot your password\? page$/) do
+  visit new_user_password_path
+end
+
+When(/^I fill in my email details$/) do
+  fill_in 'user_email', with: @advocate.email
+end
+
+Then(/^a password reset email is sent to the user$/) do
+  expect(ActionMailer::Base.deliveries.length).to eq 1
+  expect(ActionMailer::Base.deliveries.last.to).to eq ["ned.passreset@example.com"]
+  expect(ActionMailer::Base.deliveries.last.subject).to eq "Claim for crown court defence - change your password"
+  expect(ActionMailer::Base.deliveries.last.to_s).to include("Dear Ned Passreset,","Someone has requested a link to change your password", "Change your password", "This link will expire in") #multipart email so need to stringify it
 end

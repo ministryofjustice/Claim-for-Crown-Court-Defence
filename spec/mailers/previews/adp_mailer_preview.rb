@@ -10,6 +10,11 @@ class AdpMailerPreview < ActionMailer::Preview
     AdpMailer.reset_password_instructions(advocate.user, "faketoken")
   end
 
+  def welcome_password_instructions_for_advocate_admin
+    advocate = FactoryGirl.create(:external_user, :advocate, :advocate_and_admin)
+    AdpMailer.reset_password_instructions(advocate.user, "faketoken")
+  end
+
   def reset_password_instructions
     advocate = FactoryGirl.create(:external_user, :advocate)
     advocate.user.sign_in_count = 21

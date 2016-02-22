@@ -7,6 +7,7 @@ end
 
 Then(/^the claim's first day of trial should be (\d+)$/) do |expected_date|
   date = Date.parse(expected_date)
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
+
   expect(claim.first_day_of_trial).to eq(date)
 end

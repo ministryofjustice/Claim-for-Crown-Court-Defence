@@ -29,13 +29,15 @@ class JsonTemplate
     end
 
     def refers_to_model?(constant)
-      constant.to_s.constantize.superclass == ActiveRecord::Base
+      return true if constant == :Claim
+      constant.to_s.constantize <= ActiveRecord::Base
     end
 
     def set_models_hash
       @models_hash = {}
       models.each do |model|
-        @models_hash[model] = get_route_params(model)
+        model_key = model == :Claim ? :'Claim::BaseClaim' : model
+        @models_hash[model_key] = get_route_params(model)
       end
     end
 
@@ -53,7 +55,7 @@ class JsonTemplate
 
     def get_klass_and_attributes_hash
       @models_hash.each do |model, attributes_hash| # iterate through @models_hash
-        klass = model.to_s.constantize # generate class reference
+        klass = class_from_symbol(model)
         get_attribute_names(klass, attributes_hash)
       end
     end
@@ -138,12 +140,16 @@ class JsonTemplate
       associate = model_key.to_s.underscore.pluralize.to_sym
       @owners = []
       models.each do |model|
-        klass = model.to_s.constantize
+        klass = class_from_symbol(model)
         if klass.reflect_on_association(associate) != nil && klass.reflect_on_association(associate).macro == :has_many
           @owners << klass.to_s.to_sym
         end
       end
       return true unless @owners.blank?
+    end
+
+    def class_from_symbol(sym)
+      sym == :Claim ? Claim::BaseClaim : sym.to_s.constantize
     end
 
     def types_hash

@@ -9,8 +9,9 @@
 #  updated_at              :datetime
 #  requires_cracked_dates  :boolean
 #  requires_trial_dates    :boolean
-#  requires_maat_reference :boolean          default(FALSE)
 #  allow_pcmh_fee_type     :boolean          default(FALSE)
+#  requires_maat_reference :boolean          default(FALSE)
+#  requires_retrial_dates  :boolean          default(FALSE)
 #
 
 FactoryGirl.define do

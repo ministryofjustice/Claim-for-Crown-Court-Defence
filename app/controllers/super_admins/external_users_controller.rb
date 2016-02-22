@@ -20,7 +20,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
     @external_user = ExternalUser.new(params_with_temporary_password.merge(provider: @provider))
 
     if @external_user.save
-      @external_user.user.send_reset_password_instructions
+      deliver_reset_password_instructions(@external_user.user)
       redirect_to super_admins_provider_external_user_path(@provider, @external_user), notice: 'User successfully created'
     else
       render :new

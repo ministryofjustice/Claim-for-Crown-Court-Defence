@@ -7,7 +7,7 @@ Then(/^I check the first checkbox$/) do
 end
 
 Then(/^I visit the claim show page$/) do
-  @claim = @claim || Claim.first
+  @claim = @claim || Claim::BaseClaim.first
   visit external_users_claim_path(@claim)
 end
 

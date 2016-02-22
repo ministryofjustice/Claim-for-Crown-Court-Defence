@@ -31,7 +31,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def set_claims
-    @claims = Claim.non_draft
+    @claims = Claim::BaseClaim.non_draft
   end
 
 end

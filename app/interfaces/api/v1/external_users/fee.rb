@@ -25,7 +25,7 @@ module API
 
             # NOTE: explicit error raising because claim_id's presence is not validated by model due to instatiation issues # TODO review in code review
             def validate_claim_presence
-              claim_id = ::Claim.find_by(uuid: params[:claim_id]).try(:id)
+              claim_id = ::Claim::BaseClaim.find_by(uuid: params[:claim_id]).try(:id)
               if claim_id.nil?
                 raise API::V1::ArgumentError, 'Claim cannot be blank'
               end

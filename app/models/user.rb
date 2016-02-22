@@ -65,4 +65,5 @@ class User < ActiveRecord::Base
       errors[:email] << '"+" not allowed in addresses'
     end
   end
+
 end

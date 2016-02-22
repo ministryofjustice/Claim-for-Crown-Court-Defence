@@ -1,12 +1,12 @@
 = simple_form_for message, remote: true, authenticity_token: true  do |f|
   = f.input :claim_id, value: message.claim.id, as: :hidden
-  - if current_user.persona.is_a?(ExternalUser) && Claim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state)
+  - if current_user.persona.is_a?(ExternalUser) && Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state)
     .js-hide-status
       = f.label "Update your claim status", class: "form-label bold-normal"
       .form-group.inline.js-test-claim-action
         = f.collection_radio_buttons(:claim_action, ['Apply for redetermination', 'Request written reasons'], :to_s, :to_s) do |b|
           - b.label(class: "block-label") { b.radio_button + b.value.humanize }
-  - if (current_user.persona.is_a?(ExternalUser) && (Claim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state) == false)|| message.claim_action.present?) || current_user.persona.is_a?(CaseWorker)
+  - if (current_user.persona.is_a?(ExternalUser) && (Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state) == false)|| message.claim_action.present?) || current_user.persona.is_a?(CaseWorker)
     .grid-row.js-test-send-buttons
       .upload-column
         .upload-button.button-secondary

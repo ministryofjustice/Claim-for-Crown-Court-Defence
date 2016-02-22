@@ -25,7 +25,7 @@ module API
 
             def build_arguments
               non_date_fields = {
-                claim_id:       ::Claim.find_by(uuid: params[:claim_id]).try(:id),
+                claim_id:       ::Claim::BaseClaim.find_by(uuid: params[:claim_id]).try(:id),
                 first_name:     params[:first_name],
                 last_name:      params[:last_name],
                 order_for_judicial_apportionment: params[:order_for_judicial_apportionment]

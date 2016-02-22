@@ -17,4 +17,4 @@
     = f.text_field :maat_reference
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference")
 
-  = link_to_remove_association t('link.remove_rep_order'), f if @representation_order_count > 1
+  = link_to_remove_association t('link.remove_rep_order'), f

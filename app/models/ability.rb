@@ -21,8 +21,8 @@ class Ability
       if persona.admin?
         can [:create], ClaimIntention
         can [:show, :edit, :update, :regenerate_api_key], Provider, id: persona.provider_id
-        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, provider_id: persona.provider_id
+        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
+        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
         can [:show, :download], Document, provider_id: persona.provider_id
         can [:destroy], Document do |document|
           if document.external_user_id.nil?
@@ -37,8 +37,8 @@ class Ability
         can [:show, :create], Certification
       else
         can [:create], ClaimIntention
-        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim, external_user_id: persona.id
+        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
+        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, external_user_id: persona.id
         can [:show, :download], Document, external_user_id: persona.id
         can [:destroy], Document do |document|
           if document.external_user_id.nil?
@@ -53,15 +53,15 @@ class Ability
       end
     elsif persona.is_a? CaseWorker
       if persona.admin?
-        can [:index, :show, :update, :archived], Claim
+        can [:index, :show, :update, :archived], Claim::BaseClaim
         can [:show, :download], Document
         can [:index, :new, :create], CaseWorker
         can [:show, :show_message_controls, :edit, :change_password, :update_password, :update, :destroy], CaseWorker
         can [:new, :create], Allocation
         can :view, :management_information
       else
-        can [:index, :show, :show_message_controls, :archived], Claim
-        can [:update], Claim do |claim|
+        can [:index, :show, :show_message_controls, :archived], Claim::BaseClaim
+        can [:update], Claim::BaseClaim do |claim|
           claim.case_workers.include?(user.persona)
         end
         can [:show, :download], Document

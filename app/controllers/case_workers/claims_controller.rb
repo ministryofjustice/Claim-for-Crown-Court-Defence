@@ -1,6 +1,9 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   include DocTypes
 
+  skip_load_and_authorize_resource
+  authorize_resource class: Claim::BaseClaim
+
   helper_method :sort_column, :sort_direction
 
   respond_to :html
@@ -34,7 +37,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
-    @claim = Claim.find(params[:id])
+    @claim = Claim::BaseClaim.find(params[:id])
     @messages = @claim.messages.most_recent_last
     @doc_types = DocType.all
 
@@ -87,11 +90,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         when 'current'
           current_user.claims.caseworker_dashboard_under_assessment
         when 'archived'
-          Claim.caseworker_dashboard_archived
+          Claim::BaseClaim.caseworker_dashboard_archived
         when 'allocated'
-          Claim.caseworker_dashboard_under_assessment
+          Claim::BaseClaim.caseworker_dashboard_under_assessment
         when 'unallocated'
-          Claim.submitted_or_redetermination_or_awaiting_written_reasons
+          Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
       end
     else
       @claims = case tab
@@ -112,7 +115,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claim
-    @claim = Claim.find(params[:id])
+    @claim = Claim::BaseClaim.find(params[:id])
   end
 
   def filter_current_claims

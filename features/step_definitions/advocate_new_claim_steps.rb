@@ -220,16 +220,16 @@ When(/^I save to drafts$/) do
 end
 
 Then(/^the claim should be saved in draft state$/) do
-  expect(Claim.where(state: 'draft').count).to eq 1
+  expect(Claim::BaseClaim.where(state: 'draft').count).to eq 1
 end
 
 Then(/^I should be redirected to the claim confirmation page$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   expect(page.current_path).to eq(confirmation_external_users_claim_path(claim))
 end
 
 Then(/^I should be redirected to the claim certification page$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   expect(page.current_path).to eq(new_external_users_claim_certification_path(claim))
 end
 
@@ -264,12 +264,12 @@ When(/^I click the back button$/) do
 end
 
 Then(/^I should be on the claim edit form$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   expect(page.current_path).to eq(edit_external_users_claim_path(claim))
 end
 
 Then(/^I should be on the claim confirmation page$/) do
-  claim = @claim || Claim.first
+  claim = @claim || Claim::BaseClaim.first
   expect(page.current_path).to eq(confirmation_external_users_claim_path(claim))
 end
 
@@ -287,7 +287,7 @@ Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
 end
 
 # Given(/^it has a case type of "(.*?)"$/) do |case_type|
-#   Claim.first.case_type = CaseType.find_by(name: case_type)
+#   Claim::BaseClaim.first.case_type = CaseType.find_by(name: case_type)
 # end
 
 Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
@@ -296,7 +296,7 @@ Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
 end
 
 When(/^I am on the claim edit page$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   visit edit_external_users_claim_path(claim)
 end
 
@@ -315,7 +315,7 @@ Then(/^I should be redirected to the claims list page$/) do
 end
 
 Then(/^I should see my claim under drafts$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   within '#draft' do
     expect(page).to have_selector("#claim_#{claim.id}")
   end
@@ -330,7 +330,7 @@ Then(/^I should be redirected to the new claim page$/) do
 end
 
 Then(/^the claim should be in a "(.*?)" state$/) do |state|
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   expect(claim.state).to eq(state)
 end
 
@@ -343,7 +343,7 @@ Then(/^I should not see errors$/) do
 end
 
 Then(/^no claim should be submitted$/) do
-  expect(Claim.where(state: 'submitted').count).to be_zero
+  expect(Claim::BaseClaim.where(state: 'submitted').count).to be_zero
 end
 
 When(/^I change the case number$/) do
@@ -351,7 +351,7 @@ When(/^I change the case number$/) do
 end
 
 Then(/^the case number should reflect the change$/) do
-  claim = Claim.first
+  claim = Claim::BaseClaim.first
   expect(claim.case_number).to eq('A87654321')
 end
 
@@ -390,16 +390,16 @@ end
 Then(/^There should not be any Initial Fees saved$/) do
   # note: cannot rely on size/count since all basic fees are
   #       instantiated as empty but existing records per claim.
-  expect(Claim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
+  expect(Claim::BaseClaim.last.calculate_fees_total(:basic).to_f).to eql(0.0)
 end
 
 Then(/^There should be a Miscellaneous Fee Saved$/) do
-  expect(Claim.last.misc_fees.size).to eql(1)
+  expect(Claim::BaseClaim.last.misc_fees.size).to eql(1)
 end
 
 
 Then(/^There should not be any Fixed Fees saved$/) do
-  expect(Claim.last.fixed_fees.size).to eql(0)
+  expect(Claim::BaseClaim.last.fixed_fees.size).to eql(0)
 end
 
 Then(/^I should( not)? be able to view "(.*?)"$/i) do |have, content|
@@ -486,7 +486,7 @@ Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, am
 end
 
 Then(/^The total claimed should equal (\d+)$/) do |total_claimed|
-  expect(Claim.last.total).to eq total_claimed.to_f
+  expect(Claim::BaseClaim.last.total).to eq total_claimed.to_f
 end
 
 # local helpers

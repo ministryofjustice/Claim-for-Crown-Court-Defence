@@ -1,17 +1,21 @@
 <% if @message.persisted? %>
-  var data = {
-    success : true,
-    statusMessage : '<%=j @notification[:notice].html_safe %>',
-    sentMessage : '<%=j render "shared/history_items_list", message: @message.claim %>'
-  }
-  moj.Modules.Messaging.processMsg(data);
+  <% if @refresh %>
+    window.location.href = window.location.href + '?messages=true#claim-accordion';
+  <% else %>
+    var data = {
+      success : true,
+      statusMessage : '<%=j @notification[:notice].html_safe %>',
+      sentMessage : '<%=j render "shared/history_items_list", message: @message.claim %>'
+    }
+    moj.Modules.Messaging.processMsg(data);
 
-  <% unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
-    $('.js-hide-status').hide();
-  <% end %>
+    <% unless Claim::BaseClaim::VALID_STATES_FOR_REDETERMINATION.include?(@message.claim.state) %>
+      $('.js-hide-status').hide();
+    <% end %>
 
-  <% unless @message.claim.written_reasons_outstanding? %>
-    $('.written-reasons-checkbox').hide();
+    <% unless @message.claim.written_reasons_outstanding? %>
+      $('.written-reasons-checkbox').hide();
+    <% end %>
   <% end %>
 <% else %>
   var data = {

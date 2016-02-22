@@ -2,19 +2,19 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY = 180.days
   STANDARD_VALIDITY = 21.days
 
-  EXTERNAL_USER_DASHBOARD_DRAFT_STATES               = %w( draft )
-  EXTERNAL_USER_DASHBOARD_REJECTED_STATES            = %w( rejected )
-  EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES           = %w( allocated submitted )
-  EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES     = %w( part_authorised )
-  EXTERNAL_USER_DASHBOARD_COMPLETED_STATES           = %w( refused authorised )
-  CASEWORKER_DASHBOARD_COMPLETED_STATES         = %w( authorised part_authorised rejected refused )
-  CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES  = %w( allocated )
-  CASEWORKER_DASHBOARD_UNALLOCATED_STATES       = %w( submitted redetermination awaiting_written_reasons )
-  CASEWORKER_DASHBOARD_ARCHIVED_STATES          = %w( authorised part_authorised rejected refused archived_pending_delete)
-  VALID_STATES_FOR_REDETERMINATION              = %w( authorised part_authorised refused )
-  VALID_STATES_FOR_ARCHIVAL                     = %w( authorised part_authorised refused rejected )
-  NON_DRAFT_STATES                              = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
-  AUTHORISED_STATES                             = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
+  EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w( draft )
+  EXTERNAL_USER_DASHBOARD_REJECTED_STATES         = %w( rejected )
+  EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES        = %w( allocated submitted )
+  EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES  = %w( part_authorised )
+  EXTERNAL_USER_DASHBOARD_COMPLETED_STATES        = %w( refused authorised )
+  CASEWORKER_DASHBOARD_COMPLETED_STATES           = %w( authorised part_authorised rejected refused )
+  CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w( allocated )
+  CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w( submitted redetermination awaiting_written_reasons )
+  CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w( authorised part_authorised rejected refused archived_pending_delete)
+  VALID_STATES_FOR_REDETERMINATION                = %w( authorised part_authorised refused )
+  VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected )
+  NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
+  AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
     (
@@ -45,7 +45,7 @@ module Claims::StateMachine
 
   def self.included(klass)
     klass.state_machine :state, initial: :draft do
-      audit_trail
+      audit_trail class: ClaimStateTransition
 
       state :allocated,
             :archived_pending_delete,
@@ -80,7 +80,7 @@ module Claims::StateMachine
       end
 
       event :archive_pending_delete do
-        transition all => :archived_pending_delete
+        transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_delete
       end
 
       event :authorise_part do

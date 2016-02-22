@@ -18,7 +18,7 @@ module DemoData
 
     def run
       generate_advocates_if_required
-      advocates = ExternalUser.all.limit(@num_advocates)
+      advocates = ExternalUser.advocates[0, @num_advocates]
       advocates.each do |advocate|
         @num_claims.times do
           generate_claims_for_advocate(advocate)
@@ -29,7 +29,7 @@ module DemoData
   private
 
     def generate_claim(advocate)
-      claim = Claim.new(
+      claim = Claim::AdvocateClaim.new(
         additional_information: generate_additional_info,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),
         state: "draft",

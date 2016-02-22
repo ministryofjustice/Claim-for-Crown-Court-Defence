@@ -3,6 +3,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include DateParamProcessor
   include DocTypes
 
+  skip_load_and_authorize_resource
+
   helper_method :sort_column, :sort_direction
 
   respond_to :html
@@ -12,7 +14,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_claim, only: [:show, :edit, :update, :clone_rejected, :destroy]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
@@ -52,7 +54,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
-    @claim = Claim.new
+    @claim = Claim::AdvocateClaim.new
     @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
 
@@ -70,7 +72,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim.new(params_with_advocate_and_creator)
+    @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -190,8 +192,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
-  def set_claim
-    @claim = Claim.find(params[:id])
+  def set_and_authorize_claim
+    @claim = Claim::AdvocateClaim.find(params[:id])
+    authorize! params[:action].to_sym, @claim
   end
 
   def set_financial_summary
@@ -333,7 +336,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
-    Claim.transaction do
+    Claim::AdvocateClaim.transaction do
       @claim.save
       @claim.force_validation = true
 

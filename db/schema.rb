@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160204110917) do
+ActiveRecord::Schema.define(version: 20160216101143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20160204110917) do
     t.integer  "retrial_estimated_length", default: 0
     t.integer  "retrial_actual_length",    default: 0
     t.date     "retrial_concluded_at"
+    t.string   "type"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

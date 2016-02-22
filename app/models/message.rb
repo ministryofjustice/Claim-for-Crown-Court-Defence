@@ -15,7 +15,7 @@
 #
 
 class Message < ActiveRecord::Base
-  belongs_to :claim
+  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
   belongs_to :sender, foreign_key: :sender_id, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
 
@@ -59,7 +59,7 @@ class Message < ActiveRecord::Base
   class << self
     def for(object)
       attribute = case object.class.to_s
-        when 'Claim'
+        when 'Claim::AdvocateClaim'
           :claim_id
         when 'User'
           :sender_id
@@ -81,7 +81,7 @@ class Message < ActiveRecord::Base
   end
 
   def process_claim_action
-    return unless Claim::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
+    return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
 
     case self.claim_action
       when /Apply for redetermination/

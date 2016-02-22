@@ -78,6 +78,14 @@ module ApplicationHelper
     link_to title, params.except(:page).merge({ sort: column, direction: direction }), { class: css_class }
   end
 
+  def dom_id(record, prefix = nil)
+    result = ActionView::RecordIdentifier.dom_id(record, prefix)
+    if record.is_a?(Claim::BaseClaim) || record.is_a?(Claim::BaseClaimPresenter)
+      result.sub!(/claim_((base)|(advocate))_claim/, 'claim')
+    end
+    result
+  end
+
   def extract_uri_param(path,param)
     CGI.parse(URI.parse(path).query)[param][0] rescue nil
   end

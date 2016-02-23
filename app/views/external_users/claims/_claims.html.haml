@@ -2,51 +2,66 @@
   %p
     = t(".no_claims_found")
 - else
-  .claim-count
-    = "Number of claims: "
-    = claims.total_count
-  %table.report
-    %thead
-      %th
-        = sortable 'case_number', t(".case_number")
-      - if current_user.persona.admin?
+  .table-container.container
+    = render partial: 'search_form'
+    - if params[:search].present?
+      = render partial: 'shared/search_summary'
+    .claim-count
+      %p
+        = t('.show_count', total: claims.total_count)
+    %table.claims-summary
+      %caption
+        = t('.show_count', total: claims.total_count)
+      %colgroup
+        - if current_user.persona.admin?
+          %col
+        %col
+        %col
+        %col
+        %col
+        %col
+        %col
+        %col
+      %thead
         %th
-          = sortable 'advocate', t(".advocate")
-      %th
-        = t(".defendants")
-      %th
-        = sortable 'total_inc_vat', t(".total")
-      %th
-        = sortable 'amount_assessed', t(".assessed")
-      %th
-        = sortable 'state', t(".status")
-      %th
-        = sortable 'last_submitted_at', t(".submission_date")
-      %th
-        = t(".messages")
-    %tbody
-      - present_collection(claims).each do |claim|
-        %tr{id: dom_id(claim),class: claim.state}
-          %td
-            = link_to (claim.case_number.blank? ? 'not-provided' : claim.case_number), external_users_claim_path(claim), class: "js-test-case-number-link"
-          - if current_user.persona.admin?
+          = sortable 'case_number', t(".case_number")
+        - if current_user.persona.admin?
+          %th
+            = sortable 'advocate', t(".advocate")
+        %th
+          = t(".defendants")
+        %th
+          = sortable 'total_inc_vat', t(".total")
+        %th
+          = sortable 'amount_assessed', t(".assessed")
+        %th
+          = sortable 'state', t(".status")
+        %th
+          = sortable 'last_submitted_at', t(".submission_date")
+        %th
+          = t(".messages")
+      %tbody
+        - present_collection(claims).each do |claim|
+          %tr{id: dom_id(claim),class: claim.state}
             %td
-              = claim.external_user.name
-          %td
-            = claim.defendant_names
-          %td
-            = claim.total_inc_vat
-          %td
-            = claim.amount_assessed
-          %td
-            = claim.state.humanize
-          %td
-            = claim.submitted_at
-          %td.messages
-            - if claim.messages.any?
-              = link_to "View", "#{external_users_claim_path(claim, messages: true)}#messages"
-              - if claim.has_unread_messages_for?(current_user)
-                %object{:type => 'image/svg+xml', :data => image_path('messaging-red.svg'), :class => "new-message"}
-            - else
-              %span.none
-                = "None"
+              = link_to (claim.case_number.blank? ? 'not-provided' : claim.case_number), external_users_claim_path(claim), class: "js-test-case-number-link"
+            - if current_user.persona.admin?
+              %td
+                = claim.external_user.name
+            %td
+              = claim.defendant_names
+            %td.numerical
+              = claim.total_inc_vat
+            %td.numerical
+              = claim.amount_assessed
+            %td
+              %span.state{class: claim.state.dasherize}
+                = claim.state.humanize
+            %td.numerical
+              = claim.submitted_at
+            %td.messages
+              - if claim.messages.any?
+                = link_to claim.has_unread_messages_for?(current_user) ? "Messages (#{claim.messages.count})" : "Messages" , "#{external_users_claim_path(claim, messages: true)}#messages"
+              - else
+                %span.none
+                  = t(".none")

@@ -67,6 +67,8 @@
     font-size: 16px;
   }
 }
+// ==========================================================================
+// claim detail page
 
 .financial-summary{
   @include span(8 of 12);
@@ -91,6 +93,9 @@
   @include span(3 of 12);
   @include last;
 }
+
+
+
 // ==========================================================================
 // Phase banner
 
@@ -677,30 +682,6 @@ form {
   }
 }
 // ================================================================//
-// statuses.SCSS
-// ================================================================//
-/***************************************
-Styling specifically for Claim statuses
-***************************************/
-.status {
-  padding: 5px 15px;
-  border: 3px solid $black;
-  &.rejected, &.refused {
-    border-color: $mellow-red;
-    color: $mellow-red;
-  }
-
-  &.submitted, &.allocated, &.redermination, &.draft {
-    color: $turquoise;
-    border-color: $turquoise;
-  }
-
-  &.part_authorised, &.authorised {
-    color: $grass-green;
-    border-color: $grass-green;
-  }
-}
-// ================================================================//
 // claims-table.SCSS
 // ================================================================//
 
@@ -716,10 +697,29 @@ Styling specifically for Claim statuses
   margin-right: 0.35em;
 }
 
-/* Claim count above all the reports */
+.search-form {
+  @include span(6 of 12);
+  @include first;
+  padding-left:0;
+  .form-group {
+    margin-bottom:$gutter-half;
+  }
+  label {
+    margin-top:0;
+  }
+  button {
+    margin-bottom:0;
+  }
+}
 .claim-count {
+  @include span(6 of 12);
+  @include last;
   text-align: right;
-  padding-bottom: 10px;
+  margin-top:$gutter;
+  p{
+    margin:0;
+    line-height: 2.5;
+  }
 }
 
 /***************************************
@@ -781,7 +781,6 @@ Other Claim Navigation
   margin-bottom: $gutter-half;
 
   table {
-    @extend .claims_table;
     th {
       @include bold-16();
       padding: 5px;
@@ -1006,7 +1005,6 @@ Styling for Claims Messaging
         font-weight: bold;
       }
       table {
-        @extend .claims_table;
         td {
           border-top: 1px solid $border-colour;
         }
@@ -1108,9 +1106,7 @@ Styling for Claims Messaging
   width: 16px;
   height: 16px;
 }
-#report-options {
-  margin-top: $gutter-half;
-}
+
 .confirmation-header {
   background-color: $turquoise;
   color: $white;

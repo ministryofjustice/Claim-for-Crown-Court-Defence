@@ -1,15 +1,16 @@
-#page,
 .outer-block {
   @include outer-block;
 }
-.inner-block,
-.phase-banner {
+.inner-block{
   @include inner-block;
 }
 
 .container {
   @include container;
 }
-#content {
+
+#page {
   @include inner-block;
+  max-width:960px;
+  margin:0 auto;
 }

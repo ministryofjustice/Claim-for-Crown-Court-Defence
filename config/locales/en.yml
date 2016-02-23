@@ -410,7 +410,9 @@ en:
         representation_order_fields:
           representation_order: 'Representation order'
       claims:
+        show_count: 'Showing 10 of %{total} claims'
         no_claims_found: 'No claims found'
+        table_caption: 'Claims'
         advocate: *advocate
         messages: 'Messages'
         defendants: 'Defendant(s)'
@@ -425,6 +427,7 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
+        none: 'None'
       confirmation:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"

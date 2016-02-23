@@ -1,5 +1,5 @@
 #report-options.search-form
-  .form-inputs
+  .form-group
     - path_to_use = defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path
     = form_tag path_to_use, method: :get do
       = label_tag :search, 'eg defendant name, advocate name'

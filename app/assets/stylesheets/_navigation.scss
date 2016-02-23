@@ -10,17 +10,19 @@ nav {
     li {
       display: inline-block;
       list-style: none;
+      &:first-child a{
+        padding-left:0;
+      }
       &:last-child a{
         margin-right:0;
+        border-right:none;
+        padding-right: 0;
       }
     }
     a {
-      @include core-19;
       display: block;
-      margin-right: 1em;
-      &.current {
-        font-weight: bold;
-      }
+      padding:0 $gutter-half/2;
+      border-right: 1px solid $grey-3;
     }
   }
   .user_links {

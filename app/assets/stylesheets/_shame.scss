@@ -2,6 +2,15 @@
 // LAYOUT.SCSS
 // ================================================================//
 
+.phase-banner {
+  border-bottom:1px solid $border-colour;
+  padding-bottom:5px;
+  margin-bottom:$gutter-half;
+  p {
+    margin-bottom:0;
+  }
+}
+
 #global-header {
   .header-wrapper {
     @include inner-block;

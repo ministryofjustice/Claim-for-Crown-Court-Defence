@@ -4,11 +4,15 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string
+#  roles      :string
 #  created_at :datetime
 #  updated_at :datetime
 #
 
 class ExpenseType < ActiveRecord::Base
+  ROLES = %w( agfs lgfs )
+  include Roles
+
   auto_strip_attributes :name, squish: true, nullify: true
 
   has_many :expenses, dependent: :destroy

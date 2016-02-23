@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217161036) do
+ActiveRecord::Schema.define(version: 20160223124910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160217161036) do
     t.boolean  "allow_pcmh_fee_type",     default: false
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
+    t.string   "roles"
   end
 
   create_table "case_worker_claims", force: :cascade do |t|
@@ -213,6 +214,7 @@ ActiveRecord::Schema.define(version: 20160217161036) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "roles"
   end
 
   add_index "expense_types", ["name"], name: "index_expense_types_on_name", using: :btree
@@ -245,29 +247,18 @@ ActiveRecord::Schema.define(version: 20160217161036) do
   add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree
   add_index "external_users", ["supplier_number"], name: "index_external_users_on_supplier_number", using: :btree
 
-  create_table "fee_categories", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "abbreviation"
-  end
-
-  add_index "fee_categories", ["name"], name: "index_fee_categories_on_name", using: :btree
-
   create_table "fee_types", force: :cascade do |t|
     t.string   "description"
     t.string   "code"
-    t.integer  "fee_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "max_amount"
-    t.boolean  "calculated",      default: true
+    t.boolean  "calculated",  default: true
     t.string   "type"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree
   add_index "fee_types", ["description"], name: "index_fee_types_on_description", using: :btree
-  add_index "fee_types", ["fee_category_id"], name: "index_fee_types_on_fee_category_id", using: :btree
 
   create_table "fees", force: :cascade do |t|
     t.integer  "claim_id"

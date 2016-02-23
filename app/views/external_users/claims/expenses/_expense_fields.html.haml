@@ -2,7 +2,7 @@
   %tr.nested-fields
     %td
       %a{name: "expense_#{@expense_count}_expense_type"}
-      = f.collection_select :expense_type_id, ExpenseType.all, :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
+      = f.collection_select :expense_type_id, ExpenseType.agfs, :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
       = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
     %td
       %a{name: "expense_#{@expense_count}_quantity"}

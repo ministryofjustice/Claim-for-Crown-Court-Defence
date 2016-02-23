@@ -21,7 +21,7 @@ class ExternalUser < ActiveRecord::Base
   belongs_to :provider
 
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
-  has_many :claims,  -> { includes :fee_types }, dependent: :destroy, class_name: 'Claim::BaseClaim'
+  has_many :claims, dependent: :destroy, class_name: 'Claim::BaseClaim'
   has_many :claims_created, dependent: :nullify, class_name: 'Claim::BaseClaim', foreign_key: 'creator_id', inverse_of: :creator
   has_many :documents # Do not destroy - ultimately belong to chambers.
 

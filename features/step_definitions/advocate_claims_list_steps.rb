@@ -15,10 +15,10 @@ When(/^I visit the advocates dashboard$/) do
 end
 
 Given(/^There are basic and non-basic fee types$/) do
-  create :fee_type, :basic
-  create :fee_type, :misc
-  create :fee_type, :fixed
-  create :fee_type, :basic
+  create :basic_fee_type
+  create :misc_fee_type
+  create :fixed_fee_type
+  create :basic_fee_type
 end
 
 Given(/^my provider has claims$/) do
@@ -48,7 +48,7 @@ Given(/^my provider has (\d+) "(.*?)" claims$/) do |number, state|
   claims = state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i)
   claims.each do |claim|
     claim.update_column(:external_user_id, advocate.id)
-    claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
+    claim.fees << create(:misc_fee, :random_values, claim: claim)
     if claim.state == 'authorised'
       claim.assessment.update(fees: claim.total)
     elsif claim.state == 'part_authorised'
@@ -68,7 +68,7 @@ Given(/^my provider has (\d+) "(.*?)" claims for advocate "(.*?)"$/) do |number,
   claims =  (state == 'draft' ? create_list(:claim, number.to_i) : create_list("#{state}_claim".to_sym, number.to_i))
   claims.each do |claim|
     claim.update_column(:external_user_id, advocate.id)
-    claim.fees << create(:fee, :random_values, claim: claim, fee_type: create(:fee_type))
+    claim.fees << create(:misc_fee, :random_values, claim: claim)
     if claim.state == 'completed'
       claim.assessment.update(fees: claim.total)
     elsif claim.state == 'part_authorised'

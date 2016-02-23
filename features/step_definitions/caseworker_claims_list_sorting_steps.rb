@@ -8,7 +8,7 @@ Given(/^(\d+) sortable claims have been assigned to me$/) do |count|
         claim.external_user.user.update(last_name: "Smith-#{chr}", first_name: 'Billy')
         claim.fees.destroy_all
         claim.expenses.destroy_all
-        create(:fee, claim: claim, quantity: n*1, rate: n*1)
+        create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
         @case_worker.claims << claim
       end
     end

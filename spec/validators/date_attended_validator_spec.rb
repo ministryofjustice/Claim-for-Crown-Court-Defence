@@ -10,8 +10,8 @@ describe DateAttendedValidator do
                       total: 10,
                       force_validation: true,
                       first_day_of_trial: 5.weeks.ago,
-                      fees: [ FactoryGirl.build(:fee, dates_attended: [ FactoryGirl.build(:date_attended) ]) ]
-    defendant = FactoryGirl.build(:defendant, claim: claim)
+                      fees: [ FactoryGirl.build(:basic_fee, dates_attended: [ FactoryGirl.build(:date_attended) ]) ],
+                      defendants: [ FactoryGirl.build(:defendant) ]
     fee = claim.fees.first
     fee.claim = claim
     date_attended = fee.dates_attended.first

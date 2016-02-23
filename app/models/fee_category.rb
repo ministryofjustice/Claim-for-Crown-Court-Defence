@@ -9,6 +9,9 @@
 #  abbreviation :string
 #
 
+##### THIS CLASS IS NO LONGER USED - BUT IS NECESSARY FOR MIGRATIONS  #####
+
+
 class FeeCategory < ActiveRecord::Base
   auto_strip_attributes :name, :abbreviation, squish: true, nullify: true
 

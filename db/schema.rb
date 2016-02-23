@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216101143) do
+ActiveRecord::Schema.define(version: 20160217161036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 20160216101143) do
     t.datetime "updated_at"
     t.decimal  "max_amount"
     t.boolean  "calculated",      default: true
+    t.string   "type"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree
@@ -277,6 +278,7 @@ ActiveRecord::Schema.define(version: 20160216101143) do
     t.datetime "updated_at"
     t.uuid     "uuid",        default: "uuid_generate_v4()"
     t.decimal  "rate"
+    t.string   "type"
   end
 
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree

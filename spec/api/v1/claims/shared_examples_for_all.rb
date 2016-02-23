@@ -38,7 +38,7 @@ shared_examples "invalid API key create endpoint" do
   end
 end
 
-shared_examples "should NOT be able to amend a non-draft claim" do
+shared_examples "should NOT be able to amend a non-draft claim" do 
   context 'when claim is not a draft' do
     before(:each) { claim.submit! }
 

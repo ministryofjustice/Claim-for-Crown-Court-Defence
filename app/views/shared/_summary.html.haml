@@ -23,7 +23,7 @@
           - present_collection(claim.fees.select(&:present?)).each do |fee|
             %tr
               %td
-                = fee.fee_type.fee_category.name
+                = fee.fee_type.fee_category_name
                 - if fee.dates_attended.any?
                   %br
                   = t('.dates_attended')

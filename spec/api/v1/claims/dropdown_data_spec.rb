@@ -13,11 +13,10 @@ describe API::V1::DropdownData do
   CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds"
   OFFENCE_CLASS_ENDPOINT      = "/api/offence_classes"
   OFFENCE_ENDPOINT            = "/api/offences"
-  FEE_CATEGORY_ENDPOINT       = "/api/fee_categories"
   FEE_TYPE_ENDPOINT           = "/api/fee_types"
   EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
 
-  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_CATEGORY_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
+  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
 
   let(:provider) { create(:provider) }
@@ -43,8 +42,7 @@ describe API::V1::DropdownData do
       create_list(:court, 2)
       create_list(:offence_class, 2)
       create_list(:offence, 2)
-      create_list(:fee_category, 2)
-      create_list(:fee_type, 2)
+      create_list(:misc_fee_type, 2)
       create_list(:expense_type, 2)
 
       @endpoints_and_expectations = {
@@ -54,8 +52,7 @@ describe API::V1::DropdownData do
         CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
         OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
         OFFENCE_ENDPOINT => Offence.all.to_json,
-        FEE_CATEGORY_ENDPOINT => FeeCategory.all.to_json,
-        FEE_TYPE_ENDPOINT => FeeType.all.to_json,
+        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
         EXPENSE_TYPE_ENDPOINT => ExpenseType.all.to_json
       }
 
@@ -105,9 +102,9 @@ describe API::V1::DropdownData do
   context 'GET api/fee_types/[:category]' do
 
     before {
-      create(:fee_type, :basic, id: 1)
-      create(:fee_type, :misc, id: 2)
-      create(:fee_type, :fixed, id: 3)
+      create(:basic_fee_type, id: 1)
+      create(:misc_fee_type, id: 2)
+      create(:fixed_fee_type, id: 3)
     }
 
     def get_filtered_fee_types(category=nil)
@@ -120,7 +117,7 @@ describe API::V1::DropdownData do
       categories.each do |category|
         response = get_filtered_fee_types(category)
         expect(response.status).to eq 200
-        expect(response.body).to eq FeeType.send(category).to_json
+        expect(response.body).to eq Fee::BaseFeeType.send(category).to_json
       end
     end
 

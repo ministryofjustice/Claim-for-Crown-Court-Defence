@@ -11,21 +11,23 @@
 #  updated_at  :datetime
 #  uuid        :uuid
 #  rate        :decimal(, )
+#  type        :string
 #
 
-class Fee < ActiveRecord::Base
+class Fee::BaseFee < ActiveRecord::Base
   include NumberCommaParser
   include Duplicable
+
+  self.table_name = 'fees'
   numeric_attributes :quantity, :amount
 
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
-  belongs_to :fee_type
+  belongs_to :fee_type, class_name: Fee::BaseFeeType
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
   default_scope { includes(:fee_type) }
 
-  validates_with FeeValidator
   validates_with FeeSubModelValidator
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
@@ -48,9 +50,9 @@ class Fee < ActiveRecord::Base
     claim.update_vat
   end
 
-  def self.new_blank(claim, fee_type)
-    Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
-  end
+  # def self.new_blank(claim, fee_type)    ####=======> moved to Fee::BasicFee
+  #   Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
+  # end
 
   def perform_validation?
     claim && claim.perform_validation?
@@ -95,12 +97,15 @@ class Fee < ActiveRecord::Base
     self.dates_attended.destroy_all unless self.dates_attended.empty?
   end
 
-  def method_missing(method, *args)
-    if [:is_misc?,:is_basic?,:is_fixed?].include?(method)
-      fee_type.fee_category.__send__(method) unless fee_type.nil?
-    else
-      super
-    end
+  def is_basic?
+    false
   end
 
+  def is_misc?
+    false
+  end
+
+  def is_fixed?
+    false
+  end
 end

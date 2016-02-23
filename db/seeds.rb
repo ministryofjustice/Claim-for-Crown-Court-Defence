@@ -3,7 +3,6 @@
   case_types
   offence_classes
   offences
-  fee_categories
   fee_types
   expense_types
   locations

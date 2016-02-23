@@ -84,14 +84,6 @@ module API
         end
       end
 
-      resource :fee_categories do
-        desc "Return all Fee Categories"
-        params { use :api_key_params }
-        get do
-          FeeCategory.all
-        end
-      end
-
       resource :fee_types do
         helpers do
           params :category_filter do
@@ -108,9 +100,9 @@ module API
         params { use :category_filter }
         get do
           if args[:category].blank? || args[:category].downcase == 'all'
-            ::FeeType.all
+            ::Fee::BaseFeeType.all
           else
-            ::FeeType.__send__(args[:category].downcase)
+            ::Fee::BaseFeeType.__send__(args[:category].downcase)
           end
         end
       end

@@ -41,5 +41,6 @@
           %li
             = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
       - else
-        = "Error"
+        %li
+          = "Error"
     = render partial: 'layouts/user'

@@ -110,6 +110,20 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  describe '#eligible_case_types' do
+    it 'should return all agfs top level case types and non lgfs only and none that are children' do
+
+      claim = build :unpersisted_claim
+      ct_top_level_both = create :case_type
+      ct_top_level_agfs = create :case_type, roles: %w{ agfs }
+      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
+      ct_child_both = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+
+      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_agfs.id].sort )
+    end
+  end
+
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',
@@ -849,29 +863,35 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'Case type scopes' do
-    let!(:case_types)       { load("#{Rails.root}/db/seeds/case_types.rb") }
+    before(:all) do
+      @case_types = load("#{Rails.root}/db/seeds/case_types.rb")
+      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) 
+      @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
+      @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
+      @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
+      @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
+    end
 
-    let!(:trials)           { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) }
-    let!(:retrials)         { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial')) }
-    let!(:cracked_trials)   { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial')) }
-    let!(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial')) }
-    let!(:guilty_pleas)     { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea')) }
+    after(:all) do
+      CaseType.delete_all
+      Claim::BaseClaim.delete_all
+    end
 
     describe '.trial' do
       it 'returns trials and retrials' do
-        expect(Claim::AdvocateClaim.trial).to match_array(trials + retrials)
+        expect(Claim::AdvocateClaim.trial).to match_array(@trials + @retrials)
       end
     end
 
     describe '.cracked' do
       it 'returns cracked trials and retrials' do
-        expect(Claim::AdvocateClaim.cracked).to match_array(cracked_trials + cracked_retrials)
+        expect(Claim::AdvocateClaim.cracked).to match_array(@cracked_trials + @cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
       it 'returns guilty pleas' do
-        expect(Claim::AdvocateClaim.guilty_plea).to match_array(guilty_pleas)
+        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas)
       end
     end
   end

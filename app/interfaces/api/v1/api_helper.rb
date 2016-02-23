@@ -100,6 +100,8 @@ module API
           # all other model class instances must be created.
           #
           args = arg_builder_proc.call
+          model_klass = get_fee_subclass(args) if model_klass == ::Fee::BaseFee
+
           if basic_fee_update_required(model_klass, args)
             model_instance = model_klass.where(fee_type_id: args[:fee_type_id], claim_id: args[:claim_id]).first
             model_instance.assign_attributes(args)
@@ -126,24 +128,37 @@ module API
 
         private
 
+        def get_fee_subclass(args)
+          raise "Choose a type for the fee" if args[:fee_type_id].nil?
+          fee_type = ::Fee::BaseFeeType.find(args[:fee_type_id])
+          fee_type.type.sub(/Type$/, '').constantize
+        end
+
         # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         def test_editability(model_instance)
-          if [Fee,Expense,Defendant,RepresentationOrder,DateAttended].include?(model_instance.class)
+          if [ Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Defendant, RepresentationOrder, DateAttended ].include?(model_instance.class)
             model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
           end
         end
 
-        # --------------------
         def pop_error_response(error_or_model_instance, api_response)
           err_resp = ErrorResponse.new(error_or_model_instance)
           api_response.status = err_resp.status
           api_response.body   = err_resp.body
         end
 
-        # --------------------
         def basic_fee_update_required(model_klass, args)
-          model_klass == ::Fee && (FeeType.find(args[:fee_type_id]).fee_category.is_basic? rescue false)
+          is_a_fee?(model_klass)  && is_a_basic_fee_type?(args)
         end
+
+        def is_a_fee?(model_klass)
+          [ ::Fee::BaseFee, ::Fee::BasicFee, ::Fee::MiscFee, ::Fee::FixedFee ].include?(model_klass)
+        end
+
+        def is_a_basic_fee_type?(args)
+          Fee::BaseFeeType.find(args[:fee_type_id]).is_a?(::Fee::BasicFeeType)
+        end
+
 
       end
     end

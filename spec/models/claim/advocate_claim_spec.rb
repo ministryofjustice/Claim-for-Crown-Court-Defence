@@ -38,6 +38,11 @@
 #  case_type_id             :integer
 #  form_id                  :string
 #  original_submission_date :datetime
+#  retrial_started_at       :date
+#  retrial_estimated_length :integer          default(0)
+#  retrial_actual_length    :integer          default(0)
+#  retrial_concluded_at     :date
+#  type                     :string
 #
 
 require 'rails_helper'
@@ -300,23 +305,20 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'basic fees' do
     before(:each) do
-      @bft1 = FactoryGirl.create :fee_type, :basic,  description: 'ZZZZ', id: 1
-      @mft1 = FactoryGirl.create :fee_type, :misc,   description: 'CCCC', id: 2
-      @fft1 = FactoryGirl.create :fee_type, :fixed,  description: 'DDDD', id: 3
-      @bft2 = FactoryGirl.create :fee_type, :basic,  description: 'AAAA', id: 4
-      @mft2 = FactoryGirl.create :fee_type, :misc,   description: 'EEEE', id: 5
-      @bft3 = FactoryGirl.create :fee_type, :basic,  description: 'BBBB', id: 6
+      @bft1 = FactoryGirl.create :basic_fee_type,  description: 'ZZZZ', id: 1
+      @mft1 = FactoryGirl.create :misc_fee_type,   description: 'CCCC', id: 2
+      @fft1 = FactoryGirl.create :fixed_fee_type,  description: 'DDDD', id: 3
+      @bft2 = FactoryGirl.create :basic_fee_type,  description: 'AAAA', id: 4
+      @mft2 = FactoryGirl.create :misc_fee_type,   description: 'EEEE', id: 5
+      @bft3 = FactoryGirl.create :basic_fee_type,  description: 'BBBB', id: 6
     end
 
     describe '.instantiate_basic_fees (after_initialize callback)' do
       it 'should create an unpersisted basic fee record for every basic fee type, in fee_type_id order' do
         claim = FactoryGirl.build :claim
         expect(claim.basic_fees.size).to eq 3
-        claim.basic_fees.each do |fee|
-          expect(fee.fee_type.fee_category.abbreviation).to eq 'BASIC'
-        end
         claim.basic_fees.each { |fee| expect(fee).to be_blank }
-        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
       end
 
       it 'should create a persisted basic fee record for every basic fee type in params plus blank basic fees for those not specified by params' do
@@ -324,7 +326,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.save
         claim.reload
         expect(claim.fees.size).to eq 3
-        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
         expect(claim.basic_fees.find_by(fee_type_id: 1).amount).to eq 450
         expect(claim.basic_fees.find_by(fee_type_id: 4).amount).to eq 0
         expect(claim.basic_fees.find_by(fee_type_id: 6).amount).to eq 0
@@ -334,7 +336,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     describe '.basic_fees' do
       it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
         claim = FactoryGirl.build :claim
-        expect(claim.basic_fees.map(&:fee_type_id)).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
       end
     end
   end
@@ -556,16 +558,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'fees total' do
-    let(:basic_fee)           { create(:fee_type, :basic) }
-    let(:fixed_fee)           { create(:fee_type, :fixed) }
-    let(:misc_fee)            { create(:fee_type, :misc)  }
+    let(:basic_fee)           { create(:basic_fee_type) }
+    let(:fixed_fee)           { create(:fixed_fee_type) }
+    let(:misc_fee)            { create(:misc_fee_type)  }
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 4.00)
-      create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 3.00)
-      create(:fee, fee_type: fixed_fee, claim_id: subject.id, rate: 0.50)
-      create(:fee, fee_type: misc_fee,  claim_id: subject.id, rate: 0.50)
+
+      create(:basic_fee, claim_id: subject.id, rate: 4.00)
+      create(:basic_fee, claim_id: subject.id, rate: 3.00)
+      create(:fixed_fee, claim_id: subject.id, rate: 0.50)
+      create(:misc_fee, claim_id: subject.id, rate: 0.50)
       subject.reload
     end
 
@@ -587,7 +590,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fee, fee_type: basic_fee, claim_id: subject.id, rate: 2.00)
+        create(:basic_fee, claim_id: subject.id, rate: 2.00)
         subject.reload
         expect(subject.fees_total).to eq(10.0)
       end
@@ -636,13 +639,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'total' do
-    let(:fee_type) { create(:fee_type) }
+    let(:fee_type) { create(:misc_fee_type) }
 
     before do
       subject.fees.destroy_all
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 3.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 2.00)
-      create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 1.00)
+      create(:misc_fee, claim_id: subject.id, rate: 3.00)
+      create(:misc_fee, claim_id: subject.id, rate: 2.00)
+      create(:misc_fee, claim_id: subject.id, rate: 1.00)
 
       create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
       create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
@@ -659,7 +662,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
-        create(:fee, fee_type: fee_type, claim_id: subject.id, rate: 0.5)
+        create(:misc_fee, claim_id: subject.id, rate: 0.5)
         subject.reload
         expect(subject.total).to eq(156.00)
       end
@@ -907,7 +910,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       [400, 10_000, 566, 1_000].each do |value|
         claim = create(:draft_claim)
-        claim.fees << create(:fee, rate: value, claim: claim)
+        claim.fees << create(:misc_fee, rate: value, claim: claim)
         claims << claim
       end
 
@@ -923,9 +926,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     let(:claim_with_all_fee_types) do
       claim = FactoryGirl.create :draft_claim
-      FactoryGirl.create(:fee, :basic, :with_date_attended, claim: claim, rate: 9.99)
-      FactoryGirl.create(:fee, :fixed, :with_date_attended, claim: claim, rate: 9.99)
-      FactoryGirl.create(:fee, :misc, claim: claim, rate: 9.99)
+      FactoryGirl.create(:basic_fee, :with_date_attended, claim: claim, rate: 9.99)
+      FactoryGirl.create(:fixed_fee, :with_date_attended, claim: claim, rate: 9.99)
+      claim.misc_fees.first.update(rate: 9.99)
+      # FactoryGirl.create(:misc_fee, claim: claim, rate: 9.99)
       claim
     end
 
@@ -939,6 +943,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'clears basic fees and but does NOT destroy miscellaneous fees for Fixed Fee case types' do
       claim_with_all_fee_types.case_type = FactoryGirl.create :case_type, :fixed_fee
       claim_with_all_fee_types.save
+
       expect(claim_with_all_fee_types.basic_fees.size).to eql 1
       expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
       expect(claim_with_all_fee_types.fixed_fees.size).to eql 1
@@ -1171,7 +1176,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should save the expenses model' do
       external_user = FactoryGirl.create :external_user
       expense_type = FactoryGirl.create :expense_type
-      fee_type = FactoryGirl.create :fee_type
+      fee_type = FactoryGirl.create :basic_fee_type
       case_type = FactoryGirl.create :case_type
       court = FactoryGirl.create :court
       offence = FactoryGirl.create :offence

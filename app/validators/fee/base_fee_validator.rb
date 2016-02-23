@@ -1,4 +1,4 @@
-class FeeValidator < BaseValidator
+class Fee::BaseFeeValidator < BaseValidator
 
   def self.fields
     [

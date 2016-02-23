@@ -53,7 +53,7 @@ module API
 
           post do
             api_response = ApiResponse.new()
-            ApiHelper.create_resource(::Fee, params, api_response, method(:build_arguments).to_proc)
+            ApiHelper.create_resource(::Fee::BaseFee, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end
@@ -66,7 +66,7 @@ module API
 
           post '/validate' do
             api_response = ApiResponse.new()
-            ApiHelper.validate_resource(::Fee, params, api_response, method(:build_arguments).to_proc)
+            ApiHelper.validate_resource(::Fee::BaseFee, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
           end

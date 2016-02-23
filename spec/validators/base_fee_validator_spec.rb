@@ -1,19 +1,19 @@
 require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
-describe FeeValidator do
+describe Fee::BaseFeeValidator do
 
   include ValidationHelpers
 
   let(:claim)      { FactoryGirl.build :claim, force_validation: true }
-  let(:fee)        { FactoryGirl.build :fee, claim: claim }
-  let(:baf_fee)    { FactoryGirl.build :fee, :baf_fee, claim: claim }
-  let(:daf_fee)    { FactoryGirl.build :fee, :daf_fee, claim: claim }
-  let(:dah_fee)    { FactoryGirl.build :fee, :dah_fee, claim: claim }
-  let(:daj_fee)    { FactoryGirl.build :fee, :daj_fee, claim: claim }
-  let(:pcm_fee)    { FactoryGirl.build :fee, :pcm_fee, claim: claim }
-  let(:ppe_fee)    { FactoryGirl.build :fee, :ppe_fee, claim: claim }
-  let(:npw_fee)    { FactoryGirl.build :fee, :npw_fee, claim: claim }
+  let(:fee)        { FactoryGirl.build :fixed_fee, claim: claim }
+  let(:baf_fee)    { FactoryGirl.build :basic_fee, :baf_fee, claim: claim }
+  let(:daf_fee)    { FactoryGirl.build :basic_fee, :daf_fee, claim: claim }
+  let(:dah_fee)    { FactoryGirl.build :basic_fee, :dah_fee, claim: claim }
+  let(:daj_fee)    { FactoryGirl.build :basic_fee, :daj_fee, claim: claim }
+  let(:pcm_fee)    { FactoryGirl.build :basic_fee, :pcm_fee, claim: claim }
+  let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
+  let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }

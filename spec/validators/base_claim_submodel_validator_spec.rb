@@ -21,8 +21,8 @@ describe Claim::BaseClaimSubModelValidator do
 
   context 'fees' do
     before(:each) do
-      @basic_fee = FactoryGirl.create :fee, :fixed, :with_date_attended, claim: claim
-      @misc_fee = FactoryGirl.create :fee, :misc, :with_date_attended, claim: claim
+      @basic_fee = FactoryGirl.create :basic_fee, :with_date_attended, claim: claim
+      @misc_fee = FactoryGirl.create :misc_fee,:with_date_attended, claim: claim
       FactoryGirl.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
     end

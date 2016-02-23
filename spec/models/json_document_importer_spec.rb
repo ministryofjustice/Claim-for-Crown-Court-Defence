@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe JsonDocumentImporter do
 
-  let(:schema)                              { JsonSchema.generate(JsonTemplate.generate) }
+  let(:schema)                              { JsonSchema.generate }
   let(:exported_claim)                      { double 'cms_export', tempfile: './spec/examples/exported_claim.json', content_type: 'application/json'}
   let(:exported_claim_with_errors)          { double 'cms_export', tempfile: './spec/examples/exported_claim_with_errors.json', content_type: 'application/json'}
   let(:exported_claims)                     { double 'cms_export', tempfile: './spec/examples/exported_claims.json', content_type: 'application/json'}

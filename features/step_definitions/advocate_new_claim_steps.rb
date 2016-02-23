@@ -24,11 +24,11 @@ Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
   create(:offence_class, description: 'A: Homicide and related grave offences')
   create(:offence, description: 'Murder')
-  create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
-  create(:fee_type, :basic, description: 'Other Basic Fee')
-  create(:fee_type, :basic, description: 'Basic Fee with dates attended required', code: 'SAF')
-  create(:fee_type, :fixed, description: 'Fixed Fee example')
-  create(:fee_type, :misc,  description: 'Miscellaneous Fee example')
+  create(:basic_fee_type, description: 'Basic Fee', code: 'BAF')
+  create(:basic_fee_type, description: 'Other Basic Fee')
+  create(:basic_fee_type, description: 'Basic Fee with dates attended required', code: 'SAF')
+  create(:fixed_fee_type, description: 'Fixed Fee example')
+  create(:misc_fee_type,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
   visit new_external_users_claim_path
 end
@@ -95,7 +95,8 @@ end
 
 When(/^I have one fee of type "(.*?)"$/) do |fee_type|
   @claim.fees.destroy_all
-  FactoryGirl.create(:fee, fee_type.to_sym, claim: @claim)
+  type_of_fee_to_create = "#{fee_type}_fee".to_sym
+  FactoryGirl.create(type_of_fee_to_create, claim: @claim)
 end
 
 When(/^I have (\d+) dates attended for my one fee$/) do |number|
@@ -439,16 +440,17 @@ Given(/^I fill in a Fixed Fee using select2$/) do
 end
 
 Given(/^a non\-fixed\-fee claim exists with basic and miscellaneous fees$/) do
-  claim = create(:draft_claim, case_type_id: CaseType.by_type('Trial').id, external_user_id: ExternalUser.first.id)
-  create(:fee, :basic, claim: claim, quantity: 3, amount: 7.0)
-  create(:fee, :misc,  claim: claim, quantity: 2, amount: 5.0)
+  claim = create(:draft_claim, :without_misc_fee, case_type_id: CaseType.by_type('Trial').id, external_user_id: ExternalUser.first.id)
+  claim.misc_fees.map(&:destroy)    # remove the misc fee created in the claim factory
+  create(:basic_fee, claim: claim, quantity: 3, amount: 7.0)
+  create(:misc_fee, claim: claim, quantity: 2, amount: 5.0)
 end
 
 Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
-  create(:fee_type, :basic, description: 'Basic Fee', code: 'BAF')
-  create(:fee_type, :basic, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
-  create(:fee_type, :basic, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
-  create(:fee_type, :basic, description: 'Daily attendance fee (51+)',      code: 'DAJ')
+  create(:basic_fee_type, description: 'Basic Fee', code: 'BAF')
+  create(:basic_fee_type, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
+  create(:basic_fee_type, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
+  create(:basic_fee_type, description: 'Daily attendance fee (51+)',      code: 'DAJ')
   visit new_external_users_claim_path
 end
 
@@ -467,18 +469,15 @@ Then(/^The daily attendance fields should have quantities (\d+), (\d+), (\d+)$/)
 end
 
 Given(/^There are PPE and NPW fees in place$/) do
-  create(:fee_type, :npw)
-  create(:fee_type, :ppe)
+  create(:basic_fee_type, :npw)
+  create(:basic_fee_type, :ppe)
 end
 
 Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, amount, fee_code|
-  if fee_code == 'NPW'
-    id_no = 0
-  elsif fee_code == 'PPE'
-    id_no = 1
-  else
-    raise ArgumentError
-  end
+  # use the fee type code to determine the index in the table of fees
+  fee_type_codes = Fee::BasicFeeType.all.map(&:code)
+  id_no = fee_type_codes.index(fee_code)
+  
   quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
   amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
   fill_in quantity_input, with: quantity.to_i

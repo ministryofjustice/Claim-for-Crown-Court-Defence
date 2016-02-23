@@ -11,6 +11,7 @@
 #  api_key         :uuid
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  roles           :string
 #
 
 require 'rails_helper'

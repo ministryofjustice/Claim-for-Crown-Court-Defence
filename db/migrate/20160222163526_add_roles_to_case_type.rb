@@ -6,7 +6,8 @@ class AddRolesToCaseType < ActiveRecord::Migration
 
     CaseType.all.each do |ct|
       ct.roles << 'agfs'
-      ct.save
+      ct.roles << 'lgfs'
+      ct.save!
     end
   end
 end

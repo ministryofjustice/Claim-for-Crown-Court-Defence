@@ -10,40 +10,38 @@
 #  updated_at      :datetime
 #  max_amount      :decimal(, )
 #  calculated      :boolean          default(TRUE)
+#  type            :string
 #
 
 FactoryGirl.define do
-  factory :fee_type do
+  factory :basic_fee_type, class: Fee::BasicFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     sequence(:code) { ('A'..'Z').to_a.sample(3).join }
-    fee_category
     calculated true
 
-    trait :basic do
-      fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
-    end
-
-    trait :misc do
-      fee_category    { FeeCategory.misc || FactoryGirl.create(:misc_fee_category) }
-    end
-
-    trait :fixed do
-      fee_category    { FeeCategory.fixed || FactoryGirl.create(:fixed_fee_category) }
-    end
-
     trait :ppe do
-      fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
       description 'Pages of prosecution evidence'
       code 'PPE'
-      calculated false
+      calculated false    
     end
 
     trait :npw do
-      fee_category    { FeeCategory.basic || FactoryGirl.create(:basic_fee_category) }
       description 'Numberof prosecution witnesses'
       code 'NPW'
       calculated false
     end
   end
 
+  factory :misc_fee_type, class: Fee::MiscFeeType do
+    sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    calculated true
+  end
+
+  factory :fixed_fee_type, class: Fee::FixedFeeType do
+    sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    calculated true  
+  end
 end
+

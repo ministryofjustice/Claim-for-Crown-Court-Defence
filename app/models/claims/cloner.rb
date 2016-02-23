@@ -22,7 +22,7 @@ module Claims::Cloner
       clone [:fees, :documents, :defendants, :expenses]
     end
 
-    Fee.class_eval do |klass|
+    Fee::BaseFee.class_eval do |klass|
       klass.duplicate_this do
         enable
         nullify :uuid

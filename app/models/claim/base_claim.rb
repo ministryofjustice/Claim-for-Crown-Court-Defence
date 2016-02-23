@@ -80,8 +80,8 @@ module Claim
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims
-    has_many :fees,                     foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
-    has_many :fee_types,                through: :fees
+    has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy,          inverse_of: :claim
+    has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :representation_orders,    through: :defendants
@@ -89,9 +89,9 @@ module Claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :claim_state_transitions,  foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
 
-    has_many :basic_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'BASIC'").order(fee_type_id: :asc) }, foreign_key: :claim_id, class_name: 'Fee', inverse_of: :claim
-    has_many :fixed_fees, -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'FIXED'") }, foreign_key: :claim_id, class_name: 'Fee', inverse_of: :claim
-    has_many :misc_fees,  -> { joins(fee_type: :fee_category).where("fee_categories.abbreviation = 'MISC'") }, foreign_key: :claim_id, class_name: 'Fee', inverse_of: :claim
+    has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
+    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
+    has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
     has_one  :assessment, foreign_key: :claim_id, dependent: :destroy
@@ -132,7 +132,6 @@ module Claim
                         :retrial_started_at,
                         :retrial_concluded_at
 
-    after_initialize :instantiate_basic_fees
 
     before_validation do
       errors.clear
@@ -141,7 +140,11 @@ module Claim
     end
 
 
-    after_initialize :ensure_not_abstract_class, :default_values, :instantiate_assessment, :set_force_validation_to_false
+    after_initialize :instantiate_basic_fees, 
+                     :ensure_not_abstract_class, 
+                     :default_values, 
+                     :instantiate_assessment, 
+                     :set_force_validation_to_false
 
     after_save :find_and_associate_documents
 
@@ -196,10 +199,11 @@ module Claim
     # create a blank fee for every basic fee type not passed to Claim::BaseClaim.new
     def instantiate_basic_fees
       return unless self.new_record?
-      FeeType.basic.each do |basic_fee_type|
-        unless self.basic_fees.map(&:fee_type_id).include?(basic_fee_type.id)
-          self.basic_fees << Fee.new_blank(self, basic_fee_type)
-        end
+      existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
+      basic_fee_types = Fee::BasicFeeType.all
+      basic_fee_types.each do |basic_fee_type|
+        next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
+        self.basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
       end
     end
 
@@ -242,6 +246,10 @@ module Claim
 
     def rejectable?
       allocated? && !opened_for_redetermination?
+    end
+
+    def redeterminable?
+      VALID_STATES_FOR_REDETERMINATION.include?(self.state)
     end
 
     def perform_validation?

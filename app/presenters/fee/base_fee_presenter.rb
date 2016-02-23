@@ -1,5 +1,4 @@
-class FeePresenter < BasePresenter
-
+class Fee::BaseFeePresenter < BasePresenter
   presents :fee
 
   def dates_attended_delimited_string

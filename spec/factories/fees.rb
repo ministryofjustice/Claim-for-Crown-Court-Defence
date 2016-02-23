@@ -11,14 +11,62 @@
 #  updated_at  :datetime
 #  uuid        :uuid
 #  rate        :decimal(, )
+#  type        :string
 #
 
 FactoryGirl.define do
-  factory :fee do
-    claim
-    fee_type
+  factory :fixed_fee, class: Fee::FixedFee do
+    claim 
+    fee_type { build :fixed_fee_type }
     quantity 1
     rate 25
+
+    factory :misc_fee, class: Fee::MiscFee do
+      claim
+      fee_type { build :misc_fee_type }
+      quantity 1
+      rate 25 
+    end
+
+    factory :basic_fee, class: Fee::BasicFee do
+      claim
+      fee_type { build :basic_fee_type }
+      quantity 1
+      rate 25 
+
+      trait :baf_fee do
+        fee_type { build :basic_fee_type, code: 'BAF', description: 'Basic Fee' }
+      end
+
+      trait :daf_fee do
+        fee_type {build  :basic_fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF' }
+      end
+
+      trait :dah_fee do
+        fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH' }
+      end
+
+      trait :daj_fee do
+        fee_type { build :basic_fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ' }
+      end
+
+      trait :pcm_fee do
+        fee_type { build :basic_fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
+      end
+
+      trait :ppe_fee do
+        rate 0
+        amount 25
+        fee_type { build :basic_fee_type, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
+      end
+
+      trait :npw_fee do
+        rate 0
+        amount 25
+        fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
+      end
+      
+    end
 
     trait :with_date_attended do
       after(:build) do |fee|
@@ -32,17 +80,7 @@ FactoryGirl.define do
       amount   { rand(100..999).round(0) }
     end
 
-    trait :basic do
-      fee_type { FactoryGirl.create :fee_type, :basic }
-    end
 
-    trait :misc do
-      fee_type { FactoryGirl.create :fee_type, :misc }
-    end
-
-    trait :fixed do
-      fee_type { FactoryGirl.create :fee_type, :fixed }
-    end
 
     trait :all_zero do
       quantity 0
@@ -53,37 +91,6 @@ FactoryGirl.define do
       claim         { FactoryGirl.create :claim, source: 'api' }
     end
 
-    trait :baf_fee do
-      fee_type      { FactoryGirl.create :fee_type, description: 'Basic Fee', code: 'BAF' }
-    end
-
-    trait :daf_fee do
-      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (3 to 40)', code: 'DAF' }
-    end
-
-    trait :dah_fee do
-      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (41 to 50)', code: 'DAH' }
-    end
-
-    trait :daj_fee do
-      fee_type      { FactoryGirl.create :fee_type, description: 'Daily Attendance Fee (50+)', code: 'DAJ' }
-    end
-
-    trait :pcm_fee do
-      fee_type      { FactoryGirl.create :fee_type, description: 'Plea and Case Management Hearing', code: 'PCM' }
-    end
-
-    trait :ppe_fee do
-      rate 0
-      amount 25
-      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Pages of prosecution evidence', code: 'PPE', calculated: false }
-    end
-
-    trait :npw_fee do
-      rate 0
-      amount 25
-      fee_type      { FactoryGirl.create :fee_type, :basic, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
-    end
 
   end
 

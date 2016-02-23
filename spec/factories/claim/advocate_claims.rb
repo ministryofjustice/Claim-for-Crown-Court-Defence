@@ -11,7 +11,7 @@ FactoryGirl.define do
 
     after(:build) do |claim|
       build(:certification, claim: claim)
-      claim.fees << build(:fee, claim: claim, fee_type: FactoryGirl.build(:fee_type))
+      claim.fees << build(:misc_fee, claim: claim)
       claim.creator = claim.external_user
       populate_required_fields(claim)
     end
@@ -46,7 +46,7 @@ FactoryGirl.define do
       after(:build) do |claim|
         build(:certification, claim: claim)
         claim.defendants << build(:defendant, claim: claim)
-        claim.fees << build(:fee, :with_date_attended, claim: claim, fee_type: FactoryGirl.build(:fee_type))
+        claim.fees << build(:fixed_fee, claim: claim)
         claim.expenses << build(:expense, :with_date_attended, claim: claim, expense_type: FactoryGirl.build(:expense_type))
       end
     end
@@ -64,6 +64,13 @@ FactoryGirl.define do
       #       as only submitted+ states need certifying
       after(:build) do |claim|
         claim.certification = nil if claim.certification
+      end
+
+      trait :without_misc_fee do
+        
+        after(:build) do |claim|
+          claim.misc_fees = []
+        end
       end
     end
 

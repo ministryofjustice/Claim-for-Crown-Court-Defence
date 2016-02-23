@@ -1,0 +1,10 @@
+@mixin outer-block {
+  margin: 0 auto;
+  width: auto;
+  max-width: 960 + $gutter*2;
+}
+
+@mixin inner-block {
+  padding-left:$gutter;
+  padding-right:$gutter;
+}

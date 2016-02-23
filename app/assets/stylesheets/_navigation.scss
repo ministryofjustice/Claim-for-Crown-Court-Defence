@@ -1,0 +1,39 @@
+.primary-nav-bar {
+  @include inner-block;
+}
+// nav tabs
+nav {
+  @include container;
+  ul {
+    padding-left:0;
+    &.primary-nav {
+      @include span(8 of 12);
+      @include first;
+    }
+    li {
+      display: inline-block;
+      list-style: none;
+      &:last-child a{
+        margin-right:0;
+      }
+    }
+    a {
+      @include core-19;
+      display: block;
+      margin-right: 1em;
+      &.current {
+        font-weight: bold;
+      }
+    }
+  }
+  .user_links {
+    @include span(4 of 12);
+    @include last;
+    padding-right:0;
+    ul {
+      float:right;
+      text-align: right;
+    }
+  }
+
+}

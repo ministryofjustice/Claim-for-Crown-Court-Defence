@@ -25,7 +25,7 @@ describe API::V1::ExternalUsers::Claim do
                           :api_key => provider.api_key,
                           :creator_email => vendor.user.email,
                           :advocate_email => advocate.user.email,
-                          :case_type_id => CaseType.find_or_create_by!(name: 'Trial', is_fixed_fee: false, requires_trial_dates: true).id,
+                          :case_type_id => FactoryGirl.create(:case_type, :trial).id,
                           :case_number => 'A12345678',
                           :first_day_of_trial => "2015-01-01",
                           :estimated_trial_length => 10,

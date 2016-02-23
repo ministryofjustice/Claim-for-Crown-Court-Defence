@@ -21,8 +21,10 @@ FactoryGirl.define do
     requires_cracked_dates      false
     requires_trial_dates        false
     requires_maat_reference     true
+    roles                       [ 'agfs' ]
 
     trait :fixed_fee do
+      name            'Fixed fee'
       is_fixed_fee    true
     end
 
@@ -36,6 +38,10 @@ FactoryGirl.define do
 
     trait :requires_retrial_dates do
       requires_retrial_dates true
+    end
+
+    trait :contempt do
+      name 'Contempt'
     end
 
     trait :trial do

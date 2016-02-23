@@ -353,8 +353,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         context 'fixed fee case types' do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
-              claim_params['case_type_id'] = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true).id.to_s
-
+              claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               response = post :create, claim: claim_params
               claim = assigns(:claim)
 
@@ -557,8 +556,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 end
 
-def valid_claim_fee_params
 
+def valid_claim_fee_params
   case_type = FactoryGirl.create :case_type
   HashWithIndifferentAccess.new(
     {

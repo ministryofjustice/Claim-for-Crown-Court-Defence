@@ -72,33 +72,33 @@ Then(/^I should see the admin advocates correct working primary navigation$/) do
 end
 
 Then(/^I should see the advocates Your claims link and it should work$/) do
-  find('#primary-nav').click_link('Your claims')
-  expect(find('.page-title')).to have_content('Your claims')
+  find('.primary-nav-bar').click_link('Your claims')
+  expect(find('h1')).to have_content('Your claims')
 end
 
 Then(/^I should see the admin advocates All claims link and it should work$/) do
-  find('#primary-nav').click_link('All claims')
-  expect(find('.page-title')).to have_content('All claims')
+  find('.primary-nav-bar').click_link('All claims')
+  expect(find('h1')).to have_content('All claims')
 end
 
 Then(/^I should see the advocates Archive link and it should work$/) do
-  find('#primary-nav').click_link('Archive')
+  find('.primary-nav-bar').click_link('Archive')
   expect(find('h1')).to have_content('Archived claims')
 end
 
 Then(/^I should see the advocates Start a claim link and it should work$/) do
-  find('#primary-nav').click_link('Start a claim')
+  find('.primary-nav-bar').click_link('Start a claim')
   expect(find('h1')).to have_content('Claim for advocate graduated fees')
 end
 
 Then(/^I should see the admin advocates Manage advocates link and it should work$/) do
-  find('#primary-nav').click_link('Manage users')
-  expect(find('h1.page-title')).to have_content('Manage users')
+  find('.primary-nav-bar').click_link('Manage users')
+  expect(find('h1')).to have_content('Manage users')
 end
 
 Then(/^I should see the admin advocates Manage provider link and it should work$/) do
-  find('#primary-nav').click_link('Manage provider')
-  expect(find('h1.page-title')).to have_content("Manage provider")
+  find('.primary-nav-bar').click_link('Manage provider')
+  expect(find('h1')).to have_content("Manage provider")
 end
 
 Then(/^I should see the caseworkers correct working primary navigation$/) do
@@ -115,38 +115,38 @@ Then(/^I should see the admin caseworkers correct working primary navigation$/) 
 end
 
 Then(/^I should see the caseworkers Your claims link and it should work$/) do
-  find('#primary-nav').click_link('Your claims')
-  expect(find('h1.page-title')).to have_content('Your claims')
+  find('.primary-nav-bar').click_link('Your claims')
+  expect(find('h1')).to have_content('Your claims')
 end
 
 Then(/^I should see the caseworkers Archive link and it should work$/) do
-  find('#primary-nav').click_link('Archive')
-  expect(find('h1.page-title')).to have_content('Archived claims')
+  find('.primary-nav-bar').click_link('Archive')
+  expect(find('h1')).to have_content('Archived claims')
 end
 
 Then(/^I should see the admin caseworkers Your claims link and it should work$/) do
-  find('#primary-nav').click_link('Your claims')
-  expect(find('h1.page-title')).to have_content('Your claims')
+  find('.primary-nav-bar').click_link('Your claims')
+  expect(find('h1')).to have_content('Your claims')
 end
 
 Then(/^I should see the admin caseworkers Archive link and it should work$/) do
-  find('#primary-nav').click_link('Archive')
-  expect(find('h1.page-title')).to have_content('Archived claims')
+  find('.primary-nav-bar').click_link('Archive')
+  expect(find('h1')).to have_content('Archived claims')
 end
 
 Then(/^I should see the admin caseworkers Allocation link and it should work$/) do
-  find('#primary-nav').click_link('Allocation')
-  expect(find('h1.page-title')).to have_content('Allocation')
+  find('.primary-nav-bar').click_link('Allocation')
+  expect(find('h1')).to have_content('Allocation')
 end
 
 Then(/^I should see the admin caseworkers Re-allocation link and it should work$/) do
-  find('#primary-nav').click_link('Re-allocation')
-  expect(find('h1.page-title')).to have_content('Re-allocation')
+  find('.primary-nav-bar').click_link('Re-allocation')
+  expect(find('h1')).to have_content('Re-allocation')
 end
 
 Then(/^I should see the admin caseworkers Manage case workers link and it should work$/) do
-  find('#primary-nav').click_link('Manage case workers')
-  expect(find('h1.page-title')).to have_content('Manage case workers')
+  find('.primary-nav-bar').click_link('Manage case workers')
+  expect(find('h1')).to have_content('Manage case workers')
 end
 
 Then(/^I should see the superadmins correct working primary navigation$/) do
@@ -155,14 +155,14 @@ Then(/^I should see the superadmins correct working primary navigation$/) do
 end
 
 Then(/^I should see the superadmins Manage providers link and it should work$/) do
-  find('#primary-nav').click_link('Manage provider')
-  expect(find('h1.page-title')).to have_content('Manage providers')
+  find('.primary-nav-bar').click_link('Manage provider')
+  expect(find('h1')).to have_content('Manage providers')
   expect(page).to have_content(/\d+ providers?/)
 end
 
 Then(/^I should see the superadmins Add a provider link and it should work$/) do
-  find('#primary-nav').click_link('Add a provider')
-  expect(find('h1.page-title')).to have_content('Manage providers')
+  find('.primary-nav-bar').click_link('Add a provider')
+  expect(find('h1')).to have_content('Manage providers')
   expect(page).to have_content('New provider details')
 end
 

@@ -1,16 +1,26 @@
-// default
+//= require select2
 
-$table-th-colour: #d8d8d8;
+// grid system
+@import "susy";
+@import "config";
 
-/****************************
-Messaging - Colours
-****************************/
-$message-history-text: #4C2C92;
-$left-message-colour: #ccdbf1;
-$read-text: #444444;
-$date-text: #006435;
-$date-border-colour: $date-text;
-$status-text: #6F777B;
+//GDS
+@import "fonts";
+@import "colours";
+@import "measurements";
+@import "conditionals";
+@import "shims";
+@import "typography";
+@import "css3";
+@import "design-patterns/alpha-beta";
+@import "design-patterns/buttons";
 
+// custom mixins & helpers
+@import "mixins";
+@import "helpers";
 
-@import "imports";
+//project specific
+@import "shame";
+@import "layout";
+@import "navigation";
+@import "tables";

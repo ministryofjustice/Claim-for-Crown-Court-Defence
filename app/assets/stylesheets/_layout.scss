@@ -1,0 +1,15 @@
+#page,
+.outer-block {
+  @include outer-block;
+}
+.inner-block,
+.phase-banner {
+  @include inner-block;
+}
+
+.container {
+  @include container;
+}
+#content {
+  @include inner-block;
+}

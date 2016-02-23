@@ -1,0 +1,1214 @@
+// ================================================================//
+// LAYOUT.SCSS
+// ================================================================//
+
+#global-header {
+  .header-wrapper {
+    @include inner-block;
+    .header-global {
+      @include container;
+      max-width: 960px;
+      padding:$gutter-half/2 0;
+      .header-logo{
+        margin:0;
+        @include span(4 of 12);
+        @include first;
+        padding-left:0;
+      }
+      .header-app-name {
+        margin:0;
+        @include span(8 of 12);
+        text-align: left;
+        line-height: 1em;
+      }
+    }
+    #logo {
+      float:none;
+      img {
+        margin:0;
+        display: block;
+        float:none;
+        padding:0;
+      }
+    }
+  }
+}
+#global-header-bar {
+  .header-bar {
+    height:10px;
+  }
+}
+
+#footer {
+  margin-top: 40px;
+  // HOTLINKING ************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  .ogl-logo {
+    background: url(https://assets.digital.cabinet-office.gov.uk/static/images/open-government-…cence-c1aedc8257961b938b4c7a21a2b0db3f2716dd9ef782cea73110dc69107c9042.png) 0 0 no-repeat;
+  }
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  // ***********************************************
+  .footer-meta .footer-meta-inner {
+    width: 100%;
+    ul {
+      margin: 0;
+      margin-top: 60px
+    }
+  }
+  .show {
+    font-size: 16px;
+  }
+}
+
+.financial-summary{
+  @include span(8 of 12);
+  padding-left:0;
+  div{
+    @include span(6 of 12);
+    padding-left:0;
+    &:last-child {
+
+    }
+  }
+  h3{
+    @include core-24;
+    font-weight:400;
+    color:$grey-1;
+  }
+  h4{
+    @include bold-36();
+  }
+}
+.claims-actions {
+  @include span(3 of 12);
+  @include last;
+}
+// ==========================================================================
+// Phase banner
+
+.phase-tag  {
+  @include phase-tag(beta);
+  margin-left: 0;
+}
+
+header.page-title {
+  width: 100%;
+  float: left;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid $ministry-of-justice;
+  h1 {
+    display: inline-block;
+  }
+  .button {
+    float: right;
+  }
+}
+
+section {
+  display: block
+}
+
+.advocate-loggedin-actions {
+  display: block;
+  margin: 2em auto;
+  padding: 0;
+  li {
+    border: 1px solid;
+    border-radius: 3px;
+    display: inline-block;
+    list-style-type: none;
+    font-size: 2em;
+    line-height: 2.5em;
+    margin-right: 1em;
+    a {
+      text-decoration: none;
+      color: $white;
+      padding: 0 2.5em;
+    }
+    &.new {
+      background-color: $mainstream-brand;
+      border-color: $mainstream-brand;
+    }
+    &.view {
+      background-color: $grey-3;
+      border-color: $grey-3;
+      a {
+        color: $ministry-of-justice;
+      }
+    }
+  }
+}
+
+.message {
+  width: 2em;
+}
+
+ol.questions {
+  margin-top: 0;
+  list-style-type: none;
+  list-style-position: inside;
+  li {
+    padding-top: $gutter;
+    .clear-float, textarea{
+      margin-top:25px;
+    }
+    textarea {
+      padding: 5px;
+    }
+  }
+}
+p.questions {
+  margin-bottom: 0;
+}
+
+.text-small {
+  @include core-19();
+}
+
+// ================================================================//
+// claims-list.SCSS
+// ================================================================//
+#claims-list {
+  margin: 0;
+  padding: 0;
+  li {
+    padding: 0;
+    list-style-type: none;
+  }
+}
+
+#claims-list > li {
+  background-color: $grey-4;
+  clear: both;
+  overflow: hidden;
+  padding: 1rem;
+  &:nth-child(even) {
+    background-color: $grey-3;
+  }
+
+}
+.case-data-headings {
+  margin: 0;
+  padding: 0;
+   li {
+    //  @include span-columns(4);
+     list-style-type: none;
+  }
+}
+
+a.detail-link {
+  border: 1px solid $button-colour;
+  color: $button-colour;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+
+.claim-controls {
+  .toggle {
+    background-image: image-url("list-toggle.png");
+    background-position: 0 -48px;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    width: 42px;
+    margin: 0 0 1em 2px;
+    &.expanded {
+      background-position: 0 0;
+    }
+  }
+}
+
+.status-indicator {
+  width: 20px;
+  height: 20px;
+}
+
+
+
+// ================================================================//
+// FORM.SCSS
+// ================================================================//
+#claim-accordion {
+  h2 {
+    @include core-19();
+    margin-top: 0;
+    color: $text-colour;
+    background-color: $panel-colour;
+    cursor: pointer;
+    clear: both;
+    border-top: 1px solid $border-colour;
+    padding: 1em;
+    &::before {
+      content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9Ik1haW4tZmxvdyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc2tldGNoOnR5cGU9Ik1TUGFnZSI+CiAgICAgICAgPGcgaWQ9IkNsYWltLWRldGFpbC0tLWNsb3NlZCIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC00MDQuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTUuMDAwMDAwLCA0MTIuMDAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTE1NS4wMDAwMDAsIC00MTIuMDAwMDAwKSAiIHBvaW50cz0iMTU1LjM4MDk1MiA0MDQgMTYzIDQyMCAxNDcgNDIwICI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+');
+      width: 16px;
+      margin-right: 5px;
+    }
+    &::after {
+      content: "Open";
+      color: blue;
+      text-decoration: underline;
+      float: right;
+    }
+    &[aria-expanded="true"]{
+      &::before {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyIENvcHk8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iTWFpbi1mbG93IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8ZyBpZD0iQ2xhaW0tZGV0YWlsLS0tT1BFTiIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC03NzUuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yLUNvcHkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1NS4wMDAwMDAsIDc4My4wMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC0xNTUuMDAwMDAwLCAtNzgzLjAwMDAwMCkgIiBwb2ludHM9IjE1NS4zODA5NTIgNzc1IDE2MyA3OTEgMTQ3IDc5MSAiPjwvcG9seWdvbj4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
+        width: 16px;
+      }
+      &[aria-expanded="true"]::after {
+        content: "Close"
+      }
+    }
+  }
+
+  div[aria-hidden="true"] {
+    display: none;
+  }
+
+  .panel {
+    padding-top: $gutter-half;
+    padding-left: $gutter;
+    padding-bottom: $gutter-half;
+  }
+
+
+  #claim-status {
+    label.container {
+      // @include span-columns(3);
+      line-height: 4;
+      text-align: center;
+      border: 1px solid $black;
+      margin-top: 1em;
+    }
+    .actions {
+      float: right;
+    }
+  }
+
+  .draft {
+    background-color: $white;
+    border: 1px solid $button-colour;
+    color: $button-colour;
+    padding: 0 0.5rem;
+    position: relative;
+    top: 1px;
+    margin-right: 1em;
+    font-size: 1em;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+}
+
+.currency {
+  position: relative;
+  padding-left: 1em;
+  .currency-symbol {
+    position: absolute;
+    left: 0;
+  }
+}
+
+// ================================================================//
+// claim-accordion.SCSS
+// ================================================================//
+form {
+  .extra-margin {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+  }
+
+  .validation-error {
+    display: block;
+    color: #df3034;
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+
+  fieldset {
+
+    &.user-form {
+      border-bottom: 0;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 1em;
+  }
+
+  h2 + fieldset {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  span.auto-width {
+    width: auto;
+    display: inline-block;
+    margin-right: 1em;
+  }
+
+  .nested-fields {
+    margin-bottom: 1em;
+  }
+
+
+  .nested-fields {
+    td, th {
+      border-bottom: 0;
+      border-top: 1px solid #bfc1c3;
+    }
+
+    &.extra-data {
+      th, td {
+        border-top: 0;
+        border-bottom: 1px solid #bfc1c3;
+      }
+    }
+  }
+
+
+
+  input[type="file"] {
+    // TODO: come up with some better colours for this
+
+    &.has-file {
+      border-color: green;
+      color: $ministry-of-justice;
+      font-weight: bold;
+    }
+  }
+  .select2 {
+    width: 500px;
+    display: block;
+  }
+}
+
+
+.pound-wrapper {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  .pound-sign {
+    display: table-cell;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    padding: 1px 8px 0 8px;
+    border-left: 1px solid $border-colour;
+    border-top: 1px solid $border-colour;
+    border-bottom: 1px solid $border-colour;
+    background-color: $panel-colour;
+  }
+  input {
+    display: table-cell;
+    padding: 1px 8px 0 8px;
+    vertical-align: middle;
+  }
+}
+
+.warning {
+  display: block;
+  padding: 15px;
+  color: red;
+}
+
+.field_with_errors {
+  display:inline;
+}
+
+.remove-expense:first-child a {
+  display: none;
+}
+
+.evidence-checklist div {
+  float: left;
+  margin-right: 10px;
+}
+
+.defendants {
+  .nested-fields .indent-fieldset {
+    padding: 0;
+    padding-left: $gutter-half;
+  }
+}
+
+.controller-feedback fieldset {
+  border: 0;
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.controller-claims {
+  h2 {
+    margin-top: $gutter * 1.5;
+  }
+  fieldset {
+    border-bottom: 0;
+    .form-group.inline{
+      margin-bottom: 0;
+    }
+  }
+  .judicial-apportionment-notice{
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+  }
+
+  label {
+    display: block;
+    margin-top: $gutter-half;
+  }
+
+
+}
+
+.inline-form {
+  display: inline;
+}
+
+.indent-fieldset {
+  border-left: 5px solid $border-colour;
+  border-bottom: 0;
+  padding-left: $gutter-half;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+// ================================================================//
+// BUTTON-SECONDARY.SCSS
+// ================================================================//
+.button-secondary {
+  @include button (#EDEDED);
+  margin: 0 $gutter-half $gutter-half 0;
+  padding: em(10) em(15) em(5) em(15);
+  vertical-align: top;
+}
+
+.button-get-started {
+  background-image: image-url('icons/icon-pointer.png');
+}
+
+.button{
+  &.search {
+    padding-bottom: 0;
+  }
+}
+
+.button-holder {
+  margin-top: $gutter;
+}
+// ================================================================//
+// DYNAMIC-OFFENCE-LIST.SCSS
+// ================================================================//
+/*
+*  select2 prevents function of normal jQuery .hide()
+*  and .show() functions - these classes are used as a
+*  workaround.
+*
+*/
+
+.hide-optgroup {
+	display: none!important;
+}
+
+.show-optgroup {
+	display: block!important;
+}
+// ================================================================//
+// ADMIN.SCSS
+// ================================================================//
+.working-pattern {
+  span {
+    &:first-child {
+      border-left: 1px solid $black;
+    }
+    border-top: 1px solid $black;
+    border-bottom: 1px solid $black;
+    border-right: 1px solid $black;
+    padding-top: 0.3em;
+    padding-left: 0.3em;
+    padding-right:0.3em;
+    text-align: center;
+    width: 15%;
+    display: inline-block;
+    color: $black;
+    background-color: $white;
+    &.working-day{
+      background-color: $grey-2;
+    }
+  }
+}
+// ================================================================//
+// COMMMUNICATION-TOOL.SCSS
+// ================================================================//
+#messages {
+  float: left;
+  margin-bottom: 1em;
+  width: 100%;
+  .timeline {
+    ul.days {
+      padding: 0;
+      &> li {
+        padding-top: 1em;
+        border-top: 1px solid $grey-2;
+        list-style-type: none;
+        margin: 1em 0 2em;
+        h5 {
+            width: 10em;
+            margin: -2em auto 1em;
+            text-align: center;
+            background-color: white;
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          .message-from,
+          .message-time {
+            padding: 0;
+          }
+          .time-ago {
+            display: inline-block;
+            padding-left: 0.5em;
+            font-size: 0.75em
+          }
+        }
+        li {
+          float: left;
+          width: 100%;
+          padding: 15px;
+          &:nth-child(even) {
+            background-color: $grey-4;
+          }
+        }
+      }
+    }
+  }
+  form{
+    min-height: 3em;
+  }
+}
+// ================================================================//
+// FOOTER MESS
+// ================================================================//
+.copyright {
+  float: right;
+}
+
+.open-government-licence {
+  float: left;
+}
+// ================================================================//
+// FLASH-NOTICES MESS
+// ================================================================//
+.flash {
+  width: 66.667%;
+  margin: auto;
+  padding: 5px;
+  font-weight: bold;
+  &.notice {
+    color: green;
+  }
+  &.alert {
+    color: red;
+  }
+}
+// ================================================================//
+// TANDCS.SCSS
+// ================================================================//
+.tandcs {
+
+  .section-title {
+    font-weight: bold;
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: $gutter;
+    ul {
+      list-style-type: circle;
+    }
+  }
+
+}
+// ================================================================//
+// certification.SCSS
+// ================================================================//
+.certification {
+  ul, ol {
+    list-style-type: initial;
+  }
+  li {
+    margin-bottom: $gutter;
+  }
+  legend {
+    font-weight: normal;
+  }
+  fieldset {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+  strong {
+    font-weight: bold;
+  }
+  .button-holder {
+    margin-top: $gutter;
+  }
+}
+// ================================================================//
+// statuses.SCSS
+// ================================================================//
+/***************************************
+Styling specifically for Claim statuses
+***************************************/
+.status {
+  padding: 5px 15px;
+  border: 3px solid $black;
+  &.rejected, &.refused {
+    border-color: $mellow-red;
+    color: $mellow-red;
+  }
+
+  &.submitted, &.allocated, &.redermination, &.draft {
+    color: $turquoise;
+    border-color: $turquoise;
+  }
+
+  &.part_authorised, &.authorised {
+    color: $grass-green;
+    border-color: $grass-green;
+  }
+}
+// ================================================================//
+// claims-table.SCSS
+// ================================================================//
+
+
+.totals {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: right;
+}
+
+.filter-by-value {
+  margin-left: 0.35em;
+  margin-right: 0.35em;
+}
+
+/* Claim count above all the reports */
+.claim-count {
+  text-align: right;
+  padding-bottom: 10px;
+}
+
+/***************************************
+
+Page specific styling for the Claims detail
+page
+
+***************************************/
+
+.claim-header, .claim-detail-header {
+  margin-bottom: $gutter-half;
+}
+
+/****************************************
+Other Claim Navigation
+****************************************/
+.other-claims {
+  background-color: $panel-colour;
+  padding: 10px 15px;
+  border: 1px solid $border-colour;
+}
+
+.evidence-checklist-read-only {
+  .selected {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+}
+
+.basic-info-row {
+  // @extend .grid-row;
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+}
+
+.certification-info-row {
+  // @extend .grid-row;
+  border: 1px solid $border-colour;
+  padding: $gutter-half;
+  margin-left: -$gutter-half;
+  margin-right: 0px;
+  .confirmation-section & {
+    margin-left: 0;
+  }
+}
+
+.defendant-row {
+  margin-left: -30px;
+  .confirmation-section & {
+    margin-left: -$gutter-half;
+  }
+}
+
+.defendant-card {
+  border: 1px solid $border-colour;
+  padding: $gutter-half 10px $gutter-half $gutter-half;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+  table {
+    @extend .claims_table;
+    th {
+      @include bold-16();
+      padding: 5px;
+    }
+    td{
+      @extend .xsmall;
+    }
+  }
+
+  .title{
+    margin-bottom: $gutter-half;
+  }
+
+  .judical_apportionment {
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+  }
+}
+/*********************************
+Styling for Claims Messaging
+*********************************/
+.messages {
+  .none {
+    color: $border-colour;
+  }
+  .new-message {
+    width: 26px;
+    height: 26px;
+    margin-left: 5px;
+  }
+  > * {
+    vertical-align: middle;
+  }
+}
+
+.messages-container {
+  border: 1px solid $border-colour;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-right: 30px;
+  overflow: hidden;
+  .messages-list {
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 5px;
+    margin-bottom: 1em;
+    .single-date {
+      text-align: center;
+      legend {
+        text-align: center;
+        border: 1px solid $border-colour;
+        padding-left: $gutter;
+        padding-right: $gutter;
+        padding-top: 5px;
+        color: $secondary-text-colour;
+        font-weight: bold;
+        margin-bottom: $gutter-half;
+      }
+      .event-date {
+        color: $date-text;
+        border: 2px solid $date-border-colour;
+        border-radius: 0.5em;
+        display: inline-block;
+        margin-top: $gutter-half;
+        margin-bottom: $gutter-half;
+        padding: 5px 10px;
+        font-weight: bold;
+      }
+    }
+    .message-container {
+      margin-bottom: 1em;
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+    .message-body {
+      padding: 5px 15px;
+    }
+    .message-left {
+      .message-body {
+        background-color: $left-message-colour;
+        position: relative;
+        text-align: left;
+        border-radius: 0.5em 0.5em 0.5em 0.75em;
+        &::after {
+          content: "";
+          position: absolute;
+          left: -1.5em;
+          bottom: 0;
+          width: 1.5em;
+          height: 1.5em;
+          border-right: 1em solid $left-message-colour;
+          border-bottom-right-radius: 1.75em 1.5em;
+        }
+      }
+    }
+
+    .message-right {
+      .message-body {
+        background-color: $panel-colour;
+        position: relative;
+        text-align: left;
+        border-radius: 0.5em 0.5em 0.75em 0.5em;
+        &::after {
+          content: "";
+          position: absolute;
+          right: -1.5em;
+          bottom: 0;
+          width: 1.5em;
+          height: 1.5em;
+          border-left: 1em solid $panel-colour;
+          border-bottom-left-radius: 1.75em 1.5em;
+        }
+      }
+    }
+
+    .message-audit {
+      font-size: 80%;
+      color: $read-text;
+      font-weight: bold;
+      text-align: left;
+      .sent {
+        padding-right: 1.6em;
+        text-align: right;
+      }
+    }
+  }
+
+  .message-status {
+    position: relative;
+    left: -9999px;
+
+    .message-success {
+      color: $green;
+      font-weight: bold;
+    }
+
+    .message-error {
+      color: $mellow-red;
+      font-weight: bold;
+    }
+  }
+  .message-controls {
+    padding: $gutter-half;
+    border-top: 1px solid $border-colour;
+    .form-group.inline {
+      margin-bottom: 0.5em;
+    }
+
+    .upload-column {
+      // @include grid-column( 1/7 );
+      .upload-button {
+        width: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        overflow: hidden;
+        text-align: center;
+        position: relative;
+        margin: 0;
+        .file::-webkit-file-upload-button {
+          visibility: hidden;
+        }
+        input.file {
+          right: 0;
+          margin: 0;
+          bottom: 0;
+          padding: 0;
+          opacity: 0;
+          height: 300px;
+          outline: none;
+          cursor: inherit;
+          position: absolute;
+        }
+      }
+    }
+
+    .message-column {
+      // @include grid-column( 5/7 );
+      input[type="text"] {
+        width: 100%;
+        padding: 2px 5px;
+        @include core-19();
+      }
+    }
+
+    .submit-column {
+      // @include grid-column( 1/7 );
+      .button-secondary {
+        width: 100%;
+        margin: 0;
+        padding-left: $gutter;
+        padding-right: $gutter;
+        background-color: $link-hover-colour;
+        color: $white;
+        box-shadow: 0 2px 0 $link-colour;
+        &:hover {
+          background-color: $link-colour;
+        }
+      }
+    }
+
+    .file-to-be-uploaded {
+      border-top: 1px solid $border-colour;
+      padding-top: 15px;
+      display: none;
+      .filename {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .history {
+    .event {
+      color: $message-history-text;
+      padding: 5px 10px;
+      margin-bottom: 5px;
+      margin-right: 1em;
+      text-align: right;
+      strong {
+        font-weight: bold;
+      }
+      table {
+        @extend .claims_table;
+        td {
+          border-top: 1px solid $border-colour;
+        }
+      }
+    }
+  }
+}
+
+// ================================================================//
+// claims-importer.SCSS
+// ================================================================//
+.claims-importer {
+  margin-top: 15px;
+  padding-left: 15px;
+  border-left: 6px solid $grey-3;
+
+  &.has-errors {
+    border-color: $red;
+  }
+
+  .button {
+    margin: 0 5px 5px 0;
+  }
+
+  .js-enabled & {
+    input[type="file"],
+    .no-file-selected [type="submit"] {
+      @include visually-hidden;
+    }
+  }
+
+  .file-upload-name {
+    margin: 5px 0;
+    font-style: italic;
+  }
+
+  .errors {
+    margin-top: 5px;
+    line-height: 1.2;
+    color: $red;
+  }
+}
+
+.claim-importer-header {
+  label {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .claim-importer-description {
+    margin: 5px 0;
+  }
+}
+
+.importer-results {
+  .results-body {
+    padding: 20px;
+
+    & + .results-body {
+      margin-top: 10px;
+    }
+  }
+
+  ul {
+    list-style: disc;
+    margin: 10px 0;
+    padding-left: 2.3em;
+  }
+
+  .import-success {
+    border: 4px solid $green-50;
+  }
+
+  .import-failed,
+  .import-schema-failed {
+    border: 4px solid $red;
+  }
+}
+// ================================================================//
+// claims-importer.SCSS
+// ================================================================//
+.api-documentation {
+  @include core-24();
+
+  ul,
+  ol {
+    margin: 1em 0;
+    padding-left: 1.1em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+  }
+}
+// ================================================================//
+// icons.SCSS
+// ================================================================//
+.search-icon {
+  width: 16px;
+  height: 16px;
+}
+#report-options {
+  margin-top: $gutter-half;
+}
+.confirmation-header {
+  background-color: $turquoise;
+  color: $white;
+  text-align: center;
+  padding-top: $gutter * 2;
+  padding-bottom: $gutter * 2;
+  margin-bottom: $gutter;
+}
+
+
+.confirmation-tick {
+  width: 36px;
+  height: 36px;
+}
+
+.confirmation-section {
+  h2 {
+    margin-bottom: $gutter-half;
+    margin-top: $gutter;
+  }
+}
+.contact-us-footer {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-top: 1em;
+  border-top: 1px solid $border-colour;
+  clear: both;
+}
+/*******************************************
+########  ########   #######  ########  ########  #######  ##    ## ########
+##     ## ##     ## ##     ## ##     ##      ##  ##     ## ###   ## ##
+##     ## ##     ## ##     ## ##     ##     ##   ##     ## ####  ## ##
+##     ## ########  ##     ## ########     ##    ##     ## ## ## ## ######
+##     ## ##   ##   ##     ## ##          ##     ##     ## ##  #### ##
+##     ## ##    ##  ##     ## ##         ##      ##     ## ##   ### ##
+########  ##     ##  #######  ##        ########  #######  ##    ## ########
+
+      ##  ######
+      ## ##    ##
+      ## ##
+      ##  ######
+##    ##       ##
+##    ## ##    ##
+ ######   ######
+ Description: Dropzone js styling
+*******************************************/
+.dropzone {
+  border: 2px dashed black;
+  padding: 30px;
+  width: 100%;
+  min-height: 200px;
+  margin-bottom: 20px;
+
+  &.dz-drag-hover {
+    border-color: $yellow;
+    .drag-helptext::before {
+      content: asset-data-url('icons/drag-drop-upload-hover-ico.svg');
+      float: left;
+      width: 90px;
+      height: 90px;
+    }
+  }
+
+  .drag-helptext {
+    text-align: center;
+    display: inline-block;
+    &::before {
+      content: asset-data-url('icons/drag-drop-upload-ico.svg');
+      float: left;
+      width: 90px;
+      height: 90px;
+    }
+  }
+
+  .button-secondary {
+    margin: 0;
+  }
+
+  .dz-preview {
+    border-top: 1px solid $border-colour;
+    padding-top: $gutter-half;
+    width: 100%;
+    .dz-progress {
+      width: 15em;
+      display: inline-block;
+      .dz-upload {
+        background-color: $grass-green;
+      }
+      &.dz-success {
+        .dz-success-mark {
+          position: static;
+        }
+      }
+    }
+  }
+
+  .file-info {
+    font-size: 12px;
+    color: $secondary-text-colour;
+  }
+}

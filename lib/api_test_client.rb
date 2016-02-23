@@ -31,7 +31,6 @@ class ApiTestClient
   CRACKED_THIRD_ENDPOINT      = "trial_cracked_at_thirds"
   OFFENCE_CLASS_ENDPOINT      = "offence_classes"
   OFFENCE_ENDPOINT            = "offences"
-  FEE_CATEGORY_ENDPOINT       = "fee_categories"
   FEE_TYPE_ENDPOINT           = "fee_types"
   EXPENSE_TYPE_ENDPOINT       = "expense_types"
 
@@ -41,7 +40,6 @@ class ApiTestClient
                                 CRACKED_THIRD_ENDPOINT,
                                 OFFENCE_CLASS_ENDPOINT,
                                 OFFENCE_ENDPOINT,
-                                FEE_CATEGORY_ENDPOINT,
                                 FEE_TYPE_ENDPOINT,
                                 EXPENSE_TYPE_ENDPOINT
                                 ]

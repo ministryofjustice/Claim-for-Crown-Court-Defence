@@ -62,6 +62,9 @@ Rails.application.configure do
   # using webrick defaults at http://localhost:3000/rails/mailers
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
+  #Rack livereload for frontend development
+  config.middleware.use Rack::LiveReload
+
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :file
 

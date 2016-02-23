@@ -1,16 +1,14 @@
-%div.container.financial_summary
-  %div.grid-row
-    %div.column-third
-      %span.bold-medium
-        = t('.total_outstanding')
-      %div.bold-large
-        = number_to_currency(financial_summary.total_outstanding_claim_value)
-      %p
-        = link_to t('.view_details'), outstanding_external_users_claims_path, id: "outstanding_claim_details"
-    %div.column-two-thirds
-      %span.bold-medium
-        = t('.total_authorised')
-      %div.bold-large
-        = number_to_currency(financial_summary.total_authorised_claim_value)
-      %p
-        = link_to t('.view_details'), authorised_external_users_claims_path, id: "authorised_claim_details"
+%div
+  %h3
+    = t('.total_outstanding')
+  %h4
+    = number_to_currency(financial_summary.total_outstanding_claim_value)
+  %p
+    = link_to t('.view_details'), outstanding_external_users_claims_path, id: "outstanding_claim_details"
+%div
+  %h3
+    = t('.total_authorised')
+  %h4
+    = number_to_currency(financial_summary.total_authorised_claim_value)
+  %p
+    = link_to t('.view_details'), authorised_external_users_claims_path, id: "authorised_claim_details"

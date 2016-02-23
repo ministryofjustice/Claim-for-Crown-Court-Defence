@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160223121556) do
     t.boolean  "allow_pcmh_fee_type",     default: false
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
+    t.string   "roles"
   end
 
   create_table "case_worker_claims", force: :cascade do |t|

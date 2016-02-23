@@ -1,3 +1,4 @@
+
 # == Schema Information
 #
 # Table name: case_types
@@ -15,6 +16,9 @@
 #
 
 class CaseType < ActiveRecord::Base
+  ROLES = %w{ lgfs agfs }
+  include Roles
+  
   auto_strip_attributes :name, squish: true, nullify: true
 
   default_scope -> { order(name: :asc) }

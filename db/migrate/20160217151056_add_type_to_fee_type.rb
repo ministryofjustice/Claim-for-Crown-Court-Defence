@@ -2,8 +2,19 @@ class AddTypeToFeeType < ActiveRecord::Migration
   def up
     add_column :fee_types, :type, :string
 
-    categories = {}
+    # This block only gets executed if the FeeCategory is still defined - it means we 
+    # are migrating existing data.  Otherwise, we loading from scratch, and the seeds
+    # will take care of specifiying the type
+    populate_type if defined?(FeeCategory)
+  end
 
+  def down
+    remove_column :fee_types, :type
+  end
+
+private
+  def populate_type
+    categories = {}
     FeeCategory.all.each { |cat| categories[cat.id] = cat.abbreviation }
 
     # do it this way so that we can run it before and after we've changed the class name
@@ -20,9 +31,5 @@ class AddTypeToFeeType < ActiveRecord::Migration
       end
       ActiveRecord::Base.connection.execute("UPDATE fee_types SET type = '#{type}' WHERE id = #{ft['id']}")
     end
-  end
-
-  def down
-    remove_column :fee_types, :type
   end
 end

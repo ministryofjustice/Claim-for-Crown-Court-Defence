@@ -35,7 +35,7 @@ end
 
 Given(/^There are case types in place$/) do
   load "#{Rails.root}/db/seeds/case_types.rb"
-  CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
+  FactoryGirl.create :case_type, :fixed_fee
 end
 
 When(/^I click Add another defendant$/) do

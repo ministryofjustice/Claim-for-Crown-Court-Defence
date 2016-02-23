@@ -937,7 +937,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     it 'clears basic fees and but does NOT destroy miscellaneous fees for Fixed Fee case types' do
-      claim_with_all_fee_types.case_type = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
+      claim_with_all_fee_types.case_type = FactoryGirl.create :case_type, :fixed_fee
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.size).to eql 1
       expect(claim_with_all_fee_types.basic_fees.map(&:amount).sum.to_f).to eql 0.0
@@ -947,7 +947,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'destroys basic fee child relations explicitly (dates attended)' do
       expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 1
-      claim_with_all_fee_types.case_type = CaseType.find_or_create_by!(name: 'Fixed fee', is_fixed_fee: true)
+      claim_with_all_fee_types.case_type = FactoryGirl.create :case_type, :fixed_fee
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 0
     end

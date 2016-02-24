@@ -25,7 +25,7 @@ private
       when 'BASIC'
         'Fee::BasicFeeType'
       when 'FIXED'
-        'Fee:FixedFeeType'
+        'Fee::FixedFeeType'
       when 'MISC'
         'Fee::MiscFeeType'
       end

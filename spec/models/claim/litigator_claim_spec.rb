@@ -69,14 +69,14 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'rejects creators whose provider is only agfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs))
       expect(claim).not_to be_valid
-      expect(claim.errors[:creator]).to eq(["must be from a provider with the LGFS fee scheme"])
+      expect(claim.errors[:creator]).to eq(["must be from a provider with permission to submit LGFS claims"])
     end
 
     it 'accepts creators whose provider is only lgfs' do
       claim.creator = build(:external_user, provider: build(:provider, :lgfs))
       expect(claim).to be_valid
     end
-    
+
     it 'accepts creators whose provider is both agfs and lgfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs_lgfs))
       expect(claim).to be_valid

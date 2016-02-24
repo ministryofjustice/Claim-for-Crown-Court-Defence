@@ -1,10 +1,12 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
+require_relative '../validation_helpers'
+
 
 describe Claim::BaseClaimValidator do
 
   include ValidationHelpers
 
+  
   let(:claim)                       { FactoryGirl.create :claim }
 
   let(:guilty_plea)                 { FactoryGirl.build :case_type, :fixed_fee, name: 'Guilty plea'}
@@ -97,6 +99,12 @@ describe Claim::BaseClaimValidator do
       claim.external_user = nil
       should_error_with(claim, :external_user, "blank")
     end
+
+    it 'should error if does not belong to the same provider as the creator' do
+      claim.creator = create(:external_user, :advocate)
+      claim.external_user = create(:external_user, :advocate)
+      should_error_with(claim, :external_user, "Creator and advocate must belong to the same provider")
+    end
   end
 
   context 'creator' do
@@ -133,40 +141,6 @@ describe Claim::BaseClaimValidator do
         claim.case_number = invalid_format
         should_error_with(claim, :case_number,"invalid")
       end
-    end
-  end
-
-  context 'advocate_category' do
-    it 'should error if not present' do
-      claim.advocate_category = nil
-      should_error_with(claim, :advocate_category,"blank")
-    end
-
-    it 'should error if not in the available list' do
-      claim.advocate_category = 'not-a-QC'
-      should_error_with(claim, :advocate_category,"Advocate category must be one of those in the provided list")
-    end
-
-    valid_entries = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-    valid_entries.each do |valid_entry|
-      it "should not error if '#{valid_entry}' specified" do
-        claim.advocate_category = valid_entry
-        should_not_error(claim, :advocate_category)
-      end
-    end
-  end
-
-  context 'offence' do
-    before { claim.offence = nil }
-
-    it 'should error if not present for non-fixed fee case types' do
-      claim.case_type.is_fixed_fee = false
-      should_error_with(claim, :offence, "blank")
-    end
-
-    it 'should NOT error if not present for fixed fee case types' do
-      claim.case_type.is_fixed_fee = true
-      should_not_error(claim,:offence)
     end
   end
 

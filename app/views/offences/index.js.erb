@@ -2,7 +2,7 @@
   $('.offence-class-select').html('')
   $('.offence-class-select').hide();
 <% else %>
-  $('.offence-class-select').html('<%=j render partial: "external_users/claims/offence_select", locals: { offences: @offences } %>');
+  $('.offence-class-select').html('<%=j render partial: "external_users/claims/case_details/offence_select", locals: { offences: @offences } %>');
   $('.offence-class-select select').select2({
     matcher: moj.Modules.Select2.startOfMatcher
   });

@@ -1,28 +1,46 @@
 - if user_signed_in?
-  %nav#primary-nav{:role =>'navigation'}
-    - if current_user.persona.is_a?(SuperAdmin)
-      = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)
-      = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
-    - elsif current_user.persona.is_a?(ExternalUser)
-      = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", external_users_root_path, class: cp(external_users_root_path)
-      = link_to "Archive", archived_external_users_claims_path, title: "View archived claims", class: cp(archived_external_users_claims_path)
-      - if Rails.host.api_sandbox?
-        = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
-      = link_to t('link.add_claim'), new_external_users_claim_path, title: "Start a new claim", class: cp(new_external_users_claim_path)
-      - if current_user.persona.admin?
-        = link_to 'Manage users', external_users_admin_external_users_path, class: cp(external_users_admin_external_users_path)
-        = link_to "Manage provider", external_users_admin_provider_path(current_user.persona.provider), class: cp(external_users_admin_provider_path(current_user.persona.provider))
-    - elsif current_user.persona.is_a?(CaseWorker)
-      - if current_user.persona.admin?
-        = link_to 'Your claims', case_workers_claims_path({ tab: :current }), class: cp(case_workers_claims_path)
-        = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
-        = link_to "Allocation", case_workers_admin_allocations_path({ tab: :unallocated }), class: cp(case_workers_admin_allocations_path({ tab: :unallocated }))
-        = link_to "Re-allocation", case_workers_admin_allocations_path({ tab: :allocated }), class: cp(case_workers_admin_allocations_path({ tab: :allocated }))
-        = link_to 'Manage case workers', case_workers_admin_case_workers_path, class: cp(case_workers_admin_case_workers_path)
-        = link_to 'Management information', case_workers_admin_management_information_path, class: cp(case_workers_admin_management_information_path)
+  %nav{:role =>'navigation'}
+    %ul.primary-nav
+      - if current_user.persona.is_a?(SuperAdmin)
+        %li
+          = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)
+        %li
+          = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
+      - elsif current_user.persona.is_a?(ExternalUser)
+        %li
+          = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", external_users_root_path, class: cp(external_users_root_path)
+        %li
+          = link_to "Archive", archived_external_users_claims_path, title: "View archived claims", class: cp(archived_external_users_claims_path)
+        - if Rails.host.api_sandbox?
+          %li
+            = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
+        %li
+          = link_to t('link.add_claim'), new_external_users_claim_path, title: "Start a new claim", class: cp(new_external_users_claim_path)
+        - if current_user.persona.admin?
+          %li
+            = link_to 'Manage users', external_users_admin_external_users_path, class: cp(external_users_admin_external_users_path)
+          %li
+            = link_to "Manage provider", external_users_admin_provider_path(current_user.persona.provider), class: cp(external_users_admin_provider_path(current_user.persona.provider))
+      - elsif current_user.persona.is_a?(CaseWorker)
+        - if current_user.persona.admin?
+          %li
+            = link_to 'Your claims', case_workers_claims_path({ tab: :current }), class: cp(case_workers_claims_path)
+          %li
+            = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
+          %li
+            = link_to "Allocation", case_workers_admin_allocations_path({ tab: :unallocated }), class: cp(case_workers_admin_allocations_path({ tab: :unallocated }))
+          %li
+            = link_to "Re-allocation", case_workers_admin_allocations_path({ tab: :allocated }), class: cp(case_workers_admin_allocations_path({ tab: :allocated }))
+          %li
+            = link_to 'Manage case workers', case_workers_admin_case_workers_path, class: cp(case_workers_admin_case_workers_path)
+          %li
+            = link_to 'Management information', case_workers_admin_management_information_path, class: cp(case_workers_admin_management_information_path)
+        - else
+          %li
+            = link_to 'Your claims', case_workers_claims_path({ tab: :current }), class: cp(case_workers_claims_path)
+          %li
+            = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
       - else
-        = link_to 'Your claims', case_workers_claims_path({ tab: :current }), class: cp(case_workers_claims_path)
-        = link_to 'Archive', archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
-    - else
-      = "Error"
-  = render partial: 'layouts/user'
+        %li
+          = "Error"
+    = render partial: 'layouts/user'

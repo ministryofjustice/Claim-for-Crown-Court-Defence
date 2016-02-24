@@ -1,12 +1,6 @@
-#user_links
-  -# if current_user.persona.is_a?(CaseWorker) && current_user.persona.admin?
-    =# link_to 'Allocations', case_workers_admin_allocations_path
-    =# link_to "Case Workers (#{CaseWorker.count})", case_workers_admin_case_workers_path
-  = link_to current_user.name, signed_in_user_profile_path, class: cp(signed_in_user_profile_path)
-  = " | "
-  -#Hide messages for the moment
-  -#= link_to user_message_statuses_path do
-    -#%span#message_count
-      -#= current_user_messages_count
-    -#Messages
-  = link_to 'Sign out', destroy_user_session_path, method: :delete
+.user_links
+  %ul
+    %li
+      = link_to current_user.name, signed_in_user_profile_path, class: cp(signed_in_user_profile_path)
+    %li
+      = link_to 'Sign out', destroy_user_session_path, method: :delete

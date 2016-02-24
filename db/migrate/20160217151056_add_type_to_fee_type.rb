@@ -2,8 +2,19 @@ class AddTypeToFeeType < ActiveRecord::Migration
   def up
     add_column :fee_types, :type, :string
 
-    categories = {}
+    # This block only gets executed if the FeeCategory is still defined - it means we 
+    # are migrating existing data.  Otherwise, we loading from scratch, and the seeds
+    # will take care of specifiying the type
+    populate_type if migrating_an_already_populated_database?
+  end
 
+  def down
+    remove_column :fee_types, :type
+  end
+
+private
+  def populate_type
+    categories = {}
     FeeCategory.all.each { |cat| categories[cat.id] = cat.abbreviation }
 
     # do it this way so that we can run it before and after we've changed the class name
@@ -14,7 +25,7 @@ class AddTypeToFeeType < ActiveRecord::Migration
       when 'BASIC'
         'Fee::BasicFeeType'
       when 'FIXED'
-        'Fee:FixedFeeType'
+        'Fee::FixedFeeType'
       when 'MISC'
         'Fee::MiscFeeType'
       end
@@ -22,7 +33,8 @@ class AddTypeToFeeType < ActiveRecord::Migration
     end
   end
 
-  def down
-    remove_column :fee_types, :type
+  def migrating_an_already_populated_database?
+    result_set = ActiveRecord::Base.connection.execute('select count(*) from fee_types')
+    result_set[0]['count'] != "0"
   end
 end

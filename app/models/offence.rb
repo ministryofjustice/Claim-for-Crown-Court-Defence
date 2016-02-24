@@ -18,11 +18,13 @@ class Offence < ActiveRecord::Base
   validates :offence_class, presence: true
   validates :description, presence: true
 
-  scope :unique_name, -> { select('DISTINCT(description)') }
+  scope :unique_name,   -> { select('DISTINCT(description)') }
+  scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
 
   def as_json(options = {})
     super((options || {}).merge({
       methods: [:offence_class]
     }))
   end
+
 end

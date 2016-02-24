@@ -1,20 +1,19 @@
-.grid-row
-  .column-two-thirds
-    %h1.page-title
-      - if current_user.persona.admin?
-        = t('.all_claims')
-      - else
-        = t('.your_claims')
-    #summary
-      = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+%header.main-header{role: 'banner'}
+  %h1
+    - if current_user.persona.admin?
+      = t('.all_claims')
+    - else
+      = t('.your_claims')
+.container
+  .financial-summary
+    = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
+  .claims-actions
     .importer-results
-  .column-third
     = link_to t('link.add_claim'), new_external_users_claim_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'
 
-#report-options.container
-  = render partial: 'search_form'
+= render partial: 'search_form'
 
 #search-summary
   - if params[:search].present?

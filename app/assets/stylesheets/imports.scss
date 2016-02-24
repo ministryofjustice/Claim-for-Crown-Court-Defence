@@ -1,9 +1,12 @@
 //= require select2
 // this stuff should be shared
+
+//third party gems
 @import "bourbon";
 @import "neat";
 @import "fonts";
 
+//GDS
 @import "colours";
 @import "measurements";
 @import "conditionals";
@@ -13,32 +16,9 @@
 @import "design-patterns/alpha-beta";
 @import "design-patterns/buttons";
 
+
 @import "@mixins";
 
-@import "layout";
-@import "form";
-@import "button-secondary";
-@import "dynamic-offence-list";
-@import "admin";
-@import "communication-tool";
-@import "flash-notices";
-@import "tandcs";
-@import "certification";
-@import "statuses";
-@import "claims-table";
-@import "providers-table";
-@import "external-users-table";
-@import "claim-detail";
-@import "claims-importer";
-@import "api-documentation";
-@import "icons";
+//project specific
+@import "shame";
 @import "tables";
-
-
-.copyright {
-  float: right;
-}
-
-.open-government-licence {
-  float: left;
-}

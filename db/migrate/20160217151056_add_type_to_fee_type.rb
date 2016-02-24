@@ -5,7 +5,7 @@ class AddTypeToFeeType < ActiveRecord::Migration
     # This block only gets executed if the FeeCategory is still defined - it means we 
     # are migrating existing data.  Otherwise, we loading from scratch, and the seeds
     # will take care of specifiying the type
-    populate_type if defined?(FeeCategory)
+    populate_type if migrating_an_already_populated_database?
   end
 
   def down
@@ -31,5 +31,10 @@ private
       end
       ActiveRecord::Base.connection.execute("UPDATE fee_types SET type = '#{type}' WHERE id = #{ft['id']}")
     end
+  end
+
+  def migrating_an_already_populated_database?
+    result_set = ActiveRecord::Base.connection.execute('select count(*) from fee_types')
+    result_set[0]['count'] != "0"
   end
 end

@@ -15,8 +15,10 @@
 
 class Fee::BasicFeeType < Fee::BaseFeeType
 
+  CODES_REQUIRING_DATES_ATTENDED = %w( BAF DAF DAH DAJ PCM SAF )
+
   def has_dates_attended?
-    true
+    CODES_REQUIRING_DATES_ATTENDED.include?(self.code)
   end
 
    def fee_category_name

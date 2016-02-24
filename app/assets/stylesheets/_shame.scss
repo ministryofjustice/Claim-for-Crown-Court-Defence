@@ -486,13 +486,6 @@ form {
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
   }
-
-  label {
-    display: block;
-    margin-top: $gutter-half;
-  }
-
-
 }
 
 .inline-form {
@@ -518,12 +511,6 @@ form {
 
 .button-get-started {
   background-image: image-url('icons/icon-pointer.png');
-}
-
-.button{
-  &.search {
-    padding-bottom: 0;
-  }
 }
 
 .button-holder {
@@ -710,6 +697,9 @@ form {
   @include span(6 of 12);
   @include first;
   padding-left:0;
+  legend{
+    @include visually-hidden;
+  }
   .form-group {
     margin-bottom:$gutter-half;
   }
@@ -724,7 +714,7 @@ form {
   @include span(6 of 12);
   @include last;
   text-align: right;
-  margin-top:$gutter;
+  margin-top:$gutter*2;
   p{
     margin:0;
     line-height: 2.5;

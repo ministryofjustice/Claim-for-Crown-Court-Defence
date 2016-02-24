@@ -173,6 +173,8 @@ en:
     remove_rep_order: Remove representation order
     start_claim: Start a new claim
     view_claim: View your claims
+  hint:
+    search: eg defendant name, advocate name
 
 # en.super_admins
   super_admins:

@@ -1,0 +1,34 @@
+//  label
+label {
+  &.form-label {
+    @include clearfix;
+  }
+  .form-hint {
+    @include core-16();
+    margin-top:0;
+  }
+}
+//  input
+input.form-control[type=text],
+input.form-control[type=email],
+input.form-control[type=tel] {
+  @include span(8 of 12);
+  @include core-19();
+  &.short-input{
+    @include span(4 of 12);
+  }
+  &.medium-input{
+    @include span(6 of 12);
+  }
+}
+select.form-control{
+  @include span(6 of 12);
+}
+
+textarea.form-control{
+  width:100%;
+}
+// button
+button.search {
+  margin-left: 5px;
+}

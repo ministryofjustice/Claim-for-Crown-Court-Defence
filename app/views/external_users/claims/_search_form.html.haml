@@ -1,8 +1,15 @@
 #report-options.search-form
-  .form-group
-    - path_to_use = defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path
-    = form_tag path_to_use, method: :get do
-      = label_tag :search, 'eg defendant name, advocate name'
-      = text_field_tag :search, params[:search], class: "normal form-control-3-4"
-      = button_tag(type: 'submit', class: 'button search', title: "#{ t('common.search') }") do
-        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  - path_to_use = defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path
+  = form_tag path_to_use, method: :get do
+    %fieldset
+      %legend
+        = t('common.search')
+      .input.form-group
+        = label_tag :search, class: 'form-label' do
+          %span.label-text
+            = t('common.search')
+          %span.form-hint
+            = t('hint.search')
+        = text_field_tag :search, params[:search], class: "form-control search"
+        = button_tag(type: 'submit', class: 'button search', title: "#{ t('common.search') }") do
+          %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}

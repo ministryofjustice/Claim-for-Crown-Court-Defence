@@ -7,17 +7,25 @@
         There are no fees for this claim
     - else
       %table
+        %caption
+          Fees
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+          %col
         %thead
           %tr
             %th
               = t('.fee_category')
             %th
               = t('.fee_type')
-            %th
+            %th.numerical
               = t('.quantity')
-            %th
+            %th.numerical
               = t('.rate')
-            %th
+            %th.numerical
               = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
@@ -30,11 +38,11 @@
                   = fee.dates_attended_delimited_string
               %td
                 = fee.fee_type.description
-              %td
+              %td.numerical
                 = fee.quantity
-              %td
+              %td.numerical
                 = fee.rate
-              %td
+              %td.numerical
                 = fee.amount
       .totals
         = t('.fees_total')

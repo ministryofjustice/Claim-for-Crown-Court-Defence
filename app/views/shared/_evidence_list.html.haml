@@ -10,7 +10,7 @@
         %tr
           %th
             = t('.name_of_file')
-          %th
+          %th.numerical
             = t('.date_added')
           %th
             = t('.actions')
@@ -20,7 +20,7 @@
           %tr
             %td
               = document.document_file_name
-            %td
+            %td.numerical
               = document.created_at
             %td
               - if document.converted_preview_document.present?

@@ -5,8 +5,8 @@
     %thead
       %tr
         %th &nbsp;
-        %th Claimed by advocate
-        %th Total authorised by LAA
+        %th.numerical Claimed by advocate
+        %th.numerical Total authorised by LAA
     %tbody
       - if claim.redeterminations.any?
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }

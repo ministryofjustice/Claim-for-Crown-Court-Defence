@@ -12,83 +12,63 @@ table {
     display: none;
   }
   tr {
-    overflow: hidden;
-
-    border-bottom: 1px solid #fff;
-    &:nth-child(even) {
+    background-color: #fff;
+    &:hover {
       background-color: $grey-4;
     }
+  }
+  th {
+    text-align: left;
+    border-top: 1px solid $border-colour;
+    background-color: #fff;
+    color: $link-colour;
+    @include bold-16();
   }
   th,
   td {
     padding-left: $gutter-half/2;
-
-    border-right: 1px solid $border-colour;
-    border-left: 1px solid $border-colour;
+    border-right: none;
+    border-left: none;
   }
-  th {
-    text-align: left;
+  span.state {
+    display: inline-block;
 
-    color: $link-colour;
-    background-color: $table-th-colour;
+    padding: 5px $gutter-half/2;
 
-    @include bold-16();
-  }
-  &.claims-summary {
-    tr {
-      background-color: #fff;
-      &:hover {
-        background-color: $grey-4;
-      }
+    border-width: 2px;
+    border-style: solid;
+    background: #fff;
+    &.authorised {
+      color: #00602b;
+      border-color: #00602b;
     }
-    th {
-      border-top: 1px solid $border-colour;
-      background-color: #fff;
+    &.allocated {
+      color: #912b88;
+      border-color: #912b88;
     }
-    th,
-    td {
-      border-right: none;
-      border-left: none;
+    &.draft {
+      color: #1d5780;
+      border-color: #1d5780;
     }
-    span.state {
-      display: inline-block;
-
-      padding: 5px $gutter-half/2;
-
-      border-width: 2px;
-      border-style: solid;
-      background: #fff;
-      &.authorised {
-        color: #00602b;
-        border-color: #00602b;
-      }
-      &.allocated {
-        color: #912b88;
-        border-color: #912b88;
-      }
-      &.draft {
-        color: #1d5780;
-        border-color: #1d5780;
-      }
-      &.rejected,
-      &.refused {
-        color: #99181a;
-        border-color: #99181a;
-      }
-      &.submitted {
-        color: #52585a;
-        border-color: #52585a;
-      }
-      &.redermination {
-        color: #0b0c0c;
-        border-color: #0b0c0c;
-      }
-      &.part-authorised {
-        color: #1d5780;
-        border-color: #54592f;
-      }
+    &.rejected,
+    &.refused {
+      color: #99181a;
+      border-color: #99181a;
+    }
+    &.submitted {
+      color: #52585a;
+      border-color: #52585a;
+    }
+    &.redermination {
+      color: #0b0c0c;
+      border-color: #0b0c0c;
+    }
+    &.part-authorised {
+      color: #1d5780;
+      border-color: #54592f;
     }
   }
+
   &.allocate {
     th {
       padding: 0 $gutter-half;
@@ -109,11 +89,6 @@ table {
 
         margin: auto;
       }
-    }
-  }
-  &#claims-list {
-    thead {
-      background-color: $grey-3;
     }
   }
   .numerical {

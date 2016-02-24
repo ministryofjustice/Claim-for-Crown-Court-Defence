@@ -2,13 +2,14 @@
   %p
     = t(".no_claims_found")
 - else
-  .table-container.container
+  .container
     = render partial: 'search_form'
     - if params[:search].present?
       = render partial: 'shared/search_summary'
     .claim-count
       %p
         = t('.show_count', total: claims.total_count)
+  .table-container.container
     %table.claims-summary
       %caption
         = t('.show_count', total: claims.total_count)

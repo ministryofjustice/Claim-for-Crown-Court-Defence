@@ -633,10 +633,9 @@ form {
   @include span(6 of 12);
   @include last;
   text-align: right;
-  margin-top:$gutter*2;
+  margin-top:$gutter*2 + $gutter-half;
   p{
     margin:0;
-    line-height: 2.5;
   }
 }
 

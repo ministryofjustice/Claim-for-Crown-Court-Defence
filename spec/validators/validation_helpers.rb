@@ -1,5 +1,11 @@
 module ValidationHelpers
 
+  shared_context "force-validation" do
+    before do
+      claim.force_validation = true
+    end
+  end
+
   # needed to work around Total validation on claim
   def create_and_submit_claim(claim)
     claim.force_validation = false
@@ -10,7 +16,7 @@ module ValidationHelpers
 
    def should_error_with(record, field, message)
     expect(record.valid?).to be false
-    expect(record.errors[field]).to eq ([ message ])
+    expect(record.errors[field]).to include( message )
   end
 
   def should_not_error(record, field)

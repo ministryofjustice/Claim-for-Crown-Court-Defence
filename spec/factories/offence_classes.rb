@@ -14,6 +14,7 @@ FactoryGirl.define do
     sequence(:class_letter)     { |n| letter_hash[n % 11] }
     description { Faker::Lorem.sentence }
   end
+  
 end
 
 

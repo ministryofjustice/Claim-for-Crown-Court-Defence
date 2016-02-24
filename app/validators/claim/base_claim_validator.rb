@@ -72,17 +72,6 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "invalid") unless @record.case_number.blank?
   end
 
-  # must be present
-  # must be one of values in list
-  def validate_advocate_category
-    validate_presence(:advocate_category, "blank")
-    validate_inclusion(:advocate_category, Settings.advocate_categories, "Advocate category must be one of those in the provided list") unless @record.advocate_category.blank?
-  end
-
-  def validate_offence
-    validate_presence(:offence, "blank") unless fixed_fee_case?
-  end
-
   def validate_estimated_trial_length
     validate_trial_length(:estimated_trial_length)
   end

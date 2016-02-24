@@ -1,5 +1,10 @@
 nav {
   @include container;
+  &.pagination {
+    ul {
+      float:right;
+    }
+  }
   ul {
     padding-left:0;
     &.primary-nav {

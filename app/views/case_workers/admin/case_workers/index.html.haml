@@ -17,16 +17,24 @@
     = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button right'
 
 %table.report
+  %caption
+    Report
+  %colgroup
+    %col
+    %col
+    %col
+    %col
+    %col
   %thead
-    %th
+    %th{scope:'col'}
       = t('.surname')
-    %th
+    %th{scope:'col'}
       = t('.name')
-    %th
+    %th{scope:'col'}
       = t('.location')
-    %th
+    %th{scope:'col'}
       = t('.working_days')
-    %th
+    %th{scope:'col'}
       = t('.actions')
   %tbody
     - @case_workers.each do |case_worker|

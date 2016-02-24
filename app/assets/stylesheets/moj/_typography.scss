@@ -1,0 +1,13 @@
+.hgroup{
+  h2{
+    @include core-24;
+    margin:0;
+    color:$grey-1;
+    font-weight:400;
+  }
+  .numerical-value{
+    @include bold-36();
+    display:block;
+    color:$text-colour;
+  }
+}

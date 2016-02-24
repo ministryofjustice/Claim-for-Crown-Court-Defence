@@ -10,7 +10,7 @@
       %p
         = t('.show_count', total: claims.total_count)
   .table-container.container
-    %table.claims-summary
+    %table.report
       %caption
         = t('.show_count', total: claims.total_count)
       %colgroup
@@ -31,13 +31,13 @@
             = sortable 'advocate', t(".advocate")
         %th{scope:'col'}
           = t(".defendants")
-        %th{scope:'col'}
+        %th.numerical{scope:'col'}
           = sortable 'total_inc_vat', t(".total")
-        %th{scope:'col'}
+        %th.numerical{scope:'col'}
           = sortable 'amount_assessed', t(".assessed")
         %th{scope:'col'}
           = sortable 'state', t(".status")
-        %th{scope:'col'}
+        %th.numerical{scope:'col'}
           = sortable 'last_submitted_at', t(".submission_date")
         %th{scope:'col'}
           = t(".messages")
@@ -56,7 +56,7 @@
             %td.numerical
               = claim.amount_assessed
             %td
-              %span.state{class: claim.state.dasherize}
+              %span.state{class: 'state-' << claim.state.dasherize}
                 = claim.state.humanize
             %td.numerical
               = claim.submitted_at

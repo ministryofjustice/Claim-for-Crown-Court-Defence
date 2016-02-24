@@ -50,21 +50,6 @@
 
 #footer {
   margin-top: 40px;
-  // HOTLINKING ************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  .ogl-logo {
-    background: url(https://assets.digital.cabinet-office.gov.uk/static/images/open-government-…cence-c1aedc8257961b938b4c7a21a2b0db3f2716dd9ef782cea73110dc69107c9042.png) 0 0 no-repeat;
-  }
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
   .footer-meta .footer-meta-inner {
     width: 100%;
     ul {
@@ -91,13 +76,8 @@
       @include last;
     }
   }
-  h3{
-    @include core-24;
-    font-weight:400;
-    color:$grey-1;
-  }
-  h4{
-    @include bold-36();
+  p{
+    margin:0;
   }
 }
 .claims-actions {
@@ -392,9 +372,6 @@ form {
 }
 
 .controller-claims {
-  h2 {
-    margin-top: $gutter * 1.5;
-  }
   fieldset {
     border-bottom: 0;
     .form-group.inline{
@@ -615,7 +592,6 @@ form {
 .search-form {
   @include span(6 of 12);
   @include first;
-  padding-left:0;
   legend{
     @include visually-hidden;
   }
@@ -627,6 +603,9 @@ form {
   }
   button {
     margin-bottom:0;
+  }
+  input.form-control[type=text]{
+    @include first;
   }
 }
 .claim-count {
@@ -702,9 +681,6 @@ Other Claim Navigation
       @include bold-16();
       padding: 5px;
     }
-    td{
-      @extend .xsmall;
-    }
   }
 
   .title{
@@ -759,8 +735,8 @@ Styling for Claims Messaging
         margin-bottom: $gutter-half;
       }
       .event-date {
-        color: $date-text;
-        border: 2px solid $date-border-colour;
+        color: $green;
+        border: 2px solid $green;
         border-radius: 0.5em;
         display: inline-block;
         margin-top: $gutter-half;
@@ -779,7 +755,7 @@ Styling for Claims Messaging
     }
     .message-left {
       .message-body {
-        background-color: $left-message-colour;
+        background-color: $grey-3;
         position: relative;
         text-align: left;
         border-radius: 0.5em 0.5em 0.5em 0.75em;
@@ -790,7 +766,7 @@ Styling for Claims Messaging
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-right: 1em solid $left-message-colour;
+          border-right: 1em solid $grey-3;
           border-bottom-right-radius: 1.75em 1.5em;
         }
       }
@@ -817,7 +793,7 @@ Styling for Claims Messaging
 
     .message-audit {
       font-size: 80%;
-      color: $read-text;
+      color: $secondary-text-colour;
       font-weight: bold;
       text-align: left;
       .sent {
@@ -913,7 +889,7 @@ Styling for Claims Messaging
 
   .history {
     .event {
-      color: $message-history-text;
+      color: $link-visited-colour;
       padding: 5px 10px;
       margin-bottom: 5px;
       margin-right: 1em;

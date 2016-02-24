@@ -17,15 +17,15 @@
           %col
         %thead
           %tr
-            %th
+            %th{ scope: 'col'}
               = t('.fee_category')
-            %th
+            %th{ scope: 'col'}
               = t('.fee_type')
-            %th.numerical
+            %th.numerical{ scope: 'col'}
               = t('.quantity')
-            %th.numerical
+            %th.numerical{ scope: 'col'}
               = t('.rate')
-            %th.numerical
+            %th.numerical{ scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
@@ -55,6 +55,14 @@
         There are no expenses for this claim
     - else
       %table
+        %caption
+          Expenses
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+          %col
         %thead
           %tr
             %th{scope: 'col'}

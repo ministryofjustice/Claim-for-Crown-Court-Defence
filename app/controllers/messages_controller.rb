@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
   private
 
   def set_refresh_required
-    @refresh = ['Apply for redetermination', 'Request written reasons'].include?(message_params[:claim_action])
+    @refresh = Settings.claim_actions.include?(message_params[:claim_action])
   end
 
   def message_params

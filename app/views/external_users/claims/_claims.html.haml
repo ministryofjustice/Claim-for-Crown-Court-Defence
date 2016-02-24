@@ -24,22 +24,22 @@
         %col
         %col
       %thead
-        %th
+        %th{scope:'col'}
           = sortable 'case_number', t(".case_number")
         - if current_user.persona.admin?
-          %th
+          %th{scope:'col'}
             = sortable 'advocate', t(".advocate")
-        %th
+        %th{scope:'col'}
           = t(".defendants")
-        %th
+        %th{scope:'col'}
           = sortable 'total_inc_vat', t(".total")
-        %th
+        %th{scope:'col'}
           = sortable 'amount_assessed', t(".assessed")
-        %th
+        %th{scope:'col'}
           = sortable 'state', t(".status")
-        %th
+        %th{scope:'col'}
           = sortable 'last_submitted_at', t(".submission_date")
-        %th
+        %th{scope:'col'}
           = t(".messages")
       %tbody
         - present_collection(claims).each do |claim|

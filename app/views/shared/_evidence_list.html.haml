@@ -6,13 +6,19 @@
     = t('.no_documents_uploaded')
   - else
     %table#download-files-report
+      %caption
+        Existing Evidence
+      %colgroup
+        %col
+        %col
+        %col
       %thead
         %tr
-          %th
+          %th{scope:'col'}
             = t('.name_of_file')
-          %th.numerical
+          %th.numerical{scope:'col'}
             = t('.date_added')
-          %th
+          %th{scope:'col'}
             = t('.actions')
       %tbody
 

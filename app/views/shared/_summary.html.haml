@@ -57,15 +57,15 @@
       %table
         %thead
           %tr
-            %th
+            %th{scope: 'col'}
               = t('.expense_type')
-            %th
+            %th{scope: 'col'}
               = t('.location')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.quantity_hours')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.rate')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.expenses).each do |expense|
@@ -78,11 +78,11 @@
                   = expense.dates_attended_delimited_string
               %td
                 = expense.location
-              %td
+              %td.numerical
                 = expense.quantity
-              %td
+              %td.numerical
                 = '%.2f' % expense.rate if expense.rate
-              %td
+              %td.numerical
                 = expense.amount
 
       .totals

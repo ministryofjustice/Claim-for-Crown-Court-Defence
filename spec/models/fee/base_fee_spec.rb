@@ -140,14 +140,6 @@ end
           expect(fee.amount).to eq 36.12
         end
       end
-
-      context 'for fees not requiring calculation' do
-        fee = FactoryGirl.build :basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999
-        it 'should not calculate the amount' do
-          expect(fee).to be_valid
-          expect(fee.amount).to eq 999
-        end
-      end
     end
 
   end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../validation_helpers'
 
 describe Claim::BaseClaimSubModelValidator do
 

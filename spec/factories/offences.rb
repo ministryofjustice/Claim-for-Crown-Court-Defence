@@ -13,5 +13,10 @@ FactoryGirl.define do
   factory :offence do
     offence_class { OffenceClass.first || create(:offence_class) }
     sequence(:description) { |n| "#{Faker::Lorem.sentence}-#{n}" }
+
+    trait :miscellaneous do
+      description 'Miscellaneous/other'
+    end
+
   end
 end

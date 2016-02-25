@@ -87,6 +87,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'should return all lgfs top level case types and non agfs only and none that are children' do
 
       claim = build :unpersisted_litigator_claim
+      CaseType.delete_all   # kill the case type that was created as part of the claim build
       ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
       ct_top_level_agfs = create :case_type, roles: %w{ agfs }
       ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }

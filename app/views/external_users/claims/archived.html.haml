@@ -7,7 +7,6 @@
     = render partial: 'shared/search_summary'
   = render partial: 'search_form', locals: { archived: true }
 
-- if @claims.present?
-  .container#details
-    = render partial: 'claims', locals: { claims: @claims }
-    = paginate @claims
+.container#details
+  = render partial: 'claims', locals: { claims: @claims }
+  = paginate @claims

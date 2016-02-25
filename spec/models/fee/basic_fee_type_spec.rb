@@ -33,5 +33,14 @@ module Fee
       end
     end
 
+    describe 'automatic calculation of amount' do
+      context 'for fee types not requiring calculation' do
+        fee = FactoryGirl.build :basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999
+        it 'should not calculate the amount' do
+          expect(fee).to be_valid
+          expect(fee.amount).to eq 999
+        end
+      end
+    end
   end
 end

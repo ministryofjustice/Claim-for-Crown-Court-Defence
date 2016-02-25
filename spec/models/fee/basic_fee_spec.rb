@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 module Fee
-  describe BasicFee do 
+  describe BasicFee do
     it { should belong_to(:fee_type) }
 
     it { should validate_presence_of(:claim).with_message('blank')}
 
+    describe 'default scope' do
+      it 'should order by claim id and fee type id ascending' do
+        expect(Fee::BasicFee.all.to_sql).to include("ORDER BY \"fees\".\"claim_id\" ASC, \"fees\".\"fee_type_id\" ASC")
+      end
+    end
 
     describe '.new_blank' do
 

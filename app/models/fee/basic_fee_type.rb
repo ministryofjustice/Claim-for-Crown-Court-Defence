@@ -15,8 +15,12 @@
 
 class Fee::BasicFeeType < Fee::BaseFeeType
 
+  DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF )
+
+  default_scope { order(id: :asc) }
+
   def has_dates_attended?
-    true
+    DATES_ATTENDED_APPLICABLE_FEES.include?(self.code)
   end
 
    def fee_category_name

@@ -23,7 +23,7 @@ module Fee
   class BaseFeeType < ActiveRecord::Base
 
     self.table_name = 'fee_types'
-    
+
     auto_strip_attributes :code, :description, squish: true, nullify: true
 
     include ActionView::Helpers::NumberHelper
@@ -34,8 +34,6 @@ module Fee
     validates :description, presence: {message: 'Fee type description cannot be blank'}, uniqueness: { case_sensitive: false, scope: :type, message: 'Fee type description must be unique' }
     validates :code, presence: {message: 'Fee type code cannot be blank'}
 
-    default_scope { order(description: :asc) }
-
     after_initialize :ensure_not_abstract_class
 
     def ensure_not_abstract_class
@@ -44,7 +42,7 @@ module Fee
 
     def has_dates_attended?
       false
-    end  
+    end
 
     def pretty_max_amount
       number_to_currency(self.max_amount, precision: 0)

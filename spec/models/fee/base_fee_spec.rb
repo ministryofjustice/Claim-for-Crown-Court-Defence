@@ -15,40 +15,107 @@
 
 require 'rails_helper'
 
+
 module Fee
-  RSpec.describe Fee::BaseFee, type: :model do
+
+class FeeDouble < Fee::BaseFee
+end
+
+  RSpec.describe Fee::FeeDouble, type: :model do
+
+    let(:subject)   { FeeDouble.new }
+
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
 
     describe 'blank quantity should be set to zero before validation' do
       it 'should replace blank quantities with zero before save' do
-        fee = FactoryGirl.build :misc_fee, quantity: nil
-        expect(fee).to be_valid
-        expect(fee.quantity).to eq 0
+        subject.quantity = nil
+        subject.valid?
+        expect(subject.quantity).to eq 0
       end
     end
 
     describe 'blank rate should be set to zero before validation' do
       it 'should replace blank rate with zero before save' do
-        fee = FactoryGirl.build :misc_fee, rate: nil
-        expect(fee).to be_valid
-        expect(fee.rate).to eq 0
+        subject.rate = nil
+        subject.valid?
+        expect(subject.rate).to eq 0
       end
     end
 
     describe 'blank amount with blank quantity and rate should be set to zero before validation' do
       it 'should replace blank amount with zero before save' do
-        fee = FactoryGirl.build :misc_fee, quantity: nil, rate: nil, amount: nil
-        expect(fee).to be_valid
-        expect(fee.amount).to eq 0
+        subject.quantity = nil
+        subject.rate = nil
+        subject.amount = nil
+        subject.valid?
+        expect(subject.amount).to eq 0
       end
     end
 
-    describe 'non-existent fee_type_id' do
-      it 'does not validate' do
-        fee = FactoryGirl.build :misc_fee, quantity: 1, rate: 5, amount: 5, fee_type_id: 0
-        expect(fee).not_to be_valid
-        expect(fee.errors.full_messages).to eq(["Fee type blank"])
+    describe '#blank?' do
+      it 'should return true if all value fields are zero' do
+        subject.quantity = 0
+        subject.rate = 0
+        subject.amount = 0
+        expect(subject.blank?).to be true
+      end
+      it 'should return false if any value fields are non zero' do
+        subject.rate = 10
+        expect(subject.blank?).to be false
+      end
+    end
+
+    describe '#present?' do
+      it 'should return false if all value fields are zero' do
+        subject.quantity = 0
+        subject.rate = 0
+        subject.amount = 0
+        expect(subject.present?).to be false
+      end
+      it 'should return true if any value fields are non zero' do
+        subject.rate = 10
+        expect(subject.present?).to be true
+      end
+    end
+
+    describe '#clear' do
+      before(:each) do
+        subject.quantity = 10
+        subject.amount = 10
+        subject.dates_attended << FactoryGirl.build(:date_attended)
+      end
+
+      it 'should set fee amount and quantity to nil' do
+        subject.clear
+        expect(subject.quantity).to eql nil
+        expect(subject.amount).to eql nil
+      end
+
+      it 'should destroy any child relations (dates attended)' do
+        expect(subject.dates_attended.size).to eql 1
+        subject.clear
+        expect(subject.dates_attended.size).to eql 0
+      end
+    end
+
+    describe 'comma formatted inputs' do
+      [:quantity, :amount].each do |attribute|
+        it "converts input for #{attribute} by stripping commas out" do
+          subject.send("#{attribute}=", '12,321,111')
+          expect(subject.send(attribute)).to eq(12321111)
+        end
+      end
+    end
+
+  end
+
+  RSpec.describe Fee::BaseFee, type: :model do
+
+    context '#new' do
+      it 'should raise BaseFeeAbstractClassError' do
+        expect { BaseFee.new }.to raise_error
       end
     end
 
@@ -75,7 +142,7 @@ module Fee
       end
 
       context 'for fees not requiring calculation' do
-        let(:fee) { fee = FactoryGirl.build :basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999 }
+        fee = FactoryGirl.build :basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999
         it 'should not calculate the amount' do
           expect(fee).to be_valid
           expect(fee.amount).to eq 999
@@ -83,52 +150,5 @@ module Fee
       end
     end
 
-    describe '#blank?' do
-      it 'should return true if all value fields are zero' do
-        fee = FactoryGirl.create :misc_fee, :all_zero
-        expect(fee.blank?).to be true
-      end
-      it 'should return false if any value fields are non zero' do
-        fee = FactoryGirl.create :misc_fee
-        expect(fee.blank?).to be false
-      end
-    end
-
-    describe '#present?' do
-      it 'should return false if all value fields are zero' do
-        fee = FactoryGirl.create :misc_fee, :all_zero
-        expect(fee.present?).to be false
-      end
-      it 'should return true if any value fields are non zero' do
-        fee = FactoryGirl.create :misc_fee
-        expect(fee.present?).to be true
-      end
-    end
-
-    describe '#clear' do
-      let(:fee) {FactoryGirl.build :misc_fee, :with_date_attended, quantity: 1, amount: 9.99}
-
-      it 'should set fee amount and quantity to nil' do
-        fee.clear
-        expect(fee.quantity).to eql nil
-        expect(fee.amount).to eql nil
-      end
-
-      it 'should destroy any child relations (dates attended)' do
-        expect(fee.dates_attended.size).to eql 1
-        fee.clear
-        expect(fee.dates_attended.size).to eql 0
-      end
-    end
-
-    describe 'comma formatted inputs' do
-      [:quantity, :amount].each do |attribute|
-        it "converts input for #{attribute} by stripping commas out" do
-          fee = build(:misc_fee)
-          fee.send("#{attribute}=", '12,321,111')
-          expect(fee.send(attribute)).to eq(12321111)
-        end
-      end
-    end
   end
 end

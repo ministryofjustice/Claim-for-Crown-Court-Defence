@@ -6,6 +6,8 @@ module Fee
 
     it { should validate_presence_of(:claim).with_message('blank')}
 
+    it { should validate_presence_of(:fee_type).with_message('blank') }
+
 
     describe '.new_blank' do
 

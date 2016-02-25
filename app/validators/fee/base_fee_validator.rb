@@ -2,20 +2,25 @@ class Fee::BaseFeeValidator < BaseValidator
 
   def self.fields
     [
+      :fee_type,
       :quantity,
       :rate,
-      :amount
+      :amount,
     ]
   end
 
   def self.mandatory_fields
-    [:claim, :fee_type]
+    [:claim, :type]
   end
 
   private
 
   def validate_claim
     validate_presence(:claim, 'blank')
+  end
+
+  def validate_type
+    validate_presence(:type, 'blank')
   end
 
   def validate_fee_type

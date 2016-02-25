@@ -34,7 +34,7 @@ class Ability
         can [:index, :create], Document
         can [:index, :new, :create], ExternalUser
         can [:show, :change_password, :update_password, :edit, :update, :destroy], ExternalUser, provider_id: persona.provider_id
-        can [:show, :create], Certification
+        can [:show, :create, :update], Certification
       else
         can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
@@ -48,7 +48,7 @@ class Ability
           end
         end
         can [:index, :create], Document
-        can [:show, :create], Certification
+        can [:show, :create, :update], Certification
         can [:show, :change_password, :update_password], ExternalUser, id: persona.id
       end
     elsif persona.is_a? CaseWorker

@@ -15,8 +15,15 @@ describe Fee::BaseFeeValidator do
   let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
 
-  describe '#validate_claim' do
-    it { should_error_if_not_present(fee, :claim, 'blank') }
+  context 'mandatory required fields' do
+    let(:claim)      { FactoryGirl.build :claim, force_validation: false }
+    describe '#validate_claim' do
+      it { should_error_if_not_present(fee, :claim, 'blank') }
+    end
+
+    describe '#validate_type' do
+      it { should_error_if_not_present(fee, :type, 'blank') }
+    end
   end
 
   describe '#validate_fee_type' do

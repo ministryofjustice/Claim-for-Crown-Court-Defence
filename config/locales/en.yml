@@ -479,13 +479,13 @@ en:
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
-          amount: 'Amount'
-          fee_type: 'Type of fee'
           misc_fees: 'Miscellaneous fees'
-          quantity: 'Quantity'
-          rate: 'Rate'
         misc_fee_fields:
           add_date_attended: 'Add date(s)'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          quantity: 'Quantity'
+          rate: 'Rate'
           remove: *remove
       financial_summary:
         total_outstanding: 'Total outstanding:'

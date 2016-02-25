@@ -25,7 +25,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def self.mandatory_fields
     [
-    :external_user,
+    :external_user_id,
     :creator,
     :amount_assessed,
     :evidence_checklist_ids
@@ -37,16 +37,6 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_total
     unless @record.source == 'api'
       validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")
-    end
-  end
-
-  # ALWAYS required/mandatory
-  def validate_external_user
-    validate_presence(:external_user, "blank")
-    unless @record.errors.key?(:external_user)
-      unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
-        @record.errors[:external_user] << 'Creator and advocate must belong to the same provider'
-      end
     end
   end
 

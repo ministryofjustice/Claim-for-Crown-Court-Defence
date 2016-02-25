@@ -588,7 +588,7 @@ form {
   margin-left: 0.35em;
   margin-right: 0.35em;
 }
-
+// search form for tables
 .search-form {
   @include span(6 of 12);
   @include first;
@@ -607,6 +607,11 @@ form {
   input.form-control[type=text]{
     @include first;
   }
+}
+// search result for tables when nothing exists
+.search-summary .panel-indent{
+  margin-top:0;
+  margin-right:0;
 }
 .claim-count {
   @include span(6 of 12);
@@ -910,45 +915,28 @@ Styling for Claims Messaging
 // claims-importer.SCSS
 // ================================================================//
 .claims-importer {
-  margin-top: 15px;
-  padding-left: 15px;
-  border-left: 6px solid $grey-3;
 
   &.has-errors {
     border-color: $red;
   }
 
-  .button {
-    margin: 0 5px 5px 0;
+  label {
+    @include core-16;
   }
-
   .js-enabled & {
     input[type="file"],
     .no-file-selected [type="submit"] {
       @include visually-hidden;
     }
   }
-
-  .file-upload-name {
-    margin: 5px 0;
-    font-style: italic;
+  button.button-secondary {
+    @include core-19;
+    margin-bottom:0;
   }
-
   .errors {
     margin-top: 5px;
     line-height: 1.2;
     color: $red;
-  }
-}
-
-.claim-importer-header {
-  label {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-
-  .claim-importer-description {
-    margin: 5px 0;
   }
 }
 

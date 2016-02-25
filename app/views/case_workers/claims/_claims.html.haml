@@ -4,22 +4,22 @@
 %table.report
   %thead
     %tr
-      %th
+      %th{scope: 'col'}
         = sortable 'case_number', t('.case_number')
-      %th
+      %th{scope: 'col'}
         = sortable 'advocate', t('.advocate')
-      %th
+      %th{scope: 'col'}
         = t(".defendants")
-      %th{ title:  'Including VAT' }
+      %th{ title:  'Including VAT', scope: 'col' }
         = sortable 'total_inc_vat', t('.total')
       - if params[:action] == 'archived'
-        %th
+        %th{scope: 'col'}
           = sortable 'state', t('.status')
-      %th
+      %th{scope: 'col'}
         = sortable 'case_type', t('.case_type')
-      %th
+      %th{scope: 'col'}
         = sortable 'last_submitted_at', t('.submission_date')
-      %th.message-placeholder
+      %th.message-placeholder{scope: 'col'}
         = t('.messages')
   %tbody
     - present_collection(@claims).each do |claim|

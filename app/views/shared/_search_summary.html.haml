@@ -1,4 +1,7 @@
-%section#search-summary
-  %h1
+.search-summary
+  .panel-indent
     %p
-      #{pluralize(@claims.size, 'claim')} of #{@claims.total_count} matching "#{params[:search]}"
+      - if @claims.none?
+        = t(".no_claims_found")
+      - else
+        #{pluralize(@claims.size, 'claim')} of #{@claims.total_count} matching "#{params[:search]}"

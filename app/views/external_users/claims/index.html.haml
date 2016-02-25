@@ -21,6 +21,6 @@
     .claim-count
       %p
         = t('.show_count', total: @claims.total_count)
-  - if @claims.present?
-    = render partial: 'claims', locals: { claims: @claims }
-    = paginate @claims
+- if @claims.present?
+  = render partial: 'claims', locals: { claims: @claims }
+  = paginate @claims

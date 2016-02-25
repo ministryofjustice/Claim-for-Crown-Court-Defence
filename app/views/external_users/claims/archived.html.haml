@@ -1,13 +1,13 @@
-%h1.page-title
-  = t('.archived_claims')
+%header.main-header{role: 'banner'}
+  %h1
+    = t('.archived_claims')
 
 .container
-  = render partial: 'search_form', locals: { archived: true}
-
-#search-summary
   - if params[:search].present?
     = render partial: 'shared/search_summary'
+  = render partial: 'search_form', locals: { archived: true }
 
-#details
-  = render partial: 'claims', locals: { claims: @claims }
-  = paginate @claims
+- if @claims.present?
+  .container#details
+    = render partial: 'claims', locals: { claims: @claims }
+    = paginate @claims

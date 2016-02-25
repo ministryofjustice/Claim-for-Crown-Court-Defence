@@ -1,4 +1,7 @@
-.hgroup{
+.sub-header{
+  margin-bottom: $gutter-half;
+}
+.hgroup {
   h2{
     @include core-24;
     margin:0;

@@ -31,8 +31,8 @@ table {
     border-left: none;
   }
   span.state {
-    display: inline-block;
-
+    display: block;
+    text-align: center;
     padding: 5px $gutter-half/2;
 
     border-width: 2px;

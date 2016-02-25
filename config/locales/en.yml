@@ -501,6 +501,7 @@ en:
         part_authorised: Part authorised
         rejected: Rejected
         submitted: Submitted to LAA
+        show_count: 'Showing 10 of %{total} claims'
       json_document_importer:
         import_claim: 'Or add your JSON report'
       new:

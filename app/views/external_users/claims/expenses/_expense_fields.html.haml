@@ -31,7 +31,7 @@
   .form-group
     %a{name: "expense_#{@expense_count}_amount"}
     = t('.amount')
-    = number_to_currency(f.object.amount)
+    = number_to_currency(f.object.amount || 0)
 
 
   .add-expense-date-attended

@@ -22,7 +22,7 @@
   .form-group
     = t('.amount')
     .amount
-      = number_to_currency(f.object.amount)
+      = number_to_currency(f.object.amount || 0)
 
   .add-fixed-fee-date-attended
     = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'div'}

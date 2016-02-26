@@ -87,6 +87,15 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       end
     end
   end
+
+  describe 'PATCH #update' do
+    it 'should redirect to claim path with a flash message' do
+      claim = create(:claim)
+      patch :update, { claim_id: claim }
+      expect(response).to redirect_to(external_users_claim_path(claim))
+      expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
+    end
+  end
 end
 
 

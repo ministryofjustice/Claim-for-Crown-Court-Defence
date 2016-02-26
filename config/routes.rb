@@ -95,7 +95,7 @@ Rails.application.routes.draw do
       get 'archived',         on: :collection
       patch 'clone_rejected', to: 'claims#clone_rejected', on: :member
 
-      resource :certification, only: [:new, :create]
+      resource :certification, only: [:new, :create, :update]
     end
 
     namespace :admin do

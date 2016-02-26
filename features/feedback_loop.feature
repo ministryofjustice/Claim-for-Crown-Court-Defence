@@ -12,6 +12,7 @@ Feature: A user can provide feedback and report bugs
   Scenario: An advocate is redirected to the feedback page upon sign out
     Given I sign out
      Then I should be redirected to the feedback page
+      And I should be informed that I have signed out
      When I fill in the 'feedback' form
      Then I see confirmation that my 'feedback' was received
       And I should be on the sign in page

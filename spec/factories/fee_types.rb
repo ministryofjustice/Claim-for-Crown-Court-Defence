@@ -22,7 +22,7 @@ FactoryGirl.define do
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'
-      calculated false    
+      calculated false
     end
 
     trait :npw do

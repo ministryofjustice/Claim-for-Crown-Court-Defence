@@ -15,6 +15,8 @@
 
 class Fee::FixedFeeType < Fee::BaseFeeType
 
+  default_scope { order(description: :asc) }
+
   def fee_category_name
     'Fixed Fees'
   end

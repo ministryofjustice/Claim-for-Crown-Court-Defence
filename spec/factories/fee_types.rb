@@ -16,7 +16,7 @@
 FactoryGirl.define do
   factory :basic_fee_type, class: Fee::BasicFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    code { random_safe_code }
     calculated true
 
     trait :ppe do
@@ -26,7 +26,7 @@ FactoryGirl.define do
     end
 
     trait :npw do
-      description 'Numberof prosecution witnesses'
+      description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
     end
@@ -34,14 +34,18 @@ FactoryGirl.define do
 
   factory :misc_fee_type, class: Fee::MiscFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    code { random_safe_code }
     calculated true
   end
 
   factory :fixed_fee_type, class: Fee::FixedFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
-    calculated true  
+    code { random_safe_code }
+    calculated true
   end
 end
 
+def random_safe_code
+  # NOTE: use ZXX (zed plus 2 random chars) to ensure we never have a code that will cause inappropriate validations
+  'Z' << ('A'..'Z').to_a.sample(2).join
+end

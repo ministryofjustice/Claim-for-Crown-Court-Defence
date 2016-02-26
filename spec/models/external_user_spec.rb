@@ -336,12 +336,3 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 end
-
-
-def create_admin(provider, first_name, last_name)
-  create :external_user, :admin, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
-end
-
-def create_external_user(provider, first_name, last_name)
-  create :external_user, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
-end

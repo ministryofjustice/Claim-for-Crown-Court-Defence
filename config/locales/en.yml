@@ -468,13 +468,13 @@ en:
       fixed_fees:
         fields:
           add_fixed_fee: 'Add another fixed fee'
-          amount: 'Amount'
-          fee_type: 'Type of fee'
           fixed_fees: 'Fixed fees'
-          quantity: 'Quantity'
-          rate: 'Rate'
         fixed_fee_fields:
           add_date_attended: 'Add date(s)'
+          amount: 'Amount'
+          fee_type: 'Type of fee'
+          quantity: 'Quantity'
+          rate: 'Rate'  
           remove: *remove
       misc_fees:
         fields:

@@ -16,7 +16,7 @@ RSpec.describe Claims::Cloner, type: :model do
     end
 
     context 'rejected_claims' do
-      before(:all) do 
+      before(:all) do
         @rejected_claim = create_rejected_claim
         @cloned_claim = @rejected_claim.clone_rejected_to_new_draft
       end
@@ -107,6 +107,16 @@ RSpec.describe Claims::Cloner, type: :model do
       it 'clones the documents' do
         expect(@cloned_claim.documents.count).to eq(1)
         expect(@cloned_claim.documents.count).to eq(@rejected_claim.documents.count)
+
+      end
+
+      it 'generates a new form_id for the cloned claim' do
+        expect(@cloned_claim.form_id).to_not be_blank
+        expect(@cloned_claim.form_id).to_not eq(@rejected_claim.form_id)
+      end
+
+      it 'copies the new form_id to the cloned documents' do
+        expect(@cloned_claim.documents.map(&:reload).map(&:form_id).uniq).to eq([@cloned_claim.form_id])
       end
 
       it 'does not clone determinations - assessments or redeterminations' do

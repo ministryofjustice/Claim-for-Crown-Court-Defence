@@ -818,35 +818,22 @@ Styling for Claims Messaging
     .upload-column {
       // @include grid-column( 1/7 );
       .upload-button {
-        width: 100%;
-        top: 0;
-        left: 0;
         cursor: pointer;
         overflow: hidden;
         text-align: center;
-        position: relative;
         margin: 0;
         .file::-webkit-file-upload-button {
-          visibility: hidden;
+          // visibility: hidden;
         }
         input.file {
-          right: 0;
-          margin: 0;
-          bottom: 0;
-          padding: 0;
-          opacity: 0;
-          height: 300px;
-          outline: none;
-          cursor: inherit;
-          position: absolute;
         }
       }
     }
 
     .message-column {
-      // @include grid-column( 5/7 );
+      margin:$gutter-half 0;
       input[type="text"] {
-        width: 100%;
+        width: 50%;
         padding: 2px 5px;
         @include core-19();
       }
@@ -855,7 +842,6 @@ Styling for Claims Messaging
     .submit-column {
       // @include grid-column( 1/7 );
       .button-secondary {
-        width: 100%;
         margin: 0;
         padding-left: $gutter;
         padding-right: $gutter;

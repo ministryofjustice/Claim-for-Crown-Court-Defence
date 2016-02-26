@@ -19,4 +19,5 @@ body {
   @include inner-block;
   max-width:960px;
   margin:0 auto;
+  padding-bottom:$gutter*2;
 }

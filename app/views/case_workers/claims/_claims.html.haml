@@ -10,14 +10,14 @@
         = sortable 'advocate', t('.advocate')
       %th{scope: 'col'}
         = t(".defendants")
-      %th{ title:  'Including VAT', scope: 'col' }
+      %th.numerical{ title:  'Including VAT', scope: 'col' }
         = sortable 'total_inc_vat', t('.total')
       - if params[:action] == 'archived'
         %th{scope: 'col'}
           = sortable 'state', t('.status')
       %th{scope: 'col'}
         = sortable 'case_type', t('.case_type')
-      %th{scope: 'col'}
+      %th.numerical{scope: 'col'}
         = sortable 'last_submitted_at', t('.submission_date')
       %th.message-placeholder{scope: 'col'}
         = t('.messages')
@@ -30,14 +30,14 @@
           = claim.external_user.name
         %td
           = claim.defendant_names
-        %td.js-test-total
+        %td.numerical.js-test-total
           = claim.total_inc_vat
         - if params[:action] == 'archived'
           %td
             = claim.state.humanize
         %td
           = claim.case_type_name
-        %td
+        %td.numerical
           = claim.submitted_at(include_time: false) unless claim.draft?
         %td.messages
           - if claim.messages.any?

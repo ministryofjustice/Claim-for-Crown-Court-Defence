@@ -15,7 +15,10 @@
     }
     .footer-content{
       width:75%;
-      margin-top:87px;
+      margin-top:64px;
+      li:last-child{
+        display: block;
+      }
     }
   }
 }

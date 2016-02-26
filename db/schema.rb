@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223124910) do
+ActiveRecord::Schema.define(version: 20160224140235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160223124910) do
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
     t.string   "roles"
+    t.integer  "parent_id"
   end
 
   create_table "case_worker_claims", force: :cascade do |t|

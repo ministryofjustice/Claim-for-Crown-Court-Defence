@@ -4,7 +4,8 @@ class AddRolesToCaseType < ActiveRecord::Migration
 
     CaseType.reset_column_information
 
-    CaseType.all.each do |ct|
+    case_types = CaseType.find_by_sql("select * from case_types")
+    case_types.each do |ct|
       ct.roles << 'agfs'
       ct.roles << 'lgfs'
       ct.save!

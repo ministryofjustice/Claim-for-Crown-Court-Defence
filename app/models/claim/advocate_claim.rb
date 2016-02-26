@@ -50,6 +50,11 @@ module Claim
     validates_with ::Claim::AdvocateClaimValidator
     validates_with ::Claim::AdvocateClaimSubModelValidator
 
+
+    def eligible_case_types
+      CaseType.top_levels.agfs
+    end
+
   end
 end
 

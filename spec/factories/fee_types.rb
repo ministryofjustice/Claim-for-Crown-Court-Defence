@@ -16,7 +16,7 @@
 FactoryGirl.define do
   factory :basic_fee_type, class: Fee::BasicFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    sequence(:code) { generate_unvalidated_random_code }
     calculated true
 
     trait :ppe do
@@ -34,14 +34,25 @@ FactoryGirl.define do
 
   factory :misc_fee_type, class: Fee::MiscFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    sequence(:code) { generate_unvalidated_random_code }
     calculated true
   end
 
   factory :fixed_fee_type, class: Fee::FixedFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { ('A'..'Z').to_a.sample(3).join }
+    sequence(:code) { generate_unvalidated_random_code } 
     calculated true  
   end
 end
 
+def generate_unvalidated_random_code
+  code = generate_random_code
+  while %w{ BAF DAF DAH DAJ PCM }.include?(code)
+    code = generate_random_code
+  end
+  code
+end
+
+def generate_random_code
+  ('A'..'Z').to_a.sample(3).join
+end

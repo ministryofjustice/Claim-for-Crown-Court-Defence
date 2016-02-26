@@ -11,10 +11,7 @@
   - if advocate_messaging_permitted?(message) || current_user_persona_is?(CaseWorker)
     .grid-row.js-test-send-buttons
       .upload-column
-        .upload-button.button-secondary
-          =  f.input :attachment, as: :file, wrapper: false, label: false
-          .upload-title
-            = t('.upload')
+        = f.file_field :attachment, class: 'button-secondary', label: false
       .message-column
         = f.input :body, as: :string, placeholder: t('.message_placeholder'), label: false
 

@@ -413,7 +413,6 @@ en:
           representation_order: 'Representation order'
       claims:
         show_count: 'Showing 10 of %{total} claims'
-        no_claims_found: 'No claims found'
         table_caption: 'Claims'
         advocate: *advocate
         messages: 'Messages'
@@ -533,6 +532,7 @@ en:
           supporting_evidence_checklist: 'Supporting evidence checklist'
 # en.shared
   shared:
+    no_claims_found: 'No claims found'
     claim:
       certification_box_title: Certification
       certified_by: Certified by
@@ -640,8 +640,6 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-      claims_list:
-        no_claims_found: 'No claims found'
       claims:
         case_number: Case number
         advocate: Advocate

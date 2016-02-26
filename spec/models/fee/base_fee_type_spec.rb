@@ -18,6 +18,19 @@ module Fee
 
   RSpec.describe BaseFeeType, type: :model do
 
+    context '#new' do
+      it 'should raise BaseFeeTypeAbstractClassError' do
+        expect { BaseFeeType.new }.to raise_error
+      end
+    end
+    
+  end
+
+  class FeeTypeDouble < BaseFeeType
+  end
+
+  RSpec.describe FeeTypeDouble, type: :model do
+    
     it { should have_many(:fees) }
 
     it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
@@ -34,5 +47,7 @@ module Fee
         expect(build(:misc_fee_type).has_dates_attended?).to be false
       end
     end
+
   end
+
 end

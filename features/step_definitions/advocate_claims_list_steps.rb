@@ -203,9 +203,9 @@ Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number
   expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
 end
 
-Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
+Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name| 
   if number == '0'
-    expect(page).to have_content('No Claims Found')
+    expect(page).to have_content('No claims found')
   else
     expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
   end

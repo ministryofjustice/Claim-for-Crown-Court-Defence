@@ -18,6 +18,7 @@ FactoryGirl.define do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     sequence(:code) { ('A'..'Z').to_a.sample(3).join }
     calculated true
+    roles ['agfs']
 
     trait :ppe do
       description 'Pages of prosecution evidence'
@@ -36,12 +37,14 @@ FactoryGirl.define do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     sequence(:code) { ('A'..'Z').to_a.sample(3).join }
     calculated true
+    roles ['agfs']
   end
 
   factory :fixed_fee_type, class: Fee::FixedFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     sequence(:code) { ('A'..'Z').to_a.sample(3).join }
-    calculated true  
+    calculated true
+    roles ['agfs']  
   end
 end
 

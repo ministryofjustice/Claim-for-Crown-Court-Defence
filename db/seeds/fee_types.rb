@@ -10,9 +10,10 @@ data = CSV.read(file_path)
 data.shift
 
 data.each do |row|
-  fee_type, description, code, max_amount, calculated = row
+  fee_type, roles, description, code, max_amount, calculated = row
   klass = "Fee::#{fee_type.capitalize}FeeType".constantize
+  roles = roles.split
   calculated = calculated.downcase.strip == 'false' ? false : true
   max_amount = nil if max_amount.downcase.strip == 'nil'
-  klass.find_or_create_by!(description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s)
+  klass.find_or_create_by!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s)
 end

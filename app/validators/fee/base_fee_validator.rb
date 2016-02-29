@@ -162,4 +162,3 @@ class Fee::BaseFeeValidator < BaseValidator
   end
 
 end
-

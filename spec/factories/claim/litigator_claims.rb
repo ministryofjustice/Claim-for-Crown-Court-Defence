@@ -15,7 +15,6 @@ FactoryGirl.define do
       claim.creator = claim.external_user
       populate_required_fields(claim)
     end
-    
 
     factory :unpersisted_litigator_claim do
       court         { build :court }

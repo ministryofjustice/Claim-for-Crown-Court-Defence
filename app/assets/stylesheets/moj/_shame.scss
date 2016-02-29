@@ -2,6 +2,15 @@
 // LAYOUT.SCSS
 // ================================================================//
 
+.phase-banner {
+  border-bottom:1px solid $border-colour;
+  padding-bottom:5px;
+  margin-bottom:$gutter-half;
+  p {
+    margin-bottom:0;
+  }
+}
+
 #global-header {
   .header-wrapper {
     @include inner-block;
@@ -38,59 +47,32 @@
     height:10px;
   }
 }
-
-#footer {
-  margin-top: 40px;
-  // HOTLINKING ************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  .ogl-logo {
-    background: url(https://assets.digital.cabinet-office.gov.uk/static/images/open-government-…cence-c1aedc8257961b938b4c7a21a2b0db3f2716dd9ef782cea73110dc69107c9042.png) 0 0 no-repeat;
-  }
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  // ***********************************************
-  .footer-meta .footer-meta-inner {
-    width: 100%;
-    ul {
-      margin: 0;
-      margin-top: 60px
-    }
-  }
-  .show {
-    font-size: 16px;
-  }
-}
+// ==========================================================================
+// claim detail page
 
 .financial-summary{
   @include span(8 of 12);
-  padding-left:0;
+  @include first;
   div{
     @include span(6 of 12);
-    padding-left:0;
+    &:first-child{
+      @include first;
+    }
     &:last-child {
-
+      @include last;
     }
   }
-  h3{
-    @include core-24;
-    font-weight:400;
-    color:$grey-1;
-  }
-  h4{
-    @include bold-36();
+  p{
+    margin:0;
   }
 }
 .claims-actions {
   @include span(3 of 12);
   @include last;
 }
+
+
+
 // ==========================================================================
 // Phase banner
 
@@ -173,6 +155,48 @@ p.questions {
 .text-small {
   @include core-19();
 }
+// ================================================================//
+// statuses
+// ================================================================//
+span.state {
+  display: block;
+  text-align: center;
+  padding: 5px $gutter-half/2;
+  border-width: 2px;
+  border-style: solid;
+  background: #fff;
+  &.state-authorised {
+    color: #00602b;
+    border-color: #00602b;
+  }
+  &.state-allocated {
+    color: #912b88;
+    border-color: #912b88;
+  }
+  &.state-draft {
+    color: #1d5780;
+    border-color: #1d5780;
+  }
+  &.state-rejected,
+  &.state-refused {
+    color: #99181a;
+    border-color: #99181a;
+  }
+  &.state-submitted {
+    color: #52585a;
+    border-color: #52585a;
+  }
+  &.state-redermination {
+    color: #0b0c0c;
+    border-color: #0b0c0c;
+  }
+  &.state-part-authorised {
+    color: #1d5780;
+    border-color: #54592f;
+  }
+}
+
+
 
 // ================================================================//
 // claims-list.SCSS
@@ -232,89 +256,6 @@ a.detail-link {
   height: 20px;
 }
 
-
-
-// ================================================================//
-// FORM.SCSS
-// ================================================================//
-#claim-accordion {
-  h2 {
-    @include core-19();
-    margin-top: 0;
-    color: $text-colour;
-    background-color: $panel-colour;
-    cursor: pointer;
-    clear: both;
-    border-top: 1px solid $border-colour;
-    padding: 1em;
-    &::before {
-      content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9Ik1haW4tZmxvdyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc2tldGNoOnR5cGU9Ik1TUGFnZSI+CiAgICAgICAgPGcgaWQ9IkNsYWltLWRldGFpbC0tLWNsb3NlZCIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC00MDQuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTUuMDAwMDAwLCA0MTIuMDAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTE1NS4wMDAwMDAsIC00MTIuMDAwMDAwKSAiIHBvaW50cz0iMTU1LjM4MDk1MiA0MDQgMTYzIDQyMCAxNDcgNDIwICI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+');
-      width: 16px;
-      margin-right: 5px;
-    }
-    &::after {
-      content: "Open";
-      color: blue;
-      text-decoration: underline;
-      float: right;
-    }
-    &[aria-expanded="true"]{
-      &::before {
-        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyIENvcHk8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iTWFpbi1mbG93IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8ZyBpZD0iQ2xhaW0tZGV0YWlsLS0tT1BFTiIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC03NzUuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yLUNvcHkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1NS4wMDAwMDAsIDc4My4wMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC0xNTUuMDAwMDAwLCAtNzgzLjAwMDAwMCkgIiBwb2ludHM9IjE1NS4zODA5NTIgNzc1IDE2MyA3OTEgMTQ3IDc5MSAiPjwvcG9seWdvbj4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
-        width: 16px;
-      }
-      &[aria-expanded="true"]::after {
-        content: "Close"
-      }
-    }
-  }
-
-  div[aria-hidden="true"] {
-    display: none;
-  }
-
-  .panel {
-    padding-top: $gutter-half;
-    padding-left: $gutter;
-    padding-bottom: $gutter-half;
-  }
-
-
-  #claim-status {
-    label.container {
-      // @include span-columns(3);
-      line-height: 4;
-      text-align: center;
-      border: 1px solid $black;
-      margin-top: 1em;
-    }
-    .actions {
-      float: right;
-    }
-  }
-
-  .draft {
-    background-color: $white;
-    border: 1px solid $button-colour;
-    color: $button-colour;
-    padding: 0 0.5rem;
-    position: relative;
-    top: 1px;
-    margin-right: 1em;
-    font-size: 1em;
-    line-height: 1.8;
-    text-decoration: none;
-  }
-}
-
-.currency {
-  position: relative;
-  padding-left: 1em;
-  .currency-symbol {
-    position: absolute;
-    left: 0;
-  }
-}
 
 // ================================================================//
 // claim-accordion.SCSS
@@ -459,9 +400,6 @@ form {
 }
 
 .controller-claims {
-  h2 {
-    margin-top: $gutter * 1.5;
-  }
   fieldset {
     border-bottom: 0;
     .form-group.inline{
@@ -472,13 +410,6 @@ form {
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
   }
-
-  label {
-    display: block;
-    margin-top: $gutter-half;
-  }
-
-
 }
 
 .inline-form {
@@ -496,20 +427,12 @@ form {
 // BUTTON-SECONDARY.SCSS
 // ================================================================//
 .button-secondary {
-  @include button (#EDEDED);
-  margin: 0 $gutter-half $gutter-half 0;
-  padding: em(10) em(15) em(5) em(15);
-  vertical-align: top;
+  @include button(#EDEDED);
+  padding: 0.52632em 0.78947em 0.26316em 0.78947em;
 }
 
 .button-get-started {
   background-image: image-url('icons/icon-pointer.png');
-}
-
-.button{
-  &.search {
-    padding-bottom: 0;
-  }
 }
 
 .button-holder {
@@ -677,30 +600,6 @@ form {
   }
 }
 // ================================================================//
-// statuses.SCSS
-// ================================================================//
-/***************************************
-Styling specifically for Claim statuses
-***************************************/
-.status {
-  padding: 5px 15px;
-  border: 3px solid $black;
-  &.rejected, &.refused {
-    border-color: $mellow-red;
-    color: $mellow-red;
-  }
-
-  &.submitted, &.allocated, &.redermination, &.draft {
-    color: $turquoise;
-    border-color: $turquoise;
-  }
-
-  &.part_authorised, &.authorised {
-    color: $grass-green;
-    border-color: $grass-green;
-  }
-}
-// ================================================================//
 // claims-table.SCSS
 // ================================================================//
 
@@ -715,11 +614,39 @@ Styling specifically for Claim statuses
   margin-left: 0.35em;
   margin-right: 0.35em;
 }
-
-/* Claim count above all the reports */
+// search form for tables
+.search-form {
+  @include span(6 of 12);
+  @include first;
+  legend{
+    @include visually-hidden;
+  }
+  .form-group {
+    margin-bottom:$gutter-half;
+  }
+  label {
+    margin-top:0;
+  }
+  button {
+    margin-bottom:0;
+  }
+  input.form-control[type=text]{
+    @include first;
+  }
+}
+// search result for tables when nothing exists
+.search-summary .panel-indent{
+  margin-top:0;
+  margin-right:0;
+}
 .claim-count {
+  @include span(6 of 12);
+  @include last;
   text-align: right;
-  padding-bottom: 10px;
+  margin-top:$gutter*2 + $gutter-half;
+  p{
+    margin:0;
+  }
 }
 
 /***************************************
@@ -733,12 +660,14 @@ page
   margin-bottom: $gutter-half;
 }
 
+
+
 /****************************************
 Other Claim Navigation
 ****************************************/
 .other-claims {
   background-color: $panel-colour;
-  padding: 10px 15px;
+  padding: 5px $gutter-half/2;
   border: 1px solid $border-colour;
 }
 
@@ -781,13 +710,9 @@ Other Claim Navigation
   margin-bottom: $gutter-half;
 
   table {
-    @extend .claims_table;
     th {
       @include bold-16();
       padding: 5px;
-    }
-    td{
-      @extend .xsmall;
     }
   }
 
@@ -843,8 +768,8 @@ Styling for Claims Messaging
         margin-bottom: $gutter-half;
       }
       .event-date {
-        color: $date-text;
-        border: 2px solid $date-border-colour;
+        color: $green;
+        border: 2px solid $green;
         border-radius: 0.5em;
         display: inline-block;
         margin-top: $gutter-half;
@@ -863,7 +788,7 @@ Styling for Claims Messaging
     }
     .message-left {
       .message-body {
-        background-color: $left-message-colour;
+        background-color: $grey-3;
         position: relative;
         text-align: left;
         border-radius: 0.5em 0.5em 0.5em 0.75em;
@@ -874,7 +799,7 @@ Styling for Claims Messaging
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-right: 1em solid $left-message-colour;
+          border-right: 1em solid $grey-3;
           border-bottom-right-radius: 1.75em 1.5em;
         }
       }
@@ -901,7 +826,7 @@ Styling for Claims Messaging
 
     .message-audit {
       font-size: 80%;
-      color: $read-text;
+      color: $secondary-text-colour;
       font-weight: bold;
       text-align: left;
       .sent {
@@ -983,7 +908,7 @@ Styling for Claims Messaging
 
   .history {
     .event {
-      color: $message-history-text;
+      color: $link-visited-colour;
       padding: 5px 10px;
       margin-bottom: 5px;
       margin-right: 1em;
@@ -992,7 +917,6 @@ Styling for Claims Messaging
         font-weight: bold;
       }
       table {
-        @extend .claims_table;
         td {
           border-top: 1px solid $border-colour;
         }
@@ -1005,45 +929,28 @@ Styling for Claims Messaging
 // claims-importer.SCSS
 // ================================================================//
 .claims-importer {
-  margin-top: 15px;
-  padding-left: 15px;
-  border-left: 6px solid $grey-3;
 
   &.has-errors {
     border-color: $red;
   }
 
-  .button {
-    margin: 0 5px 5px 0;
+  label {
+    @include core-16;
   }
-
   .js-enabled & {
     input[type="file"],
     .no-file-selected [type="submit"] {
       @include visually-hidden;
     }
   }
-
-  .file-upload-name {
-    margin: 5px 0;
-    font-style: italic;
+  button.button-secondary {
+    @include core-19;
+    margin-bottom:0;
   }
-
   .errors {
     margin-top: 5px;
     line-height: 1.2;
     color: $red;
-  }
-}
-
-.claim-importer-header {
-  label {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-
-  .claim-importer-description {
-    margin: 5px 0;
   }
 }
 
@@ -1094,9 +1001,7 @@ Styling for Claims Messaging
   width: 16px;
   height: 16px;
 }
-#report-options {
-  margin-top: $gutter-half;
-}
+
 .confirmation-header {
   background-color: $turquoise;
   color: $white;

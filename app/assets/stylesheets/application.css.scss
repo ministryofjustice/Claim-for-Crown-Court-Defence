@@ -2,7 +2,7 @@
 
 // grid system
 @import "susy";
-@import "config";
+@import "moj/config";
 
 //GDS
 @import "fonts";
@@ -16,11 +16,14 @@
 @import "design-patterns/buttons";
 
 // custom mixins & helpers
-@import "mixins";
-@import "helpers";
+@import "moj/mixins";
+@import "moj/helpers";
 
 //project specific
-@import "shame";
-@import "layout";
-@import "navigation";
-@import "tables";
+@import "moj/shame";
+@import "moj/layout";
+@import "moj/navigation";
+@import "moj/tables";
+@import "moj/forms";
+@import "moj/typography";
+@import "moj/footer";

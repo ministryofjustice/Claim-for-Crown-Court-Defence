@@ -203,8 +203,12 @@ Then(/^I should only see the (\d+) claims for the advocate "(.*?)"$/) do |number
   expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
 end
 
-Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name|
-  expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
+Then(/^I should only see the (\d+) claims involving defendant "(.*?)"$/) do |number, name| 
+  if number == '0'
+    expect(page).to have_content('No claims found')
+  else
+    expect(page).to have_content(/#{number} claims? of #{number} matching "#{name}"/)
+  end
 end
 
 Then(/^I should NOT see column "(.*?)" under section id "(.*?)"$/) do |column_name, section_id|

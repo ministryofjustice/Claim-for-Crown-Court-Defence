@@ -7,17 +7,25 @@
         There are no fees for this claim
     - else
       %table
+        %caption
+          Fees
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+          %col
         %thead
           %tr
-            %th
+            %th{ scope: 'col'}
               = t('.fee_category')
-            %th
+            %th{ scope: 'col'}
               = t('.fee_type')
-            %th
+            %th.numerical{ scope: 'col'}
               = t('.quantity')
-            %th
+            %th.numerical{ scope: 'col'}
               = t('.rate')
-            %th
+            %th.numerical{ scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
@@ -30,11 +38,11 @@
                   = fee.dates_attended_delimited_string
               %td
                 = fee.fee_type.description
-              %td
+              %td.numerical
                 = fee.quantity
-              %td
+              %td.numerical
                 = fee.rate
-              %td
+              %td.numerical
                 = fee.amount
       .totals
         = t('.fees_total')
@@ -47,17 +55,25 @@
         There are no expenses for this claim
     - else
       %table
+        %caption
+          Expenses
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+          %col
         %thead
           %tr
-            %th
+            %th{scope: 'col'}
               = t('.expense_type')
-            %th
+            %th{scope: 'col'}
               = t('.location')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.quantity_hours')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.rate')
-            %th
+            %th.numerical{scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.expenses).each do |expense|
@@ -70,11 +86,11 @@
                   = expense.dates_attended_delimited_string
               %td
                 = expense.location
-              %td
+              %td.numerical
                 = expense.quantity
-              %td
+              %td.numerical
                 = '%.2f' % expense.rate if expense.rate
-              %td
+              %td.numerical
                 = expense.amount
 
       .totals

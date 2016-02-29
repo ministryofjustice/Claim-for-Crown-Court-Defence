@@ -173,6 +173,8 @@ en:
     remove_rep_order: Remove representation order
     start_claim: Start a new claim
     view_claim: View your claims
+  hint:
+    search: eg defendant name, advocate name
 
 # en.super_admins
   super_admins:
@@ -410,7 +412,8 @@ en:
         representation_order_fields:
           representation_order: 'Representation order'
       claims:
-        no_claims_found: 'No claims found'
+        show_count: 'Showing 10 of %{total} claims'
+        table_caption: 'Claims'
         advocate: *advocate
         messages: 'Messages'
         defendants: 'Defendant(s)'
@@ -425,6 +428,7 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
+        none: 'None'
       confirmation:
         claim_summary: Claim summary
         expenses_total: "Expenses total:"
@@ -496,8 +500,9 @@ en:
         part_authorised: Part authorised
         rejected: Rejected
         submitted: Submitted to LAA
+        show_count: 'Showing 10 of %{total} claims'
       json_document_importer:
-        import_claim: 'Import claim(s)'
+        import_claim: 'Or add your JSON report'
       new:
         heading: Claim for advocate graduated fees
       outstanding:
@@ -527,6 +532,7 @@ en:
           supporting_evidence_checklist: 'Supporting evidence checklist'
 # en.shared
   shared:
+    no_claims_found: 'No claims found'
     claim:
       certification_box_title: Certification
       certified_by: Certified by
@@ -634,8 +640,6 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-      claims_list:
-        no_claims_found: 'No claims found'
       claims:
         case_number: Case number
         advocate: Advocate

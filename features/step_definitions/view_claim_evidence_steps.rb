@@ -7,9 +7,7 @@ end
 
 When(/^I view the claim$/) do
   visit external_users_root_path
-  within('.report') do
-    first('a.js-test-case-number-link').click
-  end
+  first('a.js-test-case-number-link').click
 end
 
 

@@ -1,11 +1,12 @@
-%h1.page-title
-  = t('.authorised_claims')
-
-%h2
-  = "#{@claims.size} of #{@claims.total_count}"
-  = t('.with_total_assessed_value_of')
-  = number_to_currency(@total_value)
-
+%header.main-header
+  %h1
+    = t('.authorised_claims')
+  .hgroup
+    %h2
+      = "#{@claims.length} of #{@claims.total_count}"
+      = t('.with_total_assessed_value_of')
+      %span.numerical-value
+        = number_to_currency(@total_value)
 #details
   = render partial: 'claims', locals: { claims: @claims }
   = paginate @claims

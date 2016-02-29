@@ -82,7 +82,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be final third if case type is cracked before retrial (cannot be first or second third)
   def validate_trial_cracked_at_third
     validate_presence(:trial_cracked_at_third, "blank") if cracked_case?
-    validate_pattern(:trial_cracked_at_third, /^final_third$/, "Case cracked in can only be Final Third for trials that cracked before retrial") if (@record.case_type.name == 'Cracked before retrial' rescue false)
+    validate_pattern(:trial_cracked_at_third, /^Final third$/, 'invalid' ) if (@record.case_type.name == 'Cracked before retrial' rescue false)
   end
 
   def validate_amount_assessed

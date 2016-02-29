@@ -11,14 +11,17 @@ label {
 //  input
 input.form-control[type=text],
 input.form-control[type=email],
-input.form-control[type=tel] {
+input.form-control[type=tel],
+input.form-control[type=password] {
   @include span(8 of 12);
   @include core-19();
   &.short-input{
     @include span(4 of 12);
+    margin-left: 0;
   }
   &.medium-input{
     @include span(6 of 12);
+    margin-left: 0;
   }
 }
 select.form-control{

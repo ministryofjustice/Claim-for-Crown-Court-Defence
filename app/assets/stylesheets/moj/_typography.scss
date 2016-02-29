@@ -14,3 +14,42 @@
     color:$text-colour;
   }
 }
+
+.claim-hgroup{
+  h1{
+    @include span(6 of 12);
+    @include first;
+    @include media(desktop){
+      @include span(4 of 12);
+    }
+    @include core-19;
+    padding-top: 0;
+    display: inline-block;
+  }
+  .case-number-header{
+    @include core-48();
+    display: block;
+    font-weight: 700;
+  }
+  .claim-status{
+    @include span(6 at 6 of 12);
+    @include media(desktop){
+      @include span(3 at 4 of 12);
+    }
+    @include core-19;
+    display: block;
+
+  }
+  .claim-detail-actions{
+    @include span(4 at 8 of 12 nobreak);
+    @include last;
+    @include media(mobile){
+      @include span(8 of 12);
+      @include first;
+    }
+    @include core-19;
+    .button, .button-secondary{
+      margin-right: 5px;
+    }
+  }
+}

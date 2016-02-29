@@ -159,13 +159,9 @@ p.questions {
 // statuses
 // ================================================================//
 span.state {
-  display: inline-block;
-  td & {
-    display: block;
-  }
+  display: block;
   text-align: center;
   padding: 5px $gutter-half/2;
-
   border-width: 2px;
   border-style: solid;
   background: #fff;
@@ -199,6 +195,9 @@ span.state {
     border-color: #54592f;
   }
 }
+
+
+
 // ================================================================//
 // claims-list.SCSS
 // ================================================================//
@@ -428,10 +427,8 @@ form {
 // BUTTON-SECONDARY.SCSS
 // ================================================================//
 .button-secondary {
-  @include button (#EDEDED);
-  margin: 0 $gutter-half $gutter-half 0;
-  padding: em(10) em(15) em(5) em(15);
-  vertical-align: top;
+  @include button(#EDEDED);
+  padding: 0.52632em 0.78947em 0.26316em 0.78947em;
 }
 
 .button-get-started {
@@ -663,12 +660,14 @@ page
   margin-bottom: $gutter-half;
 }
 
+
+
 /****************************************
 Other Claim Navigation
 ****************************************/
 .other-claims {
   background-color: $panel-colour;
-  padding: 10px 15px;
+  padding: 5px $gutter-half/2;
   border: 1px solid $border-colour;
 }
 

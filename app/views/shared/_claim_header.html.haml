@@ -1,33 +1,33 @@
-%div.grid-row.claim-header
-  %div.column-third
-    %span.normal
-      = 'Case number:'
-    %div.bold-xlarge
+.claim-hgroup
+  %h1
+    = 'Case number:'
+    %span.case-number-header
       = claim.case_number.blank? ? 'not-provided' : claim.case_number
-  %div.column-two-thirds
-    %div.left
-      %span.normal
-        = 'Status:'
-      %div{class: "medium status #{claim.state}"}
-        = claim.state.humanize
-    - if current_user.persona.is_a?(CaseWorker)
-      %div.right
-        %span.normal
-          = 'Other claims:'
-        %div.normal.other-claims
-          - if claim_ids.present? && claim_ids.include?(@claim.id)
-            = claim_position_and_count
-            - unless last_claim?
-              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-    - if current_user.persona.is_a?(ExternalUser)
-      - if claim.editable?
-        %div.right
+  .claim-status{tabindex: 0}
+    = 'Status:'
+    %span{class: "state state-#{claim.state}"}
+      = claim.state.humanize
+
+  - if current_user.persona.is_a?(CaseWorker)
+    .claim-detail-actions
+      = 'Other claims:'
+      .other-claims
+        - if claim_ids.present? && claim_ids.include?(@claim.id)
+          = claim_position_and_count
+          - unless last_claim?
+            = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
+  - if current_user.persona.is_a?(ExternalUser)
+    - if claim.editable?
+      .claim-detail-actions
+        = "Actions:"
+        %div
           = link_to 'Edit this claim', edit_external_users_claim_path(claim), class: 'button'
           = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
-      - if claim.archivable?
-        %div.right
+    - if claim.archivable?
+      .claim-detail-actions
+        = "Actions:"
+        %div
           - if claim.rejected?
             = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
           = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
-%div.bold-medium.claim-detail-header
-  = 'Claim details'

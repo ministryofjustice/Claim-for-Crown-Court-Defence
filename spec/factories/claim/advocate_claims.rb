@@ -67,7 +67,6 @@ FactoryGirl.define do
       end
 
       trait :without_misc_fee do
-        
         after(:build) do |claim|
           claim.misc_fees = []
         end
@@ -179,7 +178,7 @@ end
 
 # random capital letter followed by random 8 digits
 def random_case_number
-  ('A'..'Z').to_a.shuffle.first << rand(8**8).to_s.rjust(8,'0')
+  ('A'..'Z').to_a.sample << rand(8**8).to_s.rjust(8,'0')
 end
 
 def set_amount_assessed(claim)

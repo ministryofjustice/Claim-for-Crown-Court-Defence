@@ -27,6 +27,9 @@ module Fee
     auto_strip_attributes :code, :description, squish: true, nullify: true
 
     include ActionView::Helpers::NumberHelper
+    
+    ROLES = %w( agfs lgfs)
+    include Roles
 
     has_many :fees, dependent: :destroy, class_name: Fee::BaseFee, foreign_key: :fee_type_id
     has_many :claims, through: :fees

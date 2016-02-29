@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 shared_examples_for 'roles' do |klass, roles|
+
+  let(:factory_name)  { klass.name.demodulize.to_s.underscore.to_sym }
+
   describe 'validation' do
     let(:assigned_roles) { [] }
-    subject { build(klass.to_s.underscore.to_sym, roles: assigned_roles) }
+    subject { build(factory_name, roles: assigned_roles) }
 
     it 'should be valid when a valid role is present' do
       assigned_roles << roles.first
@@ -25,7 +28,7 @@ shared_examples_for 'roles' do |klass, roles|
   describe 'scopes' do
     roles.each do |role|
       describe ".#{role.pluralize}" do
-        before { create(klass.to_s.underscore.to_sym, roles: [role]) }
+        before { create(factory_name, roles: [role]) }
 
         it "only returns #{klass.to_s.underscore} with role '#{role}'" do
           expect(klass.send(role.pluralize).count).to eq(1)
@@ -37,7 +40,7 @@ shared_examples_for 'roles' do |klass, roles|
   describe '#is?' do
     roles.each do |role|
       context "for #{role}" do
-        subject { create(klass.to_s.underscore.to_sym, roles: [role]) }
+        subject { create(factory_name, roles: [role]) }
 
         it "returns true for #{role}" do
           expect(subject.is?(role)).to eq(true)
@@ -53,7 +56,7 @@ shared_examples_for 'roles' do |klass, roles|
   describe 'role based dynamic boolean methods' do
     roles.each do |role|
       describe "##{role}?" do
-        subject { create(klass.to_s.underscore.to_sym, roles: [role]) }
+        subject { create(factory_name, roles: [role]) }
 
         it 'returns true when role present' do
           expect(subject.send("#{role}?")).to eq(true)

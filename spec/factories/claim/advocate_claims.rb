@@ -2,6 +2,7 @@
 FactoryGirl.define do
   factory :claim, class: Claim::AdvocateClaim do
 
+    form_id SecureRandom.uuid
     court
     case_number { random_case_number }
     external_user

@@ -12,12 +12,6 @@ describe Claim::LitigatorClaimValidator do
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
   let(:misc_offence)  { create(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
 
- context 'external_user' do
-    it 'should error when does not have litigator role' do
-      claim.external_user = advocate
-      should_error_with(claim, :external_user, "must have litigator role")
-    end
-  end
 
   context 'creator' do
     it 'should error when their provider does not have LGFS role' do

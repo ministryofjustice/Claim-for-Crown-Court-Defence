@@ -27,12 +27,18 @@ class BaseValidator < ActiveModel::Validator
     @record.__send__(attribute).nil?
   end
 
+  def attr_blank?(attribute)
+    @record.__send__(attribute).blank?
+  end
+
   def validate_presence(attribute, message)
     add_error(attribute, message) if @record.__send__(attribute).blank?
   end
 
   def validate_absence(attribute, message)
-    add_error(attribute, message) unless attr_nil?(attribute)
+    unless attr_nil?(attribute)
+      add_error(attribute, message) unless attr_blank?(attribute)
+    end
   end
 
   def validate_pattern(attribute, pattern, message)

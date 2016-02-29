@@ -52,7 +52,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
-  it { should delegate_method(:provider_id).to(:external_user) }
+  it { should delegate_method(:provider_id).to(:creator) }
 
   it { should belong_to(:court) }
   it { should belong_to(:offence) }
@@ -72,6 +72,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:external_user) { create(:external_user, provider: provider) }
     let(:same_provider_external_user) { create(:external_user, provider: provider) }
     let(:other_provider_external_user) { create(:external_user, provider: other_provider) }
+
+    it 'should raise error message if no external user is specified' do
+      subject.external_user_id = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors[:external_user]).to eq( ['blank'] )
+    end
 
     it 'should be valid with the same external_user_id and creator_id' do
       subject.external_user_id = external_user.id

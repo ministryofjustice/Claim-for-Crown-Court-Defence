@@ -51,20 +51,6 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   let(:claim)   { build :unpersisted_litigator_claim }
 
-
-  describe 'validate external user has litigator role' do
-    it 'validates external user with litigator role' do
-      expect(claim.external_user.is?(:litigator)).to be true
-      expect(claim).to be_valid
-    end
-
-    it 'rejects external user without litigator role' do
-      claim.external_user = build :external_user, :advocate, provider: claim.creator.provider
-      expect(claim).not_to be_valid
-      expect(claim.errors[:external_user]).to include('must have litigator role')
-    end
-  end
-
   describe 'validate creator provider is in LGFS fee scheme' do
     it 'rejects creators whose provider is only agfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs))
@@ -80,6 +66,14 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'accepts creators whose provider is both agfs and lgfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs_lgfs))
       expect(claim).to be_valid
+    end
+  end
+
+  describe 'external_user_id' do
+    it 'is not valid if present' do
+      claim.external_user_id = 134
+      expect(claim).not_to be_valid
+      expect(claim.errors[:external_user_id]).to eq(['present'])
     end
   end
 

@@ -3,7 +3,7 @@
     = t('.heading')
   .hgroup
     %h2
-      = "#{@claims.length} of #{@claims.total_count}"
+      = "#{@claims.size} of #{@claims.total_count}"
       = t('.claims_value')
       %span.numerical-value
         = number_to_currency(@total_value)

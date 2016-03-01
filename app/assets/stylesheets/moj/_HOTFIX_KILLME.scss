@@ -1,0 +1,26 @@
+//
+// THIS FILE NEEDS TO BE KILLED AFTER THE CLAIMS FORM HAS BEEN PROPERLY IMPLEMENTED
+// 
+.bold-normal {
+  @include bold-16();
+}
+#trial-details,
+#retrial-details{
+  @include container;
+  margin-top:$gutter-half;
+  margin-bottom:$gutter-half;
+  .auto-width {
+    label{
+      display:block;
+      margin:$gutter-half 0 5px;
+    }
+    &:nth-child(odd){
+      @include span(4 of 12);
+      @include first;
+    }
+    &:nth-child(even){
+      @include span(4 of 12);
+      @include post(4 of 12);
+    }
+  }
+}

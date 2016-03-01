@@ -8,13 +8,12 @@ class Claims::FinancialSummary
   end
 
   def authorised_claims
-    @context.claims.any_authorised.joins(:determinations)
+    @context
+      .claims
+      .any_authorised
+      .joins(:determinations)
       .where('determinations.updated_at >= ?', Time.now.beginning_of_week)
-      .group('claims.id')
-    # @context.claims.any_authorised
-    #   .joins(:determinations)
-    #   .where('determinations.created_at = (SELECT MAX(d.created_at) FROM "determinations" d WHERE d."claim_id" = "claims"."id")') #latest determination
-    #   .where('determinations.updated_at >= ?', Time.now.beginning_of_week)
+      .distinct
   end
 
   def total_outstanding_claim_value

@@ -1,3 +1,4 @@
+@advocate
 Feature: Archive claim
   Background:
     As an advocate I want to be able to archive my completed claims
@@ -11,7 +12,7 @@ Feature: Archive claim
        Then the claim should be archived
         And I should see the claim on the archive page
 
-      Examples:
+      Examples: A claim in a specific state
         | state                      |
         | "refused"                  |
         | "part_authorised"          |
@@ -23,7 +24,7 @@ Feature: Archive claim
        Then I should not see the archive button
         And I should not see the claim on the archive page
 
-      Examples:
+      Examples: A claim in a specific state
         | state                      |
         | "allocated"                |
         | "awaiting_written_reasons" |

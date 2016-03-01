@@ -1,3 +1,4 @@
+@advocate @api-sandbox
 Feature: API new claim
 
   Background: the API creation of a draft claim applies validation, unlike claim creation in the web app, but subsequent saving as draft in the web app for an API claim should not.

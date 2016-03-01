@@ -1,3 +1,4 @@
+@caseworker
 Feature: Claims list sorting
   Background:
     As a caseworker I want to be able to sort the claims I have been allocated and those in the archive
@@ -17,7 +18,7 @@ Feature: Claims list sorting
       And I click <link_text>
      Then I should see <desc_value> in top cell of column with link <link_text>
 
-    Examples:
+    Examples: Column heading text and the results expected of the sorting in a specific order
       | link_text      | asc_value       | desc_value      |
       | "Case number"  | "A00000001"     | "A00000005"     |
       | "Advocate"     | "Billy Smith-A" | "Billy Smith-E" |

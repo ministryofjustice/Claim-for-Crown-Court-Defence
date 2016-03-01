@@ -13,7 +13,7 @@ describe Claim::BaseClaimValidator do
   let(:contempt)                    { FactoryGirl.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:retrial)                     { FactoryGirl.build :case_type, :retrial }
   let(:breach_of_crown_court_order) { FactoryGirl.build :case_type, name: 'Breach of Crown Court order'}
-  let(:cracked_trial)               { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked trial"  }
+  let(:cracked_trial)               { FactoryGirl.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
   let(:cracked_before_retrial)      { FactoryGirl.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial'}
 
   before do
@@ -225,25 +225,55 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'trial_cracked_at_third' do
-    context 'for cracked trials and cracked before retrials' do
-      before { claim.case_type = cracked_before_retrial }
-      it 'should error if not present' do
+
+    context 'for cracked trials' do
+      before { claim.case_type = cracked_trial }
+
+      it 'should error if NOT present' do
         claim.trial_cracked_at_third = nil
         should_error_with(claim,:trial_cracked_at_third,"blank")
       end
 
-      it 'should error if not final third cracked before retrial' do
+      it 'should error if NOT in expected value list' do
+        # NOTE: stored value is snake case
+        claim.trial_cracked_at_third ='Final third'
+        should_error_with(claim,:trial_cracked_at_third, "invalid")
+      end
+
+      Settings.trial_cracked_at_third.each do |third|
+        it "can be \"#{third}\" third for Cracked trials" do
+            claim.trial_cracked_at_third = third
+            claim.valid?
+            expect(claim.errors[:trial_cracked_at_third]).to be_empty
+        end
+      end
+    end
+
+    context 'for cracked before retrial' do
+      before { claim.case_type = cracked_before_retrial }
+
+      it 'should error if NOT present' do
+        claim.trial_cracked_at_third = nil
+        should_error_with(claim,:trial_cracked_at_third,"blank")
+      end
+
+      it 'should error if NOT in expected value list' do
+        # NOTE: stored value is snake case
+        claim.trial_cracked_at_third ='Final third'
+        should_error_with(claim,:trial_cracked_at_third, "invalid")
+      end
+
+      it 'should error if NOT final third' do
         claim.trial_cracked_at_third ='first_third'
-        should_error_with(claim,:trial_cracked_at_third,"Case cracked in can only be Final Third for trials that cracked before retrial")
+        should_error_with(claim,:trial_cracked_at_third,"invalid_case_type_third_combination")
       end
     end
 
     context 'for other case types' do
+      before { claim.case_type = guilty_plea}
       it 'should not error if not present' do
-        claim.case_type = guilty_plea
         claim.trial_cracked_at_third = nil
         should_not_error(claim, :trial_cracked_at_third)
-
       end
     end
   end
@@ -473,4 +503,3 @@ describe Claim::BaseClaimValidator do
   end
 
 end
-

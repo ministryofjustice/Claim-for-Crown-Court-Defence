@@ -7,7 +7,8 @@
     margin-top:0;
   }
 }
-.grid-row{
+.grid-row,
+.basic-info-row{
   @include container;
   margin-top:$gutter-half;
   margin-bottom:$gutter-half;
@@ -29,6 +30,9 @@
   &:first-child{
     @include first;
   }
+}
+.bold-xsmall{
+  @include bold-14();
 }
 .bold-normal {
   @include bold-16();

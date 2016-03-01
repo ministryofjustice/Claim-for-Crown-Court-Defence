@@ -21,6 +21,15 @@
     @include first;
   }
 }
+.column-quarter{
+  @include span(3 of 12);
+  &:nth-child(4){
+    @include last;
+  }
+  &:first-child{
+    @include first;
+  }
+}
 .bold-normal {
   @include bold-16();
 }
@@ -55,6 +64,13 @@ td {
     &:nth-child(even){
       @include span(4 of 12);
       @include post(4 of 12);
+    }
+  }
+}
+.defendants{
+  .nested-fields {
+    .auto-width {
+
     }
   }
 }

@@ -202,6 +202,11 @@ RSpec.describe Claims::FinancialSummary, type: :model do
           expect(summary.authorised_claims).to include(authorised_claim, authorised_claim)
           expect(summary.authorised_claims).to_not include(submitted_claim, allocated_claim, other_provider_claim)
         end
+
+        it 'should not include duplicates' do
+          create(:redetermination, claim: authorised_claim)
+          expect(summary.authorised_claims.count).to eq(2)
+        end
       end
     end
   end

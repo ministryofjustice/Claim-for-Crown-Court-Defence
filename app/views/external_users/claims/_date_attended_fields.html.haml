@@ -3,7 +3,7 @@
     - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
   - else
     - error_prefix = "date_attended_0"
-  %td{colspan: "3"}
+  %td{colspan: "4"}
     %span.auto-width{id: "#{error_prefix}_date"}
       = f.label :date, t('.date_from')
       = f.gov_uk_date_field :date
@@ -16,4 +16,3 @@
     = link_to_remove_association t('.remove_date'), f
 
     %td
-

@@ -4,19 +4,7 @@
   %p
     = raw t('.fee_prompt_text')
 
-  %table
-    %thead
-      %tr
-        %th
-          = t('.fee_type')
-        %th
-          = t('.quantity')
-        %th
-          = t('.rate')
-        %th
-          = t('.amount')
-        %td
-    %tbody.basic-fee-group
-      = f.fields_for :basic_fees do |basic_fee_fields|
-        - @basic_fee_count += 1
-        = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields
+  .basic-fee-group
+    = f.fields_for :basic_fees do |basic_fee_fields|
+      - @basic_fee_count += 1
+      = render 'external_users/claims/basic_fees/basic_fee_fields', f: basic_fee_fields

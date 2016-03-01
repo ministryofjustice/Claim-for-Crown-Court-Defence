@@ -3,23 +3,9 @@
     = t('.expenses')
   .form-hint.xsmall
     = t('.expenses_prompt_text')
-  %table
-    %thead
-      %tr
-        %th
-          = t('.expense_type')
-        %th
-          = t('.location')
-        %th
-          = t('.quantity_hours')
-        %th
-          = t('.rate')
-        %th
-          = t('.amount')
-        %td
-        %td
-    = f.fields_for :expenses do |expense|
-      - @expense_count += 1
-      = render 'external_users/claims/expenses/expense_fields', f: expense
 
-  = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+  = f.fields_for :expenses do |expense|
+    - @expense_count += 1
+    = render 'external_users/claims/expenses/expense_fields', f: expense
+
+= link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev','association-insertion-node' => 'div'}

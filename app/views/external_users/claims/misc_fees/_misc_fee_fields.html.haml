@@ -1,26 +1,33 @@
-%tbody.misc-fee-group
-  %tr.nested-fields
+.misc-fee-group.nested-fields
 
-    %td
-      %a{name: "misc_fee_#{@misc_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, Fee::MiscFeeType.all, :id, :description, {prompt: true}, {class: 'select2', style: 'width:350px'}
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
-    %td
-      %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
-      = f.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
-    %td
-      %a{name: "misc_fee_#{@misc_fee_count}_rate"}
-      %div.pound-wrapper
-        = f.label :rate, '£', class: 'pound-sign bold-xsmall'
-        = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_rate")
-    %td.amount
-      = number_to_currency(f.object.amount)
-    %td.add-misc-fee-date-attended
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-    %td.remove-misc-fee
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+  .form-group
+    %a{name: "misc_fee_#{@misc_fee_count}_fee_type"}
+    = f.label :fee_type_id, t('.fee_type')
+    = f.collection_select :fee_type_id, Fee::MiscFeeType.all, :id, :description, {prompt: true}, {class: 'select2', style: 'width:350px'}
+    = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+
+  .form-group
+    %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
+    = f.label :quantity, t('.quantity')
+    = f.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+    = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
+
+  .form-group
+    %a{name: "misc_fee_#{@misc_fee_count}_rate"}
+    = f.label :rate, t('.rate')
+    %div.pound-wrapper
+      = f.label :rate, '£', class: 'pound-sign bold-xsmall'
+      = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
+    = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_rate")
+
+  .form-group
+    = t('.amount')
+    .amount
+      = number_to_currency(f.object.amount || 0)
+  .add-misc-fee-date-attended
+    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'div'}
+  .remove-misc-fee
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
 
   = f.fields_for :dates_attended do |date_attended|
     - @misc_fee_date_attended_count += 1

@@ -1,4 +1,5 @@
-%td
+.form-group
+  = t('.fee_type')
   = f.object.description
   - if f.object.fee_type.code == 'BAF'
     .form-hint
@@ -6,15 +7,22 @@
   - if f.object.fee_type.code == 'SAF'
     .form-hint
       = raw t('.saf_prompt_text')
-%td
+
+.form-group
   %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
+  = f.label :quantity, t('basic_fee_fiels.quantity')
   = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'quantity', min: 0, max: 99999, maxlength: 5
   = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
-%td
+
+.form-group
   %a{name: "basic_fee_#{@basic_fee_count}_rate"}
-  %div.pound-wrapper
+  = f.label :rate, t('.rate')
+  .pound-wrapper
     = f.label :rate, '£', class: 'pound-sign bold-xsmall'
     = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
   = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_rate")
-%td.amount
-  = number_to_currency(f.object.amount)
+
+.form-group
+  = t('.amount')
+  .amount
+    = number_to_currency(f.object.amount)

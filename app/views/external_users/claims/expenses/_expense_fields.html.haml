@@ -1,28 +1,43 @@
-%tbody.expense-group
-  %tr.nested-fields
-    %td
-      %a{name: "expense_#{@expense_count}_expense_type"}
+.expense-group.nested-fields
+
+  .form-group
+    %a{name: "expense_#{@expense_count}_expense_type"}
+    .input.form-group
+      = f.label :expense_type_id, t('.expense_type')
       = f.collection_select :expense_type_id, ExpenseType.agfs, :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
       = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
-    %td
-      %a{name: "expense_#{@expense_count}_quantity"}
+
+  .form-group
+    %a{name: "expense_#{@expense_count}_location"}
+    .input.form-group
+      = f.label :location, t('.location')
       = f.text_field :location
-      = validation_error_message(f.object, :location)
-    %td
-      = f.number_field :quantity, class: 'quantity', min: 0, max: 999, maxlength: 3
-      = validation_error_message(@error_presenter, "expense_#{@expense_count}_quantity")
-    %td
-      %a{name: "expense_#{@expense_count}_rate"}
-      .pound-wrapper
-        = f.label :rate, '£', class: 'pound-sign bold-xsmall'
-        = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
-      = validation_error_message(@error_presenter, "expense_#{@expense_count}_rate")
-    %td.amount
-      = number_to_currency(f.object.amount)
-    %td.add-expense-date-attended
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, style: 'white-space:nowrap', class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-    %td.remove-expense
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
+      = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
+
+  .form-group
+    %a{name: "expense_#{@expense_count}_quantity"}
+    = f.label :quantity, t('.quantity_hours')
+    = f.number_field :quantity, class: 'quantity', min: 0, max: 999, maxlength: 3
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_quantity")
+
+  .form-group
+    %a{name: "expense_#{@expense_count}_rate"}
+    = f.label :rate, t('.rate')
+    .pound-wrapper
+      = f.label :rate, '£', class: 'pound-sign bold-xsmall'
+      = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'rate', size: 10, maxlength: 8
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_rate")
+
+  .form-group
+    %a{name: "expense_#{@expense_count}_amount"}
+    = t('.amount')
+    = number_to_currency(f.object.amount || 0)
+
+
+  .add-expense-date-attended
+    = link_to_add_association t('.add_date_attended'), f, :dates_attended, style: 'white-space:nowrap', class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'div'}
+  .remove-expense
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
 
   = f.fields_for :dates_attended do |date_attended|
     - @expense_date_attended_count += 1

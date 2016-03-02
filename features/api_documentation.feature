@@ -17,21 +17,21 @@ Scenario: Sign in page for NOT API sandbox
      When I click on the API Sign up and Documentation link
      Then I should be directed to the API landing page
 
-  @advocate
+  @vendor
   Scenario: API documentation available from dashboard
     Given I am on the API sandbox
       And I am a signed in advocate
      When I visit the advocates dashboard
      Then I should see a link to the API documentation
 
-  @advocate
+  @vendor
   Scenario: API documentation not available from dashboard
     Given I am not on the API sandbox
       And I am a signed in advocate
      When I visit the advocates dashboard
      Then I should not see a link to the API documentation
 
-  @advocate
+  @vendor
   Scenario: Interactive API documentation (swagger)
     Given I am on the API sandbox
       And I am a signed in advocate

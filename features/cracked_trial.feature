@@ -17,13 +17,9 @@ Feature: Cracked trial
       And I select2 a Case Type of "Contempt"
      Then I should NOT see Cracked trial fields
 
-  @javascript @webmock_allow_localhost_connect
   Scenario: Cracked before retrial requires final third
     Given I am a signed in advocate
-      And There are case types in place
-      And certification types are seeded
-      And I am on the new claim page
-      And I select2 a Case Type of "Cracked before retrial"
+      And I am on the edit page for a draft claim of case type "Cracked before retrial"
       And I fill in cracked trial dates
       And I choose radio button "First third"
       And I submit to LAA

@@ -19,6 +19,15 @@ module Roles
     self.roles.include?(role.to_s)
   end
 
+  def has_roles?(*arg_roles)
+    arg_roles.flatten!
+    return false if arg_roles.blank?
+    arg_roles.each do |role|
+      return false unless self.roles.include?(role.to_s)
+    end
+    true
+  end
+
   private
 
   def strip_empty_role

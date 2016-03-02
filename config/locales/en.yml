@@ -415,6 +415,7 @@ en:
         show_count: 'Showing 10 of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
+        scheme: Scheme
         messages: 'Messages'
         defendants: 'Defendant(s)'
         case_number: 'Case number'

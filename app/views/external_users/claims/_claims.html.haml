@@ -18,6 +18,9 @@
       - if current_user.persona.admin?
         %th{scope:'col'}
           = sortable 'advocate', t(".advocate")
+      - if current_user.persona.has_roles?(['advocate','litigator'])
+        %th{scope:'col'}
+          = t(".scheme")
       %th{scope:'col'}
         = t(".defendants")
       %th.numerical{scope:'col'}
@@ -38,6 +41,9 @@
           - if current_user.persona.admin?
             %td
               = claim.external_user.name
+          - if current_user.persona.has_roles?(['advocate','litigator'])
+            %td
+              = claim.scheme
           %td
             = claim.defendant_names
           %td.numerical

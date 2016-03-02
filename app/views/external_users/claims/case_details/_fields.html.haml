@@ -16,9 +16,11 @@
   = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
   = validation_error_message(@error_presenter, :external_user)
 
-= f.anchored_label t('.court')
-= f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2', style:'width:300px' }
-= validation_error_message(@error_presenter, :court)
+.form-group
+  .column-half
+    = f.anchored_label t('.court')
+    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+    = validation_error_message(@error_presenter, :court)
 
 .grid-row
   .column-half

@@ -19,23 +19,15 @@
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
   .grid-row
+    .column-quarter
+      = label_tag :quantity_to_allocate, t('.no_of_claims')
+      = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5 }
     .column-half
-      .grid-row
-        .column-quarter
-          = label_tag :quantity_to_allocate, t('.no_of_claims')
-        .column-two-quarter
-          = f.label :case_worker_id, t('dictionary.models.case_worker')
-        .column-quarter
-          &nbsp;
-      .grid-row
-        .column-quarter
-          = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5 }
-        .column-two-quarter
-          = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2', style: 'width: 100%;' }
-        .column-quarter
-          = f.submit 'Allocate', class: 'button'
-    .column-half
-      &nbsp;
+      = f.label :case_worker_id, t('dictionary.models.case_worker')
+      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2' }
+    .column-quarter
+      = f.submit 'Allocate', class: 'button'
+
 
   - if @claims.any?
     .claim-count

@@ -1,3 +1,4 @@
+@advocate @admin
 Feature: Manage Advocate
   Background:
     As an advocate admin I should be able to add/edit advocates and I should be

@@ -1,3 +1,4 @@
+@caseworker
 Feature: Caseworker claims list
   Background:
     As a caseworker I want to know what cases I need to process today
@@ -11,12 +12,12 @@ Feature: Caseworker claims list
       And I should see the claims sorted by oldest first
 
   Scenario: View archived claims
-   Given I am a signed in case worker
-     And I have archived claims
-    When I visit my dashboard
-     And I click "Archive"
-    Then I should see only my claims
-     And I should see the claims sorted by oldest first
+    Given I am a signed in case worker
+      And I have archived claims
+     When I visit my dashboard
+      And I click "Archive"
+     Then I should see only my claims
+      And I should see the claims sorted by oldest first
 
   Scenario: Search for claims by MAAT reference
     Given I am signed in and on the case worker dashboard
@@ -40,7 +41,7 @@ Feature: Caseworker claims list
      Then I should only see <archive_number> claims
       And the claim count should show <archive_number>
 
-     Examples:
+     Examples: List of defendants and the number of live/archive claims they're involved in
         | defendant_name | current_number | archive_number |
         | "Joex Bloggs"  | 3              | 2              |
         | "Fred Bloggs"  | 1              | 4              |

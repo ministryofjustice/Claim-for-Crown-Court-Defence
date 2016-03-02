@@ -1,4 +1,4 @@
-@stub_s3_upload
+@stub_s3_upload @advocate
 
 Feature: Advocate new claim
   Background:
@@ -139,6 +139,7 @@ Feature: Advocate new claim
       And the claim should be in state "submitted"
       And the case number should reflect the change
 
+  @admin
   Scenario: Admin specifies advocate name
     Given I am a signed in advocate admin
       And There are case types in place
@@ -153,6 +154,7 @@ Feature: Advocate new claim
      Then I should be redirected to the claim confirmation page
       And I should see the claim totals
 
+  @admin
   Scenario: Admin fails to specify advocate name
     Given I am a signed in advocate admin
       And There are case types in place
@@ -227,7 +229,7 @@ Feature: Advocate new claim
     And I fill in actual trial length with <actual_trial_length>
    Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
 
-  Examples:
+  Examples: Actual Trial lengths and how the Daily attendance fields should break it down
     | actual_trial_length   | daf_quantity | dah_quantity | daj_quantity |
     | 1                     | 0            | 0            | 0            |
     | 2                     | 0            | 0            | 0            |
@@ -239,6 +241,7 @@ Feature: Advocate new claim
     | 60                    | 38           | 10           | 10           |
     | 70                    | 38           | 10           | 20           |
 
+  #TODO could potentially merge this Scenario:with the one above
   @javascript @webmock_allow_localhost_connect
   Scenario Outline: Daily attendance fees derived from actual length of Retrial
   Given I am a signed in advocate
@@ -248,7 +251,7 @@ Feature: Advocate new claim
     And I fill in actual retrial length with <actual_retrial_length>
    Then The daily attendance fields should have quantities <daf_quantity>, <dah_quantity>, <daj_quantity>
 
-  Examples:
+  Examples: Actual Trial lengths and how the Daily attendance fields should break it down
     | actual_retrial_length | daf_quantity | dah_quantity | daj_quantity |
     | 1                     | 0            | 0            | 0            |
     | 2                     | 0            | 0            | 0            |

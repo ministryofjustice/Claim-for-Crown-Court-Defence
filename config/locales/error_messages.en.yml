@@ -235,6 +235,14 @@ trial_cracked_at_third:
     long: Choose an option for "Case cracked in"
     short: Choose an option
     api:  Choose an option for "Case cracked in"
+  invalid:
+    long: "Choose a valid option for \"Case cracked in\""
+    short: Choose a valid option
+    api:  "Choose a valid option for \"Case cracked in\""
+  invalid_case_type_third_combination:
+    long: "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
+    short: "Choose \"Final third\""
+    api:  "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
 
 offence:
   _seq: 180

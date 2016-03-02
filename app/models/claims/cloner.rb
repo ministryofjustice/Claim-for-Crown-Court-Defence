@@ -5,9 +5,11 @@ module Claims::Cloner
   included do |klass|
     klass.duplicate_this do
       enable
+
       nullify :last_submitted_at
       nullify :original_submission_date
       nullify :uuid
+
       exclude_association :messages
       exclude_association :case_worker_claims
       exclude_association :case_workers
@@ -19,7 +21,16 @@ module Claims::Cloner
       exclude_association :determinations
       exclude_association :assessment
       exclude_association :redeterminations
+
       clone [:fees, :documents, :defendants, :expenses]
+
+      set form_id: SecureRandom.uuid
+
+      customize(lambda { |original_claim, new_claim|
+        new_claim.documents.each do |d|
+          d.form_id = new_claim.form_id
+        end
+      })
     end
 
     Fee::BaseFee.class_eval do |klass|

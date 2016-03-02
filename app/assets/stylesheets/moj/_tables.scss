@@ -1,0 +1,64 @@
+.table-container {
+  margin-top:$gutter-half;
+  margin-bottom:$gutter;
+}
+table {
+  width: 100%;
+  margin-bottom: 1em;
+
+  border-collapse: collapse;
+  border-bottom: 1px solid #bfc1c3;
+  caption {
+    display: none;
+  }
+  tr {
+    background-color: #fff;
+    &:hover {
+      background-color: $grey-4;
+    }
+  }
+  th {
+    text-align: left;
+    border-top: 1px solid $border-colour;
+    background-color: #fff;
+    color: $link-colour;
+    @include bold-16();
+  }
+  th,
+  td {
+    padding-left: $gutter-half/2;
+    border-right: none;
+    border-left: none;
+  }
+
+  tbody th {
+      color:$text-colour;
+      background: transparent;
+      @include core-16;
+  }
+  &.allocate {
+    th {
+      padding: 0 $gutter-half;
+      text-align: left;
+      background-color: $grey-3;
+    }
+    tr {
+      line-height: 2;
+      &:nth-child(even) {
+        background-color: $grey-4;
+      }
+      label {
+        margin: 0;
+        padding: 0 15px;
+      }
+      td input {
+        display: block;
+
+        margin: auto;
+      }
+    }
+  }
+  .numerical {
+    text-align: right;
+  }
+}

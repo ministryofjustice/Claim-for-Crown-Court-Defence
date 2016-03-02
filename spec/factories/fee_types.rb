@@ -16,17 +16,18 @@
 FactoryGirl.define do
   factory :basic_fee_type, class: Fee::BasicFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { generate_unvalidated_random_code }
+    code { random_safe_code }
     calculated true
+    roles ['agfs']
 
     trait :ppe do
       description 'Pages of prosecution evidence'
       code 'PPE'
-      calculated false    
+      calculated false
     end
 
     trait :npw do
-      description 'Numberof prosecution witnesses'
+      description 'Number of prosecution witnesses'
       code 'NPW'
       calculated false
     end
@@ -34,25 +35,20 @@ FactoryGirl.define do
 
   factory :misc_fee_type, class: Fee::MiscFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { generate_unvalidated_random_code }
+    code { random_safe_code }
     calculated true
+    roles ['agfs']
   end
 
   factory :fixed_fee_type, class: Fee::FixedFeeType do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    sequence(:code) { generate_unvalidated_random_code } 
-    calculated true  
+    code { random_safe_code }
+    calculated true
+    roles ['agfs']
   end
 end
 
-def generate_unvalidated_random_code
-  code = generate_random_code
-  while %w{ BAF DAF DAH DAJ PCM }.include?(code)
-    code = generate_random_code
-  end
-  code
-end
-
-def generate_random_code
-  ('A'..'Z').to_a.sample(3).join
+def random_safe_code
+  # NOTE: use ZXX (zed plus 2 random chars) to ensure we never have a code that will cause inappropriate validations
+  'Z' << ('A'..'Z').to_a.sample(2).join
 end

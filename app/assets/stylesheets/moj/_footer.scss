@@ -1,0 +1,24 @@
+// This is not the best way to write Sass. It's just because the moj-internal template has some silly things going on inside it.
+#footer {
+  .footer-meta {
+    .footer-meta-inner {
+      width:100%;
+      .open-government-licence{
+        h2{
+          margin:0;
+          padding:0;
+          & + p {
+            margin:0;
+          }
+        }
+      }
+    }
+    .footer-content{
+      width:75%;
+      margin-top:64px;
+      li:last-child{
+        display: block;
+      }
+    }
+  }
+}

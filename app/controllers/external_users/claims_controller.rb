@@ -336,6 +336,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
+    if Claim::AdvocateClaim.where(form_id: @claim.form_id).any?
+      redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
+    end
+
     Claim::AdvocateClaim.transaction do
       @claim.save
       @claim.force_validation = true

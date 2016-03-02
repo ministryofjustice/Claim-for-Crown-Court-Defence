@@ -20,6 +20,6 @@
 
     = f.anchored_label t('.trial_cracked_at_third'), 'trial_cracked_at_third'
     %div.form-group.inline
-      = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third,:humanize, :humanize,) do |b|
-        - b.label(class: "block-label") { b.radio_button + b.value }
+      = f.collection_radio_buttons(:trial_cracked_at_third, Settings.trial_cracked_at_third, :to_s, :humanize) do |b|
+        - b.label(class: "block-label") { b.radio_button + b.text }
     = validation_error_message(@error_presenter, :trial_cracked_at_third)

@@ -14,3 +14,15 @@ Then(/^I should( not)? see Cracked Trial fields$/i) do |negation|
     expect(page).method(does).call have_content(label_text)
   end
 end
+
+Then(/^I fill in cracked trial dates$/) do
+  fill_in "claim_trial_fixed_notice_at_dd", with: '22'
+  fill_in "claim_trial_fixed_notice_at_mm", with: '05'
+  fill_in "claim_trial_fixed_notice_at_yyyy", with: '2015'
+  fill_in "claim_trial_fixed_at_dd", with: '23'
+  fill_in "claim_trial_fixed_at_mm", with: '05'
+  fill_in "claim_trial_fixed_at_yyyy", with: '2015'
+  fill_in "claim_trial_cracked_at_dd", with: '24'
+  fill_in "claim_trial_cracked_at_mm", with: '05'
+  fill_in "claim_trial_cracked_at_yyyy", with: '2015'
+end

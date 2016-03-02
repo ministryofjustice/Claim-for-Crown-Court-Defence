@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224140235) do
+ActiveRecord::Schema.define(version: 20160301122625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 20160224140235) do
     t.decimal  "max_amount"
     t.boolean  "calculated",  default: true
     t.string   "type"
+    t.string   "roles"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

@@ -41,8 +41,8 @@ Styling for Claims Messaging
         margin-bottom: $gutter-half;
       }
       .event-date {
-        color: $date-text;
-        border: 2px solid $date-border-colour;
+        color: $green;
+        border: 2px solid $green;
         border-radius: 0.5em;
         display: inline-block;
         margin-top: $gutter-half;
@@ -61,7 +61,7 @@ Styling for Claims Messaging
     }
     .message-left {
       .message-body {
-        background-color: $left-message-colour;
+        background-color: $grey-3;
         position: relative;
         text-align: left;
         border-radius: 0.5em 0.5em 0.5em 0.75em;
@@ -72,7 +72,7 @@ Styling for Claims Messaging
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-right: 1em solid $left-message-colour;
+          border-right: 1em solid $grey-3;
           border-bottom-right-radius: 1.75em 1.5em;
         }
       }
@@ -99,7 +99,7 @@ Styling for Claims Messaging
 
     .message-audit {
       font-size: 80%;
-      color: $read-text;
+      color: $secondary-text-colour;
       font-weight: bold;
       text-align: left;
       .sent {
@@ -195,7 +195,7 @@ Styling for Claims Messaging
 
   .history {
     .event {
-      color: $message-history-text;
+      color: $link-visited-colour;
       padding: 5px 10px;
       margin-bottom: 5px;
       margin-right: 1em;

@@ -1,0 +1,23 @@
+html {
+  background:$grey-3;
+}
+body {
+  background: #fff;
+}
+.outer-block {
+  @include outer-block;
+}
+.inner-block{
+  @include inner-block;
+}
+
+.container {
+  @include container;
+}
+
+#page {
+  @include inner-block;
+  max-width:960px;
+  margin:0 auto;
+  padding-bottom:$gutter*2;
+}

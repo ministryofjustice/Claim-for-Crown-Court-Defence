@@ -1,10 +1,12 @@
-%h1.page-title
-  = t('.heading')
-
-%h2
-  = "#{@claims.size} of #{@claims.total_count}"
-  = t('.claims_value')
-  = number_to_currency(@total_value)
+%header.main-header
+  %h1
+    = t('.heading')
+  .hgroup
+    %h2
+      = "#{@claims.size} of #{@claims.total_count}"
+      = t('.claims_value')
+      %span.numerical-value
+        = number_to_currency(@total_value)
 
 #details
   = render partial: 'claims', locals: { claims: @claims }

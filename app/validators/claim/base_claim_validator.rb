@@ -25,7 +25,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def self.mandatory_fields
     [
-    :external_user,
+    :external_user_id,
     :creator,
     :amount_assessed,
     :evidence_checklist_ids
@@ -37,16 +37,6 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_total
     unless @record.source == 'api'
       validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")
-    end
-  end
-
-  # ALWAYS required/mandatory
-  def validate_external_user
-    validate_presence(:external_user, "blank")
-    unless @record.errors.key?(:external_user)
-      unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
-        @record.errors[:external_user] << 'Creator and advocate must belong to the same provider'
-      end
     end
   end
 
@@ -89,10 +79,14 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   # must be present if case type is cracked trial or cracked before retial
+  # must be one of the list of values
   # must be final third if case type is cracked before retrial (cannot be first or second third)
   def validate_trial_cracked_at_third
-    validate_presence(:trial_cracked_at_third, "blank") if cracked_case?
-    validate_pattern(:trial_cracked_at_third, /^final_third$/, "Case cracked in can only be Final Third for trials that cracked before retrial") if (@record.case_type.name == 'Cracked before retrial' rescue false)
+    if cracked_case?
+      validate_presence(:trial_cracked_at_third, "blank")
+      validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
+      validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination' ) if (@record.case_type.name == 'Cracked before retrial' rescue false)
+    end
   end
 
   def validate_amount_assessed

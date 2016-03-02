@@ -1,0 +1,80 @@
+//
+// THIS FILE NEEDS TO BE KILLED AFTER THE CLAIMS FORM HAS BEEN PROPERLY IMPLEMENTED
+//
+.form-group{
+  margin:$gutter 0;
+  &:first-child{
+    margin-top:0;
+  }
+}
+.grid-row,
+.basic-info-row{
+  @include container;
+  margin-top:$gutter-half;
+  margin-bottom:$gutter-half;
+}
+.column-half{
+  @include span(6 of 12);
+  &:last-child{
+    // @include last;
+  }
+  &:first-child{
+    @include first;
+  }
+}
+.column-quarter{
+  @include span(3 of 12);
+  &:nth-child(4){
+    @include last;
+  }
+  &:first-child{
+    @include first;
+  }
+}
+.bold-xsmall{
+  @include bold-14();
+}
+.bold-normal {
+  @include bold-16();
+}
+.auto-width {
+  label{
+    display:block;
+    margin:$gutter-half 0 5px;
+  }
+}
+td {
+  .auto-width {
+    @include span(4 of 12);
+    &:first-child{
+      @include first;
+    }
+    &:last-child{
+      @include last;
+      @include post(4 of 12);
+    }
+  }
+}
+#trial-details,
+#retrial-details{
+  @include container;
+  margin-top:$gutter-half;
+  margin-bottom:$gutter-half;
+  .auto-width {
+    &:nth-child(odd){
+      @include span(4 of 12);
+      @include first;
+    }
+    &:nth-child(even){
+      @include span(4 of 12);
+      @include post(4 of 12);
+    }
+  }
+}
+.defendants{
+  .nested-fields {
+    .auto-width {
+
+    }
+  }
+}

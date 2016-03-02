@@ -4,9 +4,8 @@
   %table#determinations
     %thead
       %tr
-        %th &nbsp;
-        %th Claimed by advocate
-        %th Total authorised by LAA
+        %th.numerical{colspan: 2, scope: 'col'} Claimed by advocate
+        %th.numerical{ scope: 'col'} Total authorised by LAA
     %tbody
       - if claim.redeterminations.any?
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }

@@ -122,12 +122,13 @@ When(/^I click remove fee for "(.*?)"$/) do |fee_type|
   within fee_type_to_id(fee_type) do
     node = page.all('a', text: "Remove").first
     node.click
+    wait_for_ajax(10)
   end
 end
 
 Then(/^I should not see any dates attended fields for "(.*?)" fees$/) do |fee_type|
+  wait_for_ajax(10)
   within fee_type_to_id(fee_type) do
-    wait_for_ajax
     expect(page).to_not have_content('Date attended (from)')
   end
 end

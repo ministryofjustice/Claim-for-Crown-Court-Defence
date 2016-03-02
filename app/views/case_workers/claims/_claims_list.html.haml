@@ -1,4 +1,4 @@
-#report-options.container
+.container
   = render partial: 'search_form', locals: { archived: params[:action] == 'archived' ? true : false }
 
 #search-summary
@@ -7,6 +7,6 @@
 
 - if @claims.none?
   %p
-    = t(".no_claims_found")
+    = t("shared.no_claims_found")
 - else
   = render partial: 'claims'

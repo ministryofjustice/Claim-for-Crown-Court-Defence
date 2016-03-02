@@ -76,7 +76,7 @@ module Claim
     belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
     belongs_to :case_type
 
-    delegate   :provider_id, to: :external_user
+    delegate   :provider_id, :provider, to: :creator
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims

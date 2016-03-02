@@ -27,7 +27,8 @@ ___
 | @caseworker                      | All case worker journeys - eg admin logins and allocates claims and a case worker |
 | @litigator                       | All ligitgator journeys |
 | @admin                           | Any administration related tasks from either advocate,case worker or litigators |
-| @api-sandbox                     | Relates to API testing |                | @vendor                          | All tests for third party vendors |
+| @api-sandbox                     | Relates to API testing |
+| @vendor                          | All tests for third party vendors |
 | @process_claim                   | All the features that are needed from allocation right through to the point of authorised/part-authorised/rejected/refused |
 | @submit_claim                    | All the features that are needed to submit a claim|
 

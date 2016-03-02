@@ -1,9 +1,13 @@
 //
 // THIS FILE NEEDS TO BE KILLED AFTER THE LGFS JOURNEY HAS BEEN PROPERLY IMPLEMENTED
 //
+
 .grid-row-with-margin,
 .button-holder{
   @include clearfix;
+}
+label + .form-group.inline {
+  margin-top:0;
 }
 .user-form {
   .form-group{

@@ -19,8 +19,6 @@
         = f.check_box :order_for_judicial_apportionment
         = raw t('.order_for_judicial_apportionment')
         = validation_error_message(f.object, :order_for_judicial_apportionment)
-    .column-third
-      &nbsp;
 
   .documents
     %a{name: "defendant_#{@defendant_count}_representation_orders"}

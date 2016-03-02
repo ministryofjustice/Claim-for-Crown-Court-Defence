@@ -27,7 +27,7 @@ module DemoData
     end
 
   private
-    def generate_claim(advocate)
+    def generate_advocate_claim(advocate)
       claim = Claim::AdvocateClaim.new(
         additional_information: generate_additional_info,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),
@@ -39,6 +39,34 @@ module DemoData
         offence: Offence.all.sample,
         cms_number: "CMS-2015-195-1",
         creator: advocate,
+        evidence_checklist_ids: [],
+        source: "web",
+        vat_amount: 0.0,
+        case_type: CaseType.all.sample)
+      claim.save!
+      puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
+      add_defendants(claim)
+      add_documents(claim)
+      add_claim_detail(claim)
+      claim.save
+      add_fees(claim)
+      add_expenses(claim)
+      claim.reload              # load all the fees and expenses that have been created
+      claim.save                # save in order to update fee and expense totals
+      claim
+    end
+
+     def generate_litigator_claim(litigator)
+      claim = Claim::LitigatorClaim.new(
+        additional_information: generate_additional_info,
+        apply_vat: (rand(1..4) % 4 == 0 ? false : true),
+        state: "draft",
+        case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
+        external_user: litigator,
+        court: Court.all.sample,
+        offence: Offence.miscelleaneous.sample,
+        cms_number: "CMS-2015-195-1",
+        creator: litigator,
         evidence_checklist_ids: [],
         source: "web",
         vat_amount: 0.0,

@@ -41,7 +41,7 @@ end
 
 # Create a external users for LGFS firm
 # -------------------------------------------------------
-SeedHelper.find_or_create_provider!(
+provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm B',
   supplier_number: 'B1234567',
   api_key: ENV['TEST_CHAMBER_API_KEY'],
@@ -118,6 +118,7 @@ if User.find_by(email: 'advocatefirmadmin@example.com').blank?
 end
 
 # Create an external_user who belongs to a AGFS and LGFS chamber
+# NOTE: these would never actually exist as chambers only have advocates by definition
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test chamber',
@@ -150,6 +151,48 @@ if User.find_by(email: 'advocatechamberadmin@example.com').blank?
   )
 
   external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id, supplier_number: 'XA123')
+  external_user.user = user
+  external_user.save!
+end
+
+
+# Create an external_user who belongs to a AGFS and LGFS firm
+# -------------------------------------------------------
+# Create a external users for LGFS firm
+# -------------------------------------------------------
+provider = SeedHelper.find_or_create_provider!(
+  name: 'Test firm D',
+  supplier_number: 'D1234567',
+  api_key: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'firm',
+  vat_registered: true,
+  roles: ['agfs','lgfs']
+)
+
+if User.find_by(email: 'advocatelitigator@example.com').blank?
+  user = User.create!(
+    first_name: 'AdiLiti',
+    last_name: 'Gator',
+    email: 'advocatelitigator@example.com',
+    password: ENV['ADVOCATE_PASSWORD'],
+    password_confirmation: ENV['ADVOCATE_PASSWORD']
+  )
+
+  external_user = ExternalUser.new(roles: ['advocate','litigator'], provider_id: provider.id)
+  external_user.user = user
+  external_user.save!
+end
+
+if User.find_by(email: 'litigatoradmin@example.com').blank?
+  user = User.create!(
+    first_name: 'AdiLiti',
+    last_name: 'Gator-Admin',
+    email: 'advocatelitigatoradmin@example.com',
+    password: ENV['ADMIN_PASSWORD'],
+    password_confirmation: ENV['ADMIN_PASSWORD']
+  )
+
+  external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end

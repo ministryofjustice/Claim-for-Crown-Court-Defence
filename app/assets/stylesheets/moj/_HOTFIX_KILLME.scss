@@ -1,6 +1,10 @@
 //
 // THIS FILE NEEDS TO BE KILLED AFTER THE LGFS JOURNEY HAS BEEN PROPERLY IMPLEMENTED
 //
+.grid-row-with-margin,
+.button-holder{
+  @include clearfix;
+}
 .user-form {
   .form-group{
     margin-top:0;

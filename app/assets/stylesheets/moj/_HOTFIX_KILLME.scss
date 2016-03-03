@@ -1,14 +1,38 @@
 //
-// THIS FILE NEEDS TO BE KILLED AFTER THE CLAIMS FORM HAS BEEN PROPERLY IMPLEMENTED
+// THIS FILE NEEDS TO BE KILLED AFTER THE LGFS JOURNEY HAS BEEN PROPERLY IMPLEMENTED
 //
-.form-group{
+
+.grid-row-with-margin,
+.button-holder{
+  @include clearfix;
+}
+label + .form-group.inline {
+  margin-top:0;
+}
+.user-form {
+  .form-group{
+    margin-top:0;
+  }
+  .form-row {
+    @include container;
+    label{
+      display: block;
+      margin:$gutter-half 0 5px;
+    }
+    .form-control {
+      @include span(6 of 12);
+      @include first;
+    }
+  }
+}
+.form-group {
   margin:$gutter 0;
   &:first-child{
     margin-top:0;
   }
 }
 .grid-row,
-.basic-info-row{
+.basic-info-row {
   @include container;
   margin-top:$gutter-half;
   margin-bottom:$gutter-half;

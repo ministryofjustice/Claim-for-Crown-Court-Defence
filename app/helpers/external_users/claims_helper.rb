@@ -29,4 +29,11 @@ module ExternalUsers::ClaimsHelper
     claim.persisted? ? external_users_claim_path(claim) : external_users_claims_path
   end
 
+  def litigator_claim?
+    @claim.is_a? Claim::LitigatorClaim
+  end
+
+  def advocate_claim?
+    @claim.is_a? Claim::AdvocateClaim
+  end
 end

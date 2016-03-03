@@ -54,10 +54,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
-    @claim = Claim::AdvocateClaim.new
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
+    instantiate_claim
     load_offences_and_case_types
-
     build_nested_resources
   end
 
@@ -72,7 +70,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
+    @claim = instantiate_claim(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -114,6 +112,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   private
+
+  def instantiate_claim(args={})
+    if current_user.persona.advocate? && current_user.persona.litigator?
+      redirect_to '/'
+    elsif current_user.persona.litigator?
+      @claim = Claim::LitigatorClaim.new(args)
+    elsif current_user.persona.advocate?
+      @claim = Claim::AdvocateClaim.new(args)
+    end
+  end
 
   def generate_form_id
     @form_id = SecureRandom.uuid

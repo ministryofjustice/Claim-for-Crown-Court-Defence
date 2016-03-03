@@ -22,14 +22,19 @@ FactoryGirl.define do
     roles ['agfs']
 
     trait :agfs do
+      provider_type 'chamber'
       roles ['agfs']
     end
 
     trait :lgfs do
+      provider_type 'firm'
+      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
       roles ['lgfs']
     end
 
     trait :agfs_lgfs do
+      provider_type 'firm'
+      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
       roles ['agfs', 'lgfs']
     end
 

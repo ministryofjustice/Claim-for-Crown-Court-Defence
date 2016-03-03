@@ -34,7 +34,7 @@ FactoryGirl.define do
     end
 
     trait :advocate_litigator do
-      roles ['litigator']
+      roles ['advocate', 'litigator']
       provider { create(:provider, :agfs_lgfs) }
     end
 
@@ -44,6 +44,10 @@ FactoryGirl.define do
 
     trait :advocate_and_admin do
       roles ['admin', 'advocate']
+    end
+
+    trait :litigator_and_admin do
+      roles ['admin', 'admin']
     end
   end
 end

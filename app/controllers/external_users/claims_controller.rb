@@ -151,7 +151,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_context
-    if @external_user.admin? && @provider
+    if @external_user.admin? || @external_user.litigator?
       @context = @provider
     else
       @context = current_user

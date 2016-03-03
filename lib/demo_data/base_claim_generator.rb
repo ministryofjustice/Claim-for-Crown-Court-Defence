@@ -1,93 +1,41 @@
-require File.dirname(__FILE__) + '/claim_state_advancer'
-require File.dirname(__FILE__) + '/document_generator'
-require File.dirname(__FILE__) + '/basic_fee_generator'
-require File.dirname(__FILE__) + '/fee_generator'
-require File.dirname(__FILE__) + '/expense_generator'
+require_relative 'claim_state_advancer'
+require_relative 'document_generator'
+require_relative 'basic_fee_generator'
+require_relative 'fee_generator'
+require_relative 'expense_generator'
 
 module DemoData
 
-  class ClaimGenerator
+  class BaseClaimGenerator
 
     def initialize(param_options = {})
-      default_options = { states: :all, num_advocates: 6, num_claims_per_state: 2 }
+      raise "You cannot instantiate a generator of class #{self.class}" if self.class == BaseClaimGenerator
+      default_options = { states: :all, num_external_users: 6, num_claims_per_state: 2 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
-      @num_advocates = options[:num_advocates]
+      @num_external_users = options[:num_external_users]
       @num_claims = options[:num_claims_per_state]
+      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocate
     end
 
     def run
-      generate_advocates_if_required
-      advocates = ExternalUser.advocates[0, @num_advocates]
-      advocates.each do |advocate|
+      generate_external_user_if_required
+
+      if @external_user_persona == :advocate
+        external_users = ExternalUser.advocates[0, @num_external_users]
+      elsif @external_user_persona == :litigator
+        external_users = ExternalUser.litigators[0, @num_external_users]
+      end
+
+      external_users.each do |external_user|
         @num_claims.times do
-          generate_claims_for_advocate(advocate)
+          generate_claims_for_external_user(external_user)
         end
       end
+
     end
 
   private
-    def generate_advocate_claim(advocate)
-      claim = Claim::AdvocateClaim.new(
-        additional_information: generate_additional_info,
-        apply_vat: (rand(1..4) % 4 == 0 ? false : true),
-        state: "draft",
-        case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
-        advocate_category: Settings.advocate_categories.sample,
-        external_user: advocate,
-        court: Court.all.sample,
-        offence: Offence.all.sample,
-        cms_number: "CMS-2015-195-1",
-        creator: advocate,
-        evidence_checklist_ids: [],
-        source: "web",
-        vat_amount: 0.0,
-        case_type: CaseType.all.sample)
-      claim.save!
-      puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
-      add_defendants(claim)
-      add_documents(claim)
-      add_claim_detail(claim)
-      claim.save
-      add_fees(claim)
-      add_expenses(claim)
-      claim.reload              # load all the fees and expenses that have been created
-      claim.save                # save in order to update fee and expense totals
-      claim
-    end
-
-     def generate_litigator_claim(litigator)
-      claim = Claim::LitigatorClaim.new(
-        additional_information: generate_additional_info,
-        apply_vat: (rand(1..4) % 4 == 0 ? false : true),
-        state: "draft",
-        case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
-        external_user: litigator,
-        court: Court.all.sample,
-        offence: Offence.miscelleaneous.sample,
-        cms_number: "CMS-2015-195-1",
-        creator: litigator,
-        evidence_checklist_ids: [],
-        source: "web",
-        vat_amount: 0.0,
-        case_type: CaseType.all.sample)
-      claim.save!
-      puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
-      add_defendants(claim)
-      add_documents(claim)
-      add_claim_detail(claim)
-      claim.save
-      add_fees(claim)
-      add_expenses(claim)
-      claim.reload              # load all the fees and expenses that have been created
-      claim.save                # save in order to update fee and expense totals
-      claim
-    end
-
-    def add_certification(claim)
-      FactoryGirl.create(:certification,  claim: claim, certified_by: claim.external_user.name, certification_type: CertificationType.all.sample)
-      claim.save!
-    end
 
     def add_claim_detail(claim)
       add_trial_dates(claim) if claim.case_type.requires_trial_dates?
@@ -167,22 +115,21 @@ module DemoData
       end
     end
 
-    def generate_claim_in_state_for_advocate(state, advocate)
-      claim = generate_claim(advocate)
+    def generate_claim_in_state_for_external_user(state, external_user)
+      claim = generate_claim(external_user) # see sub classes for implementation
       advance_claim_to_state(claim, state)
       add_certification(claim) if !claim.draft?
     end
 
-    def generate_claims_for_advocate(advocate)
-      @states.each { |state| generate_claim_in_state_for_advocate(state, advocate) }
+    def generate_claims_for_external_user(external_user)
+      @states.each { |state| generate_claim_in_state_for_external_user(state, external_user) }
     end
 
-    def generate_advocates_if_required
-      num_advocates_required = @num_advocates - ExternalUser.count
-      if num_advocates_required > 0
-        num_advocates.times do
-          FactoryGirl.create :external_user
-        end
+    def generate_external_user_if_required
+      num_external_users_existing = ExternalUser.__send__(@external_user_persona.to_s.pluralize.to_sym).count
+      num_external_users_required = @num_external_users - num_external_users_existing
+      num_external_users_required.times do
+        FactoryGirl.create(:external_user, @external_user_persona)
       end
     end
 

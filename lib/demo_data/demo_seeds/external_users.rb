@@ -124,6 +124,7 @@ provider = SeedHelper.find_or_create_provider!(
   name: 'Test chamber',
   api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'chamber',
+  vat_registered: true,
   roles: ['agfs', 'lgfs']
 )
 
@@ -157,8 +158,6 @@ end
 
 
 # Create an external_user who belongs to a AGFS and LGFS firm
-# -------------------------------------------------------
-# Create a external users for LGFS firm
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm D',

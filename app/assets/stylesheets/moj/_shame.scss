@@ -609,8 +609,6 @@ form {
 }
 // search form for tables
 .search-form {
-  @include span(6 of 12);
-  @include first;
   legend{
     @include visually-hidden;
   }
@@ -636,7 +634,7 @@ form {
   @include span(6 of 12);
   @include last;
   text-align: right;
-  margin-top:$gutter*2 + $gutter-half;
+  margin-top:$gutter-half;
   p{
     margin:0;
   }

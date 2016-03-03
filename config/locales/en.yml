@@ -504,7 +504,7 @@ en:
       json_document_importer:
         import_claim: 'Or add your JSON report'
       new:
-        heading: Claim for advocate graduated fees
+        heading: Claim for crown court defence
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of

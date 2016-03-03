@@ -201,7 +201,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_and_authorize_claim
-    @claim = Claim::AdvocateClaim.find(params[:id])
+    @claim = Claim::BaseClaim.find(params[:id])
     authorize! params[:action].to_sym, @claim
   end
 
@@ -344,11 +344,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
-    if Claim::AdvocateClaim.where(form_id: @claim.form_id).any?
+    if @claim.class.where(form_id: @claim.form_id).any?
       redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
     end
 
-    Claim::AdvocateClaim.transaction do
+    @claim.class.transaction do
       @claim.save
       @claim.force_validation = true
 

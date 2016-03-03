@@ -1,9 +1,5 @@
-%header.main-header{role: 'banner'}
-  %h1
-    - if current_user.persona.admin?
-      = t('.all_claims')
-    - else
-      = t('.your_claims')
+= render partial: 'layouts/header', locals: {page_heading: your_claims_header}
+
 .container.sub-header
   .financial-summary
     = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }

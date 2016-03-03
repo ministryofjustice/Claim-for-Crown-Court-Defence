@@ -5,12 +5,10 @@
       - @certification.errors.full_messages.each do |msg|
         %li= msg
 
+= render partial: 'layouts/header', locals: {page_heading: 'Certification'}
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %section.certification.normal
-    %h1.page-title
-      Certification
-
     .grid-row
       .column-two-thirds
         %p

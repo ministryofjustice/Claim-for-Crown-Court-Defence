@@ -52,7 +52,9 @@
     = f.anchored_label t('.offence_category')
     .form-hint.xsmall.zero-vert-margin
       = "If the offence category is not listed, choose \"Miscellaneous/other\""
-    - if @claim.new_record?
+    - if litigator_claim?
+      - selected_offence_category = 'Miscellaneous/other'
+    - elsif @claim.new_record?
       - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
     - else
       - selected_offence_category = @claim.offence.description rescue nil

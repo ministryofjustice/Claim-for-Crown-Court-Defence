@@ -4,11 +4,12 @@
 //= require select2
 //= require cocoon
 //= require dropzone
+//= require moj
+//= require modules/moj.cookie-message.js
 //= require_tree .
 
 (function () {
   'use strict';
-
   delete moj.Modules.devs;
 
   $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {

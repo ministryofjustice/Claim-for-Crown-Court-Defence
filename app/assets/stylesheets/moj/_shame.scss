@@ -5,8 +5,19 @@
 .phase-banner {
   @include phase-banner(beta);
 }
-#global-header .header-wrapper .header-global .header-logo {
-  width:auto;
+#global-header .header-wrapper  {
+  .header-global{
+    @include span(4 of 12);
+    .header-logo{
+      width:auto;
+    }
+  }
+  .header-proposition {
+    @include span(6 of 12);
+    #proposition-menu{
+      margin-top:8px;
+    }
+  }
 }
 
 // ==========================================================================

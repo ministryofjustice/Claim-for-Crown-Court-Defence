@@ -18,7 +18,13 @@
   = "controller-" + controller.controller_name
 
 - content_for :global_header_text do
-  = "Claim for crown court defence"
+  = "MOJ"
+- content_for :proposition_header do
+  .header-proposition
+    .content
+      %nav#proposition-menu
+        %a#proposition-name{:href =>"/"}
+          = "Claim for crown court defence"
 
 = content_for :content do
   = csrf_meta_tags

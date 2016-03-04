@@ -4,6 +4,7 @@
 //= require select2
 //= require cocoon
 //= require dropzone
+//= require govuk/selection-buttons
 //= require moj
 //= require modules/moj.cookie-message.js
 //= require_tree .
@@ -23,6 +24,9 @@
       return false;
     }
   });
+
+  var selectionButtons = new GOVUK.SelectionButtons("label input[type='radio'], label input[type='checkbox']");
+
 
   moj.init();
 }());

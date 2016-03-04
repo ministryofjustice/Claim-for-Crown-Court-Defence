@@ -4,8 +4,6 @@
 //= require select2
 //= require cocoon
 //= require dropzone
-//= require moj
-//= require modules/moj.cookie-message
 //= require_tree .
 
 (function () {

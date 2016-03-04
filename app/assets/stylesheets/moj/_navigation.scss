@@ -1,5 +1,6 @@
 nav {
   @include container;
+  padding:$gutter-half 0;
   &.pagination {
     ul {
       float:right;

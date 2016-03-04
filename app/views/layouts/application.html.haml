@@ -27,10 +27,9 @@
     .primary-nav-bar
       - if user_signed_in?
         = render partial: 'layouts/primary_navigation'
-    #content
+    %main#content
       = render partial: 'layouts/flashes' unless flash.empty?
-      %main.main-content
-        = yield
+      = yield
 
 - content_for :footer_support_links do
   = render partial: 'layouts/footer'

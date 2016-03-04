@@ -20,9 +20,6 @@
       padding:$gutter-half/2 0;
       .header-logo{
         margin:0;
-        @include span(4 of 12);
-        @include first;
-        padding-left:0;
       }
       .header-app-name {
         margin:0;
@@ -32,7 +29,7 @@
       }
     }
     #logo {
-      float:none;
+      height:auto;
       img {
         margin:0;
         display: block;

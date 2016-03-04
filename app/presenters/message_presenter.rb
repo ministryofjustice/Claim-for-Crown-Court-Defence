@@ -22,7 +22,7 @@ class MessagePresenter < BasePresenter
 
   def download_file_link
     h.concat(
-      h.content_tag :a, "#{message.attachment.original_filename}",
+      h.content_tag :a, "#{message.attachment.original_filename} (#{h.number_to_human_size(message.attachment_file_size)})",
       href: "/messages/#{message.id}/download_attachment",
       title: 'Download '+ message.attachment.original_filename
     )

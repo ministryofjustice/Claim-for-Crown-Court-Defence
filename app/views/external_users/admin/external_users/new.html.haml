@@ -5,7 +5,6 @@
       - @external_user.errors.full_messages.each do |msg|
         %li= msg
 
-%h1.page-title
-  = t('.new_advocate')
+= render partial: 'layouts/header', locals: {page_heading: t('.new_advocate')}
 
 = render 'form'

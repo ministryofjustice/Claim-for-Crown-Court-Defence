@@ -1,5 +1,4 @@
-%h1.page-title
-  = "Sign in"
+= render partial: 'layouts/header', locals: {page_heading: "Sign in"}
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
   .form-group

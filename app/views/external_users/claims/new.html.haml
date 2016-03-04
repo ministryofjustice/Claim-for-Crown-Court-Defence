@@ -1,5 +1,3 @@
-%header.main-header{role: 'banner'}
-  %h1
-    =t('.heading')
+= render partial: 'layouts/header', locals: {page_heading: t('.heading')}
 
 = render 'form'

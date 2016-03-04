@@ -1,7 +1,7 @@
 .grid-row
   .column-two-thirds
-    %h1.page-title
-      Manage providers
+    = render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
+    
     %h2 #{pluralize(@providers.count, 'provider')}
   .column-third
     = link_to t('.add_a_provider'), new_super_admins_provider_path, class: 'button button-get-started'

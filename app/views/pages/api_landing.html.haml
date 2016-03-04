@@ -1,8 +1,8 @@
-%section.api-documentation
-  %h1.page-title
-    Claim for crown court defence API
+= render partial: 'layouts/header', locals: {page_heading: 'Claim for crown court defence API'}
 
-  %h3
+%section.api-documentation
+
+  %h2
     Overview
 
   %p
@@ -13,7 +13,7 @@
   %p
     The API only submits draft claims. The end user then logs on to the "Claim for crown court defence" system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
 
-  %h3
+  %h2
     Release notes
 
   %p
@@ -21,13 +21,13 @@
     = link_to "publish release notes", api_release_notes_path
     \.
 
-  %h3
+  %h2
     Documentation
 
   %p
     The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided #{link_to 'detailed interactive documentation', grape_swagger_rails_path}, allowing developers to try out the API from a browser.
 
-  %h3
+  %h2
     A note on authentication
   %p
     To authenticate a request to any endpoint you will need to provide an API key.  To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}. The claim endpoint also requires the following:
@@ -85,13 +85,13 @@
           %li
             fee or expense id required for dates attended
 
-  %h3
+  %h2
     JSON file importer
 
   %p
     The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the #{link_to "JSON schema definition", json_schema_path}.
 
-  %h3
+  %h2
     API versioning
 
   %p
@@ -105,7 +105,7 @@
   %p
     We will always signal non-backwards-compatible versions by changing the first digit of the version number, eg moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions at the same time and always give 6 months’ notice before we stop supporting an old deprecated version.
 
-  %h3
+  %h2
     Sign up as a software vendor
 
   %p
@@ -117,7 +117,7 @@
   %p
     = link_to "Sign up", new_registration_path('user'), class: 'button'
 
-  %h3
+  %h2
     Example Desktop Application
 
   %p
@@ -125,7 +125,7 @@
   %p
     We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
 
-  %h3
+  %h2
     API Sandbox - Testing Environment
   %p
     The Interactive API button below will take you to our interactive API testing page where you can create claims and their sub-components, retrieve lookup data needed to create components, and view responses from the various API endpoints.

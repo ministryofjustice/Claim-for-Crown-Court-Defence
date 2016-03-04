@@ -8,8 +8,7 @@
     %span.form-hint
       = t('.form_error_hint')
 
-%h1.page-title
-  = "Edit provider details"
+= render partial: 'layouts/header', locals: {page_heading: 'Edit provider details'}
 
 = form_for [:external_users, :admin, @provider], html: { novalidate: true } do |f|
 

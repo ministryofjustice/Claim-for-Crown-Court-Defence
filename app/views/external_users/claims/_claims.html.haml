@@ -40,7 +40,7 @@
             = link_to (claim.case_number.blank? ? 'not-provided' : claim.case_number), external_users_claim_path(claim), class: "js-test-case-number-link"
           - if current_user.persona.admin?
             %td
-              = claim.external_user.name
+              = claim.owner_name
           - if current_user.persona.has_roles?(['advocate','litigator'])
             %td
               = claim.scheme

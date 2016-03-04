@@ -11,5 +11,4 @@
   'Travel and hotel - train',
 ].each do |expense_type_name|
   SeedHelper.find_or_create_expense_type!(name: expense_type_name, roles: ['agfs'])
-  # ExpenseType.find_or_create_by!(name: expense_type_name, roles: ['agfs'])
 end

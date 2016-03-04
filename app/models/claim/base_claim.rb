@@ -132,13 +132,11 @@ module Claim
                         :retrial_started_at,
                         :retrial_concluded_at
 
-
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
       documents.each { |d| d.external_user_id = self.external_user_id }
     end
-
 
     after_initialize :instantiate_basic_fees, 
                      :ensure_not_abstract_class, 
@@ -151,6 +149,14 @@ module Claim
     def ensure_not_abstract_class
       raise BaseClaimAbstractClassError if self.class == BaseClaim
     end
+
+  def agfs?
+    self.instance_of? Claim::AdvocateClaim
+  end
+
+  def lgfs?
+    self.instance_of? Claim::LitigatorClaim
+  end
 
     def set_force_validation_to_false
       @force_validation = false

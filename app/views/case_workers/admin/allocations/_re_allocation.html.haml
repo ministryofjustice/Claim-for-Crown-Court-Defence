@@ -59,6 +59,8 @@
         %th
           = t('.case_number')
         %th
+          = t(".scheme")
+        %th
           = t('.advocate')
         %th
           = t('.defendants')
@@ -81,7 +83,9 @@
               %td
                 = claim.case_number
               %td
-                = claim.external_user.name
+                = claim.scheme
+              %td
+                = claim.owner_name
               %td
                 = claim.defendant_names
               %td

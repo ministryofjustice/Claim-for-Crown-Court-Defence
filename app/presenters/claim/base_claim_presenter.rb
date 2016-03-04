@@ -141,6 +141,12 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def owner_name
+    claim.lgfs? ? claim.creator.name : claim.external_user.name
+  rescue
+    'unknown'
+  end
+
   def assessment_date
     claim.assessment.blank? ? '(not yet assessed)' : claim.assessment.created_at.strftime(Settings.date_format)
   end

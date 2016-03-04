@@ -5,7 +5,7 @@ require Rails.root.join('db','seeds','seed_helper')
 #   and should therefore be used so that we can "clean-up" data on staging
 #   and gamma (be very careful)
 #
-# SAMPLE_PROVIDERS = ['Test chamber','Test firm A','Test firm B','Test firm C','Test firm D']
+# SAMPLE_PROVIDERS = ['Test chamber','Test firm A']
 #
 #  #destroy the above providers and all their users and claims
 #  rake claims.destroy_sample_providers

@@ -1,10 +1,12 @@
 module DemoData
 
+  #
   # ClaimDestroyer:
+  #
   # WARNING: destroys sample providers which CASCADES to users and ALL their claims
   # - find and destroys providers matching the hard coded sample users in external user seeds
   # - find and destroys any providers that have a name indicating they were created by the provider factory
-  #   namely, thse matching a regex equating "(Test-Provider-#{n})" where n is a sequence number.
+  #   namely, those matching a regex equating to "(Test-Provider-#{n})" where n is a sequence number.
   #
   class ClaimDestroyer
 

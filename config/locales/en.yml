@@ -609,16 +609,18 @@ en:
           submit: 'Change password'
       allocations:
         allocation:
-          advocate: 'Advocate'
           case_number: 'Case number'
+          scheme: Scheme
+          advocate: Advocate
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
         re_allocation:
-          advocate: 'Advocate'
           case_number: 'Case number'
+          scheme: Scheme
+          advocate: Advocate
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)

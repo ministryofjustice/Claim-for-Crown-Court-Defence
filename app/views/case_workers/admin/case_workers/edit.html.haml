@@ -1,10 +1,10 @@
+= render partial: 'layouts/header', locals: {page_heading: 'Edit case worker details'}
+
 - if @case_worker.errors.any?
   .validation-summary
     %h3.heading-small= "This case worker has #{pluralize(@case_worker.errors.count, 'error')}"
     %ul
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
-        
-%h1.page-title Edit case worker details
 
 = render 'form'

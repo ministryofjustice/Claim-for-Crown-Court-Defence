@@ -20,15 +20,15 @@ RSpec.describe ClaimCsvPresenter do
 
         it 'account number' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include(claim.external_user.supplier_number)
-            expect(claim_journeys.second).to include(claim.external_user.supplier_number)
+            expect(claim_journeys.first).to include(claim.owner.supplier_number)
+            expect(claim_journeys.second).to include(claim.owner.supplier_number)
           end
         end
 
         it 'organistion/provider_name' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include(claim.external_user.provider.name)
-            expect(claim_journeys.second).to include(claim.external_user.provider.name)
+            expect(claim_journeys.first).to include(claim.owner.provider.name)
+            expect(claim_journeys.second).to include(claim.owner.provider.name)
           end
         end
 

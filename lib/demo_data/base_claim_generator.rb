@@ -10,7 +10,7 @@ module DemoData
 
     def initialize(param_options = {})
       raise "You cannot instantiate a generator of class #{self.class}" if self.class == BaseClaimGenerator
-      default_options = { states: :all, num_external_users: 6, num_claims_per_state: 2 }
+      default_options = { states: :all, num_external_users: 2, num_claims_per_state: 2 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users]

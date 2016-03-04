@@ -17,7 +17,10 @@
 FactoryGirl.define do
   factory :provider do
     provider_type 'chamber'
-    sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
+
+    # NOTE: factory used for demo data and should therefore provide name that can be used to identify it for destruction if necessary
+    #       see ClaimDestroyer
+    sequence(:name) { |n| "#{Faker::Company.name} (Test-Provider-#{n})" }
 
     roles ['agfs']
 
@@ -38,16 +41,18 @@ FactoryGirl.define do
       roles ['agfs', 'lgfs']
     end
 
+    # requires supplier number
     trait :firm do
       provider_type 'firm'
-      sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
       sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
       vat_registered { true }
     end
 
+    # does not require supplier number
     trait :chamber do
       provider_type 'chamber'
-      sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
+      supplier_number nil
     end
+
   end
 end

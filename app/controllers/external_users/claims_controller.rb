@@ -120,6 +120,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @claim = Claim::LitigatorClaim.new(args)
     elsif current_user.persona.advocate?
       @claim = Claim::AdvocateClaim.new(args)
+    else
+      @claim = Claim::AdvocateClaim.new(args)
     end
   end
 

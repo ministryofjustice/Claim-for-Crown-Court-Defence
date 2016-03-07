@@ -46,6 +46,7 @@ FactoryGirl.define do
       provider_type 'firm'
       sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
       vat_registered { true }
+      roles ['lgfs']
     end
 
     # does not require supplier number

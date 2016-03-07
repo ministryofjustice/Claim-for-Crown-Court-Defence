@@ -207,6 +207,7 @@ RSpec.describe ExternalUser, type: :model do
     it 'returns external_users with role "admin" and "advocate"' do
       e = ExternalUser.first
       e.roles = ['admin', 'advocate']
+      e.supplier_number = 'ZA111'
       e.save!
       expect(ExternalUser.admins.count).to eq(1)
     end

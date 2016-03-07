@@ -1,15 +1,14 @@
 class Claims::FinancialSummary
-  def initialize(context)
-    @context = context
+  def initialize(claims)
+    @claims = claims
   end
 
   def outstanding_claims
-    @context.claims.outstanding
+    @claims.outstanding
   end
 
   def authorised_claims
-    @context
-      .claims
+    @claims
       .any_authorised
       .joins(:determinations)
       .where('determinations.updated_at >= ?', Time.now.beginning_of_week)

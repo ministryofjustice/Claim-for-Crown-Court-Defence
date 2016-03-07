@@ -22,14 +22,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     it 'should retrieve dashboard displayable state claims for the advocate' do
       get :index
-      expect(assigns(:context)).to eq(advocate.user)
+      expect(assigns(:context)).to eq(advocate.claims)
     end
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
       it 'should retrieve dashboard displayable state claims for the provider' do
         get :index
-        expect(assigns(:context)).to eq(advocate_admin.provider)
+        expect(assigns(:context)).to eq(advocate_admin.provider.claims)
       end
     end
 
@@ -68,14 +68,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     it 'should assign context for claims to advocate' do
       get :index
-      expect(assigns(:context)).to eq(advocate.user)
+      expect(assigns(:context)).to eq(advocate.claims)
     end
 
     context 'advocate admin' do
       before { sign_in advocate_admin.user }
       it 'should assign context for claims to provider' do
         get :index
-        expect(assigns(:context)).to eq(advocate_admin.provider)
+        expect(assigns(:context)).to eq(advocate_admin.provider.claims)
       end
     end
 

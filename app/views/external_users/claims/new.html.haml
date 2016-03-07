@@ -1,5 +1,8 @@
 %header.main-header{role: 'banner'}
   %h1
-    =t('.heading')
+    - if @claim.instance_of? Claim::AdvocateClaim
+      = t('.agfs_heading')
+    - elsif @claim.instance_of? Claim::LitigatorClaim
+      = t('.lgfs_heading')
 
 = render 'form'

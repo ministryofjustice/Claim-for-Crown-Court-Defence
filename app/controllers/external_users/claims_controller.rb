@@ -16,6 +16,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
+  before_action :set_claim_type, only: [:new, :create]
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
@@ -24,13 +25,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include MessageControlsDisplay
 
   def index
-    @claims = @context.claims.dashboard_displayable_states
+    @claims = @context.dashboard_displayable_states
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete
+    @claims = @context.archived_pending_delete
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
   end
@@ -54,7 +55,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
-    @claim = Claim::AdvocateClaim.new
+    @claim = @claim_type.new
     @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
 
@@ -72,7 +73,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
+    @claim = @claim_type.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -150,12 +151,96 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @provider = @external_user.provider
   end
 
-  def set_context
-    if @external_user.admin? || @external_user.litigator?
-      @context = @provider
-    else
-      @context = current_user
+  def set_claim_type
+
+    # 'advocate','litigator','admin' -> choice taking provider into account
+    # 'advocate','litigator' -> choice taking provider into account
+    # 'advocate','admin' -> agfs - providing provider includes agfs
+    # 'litigator','admin' -> lgfs - providing provider includes lgfs
+    # 'advocate' -> agfs - providing provider includes lgfs
+    # 'litigator' -> lgfs - providing provider includes lgfs
+    # 'admin' -> choice - taking provider into account
+
+    # if provider is agfs
+    #   if user is advocate AND/OR admin
+    #     agfs claim
+    #   elsif user is litigator or litigator admin
+    #     raise unauthorised
+    #   end
+    # elsif provider is lgfs
+    #   if user is litigator AND/OR admin
+    #     lgfs claims
+    #   else
+    #     raise Unauthorised
+    #   end
+    # elsif provider is lgfs AND agfs
+    #   if user is ONLY admin or has advocate, litigator and admin role then
+    #     choice
+    #   elsif user is litigator and admin OR ONLY litigator
+    #     lgfs claims
+    #   elsif user is advocate and admin OR ONLY advocate
+    #     agfs claims
+    #   end
+    # end
+
+    eu = current_user.persona
+
+    # provider ONLY agfs
+    if eu.provider.has_roles?('agfs')
+      if eu.advocate? || eu.admin?
+        @claim_type = Claim::AdvocateClaim
+      else
+        raise 'Unauthorised: you do not have the relevant privileges to create AGFS claims'
+      end
+
+    # provider ONLY lgfs
+    elsif e.provider.has_roles?('lgfs')
+      if eu.litigator? || eu.admin?
+        @claim_type = Claim::LitigatorClaim
+      else
+        raise 'Unauthorised: you do not have the relevant privileges to create LGFS claims'
+      end
+
+    # provider has agfs and lgfs privileges
+    elsif e.provider.has_roles?('agfs','lgfs')
+      if eu.has_roles?('admin') || eu.has_roles?('admin','advocate','litigator')
+        # TODO: redirect to choice page
+        raise 'Redirect to make a choice page'
+      elsif eu.has_roles?('litigator') || eu.has_roles?('admin','litigator')
+        @claim_type = Claim::LitigatorClaim
+      elsif eu.has_roles?('advocate') || eu.has_roles?('admin','advocate')
+        @claim_type = Claim::AdvocateClaim
+      end
     end
+
+    if @claim_type.nil?
+      raise 'You or your provider do not appear to have correct privileges to create claims'
+    end
+    
+  end
+
+  def set_context
+    if @provider.has_roles?('lgfs') && (@external_user.litigator? || @external_user.admin?)
+      @context = @provider.claims_created
+    elsif @provider.has_roles?('agfs') && (@external_user.advocate? || @external_user.admin?)
+      if @external_user.admin?
+        @context = @provider.claims
+      else
+        @context = @external_user.claims
+      end
+    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('advocate','admin')
+      @context = @provider.claims
+    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('litigator','admin')
+      @context = @provider.claims_created
+    elsif @provider.has_roles?('agfs','lgfs') && ( @external_user.has_roles?('admin') || @external_user.has_roles?('advocate','litigator','admin') )
+      @context = @provider.claims_created.merge!(@provider.claims)
+    else
+      raise "WARNING: agfs/lgfs firm logic incomplete"
+    end
+  end
+
+  def set_financial_summary
+    @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
   def search(states=nil)
@@ -195,10 +280,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def set_and_authorize_claim
     @claim = Claim::AdvocateClaim.find(params[:id])
     authorize! params[:action].to_sym, @claim
-  end
-
-  def set_financial_summary
-    @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
   def claim_params
@@ -336,11 +417,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
-    if Claim::AdvocateClaim.where(form_id: @claim.form_id).any?
+    if @claim.class.where(form_id: @claim.form_id).any?
       redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
     end
 
-    Claim::AdvocateClaim.transaction do
+    @claim.class.transaction do
       @claim.save
       @claim.force_validation = true
 

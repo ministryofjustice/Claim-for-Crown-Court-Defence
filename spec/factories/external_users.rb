@@ -50,6 +50,7 @@ FactoryGirl.define do
     trait :litigator_and_admin do
       supplier_number nil
       roles ['litigator', 'admin']
+      provider { create(:provider, :lgfs) }
     end
   end
 end

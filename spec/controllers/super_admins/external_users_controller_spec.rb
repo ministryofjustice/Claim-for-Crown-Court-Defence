@@ -131,7 +131,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   describe "PUT #update" do
 
     context 'when valid' do
-      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { roles: ['advocate'] } }
+      before(:each) { put :update, provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } }
 
       it 'updates an external_user' do
         external_user.reload

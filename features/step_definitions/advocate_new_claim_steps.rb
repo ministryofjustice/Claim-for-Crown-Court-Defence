@@ -241,7 +241,7 @@ Then(/^I should be redirected to the claim certification page$/) do
 end
 
 Then(/^I should be redirected back to the claim form with error$/) do
-  expect(page).to have_content('Claim for advocate graduated fees')
+  expect(page).to have_content('Claim for crown court defence')
   expect(page).to have_content(/This claim has \d+ errors?/)
   expect(page).to have_content("Choose an advocate")
 end
@@ -483,7 +483,7 @@ Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, am
   # use the fee type code to determine the index in the table of fees
   fee_type_codes = Fee::BasicFeeType.all.map(&:code)
   id_no = fee_type_codes.index(fee_code)
-  
+
   quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
   amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
   fill_in quantity_input, with: quantity.to_i

@@ -140,10 +140,10 @@ module Claim
     end
 
 
-    after_initialize :instantiate_basic_fees, 
-                     :ensure_not_abstract_class, 
-                     :default_values, 
-                     :instantiate_assessment, 
+    after_initialize :instantiate_basic_fees,
+                     :ensure_not_abstract_class,
+                     :default_values,
+                     :instantiate_assessment,
                      :set_force_validation_to_false
 
     after_save :find_and_associate_documents

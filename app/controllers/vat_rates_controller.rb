@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: vat_rates
+#
+#  id               :integer          not null, primary key
+#  rate_base_points :integer
+#  effective_date   :date
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+
 class VatRatesController < ApplicationController
 
   skip_load_and_authorize_resource only: [:index]

@@ -12,6 +12,8 @@
 #  allow_pcmh_fee_type     :boolean          default(FALSE)
 #  requires_maat_reference :boolean          default(FALSE)
 #  requires_retrial_dates  :boolean          default(FALSE)
+#  roles                   :string
+#  parent_id               :integer
 #
 
 FactoryGirl.define do

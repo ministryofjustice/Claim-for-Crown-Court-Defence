@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: claim_intentions
+#
+#  id         :integer          not null, primary key
+#  form_id    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class ClaimIntentionsController < ApplicationController
   def create
     @claim_intention = ClaimIntention.new(claim_intention_params)

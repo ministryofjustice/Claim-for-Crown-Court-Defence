@@ -26,8 +26,6 @@ Given(/^I am on the new claim page$/) do
   if offence_class.nil?
     create(:offence_class, class_letter: 'A', description: 'A: Homicide and related grave offences')
   else
-    puts ">>>>>>>>>>> OFFENCE CLASS ALREADY EXISTS +++++++ #{__FILE__}::#{__LINE__} <<<<<<<<<"
-    ap offence_class
     offence_class.update(description: 'A: Homicide and related grave offences')
   end
   create(:offence, description: 'Murder')

@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: case_types
@@ -13,6 +12,8 @@
 #  allow_pcmh_fee_type     :boolean          default(FALSE)
 #  requires_maat_reference :boolean          default(FALSE)
 #  requires_retrial_dates  :boolean          default(FALSE)
+#  roles                   :string
+#  parent_id               :integer
 #
 
 class CaseType < ActiveRecord::Base
@@ -38,9 +39,5 @@ class CaseType < ActiveRecord::Base
   def self.ids_by_types(*args)
     case_types = CaseType.where('name in (?)', args)
     case_types.map(&:id)
-  end
-
-  def to_s
-    "#{self.id}::#{self.name}::~#{roles.join(',')}"
   end
 end

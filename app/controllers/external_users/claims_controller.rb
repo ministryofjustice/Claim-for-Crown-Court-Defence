@@ -178,7 +178,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       end
 
     # provider has agfs and lgfs privileges
-    elsif e.provider.has_roles?('agfs','lgfs')
+    elsif eu.provider.has_roles?('agfs','lgfs')
       if eu.has_roles?('admin') || eu.has_roles?('admin','advocate','litigator')
         # TODO: redirect to choice page
         raise 'Redirect to make a choice page'
@@ -251,7 +251,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_and_authorize_claim
-    @claim = Claim::AdvocateClaim.find(params[:id])
+    @claim = Claim::BaseClaim.find(params[:id])
     authorize! params[:action].to_sym, @claim
   end
 

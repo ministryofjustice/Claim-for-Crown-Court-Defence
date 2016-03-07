@@ -40,10 +40,6 @@ Rails.application.routes.draw do
     get '/', to: 'feedback#new', on: :collection
   end
 
-  resources :bug_report, only: [:new, :create] do
-    get '/', to: 'bug_report#new', on: :collection
-  end
-
   resources :claim_intentions, only: [:create], format: :json
 
   resources :documents do

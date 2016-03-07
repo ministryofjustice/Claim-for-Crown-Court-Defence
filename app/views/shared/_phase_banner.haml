@@ -3,7 +3,7 @@
     %strong.phase-tag= config_item(:phase)
     %span
       This is a new service – your
-      = link_to "feedback", new_feedback_path
+      = link_to "feedback", new_feedback_path(type: 'feedback')
       will help us to improve it.
       You can
-      = link_to "report a fault here.", new_bug_report_path
+      = link_to "report a fault here.", new_feedback_path(type: 'bug_report')

@@ -5,12 +5,14 @@
   %br
   Your answers to the following questions will help us improve this service.
 
-= form_for @bug_report, url: bug_report_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
-  - if @bug_report.errors.any?
+= form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+  = hidden_field_tag :type, params[:type]
+
+  - if @feedback.errors.any?
     .validation-summary
-      %h3.heading-small= "The form you submitted has #{pluralize(@bug_report.errors.count, 'error')}"
+      %h3.heading-small= "The form you submitted has #{pluralize(@feedback.errors.count, 'error')}"
       %ul
-        - @bug_report.errors.full_messages.each do |msg|
+        - @feedback.errors.full_messages.each do |msg|
           %li= msg
 
   .grid-row-with-margin

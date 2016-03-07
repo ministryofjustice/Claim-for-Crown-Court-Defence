@@ -8,7 +8,7 @@
           = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
       - elsif current_user.persona.is_a?(ExternalUser)
         %li
-          = link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", external_users_root_path, class: cp(external_users_root_path)
+          = link_to your_claims_header, external_users_root_path, class: cp(external_users_root_path)
         %li
           = link_to "Archive", archived_external_users_claims_path, title: "View archived claims", class: cp(archived_external_users_claims_path)
         - if Rails.host.api_sandbox?

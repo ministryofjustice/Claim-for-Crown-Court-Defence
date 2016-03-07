@@ -5,6 +5,6 @@
       - @case_worker.errors.full_messages.each do |msg|
         %li= msg
 
-%h1.page-title New case worker details
+= render partial: 'layouts/header', locals: {page_heading: 'New case worker details'}
 
 = render 'form'

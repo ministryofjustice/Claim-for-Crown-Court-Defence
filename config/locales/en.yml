@@ -321,6 +321,8 @@ en:
           api_key: *api_key
           vat_registered: *vat_registered
           form_error_hint: 'Check below for more detail'
+    all_claims: All claims
+    your_claims: Your claims
     certifications:
       new:
         certified_by: 'Name of person certifying'
@@ -493,8 +495,6 @@ en:
         total_authorised: 'Total authorised:'
         view_details: 'View details'
       index:
-        all_claims: All claims
-        your_claims: Your claims
         claims: Claims
         completed: Completed
         draft: Draft

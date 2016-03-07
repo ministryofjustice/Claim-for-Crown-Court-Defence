@@ -1,5 +1,4 @@
-%h1
-  = t('.h1_managment_info')
+= render partial: 'layouts/header', locals: {page_heading: t('.h1_managment_info')}
 
 .form.fieldset.label
   = label_tag t('.all_claims_report')

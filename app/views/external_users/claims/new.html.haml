@@ -5,4 +5,6 @@
     - elsif @claim.instance_of? Claim::LitigatorClaim
       = t('.lgfs_heading')
 
+= render partial: 'layouts/header', locals: {page_heading: t('.heading')}
+
 = render 'form'

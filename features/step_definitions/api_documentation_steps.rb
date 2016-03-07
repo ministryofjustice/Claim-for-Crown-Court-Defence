@@ -20,7 +20,7 @@ When(/^I click on the API Sign up and Documentation link$/) do
 end
 
 Then(/^I should be directed to the API landing page$/) do
-  expect(find('.page-title')).to have_content('Claim for crown court defence API')
+  expect(find('.main-header')).to have_content('Claim for crown court defence API')
 end
 
 When(/^I visit the Interactive API Documentation page$/) do
@@ -42,11 +42,11 @@ When(/^I click the link to the Interactive API Documentation$/) do
 end
 
 Then(/^I should be directed to the Interactive API Documentation$/) do
-  expect(find('.page-title')).to have_content('Interactive API Documentation')
+  expect(find('.main-header')).to have_content('Interactive API Documentation')
 end
 
 When(/^It should be styled to ADP GDS standards$/) do
-  expect(find('.page-title')).to have_content('Interactive API Documentation')
+  expect(find('.main-header')).to have_content('Interactive API Documentation')
   expect(find('strong.phase-tag')).to have_content(Rails.configuration.send(:phase))
   node = find('#logo').find('img')['src']
   expect(node).to have_content('moj_logo_horizontal_36x246_for_swagger.png')

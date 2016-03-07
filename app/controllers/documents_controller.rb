@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                                      :integer          not null, primary key
+#  claim_id                                :integer
+#  created_at                              :datetime
+#  updated_at                              :datetime
+#  document_file_name                      :string
+#  document_content_type                   :string
+#  document_file_size                      :integer
+#  document_updated_at                     :datetime
+#  external_user_id                        :integer
+#  converted_preview_document_file_name    :string
+#  converted_preview_document_content_type :string
+#  converted_preview_document_file_size    :integer
+#  converted_preview_document_updated_at   :datetime
+#  uuid                                    :uuid
+#  form_id                                 :string
+#  creator_id                              :integer
+#
+
 class DocumentsController < ApplicationController
   respond_to :html
   before_action :set_document, only: [:show, :download, :destroy]

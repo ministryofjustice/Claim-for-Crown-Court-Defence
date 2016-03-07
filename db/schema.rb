@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
     t.string   "roles"
+    t.integer  "parent_id"
   end
 
   create_table "case_worker_claims", force: :cascade do |t|

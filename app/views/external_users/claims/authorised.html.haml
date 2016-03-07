@@ -1,6 +1,6 @@
-%header.main-header
-  %h1
-    = t('.authorised_claims')
+= render partial: 'layouts/header', locals: {page_heading: t('.authorised_claims')}
+
+.container.sub-header
   .hgroup
     %h2
       = "#{@claims.size} of #{@claims.total_count}"

@@ -125,7 +125,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     else
       @offences = Offence.includes(:offence_class)
     end
-    @case_types = CaseType.all
+    @case_types = @claim.eligible_case_types
   end
 
   def submit_if_required_and_redirect

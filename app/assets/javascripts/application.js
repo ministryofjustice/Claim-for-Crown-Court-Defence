@@ -4,6 +4,7 @@
 //= require select2
 //= require cocoon
 //= require dropzone
+//= require vendor/polyfills/bind
 //= require govuk/selection-buttons
 //= require moj
 //= require modules/moj.cookie-message.js

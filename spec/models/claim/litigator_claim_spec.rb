@@ -69,12 +69,18 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
-  describe 'external_user_id' do
-    it 'is not valid if present' do
-      claim.external_user_id = 134
-      expect(claim).not_to be_valid
-      expect(claim.errors[:external_user_id]).to eq(['present'])
+  describe '#eligible_case_types' do
+    it 'should return all lgfs top level case types and non agfs only and none that are children' do
+
+      claim = build :unpersisted_litigator_claim
+      CaseType.delete_all   # kill the case type that was created as part of the claim build
+      ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
+      ct_top_level_agfs = create :case_type, roles: %w{ agfs }
+      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
+      ct_child_both = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+
+      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_lgfs.id].sort )
     end
   end
-
 end

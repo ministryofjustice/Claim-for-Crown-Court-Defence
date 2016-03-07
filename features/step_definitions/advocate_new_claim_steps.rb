@@ -22,7 +22,12 @@ end
 
 Given(/^I am on the new claim page$/) do
   create(:court, name: 'some court')
-  create(:offence_class, description: 'A: Homicide and related grave offences')
+  offence_class = OffenceClass.find_by(class_letter: "A")
+  if offence_class.nil?
+    create(:offence_class, class_letter: 'A', description: 'A: Homicide and related grave offences')
+  else
+    offence_class.update(description: 'A: Homicide and related grave offences')
+  end
   create(:offence, description: 'Murder')
   create(:basic_fee_type, description: 'Basic Fee', code: 'BAF')
   create(:basic_fee_type, description: 'Other Basic Fee')

@@ -49,6 +49,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
+  include DatabaseHousekeeping
 
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
@@ -113,6 +114,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
       expect(claim).not_to be_valid
       expect(claim.errors[:external_user]).to include('must have advocate role')
+    end
+  end
+
+  describe '#eligible_case_types' do
+    it 'should return all agfs top level case types and non lgfs only and none that are children' do
+      claim = build :unpersisted_claim
+      ct_top_level_both = create :case_type, name: "Top Level Case Type for both"
+      ct_top_level_agfs = create :case_type, roles: %w{ agfs }, name: "Top Level Case type for AGFS"
+      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }, name: "Top Level Case type for LGFS"
+      ct_child_both = create :child_case_type, roles: %w{ agfs lgfs }, name: "Child of Top level for both both", parent: ct_top_level_both
+      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, name: "Child of Top level for both AGFS only", parent: ct_top_level_both
+
+      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_agfs.id].sort )
     end
   end
 
@@ -855,29 +869,34 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'Case type scopes' do
-    let!(:case_types)       { load("#{Rails.root}/db/seeds/case_types.rb") }
+    before(:all) do
+      @case_types = load("#{Rails.root}/db/seeds/case_types.rb")
+      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) 
+      @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
+      @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
+      @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
+      @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
+    end
 
-    let!(:trials)           { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) }
-    let!(:retrials)         { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial')) }
-    let!(:cracked_trials)   { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial')) }
-    let!(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial')) }
-    let!(:guilty_pleas)     { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea')) }
+    after(:all) do
+      clean_database
+    end
 
     describe '.trial' do
       it 'returns trials and retrials' do
-        expect(Claim::AdvocateClaim.trial).to match_array(trials + retrials)
+        expect(Claim::AdvocateClaim.trial).to match_array(@trials + @retrials)
       end
     end
 
     describe '.cracked' do
       it 'returns cracked trials and retrials' do
-        expect(Claim::AdvocateClaim.cracked).to match_array(cracked_trials + cracked_retrials)
+        expect(Claim::AdvocateClaim.cracked).to match_array(@cracked_trials + @cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
       it 'returns guilty pleas' do
-        expect(Claim::AdvocateClaim.guilty_plea).to match_array(guilty_pleas)
+        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas)
       end
     end
   end

@@ -2,15 +2,15 @@
 #
 # Table name: fee_types
 #
-#  id              :integer          not null, primary key
-#  description     :string
-#  code            :string
-#  fee_category_id :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  max_amount      :decimal(, )
-#  calculated      :boolean          default(TRUE)
-#  type            :string
+#  id          :integer          not null, primary key
+#  description :string
+#  code        :string
+#  created_at  :datetime
+#  updated_at  :datetime
+#  max_amount  :decimal(, )
+#  calculated  :boolean          default(TRUE)
+#  type        :string
+#  roles       :string
 #
 
 FactoryGirl.define do
@@ -44,7 +44,7 @@ FactoryGirl.define do
     sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
     code { random_safe_code }
     calculated true
-    roles ['agfs'] 
+    roles ['agfs']
   end
 end
 

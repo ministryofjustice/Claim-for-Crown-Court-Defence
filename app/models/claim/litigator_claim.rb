@@ -50,5 +50,9 @@ module Claim
     validates_with ::Claim::LitigatorClaimValidator
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
+    def eligible_case_types
+      CaseType.top_levels.lgfs
+    end
+
   end
 end

@@ -1,3 +1,4 @@
+@caseworker @admin
 Feature: Manage Caseworkers
   Background:
     As a caseworker admin I should be able to add/edit case workers and I should be

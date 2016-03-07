@@ -1,5 +1,4 @@
-%h1.page-title
-  = t('.archived_claims')
+= render partial: 'layouts/header', locals: {page_heading: t('.archived_claims')}
 
 = render partial: 'claims_list'
 = paginate @claims

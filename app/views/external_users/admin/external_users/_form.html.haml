@@ -3,17 +3,21 @@
   = f.fields_for :user do |user_fields|
 
     .user-form
-      = user_fields.label :first_name, t(".first_name"), class: "form-label"
-      = user_fields.text_field :first_name, class: "form-control"
-      = user_fields.label :last_name, t(".last_name"), class: "form-label"
-      = user_fields.text_field :last_name, class: "form-control"
+      .form-row
+        = user_fields.label :first_name, t(".first_name"), class: "form-label"
+        = user_fields.text_field :first_name, class: "form-control"
+      .form-row
+        = user_fields.label :last_name, t(".last_name"), class: "form-label"
+        = user_fields.text_field :last_name, class: "form-control"
 
     .user-form
-      = user_fields.label :email, t(".email"), class: "form-label"
-      = user_fields.email_field :email, class: "form-control"
+      .form-row
+        = user_fields.label :email, t(".email"), class: "form-label"
+        = user_fields.email_field :email, class: "form-control"
       - if @external_user.new_record?
-        = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
-        = user_fields.email_field :email_confirmation, class: "form-control"
+        .form-row
+          = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
+          = user_fields.email_field :email_confirmation, class: "form-control"
 
     %fieldset.user-form
       = f.label :roles, class: "form-label"

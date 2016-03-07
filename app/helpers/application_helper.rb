@@ -98,4 +98,12 @@ module ApplicationHelper
     (current_user.persona.is_a?(ExternalUser) && !@claim.redeterminable?) || message.claim_action.present?
   end
 
+  def your_claims_header
+    if current_user.persona.admin?
+      t('external_users.all_claims')
+    else
+      t('external_users.your_claims')
+    end
+  end
+
 end

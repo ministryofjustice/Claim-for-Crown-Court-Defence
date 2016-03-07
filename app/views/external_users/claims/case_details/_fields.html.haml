@@ -11,10 +11,12 @@
       - b.label(class: "block-label") { b.radio_button + b.value.to_s }
     = validation_error_message(@error_presenter, :advocate_category)
 
-- if current_user.persona.admin?
-  = f.anchored_label t('.advocate'), 'external_user'
-  = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-  = validation_error_message(@error_presenter, :external_user)
+.form-group
+  .column-half
+    - if current_user.persona.admin?
+      = f.anchored_label t('.advocate'), 'external_user'
+      = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+      = validation_error_message(@error_presenter, :external_user)
 
 .form-group
   .column-half

@@ -35,7 +35,7 @@ moj.Modules.CustomFileUpload = {
   cacheEls: function() {
     this.$fileInputs = $(this.el);
     this.$forms = this.$fileInputs.closest('form');
-    this.$chooseFileNameTmpl = $('<div class="file-upload-name">');
+    this.$chooseFileNameTmpl = $('<p class="file-upload-name" />');
     this.$chooseFileButtonTmpl = $('<button class="button button-secondary" type="button">Choose file</button>');
   }
 };

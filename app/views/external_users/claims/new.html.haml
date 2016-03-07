@@ -1,4 +1,3 @@
-%h1.page-title
-  =t('.heading')
+= render partial: 'layouts/header', locals: {page_heading: t('.heading')}
 
 = render 'form'

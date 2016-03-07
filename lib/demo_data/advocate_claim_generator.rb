@@ -9,7 +9,7 @@ module DemoData
         external_user: advocate,
         advocate_category: Settings.advocate_categories.sample,
         court: Court.all.sample,
-        case_type: CaseType.all.sample,
+        case_type: CaseType.agfs.sample,
         case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
         offence: Offence.all.sample,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),

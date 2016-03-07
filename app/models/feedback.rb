@@ -46,8 +46,12 @@ class Feedback
   end
 
   def description
-    FEEDBACK_TYPES[self.type.to_sym].map { |t| self.send(t) }.join(' - ')
+    feedback_type_attributes.map { |t| self.send(t) }.join(' - ')
+  end
 
-    # "#{self.rating} - #{self.comment} - #{self.email}"
+  private
+
+  def feedback_type_attributes
+    FEEDBACK_TYPES[self.type.to_sym]
   end
 end

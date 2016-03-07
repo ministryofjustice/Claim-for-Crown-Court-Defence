@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: offences
+#
+#  id               :integer          not null, primary key
+#  description      :string
+#  offence_class_id :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe OffencesController, type: :controller do

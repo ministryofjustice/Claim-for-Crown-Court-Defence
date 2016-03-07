@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: messages
+#
+#  id                      :integer          not null, primary key
+#  body                    :text
+#  claim_id                :integer
+#  sender_id               :integer
+#  created_at              :datetime
+#  updated_at              :datetime
+#  attachment_file_name    :string
+#  attachment_content_type :string
+#  attachment_file_size    :integer
+#  attachment_updated_at   :datetime
+#
+
 class MessagesController < ApplicationController
   respond_to :html
 

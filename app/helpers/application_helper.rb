@@ -106,4 +106,12 @@ module ApplicationHelper
     end
   end
 
+  def start_a_claim_header(claim)
+    if claim.agfs?
+      t('external_users.start_agfs_claim_heading')
+    elsif claim.lgfs?
+      t('external_users.start_lgfs_claim_heading')
+    end
+  end
+
 end

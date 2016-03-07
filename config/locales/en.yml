@@ -323,6 +323,8 @@ en:
           form_error_hint: 'Check below for more detail'
     all_claims: All claims
     your_claims: Your claims
+    start_agfs_claim_heading: Claim for advocate graduated fees
+    start_lgfs_claim_heading: Claim for litigator graduated fees
     certifications:
       new:
         certified_by: 'Name of person certifying'
@@ -504,9 +506,6 @@ en:
         show_count: 'Showing 10 of %{total} claims'
       json_document_importer:
         import_claim: 'Or add your JSON report'
-      new:
-        agfs_heading: Claim for advocate graduated fees
-        lgfs_heading: Claim for litigator graduated fees
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of

@@ -170,7 +170,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       end
 
     # provider ONLY lgfs
-    elsif e.provider.has_roles?('lgfs')
+    elsif eu.provider.has_roles?('lgfs')
       if eu.litigator? || eu.admin?
         @claim_type = Claim::LitigatorClaim
       else

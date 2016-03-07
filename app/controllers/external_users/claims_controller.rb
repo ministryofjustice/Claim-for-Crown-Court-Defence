@@ -56,9 +56,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def new
     @claim = @claim_type.new
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
-
     build_nested_resources
   end
 
@@ -161,28 +159,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     # 'litigator' -> lgfs - providing provider includes lgfs
     # 'admin' -> choice - taking provider into account
 
-    # if provider is agfs
-    #   if user is advocate AND/OR admin
-    #     agfs claim
-    #   elsif user is litigator or litigator admin
-    #     raise unauthorised
-    #   end
-    # elsif provider is lgfs
-    #   if user is litigator AND/OR admin
-    #     lgfs claims
-    #   else
-    #     raise Unauthorised
-    #   end
-    # elsif provider is lgfs AND agfs
-    #   if user is ONLY admin or has advocate, litigator and admin role then
-    #     choice
-    #   elsif user is litigator and admin OR ONLY litigator
-    #     lgfs claims
-    #   elsif user is advocate and admin OR ONLY advocate
-    #     agfs claims
-    #   end
-    # end
-
     eu = current_user.persona
 
     # provider ONLY agfs
@@ -220,7 +196,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_context
-    
     if @provider.has_roles?('agfs') && @external_user.admin? #NOTE: agfs order is important as admin supercedes advocate
         @context = @provider.claims
     elsif @provider.has_roles?('agfs') && @external_user.advocate?

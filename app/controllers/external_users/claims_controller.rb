@@ -220,19 +220,18 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_context
-    if @provider.has_roles?('lgfs') && (@external_user.litigator? || @external_user.admin?)
-      @context = @provider.claims_created
-    elsif @provider.has_roles?('agfs') && (@external_user.advocate? || @external_user.admin?)
-      if @external_user.admin?
+    
+    if @provider.has_roles?('agfs') && @external_user.admin? #NOTE: agfs order is important as admin supercedes advocate
         @context = @provider.claims
-      else
+    elsif @provider.has_roles?('agfs') && @external_user.advocate?
         @context = @external_user.claims
-      end
-    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('advocate','admin')
-      @context = @provider.claims
-    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('litigator','admin')
+    elsif @provider.has_roles?('lgfs') && (@external_user.litigator? || @external_user.admin?)
       @context = @provider.claims_created
-    elsif @provider.has_roles?('agfs','lgfs') && ( @external_user.has_roles?('admin') || @external_user.has_roles?('advocate','litigator','admin') )
+    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('advocate','admin') #advocate adminstrator (only) in "firm"
+      @context = @provider.claims
+    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('litigator','admin') #litigator administrator (only) in "firm"
+      @context = @provider.claims_created
+    elsif @provider.has_roles?('agfs','lgfs') && ( @external_user.has_roles?('admin') || @external_user.has_roles?('advocate','litigator','admin') ) #advocate and litigator admin in "firm"
       @context = @provider.claims_created.merge!(@provider.claims)
     else
       raise "WARNING: agfs/lgfs firm logic incomplete"

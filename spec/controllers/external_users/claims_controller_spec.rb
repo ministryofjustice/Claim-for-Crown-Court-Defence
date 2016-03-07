@@ -4,97 +4,201 @@ require 'custom_matchers'
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
 
   let!(:advocate)       { create(:external_user, :advocate) }
-  let!(:advocate_admin) { create(:external_user, :admin, provider_id: advocate.provider.id) }
-  let!(:litigator)      { create(:external_user, :litigator) }
-
   before { sign_in advocate.user }
 
-  describe '#GET index' do
+  context "list views" do
 
-    it 'returns success' do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
+    let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
+    let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
-    it 'renders the template' do
-      get :index
-      expect(response).to render_template(:index)
-    end
+    let!(:litigator)      { create(:external_user, :litigator) }
+    let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
+    let!(:other_litigator){ create(:external_user, :advocate, provider: litigator.provider) }
 
-    it 'should retrieve dashboard displayable state claims for the advocate' do
-      get :index
-      expect(assigns(:context)).to eq(advocate.claims)
-    end
+    describe '#GET index' do
 
-    context 'advocate admin' do
-      before { sign_in advocate_admin.user }
-      it 'should retrieve dashboard displayable state claims for the provider' do
+      it 'returns success' do
         get :index
-        expect(assigns(:context)).to eq(advocate_admin.provider.claims)
+        expect(response).to have_http_status(:success)
       end
-    end
 
-    context "sorting" do
-      before(:each) do
-        create_list(:draft_claim, 1, external_user: advocate)
-        create_list(:draft_claim, 1, external_user: advocate, created_at: 5.days.ago)
-        create_list(:draft_claim, 6, external_user: advocate, created_at: 1.day.ago)
-        create_list(:draft_claim, 1, external_user: advocate, created_at: 2.days.ago)
-        create(:submitted_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
-        create(:refused_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+      it 'renders the template' do
         get :index
+        expect(response).to render_template(:index)
       end
 
-      it 'orders claims with draft first (oldest created first) then oldest submitted' do
-        expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc').page(1).per(10))
+      context 'AGFS claims' do
+        before do
+          create(:draft_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+          create(:draft_claim, external_user: other_advocate)
+        end
+
+        context 'advocate' do
+          it 'should assign context to claims for the advocate only' do
+            get :index
+            expect(assigns(:context)).to eq(advocate.claims)
+          end
+          it 'should assign claims to dashboard displayable state claims for the advocate only' do
+            get :index
+            expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+          it 'should assign context to claims for the provider' do
+            get :index
+            expect(assigns(:context)).to eq(advocate_admin.provider.claims)
+          end
+          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+            get :index
+            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.dashboard_displayable_states)
+          end
+        end
       end
 
-      it 'paginates to 10 per page' do
-        expect(assigns(:claims).count).to eq(10)
+      context 'LGFS claims' do
+        before do
+          create(:litigator_claim, :draft, creator: litigator)
+          create(:litigator_claim, :archived_pending_delete, creator: litigator)
+          create(:litigator_claim, :draft, creator: other_litigator)
+        end
+
+        context 'litigator' do
+          before { sign_in litigator.user }
+          it 'should assign context to claims for the provider' do
+            get :index
+            expect(assigns(:context)).to eq(litigator.provider.claims_created)
+          end
+          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+            get :index
+            expect(assigns(:claims)).to eq(litigator.provider.claims_created.dashboard_displayable_states)
+          end
+        end
+
+        context 'litigator admin' do
+          before { sign_in litigator_admin.user }
+          it 'should assign context to claims for the provider' do
+            get :index
+            expect(assigns(:context)).to eq(litigator_admin.provider.claims_created)
+          end
+          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+            get :index
+            expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.dashboard_displayable_states)
+          end
+        end
+      end
+
+      context "sorting" do
+        before(:each) do
+          create_list(:draft_claim, 1, external_user: advocate)
+          create_list(:draft_claim, 1, external_user: advocate, created_at: 5.days.ago)
+          create_list(:draft_claim, 6, external_user: advocate, created_at: 1.day.ago)
+          create_list(:draft_claim, 1, external_user: advocate, created_at: 2.days.ago)
+          create(:submitted_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
+          create(:refused_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+          get :index
+        end
+
+        it 'orders claims with draft first (oldest created first) then oldest submitted' do
+          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc').page(1).per(10))
+        end
+
+        it 'paginates to 10 per page' do
+          expect(assigns(:claims).count).to eq(10)
+        end
       end
     end
-  end
 
-  describe '#GET archived' do
+    describe '#GET archived' do
 
-    it 'returns success' do
-      get :archived
-      expect(response).to have_http_status(:success)
-    end
-
-    it 'renders the template' do
-      get :archived
-      expect(response).to render_template(:archived)
-    end
-
-    it 'should assign context for claims to advocate' do
-      get :index
-      expect(assigns(:context)).to eq(advocate.claims)
-    end
-
-    context 'advocate admin' do
-      before { sign_in advocate_admin.user }
-      it 'should assign context for claims to provider' do
-        get :index
-        expect(assigns(:context)).to eq(advocate_admin.provider.claims)
-      end
-    end
-
-    context "sorting" do
-      before(:each) do
-        create_list(:archived_pending_delete_claim, 8, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
-        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 3.days.ago)
-        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
-        create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+      it 'returns success' do
         get :archived
+        expect(response).to have_http_status(:success)
       end
 
-      it 'orders claims with most recently submitted first' do
-        expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc').page(1).per(10))
+      it 'renders the template' do
+        get :archived
+        expect(response).to render_template(:archived)
       end
 
-      it 'paginates to 10 per page' do
-        expect(assigns(:claims).count).to eq(10)
+      context 'AGFS claims' do
+        before do
+          create(:draft_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+          create(:draft_claim, external_user: other_advocate)
+        end
+
+        context 'advocate' do
+          before { sign_in advocate.user }
+          it 'should assign context to provider claims based on external user' do
+            get :archived
+            expect(assigns(:context)).to eq(advocate.claims)
+          end
+          it 'should assign claims to archived only' do
+            get :archived
+            expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+          it 'should assign context to provider claims based on external user' do
+            get :archived
+            expect(assigns(:context)).to eq(advocate_admin.provider.claims)
+          end
+          it 'should assign claims to archived only' do
+            get :archived
+            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.archived_pending_delete)
+          end
+        end
+      end
+
+      context 'LGFS claims' do
+        before do
+          create(:litigator_claim, :draft, creator: litigator)
+          create(:litigator_claim, :archived_pending_delete, creator: litigator)
+          create(:litigator_claim, :draft, creator: other_litigator)
+        end
+
+        context 'litigator' do
+          before { sign_in litigator.user }
+          it 'should see same context and claims as a litigator admin' do
+            get :archived
+            expect(assigns(:claims)).to eq(litigator.provider.claims_created.archived_pending_delete)
+          end
+        end
+
+        context 'litigator admin' do
+          before { sign_in litigator_admin.user }
+          it 'should assign context to claims created by all members of the provider' do
+            get :archived
+            expect(assigns(:context)).to eq(litigator_admin.provider.claims_created)
+          end
+          it 'should retrieve archived state claims only' do
+            get :archived
+            expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.archived_pending_delete)
+          end
+        end
+      end
+
+      context "sorting" do
+        before(:each) do
+          create_list(:archived_pending_delete_claim, 8, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
+          create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 3.days.ago)
+          create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
+          create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+          get :archived
+        end
+
+        it 'orders claims with most recently submitted first' do
+          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc').page(1).per(10))
+        end
+
+        it 'paginates to 10 per page' do
+          expect(assigns(:claims).count).to eq(10)
+        end
       end
     end
   end
@@ -371,7 +475,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
               expect(claim.reload.fees_total).to eq 2750.00
             end
           end
-
         end
 
       end

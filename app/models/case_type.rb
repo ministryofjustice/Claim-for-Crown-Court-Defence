@@ -39,4 +39,8 @@ class CaseType < ActiveRecord::Base
     case_types = CaseType.where('name in (?)', args)
     case_types.map(&:id)
   end
+
+  def to_s
+    "#{self.id}::#{self.name}::~#{roles.join(',')}"
+  end
 end

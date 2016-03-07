@@ -15,12 +15,6 @@ class Feedback
     bug_report: [:event, :outcome, :email]
   }
 
-  FEEDBACK_TYPES.keys.each do |type|
-    define_method "#{type}?" do
-      is?(type)
-    end
-  end
-
   attr_accessor :email, :referrer, :user_agent, :comment, :rating, :event, :outcome, :type
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
@@ -31,6 +25,14 @@ class Feedback
     attributes.each do |key, value|
       instance_variable_set(:"@#{key}", value)
     end
+  end
+
+  def feedback?
+    is?(:feedback)
+  end
+
+  def bug_report?
+    is?(:bug_report)
   end
 
   def is?(type)

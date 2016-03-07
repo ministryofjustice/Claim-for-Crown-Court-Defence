@@ -1,10 +1,10 @@
 %header.main-header{role: 'banner'}
-  %h1
-    - if @claim.instance_of? Claim::AdvocateClaim
-      = t('.agfs_heading')
-    - elsif @claim.instance_of? Claim::LitigatorClaim
-      = t('.lgfs_heading')
 
-= render partial: 'layouts/header', locals: {page_heading: t('.heading')}
+  - if @claim.agfs?
+    - page_heading = t('.agfs_heading')
+  - elsif @claim.lgfs?
+    - page_heading = t('.lgfs_heading')
+
+= render partial: 'layouts/header', locals: {page_heading: page_heading}
 
 = render 'form'

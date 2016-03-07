@@ -192,7 +192,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     if @claim_type.nil?
       raise 'You or your provider do not appear to have correct privileges to create claims'
     end
-    
   end
 
   def set_context

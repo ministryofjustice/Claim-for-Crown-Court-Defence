@@ -15,9 +15,3 @@ Given(/^my firm has claims$/) do
   @claims = create_list(:litigator_claim, 3, creator: litigator1)
   @claims.concat(create_list(:litigator_claim, 2, creator: litigator2))
 end
-
-Then(/^I should see all my firm's claims$/) do
-  @claims.each do |claim|
-    expect(page).to have_selector("#claim_litigator_claim_#{claim.id}")
-  end
-end

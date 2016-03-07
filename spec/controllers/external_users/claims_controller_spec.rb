@@ -5,6 +5,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
   let!(:advocate)       { create(:external_user, :advocate) }
   let!(:advocate_admin) { create(:external_user, :admin, provider_id: advocate.provider.id) }
+  let!(:litigator)      { create(:external_user, :litigator) }
 
   before { sign_in advocate.user }
 

@@ -128,15 +128,7 @@ end
 Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, type|
   claims = type == 'all' ? Claim::BaseClaim.all : Claim::BaseClaim.send(type.to_sym)
   claims.each { |claim| expect(page).to have_selector("#claim_#{claim.id}") }
-
   expect(claims.count).to eq(quantity.to_i)
-
-end
-
-Then(/^I should see all claims$/) do
-  @claims.each do |claim|
-    expect(page).to have_selector("#claim_#{claim.id}")
-  end
 end
 
 Then(/^I should not see any redetermination or awaiting_written_reasons claims$/) do

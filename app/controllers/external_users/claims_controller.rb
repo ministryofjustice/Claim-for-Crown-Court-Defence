@@ -14,10 +14,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :step_2, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
-  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
-  before_action :generate_form_id, only: [:new, :edit]
+  before_action :load_advocates_in_provider, only: [:new, :step_2, :edit, :create, :update]
+  before_action :generate_form_id, only: [:new, :edit, :step_2]
   before_action :initialize_submodel_counts
 
   include ReadMessages
@@ -54,6 +54,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
+    @step = '1'
     @claim = Claim::AdvocateClaim.new
     @advocates_in_provider = @provider.advocates if @external_user.admin?
     load_offences_and_case_types
@@ -61,7 +62,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     build_nested_resources
   end
 
+  def step_2
+    @step = '2'
+    build_nested_resources
+    load_offences_and_case_types
+    @disable_assessment_input = true
+  end
+
   def edit
+    @step = '1'
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
@@ -72,6 +81,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
+    @step = params[:step] || '1'
+
     @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
@@ -81,6 +92,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def update
+    @step = params[:step] || '1'
+
     update_source_for_api
     if @claim.update(claim_params)
       @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
@@ -115,6 +128,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   private
 
+  def handle_step_redirect
+    @step = params[:step] || '1'
+    redirect_to step_2_external_users_claim_url(@claim) and return if @step == '1' && submitting_to_laa?
+  end
+
   def generate_form_id
     @form_id = SecureRandom.uuid
   end
@@ -134,14 +152,21 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @claim.force_validation = true
       if @claim.valid?
         send_ga('event', 'claim', 'submit', 'started')
-        redirect_to new_external_users_claim_certification_path(@claim)
+
+        if @step == '1'
+          redirect_to step_2_external_users_claim_url(@claim)
+        else
+          redirect_to new_external_users_claim_certification_url(@claim)
+        end
       else
         present_errors
         render_edit_with_resources
       end
+    elsif back_to_step_1?
+      redirect_to edit_external_users_claim_url(@claim)
     else
       send_ga('event', 'claim', 'draft', 'updated')
-      redirect_to external_users_claims_path, notice: 'Draft claim saved'
+      redirect_to external_users_claims_url, notice: 'Draft claim saved'
     end
   end
 
@@ -285,16 +310,21 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def saving_to_draft?
-    params[:commit] == 'Save to drafts'
+    params[:commit] == 'Save a draft'
   end
 
   def submitting_to_laa?
-    params[:commit] == 'Submit to LAA'
+    params[:commit] == 'Continue'
+  end
+
+  def back_to_step_1?
+    params[:commit] == 'Back'
   end
 
   def render_edit_with_resources
     build_nested_resources
     load_offences_and_case_types
+    @step = '1'
     render action: :edit
   end
 
@@ -302,6 +332,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     present_errors
     build_nested_resources
     load_offences_and_case_types
+    @step = '1'
     render action: :new
   end
 
@@ -316,7 +347,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     if @claim.save
       @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
       send_ga('event', 'claim', 'draft', 'created')
-      redirect_to external_users_claims_path, notice: 'Draft claim saved'
+      redirect_to external_users_claims_url, notice: 'Draft claim saved'
     else
       render_new_with_resources
     end
@@ -337,7 +368,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def create_and_submit
     if Claim::AdvocateClaim.where(form_id: @claim.form_id).any?
-      redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
+      redirect_to external_users_claims_url, alert: 'Claim already submitted' and return
     end
 
     Claim::AdvocateClaim.transaction do
@@ -347,7 +378,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       if @claim.valid?
         @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
         send_ga('event', 'claim', 'submit', 'started')
-        redirect_to new_external_users_claim_certification_path(@claim) and return
+
+        if @step == '1'
+          redirect_to step_2_external_users_claim_url(@claim) and return
+        else
+          redirect_to new_external_users_claim_certification_url(@claim) and return
+        end
       else
         raise ActiveRecord::Rollback
       end

@@ -1,6 +1,8 @@
 #claim-form
   = form_for [:external_users, @claim], as: :claim, url: url_for_external_users_claim(@claim), builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
 
+    = hidden_field_tag :step, 1
+
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
 
     = render partial: 'error_summary', locals: { ep: @error_presenter }
@@ -9,18 +11,18 @@
 
     = render partial: 'external_users/claims/defendants/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/expenses/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/expenses/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/supporting_documents/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/supporting_documents/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/supporting_evidence_checklist/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/supporting_evidence_checklist/fields', locals: { f: f }
 
-    = render partial: 'external_users/claims/additional_information/fields', locals: { f: f }
+    =# render partial: 'external_users/claims/additional_information/fields', locals: { f: f }
 
     = render partial: 'external_users/claims/buttons/new', locals: { f: f }

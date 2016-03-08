@@ -22,7 +22,7 @@ class Ability
         can [:create], ClaimIntention
         can [:show, :edit, :update, :regenerate_api_key], Provider, id: persona.provider_id
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
+        can [:show, :show_message_controls, :edit, :step_2, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
         can [:show, :download], Document, provider_id: persona.provider_id
         can [:destroy], Document do |document|
           if document.external_user_id.nil?
@@ -38,7 +38,7 @@ class Ability
       else
         can [:create], ClaimIntention
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, external_user_id: persona.id
+        can [:show, :show_message_controls, :edit, :step_2, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, external_user_id: persona.id
         can [:show, :download], Document, external_user_id: persona.id
         can [:destroy], Document do |document|
           if document.external_user_id.nil?

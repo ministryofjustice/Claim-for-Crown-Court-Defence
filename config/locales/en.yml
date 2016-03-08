@@ -462,7 +462,7 @@ en:
         error: 'error'
         form_error_hint: 'Check below for more detail'
       edit:
-        edit: Edit claim
+        edit: Claim for advocate graduated fees
 
       fee_fields:
         add_date_attended: 'Add date(s)'

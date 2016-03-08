@@ -88,12 +88,13 @@ Rails.application.routes.draw do
     post '/external_users/json_importer' => 'json_document_importer#create'
 
     resources :claims do
-      get 'confirmation',     on: :member
+      get 'step_2',                on: :member
+      get 'confirmation',          on: :member
       get 'show_message_controls', on: :member
-      get 'outstanding',      on: :collection
-      get 'authorised',       on: :collection
-      get 'archived',         on: :collection
-      patch 'clone_rejected', to: 'claims#clone_rejected', on: :member
+      get 'outstanding',           on: :collection
+      get 'authorised',            on: :collection
+      get 'archived',              on: :collection
+      patch 'clone_rejected',      to: 'claims#clone_rejected', on: :member
 
       resource :certification, only: [:new, :create, :update]
     end

@@ -12,7 +12,7 @@ class Claim::BaseClaimValidator < BaseValidator
     :retrial_estimated_length,
     :retrial_actual_length,
     :trial_cracked_at_third,
-    :total,
+    # :total,
     :trial_fixed_notice_at,
     :trial_fixed_at,
     :trial_cracked_at,

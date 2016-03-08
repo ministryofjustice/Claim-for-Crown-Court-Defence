@@ -1,5 +1,5 @@
 .button-holder
-  = f.submit t('.submit_to_laa'), class: 'button left'
-  - if @claim.draft?
-    = f.submit t('.save_to_drafts'), class: 'button button-secondary left'
-  = link_to t('.clear_form'), new_external_users_claim_path, class: 'button button-secondary right', data: { confirm: 'Are you sure you want to clear this form?' }
+  = f.submit 'Continue', class: 'button left'
+  = f.submit 'Save a draft', class: 'button button-secondary left'
+  - if params[:action] == 'step_2'
+    = f.submit 'Back', class: 'button button-secondary left'

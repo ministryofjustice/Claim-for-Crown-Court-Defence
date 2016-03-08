@@ -1,0 +1,15 @@
+- if ep.errors.any?
+  .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+    %h1.heading-medium.error-summary-heading{id: 'error-summary-heading'}
+      =# "Message to alert the user to a problem goes here"
+      = error_summary
+      = pluralize(ep.errors.count , t('shared.errors.error'))
+
+    %ul.error-summary-list
+      - ep.errors.full_messages.each do |error_detail|
+        %li
+          %a{href: '#'}
+            = error_detail
+
+    %span.form-hint
+      = t('shared.errors.form_error_hint')

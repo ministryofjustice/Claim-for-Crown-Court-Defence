@@ -1,18 +1,10 @@
 - present(@claim) do |claim|
 
-  %p
-    - if @claim.errors.any?
-      .validation-summary
-        %h4.heading-small= "This claim has #{pluralize(@claim.errors.count, 'error')}"
-        %ul
-          - @claim.errors.full_messages.each do |msg|
-            %li= msg
-    - elsif params[:errors] # passed from redirect in update action
-      .validation-summary
-        %h4.heading-small= "This claim has #{pluralize(params[:errors].count, 'error')}"
-        %ul
-          - params[:errors].each do |msg|
-            %li= msg
+  - if @claim.errors.any?
+    = render partial: 'errors/error_summary', locals:{ ep: @claim, error_summary: 'This claim has '}
+
+  - elsif params[:errors] # passed from redirect in update action
+    = render partial: 'errors/error_summary', locals:{ ep: params[:errors], error_summary: 'This claim has '}
 
   = render 'shared/claim_header', claim: claim
 

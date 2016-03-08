@@ -42,7 +42,7 @@ module DemoData
         evidence_checklist_ids: [],
         source: "web",
         vat_amount: 0.0,
-        case_type: CaseType.all.sample)
+        case_type: CaseType.agfs.sample)
       claim.save!
       puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
       add_defendants(claim)

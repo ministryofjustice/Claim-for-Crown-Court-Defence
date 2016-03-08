@@ -22,15 +22,14 @@ module Fee
   end
 
   class BaseFeeType < ActiveRecord::Base
+    ROLES = %w{ lgfs agfs }
+    include ActionView::Helpers::NumberHelper
+    include Comparable
+    include Roles
 
     self.table_name = 'fee_types'
 
     auto_strip_attributes :code, :description, squish: true, nullify: true
-
-    include ActionView::Helpers::NumberHelper
-    
-    ROLES = %w( agfs lgfs)
-    include Roles
 
     has_many :fees, dependent: :destroy, class_name: Fee::BaseFee, foreign_key: :fee_type_id
     has_many :claims, through: :fees
@@ -68,6 +67,18 @@ module Fee
 
     def self.fixed
       Fee::FixedFeeType.all
+    end
+
+    def to_s
+      sprintf('%3d %18s %4s %10s %s', self.id, self.type, self.code, self.roles.join(';'), self.description)
+    end
+
+    def <=> other
+      sort_key <=> other.sort_key
+    end
+
+    def sort_key
+      "#{self.type} #{self.description}"
     end
     
   private

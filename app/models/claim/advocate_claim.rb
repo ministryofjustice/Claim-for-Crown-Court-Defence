@@ -53,6 +53,18 @@ module Claim
     def eligible_case_types
       CaseType.top_levels.agfs
     end
+
+    def eligible_basic_fee_types
+      Fee::BasicFeeType.agfs
+    end
+
+    def eligible_misc_fee_types
+      Fee::MiscFeeType.agfs
+    end
+
+    def eligible_fixed_fee_types
+      Fee::FixedFeeType.agfs
+    end
   end
 end
 

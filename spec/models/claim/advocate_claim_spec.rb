@@ -130,6 +130,40 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
+  context 'eligible misc and fixed fee types' do
+    before(:all) do
+      @bft1 = create :basic_fee_type
+      @bft2 = create :basic_fee_type, :lgfs
+      @mft1 = create :misc_fee_type
+      @mft2 = create :misc_fee_type, :lgfs
+      @fft1 = create :fixed_fee_type
+      @fft2 = create :fixed_fee_type, :lgfs
+      @claim = build :unpersisted_claim
+    end
+
+    after(:all) do
+      clean_database
+    end
+
+    describe '#eligible_basic_fee_types' do
+      it 'returns only basic fee types for AGFS' do
+        expect(@claim.eligible_basic_fee_types).to eq([@bft1])
+      end
+    end
+
+    describe '#eligible_misc_fee_types' do
+      it 'returns only misc fee types for AGFS' do
+        expect(@claim.eligible_misc_fee_types).to eq([@mft1])
+      end
+    end
+
+    describe '#eligible_fixed_fee_types' do
+      it 'returns only fixed fee types for AGFS' do
+        expect(@claim.eligible_fixed_fee_types).to eq([@fft1])
+      end
+    end
+  end
+
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
     let(:all_states)  { [  'allocated', 'archived_pending_delete',

@@ -3,50 +3,23 @@
 // ================================================================//
 
 .phase-banner {
-  border-bottom:1px solid $border-colour;
-  padding-bottom:5px;
-  margin-bottom:$gutter-half;
-  p {
-    margin-bottom:0;
+  @include phase-banner(beta);
+}
+#global-header .header-wrapper  {
+  .header-global{
+    @include span(4 of 12);
+    .header-logo{
+      width:auto;
+    }
+  }
+  .header-proposition {
+    @include span(6 of 12);
+    #proposition-menu{
+      margin-top:8px;
+    }
   }
 }
 
-#global-header {
-  .header-wrapper {
-    @include inner-block;
-    .header-global {
-      @include container;
-      max-width: 960px;
-      padding:$gutter-half/2 0;
-      .header-logo{
-        margin:0;
-        @include span(4 of 12);
-        @include first;
-        padding-left:0;
-      }
-      .header-app-name {
-        margin:0;
-        @include span(8 of 12);
-        text-align: left;
-        line-height: 1em;
-      }
-    }
-    #logo {
-      float:none;
-      img {
-        margin:0;
-        display: block;
-        float:none;
-        padding:0;
-      }
-    }
-  }
-}
-#global-header-bar {
-  .header-bar {
-    height:10px;
-  }
-}
 // ==========================================================================
 // claim detail page
 
@@ -393,12 +366,6 @@ form {
 }
 
 .controller-claims {
-  fieldset {
-    border-bottom: 0;
-    .form-group.inline{
-      margin-bottom: 0;
-    }
-  }
   .judicial-apportionment-notice{
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
@@ -521,16 +488,7 @@ form {
     min-height: 3em;
   }
 }
-// ================================================================//
-// FOOTER MESS
-// ================================================================//
-.copyright {
-  float: right;
-}
 
-.open-government-licence {
-  float: left;
-}
 // ================================================================//
 // FLASH-NOTICES MESS
 // ================================================================//
@@ -611,9 +569,6 @@ form {
 .search-form {
   legend{
     @include visually-hidden;
-  }
-  .form-group {
-    margin-bottom:$gutter-half;
   }
   label {
     margin-top:0;
@@ -844,9 +799,6 @@ Styling for Claims Messaging
   .message-controls {
     padding: $gutter-half;
     border-top: 1px solid $border-colour;
-    .form-group.inline {
-      margin-bottom: 0.5em;
-    }
 
     .upload-column {
       // @include grid-column( 1/7 );

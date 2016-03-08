@@ -1,3 +1,11 @@
+header.main-header {
+  margin-bottom:$gutter;
+  h1{
+    @include heading-48;
+    font-weight: 700;
+  }
+
+}
 .sub-header{
   margin-bottom: $gutter-half;
 }
@@ -19,7 +27,7 @@
   h1{
     @include span(6 of 12);
     @include first;
-    @include media(desktop){
+    @include media(desktop) {
       @include span(4 of 12);
     }
     @include core-19;

@@ -9,7 +9,7 @@ module DemoData
         external_user: nil,
         advocate_category: nil,
         court: Court.all.sample,
-        case_type: CaseType.all.sample,
+        case_type: CaseType.lgfs.sample,
         case_number: ('A'..'Z').to_a.sample +  rand(10000000..99999999).to_s,
         offence: Offence.miscellaneous.sample,
         apply_vat: (rand(1..4) % 4 == 0 ? false : true),

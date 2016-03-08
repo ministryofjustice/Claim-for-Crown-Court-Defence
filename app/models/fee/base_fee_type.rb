@@ -69,18 +69,6 @@ module Fee
       Fee::FixedFeeType.all
     end
 
-    def to_s
-      sprintf('%3d %18s %4s %10s %s', self.id, self.type, self.code, self.roles.join(';'), self.description)
-    end
-
-    def <=> other
-      sort_key <=> other.sort_key
-    end
-
-    def sort_key
-      "#{self.type} #{self.description}"
-    end
-    
   private
 
     def self.by_fee_category(category)

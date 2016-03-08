@@ -24,6 +24,7 @@
 #
 
 class User < ActiveRecord::Base
+
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
 
   # Include default devise modules. Others available are:
@@ -46,8 +47,12 @@ class User < ActiveRecord::Base
 
   validate :validate_no_plus_suffix
 
+  # enable current_user to directly call persona methods (in controllers)
   delegate :claims, to: :persona
-
+  delegate :claims_created, to: :persona
+  delegate :roles, to: :persona
+  delegate :provider, to: :persona
+  
   scope :external_users, -> { where(persona_type: 'ExternalUser') }
 
   def name

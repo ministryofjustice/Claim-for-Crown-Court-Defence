@@ -126,9 +126,6 @@ Styling for Claims Messaging
   .message-controls {
     padding: $gutter-half;
     border-top: 1px solid $border-colour;
-    .form-group.inline {
-      margin-bottom: 0.5em;
-    }
 
     .upload-column {
       @include grid-column( 1/7 );

@@ -130,6 +130,17 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def scheme
+    case claim
+      when Claim::AdvocateClaim
+        'AGFS'
+      when Claim::LitigatorClaim
+        'LGFS'
+      else
+        'unknown'
+    end
+  end
+
   def assessment_date
     claim.assessment.blank? ? '(not yet assessed)' : claim.assessment.created_at.strftime(Settings.date_format)
   end

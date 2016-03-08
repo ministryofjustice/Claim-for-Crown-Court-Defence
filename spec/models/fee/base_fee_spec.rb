@@ -11,6 +11,7 @@
 #  updated_at  :datetime
 #  uuid        :uuid
 #  rate        :decimal(, )
+#  type        :string
 #
 
 require 'rails_helper'

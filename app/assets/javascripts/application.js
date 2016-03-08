@@ -4,13 +4,14 @@
 //= require select2
 //= require cocoon
 //= require dropzone
+//= require vendor/polyfills/bind
+//= require govuk/selection-buttons
 //= require moj
-//= require modules/moj.cookie-message
+//= require modules/moj.cookie-message.js
 //= require_tree .
 
 (function () {
   'use strict';
-
   delete moj.Modules.devs;
 
   $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
@@ -24,6 +25,9 @@
       return false;
     }
   });
+
+  var selectionButtons = new GOVUK.SelectionButtons("label input[type='radio'], label input[type='checkbox']");
+
 
   moj.init();
 }());

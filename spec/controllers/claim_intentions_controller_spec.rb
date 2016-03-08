@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: claim_intentions
+#
+#  id         :integer          not null, primary key
+#  form_id    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'rails_helper'
 
 RSpec.describe ClaimIntentionsController, type: :controller do

@@ -1,4 +1,3 @@
-
 # == Schema Information
 #
 # Table name: case_types
@@ -13,6 +12,8 @@
 #  allow_pcmh_fee_type     :boolean          default(FALSE)
 #  requires_maat_reference :boolean          default(FALSE)
 #  requires_retrial_dates  :boolean          default(FALSE)
+#  roles                   :string
+#  parent_id               :integer
 #
 
 class CaseType < ActiveRecord::Base
@@ -21,8 +22,12 @@ class CaseType < ActiveRecord::Base
   
   auto_strip_attributes :name, squish: true, nullify: true
 
-  default_scope -> { order(name: :asc) }
+  has_many :children, class_name: CaseType, foreign_key: :parent_id
+  belongs_to :parent, class_name: CaseType, foreign_key: :parent_id
 
+  default_scope -> { order(parent_id: :desc, name: :asc) }
+
+  scope :top_levels,              -> { where(parent_id: nil) }
   scope :fixed_fee,               -> { where(is_fixed_fee: true) }
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }
   scope :requires_trial_dates,    -> { where(requires_trial_dates: true) }
@@ -35,5 +40,4 @@ class CaseType < ActiveRecord::Base
     case_types = CaseType.where('name in (?)', args)
     case_types.map(&:id)
   end
-
 end

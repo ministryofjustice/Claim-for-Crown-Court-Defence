@@ -1,6 +1,11 @@
 
 FactoryGirl.define do
-  factory :claim, class: Claim::AdvocateClaim do
+  factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
+
+    # Alias for :claim factory that should be used since we now have a litigator claim factory
+    # TODO: replace all instances for create(:claim) to create(:advocate_claim)
+    # factory :advocate_claim do
+    # end
 
     form_id SecureRandom.uuid
     court

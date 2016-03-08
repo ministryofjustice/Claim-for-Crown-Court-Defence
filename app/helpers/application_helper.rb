@@ -81,7 +81,7 @@ module ApplicationHelper
   def dom_id(record, prefix = nil)
     result = ActionView::RecordIdentifier.dom_id(record, prefix)
     if record.is_a?(Claim::BaseClaim) || record.is_a?(Claim::BaseClaimPresenter)
-      result.sub!(/claim_((base)|(advocate))_claim/, 'claim')
+      result.sub!(/claim_((base)|(advocate)|(litigator))_claim/, 'claim')
     end
     result
   end
@@ -103,6 +103,14 @@ module ApplicationHelper
       t('external_users.all_claims')
     else
       t('external_users.your_claims')
+    end
+  end
+
+  def start_a_claim_header(claim)
+    if claim.agfs?
+      t('external_users.start_agfs_claim_heading')
+    elsif claim.lgfs?
+      t('external_users.start_lgfs_claim_heading')
     end
   end
 

@@ -31,7 +31,7 @@ module API
         desc "Return all Case Types"
         params { use :api_key_params }
         get do
-          CaseType.all
+          CaseType.agfs
         end
       end
 

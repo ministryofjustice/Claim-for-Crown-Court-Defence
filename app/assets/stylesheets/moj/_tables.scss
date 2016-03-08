@@ -5,60 +5,44 @@
 table {
   width: 100%;
   margin-bottom: 1em;
-
+  background-color: #fff;
   border-collapse: collapse;
-  border-bottom: 1px solid #bfc1c3;
+  border-bottom: 1px solid $border-colour;
   caption {
-    display: none;
+    text-align: left;
   }
   tr {
-    background-color: #fff;
-    &:hover {
-      background-color: $grey-4;
+    th,
+    td {
+      &:first-child{
+        padding-left:$gutter-half/3;
+      }
+      &:last-child{
+        padding-right:$gutter-half/3;
+      }
     }
   }
   th {
-    text-align: left;
     border-top: 1px solid $border-colour;
-    background-color: #fff;
-    color: $link-colour;
-    @include bold-16();
   }
   th,
   td {
-    padding-left: $gutter-half/2;
+    padding:$gutter-half/2 $gutter-half $gutter-half/2 0;
     border-right: none;
     border-left: none;
   }
-
-  tbody th {
+  thead th {
+    padding-top:$gutter-half;
+    padding-bottom:$gutter-half;
+  }
+  tbody {
+    tr:hover {
+      background-color: $grey-4;
+    }
+    th {
+      @include core-16;
       color:$text-colour;
       background: transparent;
-      @include core-16;
-  }
-  &.allocate {
-    th {
-      padding: 0 $gutter-half;
-      text-align: left;
-      background-color: $grey-3;
     }
-    tr {
-      line-height: 2;
-      &:nth-child(even) {
-        background-color: $grey-4;
-      }
-      label {
-        margin: 0;
-        padding: 0 15px;
-      }
-      td input {
-        display: block;
-
-        margin: auto;
-      }
-    }
-  }
-  .numerical {
-    text-align: right;
   }
 }

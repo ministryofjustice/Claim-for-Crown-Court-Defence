@@ -12,7 +12,7 @@ class Claim::BaseClaimValidator < BaseValidator
     :retrial_estimated_length,
     :retrial_actual_length,
     :trial_cracked_at_third,
-    # :total,
+    :total,
     :trial_fixed_notice_at,
     :trial_fixed_at,
     :trial_cracked_at,
@@ -35,7 +35,7 @@ class Claim::BaseClaimValidator < BaseValidator
   private
 
   def validate_total
-    unless @record.source == 'api'
+    unless @record.source == 'api' || !@record.validate_total
       validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")
     end
   end

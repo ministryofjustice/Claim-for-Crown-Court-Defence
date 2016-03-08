@@ -18,6 +18,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_doctypes, only: [:show]
   before_action :load_advocates_in_provider, only: [:new, :step_2, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit, :step_2]
+  before_action :set_step, only: [:create, :update]
   before_action :initialize_submodel_counts
 
   include ReadMessages
@@ -81,8 +82,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @step = params[:step] || '1'
-
     @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
@@ -92,8 +91,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def update
-    @step = params[:step] || '1'
-
     update_source_for_api
     if @claim.update(claim_params)
       @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
@@ -128,9 +125,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   private
 
-  def handle_step_redirect
+  def set_step
     @step = params[:step] || '1'
-    redirect_to step_2_external_users_claim_url(@claim) and return if @step == '1' && submitting_to_laa?
   end
 
   def generate_form_id
@@ -150,6 +146,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def submit_if_required_and_redirect
     if submitting_to_laa?
       @claim.force_validation = true
+      @claim.validate_total = true if @step == '2'
+
       if @claim.valid?
         send_ga('event', 'claim', 'submit', 'started')
 

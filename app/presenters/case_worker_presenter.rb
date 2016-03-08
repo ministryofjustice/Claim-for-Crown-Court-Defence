@@ -8,16 +8,16 @@ class CaseWorkerPresenter < BasePresenter
   #
   #  <div><span class="working-day">M</span><span>T</span> etc</div>
   def days_worked_markup
-    result = '<div class="working-pattern">'
+    result = '<div class="working-pattern"><ul>'
     case_worker.days_worked.each_with_index do |day, i|
-      result += '<span'
+      result += '<li'
       result += ' class="working-day"' if day == 1
-      result += ' title="' + Settings.day_names[i] + '"'
       result += '>'
+      result += '<abbr title="' + Settings.day_names[i] + '">'
       result += Settings.day_name_initials[i]
-      result += '</span>'
+      result += '</abbr></li>'
     end
-    result += '</div>'
+    result += '</ul></div>'
     result.html_safe
   end
 end

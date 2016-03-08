@@ -10,7 +10,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   respond_to :html
 
   before_action :set_user_and_provider
-  before_action :set_context, only: [:index, :archived, :outstanding, :authorised]
+  before_action :set_claims_context, only: [:index, :archived, :outstanding, :authorised]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
@@ -25,13 +25,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include MessageControlsDisplay
 
   def index
-    @claims = @context.dashboard_displayable_states
+    @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
   end
 
   def archived
-    @claims = @context.archived_pending_delete
+    @claims = @claims_context.archived_pending_delete
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
   end
@@ -150,70 +150,20 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_claim_type
-
-    # 'advocate','litigator','admin' -> choice taking provider into account
-    # 'advocate','litigator' -> choice taking provider into account
-    # 'advocate','admin' -> agfs - providing provider includes agfs
-    # 'litigator','admin' -> lgfs - providing provider includes lgfs
-    # 'advocate' -> agfs - providing provider includes lgfs
-    # 'litigator' -> lgfs - providing provider includes lgfs
-    # 'admin' -> choice - taking provider into account
-
-    eu = current_user.persona
-
-    # provider ONLY agfs
-    if eu.provider.has_roles?('agfs')
-      if eu.advocate? || eu.admin?
-        @claim_type = Claim::AdvocateClaim
-      else
-        raise 'Unauthorised: you do not have the relevant privileges to create AGFS claims'
-      end
-
-    # provider ONLY lgfs
-    elsif eu.provider.has_roles?('lgfs')
-      if eu.litigator? || eu.admin?
-        @claim_type = Claim::LitigatorClaim
-      else
-        raise 'Unauthorised: you do not have the relevant privileges to create LGFS claims'
-      end
-
-    # provider has agfs and lgfs privileges
-    elsif eu.provider.has_roles?('agfs','lgfs')
-      if eu.has_roles?('admin') || eu.has_roles?('admin','advocate','litigator')
-        # TODO: redirect to choice page
-        raise 'Redirect to make a choice page'
-      elsif eu.has_roles?('litigator') || eu.has_roles?('admin','litigator')
-        @claim_type = Claim::LitigatorClaim
-      elsif eu.has_roles?('advocate') || eu.has_roles?('admin','advocate')
-        @claim_type = Claim::AdvocateClaim
-      end
-    end
-
-    if @claim_type.nil?
-      raise 'You or your provider do not appear to have correct privileges to create claims'
-    end
+    context = Claims::ContextMapper.new(@external_user)
+    available_types = context.available_claim_types
+    redirect_to external_users_claims_path, notice: 'AGFS/LGFS choice required' if available_types.size > 1
+    redirect_to external_users_claims_path, notice: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
+    @claim_type = available_types[0]
   end
 
-  def set_context
-    if @provider.has_roles?('agfs') && @external_user.admin? #NOTE: agfs order is important as admin supercedes advocate
-        @context = @provider.claims
-    elsif @provider.has_roles?('agfs') && @external_user.advocate?
-        @context = @external_user.claims
-    elsif @provider.has_roles?('lgfs') && (@external_user.litigator? || @external_user.admin?)
-      @context = @provider.claims_created
-    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('advocate','admin') #advocate adminstrator (only) in "firm"
-      @context = @provider.claims
-    elsif @provider.has_roles?('agfs','lgfs') && @external_user.has_roles?('litigator','admin') #litigator administrator (only) in "firm"
-      @context = @provider.claims_created
-    elsif @provider.has_roles?('agfs','lgfs') && ( @external_user.has_roles?('admin') || @external_user.has_roles?('advocate','litigator','admin') ) #advocate and litigator admin in "firm"
-      @context = @provider.claims_created.merge!(@provider.claims)
-    else
-      raise "WARNING: agfs/lgfs firm logic incomplete"
-    end
+  def set_claims_context
+    context = Claims::ContextMapper.new(@external_user)
+    @claims_context = context.available_claims
   end
 
   def set_financial_summary
-    @financial_summary = Claims::FinancialSummary.new(@context)
+    @financial_summary = Claims::FinancialSummary.new(@claims_context)
   end
 
   def search(states=nil)

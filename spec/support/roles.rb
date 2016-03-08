@@ -56,13 +56,18 @@ shared_examples_for 'roles' do |klass, roles|
   describe '#has_roles?' do
     subject { create(factory_name, roles: roles) }
     
-    it "returns true if subject has all specified roles" do
+    it "returns true if subject has exact specified roles" do
+
       expect(subject.has_roles?(roles)).to eq(true)
       expect(subject.has_roles?(*roles)).to eq(true)
       expect(subject.has_roles?(roles.flatten)).to eq(true)
     end
 
-    it "returns false if subject does NOT have all specified roles" do
+    it "returns false if subject does NOT have exact match for specified roles" do
+      expect(subject.has_roles?(roles[0])).to eq(false)
+    end
+
+    it "returns false if subject does NOT have exact specified roles" do
       err_roles = roles.dup
       err_roles << 'foobar'
       expect(subject.has_roles?(err_roles)).to eq(false)

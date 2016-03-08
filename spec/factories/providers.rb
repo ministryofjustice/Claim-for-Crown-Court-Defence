@@ -31,20 +31,20 @@ FactoryGirl.define do
 
     trait :lgfs do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
+      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}1" }
       roles ['lgfs']
     end
 
     trait :agfs_lgfs do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
+      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}2" }
       roles ['agfs', 'lgfs']
     end
 
     # requires supplier number
     trait :firm do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}" }
+      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}3" }
       vat_registered { true }
       roles ['lgfs']
     end

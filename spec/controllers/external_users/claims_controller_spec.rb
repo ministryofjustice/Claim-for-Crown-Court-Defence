@@ -37,7 +37,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         context 'advocate' do
           it 'should assign context to claims for the advocate only' do
             get :index
-            expect(assigns(:context)).to eq(advocate.claims)
+            expect(assigns(:claims_context)).to eq(advocate.claims)
           end
           it 'should assign claims to dashboard displayable state claims for the advocate only' do
             get :index
@@ -49,7 +49,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in advocate_admin.user }
           it 'should assign context to claims for the provider' do
             get :index
-            expect(assigns(:context)).to eq(advocate_admin.provider.claims)
+            expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims)
           end
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
@@ -69,7 +69,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator.user }
           it 'should assign context to claims for the provider' do
             get :index
-            expect(assigns(:context)).to eq(litigator.provider.claims_created)
+            expect(assigns(:claims_context)).to eq(litigator.provider.claims_created)
           end
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
@@ -81,7 +81,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims for the provider' do
             get :index
-            expect(assigns(:context)).to eq(litigator_admin.provider.claims_created)
+            expect(assigns(:claims_context)).to eq(litigator_admin.provider.claims_created)
           end
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
@@ -134,7 +134,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in advocate.user }
           it 'should assign context to provider claims based on external user' do
             get :archived
-            expect(assigns(:context)).to eq(advocate.claims)
+            expect(assigns(:claims_context)).to eq(advocate.claims)
           end
           it 'should assign claims to archived only' do
             get :archived
@@ -146,7 +146,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in advocate_admin.user }
           it 'should assign context to provider claims based on external user' do
             get :archived
-            expect(assigns(:context)).to eq(advocate_admin.provider.claims)
+            expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims)
           end
           it 'should assign claims to archived only' do
             get :archived
@@ -174,7 +174,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:context)).to eq(litigator_admin.provider.claims_created)
+            expect(assigns(:claims_context)).to eq(litigator_admin.provider.claims_created)
           end
           it 'should retrieve archived state claims only' do
             get :archived

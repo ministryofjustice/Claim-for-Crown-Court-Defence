@@ -6,8 +6,8 @@
     = t('.no_documents_uploaded')
   - else
     %table#download-files-report
-      %caption
-        Existing Evidence
+      %caption.visually-hidden
+        = t('.existing_evidence')
       %colgroup
         %col
         %col
@@ -18,7 +18,7 @@
             = t('.name_of_file')
           %th{scope:'col'}
             = t('.file_size')
-          %th.numerical{scope:'col'}
+          %th.numeric{scope:'col'}
             = t('.date_added')
           %th{scope:'col'}
             = t('.actions')
@@ -30,7 +30,7 @@
               = document.document_file_name
             %td
               = number_to_human_size(document.document_file_size)
-            %td.numerical
+            %td.numeric
               = document.created_at
             %td
               - if document.converted_preview_document.present?

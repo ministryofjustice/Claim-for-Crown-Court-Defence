@@ -7,8 +7,8 @@
         There are no fees for this claim
     - else
       %table
-        %caption
-          Fees
+        %caption.visually-hidden
+          = t('common.fees')
         %colgroup
           %col
           %col
@@ -21,11 +21,11 @@
               = t('.fee_category')
             %th{ scope: 'col'}
               = t('.fee_type')
-            %th.numerical{ scope: 'col'}
+            %th.numeric{ scope: 'col'}
               = t('.quantity')
-            %th.numerical{ scope: 'col'}
+            %th.numeric{ scope: 'col'}
               = t('.rate')
-            %th.numerical{ scope: 'col'}
+            %th.numeric{ scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
@@ -38,11 +38,11 @@
                   = fee.dates_attended_delimited_string
               %td
                 = fee.fee_type.description
-              %td.numerical
+              %td.numeric
                 = fee.quantity
-              %td.numerical
+              %td.numeric
                 = fee.rate
-              %td.numerical
+              %td.numeric
                 = fee.amount
       .totals
         = t('.fees_total')
@@ -55,8 +55,8 @@
         There are no expenses for this claim
     - else
       %table
-        %caption
-          Expenses
+        %caption.visually-hidden
+          = t('common.expenses')
         %colgroup
           %col
           %col
@@ -69,11 +69,11 @@
               = t('.expense_type')
             %th{scope: 'col'}
               = t('.location')
-            %th.numerical{scope: 'col'}
+            %th.numeric{scope: 'col'}
               = t('.quantity_hours')
-            %th.numerical{scope: 'col'}
+            %th.numeric{scope: 'col'}
               = t('.rate')
-            %th.numerical{scope: 'col'}
+            %th.numeric{scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.expenses).each do |expense|
@@ -86,11 +86,11 @@
                   = expense.dates_attended_delimited_string
               %td
                 = expense.location
-              %td.numerical
+              %td.numeric
                 = expense.quantity
-              %td.numerical
+              %td.numeric
                 = '%.2f' % expense.rate if expense.rate
-              %td.numerical
+              %td.numeric
                 = expense.amount
 
       .totals

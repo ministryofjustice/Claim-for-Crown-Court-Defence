@@ -1,6 +1,6 @@
 .table-container.container
   %table.report
-    %caption
+    %caption.visually-hidden
       = t('.show_count', total: claims.total_count)
     %colgroup
       - if current_user.persona.admin?
@@ -18,15 +18,18 @@
       - if current_user.persona.admin?
         %th{scope:'col'}
           = sortable 'advocate', t(".advocate")
+      - if current_user.persona.has_roles?(['advocate','litigator'])
+        %th{scope:'col'}
+          = t(".scheme")
       %th{scope:'col'}
         = t(".defendants")
-      %th.numerical{scope:'col'}
+      %th.numeric{scope:'col'}
         = sortable 'total_inc_vat', t(".total")
-      %th.numerical{scope:'col'}
+      %th.numeric{scope:'col'}
         = sortable 'amount_assessed', t(".assessed")
       %th{scope:'col'}
         = sortable 'state', t(".status")
-      %th.numerical{scope:'col'}
+      %th.numeric{scope:'col'}
         = sortable 'last_submitted_at', t(".submission_date")
       %th{scope:'col'}
         = t(".messages")
@@ -37,21 +40,24 @@
             = link_to (claim.case_number.blank? ? 'not-provided' : claim.case_number), external_users_claim_path(claim), class: "js-test-case-number-link"
           - if current_user.persona.admin?
             %td
-              = claim.external_user.name
+              = claim.owner.name
+          - if current_user.persona.has_roles?(['advocate','litigator'])
+            %td
+              = claim.scheme
           %td
             = claim.defendant_names
-          %td.numerical
+          %td.numeric
             = claim.total_inc_vat
-          %td.numerical
+          %td.numeric
             = claim.amount_assessed
           %td
             %span.state{class: 'state-' << claim.state.dasherize}
               = claim.state.humanize
-          %td.numerical
+          %td.numeric
             = claim.submitted_at
           %td.messages
             - if claim.messages.any?
-              = link_to claim.has_unread_messages_for?(current_user) ? "Messages (#{claim.messages.count})" : "Messages" , "#{external_users_claim_path(claim, messages: true)}#messages"
+              = link_to claim.has_unread_messages_for?(current_user) ? "View (#{claim.messages.count} new)" : "View" , "#{external_users_claim_path(claim, messages: true)}#messages"
             - else
               %span.none
                 = t(".none")

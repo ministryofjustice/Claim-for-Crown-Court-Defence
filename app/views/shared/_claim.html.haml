@@ -26,7 +26,7 @@
       .bold-xsmall
         = t('common.external_user')
       .xsmall
-        = claim.external_user.name
+        = claim.owner.name
     .column-quarter
       .bold-xsmall
         = t('.advocate_category')
@@ -36,7 +36,7 @@
       .bold-xsmall
         = t('.adv_acc_no')
       .xsmall
-        = claim.external_user.supplier_number
+        = claim.owner.supplier_number
     .column-quarter
       &nbsp;
 

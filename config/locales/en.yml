@@ -323,6 +323,8 @@ en:
           form_error_hint: 'Check below for more detail'
     all_claims: All claims
     your_claims: Your claims
+    start_agfs_claim_heading: Claim for advocate graduated fees
+    start_lgfs_claim_heading: Claim for litigator graduated fees
     certifications:
       new:
         certified_by: 'Name of person certifying'
@@ -417,6 +419,7 @@ en:
         show_count: 'Showing 10 of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
+        scheme: Scheme
         messages: 'Messages'
         defendants: 'Defendant(s)'
         case_number: 'Case number'
@@ -503,8 +506,6 @@ en:
         show_count: 'Showing 10 of %{total} claims'
       json_document_importer:
         import_claim: 'Or add your JSON report'
-      new:
-        heading: Claim for advocate graduated fees
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of
@@ -566,6 +567,7 @@ en:
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
       name_of_file: Name of file
+      file_size: File size
       date_added: Date added
       actions: Actions
     summary:
@@ -608,16 +610,18 @@ en:
           submit: 'Change password'
       allocations:
         allocation:
-          advocate: 'Advocate'
           case_number: 'Case number'
+          scheme: Scheme
+          advocate: Advocate
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
         re_allocation:
-          advocate: 'Advocate'
           case_number: 'Case number'
+          scheme: Scheme
+          advocate: Advocate
           submitted_date: 'Date submitted'
           claim_total: 'Claim total'
           defendants: Defendant(s)

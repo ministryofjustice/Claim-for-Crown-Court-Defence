@@ -39,6 +39,8 @@
         %th
           = t('.case_number')
         %th
+          = t(".scheme")
+        %th
           = t('.advocate')
         %th
           = t('.defendants')
@@ -62,7 +64,9 @@
                 %span.js-test-case-number
                   = claim.case_number
               %td
-                = claim.external_user.name
+                = claim.scheme
+              %td
+                = claim.owner.name
               %td
                 = claim.defendant_names
               %td

@@ -36,6 +36,7 @@ class Provider < ActiveRecord::Base
     end
   end
 
+  has_many :claims_created, through: :external_users
   has_many :claims, through: :external_users
 
   before_validation :set_api_key

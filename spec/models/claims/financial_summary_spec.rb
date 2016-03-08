@@ -52,7 +52,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
         other_advocate_claim.creator = another_advocate
       end
 
-      let(:summary)           { Claims::FinancialSummary.new(advocate_with_vat) }
+      let(:summary) { Claims::FinancialSummary.new(advocate_with_vat.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
@@ -72,23 +72,12 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       end
     end
 
-
     context 'with no VAT applied' do
-
       let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_without_vat) }
       let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_without_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_without_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat)}
-      let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat) }
-      let!(:old_part_authorised_claim) do
-        Timecop.freeze(Time.now - 2.week) do
-          claim = create(:part_authorised_claim)
-          Timecop.freeze(Time.now + 1.week) do
-            claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-            claim
-          end
-        end
-      end
+      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_without_vat) }
+      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat) }
+      let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
@@ -97,7 +86,6 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       end
 
       describe '#total_authorised_claim_value' do
-
         it 'calculates the value of authorised claims since the beginning of the week' do
           expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
@@ -105,31 +93,16 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
   end
 
-
-
   context 'by Providers' do
-    let!(:submitted_claim)  { create(:submitted_claim, total: 103.56) }
-    let!(:allocated_claim)  { create(:allocated_claim, total: 56.21) }
-
-    let!(:part_authorised_claim) do
-      claim = create(:part_authorised_claim, total: 211)
-      create(:assessment, claim: claim, fees: 9.99, expenses: 1.55)
-      claim
-    end
-    let!(:authorised_claim) do
-      claim = create(:authorised_claim, total: 89)
-      create(:assessment, claim: claim, fees: 40, expenses: 49)
-      claim
-    end
-
-    let(:provider)                { create(:provider) }
+    let(:agfs_provider)           { create(:provider, :agfs) }
     let(:other_provider)          { create(:provider) }
-    let(:advocate_admin)          { create(:external_user, :admin, provider: provider, vat_registered: true) }
-    let(:advocate_with_vat)       { create(:external_user, provider: provider, vat_registered: true) }
-    let(:advocate_without_vat)    { create(:external_user, provider: provider, vat_registered: false) }
+    let(:advocate_admin)          { create(:external_user, :admin, provider: agfs_provider, vat_registered: true) }
+    let(:advocate1_with_vat)      { create(:external_user, provider: agfs_provider, vat_registered: true) }
+    let(:advocate2_with_vat)      { create(:external_user, provider: agfs_provider, vat_registered: true) }
+    let(:advocate1_without_vat)   { create(:external_user, provider: agfs_provider, vat_registered: false) }
+    let(:advocate2_without_vat)   { create(:external_user, provider: agfs_provider, vat_registered: false) }
     let(:another_advocate_admin)  { create(:external_user, :admin, provider: other_provider) }
     let(:other_provider_claim)    { create(:claim) }
-
 
     before do
       other_provider_claim.external_user = another_advocate_admin
@@ -137,74 +110,68 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
 
     context 'with VAT' do
-      let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_with_vat) }
-      let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_with_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_with_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_with_vat)}
-      let(:summary)                   { Claims::FinancialSummary.new(advocate_with_vat) }
-      let!(:old_part_authorised_claim) do
-        Timecop.freeze(Time.now - 2.week) do
-          claim = create(:part_authorised_claim)
-          Timecop.freeze(Time.now + 1.week) do
-            claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-            claim
-          end
-        end
-      end
+      let!(:submitted_claim_from_advocate1)        { create(:submitted_claim, external_user: advocate1_with_vat) }
+      let!(:allocated_claim_from_advocate2)        { create(:allocated_claim, external_user: advocate2_with_vat) }
+      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat)}
+      let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat)}
+      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat)}
+      let(:summary)                               { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
-          expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + submitted_claim.vat_amount + allocated_claim.total + allocated_claim.vat_amount)
+          expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +
+                                                              submitted_claim_from_advocate1.vat_amount +
+                                                              allocated_claim_from_advocate2.total +
+                                                              allocated_claim_from_advocate2.vat_amount)
         end
       end
 
       describe '#total_authorised_claim_value' do
         it 'calculates the value of authorised claims' do
-          expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
+          expect(summary.total_authorised_claim_value).to eq(authorised_claim_from_advocate1.amount_assessed +
+                                                             authorised_claim_from_advocate2.amount_assessed +
+                                                             part_authorised_claim_from_advocate1.amount_assessed)
         end
       end
     end
 
     context 'claim without VAT applied' do
 
-      let(:submitted_claim)           { create(:submitted_claim, external_user: advocate_without_vat) }
-      let(:allocated_claim)           { create(:allocated_claim, external_user: advocate_without_vat) }
-      let(:part_authorised_claim)     { create(:part_authorised_claim, external_user: advocate_without_vat)}
-      let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat)}
-      let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat) }
-      let!(:old_part_authorised_claim) do
-        Timecop.freeze(Time.now - 2.week) do
-          claim = create(:part_authorised_claim)
-          Timecop.freeze(Time.now + 1.week) do
-            claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-            claim
-          end
-        end
-      end
+      let!(:submitted_claim_from_advocate1)        { create(:submitted_claim,        external_user: advocate1_without_vat) }
+      let!(:allocated_claim_from_advocate2)        { create(:allocated_claim,        external_user: advocate2_without_vat) }
+      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim,  external_user: advocate1_without_vat) }
+      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim,       external_user: advocate2_without_vat) }
+      let(:summary)                   { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       it 'calculates the value of outstanding claims' do
-        expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + allocated_claim.total)
+        expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +
+                                                            allocated_claim_from_advocate2.total)
       end
 
       it 'calculates the value of authorised claims' do
-        expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
+        expect(summary.total_authorised_claim_value).to eq(authorised_claim_from_advocate2.amount_assessed +
+                                                           part_authorised_claim_from_advocate1.amount_assessed)
       end
 
       describe '#outstanding_claims' do
         it 'returns outstanding claims only' do
-          expect(summary.outstanding_claims).to include(submitted_claim, allocated_claim)
-          expect(summary.outstanding_claims).to_not include(authorised_claim, part_authorised_claim, other_provider_claim)
+          expect(summary.outstanding_claims).to     include(submitted_claim_from_advocate1, allocated_claim_from_advocate2)
+          expect(summary.outstanding_claims).to_not include(authorised_claim_from_advocate2,
+                                                            part_authorised_claim_from_advocate1,
+                                                            other_provider_claim)
         end
       end
 
       describe '#authorised_claims' do
         it 'returns authorised claims only' do
-          expect(summary.authorised_claims).to include(authorised_claim, authorised_claim)
-          expect(summary.authorised_claims).to_not include(submitted_claim, allocated_claim, other_provider_claim)
+          expect(summary.authorised_claims).to      include(authorised_claim_from_advocate2, part_authorised_claim_from_advocate1)
+          expect(summary.authorised_claims).to_not  include(submitted_claim_from_advocate1,
+                                                            allocated_claim_from_advocate2,
+                                                            other_provider_claim)
         end
 
         it 'should not include duplicates' do
-          create(:redetermination, claim: authorised_claim)
+          create(:redetermination, claim: authorised_claim_from_advocate2)
           expect(summary.authorised_claims.count).to eq(2)
         end
       end

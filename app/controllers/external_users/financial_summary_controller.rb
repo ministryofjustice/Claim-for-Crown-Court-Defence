@@ -1,7 +1,7 @@
 class ExternalUsers::FinancialSummaryController < ExternalUsers::ApplicationController
   respond_to :html
 
-  before_action :set_context
+  before_action :set_claims_context
   before_action :set_financial_summary, only: [:outstanding, :authorised]
 
   def outstanding
@@ -14,17 +14,14 @@ class ExternalUsers::FinancialSummaryController < ExternalUsers::ApplicationCont
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
-  private
+private
 
-  def set_context
-    if current_user.persona.admin? && current_user.persona.provider
-      @context = current_user.persona.provider
-    else
-      @context = current_user
-    end
+  def set_claims_context
+    context = Claims::ContextMapper.new(current_user.persona)
+    @claims_context = context.available_claims
   end
 
   def set_financial_summary
-    @financial_summary = Claims::FinancialSummary.new(@context)
+    @financial_summary = Claims::FinancialSummary.new(@claims_context)
   end
 end

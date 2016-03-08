@@ -40,6 +40,8 @@ class Ability
         can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
         can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, external_user_id: persona.id
         can [:show, :download], Document, external_user_id: persona.id
+        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, creator_id: persona.id
+        can [:show, :download], Document, creator_id: persona.id
         can [:destroy], Document do |document|
           if document.external_user_id.nil?
             document.creator_id == user.id

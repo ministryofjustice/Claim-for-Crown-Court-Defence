@@ -39,7 +39,11 @@ module DemoData
     end
 
     def submit(claim)
-      add_message(claim, claim.external_user)
+      if claim.instance_of? Claim::LitigatorClaim
+        add_message(claim, claim.creator)
+      else
+        add_message(claim, claim.external_user)
+      end
       claim.update(last_submitted_at: rand(0..180).days.ago)
       claim.submit!
     end

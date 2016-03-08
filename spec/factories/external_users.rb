@@ -19,9 +19,8 @@ FactoryGirl.define do
     end
 
     provider
-    supplier_number { generate_unique_supplier_number }
-
     roles ['advocate']
+    supplier_number { generate_unique_supplier_number }
 
     trait :advocate do
       roles ['advocate']
@@ -30,20 +29,28 @@ FactoryGirl.define do
 
     trait :litigator do
       roles ['litigator']
+      supplier_number nil
       provider { create(:provider, :lgfs) }
     end
 
     trait :advocate_litigator do
-      roles ['litigator']
+      roles ['advocate', 'litigator']
       provider { create(:provider, :agfs_lgfs) }
     end
 
     trait :admin do
       roles ['admin']
+      supplier_number nil
     end
 
     trait :advocate_and_admin do
       roles ['admin', 'advocate']
+    end
+
+    trait :litigator_and_admin do
+      supplier_number nil
+      roles ['litigator', 'admin']
+      provider { create(:provider, :lgfs) }
     end
   end
 end

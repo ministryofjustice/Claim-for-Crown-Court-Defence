@@ -6,6 +6,10 @@ def make_accounts(role, number = 1)
       @advocates = create_list(:external_user, number)
     when 'advocate admin'
       @advocate_admins = create_list(:external_user, number, :admin)
+    when 'litigator'
+      @advocates = create_list(:external_user, :litigator, number)
+    when 'litigator admin'
+      @advocates = create_list(:external_user, :litigator_and_admin, number)
     when 'case worker'
       @case_workers = create_list(:case_worker, number)
     when 'case worker admin'
@@ -29,6 +33,18 @@ Given(/^I am a signed in advocate admin$/) do
   @advocate = create(:external_user, :advocate_and_admin)
   visit new_user_session_path
   sign_in(@advocate.user, 'password')
+end
+
+Given(/^I am a signed in litigator$/) do
+  @litigator = create(:external_user, :litigator)
+  visit new_user_session_path
+  sign_in(@litigator.user, 'password')
+end
+
+Given(/^I am a signed in litigator admin$/) do
+  @litigator = create(:external_user, :litigator_and_admin)
+  visit new_user_session_path
+  sign_in(@litigator.user, 'password')
 end
 
 Given(/^I am a signed in case worker$/) do

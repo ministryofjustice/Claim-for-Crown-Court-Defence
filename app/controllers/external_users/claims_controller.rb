@@ -10,12 +10,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   respond_to :html
 
   before_action :set_user_and_provider
-  before_action :set_context, only: [:index, :archived, :outstanding, :authorised]
+  before_action :set_claims_context, only: [:index, :archived, :outstanding, :authorised]
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
+  before_action :set_claim_type, only: [:new, :create]
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
@@ -24,13 +25,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include MessageControlsDisplay
 
   def index
-    @claims = @context.claims.dashboard_displayable_states
+    @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
   end
 
   def archived
-    @claims = @context.claims.archived_pending_delete
+    @claims = @claims_context.archived_pending_delete
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
   end
@@ -54,10 +55,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def new
-    @claim = Claim::AdvocateClaim.new
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
+    @claim = @claim_type.new
     load_offences_and_case_types
-
     build_nested_resources
   end
 
@@ -72,7 +71,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def confirmation; end
 
   def create
-    @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
+    @claim = @claim_type.new(params_with_advocate_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -150,12 +149,21 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @provider = @external_user.provider
   end
 
-  def set_context
-    if @external_user.admin? && @provider
-      @context = @provider
-    else
-      @context = current_user
-    end
+  def set_claim_type
+    context = Claims::ContextMapper.new(@external_user)
+    available_types = context.available_claim_types
+    redirect_to external_users_claims_path, notice: 'AGFS/LGFS choice required' if available_types.size > 1
+    redirect_to external_users_claims_path, notice: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
+    @claim_type = available_types[0]
+  end
+
+  def set_claims_context
+    context = Claims::ContextMapper.new(@external_user)
+    @claims_context = context.available_claims
+  end
+
+  def set_financial_summary
+    @financial_summary = Claims::FinancialSummary.new(@claims_context)
   end
 
   def search(states=nil)
@@ -193,12 +201,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_and_authorize_claim
-    @claim = Claim::AdvocateClaim.find(params[:id])
+    @claim = Claim::BaseClaim.find(params[:id])
     authorize! params[:action].to_sym, @claim
-  end
-
-  def set_financial_summary
-    @financial_summary = Claims::FinancialSummary.new(@context)
   end
 
   def claim_params
@@ -336,11 +340,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_and_submit
-    if Claim::AdvocateClaim.where(form_id: @claim.form_id).any?
+    if @claim.class.where(form_id: @claim.form_id).any?
       redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
     end
 
-    Claim::AdvocateClaim.transaction do
+    @claim.class.transaction do
       @claim.save
       @claim.force_validation = true
 

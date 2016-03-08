@@ -1,4 +1,5 @@
 require 'csv'
+require Rails.root.join('db','seeds','seed_helper')
 
 Fee::BaseFeeType.reset_column_information
 Fee::BasicFeeType.reset_column_information
@@ -15,5 +16,5 @@ data.each do |row|
   roles = roles.split
   calculated = calculated.downcase.strip == 'false' ? false : true
   max_amount = nil if max_amount.downcase.strip == 'nil'
-  klass.find_or_create_by!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s)
+  SeedHelper.find_or_create_fee_type!(klass, roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated)
 end

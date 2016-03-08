@@ -132,24 +132,34 @@ module Claim
                         :retrial_started_at,
                         :retrial_concluded_at
 
-
     before_validation do
       errors.clear
       destroy_all_invalid_fee_types
       documents.each { |d| d.external_user_id = self.external_user_id }
     end
 
-
-    after_initialize :instantiate_basic_fees, 
-                     :ensure_not_abstract_class, 
-                     :default_values, 
-                     :instantiate_assessment, 
+    after_initialize :instantiate_basic_fees,
+                     :ensure_not_abstract_class,
+                     :default_values,
+                     :instantiate_assessment,
                      :set_force_validation_to_false
 
     after_save :find_and_associate_documents
 
     def ensure_not_abstract_class
       raise BaseClaimAbstractClassError if self.class == BaseClaim
+    end
+
+    def owner
+      lgfs? ? creator : external_user
+    end
+
+    def agfs?
+      self.instance_of? Claim::AdvocateClaim
+    end
+
+    def lgfs?
+      self.instance_of? Claim::LitigatorClaim
     end
 
     def set_force_validation_to_false

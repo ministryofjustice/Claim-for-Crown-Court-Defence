@@ -566,6 +566,7 @@ en:
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
       name_of_file: Name of file
+      file_size: File size
       date_added: Date added
       actions: Actions
     summary:

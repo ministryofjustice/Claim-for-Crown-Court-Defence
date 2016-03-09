@@ -47,7 +47,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     end
     @enable_status_change = true
     @message = @claim.messages.build
-    redirect_to case_workers_claim_path(errors: @claim.errors.full_messages)
+    redirect_to case_workers_claim_path(params.slice(:messages).merge(errors: @claim.errors.full_messages))
+    # redirect_to case_workers_claim_path(errors: @claim.errors.full_messages)
   end
 
   private

@@ -8,7 +8,7 @@
     %ul.error-summary-list
       - ep.errors.full_messages.each do |error_detail|
         %li
-          %a{href: '#'}
+          = link_to '#' do
             = error_detail
 
     %span.form-hint

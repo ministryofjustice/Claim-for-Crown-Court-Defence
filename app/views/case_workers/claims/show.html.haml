@@ -3,9 +3,6 @@
   - if @claim.errors.any?
     = render partial: 'errors/error_summary', locals:{ ep: @claim, error_summary: 'This claim has '}
 
-  - elsif params[:errors] # passed from redirect in update action
-    = render partial: 'errors/error_summary', locals:{ ep: params[:errors], error_summary: 'This claim has '}
-
   = render 'shared/claim_header', claim: claim
 
   #claim-accordion{role: "tablist", multiselectable: "true"}

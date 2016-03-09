@@ -5,6 +5,7 @@
 
 = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
   - if params[:user_id].present?
+    = hidden_field_tag :type, params[:type]
     = hidden_field_tag :user_id, params[:user_id]
 
   - if @feedback.errors.any?

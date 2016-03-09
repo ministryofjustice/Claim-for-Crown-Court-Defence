@@ -77,5 +77,8 @@ reseed)
     ;;
 esac
 
+echo "starting redis server"
+service mysql start
+
 echo "launching unicorn"
 exec bundle exec unicorn -p 80 -c config/unicorn.rb

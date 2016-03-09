@@ -43,6 +43,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'

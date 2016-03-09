@@ -1,5 +1,5 @@
 require 'csv'
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 days_worked = [
   [ 1, 1, 1, 1, 1 ],

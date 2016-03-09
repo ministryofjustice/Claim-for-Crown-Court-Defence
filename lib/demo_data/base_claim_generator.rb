@@ -3,6 +3,7 @@ require_relative 'document_generator'
 require_relative 'basic_fee_generator'
 require_relative 'fee_generator'
 require_relative 'expense_generator'
+require_relative 'disbursement_generator'
 
 module DemoData
 
@@ -102,6 +103,10 @@ module DemoData
 
     def add_expenses(claim)
       ExpenseGenerator.new(claim).generate!
+    end
+
+    def add_disbursements(claim)
+      DisbursementGenerator.new(claim).generate!
     end
 
     def advance_claim_to_state(claim, state)

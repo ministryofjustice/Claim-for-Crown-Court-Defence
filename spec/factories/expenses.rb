@@ -12,6 +12,8 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  uuid            :uuid
+#  reason_id       :integer
+#  reason_text     :string
 #
 
 FactoryGirl.define do
@@ -22,6 +24,7 @@ FactoryGirl.define do
     quantity 1
     rate "9.99"
     amount "9.99"
+    reason_id 1
 
     trait :with_date_attended do
       after(:build) do |expense|
@@ -34,5 +37,7 @@ FactoryGirl.define do
         rate { rand(1.0..9.99) }
         amount { quantity * rate}
     end
+
+
   end
 end

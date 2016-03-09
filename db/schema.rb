@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301122625) do
+ActiveRecord::Schema.define(version: 20160311105159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "roles"
+    t.string   "reason_set"
   end
 
   add_index "expense_types", ["name"], name: "index_expense_types_on_name", using: :btree
@@ -230,6 +231,8 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.integer  "reason_id"
+    t.string   "reason_text"
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree

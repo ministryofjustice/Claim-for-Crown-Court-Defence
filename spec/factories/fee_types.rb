@@ -31,20 +31,28 @@ FactoryGirl.define do
       code 'NPW'
       calculated false
     end
-  end
 
-  factory :misc_fee_type, class: Fee::MiscFeeType do
-    sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    code { random_safe_code }
-    calculated true
-    roles ['agfs']
-  end
+    trait :lgfs do
+      roles ['lgfs']
+    end
 
-  factory :fixed_fee_type, class: Fee::FixedFeeType do
-    sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
-    code { random_safe_code }
-    calculated true
-    roles ['agfs']
+    trait :both_fee_schemes do
+      roles ['lgfs', 'agfs']
+    end
+
+    factory :misc_fee_type, class: Fee::MiscFeeType do
+      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      code { random_safe_code }
+      calculated true
+      roles ['agfs']
+    end
+
+    factory :fixed_fee_type, class: Fee::FixedFeeType do
+      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      code { random_safe_code }
+      calculated true
+      roles ['agfs']
+    end
   end
 end
 

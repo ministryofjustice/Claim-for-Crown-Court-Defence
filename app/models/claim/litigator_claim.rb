@@ -54,5 +54,17 @@ module Claim
       CaseType.top_levels.lgfs
     end
 
+    def eligible_basic_fee_types
+      Fee::BasicFeeType.lgfs
+    end
+
+    def eligible_misc_fee_types
+      Fee::MiscFeeType.lgfs
+    end
+
+    def eligible_fixed_fee_types
+      Fee::FixedFeeType.lgfs
+    end
+
   end
 end

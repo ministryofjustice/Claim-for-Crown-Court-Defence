@@ -31,6 +31,8 @@
 
 /.byebug_history
 
+/.idea
+
 public/system/documents
 public/paperclip
 public/uploads

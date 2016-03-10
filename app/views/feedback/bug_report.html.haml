@@ -1,3 +1,5 @@
+= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'The form you submitted has '}
+
 = render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
 
 %p.medium.questions
@@ -5,13 +7,8 @@
   %br
   Your answers to the following questions will help us improve this service.
 
-= form_for @bug_report, url: bug_report_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
-  - if @bug_report.errors.any?
-    .validation-summary
-      %h3.heading-small= "The form you submitted has #{pluralize(@bug_report.errors.count, 'error')}"
-      %ul
-        - @bug_report.errors.full_messages.each do |msg|
-          %li= msg
+= form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+  = hidden_field_tag :type, params[:type]
 
   .grid-row-with-margin
     .column-half

@@ -2,7 +2,7 @@
   %tr.nested-fields
     %td
       %a{name: "fixed_fee_#{@fixed_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, Fee::FixedFeeType.all, :id, :description, {prompt: true}, {class: 'select2', style: 'width:400px'}
+      = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, {prompt: true}, {class: 'select2', style: 'width:400px'}
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
     %td
       %a{name: "fixed_fee_#{@fixed_fee_count}_quantity"}

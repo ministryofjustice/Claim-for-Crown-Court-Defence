@@ -658,6 +658,7 @@ en:
         status: Status
         submission_date: Date submitted
         messages: Messages
+        none: None
   devise:
     shared:
       links:

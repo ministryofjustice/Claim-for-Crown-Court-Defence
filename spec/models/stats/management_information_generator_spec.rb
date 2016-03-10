@@ -55,7 +55,7 @@ module Stats
     end
 
     def pidfile_name
-      File.join(Rails.root, 'tmp', 'stats', 'management_information.pid')
+      File.join(Rails.root, 'public', 'stats', 'management_information.pid')
     end
 
     def create_pidfile_with_pid(pid)
@@ -76,40 +76,40 @@ module Stats
       end
 
 
-      it 'returns the name of the ony csv file in the tmp/stats directory' do
+      it 'returns the name of the ony csv file in the public/stats directory' do
         create_files('abc_9.csv', 'abc_1.txt')
-        expect(ManagementInformationGenerator.current_csv_filename).to eq(File.join(Rails.root, 'tmp', 'stats', 'abc_9.csv'))
+        expect(ManagementInformationGenerator.current_csv_filename).to eq(File.join(Rails.root, 'public', 'stats', 'abc_9.csv'))
       end
       
-      it 'returns the name of the first csv file in the tmp/stats directory' do
+      it 'returns the name of the first csv file in the public/stats directory' do
         create_files('abc_9.csv', 'abc_6.csv', 'abc_1.txt')
-        expect(ManagementInformationGenerator.current_csv_filename).to eq(File.join(Rails.root, 'tmp', 'stats', 'abc_6.csv'))
+        expect(ManagementInformationGenerator.current_csv_filename).to eq(File.join(Rails.root, 'public', 'stats', 'abc_6.csv'))
       end
 
       def create_files(*filenames)
         filenames.each do |filename|
-          FileUtils.touch File.join(Rails.root, 'tmp', 'stats', filename)
+          FileUtils.touch File.join(Rails.root, 'public', 'stats', filename)
         end
       end
 
       def clear_files
-        files = Dir["#{Rails.root}/tmp/stats/*.csv"]
+        files = Dir["#{Rails.root}/public/stats/*.csv"]
         FileUtils.rm files
       end
     end
 
     describe '.creation_time' do
       it 'returns the time parsed from the filename' do
-        filename = '/tmp/stats/management_information_2016_03_01_23_55_59.csv'
+        filename = '/public/stats/management_information_2016_03_01_23_55_59.csv'
         expected_time = Time.new(2016, 3, 1, 23, 55, 59)
         expect(ManagementInformationGenerator.creation_time(filename)).to eq expected_time
       end
 
       it 'raises if invalid filename' do
-        filename = '/tmp/stats/abd_1.txt'
+        filename = '/public/stats/abd_1.txt'
         expect{ 
           ManagementInformationGenerator.creation_time(filename)
-          }.to raise_error ArgumentError, 'Invalid filename for management information file: /tmp/stats/abd_1.txt'
+          }.to raise_error ArgumentError, 'Invalid filename for management information file: /public/stats/abd_1.txt'
       end
     end
    
@@ -130,7 +130,7 @@ module Stats
         FileUtils.rm expected_filename
       end
 
-      it 'creates a file in the tmp/stats directory' do
+      it 'creates a file in the public/stats directory' do
         expect(File.exist?(expected_filename)).to be true
       end
 
@@ -140,7 +140,7 @@ module Stats
       end
 
       def expected_filename
-        "#{Rails.root}/tmp/stats/management_information_2016_03_10_11_44_55.csv"
+        "#{Rails.root}/public/stats/management_information_2016_03_10_11_44_55.csv"
       end
     end
   end

@@ -4,7 +4,7 @@ module Stats
 
   class ManagementInformationGenerator
 
-    STATS_DIR = File.join(Rails.root, 'tmp', 'stats')
+    STATS_DIR = Rails.env.test? ? File.join(Rails.root, 'public', 'stats') : File.join(Rails.root, 'tmp', 'stats')
     PIDFILE_NAME = File.join(STATS_DIR, 'management_information.pid')
 
     def initialize

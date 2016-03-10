@@ -1,41 +1,47 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
 
   = f.fields_for :user do |user_fields|
-    %fieldset.user-form
-      = user_fields.label :first_name, t('.first_name'), class: "form-label"
-      = user_fields.text_field :first_name, class: "form-control"
-      = user_fields.label :last_name, t('.last_name'), class: "form-label"
-      = user_fields.text_field :last_name, class: "form-control"
-    %fieldset.user-form
-      = user_fields.label :email, t('.email'), class: "form-label"
-      = user_fields.email_field :email, class: "form-control"
-      - if @case_worker.new_record?
-        = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
-        = user_fields.email_field :email_confirmation, class: "form-control"
+    .form-fields
+      %fieldset
+        %legend.visually-hidden
+          = 'Case worker details'
+        .form-group
+          .form-group.input
+            = user_fields.label :first_name, t('.first_name'), class: "form-label"
+            = user_fields.text_field :first_name, class: "form-control"
+          .form-group.input
+            = user_fields.label :last_name, t('.last_name'), class: "form-label"
+            = user_fields.text_field :last_name, class: "form-control"
+          .form-group.input
+            = user_fields.label :email, t('.email'), class: "form-label"
+            = user_fields.email_field :email, class: "form-control"
+          .form-group.input
+            - if @case_worker.new_record?
+              = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
+              = user_fields.email_field :email_confirmation, class: "form-control"
 
-    %fieldset.user-form
-      %div.form-group
-        %label.form-label
-          Working days
+      %fieldset
+        %legend
+          = 'Working days'
+        .form-group
+          -@case_worker.days_worked.each_with_index do |dw, i|
+            -if dw == 0 then
+              %label.block-label
+                = f.check_box "days_worked_#{i}"
+                = Settings.day_names[i]
+            -else
+              %label.block-label.selected
+                = f.check_box "days_worked_#{i}"
+                = Settings.day_names[i]
+        .form-group
+          = f.label :location_id, class: "form-label"
+          .form-group.inline
+            = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
+              - b.label(class: "block-label") { b.radio_button + b.object.name }
 
-        -@case_worker.days_worked.each_with_index do |dw, i|
-          -if dw == 0 then
-            %label.block-label
-              = f.check_box "days_worked_#{i}"
-              = Settings.day_names[i]
-          -else
-            %label.block-label.selected
-              = f.check_box "days_worked_#{i}"
-              = Settings.day_names[i]
-
-      = f.label :location_id, class: "form-label"
-      %div.form-group.inline
-        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.object.name }
-
-      = f.label :roles, class: "form-label"
-      %div.form-group.inline
-        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
+          = f.label :roles, class: "form-label"
+          .form-group.inline
+            = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
+              - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
   = f.submit 'Save', class: "button"

@@ -8,9 +8,14 @@ table {
   background-color: #fff;
   border-collapse: collapse;
   border-bottom: 1px solid $border-colour;
+  border-top: 1px solid $border-colour;
   caption {
+    @include core-19;
+    font-weight:700;
     text-align: left;
+    padding-bottom:$gutter-half/2;
   }
+
   tr {
     th,
     td {
@@ -21,9 +26,6 @@ table {
         padding-right:$gutter-half/3;
       }
     }
-  }
-  th {
-    border-top: 1px solid $border-colour;
   }
   th,
   td {
@@ -41,6 +43,7 @@ table {
     }
     th {
       @include core-16;
+      font-weight:700;
       color:$text-colour;
       background: transparent;
     }

@@ -1,41 +1,41 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Your account'}
 
+.body-content
+  .table-container.container
+    %table
+      %caption Your account
+      %colgroup
+        %col
+        %col
+      %tbody
+        %tr
+          %th{scope:'row'}
+            Name:
+          %td
+            = @case_worker.name
+        %tr
+          %th{scope:'row'}
+            Email:
+          %td
+            = mail_to @case_worker.email, @case_worker.email
+        %tr
+          %th{scope:'row'}
+            Location:
+          %td
+            = @case_worker.location
+        %tr
+          %th{scope:'row'}
+            Roles:
+          %td
+            = @case_worker.roles.map(&:humanize).join(', ')
+        %tr
+          %th{scope:'row'}
+            Working days:
+          %td
+            = present(@case_worker).days_worked_markup
 
-.grid-row.basic-info-row
-  .column-quarter
-    .bold-xsmall
-      Name:
-    .xsmall
-      = @case_worker.name
-  .column-quarter
-    .bold-xsmall
-      Email:
-    .xsmall
-      = mail_to @case_worker.email, @case_worker.email
-  .column-quarter
-    .bold-xsmall
-      Location:
-    .xsmall
-      = @case_worker.location
-  .column-quarter
-    &nbsp;
+  - if can? :edit, @case_worker
+    = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
 
-.grid-row.basic-info-row
-  .column-quarter
-    .bold-xsmall
-      Roles:
-    .xsmall
-      = @case_worker.roles.map(&:humanize).join(', ')
-  .column-quarter
-    .bold-xsmall
-      Working days:
-    .xsmall
-    = present(@case_worker).days_worked_markup
-  .column-half
-    &nbsp;
-
-- if can? :edit, @case_worker
-  = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
-
-- if can? :change_password, @case_worker
-  = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
+  - if can? :change_password, @case_worker
+    = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'

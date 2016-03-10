@@ -1,17 +1,3 @@
-day_names:
-  - Monday
-  - Tuesday
-  - Wednesday
-  - Thursday
-  - Friday
-
-day_name_initials:
-  - M
-  - T
-  - W
-  - T
-  - F
-
 trial_cracked_at_third:
   - first_third
   - second_third

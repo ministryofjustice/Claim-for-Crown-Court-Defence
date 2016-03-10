@@ -7,7 +7,7 @@ module DemoData
     end
 
     def generate!
-      DisbursementType.order('RANDOM()').first(rand(0..5)).each { |type| add_disbursement(type) }
+      DisbursementType.order('RANDOM()').first(rand(0..2)).each { |type| add_disbursement(type) }
     end
 
     private

@@ -27,6 +27,8 @@ module DatabaseHousekeeping
       ClaimIntention,
       ExternalUser,
       Provider,
+      Disbursement,
+      DisbursementType,
     ]
 
     models.each do |model|

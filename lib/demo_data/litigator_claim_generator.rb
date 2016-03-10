@@ -1,4 +1,5 @@
 require_relative 'base_claim_generator'
+require_relative 'disbursement_generator'
 
 module DemoData
   class LitigatorClaimGenerator < BaseClaimGenerator
@@ -41,5 +42,8 @@ module DemoData
       claim.save!
     end
 
+    def add_disbursements(claim)
+      DisbursementGenerator.new(claim).generate!
+    end
   end
 end

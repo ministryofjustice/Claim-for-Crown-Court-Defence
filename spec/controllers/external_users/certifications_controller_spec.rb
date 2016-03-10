@@ -80,7 +80,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
     context 'invalid certification' do
       it 'should redirect to new' do
         params = valid_certification_params(claim, certification_type)
-        params['certification']['certification_type_id'] = 99
+        params['certification']['certification_type_id'] = 9999
         post :create, params
         expect(response).to render_template(:new)
         expect(assigns(:certification).errors.full_messages).to eq(['You must select one option on this form'])

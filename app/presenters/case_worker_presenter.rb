@@ -6,7 +6,12 @@ class CaseWorkerPresenter < BasePresenter
 
   #returns markup like:
   #
-  #  <div><span class="working-day">M</span><span>T</span> etc</div>
+  # <div class="working-pattern">
+  #   <ul>
+  #     <li class="working-day"><abbr title="Monday">M</abbr></li>
+  #     <li><abbr title="Tuesday">T</abbr></li>
+  #   </ul>
+  # </div>
   def days_worked_markup
     result = '<div class="working-pattern"><ul>'
     case_worker.days_worked.each_with_index do |day, i|

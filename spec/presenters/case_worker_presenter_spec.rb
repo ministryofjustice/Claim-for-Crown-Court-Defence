@@ -22,10 +22,10 @@ RSpec.describe CaseWorkerPresenter do
 
 
   def all_days_markup
-    %q{<div class="working-pattern"><span class="working-day" title="Monday">M</span><span class="working-day" title="Tuesday">T</span><span class="working-day" title="Wednesday">W</span><span class="working-day" title="Thursday">T</span><span class="working-day" title="Friday">F</span></div>}
+    %q{<div class="working-pattern"><ul><li class="working-day"><abbr title="Monday">M</abbr></li><li class="working-day"><abbr title="Tuesday">T</abbr></li><li class="working-day"><abbr title="Wednesday">W</abbr></li><li class="working-day"><abbr title="Thursday">T</abbr></li><li class="working-day"><abbr title="Friday">F</abbr></li></ul></div>}
   end
 
   def mon_wed_fri_markup
-    %q{<div class="working-pattern"><span class="working-day" title="Monday">M</span><span title="Tuesday">T</span><span class="working-day" title="Wednesday">W</span><span title="Thursday">T</span><span class="working-day" title="Friday">F</span></div>}
+    %q{<div class="working-pattern"><ul><li class="working-day"><abbr title="Monday">M</abbr></li><li><abbr title="Tuesday">T</abbr></li><li class="working-day"><abbr title="Wednesday">W</abbr></li><li><abbr title="Thursday">T</abbr></li><li class="working-day"><abbr title="Friday">F</abbr></li></ul></div>}
   end
 end

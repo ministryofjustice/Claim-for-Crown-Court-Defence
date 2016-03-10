@@ -24,6 +24,10 @@ input.form-control[type=password] {
     @include span(6 of 12);
     margin-left: 0;
   }
+  &.search{
+    @include span(10 of 12);
+    @include first;
+  }
 }
 
 select.form-control{

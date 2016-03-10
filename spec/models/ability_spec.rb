@@ -37,7 +37,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user)) }
       end
     end
@@ -45,7 +45,7 @@ describe Ability do
     context 'cannot manage claims by another external_user' do
       let(:other_external_user) { create(:external_user) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user)) }
       end
     end
@@ -121,7 +121,7 @@ describe Ability do
     end
 
     context 'can manage their own claims' do
-      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: external_user, creator: external_user)) }
       end
     end
@@ -129,7 +129,7 @@ describe Ability do
     context 'can manage claims by another external_user in the same provider' do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user, creator: other_external_user)) }
       end
     end
@@ -150,7 +150,7 @@ describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user) }
 
-      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+      [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::AdvocateClaim.new(external_user: other_external_user, creator: other_external_user)) }
       end
     end

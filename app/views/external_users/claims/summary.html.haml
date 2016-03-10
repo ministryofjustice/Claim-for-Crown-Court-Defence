@@ -1,0 +1,23 @@
+= render partial: 'layouts/header', locals: { page_heading: t('.heading') }
+
+%p
+  Check all the information below is correct before submitting your claim at the bottom of the page.
+
+%h2
+  Claim and case type
+
+%h2
+  Defendants
+
+%h2
+  Fees
+
+%h2
+  Supporting evidence checklist
+
+%h2
+  Additional information
+
+%p
+  = link_to 'Continue', new_external_users_claim_certification_path(@claim), class: 'button left'
+  = link_to 'Save a draft', external_users_claims_path, class: 'button button-secondary left'

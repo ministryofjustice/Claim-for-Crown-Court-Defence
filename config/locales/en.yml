@@ -467,6 +467,8 @@ en:
         form_error_hint: 'Check below for more detail'
       edit:
         edit: Edit claim
+      summary:
+        heading: Check your claim
 
       fee_fields:
         add_date_attended: 'Add date(s)'

@@ -14,7 +14,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
   before_action :set_claim_type, only: [:new, :create]
   before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
@@ -67,6 +67,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
   end
+
+  def summary; end
 
   def confirmation; end
 
@@ -133,7 +135,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @claim.force_validation = true
       if @claim.valid?
         send_ga('event', 'claim', 'submit', 'started')
-        redirect_to new_external_users_claim_certification_path(@claim)
+        # redirect_to new_external_users_claim_certification_path(@claim)
+        redirect_to summary_external_users_claim_url(@claim)
       else
         present_errors
         render_edit_with_resources
@@ -351,7 +354,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       if @claim.valid?
         @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
         send_ga('event', 'claim', 'submit', 'started')
-        redirect_to new_external_users_claim_certification_path(@claim) and return
+        redirect_to summary_external_users_claim_url(@claim) and return
       else
         raise ActiveRecord::Rollback
       end

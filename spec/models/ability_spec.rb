@@ -23,10 +23,10 @@ describe Ability do
     it { should be_able_to(:update, UserMessageStatus.new) }
   end
 
-  context 'external_user' do
-    let(:external_user) { create(:external_user) }
-    let(:provider) { external_user.provider }
-    let(:user) { external_user.user }
+  context 'external_user advocate' do
+    let(:external_user) { create(:external_user, :advocate) }
+    let(:provider)      { external_user.provider }
+    let(:user)          { external_user.user }
 
     [:create].each do |action|
       it { should be_able_to(action, ClaimIntention) }
@@ -34,6 +34,10 @@ describe Ability do
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should be_able_to(action, Claim::AdvocateClaim) }
+    end
+
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
+      it { should_not be_able_to(action, Claim::LitigatorClaim) }
     end
 
     context 'can manage their own claims' do
@@ -206,6 +210,159 @@ describe Ability do
         it { should_not be_able_to(action, ExternalUser.new(provider: other_provider)) }
       end
     end
+  end
+
+context 'external_user litigator' do
+    
+    let(:external_user) { create(:external_user, :litigator) }
+    let(:provider)      { external_user.provider }
+    let(:user)          { external_user.user }
+
+    [:create].each do |action|
+      it { should be_able_to(action, ClaimIntention) }
+    end
+
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
+      it { should be_able_to(action, Claim::LitigatorClaim) }
+    end
+
+    context 'can manage their own claims' do
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should be_able_to(action, Claim::LitigatorClaim.new(creator: external_user)) }
+      end
+    end
+
+    context 'cannot manage claims by another external_user with a different provider' do
+      let(:other_external_user) { create(:external_user, :litigator) }
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should_not be_able_to(action, Claim::LitigatorClaim.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'can view/download their own documents' do
+      [:show, :download].each do |action|
+        it { should be_able_to(action, Document.new(creator: external_user)) }
+      end
+    end
+
+    context 'can index and create documents' do
+      [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(creator: external_user)) }
+      end
+    end
+
+    context 'can destroy own documents' do
+      it { should be_able_to(:destroy, Document.new(creator: external_user)) }
+    end
+
+    context 'cannot view/download another external_user\'s documents' do
+      let(:other_external_user) { create(:external_user) }
+      [:show, :download].each do |action|
+        it { should_not be_able_to(action, Document.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'cannot destroy another\'s documents' do
+      let(:other_external_user) { create(:external_user) }
+      it { should_not be_able_to(:destroy, Document.new(creator: other_external_user)) }
+    end
+
+    context 'cannot manage external_users in their provider' do
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
+        it { should_not be_able_to(action, ExternalUser.new(provider: provider)) }
+      end
+    end
+
+    context 'cannot manage claims by another external_user with a different provider' do
+      let(:other_external_user) { create(:external_user, :litigator) }
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should_not be_able_to(action, Claim::LitigatorClaim.new(creator: other_external_user)) }
+      end
+    end
+
+  end
+
+  # NOTE: litigator admin is probably the minimum role/privileges that LGFS/Firm users will have
+  # since the claims are owned by the provider.
+  context 'external_user litigator admin' do
+    let(:external_user) { create(:external_user, :litigator_and_admin) }
+    let(:provider)      { external_user.provider }
+    let(:user)          { external_user.user }
+
+    [:create].each do |action|
+      it { should be_able_to(action, ClaimIntention) }
+    end
+
+    [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
+      it { should be_able_to(action, Claim::LitigatorClaim) }
+    end
+
+    context 'can manage their own claims' do
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should be_able_to(action, Claim::LitigatorClaim.new(creator: external_user)) }
+      end
+    end
+
+    context 'can manage claims by another external_user in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should be_able_to(action, Claim::LitigatorClaim.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'cannot manage claims by another external_user in a different provider' do
+      let(:other_external_user) { create(:external_user, :litigator) }
+      [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy].each do |action|
+        it { should_not be_able_to(action, Claim::LitigatorClaim.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'can view/download their own documents' do
+      [:show, :download].each do |action|
+        it { should be_able_to(action, Document.new(creator: external_user)) }
+      end
+    end
+
+    context 'can index and create documents' do
+      [:index, :create].each do |action|
+        it { should be_able_to(action, Document.new(creator: external_user)) }
+      end
+    end
+
+    context 'can destroy own documents' do
+      it { should be_able_to(:destroy, Document.new(creator: external_user)) }
+    end
+
+    context 'cannot view/download another external_user\'s documents in a different provider' do
+      let(:other_external_user) { create(:external_user) }
+      [:show, :download].each do |action|
+        it { should_not be_able_to(action, Document.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'can view/download documents by an external_user in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
+      [:show, :download].each do |action|
+        it { should be_able_to(action, Document.new(creator: other_external_user)) }
+      end
+    end
+
+    context 'can destroy another external_user\'s documents in the same provider' do
+      let(:other_external_user) { create(:external_user, provider: provider) }
+      it { should be_able_to(:destroy, Document.new(creator: other_external_user)) }
+    end
+
+    context 'cannot destroy another external_user\'s documents in a different provider' do
+      let(:other_external_user) { create(:external_user) }
+      it { should_not be_able_to(:destroy, Document.new(creator: other_external_user)) }
+    end
+
+    context 'can manage external_users in their provider' do
+      [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
+        it { should be_able_to(action, ExternalUser.new(provider: provider)) }
+      end
+    end
+
   end
 
   context 'case worker' do

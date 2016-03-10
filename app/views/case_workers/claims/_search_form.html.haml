@@ -14,7 +14,7 @@
               = t('common.search')
             %span.form-hint
               = 'eg MAAT reference, defendant name, case worker name or email'
-          = text_field_tag :search, params[:search], class: 'form-control medium-input search'
+          = text_field_tag :search, params[:search], class: 'form-control search'
           = button_tag(type: 'submit', class: 'button search', title: "Search") do
             %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
 

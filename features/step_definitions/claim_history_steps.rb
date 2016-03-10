@@ -42,3 +42,7 @@ end
 When(/^I visit the claim's detail page$/) do
   visit external_users_claim_path(@claim)
 end
+
+Then(/^the messages section should be expanded$/) do
+  expect(find(:css, '#panel1')).to be_visible
+end

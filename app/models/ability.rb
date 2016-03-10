@@ -59,6 +59,11 @@ private
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
     can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
+    can [:show, :create, :update], Certification
+    can_administer_documents_in_provider(persona)
+  end
+
+  def can_administer_documents_in_provider(persona)
     can [:index, :create], Document
     can [:show, :download, :destroy], Document do |document|
       if document.external_user_id.nil?
@@ -67,8 +72,6 @@ private
         document.external_user.provider.id == persona.provider.id
       end
     end
-    can [:index, :create], Document
-    can [:show, :create, :update], Certification
   end
 
   def can_administer_provider(persona)
@@ -81,10 +84,14 @@ private
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
-
     claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
-
     can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], claim_klass, claim_owner_id_attr => persona.id
+    can [:show, :create, :update], Certification
+    can_manage_own_documents(persona)
+  end
+
+  def can_manage_own_documents(persona)
+    can [:index, :create], Document
     can [:show, :download, :destroy], Document do |document|
       if document.external_user_id.nil?
         document.creator_id == persona.id
@@ -92,8 +99,6 @@ private
         document.external_user_id == persona.id
       end
     end
-    can [:index, :create], Document
-    can [:show, :create, :update], Certification
   end
 
   def can_manage_own_password(persona)

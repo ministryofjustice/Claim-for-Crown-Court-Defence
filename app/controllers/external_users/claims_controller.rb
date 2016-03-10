@@ -152,8 +152,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def set_claim_type
     context = Claims::ContextMapper.new(@external_user)
     available_types = context.available_claim_types
-    redirect_to external_users_claims_path, notice: 'AGFS/LGFS choice required' if available_types.size > 1
-    redirect_to external_users_claims_path, notice: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
+    redirect_to external_users_claims_scheme_choice_path if available_types.size > 1
+    redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
     @claim_type = available_types[0]
   end
 

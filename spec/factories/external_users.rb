@@ -52,6 +52,11 @@ FactoryGirl.define do
       roles ['litigator', 'admin']
       provider { create(:provider, :lgfs) }
     end
+
+    trait :agfs_lgfs_admin do
+      roles ['admin']
+      provider { create(:provider, :agfs_lgfs) }
+    end
   end
 end
 

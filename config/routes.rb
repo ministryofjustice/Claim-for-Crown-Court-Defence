@@ -83,6 +83,8 @@ Rails.application.routes.draw do
 
     post '/external_users/json_importer' => 'json_document_importer#create'
 
+    get '/claims/scheme_choice'
+
     resources :claims do
       get 'confirmation',     on: :member
       get 'show_message_controls', on: :member

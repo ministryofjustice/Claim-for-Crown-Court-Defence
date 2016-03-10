@@ -1,21 +1,21 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.title')}
 
-.grid-row
-  .column-half
-    .normal
-      = label_tag :search, t('.search')
-  .column-half
-    &nbsp;
-.grid-row
-  .column-half
-    = form_tag external_users_admin_external_users_path, method: :get do
-      = text_field_tag :search, params[:search], class: 'normal form-control-3-4'
-      = button_tag(type: 'submit', class: 'button search', title: "Search") do
-        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
-  .column-half.clear-float
+.search-form
+  = form_tag external_users_admin_external_users_path, method: :get do
+    %fieldset
+      %legend
+        = t('common.search')
+      .input.form-group
+        = label_tag :search, class: 'form-label' do
+          %span.label-text
+            = t('common.search')
+          %span.form-hint
+            = t('hint.search')
+        = text_field_tag :search, params[:search], class: 'form-control'
+        = button_tag(type: 'submit', class: 'button search', title: "Search") do
+          %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  .new-user
     = link_to t('.new_user'), new_external_users_admin_external_user_path, class: 'button right'
-
-
 %table.report
   %thead
     %th

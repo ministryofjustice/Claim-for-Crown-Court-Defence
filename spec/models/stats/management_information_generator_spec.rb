@@ -8,6 +8,10 @@ module Stats
 
   describe ManagementInformationGenerator do
 
+    before(:all) do
+      FileUtils.mkdir ManagementInformationGenerator::STATS_DIR unless Dir.exist?(ManagementInformationGenerator::STATS_DIR)
+    end
+
     let(:generator)  { ManagementInformationGenerator.new }
     after(:each) do
       remove_pidfile

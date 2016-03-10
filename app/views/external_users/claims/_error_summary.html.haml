@@ -1,9 +1,12 @@
 - if ep && ep.size > 0
-  .validation-summary
-    %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
-    %ul
+  .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+    %h1.heading-medium.error-summary-heading{id: 'error-summary-heading'}
+      = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
+
+    %ul.error-summary-list
       - ep.header_errors.each do |error_detail|
         %li
           = error_detail.long_message_link
+
     %span.form-hint
-      = t('.form_error_hint')
+      = t('shared.errors.form_error_hint')

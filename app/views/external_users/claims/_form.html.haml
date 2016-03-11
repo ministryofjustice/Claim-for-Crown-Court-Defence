@@ -3,8 +3,6 @@
 
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
 
-    = render partial: 'error_summary', locals: { ep: @error_presenter }
-
     = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
 
     = render partial: 'external_users/claims/defendants/fields', locals: { f: f }

@@ -12,18 +12,10 @@ When(/^I change the claim case types for (re)?trial$/) do |trial_prefix|
   @actual_result = Array.new
   @expected_result.each_with_index do | case_type, index |
     select2 case_type.first, from: 'claim_case_type_id'
-    checkVisible = Array.new
 
     wait_for_ajax
 
-    trial_field_ids = trial_prefix.blank? ? trial_fields : retrial_fields
-
-    trial_field_ids.each do |id|
-      visibleElement = find(:css, "##{id}", :visible => false).visible? ? "should" : "should not"
-      checkVisible << visibleElement
-    end
-
-    @actual_result << [case_type.first, checkVisible.uniq.join(', ') ]
+    @actual_result << [case_type.first, check_fields_visible(trial_prefix)]
 
   end
 end
@@ -42,23 +34,15 @@ end
 When(/^I am on the edit page for a draft claim of (re)?trial specific case type$/) do |trial_prefix|
   @actual_result = Array.new
   @expected_result.each_with_index do | case_type, index |
+
     #Create a draft and navigate to it
     steps <<-STEPS
       When I am on the edit page for a draft claim of case type #{case_type.first}
     STEPS
 
-    checkVisible = Array.new
-
     wait_for_ajax
 
-    trial_field_ids = trial_prefix.blank? ? trial_fields : retrial_fields
-
-    trial_field_ids.each do |id|
-      visibleElement = find(:css, "##{id}", :visible => false).visible? ? "should" : "should not"
-      checkVisible << visibleElement
-    end
-
-    @actual_result << [case_type.first, checkVisible.uniq.join(', ') ]
+    @actual_result << [case_type.first, check_fields_visible(trial_prefix) ]
 
   end
 end
@@ -93,4 +77,17 @@ def retrial_fields
     claim_retrial_concluded_at_mm
     claim_retrial_concluded_at_yyyy
   )
+end
+
+def check_fields_visible(trial_prefix)
+  checkVisible = Array.new
+  trial_field_ids = trial_prefix.blank? ? trial_fields : retrial_fields
+
+  trial_field_ids.each do |id|
+    visibleElement = find(:css, "##{id}", :visible => false).visible? ? "should" : "should not"
+    checkVisible << visibleElement
+  end
+
+  checkVisible.uniq.join(', ')
+
 end

@@ -140,46 +140,6 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
-  describe '#supplier_number' do
-    subject { create(:external_user, provider: provider, supplier_number: 'XY123') }
-
-    context 'when external_user in chamber' do
-      let(:provider) { create(:provider, :chamber, supplier_number: 'AB123') }
-
-      it "returns the external_user's supplier number" do
-        expect(subject.supplier_number).to eq('XY123')
-      end
-    end
-
-    context 'when external_user in firm' do
-      let(:provider) { create(:provider, :firm, supplier_number: 'AB123') }
-
-      it "returns the provider's supplier number" do
-        expect(subject.supplier_number).to eq('AB123')
-      end
-    end
-  end
-
-  describe '#vat_registered?' do
-    subject { create(:external_user, provider: provider, vat_registered: false) }
-
-    context 'when external_user in chamber' do
-      let(:provider) { create(:provider, :chamber, vat_registered: true) }
-
-      it "returns the external_user's VAT registration status" do
-        expect(subject.vat_registered?).to eq(false)
-      end
-    end
-
-    context 'when external_user in firm' do
-      let(:provider) { create(:provider, :firm, vat_registered: true) }
-
-      it "returns the provider's VAT registration status" do
-        expect(subject.vat_registered?).to eq(true)
-      end
-    end
-  end
-
   describe '#name' do
     subject { create(:external_user) }
 

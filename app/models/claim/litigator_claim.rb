@@ -66,5 +66,12 @@ module Claim
       Fee::FixedFeeType.lgfs
     end
 
+
+    private
+
+    def provider_delegator
+      provider
+    end
+
   end
 end

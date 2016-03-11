@@ -1034,6 +1034,67 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   end
 
+  describe 'provider type dependant methods' do
+    let(:claim) { FactoryGirl.build :unpersisted_claim }
+
+    describe 'for a chamber provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('chamber')
+      end
+
+      context '#vat_registered?' do
+        it 'returns the value from the external user' do
+          expect(claim.external_user).to receive(:vat_registered?)
+          claim.vat_registered?
+        end
+      end
+
+      context '#supplier_number' do
+        it 'returns the value from the external user' do
+          expect(claim.external_user).to receive(:supplier_number)
+          claim.supplier_number
+        end
+      end
+    end
+
+    describe 'for a firm provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('firm')
+      end
+
+      context '#vat_registered?' do
+        it 'returns the value from the provider' do
+          expect(claim.provider).to receive(:vat_registered?)
+          claim.vat_registered?
+        end
+      end
+
+      context '#supplier_number' do
+        it 'returns the value from the provider' do
+          expect(claim.provider).to receive(:supplier_number)
+          claim.supplier_number
+        end
+      end
+    end
+
+    describe 'for an unknown provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('zzzz')
+      end
+
+      context '#vat_registered?' do
+        it 'raises an exception' do
+          expect { claim.vat_registered? }.to raise_error
+        end
+      end
+
+      context '#supplier_number' do
+        it 'raises an exception' do
+          expect { claim.supplier_number }.to raise_error
+        end
+      end
+    end
+  end
 
   describe 'calculate_vat' do
 

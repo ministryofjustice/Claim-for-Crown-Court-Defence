@@ -42,8 +42,8 @@ module Claims::Calculations
   end
 
   def update_vat
-    return if self.external_user.nil?
-    update_column(:apply_vat, self.external_user.vat_registered?) if self.external_user.vat_registered?
+    update_column(:apply_vat, self.vat_registered?) if self.vat_registered?
+
     if self.apply_vat?
       update_column(:vat_amount, calculate_total_vat)
     else

@@ -16,7 +16,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def generate
     ManagemenInformationGenerationJob.perform_later
-    redirect_to case_workers_admin_management_information_url, alert: 'A background job has been scheduled to regenerate the Management Information report'
+    redirect_to case_workers_admin_management_information_url, alert: 'A background job has been scheduled to regenerate the Management Information report.  Please refresh this page in a few minutes.'
   end
 
   private

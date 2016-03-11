@@ -26,12 +26,6 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def supplier_number
-    if external_user.nil?
-       puts ">>>>>>>>>>> EXTERNAM USER NIL +++++++ #{__FILE__}::#{__LINE__} <<<<<<<<<"
-       ap claim
-       puts callback
-       raise "Bang"
-     end
     external_user.supplier_number
   end
 

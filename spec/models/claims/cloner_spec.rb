@@ -95,6 +95,12 @@ RSpec.describe Claims::Cloner, type: :model do
         expect(@cloned_claim.expenses.map { |e| e.dates_attended.count }).to eq(@rejected_claim.expenses.map { |e| e.dates_attended.count })
       end
 
+      it 'clones the disbursements' do
+        expect(@cloned_claim.disbursements.size).to eq(@rejected_claim.disbursements.size)
+        expect(@cloned_claim.disbursements.map(&:net_amount)).to eq(@rejected_claim.disbursements.map(&:net_amount))
+        expect(@cloned_claim.disbursements.map(&:vat_amount)).to eq(@rejected_claim.disbursements.map(&:vat_amount))
+      end
+
       it 'clones the defendants' do
         expect(@cloned_claim.defendants.count).to eq(@rejected_claim.defendants.count)
         expect(@cloned_claim.defendants.map(&:name)).to eq(@rejected_claim.defendants.map(&:name))
@@ -137,6 +143,7 @@ RSpec.describe Claims::Cloner, type: :model do
       rejected_claim.expenses.each do |expense|
         expense.dates_attended << create(:date_attended)
       end
+      rejected_claim.disbursements << create(:disbursement)
       create(:redetermination, claim: rejected_claim)
       rejected_claim.documents << create(:document)
       rejected_claim

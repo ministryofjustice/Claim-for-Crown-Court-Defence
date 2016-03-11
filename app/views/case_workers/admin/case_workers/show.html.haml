@@ -13,9 +13,9 @@
             = 'Roles:'
           %td
             = @case_worker.roles.map(&:humanize).join(', ')
+  .container
+    - if can? :edit, @case_worker
+      = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
 
-- if can? :edit, @case_worker
-  = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
-
-- if can? :change_password, @case_worker
-  = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'
+    - if can? :change_password, @case_worker
+      = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'button button-secondary'

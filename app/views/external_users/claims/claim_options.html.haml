@@ -1,0 +1,15 @@
+#claim-type-options
+  = form_tag new_external_users_claim_path, method: :get do
+    %fieldset
+      %legend
+        = t('common.agfs_lgfs_choice')
+      .input.form-group
+        = label_tag :choice, class: 'form-label' do
+          %span.label-text
+            = t('common.agfs_lgfs_choice')
+
+      .form-group.inline
+        = radio_button_tag('claim_type',:agfs, true)
+        = radio_button_tag('claim_type',:lgfs, false)
+
+    = submit_tag 'Continue', class: 'button button-secondary left'

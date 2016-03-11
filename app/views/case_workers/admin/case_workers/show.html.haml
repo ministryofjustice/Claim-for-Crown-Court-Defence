@@ -26,11 +26,6 @@
       Roles:
     .xsmall
       = @case_worker.roles.map(&:humanize).join(', ')
-  .column-quarter
-    .bold-xsmall
-      Working days:
-    .xsmall
-    = present(@case_worker).days_worked_markup
   .column-half
     &nbsp;
 

@@ -1,12 +1,18 @@
-%div.grid-row
-  %div.column-half
-    %div.form-inputs
-      - path_to_use = defined?(archived) && archived ? archived_case_workers_claims_path : case_workers_claims_path
-      = form_tag path_to_use, method: :get do
-        = hidden_field_tag :tab, params[:tab]
-        = hidden_field_tag :sort, params[:sort]
-        = hidden_field_tag :direction, params[:direction]
-        = label_tag :search, 'eg MAAT reference, defendant name, case worker name or email'
+.search-form
+  - path_to_use = defined?(archived) && archived ? archived_case_workers_claims_path : case_workers_claims_path
+  = form_tag path_to_use, method: :get do
+    = hidden_field_tag :tab, params[:tab]
+    = hidden_field_tag :sort, params[:sort]
+    = hidden_field_tag :direction, params[:direction]
+    %fieldset
+      %legend
+        = t('common.search')
+      .input.form-group
+        = label_tag :search, class: 'form-label' do
+          %span.label-text
+            = t('common.search')
+          %span.form-hint
+            = 'eg MAAT reference, defendant name, case worker name or email'
         = text_field_tag :search, params[:search], class: 'normal form-control-3-4'
-        = button_tag(type: 'submit', class: 'button search', title: "Search") do
+        = button_tag(type: 'submit', class: 'button search', title: "#{ t('common.search') }") do
           %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}

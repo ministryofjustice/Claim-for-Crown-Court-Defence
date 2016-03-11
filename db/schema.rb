@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20160310170946) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
-    t.string   "days_worked"
     t.string   "roles"
   end
 

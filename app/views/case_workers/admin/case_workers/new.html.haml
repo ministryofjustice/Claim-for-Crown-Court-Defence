@@ -1,9 +1,4 @@
-- if @case_worker.errors.any?
-  .validation-summary
-    %h3.heading-small= "This case worker has #{pluralize(@case_worker.errors.count, 'error')}"
-    %ul
-      - @case_worker.errors.full_messages.each do |msg|
-        %li= msg
+= render partial: 'errors/error_summary', locals:{ ep: @case_worker, error_summary: 'This case worker has '}
 
 = render partial: 'layouts/header', locals: {page_heading: 'New case worker details'}
 

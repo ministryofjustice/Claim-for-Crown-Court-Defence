@@ -73,7 +73,7 @@ end
 
 
 And(/^I should see a summary error message "(.+)"$/) do | error_message |
-  within('.validation-summary') do
+  within('.error-summary') do
     expect(page).to have_content(error_message)
   end
 end

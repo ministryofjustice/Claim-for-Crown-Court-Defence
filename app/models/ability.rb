@@ -19,40 +19,21 @@ class Ability
 
     if persona.is_a? ExternalUser
       if persona.admin?
-        can [:create], ClaimIntention
-        can [:show, :edit, :update, :regenerate_api_key], Provider, id: persona.provider_id
-        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
-        can [:show, :download], Document, provider_id: persona.provider_id
-        can [:destroy], Document do |document|
-          if document.external_user_id.nil?
-            document.creator_id == user.id
-          else
-            document.external_user.provider_id == persona.provider_id
-          end
-        end
-        can [:index, :create], Document
-        can [:index, :new, :create], ExternalUser
-        can [:show, :change_password, :update_password, :edit, :update, :destroy], ExternalUser, provider_id: persona.provider_id
-        can [:show, :create, :update], Certification
+        can_administer_any_claim_in_provider(persona)
+        can_administer_provider(persona)
       else
-        can [:create], ClaimIntention
-        can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, external_user_id: persona.id
-        can [:show, :download], Document, external_user_id: persona.id
-        can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, creator_id: persona.id
-        can [:show, :download], Document, creator_id: persona.id
-        can [:destroy], Document do |document|
-          if document.external_user_id.nil?
-            document.creator_id == user.id
-          else
-            document.external_user_id == persona.id
-          end
+        # NOTE: privleges on AGFS and LGFS claims are cumulative since you can have privs for both
+        if persona.advocate?
+          can_manage_own_claims_of_class(persona, Claim::AdvocateClaim)
         end
-        can [:index, :create], Document
-        can [:show, :create, :update], Certification
-        can [:show, :change_password, :update_password], ExternalUser, id: persona.id
+
+        if persona.litigator?
+          can_manage_own_claims_of_class(persona, Claim::LitigatorClaim)
+        end
+
+        can_manage_own_password(persona)
       end
+
     elsif persona.is_a? CaseWorker
       if persona.admin?
         can [:index, :show, :update, :archived], Claim::BaseClaim
@@ -64,11 +45,64 @@ class Ability
       else
         can [:index, :show, :show_message_controls, :archived], Claim::BaseClaim
         can [:update], Claim::BaseClaim do |claim|
-          claim.case_workers.include?(user.persona)
+          claim.case_workers.include?(persona)
         end
         can [:show, :download], Document
-        can [:show, :change_password, :update_password], CaseWorker, id: persona.id
+        can_manage_own_password(persona)
       end
     end
   end
+
+private
+
+  def can_administer_any_claim_in_provider(persona)
+    can [:create], ClaimIntention
+    can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
+    can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
+    can [:show, :create, :update], Certification
+    can_administer_documents_in_provider(persona)
+  end
+
+  def can_administer_documents_in_provider(persona)
+    can [:index, :create], Document
+    can [:show, :download, :destroy], Document do |document|
+      if document.external_user_id.nil?
+        document.creator.provider_id == persona.provider.id
+      else
+        document.external_user.provider.id == persona.provider.id
+      end
+    end
+  end
+
+  def can_administer_provider(persona)
+    can [:show, :edit, :update, :regenerate_api_key], Provider, id: persona.provider_id
+    can [:index, :new, :create], ExternalUser
+    can [:show, :change_password, :update_password, :edit, :update, :destroy], ExternalUser, provider_id: persona.provider_id
+  end
+
+  # NOTE: advocate claims "owned" by external_user, litigators "owned" by creator
+  def can_manage_own_claims_of_class(persona, claim_klass)
+    can [:create], ClaimIntention
+    can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
+    claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
+    can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], claim_klass, claim_owner_id_attr => persona.id
+    can [:show, :create, :update], Certification
+    can_manage_own_documents(persona)
+  end
+
+  def can_manage_own_documents(persona)
+    can [:index, :create], Document
+    can [:show, :download, :destroy], Document do |document|
+      if document.external_user_id.nil?
+        document.creator_id == persona.id
+      else
+        document.external_user_id == persona.id
+      end
+    end
+  end
+
+  def can_manage_own_password(persona)
+    can [:show, :change_password, :update_password], persona.class, id: persona.id
+  end
+
 end

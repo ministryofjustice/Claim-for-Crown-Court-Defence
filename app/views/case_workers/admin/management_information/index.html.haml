@@ -13,9 +13,9 @@
     this page in a few minutes to download the new report'.
   
 
-
-.form.fieldset.label
-= link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button"
+- unless @filename.nil?
+  .form.fieldset.label
+  = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button"
 
 %p 
 

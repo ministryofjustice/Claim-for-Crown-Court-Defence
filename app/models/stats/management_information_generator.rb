@@ -14,9 +14,14 @@ module Stats
 
     def run
       if drop_pidfile_ok?
-        generate_new_report
-        delete_old_reports
-        clean_up_pidfile
+        begin
+          generate_new_report
+          delete_old_reports
+        rescue => err
+          puts "ERROR: #{err.class} - #{err.message}"
+        ensure
+          clean_up_pidfile
+        end
       end
     end
 

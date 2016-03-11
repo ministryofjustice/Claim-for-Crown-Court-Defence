@@ -1,5 +1,5 @@
 require 'csv'
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 # create actual case workers
 file_path = Rails.root.join('lib', 'assets', 'data', 'case_workers.csv')

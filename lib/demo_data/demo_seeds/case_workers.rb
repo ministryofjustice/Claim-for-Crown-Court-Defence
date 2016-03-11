@@ -1,5 +1,5 @@
 require 'csv'
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 SeedHelper.find_or_create_caseworker!(
   first_name: 'Casey',

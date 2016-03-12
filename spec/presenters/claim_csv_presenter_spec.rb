@@ -88,6 +88,29 @@ RSpec.describe ClaimCsvPresenter do
         end
 
       end
+
+      context 'deallocation' do
+        let(:claim) { create(:allocated_claim) }
+
+        before {
+          case_worker = claim.case_workers.first
+          claim.case_workers.destroy_all; claim.deallocate!
+          claim.case_workers << case_worker; claim.allocate!
+          claim.case_workers.destroy_all; claim.deallocate!
+        }
+
+        it 'should not be reflected in the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).not_to include('deallocated')
+          end
+        end
+
+        it 'and the claim should be refelcted as being in the state prior to allocation' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0]).to include('submitted')
+          end
+        end
+      end
     end
   end
 end

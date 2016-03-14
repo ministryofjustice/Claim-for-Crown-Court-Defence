@@ -1,38 +1,38 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Manage provider'}
 
-.grid-row.basic-info-row
-  .column-quarter
-    .bold-xsmall
-      Provider name
-    .xsmall
-      = @provider.name
+.body-content
+  .table-container.container
+    %table
+      %caption
+        = 'Manage provider'
+      %colgroup
+        %col
+        %col
+      %tbody
+        %tr
+          %th{scope:'row'}
+            = 'Provider name'
+          %td
+            = @provider.name
+        %tr
+          %th{scope:'row'}
+            = t('.api_key')
+          %td
+            = @provider.api_key
 
-  - if @provider.firm?
-    .column-quarter
-      .bold-xsmall
-        = t('.supplier_number')
-      .xsmall
-        = @provider.supplier_number
-    .column-quarter
-      .bold-xsmall
-        = t('.vat_registered')
-      .xsmall
-        = @provider.vat_registered == true ? 'Yes' : 'No'
-    .column-quarter
-      &nbsp;
-  - else
-    .column-three-quarter
-      &nbsp;
-.grid-row.basic-info-row
-  .column-half
-    .bold-xsmall
-      = t('.api_key')
-    .xsmall#api-key
-      = @provider.api_key
-  .column-half
-    &nbsp;
+        - if @provider.firm?
+          %tr
+            %th{scope:'row'}
+              = t('.supplier_number')
+            %td
+              = @provider.supplier_number
+          %tr
+            %th{scope:'row'}
+              = t('.vat_registered')
+            %td
+              = @provider.vat_registered == true ? 'Yes' : 'No'
 
-- if can? :edit, @provider
-  = link_to 'Edit', edit_external_users_admin_provider_path(@provider), class: 'button-secondary'
+  - if can? :edit, @provider
+    = link_to 'Edit', edit_external_users_admin_provider_path(@provider), class: 'button-secondary'
 
-= button_to 'Generate new key', regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button-secondary'
+  = button_to 'Generate new key', regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button-secondary'

@@ -6,20 +6,6 @@
 .button-holder{
   @include clearfix;
 }
-
-.user-form {
-  .form-row {
-    @include container;
-    label{
-      display: block;
-      margin:$gutter-half 0 5px;
-    }
-    .form-control {
-      @include span(6 of 12);
-      @include first;
-    }
-  }
-}
 .grid-row,
 .basic-info-row {
   @include container;

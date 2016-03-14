@@ -90,7 +90,7 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| publicise_errors(c) {c.submit!}; c.allocate!; }
+      after(:create) { |c| publicise_errors(c) {c.submit!}; c.case_workers << create(:case_worker); c.reload; }
     end
 
     factory :archived_pending_delete_claim do

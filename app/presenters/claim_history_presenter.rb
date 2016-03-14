@@ -24,7 +24,7 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def state_transitions
-    claim_state_transitions.reject{ |transition| transition.to == 'draft' }
+    claim_state_transitions.reject{ |transition| transition.to == 'draft' || transition.to == 'deallocated' }
   end
 
   def state_transition_dates

@@ -11,11 +11,11 @@ require Rails.root.join('db','seed_helper')
 #  rake claims.destroy_sample_providers
 #
 
-# Create a advocate and admin/clerk for AGFS Chamber
+# Create an advocate and admin/clerk for AGFS Chamber
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test chamber',
-  supplier_number: 'A1234567',
+  supplier_number: nil,
   api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'chamber',
   vat_registered: true,
@@ -50,11 +50,11 @@ if User.find_by(email: 'advocateadmin@example.com').blank?
   external_user.save!
 end
 
-# Create litigator and admin/clerk belonging to an LGFS Firm
+# Create a litigator and admin/clerk belonging to an LGFS Firm
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm A',
-  supplier_number: 'B1234567',
+  supplier_number: 'A1234567',
   api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: true,
@@ -88,6 +88,49 @@ if User.find_by(email: 'litigatoradmin@example.com').blank?
   external_user.user = user
   external_user.save!
 end
+
+# create an admin/clerk that belongs to an AGFS and LGFS Firm
+# The firm has a single advocate (does not need a litigator as
+# litigator claims are not "owned" by anyone except the firm)
+# ------------------------------------------------------------
+provider = SeedHelper.find_or_create_provider!(
+  name: 'Test firm B',
+  supplier_number: 'B1234567',
+  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  provider_type: 'firm',
+  vat_registered: false,
+  roles: ['agfs','lgfs']
+)
+if User.find_by(email: 'advocate@agfslgfs.com').blank?
+  user = User.create!(
+    first_name: 'Adi',
+    last_name: 'Firmstein',
+    email: 'advocate@agfslgfs.com',
+    password: ENV['ADVOCATE_PASSWORD'],
+    password_confirmation: ENV['ADVOCATE_PASSWORD']
+  )
+
+  external_user = ExternalUser.new(roles: ['advocate'], provider_id: provider.id)
+  external_user.user = user
+  external_user.save!
+end
+
+
+if User.find_by(email: 'admin@agfslgfs.com').blank?
+  user = User.create!(
+    first_name: 'Adliti',
+    last_name: 'Vogator-Admin',
+    email: 'admin@agfslgfs.com',
+    password: ENV['ADMIN_PASSWORD'],
+    password_confirmation: ENV['ADMIN_PASSWORD']
+  )
+
+  external_user = ExternalUser.new(roles: ['admin'], provider_id: provider.id)
+  external_user.user = user
+  external_user.save!
+end
+
+
 
 # Create advocates belonging to an AGFS Firm - EDGE CASE
 # -------------------------------------------------------

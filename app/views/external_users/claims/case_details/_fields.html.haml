@@ -3,20 +3,22 @@
 
 %fieldset
 
-  %legend.xsmall
-    = f.anchored_without_label t('.advocate_category')
-    = t('.advocate_category')
-  .form-group.inline
-    = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
-      - b.label(class: "block-label") { b.radio_button + b.value.to_s }
-    = validation_error_message(@error_presenter, :advocate_category)
+  - if @claim.agfs?
+    %legend.xsmall
+      = f.anchored_without_label t('.advocate_category')
+      = t('.advocate_category')
+    .form-group.inline
+      = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
+        - b.label(class: "block-label") { b.radio_button + b.value.to_s }
+      = validation_error_message(@error_presenter, :advocate_category)
 
-.form-group
-  .column-half
-    - if current_user.persona.admin?
-      = f.anchored_label t('.advocate'), 'external_user'
-      = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-      = validation_error_message(@error_presenter, :external_user)
+  - if @claim.agfs?
+    .form-group
+      .column-half
+        - if current_user.persona.admin?
+          = f.anchored_label t('.advocate'), 'external_user'
+          = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+          = validation_error_message(@error_presenter, :external_user)
 
 .form-group
   .column-half

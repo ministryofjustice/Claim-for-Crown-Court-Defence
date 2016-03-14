@@ -50,6 +50,10 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       it 'redirects to new allocation' do
         expect(response).to redirect_to(case_workers_admin_allocations_path(allocation_params))
       end
+
+      it 'tells the user that it was successful and the number of claims allocated' do
+        expect(flash[:notice]).to have_content('5 claims allocated to')
+      end
     end
 
     context 'when invalid' do
@@ -66,6 +70,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       it 'renders the new template' do
         expect(response).to render_template(:new)
       end
+
     end
   end
 end

@@ -12,7 +12,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     @allocation = Allocation.new(allocation_params)
 
     if @allocation.save
-      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab]))
+      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab])), notice: set_notice
     else
       render :new
     end
@@ -90,5 +90,16 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
      :deallocate,
      claim_ids: []
     )
+  end
+
+  def set_notice
+    @case_worker = CaseWorker.find(params[:allocation][:case_worker_id]) rescue nil
+    @allocated_claims = Claim::BaseClaim.find(params[:allocation][:claim_ids].reject(&:blank?))
+
+    if @case_worker
+      "#{@allocated_claims.count} #{'claim'.pluralize(@allocated_claims.count)} allocated to #{@case_worker.name}"
+    else
+      "#{@allocated_claims.count} #{'claim'.pluralize(@allocated_claims.count)} returned to allocation pool"
+    end
   end
 end

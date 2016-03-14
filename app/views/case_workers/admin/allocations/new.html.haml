@@ -1,7 +1,5 @@
 = render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim allocation has '}
 
-= render 'allocated_summary' if @allocated_claims
-
 - unless params[:tab] == 'allocated'
   .js-allocation-page
     = render partial: 'allocation'

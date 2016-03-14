@@ -1,32 +1,37 @@
 = form_for [:case_workers, :admin, @case_worker] do |f|
 
   = f.fields_for :user do |user_fields|
-    .user-form
-      .form-row
-        = user_fields.label :first_name, t(".first_name"), class: "form-label"
-        = user_fields.text_field :first_name, class: "form-control"
-      .form-row
-        = user_fields.label :last_name, t(".last_name"), class: "form-label"
-        = user_fields.text_field :last_name, class: "form-control"
+    .form-fields
+      %fieldset
+        %legend.visually-hidden
+          = 'Case worker details'
+        .form-group
+          .form-group.input
+            = user_fields.label :first_name, t('.first_name'), class: "form-label"
+            = user_fields.text_field :first_name, class: "form-control"
+          .form-group.input
+            = user_fields.label :last_name, t('.last_name'), class: "form-label"
+            = user_fields.text_field :last_name, class: "form-control"
+          .form-group.input
+            = user_fields.label :email, t('.email'), class: "form-label"
+            = user_fields.email_field :email, class: "form-control"
+          .form-group.input
+            - if @case_worker.new_record?
+              = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
+              = user_fields.email_field :email_confirmation, class: "form-control"
 
-    .user-form
-      .form-row
-        = user_fields.label :email, t(".email"), class: "form-label"
-        = user_fields.email_field :email, class: "form-control"
-      - if @case_worker.new_record?
-        .form-row
-          = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
-          = user_fields.email_field :email_confirmation, class: "form-control"
+      %fieldset
+        %legend
+          = 'Location and Roles'
+        .form-group
+          = f.label :location_id, class: "form-label"
+          .form-group.inline
+            = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
+              - b.label(class: "block-label") { b.radio_button + b.object.name }
 
-    %fieldset.user-form
-      = f.label :location_id, class: "form-label"
-      %div.form-group.inline
-        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.object.name }
-
-      = f.label :roles, class: "form-label"
-      %div.form-group.inline
-        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
+          = f.label :roles, class: "form-label"
+          .form-group.inline
+            = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
+              - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
   = f.submit 'Save', class: "button"

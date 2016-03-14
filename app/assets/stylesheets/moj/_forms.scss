@@ -1,4 +1,3 @@
-
 //  label
 label {
   &.form-label {
@@ -15,6 +14,7 @@ input.form-control[type=email],
 input.form-control[type=tel],
 input.form-control[type=password] {
   @include span(8 of 12);
+  @include first;
   @include core-19();
   &.short-input{
     @include span(4 of 12);
@@ -24,7 +24,12 @@ input.form-control[type=password] {
     @include span(6 of 12);
     margin-left: 0;
   }
+  &.search{
+    @include span(10 of 12);
+    @include first;
+  }
 }
+
 select.form-control{
   @include span(6 of 12);
 }

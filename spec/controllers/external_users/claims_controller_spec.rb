@@ -235,19 +235,58 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "GET #new" do
-    before { get :new }
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+    context 'AGFS or LGFS provider members only' do
+      before { get :new }
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to be_new_record
+      end
+
+      it 'assigns @claim_class to the default for the provider' do
+          expect(assigns(:claim_class)).to eql(Claim::AdvocateClaim)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:new)
+      end
     end
 
-    it 'assigns @claim' do
-      expect(assigns(:claim)).to be_new_record
-    end
+    context 'AGFS and LGFS provider admins' do
+      let!(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
+      before { sign_in agfs_lgfs_admin.user }
 
-    it 'renders the template' do
-      expect(response).to render_template(:new)
+      it 'redirects to claim options' do
+        get :new
+        expect(response).to redirect_to(external_users_claims_claim_options_path)
+      end
+
+      context 'with LGFS claim type specified' do
+        before { get :new, claim_type: 'lgfs' }
+
+        it 'assigns @claim_class to be of LGFS claim type' do
+          expect(assigns(:claim_class)).to eql(Claim::LitigatorClaim)
+        end
+
+        it 'renders the template' do
+          expect(response).to render_template(:new)
+        end
+      end
     end
+  end
+
+  describe 'GET #claim_options' do
+      before { get :claim_options }
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:claim_options)
+      end
   end
 
   describe "GET #edit" do
@@ -287,6 +326,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         let(:expense_type)  { create(:expense_type) }
         let(:claim_params) do
           {
+            claim_class: 'Claim::AdvocateClaim',
             additional_information: 'foo',
             court_id: court,
             case_type_id: case_type.id,
@@ -370,14 +410,15 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       context 'submit to LAA with incomplete/invalid params' do
+        let(:invalid_claim_params)      { { claim_class: 'Claim::AdvocateClaim' } }
         it 'does not create a claim' do
           expect {
-            post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
+            post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
           }.to_not change(Claim::BaseClaim, :count)
         end
 
         it 'renders the new template' do
-          post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
+          post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
           expect(response).to render_template(:new)
         end
       end
@@ -485,6 +526,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         let(:case_type)         { create(:case_type) }
         let(:claim_params) do
           {
+             claim_class: 'Claim::AdvocateClaim',
              additional_information: 'foo',
              court_id: court,
              case_type_id: case_type.id,
@@ -665,6 +707,7 @@ def valid_claim_fee_params
   case_type = FactoryGirl.create :case_type
   HashWithIndifferentAccess.new(
     {
+     "claim_class" => 'Claim::AdvocateClaim',
      "source" => 'web',
      "external_user_id" => "4",
      "case_type_id" => case_type.id.to_s,

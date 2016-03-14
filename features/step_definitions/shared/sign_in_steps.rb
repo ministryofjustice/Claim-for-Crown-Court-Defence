@@ -47,6 +47,12 @@ Given(/^I am a signed in litigator admin$/) do
   sign_in(@litigator.user, 'password')
 end
 
+Given(/^I am a signed in admin for an AGFS and LGFS firm$/) do
+  @admin = create(:external_user, :agfs_lgfs_admin)
+  visit new_user_session_path
+  sign_in(@admin.user, 'password')
+end
+
 Given(/^I am a signed in case worker$/) do
   @case_worker = create(:case_worker)
   visit new_user_session_path

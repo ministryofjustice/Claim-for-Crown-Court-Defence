@@ -57,22 +57,6 @@ class ExternalUser < ActiveRecord::Base
     end
   end
 
-  def supplier_number
-    if provider && provider.firm?
-      provider.supplier_number
-    else
-      read_attribute(:supplier_number)
-    end
-  end
-
-  def vat_registered?
-    if provider && provider.firm?
-      provider.vat_registered?
-    else
-      vat_registered
-    end
-  end
-
   def name_and_number
     "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
   end

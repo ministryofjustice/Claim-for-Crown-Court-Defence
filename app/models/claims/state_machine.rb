@@ -57,7 +57,8 @@ module Claims::StateMachine
             :refused,
             :rejected,
             :redetermination,
-            :submitted
+            :submitted,
+            :deallocated
 
       after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!, :update_vat]
       after_transition on: :authorise,                do: :set_authorised_date!
@@ -66,6 +67,7 @@ module Claims::StateMachine
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
+      after_transition on: :deallocate, do: :reset_state
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
@@ -77,6 +79,10 @@ module Claims::StateMachine
 
       event :allocate do
         transition [:submitted, :redetermination, :awaiting_written_reasons] => :allocated
+      end
+
+      event :deallocate do
+        transition [:allocated] => :deallocated
       end
 
       event :archive_pending_delete do
@@ -124,6 +130,14 @@ module Claims::StateMachine
   end
 
   private
+
+  def reset_state
+    update_column(:state, state_at_last_submission)
+  end
+
+  def state_at_last_submission
+    self.claim_state_transitions.reverse.find { |transition| CASEWORKER_DASHBOARD_UNALLOCATED_STATES.include?(transition.to) }.to
+  end
 
   def set_original_submission_date!
     update_column(:original_submission_date, Time.now)

@@ -66,6 +66,20 @@ module Claim
     def eligible_fixed_fee_types
       Fee::FixedFeeType.agfs
     end
+
+
+    private
+
+    def provider_delegator
+      if provider.firm?
+        provider
+      elsif provider.chamber?
+        external_user
+      else
+        raise "Unknown provider type: #{provider.provider_type}"
+      end
+    end
+
   end
 end
 

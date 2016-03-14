@@ -336,6 +336,14 @@ module Claim
       self.total + self.vat_amount
     end
 
+    def vat_registered?
+      provider_delegator.vat_registered?
+    end
+
+    def supplier_number
+      provider_delegator.supplier_number
+    end
+
   private
 
     def find_and_associate_documents

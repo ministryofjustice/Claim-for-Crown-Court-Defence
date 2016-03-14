@@ -1,6 +1,6 @@
 class AddNewExpenseTypes < ActiveRecord::Migration
   def up
-    require File.join(Rails.root, 'db', 'seeds', 'seed_helper.rb')
+    require File.join(Rails.root, 'db', 'seed_helper.rb')
     load File.join(Rails.root, 'db', 'seeds', 'expense_types.rb')
   end
 

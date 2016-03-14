@@ -25,7 +25,7 @@ require 'rails_helper'
 RSpec.describe Document, type: :model do
 
   it { should belong_to(:external_user) }
-  it { should belong_to(:creator) }
+  it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
   it { should belong_to(:claim) }
   it { should delegate_method(:provider_id).to(:external_user) }
 

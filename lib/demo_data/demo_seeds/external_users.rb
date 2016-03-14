@@ -90,7 +90,9 @@ if User.find_by(email: 'litigatoradmin@example.com').blank?
 end
 
 # create an admin/clerk that belongs to an AGFS and LGFS Firm
-# -----------------------------------------------------------
+# The firm has a single advocate (does not need a litigator as
+# litigator claims are not "owned" by anyone except the firm)
+# ------------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm B',
   supplier_number: 'B1234567',
@@ -99,12 +101,26 @@ provider = SeedHelper.find_or_create_provider!(
   vat_registered: false,
   roles: ['agfs','lgfs']
 )
+if User.find_by(email: 'advocate@agfslgfs.com').blank?
+  user = User.create!(
+    first_name: 'Adi',
+    last_name: 'Firmstein',
+    email: 'advocate@agfslgfs.com',
+    password: ENV['ADVOCATE_PASSWORD'],
+    password_confirmation: ENV['ADVOCATE_PASSWORD']
+  )
 
-if User.find_by(email: 'agfslgfsadmin@example.com').blank?
+  external_user = ExternalUser.new(roles: ['advocate'], provider_id: provider.id)
+  external_user.user = user
+  external_user.save!
+end
+
+
+if User.find_by(email: 'admin@agfslgfs.com').blank?
   user = User.create!(
     first_name: 'Adliti',
     last_name: 'Vogator-Admin',
-    email: 'agfslgfsadmin@example.com',
+    email: 'admin@agfslgfs.com',
     password: ENV['ADMIN_PASSWORD'],
     password_confirmation: ENV['ADMIN_PASSWORD']
   )

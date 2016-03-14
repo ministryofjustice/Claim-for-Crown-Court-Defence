@@ -1,15 +1,10 @@
-#claim-type-options
-  = form_tag new_external_users_claim_path, method: :get do
-    %fieldset
-      %legend
-        = t('common.agfs_lgfs_choice')
-      .input.form-group
-        = label_tag :choice, class: 'form-label' do
-          %span.label-text
-            = t('common.agfs_lgfs_choice')
+= render partial: 'layouts/header', locals: {page_heading: 'Claim type'}
 
-      .form-group.inline
-        = radio_button_tag('claim_type',:agfs, true)
-        = radio_button_tag('claim_type',:lgfs, false)
+%h2.bold-medium
+  What type of claim are you making?
 
-    = submit_tag 'Continue', class: 'button button-secondary left'
+%ul
+  %li
+    = link_to 'Advocate fees', new_external_users_claim_path(claim_type: 'agfs')
+  %li
+    = link_to 'Litigator fees', new_external_users_claim_path(claim_type: 'lgfs')

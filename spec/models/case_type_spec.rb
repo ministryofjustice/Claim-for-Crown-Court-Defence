@@ -19,6 +19,8 @@
 require 'rails_helper'
 
 describe CaseType do
+  include DatabaseHousekeeping
+
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   context 'parents and children' do
@@ -30,12 +32,12 @@ describe CaseType do
     end
 
     after(:all) do
-      CaseType.delete_all
+      clean_database
     end
 
     describe '.parents' do
       it 'does not return child records' do
-        expect(CaseType.top_levels).to eq([@parent_1, @parent_2])   
+        expect(CaseType.top_levels).to eq([@parent_1, @parent_2])
       end
     end
 

@@ -459,7 +459,8 @@ p.file-upload-name {
 // ADMIN.SCSS
 // ================================================================//
 .working-pattern {
-  span {
+  li {
+    display: inline;
     &:first-child {
       border-left: 1px solid $black;
     }
@@ -467,12 +468,9 @@ p.file-upload-name {
     border-bottom: 1px solid $black;
     border-right: 1px solid $black;
     padding-top: 0.3em;
-    padding-left: 0.3em;
-    padding-right:0.3em;
     text-align: center;
     width: 15%;
     display: inline-block;
-    color: $black;
     background-color: $white;
     &.working-day{
       background-color: $grey-2;

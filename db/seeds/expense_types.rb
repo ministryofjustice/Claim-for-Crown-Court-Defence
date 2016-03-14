@@ -1,3 +1,5 @@
+require Rails.root.join('db','seed_helper')
+
 [
   'Conference and view - car',
   'Conference and view - hotel stay',

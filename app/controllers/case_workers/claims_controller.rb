@@ -27,13 +27,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def show
-    @claim.assessment = Assessment.new if @claim.assessment.nil?
-    @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
-
-    @doc_types = DocType.all
-    @messages = @claim.messages.most_recent_last
-    @message = @claim.messages.build
-
+    prepare_show_action
   end
 
   def update
@@ -43,14 +37,23 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
     begin
       @claim.update_model_and_transition_state(claim_params)
+      redirect_to case_workers_claim_path(params.slice(:messages))
     rescue StateMachines::InvalidTransition => err
+      prepare_show_action
+      render :show
     end
-    @enable_status_change = true
-    @message = @claim.messages.build
-    redirect_to case_workers_claim_path(errors: @claim.errors.full_messages)
   end
 
   private
+
+  def prepare_show_action
+    @claim.assessment = Assessment.new if @claim.assessment.nil?
+    @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
+
+    @doc_types = DocType.all
+    @messages = @claim.messages.most_recent_last
+    @message = @claim.messages.build
+  end
 
   def set_claim_carousel_info
     session[:claim_ids] = @claims.all.map(&:id)

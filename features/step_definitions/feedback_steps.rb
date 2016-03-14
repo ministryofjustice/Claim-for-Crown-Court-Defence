@@ -9,8 +9,8 @@ When(/^I fill in the '(.*?)' form$/) do |payload|
     choose('Very satisfied')
     click_on 'Send'
   when 'bug report'
-    fill_in 'bug_report[event]', with: 'Filling in a new claim form'
-    fill_in 'bug_report[outcome]', with: 'Something went wrong'
+    fill_in 'feedback[event]', with: 'Filling in a new claim form'
+    fill_in 'feedback[outcome]', with: 'Something went wrong'
     click_on 'Send'
   end
 end

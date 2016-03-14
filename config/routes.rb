@@ -40,10 +40,6 @@ Rails.application.routes.draw do
     get '/', to: 'feedback#new', on: :collection
   end
 
-  resources :bug_report, only: [:new, :create] do
-    get '/', to: 'bug_report#new', on: :collection
-  end
-
   resources :claim_intentions, only: [:create], format: :json
 
   resources :documents do
@@ -134,7 +130,8 @@ Rails.application.routes.draw do
       end
 
       get 'management_information', to: 'management_information#index', as: :management_information
-      get 'management_information/report', to: 'management_information#report', as: :management_information_report
+      get 'management_information/download', to: 'management_information#download', as: :management_information_download
+      get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
     end
   end
 

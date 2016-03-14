@@ -74,7 +74,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { super_admin.user }
 
       it 'returns super admins root url' do
-        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { advocate.user }
 
       it 'returns advocates root url ' do
-        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { case_worker.user }
 
       it 'returns case workers root url ' do
-        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { advocate_admin.user }
 
       it 'returns advocates admin root url ' do
-        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { case_worker_admin.user }
 
       it 'returns case workers root url ' do
-        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url)
+        expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
   end

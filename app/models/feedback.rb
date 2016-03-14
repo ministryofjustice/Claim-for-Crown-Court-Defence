@@ -10,9 +10,16 @@ class Feedback
     1 => 'Very dissatisfied'
   }
 
-  attr_accessor :email, :referrer, :user_agent, :comment, :rating
+  FEEDBACK_TYPES = {
+    feedback: [:rating, :comment, :email],
+    bug_report: [:event, :outcome, :email]
+  }
 
-  validates :rating, inclusion: { in: RATINGS.keys.map(&:to_s) }
+  attr_accessor :email, :referrer, :user_agent, :comment, :rating, :event, :outcome, :type
+
+  validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
+  validates :rating, inclusion: { in: RATINGS.keys.map(&:to_s) }, if: :feedback?
+  validates :event, :outcome, presence: true, if: :bug_report?
 
   def initialize(attributes = {})
     attributes.each do |key, value|
@@ -20,15 +27,33 @@ class Feedback
     end
   end
 
+  def feedback?
+    is?(:feedback)
+  end
+
+  def bug_report?
+    is?(:bug_report)
+  end
+
+  def is?(type)
+    self.type == type.to_s
+  end
+
   def save
     valid? ? (ZendeskSender.send!(self); true) : false
   end
 
   def subject
-    "Feedback (#{Rails.host.env})"
+    "#{type.humanize} (#{Rails.host.env})"
   end
 
   def description
-    "#{self.rating} - #{self.comment} - #{self.email}"
+    feedback_type_attributes.map { |t| self.send(t) }.join(' - ')
+  end
+
+  private
+
+  def feedback_type_attributes
+    FEEDBACK_TYPES[self.type.to_sym]
   end
 end

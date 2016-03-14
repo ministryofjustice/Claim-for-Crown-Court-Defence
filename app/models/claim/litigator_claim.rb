@@ -42,6 +42,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 module Claim
@@ -52,6 +53,18 @@ module Claim
 
     def eligible_case_types
       CaseType.top_levels.lgfs
+    end
+
+    def eligible_basic_fee_types
+      Fee::BasicFeeType.lgfs
+    end
+
+    def eligible_misc_fee_types
+      Fee::MiscFeeType.lgfs
+    end
+
+    def eligible_fixed_fee_types
+      Fee::FixedFeeType.lgfs
     end
 
   end

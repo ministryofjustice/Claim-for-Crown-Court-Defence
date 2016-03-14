@@ -327,6 +327,7 @@ en:
     start_lgfs_claim_heading: Claim for litigator graduated fees
     certifications:
       new:
+        prohibited_save: This claim certification has
         certified_by: 'Name of person certifying'
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
@@ -555,6 +556,10 @@ en:
       reporders: Representation order(s)
       submit_date: Claim submitted
       trial_concluded: Trial concluded
+    errors:
+      error: 'error'
+      form_error_hint: 'Check below for more detail'
+
     message_controls:
       update_claim_status: Update your claim status
       upload: "+ Upload"
@@ -594,7 +599,6 @@ en:
           surname: Surname
           name: Name
           location: Location
-          working_days: Working days
           actions: Manage details
         form:
           first_name: *first_name

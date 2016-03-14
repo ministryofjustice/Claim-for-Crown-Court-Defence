@@ -43,6 +43,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'
@@ -127,6 +128,40 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       ct_child_agfs = create :child_case_type, roles: %w{ agfs }, name: "Child of Top level for both AGFS only", parent: ct_top_level_both
 
       expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_agfs.id].sort )
+    end
+  end
+
+  context 'eligible misc and fixed fee types' do
+    before(:all) do
+      @bft1 = create :basic_fee_type
+      @bft2 = create :basic_fee_type, :lgfs
+      @mft1 = create :misc_fee_type
+      @mft2 = create :misc_fee_type, :lgfs
+      @fft1 = create :fixed_fee_type
+      @fft2 = create :fixed_fee_type, :lgfs
+      @claim = build :unpersisted_claim
+    end
+
+    after(:all) do
+      clean_database
+    end
+
+    describe '#eligible_basic_fee_types' do
+      it 'returns only basic fee types for AGFS' do
+        expect(@claim.eligible_basic_fee_types).to eq([@bft1])
+      end
+    end
+
+    describe '#eligible_misc_fee_types' do
+      it 'returns only misc fee types for AGFS' do
+        expect(@claim.eligible_misc_fee_types).to eq([@mft1])
+      end
+    end
+
+    describe '#eligible_fixed_fee_types' do
+      it 'returns only fixed fee types for AGFS' do
+        expect(@claim.eligible_fixed_fee_types).to eq([@fft1])
+      end
     end
   end
 

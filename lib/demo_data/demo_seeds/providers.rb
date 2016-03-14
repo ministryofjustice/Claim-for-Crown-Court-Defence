@@ -1,4 +1,4 @@
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 SeedHelper.find_or_create_provider!(
   name: 'Doughty Street Chambers',

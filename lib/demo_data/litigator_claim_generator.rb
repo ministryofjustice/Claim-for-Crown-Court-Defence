@@ -1,4 +1,5 @@
 require_relative 'base_claim_generator'
+require_relative 'disbursement_generator'
 
 module DemoData
   class LitigatorClaimGenerator < BaseClaimGenerator
@@ -28,8 +29,9 @@ module DemoData
       claim.save
       add_fees(claim)
       add_expenses(claim)
-      claim.reload              # load all the fees and expenses that have been created
-      claim.save                # save in order to update fee and expense totals
+      add_disbursements(claim)
+      claim.reload              # load all the fees, expenses and disbursements that have been created
+      claim.save                # save in order to update fee, expense and disbursement totals
       claim
     end
 
@@ -40,5 +42,8 @@ module DemoData
       claim.save!
     end
 
+    def add_disbursements(claim)
+      DisbursementGenerator.new(claim).generate!
+    end
   end
 end

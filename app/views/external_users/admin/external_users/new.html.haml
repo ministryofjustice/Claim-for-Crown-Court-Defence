@@ -1,9 +1,4 @@
-- if @external_user.errors.any?
-  .validation-summary
-    %h3.heading-small= "#{t('.prohibited_save')} #{pluralize(@external_user.errors.count, t('.error'))}"
-    %ul
-      - @external_user.errors.full_messages.each do |msg|
-        %li= msg
+= render partial: 'errors/error_summary', locals:{ ep: @external_user, error_summary: t('.prohibited_save')}
 
 = render partial: 'layouts/header', locals: {page_heading: t('.new_advocate')}
 

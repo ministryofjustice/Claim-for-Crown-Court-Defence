@@ -32,8 +32,6 @@
     %th{scope:'col'}
       = t('.location')
     %th{scope:'col'}
-      = t('.working_days')
-    %th{scope:'col'}
       = t('.actions')
   %tbody
     - @case_workers.each do |case_worker|
@@ -44,8 +42,6 @@
           = case_worker.user.first_name
         %td
           = case_worker.location.name
-        %td
-          = present(case_worker).days_worked_markup
         %td.user-controls
           = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
           = " | "

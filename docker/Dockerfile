@@ -5,7 +5,7 @@ RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
         echo 'deb https://deb.nodesource.com/node jessie main' > /etc/apt/sources.list.d/nodesource.list
 
 # install runit, nodejs and libreoffice (used by ADP to generate PDFs)
-RUN apt-get update && apt-get install -y runit nodejs libreoffice && \
+RUN apt-get update && apt-get install -y runit nodejs libreoffice redis-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && rm -fr *Release* *Sources* *Packages* && \
     truncate -s 0 /var/log/*log

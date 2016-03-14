@@ -1,4 +1,4 @@
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 # NOTE:
 #   the following provider names can be destroyed using the claims destroyer

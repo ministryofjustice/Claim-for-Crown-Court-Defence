@@ -1,5 +1,5 @@
 require 'csv'
-require Rails.root.join('db','seeds','seed_helper')
+require Rails.root.join('db','seed_helper')
 
 Fee::BaseFeeType.reset_column_information
 Fee::BasicFeeType.reset_column_information

@@ -51,5 +51,7 @@ module AdvocateDefencePayments
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

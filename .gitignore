@@ -42,3 +42,11 @@ features/examples/000
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+
+# Ignore Redis database dumps
+/.dump.rdb
+
+# Ignore any stats files that have been generated
+/tmp/stats/*
+/public/stats/*

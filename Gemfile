@@ -52,6 +52,7 @@ gem 'uglifier',                '>= 1.3.0'
 gem 'yaml_db'
 gem 'zendesk_api'  ,       '1.12.1'
 gem 'premailer-rails', '~> 1.9'
+gem 'sidekiq', '~> 4.1'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

@@ -34,10 +34,6 @@ class ClaimCsvPresenter < BasePresenter
     Settings.csv_claim_details.map { |detail| send(detail) }
   end
 
-  def supplier_number
-    external_user.supplier_number
-  end
-
   def claim_state
     unless state == 'archived_pending_delete'
       state

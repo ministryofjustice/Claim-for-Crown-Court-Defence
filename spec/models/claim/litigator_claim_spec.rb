@@ -118,5 +118,19 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
         expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
       end
     end
+
+    describe '#vat_registered?' do
+      it 'returns the value from the provider' do
+        expect(@claim.provider).to receive(:vat_registered?)
+        @claim.vat_registered?
+      end
+    end
+
+    describe '#supplier_number' do
+      it 'returns the value from the provider' do
+        expect(@claim.provider).to receive(:supplier_number)
+        @claim.supplier_number
+      end
+    end
   end
 end

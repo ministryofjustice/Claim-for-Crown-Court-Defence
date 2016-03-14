@@ -45,6 +45,12 @@ FactoryGirl.define do
       assessment  nil
     end
 
+    trait :without_fees do
+      after(:build) do |claim|
+        claim.fees.destroy_all
+      end
+    end
+
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
       external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }

@@ -1,5 +1,24 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.h1_managment_info')}
 
+- if @filename.nil?
+  %p
+    There is currently no management information report available.  Click the 'Regenerate' button below, and 
+    then refresh this page after a couple of minutes to download the report.
+- else
+  %p
+    The management information report was generated at #{@time_generated.strftime('%a %d %b %Y at %H:%M:%S')}.
+
+  %p
+    Click 'Download' to download this file now, or click 'Regenerate' to generate a more up to date report and refresh 
+    this page in a few minutes to download the new report'.
+  
+
+- unless @filename.nil?
+  .form.fieldset.label
+  = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button"
+
+%p 
+
+
 .form.fieldset.label
-  = label_tag t('.all_claims_report')
-= link_to 'Download', case_workers_admin_management_information_report_url(format: :csv), class: "button"
+= link_to 'Regenerate', case_workers_admin_management_information_generate_url, class: "button"

@@ -1,10 +1,4 @@
-- if @allocation.errors.any?
-  .validation-summary
-    %h2.heading-small
-      = "This claim allocation has #{pluralize(@allocation.errors.count, 'error')}"
-    %ul
-      - @allocation.errors.full_messages.each do |msg|
-        %li= msg
+= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim allocation has '}
 
 = render 'allocated_summary' if @allocated_claims
 

@@ -18,7 +18,6 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def new
     @case_worker = CaseWorker.new
-    @case_worker = CaseWorker.new(days_worked: [ 0, 0, 0, 0, 0 ])
     @case_worker.build_user
   end
 
@@ -56,11 +55,6 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   def case_worker_params
     params.require(:case_worker).permit(
      :location_id,
-     :days_worked_0,
-     :days_worked_1,
-     :days_worked_2,
-     :days_worked_3,
-     :days_worked_4,
      user_attributes: [:id, :email, :email_confirmation, :current_password, :password, :password_confirmation, :first_name, :last_name],
      claim_ids: [],
      roles: []

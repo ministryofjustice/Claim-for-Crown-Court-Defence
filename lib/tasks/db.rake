@@ -6,7 +6,7 @@ namespace :db do
     tables = conn.tables
     tables.each do |table|
       puts "Deleting #{table}"
-      conn.drop_table(table)
+      conn.drop_table(table, force: :cascade)
     end
   end
 

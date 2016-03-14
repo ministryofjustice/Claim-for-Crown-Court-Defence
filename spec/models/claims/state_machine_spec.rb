@@ -16,7 +16,8 @@ RSpec.describe Claims::StateMachine, type: :model do
         :refused,
         :rejected,
         :redetermination,
-        :submitted
+        :submitted,
+        :deallocated
       ]
     end
 

@@ -11,14 +11,23 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject {|transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete') }
+    claim_state_transitions.sort.reject { |transition| (transition.to == 'draft' || transition.to == 'archived_pending_delete') }
   end
 
   def parsed_journeys
     journeys.map do |journey|
-      @journey = journey
-      Settings.claim_csv_headers.map {|method_call| send(method_call)}
+      @journey = clean_deallocations(journey)
+      Settings.claim_csv_headers.map { |method_call| send(method_call) }
     end
+  end
+
+  def clean_deallocations(journey)
+    deallocation = journey.reverse.find { |transition| transition.event == 'deallocate' }
+    if deallocation
+      journey.reject! { |transition| transition.event == 'allocate' && transition.created_at < deallocation.created_at }
+      journey.reject! { |transition| transition.event == 'deallocate' }
+    end
+    journey
   end
 
   def claim_details
@@ -60,7 +69,7 @@ class ClaimCsvPresenter < BasePresenter
 
   def allocated_at
     allocation_steps = @journey.select { |step| step.to == 'allocated' }
-    allocation_steps.present? ? allocation_steps.first.created_at.to_s : 'n/a'
+    allocation_steps.present? ? allocation_steps.last.created_at.to_s : 'n/a'
   end
 
   def completed_at

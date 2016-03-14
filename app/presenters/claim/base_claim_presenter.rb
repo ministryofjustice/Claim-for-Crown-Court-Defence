@@ -22,7 +22,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   def case_type_name
     if claim.opened_for_redetermination?
       claim.case_type.name + ' (redetermination)'
-    elsif claim.written_reasons_outstanding
+    elsif claim.written_reasons_outstanding?
       claim.case_type.name + ' (awaiting written reasons)'
     else
       claim.case_type.name

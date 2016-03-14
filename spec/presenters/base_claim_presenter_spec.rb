@@ -18,6 +18,30 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   after { Timecop.return }
 
+  describe '#case_type_name' do
+    context 'non redetermination or awaiting written reason' do
+      it 'should display the case type name' do
+        expect(subject.case_type_name).to eq(claim.case_type.name)
+      end
+    end
+
+    context 'redetermination' do
+      it 'should display the case type name with a redetermination label' do
+        %w( submit allocate refuse redetermine allocate ).each { |event| claim.send("#{event}!") }
+
+        expect(subject.case_type_name).to eq(claim.case_type.name + ' (redetermination)')
+      end
+    end
+
+    context 'awaiting written reasons' do
+      it 'should display the case type name with an awaiting written reasons label' do
+        %w( submit allocate refuse await_written_reasons allocate ).each { |event| claim.send("#{event}!") }
+
+        expect(subject.case_type_name).to eq(claim.case_type.name + ' (awaiting written reasons)')
+      end
+    end
+  end
+
   it '#defendant_names' do
     expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)},<br />Robert Smith,<br />Adam Smith")
   end

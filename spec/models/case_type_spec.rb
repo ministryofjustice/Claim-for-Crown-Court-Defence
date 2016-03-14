@@ -19,6 +19,7 @@
 require 'rails_helper'
 
 describe CaseType do
+  include DatabaseHousekeeping
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   context 'parents and children' do
@@ -30,7 +31,7 @@ describe CaseType do
     end
 
     after(:all) do
-      CaseType.delete_all
+      clean_database
     end
 
     describe '.parents' do

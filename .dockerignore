@@ -1,0 +1,13 @@
+# dockerignore doesn't implement recursivity yet
+.idea/*/*/*/
+.idea/*/*/
+.idea/*/
+.idea/
+
+/log/*.log
+/log/*.output
+
+/tmp/stats/*.csv
+/tmp/*.log
+
+/coverage/*

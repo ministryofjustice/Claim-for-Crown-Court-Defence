@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301122625) do
+ActiveRecord::Schema.define(version: 20160315090100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,8 +251,6 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.uuid     "uuid",            default: "uuid_generate_v4()"
-    t.integer  "reason_id"
-    t.string   "reason_text"
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
@@ -365,6 +363,14 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.string   "maat_reference"
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
+  end
+
+  create_table "stats_reports", force: :cascade do |t|
+    t.string   "report_name"
+    t.string   "report"
+    t.string   "status"
+    t.datetime "started_at"
+    t.datetime "completed_at"
   end
 
   create_table "super_admins", force: :cascade do |t|

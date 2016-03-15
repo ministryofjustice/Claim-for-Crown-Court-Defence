@@ -4,7 +4,7 @@
   .financial-summary
     = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .claims-actions
-    = link_to t('link.add_claim'), new_external_users_claim_path, class: 'button button-get-started'
+    = link_to t('link.add_claim'), external_users_claim_options_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'
 

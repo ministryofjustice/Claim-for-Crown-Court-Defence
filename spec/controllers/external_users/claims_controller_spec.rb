@@ -261,7 +261,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       it 'redirects to claim options' do
         get :new
-        expect(response).to redirect_to(external_users_claims_claim_options_path)
+        expect(response).to redirect_to(claim_options_external_users_claims_path)
       end
 
       context 'with LGFS claim type specified' do

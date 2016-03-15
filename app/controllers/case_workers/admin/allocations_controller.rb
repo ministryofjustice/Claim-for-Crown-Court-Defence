@@ -94,7 +94,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def notification
     case_worker = CaseWorker.find(allocation_params[:case_worker_id]) rescue nil
-    allocated_claims_count = allocation_params[:claim_ids].reject(&:blank?).count
+    allocated_claims_count = Claim::BaseClaim.find(allocation_params[:claim_ids].reject(&:blank?)).count
     message = "#{allocated_claims_count} #{'claim'.pluralize(allocated_claims_count)}"
 
     if case_worker

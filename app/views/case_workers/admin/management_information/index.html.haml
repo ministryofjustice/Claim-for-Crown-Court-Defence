@@ -1,6 +1,6 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.h1_managment_info')}
 
-- if @filename.nil?
+- if @time_generated.nil?
   %p
     There is currently no management information report available.  Click the 'Regenerate' button below, and 
     then refresh this page after a couple of minutes to download the report.
@@ -13,7 +13,7 @@
     this page in a few minutes to download the new report'.
   
 
-- unless @filename.nil?
+- unless @time_generated.nil?
   .form.fieldset.label
   = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button"
 

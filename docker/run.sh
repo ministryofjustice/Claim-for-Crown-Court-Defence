@@ -80,5 +80,8 @@ esac
 echo "starting redis server"
 service redis-server start
 
+echo "starting scheduler daemon"
+bundle exec scheduler_daemon start
+
 echo "launching unicorn"
-exec bundle exec unicorn -p 80 -c config/unicorn.rb
+bundle exec unicorn -p 80 -c config/unicorn.rb

@@ -39,6 +39,7 @@ gem 'remotipart',             '~> 1.2'
 gem 'responder',              '~> 0.2.4'
 gem 'rest-client',            '~> 1.8' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 5.0.0'
+gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',	                  '~> 2.2.12'
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'sentry-raven',           git: 'https://github.com/getsentry/raven-ruby.git'

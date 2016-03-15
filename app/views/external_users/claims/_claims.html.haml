@@ -1,7 +1,7 @@
 .table-container.container
   %table.report
     %caption.visually-hidden
-      = t('.show_count', total: claims.total_count)
+      = t('.show_count', page_count: claims.size, total: claims.total_count)
     %colgroup
       - if current_user.persona.admin?
         %col

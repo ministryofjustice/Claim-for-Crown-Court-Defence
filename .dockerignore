@@ -6,8 +6,11 @@
 
 /log/*.log
 /log/*.output
+/log/*.pid
 
 /tmp/stats/*.csv
 /tmp/*.log
 
 /coverage/*
+
+dump.rdb

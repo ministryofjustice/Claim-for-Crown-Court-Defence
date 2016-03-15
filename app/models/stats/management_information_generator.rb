@@ -13,6 +13,7 @@ module Stats
         rescue => err
           report_contents = "#{err.class} - #{err.message} \n #{err.backtrace}"
           report_record.write_error(report_contents)
+          raise err
         end
       end
     end

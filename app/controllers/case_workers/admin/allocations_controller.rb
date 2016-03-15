@@ -93,8 +93,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_notice
-    @case_worker = CaseWorker.find(params[:allocation][:case_worker_id]) rescue nil
-    @allocated_claims = Claim::BaseClaim.find(params[:allocation][:claim_ids].reject(&:blank?))
+    @case_worker = CaseWorker.find(allocation_params[:case_worker_id]) rescue nil
+    @allocated_claims = Claim::BaseClaim.find(allocation_params[:claim_ids].reject(&:blank?))
 
     if @case_worker
       "#{@allocated_claims.count} #{'claim'.pluralize(@allocated_claims.count)} allocated to #{@case_worker.name}"

@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       get 'authorised',       on: :collection
       get 'archived',         on: :collection
       patch 'clone_rejected', to: 'claims#clone_rejected', on: :member
+      patch 'unarchive',      to: 'claims#unarchive', on: :member
 
       resource :certification, only: [:new, :create, :update]
     end

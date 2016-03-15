@@ -14,6 +14,7 @@
 #  uuid            :uuid
 #  reason_id       :integer
 #  reason_text     :string
+#  schema_version  :integer
 #
 
 require 'rails_helper'
@@ -25,6 +26,55 @@ RSpec.describe Expense, type: :model do
   it { should have_many(:dates_attended) }
 
   it { should validate_presence_of(:claim).with_message('blank') }
+
+  context 'schema_version' do
+    context 'expense_schema_version_1' do
+      
+      before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
+      
+      it 'should create new records with 1' do
+        expense = create :expense
+        expect(expense.schema_version).to eq 1
+      end
+
+      it 'uses V1 validator' do
+        expense = build :expense
+        expect_any_instance_of(ExpenseV1Validator).to receive(:validate)
+        expect_any_instance_of(ExpenseV2Validator).not_to receive(:validate)
+        expense.valid?
+      end
+    end
+
+    context 'expense_schema_version_2' do
+      it 'creates new records with version 2' do
+        allow(Settings).to receive(:expense_schema_version).and_return(2)
+        expense = create :expense
+        expect(expense.schema_version).to eq 2
+      end
+
+      it 'does not change the version number on an existing record with version 1' do
+        allow(Settings).to receive(:expense_schema_version).and_return(1)
+        expense = create :expense
+        expect(expense.schema_version).to eq 1
+        allow(Settings).to receive(:expense_schema_version).and_return(2)
+        expense.update(location: 'Ambridge')
+        expense.reload
+        expect(expense.location).to eq 'Ambridge'
+        expect(expense.schema_version).to eq 1
+      end
+
+      it 'uses V2 validator' do
+        allow(Settings).to receive(:expense_schema_version).and_return(2)
+        expense = build :expense
+        expect_any_instance_of(ExpenseV2Validator).to receive(:validate)
+        expect_any_instance_of(ExpenseV1Validator).not_to receive(:validate)
+        expense.valid?
+      end
+    end
+
+    context 'validation' do
+    end
+  end
 
   context 'expense_reasons and expense reason text' do
     let(:ex_1) { build :expense, reason_id: 1 }

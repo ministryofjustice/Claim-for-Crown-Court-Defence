@@ -14,6 +14,7 @@
 #  uuid            :uuid
 #  reason_id       :integer
 #  reason_text     :string
+#  schema_version  :integer
 #
 
 class Expense < ActiveRecord::Base
@@ -29,12 +30,14 @@ class Expense < ActiveRecord::Base
 
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-  validates_with ExpenseValidator
+  validates_with ExpenseV1Validator, if: :schema_version_1?
+  validates_with ExpenseV2Validator, if: :schema_version_2?
   validates_with ExpenseSubModelValidator
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
   before_validation do
+    self.schema_version = Settings.expense_schema_version if new_record?
     round_hours
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
   end
@@ -48,6 +51,14 @@ class Expense < ActiveRecord::Base
     claim.update_expenses_total
     claim.update_total
     claim.update_vat
+  end
+
+  def schema_version_1?
+    self.schema_version == 1
+  end
+
+  def schema_version_2?
+    self.schema_version == 2
   end
 
   def perform_validation?

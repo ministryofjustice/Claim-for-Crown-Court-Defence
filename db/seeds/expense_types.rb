@@ -6,8 +6,6 @@ require Rails.root.join('db','seed_helper')
   ['Conference and view - hotel stay',        ['agfs'],         'A'],
   ['Conference and view - train',             ['agfs'],         'A'],
   ['Conference and view - travel time',       ['agfs'],         'A'],
-  ['Costs judge application fee',             ['agfs'],         'A'],
-  ['Costs judge Preparation award',           ['agfs'],         'A'],
   ['Travel and hotel - car',                  ['agfs'],         'A'],
   ['Travel and hotel - conference and view',  ['agfs'],         'A'],
   ['Travel and hotel - hotel stay',           ['agfs'],         'A'],

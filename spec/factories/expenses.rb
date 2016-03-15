@@ -14,6 +14,7 @@
 #  uuid            :uuid
 #  reason_id       :integer
 #  reason_text     :string
+#  schema_version  :integer
 #
 
 FactoryGirl.define do

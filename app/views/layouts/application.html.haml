@@ -26,6 +26,8 @@
       %nav#proposition-menu
         %a#proposition-name{:href =>"/"}
           = "Claim for crown court defence"
+        - unless current_user.nil?
+          = render partial: 'layouts/user'
 
 = content_for :content do
   = csrf_meta_tags

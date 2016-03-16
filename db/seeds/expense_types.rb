@@ -5,8 +5,6 @@ require Rails.root.join('db','seed_helper')
   'Conference and view - hotel stay',
   'Conference and view - train',
   'Conference and view - travel time',
-  'Costs judge application fee',
-  'Costs judge Preparation award',
   'Travel and hotel - car',
   'Travel and hotel - conference and view',
   'Travel and hotel - hotel stay',

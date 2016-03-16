@@ -63,7 +63,7 @@ Rails.application.configure do
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
   #Rack livereload for frontend development
-  config.middleware.use Rack::LiveReload
+  config.middleware.use Rack::LiveReload rescue (puts 'Rack::LiveReload not available')
 
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :file

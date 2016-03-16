@@ -14,11 +14,6 @@ nav {
   }
   ul {
     padding-left:0;
-    &.primary-nav {
-      @include span(8 of 12);
-      @include first;
-      padding-left: 0;
-    }
     li {
       display: inline-block;
       list-style: none;
@@ -33,18 +28,12 @@ nav {
     }
     a {
       display: block;
-      padding:0 $gutter-half/2;
-      border-right: 1px solid $grey-3;
     }
   }
-  .user_links {
-    @include span(4 of 12);
-    @include last;
-    padding-right:0;
-    ul {
-      float:right;
-      text-align: right;
-    }
+}
+.primary-nav-bar {
+  a {
+    padding:0 $gutter-half/2;
+    border-right: 1px solid $grey-3;
   }
-
 }

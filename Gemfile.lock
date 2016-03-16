@@ -5,6 +5,17 @@ GIT
     sentry-raven (0.15.6)
       faraday (>= 0.7.6)
 
+GIT
+  remote: https://github.com/jalkoby/scheduler_daemon.git
+  revision: 3ed40449777383cf38b7c814075c992974add3df
+  specs:
+    scheduler_daemon (1.1.5)
+      activesupport
+      chronic (>= 0.2.0)
+      daemons (>= 1.0.10)
+      eventmachine (>= 0.12.8)
+      rufus-scheduler (~> 2.0.24)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -84,6 +95,7 @@ GEM
       timers (~> 4.0.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
+    chronic (0.10.2)
     chunky_png (1.3.5)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -131,6 +143,7 @@ GEM
       nokogiri (~> 1.5)
       railties (>= 3, < 5)
     cucumber-wire (0.0.1)
+    daemons (1.2.3)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
@@ -425,6 +438,8 @@ GEM
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
     rubyzip (1.2.0)
+    rufus-scheduler (2.0.24)
+      tzinfo (>= 0.3.22)
     safe_yaml (1.0.4)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -609,6 +624,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.2.1)
   rspec-rails (~> 3.0)
   sass-rails (~> 5.0.0)
+  scheduler_daemon!
   sdoc (~> 0.4.0)
   select2-rails (~> 3.5.9.3)
   selenium-webdriver

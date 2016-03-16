@@ -83,5 +83,8 @@ service redis-server start
 echo "starting scheduler daemon"
 bundle exec scheduler_daemon start
 
+echo "starting sidekiq daemon"
+bundle exec sidekiq
+
 echo "launching unicorn"
 bundle exec unicorn -p 80 -c config/unicorn.rb

@@ -41,3 +41,7 @@ claim_csv_headers:
   - :current_or_end_state
 
 expense_schema_version: 1
+
+expense_milage_rates:
+  1: 25p per mile
+  2: 45p per mile

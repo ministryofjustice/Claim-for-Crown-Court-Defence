@@ -18,11 +18,43 @@ module MigrationHelpers
     end
 
   private
-    def migrate_conference_view_and_car(ex)
-      ex.expense_type = @car
+    def migrate_expense(ex)
+      case ex.expense_type.name.upcase
+      when 'CONFERENCE AND VIEW - CAR'
+        update_expense(ex, @car)
+      
+      when 'CONFERENCE AND VIEW - HOTEL STAY'
+        update_expense(ex, @hotel)
+      
+      when 'CONFERENCE AND VIEW - TRAIN'
+        update_expense(ex, @train)
+      
+      when 'CONFERENCE AND VIEW - TRAVEL TIME'
+        update_expense(ex, @train)
+      
+      when 'TRAVEL AND HOTEL - CAR'
+        update_expense(ex, @car)
+      
+      when 'TRAVEL AND HOTEL - CONFERENCE AND VIEW'
+        update_expense(ex, @hotel)
+      
+      when 'TRAVEL AND HOTEL - HOTEL STAY'
+        update_expense(ex, @hotel)
+      
+      when 'TRAVEL AND HOTEL - TRAIN'
+        update_expense(ex, @train)
+      else
+        raise RuntimeError, "Unrecognised expense type name: '#{ex.expense_type.name}'"
+      end
+      ex.save!
+    end
+
+    def update_expense(ex, expense_type)
+      original_expense_type_name = ex.expense_type.name
+      ex.expense_type = expense_type
       ex.reason_id = 5
       narrative = extract_and_update_date_info(ex)
-      ex.reason_text = "Other: Originally Conference and View  #{narrative}".strip
+      ex.reason_text = "Other: Originally #{original_expense_type_name}  #{narrative}".strip
     end
 
     def extract_and_update_date_info(ex)
@@ -32,6 +64,7 @@ module MigrationHelpers
     end
 
     def extract_date_and_narrative_from_dates(ex)
+      return [nil, "no date specified"] if ex.dates_attended.empty?
       if is_single_date?(ex.dates_attended)
         date = ex.dates_attended.first.date
         narrative = ""
@@ -55,49 +88,5 @@ module MigrationHelpers
     end
 
 
-    def migrate_expense(ex)
-      case ex.expense_type.name.upcase
-      when 'CONFERENCE AND VIEW - CAR'
-        migrate_conference_view_and_car(ex)
-
-      when 'CONFERENCE AND VIEW - HOTEL STAY'
-        ex.expense_type = @hotel
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-
-      when 'CONFERENCE AND VIEW - TRAIN'
-        ex.expense_type = @train
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-      
-      when 'CONFERENCE AND VIEW - TRAVEL TIME'
-        ex.expense_type = @train
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-      
-      when 'TRAVEL AND HOTEL - CAR'
-        ex.expense_type = @car
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-      
-      when 'TRAVEL AND HOTEL - CONFERENCE AND VIEW'
-        ex.expense_type = @hotel
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-      
-      when 'TRAVEL AND HOTEL - HOTEL STAY'
-        ex.expense_type = @hotel
-        ex.reason_id = 5
-        ex.reason_text = 'Other: Conference and View'
-      
-      when 'TRAVEL AND HOTEL - TRAIN'
-        ex.expense_type = @train
-        ex.reason_id = 5
-        ex.reason_text = 'OTHER: CONFERENCE AND VIEW'
-      else
-        raise RuntimeError, "Unrecognised expense type name: '#{ex.expense_type.name}'"
-      end
-      ex.save!
-    end
   end
 end

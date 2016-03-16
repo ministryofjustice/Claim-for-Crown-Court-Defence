@@ -16,7 +16,7 @@ module MigrationHelpers
 
     let(:mock_migrator) { MockExpenseTypeMigrator.new }
 
-    describe 'migrate_conference_view_and_car' do
+    context 'conference and view - car' do
       before(:all) do
         @original_type = ExpenseType.create!(name: 'Conference and View - Car', roles: ['agfs'], reason_set: 'A')
         [
@@ -43,18 +43,18 @@ module MigrationHelpers
 
       it 'migrates with the correct date and reason for single date attended' do
         expense.dates_attended << build(:single_date_attended)
-        migrator.send(:migrate_conference_view_and_car, expense)
+        migrator.send(:migrate_expense, expense)
         expect(expense.expense_type).to eq @migrated_type
         expect(expense.date).to eq 12.days.ago.to_date
-        expect(expense.reason_text).to eq 'Other: Originally Conference and View'
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car'
       end
 
       it 'migrates with the correct date and reason for single date range attended' do
         expense.dates_attended << build(:date_range_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 6))
-        migrator.send(:migrate_conference_view_and_car, expense)
+        migrator.send(:migrate_expense, expense)
         expect(expense.expense_type).to eq @migrated_type
         expect(expense.date).to eq 12.days.ago.to_date
-        expect(expense.reason_text).to eq 'Other: Originally Conference and View  04/03/2016 - 06/03/2016'
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car  04/03/2016 - 06/03/2016'
       end
     end
 

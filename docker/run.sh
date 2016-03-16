@@ -84,7 +84,7 @@ echo "starting scheduler daemon"
 bundle exec scheduler_daemon start
 
 echo "starting sidekiq daemon"
-bundle exec sidekiq
+bundle exec sidekiq -d
 
 echo "launching unicorn"
 bundle exec unicorn -p 80 -c config/unicorn.rb

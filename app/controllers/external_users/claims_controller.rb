@@ -14,7 +14,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
   before_action :set_claim_class, only: [:new]
   before_action :set_claim_class_from_params, only: [:create]
@@ -111,6 +111,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     send_ga('event', 'claim', 'deleted')
     respond_with @claim, { location: external_users_claims_url, notice: 'Claim deleted' }
+  end
+
+  def unarchive
+    unless @claim.archived_pending_delete?
+      redirect_to external_users_claim_url(@claim), alert: 'This claim cannot be unarchived'
+    else
+      @claim = @claim.previous_version
+      @claim.save!
+      redirect_to external_users_claims_url, notice: 'Claim unarchived'
+    end
   end
 
   private

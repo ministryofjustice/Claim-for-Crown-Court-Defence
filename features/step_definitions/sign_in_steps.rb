@@ -1,193 +1,81 @@
-Given(/^(\d+) "(.*?)" user accounts? exists? who works? for (the same|different) providers?$/) do |number, role, providers|
-  make_accounts(role, number.to_i)
-  if providers == 'the same'
-    the_provider = create(:provider)
-    @advocates.each { |a| a.provider = the_provider; a.save } if @advocates
-    @advocate_admins.each { |a| a.provider = the_provider; a.save } if @advocate_admins
-  else
-    @advocates.each { |a| a.provider = create(:provider); a.save } if @advocates
-    @advocate_admins.each { |a| a.provider = create(:provider); a.save } if @advocate_admins
+
+def make_accounts(role, number = 1)
+  @password = 'password'
+  case role
+    when 'advocate'
+      @advocates = create_list(:external_user, number)
+    when 'advocate admin'
+      @advocate_admins = create_list(:external_user, number, :admin)
+    when 'litigator'
+      @advocates = create_list(:external_user, :litigator, number)
+    when 'litigator admin'
+      @advocates = create_list(:external_user, :litigator_and_admin, number)
+    when 'case worker'
+      @case_workers = create_list(:case_worker, number)
+    when 'case worker admin'
+      create(:case_worker, :admin)
+    when 'super admin'
+      @super_admin = create(:super_admin)
   end
 end
 
-When(/^I visit the user sign in page$/) do
+Given(/an? "(.*?)" user account exists$/) do |role|
+  make_accounts(role)
+end
+
+Given(/^I am a signed in advocate$/) do
+  @advocate = create(:external_user, :advocate)
   visit new_user_session_path
+  sign_in(@advocate.user, 'password')
 end
 
-Given(/^(?:the|that)(?: (\d+)\w+)? advocate admin signs in$/) do |cardinality|
-  card = cardinality.nil? ? 1 : cardinality
-  @user = @advocate_admins[card.to_i-1].user
-  step "I visit the user sign in page"
-  step "I enter my email, password and click sign in"
+Given(/^I am a signed in advocate admin$/) do
+  @advocate = create(:external_user, :advocate_and_admin)
+  visit new_user_session_path
+  sign_in(@advocate.user, 'password')
 end
 
-Given(/^(?:the|that)(?: (\d+)\w+)? advocate signs in$/) do |cardinality|
-  card = cardinality.nil? ? 1 : cardinality
-  @user = @advocates[card.to_i-1].user
-  step "I visit the user sign in page"
-  step "I enter my email, password and click sign in"
+Given(/^I am a signed in litigator$/) do
+  @litigator = create(:external_user, :litigator)
+  visit new_user_session_path
+  sign_in(@litigator.user, 'password')
 end
 
-Given(/^(?:the|that)(?: (\d+)\w+)? case worker signs in$/) do |cardinality|
-  card = cardinality.nil? ? 1 : cardinality
-  @user = @case_workers[card.to_i-1].user
-  step "I visit the user sign in page"
-  step "I enter my email, password and click sign in"
+Given(/^I am a signed in litigator admin$/) do
+  @litigator = create(:external_user, :litigator_and_admin)
+  visit new_user_session_path
+  sign_in(@litigator.user, 'password')
 end
 
-When(/^I enter my email, password and click sign in$/) do
-  fill_in 'Email', with: (@user || User.first).email
-  fill_in 'Password', with: @password || 'password'
-  click_on 'Sign in'
-  expect(page).to have_content('Sign out')
+Given(/^I am a signed in admin for an AGFS and LGFS firm$/) do
+  @admin = create(:external_user, :agfs_lgfs_admin)
+  visit new_user_session_path
+  sign_in(@admin.user, 'password')
 end
 
-Then(/^I should be redirected to the "(.*?)" root url$/) do |namespace|
-  case namespace.gsub(/\s/, '_')
-    when 'case workers'
-      expect(current_url).to eq(case_workers_root_url)
-    when 'case workers admin'
-      expect(current_url).to eq(case_workers_admin_root_url)
-    when 'super admins'
-      expect(current_url).to eq(super_admins_root_url)
-  end
+Given(/^I am a signed in case worker$/) do
+  @case_worker = create(:case_worker)
+  visit new_user_session_path
+  sign_in(@case_worker.user, 'password')
 end
 
-Then(/^I should be redirected to the advocates root url$/) do
-  expect(current_url).to eq(external_users_root_url)
+Given(/^I am a signed in case worker admin$/) do
+  @case_worker = create(:case_worker, :admin)
+  visit new_user_session_path
+  sign_in(@case_worker.user, 'password')
 end
 
-Then(/^I should see the advocates correct working primary navigation$/) do
-  step "I should see the advocates Your claims link and it should work"
-  step "I should see the advocates Archive link and it should work"
-  step "I should see the advocates Start a claim link and it should work"
+Given(/^I am a signed in super admin$/) do
+  make_accounts('super admin')
+  visit new_user_session_path
+  sign_in(@super_admin.user, 'password')
 end
 
-Then(/^I should see the admin advocates correct working primary navigation$/) do
-  step "I should see the admin advocates All claims link and it should work"
-  step "I should see the advocates Archive link and it should work"
-  step "I should see the advocates Start a claim link and it should work"
-  step "I should see the admin advocates Manage advocates link and it should work"
-  step "I should see the admin advocates Manage provider link and it should work"
+Then(/^I should see an Manage advocates link and it should work$/) do
+  find('#primary-nav').click_link('Manage users')
+  expect(find('header.main-header')).to have_content('Manage users')
 end
 
-Then(/^I should see the advocates Your claims link and it should work$/) do
-  find('.primary-nav-bar').click_link('Your claims')
-  expect(find('h1')).to have_content('Your claims')
-end
-
-Then(/^I should see the admin advocates All claims link and it should work$/) do
-  find('.primary-nav-bar').click_link('All claims')
-  expect(find('h1')).to have_content('All claims')
-end
-
-Then(/^I should see the advocates Archive link and it should work$/) do
-  find('.primary-nav-bar').click_link('Archive')
-  expect(find('h1')).to have_content('Archived claims')
-end
-
-Then(/^I should see the advocates Start a claim link and it should work$/) do
-  find('.primary-nav-bar').click_link('Start a claim')
-  expect(find('h1')).to have_content('Claim for advocate graduated fees')
-end
-
-Then(/^I should see the admin advocates Manage advocates link and it should work$/) do
-  find('.primary-nav-bar').click_link('Manage users')
-  expect(find('h1')).to have_content('Manage users')
-end
-
-Then(/^I should see the admin advocates Manage provider link and it should work$/) do
-  find('.primary-nav-bar').click_link('Manage provider')
-  expect(find('h1')).to have_content("Manage provider")
-end
-
-Then(/^I should see the caseworkers correct working primary navigation$/) do
-  step "I should see the caseworkers Your claims link and it should work"
-  step "I should see the caseworkers Archive link and it should work"
-end
-
-Then(/^I should see the admin caseworkers correct working primary navigation$/) do
-  step "I should see the admin caseworkers Your claims link and it should work"
-  step "I should see the admin caseworkers Archive link and it should work"
-  step "I should see the admin caseworkers Allocation link and it should work"
-  step "I should see the admin caseworkers Re-allocation link and it should work"
-  step "I should see the admin caseworkers Manage case workers link and it should work"
-end
-
-Then(/^I should see the caseworkers Your claims link and it should work$/) do
-  find('.primary-nav-bar').click_link('Your claims')
-  expect(find('h1')).to have_content('Your claims')
-end
-
-Then(/^I should see the caseworkers Archive link and it should work$/) do
-  find('.primary-nav-bar').click_link('Archive')
-  expect(find('h1')).to have_content('Archived claims')
-end
-
-Then(/^I should see the admin caseworkers Your claims link and it should work$/) do
-  find('.primary-nav-bar').click_link('Your claims')
-  expect(find('h1')).to have_content('Your claims')
-end
-
-Then(/^I should see the admin caseworkers Archive link and it should work$/) do
-  find('.primary-nav-bar').click_link('Archive')
-  expect(find('h1')).to have_content('Archived claims')
-end
-
-Then(/^I should see the admin caseworkers Allocation link and it should work$/) do
-  find('.primary-nav-bar').click_link('Allocation')
-  expect(find('h1')).to have_content('Allocation')
-end
-
-Then(/^I should see the admin caseworkers Re-allocation link and it should work$/) do
-  find('.primary-nav-bar').click_link('Re-allocation')
-  expect(find('h1')).to have_content('Re-allocation')
-end
-
-Then(/^I should see the admin caseworkers Manage case workers link and it should work$/) do
-  find('.primary-nav-bar').click_link('Manage case workers')
-  expect(find('h1')).to have_content('Manage case workers')
-end
-
-Then(/^I should see the superadmins correct working primary navigation$/) do
-  step "I should see the superadmins Manage providers link and it should work"
-  step "I should see the superadmins Add a provider link and it should work"
-end
-
-Then(/^I should see the superadmins Manage providers link and it should work$/) do
-  find('.primary-nav-bar').click_link('Manage provider')
-  expect(find('h1')).to have_content('Manage providers')
-  expect(page).to have_content(/\d+ providers?/)
-end
-
-Then(/^I should see the superadmins Add a provider link and it should work$/) do
-  find('.primary-nav-bar').click_link('Add a provider')
-  expect(find('h1')).to have_content('Manage providers')
-  expect(page).to have_content('New provider details')
-end
-
-When(/^I enter my email and the wrong password (\d+) times$/) do |attempts|
-  attempts.to_i.times do
-    fill_in 'Email', with: (@user || User.first).email
-    fill_in 'Password', with: 'non-existent-password'
-    click_on 'Sign in'
-    expect(page).to have_content('Sign in')
-  end
-end
-
-Then(/^I should no longer be able to sign in$/) do
-  fill_in 'Email', with: (@user || User.first).email
-  fill_in 'Password', with: @password || 'password'
-  click_on 'Sign in'
-  expect(page).to have_content('Sign in')
-  expect(User.first.locked_at).to be > 5.minutes.ago
-end
-
-When(/^the (\d+) minute lockout duration has expired then I should be able to sign in again$/) do |duration|
-  Timecop.freeze(duration.to_i.minutes.from_now) do
-    fill_in 'Email', with: (@user || User.first).email
-    fill_in 'Password', with: @password || 'password'
-    click_on 'Sign in'
-    expect(page).to have_content('Sign out')
-  end
+Given(/^I sign out$/) do
+  click_link 'Sign out' rescue nil
 end

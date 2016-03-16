@@ -2,24 +2,23 @@
 
   = f.fields_for :user do |user_fields|
 
-    .user-form
-      .form-row
-        = user_fields.label :first_name, t(".first_name"), class: "form-label"
-        = user_fields.text_field :first_name, class: "form-control"
-      .form-row
-        = user_fields.label :last_name, t(".last_name"), class: "form-label"
-        = user_fields.text_field :last_name, class: "form-control"
 
-    .user-form
-      .form-row
-        = user_fields.label :email, t(".email"), class: "form-label"
-        = user_fields.email_field :email, class: "form-control"
-      - if @external_user.new_record?
-        .form-row
-          = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
-          = user_fields.email_field :email_confirmation, class: "form-control"
+    .form-group
+      = user_fields.label :first_name, t(".first_name"), class: "form-label"
+      = user_fields.text_field :first_name, class: "form-control"
+    .form-group
+      = user_fields.label :last_name, t(".last_name"), class: "form-label"
+      = user_fields.text_field :last_name, class: "form-control"
 
-    %fieldset.user-form
+    .form-group
+      = user_fields.label :email, t(".email"), class: "form-label"
+      = user_fields.email_field :email, class: "form-control"
+    - if @external_user.new_record?
+      .form-group
+        = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
+        = user_fields.email_field :email_confirmation, class: "form-control"
+
+    %fieldset
       = f.label :roles, class: "form-label"
       .form-group.inline.js-advocate-roles
         = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|

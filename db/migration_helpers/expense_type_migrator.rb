@@ -22,7 +22,7 @@ module MigrationHelpers
       ex.expense_type = @car
       ex.reason_id = 5
       narrative = extract_and_update_date_info(ex)
-      ex.reason_text = "Other: Originally Conference and View  #{narrative}"
+      ex.reason_text = "Other: Originally Conference and View  #{narrative}".strip
     end
 
     def extract_and_update_date_info(ex)
@@ -48,6 +48,10 @@ module MigrationHelpers
 
     def refers_to_one_date?(date_attended)
       date_attended.date_to.nil? || date_attended.date == date_attended.date_to
+    end
+
+    def extract_date_ranges_as_text(ex)
+      ex.dates_attended.map(&:to_s).join(", ")
     end
 
 

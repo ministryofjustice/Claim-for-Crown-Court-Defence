@@ -3,8 +3,9 @@ require File.join(Rails.root, 'db', 'migration_helpers', 'expense_type_migrator'
 
 
 
-
+include DatabaseHousekeeping
 module MigrationHelpers
+
 
   class MockExpenseTypeMigrator < ExpenseTypeMigrator
     def initialize
@@ -14,26 +15,46 @@ module MigrationHelpers
   describe ExpenseTypeMigrator do
 
     let(:mock_migrator) { MockExpenseTypeMigrator.new }
-    let(:migrator) { ExpenseTypeMigrator }
-
 
     describe 'migrate_conference_view_and_car' do
       before(:all) do
         @original_type = ExpenseType.create!(name: 'Conference and View - Car', roles: ['agfs'], reason_set: 'A')
-        @migrated_type = ExpenseType.create!(name: 'Car travel', roles: ['agfs', 'lgfs'], reason_set: 'A')
-        @expense = build(:expense, expense_type: @original_type, location: 'Here', quantity: 148.0, rate: 0.25, amount: 37.0)
+        [
+          'Car travel',
+          'Train/public transport',
+          'Parking',
+          'Hotel accommodation'
+        ].each do |expense_type_name|
+          ExpenseType.create!(name: expense_type_name,  roles: ['agfs', 'lgfs'], reason_set: 'A')
+        end
+        @migrated_type = ExpenseType.find_by(name: 'Car travel')
+      end
+
+      after(:all) do
+        clean_database
       end
 
       before(:each) do
         allow(Settings).to receive(:expense_schema_version).and_return(1)
       end
 
-      it 'migrates with the correct date and reason' do
-        byebug
+      let(:migrator) { ExpenseTypeMigrator.new }
+      let(:expense) { build(:expense, expense_type: @original_type, location: 'Here', quantity: 148.0, rate: 0.25, amount: 37.0) }
 
-        @expense.dates_attended << build(:single_date_attended)
-        migrator.send(:migrate_conference_view_and_car, @expense)
-        ap @expense
+      it 'migrates with the correct date and reason for single date attended' do
+        expense.dates_attended << build(:single_date_attended)
+        migrator.send(:migrate_conference_view_and_car, expense)
+        expect(expense.expense_type).to eq @migrated_type
+        expect(expense.date).to eq 12.days.ago.to_date
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View'
+      end
+
+      it 'migrates with the correct date and reason for single date range attended' do
+        expense.dates_attended << build(:date_range_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 6))
+        migrator.send(:migrate_conference_view_and_car, expense)
+        expect(expense.expense_type).to eq @migrated_type
+        expect(expense.date).to eq 12.days.ago.to_date
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View  04/03/2016 - 06/03/2016'
       end
     end
 
@@ -58,19 +79,20 @@ module MigrationHelpers
 
     describe 'extract_date_ranges_as_text' do
       it 'extracts one date range' do
+        ex = build :expense
         start = Date.new(2016, 2, 14)
         finish = Date.new(2016, 2, 20)
-        dates_attended = [build(:date_attended, date: start, date_to: finish)]
-        expect(mock_migrator.send(:extract_date_ranges_as_text, dates_attended)).to eq '14/02/2016 - 20/02/2016'
+        ex.dates_attended << build(:date_attended, date: start, date_to: finish)
+        expect(mock_migrator.send(:extract_date_ranges_as_text, ex)).to eq '14/02/2016 - 20/02/2016'
       end
 
       it 'extracts multiple date ranges' do
-        da1 = build(:date_attended, date: Date.new(2016, 2, 3), date_to: Date.new(2016, 2, 15))
-        da2 = build(:date_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 8))
-        da3 = build(:date_attended, date: Date.new(2016, 3, 10), date_to: nil)
-        dates_attended = [ da1, da2, da3 ]
+        ex = build :expense
+        ex.dates_attended << build(:date_attended, date: Date.new(2016, 2, 3), date_to: Date.new(2016, 2, 15))
+        ex.dates_attended << build(:date_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 8))
+        ex.dates_attended << build(:date_attended, date: Date.new(2016, 3, 10), date_to: nil)
         expected_text = "03/02/2016 - 15/02/2016, 04/03/2016 - 08/03/2016, 10/03/2016"
-        expect(migrator.send(:extract_date_ranges_as_text, dates_attended)).to eq expected_text
+        expect(mock_migrator.send(:extract_date_ranges_as_text, ex)).to eq expected_text
       end
 
     end

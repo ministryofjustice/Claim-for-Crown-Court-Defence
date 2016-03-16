@@ -10,23 +10,6 @@
   bottom:$gutter;
   right:0;
 }
-.search-form {
-  @extend .search-wrapper;
-  .search-wrapper & {
-    @include span(6 of 12);
-    @include first;
-  }
-  > form {
-    @include span(6 of 12);
-    @include first;
-    .search-wrapper & {
-      width:100%;
-    }
-    & + div {
-      @extend .claim-count;
-    }
-  }
-}
 
 // ================================================================//
 // LAYOUT.SCSS

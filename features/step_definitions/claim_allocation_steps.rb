@@ -44,7 +44,7 @@ Given(/^claims "(.*?)" have been allocated to "(.*?)"$/) do |case_numbers, name|
 end
 
 Then(/^I should see a notification (\d+) claims were allocated to "(.*?)"$/) do |quantity, name|
-  within '.allocated-summary' do
+  within '.notice-summary' do
     expect(page).to have_content(/#{quantity} claims? allocated to #{name}/)
   end
 end
@@ -174,7 +174,7 @@ Then(/^I should no longer see the case workers dropdown$/) do
 end
 
 Then(/^I should see a notification that (\d+) claims were deallocated$/) do |quantity|
-  within '.allocated-summary' do
+  within '.notice-summary' do
     expect(page).to have_content(/#{quantity} claims? returned to allocation pool/)
   end
 end

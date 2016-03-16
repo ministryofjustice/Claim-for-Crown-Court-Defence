@@ -1,8 +1,0 @@
-.validation-summary.allocated-summary{style: 'border-color: green;'}
-  %h2
-    = pluralize(@allocated_claims.count, 'claim')
-    - if @case_worker
-      allocated to
-      = link_to @case_worker.name, case_workers_admin_case_worker_path(@case_worker), style: 'color: black;'
-    - else
-      returned to allocation pool

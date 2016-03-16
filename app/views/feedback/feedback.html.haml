@@ -13,10 +13,10 @@
       = hidden_field_tag :user_id, params[:user_id]
 
     .form-group
-      = f.label :comment, 'Please tell us about your experience of using this service today.'
+      = f.label :comment, 'Tell us about your experience of using this service today.'
       %p.form-hint
-        = 'Please don\'t include any personal or sensitive information.'
-      = f.text_area :comment, rows: 5, placeholder: '(Optional)'
+        = 'Don\'t include any personal or sensitive information.'
+      = f.text_area :comment, rows: 5, class: "form-control"
 
     %fieldset.inline
       %legend

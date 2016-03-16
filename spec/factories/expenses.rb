@@ -33,10 +33,35 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_date_range_attended do
+      after(:build) do |expense|
+        expense.dates_attended << build(:date_range_attended, attended_item: expense)
+      end
+    end
+
+    trait :with_single_date_attended do
+      after(:build) do |expense|
+        expense.dates_attended << build(:single_date_attended, attended_item: expense)
+      end
+    end
+
+    trait :with_same_date_attended_to_as_from do
+      after(:build) do |expense|
+        expense.dates_attended << build(:same_date_attended_to_as_from, attended_item: expense)
+      end
+    end
+
+    trait :with_multiple_dates_attended do
+      after(:build) do |expense|
+        expense.dates_attended << build(:date_attended, attended_item: expense)
+        expense.dates_attended << build(:date_attended, attended_item: expense, date: 5.days.ago, date_to: 3.days.ago)
+      end
+    end
+
     trait :random_values do
-        quantity { rand(1..10) }
-        rate { rand(1.0..9.99) }
-        amount { quantity * rate}
+      quantity { rand(1..10) }
+      rate { rand(1.0..9.99) }
+      amount { quantity * rate}
     end
 
 

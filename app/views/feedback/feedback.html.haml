@@ -2,35 +2,28 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
 
-%p.medium.questions
-  We will use your answers to the questions below to help us build a better service.
+.body-content
+  .panel.panel-border-wide
+    %p
+      We will use your answers to the questions below to help us build a better service.
 
-= form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
-  - if params[:user_id].present?
-    = hidden_field_tag :type, params[:type]
-    = hidden_field_tag :user_id, params[:user_id]
+  = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate', class: 'normal'} do |f|
+    - if params[:user_id].present?
+      = hidden_field_tag :type, params[:type]
+      = hidden_field_tag :user_id, params[:user_id]
 
-  .grid-row-with-margin
-    .column-half
-      .bold-normal
-        = f.label :comment, 'Please tell us about your experience of using this service today.'
+    .form-group
+      = f.label :comment, 'Please tell us about your experience of using this service today.'
       %p.form-hint
         = 'Please don\'t include any personal or sensitive information.'
-
       = f.text_area :comment, rows: 5, placeholder: '(Optional)'
-    .column-half
-      &nbsp;
 
-  .grid-row-with-margin
-    .column-half
-      %fieldset
-        %legend.bold-normal
-          = 'Overall, how satisfied were you with this service?'
+    %fieldset.inline
+      %legend
+        = 'Overall, how satisfied were you with this service?'
 
-        = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
-          - b.label(class: 'block-label') { b.radio_button + b.object.first  }
-    .column-half
-      &nbsp;
+      = f.collection_radio_buttons(:rating, Feedback::RATINGS.map {|k,v| [v,k]}, :last, :first) do |b|
+        - b.label(class: 'block-label') { b.radio_button + b.object.first  }
 
-  .button-holder
-    = f.submit 'Send', class: 'button button-primary', id: 'submit-button'
+    .button-holder
+      = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

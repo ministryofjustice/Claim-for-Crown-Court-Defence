@@ -2,28 +2,19 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
 
-%p.medium.questions
-  Please tell us about your experience of using this service today.
-  %br
-  Your answers to the following questions will help us improve this service.
+.body-content
+  %p
+    Please tell us about your experience of using this service today.
+  %p
+    Your answers to the following questions will help us improve this service.
 
-= form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
-  = hidden_field_tag :type, params[:type]
-
-  .grid-row-with-margin
-    .column-half
-      .bold-normal
-        = f.label :event, "What you were doing"
-      = f.text_field :event, style: "width:100%;"
-    .column-half
-      &nbsp
-  .grid-row-with-margin
-    .column-half
-      .bold-normal
-        = f.label :outcome, "What went wrong"
-      = f.text_field :outcome, style: "width:100%"
-    .column-half
-      &nbsp
-
-  .button-holder
-    = f.submit 'Send', class: 'button button-primary', id: 'submit-button'
+  = form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+    = hidden_field_tag :type, params[:type]
+    .form-group
+      = f.label :event, "What you were doing", class: "form-label"
+      = f.text_field :event, class: "form-control"
+    .form-group
+      = f.label :outcome, "What went wrong", class: "form-label"
+      = f.text_field :outcome, class: "form-control"
+    .button-holder
+      = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

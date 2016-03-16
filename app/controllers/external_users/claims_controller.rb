@@ -16,9 +16,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
-  before_action :set_claim_class, only: [:new]
-  before_action :set_claim_class_from_params, only: [:create]
-  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
+  # before_action :set_claim_class, only: [:new]
+  # before_action :set_claim_class_from_params, only: [:create]
+  # before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
 
@@ -55,11 +55,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @enable_assessment_input = false
   end
 
-  def new
-    @claim = @claim_class.new
-    load_offences_and_case_types
-    build_nested_resources
-  end
+  # def new
+  #   @claim = @claim_class.new
+  #   load_offences_and_case_types
+  #   build_nested_resources
+  # end
 
   def edit
     build_nested_resources
@@ -71,14 +71,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def confirmation; end
 
-  def create
-    @claim = @claim_class.new(params_with_advocate_and_creator)
-    if submitting_to_laa?
-      create_and_submit
-    else
-      create_draft
-    end
-  end
+  # def create
+  #   @claim = @claim_class.new(params_with_advocate_and_creator)
+  #   if submitting_to_laa?
+  #     create_and_submit
+  #   else
+  #     create_draft
+  #   end
+  # end
 
   def update
     update_source_for_api
@@ -150,30 +150,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @provider = @external_user.provider
   end
 
-  def set_claim_class
-    if params[:claim_type]
-      @claim_class =  case params[:claim_type]
-                        when 'lgfs'
-                          Claim::LitigatorClaim
-                        when 'agfs'
-                          Claim::AdvocateClaim
-                      end
-    else
-      @claim_class = get_new_claim_class_for_external_user(@external_user)
-    end
-  end
+  # def set_claim_class
+  #   if params[:claim_type]
+  #     @claim_class =  case params[:claim_type]
+  #                       when 'lgfs'
+  #                         Claim::LitigatorClaim
+  #                       when 'agfs'
+  #                         Claim::AdvocateClaim
+  #                     end
+  #   else
+  #     @claim_class = get_new_claim_class_for_external_user(@external_user)
+  #   end
+  # end
 
-  def get_new_claim_class_for_external_user(external_user)
-    context = Claims::ContextMapper.new(external_user)
-    available_types = context.available_claim_types
-    redirect_to claim_options_external_users_claims_path if available_types.size > 1
-    redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
-    available_types.first
-  end
+  # def get_new_claim_class_for_external_user(external_user)
+  #   context = Claims::ContextMapper.new(external_user)
+  #   available_types = context.available_claim_types
+  #   redirect_to claim_options_external_users_claims_path if available_types.size > 1
+  #   redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
+  #   available_types.first
+  # end
 
-  def set_claim_class_from_params
-    @claim_class = params[:claim][:claim_class].constantize
-  end
+  # def set_claim_class_from_params
+  #   @claim_class = params[:claim][:claim_class].constantize
+  # end
 
   def set_claims_context
     context = Claims::ContextMapper.new(@external_user)
@@ -214,9 +214,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
   end
 
-  def load_advocates_in_provider
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
-  end
+  # def load_advocates_in_provider
+  #   ap "LOAD_ADVOCATES_IN_PROVIDER"
+  #   byebug
+  #   @advocates_in_provider = @provider.advocates if @external_user.admin? && self.class == ExternalUsers::Advocates::ClaimsContorller
+  # end
 
   def set_and_authorize_claim
     @claim = Claim::BaseClaim.find(params[:id])

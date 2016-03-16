@@ -234,60 +234,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
   end
 
-  describe "GET #new" do
-
-    context 'AGFS or LGFS provider members only' do
-      before { get :new }
-      it "returns http success" do
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'assigns @claim' do
-        expect(assigns(:claim)).to be_new_record
-      end
-
-      it 'assigns @claim_class to the default for the provider' do
-          expect(assigns(:claim_class)).to eql(Claim::AdvocateClaim)
-      end
-
-      it 'renders the template' do
-        expect(response).to render_template(:new)
-      end
-    end
-
-    context 'AGFS and LGFS provider admins' do
-      let!(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
-      before { sign_in agfs_lgfs_admin.user }
-
-      it 'redirects to claim options' do
-        get :new
-        expect(response).to redirect_to(claim_options_external_users_claims_path)
-      end
-
-      context 'with LGFS claim type specified' do
-        before { get :new, claim_type: 'lgfs' }
-
-        it 'assigns @claim_class to be of LGFS claim type' do
-          expect(assigns(:claim_class)).to eql(Claim::LitigatorClaim)
-        end
-
-        it 'renders the template' do
-          expect(response).to render_template(:new)
-        end
-      end
-    end
-  end
-
-  describe 'GET #claim_options' do
-      before { get :claim_options }
-      it "returns http success" do
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'renders the template' do
-        expect(response).to render_template(:claim_options)
-      end
-  end
 
   describe "GET #edit" do
     before { get :edit, id: subject }

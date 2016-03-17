@@ -4,7 +4,6 @@ label {
     @include clearfix;
   }
   .form-hint {
-    @include core-16();
     margin-top:0;
   }
   + .form-group.inline {

@@ -27,6 +27,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         expect(response).to render_template(:index)
       end
 
+      it 'assigns the financial summary' do
+        get :index
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
       context 'AGFS claims' do
         before do
           create(:draft_claim, external_user: advocate)
@@ -199,6 +204,106 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         it 'paginates to 10 per page' do
           expect(assigns(:claims).count).to eq(10)
         end
+      end
+    end
+
+    describe '#GET outstanding' do
+      before(:each) do
+        get :outstanding
+      end
+
+      it 'returns success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:outstanding)
+      end
+
+      it 'assigns the financial summary' do
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
+      context 'AGFS claims' do
+        before do
+          create(:submitted_claim, external_user: advocate)
+          create(:draft_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+        end
+
+        context 'advocate' do
+          before { sign_in advocate.user }
+
+          it 'should assign outstanding claims' do
+            expect(assigns(:claims)).to match_array(advocate.claims.outstanding)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+
+          it 'should assign outstanding claims' do
+            expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.outstanding)
+          end
+        end
+      end
+    end
+
+    describe '#GET authorised' do
+      before(:each) do
+        get :authorised
+      end
+
+      it 'returns success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:authorised)
+      end
+
+      it 'assigns the financial summary' do
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
+      context 'AGFS claims' do
+        before do
+          create(:authorised_claim, external_user: advocate)
+          create(:part_authorised_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+        end
+
+        context 'advocate' do
+          before { sign_in advocate.user }
+
+          it 'should assign authorised and part authorised claims' do
+            expect(assigns(:claims)).to match_array(advocate.claims.any_authorised)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+
+          it 'should assign authorised and part authorised claims' do
+            expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.any_authorised)
+          end
+        end
+      end
+    end
+
+    context 'search' do
+      before(:each) do
+        @archived_claim = create(:archived_pending_delete_claim, external_user: advocate)
+        create(:defendant, claim: @archived_claim, first_name: 'John', last_name: 'Smith')
+
+        @draft_claim = create(:draft_claim, external_user: advocate)
+        create(:defendant, claim: @draft_claim, first_name: 'John', last_name: 'Smith')
+
+        get :archived, search: 'Smith'
+      end
+
+      it 'finds the claims with the specified search criteria and in the correct states' do
+        expect(assigns(:claims)).to match_array([@archived_claim])
       end
     end
   end

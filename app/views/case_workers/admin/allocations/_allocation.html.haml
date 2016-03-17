@@ -4,14 +4,13 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
 
-  %fieldset
-    %legend.xsmall
+  %fieldset.inline
+    %legend
       = t('.case_types')
-    .form-group.inline.allocation-filter-form
-      -  allocation_filters.each do | filter_name |
-        = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
-          = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
-          = filter_name.humanize
+    -  allocation_filters.each do | filter_name |
+      = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
+        = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
+        = filter_name.humanize
 
   %noscript
     = submit_tag 'Filter'
@@ -19,6 +18,7 @@
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
+  -# TODO: FIX BELOW
   .grid-row
     .column-quarter
       = label_tag :quantity_to_allocate, t('.no_of_claims')
@@ -28,16 +28,16 @@
       = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2' }
     .column-quarter
       = f.submit 'Allocate', class: 'button'
-
-
   - if @claims.any?
-    .claim-count
-      = "Number of claims: "
-      = @claims.count
+
     .container.table-container
       %table{class: 'report js-checkbox-table'}
         %caption
-          Allocations
+          %span.table-caption
+            = 'Allocations'
+          %span.claim-count
+            = "Number of claims: "
+            = @claims.count
         %colgroup
           %col
           %col

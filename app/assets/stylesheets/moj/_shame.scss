@@ -2,13 +2,18 @@
   @include container;
   position: relative;
 }
+caption {
+  @include container;
+}
+.table-caption {
+  @include span(6 of 12);
+  @include first;
+}
 .claim-count {
   @include span(6 of 12);
   @include last;
   text-align: right;
-  position: absolute;
-  bottom:$gutter;
-  right:0;
+  font-weight: 400;
 }
 
 // ================================================================//
@@ -532,15 +537,6 @@ p.file-upload-name {
 .search-summary .panel-indent{
   margin-top:0;
   margin-right:0;
-}
-.claim-count {
-  @include span(6 of 12);
-  @include last;
-  text-align: right;
-  margin-top:$gutter-half;
-  p{
-    margin:0;
-  }
 }
 
 /***************************************

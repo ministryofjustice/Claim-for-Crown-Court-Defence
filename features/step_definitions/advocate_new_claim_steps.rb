@@ -483,7 +483,7 @@ Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, am
   # use the fee type code to determine the index in the table of fees
   fee_type_codes = Fee::BasicFeeType.all.map(&:code)
   id_no = fee_type_codes.index(fee_code)
-  
+
   quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
   amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
   fill_in quantity_input, with: quantity.to_i
@@ -492,6 +492,38 @@ end
 
 Then(/^The total claimed should equal (\d+)$/) do |total_claimed|
   expect(Claim::BaseClaim.last.total).to eq total_claimed.to_f
+end
+
+When(/^I select an advocate category of '(.*?)'$/) do |name|
+  element = find('div label', text: name)
+  radio_id = element[:for]
+  choose radio_id
+end
+
+When(/^I select a court$/) do
+  select('some court', from: 'claim_court_id')
+end
+
+When(/^I select a case type of '(.*?)'$/) do |name|
+  select(name, from: 'claim_case_type_id')
+end
+
+When(/^I select an offence category$/) do
+  murder_offence_id = Offence.find_by(description: 'Murder').id.to_s
+  first('#claim_offence_id', visible: false).set(murder_offence_id)
+end
+
+When(/^I enter defendant name and date of birth$/) do
+  fill_in 'claim_defendants_attributes_0_first_name', with: 'Foo'
+  fill_in 'claim_defendants_attributes_0_last_name', with: 'Bar'
+
+  fill_in 'claim_defendants_attributes_0_date_of_birth_dd', with: '04'
+  fill_in 'claim_defendants_attributes_0_date_of_birth_mm', with: '10'
+  fill_in 'claim_defendants_attributes_0_date_of_birth_yyyy', with: '1980'
+end
+
+When(/^I save as draft$/) do
+  click_button "Save to drafts"
 end
 
 # local helpers

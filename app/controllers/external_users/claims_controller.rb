@@ -16,9 +16,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :set_doctypes, only: [:show]
-  # before_action :set_claim_class, only: [:new]
-  # before_action :set_claim_class_from_params, only: [:create]
-  # before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
 
@@ -149,31 +146,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @external_user = current_user.persona
     @provider = @external_user.provider
   end
-
-  # def set_claim_class
-  #   if params[:claim_type]
-  #     @claim_class =  case params[:claim_type]
-  #                       when 'lgfs'
-  #                         Claim::LitigatorClaim
-  #                       when 'agfs'
-  #                         Claim::AdvocateClaim
-  #                     end
-  #   else
-  #     @claim_class = get_new_claim_class_for_external_user(@external_user)
-  #   end
-  # end
-
-  # def get_new_claim_class_for_external_user(external_user)
-  #   context = Claims::ContextMapper.new(external_user)
-  #   available_types = context.available_claim_types
-  #   redirect_to claim_options_external_users_claims_path if available_types.size > 1
-  #   redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
-  #   available_types.first
-  # end
-
-  # def set_claim_class_from_params
-  #   @claim_class = params[:claim][:claim_class].constantize
-  # end
 
   def set_claims_context
     context = Claims::ContextMapper.new(@external_user)

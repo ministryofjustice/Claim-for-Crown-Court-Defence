@@ -1,5 +1,7 @@
 class ExternalUsers::Litigators::ClaimsController < ExternalUsers::ClaimsController
 
+  skip_load_and_authorize_resource
+
   def new
     @claim = Claim::LitigatorClaim.new
     load_offences_and_case_types

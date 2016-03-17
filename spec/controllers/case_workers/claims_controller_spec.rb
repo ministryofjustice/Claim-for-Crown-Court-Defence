@@ -34,7 +34,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       clean_database
     end
 
-    
+
 
     describe "GET #index" do
       let(:tab) { nil }
@@ -63,6 +63,14 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
           expect(@case_worker.claims.caseworker_dashboard_under_assessment.count).to eql(11)
           expect(assigns(:claims).count).to eq(10)
           additional_claim.destroy
+        end
+      end
+
+      context 'search by case number' do
+        let(:search) { @case_worker.claims.first.case_number }
+
+        it 'finds the claims matching case number' do
+          expect(assigns(:claims)).to eq([@case_worker.claims.first])
         end
       end
 
@@ -96,7 +104,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     end
 
-    
+
 
     describe "GET #show" do
       subject { create(:claim) }

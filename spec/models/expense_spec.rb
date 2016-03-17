@@ -15,17 +15,47 @@
 #  reason_id       :integer
 #  reason_text     :string
 #  schema_version  :integer
+#  distance        :integer
+#  mileage_rate_id :integer
+#  date            :date
+#  hours           :integer
 #
 
 require 'rails_helper'
 
 RSpec.describe Expense, type: :model do
 
+  let(:car_travel_expense)          { build(:expense, expense_type: build(:expense_type, name: 'Car travel')) }
+  let(:parking_expense)             { build(:expense, expense_type: build(:expense_type, name: 'Parking')) }
+  let(:hotel_accommodation_expense) { build(:expense, expense_type: build(:expense_type, name: 'Hotel accommodation')) }
+  let(:train_expense)               { build(:expense, expense_type: build(:expense_type, name: 'Train/public_transport')) }
+  let(:travel_time_expense)         { build(:expense, expense_type: build(:expense_type, name: 'Travel time')) }
+
+
   it { should belong_to(:expense_type) }
   it { should belong_to(:claim) }
   it { should have_many(:dates_attended) }
 
   it { should validate_presence_of(:claim).with_message('blank') }
+
+  describe 'predicate methods' do
+    it 'returns true for the type of expense it is' do
+      expect(car_travel_expense.car_travel?).to be true
+      expect(car_travel_expense.train?).to be false
+
+      expect(parking_expense.parking?).to be true
+      expect(parking_expense.car_travel?).to be false
+
+      expect(hotel_accommodation_expense.hotel_accommodation?).to be true
+      expect(hotel_accommodation_expense.parking?).to be false
+
+      expect(train_expense.train?).to be true
+      expect(train_expense.hotel_accommodation?).to be false
+
+      expect(travel_time_expense.travel_time?).to be true
+      expect(travel_time_expense.train?).to be false
+    end
+  end
 
   context 'schema_version' do
     context 'expense_schema_version_1' do

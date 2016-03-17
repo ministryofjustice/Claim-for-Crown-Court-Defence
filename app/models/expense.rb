@@ -15,6 +15,10 @@
 #  reason_id       :integer
 #  reason_text     :string
 #  schema_version  :integer
+#  distance        :integer
+#  mileage_rate_id :integer
+#  date            :date
+#  hours           :integer
 #
 
 class Expense < ActiveRecord::Base
@@ -61,6 +65,30 @@ class Expense < ActiveRecord::Base
     self.schema_version == 2
   end
 
+  def car_travel?
+    expense_type && expense_type.name == 'Car travel'
+  end
+
+  def parking?
+    expense_type && expense_type.name == 'Parking'
+  end
+
+  def hotel_accommodation?
+    expense_type && expense_type.name == 'Hotel accommodation'
+  end
+
+  def train?
+    expense_type && expense_type.name == 'Train/public transport'
+  end
+
+  def travel_time?
+    expense_type && expense_type.name == 'Travel time'
+  end
+
+  def other?
+    expense_type && expense_type.name == 'Other'
+  end
+
   def perform_validation?
     claim && claim.perform_validation?
   end
@@ -77,6 +105,11 @@ class Expense < ActiveRecord::Base
   def allow_reason_text?
     return false if self.reason_id.nil?
     expense_reason.allow_explanatory_text?
+  end
+
+  def expense_reasons
+    return [] if expense_type.nil?
+    expense_type.expense_reasons
   end
 
   def reason_text

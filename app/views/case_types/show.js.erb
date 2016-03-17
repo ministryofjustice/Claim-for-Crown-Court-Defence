@@ -1,11 +1,11 @@
 <% if @case_type.requires_trial_dates? %>
-  $('#trial-details').slideDown();
+  $('#trial-details').show();
 <% else %>
   $('#trial-details').hide();
 <% end %>
 
 <% if @case_type.requires_retrial_dates? %>
-  $('#retrial-details').slideDown();
+  $('#retrial-details').show();
 <% else %>
   $('#retrial-details').hide();
 <% end %>

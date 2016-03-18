@@ -1,6 +1,7 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
   include DateParamProcessor
+  include PaginationHelpers
   include DocTypes
 
   skip_load_and_authorize_resource
@@ -28,24 +29,24 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def index
     @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
-    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
   end
 
   def archived
     @claims = @claims_context.archived_pending_delete
     search(:archived_pending_delete) if params[:search].present?
-    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
   end
 
   def outstanding
     @claims = @financial_summary.outstanding_claims
-    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
     @claims = @financial_summary.authorised_claims
-    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
@@ -205,9 +206,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_sort_defaults(defaults={})
-    @sort_defaults = {  column:     defaults.has_key?(:column)      ? defaults[:column]     : 'last_submitted_at',
-                        direction:  defaults.has_key?(:direction)   ? defaults[:direction]  : 'asc',
-                        pagination: defaults.has_key?(:pagination)  ? defaults[:pagination] : 10
+    @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
+                        direction:  defaults.fetch(:direction, 'asc'),
+                        pagination: defaults.fetch(:pagination, page_size)
                       }
   end
 
@@ -221,7 +222,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def sort_and_paginate(options={})
     set_sort_defaults(options)
-    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
   end
 
   def load_advocates_in_provider

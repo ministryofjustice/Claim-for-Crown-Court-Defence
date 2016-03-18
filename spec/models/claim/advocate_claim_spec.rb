@@ -752,16 +752,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#archivable?' do
+    let(:claim) { create(:claim) }
+
     it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
       %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
-        claim = create("#{state}_claim".to_sym)
+        allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(false)
       end
     end
 
     it 'should be archivable from states: refused, rejected, part authorised, authorised' do
       %w( refused rejected part_authorised authorised ).each do |state|
-        claim = create("#{state}_claim".to_sym)
+        allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(true)
       end
     end

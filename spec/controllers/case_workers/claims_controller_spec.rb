@@ -67,7 +67,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
 
       context 'search by case number' do
-        let(:search) { @case_worker.claims.first.case_number }
+        let(:query_params) { { search: @case_worker.claims.first.case_number } }
 
         it 'finds the claims matching case number' do
           expect(assigns(:claims)).to eq([@case_worker.claims.first])

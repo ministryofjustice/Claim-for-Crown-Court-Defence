@@ -18,6 +18,104 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(2) }
 
+    describe '#validate_date' do
+      it 'is valid for todays date' do
+        expense.date = Date.today
+        expect(expense).to be_valid
+      end
+
+      it 'is valid for dates in the past' do
+        expense.date = 10.days.ago
+        expect(expense).to be_valid
+      end
+
+      it 'is invalid for dates in the future' do
+        expense.date = 1.day.from_now
+        expect(expense).not_to be_valid
+        expect(expense.errors[:date]).to include('future')
+      end
+
+      it 'is invalid if absent' do
+        expense.date = nil
+        expect(expense).not_to be_valid
+        expect(expense.errors[:date]).to include('blank')
+      end
+    end
+
+    describe '#validate_hours' do
+      context 'travel time' do
+        it 'is invalid if absent' do
+          travel_time_expense.hours = nil
+          expect(travel_time_expense).not_to be_valid
+          expect(travel_time_expense.errors[:hours]).to include('blank')
+        end
+
+        it 'is invalid if zero' do
+          travel_time_expense.hours = 0
+          expect(travel_time_expense).not_to be_valid
+          expect(travel_time_expense.errors[:hours]).to include('zero_or_negative')
+        end
+
+        it 'is invalid if negative' do
+          travel_time_expense.hours = -5
+          expect(travel_time_expense).not_to be_valid
+          expect(travel_time_expense.errors[:hours]).to include('zero_or_negative')
+        end
+
+        it 'is valid if present and above zero' do
+          travel_time_expense.hours = 1
+          expect(travel_time_expense).to be_valid
+        end
+      end
+
+      context 'not travel time' do
+        it 'is invalid if present' do
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, other_expense].each do |ex|
+            ex.hours = 5
+            expect(ex).not_to be_valid
+            expect(ex.errors[:hours]).to include('invalid')
+          end
+        end
+
+        it 'is valid if absent' do
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, other_expense].each do |ex|
+            ex.hours = nil
+            expect(ex).to be_valid
+          end
+        end
+      end
+    end
+
+    describe 'reason_text' do
+      context 'other expense types' do
+        it 'should be valid if present' do
+          other_expense.reason_text = 'my reasons'
+          expect(other_expense).to be_valid
+        end
+
+        it 'should be invalid if absent' do
+          other_expense.reason_text = nil
+          expect(other_expense).not_to be_valid
+          expect(other_expense.errors[:reason_text]).to include('blank_for_other')
+        end
+      end
+      context 'all expense types apart from other' do
+        it 'should be valid if absent' do
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
+            ex.reason_text = nil
+            expect(ex).to be_valid
+          end
+        end
+        it 'should be invalid if present' do
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
+            ex.reason_text = 'some reason'
+            expect(ex).not_to be_valid
+            expect(ex.errors[:reason_text]).to include('invalid')
+          end
+        end
+      end
+    end
+
     describe '#validate_claim' do
       it { should_error_if_not_present(expense, :claim, 'blank') }
     end
@@ -165,28 +263,44 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe 'validate_mileage_rate_id' do
-      it 'is invalid if present for any expense type that is not car travel' do
-        [parking_expense, hotel_accommodation_expense, train_expense, train_expense, other_expense].each do |ex|
-          ex.mileage_rate_id = 2
-          expect(ex).not_to be_valid
-          expect(ex.errors[:mileage_rate_id]).to include('invalid')
+      context 'not car travel' do
+        it 'is invalid if present' do
+          [parking_expense, hotel_accommodation_expense, train_expense, train_expense, other_expense].each do |ex|
+            ex.mileage_rate_id = 2
+            expect(ex).not_to be_valid
+            expect(ex.errors[:mileage_rate_id]).to include('invalid')
+          end
+        end
+        
+        it 'is valid when absent' do
+          [parking_expense, hotel_accommodation_expense, train_expense, train_expense, other_expense].each do |ex|
+            ex.mileage_rate_id = nil
+            expect(ex).to be_valid
+          end
         end
       end
 
-      it 'is invalid if not a value in the settings for car travel' do
-        car_travel_expense.mileage_rate_id = 3
-        expect(car_travel_expense).not_to be_valid
-        expect(ex.car_travel_expense[:mileage_rate_id]).to include('invalid')
-      end
+      context 'car travel' do
+        it 'is invalid if not a value in the settings' do
+          car_travel_expense.mileage_rate_id = 3
+          expect(car_travel_expense).not_to be_valid
+          expect(car_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        end
 
-      it 'is valid if present for car travel' do
-        [1, 2].each do |i|
-          car_travel_expense.mileage_rate_id = i
-          expect(car_travel_expense).to be_valid
+        it 'is valid if present for car travel' do
+          [1, 2].each do |i|
+            car_travel_expense.mileage_rate_id = i
+            expect(car_travel_expense).to be_valid
+          end
+        end
+
+        it 'is invalid if absent' do
+          car_travel_expense.mileage_rate_id = nil
+          expect(car_travel_expense).not_to be_valid
+          expect(car_travel_expense.errors[:mileage_rate_id]).to include('blank')
         end
       end
 
-      
     end
   end
 

@@ -30,10 +30,12 @@ FactoryGirl.define do
     rate "9.99"
     amount "9.99"
     reason_id 1
+    date 3.days.ago
 
     trait :car_travel do
       expense_type  { build :expense_type, :car_travel }
       distance 27
+      mileage_rate_id 2
     end
 
     trait :parking do
@@ -52,10 +54,13 @@ FactoryGirl.define do
 
     trait :travel_time do
       expense_type { build :expense_type, :travel_time }
+      quantity nil 
+      hours 4
     end
 
     trait :other do
       expense_type { build :expense_type, :other }
+      reason_text 'For some really weird reason'
     end
 
     trait :with_date_attended do

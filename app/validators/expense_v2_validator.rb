@@ -39,8 +39,12 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_quantity
-    validate_presence(:quantity, 'blank')
-    validate_numericality(:quantity, 0, nil, 'numericality')
+    if @record.travel_time?
+      validate_absence(:quantity, :invalid)
+    else
+      validate_presence(:quantity, 'blank')
+      validate_numericality(:quantity, 0, nil, 'numericality')
+    end
   end
 
   def validate_rate
@@ -49,6 +53,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_amount
+    validate_presence(:amount, 'blank')
   end
 
   def validate_reason_id
@@ -60,6 +65,11 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_reason_text
+    if @record.other?
+      validate_presence(:reason_text, 'blank_for_other')
+    else
+      validate_absence(:reason_text, 'invalid')
+    end
   end
 
   def validate_distance
@@ -72,14 +82,31 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_mileage_rate_id
+    if @record.car_travel?
+      validate_presence(:mileage_rate_id, 'blank')
+      unless @record.mileage_rate_id.nil?
+        add_error(:mileage_rate_id, 'invalid') unless @record.mileage_rate_id.in?(Expense::MILEAGE_RATES.keys)
+      end
+    else
+      validate_absence(:mileage_rate_id, 'invalid')
+    end
   end
 
   def validate_date
+    validate_presence(:date, 'blank')
+    unless @record.date.blank?
+      add_error(:date, 'future') if @record.date > Date.today
+    end
   end
 
   def validate_hours
+    if @record.travel_time?
+      validate_presence(:hours, 'blank')
+      unless @record.hours.blank?
+        add_error(:hours, 'zero_or_negative') if @record.hours < 1
+      end
+    else
+      validate_absence(:hours, 'invalid')
+    end
   end
-
-
-
 end

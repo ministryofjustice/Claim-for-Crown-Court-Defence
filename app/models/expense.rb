@@ -23,6 +23,11 @@
 
 class Expense < ActiveRecord::Base
 
+  MILEAGE_RATES = {
+    1 => "25p per mile",
+    2 => "45p per mile",
+  }
+
   auto_strip_attributes :location, squish: true, nullify: true
 
   include NumberCommaParser
@@ -112,7 +117,7 @@ class Expense < ActiveRecord::Base
     expense_type.expense_reasons
   end
 
-  def reason_text
+  def displayable_reason_text
     return nil if self.reason_id.nil?
     if allow_reason_text?
       read_attribute(:reason_text)

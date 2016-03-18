@@ -25,11 +25,11 @@ require 'rails_helper'
 
 RSpec.describe Expense, type: :model do
 
-  let(:car_travel_expense)          { build(:expense, expense_type: build(:expense_type, name: 'Car travel')) }
-  let(:parking_expense)             { build(:expense, expense_type: build(:expense_type, name: 'Parking')) }
-  let(:hotel_accommodation_expense) { build(:expense, expense_type: build(:expense_type, name: 'Hotel accommodation')) }
-  let(:train_expense)               { build(:expense, expense_type: build(:expense_type, name: 'Train/public_transport')) }
-  let(:travel_time_expense)         { build(:expense, expense_type: build(:expense_type, name: 'Travel time')) }
+  let(:car_travel_expense)          { build(:expense, :car_travel) }
+  let(:parking_expense)             { build(:expense, :parking) }
+  let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation) }
+  let(:train_expense)               { build(:expense, :train) }
+  let(:travel_time_expense)         { build(:expense, :travel_time) }
 
 
   it { should belong_to(:expense_type) }
@@ -134,17 +134,17 @@ RSpec.describe Expense, type: :model do
       end
     end
 
-    describe '#reason_text' do
+    describe '#displayable_reason_text' do
       it 'returns nil if reason id is nil' do
-        expect(ex_nil.reason_text).to be_nil
+        expect(ex_nil.displayable_reason_text).to be_nil
       end
 
       it 'returns reason from reason text' do
-        expect(ex_1.reason_text).to eq 'Court hearing'
+        expect(ex_1.displayable_reason_text).to eq 'Court hearing'
       end
 
       it 'returns the reason_text from the record for reason id 5' do
-        expect(ex_5.reason_text).to eq "My unique reason"
+        expect(ex_5.displayable_reason_text).to eq "My unique reason"
       end
     end
   end

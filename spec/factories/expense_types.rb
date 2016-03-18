@@ -50,7 +50,7 @@ FactoryGirl.define do
     end
 
     trait :travel_time do
-      name 'Travel Time'
+      name 'Travel time'
       reason_set 'B'
     end
 

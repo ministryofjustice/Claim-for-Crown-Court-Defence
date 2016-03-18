@@ -51,9 +51,6 @@ class ExpenseType < ActiveRecord::Base
     expense_reasons_hash[id]
   end
 
-
-
-
 end
 
 

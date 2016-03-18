@@ -53,7 +53,7 @@ module MigrationHelpers
         expense.dates_attended << build(:date_range_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 6))
         migrator.send(:migrate_expense, expense)
         expect(expense.expense_type).to eq @migrated_type
-        expect(expense.date).to eq 12.days.ago.to_date
+        expect(expense.date).to eq Date.new(2016, 3, 4)
         expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car  04/03/2016 - 06/03/2016'
       end
     end

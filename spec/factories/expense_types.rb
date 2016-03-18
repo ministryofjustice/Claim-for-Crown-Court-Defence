@@ -14,5 +14,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "#{Faker::Lorem.word}-#{n}" }
 
     roles ['agfs']
+
+    trait :lgfs do
+      roles ['lgfs']
+    end
+
   end
 end

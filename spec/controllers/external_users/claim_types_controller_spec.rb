@@ -12,7 +12,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(assigns(:claim_types)).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
       end
       it "should render claim type options page" do
-        expect(response).to render_template(:index) #(types_external_users_claims_path)
+        expect(response).to render_template(:index)
       end
     end
 

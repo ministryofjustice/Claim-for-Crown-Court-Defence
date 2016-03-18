@@ -25,4 +25,15 @@ private
     @advocates_in_provider = @provider.advocates if @external_user.admin? && self.class == ExternalUsers::Advocates::ClaimsController
   end
 
+def params_with_advocate_and_creator
+    form_params = claim_params
+    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
+    form_params[:creator_id] = @external_user.id
+    form_params
+  end
+
+  def update_claim_document_owners(claim)
+    claim.documents.each { |d| d.update_column(:external_user_id, claim.external_user_id) }
+  end
+
 end

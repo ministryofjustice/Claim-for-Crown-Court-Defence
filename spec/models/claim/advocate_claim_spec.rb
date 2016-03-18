@@ -906,11 +906,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe 'Case type scopes' do
     before(:all) do
       @case_types = load("#{Rails.root}/db/seeds/case_types.rb")
-      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) 
+      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial'))
       @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
       @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
       @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
       @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
+      @discontinuances = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance'))
     end
 
     after(:all) do
@@ -930,8 +931,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe '.guilty_plea' do
-      it 'returns guilty pleas' do
-        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas)
+      it 'returns guilty pleas and discontinuances' do
+        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
       end
     end
   end

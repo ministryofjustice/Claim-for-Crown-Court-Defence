@@ -15,6 +15,11 @@ module MigrationHelpers
     def run
       expenses = Expense.all
       expenses.each { |ex| migrate_expense(ex) }
+
+      puts ">>>>> Expenses have been migrated to the new types.  Expenses by ExpenseType counts:"
+      ExpenseType.all.each do |et|
+        puts sprintf('%-40s %4d', et.name, et.expenses.count)
+      end
     end
 
   private
@@ -44,7 +49,7 @@ module MigrationHelpers
       when 'TRAVEL AND HOTEL - TRAIN'
         update_expense(ex, @train)
       else
-        raise RuntimeError, "Unrecognised expense type name: '#{ex.expense_type.name}'"
+        raise RuntimeError, "Unrecognised expense type name: '#{ex.expense_type.name}'" unless Rails.env.development?
       end
       ex.save!
     end

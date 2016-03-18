@@ -1,6 +1,9 @@
 module Claims::Search
 
   QUERY_MAPPINGS_FOR_SEARCH = {
+    case_number: {
+      query: "claims.case_number ILIKE :term"
+    },
     defendant_name: {
       joins: :defendants,
       query: "lower(defendants.first_name || ' ' || defendants.last_name) ILIKE :term "
@@ -29,6 +32,6 @@ module Claims::Search
       raise "Invalid state, #{state}, specified" unless Claim::BaseClaim.state_machine.states.map(&:name).include?(state.to_sym)
     end
 
-    relation.where(sql, term: "%#{term.downcase}%").where(state: states).uniq
+    relation.where(sql, term: "%#{term.strip.downcase}%").where(state: states).uniq
   end
 end

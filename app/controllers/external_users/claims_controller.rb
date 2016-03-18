@@ -14,7 +14,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :confirmation, :show_message_controls]
   before_action :load_advocates_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: [:new, :edit]
@@ -53,12 +53,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @enable_assessment_input = false
   end
 
-  # def new
-  #   @claim = @claim_class.new
-  #   load_offences_and_case_types
-  #   build_nested_resources
-  # end
-
   def edit
     build_nested_resources
     load_offences_and_case_types
@@ -68,15 +62,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def confirmation; end
-
-  # def create
-  #   @claim = @claim_class.new(params_with_advocate_and_creator)
-  #   if submitting_to_laa?
-  #     create_and_submit
-  #   else
-  #     create_draft
-  #   end
-  # end
 
   def update
     update_source_for_api
@@ -109,6 +94,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     send_ga('event', 'claim', 'deleted')
     respond_with @claim, { location: external_users_claims_url, notice: 'Claim deleted' }
+  end
+
+  def unarchive
+    unless @claim.archived_pending_delete?
+      redirect_to external_users_claim_url(@claim), alert: 'This claim cannot be unarchived'
+    else
+      @claim = @claim.previous_version
+      @claim.save!
+      redirect_to external_users_claims_url, notice: 'Claim unarchived'
+    end
   end
 
   private
@@ -162,7 +157,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def search_options
-    options = [:defendant_name]
+    options = [:case_number, :defendant_name]
     options << :advocate_name if @external_user.admin?
     options
   end
@@ -186,8 +181,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     set_sort_defaults(options)
     @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
   end
-
-  
 
   def set_and_authorize_claim
     @claim = Claim::BaseClaim.find(params[:id])
@@ -297,17 +290,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     load_offences_and_case_types
     render action: :new
   end
-
-  # def params_with_advocate_and_creator
-  #   form_params = claim_params
-  #   form_params[:external_user_id] = @external_user.id unless @external_user.admin?
-  #   form_params[:creator_id] = @external_user.id
-  #   form_params
-  # end
-
-  # def update_claim_document_owners(claim)
-  #   claim.documents.each { |d| d.update_column(:external_user_id, claim.external_user_id) }
-  # end
 
   def create_draft
     if @claim.save

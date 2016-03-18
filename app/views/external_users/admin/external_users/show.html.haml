@@ -3,29 +3,30 @@
 .body-content
   .table-container.container
     %table
-      %caption Your account
+      %caption
+        = 'Your account'
       %colgroup
         %col
         %col
       %tbody
         %tr
           %th{scope:'row'}
-            Name:
+            = 'Name:'
           %td
             = @external_user.name
         %tr
           %th{scope:'row'}
-            Email:
+            = 'Email:'
           %td
             = mail_to @external_user.email, @external_user.email
         %tr
           %th{scope:'row'}
-            Roles:
+            = 'Roles:'
           %td
             = @external_user.roles.map(&:humanize).join(', ')
         %tr
           %th{scope:'row'}
-            Supplier number:
+            = 'Supplier number:'
           %td
             = @external_user.supplier_number
 

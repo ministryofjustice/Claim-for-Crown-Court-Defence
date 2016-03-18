@@ -58,7 +58,7 @@ private
   def can_administer_any_claim_in_provider(persona)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-    can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
+    can [:show, :show_message_controls, :edit, :update, :unarchive, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
     can [:show, :create, :update], Certification
     can_administer_documents_in_provider(persona)
   end
@@ -85,7 +85,7 @@ private
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
     claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
-    can [:show, :show_message_controls, :edit, :update, :confirmation, :clone_rejected, :destroy], claim_klass, claim_owner_id_attr => persona.id
+    can [:show, :show_message_controls, :edit, :update, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, claim_owner_id_attr => persona.id
     can [:show, :create, :update], Certification
     can_manage_own_documents(persona)
   end

@@ -10,23 +10,6 @@
   bottom:$gutter;
   right:0;
 }
-.search-form {
-  @extend .search-wrapper;
-  .search-wrapper & {
-    @include span(6 of 12);
-    @include first;
-  }
-  > form {
-    @include span(6 of 12);
-    @include first;
-    .search-wrapper & {
-      width:100%;
-    }
-    & + div {
-      @extend .claim-count;
-    }
-  }
-}
 
 // ================================================================//
 // LAYOUT.SCSS
@@ -81,80 +64,10 @@
   margin-left: 0;
 }
 
-header.page-title {
-  width: 100%;
-  float: left;
-  padding-bottom: 0.5em;
-  margin-bottom: 1em;
-  border-bottom: 1px solid $ministry-of-justice;
-  h1 {
-    display: inline-block;
-  }
-  .button {
-    float: right;
-  }
-}
-
-section {
-  display: block
-}
-
-.advocate-loggedin-actions {
-  display: block;
-  margin: 2em auto;
-  padding: 0;
-  li {
-    border: 1px solid;
-    border-radius: 3px;
-    display: inline-block;
-    list-style-type: none;
-    font-size: 2em;
-    line-height: 2.5em;
-    margin-right: 1em;
-    a {
-      text-decoration: none;
-      color: $white;
-      padding: 0 2.5em;
-    }
-    &.new {
-      background-color: $mainstream-brand;
-      border-color: $mainstream-brand;
-    }
-    &.view {
-      background-color: $grey-3;
-      border-color: $grey-3;
-      a {
-        color: $ministry-of-justice;
-      }
-    }
-  }
-}
-
 .message {
   width: 2em;
 }
 
-ol.questions {
-  margin-top: 0;
-  list-style-type: none;
-  list-style-position: inside;
-  li {
-    padding-top: $gutter;
-    .clear-float, textarea{
-      margin-top:25px;
-    }
-    textarea {
-      padding: 5px;
-    }
-  }
-}
-p.questions {
-  margin-bottom: 0;
-}
-
-.text-small {
-  @include core-19();
-}
 // ================================================================//
 // statuses
 // ================================================================//

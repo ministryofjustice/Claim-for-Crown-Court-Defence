@@ -43,7 +43,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def organisation
-    external_user.provider.name
+    provider.name
   end
 
   def case_type_name

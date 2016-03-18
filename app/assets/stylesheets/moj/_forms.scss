@@ -4,8 +4,12 @@ label {
     @include clearfix;
   }
   .form-hint {
-    @include core-16();
     margin-top:0;
+  }
+  + .form-group.inline {
+    .block-label {
+      margin-top:0;
+    }
   }
 }
 //  input
@@ -42,6 +46,23 @@ button.search {
   margin-left: 5px;
 }
 
+.search-form {
+  @extend .search-wrapper;
+  .search-wrapper & {
+    @include span(6 of 12);
+    @include first;
+  }
+  > form {
+    @include span(6 of 12);
+    @include first;
+    .search-wrapper & {
+      width:100%;
+    }
+    & + div {
+      @extend .claim-count;
+    }
+  }
+}
 // TODO: FIX BELOW
 
 #claim-accordion {

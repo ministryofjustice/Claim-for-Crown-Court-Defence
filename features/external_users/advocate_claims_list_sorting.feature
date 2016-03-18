@@ -1,4 +1,4 @@
-@advocate @admin
+@advocate @admin @spec
 Feature: Claims list sorting
   Background:
     As an advocate I want to be able to sort the claims in my lists of current, archived, outstanding

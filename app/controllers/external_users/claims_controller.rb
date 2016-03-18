@@ -15,6 +15,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :initialize_json_document_importer, only: [:index]
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :load_advocates_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
@@ -186,11 +187,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
   end
 
-  # def load_advocates_in_provider
-  #   ap "LOAD_ADVOCATES_IN_PROVIDER"
-  #   byebug
-  #   @advocates_in_provider = @provider.advocates if @external_user.admin? && self.class == ExternalUsers::Advocates::ClaimsContorller
-  # end
+  
 
   def set_and_authorize_claim
     @claim = Claim::BaseClaim.find(params[:id])
@@ -361,6 +358,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def initialize_json_document_importer
     @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def load_advocates_in_provider
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
 end

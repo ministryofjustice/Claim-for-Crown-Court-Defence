@@ -234,7 +234,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
   end
 
-
   describe "GET #edit" do
     before { get :edit, id: subject }
 

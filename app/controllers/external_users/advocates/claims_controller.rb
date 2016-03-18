@@ -2,8 +2,6 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
 
   skip_load_and_authorize_resource
 
-  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
-
   def new
     @claim = Claim::AdvocateClaim.new
     load_offences_and_case_types
@@ -21,11 +19,7 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
 
 private
 
-  def load_advocates_in_provider
-    @advocates_in_provider = @provider.advocates if @external_user.admin? && self.class == ExternalUsers::Advocates::ClaimsController
-  end
-
-def params_with_advocate_and_creator
+  def params_with_advocate_and_creator
     form_params = claim_params
     form_params[:external_user_id] = @external_user.id unless @external_user.admin?
     form_params[:creator_id] = @external_user.id

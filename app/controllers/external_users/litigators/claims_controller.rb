@@ -9,7 +9,6 @@ class ExternalUsers::Litigators::ClaimsController < ExternalUsers::ClaimsControl
   end
 
   def create
-    byebug
     @claim = Claim::LitigatorClaim.new(params_with_creator)
     if submitting_to_laa?
       create_and_submit

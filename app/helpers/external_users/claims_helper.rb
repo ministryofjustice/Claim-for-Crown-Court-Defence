@@ -26,9 +26,9 @@ module ExternalUsers::ClaimsHelper
 
   def url_for_external_users_claim(claim)
     if @claim.instance_of? Claim::AdvocateClaim
-      claim.persisted? ? advocates_claims_path(claim) : advocates_claims_path
+      claim.persisted? ? external_users_claim_path(claim) : advocates_claims_path
     elsif @claim.instance_of? Claim::LitigatorClaim
-      claim.persisted? ? litigators_claims_path(claim) : litigators_claims_path
+      claim.persisted? ? external_users_claim_path(claim) : litigators_claims_path
     end
   end
 

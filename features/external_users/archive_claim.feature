@@ -1,4 +1,4 @@
-@advocate
+@advocate @spec
 Feature: Archive claim
   Background:
     As an advocate I want to be able to archive my completed claims

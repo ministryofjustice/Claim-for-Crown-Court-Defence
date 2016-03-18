@@ -1,4 +1,4 @@
-@advocate
+@advocate @spec
 Feature: Advocate claims list
   Background:
     As an advocate I want to see all my claims.

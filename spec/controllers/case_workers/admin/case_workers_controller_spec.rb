@@ -8,10 +8,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   before { sign_in admin.user }
 
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before { get :index }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to have_http_status(:success)
     end
 
@@ -24,6 +24,13 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
       expect(response).to render_template(:index)
     end
 
+    context 'search' do
+      before { get :index, search: subject.user.last_name }
+
+      it 'finds the case workers with specified search criteria' do
+        expect(assigns(:case_workers)).to match_array([subject])
+      end
+    end
   end
 
   describe "GET #show" do

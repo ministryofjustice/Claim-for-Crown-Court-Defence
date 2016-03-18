@@ -12,8 +12,10 @@
 #
 
 require 'rails_helper'
+require 'support/database_housekeeping'
 
 RSpec.describe Disbursement, type: :model do
+  include DatabaseHousekeeping
 
   it { should belong_to(:disbursement_type) }
   it { should belong_to(:claim) }
@@ -40,7 +42,7 @@ RSpec.describe Disbursement, type: :model do
     end
 
     after :all do
-      Claim::BaseClaim.destroy(@claim.id)
+      clean_database
     end
 
     it 'calculates the disbursements total amount' do

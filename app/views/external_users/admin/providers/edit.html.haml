@@ -19,14 +19,15 @@
           = validation_error_message(@provider, :supplier_number)
 
       - if @provider.firm?
-        .form-group
-          = f.label :vat_registered, class: "form-label"
-          .form-group.inline
-            =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-              - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+        %fieldset.inline
+          %legend
+            = 'VAT registered'
+          =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
+            - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
-      .form-group
-        = f.label :api_key, t('.api_key'), class: "form-label"
+      %h2
+        = t('.api_key')
+      %p
         = @provider.api_key
 
       .form-group

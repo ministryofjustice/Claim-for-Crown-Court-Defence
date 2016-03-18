@@ -3,7 +3,7 @@
     %caption
       %span.table-caption
         = your_claims_header
-      %span.table-caption.claim-count
+      %span.claim-count
         = t('.show_count', page_count: claims.size, total: claims.total_count)
     %colgroup
       - if current_user.persona.admin?

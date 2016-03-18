@@ -16,6 +16,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/*.output
 /tmp
 
 # ignore simplecov output
@@ -45,8 +46,9 @@ config/environments/*.local.yml
 
 
 # Ignore Redis database dumps
-/.dump.rdb
+dump.rdb
 
 # Ignore any stats files that have been generated
 /tmp/stats/*
 /public/stats/*
+*.pid

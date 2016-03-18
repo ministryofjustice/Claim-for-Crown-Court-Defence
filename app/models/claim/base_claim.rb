@@ -112,7 +112,7 @@ module Claim
     # Trial type scopes
     scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
     scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
-    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
+    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea', 'Discontinuance')) }
     scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
@@ -334,6 +334,14 @@ module Claim
 
     def total_including_vat
       self.total + self.vat_amount
+    end
+
+    def vat_registered?
+      provider_delegator.vat_registered?
+    end
+
+    def supplier_number
+      provider_delegator.supplier_number
     end
 
   private

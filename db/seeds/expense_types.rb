@@ -1,7 +1,6 @@
 require Rails.root.join('db','seed_helper')
 
 [
-
   ['Conference and view - car',               ['agfs'],         'A'],
   ['Conference and view - hotel stay',        ['agfs'],         'A'],
   ['Conference and view - train',             ['agfs'],         'A'],

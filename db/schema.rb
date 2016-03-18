@@ -372,6 +372,14 @@ ActiveRecord::Schema.define(version: 20160315171454) do
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
   end
 
+  create_table "stats_reports", force: :cascade do |t|
+    t.string   "report_name"
+    t.string   "report"
+    t.string   "status"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+  end
+
   create_table "super_admins", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"

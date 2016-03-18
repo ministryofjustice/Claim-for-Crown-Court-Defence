@@ -27,6 +27,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         expect(response).to render_template(:index)
       end
 
+      it 'assigns the financial summary' do
+        get :index
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
       context 'AGFS claims' do
         before do
           create(:draft_claim, external_user: advocate)
@@ -201,6 +206,106 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
       end
     end
+
+    describe '#GET outstanding' do
+      before(:each) do
+        get :outstanding
+      end
+
+      it 'returns success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:outstanding)
+      end
+
+      it 'assigns the financial summary' do
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
+      context 'AGFS claims' do
+        before do
+          create(:submitted_claim, external_user: advocate)
+          create(:draft_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+        end
+
+        context 'advocate' do
+          before { sign_in advocate.user }
+
+          it 'should assign outstanding claims' do
+            expect(assigns(:claims)).to match_array(advocate.claims.outstanding)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+
+          it 'should assign outstanding claims' do
+            expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.outstanding)
+          end
+        end
+      end
+    end
+
+    describe '#GET authorised' do
+      before(:each) do
+        get :authorised
+      end
+
+      it 'returns success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:authorised)
+      end
+
+      it 'assigns the financial summary' do
+        expect(assigns(:financial_summary)).not_to be_nil
+      end
+
+      context 'AGFS claims' do
+        before do
+          create(:authorised_claim, external_user: advocate)
+          create(:part_authorised_claim, external_user: advocate)
+          create(:archived_pending_delete_claim, external_user: advocate)
+        end
+
+        context 'advocate' do
+          before { sign_in advocate.user }
+
+          it 'should assign authorised and part authorised claims' do
+            expect(assigns(:claims)).to match_array(advocate.claims.any_authorised)
+          end
+        end
+
+        context 'advocate admin' do
+          before { sign_in advocate_admin.user }
+
+          it 'should assign authorised and part authorised claims' do
+            expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.any_authorised)
+          end
+        end
+      end
+    end
+
+    context 'search' do
+      before(:each) do
+        @archived_claim = create(:archived_pending_delete_claim, external_user: advocate)
+        create(:defendant, claim: @archived_claim, first_name: 'John', last_name: 'Smith')
+
+        @draft_claim = create(:draft_claim, external_user: advocate)
+        create(:defendant, claim: @draft_claim, first_name: 'John', last_name: 'Smith')
+
+        get :archived, search: 'Smith'
+      end
+
+      it 'finds the claims with the specified search criteria and in the correct states' do
+        expect(assigns(:claims)).to match_array([@archived_claim])
+      end
+    end
   end
 
   describe "GET #show" do
@@ -235,19 +340,58 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "GET #new" do
-    before { get :new }
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
+    context 'AGFS or LGFS provider members only' do
+      before { get :new }
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to be_new_record
+      end
+
+      it 'assigns @claim_class to the default for the provider' do
+          expect(assigns(:claim_class)).to eql(Claim::AdvocateClaim)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:new)
+      end
     end
 
-    it 'assigns @claim' do
-      expect(assigns(:claim)).to be_new_record
-    end
+    context 'AGFS and LGFS provider admins' do
+      let!(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
+      before { sign_in agfs_lgfs_admin.user }
 
-    it 'renders the template' do
-      expect(response).to render_template(:new)
+      it 'redirects to claim options' do
+        get :new
+        expect(response).to redirect_to(external_users_claims_claim_options_path)
+      end
+
+      context 'with LGFS claim type specified' do
+        before { get :new, claim_type: 'lgfs' }
+
+        it 'assigns @claim_class to be of LGFS claim type' do
+          expect(assigns(:claim_class)).to eql(Claim::LitigatorClaim)
+        end
+
+        it 'renders the template' do
+          expect(response).to render_template(:new)
+        end
+      end
     end
+  end
+
+  describe 'GET #claim_options' do
+      before { get :claim_options }
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:claim_options)
+      end
   end
 
   describe "GET #edit" do
@@ -287,6 +431,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         let(:expense_type)  { create(:expense_type) }
         let(:claim_params) do
           {
+            claim_class: 'Claim::AdvocateClaim',
             additional_information: 'foo',
             court_id: court,
             case_type_id: case_type.id,
@@ -370,14 +515,15 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       context 'submit to LAA with incomplete/invalid params' do
+        let(:invalid_claim_params)      { { claim_class: 'Claim::AdvocateClaim' } }
         it 'does not create a claim' do
           expect {
-            post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
+            post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
           }.to_not change(Claim::BaseClaim, :count)
         end
 
         it 'renders the new template' do
-          post :create, claim: { additional_information: 'foo' }, commit: 'Submit to LAA'
+          post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
           expect(response).to render_template(:new)
         end
       end
@@ -485,6 +631,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         let(:case_type)         { create(:case_type) }
         let(:claim_params) do
           {
+             claim_class: 'Claim::AdvocateClaim',
              additional_information: 'foo',
              court_id: court,
              case_type_id: case_type.id,
@@ -658,6 +805,40 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       expect(response).to redirect_to(external_users_claims_url)
     end
   end
+
+  describe "PATCH #unarchive" do
+    context 'when archived claim' do
+      subject do
+        claim = create(:authorised_claim, external_user: advocate)
+        claim.archive_pending_delete!
+        claim
+      end
+
+      before { patch :unarchive, id: subject }
+
+      it 'unarchives the claim and restores to state prior to archiving' do
+        expect(subject.reload).to be_authorised
+      end
+
+      it 'redirects to external users root url' do
+        expect(response).to redirect_to(external_users_claims_url)
+      end
+    end
+
+    context 'when non-archived claim' do
+      subject { create(:part_authorised_claim, external_user: advocate) }
+
+      before { patch :unarchive, id: subject }
+
+      it 'does not change the claim state' do
+        expect(subject).to be_part_authorised
+      end
+
+      it 'redirects to external users root url' do
+        expect(response).to redirect_to(external_users_claim_url(subject))
+      end
+    end
+  end
 end
 
 
@@ -665,6 +846,7 @@ def valid_claim_fee_params
   case_type = FactoryGirl.create :case_type
   HashWithIndifferentAccess.new(
     {
+     "claim_class" => 'Claim::AdvocateClaim',
      "source" => 'web',
      "external_user_id" => "4",
      "case_type_id" => case_type.id.to_s,

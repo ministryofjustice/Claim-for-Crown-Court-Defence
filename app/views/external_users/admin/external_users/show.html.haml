@@ -1,35 +1,37 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Your account'}
 
-.grid-row.basic-info-row
-  .column-quarter
-    .bold-xsmall
-      Name:
-    .xsmall
-      = @external_user.name
-  .column-quarter
-    .bold-xsmall
-      Email:
-    .xsmall
-      = mail_to @external_user.email, @external_user.email
-  .column-half
-    &nbsp;
+.body-content
+  .table-container.container
+    %table
+      %caption
+        = 'Your account'
+      %colgroup
+        %col
+        %col
+      %tbody
+        %tr
+          %th{scope:'row'}
+            = 'Name:'
+          %td
+            = @external_user.name
+        %tr
+          %th{scope:'row'}
+            = 'Email:'
+          %td
+            = mail_to @external_user.email, @external_user.email
+        %tr
+          %th{scope:'row'}
+            = 'Roles:'
+          %td
+            = @external_user.roles.map(&:humanize).join(', ')
+        %tr
+          %th{scope:'row'}
+            = 'Supplier number:'
+          %td
+            = @external_user.supplier_number
 
-.grid-row.basic-info-row
-  .column-quarter
-    .bold-xsmall
-      Roles:
-    .xsmall
-      = @external_user.roles.map(&:humanize).join(', ')
-  .column-quarter
-    .bold-xsmall
-      Supplier number:
-    .xsmall
-      = @external_user.supplier_number
-  .column-half
-    &nbsp;
+  - if can? :edit, @external_user
+    = link_to 'Edit', edit_external_users_admin_external_user_path(@external_user), class: 'button button-secondary'
 
-- if can? :edit, @external_user
-  = link_to 'Edit', edit_external_users_admin_external_user_path(@external_user), class: 'button button-secondary'
-
-- if can? :change_password, @external_user
-  = link_to 'Change password', change_password_external_users_admin_external_user_path(@external_user), class: 'button button-secondary'
+  - if can? :change_password, @external_user
+    = link_to 'Change password', change_password_external_users_admin_external_user_path(@external_user), class: 'button button-secondary'

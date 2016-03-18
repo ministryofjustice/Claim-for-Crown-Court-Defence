@@ -65,7 +65,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def search_options
-    options = [:maat_reference, :defendant_name]
+    options = [:case_number, :maat_reference, :defendant_name]
     options << :case_worker_name_or_email if current_user.persona.admin?
     options
   end

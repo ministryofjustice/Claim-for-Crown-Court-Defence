@@ -3,11 +3,11 @@ if ENV['RAILS_ENV']=="development"
   timeout 5000
 else
   worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
-  timeout 20
+  timeout 15
 end
 
 if ENV["RAILS_ENV"] == 'production'
-  timeout 20
+  timeout 15
   preload_app true
 
   before_fork do |server, worker|

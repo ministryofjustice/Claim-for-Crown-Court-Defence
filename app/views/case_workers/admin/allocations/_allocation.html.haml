@@ -1,3 +1,5 @@
+= render partial: 'errors/error_summary', locals:{ ep: @allocation, error_summary: 'This claim allocation has '}
+
 = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
 
 = form_tag case_workers_admin_allocations_path, method: :get do
@@ -32,52 +34,66 @@
     .claim-count
       = "Number of claims: "
       = @claims.count
-    %table{class: 'report js-checkbox-table'}
-      %thead
-        %th
-          = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
-        %th
-          = t('.case_number')
-        %th
-          = t(".scheme")
-        %th
-          = t('.advocate')
-        %th
-          = t('.defendants')
-        %th
-          Type
-        %th
-          = t('.submitted_date')
-        %th
-          = t('.claim_total')
-        - if params[:tab] == 'allocated'
-          %th
-            Allocated to
-      %tbody
-        = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
-          - present(b.object) do |claim|
-            %tr{id: dom_id(claim)}
-              %td
-                = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
-                = b.check_box
-              %td
-                %span.js-test-case-number
-                  = claim.case_number
-              %td
-                = claim.scheme
-              %td
-                = claim.owner.name
-              %td
-                = claim.defendant_names
-              %td
-                = claim.case_type_name
-              %td
-                = claim.submitted_at
-              %td
-                = claim.total_inc_vat
-              - if params[:tab] == 'allocated'
+    .container.table-container
+      %table{class: 'report js-checkbox-table'}
+        %caption
+          Allocations
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+          %col
+          %col
+          %col
+          %col
+          - if params[:tab] == 'allocated'
+            %col
+        %thead
+          %th{scope:'col'}
+            = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
+          %th{scope:'col'}
+            = t('.case_number')
+          %th{scope:'col'}
+            = t(".scheme")
+          %th{scope:'col'}
+            = t('.advocate')
+          %th{scope:'col'}
+            = t('.defendants')
+          %th{scope:'col'}
+            Type
+          %th.numeric{scope:'col'}
+            = t('.submitted_date')
+          %th.numeric{scope:'col'}
+            = t('.claim_total')
+          - if params[:tab] == 'allocated'
+            %th{scope:'col'}
+              Allocated to
+        %tbody
+          = f.collection_check_boxes :claim_ids, @claims, :id, :case_number do |b|
+            - present(b.object) do |claim|
+              %tr{id: dom_id(claim)}
                 %td
-                  = claim.case_workers.map(&:name).join(', ')
+                  = b.label(class:'visuallyhidden'){"Choose #{claim.case_number}"}
+                  = b.check_box
+                %td
+                  %span.js-test-case-number
+                    = claim.case_number
+                %td
+                  = claim.scheme
+                %td
+                  = claim.owner.name
+                %td
+                  = claim.defendant_names
+                %td
+                  = claim.case_type_name
+                %td.numeric
+                  = claim.submitted_at
+                %td.numeric
+                  = claim.total_inc_vat
+                - if params[:tab] == 'allocated'
+                  %td
+                    = claim.case_workers.map(&:name).join(', ')
 
   - else
     = "No claims need to be allocated."

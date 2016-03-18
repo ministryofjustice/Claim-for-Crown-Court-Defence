@@ -83,6 +83,8 @@ Rails.application.routes.draw do
 
     post '/external_users/json_importer' => 'json_document_importer#create'
 
+    get '/claims/claim_options'
+
     resources :claims do
       get 'confirmation',     on: :member
       get 'show_message_controls', on: :member
@@ -90,6 +92,7 @@ Rails.application.routes.draw do
       get 'authorised',       on: :collection
       get 'archived',         on: :collection
       patch 'clone_rejected', to: 'claims#clone_rejected', on: :member
+      patch 'unarchive',      to: 'claims#unarchive', on: :member
 
       resource :certification, only: [:new, :create, :update]
     end

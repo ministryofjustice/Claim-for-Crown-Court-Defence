@@ -174,7 +174,7 @@ en:
     start_claim: Start a new claim
     view_claim: View your claims
   hint:
-    search: eg defendant name, advocate name
+    search: eg case number, defendant name, advocate name
 
 # en.super_admins
   super_admins:
@@ -417,7 +417,7 @@ en:
         representation_order_fields:
           representation_order: 'Representation order'
       claims:
-        show_count: 'Showing 10 of %{total} claims'
+        show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
         scheme: Scheme
@@ -504,7 +504,7 @@ en:
         part_authorised: Part authorised
         rejected: Rejected
         submitted: Submitted to LAA
-        show_count: 'Showing 10 of %{total} claims'
+        show_count: 'Showing %{page_count} of %{total} claims'
       json_document_importer:
         import_claim: 'Or add your JSON report'
       outstanding:
@@ -657,6 +657,7 @@ en:
         status: Status
         submission_date: Date submitted
         messages: Messages
+        none: None
   devise:
     shared:
       links:

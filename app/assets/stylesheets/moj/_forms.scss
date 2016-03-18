@@ -1,12 +1,15 @@
-
 //  label
 label {
   &.form-label {
     @include clearfix;
   }
   .form-hint {
-    @include core-16();
     margin-top:0;
+  }
+  + .form-group.inline {
+    .block-label {
+      margin-top:0;
+    }
   }
 }
 //  input
@@ -15,6 +18,7 @@ input.form-control[type=email],
 input.form-control[type=tel],
 input.form-control[type=password] {
   @include span(8 of 12);
+  @include first;
   @include core-19();
   &.short-input{
     @include span(4 of 12);
@@ -24,7 +28,12 @@ input.form-control[type=password] {
     @include span(6 of 12);
     margin-left: 0;
   }
+  &.search{
+    @include span(10 of 12);
+    @include first;
+  }
 }
+
 select.form-control{
   @include span(6 of 12);
 }
@@ -37,6 +46,23 @@ button.search {
   margin-left: 5px;
 }
 
+.search-form {
+  @extend .search-wrapper;
+  .search-wrapper & {
+    @include span(6 of 12);
+    @include first;
+  }
+  > form {
+    @include span(6 of 12);
+    @include first;
+    .search-wrapper & {
+      width:100%;
+    }
+    & + div {
+      @extend .claim-count;
+    }
+  }
+}
 // TODO: FIX BELOW
 
 #claim-accordion {

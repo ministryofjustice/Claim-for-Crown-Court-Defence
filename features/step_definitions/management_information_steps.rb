@@ -8,12 +8,8 @@ Then(/^I should have a CSV of the report$/) do
 end
 
 
-Given(/^There is a CSV file in the stats directory$/) do
-  dirname = Stats::ManagementInformationGenerator::STATS_DIR
-  FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)
-  File.open(File.join(dirname, 'management_information_2016_03_02_12_11_10.csv'), 'w') do |fp|
-    fp.puts "dummy,csv,file"
-  end
+Given(/^There is a Management Information report in the database$/) do
+  FactoryGirl.create :stats_report
 end
 
 

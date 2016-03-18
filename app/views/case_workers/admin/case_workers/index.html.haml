@@ -1,48 +1,51 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Manage case workers'}
 
-.grid-row
-  .column-half
-    .normal
-      = label_tag :search, 'Search for case worker'
-  .column-half
-    &nbsp;
-.grid-row
-  .column-half
+.container
+  .search-form
     = form_tag case_workers_admin_case_workers_path, method: :get do
-      = text_field_tag :search, params[:search], class: 'normal form-control-3-4'
-      = button_tag(type: 'submit', class: 'button search', title: "Search") do
-        %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
-  .column-half.clear-float
-    = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button right'
+      %fieldset
+        %legend
+          = t('common.search')
+        .input.form-group
+          = label_tag :search, class: 'form-label' do
+            %span.label-text
+              = t('common.search')
+            %span.form-hint
+              eg case worker name
+          = text_field_tag :search, params[:search], class: 'form-control search'
+          = button_tag(type: 'submit', class: 'button search', title: "Search") do
+            %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+    %div
+      = link_to 'New case worker', new_case_workers_admin_case_worker_path
 
-%table.report
-  %caption
-    Report
-  %colgroup
-    %col
-    %col
-    %col
-    %col
-    %col
-  %thead
-    %th{scope:'col'}
-      = t('.surname')
-    %th{scope:'col'}
-      = t('.name')
-    %th{scope:'col'}
-      = t('.location')
-    %th{scope:'col'}
-      = t('.actions')
-  %tbody
-    - @case_workers.each do |case_worker|
-      %tr
-        %td
-          = case_worker.user.last_name
-        %td
-          = case_worker.user.first_name
-        %td
-          = case_worker.location.name
-        %td.user-controls
-          = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
-          = " | "
-          = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
+.container.table-container
+  %table.report
+    %caption
+      Report
+    %colgroup
+      %col
+      %col
+      %col
+      %col
+    %thead
+      %th{scope:'col'}
+        = t('.surname')
+      %th{scope:'col'}
+        = t('.name')
+      %th{scope:'col'}
+        = t('.location')
+      %th{scope:'col'}
+        = t('.actions')
+    %tbody
+      - @case_workers.each do |case_worker|
+        %tr
+          %td
+            = case_worker.user.last_name
+          %td
+            = case_worker.user.first_name
+          %td
+            = case_worker.location.name
+          %td.user-controls
+            = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
+            = " | "
+            = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }

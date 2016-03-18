@@ -61,3 +61,18 @@ header.main-header {
     }
   }
 }
+
+.error-summary,.notice-summary {
+  @include span(8 of 12);
+  @include first;
+  float:none;
+  h1{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+.notice-summary{
+  @extend .error-summary;
+  border-color: $button-colour;
+
+}

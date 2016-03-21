@@ -100,6 +100,9 @@ FactoryGirl.define do
       amount { quantity * rate}
     end
 
+    trait :lgfs do
+      expense_type { create(:expense_type, :lgfs) }
+    end
 
   end
 end

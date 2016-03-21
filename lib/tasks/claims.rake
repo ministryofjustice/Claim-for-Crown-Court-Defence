@@ -31,4 +31,3 @@ namespace :claims do
     TimedTransition::BatchTransitioner.new.run
   end
 end
-

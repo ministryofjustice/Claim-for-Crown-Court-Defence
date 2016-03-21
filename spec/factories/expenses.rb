@@ -30,9 +30,14 @@ FactoryGirl.define do
     end
 
     trait :random_values do
-        quantity { rand(1..10) }
-        rate { rand(1.0..9.99) }
-        amount { quantity * rate}
+      quantity { rand(1..10) }
+      rate { rand(1.0..9.99) }
+      amount { quantity * rate}
     end
+
+    trait :lgfs do
+      expense_type { create(:expense_type, :lgfs) }
+    end
+
   end
 end

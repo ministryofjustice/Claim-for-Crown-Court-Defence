@@ -15,7 +15,7 @@
           %li
             = link_to "API Documentation", api_landing_page_path, class: cp(api_landing_page_path)
         %li
-          = link_to t('link.add_claim'), new_external_users_claim_path, title: "Start a new claim", class: cp(new_external_users_claim_path)
+          = link_to t('link.add_claim'), types_external_users_claims_path, title: "Start a new claim", class: cp(types_external_users_claims_path)
         - if current_user.persona.admin?
           %li
             = link_to 'Manage users', external_users_admin_external_users_path, class: cp(external_users_admin_external_users_path)

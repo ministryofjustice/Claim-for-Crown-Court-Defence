@@ -1,6 +1,5 @@
 require "rails_helper"
 
-
 describe ApplicationHelper do
 
   context '#present' do
@@ -69,6 +68,28 @@ describe ApplicationHelper do
       it 'should NOT return default value if given a non-zero value' do
         expect(number_with_precision_or_default(2, default: '1')).to eq '2'
       end
+    end
+
+    context '#user_requires_scheme_column?' do
+      let(:admin)     { create(:external_user, :agfs_lgfs_admin) }
+      let(:advocate)  { create(:external_user, :advocate) }
+      let(:litigator) { create(:external_user, :litigator) }
+
+      it 'should return true for those users that could have AGFS and LGFS claims' do
+        allow(helper).to receive(:current_user).and_return(admin.user)
+        expect(helper.user_requires_scheme_column?).to eql true
+      end
+
+      it 'should return false for users that only handle AGFS claims' do
+        allow(helper).to receive(:current_user).and_return(advocate.user)
+        expect(helper.user_requires_scheme_column?).to eql false
+      end
+
+      it 'should return false for users that only handle LGFS claims' do
+        allow(helper).to receive(:current_user).and_return(litigator.user)
+        expect(helper.user_requires_scheme_column?).to eql false
+      end
+
     end
 
   end

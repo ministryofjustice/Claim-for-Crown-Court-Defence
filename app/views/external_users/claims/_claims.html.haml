@@ -21,7 +21,7 @@
       - if current_user.persona.admin?
         %th{scope:'col'}
           = sortable 'advocate', t(".advocate")
-      - if current_user.persona.has_roles?(['advocate','litigator'])
+      - if user_requires_scheme_column?
         %th{scope:'col'}
           = t(".scheme")
       %th{scope:'col'}
@@ -44,7 +44,7 @@
           - if current_user.persona.admin?
             %td
               = claim.owner.name
-          - if current_user.persona.has_roles?(['advocate','litigator'])
+          - if user_requires_scheme_column?
             %td
               = claim.scheme
           %td

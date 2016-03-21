@@ -6,3 +6,6 @@ languages:
 exclude_paths:
 - "app/interfaces/api/v1/*"
 - "lib/demo_data/*"
+- "db/*"
+- "db/migrate/*"
+- "db/seeds/*"

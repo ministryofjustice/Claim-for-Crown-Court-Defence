@@ -250,6 +250,10 @@ offence:
     long: Choose an offence category
     short: Choose an offence category
     api: Choose an offence category
+  invalid:
+    long: Choose a valid offence category
+    short: Choose a valid offence category
+    api: Choose a valid offence category
 
 #################################################################################
 #                                                                               #

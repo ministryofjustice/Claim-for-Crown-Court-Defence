@@ -39,3 +39,6 @@ claim_csv_headers:
   - :allocated_at
   - :completed_at
   - :current_or_end_state
+
+expense_schema_version: 1
+

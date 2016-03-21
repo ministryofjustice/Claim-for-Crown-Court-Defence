@@ -1,0 +1,83 @@
+EXISTING_EXPENSE_TYPES
+
+  1 | Conference and view - car
+  2 | Conference and view - hotel stay
+  3 | Conference and view - train
+  4 | Conference and view - travel time
+  5 | Costs judge application fee
+  6 | Costs judge Preparation award
+  7 | Travel and hotel - car
+  8 | Travel and hotel - conference and view
+  9 | Travel and hotel - hotel stay
+ 10 | Travel and hotel - train
+
+
+
+Tasks:
+
+ - Check how many in the live database refer to costs judge application and preparation
+ - map old types to new types
+ - Migrate to new expense types and reasons
+ - remove old expense types that are no longer required
+ - update seed data
+ - update demo data generation
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+LIVE DATA: - count of expenses by expense type
+
+1 Conference and View - Car               84
+2 Conference and View - Hotel stay         0
+3 Conference and View - Train             19
+4 Conference and View - Travel time      106
+5 Costs Judge application fee              0
+6 Costs Judge Preparation award            0
+7 Travel and Hotel - Car                 618
+8 Travel and Hotel - Conference and View   2
+9 Travel and Hotel - Hotel stay            8
+10 Travel and Hotel - Train              265
+
+Therefore 5 and 6 can be removed without harm.
+
+
+NEW EXPENSE TYPES
+=================
+
+Car travel
+Train/public transport
+Parking
+Hotel
+Travel Time (AGFS only)
+
+
+EXPENSE REASONS
+===============
+court hearing   **** 
+pre-trial conference expert witnesses
+pre-trial conference defendant
+view of crime scene
+other   ****
+
+**** not available as a drop down option for TravelTime
+
+
+Mapping old to new:
+===================
+old                                         New                                Other
+======================================      ==========================         ===================
+Conference and View - car                   Car travel                         Other: Conference and View
+Conference and View - Hotel stay            Hotel                              Other: Conference and View
+Conference and View - Train                 Train / Public transport           Other: Conference and View
+Conference and View - Travel time           TO BE DECIDED                      Other: Conference and View
+Travel and Hotel - Car                      Car travel                         TO BE DECIDED
+Travel and Hotel - Conference and View      TO BE DECIDED                      TO BE DECIDED
+Travel and Hotel - Hotel stay               Hotel                              TO BE DECIDED
+Travel and Hotel - Train                    Train / Public Transport           TO BE DECIDED
+
+
+
+
+
+
+

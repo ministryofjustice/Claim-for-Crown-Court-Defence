@@ -4,6 +4,9 @@ class AddTypeToFee < ActiveRecord::Migration
 
     fees = ActiveRecord::Base.connection.execute("SELECT * FROM fees")
     fees.each do |fee|
+      if fee['fee_type_id'].blank?
+        raise "The fee record #{fee['id']} has no fee_type id."
+      end
       fee_type = ActiveRecord::Base.connection.execute("SELECT * FROM fee_types WHERE id = #{fee['fee_type_id']}")[0]
       type = fee_type['type'].sub(/Type$/, '')
       ActiveRecord::Base.connection.execute("UPDATE fees SET type = '#{type}' WHERE id = #{fee['id']}")

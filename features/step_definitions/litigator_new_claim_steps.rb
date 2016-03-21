@@ -1,3 +1,3 @@
 Then(/^I should be redirected to the claim scheme choice page$/) do
-  expect(page.current_path).to eq(external_users_claims_claim_options_path)
+  expect(page.current_path).to eq(types_external_users_claims_path)
 end

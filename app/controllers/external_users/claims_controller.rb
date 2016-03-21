@@ -16,10 +16,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :initialize_json_document_importer, only: [:index]
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :confirmation, :show_message_controls]
+  before_action :load_advocates_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
-  before_action :set_claim_class, only: [:new]
-  before_action :set_claim_class_from_params, only: [:create]
-  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
 
@@ -56,12 +54,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @enable_assessment_input = false
   end
 
-  def new
-    @claim = @claim_class.new
-    load_offences_and_case_types
-    build_nested_resources
-  end
-
   def edit
     build_nested_resources
     load_offences_and_case_types
@@ -71,15 +63,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def confirmation; end
-
-  def create
-    @claim = @claim_class.new(params_with_advocate_and_creator)
-    if submitting_to_laa?
-      create_and_submit
-    else
-      create_draft
-    end
-  end
 
   def update
     update_source_for_api
@@ -161,31 +144,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @provider = @external_user.provider
   end
 
-  def set_claim_class
-    if params[:claim_type]
-      @claim_class =  case params[:claim_type]
-                        when 'lgfs'
-                          Claim::LitigatorClaim
-                        when 'agfs'
-                          Claim::AdvocateClaim
-                      end
-    else
-      @claim_class = get_new_claim_class_for_external_user(@external_user)
-    end
-  end
-
-  def get_new_claim_class_for_external_user(external_user)
-    context = Claims::ContextMapper.new(external_user)
-    available_types = context.available_claim_types
-    redirect_to external_users_claims_claim_options_path if available_types.size > 1
-    redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
-    available_types.first
-  end
-
-  def set_claim_class_from_params
-    @claim_class = params[:claim][:claim_class].constantize
-  end
-
   def set_claims_context
     context = Claims::ContextMapper.new(@external_user)
     @claims_context = context.available_claims
@@ -223,10 +181,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def sort_and_paginate(options={})
     set_sort_defaults(options)
     @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
-  end
-
-  def load_advocates_in_provider
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
   def set_and_authorize_claim
@@ -338,16 +292,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: :new
   end
 
-  def params_with_advocate_and_creator
-    form_params = claim_params
-    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
-    form_params[:creator_id] = @external_user.id
-    form_params
-  end
-
   def create_draft
     if @claim.save
-      @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
+      update_claim_document_owners(@claim)
       send_ga('event', 'claim', 'draft', 'created')
       redirect_to external_users_claims_path, notice: 'Draft claim saved'
     else
@@ -394,6 +341,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def initialize_json_document_importer
     @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def load_advocates_in_provider
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
 end

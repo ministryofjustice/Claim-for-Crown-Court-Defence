@@ -16,5 +16,11 @@ namespace :migrate do
     puts '#                                                                                          #'
     puts '############################################################################################'
   end
+
+
+  desc 'Correct capitalization on Certification Types' 
+  task :certifications => :environment do
+    load File.join(Rails.root, 'db', 'seeds', 'certification_types.rb')
+  end
 end
  

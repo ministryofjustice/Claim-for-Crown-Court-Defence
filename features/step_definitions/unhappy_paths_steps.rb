@@ -48,7 +48,7 @@ And(/^I blank out the "(.*)" field$/) do |field_id|
 end
 
 Given(/^I should be redirected back to the create claim page$/) do
-  expect(current_path).to eq '/external_users/claims'
+  expect(current_path).to eq advocates_claims_path
 end
 
 And(/^The entered values should be preserved on the page$/) do

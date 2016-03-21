@@ -35,7 +35,7 @@ Given(/^I am on the new claim page$/) do
   create(:fixed_fee_type, description: 'Fixed Fee example')
   create(:misc_fee_type,  description: 'Miscellaneous Fee example')
   create(:expense_type, name: 'Travel')
-  visit new_external_users_claim_path
+  visit new_advocates_claim_path
 end
 
 Given(/^There are case types in place$/) do
@@ -80,7 +80,7 @@ When(/^I choose to remove the additional rep order$/) do
 end
 
 Given(/^I am creating a new claim$/) do
-  visit new_external_users_claim_path
+  visit new_advocates_claim_path
 end
 
 # NOTE: this step is js-reliant (i.e. cocoon)
@@ -333,7 +333,7 @@ When(/^I clear the form$/) do
 end
 
 Then(/^I should be redirected to the new claim page$/) do
-  expect(page.current_path).to eq(new_external_users_claim_path)
+  expect(page.current_path).to eq(new_advocates_claim_path)
 end
 
 Then(/^the claim should be in a "(.*?)" state$/) do |state|
@@ -457,7 +457,7 @@ Given(/^I am on the new claim page with Daily Attendance Fees in place$/) do
   create(:basic_fee_type, description: 'Daily attendance fee (3 to 40)',  code: 'DAF')
   create(:basic_fee_type, description: 'Daily attendance fee (41 to 50)', code: 'DAH')
   create(:basic_fee_type, description: 'Daily attendance fee (51+)',      code: 'DAJ')
-  visit new_external_users_claim_path
+  visit new_advocates_claim_path
 end
 
 When(/^I fill in actual (re)?trial length with (\d+)$/) do |trial_prefix,trial_Length|

@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 end
 
-def generate_random_unused_class_letter 
+def generate_random_unused_class_letter
 	existing_class_letters = OffenceClass.pluck(:class_letter)
 	possible_class_letters =  %w{ A B C D E F G H I J K } 
 	available_class_letters = possible_class_letters - existing_class_letters

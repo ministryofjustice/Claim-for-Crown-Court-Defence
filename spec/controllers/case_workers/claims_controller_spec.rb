@@ -13,7 +13,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     before(:all) do
       @case_worker = create(:case_worker)
       @claims = []
-      10.times do |n|
+      3.times do |n|
         Timecop.freeze(n.days.ago) do
           claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
           create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
@@ -39,8 +39,10 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     describe 'GET #index' do
       let(:query_params) { {} }
+      let(:limit) { 10 }
 
       before do
+        allow(subject).to receive(:page_size).and_return(limit)
         get :index, query_params
       end
 
@@ -50,19 +52,20 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
       context 'current claims' do
         it 'shows claims allocated to current user' do
-          expect(assigns(:claims)).to match_array(@case_worker.claims.caseworker_dashboard_under_assessment.limit(10))
+          expect(assigns(:claims)).to match_array(@case_worker.claims.caseworker_dashboard_under_assessment)
         end
 
         it 'defaults ordering of claims to oldest first based on last submitted date' do
-          expect(assigns(:claims)).to eq(@case_worker.claims.caseworker_dashboard_under_assessment.order(last_submitted_at: :asc).page(1).per(10))
+          expect(assigns(:claims)).to eq(@case_worker.claims.caseworker_dashboard_under_assessment.order(last_submitted_at: :asc))
         end
+      end
 
-        it 'paginates to 10 per page' do
-          additional_claim = create(:allocated_claim)
-          @case_worker.claims << additional_claim
-          expect(@case_worker.claims.caseworker_dashboard_under_assessment.count).to eql(11)
-          expect(assigns(:claims).count).to eq(10)
-          additional_claim.destroy
+      context 'pagination limit' do
+        let(:limit) { 2 }
+
+        it 'paginates to N per page' do
+          expect(@case_worker.claims.caseworker_dashboard_under_assessment.count).to eq(3)
+          expect(assigns(:claims).count).to eq(2)
         end
       end
 

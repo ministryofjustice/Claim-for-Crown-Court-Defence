@@ -1,7 +1,9 @@
 require 'rails_helper'
 require 'custom_matchers'
+require 'support/database_housekeeping'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
+  include DatabaseHousekeeping
 
   let!(:advocate)       { create(:external_user, :advocate) }
   before { sign_in advocate.user }
@@ -95,23 +97,141 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
       end
 
-      context "sorting" do
+      context 'sorting' do
+        let(:query_params) { {} }
+        let(:limit) { 10 }
+
+        # This bypass the top-level 'let', making this whole context 10x faster by allowing to create
+        # all the needed claims once, in a before(:all) block, and test all the sorting reusing them.
+        def advocate
+          @advocate ||= create(:external_user, :advocate)
+        end
+
+        before(:all) do
+          build_sortable_claims_sample(advocate)
+        end
+
+        after(:all) do
+          clean_database
+        end
+
         before(:each) do
-          create_list(:draft_claim, 1, external_user: advocate)
-          create_list(:draft_claim, 1, external_user: advocate, created_at: 5.days.ago)
-          create_list(:draft_claim, 6, external_user: advocate, created_at: 1.day.ago)
-          create_list(:draft_claim, 1, external_user: advocate, created_at: 2.days.ago)
-          create(:submitted_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
-          create(:refused_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
-          get :index
+          allow(subject).to receive(:page_size).and_return(limit)
+          sign_in advocate.user
+          get :index, query_params
         end
 
-        it 'orders claims with draft first (oldest created first) then oldest submitted' do
-          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc').page(1).per(10))
+        it 'default sorting is claims with draft first (oldest created first) then oldest submitted' do
+          expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states.sort('last_submitted_at', 'asc'))
         end
 
-        it 'paginates to 10 per page' do
-          expect(assigns(:claims).count).to eq(10)
+        context 'case number ascending' do
+          let(:query_params) { {sort: 'case_number', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number))
+          end
+        end
+
+        context 'case number descending' do
+          let(:query_params) { {sort: 'case_number', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number).reverse)
+          end
+        end
+
+        context 'advocate name ascending' do
+          let(:query_params) { {sort: 'advocate', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            returned_names = assigns(:claims).map(&:owner).map(&:user).map(&:sortable_name)
+            expect(returned_names).to eq(returned_names.sort)
+          end
+        end
+
+        context 'advocate name descending' do
+          let(:query_params) { {sort: 'advocate', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            returned_names = assigns(:claims).map(&:owner).map(&:user).map(&:sortable_name)
+            expect(returned_names).to eq(returned_names.sort.reverse)
+          end
+        end
+
+        context 'claimed amount ascending' do
+          let(:query_params) { {sort: 'total_inc_vat', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat))
+          end
+        end
+
+        context 'claimed amount descending' do
+          let(:query_params) { {sort: 'total_inc_vat', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat).reverse)
+          end
+        end
+
+        context 'assessed amount ascending' do
+          let(:query_params) { {sort: 'amount_assessed', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims).map(&:amount_assessed)).to \
+              eq(assigns(:claims).sort_by(&:amount_assessed).map(&:amount_assessed))
+          end
+        end
+
+        context 'assessed amount descending' do
+          let(:query_params) { {sort: 'amount_assessed', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims).map(&:amount_assessed)).to \
+              eq(assigns(:claims).sort_by(&:amount_assessed).reverse.map(&:amount_assessed))
+          end
+        end
+
+        context 'status ascending' do
+          let(:query_params) { {sort: 'state', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state))
+          end
+        end
+
+        context 'status descending' do
+          let(:query_params) { {sort: 'state', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state).reverse)
+          end
+        end
+
+        context 'date submitted ascending' do
+          let(:query_params) { {sort: 'last_submitted_at', direction: 'asc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i})
+          end
+        end
+
+        context 'date submitted descending' do
+          let(:query_params) { {sort: 'last_submitted_at', direction: 'desc'} }
+
+          it 'returns ordered claims' do
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i}.reverse)
+          end
+        end
+
+        context 'pagination limit' do
+          let(:limit) { 3 }
+
+          it 'paginates to N per page' do
+            expect(advocate.claims.dashboard_displayable_states.count).to eq(5)
+            expect(assigns(:claims).count).to eq(3)
+          end
         end
       end
     end
@@ -188,21 +308,29 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
       end
 
-      context "sorting" do
+      context 'sorting' do
+        let(:limit) { 10 }
+
         before(:each) do
-          create_list(:archived_pending_delete_claim, 8, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
-          create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 3.days.ago)
+          create_list(:archived_pending_delete_claim, 3, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
+
+          allow(subject).to receive(:page_size).and_return(limit)
           get :archived
         end
 
         it 'orders claims with most recently submitted first' do
-          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc').page(1).per(10))
+          expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete.sort('last_submitted_at', 'desc'))
         end
 
-        it 'paginates to 10 per page' do
-          expect(assigns(:claims).count).to eq(10)
+        context 'pagination limit' do
+          let(:limit) { 3 }
+
+          it 'paginates to N per page' do
+            expect(advocate.claims.archived_pending_delete.count).to eq(5)
+            expect(assigns(:claims).count).to eq(3)
+          end
         end
       end
     end
@@ -291,19 +419,56 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
     end
 
-    context 'search' do
-      before(:each) do
+    describe 'Search' do
+      def advocate
+        @advocate ||= create(:external_user, :advocate)
+      end
+
+      before(:all) do
         @archived_claim = create(:archived_pending_delete_claim, external_user: advocate)
         create(:defendant, claim: @archived_claim, first_name: 'John', last_name: 'Smith')
 
         @draft_claim = create(:draft_claim, external_user: advocate)
         create(:defendant, claim: @draft_claim, first_name: 'John', last_name: 'Smith')
 
-        get :archived, search: 'Smith'
+        @allocated_claim = create(:allocated_claim, external_user: advocate)
+        create(:defendant, claim: @allocated_claim, first_name: 'Pete', last_name: 'Adams')
       end
 
-      it 'finds the claims with the specified search criteria and in the correct states' do
-        expect(assigns(:claims)).to match_array([@archived_claim])
+      after(:all) do
+        clean_database
+      end
+
+      context 'in all claims' do
+        context 'by defendant name' do
+          it 'finds the claims' do
+            get :index, search: 'Smith'
+            expect(assigns(:claims)).to eq([@draft_claim])
+          end
+        end
+
+        context 'by advocate name' do
+          it 'finds the claims' do
+            get :index, advocate.user.last_name
+            expect(assigns(:claims).sort_by(&:state)).to eq([@allocated_claim, @draft_claim])
+          end
+        end
+      end
+
+      context 'in archive' do
+        context 'by defendant name' do
+          it 'finds the claims' do
+            get :archived, search: 'Smith'
+            expect(assigns(:claims)).to eq([@archived_claim])
+          end
+        end
+
+        context 'by advocate name' do
+          it 'finds the claims' do
+            get :archived, advocate.user.last_name
+            expect(assigns(:claims)).to eq([@archived_claim])
+          end
+        end
       end
     end
   end
@@ -496,28 +661,27 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "DELETE #destroy" do
-    before { delete :destroy, id: subject }
-
-    subject { create(:draft_claim, external_user: advocate) }
+    before { delete :destroy, id: claim }
 
     context 'when draft claim' do
+      let(:claim) { create(:draft_claim, external_user: advocate) }
+
       it 'deletes the claim' do
         expect(Claim::BaseClaim.count).to eq(0)
+      end
+
+      it 'redirects to advocates root url' do
+        expect(response).to redirect_to(external_users_claims_url)
       end
     end
 
     context 'when non-draft claim valid for archival' do
-      subject { create(:authorised_claim, external_user: advocate) }
+      let(:claim) { create(:authorised_claim, external_user: advocate) }
 
       it "sets the claim's state to 'archived_pending_delete'" do
         expect(Claim::BaseClaim.count).to eq(1)
-        claim = Claim::BaseClaim.first
-        expect(claim.state).to eq 'archived_pending_delete'
+        expect(claim.reload.state).to eq 'archived_pending_delete'
       end
-    end
-
-    it 'redirects to advocates root url' do
-      expect(response).to redirect_to(external_users_claims_url)
     end
   end
 
@@ -626,4 +790,17 @@ def build_claim_in_state(state)
   claim = FactoryGirl.build :unpersisted_claim
   allow(claim).to receive(:state).and_return(state.to_s)
   claim
+end
+
+def build_sortable_claims_sample(advocate)
+  [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
+    Timecop.freeze(i.days.ago) do
+      n = i+1
+      claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A#{(n).to_s.rjust(8,'0')}")
+      claim.fees.destroy_all
+      claim.expenses.destroy_all
+      create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+      claim.assessment.update_values!(claim.fees_total, 0) if claim.authorised?
+    end
+  end
 end

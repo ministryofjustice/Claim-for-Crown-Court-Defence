@@ -1,4 +1,5 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
+  include PaginationHelpers
   include DocTypes
 
   skip_load_and_authorize_resource
@@ -139,7 +140,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def sort_and_paginate
     # GOTCHA: must paginate in same call that sorts/orders
-    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(10)
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size)
   end
 
   def sort_claims

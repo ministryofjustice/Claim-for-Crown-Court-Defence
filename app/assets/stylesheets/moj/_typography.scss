@@ -65,6 +65,22 @@ header.main-header {
   }
 }
 
+.claim-summary-hgroup{
+  h2{
+    @include core-24;
+    font-weight: 800;
+    margin-top: $gutter-half;
+  }
+  h3{
+    @include core-19;
+    font-weight: 800;
+  }
+  .numeric{
+    display: block;
+    font-weight: normal;
+  }
+}
+
 .error-summary,.notice-summary {
   @include span(8 of 12);
   @include first;

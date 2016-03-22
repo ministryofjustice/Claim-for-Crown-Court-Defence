@@ -63,6 +63,34 @@ button.search {
     }
   }
 }
+
+.claim-summary-content{
+  @include span(8 of 12);
+  @include first;
+  table ~ table{
+    margin-top: $gutter * 2;
+  }
+  th{
+    width: 50%;
+  }
+}
+.claim-summary-sidebar{
+  @include span(3 at 9 of 12);
+  @include last;
+  border-top: 5px solid $link-colour;
+
+  a{
+    display: inline-block;
+    margin-bottom: $gutter-half;
+  }
+  .total{
+    border-top: 1px solid $border-colour;
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+    padding-top: $gutter-half;
+  }
+}
+
 // TODO: FIX BELOW
 
 #claim-accordion {

@@ -96,7 +96,9 @@ Rails.application.routes.draw do
     post '/external_users/json_importer' => 'json_document_importer#create'
 
     resources :claims, except: [:new, :create] do
-      get 'types',                 to: 'claim_types#index', on: :collection
+      get 'types',        to: 'claim_types#index', on: :collection
+      post 'type_chosen', to: 'claim_types#chosen', on: :collection
+      
       get 'confirmation',           on: :member
       get 'show_message_controls',  on: :member
       get 'outstanding',            on: :collection

@@ -1,10 +1,14 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Claim type'}
 
-%h2.bold-medium
-  What type of claim are you making?
-
-%ul
-  %li
-    = link_to 'Advocate fees', new_advocates_claim_path
-  %li
-    = link_to 'Litigator fees', new_litigators_claim_path
+= form_tag("/external_users/claims/type_chosen", method: "post" ) do
+  .form-group.inline
+    %legend
+      What type of claim are you making?
+    = label_tag :scheme_chosen_agfs, nil, class: "block-label" do
+      = radio_button_tag :scheme_chosen, "agfs", true
+      = 'AGFS'
+    = label_tag :scheme_chosen_lgfs, nil, class: "block-label" do
+      = radio_button_tag :scheme_chosen, "lgfs", false
+      = 'LGFS'
+  .form-group
+    = submit_tag "Continue", class: "button"

@@ -17,7 +17,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def self.mandatory_fields
-    [:claim]
+    [:claim, :expense_type]
   end
 
   private
@@ -65,7 +65,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_reason_text
-    if @record.other?
+    if @record.other_reason?
       validate_presence(:reason_text, 'blank_for_other')
     else
       validate_absence(:reason_text, 'invalid')

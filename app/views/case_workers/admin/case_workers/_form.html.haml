@@ -16,15 +16,16 @@
         .form-group
           = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
           = user_fields.email_field :email_confirmation, class: "form-control"
-      .form-group
-        = f.label :location_id, class: "form-label"
-        .form-group.inline
-          = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-            - b.label(class: "block-label") { b.radio_button + b.object.name }
+      %fieldset.inline
+        %legend
+          = 'Location'
+        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
+          - b.label(class: "block-label") { b.radio_button + b.object.name }
 
-        = f.label :roles, class: "form-label"
-        .form-group.inline
-          = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-            - b.label(class: "block-label") { b.check_box + b.value.humanize }
+      %fieldset.inline
+        %legend
+          = 'Roles'
+        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
+          - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
     = f.submit 'Save', class: "button"

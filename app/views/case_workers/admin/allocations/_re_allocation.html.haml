@@ -20,7 +20,7 @@
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
-  %fieldset
+  %fieldset.inline
     %legend.normal
       = "Allocate to"
     .form-hint
@@ -28,7 +28,7 @@
       %br
       To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
 
-    .form-group.inline.js-re-allocation-options
+    .js-re-allocation-options
       = f.label :deallocate, value: true, class: 'block-label' do
         Allocation pool
         = f.radio_button :deallocate, true, checked: false, value: true
@@ -47,13 +47,14 @@
       = f.submit 'Re-allocate', class: 'button'
 
   - if @claims.any?
-    .claim-count
-      = "Number of claims: "
-      = @claims.count
     .container.table-container
       %table{class: 'report js-checkbox-table js-reallocation-report'}
         %caption
-          Re-allocation
+          %span.table-caption
+            = 'Re-allocation'
+          %span.claim-count
+            = "Number of claims: "
+            = @claims.count
         %colgroup
           %col
           %col

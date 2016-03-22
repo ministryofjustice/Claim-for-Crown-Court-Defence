@@ -65,8 +65,26 @@ RSpec.describe ExpenseType, type: :model do
           expense_type_set_b.expense_reason_by_id(5)
         }.to raise_error ArgumentError, "No such ExpenseReason with id 5"
       end
+    end
+  end
 
+  describe '.for_claim_type' do
+    context 'for an advocate claim' do
+      let(:claim) { Claim::AdvocateClaim.new }
+
+      it 'returns applicable expense types for AGFS' do
+        expect(described_class).to receive(:agfs)
+        described_class.for_claim_type(claim)
+      end
     end
 
+    context 'for a litigator claim' do
+      let(:claim) { Claim::LitigatorClaim.new }
+
+      it 'returns applicable expense types for LGFS' do
+        expect(described_class).to receive(:lgfs)
+        described_class.for_claim_type(claim)
+      end
+    end
   end
 end

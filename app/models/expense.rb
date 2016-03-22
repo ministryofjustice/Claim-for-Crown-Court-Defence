@@ -71,27 +71,31 @@ class Expense < ActiveRecord::Base
   end
 
   def car_travel?
-    expense_type && expense_type.name == 'Car travel'
+    expense_type_name == 'Car travel'
   end
 
   def parking?
-    expense_type && expense_type.name == 'Parking'
+    expense_type_name == 'Parking'
   end
 
   def hotel_accommodation?
-    expense_type && expense_type.name == 'Hotel accommodation'
+    expense_type_name == 'Hotel accommodation'
   end
 
   def train?
-    expense_type && expense_type.name == 'Train/public transport'
+    expense_type_name == 'Train/public transport'
   end
 
   def travel_time?
-    expense_type && expense_type.name == 'Travel time'
+    expense_type_name == 'Travel time'
   end
 
   def other?
-    expense_type && expense_type.name == 'Other'
+    expense_type_name == 'Other'
+  end
+
+  def expense_type_name
+    expense_type.try(:name)
   end
 
   def perform_validation?

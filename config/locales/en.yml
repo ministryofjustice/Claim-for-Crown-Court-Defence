@@ -385,6 +385,7 @@ en:
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
+          offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
         offence_select:
@@ -406,6 +407,7 @@ en:
           last_name: *last_name
           full_name: Full name
           date_of_birth: 'Date of birth'
+          judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  |
             Order for judicial apportionment
             (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
@@ -415,7 +417,8 @@ en:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
-          representation_order: 'Representation order'
+          representation_order: Representation order
+          maat_reference_number: MAAT reference number
       claims:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
@@ -469,6 +472,7 @@ en:
         edit: Edit claim
       summary:
         heading: Check your claim
+        case_details: Case details
 
       fee_fields:
         add_date_attended: 'Add date(s)'

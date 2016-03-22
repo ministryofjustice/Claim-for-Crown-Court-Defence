@@ -1,12 +1,9 @@
 .container
+  - if params[:search].present?
+    #search-summary
+      = render partial: 'shared/search_summary'
+.container
   = render partial: 'search_form', locals: { archived: params[:action] == 'archived' ? true : false }
 
-#search-summary
-  - if params[:search].present?
-    = render partial: 'shared/search_summary'
-
-- if @claims.none?
-  %p
-    = t("shared.no_claims_found")
-- else
+- if @claims.present?
   = render partial: 'claims'

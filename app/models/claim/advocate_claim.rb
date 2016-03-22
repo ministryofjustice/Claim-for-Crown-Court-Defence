@@ -42,6 +42,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 module Claim
@@ -65,6 +66,20 @@ module Claim
     def eligible_fixed_fee_types
       Fee::FixedFeeType.agfs
     end
+
+
+    private
+
+    def provider_delegator
+      if provider.firm?
+        provider
+      elsif provider.chamber?
+        external_user
+      else
+        raise "Unknown provider type: #{provider.provider_type}"
+      end
+    end
+
   end
 end
 

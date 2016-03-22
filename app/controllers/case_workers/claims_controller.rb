@@ -1,4 +1,5 @@
 class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
+  include PaginationHelpers
   include DocTypes
 
   skip_load_and_authorize_resource
@@ -37,7 +38,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
     begin
       @claim.update_model_and_transition_state(claim_params)
-      redirect_to case_workers_claim_path
+      redirect_to case_workers_claim_path(params.slice(:messages))
     rescue StateMachines::InvalidTransition => err
       prepare_show_action
       render :show
@@ -65,7 +66,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def search_options
-    options = [:maat_reference, :defendant_name]
+    options = [:case_number, :maat_reference, :defendant_name]
     options << :case_worker_name_or_email if current_user.persona.admin?
     options
   end
@@ -139,7 +140,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def sort_and_paginate
     # GOTCHA: must paginate in same call that sorts/orders
-    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(10)
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size)
   end
 
   def sort_claims

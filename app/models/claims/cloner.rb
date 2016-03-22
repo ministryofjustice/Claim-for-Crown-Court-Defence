@@ -22,7 +22,7 @@ module Claims::Cloner
       exclude_association :assessment
       exclude_association :redeterminations
 
-      clone [:fees, :documents, :defendants, :expenses]
+      clone [:fees, :documents, :defendants, :expenses, :disbursements]
 
       set form_id: SecureRandom.uuid
 
@@ -54,6 +54,12 @@ module Claims::Cloner
         enable
         nullify :uuid
         clone [:dates_attended]
+      end
+    end
+
+    Disbursement.class_eval do |klass|
+      klass.duplicate_this do
+        enable
       end
     end
 

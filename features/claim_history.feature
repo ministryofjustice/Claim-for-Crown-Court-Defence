@@ -23,5 +23,5 @@ Feature: Claim history
      When I visit the claim's case worker detail page
       And I expand the accordion
       And I mark the claim authorised
-      And I expand the accordion
-     Then I should see the state change to authorised reflected in the history
+     Then the messages section should be expanded
+      And I should see the state change to authorised reflected in the history

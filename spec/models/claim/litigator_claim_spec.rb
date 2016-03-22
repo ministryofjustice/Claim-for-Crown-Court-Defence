@@ -42,6 +42,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'
@@ -115,6 +116,20 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     describe '#eligible_fixed_fee_types' do
       it 'returns only fixed fee types for LGFS' do
         expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
+      end
+    end
+
+    describe '#vat_registered?' do
+      it 'returns the value from the provider' do
+        expect(@claim.provider).to receive(:vat_registered?)
+        @claim.vat_registered?
+      end
+    end
+
+    describe '#supplier_number' do
+      it 'returns the value from the provider' do
+        expect(@claim.provider).to receive(:supplier_number)
+        @claim.supplier_number
       end
     end
   end

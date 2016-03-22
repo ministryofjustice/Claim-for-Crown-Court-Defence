@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301122625) do
+ActiveRecord::Schema.define(version: 20160315171454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "location_id"
-    t.string   "days_worked"
     t.string   "roles"
   end
 
@@ -128,6 +127,7 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.integer  "retrial_actual_length",    default: 0
     t.date     "retrial_concluded_at"
     t.string   "type"
+    t.decimal  "disbursements_total",      default: 0.0
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
@@ -188,6 +188,26 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.float    "vat_amount", default: 0.0
   end
 
+  create_table "disbursement_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "disbursement_types", ["name"], name: "index_disbursement_types_on_name", using: :btree
+
+  create_table "disbursements", force: :cascade do |t|
+    t.integer  "disbursement_type_id"
+    t.integer  "claim_id"
+    t.decimal  "net_amount"
+    t.decimal  "vat_amount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "disbursements", ["claim_id"], name: "index_disbursements_on_claim_id", using: :btree
+  add_index "disbursements", ["disbursement_type_id"], name: "index_disbursements_on_disbursement_type_id", using: :btree
+
   create_table "documents", force: :cascade do |t|
     t.integer  "claim_id"
     t.datetime "created_at"
@@ -216,6 +236,7 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "roles"
+    t.string   "reason_set"
   end
 
   add_index "expense_types", ["name"], name: "index_expense_types_on_name", using: :btree
@@ -230,6 +251,13 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.uuid     "uuid",            default: "uuid_generate_v4()"
+    t.integer  "reason_id"
+    t.string   "reason_text"
+    t.integer  "schema_version"
+    t.integer  "distance"
+    t.integer  "mileage_rate_id"
+    t.date     "date"
+    t.integer  "hours"
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree
@@ -342,6 +370,14 @@ ActiveRecord::Schema.define(version: 20160301122625) do
     t.string   "maat_reference"
     t.date     "representation_order_date"
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
+  end
+
+  create_table "stats_reports", force: :cascade do |t|
+    t.string   "report_name"
+    t.string   "report"
+    t.string   "status"
+    t.datetime "started_at"
+    t.datetime "completed_at"
   end
 
   create_table "super_admins", force: :cascade do |t|

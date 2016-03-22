@@ -7,20 +7,18 @@
     .grid-row
       .column-two-thirds
         %p
-          By selecting an option, you are confirming you are the Trial Advocate (in cases where legal aid was granted on or after 5th May 2015) or Instructed Advocate and that you are entitled to submit a claim in respect of this case. If our records indicate that you are not the Trial or Instructed Advocate, this may result in the claim being rejected without payment.
+          By ticking a box, you confirm you are the trial advocate (in cases where legal
+          aid was granted on or after 5 May 2015) or instructed advocate and that you 
+          are entitled to submit a claim for this case. If our records show that you are 
+          not the trial or instructed advocate, we may reject this claim without payment.
+        %p
+          Please only tick the relevant box.
 
-
-        %fieldset
-          %legend
-            Please
-            %strong
-              select
-            the statement that applies to you.
-
+        %div
           %p.bold-normal
-            Final fee claims where the representation order was granted on or after 5th May 2015.
+            Final fee claims where the representation order was granted on or after 5 May 2015.
 
-          %p I certify that I am the Trial Advocate as:
+          %p I certify that I am the trial advocate as:
 
           %div.form-group.inline
             = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
@@ -29,7 +27,7 @@
           .bold-normal
             All other claims:
 
-          %p.normal I certify that I am the Instructed Advocate as:
+          %p.normal I certify that I am the instructed advocate as:
 
           %div.form-group.inline
             = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015, :id, :name) do |b|
@@ -39,22 +37,37 @@
           %p All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
 
         %p.bold-normal
-          You are also confirming that you:
+          You also confirm that you certify that:
 
         %ul
-          %li certify that where you have represented more than one defendant in a matter, only one claim has been, and will be made, for all those defendants together, including where one defendant has transferred representation to another advocate.
+          %li 
+            where you’ve represented more than one defendant in a case, you have only made, and will make, one claim for 
+            all those defendants together, including where one defendant has transferred representation to another advocate.
 
-          %li certify that no interim, hardship or staged payment has been received by you or any other advocate on any case number within this matter other than the one under which this claim is made unless fully detailed (case number, court and advocate supplier number under which payment was made) within this claim.
+          %li 
+            neither you nor any other advocate has received any interim, hardship or staged payment on any case number 
+            within this matter other than the one under which this claim is made - unless fully detailed (case number, court 
+            and advocate supplier number under which payment was made) within this claim.
 
-          %li certify that where there is a joined indictment, then all matters dealt with by you, as the Instructed Advocate, within that joined indictment are included in this claim.
+          %li 
+            where there is a joined indictment, you have included all matters that you as the instructed advocate have 
+            dealt with within that indictment in this claim.
 
-          %li certify that where there has been a transfer between one Crown Court and another, then no claim has been made separately for the work in the first Crown Court, all of the work in both Courts being included in this claim.
+          %li 
+            where a case has been transferred from one crown court to another, no claim has been made separately for the 
+            work in the first crown court and all work in both courts is included in this claim.
 
-          %li certify that this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
+          %li 
+            this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
 
-          %li certify that the information you have provided is correct and the work carried out by you has not been and will not be the subject of any other claim by me for payment from criminal legal aid. You understand that if information given by you is incorrect or misleading, payment may be recouped.
+          %li 
+            the information you have provided is correct and that you have not made, and will not make, any other claim 
+            for payment from criminal legal aid for the work you have done on this claim. You understand that you have given 
+            incorrect or misleading information, your payment may be recouped.
 
-          %li certify that, in circumstances where you are claiming a staged payment, you will ensure that any subsequent trial advocate is advised of such payment, with all necessary claim/payment details”
+          %li 
+            if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this 
+            payment, with all necessary claim and payment details.
 
         %p
 

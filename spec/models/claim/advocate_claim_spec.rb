@@ -43,6 +43,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'
@@ -751,16 +752,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#archivable?' do
+    let(:claim) { create(:claim) }
+
     it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
       %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
-        claim = create("#{state}_claim".to_sym)
+        allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(false)
       end
     end
 
     it 'should be archivable from states: refused, rejected, part authorised, authorised' do
       %w( refused rejected part_authorised authorised ).each do |state|
-        claim = create("#{state}_claim".to_sym)
+        allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(true)
       end
     end
@@ -905,11 +908,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe 'Case type scopes' do
     before(:all) do
       @case_types = load("#{Rails.root}/db/seeds/case_types.rb")
-      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) 
+      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial'))
       @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
       @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
       @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
       @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
+      @discontinuances = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance'))
     end
 
     after(:all) do
@@ -929,8 +933,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe '.guilty_plea' do
-      it 'returns guilty pleas' do
-        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas)
+      it 'returns guilty pleas and discontinuances' do
+        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
       end
     end
   end
@@ -1034,6 +1038,67 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   end
 
+  describe 'provider type dependant methods' do
+    let(:claim) { FactoryGirl.build :unpersisted_claim }
+
+    describe 'for a chamber provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('chamber')
+      end
+
+      context '#vat_registered?' do
+        it 'returns the value from the external user' do
+          expect(claim.external_user).to receive(:vat_registered?)
+          claim.vat_registered?
+        end
+      end
+
+      context '#supplier_number' do
+        it 'returns the value from the external user' do
+          expect(claim.external_user).to receive(:supplier_number)
+          claim.supplier_number
+        end
+      end
+    end
+
+    describe 'for a firm provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('firm')
+      end
+
+      context '#vat_registered?' do
+        it 'returns the value from the provider' do
+          expect(claim.provider).to receive(:vat_registered?)
+          claim.vat_registered?
+        end
+      end
+
+      context '#supplier_number' do
+        it 'returns the value from the provider' do
+          expect(claim.provider).to receive(:supplier_number)
+          claim.supplier_number
+        end
+      end
+    end
+
+    describe 'for an unknown provider' do
+      before :each do
+        allow(claim.provider).to receive(:provider_type).and_return('zzzz')
+      end
+
+      context '#vat_registered?' do
+        it 'raises an exception' do
+          expect { claim.vat_registered? }.to raise_error
+        end
+      end
+
+      context '#supplier_number' do
+        it 'raises an exception' do
+          expect { claim.supplier_number }.to raise_error
+        end
+      end
+    end
+  end
 
   describe 'calculate_vat' do
 

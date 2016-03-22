@@ -6,7 +6,7 @@ namespace :db do
     tables = conn.tables
     tables.each do |table|
       puts "Deleting #{table}"
-      conn.drop_table(table)
+      conn.drop_table(table, force: :cascade)
     end
   end
 
@@ -16,18 +16,20 @@ namespace :db do
   desc 'ADP task: clear the database, run migrations, seeds and reloads demo data'
   task :reload do
     Rake::Task['db:clear'].invoke
+    Rake::Task['db:schema:load'].invoke
 
-    # exectute the migrate as a seperate shell task in order that the claims:demo_data task
-    # doesn't have stale column information (i.e. recognises the STI columns in Claim and Fee modules)
 
-    pipe = IO.popen('rake db:migrate')
-    line = pipe.readline
-    while !pipe.eof
-      puts line
-      line = pipe.readline
-    end
-    pipe.close
+    # # exectute the migrate as a seperate shell task in order that the claims:demo_data task
+    # # doesn't have stale column information (i.e. recognises the STI columns in Claim and Fee modules)
 
+    # pipe = IO.popen('rake db:migrate')
+    # line = pipe.readline
+    # while !pipe.eof
+    #   puts line
+    #   line = pipe.readline
+    # end
+    # pipe.close
+    Rake::Task['db:migrate'].invoke
 
     Rake::Task['claims:demo_data'].invoke
   end

@@ -45,6 +45,12 @@ FactoryGirl.define do
       assessment  nil
     end
 
+    trait :without_fees do
+      after(:build) do |claim|
+        claim.fees.destroy_all
+      end
+    end
+
     factory :unpersisted_claim do
       court         { FactoryGirl.build :court }
       external_user { FactoryGirl.build :external_user, provider: FactoryGirl.build(:provider) }
@@ -84,7 +90,7 @@ FactoryGirl.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| publicise_errors(c) {c.submit!}; c.allocate!; }
+      after(:create) { |c| publicise_errors(c) {c.submit!}; c.case_workers << create(:case_worker); c.reload; }
     end
 
     factory :archived_pending_delete_claim do

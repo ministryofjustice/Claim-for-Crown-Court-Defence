@@ -33,12 +33,13 @@ gem 'logstasher',             '>= 0.6.5'
 gem 'paperclip',              '~> 4.2.2'
 gem 'paper_trail',            '~> 4.0.0.rc'
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '4.2.5.2'
+gem 'rails',                  '4.2.6'
 gem 'rails_config',           '~> 0.5.0.beta1'
 gem 'remotipart',             '~> 1.2'
 gem 'responder',              '~> 0.2.4'
 gem 'rest-client',            '~> 1.8' # needed for scheduled smoke testing plus others
 gem 'sass-rails',             '~> 5.0.0'
+gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'susy',	                  '~> 2.2.12'
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'sentry-raven',           git: 'https://github.com/getsentry/raven-ruby.git'
@@ -52,6 +53,7 @@ gem 'uglifier',                '>= 1.3.0'
 gem 'yaml_db'
 gem 'zendesk_api'  ,       '1.12.1'
 gem 'premailer-rails', '~> 1.9'
+gem 'sidekiq', '~> 4.1'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
@@ -76,13 +78,13 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara',                   '~> 2.4'
+  gem 'capybara',                   '~> 2.6.2'
   gem 'codeclimate-test-reporter',  require: false
   gem 'cucumber-rails',             require: false
   gem 'database_cleaner',           '~> 1.4.1'
   gem 'kaminari-rspec',             '~> 0.16.1'
   gem 'launchy',                    '~> 2.4.3'
-  gem 'poltergeist',                '~> 1.6.0'
+  gem 'poltergeist',                '~> 1.9.0'
   gem 'rspec-mocks',                '~> 3.2.1'
   gem 'shoulda-matchers',           '~> 2.8.0', require: false
   gem 'selenium-webdriver'

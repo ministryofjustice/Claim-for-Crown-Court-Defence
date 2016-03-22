@@ -4,7 +4,7 @@
   .financial-summary
     = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .claims-actions
-    = link_to t('link.add_claim'), new_external_users_claim_path, class: 'button button-get-started'
+    = link_to t('link.add_claim'), types_external_users_claims_path, class: 'button button-get-started'
     .claims-importer#importer
       = render partial: 'json_document_importer'
 
@@ -12,10 +12,6 @@
   - if params[:search].present?
     = render partial: 'shared/search_summary'
   = render partial: 'search_form'
-  - if @claims.present?
-    .claim-count
-      %p
-        = t('.show_count', total: @claims.total_count)
 .container
   .importer-results
 - if @claims.present?

@@ -42,6 +42,7 @@
 #  retrial_actual_length    :integer          default(0)
 #  retrial_concluded_at     :date
 #  type                     :string
+#  disbursements_total      :decimal(, )      default(0.0)
 #
 
 module Claim
@@ -68,7 +69,7 @@ module Claim
     include ::Claims::Cloner
 
     include NumberCommaParser
-    numeric_attributes :fees_total, :expenses_total, :total, :vat_amount
+    numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court
     belongs_to :offence
@@ -83,6 +84,7 @@ module Claim
     has_many :fees,                     foreign_key: :claim_id, class_name: 'Fee::BaseFee', dependent: :destroy,          inverse_of: :claim
     has_many :fee_types,                through: :fees, class_name: Fee::BaseFeeType
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :representation_orders,    through: :defendants
     has_many :documents,                foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
@@ -110,7 +112,7 @@ module Claim
     # Trial type scopes
     scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
     scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
-    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea')) }
+    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea', 'Discontinuance')) }
     scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
@@ -120,6 +122,7 @@ module Claim
     accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :disbursements,     reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :assessment
     accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank
@@ -331,6 +334,14 @@ module Claim
 
     def total_including_vat
       self.total + self.vat_amount
+    end
+
+    def vat_registered?
+      provider_delegator.vat_registered?
+    end
+
+    def supplier_number
+      provider_delegator.supplier_number
     end
 
   private

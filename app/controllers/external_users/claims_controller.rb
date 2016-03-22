@@ -1,6 +1,7 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
   include DateParamProcessor
+  include PaginationHelpers
   include DocTypes
 
   skip_load_and_authorize_resource
@@ -14,10 +15,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls]
+  before_action :load_advocates_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
-  before_action :set_claim_type, only: [:new, :create]
-  before_action :load_advocates_in_provider, only: [:new, :edit, :create, :update]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
 
@@ -27,24 +27,24 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def index
     @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
-    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
   end
 
   def archived
     @claims = @claims_context.archived_pending_delete
     search(:archived_pending_delete) if params[:search].present?
-    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
   end
 
   def outstanding
     @claims = @financial_summary.outstanding_claims
-    sort_and_paginate(column: 'last_submitted_at', direction: 'asc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
     @total_value = @financial_summary.total_outstanding_claim_value
   end
 
   def authorised
     @claims = @financial_summary.authorised_claims
-    sort_and_paginate(column: 'last_submitted_at', direction: 'desc', pagination: 10 )
+    sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
     @total_value = @financial_summary.total_authorised_claim_value
   end
 
@@ -52,12 +52,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
     @enable_assessment_input = false
-  end
-
-  def new
-    @claim = @claim_type.new
-    load_offences_and_case_types
-    build_nested_resources
   end
 
   def edit
@@ -71,15 +65,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def summary; end
 
   def confirmation; end
-
-  def create
-    @claim = @claim_type.new(params_with_advocate_and_creator)
-    if submitting_to_laa?
-      create_and_submit
-    else
-      create_draft
-    end
-  end
 
   def update
     update_source_for_api
@@ -112,6 +97,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     send_ga('event', 'claim', 'deleted')
     respond_with @claim, { location: external_users_claims_url, notice: 'Claim deleted' }
+  end
+
+  def unarchive
+    unless @claim.archived_pending_delete?
+      redirect_to external_users_claim_url(@claim), alert: 'This claim cannot be unarchived'
+    else
+      @claim = @claim.previous_version
+      @claim.save!
+      redirect_to external_users_claims_url, notice: 'Claim unarchived'
+    end
   end
 
   private
@@ -152,14 +147,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @provider = @external_user.provider
   end
 
-  def set_claim_type
-    context = Claims::ContextMapper.new(@external_user)
-    available_types = context.available_claim_types
-    redirect_to external_users_claims_path, notice: 'AGFS/LGFS choice required' if available_types.size > 1
-    redirect_to external_users_claims_path, notice: 'AGFS/LGFS claim type choice incomplete' if available_types.empty?
-    @claim_type = available_types[0]
-  end
-
   def set_claims_context
     context = Claims::ContextMapper.new(@external_user)
     @claims_context = context.available_claims
@@ -174,15 +161,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def search_options
-    options = [:defendant_name]
+    options = [:case_number, :defendant_name]
     options << :advocate_name if @external_user.admin?
     options
   end
 
   def set_sort_defaults(defaults={})
-    @sort_defaults = {  column:     defaults.has_key?(:column)      ? defaults[:column]     : 'last_submitted_at',
-                        direction:  defaults.has_key?(:direction)   ? defaults[:direction]  : 'asc',
-                        pagination: defaults.has_key?(:pagination)  ? defaults[:pagination] : 10
+    @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
+                        direction:  defaults.fetch(:direction, 'asc'),
+                        pagination: defaults.fetch(:pagination, page_size)
                       }
   end
 
@@ -196,11 +183,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def sort_and_paginate(options={})
     set_sort_defaults(options)
-    @claims = @claims.sort(sort_column, sort_direction).page(params[:page]).per(@sort_defaults[:pagination])
-  end
-
-  def load_advocates_in_provider
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
   end
 
   def set_and_authorize_claim
@@ -312,16 +295,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: :new
   end
 
-  def params_with_advocate_and_creator
-    form_params = claim_params
-    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
-    form_params[:creator_id] = @external_user.id
-    form_params
-  end
-
   def create_draft
     if @claim.save
-      @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
+      update_claim_document_owners(@claim)
       send_ga('event', 'claim', 'draft', 'created')
       redirect_to external_users_claims_path, notice: 'Draft claim saved'
     else
@@ -368,6 +344,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def initialize_json_document_importer
     @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def load_advocates_in_provider
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
   end
 
 end

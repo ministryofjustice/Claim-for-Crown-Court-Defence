@@ -24,11 +24,12 @@
 class Expense < ActiveRecord::Base
 
   MILEAGE_RATES = {
-    1 => "25p per mile",
-    2 => "45p per mile",
+    1 => Struct.new(:id, :description).new(1, '25p per mile'),
+    2 => Struct.new(:id, :description).new(2, '45p per mile')
   }
 
   auto_strip_attributes :location, squish: true, nullify: true
+  acts_as_gov_uk_date :date
 
   include NumberCommaParser
   include Duplicable

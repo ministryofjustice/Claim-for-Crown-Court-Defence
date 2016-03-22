@@ -13,6 +13,7 @@ end
 
 When(/^I attach invalid files$/) do
   drag_and_drop_file('dropzone', 'features/examples/minjust.html')
+  wait_for_ajax(30)
   expect(page).to have_selector('.dz-error')
 end
 

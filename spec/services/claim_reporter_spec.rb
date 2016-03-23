@@ -15,7 +15,7 @@ RSpec.describe ClaimReporter do
     @rejected_claim_2 = create(:rejected_claim, form_id: SecureRandom.uuid)
 
     @old_part_authorised_claim = create(:part_authorised_claim, form_id: SecureRandom.uuid).update_column(:authorised_at, 5.weeks.ago)
-    @old_rejected_claim = create(:rejected_claim, form_id: SecureRandom.uuid).claim_state_transitions.last.update_column(:created_at, 5.weeks.ago)
+    @old_rejected_claim = create(:rejected_claim, form_id: SecureRandom.uuid).last_state_transition.update_column(:created_at, 5.weeks.ago)
   end
 
   after(:all) do

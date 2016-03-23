@@ -314,6 +314,23 @@ module Claim
       last_state_transition.created_at
     end
 
+    def enable_assessment_input?
+      assessment.blank? && state == 'allocated'
+    end
+
+    def enable_redetermination_input?
+      state == 'allocated' && (opened_for_redetermination? || opened_for_written_reasons?)
+    end
+
+    def enable_determination_input?
+      enable_assessment_input? || enable_redetermination_input? 
+    end
+
+    def opened_for_written_reasons?
+      last_state_transition.from == 'awaiting_written_reasons'
+    end
+
+
     def opened_for_redetermination?
       return true if self.redetermination?
 

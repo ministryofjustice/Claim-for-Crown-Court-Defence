@@ -43,6 +43,7 @@
 #  retrial_concluded_at     :date
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
+#  case_concluded_at        :date
 #
 
 module Claim
@@ -134,7 +135,8 @@ module Claim
                         :trial_fixed_at,
                         :trial_cracked_at,
                         :retrial_started_at,
-                        :retrial_concluded_at
+                        :retrial_concluded_at,
+                        :case_concluded_at
 
     before_validation do
       errors.clear

@@ -18,7 +18,7 @@ describe Claim::LitigatorClaimValidator do
     before(:each)  { claim.force_validation = true}
 
     it 'is invalid when absent' do
-      expect(claim.case_concluded_at).to be_nil
+      claim.case_concluded_at = nil
       claim.valid?
       expect(claim.errors[:case_concluded_at]).to eq([ 'blank' ])
     end

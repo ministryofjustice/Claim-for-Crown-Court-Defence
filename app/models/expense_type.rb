@@ -51,6 +51,9 @@ class ExpenseType < ActiveRecord::Base
     expense_reasons_hash[id]
   end
 
+  def self.for_claim_type(claim)
+    claim.lgfs? ? self.lgfs : self.agfs
+  end
 end
 
 

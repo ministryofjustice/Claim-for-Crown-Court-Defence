@@ -1,0 +1,21 @@
+.button-secondary{
+  @include button($grey-3);
+}
+
+.button-start {
+  background-image: image-url('icons/icon-pointer.png');
+  margin-bottom: $gutter-half;
+}
+
+.button-holder {
+  margin-top: $gutter;
+}
+
+.external-user-json-export{
+  margin-bottom: 10px;
+}
+
+p.file-upload-name {
+  margin: 5px 0 0;
+  font-style: italic;
+}

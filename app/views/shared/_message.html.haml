@@ -25,7 +25,7 @@
             = message.body
           .grid-row.message-audit
             .column-half.sender
-              - if current_user.persona.is_a?(CaseWorker)
+              - if current_user_is_caseworker?
                 = message.sender_name
               (#{message.sender_persona})
             .column-half.sent

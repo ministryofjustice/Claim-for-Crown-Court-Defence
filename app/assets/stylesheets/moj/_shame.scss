@@ -2,32 +2,18 @@
   @include container;
   position: relative;
 }
+caption {
+  @include container;
+}
+.table-caption {
+  @include span(6 of 12);
+  @include first;
+}
 .claim-count {
   @include span(6 of 12);
   @include last;
   text-align: right;
-  position: absolute;
-  bottom:$gutter;
-  right:0;
-}
-
-// ================================================================//
-// LAYOUT.SCSS
-// ================================================================//
-
-.phase-banner {
-  @include phase-banner(beta);
-}
-#global-header .header-wrapper  {
-  .header-global{
-    @include span(4 of 12);
-    .header-logo{
-      width:auto;
-    }
-  }
-  .header-proposition {
-    @include span(6 of 12);
-  }
+  font-weight: 400;
 }
 
 // ==========================================================================
@@ -58,58 +44,9 @@
 
 // ==========================================================================
 // Phase banner
-
-.phase-tag  {
-  @include phase-tag(beta);
-  margin-left: 0;
+.phase-banner {
+  @include phase-banner(beta);
 }
-
-.message {
-  width: 2em;
-}
-
-// ================================================================//
-// statuses
-// ================================================================//
-span.state {
-  display: block;
-  text-align: center;
-  padding:$gutter-half/3;
-  border-width: 2px;
-  border-style: solid;
-  background: #fff;
-  &.state-authorised {
-    color: #00602b;
-    border-color: #00602b;
-  }
-  &.state-allocated {
-    color: #912b88;
-    border-color: #912b88;
-  }
-  &.state-draft {
-    color: #1d5780;
-    border-color: #1d5780;
-  }
-  &.state-rejected,
-  &.state-refused {
-    color: #99181a;
-    border-color: #99181a;
-  }
-  &.state-submitted {
-    color: #52585a;
-    border-color: #52585a;
-  }
-  &.state-redermination {
-    color: #0b0c0c;
-    border-color: #0b0c0c;
-  }
-  &.state-part-authorised {
-    color: #1d5780;
-    border-color: #54592f;
-  }
-}
-
-
 
 // ================================================================//
 // claims-list.SCSS
@@ -323,31 +260,7 @@ form {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-// ================================================================//
-// BUTTON-SECONDARY.SCSS
-// ================================================================//
-.button-secondary {
-  @include button(#EDEDED);
-  padding: 0.52632em 0.78947em 0.26316em 0.78947em;
-}
 
-.button-get-started {
-  background-image: image-url('icons/icon-pointer.png');
-  margin-bottom: $gutter-half;
-}
-
-.button-holder {
-  margin-top: $gutter;
-}
-
-.external-user-json-export{
-  margin-bottom: 10px;
-}
-
-p.file-upload-name {
-  margin: 5px 0 0;
-  font-style: italic;
-}
 // ================================================================//
 // DYNAMIC-OFFENCE-LIST.SCSS
 // ================================================================//
@@ -532,15 +445,6 @@ p.file-upload-name {
 .search-summary .panel-indent{
   margin-top:0;
   margin-right:0;
-}
-.claim-count {
-  @include span(6 of 12);
-  @include last;
-  text-align: right;
-  margin-top:$gutter-half;
-  p{
-    margin:0;
-  }
 }
 
 /***************************************

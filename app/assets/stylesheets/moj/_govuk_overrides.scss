@@ -1,0 +1,14 @@
+#global-header .header-wrapper {
+  .header-global {
+    @include span(4 of 12);
+    .header-logo {
+      width:auto;
+      .content {
+        margin-left:0;
+      }
+    }
+  }
+  .header-proposition {
+    @include span(6 of 12);
+  }
+}

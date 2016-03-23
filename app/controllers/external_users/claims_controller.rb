@@ -51,7 +51,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def show
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-    @enable_assessment_input = false
   end
 
   def edit

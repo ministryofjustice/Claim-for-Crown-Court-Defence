@@ -80,9 +80,6 @@ Rails.application.routes.draw do
     namespace :advocates do
       resources :claims, only: [:new, :create]
     end
-  end
-
-  scope module: 'external_users' do
     namespace :litigators do
       resources :claims, only: [:new, :create]
     end
@@ -96,7 +93,6 @@ Rails.application.routes.draw do
     post '/external_users/json_importer' => 'json_document_importer#create'
 
     resources :claims, except: [:new, :create] do
-      get 'types',                 to: 'claim_types#index', on: :collection
       get 'confirmation',           on: :member
       get 'show_message_controls',  on: :member
       get 'outstanding',            on: :collection
@@ -104,6 +100,8 @@ Rails.application.routes.draw do
       get 'archived',               on: :collection
       patch 'clone_rejected',       to: 'claims#clone_rejected', on: :member
       patch 'unarchive',            to: 'claims#unarchive', on: :member
+      get  'types', to: 'claim_types#selection',  on: :collection
+      post 'types', to: 'claim_types#chosen',     on: :collection
 
       resource :certification, only: [:new, :create, :update]
     end

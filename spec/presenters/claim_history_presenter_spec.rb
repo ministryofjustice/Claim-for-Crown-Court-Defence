@@ -49,7 +49,7 @@ RSpec.describe ClaimHistoryPresenter do
       hash = {
         '21/09/2015' => [
           first_message,
-          claim.claim_state_transitions.last,
+          claim.claim_state_transitions.first,
           second_message
         ],
         '23/09/2015' => [

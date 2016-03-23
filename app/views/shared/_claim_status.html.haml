@@ -1,6 +1,6 @@
 - if claim.opened_for_redetermination?
   %p
-    Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').last.created_at} (see messages for further details).
+    Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').first.created_at} (see messages for further details).
 
 - if claim.written_reasons_outstanding?
   %p

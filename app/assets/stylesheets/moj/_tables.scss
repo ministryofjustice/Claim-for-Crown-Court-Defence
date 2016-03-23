@@ -49,3 +49,43 @@ table {
     }
   }
 }
+// ================================================================//
+// statuses
+// ================================================================//
+span.state {
+  display: block;
+  text-align: center;
+  padding:$gutter-half/3;
+  border-width: 2px;
+  border-style: solid;
+  background: #fff;
+  &.state-authorised {
+    color: #00602b;
+    border-color: #00602b;
+  }
+  &.state-allocated {
+    color: #912b88;
+    border-color: #912b88;
+  }
+  &.state-draft {
+    color: #1d5780;
+    border-color: #1d5780;
+  }
+  &.state-rejected,
+  &.state-refused {
+    color: #99181a;
+    border-color: #99181a;
+  }
+  &.state-submitted {
+    color: #52585a;
+    border-color: #52585a;
+  }
+  &.state-redermination {
+    color: #0b0c0c;
+    border-color: #0b0c0c;
+  }
+  &.state-part-authorised {
+    color: #1d5780;
+    border-color: #54592f;
+  }
+}

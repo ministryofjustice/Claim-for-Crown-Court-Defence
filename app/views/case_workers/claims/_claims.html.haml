@@ -1,6 +1,11 @@
 .container.table-container
   %table.report
     %caption
+      %span.table-caption
+        = 'Archived claims'
+      %span.claim-count
+        = "Number of claims: "
+        = @claims.total_count
     %colgroup
       - if params[:action] == 'archived'
         %col

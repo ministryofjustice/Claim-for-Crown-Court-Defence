@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def current_user_is_caseworker?
-      current_user.persona.is_a?(CaseWorker) 
+    current_user.persona.is_a?(CaseWorker) 
   end
 
   #

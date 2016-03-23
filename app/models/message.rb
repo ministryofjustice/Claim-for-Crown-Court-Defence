@@ -95,7 +95,7 @@ class Message < ActiveRecord::Base
     return unless self.claim.written_reasons_outstanding?
 
     if self.written_reasons_submitted == '1'
-      self.claim.send("#{self.claim.claim_state_transitions.order(created_at: :asc).all[-3].event}!")
+      self.claim.send("#{self.claim.claim_state_transitions[2].event}!")
     end
   end
 end

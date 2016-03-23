@@ -46,6 +46,14 @@ class Expense < ActiveRecord::Base
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
+  delegate :car_travel?,
+           :parking?,
+           :hotel_accommodation?,
+           :train?,
+           :travel_time?,
+           to: :expense_type, allow_nil: true
+
+
   before_validation do
     self.schema_version = Settings.expense_schema_version if new_record?
     round_hours
@@ -69,30 +77,6 @@ class Expense < ActiveRecord::Base
 
   def schema_version_2?
     self.schema_version == 2
-  end
-
-  def car_travel?
-    expense_type_name == 'Car travel'
-  end
-
-  def parking?
-    expense_type_name == 'Parking'
-  end
-
-  def hotel_accommodation?
-    expense_type_name == 'Hotel accommodation'
-  end
-
-  def train?
-    expense_type_name == 'Train/public transport'
-  end
-
-  def travel_time?
-    expense_type_name == 'Travel time'
-  end
-
-  def other?
-    expense_type_name == 'Other'
   end
 
   def expense_type_name
@@ -120,6 +104,10 @@ class Expense < ActiveRecord::Base
   def expense_reasons
     return [] if expense_type.nil?
     expense_type.expense_reasons
+  end
+
+  def other_reason?
+    reason_id == 5
   end
 
   def displayable_reason_text

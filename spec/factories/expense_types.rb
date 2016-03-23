@@ -45,10 +45,6 @@ FactoryGirl.define do
       name 'Train/public transport'
     end
 
-    trait :other do
-      name 'Other'
-    end
-
     trait :travel_time do
       name 'Travel time'
       reason_set 'B'

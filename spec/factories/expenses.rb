@@ -29,7 +29,7 @@ FactoryGirl.define do
     quantity 1
     rate "9.99"
     amount "9.99"
-    reason_id 1
+    reason_id 2   # reason set B doesn't have ID 1
     date 3.days.ago
 
     trait :car_travel do

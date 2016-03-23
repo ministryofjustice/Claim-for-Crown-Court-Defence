@@ -26,6 +26,31 @@ RSpec.describe ExpenseType, type: :model do
     end
   end
 
+  context 'expense types helper methods' do
+    let(:car_travel_expense)          { build(:expense_type, :car_travel) }
+    let(:parking_expense)             { build(:expense_type, :parking) }
+    let(:hotel_accommodation_expense) { build(:expense_type, :hotel_accommodation) }
+    let(:train_expense)               { build(:expense_type, :train) }
+    let(:travel_time_expense)         { build(:expense_type, :travel_time) }
+
+    it 'returns true for the type of expense it is' do
+      expect(car_travel_expense.car_travel?).to be true
+      expect(car_travel_expense.train?).to be false
+
+      expect(parking_expense.parking?).to be true
+      expect(parking_expense.car_travel?).to be false
+
+      expect(hotel_accommodation_expense.hotel_accommodation?).to be true
+      expect(hotel_accommodation_expense.parking?).to be false
+
+      expect(train_expense.train?).to be true
+      expect(train_expense.hotel_accommodation?).to be false
+
+      expect(travel_time_expense.travel_time?).to be true
+      expect(travel_time_expense.train?).to be false
+    end
+  end
+
 
   context 'expense reasons' do
     let(:expense_type_set_a) { create :expense_type }
@@ -47,7 +72,7 @@ RSpec.describe ExpenseType, type: :model do
       end
 
       it 'returns reason set b' do
-        expect(expense_type_set_b.expense_reasons.map(&:id)).to eq( [ 1, 2, 3, 4 ] )
+        expect(expense_type_set_b.expense_reasons.map(&:id)).to eq( [ 2, 3, 4 ] )
       end
     end
 
@@ -57,7 +82,7 @@ RSpec.describe ExpenseType, type: :model do
       end
 
       it 'returns the appropriate reason for set B' do
-        expect(expense_type_set_b.expense_reason_by_id(1)).to eq ExpenseReason.new(1, 'Court hearing', false)
+        expect(expense_type_set_b.expense_reason_by_id(2)).to eq ExpenseReason.new(2, 'Pre-trial conference expert witnesses', false)
       end
 
       it 'raises if invalid id given' do

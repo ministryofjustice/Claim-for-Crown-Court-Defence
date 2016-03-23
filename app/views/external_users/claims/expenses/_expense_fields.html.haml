@@ -4,7 +4,8 @@
       %div
         Expense type:
         %a{name: "expense_#{@expense_count}_expense_type"}
-        = f.collection_select :expense_type_id, ExpenseType.for_claim_type(@claim), :id, :name, {prompt: true}, {class: 'select2', style: 'width:300px'}
+        - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+        = f.select :expense_type_id, options_for_select(expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}), {prompt: true}, {class: 'select2', style: 'width:300px'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
       %div

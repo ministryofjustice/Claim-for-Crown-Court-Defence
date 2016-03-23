@@ -49,8 +49,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def prepare_show_action
     @claim.assessment = Assessment.new if @claim.assessment.nil?
-    @enable_assessment_input = @claim.assessment.blank? && @claim.state == 'allocated'
-
     @doc_types = DocType.all
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build

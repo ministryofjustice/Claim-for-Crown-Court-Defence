@@ -1,6 +1,6 @@
 = render partial: 'layouts/header', locals: {page_heading: 'What would you like to do?'}
 
-= form_tag(types_external_users_claims_path, method: "post", builder: AdpFormBuilder ) do
+= form_tag(types_external_users_claims_path, method: "post") do
   .form-group.inline
     %legend.xsmall
       = t('.choose_fee_scheme_prompt_text')

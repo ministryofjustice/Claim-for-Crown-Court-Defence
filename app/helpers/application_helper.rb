@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def current_user_is_caseworker?
+      current_user.persona.is_a?(CaseWorker) 
+  end
+
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
   # following the <Model>Presenter naming convention or, optionally, a named presenter

@@ -25,4 +25,8 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
       
     end
   end
+
+  def validate_case_concluded_at
+    validate_absence(:case_concluded_at, 'presence')
+  end
 end

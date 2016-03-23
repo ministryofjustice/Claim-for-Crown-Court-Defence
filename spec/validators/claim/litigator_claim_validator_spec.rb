@@ -13,6 +13,23 @@ describe Claim::LitigatorClaimValidator do
   let(:misc_offence)  { create(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
 
 
+  context 'case concluded at date' do
+    let(:claim)    { build :litigator_claim }
+    before(:each)  { claim.force_validation = true}
+
+    it 'is invalid when absent' do
+      expect(claim.case_concluded_at).to be_nil
+      claim.valid?
+      expect(claim.errors[:case_concluded_at]).to eq([ 'blank' ])
+    end
+
+    it 'is valid when present' do
+      claim.case_concluded_at = 1.month.ago
+      expect(claim).not_to be_valid
+      expect(claim.errors.key?(:case_concluded_at)).to be false
+    end
+  end
+
   context 'creator' do
     it 'should error when their provider does not have LGFS role' do
       claim.creator = advocate

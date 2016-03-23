@@ -2,16 +2,16 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
 
   skip_load_and_authorize_resource
 
-  before_action :set_claim_types_for_provider, only: [:index]
+  before_action :init_claim_types
+  before_action :set_claim_types_for_provider, only: [:selection]
 
-  def index
+  def selection
     redirect_to external_users_claims_path, error: 'AGFS/LGFS claim type choice incomplete' and return if @claim_types.empty?
     render and return if @claim_types.size > 1
     redirect_for_claim_type
   end
 
   def chosen
-    @claim_types = []
     @claim_types << if params['scheme_chosen'].downcase == 'agfs'
                       Claim::AdvocateClaim
                     elsif params['scheme_chosen'].downcase == 'lgfs'
@@ -35,6 +35,10 @@ private
   def set_claim_types_for_provider
     context = Claims::ContextMapper.new(current_user.persona)
     @claim_types = context.available_claim_types
+  end
+
+  def init_claim_types
+    @claim_types = []
   end
 
 end

@@ -20,7 +20,9 @@ module DemoData
         source: "web",
         vat_amount: 0.0,
         additional_information: generate_additional_info
+        
       )
+      claim.case_concluded_at = generate_case_concluded_at(claim)
       claim.save!
       puts "Added claim #{claim.id} #{claim.case_type.name} for litigator #{litigator.name}"
       add_defendants(claim)
@@ -44,6 +46,29 @@ module DemoData
 
     def add_disbursements(claim)
       DisbursementGenerator.new(claim).generate!
+    end
+
+    def latest_of(*dates)
+      latest = Date.new(1970, 1, 1)
+      dates.each do |date|
+        latest = date unless (date.nil? || date < latest)
+      end
+      latest + 1
+    end
+
+    def generate_case_concluded_at(claim)
+      latest_of(
+        claim.trial_concluded_at, 
+        claim.retrial_concluded_at, 
+        claim.trial_fixed_notice_at,
+        claim.trial_fixed_at,
+        claim.trial_cracked_at,
+        claim.trial_cracked_at_third,
+        random_concluded_date)
+    end
+
+    def random_concluded_date
+      rand(1..10).days.ago
     end
   end
 end

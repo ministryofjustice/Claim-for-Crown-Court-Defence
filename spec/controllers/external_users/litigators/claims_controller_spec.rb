@@ -12,8 +12,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:expense_type)  { create(:expense_type, :lgfs) }
 
   describe "GET #new" do
-    context 'AGFS or LGFS provider members only' do
+    context 'LGFS provider members only' do
       before { get :new }
+
       it "returns http success" do
         expect(response).to have_http_status(:success)
       end
@@ -26,9 +27,14 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         expect(assigns(:claim)).to be_instance_of Claim::LitigatorClaim
       end
 
+      it 'routes to litigatora new claim path' do
+        expect(request.path).to eq new_litigators_claim_path
+      end
+
       it 'renders the template' do
         expect(response).to render_template(:new)
       end
+
     end
   end
 
@@ -244,7 +250,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
              case_type_id: case_type.id,
              offence_id: offence,
              case_number: '12345',
-             advocate_category: 'QC',
+             advocate_category: nil,
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -256,6 +262,131 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         end
       end
 
+    end
+  end
+
+  describe "GET #edit" do
+    before { get :edit, id: subject }
+
+    context 'editable claim' do
+      subject { create(:litigator_claim, creator: litigator) }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to eq(subject)
+      end
+
+      it 'routes to litigators edit path' do
+        expect(request.path).to eq edit_litigators_claim_path(subject)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'uneditable claim' do
+      subject { create(:litigator_claim, :allocated, creator: litigator) }
+
+      it 'redirects to the claims index' do
+        expect(response).to redirect_to(external_users_claims_path)
+      end
+    end
+  end
+
+  describe "PUT #update" do
+    subject { create(:litigator_claim) }
+
+    context 'when valid' do
+
+      context 'and deleting a rep order' do
+        before {
+          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit: 'Save to drafts'
+        }
+        it 'reduces the number of associated rep order by 1' do
+          expect(subject.reload.defendants.first.representation_orders.count).to eq 1
+        end
+      end
+
+      context 'and editing an API created claim' do
+
+        before(:each) do
+          subject.update(source: 'api')
+        end
+
+        context 'and saving to draft' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+
+        context 'and submitted to LAA' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+      end
+
+      context 'and saving to draft' do
+        it 'updates a claim' do
+          put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts'
+          subject.reload
+          expect(subject.additional_information).to eq('foo')
+        end
+
+        it 'redirects to claims list path' do
+          put :update, id: subject, claim: { additional_information: 'foo' }
+          expect(response).to redirect_to(external_users_claims_path)
+        end
+
+      end
+
+      context 'and submitted to LAA' do
+        before do
+          get :edit, id: subject
+          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA'
+        end
+
+        it 'redirects to the claim confirmation path' do
+          expect(response).to redirect_to(new_external_users_claim_certification_path(subject))
+        end
+      end
+    end
+
+    context 'when submitted to LAA and invalid ' do
+      it 'does not set claim to submitted' do
+        put :update, id: subject, claim: { court_id: nil }, commit: 'Submit to LAA'
+        subject.reload
+        expect(subject).to_not be_submitted
+      end
+
+      it 'renders edit template' do
+        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit: 'Submit to LAA'
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'Date Parameter handling' do
+      it 'should transform dates with named months into dates' do
+        put :update, id: subject, claim: {
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => 'jan',
+          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
+      end
+
+      it 'should transform dates with numbered months into dates' do
+        put :update, id: subject, claim: {
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => '11',
+          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+      end
     end
   end
 

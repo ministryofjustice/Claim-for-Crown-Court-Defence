@@ -76,7 +76,7 @@ end
 
 Given(/^I am on the edit page for the claim$/) do
   claim = Claim::BaseClaim.first
-  visit edit_external_users_claim_path(claim)
+  visit url_for_edit_external_users_claim(claim)
 end
 
 Then(/^I should see the previously uploaded documents$/) do

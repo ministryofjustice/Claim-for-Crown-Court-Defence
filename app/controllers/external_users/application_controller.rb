@@ -1,6 +1,9 @@
 class ExternalUsers::ApplicationController < ApplicationController
   before_action :authenticate_external_user!
 
+  helper_method :url_for_external_users_claim
+  helper_method :url_for_edit_external_users_claim
+
   private
 
   def authenticate_external_user!
@@ -40,4 +43,21 @@ class ExternalUsers::ApplicationController < ApplicationController
        common_dates_attended_attributes
       ]
   end
+
+  def url_for_external_users_claim(claim)
+    if claim.agfs?
+      claim.persisted? ? external_users_claim_path(claim) : advocates_claims_path
+    elsif claim.lgfs?
+      claim.persisted? ? external_users_claim_path(claim) : litigators_claims_path
+    end
+  end
+
+  def url_for_edit_external_users_claim(claim)
+    if claim.agfs?
+      edit_advocates_claim_path(claim)
+    elsif claim.lgfs?
+      edit_litigators_claim_path(claim)
+    end
+  end
+
 end

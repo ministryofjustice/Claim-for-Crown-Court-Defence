@@ -272,7 +272,7 @@ end
 
 Then(/^I should be on the claim edit form$/) do
   claim = Claim::BaseClaim.first
-  expect(page.current_path).to eq(edit_external_users_claim_path(claim))
+  expect(page.current_path).to eq(url_for_edit_external_users_claim(claim))
 end
 
 Then(/^I should be on the claim confirmation page$/) do
@@ -304,7 +304,7 @@ end
 
 When(/^I am on the claim edit page$/) do
   claim = Claim::BaseClaim.first
-  visit edit_external_users_claim_path(claim)
+  visit url_for_edit_external_users_claim_(claim)
 end
 
 Then(/^I can view a select of all advocates in my provider$/) do

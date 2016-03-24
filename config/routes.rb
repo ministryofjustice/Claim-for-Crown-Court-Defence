@@ -78,13 +78,13 @@ Rails.application.routes.draw do
 
   scope module: 'external_users' do
     namespace :advocates do
-      resources :claims, only: [:new, :create]
+      resources :claims, only: [:new, :create, :edit, :update]
     end
   end
 
   scope module: 'external_users' do
     namespace :litigators do
-      resources :claims, only: [:new, :create]
+      resources :claims, only: [:new, :create, :edit, :update]
     end
   end
 
@@ -95,7 +95,7 @@ Rails.application.routes.draw do
 
     post '/external_users/json_importer' => 'json_document_importer#create'
 
-    resources :claims, except: [:new, :create] do
+    resources :claims, except: [:new, :create, :edit, :update] do
       get 'types',                 to: 'claim_types#index', on: :collection
       get 'confirmation',           on: :member
       get 'show_message_controls',  on: :member

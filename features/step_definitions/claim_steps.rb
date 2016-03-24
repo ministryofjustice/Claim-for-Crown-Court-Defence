@@ -10,12 +10,12 @@ Then(/^an anonymous user cannot access the claim$/) do
 end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) can (?:access|manage) the claim$/) do
-  visit edit_external_users_claim_url(@claim)
+  visit url_for_edit_external_users_claim(@claim)
   expect(page).to have_content(/Edit claim/)
 end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) cannot (?:access|manage) the claim$/) do
-  visit edit_external_users_claim_url(@claim)
+  visit url_for_edit_external_users_claim(@claim)
   expect(page).to have_content(/unauthorised/i)
 end
 

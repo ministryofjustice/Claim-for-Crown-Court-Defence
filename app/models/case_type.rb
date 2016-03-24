@@ -14,6 +14,7 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  parent_id               :integer
+#  grad_fee_code           :string
 #
 
 class CaseType < ActiveRecord::Base
@@ -39,5 +40,10 @@ class CaseType < ActiveRecord::Base
   def self.ids_by_types(*args)
     case_types = CaseType.where('name in (?)', args)
     case_types.map(&:id)
+  end
+
+  def graduated_fee_type
+    return nil if grad_fee_code.nil?
+    Fee::GraduatedFeeType.by_code(grad_fee_code)
   end
 end

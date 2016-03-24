@@ -67,9 +67,6 @@ button.search {
 .claim-summary-content{
   @include span(8 of 12);
   @include first;
-  table ~ table{
-    margin-top: $gutter * 2;
-  }
   th{
     width: 50%;
   }
@@ -78,6 +75,7 @@ button.search {
   @include span(3 at 9 of 12);
   @include last;
   border-top: 5px solid $link-colour;
+  margin-top: 5px;
 
   a{
     display: inline-block;

@@ -20,6 +20,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  buttons:
+    continue: Continue
+    submit_to_laa: Submit to LAA
+    save_to_drafts: Save to drafts
+    clear_form: 'Clear form'
   date:
     formats:
       default: "%d/%m/%Y"
@@ -368,11 +373,6 @@ en:
           fee_type: 'Type of fee'
           quantity: 'Quantity'
           rate: 'Rate'
-      buttons:
-        new:
-          submit_to_laa: 'Submit to LAA'
-          save_to_drafts: 'Save to drafts'
-          clear_form: 'Clear form'
       case_details:
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail

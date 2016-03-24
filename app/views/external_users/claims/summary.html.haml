@@ -2,32 +2,6 @@
 
 - present(@claim) do |claim|
 
-  .claim-summary-content
-
-    %p.form-hint
-      Check all the information below is correct before submitting your claim at the bottom of the page.
-
-    %h2.visuallyhidden
-      Claim and case type
-    = render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
-
-    %h2.visuallyhidden
-      Defendants
-    = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
-
-    %h2
-      Fees
-
-    %h2
-      Supporting evidence checklist
-
-    = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
-
-
-    %h2
-      = t('external_users.claims.additional_information.fields.additional_information')
-    = render partial: 'external_users/claims/additional_information/summary', locals: { claim: claim}
-
   .claim-summary-sidebar
     .claim-summary-hgroup.js-stick-at-top-when-scrolling
       %h2
@@ -55,5 +29,37 @@
         %span.numeric
           = claim.total_inc_vat
 
-      = link_to 'Continue', new_external_users_claim_certification_path(@claim), class: 'button'
-      = link_to 'Save a draft', external_users_claims_path, class: 'button button-secondary'
+      = link_to 'Continue', new_external_users_claim_certification_path(@claim), {class: 'button', role: 'button'}
+
+  .claim-summary-content
+
+    %p.form-hint
+      Check all the information below is correct before submitting your claim at the bottom of the page.
+
+    %h2
+      Claim and case type
+    = render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
+
+    %h2
+      Defendants
+    = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
+
+    %h2
+      = t('common.fees')
+    = render partial: 'summary_fees', locals: { claim: claim }
+
+    %h2
+      = t('common.expenses')
+    = render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
+
+    %h2
+      Supporting evidence documents
+    = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }
+
+    %h2
+      Supporting evidence checklist
+    = render partial: 'external_users/claims/supporting_evidence_checklist/summary', locals: { claim: claim }
+
+    %h2
+      = t('external_users.claims.additional_information.fields.additional_information')
+    = render partial: 'external_users/claims/additional_information/summary', locals: { claim: claim}

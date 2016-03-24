@@ -65,6 +65,16 @@ header.main-header {
   }
 }
 
+.claim-summary-content{
+  h2{
+    @include core-24;
+    font-weight: 800;
+    margin-top: $gutter;
+  }
+  h2 ~ h2 {
+    margin-top: $gutter * 2;
+  }
+}
 .claim-summary-hgroup{
   h2{
     @include core-24;

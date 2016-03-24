@@ -4,7 +4,7 @@ Given(/^I am on the detail page for a "(.*?)" claim$/) do |state|
 end
 
 Then(/^I should not see the "(.*?)" link$/) do |link_text|
-  expect(current_path).to eq(url_for_edit_external_users_claim(Claim::BaseClaim.last))
+  expect(current_path).to eq(external_users_claim_path(Claim::BaseClaim.last))
   expect(page).to_not have_content(link_text)
 end
 
@@ -15,7 +15,7 @@ end
 
 Then(/^I should be redirected to the edit page of a draft claim$/) do
   expect(Claim::BaseClaim.last).to be_draft
-  expect(current_path).to eq(url_for_edit_external_users_claim(Claim::BaseClaim.last))
+  expect(current_path).to eq edit_advocates_claim_path(Claim::BaseClaim.last)
 end
 
 Then(/^the draft claim should have case number '(.+)'$/) do |case_number|

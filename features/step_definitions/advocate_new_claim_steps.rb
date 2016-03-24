@@ -272,7 +272,7 @@ end
 
 Then(/^I should be on the claim edit form$/) do
   claim = Claim::BaseClaim.first
-  expect(page.current_path).to eq(url_for_edit_external_users_claim(claim))
+  expect(page.current_path).to eq(edit_advocates_claim_path(claim))
 end
 
 Then(/^I should be on the claim confirmation page$/) do
@@ -293,10 +293,6 @@ Given(/^a claim exists with state "(.*?)"$/) do |claim_state|
   end
 end
 
-# Given(/^it has a case type of "(.*?)"$/) do |case_type|
-#   Claim::BaseClaim.first.case_type = CaseType.find_by(name: case_type)
-# end
-
 Then(/^the claim should be in state "(.*?)"$/) do |claim_state|
   @claim.reload
   expect(@claim.state).to eq(claim_state)
@@ -304,7 +300,7 @@ end
 
 When(/^I am on the claim edit page$/) do
   claim = Claim::BaseClaim.first
-  visit url_for_edit_external_users_claim_(claim)
+  visit edit_advocates_claim_path(claim)
 end
 
 Then(/^I can view a select of all advocates in my provider$/) do

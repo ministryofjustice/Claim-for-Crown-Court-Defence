@@ -3,7 +3,7 @@ Given(/^I have a claim in draft state$/) do
 end
 
 Given(/^I submit the claim$/) do
-  visit url_for_edit_external_users_claim(@claim)
+  visit edit_advocates_claim_path(@claim)
   click_on 'Submit to LAA'
 end
 

@@ -53,27 +53,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @message = @claim.messages.build
   end
 
-  # def edit
-  #   build_nested_resources
-  #   load_offences_and_case_types
-  #   @disable_assessment_input = true
-
-  #   redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
-  # end
-
   def confirmation; end
-
-  # def update
-  #   update_source_for_api
-  #   if @claim.update(claim_params)
-  #     @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
-
-  #     submit_if_required_and_redirect
-  #   else
-  #     present_errors
-  #     render_edit_with_resources
-  #   end
-  # end
 
   def clone_rejected
     begin

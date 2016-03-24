@@ -4,7 +4,23 @@ class ExternalUsers::ApplicationController < ApplicationController
   helper_method :url_for_external_users_claim
   helper_method :url_for_edit_external_users_claim
 
-  private
+  def url_for_external_users_claim(claim)
+    if claim.agfs?
+      claim.persisted? ? advocates_claim_path(claim) : advocates_claims_path
+    elsif claim.lgfs?
+      claim.persisted? ? litigators_claim_path(claim) : litigators_claims_path
+    end
+  end
+
+  def url_for_edit_external_users_claim(claim)
+    if claim.agfs?
+      edit_advocates_claim_path(claim)
+    elsif claim.lgfs?
+      edit_litigators_claim_path(claim)
+    end
+  end
+
+private
 
   def authenticate_external_user!
     unless user_signed_in? && current_user.persona.is_a?(ExternalUser)
@@ -42,22 +58,6 @@ class ExternalUsers::ApplicationController < ApplicationController
        :_destroy,
        common_dates_attended_attributes
       ]
-  end
-
-  def url_for_external_users_claim(claim)
-    if claim.agfs?
-      claim.persisted? ? advocates_claim_path(claim) : advocates_claims_path
-    elsif claim.lgfs?
-      claim.persisted? ? litigators_claim_path(claim) : litigators_claims_path
-    end
-  end
-
-  def url_for_edit_external_users_claim(claim)
-    if claim.agfs?
-      edit_advocates_claim_path(claim)
-    elsif claim.lgfs?
-      edit_litigators_claim_path(claim)
-    end
   end
 
 end

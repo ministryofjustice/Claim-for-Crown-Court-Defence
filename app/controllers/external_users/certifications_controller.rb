@@ -2,7 +2,6 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   before_action :set_claim, only: [:new, :create, :update]
   before_action :redirect_already_certified, only: [:new, :create]
 
-
   def new
     redirect_to external_users_claim_path(@claim), alert: 'Cannot certify a claim in submitted state' if @claim.submitted?
 

@@ -170,6 +170,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           end
 
           context 'valid params' do
+            #TODO: reimplement once fee logic for litigators is applied
             xit 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, claim: claim_params
               claim = assigns(:claim)
@@ -193,6 +194,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           context 'invalid params' do
             render_views
+            #TODO: reimplement once fee logic for litigators is applied
             xit 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
@@ -224,6 +226,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'fixed fee case types' do
           context 'valid params' do
+            #TODO: reimplement once fee logic for litigators is applied
             xit 'should create a claim with fixed fees ONLY' do
               claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               response = post :create, claim: claim_params
@@ -314,6 +317,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         end
       end
 
+      #TODO: reimplement once/if litigator claim creation opened up to API
       context 'and editing an API created claim' do
 
         before(:each) do

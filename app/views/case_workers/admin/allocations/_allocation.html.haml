@@ -4,7 +4,7 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
 
-  %fieldset.inline
+  %fieldset.inline.allocation-filter-form
     %legend
       = t('.case_types')
     -  allocation_filters.each do | filter_name |

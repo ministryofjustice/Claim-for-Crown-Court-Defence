@@ -17,7 +17,7 @@
       %div
         Reason for travel (hardcoded for now, dependent on chosen Expense Type):
         %a{name: "expense_#{@expense_count}_reason_id"}
-        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, {class: 'select2', style: 'width:300px'}
+        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: true }
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
 
       %div

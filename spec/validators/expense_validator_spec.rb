@@ -93,18 +93,6 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
       it { should_error_if_not_present(expense, :expense_type, 'blank') }
     end
 
-    describe '#validate_quantity' do
-      it { should_be_valid_if_equal_to_value(expense, :quantity, 0) }
-      it { should_error_if_equal_to_value(expense, :quantity, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :quantity, nil,  "blank") }
-    end
-
-    describe '#validate_rate' do
-      it { should_be_valid_if_equal_to_value(expense, :rate, 0) }
-      it { should_error_if_equal_to_value(expense, :rate, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :rate, nil,  'blank') }
-    end
-
     describe '#validate_location' do
       it 'should be mandatory for everything except parking' do
         [car_travel_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|

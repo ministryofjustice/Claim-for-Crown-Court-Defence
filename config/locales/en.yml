@@ -150,6 +150,10 @@ en:
   maat_reference_number: 'MAAT reference'
   maat_reference_number_eg: 'eg. 1234567890'
 
+  page_headings:
+    edit_lgfs_claim: Edit litigator claim
+    edit_agfs_claim: Edit advocate claim
+
 # en.common
   common:
     external_user: Advocate
@@ -175,6 +179,7 @@ en:
     view_claim: View your claims
   hint:
     search: eg case number, defendant name, advocate name
+
 
 # en.super_admins
   super_admins:
@@ -261,6 +266,7 @@ en:
   external_users:
     admin:
       external_users:
+        advocates:
         index:
           title: 'Manage users'
           actions: Manage details
@@ -468,8 +474,6 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
-      edit:
-        edit: Edit claim
 
       fee_fields:
         add_date_attended: 'Add date(s)'

@@ -43,6 +43,7 @@
 #  retrial_concluded_at     :date
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
+#  case_concluded_at        :date
 #
 
 module Claim
@@ -89,7 +90,8 @@ module Claim
     has_many :representation_orders,    through: :defendants
     has_many :documents,                foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
-    has_many :claim_state_transitions,  foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+
+    has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
     has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
@@ -133,7 +135,8 @@ module Claim
                         :trial_fixed_at,
                         :trial_cracked_at,
                         :retrial_started_at,
-                        :retrial_concluded_at
+                        :retrial_concluded_at,
+                        :case_concluded_at
 
     before_validation do
       errors.clear
@@ -307,12 +310,29 @@ module Claim
     end
 
     def last_state_transition
-      claim_state_transitions.order(created_at: :asc).last
+      claim_state_transitions.first
     end
 
     def last_state_transition_time
       last_state_transition.created_at
     end
+
+    def enable_assessment_input?
+      assessment.blank? && state == 'allocated'
+    end
+
+    def enable_redetermination_input?
+      state == 'allocated' && (opened_for_redetermination? || opened_for_written_reasons?)
+    end
+
+    def enable_determination_input?
+      enable_assessment_input? || enable_redetermination_input? 
+    end
+
+    def opened_for_written_reasons?
+      last_state_transition.from == 'awaiting_written_reasons'
+    end
+
 
     def opened_for_redetermination?
       return true if self.redetermination?

@@ -9,7 +9,24 @@ describe Claim::AdvocateClaimValidator do
   let(:litigator)     { create(:external_user, :litigator) }
   let(:claim)         { create :claim }
 
- context 'external_user' do
+  context 'case concluded at date' do
+    let(:claim)    { build :claim }
+    before(:each)  { claim.force_validation = true}
+
+    it 'is valid when absent' do
+      expect(claim.case_concluded_at).to be_nil
+      claim.valid?
+      expect(claim.errors.key?(:case_concluded_at)).to be false
+    end
+
+    it 'is invalid when present' do
+      claim.case_concluded_at = 1.month.ago
+      expect(claim).not_to be_valid
+      expect(claim.errors[:case_concluded_at]).to eq([ 'presence' ])
+    end
+  end
+
+  context 'external_user' do
     it 'should error when does not have advocate role' do
       claim.external_user = litigator
       should_error_with(claim, :external_user, "must have advocate role")

@@ -44,6 +44,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             offence_id: offence,
             case_number: 'A12345678',
             advocate_category: nil,
+            case_concluded_at_dd: 5.days.ago.day.to_s,
+            case_concluded_at_mm: 5.days.ago.month.to_s,
+            case_concluded_at_yyyy: 5.days.ago.year.to_s,
             expenses_attributes:
               [
                 {

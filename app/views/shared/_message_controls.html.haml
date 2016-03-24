@@ -8,14 +8,14 @@
         = f.collection_radio_buttons(:claim_action, Settings.claim_actions, :to_s, :to_s) do |b|
           - b.label(class: "block-label") { b.radio_button + b.value.humanize }
 
-  - if advocate_messaging_permitted?(message) || current_user_persona_is?(CaseWorker)
+  - if advocate_messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons
       .upload-column
         = f.file_field :attachment, class: 'button-secondary', label: false
       .message-column
         = f.input :body, as: :string, placeholder: t('.message_placeholder'), label: false
 
-        - if current_user_persona_is?(CaseWorker) && @claim.written_reasons_outstanding?
+        - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
           .written-reasons-checkbox
             = f.input :written_reasons_submitted, as: :boolean
       .submit-column

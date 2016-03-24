@@ -9,6 +9,7 @@ FactoryGirl.define do
     apply_vat           false
     offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS
     case_type           { create(:case_type) }
+    case_concluded_at   { 5.days.ago }
 
     after(:build) do |claim|
       claim.fees << build(:misc_fee, claim: claim) # fees required for valid claims

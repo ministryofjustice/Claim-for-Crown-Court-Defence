@@ -51,7 +51,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def show
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
-    @enable_assessment_input = false
   end
 
   def edit
@@ -213,6 +212,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       date_attributes_for(:trial_fixed_notice_at),
       date_attributes_for(:trial_fixed_at),
       date_attributes_for(:trial_cracked_at),
+      date_attributes_for(:case_concluded_at),
       :trial_cracked_at_third,
       :additional_information,
       evidence_checklist_ids: [],

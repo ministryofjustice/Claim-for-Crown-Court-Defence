@@ -46,9 +46,9 @@ class ExternalUsers::ApplicationController < ApplicationController
 
   def url_for_external_users_claim(claim)
     if claim.agfs?
-      claim.persisted? ? external_users_claim_path(claim) : advocates_claims_path
+      claim.persisted? ? advocates_claim_path(claim) : advocates_claims_path
     elsif claim.lgfs?
-      claim.persisted? ? external_users_claim_path(claim) : litigators_claims_path
+      claim.persisted? ? litigators_claim_path(claim) : litigators_claims_path
     end
   end
 

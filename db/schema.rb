@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 20160323161339) do
     t.date     "retrial_concluded_at"
     t.string   "type"
     t.decimal  "disbursements_total",      default: 0.0
+    t.date     "case_concluded_at"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

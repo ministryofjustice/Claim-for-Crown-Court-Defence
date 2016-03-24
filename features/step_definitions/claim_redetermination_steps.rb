@@ -27,7 +27,7 @@ Then(/^the claim should no longer have case workers assigned$/) do
 end
 
 Then(/^a redetermination notice should be present in the claim status panel$/) do
-  state_transition_date = @claim.claim_state_transitions.last.created_at
+  state_transition_date = @claim.last_state_transition.created_at
   expect(page).to have_content("Opened for redetermination on #{state_transition_date} (see messages for further details).")
 end
 
@@ -78,7 +78,7 @@ end
 
 Then(/^the claim should be in the state previous to the written reasons request$/) do
   @claim.reload
-  expect(@claim.state).to eq(@claim.claim_state_transitions.order(created_at: :asc)[-3].from)
+  expect(@claim.state).to eq(@claim.claim_state_transitions[2].from)
 end
 
 Then(/^the claim should no longer awaiting written reasons$/) do

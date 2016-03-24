@@ -136,7 +136,7 @@ module Claims::StateMachine
   end
 
   def state_at_last_submission
-    self.claim_state_transitions.reverse.find { |transition| CASEWORKER_DASHBOARD_UNALLOCATED_STATES.include?(transition.to) }.to
+    self.claim_state_transitions.find { |transition| CASEWORKER_DASHBOARD_UNALLOCATED_STATES.include?(transition.to) }.to
   end
 
   def set_original_submission_date!

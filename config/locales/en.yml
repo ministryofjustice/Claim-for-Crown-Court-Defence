@@ -331,6 +331,9 @@ en:
         certified_by: 'Name of person certifying'
         certified_by_prompt_text: 'Enter full name'
         certification_date: 'Date'
+    claim_types:
+      selection:
+        choose_fee_scheme_prompt_text: Choose your fee scheme
     claims:
       additional_information:
         fields:

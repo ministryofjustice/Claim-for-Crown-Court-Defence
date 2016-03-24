@@ -25,4 +25,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
     validate_absence(:external_user_id, "present")
   end
 
+  def validate_case_concluded_at
+    validate_presence(:case_concluded_at, 'blank')
+  end
 end

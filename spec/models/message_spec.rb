@@ -117,7 +117,7 @@ RSpec.describe Message, type: :model do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.messages.first.written_reasons_submitted = '1'
       claim.save
-      expect(claim.claim_state_transitions.order(created_at: :asc).all.map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate' ] )
+      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate' ] )
       expect(claim.state).to eq 'allocated'
     end
 

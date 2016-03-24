@@ -19,7 +19,8 @@ class Claim::BaseClaimValidator < BaseValidator
     :first_day_of_trial,
     :trial_concluded_at,
     :retrial_started_at,
-    :retrial_concluded_at
+    :retrial_concluded_at,
+    :case_concluded_at,
     ]
   end
 

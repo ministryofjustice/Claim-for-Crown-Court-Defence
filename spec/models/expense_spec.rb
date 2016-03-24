@@ -44,55 +44,6 @@ RSpec.describe Expense, type: :model do
     end
   end
 
-  context 'schema_version' do
-    context 'expense_schema_version_1' do
-      
-      before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
-      
-      it 'should create new records with 1' do
-        expense = create :expense
-        expect(expense.schema_version).to eq 1
-      end
-
-      it 'uses V1 validator' do
-        expense = build :expense
-        expect_any_instance_of(ExpenseV1Validator).to receive(:validate)
-        expect_any_instance_of(ExpenseV2Validator).not_to receive(:validate)
-        expense.valid?
-      end
-    end
-
-    context 'expense_schema_version_2' do
-      it 'creates new records with version 2' do
-        allow(Settings).to receive(:expense_schema_version).and_return(2)
-        expense = create :expense
-        expect(expense.schema_version).to eq 2
-      end
-
-      it 'does not change the version number on an existing record with version 1' do
-        allow(Settings).to receive(:expense_schema_version).and_return(1)
-        expense = create :expense
-        expect(expense.schema_version).to eq 1
-        allow(Settings).to receive(:expense_schema_version).and_return(2)
-        expense.update(location: 'Ambridge')
-        expense.reload
-        expect(expense.location).to eq 'Ambridge'
-        expect(expense.schema_version).to eq 1
-      end
-
-      it 'uses V2 validator' do
-        allow(Settings).to receive(:expense_schema_version).and_return(2)
-        expense = build :expense
-        expect_any_instance_of(ExpenseV2Validator).to receive(:validate)
-        expect_any_instance_of(ExpenseV1Validator).not_to receive(:validate)
-        expense.valid?
-      end
-    end
-
-    context 'validation' do
-    end
-  end
-
   context 'expense_reasons and expense reason text' do
     let(:ex_1) { build :expense, reason_id: 1 }
     let(:ex_nil) { build :expense, reason_id: nil }
@@ -136,29 +87,6 @@ RSpec.describe Expense, type: :model do
     end
   end
 
-  describe 'set and update amount' do
-    subject { build(:expense, rate: 2.5, quantity: 3, amount: 0) }
-
-    context 'for a new expense' do
-      it 'sets the expense amount equal to rate x quantity' do
-        subject.save!
-        expect(subject.amount).to eq(7.5)
-      end
-    end
-
-    context 'for an existing' do
-      before do
-        subject.save!
-        subject.rate = 3;
-        subject.save!
-      end
-
-      it 'updates the amount to be equal to the new rate x quantity' do
-        expect(subject.amount).to eq(9.0)
-      end
-    end
-  end
-
   describe 'comma formatted inputs' do
     [:rate, :quantity, :amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
@@ -168,14 +96,4 @@ RSpec.describe Expense, type: :model do
       end
     end
   end
-
-  describe '#quantity' do
-    it 'is rounded to the nearest quarter, in a before save hook, if a float is entered' do
-      subject = build(:expense, rate: 10, quantity: 1.1, amount: 0)
-      expect(subject.quantity).to eq 1.1
-      subject.save!
-      expect(subject.quantity).to eq 1.0      
-    end
-  end
-
 end

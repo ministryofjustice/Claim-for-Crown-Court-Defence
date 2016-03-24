@@ -2,9 +2,7 @@ class ExpenseV2Validator < BaseValidator
 
   def self.fields
     [
-      :expense_type,
       :location,
-      :amount,
       :reason_id,
       :reason_text,
       :distance,
@@ -28,16 +26,16 @@ class ExpenseV2Validator < BaseValidator
     validate_presence(:expense_type, 'blank')
   end
 
+  def validate_amount
+    validate_presence(:amount, 'blank')
+  end
+
   def validate_location
     if @record.parking?
       validate_absence(:location, 'invalid')
     else
       validate_presence(:location, 'blank')
     end
-  end
-
-  def validate_amount
-    validate_presence(:amount, 'blank')
   end
 
   def validate_reason_id

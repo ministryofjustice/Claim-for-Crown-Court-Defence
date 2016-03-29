@@ -345,8 +345,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA'
         end
 
-        it 'redirects to the claim confirmation path' do
-          expect(response).to redirect_to(new_external_users_claim_certification_path(subject))
+        it 'redirects to the claim summary page' do
+          expect(response).to redirect_to(summary_external_users_claim_path(subject))
         end
       end
     end

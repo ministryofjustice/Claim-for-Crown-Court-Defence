@@ -314,31 +314,5 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     end
   end
-
-  context 'schema_version 1' do
-
-    before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
-
-    describe '#validate_claim' do
-      it { should_error_if_not_present(expense, :claim, 'blank') }
-    end
-
-    describe '#validate_expense_type' do
-      it { should_error_if_not_present(expense, :expense_type, 'blank') }
-    end
-
-    describe '#validate_quantity' do
-      it { should_be_valid_if_equal_to_value(expense, :quantity, 0) }
-      it { should_error_if_equal_to_value(expense, :quantity, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :quantity, nil,  "blank") }
-    end
-
-    describe '#validate_rate' do
-      it { should_be_valid_if_equal_to_value(expense, :rate, 0) }
-      it { should_error_if_equal_to_value(expense, :rate, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :rate, nil,  'blank') }
-    end
-  end
-
 end
 

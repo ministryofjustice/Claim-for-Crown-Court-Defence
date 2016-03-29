@@ -9,7 +9,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:court)         { create(:court) }
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
-  let(:expense_type)  { create(:expense_type, :lgfs) }
+  let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
 
   describe "GET #new" do
     context 'AGFS or LGFS provider members only' do
@@ -46,12 +46,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             advocate_category: nil,
             expenses_attributes:
               [
-                {
-                  expense_type_id: expense_type.id,
-                  location: "London",
-                  quantity: 1,
-                  rate: 40
-                }
+                expense_attributes_for(expense_type)
               ],
             defendants_attributes: [
               { first_name: 'John',

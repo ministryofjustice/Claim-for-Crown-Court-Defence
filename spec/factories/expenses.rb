@@ -26,8 +26,6 @@ FactoryGirl.define do
     expense_type
     claim
     location Faker::Address.city
-    quantity 1
-    rate "9.99"
     amount "9.99"
     reason_id 2   # reason set B doesn't have ID 1
     date 3.days.ago
@@ -54,7 +52,6 @@ FactoryGirl.define do
 
     trait :travel_time do
       expense_type { build :expense_type, :travel_time }
-      quantity nil 
       hours 4
     end
 

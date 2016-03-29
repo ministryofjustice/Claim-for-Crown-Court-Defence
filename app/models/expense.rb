@@ -55,9 +55,8 @@ class Expense < ActiveRecord::Base
 
 
   before_validation do
-    self.schema_version = Settings.expense_schema_version if new_record?
+    self.schema_version = 2
     round_hours
-    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
   end
 
   after_save do

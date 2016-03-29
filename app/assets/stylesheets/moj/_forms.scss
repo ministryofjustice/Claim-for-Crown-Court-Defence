@@ -89,6 +89,14 @@ button.search {
   }
 }
 
+.claim-confirmation{
+  @include span(8 of 12);
+  @include first;
+  .button-holder{
+    @include clearfix;
+  }
+}
+
 // TODO: FIX BELOW
 
 #claim-accordion {

@@ -22,5 +22,20 @@ namespace :migrate do
   task :certifications => :environment do
     load File.join(Rails.root, 'db', 'seeds', 'certification_types.rb')
   end
+
+
+
+  desc 'Adds Graduated Fee types to fee_types_table'
+  task :grad_fee_types => :environment do
+    load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
+  end
+
+
+  desc 'Updates case types to point tothe correct graduated fee type'
+  task :case_types => :environment do
+    load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
+  end
+
+  
 end
  

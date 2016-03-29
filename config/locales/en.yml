@@ -20,6 +20,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  buttons:
+    continue: Continue
+    submit_to_laa: Submit to LAA
+    save_to_drafts: Save to drafts
+    clear_form: 'Clear form'
   date:
     formats:
       default: "%d/%m/%Y"
@@ -374,11 +379,6 @@ en:
           fee_type: 'Type of fee'
           quantity: 'Quantity'
           rate: 'Rate'
-      buttons:
-        new:
-          submit_to_laa: 'Submit to LAA'
-          save_to_drafts: 'Save to drafts'
-          clear_form: 'Clear form'
       case_details:
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail
@@ -394,6 +394,7 @@ en:
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
+          offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
         offence_select:
@@ -415,6 +416,7 @@ en:
           last_name: *last_name
           full_name: Full name
           date_of_birth: 'Date of birth'
+          judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  |
             Order for judicial apportionment
             (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
@@ -424,7 +426,8 @@ en:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
-          representation_order: 'Representation order'
+          representation_order: Representation order
+          maat_reference_number: MAAT reference number
       claims:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
@@ -474,7 +477,9 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
-
+      summary:
+        heading: Check your claim
+        case_details: Case details
       fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove

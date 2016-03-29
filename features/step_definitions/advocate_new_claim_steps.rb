@@ -235,6 +235,11 @@ Then(/^I should be redirected to the claim confirmation page$/) do
   expect(page.current_path).to eq(confirmation_external_users_claim_path(claim))
 end
 
+Then(/^I should be redirected to the claim summary page$/) do
+  claim = Claim::BaseClaim.first
+  expect(page.current_path).to eq(summary_external_users_claim_path(claim))
+end
+
 Then(/^I should be redirected to the claim certification page$/) do
   claim = Claim::BaseClaim.first
   expect(page.current_path).to eq(new_external_users_claim_certification_path(claim))
@@ -479,7 +484,7 @@ Then(/^I fill in quantity (\d+) and amount (\d+) for "(.*?)"$/) do |quantity, am
   # use the fee type code to determine the index in the table of fees
   fee_type_codes = Fee::BasicFeeType.all.map(&:code)
   id_no = fee_type_codes.index(fee_code)
-  
+
   quantity_input = "claim_basic_fees_attributes_#{id_no}_quantity"
   amount_input = "claim_basic_fees_attributes_#{id_no}_amount"
   fill_in quantity_input, with: quantity.to_i

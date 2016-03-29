@@ -14,6 +14,7 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  parent_id               :integer
+#  grad_fee_code           :string
 #
 
 require 'rails_helper'
@@ -33,6 +34,25 @@ describe CaseType do
 
     after(:all) do
       clean_database
+    end
+
+    describe 'graduated_fee_type' do
+      let!(:grad_fee_type)     { create :graduated_fee_type, code: 'GRAD' }
+      let(:grad_case_type)    { build :case_type, grad_fee_code: 'GRAD' }
+      let(:grad_case_type_x)  { build :case_type, grad_fee_code: 'XXXX' }
+      let(:fixed_case_type)   { build :case_type, grad_fee_code: nil }
+
+      it 'returns nil if no grad_fee_code' do
+        expect(fixed_case_type.graduated_fee_type).to be_nil
+      end
+
+      it 'returns the appropriate graduated fee' do
+        expect(grad_case_type.graduated_fee_type).to eq grad_fee_type
+      end
+
+      it 'returns nil if the code doesnt exist' do
+        expect(grad_case_type_x.graduated_fee_type).to be_nil
+      end
     end
 
     describe '.parents' do

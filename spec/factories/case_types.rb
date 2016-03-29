@@ -14,6 +14,7 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  parent_id               :integer
+#  grad_fee_code           :string
 #
 
 FactoryGirl.define do

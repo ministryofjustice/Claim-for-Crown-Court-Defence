@@ -1,0 +1,46 @@
+%table
+  %caption
+    %span.table-caption.visuallyhidden
+      = t('common.fees')
+  %colgroup
+    %col
+    %col
+  %tbody
+    - present_collection(claim.fees.select(&:present?)).each do |fee|
+      %tr
+        %th{ scope: 'row'}
+          = t('shared.summary.fee_category')
+        %td
+          = fee.fee_type.fee_category_name
+      %tr
+        %th{scope: 'row'}
+          = t('shared.summary.fee_type')
+        %td
+          = fee.fee_type.description
+      %tr
+        %th{ scope: 'row'}
+          = t('shared.summary.quantity')
+        %td
+          = fee.quantity
+      %tr
+        %th{ scope: 'row'}
+          = t('shared.summary.rate')
+        %td
+          = fee.rate
+      %tr
+        %th{ scope: 'row'}
+          = t('shared.summary.amount')
+        %td
+          = fee.amount
+      - if fee.dates_attended.any?
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.dates_attended')
+          %td
+            = fee.dates_attended_delimited_string
+    %tfoot
+      %tr
+        %th
+          = t('shared.summary.fees_total')
+        %td
+          = claim.fees_total

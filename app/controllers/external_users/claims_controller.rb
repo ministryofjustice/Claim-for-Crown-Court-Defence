@@ -86,6 +86,17 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     end
   end
 
+  def update
+    update_source_for_api
+    if @claim.update(claim_params)
+      update_claim_document_owners(@claim)
+      submit_if_required_and_redirect
+    else
+      present_errors
+      render_edit_with_resources
+    end
+  end
+
   private
 
   def generate_form_id

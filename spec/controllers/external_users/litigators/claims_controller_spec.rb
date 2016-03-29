@@ -27,7 +27,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         expect(assigns(:claim)).to be_instance_of Claim::LitigatorClaim
       end
 
-      it 'routes to litigatora new claim path' do
+      it 'routes to litigators new claim path' do
         expect(request.path).to eq new_litigators_claim_path
       end
 
@@ -49,7 +49,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A12345678',
-            advocate_category: nil,
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
             case_concluded_at_yyyy: 5.days.ago.year.to_s,
@@ -170,8 +169,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           end
 
           context 'valid params' do
-            #TODO: reimplement once fee logic for litigators is applied
-            xit 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
+            it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, claim: claim_params
               claim = assigns(:claim)
 
@@ -194,8 +192,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           context 'invalid params' do
             render_views
-            #TODO: reimplement once fee logic for litigators is applied
-            xit 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
+
+            it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
               post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
@@ -226,8 +224,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'fixed fee case types' do
           context 'valid params' do
-            #TODO: reimplement once fee logic for litigators is applied
-            xit 'should create a claim with fixed fees ONLY' do
+            it 'should create a claim with fixed fees ONLY' do
               claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               response = post :create, claim: claim_params
               claim = assigns(:claim)
@@ -256,7 +253,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
              case_type_id: case_type.id,
              offence_id: offence,
              case_number: '12345',
-             advocate_category: nil,
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -317,8 +313,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         end
       end
 
-      #TODO: reimplement once/if litigator claim creation opened up to API
       context 'and editing an API created claim' do
+        pending 'TODO: reimplement once/if litigator claim creation opened up to API'
 
         before(:each) do
           subject.update(source: 'api')
@@ -326,14 +322,14 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'and saving to draft' do
           before { put :update, id: subject, claim: { additional_information: 'foo' }, commit: 'Save to drafts' }
-          xit 'sets API created claims source to indicate it is from API but has been edited in web' do
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
           end
         end
 
         context 'and submitted to LAA' do
           before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA' }
-          xit 'sets API created claims source to indicate it is from API but has been edited in web' do
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
           end
         end
@@ -405,11 +401,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
     HashWithIndifferentAccess.new(
       {
        "source" => 'web',
-       "external_user_id" => "4",
        "case_type_id" => case_type.id.to_s,
        "court_id" => court.id.to_s,
        "case_number" => "CASE98989",
-       "advocate_category" => "",
        "offence_class_id" => "2",
        "offence_id" => offence.id.to_s,
        "first_day_of_trial_dd" => '13',

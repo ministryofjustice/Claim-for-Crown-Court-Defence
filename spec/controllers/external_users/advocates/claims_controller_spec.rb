@@ -102,9 +102,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             }.to change(Claim::AdvocateClaim, :count).by(1)
           end
 
-          it 'redirects to claim certification if no validation errors' do
+          it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(response).to redirect_to(new_external_users_claim_certification_path(Claim::AdvocateClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::AdvocateClaim.first))
           end
 
           it 'sets the created claim\'s external_user/owner to the signed in advocate' do

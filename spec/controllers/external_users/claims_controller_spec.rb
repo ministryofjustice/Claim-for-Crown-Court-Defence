@@ -587,8 +587,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit: 'Submit to LAA'
         end
 
-        it 'redirects to the claim confirmation path' do
-          expect(response).to redirect_to(new_external_users_claim_certification_path(subject))
+        it 'redirects to the claim summary page' do
+          expect(response).to redirect_to(summary_external_users_claim_path(subject))
         end
       end
     end
@@ -609,17 +609,17 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     context 'Date Parameter handling' do
       it 'should transform dates with named months into dates' do
         put :update, id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => 'jan',
+            'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
       it 'should transform dates with numbered months into dates' do
         put :update, id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => '11',
+            'first_day_of_trial_dd' => '4' }, commit: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

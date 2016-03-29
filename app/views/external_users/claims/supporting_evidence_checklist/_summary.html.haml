@@ -1,0 +1,16 @@
+- if current_user.persona.is_a? ExternalUser
+  %p.form-hint
+    If you don't provide enough evidence, your claim may be rejected.
+- if current_user == claim.owner.user && claim.editable?
+  = link_to 'Edit', "#{edit_external_users_claim_path(@claim)}#evidence-checklist"
+- if claim.evidence_checklist_ids.empty?
+  %p
+    No documentary evidence specified as having been provided.
+- else
+  %p
+    These items have been provided:
+  %ol.evidence-checklist-read-only
+    - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
+      %li
+        %object{:type => 'image/svg+xml', :data => image_path('icons/tick.svg'), :class => "selected"}
+        = dt.name

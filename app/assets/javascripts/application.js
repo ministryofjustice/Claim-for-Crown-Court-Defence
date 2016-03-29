@@ -6,6 +6,8 @@
 //= require dropzone
 //= require vendor/polyfills/bind
 //= require govuk/selection-buttons
+//= require govuk/stick-at-top-when-scrolling
+//= require govuk/stop-scrolling-at-footer
 //= require moj
 //= require modules/moj.cookie-message.js
 //= require_tree .
@@ -28,6 +30,7 @@
 
   var selectionButtons = new GOVUK.SelectionButtons("label input[type='radio'], label input[type='checkbox']");
 
+  GOVUK.stickAtTopWhenScrolling.init();
 
   moj.init();
 }());

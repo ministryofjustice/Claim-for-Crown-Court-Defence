@@ -81,6 +81,7 @@ button.search {
     &:first-child{
       @include first;
     }
+  }
 }
 .claim-summary-content{
   @include span(8 of 12);

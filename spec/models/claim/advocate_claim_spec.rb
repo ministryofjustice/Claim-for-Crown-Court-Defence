@@ -44,6 +44,7 @@
 #  retrial_concluded_at     :date
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
+#  case_concluded_at        :date
 #
 
 require 'rails_helper'

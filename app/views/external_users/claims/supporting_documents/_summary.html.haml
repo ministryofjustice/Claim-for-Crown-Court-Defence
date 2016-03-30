@@ -1,0 +1,32 @@
+%table
+  %caption
+    %span.table-caption.visuallyhidden
+      = t('shared.evidence_list.existing_evidence')
+  %colgroup
+    %col
+    %col
+  %tbody
+    - claim.documents.each do |document|
+      %tr
+        %th{scope:'row'}
+          = t('shared.evidence_list.name_of_file')
+        %td
+          = document.document_file_name
+      %tr
+        %th{scope:'row'}
+          = t('shared.evidence_list.file_size')
+        %td
+          = number_to_human_size(document.document_file_size)
+      %tr
+        %th{scope:'row'}
+          = t('shared.evidence_list.date_added')
+        %td
+          = number_to_human_size(document.document_file_size)
+      %tr
+        %th{scope:'row'}
+          = t('shared.evidence_list.actions')
+        %td
+          - if document.converted_preview_document.present?
+            = link_to t('common.view'), document_path(document), target: '_blank', class: 'view'
+            = " | "
+          = link_to t('common.download'), download_document_path(document), class: 'download'

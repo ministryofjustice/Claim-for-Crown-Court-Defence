@@ -44,6 +44,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             offence_id: offence,
             case_number: 'A12345678',
             advocate_category: nil,
+            case_concluded_at_dd: 5.days.ago.day.to_s,
+            case_concluded_at_mm: 5.days.ago.month.to_s,
+            case_concluded_at_yyyy: 5.days.ago.year.to_s,
             expenses_attributes:
               [
                 expense_attributes_for(expense_type)
@@ -97,9 +100,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             }.to change(Claim::LitigatorClaim, :count).by(1)
           end
 
-          it 'redirects to claim certification if no validation errors' do
+          it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(response).to redirect_to(new_external_users_claim_certification_path(Claim::LitigatorClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::LitigatorClaim.first))
           end
 
           it 'sets the created claim\'s creator/"owner" to the signed in litigator' do

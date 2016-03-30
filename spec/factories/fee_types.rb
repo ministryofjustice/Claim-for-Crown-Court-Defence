@@ -53,6 +53,13 @@ FactoryGirl.define do
       calculated true
       roles ['agfs']
     end
+
+    factory :graduated_fee_type, class: Fee::GraduatedFeeType do
+      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      code 'GTRL'
+      calculated true
+      roles ['agfs']
+    end
   end
 end
 

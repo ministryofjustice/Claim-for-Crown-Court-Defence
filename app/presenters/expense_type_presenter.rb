@@ -3,8 +3,8 @@ class ExpenseTypePresenter < BasePresenter
 
   def data_attributes
     {
-      destination: destination_field?,
       location: location_field?,
+      location_label: location_label,
       distance: distance_field?,
       mileage: mileage_field?,
       hours: hours_field?,
@@ -15,12 +15,18 @@ class ExpenseTypePresenter < BasePresenter
 
   private
 
-  def destination_field?
-    car_travel? || train? || travel_time?
+  def location_field?
+    car_travel? || train? || travel_time? || hotel_accommodation?
   end
 
-  def location_field?
-    hotel_accommodation?
+  def location_label
+    if car_travel? || train? || travel_time?
+      'Destination'
+    elsif hotel_accommodation?
+      'Location'
+    else
+      ''
+    end
   end
 
   def distance_field?

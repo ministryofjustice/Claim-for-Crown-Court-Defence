@@ -11,7 +11,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ destination: true, location: false, distance: true, mileage: true, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', distance: true, mileage: true, hours: false, reason_set: 'A' })
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ destination: true, location: false, distance: true, mileage: false, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', distance: true, mileage: false, hours: false, reason_set: 'A' })
       end
     end
 
@@ -29,7 +29,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ destination: false, location: false, distance: false, mileage: false, hours: false, reason_set: 'A' })
+          eq({ location: false, location_label: '', distance: false, mileage: false, hours: false, reason_set: 'A' })
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ destination: false, location: true, distance: false, mileage: false, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Location', distance: false, mileage: false, hours: false, reason_set: 'A' })
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ destination: true, location: false, distance: false, mileage: false, hours: true, reason_set: 'B' })
+          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, hours: true, reason_set: 'B' })
       end
     end
   end

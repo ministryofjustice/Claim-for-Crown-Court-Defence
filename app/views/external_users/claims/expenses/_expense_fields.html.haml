@@ -1,62 +1,58 @@
-%tbody.expense-group
-  %tr.nested-fields
-    %td
-      %div
-        Expense type:
-        %a{name: "expense_#{@expense_count}_expense_type"}
-        - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-        = f.select :expense_type_id, options_for_select(expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}), {prompt: true}, {class: 'select2', style: 'width:300px'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+.form-row
+  %div{class: "expense_#{@expense_count}_date"}
+    = f.label :date, 'Date (Day Month Year)'
+    = f.gov_uk_date_field :date
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_date")
 
-      %div
-        Destination / postcode:
-        %a{name: "expense_#{@expense_count}_location"}
-        = f.text_field :location
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
+.form-row
+  %div{class: "expense_#{@expense_count}_expense_type"}
+    = f.label :expense_type_id, 'Expense type:'
+    - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+    = f.select :expense_type_id, options_for_select(expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}), {prompt: true}, {class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
-      %div
-        Reason for travel (hardcoded for now, dependent on chosen Expense Type):
-        %a{name: "expense_#{@expense_count}_reason_id"}
-        = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false }
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
+  %div{class: "expense_#{@expense_count}_distance"}
+    = f.label :distance, 'Distance:'
+    = f.number_field :distance, {class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
 
-      %div
-        Reason text (only will show when selected Reason is Other):
-        %a{name: "expense_#{@expense_count}_reason_text"}
-        = f.text_field :reason_text
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
+.form-row
+  %div{class: "expense_#{@expense_count}_location"}
+    = f.label :location, 'Destination / postcode:'
+    = f.text_field :location, {class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
 
-      %div
-        Distance:
-        %a{name: "expense_#{@expense_count}_distance"}
-        = f.number_field :distance
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
+  %div{class: "expense_#{@expense_count}_reason_id"}
+    = f.label :reason_id, 'Reason for travel'
+    -# (hardcoded for now, dependent on chosen Expense Type):
+    = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
 
-      %div
-        Date (Day Month Year)
-        %a{name: "expense_#{@expense_count}_date"}
-        = f.gov_uk_date_field :date
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_date")
+  %div{class: "expense_#{@expense_count}_reason_text"}
+    = f.label :reason_text, 'Reason text'
+    -#  (only will show when selected Reason is Other):
+    = f.text_field :reason_text, {class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
-      %div
-        Number of hours:
-        %a{name: "expense_#{@expense_count}_hours"}
-        = f.number_field :hours
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
+.form-row
+  %fieldset{class: "expense_#{@expense_count}_mileage_rate_id inline"}
+    %legend
+      ='Field Mileage'
+    -#  (only visible for Car Travel):
+    = f.collection_radio_buttons(:mileage_rate_id, Expense::MILEAGE_RATES.values, :id, :description) do |b|
+      - b.label(class: "block-label") { b.radio_button + b.object.description }
 
-      %div
-        Field Mileage (only visible for Car Travel):
-        %a{name: "expense_#{@expense_count}_mileage_rate_id"}
-        = f.collection_radio_buttons(:mileage_rate_id, Expense::MILEAGE_RATES.values, :id, :description) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.object.description }
+  %div{class: "expense_#{@expense_count}_hours"}
+    = f.label :hours, 'Number of hours:'
+    = f.number_field :hours, {class: 'form-control'}
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
 
-      %div
-        Amount:
-        %a{name: "expense_#{@expense_count}_amount"}
-        .pound-wrapper
-          = f.label :amount, '£', class: 'pound-sign bold-xsmall'
-          = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
+  %div{class: "expense_#{@expense_count}_amount"}
+    = f.label :amount, 'Amount:'
+    .pound-wrapper
+      = f.label :amount, '£', class: 'pound-sign bold-xsmall'
+      = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
+    = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
-    %td.remove-expense
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }
+.remove-expense
+= link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' }

@@ -1,11 +1,11 @@
 #expenses
-  %h2
-    = t('.expenses')
-  .form-hint
-    = t('.expenses_prompt_text')
-
-  = f.fields_for :expenses do |expense|
-    - @expense_count += 1
-    = render 'external_users/claims/expenses/expense_fields', f: expense
+  %fieldset.expense-group
+    %legend
+      = t('.expenses')
+    %p.form-hint
+      = t('.expenses_prompt_text')
+    = f.fields_for :expenses do |expense|
+      - @expense_count += 1
+      = render 'external_users/claims/expenses/expense_fields', f: expense
 
   = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}

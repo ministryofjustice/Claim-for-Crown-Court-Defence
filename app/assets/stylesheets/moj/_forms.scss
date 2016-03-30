@@ -34,13 +34,17 @@ input.form-control[type=password] {
   }
 }
 
-select.form-control{
+select.form-control {
   @include span(6 of 12);
+  .form-row & {
+    @include full;
+  }
 }
 
 textarea.form-control{
   width:100%;
 }
+// Search form
 // button
 button.search {
   margin-left: 5px;
@@ -63,6 +67,25 @@ button.search {
     }
   }
 }
+
+// expenses
+.expense-group {
+  margin-bottom:$gutter;
+}
+.form-row {
+  @include container;
+  margin-bottom:$gutter;
+  > div {
+    @include span(4 of 12);
+    &:last-child{
+      @include last;
+    }
+    &:first-child{
+      @include first;
+    }
+  }
+}
+
 // TODO: FIX BELOW
 
 #claim-accordion {

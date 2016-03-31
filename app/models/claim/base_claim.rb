@@ -322,30 +322,25 @@ module Claim
     end
 
     def enable_redetermination_input?
-      state == 'allocated' && (opened_for_redetermination? || opened_for_written_reasons?)
+      state == 'allocated' && (opened_for_redetermination? || written_reasons_outstanding?)
     end
 
     def enable_determination_input?
       enable_assessment_input? || enable_redetermination_input? 
     end
 
-    def opened_for_written_reasons?
-      last_state_transition.from == 'awaiting_written_reasons'
-    end
-
-
     def opened_for_redetermination?
       return true if self.redetermination?
 
-      transition = last_state_transition
-      transition && transition.from == 'redetermination'
+      transition = filtered_last_state_transition
+      transition && transition.to == 'redetermination'
     end
 
     def written_reasons_outstanding?
       return true if self.awaiting_written_reasons?
 
-      transition = last_state_transition
-      transition && transition.from == 'awaiting_written_reasons'
+      transition = filtered_last_state_transition
+      transition && transition.to == 'awaiting_written_reasons'
     end
 
     def amount_assessed
@@ -381,6 +376,10 @@ module Claim
 
     def last_redetermination
       self.redeterminations.select(&:valid?).last
+    end
+
+    def filtered_last_state_transition
+      claim_state_transitions.where.not(to: %w(allocated deallocated)).first
     end
 
     def destroy_all_invalid_fee_types

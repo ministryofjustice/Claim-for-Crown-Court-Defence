@@ -1142,6 +1142,31 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
+    context 'when transitioned to redetermination and then allocated/deallocated/allocated' do
+      before do
+        claim.redetermine!
+        claim.allocate!
+        claim.deallocate!
+        claim.allocate!
+      end
+
+      it 'should be open for redetermination' do
+        expect(claim.opened_for_redetermination?).to be_truthy
+      end
+    end
+
+    context 'when transitioned to redetermination and then refuse' do
+      before do
+        claim.redetermine!
+        claim.allocate!
+        claim.refuse!
+      end
+
+      it 'should be close for redetermination' do
+        expect(claim.opened_for_redetermination?).to be_falsey
+      end
+    end
+
     describe 'submission_date' do
       it 'should set the submission date to the date it was set to state redetermination' do
         new_time = 36.hours.from_now
@@ -1199,6 +1224,31 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       it 'should have written_reasons_outstanding before being allocated' do
         expect(claim.written_reasons_outstanding?).to eq(true)
+      end
+    end
+
+    context 'when transitioned to awaiting_written_reasons and then allocated/deallocated/allocated' do
+      before do
+        claim.await_written_reasons!
+        claim.allocate!
+        claim.deallocate!
+        claim.allocate!
+      end
+
+      it 'should be true' do
+        expect(claim.written_reasons_outstanding?).to be_truthy
+      end
+    end
+
+    context 'when transitioned to awaiting_written_reasons and then refuse' do
+      before do
+        claim.await_written_reasons!
+        claim.allocate!
+        claim.refuse!
+      end
+
+      it 'should not have written_reasons_outstanding' do
+        expect(claim.written_reasons_outstanding?).to be_falsey
       end
     end
   end

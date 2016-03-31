@@ -74,9 +74,6 @@ button.search {
 .claim-summary-sidebar{
   @include span(3 at 9 of 12);
   @include last;
-  border-top: 5px solid $link-colour;
-  margin-top: 5px;
-
   a{
     display: inline-block;
     margin-bottom: $gutter-half;
@@ -86,6 +83,14 @@ button.search {
     margin-top: $gutter-half;
     margin-bottom: $gutter-half;
     padding-top: $gutter-half;
+  }
+}
+
+.claim-confirmation{
+  @include span(8 of 12);
+  @include first;
+  .button-holder{
+    @include clearfix;
   }
 }
 

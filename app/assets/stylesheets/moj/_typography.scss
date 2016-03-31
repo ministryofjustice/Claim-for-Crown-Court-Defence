@@ -76,6 +76,9 @@ header.main-header {
   }
 }
 .claim-summary-hgroup{
+  border-top: 5px solid $link-colour;
+  margin-top: 5px;
+  
   h2{
     @include core-24;
     font-weight: 800;

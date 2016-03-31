@@ -76,13 +76,12 @@ button.search {
   margin-bottom:$gutter;
   .form-col {
     @include span(4 of 12);
-    &:nth-child(1){
+    &:nth-child(1), &.first-col {
       @include first;
     }
-    &:nth-child(3){
-      @include last;
+    .form-control {
+      width: 100%;
     }
-
   }
 }
 

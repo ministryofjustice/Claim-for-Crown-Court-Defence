@@ -12,34 +12,41 @@
         - b.label(class: "block-label") { b.radio_button + b.value.to_s }
       = validation_error_message(@error_presenter, :advocate_category)
 
-  - if @claim.agfs?
-    .form-group
-      .column-half
-        - if current_user.persona.admin?
-          = f.anchored_label t('.advocate'), 'external_user'
-          = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-          = validation_error_message(@error_presenter, :external_user)
-
-.form-group
-  .column-half
-    = f.anchored_label t('.court')
-    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-    = validation_error_message(@error_presenter, :court)
+  - if current_user.persona.admin?
+    - label = @claim.agfs? ? t('.advocate') : t('.litigator')
+    - external_users_collection = @claim.agfs? ? @advocates_in_provider : @litigators_in_provider
+    = render partial: 'external_users/claims/case_details/case_owner_select', locals: { f: f, label: label, external_users_collection: external_users_collection }
 
 .grid-row
   .column-half
     = f.anchored_label t('.case_type')
     .form-hint.xsmall.zero-vert-margin
-      &nbsp;
+      = "eg Trial"
     = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
     = validation_error_message(@error_presenter, :case_type)
 
+.grid-row
   .column-half
-    = f.anchored_label t('.case_number')
+    = f.anchored_label t('.court')
     .form-hint.xsmall.zero-vert-margin
-      = "eg A12345678"
-    = f.text_field :case_number
-    = validation_error_message(@error_presenter, :case_number)
+      = "eg Cardiff"
+    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+    = validation_error_message(@error_presenter, :court)
+
+  - if @claim.lgfs?
+    .column-half
+      = f.anchored_label t('.transfer_court')
+      .form-hint.xsmall.zero-vert-margin
+        = "eg Cardiff"
+      = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+      = validation_error_message(@error_presenter, :court)
+
+.grid-row
+  = f.anchored_label t('.case_number')
+  .form-hint.xsmall.zero-vert-margin
+    = "eg A12345678"
+  = f.text_field :case_number
+  = validation_error_message(@error_presenter, :case_number)
 
 = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
 
@@ -65,3 +72,6 @@
       = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
 
     = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
+
+- if @claim.lgfs?
+  = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

@@ -29,8 +29,8 @@
         %span.numeric
           = claim.total_inc_vat
 
-      = link_to 'Continue', new_external_users_claim_certification_path(@claim), {class: 'button', role: 'button'}
-      = link_to 'Edit this claim', edit_external_users_claim_path(claim), {class: 'button button-secondary', role: 'button'}
+      = link_to 'Continue', new_external_users_claim_certification_path(claim), {class: 'button', role: 'button'}
+      = link_to 'Edit this claim', url_for_edit_external_users_claim(claim), {class: 'button button-secondary', role: 'button'}
 
   .claim-summary-content
 

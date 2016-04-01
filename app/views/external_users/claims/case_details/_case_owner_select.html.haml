@@ -1,0 +1,5 @@
+.form-group
+  .column-half
+    = f.anchored_label label, 'external_user'
+    = f.collection_select :external_user_id, external_users_collection, :id, :name_and_number, {prompt: true}, {class: 'select2'}
+    = validation_error_message(@error_presenter, :external_user)

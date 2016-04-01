@@ -45,6 +45,7 @@ en:
     models:
       super_admin: &super_admin 'Super administrator'
       external_user: &advocate 'Advocate'
+      external_user_litigator: &litigator 'Litigator'
       case_worker: &case_worker 'Case worker'
     attributes:
       users:
@@ -380,6 +381,8 @@ en:
           quantity: 'Quantity'
           rate: 'Rate'
       case_details:
+        case_concluded_date:
+          case_concluded_at: 'Date case concluded'
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail
           trial_cracked_at: 'Case cracked'
@@ -394,9 +397,11 @@ en:
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
+          litigator: *litigator
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
+          transfer_court: 'Transfer court'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'

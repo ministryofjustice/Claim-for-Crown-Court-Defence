@@ -37,4 +37,7 @@ private
     claim.documents.each { |d| d.update_column(:external_user_id, claim.external_user_id) }
   end
 
+  def load_external_users_in_provider
+    @advocates_in_provider = @provider.advocates if @external_user.admin?
+  end
 end

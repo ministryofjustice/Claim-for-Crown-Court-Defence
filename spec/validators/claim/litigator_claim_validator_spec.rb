@@ -30,6 +30,24 @@ describe Claim::LitigatorClaimValidator do
     end
   end
 
+  context 'external_user' do
+    it 'should error when does not have advocate role' do
+      claim.external_user = advocate
+      should_error_with(claim, :external_user, "must have litigator role")
+    end
+
+    it 'should error if not present, regardless' do
+      claim.external_user = nil
+      should_error_with(claim, :external_user, "blank")
+    end
+
+    it 'should error if does not belong to the same provider as the creator' do
+      claim.creator = create(:external_user, :litigator)
+      claim.external_user = create(:external_user, :litigator)
+      should_error_with(claim, :external_user, "Creator and litigator must belong to the same provider")
+    end
+  end
+
   context 'creator' do
     it 'should error when their provider does not have LGFS role' do
       claim.creator = advocate

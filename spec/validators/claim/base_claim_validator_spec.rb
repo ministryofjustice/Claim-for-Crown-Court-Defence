@@ -94,19 +94,6 @@ describe Claim::BaseClaimValidator do
 
   end
 
-  context 'external_user' do
-    it 'should error if not present, regardless' do
-      claim.external_user = nil
-      should_error_with(claim, :external_user, "blank")
-    end
-
-    it 'should error if does not belong to the same provider as the creator' do
-      claim.creator = create(:external_user, :advocate)
-      claim.external_user = create(:external_user, :advocate)
-      should_error_with(claim, :external_user, "Creator and advocate must belong to the same provider")
-    end
-  end
-
   context 'creator' do
     it 'should error if not present, regardless' do
       claim.creator = nil

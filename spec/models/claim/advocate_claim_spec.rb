@@ -1408,7 +1408,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
          "evidence_checklist_ids"=>["1", ""]},
        "offence_category"=>{"description"=>""},
        "offence_class"=>{"description"=>"64"},
-       "commit"=>"Submit to LAA"}
+       "commit_submit_claim"=>"Submit to LAA"}
       claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true

@@ -4,24 +4,12 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
 
   def new
     @claim = Claim::AdvocateClaim.new
-    load_offences_and_case_types
-    build_nested_resources
+    super
   end
 
   def create
     @claim = Claim::AdvocateClaim.new(params_with_advocate_and_creator)
-    if submitting_to_laa?
-      create_and_submit
-    else
-      create_draft
-    end
-  end
-
-  def edit
-    build_nested_resources
-    load_offences_and_case_types
-    @disable_assessment_input = true
-    redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
+    super
   end
 
 private

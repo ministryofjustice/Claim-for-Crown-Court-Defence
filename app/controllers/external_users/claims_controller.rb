@@ -88,15 +88,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     end
   end
 
+  def new
+    load_offences_and_case_types
+    build_nested_resources
+  end
+
+  def create
+    if submitting_to_laa?
+      create_and_submit
+    else
+      create_draft_and_continue
+    end
+  end
+
+  def edit
+    build_nested_resources
+    load_offences_and_case_types
+    @disable_assessment_input = true
+    redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
+  end
+
   def update
     update_source_for_api
-    if @claim.update(claim_params)
-      update_claim_document_owners(@claim)
-      submit_if_required_and_redirect
-    else
-      present_errors
-      render_edit_with_resources
-    end
+    @claim.assign_attributes(claim_params)
+    update_draft_and_continue
   end
 
   private
@@ -113,23 +128,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @offences = Offence.includes(:offence_class)
     end
     @case_types = @claim.eligible_case_types
-  end
-
-  def submit_if_required_and_redirect
-    if submitting_to_laa?
-      @claim.force_validation = true
-      if @claim.valid?
-        send_ga('event', 'claim', 'submit', 'started')
-        # redirect_to new_external_users_claim_certification_path(@claim)
-        redirect_to summary_external_users_claim_url(@claim)
-      else
-        present_errors
-        render_edit_with_resources
-      end
-    else
-      send_ga('event', 'claim', 'draft', 'updated')
-      redirect_to external_users_claims_path, notice: 'Draft claim saved'
-    end
   end
 
   def set_user_and_provider
@@ -184,6 +182,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def claim_params
     params.require(:claim).permit(
       :form_id,
+      :form_step,
       :state_for_form,
       :advocate_category,
       :source,
@@ -266,33 +265,61 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def saving_to_draft?
-    params[:commit] == 'Save to drafts'
+    params.key?(:commit_save_draft)
   end
 
   def submitting_to_laa?
-    params[:commit] == 'Submit to LAA'
+    params.key?(:commit_submit_claim)
   end
 
-  def render_edit_with_resources
-    build_nested_resources
-    load_offences_and_case_types
-    render action: :edit
+  def continue_claim?
+    params.key?(:commit_continue)
   end
 
-  def render_new_with_resources
+  def render_action_with_resources(action)
     present_errors
     build_nested_resources
     load_offences_and_case_types
-    render action: :new
+    render action: action
   end
 
-  def create_draft
+  def render_edit_with_resources
+    render_action_with_resources(:edit)
+  end
+
+  def render_new_with_resources
+    render_action_with_resources(:new)
+  end
+
+  def create_draft_and_continue
     if @claim.save
-      update_claim_document_owners(@claim)
       send_ga('event', 'claim', 'draft', 'created')
-      redirect_to external_users_claims_path, notice: 'Draft claim saved'
+
+      if continue_claim?
+        @claim.next_step!
+        render_new_with_resources
+      else
+        redirect_to external_users_claims_path, notice: 'Draft claim saved'
+      end
     else
       render_new_with_resources
+    end
+  end
+
+  def update_draft_and_continue
+    if @claim.save
+      send_ga('event', 'claim', 'draft', 'updated')
+
+      if continue_claim?
+        @claim.next_step!
+        render_edit_with_resources
+      elsif submitting_to_laa?
+        create_and_submit(action: :edit)
+      else
+        redirect_to external_users_claims_path, notice: 'Draft claim saved'
+      end
+    else
+      render_edit_with_resources
     end
   end
 
@@ -309,8 +336,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @expense_date_attended_count= 0
   end
 
-  def create_and_submit
-    if @claim.class.where(form_id: @claim.form_id).any?
+  def create_and_submit(action: :new)
+    if @claim.class.where(form_id: @claim.form_id).where.not(last_submitted_at: nil).any?
       redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
     end
 
@@ -319,14 +346,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @claim.force_validation = true
 
       if @claim.valid?
-        @claim.documents.each { |d| d.update_column(:external_user_id, @claim.external_user_id) }
         send_ga('event', 'claim', 'submit', 'started')
+        update_claim_document_owners(@claim)
         redirect_to summary_external_users_claim_url(@claim) and return
       else
         raise ActiveRecord::Rollback
       end
     end
-    render_new_with_resources
+    render_action_with_resources(action)
   end
 
   def present_errors

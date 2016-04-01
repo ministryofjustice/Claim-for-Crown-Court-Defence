@@ -24,6 +24,7 @@ en:
     continue: Continue
     submit_to_laa: Submit to LAA
     save_to_drafts: Save to drafts
+    save_a_draft: Save a draft
     clear_form: 'Clear form'
   date:
     formats:

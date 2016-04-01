@@ -62,6 +62,8 @@ module Claim
 
     serialize :evidence_checklist_ids, Array
 
+    attr_accessor :form_step
+
     include ::Claims::StateMachine
     extend ::Claims::Search
     extend ::Claims::Sort
@@ -277,6 +279,18 @@ module Claim
       from_api? || !(draft? || archived_pending_delete?)
     end
 
+    def step?(num)
+      current_step == num
+    end
+
+    def next_step!
+      self.form_step = current_step + 1
+    end
+
+    def current_step
+      self.form_step.to_i
+    end
+
     def from_api?
       source == 'api'
     end
@@ -392,6 +406,7 @@ module Claim
 
     def default_values
       self.source ||= 'web'
+      self.form_step ||= 1
     end
 
     def instantiate_assessment

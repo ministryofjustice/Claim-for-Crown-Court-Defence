@@ -62,12 +62,14 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
 
     it 'accepts creators whose provider is only lgfs' do
-      claim.creator = build(:external_user, provider: build(:provider, :lgfs))
+      claim.creator = create(:external_user, provider: build(:provider, :lgfs))
+      claim.external_user =  claim.creator
       expect(claim).to be_valid
     end
 
     it 'accepts creators whose provider is both agfs and lgfs' do
-      claim.creator = build(:external_user, provider: build(:provider, :agfs_lgfs))
+      claim.creator = create(:external_user, provider: build(:provider, :agfs_lgfs))
+      claim.external_user =  claim.creator
       expect(claim).to be_valid
     end
   end

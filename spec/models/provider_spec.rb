@@ -121,6 +121,24 @@ RSpec.describe Provider, type: :model do
     end
   end
 
+  describe 'available_claim_types' do
+    let(:agfs)    { build :provider, :agfs }
+    let(:lgfs)    { build :provider, :lgfs }
+    let(:both)    { build :provider, :agfs_lgfs }
+    
+    it 'should return advocate claim for agfs' do
+      expect(agfs.available_claim_types).to eq ( [ Claim::AdvocateClaim ] )
+    end
+
+    it 'should return litigator claim for lgfs' do
+      expect(lgfs.available_claim_types).to eq( [ Claim::LitigatorClaim ] )
+    end
+
+    it 'should return both claim types for agfs-lgfs' do
+      expect(both.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+    end
+  end
+
   context 'delegated external_user scopes/methods' do
     let!(:provider) { create(:provider) }
     let!(:advocate) { create(:external_user, :advocate) }

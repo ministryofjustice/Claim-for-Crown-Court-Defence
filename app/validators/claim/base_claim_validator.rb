@@ -35,6 +35,16 @@ class Claim::BaseClaimValidator < BaseValidator
 
   private
 
+  def validate_external_user_id
+    validate_presence(:external_user, "blank")
+    validate_has_role(@record.external_user, @record.external_user_type, :external_user,  "must have #{@record.external_user_type} role") unless @record.external_user.nil?
+    unless @record.errors.key?(:external_user)
+      unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
+        @record.errors[:external_user] << "Creator and #{@record.external_user_type} must belong to the same provider"
+      end
+    end
+  end
+
   def validate_total
     unless @record.source == 'api'
       validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")

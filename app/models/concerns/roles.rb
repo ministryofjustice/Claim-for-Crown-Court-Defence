@@ -23,7 +23,8 @@ module Roles
     arg_roles.to_a! unless arg_roles.is_a? Array
     arg_roles.flatten!
     return false if arg_roles.empty?
-    return arg_roles.sort == self.roles.sort
+    arg_roles.map!(&:to_s)
+    arg_roles & self.roles == arg_roles
   end
 
   private

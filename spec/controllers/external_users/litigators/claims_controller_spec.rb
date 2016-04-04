@@ -45,6 +45,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         let(:claim_params) do
           {
+            external_user_id: litigator.id,
             additional_information: 'foo',
             court_id: court,
             case_type_id: case_type.id,

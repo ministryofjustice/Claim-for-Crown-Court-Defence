@@ -57,6 +57,16 @@ class ExternalUser < ActiveRecord::Base
     end
   end
 
+  def available_claim_types
+    claim_types = []
+    self.roles.each do |role|
+      claim_types = [ Claim::AdvocateClaim, Claim::LitigatorClaim ] if role == 'admin'
+      claim_types << Claim::AdvocateClaim if role == 'advocate'
+      claim_types << Claim::LitigatorClaim if role == 'litigator'
+    end
+    claim_types.uniq
+  end
+
   def name_and_number
     "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
   end

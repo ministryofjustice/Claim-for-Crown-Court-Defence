@@ -62,4 +62,4 @@
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
     .remove-expense
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'expense-group' } if @expense_count > 1
+      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' } if @expense_count > 1

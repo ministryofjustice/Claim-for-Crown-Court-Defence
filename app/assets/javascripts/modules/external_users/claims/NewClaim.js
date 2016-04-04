@@ -120,7 +120,12 @@ moj.Modules.NewClaim = {
 
     self.$expenses.on('cocoon:after-insert cocoon:after-remove', function(e, insertedItem){
       $(this).find('.js-expense-count').each(function(i){
-        $(this).text(i + 1);
+        var $element = $(this);
+        var $currentExpense = $element.closest('.expense-group');
+
+        $element.text(i + 1);
+
+        $currentExpense.find('.js-expense-remove-count').text(i + 1);
       });
 
       //if inserting show/hide the new expense fields and set focus

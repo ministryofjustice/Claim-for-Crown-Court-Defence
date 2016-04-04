@@ -459,7 +459,7 @@ en:
       expenses:
         expense_fields:
           add_date_attended: 'Add date(s)'
-          remove: *remove
+          remove: Remove Expense <span class="js-expense-remove-count"></span>
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'

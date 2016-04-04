@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path_url_for_user, alert: 'Unauthorised'
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
     redirect_to error_404_url
   end
 

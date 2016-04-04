@@ -111,7 +111,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def update
     update_source_for_api
     @claim.assign_attributes(claim_params)
-    update_draft_and_continue
+
+    if submitting_to_laa?
+      update_and_submit
+    else
+      update_draft_and_continue
+    end
   end
 
   private
@@ -291,49 +296,32 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render_action_with_resources(:new)
   end
 
-  def create_draft_and_continue
-    if @claim.save
-      send_ga('event', 'claim', 'draft', 'created')
-
-      if continue_claim?
-        @claim.next_step!
-        render_new_with_resources
-      else
-        redirect_to external_users_claims_path, notice: 'Draft claim saved'
-      end
-    else
-      render_new_with_resources
-    end
-  end
-
   def update_draft_and_continue
-    if @claim.save
-      send_ga('event', 'claim', 'draft', 'updated')
-
-      if continue_claim?
-        @claim.next_step!
-        render_edit_with_resources
-      elsif submitting_to_laa?
-        create_and_submit(action: :edit)
-      else
-        redirect_to external_users_claims_path, notice: 'Draft claim saved'
-      end
-    else
-      render_edit_with_resources
-    end
+    create_draft_and_continue(action: :edit, event: 'updated')
   end
 
-  def initialize_submodel_counts
-    @defendant_count            = 0
-    @representation_order_count = 0
-    @basic_fee_count            = 0
-    @basic_fee_date_attended_count = 0
-    @misc_fee_count             = 0
-    @misc_fee_date_attended_count = 0
-    @fixed_fee_count            = 0
-    @fixed_fee_date_attended_count = 0
-    @expense_count              = 0
-    @expense_date_attended_count= 0
+  def create_draft_and_continue(action: :new, event: 'created')
+    #@claim.force_validation = continue_claim?
+
+    @claim.class.transaction do
+      if @claim.save
+        send_ga('event', 'claim', 'draft', event)
+
+        if continue_claim?
+          @claim.next_step!
+          return render_action_with_resources(action)
+        else
+          return redirect_to(external_users_claims_path, notice: 'Draft claim saved')
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
+    render_action_with_resources(action)
+  end
+
+  def update_and_submit
+    create_and_submit(action: :edit)
   end
 
   def create_and_submit(action: :new)
@@ -362,5 +350,18 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def initialize_json_document_importer
     @json_document_importer = JsonDocumentImporter.new
+  end
+
+  def initialize_submodel_counts
+    @defendant_count            = 0
+    @representation_order_count = 0
+    @basic_fee_count            = 0
+    @basic_fee_date_attended_count = 0
+    @misc_fee_count             = 0
+    @misc_fee_date_attended_count = 0
+    @fixed_fee_count            = 0
+    @fixed_fee_date_attended_count = 0
+    @expense_count              = 0
+    @expense_date_attended_count= 0
   end
 end

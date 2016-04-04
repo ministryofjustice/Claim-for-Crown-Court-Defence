@@ -1,7 +1,26 @@
 moj.Modules.NewClaim = {
   $expenses : $('#expenses'),
+  $element : {},
+  $currentExpense : {},
+  dataAttribute : {},
+  $location : {},
+  $distance : {},
+  $mileage : {},
+  $hours : {},
+  $reason : {},
+  $amount : {},
+  $reasonText : {},
+  $ariaLiveRegion : {},
 
   init : function() {
+
+    //Claim basic section
+    this.initBasicClaim();
+    //Attach Expense type event listeners
+    this.initExpense();
+  },
+
+  initBasicClaim : function() {
     var self = this;
 
     self.$offenceCategorySelect = $('#offence_category_description');
@@ -21,7 +40,10 @@ moj.Modules.NewClaim = {
 
     self.attachToOffenceClassSelect();
 
-    //Attach Expense type event listeners
+  },
+
+  initExpense : function() {
+    var self = this;
     self.attachToExpenseTypes();
     self.attachToExpenseReason();
 
@@ -29,7 +51,7 @@ moj.Modules.NewClaim = {
     self.setNumberOfExpenses();
 
     //Show/hide expense elements on page load
-    this.$expenses.find('select.js-expense-type').each(function (){
+    self.$expenses.find('select.js-expense-type').each(function (){
       self.showHideExpenseFields(this);
     });
   },
@@ -49,57 +71,67 @@ moj.Modules.NewClaim = {
     });
   },
 
+  getCurrentExpenseSection : function(elem) {
+    this.$element = $(elem);
+    this.$currentExpense = this.$element.closest('.expense-group');
+    this.dataAttribute = this.$element.find('option:selected').data();
+    this.$location = this.$currentExpense.find('.js-expense-location');
+    this.$distance = this.$currentExpense.find('.js-expense-distance');
+    this.$mileage = this.$currentExpense.find('.js-expense-mileage');
+    this.$hours = this.$currentExpense.find('.js-expense-hours');
+    this.$reason = this.$currentExpense.find('.js-expense-reason');
+    this.$amount = this.$currentExpense.find('.js-expense-amount');
+    this.$reasonText = this.$currentExpense.find('.js-expense-reason-text');
+    this.$ariaLiveRegion = this.$element.next();
+  },
+
   showHideExpenseFields : function(elem){
-    var $element = $(elem);
-    var $currentExpense = $element.closest('.expense-group');
-    var dataAttribute = $element.find('option:selected').data();
-    var $location = $currentExpense.find('.js-expense-location');
-    var $distance = $currentExpense.find('.js-expense-distance');
-    var $mileage = $currentExpense.find('.js-expense-mileage');
-    var $hours = $currentExpense.find('.js-expense-hours');
-    var $reason = $currentExpense.find('.js-expense-reason');
-    var $amount = $currentExpense.find('.js-expense-amount');
-    var $reasonText = $currentExpense.find('.js-expense-reason-text');
+    var self = this;
+
+    self.getCurrentExpenseSection(elem);
 
     //hide all the fields by default
-    if($element.find('option:selected').is(':first-child')){
-      $location
-        .add($amount)
-        .add($distance)
-        .add($mileage)
-        .add($mileage)
-        .add($hours)
-        .add($reason)
-        .add($reasonText)
+    if(self.$element.find('option:selected').is(':first-child')){
+      self.$location
+        .add(self.$amount)
+        .add(self.$distance)
+        .add(self.$mileage)
+        .add(self.$mileage)
+        .add(self.$hours)
+        .add(self.$reason)
+        .add(self.$reasonText)
         .hide();
     }else{
-      $amount.show();
-
-      this.buildReasonSelectOptions(elem);
-
-      $reason.trigger('change').show();
-
-      //show/Hide distance
-      $distance.toggle(dataAttribute.distance);
-
-      //show/Hide mileage
-      $mileage.toggle(dataAttribute.mileage);
-
-      //show/Hide hours
-      $hours.toggle(dataAttribute.hours);
-
-      //show/Hide location
-      $location
-        .toggle(dataAttribute.location)
-        .find('label')
-        .text(dataAttribute.locationLabel);
-
-      if(dataAttribute.hours === true) {
-        $currentExpense.find('.js-expense-amount').removeClass('first-col');
-      }else{
-        $currentExpense.find('.js-expense-amount').addClass('first-col');
-      }
+      self.showExpenseFields(elem);
     }
+  },
+
+  showExpenseFields : function (elem){
+    var self = this;
+    self.$amount.show();
+
+    self.buildReasonSelectOptions(elem);
+
+    self.$reason.trigger('change').show();
+
+    //show/Hide distance
+    self.$distance.toggle(self.dataAttribute.distance);
+
+    //show/Hide mileage
+    self.$mileage.toggle(self.dataAttribute.mileage);
+
+    //show/Hide hours
+    self.$hours.toggle(self.dataAttribute.hours);
+
+    //show/Hide location
+    self.$location
+      .toggle(self.dataAttribute.location)
+      .find('label')
+      .text(self.dataAttribute.locationLabel);
+
+    self.$currentExpense.find('.js-expense-amount').toggleClass('first-col', self.dataAttribute.hours);
+
+    self.$ariaLiveRegion.children().hide().end().append('<div>Great this works</div>');
   },
 
   attachToExpenseReason : function() {
@@ -111,12 +143,13 @@ moj.Modules.NewClaim = {
   },
 
   buildReasonSelectOptions : function(expenseType) {
-    var $element = $(expenseType);
-    var $currentExpense = $element.closest('.expense-group');
-    var dataAttribute = $element.find('option:selected').data();
-    var $reason = $currentExpense.find('.js-expense-reason');
     var newReason = [];
-    var expenseReason = MOJ.ExpenseReasons[dataAttribute.reasonSet];
+    var expenseReason = {};
+    var self = this;
+
+    self.getCurrentExpenseSection(expenseType);
+
+    expenseReason = MOJ.ExpenseReasons[self.dataAttribute.reasonSet];
 
     for(var opt in expenseReason){
       if(expenseReason.hasOwnProperty(opt)){
@@ -127,7 +160,7 @@ moj.Modules.NewClaim = {
         newReason.push(currentOption);
       }
     }
-    $reason.find('select').children().remove().end().append(newReason);
+    self.$reason.find('select').children().remove().end().append(newReason);
   },
 
   showHideExpenseReasonsText : function(elem){

@@ -7,8 +7,8 @@
         = " #{@expense_count}"
     .form-row
       .form-col{class: "expense_#{@expense_count}_date"}
-        = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', placeholders: true)
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_date")
+        = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', placeholders: true, id: "expense_#{@expense_count}_date")
+
 
     .form-row
       .form-col{class: "expense_#{@expense_count}_expense_type"}

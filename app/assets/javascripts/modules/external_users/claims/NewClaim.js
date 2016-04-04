@@ -74,6 +74,9 @@ moj.Modules.NewClaim = {
         .hide();
     }else{
       $amount.show();
+
+      this.buildReasonSelectOptions(elem);
+
       $reason.trigger('change').show();
 
       //show/Hide distance
@@ -99,7 +102,7 @@ moj.Modules.NewClaim = {
     }
   },
 
-  attachToExpenseReason : function(){
+  attachToExpenseReason : function() {
     var self = this;
 
     self.$expenses.find('.js-expense-reason').on('change', 'select', function(){
@@ -107,12 +110,33 @@ moj.Modules.NewClaim = {
     });
   },
 
+  buildReasonSelectOptions : function(expenseType) {
+    var $element = $(expenseType);
+    var $currentExpense = $element.closest('.expense-group');
+    var dataAttribute = $element.find('option:selected').data();
+    var $reason = $currentExpense.find('.js-expense-reason');
+    var newReason = [];
+    var expenseReason = MOJ.ExpenseReasons[dataAttribute.reasonSet];
+
+    for(var opt in expenseReason){
+      if(expenseReason.hasOwnProperty(opt)){
+        var currentOption = new Option(expenseReason[opt].reason, expenseReason[opt].id);
+
+        currentOption.setAttribute('data-reason-text', expenseReason[opt].reason_text);
+
+        newReason.push(currentOption);
+      }
+    }
+    $reason.find('select').children().remove().end().append(newReason);
+  },
+
   showHideExpenseReasonsText : function(elem){
     var $reason = $(elem);
     var $currentExpense = $reason.closest('.expense-group');
-    var visible = $reason.find('option:selected').text() === 'Other';
+    var visible = $reason.find('option:selected').data('result_text');
 
     $currentExpense.find('.js-expense-reason-text').toggle(visible);
+
   },
 
   setNumberOfExpenses : function() {

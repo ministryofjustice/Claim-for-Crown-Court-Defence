@@ -489,4 +489,41 @@ describe Claim::BaseClaimValidator do
     end
   end
 
+  context 'partial validation' do
+    before do
+      allow(described_class).to receive(:fields_for_steps).and_return([ [:case_number], [:court] ])
+
+      claim.case_number = nil
+      claim.court_id = nil
+    end
+
+    context 'from web' do
+      before do
+        claim.source = 'web'
+      end
+
+      it 'should validate only the fields for the current step (1)' do
+        claim.form_step = 1
+        expect(claim.valid?).to be_falsey
+        expect(claim.errors.keys).to eq([:case_number])
+      end
+
+      it 'should validate only the fields for the current step (2)' do
+        claim.form_step = 2
+        expect(claim.valid?).to be_falsey
+        expect(claim.errors.keys).to eq([:court])
+      end
+    end
+
+    context 'from API' do
+      before do
+        claim.source = 'api'
+      end
+
+      it 'should validate all the fields for all the steps' do
+        expect(claim.valid?).to be_falsey
+        expect(claim.errors.keys.sort).to eq([:case_number, :court].sort)
+      end
+    end
+  end
 end

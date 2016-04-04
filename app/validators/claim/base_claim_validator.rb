@@ -1,26 +1,30 @@
 class Claim::BaseClaimValidator < BaseValidator
 
-  def self.fields
+  def self.fields_for_steps
     [
-    :case_type,
-    :court,
-    :case_number,
-    :advocate_category,
-    :offence,
-    :estimated_trial_length,
-    :actual_trial_length,
-    :retrial_estimated_length,
-    :retrial_actual_length,
-    :trial_cracked_at_third,
-    :total,
-    :trial_fixed_notice_at,
-    :trial_fixed_at,
-    :trial_cracked_at,
-    :first_day_of_trial,
-    :trial_concluded_at,
-    :retrial_started_at,
-    :retrial_concluded_at,
-    :case_concluded_at,
+      [
+        :case_type,
+        :court,
+        :case_number,
+        :advocate_category,
+        :offence,
+        :estimated_trial_length,
+        :actual_trial_length,
+        :retrial_estimated_length,
+        :retrial_actual_length,
+        :trial_cracked_at_third,
+        :trial_fixed_notice_at,
+        :trial_fixed_at,
+        :trial_cracked_at,
+        :first_day_of_trial,
+        :trial_concluded_at,
+        :retrial_started_at,
+        :retrial_concluded_at,
+        :case_concluded_at
+      ],
+      [
+        :total
+      ]
     ]
   end
 
@@ -34,6 +38,18 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   private
+
+  def validate_step_fields
+    fields = self.class.fields_for_steps
+
+    if @record.from_web?
+      fields[@record.current_step - 1] || []
+    else
+      fields.flatten
+    end.each do |field|
+      self.__send__("validate_#{field}")
+    end
+  end
 
   def validate_total
     unless @record.source == 'api'

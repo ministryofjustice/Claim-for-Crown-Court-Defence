@@ -1,9 +1,13 @@
 class BaseValidator < ActiveModel::Validator
 
+  # Override this method in the derived class
+  def validate_step_fields; end
+
   def validate(record)
     @record = record
     if @record.perform_validation?
       validate_fields(:fields)
+      validate_step_fields
     end
     validate_fields(:mandatory_fields)
   end

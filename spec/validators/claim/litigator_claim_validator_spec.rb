@@ -25,7 +25,7 @@ describe Claim::LitigatorClaimValidator do
 
     it 'is valid when present' do
       claim.case_concluded_at = 1.month.ago
-      expect(claim).not_to be_valid
+      expect(claim).to be_valid
       expect(claim.errors.key?(:case_concluded_at)).to be false
     end
   end

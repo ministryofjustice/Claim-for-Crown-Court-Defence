@@ -26,6 +26,7 @@ describe Claim::BaseClaimSubModelValidator do
       @misc_fee = FactoryGirl.create :misc_fee,:with_date_attended, claim: claim
       FactoryGirl.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
+      claim.form_step = 2
     end
 
     it 'should call the validator on all the attended dates for all the fees' do
@@ -41,6 +42,7 @@ describe Claim::BaseClaimSubModelValidator do
       FactoryGirl.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
+      claim.form_step = 2
     end
 
     it 'should call the validator on all the attended dates for all the expenses' do
@@ -124,6 +126,62 @@ describe Claim::BaseClaimSubModelValidator do
             expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
         end
+      end
+    end
+  end
+
+  context 'partial validation' do
+    let(:assoc_defendant)     { double('Defendant', valid?: true) }
+    let(:assoc_expense)       { double('Expense', valid?: true) }
+    let(:assoc_assessment)    { double('Assessment', valid?: true) }
+    let(:assoc_certification) { double('Certification', valid?: true) }
+
+    before do
+      allow_any_instance_of(described_class).to receive(:has_many_association_names_for_steps).and_return([ [:defendants], [:expenses] ])
+      allow_any_instance_of(described_class).to receive(:has_one_association_names_for_steps).and_return([ [:assessment], [:certification] ])
+
+      allow(claim).to receive(:defendants).and_return([assoc_defendant])
+      allow(claim).to receive(:expenses).and_return([assoc_expense])
+
+      allow(claim).to receive(:assessment).and_return(assoc_assessment)
+      allow(claim).to receive(:certification).and_return(assoc_certification)
+    end
+
+    context 'from web' do
+      before do
+        claim.source = 'web'
+      end
+
+      it 'should validate only the associations for the current step (1)' do
+        claim.form_step = 1
+        expect(assoc_defendant).to receive(:valid?).exactly(1).times
+        expect(assoc_expense).not_to receive(:valid?).exactly(0).times
+        expect(assoc_assessment).to receive(:valid?).exactly(1).times
+        expect(assoc_certification).to receive(:valid?).exactly(0).times
+        claim.valid?
+      end
+
+      it 'should validate only the associations for the current step (2)' do
+        claim.form_step = 2
+        expect(assoc_defendant).to receive(:valid?).exactly(0).times
+        expect(assoc_expense).to receive(:valid?).exactly(1).times
+        expect(assoc_assessment).to receive(:valid?).exactly(0).times
+        expect(assoc_certification).to receive(:valid?).exactly(1).times
+        claim.valid?
+      end
+    end
+
+    context 'from API' do
+      before do
+        claim.source = 'api'
+      end
+
+      it 'should validate all the associations for all the steps' do
+        expect(assoc_defendant).to receive(:valid?).once
+        expect(assoc_expense).to receive(:valid?).once
+        expect(assoc_assessment).to receive(:valid?).once
+        expect(assoc_certification).to receive(:valid?).once
+        claim.valid?
       end
     end
   end

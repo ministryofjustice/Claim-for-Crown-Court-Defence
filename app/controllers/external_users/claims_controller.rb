@@ -105,6 +105,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
+    @claim.form_step = params[:step].to_i if params.key?(:step)
     redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
   end
 
@@ -301,7 +302,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_draft_and_continue(action: :new, event: 'created')
-    #@claim.force_validation = continue_claim?
+    @claim.force_validation = continue_claim?
 
     @claim.class.transaction do
       if @claim.save

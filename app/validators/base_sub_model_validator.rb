@@ -10,11 +10,20 @@ class BaseSubModelValidator < BaseValidator
     []
   end
 
+  # Override this method in the derived class
+  def validate_has_many_associations_step_fields(record); end
+
+  # Override this method in the derived class
+  def validate_has_one_association_step_fields(record); end
+
+
   def validate(record)
     @result = true
     super
     validate_has_many_associations(record)
     validate_has_one_associations(record)
+    validate_has_many_associations_step_fields(record)
+    validate_has_one_association_step_fields(record)
     remove_unnumbered_submodel_errors_from_base_record(record)
     record.errors.empty? && @result
   end
@@ -23,22 +32,30 @@ class BaseSubModelValidator < BaseValidator
 
   def validate_has_many_associations(record)
     has_many_association_names.each do |association_name|
-      collection = record.__send__(association_name)
-      collection.each_with_index do |associated_record, i|
-        unless associated_record.valid?
-          @result = false
-          copy_errors_to_base_record(record, association_name, associated_record, i)
-        end
-      end
+      validate_collection_for(record, association_name)
     end
   end
 
   def validate_has_one_associations(record)
     has_one_association_names.each do |association_name|
-      associated_record = record.__send__(association_name)
-      unless associated_record.nil?
-        @result = false unless associated_record.valid?
+      validate_association_for(record, association_name)
+    end
+  end
+
+  def validate_collection_for(record, association_name)
+    collection = record.__send__(association_name)
+    collection.each_with_index do |associated_record, i|
+      unless associated_record.valid?
+        @result = false
+        copy_errors_to_base_record(record, association_name, associated_record, i)
       end
+    end
+  end
+
+  def validate_association_for(record, association_name)
+    associated_record = record.__send__(association_name)
+    unless associated_record.nil?
+      @result = false unless associated_record.valid?
     end
   end
 

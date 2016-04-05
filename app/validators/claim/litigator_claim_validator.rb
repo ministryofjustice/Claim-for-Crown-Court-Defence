@@ -15,11 +15,6 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
     validate_inclusion(:offence, Offence.miscellaneous.to_a, "invalid")
   end
 
-  # ALWAYS required
-  def validate_external_user_id
-    validate_presence(:external_user_id, "present")
-  end
-
   def validate_case_concluded_at
     validate_presence(:case_concluded_at, 'blank')
   end

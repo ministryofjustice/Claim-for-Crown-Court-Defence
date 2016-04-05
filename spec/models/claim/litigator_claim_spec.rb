@@ -62,13 +62,13 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
 
     it 'accepts creators whose provider is only lgfs' do
-      claim.creator = create(:external_user, provider: build(:provider, :lgfs))
+      claim.creator = create(:external_user, :litigator, provider: build(:provider, :lgfs))
       claim.external_user =  claim.creator
       expect(claim).to be_valid
     end
 
     it 'accepts creators whose provider is both agfs and lgfs' do
-      claim.creator = create(:external_user, provider: build(:provider, :agfs_lgfs))
+      claim.creator = create(:external_user, :litigator, provider: build(:provider, :agfs_lgfs))
       claim.external_user =  claim.creator
       expect(claim).to be_valid
     end
@@ -80,10 +80,10 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
       claim = build :unpersisted_litigator_claim
       CaseType.delete_all   # kill the case type that was created as part of the claim build
       ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
-      ct_top_level_agfs = create :case_type, roles: %w{ agfs }
       ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
-      ct_child_both = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
-      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+      create :case_type, roles: %w{ agfs }
+      create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+      create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
 
       expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_lgfs.id].sort )
     end

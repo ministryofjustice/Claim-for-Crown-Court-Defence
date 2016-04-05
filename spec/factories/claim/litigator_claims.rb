@@ -4,7 +4,7 @@ FactoryGirl.define do
     court
     case_number         { random_case_number }
     creator             { build :external_user, :litigator }
-    external_user
+    external_user       { creator }
     source              { 'web' }
     apply_vat           false
     offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS

@@ -15,6 +15,7 @@
         = f.label :expense_type_id, 'Expense type'
         - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
         = f.select :expense_type_id, options_for_select(expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}), {prompt: true}, {class: 'form-control js-expense-type'}
+        %span{role: 'status', aria: {live: 'assertive', relevant: 'additions' }, class:'visually-hidden'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
       .form-col{class: "expense_#{@expense_count}_location js-expense-location"}
@@ -24,7 +25,7 @@
 
       .form-col{class: "expense_#{@expense_count}_distance js-expense-distance"}
         = f.label :distance, 'Distance (in miles)'
-        = f.number_field :distance, {class: 'form-control'}
+        = f.number_field :distance, {class: 'form-control short-input'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
 
     .form-row
@@ -40,7 +41,7 @@
         = f.text_field :reason_text, {class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
-    .form-row{class: 'js-expense-mileage'}
+    .form-row{class: 'js-expense-mileage expense-cost'}
       %fieldset{class: "expense_#{@expense_count}_mileage_rate_id inline"}
         %legend
           ='Cost'
@@ -51,14 +52,14 @@
     .form-row
       .form-col{class: "expense_#{@expense_count}_hours js-expense-hours"}
         = f.label :hours, 'Number of hours'
-        = f.number_field :hours, {class: 'form-control'}
+        = f.number_field :hours, {class: 'form-control short-input'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
 
       .form-col{class: "expense_#{@expense_count}_amount js-expense-amount"}
         = f.label :amount, 'Amount'
         .pound-wrapper
-          = f.label :amount, '£', class: 'pound-sign bold-xsmall'
-          = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount', size: 10, maxlength: 8
+          = f.label :amount, '£', class: 'pound-sign bold-xsmall gds-pound-sign'
+          = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control medium-input'
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
     .remove-expense

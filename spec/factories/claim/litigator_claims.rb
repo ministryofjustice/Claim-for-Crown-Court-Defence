@@ -23,7 +23,6 @@ FactoryGirl.define do
 
     factory :unpersisted_litigator_claim do
       court         { build :court }
-      external_user { creator }
       creator       { build :external_user, :litigator, provider: build(:provider, :lgfs) }
       external_user { creator }
       offence       { build :offence, offence_class: build(:offence_class) }

@@ -129,7 +129,7 @@ moj.Modules.NewClaim = {
       .find('label')
       .text(self.dataAttribute.locationLabel);
 
-    self.$currentExpense.find('.js-expense-amount').toggleClass('first-col', self.dataAttribute.hours);
+    self.$currentExpense.find('.js-expense-amount').toggleClass('first-col', !self.dataAttribute.hours);
 
     self.$ariaLiveRegion.children().hide().end().append('<div>Great this works</div>');
   },

@@ -9,12 +9,20 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path_url_for_user, alert: 'Unauthorised'
-  end
-
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
     redirect_to error_404_url
+  end
+
+  rescue_from Exception do |exception|
+    if exception.is_a?(RuntimeError)
+      raise exception
+    else
+      redirect_to error_500_url
+    end
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path_url_for_user, alert: 'Unauthorised'
   end
 
   def user_for_paper_trail

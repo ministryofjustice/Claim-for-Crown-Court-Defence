@@ -68,6 +68,10 @@ module Claim
       Fee::FixedFeeType.agfs
     end
 
+    def external_user_type
+      :advocate
+    end
+
 
     private
 

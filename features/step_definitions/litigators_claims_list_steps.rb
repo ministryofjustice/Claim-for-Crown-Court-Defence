@@ -12,6 +12,6 @@ Given(/^my firm has claims$/) do
   @litigator.save!
 
   # create claims created by the first and second litigator
-  @claims = create_list(:litigator_claim, 3, creator: litigator1)
-  @claims.concat(create_list(:litigator_claim, 2, creator: litigator2))
+  @claims = create_list(:litigator_claim, 3, external_user: litigator1, creator: litigator1)
+  @claims.concat(create_list(:litigator_claim, 2, external_user: litigator2,  creator: litigator2))
 end

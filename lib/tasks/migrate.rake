@@ -36,6 +36,11 @@
     task :case_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
     end
+
+    desc 'Seed Disbursement Types'
+    task :disbursement_types => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
+    end
   end
 end
  

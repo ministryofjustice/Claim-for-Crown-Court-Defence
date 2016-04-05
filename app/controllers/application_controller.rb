@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
     redirect_to error_404_url
   end
 
+  rescue_from Exception do |exception|
+    redirect_to error_500_url
+  end
+
   def user_for_paper_trail
     current_user.nil? ? 'Unknown': current_user.persona.class.to_s.humanize
   end

@@ -44,7 +44,7 @@ moj.Modules.NewClaim = {
 
   initExpense : function() {
     var self = this;
-    self.attachToExpenseTypes();
+    self.attachEventsForExpenseTypes();
     self.attachToExpenseReason();
 
     //Attach cocoon events to count number of expenses and update labels
@@ -64,7 +64,7 @@ moj.Modules.NewClaim = {
     $('#offence_class_description').change();
   },
 
-  attachToExpenseTypes : function() {
+  attachEventsForExpenseTypes : function() {
     var self = this;
     this.$expenses.on('change', 'select.js-expense-type', function() {
       self.showHideExpenseFields(this);
@@ -137,7 +137,7 @@ moj.Modules.NewClaim = {
   attachToExpenseReason : function() {
     var self = this;
 
-    self.$expenses.find('.js-expense-reason').on('change', 'select', function(){
+    self.$expenses.on('change', '.js-expense-reason select', function(){
       self.showHideExpenseReasonsText(this);
     });
   },
@@ -166,7 +166,7 @@ moj.Modules.NewClaim = {
   showHideExpenseReasonsText : function(elem){
     var $reason = $(elem);
     var $currentExpense = $reason.closest('.expense-group');
-    var visible = $reason.find('option:selected').data('result_text');
+    var visible = $reason.find('option:selected').data('reason-text');
 
     $currentExpense.find('.js-expense-reason-text').toggle(visible);
 

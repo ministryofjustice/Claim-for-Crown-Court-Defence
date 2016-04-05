@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
+require_relative 'shared_examples_for_advocate_litigator'
 
 describe Claim::LitigatorClaimValidator do
 
@@ -7,11 +8,13 @@ describe Claim::LitigatorClaimValidator do
   include_context "force-validation"
 
   let(:advocate)      { build(:external_user, :advocate) }
+  let(:litigator)     { build(:external_user, :litigator) }
   let(:claim)         { create(:litigator_claim) }
   let(:offence)       { build(:offence) }
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
   let(:misc_offence)  { create(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
 
+  include_examples "common advocate litigator validations", :litigator
 
   context 'case concluded at date' do
     let(:claim)    { build :litigator_claim }

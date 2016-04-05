@@ -3,7 +3,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
 
   def validate_creator
     super if defined?(super)
-    validate_has_role(@record.creator.provider, :lgfs, :creator, 'must be from a provider with permission to submit LGFS claims')
+    validate_has_role(@record.creator.try(:provider), :lgfs, :creator, 'must be from a provider with permission to submit LGFS claims')
   end
 
   def validate_advocate_category

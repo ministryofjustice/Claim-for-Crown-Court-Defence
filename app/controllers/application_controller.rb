@@ -9,6 +9,22 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
+    redirect_to error_404_url
+  end
+
+  rescue_from Exception do |exception|
+    if exception.is_a?(RuntimeError)
+      raise exception
+    else
+      redirect_to error_500_url
+    end
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path_url_for_user, alert: 'Unauthorised'
+  end
+
   def user_for_paper_trail
     current_user.nil? ? 'Unknown': current_user.persona.class.to_s.humanize
   end
@@ -19,10 +35,6 @@ class ApplicationController < ActionController::Base
 
   def current_user_persona_is?(persona_class)
     current_user.persona.is_a?(persona_class)
-  end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path_url_for_user, alert: 'Unauthorised'
   end
 
   def signed_in_user_profile_path

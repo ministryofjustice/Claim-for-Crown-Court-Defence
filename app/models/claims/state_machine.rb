@@ -60,7 +60,7 @@ module Claims::StateMachine
             :submitted,
             :deallocated
 
-      after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!, :update_vat]
+      after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!]
       after_transition on: :authorise,                do: :set_authorised_date!
       after_transition on: :authorise_part,           do: :set_authorised_date!
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]

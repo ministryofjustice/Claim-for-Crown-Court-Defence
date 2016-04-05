@@ -150,7 +150,7 @@ module Claim
                      :instantiate_assessment,
                      :set_force_validation_to_false
 
-    after_save :find_and_associate_documents
+    after_save :find_and_associate_documents, :update_vat
 
     def ensure_not_abstract_class
       raise BaseClaimAbstractClassError if self.class == BaseClaim

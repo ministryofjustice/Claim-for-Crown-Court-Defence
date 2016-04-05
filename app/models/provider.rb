@@ -55,6 +55,13 @@ class Provider < ActiveRecord::Base
     update_column(:api_key, SecureRandom.uuid)
   end
 
+  def available_claim_types
+    claim_types = []
+    claim_types << Claim::AdvocateClaim if self.agfs?
+    claim_types << Claim::LitigatorClaim if self.lgfs?
+    claim_types
+  end
+
   private
 
   def set_api_key

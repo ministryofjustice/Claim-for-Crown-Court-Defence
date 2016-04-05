@@ -255,6 +255,30 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
+  describe 'available_claim_types' do
+    let(:advocate)            { build(:external_user, :advocate) }
+    let(:litigator)           { build(:external_user, :litigator) }   
+    let(:admin)               { build(:external_user, :admin) }   
+    let(:advocate_litigator)  { build(:external_user, :advocate_litigator) }   
+
+    it 'returns advocate claims for advocates' do
+      expect(advocate.available_claim_types).to eq( [ Claim::AdvocateClaim ] )
+    end
+
+    it 'returns litigator claims for litigators' do
+      expect(litigator.available_claim_types).to eq( [ Claim::LitigatorClaim ] )
+    end
+
+    it 'returns both types of claims for admin' do
+      expect(admin.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+    end
+
+    it 'returns both types of claims for advocate_litigators' do
+      expect(advocate_litigator.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+    end
+
+  end
+
   describe '#available_roles' do
     let(:advocate)            { create(:external_user, :advocate)           }
     let(:litigator)           { create(:external_user, :litigator)          }

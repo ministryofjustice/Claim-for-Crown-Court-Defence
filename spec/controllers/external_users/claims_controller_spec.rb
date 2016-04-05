@@ -15,7 +15,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     let!(:litigator)      { create(:external_user, :litigator) }
     let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator){ create(:external_user, :advocate, provider: litigator.provider) }
+    let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
 
@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         context 'advocate' do
           it 'should assign context to claims for the advocate only' do
             get :index
-            expect(assigns(:claims_context)).to eq(advocate.claims)
+            expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
           it 'should assign claims to dashboard displayable state claims for the advocate only' do
             get :index
@@ -67,20 +67,23 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       context 'LGFS claims' do
         before do
-          create(:litigator_claim, :draft, creator: litigator)
-          create(:litigator_claim, :archived_pending_delete, creator: litigator)
-          create(:litigator_claim, :draft, creator: other_litigator)
+          @draft_claim = create(:litigator_claim, :draft, external_user: litigator, creator: litigator)
+          create(:litigator_claim, :archived_pending_delete, external_user: litigator, creator: litigator)
+          create(:litigator_claim, :draft, external_user: other_litigator, creator: other_litigator)
         end
 
         context 'litigator' do
           before { sign_in litigator.user }
           it 'should assign context to claims for the provider' do
             get :index
-            expect(assigns(:claims_context)).to eq(litigator.provider.claims_created)
+            expected_claims = Claim::BaseClaim.where(external_user_id: litigator.id)
+            expect(assigns(:claims_context)).to eq(expected_claims)
           end
+
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+            expected_claims = [ @draft_claim ]
             get :index
-            expect(assigns(:claims)).to eq(litigator.provider.claims_created.dashboard_displayable_states)
+            expect(assigns(:claims)).to eq( [ @draft_claim] )
           end
         end
 
@@ -90,6 +93,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
             get :index
             expect(assigns(:claims_context)).to eq(litigator_admin.provider.claims_created)
           end
+
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
             expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.dashboard_displayable_states)
@@ -259,7 +263,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in advocate.user }
           it 'should assign context to provider claims based on external user' do
             get :archived
-            expect(assigns(:claims_context)).to eq(advocate.claims)
+            expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
           it 'should assign claims to archived only' do
             get :archived
@@ -282,9 +286,9 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       context 'LGFS claims' do
         before do
-          create(:litigator_claim, :draft, creator: litigator)
-          create(:litigator_claim, :archived_pending_delete, creator: litigator)
-          create(:litigator_claim, :draft, creator: other_litigator)
+          create(:litigator_claim, :draft, external_user: litigator, creator: litigator)
+          create(:litigator_claim, :archived_pending_delete, external_user: litigator, creator: litigator)
+          create(:litigator_claim, :draft, external_user: other_litigator, creator: other_litigator)
         end
 
         context 'litigator' do

@@ -57,22 +57,41 @@ shared_examples_for 'roles' do |klass, roles|
     subject { create(factory_name, roles: roles) }
     
     it "returns true if subject has exact specified roles" do
-
       expect(subject.has_roles?(roles)).to eq(true)
       expect(subject.has_roles?(*roles)).to eq(true)
       expect(subject.has_roles?(roles.flatten)).to eq(true)
     end
 
-    it "returns false if subject does NOT have exact match for specified roles" do
-      expect(subject.has_roles?(roles[0])).to eq(false)
+    it 'returns true if the subject has a subset of the roles' do
+      expect(subject.has_roles?(roles.last)).to be true
+      expect(subject.has_roles?(roles.first)).to be true
     end
 
-    it "returns false if subject does NOT have exact specified roles" do
-      err_roles = roles.dup
-      err_roles << 'foobar'
-      expect(subject.has_roles?(err_roles)).to eq(false)
+    it 'returns false if the subject doesnt have all the specified roles' do
+      these_roles = roles + ['extra']
+      expect(subject.has_roles?(these_roles)).to be false
     end
 
+    it 'returns false if the subject has none of the specified roles' do
+      different_roles = %w{ this that other }
+      expect(subject.has_roles?(different_roles)).to be false
+    end
+
+    it 'returns true if the role is specified as a symbol' do
+      expect(subject.has_roles?(roles.first.to_sym)).to be true
+    end
+
+    it 'returns true if the roles are specifeied as an array of symbols' do
+      expect(subject.has_roles?(roles.map(&:to_sym))).to be true
+    end
+
+    it 'returns true if the role is specified as a string' do
+      expect(subject.has_roles?(roles.first.to_s)).to be true
+    end
+
+    it 'returns true if the roles are specifeied as an array of strings' do
+      expect(subject.has_roles?(roles.map(&:to_s))).to be true
+    end
   end
 
   describe 'role based dynamic boolean methods' do

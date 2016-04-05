@@ -68,6 +68,10 @@ module Claim
       Fee::FixedFeeType.lgfs
     end
 
+    def external_user_type
+      :litigator
+    end
+
 
     private
 

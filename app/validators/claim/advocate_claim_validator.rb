@@ -14,18 +14,6 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
     validate_presence(:offence, "blank") unless fixed_fee_case?
   end
 
-  # ALWAYS required/mandatory
-  def validate_external_user_id
-    validate_presence(:external_user, "blank")
-    validate_has_role(@record.external_user, :advocate, :external_user, 'must have advocate role') unless @record.external_user.nil?
-    unless @record.errors.key?(:external_user)
-      unless @record.creator_id == @record.external_user_id || @record.creator.try(:provider) == @record.external_user.try(:provider)
-        @record.errors[:external_user] << 'Creator and advocate must belong to the same provider'
-      end
-      
-    end
-  end
-
   def validate_case_concluded_at
     validate_absence(:case_concluded_at, 'presence')
   end

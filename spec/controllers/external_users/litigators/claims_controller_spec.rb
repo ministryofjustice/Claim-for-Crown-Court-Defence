@@ -38,6 +38,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         let(:claim_params) do
           {
+            external_user_id: litigator.id,
             additional_information: 'foo',
             court_id: court,
             case_type_id: case_type.id,
@@ -103,16 +104,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit: 'Submit to LAA'
             expect(response).to redirect_to(summary_external_users_claim_path(Claim::LitigatorClaim.first))
-          end
-
-          it 'sets the created claim\'s creator/"owner" to the signed in litigator' do
-            post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(Claim::LitigatorClaim.first.external_user).to eq(nil)
-          end
-
-          it 'sets the created claim\'s external_user to be nil' do
-            post :create, claim: claim_params, commit: 'Submit to LAA'
-            expect(Claim::LitigatorClaim.first.external_user).to eq(nil)
           end
 
           it 'leaves the claim\'s state in "draft"' do

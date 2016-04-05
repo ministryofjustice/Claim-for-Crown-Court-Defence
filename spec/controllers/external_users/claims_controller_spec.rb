@@ -15,7 +15,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
     let!(:litigator)      { create(:external_user, :litigator) }
     let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator){ create(:external_user, :advocate, provider: litigator.provider) }
+    let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
 
@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         context 'advocate' do
           it 'should assign context to claims for the advocate only' do
             get :index
-            expect(assigns(:claims_context)).to eq(advocate.claims)
+            expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
           it 'should assign claims to dashboard displayable state claims for the advocate only' do
             get :index
@@ -263,7 +263,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in advocate.user }
           it 'should assign context to provider claims based on external user' do
             get :archived
-            expect(assigns(:claims_context)).to eq(advocate.claims)
+            expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
           it 'should assign claims to archived only' do
             get :archived

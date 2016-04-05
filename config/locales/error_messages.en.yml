@@ -28,10 +28,14 @@ defendant:
 
 external_user:
   _seq: 10
-  blank:
+  blank_advocate:
     long: Choose an advocate
     short: Choose an advocate
     api: Choose an advocate
+  blank_litigator:
+    long: Choose a litigator
+    short: Choose a litigator
+    api: Choose a litigator
 
 creator:
   _seq: 15

@@ -79,7 +79,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq( ['blank'] )
+      expect(subject.errors[:external_user]).to eq( ['blank_advocate'] )
     end
 
     it 'should be valid with the same external_user_id and creator_id' do

@@ -52,7 +52,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_external_user_id
-    validate_presence(:external_user, "blank")
+    validate_presence(:external_user, "blank_#{@record.external_user_type}")
     validate_external_user_has_required_role unless @record.external_user.nil?
     unless @record.errors.key?(:external_user)
       validate_creator_and_external_user_have_same_provider

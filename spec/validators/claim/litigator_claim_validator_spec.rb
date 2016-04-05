@@ -41,7 +41,7 @@ describe Claim::LitigatorClaimValidator do
 
     it 'should error if not present, regardless' do
       claim.external_user = nil
-      should_error_with(claim, :external_user, "blank")
+      should_error_with(claim, :external_user, "blank_litigator")
     end
 
     it 'should error if does not belong to the same provider as the creator' do

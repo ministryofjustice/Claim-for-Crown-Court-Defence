@@ -50,7 +50,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             court_id: court,
             case_type_id: case_type.id,
             offence_id: offence,
-            external_user_id: external_user.id,
             case_number: 'A12345678',
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
@@ -125,6 +124,69 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           end
         end
 
+        context 'multi-step form submit to LAA' do
+          let(:case_number) { 'A88888888' }
+
+          let(:claim_params_step1) do
+            {
+                external_user_id: litigator.id,
+                court_id: court,
+                case_type_id: case_type.id,
+                offence_id: offence,
+                case_number: case_number,
+                case_concluded_at_dd: 5.days.ago.day.to_s,
+                case_concluded_at_mm: 5.days.ago.month.to_s,
+                case_concluded_at_yyyy: 5.days.ago.year.to_s,
+                defendants_attributes: [
+                    { first_name: 'John',
+                      last_name: 'Smith',
+                      date_of_birth_dd: '4',
+                      date_of_birth_mm: '10',
+                      date_of_birth_yyyy: '1980',
+                      representation_orders_attributes: [
+                          {
+                              representation_order_date_dd: Time.now.day.to_s,
+                              representation_order_date_mm: Time.now.month.to_s,
+                              representation_order_date_yyyy: Time.now.year.to_s,
+                              maat_reference: '4561237895'
+                          }
+                      ]
+                    }
+                ]
+            }
+          end
+
+          let(:claim_params_step2) do
+            {
+                form_step: 2,
+                additional_information: 'foo',
+                expenses_attributes:
+                    [
+                        {
+                            expense_type_id: expense_type.id,
+                            location: 'London',
+                            quantity: 1,
+                            rate: 40
+                        }
+                    ]
+            }
+          end
+
+          let(:subject_claim) { Claim::LitigatorClaim.where(case_number: case_number).first }
+
+          it 'validates step fields and move to next steps' do
+            post :create, commit_continue: 'Continue', claim: claim_params_step1
+            expect(subject_claim.draft?).to be_truthy
+            expect(subject_claim.valid?).to be_truthy
+            expect(assigns(:claim).current_step).to eq(2)
+            expect(response).to render_template('external_users/litigators/claims/new')
+
+            put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
+            expect(subject_claim.draft?).to be_truthy
+            expect(subject_claim.valid?).to be_truthy
+            expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
+          end
+        end
       end
 
       context 'submit to LAA with incomplete/invalid params' do

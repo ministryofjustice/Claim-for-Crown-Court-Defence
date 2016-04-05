@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Exception do |exception|
-    redirect_to error_500_url
+    if exception.is_a?(RuntimeError)
+      raise exception
+    else
+      redirect_to error_500_url
+    end
   end
 
   def user_for_paper_trail

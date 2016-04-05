@@ -291,6 +291,10 @@ module Claim
       self.form_step.to_i
     end
 
+    def current_step_index
+      current_step - 1
+    end
+
     def from_api?
       source == 'api'
     end

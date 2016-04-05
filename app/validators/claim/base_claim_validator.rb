@@ -43,7 +43,7 @@ class Claim::BaseClaimValidator < BaseValidator
     fields = self.class.fields_for_steps
 
     if @record.from_web?
-      fields[@record.current_step - 1] || []
+      fields[@record.current_step_index] || []
     else
       fields.flatten
     end.each do |field|

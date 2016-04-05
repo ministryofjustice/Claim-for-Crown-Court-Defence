@@ -19,6 +19,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def has_one_association_names_for_steps
     [
+      [ ],
       [
         :assessment,
         :certification
@@ -30,7 +31,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def validate_has_many_associations_step_fields(record)
     if record.from_web?
-      has_many_association_names_for_steps[record.current_step - 1]
+      has_many_association_names_for_steps[record.current_step_index] || []
     else
       has_many_association_names_for_steps.flatten
     end.each do |association_name|
@@ -40,7 +41,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
   def validate_has_one_association_step_fields(record)
     if record.from_web?
-      has_one_association_names_for_steps[record.current_step - 1] || []
+      has_one_association_names_for_steps[record.current_step_index] || []
     else
       has_one_association_names_for_steps.flatten
     end.each do |association_name|

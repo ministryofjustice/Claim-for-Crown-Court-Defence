@@ -126,7 +126,12 @@ RSpec.describe Claims::StateMachine, type: :model do
     describe 'make archive_pending_delete valid for 180 days' do
       subject { create(:authorised_claim) }
 
-      it { expect(subject).to receive(:update_column).with(:valid_until, Time.now + 180.days); subject.archive_pending_delete! }
+      it {
+        frozen_time = Time.now
+        Timecop.freeze(frozen_time) { subject.archive_pending_delete! }
+
+        expect(subject.valid_until).to eq(frozen_time + 180.days)
+      }
     end
 
     describe 'make last_submitted_at attribute equal now' do
@@ -173,9 +178,12 @@ RSpec.describe Claims::StateMachine, type: :model do
       before { subject.submit!; subject.allocate! }
 
       it {
-        expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.authorise!
+
+        frozen_time = Time.now + 1.month
+        Timecop.freeze(frozen_time) { subject.authorise! }
+
+        expect(subject.authorised_at).to eq(frozen_time)
       }
     end
 
@@ -183,9 +191,12 @@ RSpec.describe Claims::StateMachine, type: :model do
       before { subject.submit!; subject.allocate! }
 
       it {
-        expect(subject).to receive(:update_column).with(:authorised_at,Time.now)
         subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.authorise_part!
+
+        frozen_time = Time.now + 1.month
+        Timecop.freeze(frozen_time) { subject.authorise_part! }
+
+        expect(subject.authorised_at).to eq(frozen_time)
       }
     end
   end # describe 'set triggers'

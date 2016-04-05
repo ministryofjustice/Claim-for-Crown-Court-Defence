@@ -7,7 +7,7 @@ module DemoData
     def generate_claim(litigator)
       claim = Claim::LitigatorClaim.new(
         creator: litigator,
-        external_user: nil,
+        external_user: litigator,
         advocate_category: nil,
         court: Court.all.sample,
         case_type: CaseType.lgfs.sample,

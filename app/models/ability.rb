@@ -65,9 +65,11 @@ class Ability
 
   def can_administer_documents_in_provider(persona)
     can [:index, :create], Document
+
+    # NOTE: for destroy action, at least, the document may not be persisted/saved
     can [:show, :download, :destroy], Document do |document|
       if document.external_user_id.nil?
-        document.creator.provider_id == persona.provider.id
+        User.find(document.creator_id).persona.provider.id == persona.provider.id
       else
         document.external_user.provider.id == persona.provider.id
       end
@@ -94,7 +96,7 @@ class Ability
     can [:index, :create], Document
     can [:show, :download, :destroy], Document do |document|
       if document.external_user_id.nil?
-        document.creator_id == persona.id
+        document.creator_id == persona.user.id
       else
         document.external_user_id == persona.id
       end

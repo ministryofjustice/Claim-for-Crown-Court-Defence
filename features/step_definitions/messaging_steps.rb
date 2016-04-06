@@ -28,7 +28,6 @@ end
 When(/^I enter a message '(.*?)'$/) do |text|
   @message = text
   @external_user_claim_show_page.messages_panel.enter_your_message.set @message
-  @external_user_claim_show_page.messages_panel.send.click
 end
 
 When(/^I upload a file$/) do

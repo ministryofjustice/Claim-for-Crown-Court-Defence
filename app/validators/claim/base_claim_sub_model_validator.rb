@@ -1,22 +1,5 @@
 class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
-  def has_many_association_names_for_steps
-    [
-      [
-        :defendants
-      ],
-      [
-        :basic_fees,
-        :misc_fees,
-        :fixed_fees,
-        :expenses,
-        :messages,
-        :redeterminations,
-        :documents
-      ]
-    ]
-  end
-
   def has_one_association_names_for_steps
     [
       [ ],

@@ -131,20 +131,19 @@ describe Claim::BaseClaimSubModelValidator do
   end
 
   context 'partial validation' do
-    let(:assoc_defendant)     { double('Defendant', valid?: true) }
-    let(:assoc_expense)       { double('Expense', valid?: true) }
-    let(:assoc_assessment)    { double('Assessment', valid?: true) }
-    let(:assoc_certification) { double('Certification', valid?: true) }
+    let(:assoc_defendant)     { instance_double(Defendant, valid?: true) }
+    let(:assoc_expense)       { instance_double(Expense, valid?: true) }
+    let(:assoc_basic_fee)     { instance_double(Fee::BasicFee, valid?: true) }
+    let(:assoc_assessment)    { instance_double(Assessment, valid?: true) }
 
     before do
-      allow_any_instance_of(described_class).to receive(:has_many_association_names_for_steps).and_return([ [:defendants], [:expenses] ])
-      allow_any_instance_of(described_class).to receive(:has_one_association_names_for_steps).and_return([ [:assessment], [:certification] ])
-
+      # has_many
       allow(claim).to receive(:defendants).and_return([assoc_defendant])
       allow(claim).to receive(:expenses).and_return([assoc_expense])
+      allow(claim).to receive(:basic_fees).and_return([assoc_basic_fee])
 
+      # has_one
       allow(claim).to receive(:assessment).and_return(assoc_assessment)
-      allow(claim).to receive(:certification).and_return(assoc_certification)
     end
 
     context 'from web' do
@@ -152,22 +151,46 @@ describe Claim::BaseClaimSubModelValidator do
         claim.source = 'web'
       end
 
-      it 'should validate only the associations for the current step (1)' do
-        claim.form_step = 1
-        expect(assoc_defendant).to receive(:valid?).exactly(1).times
-        expect(assoc_expense).not_to receive(:valid?).exactly(0).times
-        expect(assoc_assessment).to receive(:valid?).exactly(1).times
-        expect(assoc_certification).to receive(:valid?).exactly(0).times
-        claim.valid?
+      context 'for advocate claim' do
+        it 'should validate only the associations for the current step (1)' do
+          claim.form_step = 1
+          expect(assoc_defendant).to receive(:valid?).exactly(1).times
+          expect(assoc_expense).to receive(:valid?).exactly(0).times
+          expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_assessment).to receive(:valid?).exactly(0).times
+          claim.valid?
+        end
+
+        it 'should validate only the associations for the current step (2)' do
+          claim.form_step = 2
+          expect(assoc_defendant).to receive(:valid?).exactly(0).times
+          expect(assoc_expense).to receive(:valid?).exactly(1).times
+          expect(assoc_basic_fee).to receive(:valid?).exactly(1).times
+          expect(assoc_assessment).to receive(:valid?).exactly(1).times
+          claim.valid?
+        end
       end
 
-      it 'should validate only the associations for the current step (2)' do
-        claim.form_step = 2
-        expect(assoc_defendant).to receive(:valid?).exactly(0).times
-        expect(assoc_expense).to receive(:valid?).exactly(1).times
-        expect(assoc_assessment).to receive(:valid?).exactly(0).times
-        expect(assoc_certification).to receive(:valid?).exactly(1).times
-        claim.valid?
+      context 'for litigator claim' do
+        let(:claim) { FactoryGirl.create :litigator_claim }
+
+        it 'should validate only the associations for the current step (1)' do
+          claim.form_step = 1
+          expect(assoc_defendant).to receive(:valid?).exactly(1).times
+          expect(assoc_expense).to receive(:valid?).exactly(0).times
+          expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_assessment).to receive(:valid?).exactly(0).times
+          claim.valid?
+        end
+
+        it 'should validate only the associations for the current step (2)' do
+          claim.form_step = 2
+          expect(assoc_defendant).to receive(:valid?).exactly(0).times
+          expect(assoc_expense).to receive(:valid?).exactly(1).times
+          expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_assessment).to receive(:valid?).exactly(1).times
+          claim.valid?
+        end
       end
     end
 
@@ -176,12 +199,26 @@ describe Claim::BaseClaimSubModelValidator do
         claim.source = 'api'
       end
 
-      it 'should validate all the associations for all the steps' do
-        expect(assoc_defendant).to receive(:valid?).once
-        expect(assoc_expense).to receive(:valid?).once
-        expect(assoc_assessment).to receive(:valid?).once
-        expect(assoc_certification).to receive(:valid?).once
-        claim.valid?
+      context 'for advocate claim' do
+        it 'should validate all the associations for all the steps' do
+          expect(assoc_defendant).to receive(:valid?).once
+          expect(assoc_expense).to receive(:valid?).once
+          expect(assoc_basic_fee).to receive(:valid?).once
+          expect(assoc_assessment).to receive(:valid?).once
+          claim.valid?
+        end
+      end
+
+      context 'for litigator claim' do
+        let(:claim) { FactoryGirl.create :litigator_claim }
+
+        it 'should validate all the associations for all the steps' do
+          expect(assoc_defendant).to receive(:valid?).once
+          expect(assoc_basic_fee).not_to receive(:valid?)
+          expect(assoc_expense).to receive(:valid?).once
+          expect(assoc_assessment).to receive(:valid?).once
+          claim.valid?
+        end
       end
     end
   end

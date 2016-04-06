@@ -15,8 +15,6 @@
 
     - if @claim.step?(2)
 
-      = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
-
       = render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
 
       = render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }

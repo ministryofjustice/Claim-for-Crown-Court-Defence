@@ -86,8 +86,8 @@ class Ability
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
-    claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
-    can [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, claim_owner_id_attr => persona.id
+    # claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
+    can [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, external_user_id: persona.id
     can [:show, :create, :update], Certification
     can_manage_own_documents(persona)
   end

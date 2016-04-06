@@ -468,6 +468,16 @@ en:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove_date: 'Remove date attended'
+      disbursements:
+        fields:
+          disbursements: "Disbursements"
+          disbursement_type: "Disbursement type"
+          net_amount: "Net amount"
+          vat_amount: "VAT amount"
+          total: "Total"
+          add_disbursement: "Add another disbursement"
+        disbursement_fields:
+          remove: *remove
       expenses:
         expense_fields:
           add_date_attended: 'Add date(s)'

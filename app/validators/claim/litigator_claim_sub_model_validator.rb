@@ -18,7 +18,7 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       ],
       [
         :misc_fees,
-        :fixed_fees,
+        :disbursements,
         :expenses,
         :messages,
         :redeterminations,

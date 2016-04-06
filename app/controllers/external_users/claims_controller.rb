@@ -239,6 +239,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :_destroy,
        common_dates_attended_attributes
       ],
+      disbursements_attributes: [
+        :id,
+        :claim_id,
+        :disbursement_type_id,
+        :net_amount,
+        :vat_amount,
+        :_destroy
+      ],
       fixed_fees_attributes: common_fees_attributes,
       misc_fees_attributes: common_fees_attributes,
       graduated_fee_attributes: [
@@ -271,7 +279,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def build_nested_resources
-    [:defendants, :fixed_fees, :misc_fees, :expenses, :documents].each do |association|
+    [:defendants, :fixed_fees, :misc_fees, :disbursements, :expenses, :documents].each do |association|
       build_nested_resource(@claim, association)
     end
 
@@ -370,15 +378,16 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def initialize_submodel_counts
-    @defendant_count            = 0
-    @representation_order_count = 0
-    @basic_fee_count            = 0
-    @basic_fee_date_attended_count = 0
-    @misc_fee_count             = 0
-    @misc_fee_date_attended_count = 0
-    @fixed_fee_count            = 0
-    @fixed_fee_date_attended_count = 0
-    @expense_count              = 0
-    @expense_date_attended_count= 0
+    @defendant_count                = 0
+    @representation_order_count     = 0
+    @basic_fee_count                = 0
+    @basic_fee_date_attended_count  = 0
+    @misc_fee_count                 = 0
+    @misc_fee_date_attended_count   = 0
+    @fixed_fee_count                = 0
+    @fixed_fee_date_attended_count  = 0
+    @expense_count                  = 0
+    @expense_date_attended_count    = 0
+    @disbursement_count             = 0
   end
 end

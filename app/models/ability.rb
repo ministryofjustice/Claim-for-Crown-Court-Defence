@@ -82,11 +82,9 @@ class Ability
     can [:show, :change_password, :update_password, :edit, :update, :destroy], ExternalUser, provider_id: persona.provider_id
   end
 
-  # NOTE: advocate claims "owned" by external_user, litigators "owned" by creator
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
-    # claim_klass == Claim::LitigatorClaim ? claim_owner_id_attr = 'creator_id' : claim_owner_id_attr = 'external_user_id'
     can [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, external_user_id: persona.id
     can [:show, :create, :update], Certification
     can_manage_own_documents(persona)

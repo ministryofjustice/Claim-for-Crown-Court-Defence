@@ -17,4 +17,8 @@ class ExpenseReason
   def ==(other)
     self.id == other.id && self.reason == other.reason && self.allow_explanatory_text? == other.allow_explanatory_text?
   end
+
+  def to_hash
+    { id: id, reason: reason, reason_text: allow_explanatory_text? }
+  end
 end

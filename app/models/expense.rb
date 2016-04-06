@@ -24,11 +24,12 @@
 class Expense < ActiveRecord::Base
 
   MILEAGE_RATES = {
-    1 => "25p per mile",
-    2 => "45p per mile",
+    1 => Struct.new(:id, :description).new(1, '25p per mile'),
+    2 => Struct.new(:id, :description).new(2, '45p per mile')
   }
 
   auto_strip_attributes :location, squish: true, nullify: true
+  acts_as_gov_uk_date :date
 
   include NumberCommaParser
   include Duplicable
@@ -45,10 +46,18 @@ class Expense < ActiveRecord::Base
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 
+  delegate :car_travel?,
+           :parking?,
+           :hotel_accommodation?,
+           :train?,
+           :travel_time?,
+           to: :expense_type, allow_nil: true
+
+
   before_validation do
-    self.schema_version = Settings.expense_schema_version if new_record?
+    self.schema_version ||= 2
     round_hours
-    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs
+    self.amount = ((self.rate || 0) * (self.quantity || 0)).abs unless schema_version_2?
   end
 
   after_save do
@@ -70,28 +79,8 @@ class Expense < ActiveRecord::Base
     self.schema_version == 2
   end
 
-  def car_travel?
-    expense_type && expense_type.name == 'Car travel'
-  end
-
-  def parking?
-    expense_type && expense_type.name == 'Parking'
-  end
-
-  def hotel_accommodation?
-    expense_type && expense_type.name == 'Hotel accommodation'
-  end
-
-  def train?
-    expense_type && expense_type.name == 'Train/public transport'
-  end
-
-  def travel_time?
-    expense_type && expense_type.name == 'Travel time'
-  end
-
-  def other?
-    expense_type && expense_type.name == 'Other'
+  def expense_type_name
+    expense_type.try(:name)
   end
 
   def perform_validation?
@@ -115,6 +104,10 @@ class Expense < ActiveRecord::Base
   def expense_reasons
     return [] if expense_type.nil?
     expense_type.expense_reasons
+  end
+
+  def other_reason?
+    reason_id == 5
   end
 
   def displayable_reason_text

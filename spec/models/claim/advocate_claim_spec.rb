@@ -662,9 +662,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'expenses total' do
     before do
-      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
+      create(:expense, claim_id: subject.id, amount: 3.5)
+      create(:expense, claim_id: subject.id, amount: 1.0)
+      create(:expense, claim_id: subject.id, amount: 142.0)
       subject.reload
     end
 
@@ -680,7 +680,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:expense, claim_id: subject.id, amount: 3.0)
         subject.reload
         expect(subject.expenses_total).to eq(149.5)
       end
@@ -703,9 +703,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       create(:misc_fee, claim_id: subject.id, rate: 2.00)
       create(:misc_fee, claim_id: subject.id, rate: 1.00)
 
-      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
+      create(:expense, claim_id: subject.id, amount: 3.5)
+      create(:expense, claim_id: subject.id, amount: 1.0)
+      create(:expense, claim_id: subject.id, amount: 142.0)
       subject.reload
     end
 
@@ -717,7 +717,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:expense, claim_id: subject.id, amount: 3.0)
         create(:misc_fee, claim_id: subject.id, rate: 0.5)
         subject.reload
         expect(subject.total).to eq(156.00)
@@ -1351,7 +1351,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe 'not saving the expenses model' do
     it 'should save the expenses model' do
       external_user = FactoryGirl.create :external_user
-      expense_type = FactoryGirl.create :expense_type
+      expense_type = FactoryGirl.create :expense_type, :car_travel
       fee_type = FactoryGirl.create :basic_fee_type
       case_type = FactoryGirl.create :case_type
       court = FactoryGirl.create :court
@@ -1403,7 +1403,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           {"0"=>{"quantity"=>"1", "rate"=>"150", "fee_type_id"=>fee_type.id}},
          "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
          "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
-         "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
+         "expenses_attributes"=>{"0"=>expense_attributes_for(expense_type).stringify_keys!},
          "apply_vat"=>"0",
          "document_ids"=>[""],
          "evidence_checklist_ids"=>["1", ""]},

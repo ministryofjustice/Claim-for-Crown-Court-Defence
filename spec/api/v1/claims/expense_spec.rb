@@ -16,13 +16,18 @@ describe API::V1::ExternalUsers::Expense do
 
   let!(:provider)       { create(:provider) }
   let!(:claim)          { create(:claim, source: 'api').reload }
-  let!(:expense_type)   { create(:expense_type) }
-  let!(:params)         { { api_key: provider.api_key, claim_id: claim.uuid, expense_type_id: expense_type.id, rate: 1, quantity: 2, location: 'London' }  }
+  let!(:expense_type)   { create(:expense_type, :car_travel) }
+  let!(:params)         {
+    {
+        api_key: provider.api_key,
+        claim_id: claim.uuid
+    }.merge(expense_attributes_for(expense_type, date: '2015-05-10'))
+  }
+
   let(:json_error_response)   do
     [
-      {"error" => "Choose a type for the expense"},
-      {"error" => "Enter a quantity for the expense"},
-      {"error" => "Enter a rate for the expense"}
+      {"error" => "Enter a location for the expense"},
+      {"error" => "Enter an amount for the expense"}
     ].to_json
   end
 
@@ -82,7 +87,7 @@ describe API::V1::ExternalUsers::Expense do
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
-          [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+          [:amount, :location].each { |k| params.delete(k) }
           post_to_create_endpoint
           expect(last_response.status).to eq 400
           expect(last_response.body).to eq(json_error_response)
@@ -140,7 +145,7 @@ describe API::V1::ExternalUsers::Expense do
     end
 
     it 'missing required params should return 400 and a JSON error array' do
-      [:expense_type_id, :quantity, :rate].each { |k| params.delete(k) }
+      [:amount, :location].each { |k| params.delete(k) }
       post_to_validate_endpoint
       expect(last_response.status).to eq 400
       expect(last_response.body).to eq(json_error_response)

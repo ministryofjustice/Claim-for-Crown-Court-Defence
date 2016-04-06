@@ -17,18 +17,28 @@ module API
               optional :api_key, type: String,          desc: "REQUIRED: The API authentication key of the provider"
               optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
               optional :expense_type_id, type: Integer, desc: "REQUIRED: The unique identifier for the corresponding expense type."
-              optional :quantity, type: Float,          desc: "REQUIRED: The number of expenses of this type that are being claimed (quantity x rate will equal amount). rounded to nearest quarter."
-              optional :rate, type: Float,              desc: "REQUIRED: The currency value per unit/quantity of the expense (quantity x rate will equal amount)."
-              optional :location, type:  String,        desc: "OPTIONAL: Location (e.g. of hotel) where applicable."
+              optional :amount, type: Float,            desc: "REQUIRED: The total amount of the expense."
+              optional :location, type:  String,        desc: "REQUIRED: Location or Destination where applicable."
+              optional :reason_id, type: Integer,       desc: "REQUIRED: Unique identifier for the reason for this travel."
+              optional :reason_text, type: String,      desc: "OPTIONAL: When reason is Other, give an explanation."
+              optional :distance, type: Integer,        desc: "OPTIONAL: Where applicable. In miles."
+              optional :mileage_rate_id, type: Integer, desc: "OPTIONAL: Where applicable. Unique identifier for the mileage rate to apply."
+              optional :hours, type: Integer,           desc: "OPTIONAL: Where applicable. Number of hours."
+              optional :date, type: String,             desc: "REQUIRED: The date applicable to this Expense (YYYY-MM-DD)", standard_json_format: true
             end
 
             def build_arguments
               {
                 claim_id: ::Claim::BaseClaim.find_by(uuid: params[:claim_id]).try(:id),
                 expense_type_id: params[:expense_type_id],
-                quantity: params[:quantity],
-                rate: params[:rate],
-                location: params[:location]
+                location: params[:location],
+                amount: params[:amount],
+                reason_id: params[:reason_id],
+                reason_text: params[:reason_text],
+                distance: params[:distance],
+                mileage_rate_id: params[:mileage_rate_id],
+                hours: params[:hours],
+                date: params[:date]
               }
             end
           end

@@ -33,7 +33,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         let(:court)         { create(:court) }
         let(:offence)       { create(:offence) }
         let(:case_type)     { create(:case_type) }
-        let(:expense_type)  { create(:expense_type) }
+        let(:expense_type)  { create(:expense_type, :car_travel) }
         let(:claim_params) do
           {
             claim_class: 'Claim::AdvocateClaim',
@@ -45,12 +45,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             advocate_category: 'QC',
             expenses_attributes:
               [
-                {
-                  expense_type_id: expense_type.id,
-                  location: "London",
-                  quantity: 1,
-                  rate: 40
-                }
+                expense_attributes_for(expense_type)
               ],
             defendants_attributes: [
               { first_name: 'John',

@@ -1313,7 +1313,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#amount_assessed' do
-    let!(:claim)  { create(:claim, state: 'draft') }
+    let(:external_user) { build(:external_user, vat_registered: false) }
+    let!(:claim) { create(:claim, state: 'draft', external_user: external_user) }
 
     context 'when VAT applied' do
       # VAT rate 17.5%

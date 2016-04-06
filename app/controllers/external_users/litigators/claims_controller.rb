@@ -9,7 +9,7 @@ class ExternalUsers::Litigators::ClaimsController < ExternalUsers::ClaimsControl
   end
 
   def create
-    @claim = Claim::LitigatorClaim.new(params_with_creator)
+    @claim = Claim::LitigatorClaim.new(params_with_external_user_and_creator)
     if submitting_to_laa?
       create_and_submit
     else
@@ -18,12 +18,6 @@ class ExternalUsers::Litigators::ClaimsController < ExternalUsers::ClaimsControl
   end
 
 private
-
-  def params_with_creator
-    form_params = claim_params
-    form_params[:creator_id] = @external_user.id
-    form_params
-  end
 
   def update_claim_document_owners(claim)
     claim.documents.each { |d| d.update_column(:creator_id, claim.creator_id) }

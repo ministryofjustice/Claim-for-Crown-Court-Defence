@@ -10,4 +10,7 @@ module ClaimsHelper
     %Q(<input #{checked} id="case_worker_claim_ids_#{claim.id}" name="case_worker[claim_ids][]" type="checkbox" value="#{claim.id}">).html_safe
   end
 
+  def to_slug(string)
+    string.downcase.gsub(/ +/, "-").gsub(/[^a-zA-Z0-9-]/, "")
+  end
 end

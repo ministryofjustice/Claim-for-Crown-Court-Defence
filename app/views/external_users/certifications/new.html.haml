@@ -4,75 +4,80 @@
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %section.certification.normal
-    .grid-row
-      .column-two-thirds
-        %p
-          By ticking a box, you confirm you are the trial advocate (in cases where legal
-          aid was granted on or after 5 May 2015) or instructed advocate and that you 
-          are entitled to submit a claim for this case. If our records show that you are 
-          not the trial or instructed advocate, we may reject this claim without payment.
-        %p
-          Please only tick the relevant box.
+    - if @claim.is_a? Claim::AdvocateClaim
+      .grid-row
+        .column-two-thirds
+          %p
+            By ticking a box, you confirm you are the trial advocate (in cases where legal
+            aid was granted on or after 5 May 2015) or instructed advocate and that you
+            are entitled to submit a claim for this case. If our records show that you are
+            not the trial or instructed advocate, we may reject this claim without payment.
+          %p
+            Please only tick the relevant box.
 
-        %div
+          %div
+            %p.bold-normal
+              Final fee claims where the representation order was granted on or after 5 May 2015.
+
+            %p I certify that I am the trial advocate as:
+
+            %div.form-group.inline
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
+                - b.label(class: "block-label") { b.radio_button + b.object.name }
+
+            .bold-normal
+              All other claims:
+
+            %p.normal I certify that I am the instructed advocate as:
+
+            %div.form-group.inline
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015, :id, :name) do |b|
+
+                - b.label(class: "block-label") { b.radio_button + b.object.name }
+
+            %p All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
+
           %p.bold-normal
-            Final fee claims where the representation order was granted on or after 5 May 2015.
+            You also confirm that you certify that:
 
-          %p I certify that I am the trial advocate as:
+          %ul
+            %li
+              where you’ve represented more than one defendant in a case, you have only made, and will make, one claim for
+              all those defendants together, including where one defendant has transferred representation to another advocate.
 
-          %div.form-group.inline
-            = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
-              - b.label(class: "block-label") { b.radio_button + b.object.name }
+            %li
+              neither you nor any other advocate has received any interim, hardship or staged payment on any case number
+              within this matter other than the one under which this claim is made - unless fully detailed (case number, court
+              and advocate supplier number under which payment was made) within this claim.
 
-          .bold-normal
-            All other claims:
+            %li
+              where there is a joined indictment, you have included all matters that you as the instructed advocate have
+              dealt with within that indictment in this claim.
 
-          %p.normal I certify that I am the instructed advocate as:
+            %li
+              where a case has been transferred from one crown court to another, no claim has been made separately for the
+              work in the first crown court and all work in both courts is included in this claim.
 
-          %div.form-group.inline
-            = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015, :id, :name) do |b|
+            %li
+              this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
 
-              - b.label(class: "block-label") { b.radio_button + b.object.name }
+            %li
+              the information you have provided is correct and that you have not made, and will not make, any other claim
+              for payment from criminal legal aid for the work you have done on this claim. You understand that you have given
+              incorrect or misleading information, your payment may be recouped.
 
-          %p All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
+            %li
+              if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this
+              payment, with all necessary claim and payment details.
 
-        %p.bold-normal
-          You also confirm that you certify that:
+          %p
+            .column-quarter
+              &nbsp;
 
-        %ul
-          %li 
-            where you’ve represented more than one defendant in a case, you have only made, and will make, one claim for 
-            all those defendants together, including where one defendant has transferred representation to another advocate.
+    - elsif @claim.is_a? Claim::LitigatorClaim
+      %p
+        I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
 
-          %li 
-            neither you nor any other advocate has received any interim, hardship or staged payment on any case number 
-            within this matter other than the one under which this claim is made - unless fully detailed (case number, court 
-            and advocate supplier number under which payment was made) within this claim.
-
-          %li 
-            where there is a joined indictment, you have included all matters that you as the instructed advocate have 
-            dealt with within that indictment in this claim.
-
-          %li 
-            where a case has been transferred from one crown court to another, no claim has been made separately for the 
-            work in the first crown court and all work in both courts is included in this claim.
-
-          %li 
-            this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
-
-          %li 
-            the information you have provided is correct and that you have not made, and will not make, any other claim 
-            for payment from criminal legal aid for the work you have done on this claim. You understand that you have given 
-            incorrect or misleading information, your payment may be recouped.
-
-          %li 
-            if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this 
-            payment, with all necessary claim and payment details.
-
-        %p
-
-      .column-quarter
-        &nbsp;
     .grid-row
       .column-third
         %div

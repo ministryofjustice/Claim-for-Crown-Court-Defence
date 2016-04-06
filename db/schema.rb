@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323161339) do
+ActiveRecord::Schema.define(version: 20160405145845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160323161339) do
     t.boolean  "pre_may_2015", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "roles"
   end
 
   add_index "certification_types", ["name"], name: "index_certification_types_on_name", using: :btree

@@ -263,6 +263,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
+   def params_with_external_user_and_creator
+    form_params = claim_params
+    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
+    form_params[:creator_id] = @external_user.id
+    form_params
+  end
+
   def build_nested_resources
     [:defendants, :fixed_fees, :misc_fees, :expenses, :documents].each do |association|
       build_nested_resource(@claim, association)

@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
+require_relative 'shared_examples_for_advocate_litigator'
 
 describe Claim::AdvocateClaimValidator do
 
@@ -7,11 +8,12 @@ describe Claim::AdvocateClaimValidator do
   include_context "force-validation"
 
   let(:litigator)     { create(:external_user, :litigator) }
-  let(:claim)         { create :claim }
+  let(:claim)         { create :advocate_claim }
+
+  include_examples "common advocate litigator validations", :advocate
 
   context 'case concluded at date' do
     let(:claim)    { build :claim }
-    before(:each)  { claim.force_validation = true}
 
     it 'is valid when absent' do
       expect(claim.case_concluded_at).to be_nil

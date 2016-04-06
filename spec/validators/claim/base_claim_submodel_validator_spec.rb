@@ -134,6 +134,7 @@ describe Claim::BaseClaimSubModelValidator do
     let(:assoc_defendant)     { instance_double(Defendant, valid?: true) }
     let(:assoc_expense)       { instance_double(Expense, valid?: true) }
     let(:assoc_basic_fee)     { instance_double(Fee::BasicFee, valid?: true) }
+    let(:assoc_graduated_fee) { instance_double(Fee::GraduatedFee, valid?: true) }
     let(:assoc_assessment)    { instance_double(Assessment, valid?: true) }
 
     before do
@@ -143,6 +144,7 @@ describe Claim::BaseClaimSubModelValidator do
       allow(claim).to receive(:basic_fees).and_return([assoc_basic_fee])
 
       # has_one
+      allow(claim).to receive(:graduated_fee).and_return(assoc_graduated_fee)
       allow(claim).to receive(:assessment).and_return(assoc_assessment)
     end
 
@@ -157,6 +159,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).exactly(1).times
           expect(assoc_expense).to receive(:valid?).exactly(0).times
           expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_graduated_fee).to receive(:valid?).exactly(0).times
           expect(assoc_assessment).to receive(:valid?).exactly(0).times
           claim.valid?
         end
@@ -166,6 +169,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).exactly(0).times
           expect(assoc_expense).to receive(:valid?).exactly(1).times
           expect(assoc_basic_fee).to receive(:valid?).exactly(1).times
+          expect(assoc_graduated_fee).to receive(:valid?).exactly(0).times
           expect(assoc_assessment).to receive(:valid?).exactly(1).times
           claim.valid?
         end
@@ -179,6 +183,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).exactly(1).times
           expect(assoc_expense).to receive(:valid?).exactly(0).times
           expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_graduated_fee).to receive(:valid?).exactly(0).times
           expect(assoc_assessment).to receive(:valid?).exactly(0).times
           claim.valid?
         end
@@ -188,6 +193,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).exactly(0).times
           expect(assoc_expense).to receive(:valid?).exactly(1).times
           expect(assoc_basic_fee).to receive(:valid?).exactly(0).times
+          expect(assoc_graduated_fee).to receive(:valid?).exactly(1).times
           expect(assoc_assessment).to receive(:valid?).exactly(1).times
           claim.valid?
         end
@@ -204,6 +210,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).once
           expect(assoc_expense).to receive(:valid?).once
           expect(assoc_basic_fee).to receive(:valid?).once
+          expect(assoc_graduated_fee).not_to receive(:valid?)
           expect(assoc_assessment).to receive(:valid?).once
           claim.valid?
         end
@@ -216,6 +223,7 @@ describe Claim::BaseClaimSubModelValidator do
           expect(assoc_defendant).to receive(:valid?).once
           expect(assoc_basic_fee).not_to receive(:valid?)
           expect(assoc_expense).to receive(:valid?).once
+          expect(assoc_graduated_fee).to receive(:valid?).once
           expect(assoc_assessment).to receive(:valid?).once
           claim.valid?
         end

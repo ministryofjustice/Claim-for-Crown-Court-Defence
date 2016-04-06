@@ -241,6 +241,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       ],
       fixed_fees_attributes: common_fees_attributes,
       misc_fees_attributes: common_fees_attributes,
+      graduated_fee_attributes: [
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :quantity,
+        :amount,
+        :type,
+        #date_attributes_for(:date)
+      ],
       expenses_attributes: [
        :id,
        :claim_id,

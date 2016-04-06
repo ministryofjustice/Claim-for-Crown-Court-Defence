@@ -1,15 +1,5 @@
 class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
 
-  def has_one_association_names_for_steps
-    [
-      [ ],
-      [
-        :assessment,
-        :certification
-      ]
-    ]
-  end
-
   private
 
   def validate_has_many_associations_step_fields(record)

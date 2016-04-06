@@ -1,0 +1,28 @@
+- if @claim.allows_graduated_fees?
+
+  #graduated-fees
+    %h2.bold-medium
+      = t('.graduated_fees')
+    .form-hint.xsmall
+      = raw t('.graduated_prompt_text')
+
+    = f.fields_for :graduated_fee do |gf|
+      .grid-row
+        .column-half
+          = gf.anchored_label t('.fee_type')
+          = gf.text_field :name, value: @claim.case_type.graduated_fee_type.description, disabled: true
+          = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
+          = validation_error_message(@error_presenter, :fee_type)
+
+        .column-half
+          = gf.anchored_label t('.ppe_total')
+          = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+          = validation_error_message(@error_presenter, :quantity)
+
+      .grid-row
+        .column-half
+          %div.pound-wrapper
+            = gf.anchored_label t('.total')
+            = gf.label :amount, '£', class: 'pound-sign bold-xsmall'
+            = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
+          = validation_error_message(@error_presenter, :amount)

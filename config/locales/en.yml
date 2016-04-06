@@ -518,6 +518,13 @@ en:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
         view_details: 'View details'
+      graduated_fees:
+        fields:
+          graduated_fees: 'Graduated fees'
+          graduated_prompt_text: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          fee_type: "Fee type"
+          ppe_total: "PPE total"
+          total: "Total"
       index:
         claims: Claims
         completed: Completed

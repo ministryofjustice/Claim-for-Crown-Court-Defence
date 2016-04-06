@@ -1,5 +1,7 @@
 class AddRolesToCertificationTypes < ActiveRecord::Migration
   def change
+    return if ActiveRecord::Base.connection.column_exists?(:certification_types, :roles)
+
     add_column :certification_types, :roles, :string
 
     CertificationType.all.each do |certification_type|

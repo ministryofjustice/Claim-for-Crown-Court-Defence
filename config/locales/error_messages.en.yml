@@ -602,6 +602,34 @@ fixed_fee:
 
 #################################################################################
 #                                                                               #
+#   GRADUATED FEE                                                               #
+#                                                                               #
+#################################################################################
+
+graduated_fee:
+  _seq: 650
+
+  first_day_of_trial:
+    _seq: 10
+    in_past:
+      long: The first day of trial must be in the past
+      short: The first day of trial must be in the past
+      api: The first day of trial must be in the past
+    since_5_years:
+      long: The first day of trial must be less than 5 years ago
+      short: The first day of trial must be less than 5 years ago
+      api: The first day of trial must be less than 5 years ago
+
+  actual_trial_length:
+    _seq: 20
+    too_long:
+      long: The actual trial length must not exceed days since first day of trial
+      short: The actual trial length is too long
+      api: The actual trial length must not exceed days since first day of trial
+
+
+#################################################################################
+#                                                                               #
 #   EXPENSE                                                                     #
 #                                                                               #
 #################################################################################

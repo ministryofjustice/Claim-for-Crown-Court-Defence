@@ -10,5 +10,7 @@ class AddRolesToCertificationTypes < ActiveRecord::Migration
         certification_type.save!
       end
     end
+
+    CertificationType.find_or_create_by!(name: 'LGFS certification', roles: ['lgfs'])
   end
 end

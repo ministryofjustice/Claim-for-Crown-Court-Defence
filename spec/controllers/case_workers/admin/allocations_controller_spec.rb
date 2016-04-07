@@ -63,34 +63,35 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { post :create, allocation: allocation_params }
 
-    context 'when valid' do
-      let(:allocation_params) {
-        {
-            case_worker_id: @case_worker.id,
-            claim_ids: @claims.map(&:id)
-        }
-      }
+    # context 'when valid' do
+    #   before { post :create, allocation: allocation_params, commit: 'Allocate' }
+    #   let(:allocation_params) {
+    #     {
+    #         case_worker_id: @case_worker.id,
+    #         claim_ids: @claims.map(&:id)
+    #     }
+    #   }
 
-      before(:all) do
-        @case_worker = create(:case_worker)
-      end
+    #   before(:all) do
+    #     @case_worker = create(:case_worker)
+    #   end
 
-      it 'allocates claims to case worker' do
-        expect(@case_worker.claims).to match_array(@claims)
-      end
+    #   it 'allocates claims to case worker' do
+    #     expect(@case_worker.claims).to match_array(@claims)
+    #   end
 
-      it 'renders new allocation template' do
-        expect(response).to render_template :new
-      end
+    #   it 'renders new allocation template' do
+    #     expect(response).to render_template :new
+    #   end
 
-      it 'tells the user that it was successful and the number of claims allocated' do
-        expect(flash[:notice]).to have_content('2 claims allocated to')
-      end
-    end
+    #   it 'tells the user that it was successful and the number of claims allocated' do
+    #     expect(flash[:notice]).to have_content('2 claims allocated to')
+    #   end
+    # end
 
     context 'when invalid' do
+      before { post :create, allocation: allocation_params }
       let(:allocation_params) {
         {
           claim_ids: @claims.map(&:id)
@@ -110,24 +111,89 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
     end
 
-    context 'when some some claims are already allocated' do
+
+    context "allocation" do
+
+      before(:all) do
+        @case_worker = create(:case_worker)
+        @claims << create(:allocated_claim)
+      end
+
       let(:allocation_params) {
         {
+          case_worker_id: @case_worker.id,
           claim_ids: @claims.map(&:id)
         }
       }
 
-      before(:all) do
-        @case_worker = create(:case_worker)
+      before(:each) { post :create, allocation: allocation_params, commit: 'Allocate' }
+
+      it 'allocates only unallocated claims to case worker' do
+        expect(@case_worker.claims).to match_array(@claims[0..1])
       end
 
-      it 'does not allocate claims to case worker' do
-        expect(@case_worker.claims.count).to eql 1
+      it 'renders new allocation template' do
+        expect(response).to render_template :new
+      end
+
+      it 'tells the user how many claims were successfully allocated' do
+        expect(flash[:notice]).to have_content('2 claims allocated to')
+      end
+
+      it 'stores errors for display' do
+        expect(assigns(:allocation).errors.full_messages.size).to eql 1
+        expect(assigns(:allocation).errors.full_messages.first).to match /Claim.*already.*allocated/
+      end
+
+      it 'does not allocate already allocated claims to the case worker' do
+        expect(assigns(:allocation).claims.count).to eql 3
+        expect(@case_worker.claims.count).to eql 2
       end
 
       it 'renders the new template' do
         expect(response).to render_template(:new)
       end
+
     end
+
+    context "re-allocation" do
+
+      before(:all) do
+        @case_worker = create(:case_worker)
+        @claims = create_list(:allocated_claim, 2)
+      end
+
+      before(:each) { post :create, allocation: allocation_params, commit: 'Re-Allocate' }
+
+      let(:allocation_params) {
+        {
+          case_worker_id: @case_worker.id,
+          claim_ids: @claims.map(&:id)
+        }
+      }
+
+      it 're-allocates claims to case worker' do
+        expect(@case_worker.claims).to match_array(@claims)
+      end
+
+      it 'renders new allocation template' do
+        expect(response).to render_template :new
+      end
+
+      it 'tells the user that it was successful and the number of claims re-allocated' do
+        expect(flash[:notice]).to have_content('2 claims allocated to')
+      end
+
+      it 're-allocates already allocated claims to the case worker' do
+        expect(assigns(:allocation).claims.count).to eql 2
+        expect(@case_worker.claims.count).to eql 2
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+
+    end
+
   end
 end

@@ -3,6 +3,7 @@ require_relative 'document_generator'
 require_relative 'basic_fee_generator'
 require_relative 'fee_generator'
 require_relative 'expense_generator'
+require_relative 'expense_v2_generator'
 
 module DemoData
 
@@ -101,7 +102,11 @@ module DemoData
     end
 
     def add_expenses(claim)
-      ExpenseGenerator.new(claim).generate!
+      if Settings.expense_schema_version == 1
+        ExpenseGenerator.new(claim).generate!
+      else
+        ExpenseV2Generator.new(claim).generate!
+      end
     end
 
     def advance_claim_to_state(claim, state)

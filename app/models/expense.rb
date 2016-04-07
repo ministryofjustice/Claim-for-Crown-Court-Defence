@@ -37,6 +37,8 @@ class Expense < ActiveRecord::Base
   belongs_to :expense_type
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
+  acts_as_gov_uk_date :date
+
   has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
   validates_with ExpenseV1Validator, if: :schema_version_1?
@@ -90,8 +92,8 @@ class Expense < ActiveRecord::Base
     expense_type && expense_type.name == 'Travel time'
   end
 
-  def other?
-    expense_type && expense_type.name == 'Other'
+  def expense_reason_other?
+    expense_reason && expense_reason.reason == 'Other'
   end
 
   def perform_validation?
@@ -104,6 +106,7 @@ class Expense < ActiveRecord::Base
 
   def expense_reason
     return nil if self.reason_id.nil?
+    return nil if self.expense_type.nil?
     expense_type.expense_reason_by_id(self.reason_id)
   end
 

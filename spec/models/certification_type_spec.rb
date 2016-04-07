@@ -12,6 +12,8 @@
 require 'rails_helper'
 
 RSpec.describe CertificationType, type: :model do
+  it_behaves_like 'roles', CertificationType, CertificationType::ROLES
+
   it { should have_many(:certifications) }
 
   it { should validate_presence_of(:name) }

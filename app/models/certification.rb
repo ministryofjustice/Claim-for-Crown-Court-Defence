@@ -27,6 +27,8 @@ class Certification < ActiveRecord::Base
   private
 
   def at_least_one_boolean_selected
+    return if claim.is_a?(Claim::LitigatorClaim)
+
     unless certification_type.present?
       errors[:base] << 'You must select one option on this form'
     end

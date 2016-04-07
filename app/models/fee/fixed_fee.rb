@@ -2,16 +2,18 @@
 #
 # Table name: fees
 #
-#  id          :integer          not null, primary key
-#  claim_id    :integer
-#  fee_type_id :integer
-#  quantity    :integer
-#  amount      :decimal(, )
-#  created_at  :datetime
-#  updated_at  :datetime
-#  uuid        :uuid
-#  rate        :decimal(, )
-#  type        :string
+#  id                    :integer          not null, primary key
+#  claim_id              :integer
+#  fee_type_id           :integer
+#  quantity              :integer
+#  amount                :decimal(, )
+#  created_at            :datetime
+#  updated_at            :datetime
+#  uuid                  :uuid
+#  rate                  :decimal(, )
+#  type                  :string
+#  warrant_issued_date   :date
+#  warrant_executed_date :date
 #
 
 class Fee::FixedFee < Fee::BaseFee

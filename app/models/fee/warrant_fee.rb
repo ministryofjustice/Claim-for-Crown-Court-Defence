@@ -16,21 +16,18 @@
 #  warrant_executed_date :date
 #
 
-class Fee::BasicFee < Fee::BaseFee
+class Fee::WarrantFee < Fee::BaseFee
 
-  belongs_to :fee_type, class_name: Fee::BasicFeeType
+  belongs_to :fee_type, class_name: Fee::WarrantFeeType
 
-  validates_with Fee::BasicFeeValidator
+  validates_with Fee::WarrantFeeValidator
 
-  default_scope { order(claim_id: :asc, fee_type_id: :asc) }
-
-  def self.new_blank(claim, fee_type)
-    self.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
-  end
-
-  def is_basic?
+  def is_warrant?
     true
   end
 
+  def self.instance
+    Fee::WarrantFee.first
+  end
 
 end

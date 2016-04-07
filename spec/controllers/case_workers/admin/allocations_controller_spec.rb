@@ -81,8 +81,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         expect(@case_worker.claims).to match_array(@claims)
       end
 
-      it 'redirects to new allocation' do
-        expect(response).to redirect_to(case_workers_admin_allocations_path(allocation_params))
+      it 'renders new allocation template' do
+        expect(response).to render_template :new
       end
 
       it 'tells the user that it was successful and the number of claims allocated' do
@@ -103,6 +103,26 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
       it 'does not allocate claims to case worker' do
         expect(@case_worker.claims).to be_empty
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when some some claims are already allocated' do
+      let(:allocation_params) {
+        {
+          claim_ids: @claims.map(&:id)
+        }
+      }
+
+      before(:all) do
+        @case_worker = create(:case_worker)
+      end
+
+      it 'does not allocate claims to case worker' do
+        expect(@case_worker.claims.count).to eql 1
       end
 
       it 'renders the new template' do

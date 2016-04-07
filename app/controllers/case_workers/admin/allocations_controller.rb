@@ -10,15 +10,19 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def create
     @allocation = Allocation.new(allocation_params)
-
     if @allocation.save
-      redirect_to case_workers_admin_allocations_path(allocation_params.merge(tab: params[:tab])), notice: notification
+      render_new_with_feedback(@allocation)
     else
       render :new
     end
   end
 
   private
+
+  def render_new_with_feedback(allocation)
+    flash[:notice] = notification(allocation)
+    render :new
+  end
 
   def summary_from_previous_request?
     params[:claim_ids].present? && (params[:case_worker_id].present? || params[:deallocate])
@@ -85,22 +89,28 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def allocation_params
-    params.require(:allocation).permit(
+    ap = params.require(:allocation).permit(
      :case_worker_id,
      :deallocate,
      claim_ids: []
     )
+    ap.merge(allocating: is_allocating?)
   end
 
-  def notification
-    case_worker = CaseWorker.find(allocation_params[:case_worker_id]) rescue nil
-    allocated_claims_count = Claim::BaseClaim.find(allocation_params[:claim_ids].reject(&:blank?)).count
-    message = "#{allocated_claims_count} #{'claim'.pluralize(allocated_claims_count)}"
+  def notification(allocation)
+    claims = allocation.successful_claims
+    case_worker = allocation.case_worker
 
-    if case_worker
-      "#{message} allocated to #{case_worker.name}"
-    else
-      "#{message} returned to allocation pool"
-    end
+    message = "#{claims.size} #{'claim'.pluralize(claims.size)}"
+    message = if case_worker
+                "#{message} allocated to #{case_worker.name}"
+              else
+                "#{message} returned to allocation pool"
+              end
   end
+
+  def is_allocating?
+    params[:commit] == 'Allocate'
+  end
+
 end

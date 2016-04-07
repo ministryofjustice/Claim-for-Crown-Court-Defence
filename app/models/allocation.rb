@@ -8,7 +8,7 @@ class Allocation
     end
   end
 
-  attr_accessor :case_worker_id, :claim_ids, :deallocate
+  attr_accessor :case_worker_id, :claim_ids, :claims, :deallocate, :allocating, :successful_claims
 
   validates :case_worker_id, presence: true, unless: :deallocating?
   validates :claim_ids, presence: true
@@ -17,15 +17,34 @@ class Allocation
     @case_worker_id = attributes[:case_worker_id]
     @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
     @deallocate = [true, 'true'].include?(attributes[:deallocate])
+    @allocating = attributes[:allocating]
+    @claims = Claim::BaseClaim.find(@claim_ids) rescue nil
+    @successful_claims = []
   end
 
   def save
     return false unless valid?
-    claims.each do |claim|
-      claim.case_workers.destroy_all
-      deallocating? ? claim.deallocate! : claim.case_workers << case_worker
+
+    # could be allocating, deallocating or reallocating
+    @claims.each do |claim|
+      if allocating?
+        if claim.case_workers.exists?
+          errors.add(:base,"Claim #{claim.case_number} has already been allocated to #{claim.case_workers.first.name}")
+        else
+          allocate_claim! claim
+        end
+      elsif deallocating?
+        deallocate_claim! claim
+      else #reallocating
+        allocate_claim! claim
+      end
+
     end
     true
+  end
+
+  def case_worker
+    CaseWorker.find(@case_worker_id) rescue nil #deallocation will have a nil case worker id
   end
 
   private
@@ -34,11 +53,21 @@ class Allocation
     @deallocate
   end
 
-  def claims
-    Claim::BaseClaim.find(@claim_ids)
+  def allocating?
+    @allocating
   end
 
-  def case_worker
-    CaseWorker.find(@case_worker_id)
+  def deallocate_claim!(claim)
+    claim.case_workers.destroy_all
+    claim.deallocate!
+    successful_claims << claim
   end
+
+  def allocate_claim!(claim)
+    #NOTE: associating a case worker implicitly changes the state of the claim and saves via the state machine allocate! event method
+    claim.case_workers.destroy_all
+    claim.case_workers << case_worker
+    successful_claims << claim
+  end
+
 end

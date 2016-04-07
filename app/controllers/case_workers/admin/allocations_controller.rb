@@ -20,7 +20,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   private
 
   def render_new_with_feedback(allocation)
-    flash[:notice] = notification(allocation)
+    flash.now[:notice] = notification(allocation)
     render :new
   end
 

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
-  unless %w( development test ).include?(Rails.env)
+  unless Rails.env.development?
     rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
       redirect_to error_404_url
     end

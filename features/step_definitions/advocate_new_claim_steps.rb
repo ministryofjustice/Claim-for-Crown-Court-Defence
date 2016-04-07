@@ -163,6 +163,7 @@ When(/^I click Submit to LAA$/) do
 end
 
 Then(/^I should be on the check your claim page$/) do
+  @claim_summary_page.wait_for_continue # Allow summary page to appear
   expect(@claim_summary_page).to be_displayed
 end
 

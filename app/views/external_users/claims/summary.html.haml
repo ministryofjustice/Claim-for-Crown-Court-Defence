@@ -13,6 +13,15 @@
             = "No fees for this claim"
           - else
             = claim.fees_total
+
+      - if @claim.lgfs?
+        %h3
+          = 'Disbursements total'
+          %span.numeric
+            - if @claim.disbursements.empty?
+              = 'No disbursements for this claim'
+            - else
+              = claim.disbursements_total
       %h3
         = 'Expenses total'
         %span.numeric
@@ -48,6 +57,11 @@
     %h2
       = t('common.fees')
     = render partial: 'summary_fees', locals: { claim: claim }
+
+    - if @claim.lgfs?
+      %h2
+        = t('common.disbursements')
+      = render partial: 'external_users/claims/disbursements/summary', locals: { claim: claim }
 
     %h2
       = t('common.expenses')

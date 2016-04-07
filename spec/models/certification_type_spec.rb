@@ -7,6 +7,7 @@
 #  pre_may_2015 :boolean          default(FALSE)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  roles        :string
 #
 
 require 'rails_helper'

@@ -1,0 +1,40 @@
+require 'rails_helper'
+
+RSpec.describe DisbursementPresenter do
+
+  let(:claim) { instance_double(Claim::LitigatorClaim) }
+  let(:disbursement_type) { instance_double(DisbursementType, name: 'name') }
+  let(:disbursement) { instance_double(Disbursement, disbursement_type: disbursement_type, claim: claim, net_amount: 1.456, vat_amount: 2.343) }
+
+  subject { described_class.new(disbursement, view) }
+
+  describe '#name' do
+    it 'returns the disbursement type name' do
+      expect(subject.name).to eq('name')
+    end
+  end
+
+  describe '#net_amount' do
+    it 'returns the net_amount rounded and formatted' do
+      expect(subject.net_amount).to eq('£1.46')
+    end
+  end
+
+  describe '#vat_amount' do
+    context 'VAT registered' do
+      let(:claim) { instance_double(Claim::LitigatorClaim, vat_registered?: true) }
+
+      it 'returns the vat_amount rounded and formatted' do
+        expect(subject.vat_amount).to eq('£2.34')
+      end
+    end
+
+    context 'not VAT registered' do
+      let(:claim) { instance_double(Claim::LitigatorClaim, vat_registered?: false) }
+
+      it 'returns the vat_amount rounded and formatted' do
+        expect(subject.vat_amount).to include('n/a')
+      end
+    end
+  end
+end

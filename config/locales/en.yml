@@ -168,6 +168,7 @@ en:
     crown_court: Crown court
     defendant: Defendant
     expenses: Expenses
+    disbursements: Disbursements
     fees: Fees
     or: or
     search: Search
@@ -627,8 +628,11 @@ en:
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       additional_information: Additional information
-
-# en.case_workers
+      disbursements:
+        type: "Disbursement type"
+        net_amount: "Net amount"
+        vat_amount: "VAT amount"
+        total: "Total"
   case_workers:
     admin:
       case_workers:

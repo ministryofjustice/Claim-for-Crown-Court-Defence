@@ -1,0 +1,38 @@
+- if claim.disbursements.empty?
+  %p
+    There are no disbursements for this claim
+- else
+  %table
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('common.disbursements')
+    %colgroup
+      %col
+      %col
+      %col
+      %col
+      %col
+    %tbody
+      - present_collection(claim.disbursements).each do |disbursement|
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.disbursements.type')
+          %td
+            = disbursement.name
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.disbursements.net_amount')
+          %td
+            = disbursement.net_amount
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.disbursements.vat_amount')
+          %td
+            = disbursement.vat_amount
+
+      %tfoot
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.disbursements.total')
+          %td
+            = claim.disbursements_total

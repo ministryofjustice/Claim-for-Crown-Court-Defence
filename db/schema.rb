@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160406084757) do
     t.boolean  "pre_may_2015", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "roles"
   end
 
   add_index "certification_types", ["name"], name: "index_certification_types_on_name", using: :btree

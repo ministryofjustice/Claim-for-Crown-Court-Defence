@@ -13,6 +13,12 @@ FactoryGirl.define do
   factory :certification_type do
     name { Faker::Lorem.sentence }
     pre_may_2015 false
+    roles ['agfs']
+
+    trait :lgfs do
+      name 'LGFS certification type'
+      roles ['lgfs']
+    end
 
     trait :pre_may do
       pre_may_2015 true
@@ -40,6 +46,6 @@ FactoryGirl.define do
 
     trait :type_6 do
       name 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.'
-    end    
+    end
   end
 end

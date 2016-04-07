@@ -7,9 +7,13 @@
 #  pre_may_2015 :boolean          default(FALSE)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  roles        :string
 #
 
 class CertificationType < ActiveRecord::Base
+  ROLES = %w( agfs lgfs )
+  include Roles
+
   has_many :certifications
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, message: "Certification type name has already been taken" }

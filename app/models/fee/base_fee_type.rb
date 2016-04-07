@@ -69,6 +69,10 @@ module Fee
       Fee::FixedFeeType.all
     end
 
+    def self.warrant
+      Fee::WarrantFeeType.all
+    end
+
   private
 
     def self.by_fee_category(category)

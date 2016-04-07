@@ -23,6 +23,23 @@ describe Fee::BaseFeeValidator do
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
   end
 
+
+  describe '#validate_warrant_issued_date' do
+    it 'should raise error if date present' do
+      fee.warrant_issued_date = Date.today
+      expect(fee).not_to be_valid
+      expect(fee.errors[:warrant_issued_date]).to eq( [ 'present' ])
+    end
+  end
+
+  describe '#validate_warrant_executed_date' do
+    it 'should raise error if date present' do
+      fee.warrant_executed_date = Date.today
+      expect(fee).not_to be_valid
+      expect(fee.errors[:warrant_executed_date]).to eq( [ 'present' ])
+    end
+  end
+
   describe '#validate_rate' do
 
     before(:each) do

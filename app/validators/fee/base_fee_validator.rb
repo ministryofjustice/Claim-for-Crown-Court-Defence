@@ -9,10 +9,18 @@ class Fee::BaseFeeValidator < BaseValidator
   end
 
   def self.mandatory_fields
-    [:claim, :fee_type]
+    [:claim, :fee_type, :warrant_issued_date, :warrant_executed_date]
   end
 
-  private
+private
+
+  def validate_warrant_issued_date
+    validate_absence(:warrant_issued_date, 'present')
+  end
+
+  def validate_warrant_executed_date
+    validate_absence(:warrant_executed_date, 'present')
+  end
 
   def validate_claim
     validate_presence(:claim, 'blank')

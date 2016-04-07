@@ -41,6 +41,27 @@
     task :disbursement_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
     end
+
+    desc 'Seed New Warrant Fee Type'
+    task :warrant_fee_type => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
+    end
+
+
+    desc 'Run all outstanding data migrations'
+    task :all => :environment do
+      {
+          :expenses => 'Expense types and expenses',
+          :certification => 'Certifications',
+          :grad_fee_types => 'Graduated Fee Types',
+          :case_types => 'New Case Types',
+          :disbursement_types => 'Disbursement types',
+          :warrant_fee_type => 'Warrant fee type'
+      }.each do |task, comment|
+        puts comment
+        Rake::Task["data:migrate:#{task}"].invoke
+      end
+    end
   end
 end
  

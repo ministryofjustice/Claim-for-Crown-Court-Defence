@@ -64,32 +64,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
   describe 'POST #create' do
 
-    # context 'when valid' do
-    #   before { post :create, allocation: allocation_params, commit: 'Allocate' }
-    #   let(:allocation_params) {
-    #     {
-    #         case_worker_id: @case_worker.id,
-    #         claim_ids: @claims.map(&:id)
-    #     }
-    #   }
-
-    #   before(:all) do
-    #     @case_worker = create(:case_worker)
-    #   end
-
-    #   it 'allocates claims to case worker' do
-    #     expect(@case_worker.claims).to match_array(@claims)
-    #   end
-
-    #   it 'renders new allocation template' do
-    #     expect(response).to render_template :new
-    #   end
-
-    #   it 'tells the user that it was successful and the number of claims allocated' do
-    #     expect(flash[:notice]).to have_content('2 claims allocated to')
-    #   end
-    # end
-
     context 'when invalid' do
       before { post :create, allocation: allocation_params }
       let(:allocation_params) {

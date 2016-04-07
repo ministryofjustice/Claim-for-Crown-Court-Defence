@@ -47,14 +47,14 @@ class Allocation
     CaseWorker.find(@case_worker_id) rescue nil #deallocation will have a nil case worker id
   end
 
+  def allocating?
+    @allocating
+  end
+
   private
 
   def deallocating?
     @deallocate
-  end
-
-  def allocating?
-    @allocating
   end
 
   def deallocate_claim!(claim)

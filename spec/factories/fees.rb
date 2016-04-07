@@ -2,16 +2,18 @@
 #
 # Table name: fees
 #
-#  id          :integer          not null, primary key
-#  claim_id    :integer
-#  fee_type_id :integer
-#  quantity    :integer
-#  amount      :decimal(, )
-#  created_at  :datetime
-#  updated_at  :datetime
-#  uuid        :uuid
-#  rate        :decimal(, )
-#  type        :string
+#  id                    :integer          not null, primary key
+#  claim_id              :integer
+#  fee_type_id           :integer
+#  quantity              :integer
+#  amount                :decimal(, )
+#  created_at            :datetime
+#  updated_at            :datetime
+#  uuid                  :uuid
+#  rate                  :decimal(, )
+#  type                  :string
+#  warrant_issued_date   :date
+#  warrant_executed_date :date
 #
 
 FactoryGirl.define do
@@ -26,6 +28,22 @@ FactoryGirl.define do
       fee_type { build :misc_fee_type }
       quantity 1
       rate 25 
+    end
+
+    factory :warrant_fee, class: Fee::WarrantFee do
+      claim
+      fee_type { build :warrant_fee_type }
+      warrant_issued_date    1.month.ago
+
+      trait :warrant_exectued do
+        warrant_exectuted_date { warrant_issued_date + 5.days }
+      end
+
+      after(:build) do |fee|
+        fee.fee_type = Fee::WarrantFeeType.instance || build(:warrant_fee_type)
+      end
+
+
     end
 
     factory :basic_fee, class: Fee::BasicFee do

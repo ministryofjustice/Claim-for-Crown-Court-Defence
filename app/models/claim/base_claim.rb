@@ -78,7 +78,8 @@ module Claim
     belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
     belongs_to :case_type
 
-    delegate   :provider_id, :provider, to: :creator
+    delegate :provider_id, :provider, to: :creator
+    delegate :requires_trial_dates, to: :case_type
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims
@@ -326,7 +327,7 @@ module Claim
     end
 
     def enable_determination_input?
-      enable_assessment_input? || enable_redetermination_input? 
+      enable_assessment_input? || enable_redetermination_input?
     end
 
     def opened_for_redetermination?

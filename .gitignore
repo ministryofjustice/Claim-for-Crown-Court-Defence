@@ -52,3 +52,5 @@ dump.rdb
 /tmp/stats/*
 /public/stats/*
 *.pid
+
+tags

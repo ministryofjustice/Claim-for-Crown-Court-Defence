@@ -20,6 +20,8 @@ class Fee::GraduatedFee < Fee::BaseFee
 
   validates_with Fee::GraduatedFeeValidator
 
+  delegate :first_day_of_trial, :actual_trial_length, :requires_trial_dates, to: :claim, allow_nil: true
+
   def is_graduated?
     true
   end

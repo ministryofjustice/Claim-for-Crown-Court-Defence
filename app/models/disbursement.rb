@@ -18,9 +18,13 @@ class Disbursement < ActiveRecord::Base
   belongs_to :disbursement_type
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
 
-  numeric_attributes :net_amount, :vat_amount
+  numeric_attributes :net_amount, :vat_amount, :total
 
   validates_with DisbursementValidator
+
+  before_validation do
+    self.total = (self.net_amount || 0) + (self.vat_amount || 0)
+  end
 
   after_save do
     claim.update_disbursements_total

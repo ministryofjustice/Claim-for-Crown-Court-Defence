@@ -63,16 +63,22 @@
           %col
           %col
           %col
+          %col
+          %col
         %thead
           %tr
             %th{scope: 'col'}
               = t('.expense_type')
             %th{scope: 'col'}
+              = t('.reason')
+            %th{scope: 'col'}
+              = t('.reason_text')
+            %th{scope: 'col'}
               = t('.location')
             %th.numeric{scope: 'col'}
-              = t('.quantity_hours')
+              = t('.distance')
             %th.numeric{scope: 'col'}
-              = t('.rate')
+              = t('.quantity_hours')
             %th.numeric{scope: 'col'}
               = t('.amount')
         %tbody
@@ -80,16 +86,18 @@
             %tr
               %td
                 = expense.name
-                - if expense.dates_attended.any?
-                  %br
-                  Dates attended:
-                  = expense.dates_attended_delimited_string
+                %br
+                = expense.date.strftime(Settings.date_format)
+              %td
+                = expense.expense_reason.reason
+              %td
+                = expense.reason_text
               %td
                 = expense.location
               %td.numeric
-                = expense.quantity
+                = expense.distance
               %td.numeric
-                = '%.2f' % expense.rate if expense.rate
+                = expense.quantity
               %td.numeric
                 = expense.amount
 

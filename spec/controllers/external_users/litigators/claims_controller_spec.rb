@@ -9,7 +9,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:court)         { create(:court) }
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
-  let(:expense_type)  { create(:expense_type, :lgfs) }
+  let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
 
   describe "GET #new" do
     context 'AGFS or LGFS provider members only' do

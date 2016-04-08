@@ -58,8 +58,9 @@ module MigrationHelpers
       original_expense_type_name = ex.expense_type.name
       ex.expense_type = expense_type
       ex.reason_id = 5
-      narrative = extract_and_update_date_info(ex)
-      ex.reason_text = "Other: Originally #{original_expense_type_name}  #{narrative}".strip
+      narrative1 = extract_quantity_and_rate(ex)
+      narrative2 = extract_and_update_date_info(ex)
+      ex.reason_text = "Other: Originally #{original_expense_type_name}; #{narrative1}; #{narrative2}".strip
     end
 
     def extract_and_update_date_info(ex)
@@ -78,6 +79,10 @@ module MigrationHelpers
         narrative = extract_date_ranges_as_text(ex)
       end
       [date, narrative]
+    end
+
+    def extract_quantity_and_rate(ex)
+      'Qty: %s, Rate: %s' % [ex.quantity, ex.rate]
     end
 
     def is_single_date?(dates_attended)

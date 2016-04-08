@@ -41,20 +41,20 @@ module MigrationHelpers
       let(:migrator) { ExpenseTypeMigrator.new }
       let(:expense) { build(:expense, expense_type: @original_type, location: 'Here', quantity: 148.0, rate: 0.25, amount: 37.0) }
 
-      it 'migrates with the correct date and reason for single date attended' do
+      it 'migrates with the correct quantity, rate, date and reason for single date attended' do
         expense.dates_attended << build(:single_date_attended)
         migrator.send(:migrate_expense, expense)
         expect(expense.expense_type).to eq @migrated_type
         expect(expense.date).to eq 12.days.ago.to_date
-        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car'
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car; Qty: 148.0, Rate: 0.25;'
       end
 
-      it 'migrates with the correct date and reason for single date range attended' do
+      it 'migrates with the correct quantity, rate, date and reason for single date range attended' do
         expense.dates_attended << build(:date_range_attended, date: Date.new(2016, 3, 4), date_to: Date.new(2016, 3, 6))
         migrator.send(:migrate_expense, expense)
         expect(expense.expense_type).to eq @migrated_type
         expect(expense.date).to eq Date.new(2016, 3, 4)
-        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car  04/03/2016 - 06/03/2016'
+        expect(expense.reason_text).to eq 'Other: Originally Conference and View - Car; Qty: 148.0, Rate: 0.25; 04/03/2016 - 06/03/2016'
       end
     end
 

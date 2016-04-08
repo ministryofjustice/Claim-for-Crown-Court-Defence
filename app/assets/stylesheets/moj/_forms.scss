@@ -16,7 +16,9 @@ label {
 input.form-control[type=text],
 input.form-control[type=email],
 input.form-control[type=tel],
-input.form-control[type=password] {
+input.form-control[type=password],
+input.form-control[type=number],
+{
   @include span(8 of 12);
   @include first;
   @include core-19();
@@ -34,13 +36,17 @@ input.form-control[type=password] {
   }
 }
 
-select.form-control{
+select.form-control {
   @include span(6 of 12);
+  .form-row & {
+    @include full;
+  }
 }
 
 textarea.form-control{
   width:100%;
 }
+// Search form
 // button
 button.search {
   margin-left: 5px;
@@ -63,6 +69,24 @@ button.search {
     }
   }
 }
+
+.expense-group {
+  margin-bottom:$gutter;
+}
+.form-row {
+  @include container;
+  margin-bottom:$gutter;
+  .form-col {
+    @include span(4 of 12);
+    &:nth-child(1), &.first-col {
+      @include first;
+    }
+    .form-control {
+      width: 100%;
+    }
+  }
+}
+
 
 .claim-summary-content{
   @include span(8 of 12);

@@ -26,20 +26,18 @@ class Allocation
     return false unless valid?
 
     # could be allocating, deallocating or reallocating
-    @claims.each do |claim|
-      if allocating?
-        if claim.case_workers.exists?
-          errors.add(:base,"Claim #{claim.case_number} has already been allocated to #{claim.case_workers.first.name}")
-        else
+    if allocating?
+      allocate_all_claims_or_none! @claims
+    else
+      @claims.each do |claim|
+        if deallocating?
+          deallocate_claim! claim
+        else #reallocating
           allocate_claim! claim
         end
-      elsif deallocating?
-        deallocate_claim! claim
-      else #reallocating
-        allocate_claim! claim
       end
-
     end
+
     true
   end
 
@@ -52,6 +50,24 @@ class Allocation
   end
 
   private
+
+  def allocate_all_claims_or_none!(claims)
+    ActiveRecord::Base.transaction do
+        claims.each do |claim|
+        if claim.case_workers.exists?
+            errors.add(:base,"Claim #{claim.case_number} has already been allocated to #{claim.case_workers.first.name}")
+          else
+            allocate_claim! claim
+          end
+        end
+
+        if errors.any?
+          errors.add(:base,"All allocations prevented")
+          @successful_claims = []
+          raise ActiveRecord::Rollback
+        end
+    end
+  end
 
   def deallocating?
     @deallocate

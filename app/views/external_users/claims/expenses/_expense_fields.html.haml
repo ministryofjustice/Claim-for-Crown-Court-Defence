@@ -1,5 +1,5 @@
 - @expense_count += 1
-.expense-group.nested-fields
+.expense-group.nested-fields.js-repeat-expenses
   %fieldset
     %legend
       = "Expense"
@@ -62,5 +62,5 @@
           = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control medium-input'
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
-    .remove-expense
-      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' } if @expense_count > 1
+    / .remove-expense
+    /   = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' } if @expense_count > 1

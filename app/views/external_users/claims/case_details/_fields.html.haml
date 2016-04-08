@@ -48,12 +48,12 @@
   = f.text_field :case_number
   = validation_error_message(@error_presenter, :case_number)
 
-= render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
-
-.indent-fieldset#trial-details
-  = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
-.indent-fieldset#retrial-details
-  = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }
+- if @claim.agfs?
+  = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
+  .indent-fieldset#trial-details
+    = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
+  .indent-fieldset#retrial-details
+    = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }
 
 .grid-row#offence
   .column-half

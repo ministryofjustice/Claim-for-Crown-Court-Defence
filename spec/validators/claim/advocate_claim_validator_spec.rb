@@ -88,4 +88,89 @@ describe Claim::AdvocateClaimValidator do
     end
   end
 
+  context 'partial validation' do
+    let(:step1_attributes) {
+      [
+          :case_type,
+          :court,
+          :case_number,
+          :advocate_category,
+          :offence,
+          :estimated_trial_length,
+          :actual_trial_length,
+          :retrial_estimated_length,
+          :retrial_actual_length,
+          :trial_cracked_at_third,
+          :trial_fixed_notice_at,
+          :trial_fixed_at,
+          :trial_cracked_at,
+          :first_day_of_trial,
+          :trial_concluded_at,
+          :retrial_started_at,
+          :retrial_concluded_at,
+          :case_concluded_at
+      ]
+    }
+    let(:step2_attributes) {
+      [
+          :total
+      ]
+    }
+
+    context 'from web' do
+      before do
+        claim.source = 'web'
+      end
+
+      context 'step 1' do
+        before do
+          claim.form_step = 1
+        end
+
+        it 'should validate only attributes for this step' do
+          step1_attributes.each do |attrib|
+            expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
+          end
+
+          step2_attributes.each do |attrib|
+            expect_any_instance_of(described_class).not_to receive(:validate_field).with(attrib)
+          end
+
+          claim.valid?
+        end
+      end
+
+      context 'step 2' do
+        before do
+          claim.form_step = 2
+        end
+
+        it 'should validate only attributes for this step' do
+          step2_attributes.each do |attrib|
+            expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
+          end
+
+          step1_attributes.each do |attrib|
+            expect_any_instance_of(described_class).not_to receive(:validate_field).with(attrib)
+          end
+
+          claim.valid?
+        end
+      end
+    end
+
+    context 'from API' do
+      before do
+        claim.source = 'api'
+      end
+
+      it 'should validate all the attributes for all the steps' do
+        (step1_attributes + step2_attributes).each do |attrib|
+          expect_any_instance_of(described_class).to receive(:validate_field).with(attrib)
+        end
+
+        claim.valid?
+      end
+    end
+  end
 end

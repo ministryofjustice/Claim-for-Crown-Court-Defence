@@ -254,9 +254,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :fee_type_id,
         :quantity,
-        :amount,
-        :type,
-        #date_attributes_for(:date)
+        :amount
       ],
       expenses_attributes: [
        :id,

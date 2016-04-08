@@ -1,33 +1,5 @@
 class Claim::BaseClaimValidator < BaseValidator
 
-  def self.fields_for_steps
-    [
-      [
-        :case_type,
-        :court,
-        :case_number,
-        :advocate_category,
-        :offence,
-        :estimated_trial_length,
-        :actual_trial_length,
-        :retrial_estimated_length,
-        :retrial_actual_length,
-        :trial_cracked_at_third,
-        :trial_fixed_notice_at,
-        :trial_fixed_at,
-        :trial_cracked_at,
-        :first_day_of_trial,
-        :trial_concluded_at,
-        :retrial_started_at,
-        :retrial_concluded_at,
-        :case_concluded_at
-      ],
-      [
-        :total
-      ]
-    ]
-  end
-
   def self.mandatory_fields
     [
     :external_user_id,
@@ -47,8 +19,12 @@ class Claim::BaseClaimValidator < BaseValidator
     else
       fields.flatten
     end.each do |field|
-      self.__send__("validate_#{field}")
+      validate_field(field)
     end
+  end
+
+  def validate_field(field)
+    self.__send__("validate_#{field}")
   end
 
   def validate_external_user_id
@@ -103,6 +79,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_actual_trial_length
     validate_trial_length(:actual_trial_length)
+    validate_trial_actual_length_consistency
   end
 
   def validate_retrial_estimated_length
@@ -111,6 +88,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_retrial_actual_length
     validate_retrial_length(:retrial_actual_length)
+    validate_retrial_actual_length_consistency
   end
 
   # must be present if case type is cracked trial or cracked before retial
@@ -245,6 +223,24 @@ class Claim::BaseClaimValidator < BaseValidator
     if requires_retrial_dates?
       validate_presence(field, "blank") if @record.editable? # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
       validate_numericality(field, 0, nil, "invalid") unless @record.__send__(field).nil?
+    end
+  end
+
+  def validate_trial_actual_length_consistency
+    return unless requires_trial_dates? && @record.actual_trial_length.present? && @record.first_day_of_trial.present? && @record.trial_concluded_at.present?
+
+    # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
+    if ((@record.trial_concluded_at - @record.first_day_of_trial).days + 1.day) < @record.actual_trial_length.days
+      add_error(:actual_trial_length, 'too_long')
+    end
+  end
+
+  def validate_retrial_actual_length_consistency
+    return unless requires_retrial_dates? && @record.retrial_actual_length.present? && @record.retrial_started_at.present? && @record.retrial_concluded_at.present?
+
+    # As we are using Date objects without time information, we loose precision, so adding 1 day will workaround this.
+    if ((@record.retrial_concluded_at - @record.retrial_started_at).days + 1.day) < @record.retrial_actual_length.days
+      add_error(:retrial_actual_length, 'too_long')
     end
   end
 

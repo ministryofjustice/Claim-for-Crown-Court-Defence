@@ -22,7 +22,7 @@
 
             %td
               %a{name: "fee_type"}
-              = gf.text_field :name, value: @claim.case_type.graduated_fee_type.description, disabled: true
+              = @claim.case_type.graduated_fee_type.description
               = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
               = validation_error_message(@error_presenter, :fee_type)
 
@@ -37,3 +37,14 @@
                 = gf.label :amount, '£', class: 'pound-sign bold-xsmall'
                 = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
               = validation_error_message(@error_presenter, :amount)
+
+  - if @claim.requires_cracked_dates?
+    = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
+
+  - if @claim.requires_trial_dates?
+    .indent-fieldset#trial-details
+      = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
+
+  - if @claim.requires_retrial_dates?
+    .indent-fieldset#retrial-details
+      = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }

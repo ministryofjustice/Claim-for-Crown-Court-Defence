@@ -52,7 +52,7 @@
     task :all => :environment do
       {
           :expenses => 'Expense types and expenses',
-          :certification => 'Certifications',
+          :certifications => 'Certifications',
           :grad_fee_types => 'Graduated Fee Types',
           :case_types => 'New Case Types',
           :disbursement_types => 'Disbursement types',

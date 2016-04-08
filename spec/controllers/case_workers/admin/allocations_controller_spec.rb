@@ -101,7 +101,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     end
 
     context "allocation" do
-
       let(:allocation_params) {
         {
           case_worker_id: @case_worker.id,
@@ -109,37 +108,38 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         }
       }
 
-      before(:each) do
-        @claims << create(:allocated_claim)
-        post :create, allocation: allocation_params, commit: 'Allocate'
+      context 'when no allocated claims included' do
+        before(:each) do
+          post :create, allocation: allocation_params, commit: 'Allocate'
+        end
+
+        it 'tells the user how many claims were successfully allocated' do
+          expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
+        end
+
+        it 'renders the new template' do
+          expect(response).to render_template(:new)
+        end
       end
 
-      # TODO: reimplement once method of validation settled
-      # it 'allocates only unallocated claims to case worker' do
-      #   expect(@case_worker.claims.map(&:id)).to match_array(@claims[0].id)
-      # end
+      context 'when already allocated claims included' do
+        before(:each) do
+          @claims << create(:allocated_claim)
+          post :create, allocation: allocation_params, commit: 'Allocate'
+        end
 
-      # TODO: reimplement once method of validation settled
-      # it 'tells the user how many claims were successfully allocated' do
-      #   expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
-      # end
+        it 'allocates NO claims to case worker' do
+          expect(@case_worker.claims).to be_empty
+        end
 
-      # TODO: reimplement once method of validation settled
-      # it 'stores errors for display' do
-        # expect(assigns(:allocation).errors.full_messages.size).to eql 1
-        # expect(assigns(:allocation).errors.full_messages.first).to match /Claim.*already.*allocated/
-      # end
+        it 'stores errors for display including header warning' do
+          expect(assigns(:allocation).errors.full_messages.size).to eql 2
+        end
 
-      # TODO: reimplement once method of validation settled
-      # it 'does not allocate already allocated claims to the case worker' do
-      #   expect(assigns(:allocation).claims.count).to eql 2
-      #   expect(@case_worker.claims.count).to eql 1
-      # end
-
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
+        it 'renders the new template' do
+          expect(response).to render_template(:new)
+        end
       end
-
     end
 
     context "re-allocation" do
@@ -163,7 +163,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         expect(response).to render_template :new
       end
 
-      it 'tells the user that it was successful and the number of claims re-allocated' do
+      it 'tells the user how many claims were successfully re-allocated' do
         expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
       end
 

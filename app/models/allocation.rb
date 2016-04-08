@@ -51,7 +51,7 @@ class Allocation
 
   private
 
-  def allocate_all_claims_or_none!(claims)
+def allocate_all_claims_or_none!(claims)
     ActiveRecord::Base.transaction do
         claims.each do |claim|
         if claim.case_workers.exists?
@@ -62,7 +62,7 @@ class Allocation
         end
 
         if errors.any?
-          errors.add(:base,"All allocations prevented")
+          errors[:base].unshift("NO claims allocated because: ")
           @successful_claims = []
           raise ActiveRecord::Rollback
         end

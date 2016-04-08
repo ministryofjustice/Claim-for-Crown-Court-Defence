@@ -65,7 +65,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_reason_text
-    if @record.other?
+    if @record.expense_reason_other?
       validate_presence(:reason_text, 'blank_for_other')
     else
       validate_absence(:reason_text, 'invalid')

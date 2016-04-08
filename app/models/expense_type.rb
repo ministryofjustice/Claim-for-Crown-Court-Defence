@@ -47,7 +47,6 @@ class ExpenseType < ActiveRecord::Base
   end
 
   def expense_reason_by_id(id)
-    raise ArgumentError.new("No such ExpenseReason with id #{id}") unless expense_reasons_hash.key?(id)
     expense_reasons_hash[id]
   end
 

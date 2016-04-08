@@ -263,6 +263,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :location,
        :quantity,
        :rate,
+       :reason_id,
+       :reason_text,
+       :distance,
+       date_attributes_for(:date),
        :_destroy,
        common_dates_attended_attributes
       ]

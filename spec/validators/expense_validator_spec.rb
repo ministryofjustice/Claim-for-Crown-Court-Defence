@@ -5,16 +5,16 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
   include ValidationHelpers
 
-  let(:claim)                       { FactoryGirl.build :claim, force_validation: true }
-  let(:expense)                     { FactoryGirl.build :expense, claim: claim, expense_type: build(:expense_type) }
-  let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
-  let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
-  let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
-  let(:train_expense)               { build(:expense, :train, claim: claim) }
-  let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
-  let(:other_expense)               { build(:expense, :other, claim: claim) }
-
   context 'schema_version 2' do
+
+    let(:claim)                       { build :claim, force_validation: true }
+    let(:expense)                     { build :expense, :train, claim: claim }
+    let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
+    let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
+    let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
+    let(:train_expense)               { build(:expense, :train, claim: claim) }
+    let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
+    let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5)}
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(2) }
 
@@ -70,7 +70,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
       context 'not travel time' do
         it 'is invalid if present' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, other_expense].each do |ex|
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense].each do |ex|
             ex.hours = 5
             expect(ex).not_to be_valid
             expect(ex.errors[:hours]).to include('invalid')
@@ -78,7 +78,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         end
 
         it 'is valid if absent' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, other_expense].each do |ex|
+          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense].each do |ex|
             ex.hours = nil
             expect(ex).to be_valid
           end
@@ -87,16 +87,16 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe 'reason_text' do
-      context 'other expense types' do
+      context 'other reason types' do
         it 'should be valid if present' do
-          other_expense.reason_text = 'my reasons'
-          expect(other_expense).to be_valid
+          other_reason_type_expense.reason_text = 'my reasons'
+          expect(other_reason_type_expense).to be_valid
         end
 
         it 'should be invalid if absent' do
-          other_expense.reason_text = nil
-          expect(other_expense).not_to be_valid
-          expect(other_expense.errors[:reason_text]).to include('blank_for_other')
+          other_reason_type_expense.reason_text = nil
+          expect(other_reason_type_expense).not_to be_valid
+          expect(other_reason_type_expense.errors[:reason_text]).to include('blank_for_other')
         end
       end
       context 'all expense types apart from other' do
@@ -169,6 +169,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         (1..5).each do |i|
           expense.expense_type.reason_set = 'A'
           expense.reason_id = i
+          expense.reason_text = "xxx" if expense.expense_reason_other?
           expect(expense).to be_valid
         end
       end
@@ -180,7 +181,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(expense.errors[:reason_id]).to include('invalid')
         end
       end
-      
+
       it 'should be valid with values 1-4 for reason set B' do
         (1..4).each do |i|
           expense.expense_type.reason_set = 'A'
@@ -201,7 +202,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     describe '#validate distance' do
       context 'valid' do
-        
+
         it 'is valid when present for car travel' do
           car_travel_expense.distance = 33
           expect(car_travel_expense).to be_valid
@@ -257,7 +258,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         it 'is invalid when present for hotel' do
           hotel_accommodation_expense.distance = 44
           expect(hotel_accommodation_expense).not_to be_valid
-          expect(hotel_accommodation_expense.errors[:distance]).to include('invalid')        
+          expect(hotel_accommodation_expense.errors[:distance]).to include('invalid')
         end
       end
     end
@@ -265,15 +266,15 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     describe 'validate_mileage_rate_id' do
       context 'not car travel' do
         it 'is invalid if present' do
-          [parking_expense, hotel_accommodation_expense, train_expense, train_expense, other_expense].each do |ex|
+          [parking_expense, hotel_accommodation_expense, train_expense, train_expense].each do |ex|
             ex.mileage_rate_id = 2
             expect(ex).not_to be_valid
             expect(ex.errors[:mileage_rate_id]).to include('invalid')
           end
         end
-        
+
         it 'is valid when absent' do
-          [parking_expense, hotel_accommodation_expense, train_expense, train_expense, other_expense].each do |ex|
+          [parking_expense, hotel_accommodation_expense, train_expense, train_expense].each do |ex|
             ex.mileage_rate_id = nil
             expect(ex).to be_valid
           end
@@ -305,6 +306,9 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
   end
 
   context 'schema_version 1' do
+
+    let(:claim)      { FactoryGirl.build :claim, force_validation: true }
+    let(:expense)    { FactoryGirl.build :expense, claim: claim, expense_type: build(:expense_type) }
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
 

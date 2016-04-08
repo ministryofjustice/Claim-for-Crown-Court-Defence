@@ -58,11 +58,6 @@ FactoryGirl.define do
       hours 4
     end
 
-    trait :other do
-      expense_type { build :expense_type, :other }
-      reason_text 'For some really weird reason'
-    end
-
     trait :with_date_attended do
       after(:build) do |expense|
         expense.dates_attended << build(:date_attended, attended_item: expense)

@@ -31,13 +31,42 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
     end
   end
 
+  def expense_params
+    Settings.expense_schema_version == 1 ? v1_expense_params : v2_expense_params
+  end
+
+  def v1_expense_params
+    {
+      expense_type_id: expense_type.id,
+      location: "London",
+      quantity: 1,
+      rate: 40
+    }
+  end
+
+  def v2_expense_params
+    {
+      expense_type_id: expense_type.id,
+      location: "London",
+      quantity: 1,
+      rate: 40,
+      reason_id: 1,
+      distance: 55,
+      amount: 1125.00,
+      date_dd: expense_date.day,
+      date_mm: expense_date.month,
+      date_yyyy: expense_date.year
+    }
+  end
+
   describe "POST #create" do
     context 'when advocate signed in' do
       context 'and the input is valid' do
         let(:court)         { create(:court) }
         let(:offence)       { create(:offence) }
         let(:case_type)     { create(:case_type) }
-        let(:expense_type)  { create(:expense_type) }
+        let(:expense_type)  { create(:expense_type, :train) }
+        let(:expense_date)  { 10.days.ago }
         let(:claim_params) do
           {
             additional_information: 'foo',
@@ -48,12 +77,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             advocate_category: 'QC',
             expenses_attributes:
               [
-                {
-                  expense_type_id: expense_type.id,
-                  location: "London",
-                  quantity: 1,
-                  rate: 40
-                }
+                  expense_params
               ],
             defendants_attributes: [
               { first_name: 'John',

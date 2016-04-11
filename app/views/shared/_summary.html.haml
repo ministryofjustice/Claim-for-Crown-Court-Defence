@@ -68,38 +68,37 @@
         %thead
           %tr
             %th{scope: 'col'}
+              = t('.date')
+            %th{scope: 'col'}
               = t('.expense_type')
-            %th{scope: 'col'}
-              = t('.reason')
-            %th{scope: 'col'}
-              = t('.reason_text')
-            %th{scope: 'col'}
-              = t('.location')
             %th.numeric{scope: 'col'}
               = t('.distance')
             %th.numeric{scope: 'col'}
               = t('.quantity_hours')
+            %th{scope: 'col'}
+              = t('.location')
             %th.numeric{scope: 'col'}
               = t('.amount')
         %tbody
           - present_collection(claim.expenses).each do |expense|
-            %tr
+            %tr.no-border
               %td
-                = expense.name
-                %br
                 = expense.date
               %td
-                = expense.expense_reason.reason
-              %td
-                = expense.reason_text
-              %td
-                = expense.location
+                = expense.name
               %td.numeric
                 = expense.distance
               %td.numeric
                 = expense.quantity
+              %td
+                = expense.location
               %td.numeric
                 = expense.amount
+            %tr
+              %td{colspan: "6"} 
+                .bold-normal
+                  = t('.reason')
+                = expense.expense_reason.reason
 
       .totals
         = t('.expenses_total')

@@ -3,7 +3,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
 
 .search-wrapper
-  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path, hint_text: 'case worker name or email' }
+  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path, hint_text: t('.hint.search') }
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]

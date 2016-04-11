@@ -1,10 +1,11 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Manage case workers'}
 
 .container
-  %div
-    = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button primary'
+  = content_for :search_html_block do
+    %div
+      = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button primary'
 
-  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: 'eg case worker name' }
+  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: t('.hint.search') }
 
 .container.table-container
   %table.report

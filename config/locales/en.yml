@@ -616,6 +616,8 @@ en:
           name: Name
           location: Location
           actions: Manage details
+          hint: 
+            search: eg case worker name
         form:
           first_name: *first_name
           last_name: *last_name
@@ -647,6 +649,8 @@ en:
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
+          hint:
+            search: case worker name or email
       management_information:
         index:
           h1_managment_info: Management information
@@ -674,6 +678,8 @@ en:
         submission_date: Date submitted
         messages: Messages
         none: None
+      hint:
+        search: eg case number, MAAT reference, defendant name, case worker name or email
   devise:
     shared:
       links:

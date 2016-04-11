@@ -1,15 +1,15 @@
 .nested-fields.js-test-defendant
-  %span.auto-width
+  %span.auto-width.first-name
     - @defendant_count += 1
     - @representation_order_count = 0
     = f.anchored_label t('.first_name'), "defendant_#{@defendant_count}_first_name"
     = f.text_field :first_name
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_first_name".to_sym)
-  %span.auto-width
+  %span.auto-width.last-name
     = f.anchored_label t('.last_name'), "defendant_#{@defendant_count}_last_name"
     = f.text_field :last_name
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_last_name".to_sym)
-  %span.auto-width
+  %span.auto-width.dob
     = f.anchored_label t('.date_of_birth'), "defendant_#{@defendant_count}_date_of_birth"
     = f.gov_uk_date_field :date_of_birth
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym)

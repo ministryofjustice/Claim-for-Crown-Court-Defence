@@ -1,4 +1,4 @@
-%tr.nested-fields
+%tr.nested-fields.fee-details{class: to_slug(f.object.description)}
   - if f.object.calculated?
     = render 'external_users/claims/basic_fees/basic_fee_calculated_fields', f: f
   - else

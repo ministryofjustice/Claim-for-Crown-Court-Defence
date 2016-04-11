@@ -1,30 +1,17 @@
 Given(/^case worker "(.*?)" exists$/) do |name|
-  @password = "password"
   first_name = name.split.first
   last_name = name.split.last
-  @case_worker_user = create(:user, first_name: first_name, last_name: last_name,
-                password: @password, password_confirmation: @password)
-  create(:case_worker, :case_worker, user: @case_worker_user)
-end
-
-When(/^I sign in as John Smith$/) do
-  sign_in(@case_worker_user, @password)
-end
-
-Then(/^I should be on the 'Your claims' page$/) do
-  expect(page).to have_content("Your claims")
-end
-
-Then(/^claims "([^"]*)" should appear on the page$/) do |case_numbers|
-  @external_user_home_page.includes_all_claims?(case_numbers)
+  user = create(:user, first_name: first_name, last_name: last_name)
+  create(:case_worker, :case_worker, user: user)
 end
 
 When(/^I select claims "(.*?)"$/) do |case_numbers|
-  @allocation_page.select_claims(case_numbers)
+  case_numbers = case_numbers.split(',').map(&:strip)
+  case_numbers.each { |case_number| check(case_number) }
 end
 
 When(/^I select case worker "(.*?)"$/) do |name|
-  @allocation_page.select_case_worker(name)
+  select name, from: 'allocation_case_worker_id'
 end
 
 Then(/^claims? "(.*?)" should be allocated to case worker "(.*?)"$/) do |case_numbers, name|
@@ -39,7 +26,8 @@ Then(/^(\d+) claims should be allocated to case worker "(.*?)"$/) do |quantity, 
 end
 
 Then(/^claims? "(.*?)" should no longer be displayed$/) do |case_numbers|
-  expect(@allocation_page.includes_any_cases?(case_numbers)).to eq(false)
+  case_numbers = case_numbers.split(',').map(&:strip)
+  case_numbers.each { |case_number| expect(page).to_not have_content(case_number) }
 end
 
 Then(/^the (\d+) allocated claims should no longer be displayed$/) do |quantity|
@@ -71,7 +59,7 @@ Given(/^submitted claims? exists? with case numbers? "(.*?)$/) do |case_numbers|
 end
 
 When(/^I visit the allocation page$/) do
-  @allocation_page.load
+  visit case_workers_admin_allocations_path
 end
 
 Then(/^I visit the re\-allocation page$/) do
@@ -79,7 +67,7 @@ Then(/^I visit the re\-allocation page$/) do
 end
 
 When(/^I click Allocate$/) do
-  @allocation_page.allocate.click
+  click_on('Allocate', match: :smart)
 end
 
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|

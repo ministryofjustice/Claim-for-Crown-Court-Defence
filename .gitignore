@@ -53,4 +53,5 @@ dump.rdb
 /public/stats/*
 *.pid
 
+# tags used by hard core geeks to enable cool navigation within Vim
 tags

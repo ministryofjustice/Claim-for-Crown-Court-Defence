@@ -3,12 +3,12 @@
   %h3.bold-normal
     = t('.representation_order')
 
-  %span.auto-width
+  %span.auto-width.ro-date
     = f.anchored_label 'Representation order date', "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date"
     = f.gov_uk_date_field :representation_order_date
     = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
 
-  %span.auto-width
+  %span.auto-width.maat
     = f.anchored_label t('maat_reference_number'), "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference"
     .form-hint.xsmall.zero-vert-margin
       = t("maat_reference_number_eg")

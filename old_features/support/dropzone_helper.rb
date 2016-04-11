@@ -13,7 +13,6 @@ module DropzoneHelper
     page.execute_script <<-JS
       e = jQuery.Event('drop', { dataTransfer : { files : fileList } });
       $('.#{selector}')[0].dropzone.listeners[0].events.drop(e);
-      $('#temp-file-input').remove();
     JS
   end
 end

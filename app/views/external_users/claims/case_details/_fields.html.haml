@@ -55,23 +55,26 @@
   .indent-fieldset#retrial-details
     = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }
 
-.grid-row#offence
-  .column-half
-    = f.anchored_label t('.offence_category')
-    .form-hint.xsmall.zero-vert-margin
-      = "If the offence category is not listed, choose \"Miscellaneous/other\""
-    - if @claim.new_record?
-      - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
-    - else
-      - selected_offence_category = @claim.offence.description rescue nil
-    = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
-    = validation_error_message(@error_presenter, :offence)
+  .grid-row#offence
+    .column-half
+      = f.anchored_label t('.offence_category')
+      .form-hint.xsmall.zero-vert-margin
+        = "If the offence category is not listed, choose \"Miscellaneous/other\""
+      - if @claim.new_record?
+        - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+      - else
+        - selected_offence_category = @claim.offence.description rescue nil
+      = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
+      = validation_error_message(@error_presenter, :offence)
 
-  .column-half
-    .offence-class-select
-      = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
-
-    = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
+    .column-half
+      .offence-class-select
+        = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
+      = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
 
 - if @claim.lgfs?
+  .grid-row
+    .column-half
+      = render partial: 'external_users/claims/case_details/offence_id_select', locals: { f: f }
+
   = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

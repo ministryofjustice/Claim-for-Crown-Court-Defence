@@ -417,6 +417,10 @@ en:
           retrial_concluded_at: 'Retrial concluded on'
           retrial_estimated_length: 'Estimated retrial length'
           retrial_started_at: 'First day of retrial'
+        offence_id_select:
+          offence_class: "Offence class"
+          offence_class_hint: "eg Theft"
+          select_offence_class: "Please select"
       defendants:
         defendant_fields:
           first_name: *first_name

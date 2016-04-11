@@ -1,0 +1,4 @@
+= label_tag t('.offence_class')
+.form-hint.xsmall.zero-vert-margin
+  = t('.offence_class_hint')
+= f.collection_select :offence_id, Offence.miscellaneous, :id, :offence_class_description, { prompt: t('.select_offence_class') }, { class: 'select2' }

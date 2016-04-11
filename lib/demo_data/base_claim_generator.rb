@@ -53,15 +53,15 @@ module DemoData
     def add_trial_dates(claim)
       claim.first_day_of_trial     = rand(60..90).days.ago
       claim.estimated_trial_length = rand(4..60)
-      claim.actual_trial_length    = claim.estimated_trial_length + rand(-2..5)
-      claim.trial_concluded_at     = claim.first_day_of_trial + (claim.actual_trial_length / 5 * 7).days
+      claim.trial_concluded_at     = claim.first_day_of_trial + rand(10..30).days
+      claim.actual_trial_length    = (claim.trial_concluded_at - claim.first_day_of_trial).to_i
     end
 
     def add_retrial_dates(claim)
       claim.retrial_started_at       = rand(30..40).days.ago
       claim.retrial_estimated_length = rand(4..60)
-      claim.retrial_actual_length    = claim.retrial_estimated_length + rand(-2..5)
-      claim.retrial_concluded_at     = claim.retrial_started_at + (claim.retrial_actual_length / 5 * 7).days
+      claim.retrial_concluded_at     = claim.retrial_started_at + rand(10..20).days
+      claim.retrial_actual_length    = (claim.retrial_concluded_at - claim.retrial_started_at).to_i
     end
 
     def add_cracked_dates(claim)

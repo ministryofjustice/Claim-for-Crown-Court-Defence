@@ -3,6 +3,10 @@ Given(/^There are case and fee types in place$/) do
   load "#{Rails.root}/db/seeds/fee_types.rb"
 end
 
+Given(/^certification types are seeded$/) do
+  load("#{Rails.root}/db/seeds/certification_types.rb")
+end
+
 Given(/^There are certification types in place$/) do
   load "#{Rails.root}/db/seeds/certification_types.rb"
 end

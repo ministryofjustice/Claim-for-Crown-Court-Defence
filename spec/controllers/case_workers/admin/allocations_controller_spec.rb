@@ -36,20 +36,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
     context 'allocation tab' do
       render_views
-
       let(:tab) { 'unallocated' }
-
-      context "displays unallocated claims only" do
-        before do
-          @claims = create_list(:submitted_claim, 1)
-          @allocated_claims = create_list(:allocated_claim, 1)
-        end
-
-        it 'assigns @claims' do
-          expect(assigns(:claims).map(&:id)).to match_array(@claims.map(&:id))
-        end
-      end
-
       it 'renders the allocation partial' do
         expect(response).to render_template(:partial => '_allocation')
       end
@@ -57,23 +44,66 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
     context 're-allocation tab' do
       render_views
-
       let(:tab) { 'allocated' }
-
-      context 'displays allocated claims only' do
-        before do
-          @claims = create_list(:submitted_claim, 1)
-          @allocated_claims = create_list(:allocated_claim, 1)
-        end
-        it 'assigns @claims' do
-          expect(assigns(:claims).map(&:id)).to match_array(@allocated_claims.map(&:id))
-        end
-      end
-
       it 'renders the re-allocation partial' do
         expect(response).to render_template(:partial => '_re_allocation')
       end
     end
+
+  # AGFS filter is default
+    context 'allocation' do
+      before(:each) do
+        @submitted_agfs_claims = create_list(:submitted_claim, 1)
+        @allocated_lgfs_claims = create_list(:litigator_claim, 1, :allocated)
+        @submitted_lgfs_claims = create_list(:litigator_claim, 1, :submitted)
+      end
+
+      before { get :new, params }
+
+      context 'AGFS claim filter' do
+        let(:params) { { tab: 'unallocated', scheme: 'agfs' } }
+
+        it 'should assign @claims to be only unallocated AGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@submitted_agfs_claims.map(&:id))
+        end
+      end
+
+      context 'LGFS claim filter' do
+        let(:params) { { tab: 'unallocated', scheme: 'lgfs' } }
+
+        it 'should assign @claims to be only unallocated LGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@submitted_lgfs_claims.map(&:id))
+        end
+      end
+    end
+
+    # AGFS filter is default
+    context 're-allocation' do
+      before(:each) do
+        @allocated_agfs_claims = create_list(:allocated_claim, 1)
+        @submitted_lfgs_claims = create_list(:litigator_claim, 1, :submitted)
+        @allocated_lgfs_claims = create_list(:litigator_claim, 1, :allocated)
+      end
+
+      before { get :new, params }
+
+      context 'AGFS claim filter' do
+        let(:params) { { tab: 'allocated', scheme: 'agfs' } }
+
+        it 'should assign @claims to be only allocated AGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@allocated_agfs_claims.map(&:id))
+        end
+      end
+
+      context 'LGFS claim filter' do
+        let(:params) { { tab: 'allocated', scheme: 'lgfs' } }
+
+        it 'should assign @claims to be only allocated LGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@allocated_lgfs_claims.map(&:id))
+        end
+      end
+    end
+
   end
 
   describe 'POST #create' do

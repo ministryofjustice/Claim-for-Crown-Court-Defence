@@ -9,4 +9,10 @@ module CaseWorkers::Admin::AllocationsHelper
       'awaiting_written_reasons'
     ]
   end
+
+  def allocation_scheme_filters
+    [ 'agfs',
+      'lgfs'
+    ]
+  end
 end

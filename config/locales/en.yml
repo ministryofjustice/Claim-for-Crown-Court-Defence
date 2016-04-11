@@ -634,6 +634,7 @@ en:
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
+          scheme_types: 'Scheme types'
         re_allocation:
           case_number: 'Case number'
           scheme: Scheme
@@ -643,6 +644,7 @@ en:
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
+          scheme_types: 'Scheme types'
       management_information:
         index:
           h1_managment_info: Management information

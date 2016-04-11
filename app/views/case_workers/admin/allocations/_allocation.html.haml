@@ -5,6 +5,13 @@
 = form_tag case_workers_admin_allocations_path, method: :get do
   %fieldset.inline.allocation-filter-form
     %legend
+      = t('.scheme_types')
+    - allocation_scheme_filters.each do | filter_scheme |
+      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
+        = filter_scheme.upcase
+  %fieldset.inline.allocation-filter-form
+    %legend
       = t('.case_types')
     -  allocation_filters.each do | filter_name |
       = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
@@ -16,6 +23,7 @@
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
+  = hidden_field_tag :scheme, params[:scheme]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
   -# TODO: FIX BELOW
   .grid-row

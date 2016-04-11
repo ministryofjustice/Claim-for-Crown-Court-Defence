@@ -61,9 +61,7 @@ RSpec.describe ExpenseType, type: :model do
       end
 
       it 'raises if invalid id given' do
-        expect {
-          expense_type_set_b.expense_reason_by_id(5)
-        }.to raise_error ArgumentError, "No such ExpenseReason with id 5"
+        expect(expense_type_set_b.expense_reason_by_id(5)).to be_nil
       end
 
     end

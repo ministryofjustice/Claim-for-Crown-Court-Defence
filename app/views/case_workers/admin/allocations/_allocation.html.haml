@@ -3,7 +3,6 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
 
 = form_tag case_workers_admin_allocations_path, method: :get do
-
   %fieldset.inline.allocation-filter-form
     %legend
       = t('.case_types')

@@ -22,7 +22,7 @@
             %p I certify that I am the trial advocate as:
 
             %div.form-group.inline
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.all, :id, :name) do |b|
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name) do |b|
                 - b.label(class: "block-label #{to_slug(b.object.name)}") { b.radio_button + b.object.name }
 
             .bold-normal
@@ -31,7 +31,7 @@
             %p.normal I certify that I am the instructed advocate as:
 
             %div.form-group.inline
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015, :id, :name) do |b|
+              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name) do |b|
 
                 - b.label(class: "block-label") { b.radio_button + b.object.name }
 

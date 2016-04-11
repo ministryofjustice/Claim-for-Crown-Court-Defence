@@ -1403,7 +1403,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           {"0"=>{"quantity"=>"1", "rate"=>"150", "fee_type_id"=>fee_type.id}},
          "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
          "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
-         "expenses_attributes"=>{"0"=>{"expense_type_id"=>expense_type.id, "location"=>"London", "quantity"=>"1", "rate"=>"40", "_destroy"=>"false"}},
+         "expenses_attributes"=>
+           { "0" =>
+             { "expense_type_id"=>expense_type.id,
+               "location"=>"London",
+               "quantity"=>"1",
+               "rate"=>"40",
+               "_destroy" => "false",
+               "reason_id" => "3",
+               "date_dd" => 10.days.ago.day.to_s,
+               "date_mm" => 10.days.ago.month.to_s,
+               "date_yyyy" => 10.days.ago.year.to_s
+             }
+           },
          "apply_vat"=>"0",
          "document_ids"=>[""],
          "evidence_checklist_ids"=>["1", ""]},

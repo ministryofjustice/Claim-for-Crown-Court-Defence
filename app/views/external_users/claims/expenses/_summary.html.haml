@@ -19,7 +19,7 @@
             %th{scope: 'row'}
               = t('shared.summary.dates_attended')
             %td
-              = expense.date.strftime(Settings.date_format)
+              = expense.pretty_date
         %tr
           %th{scope: 'row'}
             = t('shared.summary.expense_type')

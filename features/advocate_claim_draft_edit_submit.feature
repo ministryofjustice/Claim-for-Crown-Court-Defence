@@ -27,6 +27,9 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I edit this claim
     And I enter trial start and end dates
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
     And I add a basic fee with dates attended
     And I add a daily attendance fee with dates attended
     And I add a miscellaneous fee 'adjourned appeals' with dates attended

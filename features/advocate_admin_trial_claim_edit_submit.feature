@@ -21,6 +21,9 @@ Feature: Advocate admin submits a claim for a Trial case
     And I enter defendant, representation order and MAAT reference
     And I enter trial start and end dates
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
     And I add a basic fee with dates attended
     And I add a daily attendance fee with dates attended
     And I add a miscellaneous fee 'adjourned appeals' with dates attended

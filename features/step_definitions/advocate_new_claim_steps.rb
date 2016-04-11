@@ -162,6 +162,10 @@ When(/^I add some additional information$/) do
   @claim_form_page.additional_information.set "Bish bosh bash"
 end
 
+When(/^I click "Continue" in the claim form$/) do
+  @claim_form_page.continue.click
+end
+
 When(/^I click Submit to LAA$/) do
   @claim_form_page.submit_to_laa.trigger "click"
 end

@@ -17,8 +17,10 @@ Feature: Advocate submits a claim for a Contempt case
     And I enter a case number of 'A12345678'
     And I select an offence category
     And I enter defendant, representation order and MAAT reference
-
     And I add another defendant, representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+
     And I add a miscellaneous fee 'adjourned appeals' with dates attended
     And I add a miscellaneous fee 'noting brief fee' with dates attended
     And I add a fixed fee 'Contempt hearings - apportioned fee'

@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect 
+@wip @javascript @webmock_allow_localhost_connect
 Feature: Advocate admin submits a claim for a Trial case
 
   Scenario: I create a trial claim, then submit it

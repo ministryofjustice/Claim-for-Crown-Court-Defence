@@ -4,8 +4,6 @@ class ExpenseV2Validator < BaseValidator
     [
       :expense_type,
       :location,
-      :quantity,
-      :rate,
       :amount,
       :reason_id,
       :reason_text,
@@ -17,7 +15,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def self.mandatory_fields
-    [:claim]
+    [:claim, :amount, :expense_type]
   end
 
   private
@@ -30,26 +28,16 @@ class ExpenseV2Validator < BaseValidator
     validate_presence(:expense_type, 'blank')
   end
 
+  def validate_amount
+    validate_presence(:amount, 'blank')
+  end
+
   def validate_location
     if @record.parking?
       validate_absence(:location, 'invalid')
     else
       validate_presence(:location, 'blank')
     end
-  end
-
-  def validate_quantity
-    if @record.travel_time?
-      validate_absence(:quantity, :invalid)
-    else
-      validate_presence(:quantity, 'blank')
-      validate_numericality(:quantity, 0, nil, 'numericality')
-    end
-  end
-
-  def validate_rate
-    validate_presence(:rate, 'blank')
-    validate_numericality(:rate, 0, nil, 'numericality')
   end
 
   def validate_amount

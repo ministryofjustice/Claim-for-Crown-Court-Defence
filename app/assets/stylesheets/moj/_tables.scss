@@ -7,7 +7,7 @@ table {
   margin-bottom: 1em;
   background-color: #fff;
   border-collapse: collapse;
-  border-bottom: 1px solid $border-colour;
+  // border-bottom: 1px solid $border-colour;
   border-top: 1px solid $border-colour;
   caption {
     @include core-19;
@@ -24,6 +24,12 @@ table {
       }
       &:last-child{
         padding-right:$gutter-half/3;
+      }
+    }
+    &.no-border {
+      th,
+      td {
+        border: none;
       }
     }
   }

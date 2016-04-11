@@ -268,7 +268,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
-              expect(claim.fixed_fees.size).to eq 0
+              expect(claim.fixed_fee.persisted?).to be_falsey
 
               expect(claim.misc_fees.size).to eq 1
               expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
@@ -287,7 +287,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(response.body).to have_content("Enter a case number")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.fixed_fee).not_to be_nil
               expect(claim.misc_fees.size).to eq 1
 
               bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
@@ -322,8 +322,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
               # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.fixed_fees.size).to eq 1
-              expect(claim.fixed_fees.map(&:amount).sum).to eql 2500.00
+              expect(claim.fixed_fee).not_to be_nil
+              expect(claim.fixed_fee.amount).to eql 2500.00
 
               expect(claim.reload.fees_total).to eq 2750.00
             end
@@ -528,9 +528,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
           "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
           },
-        "fixed_fees_attributes"=>
+        "fixed_fee_attributes"=>
         {
-          "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
+          "fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"
         },
         "misc_fees_attributes"=>
         {

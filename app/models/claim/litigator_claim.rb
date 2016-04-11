@@ -89,8 +89,8 @@ module Claim
       if case_type.present? && case_type.is_fixed_fee?
         basic_fees.map(&:clear) unless basic_fees.empty?
       else
-        fixed_fee.try(:destroy)
-        warrant_fee.try(:destroy)
+        fixed_fee.try(:delete)
+        warrant_fee.try(:delete)
       end
     end
   end

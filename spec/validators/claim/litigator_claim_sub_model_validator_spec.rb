@@ -11,7 +11,7 @@ describe Claim::LitigatorClaimSubModelValidator do
 
   context 'partial validation' do
     let(:step1_has_one) { [] }
-    let(:step2_has_one) { [ :graduated_fee, :assessment, :certification ] }
+    let(:step2_has_one) { [ :graduated_fee, :fixed_fee, :warrant_fee, :assessment, :certification ] }
 
     let(:step1_has_many) { [ :defendants ] }
     let(:step2_has_many) { [ :misc_fees, :disbursements, :expenses, :messages, :redeterminations, :documents ] }

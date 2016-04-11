@@ -26,13 +26,13 @@
 
 
 
-    desc 'Adds Graduated Fee types to fee_types_table'
+    desc 'Adds Graduated Fee types to fee_types table'
     task :grad_fee_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
     end
 
 
-    desc 'Updates case types to point tothe correct graduated fee type'
+    desc 'Updates case types to point to the correct graduated fee type'
     task :case_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
     end
@@ -64,4 +64,4 @@
     end
   end
 end
- 
+

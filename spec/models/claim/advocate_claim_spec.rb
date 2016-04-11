@@ -120,15 +120,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    it 'should return all agfs top level case types and non lgfs only and none that are children' do
+    it 'should return only AGFS case types' do
       claim = build :unpersisted_claim
-      ct_top_level_both = create :case_type, name: "Top Level Case Type for both"
-      ct_top_level_agfs = create :case_type, roles: %w{ agfs }, name: "Top Level Case type for AGFS"
-      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }, name: "Top Level Case type for LGFS"
-      ct_child_both = create :child_case_type, roles: %w{ agfs lgfs }, name: "Child of Top level for both both", parent: ct_top_level_both
-      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, name: "Child of Top level for both AGFS only", parent: ct_top_level_both
+      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
+      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
+      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
-      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_agfs.id].sort )
+      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, agfs_case_type])
     end
   end
 

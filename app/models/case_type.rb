@@ -22,7 +22,7 @@ class CaseType < ActiveRecord::Base
 
   auto_strip_attributes :name, squish: true, nullify: true
 
-  default_scope -> { order(parent_id: :desc, name: :asc) }
+  default_scope -> { order(name: :asc) }
 
   scope :fixed_fee,               -> { where(is_fixed_fee: true) }
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }

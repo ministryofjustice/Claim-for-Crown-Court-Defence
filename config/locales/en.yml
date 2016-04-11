@@ -604,6 +604,9 @@ en:
 
 # en.case_workers
   case_workers:
+    table_headings:
+      your_claims: Your claims
+      archived_claims: Archived claims
     admin:
       case_workers:
         index:

@@ -62,8 +62,6 @@
           %th{scope:'col'}
             = t('.case_number')
           %th{scope:'col'}
-            = t(".scheme")
-          %th{scope:'col'}
             = t('.advocate')
           %th{scope:'col'}
             = t('.defendants')
@@ -86,8 +84,6 @@
                 %td
                   %span.js-test-case-number
                     = claim.case_number
-                %td
-                  = claim.scheme
                 %td
                   = claim.owner.name
                 %td

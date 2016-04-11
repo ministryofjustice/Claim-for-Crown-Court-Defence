@@ -50,7 +50,6 @@ module Claim
   class AdvocateClaim < BaseClaim
 
     has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
-
     accepts_nested_attributes_for :fixed_fees, reject_if: :all_blank, allow_destroy: true
 
     validates_with ::Claim::AdvocateClaimValidator
@@ -89,6 +88,13 @@ module Claim
       end
     end
 
+    def destroy_all_invalid_fee_types
+      if case_type.present? && case_type.is_fixed_fee?
+        basic_fees.map(&:clear) unless basic_fees.empty?
+      else
+        fixed_fees.destroy_all unless fixed_fees.empty?
+      end
+    end
   end
 end
 

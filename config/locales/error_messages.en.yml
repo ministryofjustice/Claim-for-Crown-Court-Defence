@@ -614,12 +614,51 @@ fixed_fee:
 
 #################################################################################
 #                                                                               #
-#   GRADUATED FEE                                                               #
+#   WARRANT FEE                                                                 #
 #                                                                               #
 #################################################################################
 
-graduated_fee:
+warrant_fee:
   _seq: 650
+
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
+  fee_type:
+    _seq: 10
+    blank:
+      long: 'Choose a type for the #{warrant_fee}'
+      short: Choose a fee type
+      api: Choose a type for the warrant fee
+
+  warrant_issued_date:
+    _seq: 20
+    blank:
+      long: 'Enter a warrant issued date'
+      short: Enter a date
+      api: 'Enter a warrant issued date'
+    invalid_date:
+      long: 'Enter a valid warrant issued date'
+      short: Enter a valid date
+      api: 'Enter a valid warrant issued date'
+
+  warrant_executed_date:
+    _seq: 30
+    blank:
+      long: 'Enter a warrant executed date'
+      short: Enter a date
+      api: 'Enter a warrant executed date'
+    invalid_date:
+      long: 'Enter a valid warrant executed date'
+      short: Enter a valid date
+      api: 'Enter a valid warrant executed date'
+    warrant_executed_before_issued:
+      long: 'The warrant executed date is before the issued date'
+      short: Enter a valid date
+      api: 'The warrant executed date is before the issued date'
 
 #################################################################################
 #                                                                               #

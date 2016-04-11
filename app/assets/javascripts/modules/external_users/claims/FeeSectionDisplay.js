@@ -1,3 +1,4 @@
+/*
 moj.Modules.FeeSectionDisplay = {
   $caseTypeSelect: {},
   $basicFeesSet: {},
@@ -76,3 +77,4 @@ moj.Modules.FeeSectionDisplay = {
   }
 
 };
+*/

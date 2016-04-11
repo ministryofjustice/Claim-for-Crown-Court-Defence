@@ -22,6 +22,8 @@ class Fee::WarrantFee < Fee::BaseFee
 
   validates_with Fee::WarrantFeeValidator
 
+  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date
+
   def is_warrant?
     true
   end

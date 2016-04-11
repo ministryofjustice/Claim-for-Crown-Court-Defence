@@ -514,6 +514,12 @@ en:
         fixed_fee_fields:
           add_date_attended: 'Add date(s)'
           remove: *remove
+        litigators:
+          fields:
+            fixed_fees: "Fixed fees"
+            fee_type: "Fee type"
+            total: "Total"
+            prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
@@ -571,7 +577,11 @@ en:
       supporting_evidence_checklist:
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
-# en.shared
+      warrant_fee:
+        fields:
+          warrant_fee: "Warrant fee"
+          date_issued: "Warrant date issued"
+          date_executed: "Warrant date executed (optional)"
   shared:
     no_claims_found: 'No claims found'
     claim:

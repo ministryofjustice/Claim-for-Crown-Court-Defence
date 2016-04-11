@@ -47,4 +47,8 @@ class CaseType < ActiveRecord::Base
     return nil if grad_fee_code.nil?
     Fee::GraduatedFeeType.by_code(grad_fee_code)
   end
+
+  def is_hearing?
+    name == 'Hearing subsequent to sentence'
+  end
 end

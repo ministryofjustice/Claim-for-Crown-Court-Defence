@@ -97,7 +97,6 @@ module Claim
     has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
-    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
     has_one :graduated_fee, foreign_key: :claim_id, class_name: 'Fee::GraduatedFee', dependent: :destroy, inverse_of: :claim
 
@@ -125,7 +124,6 @@ module Claim
     scope :total_lower_than, -> (value) { where { total < value } }
 
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :graduated_fee,     reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
@@ -384,6 +382,10 @@ module Claim
       case_type.try(:graduated_fee_type).present?
     end
 
+    def allows_fixed_fees?
+      case_type.is_fixed_fee?
+    end
+
     private
 
     def find_and_associate_documents
@@ -405,14 +407,6 @@ module Claim
 
     def filtered_last_state_transition
       claim_state_transitions.where.not(to: %w(allocated deallocated)).first
-    end
-
-    def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
-      else
-        fixed_fees.destroy_all unless fixed_fees.empty?
-      end
     end
 
     def default_values

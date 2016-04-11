@@ -247,7 +247,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :vat_amount,
         :_destroy
       ],
-      fixed_fees_attributes: common_fees_attributes,
+      fixed_fees_attributes: common_fees_attributes,  # agfs has_many
+      fixed_fee_attributes: common_fees_attributes,   # lgfs has_one
       misc_fees_attributes: common_fees_attributes,
       graduated_fee_attributes: [
         :id,
@@ -255,6 +256,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :fee_type_id,
         :quantity,
         :amount
+      ],
+      warrant_fee_attributes: [
+          :id,
+          :claim_id,
+          :fee_type_id,
+          date_attributes_for(:warrant_issued_date),
+          date_attributes_for(:warrant_executed_date)
       ],
       expenses_attributes: [
        :id,
@@ -281,7 +289,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def build_nested_resources
-    [:defendants, :fixed_fees, :misc_fees, :disbursements, :expenses, :documents].each do |association|
+    [:defendants, :misc_fees, :disbursements, :expenses, :documents].each do |association|
       build_nested_resource(@claim, association)
     end
 

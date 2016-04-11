@@ -5,6 +5,8 @@ class Claim::LitigatorClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       [ ],
       [
         :graduated_fee,
+        :fixed_fee,
+        :warrant_fee,
         :assessment,
         :certification
       ]

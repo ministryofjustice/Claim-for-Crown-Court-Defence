@@ -55,6 +55,7 @@ private
        :fee_id,
        :quantity,
        :rate,
+       :amount,
        :_destroy,
        common_dates_attended_attributes
       ]

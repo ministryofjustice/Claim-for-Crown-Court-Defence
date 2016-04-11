@@ -125,6 +125,10 @@ module Fee
       false
     end
 
+    def is_graduated?
+      false
+    end
+
     def is_warrant?
       false
     end

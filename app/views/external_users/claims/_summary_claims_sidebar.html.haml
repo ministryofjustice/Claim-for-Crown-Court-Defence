@@ -1,0 +1,37 @@
+.new-claim-hgroup.js-stick-at-top-when-scrolling
+  %h2
+    Summary total
+  %h3
+    = 'Fees total '
+    %span.numeric
+      - if @claim.fees_total == 0
+        = "No fees for this claim"
+      - else
+        = claim.fees_total
+
+  - if @claim.lgfs?
+    %h3
+      = 'Disbursements total'
+      %span.numeric
+        - if @claim.disbursements.empty?
+          = 'No disbursements for this claim'
+        - else
+          = claim.disbursements_total
+  %h3
+    = 'Expenses total'
+    %span.numeric
+      - if @claim.expenses.empty?
+        = "No expenses for this claim"
+      - else
+        = claim.expenses_total
+  %h3
+    VAT total
+    %span.numeric
+      = claim.vat_amount
+  %h3.total
+    = "Total "
+    %span.numeric
+      = claim.total_inc_vat
+
+  = link_to 'Continue', new_external_users_claim_certification_path(claim), {class: 'button', role: 'button'}
+  = link_to 'Edit this claim', url_for_edit_external_users_claim(claim), {class: 'button button-secondary', role: 'button'}

@@ -3,20 +3,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
 
 .search-wrapper
-  .search-form
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
-      %fieldset
-        %legend
-          = t('common.search')
-        .input.form-group
-          = label_tag :search, class: 'form-label' do
-            %span.label-text
-              = t('common.search')
-            %span.form-hint case worker name or email
-          = text_field_tag :search, params[:search], class: "form-control search"
-          = button_tag(type: 'submit', class: 'button search', title: "Search") do
-            %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path, hint_text: t('.hint.search') }
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]

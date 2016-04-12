@@ -630,6 +630,10 @@ en:
           password_confirmation: *password_confirmation
           submit: 'Change password'
       allocations:
+        case_type_filters:
+          case_types: 'Case types'
+        scheme_filters:
+          scheme_types: 'Scheme types'
         allocation:
           case_number: 'Case number'
           scheme: Scheme
@@ -638,8 +642,6 @@ en:
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
-          case_types: 'Case types'
-          scheme_types: 'Scheme types'
         re_allocation:
           case_number: 'Case number'
           scheme: Scheme
@@ -648,8 +650,6 @@ en:
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
-          case_types: 'Case types'
-          scheme_types: 'Scheme types'
       management_information:
         index:
           h1_managment_info: Management information

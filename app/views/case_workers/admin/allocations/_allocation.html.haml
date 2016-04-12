@@ -4,21 +4,8 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  %fieldset.inline.allocation-filter-form
-    %legend
-      = t('.scheme_types')
-    - allocation_scheme_filters.each do | filter_scheme |
-      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
-        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-        = filter_scheme.upcase
-  %fieldset.inline.allocation-filter-form
-    %legend
-      = t('.case_types')
-    -  allocation_filters.each do | filter_name |
-      = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
-        = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
-        = filter_name.humanize
-
+  = render partial: 'scheme_filters'
+  = render partial: 'case_type_filters'
   %noscript
     = submit_tag 'Filter'
 

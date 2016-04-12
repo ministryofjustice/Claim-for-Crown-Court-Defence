@@ -40,6 +40,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       let(:tab) { 'unallocated' }
       it 'renders the allocation partial' do
         expect(response).to render_template(:partial => '_allocation')
+        expect(response).to render_template(:partial => '_scheme_filters')
+        expect(response).to render_template(:partial => '_case_type_filters')
       end
     end
 
@@ -48,6 +50,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       let(:tab) { 'allocated' }
       it 'renders the re-allocation partial' do
         expect(response).to render_template(:partial => '_re_allocation')
+        expect(response).to render_template(:partial => '_scheme_filters')
+        expect(response).to render_template(:partial => '_search')
       end
     end
 

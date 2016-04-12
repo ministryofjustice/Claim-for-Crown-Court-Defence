@@ -4,29 +4,11 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  %fieldset.inline.allocation-filter-form
-    %legend
-      = t('.scheme_types')
-    - allocation_scheme_filters.each do | filter_scheme |
-      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
-        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-        = filter_scheme.upcase
+  = render partial: 'scheme_filters'
   %noscript
     = submit_tag 'Filter'
 
-  .search-wrapper
-    .search-form
-      %fieldset
-        %legend
-          = t('common.search')
-        .input.form-group
-          = label_tag :search, class: 'form-label' do
-            %span.label-text
-              = t('common.search')
-            %span.form-hint case worker name or email
-          = text_field_tag :search, params[:search], class: "form-control search"
-          = button_tag(type: 'submit', class: 'button search', title: "Search") do
-            %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+  = render partial: 'search'
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]

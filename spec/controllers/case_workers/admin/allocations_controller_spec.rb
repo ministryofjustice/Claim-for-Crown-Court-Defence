@@ -51,7 +51,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       it 'renders the re-allocation partial' do
         expect(response).to render_template(:partial => '_re_allocation')
         expect(response).to render_template(:partial => '_scheme_filters')
-        expect(response).to render_template(:partial => '_search')
+        expect(response).to render_template(:partial => '_search_form')
       end
     end
 

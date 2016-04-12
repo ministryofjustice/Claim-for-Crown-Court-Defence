@@ -120,15 +120,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    it 'should return all agfs top level case types and non lgfs only and none that are children' do
+    it 'should return only AGFS case types' do
       claim = build :unpersisted_claim
-      ct_top_level_both = create :case_type, name: "Top Level Case Type for both"
-      ct_top_level_agfs = create :case_type, roles: %w{ agfs }, name: "Top Level Case type for AGFS"
-      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }, name: "Top Level Case type for LGFS"
-      ct_child_both = create :child_case_type, roles: %w{ agfs lgfs }, name: "Child of Top level for both both", parent: ct_top_level_both
-      ct_child_agfs = create :child_case_type, roles: %w{ agfs }, name: "Child of Top level for both AGFS only", parent: ct_top_level_both
+      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
+      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
+      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
-      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_agfs.id].sort )
+      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, agfs_case_type])
     end
   end
 
@@ -662,9 +660,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'expenses total' do
     before do
-      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
+      create(:expense, claim_id: subject.id, amount: 3.5)
+      create(:expense, claim_id: subject.id, amount: 1.0)
+      create(:expense, claim_id: subject.id, amount: 142.0)
       subject.reload
     end
 
@@ -680,7 +678,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:expense, claim_id: subject.id, amount: 3.0)
         subject.reload
         expect(subject.expenses_total).to eq(149.5)
       end
@@ -703,9 +701,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       create(:misc_fee, claim_id: subject.id, rate: 2.00)
       create(:misc_fee, claim_id: subject.id, rate: 1.00)
 
-      create(:expense, claim_id: subject.id, rate: 3.5, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 1.0, quantity: 1)
-      create(:expense, claim_id: subject.id, rate: 142.0, quantity: 1)
+      create(:expense, claim_id: subject.id, amount: 3.5)
+      create(:expense, claim_id: subject.id, amount: 1.0)
+      create(:expense, claim_id: subject.id, amount: 142.0)
       subject.reload
     end
 
@@ -717,7 +715,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, rate: 3.0, quantity: 1)
+        create(:expense, claim_id: subject.id, amount: 3.0)
         create(:misc_fee, claim_id: subject.id, rate: 0.5)
         subject.reload
         expect(subject.total).to eq(156.00)
@@ -1351,68 +1349,69 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe 'not saving the expenses model' do
     it 'should save the expenses model' do
       external_user = FactoryGirl.create :external_user
-      expense_type = FactoryGirl.create :expense_type
+      expense_type = FactoryGirl.create :expense_type, :car_travel
       fee_type = FactoryGirl.create :basic_fee_type
       case_type = FactoryGirl.create :case_type
       court = FactoryGirl.create :court
       offence = FactoryGirl.create :offence
 
       params = {"claim"=>
-        {"case_type_id"=>case_type.id,
-         "trial_fixed_notice_at_dd"=>"",
-         "trial_fixed_notice_at_mm"=>"",
-         "trial_fixed_notice_at_yyyy"=>"",
-         "trial_fixed_at_dd"=>"",
-         "trial_fixed_at_mm"=>"",
-         "trial_fixed_at_yyyy"=>"",
-         "trial_cracked_at_dd"=>"",
-         "trial_cracked_at_mm"=>"",
-         "trial_cracked_at_yyyy"=>"",
-         "trial_cracked_at_third"=>"",
-         "court_id"=>court.id,
-         "case_number"=>"A12345678",
-         "advocate_category"=>"QC",
+        {"case_type_id" => case_type.id,
+         "trial_fixed_notice_at_dd" => "",
+         "trial_fixed_notice_at_mm" => "",
+         "trial_fixed_notice_at_yyyy" => "",
+         "trial_fixed_at_dd" => "",
+         "trial_fixed_at_mm" => "",
+         "trial_fixed_at_yyyy" => "",
+         "trial_cracked_at_dd" => "",
+         "trial_cracked_at_mm" => "",
+         "trial_cracked_at_yyyy" => "",
+         "trial_cracked_at_third" => "",
+         "court_id" => court.id,
+         "case_number" => "A12345678",
+         "advocate_category" => "QC",
          "external_user_id" => external_user.id,
-         "offence_id"=>offence.id,
-         "first_day_of_trial_dd"=>"8",
-         "first_day_of_trial_mm"=>"9",
-         "first_day_of_trial_yyyy"=>"2015",
-         "estimated_trial_length"=>"0",
-         "actual_trial_length"=>"0",
-         "trial_concluded_at_dd"=>"11",
-         "trial_concluded_at_mm"=>"9",
-         "trial_concluded_at_yyyy"=>"2015",
+         "offence_id" => offence.id,
+         "first_day_of_trial_dd" => "8",
+         "first_day_of_trial_mm" => "9",
+         "first_day_of_trial_yyyy" => "2015",
+         "estimated_trial_length" => "0",
+         "actual_trial_length" => "0",
+         "trial_concluded_at_dd" => "11",
+         "trial_concluded_at_mm" => "9",
+         "trial_concluded_at_yyyy" => "2015",
          "defendants_attributes"=>
           {"0"=>
-            {"first_name"=>"Foo",
-             "last_name"=>"Bar",
-             "date_of_birth_dd"=>"04",
-             "date_of_birth_mm"=>"10",
-             "date_of_birth_yyyy"=>"1980",
-             "order_for_judicial_apportionment"=>"0",
+            {"first_name" => "Foo",
+             "last_name" => "Bar",
+             "date_of_birth_dd" => "04",
+             "date_of_birth_mm" => "10",
+             "date_of_birth_yyyy" => "1980",
+             "order_for_judicial_apportionment" => "0",
              "representation_orders_attributes"=>
               {"0"=>
-                {"representation_order_date_dd"=>"30",
-                 "representation_order_date_mm"=>"08",
-                 "representation_order_date_yyyy"=>"2015",
-                 "maat_reference"=>"1234567890",
-                 "_destroy"=>"false"}},
-             "_destroy"=>"false"}},
-         "additional_information"=>"",
+                {"representation_order_date_dd" => "30",
+                 "representation_order_date_mm" => "08",
+                 "representation_order_date_yyyy" => "2015",
+                 "maat_reference" => "1234567890",
+                 "_destroy" => "false"}},
+             "_destroy" => "false"}},
+         "additional_information" => "",
          "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "rate"=>"150", "fee_type_id"=>fee_type.id}},
-         "misc_fees_attributes"=>{"0"=>{"fee_type_id"=> "", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
-         "fixed_fees_attributes"=>{"0"=>{"fee_type_id"=>"", "quantity"=>"", "rate"=>"", "_destroy"=>"false"}},
+          {"0" => {"quantity" => "1", "rate" => "150", "fee_type_id" => fee_type.id}},
+         "misc_fees_attributes" => {"0" => {"fee_type_id"=> "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
+         "fixed_fees_attributes" => {"0" => {"fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
          "expenses_attributes"=>
            { "0" =>
-             { "expense_type_id"=>expense_type.id,
-               "location"=>"London",
-               "quantity"=>"1",
-               "rate"=>"40",
+             { "expense_type_id" => expense_type.id,
+               "location" => "London",
+               "mileage_rate_id" => "1",
                "_destroy" => "false",
                "reason_id" => "3",
-               "date_dd" => 10.days.ago.day.to_s,
+               "distance" => '48',
+               "amount" => '40.00',
                "date_mm" => 10.days.ago.month.to_s,
+               "date_dd" => 10.days.ago.day.to_s,
                "date_yyyy" => 10.days.ago.year.to_s
              }
            },

@@ -461,7 +461,7 @@ en:
       expenses:
         expense_fields:
           add_date_attended: 'Add date(s)'
-          remove: *remove
+          remove: Remove Expense <span class="js-expense-remove-count"></span>
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
@@ -470,7 +470,7 @@ en:
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
           location: 'Destination'
-          quantity_hours: 'Quantity / Hours'
+          quantity_hours: 'Hours'
           rate: 'Rate'
       error_summary:
         prohibited_save: This claim has
@@ -591,17 +591,21 @@ en:
       actions: Actions
     summary:
       amount: Amount
+      date: Date
+      distance: Distance
       fee_category: Fee category
       fee_type: Fee type
       quantity: Quantity
       dates_attended: 'Dates attended:'
       fees_total: 'Fees total:'
       expense_type: Expense type
-      location: Location
-      quantity_hours: 'Quantity/Hours'
+      location: Destination
+      quantity_hours: 'Hours'
       rate: Rate
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
+      reason: 'Reason'
+      reason_text: if 'other' reason
       additional_information: Additional information
 
 # en.case_workers
@@ -617,6 +621,8 @@ en:
           name: Name
           location: Location
           actions: Manage details
+          hint: 
+            search: eg case worker name
         form:
           first_name: *first_name
           last_name: *last_name
@@ -650,6 +656,9 @@ en:
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
+          case_types: 'Case types'
+          hint:
+            search: case worker name or email
       management_information:
         index:
           h1_managment_info: Management information
@@ -677,6 +686,8 @@ en:
         submission_date: Date submitted
         messages: Messages
         none: None
+      hint:
+        search: eg case number, MAAT reference, defendant name, case worker name or email
   devise:
     shared:
       links:

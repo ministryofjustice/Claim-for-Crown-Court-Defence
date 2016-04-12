@@ -74,18 +74,31 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
+  #rewrite
+  # describe '#eligible_case_types' do
+  #   it 'should return all lgfs top level case types and non agfs only and none that are children' do
+  #
+  #     claim = build :unpersisted_litigator_claim
+  #     CaseType.delete_all   # kill the case type that was created as part of the claim build
+  #     ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
+  #     ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
+  #     create :case_type, roles: %w{ agfs }
+  #     create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+  #     create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+  #
+  #     expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_lgfs.id].sort )
+  #   end
+  # end
+
   describe '#eligible_case_types' do
-    it 'should return all lgfs top level case types and non agfs only and none that are children' do
-
+    it 'should return only LGFS case types' do
       claim = build :unpersisted_litigator_claim
-      CaseType.delete_all   # kill the case type that was created as part of the claim build
-      ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
-      ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
-      create :case_type, roles: %w{ agfs }
-      create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
-      create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
+      CaseType.delete_all
+      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
+      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
+      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
-      expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_lgfs.id].sort )
+      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
     end
   end
 
@@ -117,7 +130,8 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
 
     describe '#eligible_fixed_fee_types' do
-      it 'returns only fixed fee types for LGFS' do
+      it 'returns only top level fixed fee types for LGFS' do
+        @fft3 = create :child_fee_type, parent: @fft2
         expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
       end
     end

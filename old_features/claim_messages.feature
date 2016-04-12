@@ -18,6 +18,8 @@ Feature: Claim messages
       And I leave a message
      Then I should see my message at the bottom of the message list
 
+  # TODO: need to be updated to support new expenses fields
+  @wip
   Scenario: Only updates to state are tracked by papertrail
     Given I am a signed in advocate
       And There are case types in place

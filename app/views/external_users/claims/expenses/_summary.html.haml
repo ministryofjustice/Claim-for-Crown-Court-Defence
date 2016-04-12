@@ -14,38 +14,55 @@
       %col
     %tbody
       - present_collection(claim.expenses).each do |expense|
+        - if expense.date.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.dates_attended')
+            %td
+              = expense.pretty_date
         %tr
           %th{scope: 'row'}
             = t('shared.summary.expense_type')
           %td
             = expense.name
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.location')
-          %td
-            = expense.location
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.quantity_hours')
-          %td
-            = expense.quantity
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.rate')
-          %td
-            = '%.2f' % expense.rate if expense.rate
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.amount')
-          %td
-            = expense.amount
-
-        - if expense.dates_attended.any?
+        - if expense.location.present?
           %tr
             %th{scope: 'row'}
-              = t('shared.summary.dates_attended')
+              = t('shared.summary.location')
             %td
-              = expense.dates_attended_delimited_string
+              = expense.location
+        - if expense.distance.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.distance')
+            %td
+              = expense.distance
+        - if expense.quantity.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.quantity_hours')
+            %td
+              = expense.quantity
+
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.reason')
+          %td
+            = expense.expense_reason.reason
+        - if expense.reason_text.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.reason_text')
+            %td
+              = expense.reason_text
+
+        - if expense.amount.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.amount')
+            %td
+              = expense.amount
+
 
       %tfoot
         %tr

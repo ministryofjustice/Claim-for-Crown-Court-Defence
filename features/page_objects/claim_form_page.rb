@@ -134,7 +134,7 @@ class ClaimFormPage < SitePrism::Page
   sections :fixed_fees, TypedFeeSection, "div#fixed-fees tbody.fixed-fee-group"
   element :add_another_fixed_fee, "div#fixed-fees > a.add_fields"
 
-  sections :expenses, ExpenseSection, "div#expenses tbody.expense-group"
+  sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"
 
   sections :evidence_checklist, "div.evidence-checklist > div" do

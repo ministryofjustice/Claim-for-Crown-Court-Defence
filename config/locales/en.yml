@@ -157,6 +157,8 @@ en:
 
 # en.common
   common:
+    advocate: Advocate
+    litigator: Litigator
     external_user: Advocate
     court: Court
     crown_court: Crown court
@@ -608,6 +610,9 @@ en:
 
 # en.case_workers
   case_workers:
+    table_headings:
+      your_claims: Your claims
+      archived_claims: Archived claims
     admin:
       case_workers:
         index:
@@ -631,6 +636,10 @@ en:
           password_confirmation: *password_confirmation
           submit: 'Change password'
       allocations:
+        case_type_filters:
+          case_types: 'Case types'
+        scheme_filters:
+          scheme_types: 'Scheme types'
         allocation:
           case_number: 'Case number'
           scheme: Scheme
@@ -639,7 +648,6 @@ en:
           claim_total: 'Claim total'
           defendants: Defendant(s)
           no_of_claims: 'No. of claims'
-          case_types: 'Case types'
         re_allocation:
           case_number: 'Case number'
           scheme: Scheme

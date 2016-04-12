@@ -49,15 +49,22 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    @claims = tab == 'allocated' ? Claim::BaseClaim.caseworker_dashboard_under_assessment : Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
-    @claims = @claims.order(last_submitted_at: :asc)
-
+    filter_by_claim_type_and_assessed_state
     search_claims
     filter_claims
+    order_claims
+  end
+
+  def scheme
+    %w(agfs lgfs).include?(params[:scheme]) ? params[:scheme] : 'agfs'
   end
 
   def tab
     %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
+  end
+
+  def claim_type
+    scheme == 'lgfs' ? Claim::LitigatorClaim : Claim::AdvocateClaim
   end
 
   def search_claims(states=nil)
@@ -66,12 +73,16 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     end
   end
 
+  def filter_by_claim_type_and_assessed_state
+    @claims = tab == 'allocated' ? claim_type.caseworker_dashboard_under_assessment : claim_type.submitted_or_redetermination_or_awaiting_written_reasons
+  end
+
   def filter_claims
-    filter_by_state_and_type
+    filter_by_state_and_case_type
     filter_by_value
   end
 
-  def filter_by_state_and_type
+  def filter_by_state_and_case_type
     case params[:filter]
       when 'redetermination', 'awaiting_written_reasons'
         @claims = @claims.send(params[:filter].to_sym)
@@ -87,6 +98,11 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
       @claims = @claims.total_lower_than(Settings.high_value_claim_threshold)
     end
   end
+
+  def order_claims
+    @claims = @claims.order(last_submitted_at: :asc)
+  end
+
 
   def allocation_params
     ap = params.require(:allocation).permit(

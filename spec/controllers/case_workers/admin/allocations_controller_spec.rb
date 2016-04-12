@@ -4,6 +4,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
   include DatabaseHousekeeping
 
   before(:all) do
+    load "#{Rails.root}/db/seeds/case_types.rb"
     @case_worker = create(:case_worker)
     @admin  = create(:case_worker, :admin)
   end
@@ -36,44 +37,102 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
     context 'allocation tab' do
       render_views
-
       let(:tab) { 'unallocated' }
-
-      context "displays unallocated claims only" do
-        before do
-          @claims = create_list(:submitted_claim, 1)
-          @allocated_claims = create_list(:allocated_claim, 1)
-        end
-
-        it 'assigns @claims' do
-          expect(assigns(:claims).map(&:id)).to match_array(@claims.map(&:id))
-        end
-      end
-
       it 'renders the allocation partial' do
         expect(response).to render_template(:partial => '_allocation')
+        expect(response).to render_template(:partial => '_scheme_filters')
+        expect(response).to render_template(:partial => '_case_type_filters')
       end
     end
 
     context 're-allocation tab' do
       render_views
-
       let(:tab) { 'allocated' }
-
-      context 'displays allocated claims only' do
-        before do
-          @claims = create_list(:submitted_claim, 1)
-          @allocated_claims = create_list(:allocated_claim, 1)
-        end
-        it 'assigns @claims' do
-          expect(assigns(:claims).map(&:id)).to match_array(@allocated_claims.map(&:id))
-        end
-      end
-
       it 'renders the re-allocation partial' do
         expect(response).to render_template(:partial => '_re_allocation')
+        expect(response).to render_template(:partial => '_scheme_filters')
+        expect(response).to render_template(:partial => '_search_form')
       end
     end
+
+    context 'allocation' do
+
+      before(:all) do
+        @submitted_agfs_claims = create_list(:submitted_claim, 1)
+        @allocated_lgfs_claims = create_list(:litigator_claim, 1, :allocated)
+        @submitted_lgfs_claims = create_list(:litigator_claim, 1, :submitted)
+      end
+      after(:all) do
+        Claim::BaseClaim.destroy_all
+      end
+
+      before { get :new, params }
+
+      context 'AGFS claim filter' do
+        let(:params) { { tab: 'unallocated', scheme: 'agfs' } }
+
+        it 'should assign @claims to be only unallocated AGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@submitted_agfs_claims.map(&:id))
+        end
+      end
+
+      context 'LGFS claim filter' do
+        let(:params) { { tab: 'unallocated', scheme: 'lgfs' } }
+
+        it 'should assign @claims to be only unallocated LGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@submitted_lgfs_claims.map(&:id))
+        end
+      end
+
+      context 'Case type filter' do
+        let(:params) { { tab: 'unallocated', scheme: 'agfs', filter: filter } }
+
+        %w{ fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }.each do |filter_type|
+          context "filter by #{filter_type}" do
+            before { @claims = create_filterable_claim("#{filter_type}".to_sym, 1) }
+            let(:filter) { "#{filter_type}" }
+            it "should assign @claims to be only #{filter_type} type claims" do
+              expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
+            end
+          end
+        end
+
+        context "fitler by all" do
+          let(:filter) { 'all' }
+          it "should assign @claims to be all unallocated agfs claims" do
+            expect(assigns(:claims).map(&:id)).to eql @submitted_agfs_claims.map(&:id)
+          end
+        end
+      end
+
+    end
+
+    context 're-allocation' do
+      before(:each) do
+        @allocated_agfs_claims = create_list(:allocated_claim, 1)
+        @submitted_lfgs_claims = create_list(:litigator_claim, 1, :submitted)
+        @allocated_lgfs_claims = create_list(:litigator_claim, 1, :allocated)
+      end
+
+      before { get :new, params }
+
+      context 'AGFS claim filter' do
+        let(:params) { { tab: 'allocated', scheme: 'agfs' } }
+
+        it 'should assign @claims to be only allocated AGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@allocated_agfs_claims.map(&:id))
+        end
+      end
+
+      context 'LGFS claim filter' do
+        let(:params) { { tab: 'allocated', scheme: 'lgfs' } }
+
+        it 'should assign @claims to be only allocated LGFS claims' do
+          expect(assigns(:claims).map(&:id)).to match_array(@allocated_lgfs_claims.map(&:id))
+        end
+      end
+    end
+
   end
 
   describe 'POST #create' do
@@ -178,4 +237,26 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     end
 
   end
+
+  # local helpers
+  # --------------
+  def create_filterable_claim(filter_type, number)
+   case filter_type
+      when :all
+        create_list(:submitted_claim, number)
+      when :fixed_fee
+        create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Contempt').id)
+      when :trial
+        create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Trial').id)
+      when :cracked
+        create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Cracked Trial').id)
+      when :guilty_plea
+        create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Guilty plea').id)
+      when :redetermination
+        create_list(:redetermination_claim, number)
+      when :awaiting_written_reasons
+        create_list(:awaiting_written_reasons_claim, number)
+    end
+  end
+
 end

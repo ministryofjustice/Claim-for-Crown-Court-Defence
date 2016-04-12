@@ -1,0 +1,18 @@
+require 'rails_helper'
+
+describe CaseWorkers::Admin::AllocationsHelper do
+
+  describe '#owner_column_header' do
+    it 'should return advocate for agfs filter or by default' do
+      expect(owner_column_header).to eql 'Advocate'
+      stub(:params).and_return({ scheme: 'agfs' })
+      expect(owner_column_header).to eql 'Advocate'
+    end
+
+    it 'should return litigator for lgfs filter' do
+      stub(:params).and_return({ scheme: 'lgfs' })
+      expect(owner_column_header).to eql 'Litigator'
+    end
+  end
+
+end

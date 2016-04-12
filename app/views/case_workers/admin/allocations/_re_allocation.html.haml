@@ -2,10 +2,20 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
 
-.search-wrapper
-  .search-form
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
+= form_tag case_workers_admin_allocations_path, method: :get do
+  = hidden_field_tag :tab, params[:tab]
+  %fieldset.inline.allocation-filter-form
+    %legend
+      = t('.scheme_types')
+    - allocation_scheme_filters.each do | filter_scheme |
+      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
+        = filter_scheme.upcase
+  %noscript
+    = submit_tag 'Filter'
+
+  .search-wrapper
+    .search-form
       %fieldset
         %legend
           = t('common.search')
@@ -20,6 +30,7 @@
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
+  = hidden_field_tag :scheme, params[:scheme]
   %fieldset.inline
     %legend.normal
       = "Allocate to"
@@ -63,7 +74,6 @@
           %col
           %col
           %col
-          %col
           - if params[:tab] == 'allocated'
             %col
         %thead
@@ -72,9 +82,7 @@
           %th{scope:'col'}
             = t('.case_number')
           %th{scope:'col'}
-            = t(".scheme")
-          %th{scope:'col'}
-            = t('.advocate')
+            = owner_column_header
           %th{scope:'col'}
             = t('.defendants')
           %th{scope:'col'}
@@ -95,8 +103,6 @@
                   = b.check_box
                 %td
                   = claim.case_number
-                %td
-                  = claim.scheme
                 %td
                   = claim.owner.name
                 %td

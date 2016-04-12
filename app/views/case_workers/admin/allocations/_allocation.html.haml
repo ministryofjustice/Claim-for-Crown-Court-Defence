@@ -3,6 +3,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
 
 = form_tag case_workers_admin_allocations_path, method: :get do
+  = hidden_field_tag :tab, params[:tab]
   %fieldset.inline.allocation-filter-form
     %legend
       = t('.scheme_types')
@@ -62,7 +63,7 @@
           %th{scope:'col'}
             = t('.case_number')
           %th{scope:'col'}
-            = t('.advocate')
+            = owner_column_header
           %th{scope:'col'}
             = t('.defendants')
           %th{scope:'col'}

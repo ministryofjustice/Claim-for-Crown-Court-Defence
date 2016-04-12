@@ -157,6 +157,8 @@ en:
 
 # en.common
   common:
+    advocate: Advocate
+    litigator: Litigator
     external_user: Advocate
     court: Court
     crown_court: Crown court

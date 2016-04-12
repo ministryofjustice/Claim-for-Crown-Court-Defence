@@ -15,4 +15,9 @@ module CaseWorkers::Admin::AllocationsHelper
       'lgfs'
     ]
   end
+
+  def owner_column_header
+    params[:scheme].blank? || params[:scheme] == 'agfs' ? I18n.t('common.advocate') : I18n.t('common.litigator')
+  end
+
 end

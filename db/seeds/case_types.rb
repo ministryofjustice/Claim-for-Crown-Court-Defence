@@ -25,7 +25,7 @@ create_or_update_by_name(name: 'Appeal against sentence',
                             requires_trial_dates:     false,
                             requires_retrial_dates:   false,
                             allow_pcmh_fee_type:      false,
-                 
+
                             roles:                    ['agfs', 'lgfs'],
                             )
 create_or_update_by_name(name: 'Breach of Crown Court order',
@@ -125,7 +125,7 @@ create_or_update_by_name(name: 'Trial',
                             grad_fee_code:            'GTRL',
                             )
 
-parent = create_or_update_by_name(name: 'Hearing subsequent to sentence',
+create_or_update_by_name(name: 'Hearing subsequent to sentence',
                             is_fixed_fee:             true,
                             requires_cracked_dates:   false,
                             requires_trial_dates:     false,
@@ -153,36 +153,4 @@ create_or_update_by_name(name: 'Warrant claim',
                             allow_pcmh_fee_type:      false,
                             requires_maat_reference:  true,
                             roles:                    ['lgfs'],
-                            )
-
-create_or_update_by_name(name: 'Vary/discharge an ASBO s1c Crime and Disorder Act 1998',
-                            is_fixed_fee:             false,
-                            requires_cracked_dates:   false,
-                            requires_trial_dates:     false,
-                            requires_retrial_dates:   false,
-                            allow_pcmh_fee_type:      false,
-                            requires_maat_reference:  true,
-                            roles:                    ['lgfs'],
-                            parent:                   parent
-                            )
-
-create_or_update_by_name(name: 'Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000)',
-                            is_fixed_fee:             false,
-                            requires_cracked_dates:   false,
-                            requires_trial_dates:     false,
-                            requires_retrial_dates:   false,
-                            allow_pcmh_fee_type:      false,
-                            requires_maat_reference:  true,
-                            roles:                    ['lgfs'],
-                            parent:                   parent
-                            )
-create_or_update_by_name(name: 'Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005',
-                            is_fixed_fee:             false,
-                            requires_cracked_dates:   false,
-                            requires_trial_dates:     false,
-                            requires_retrial_dates:   false,
-                            allow_pcmh_fee_type:      false,
-                            requires_maat_reference:  true,
-                            roles:                    ['lgfs'],
-                            parent:                   parent
                             )

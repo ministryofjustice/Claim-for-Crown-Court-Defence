@@ -55,6 +55,13 @@ describe AdpFormBuilder do
       end
     end
   end
+
+  describe 'anchored_attribute' do
+    it 'should build the label from the object and label' do
+      expected_html = %Q[<a name="advocate_claim.test"></a>]
+      expect(builder.anchored_attribute('test')).to eq expected_html
+    end
+  end
 end
 
 def expected_output_with_one_data_attribute

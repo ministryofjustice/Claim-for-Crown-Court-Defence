@@ -2,9 +2,9 @@
   %tr.nested-fields
 
     %td
-      %a{name: "disbursement_#{@disbursement_count}_type"}
+      %a{name: "disbursement_#{@disbursement_count}_disbursement_type"}
       = f.collection_select :disbursement_type_id, DisbursementType.all, :id, :name, {prompt: true}, {class: 'select2', style: 'width:350px'}
-      = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_type")
+      = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
     %td
       %a{name: "disbursement_#{@disbursement_count}_net_amount"}
       %div.pound-wrapper

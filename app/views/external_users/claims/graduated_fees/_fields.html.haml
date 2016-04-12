@@ -21,19 +21,19 @@
           %tr.nested-fields
 
             %td
-              %a{name: "fee_type"}
+              = gf.anchored_attribute 'fee_type'
               = @claim.case_type.graduated_fee_type.description
               = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
               = validation_error_message(@error_presenter, :fee_type)
 
             %td
-              %a{name: "quantity"}
+              = gf.anchored_attribute 'quantity'
               = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
-              = validation_error_message(@error_presenter, :quantity)
+              = validation_error_message(@error_presenter, 'graduated_fee.quantity')
 
             %td
               %div.pound-wrapper
-                %a{name: "amount"}
+                = gf.anchored_attribute 'amount'
                 = gf.label :amount, '£', class: 'pound-sign bold-xsmall'
                 = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
               = validation_error_message(@error_presenter, :amount)

@@ -835,13 +835,13 @@ graduated_fee:
   fee_type:
     _seq: 10
     blank:
-      long: 'Choose a type for the #{graduated_fee}'
+      long: 'Choose a type for the graduated fee'
       short: Choose a fee type
       api: Choose a type for the graduated fee
 
   quantity:
     _seq: 20
     invalid:
-      long: 'Enter a valid quantity for the #{graduated_fee}'
+      long: 'Enter a valid quantity for the graduated fee'
       short: Enter a valid quantity
       api: Enter a valid quantity for the graduated fee

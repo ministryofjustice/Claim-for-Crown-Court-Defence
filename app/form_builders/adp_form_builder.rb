@@ -22,6 +22,11 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     %Q[<a name="#{anchor_name}"></a>].html_safe
   end
 
+  def anchored_attribute(attribute)
+    resource = object.class.name.demodulize.underscore
+    anchor_name = [resource, attribute.gsub(' ', '_')].join('.').downcase
+    %Q[<a name="#{anchor_name}"></a>].html_safe
+  end
 
 
   private

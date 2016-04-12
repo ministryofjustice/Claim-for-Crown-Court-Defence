@@ -10,20 +10,11 @@ class BaseSubModelValidator < BaseValidator
     []
   end
 
-  # Override this method in the derived class
-  def validate_has_many_associations_step_fields(record); end
-
-  # Override this method in the derived class
-  def validate_has_one_association_step_fields(record); end
-
-
   def validate(record)
     @result = true
     super
     validate_has_many_associations(record)
     validate_has_one_associations(record)
-    validate_has_many_associations_step_fields(record)
-    validate_has_one_association_step_fields(record)
     remove_unnumbered_submodel_errors_from_base_record(record)
     record.errors.empty? && @result
   end
@@ -77,7 +68,10 @@ class BaseSubModelValidator < BaseValidator
 
   def is_unnumbered_submodel_error?(key)
     key_as_string = key.to_s
-    key_as_string =~ /^(.*)\./ && has_many_association_names.include?($1.to_sym)
+    key_as_string =~ /^(.*)\./ && has_many_association_names_for_errors.include?($1.to_sym)
   end
 
+  def has_many_association_names_for_errors
+    has_many_association_names
+  end
 end

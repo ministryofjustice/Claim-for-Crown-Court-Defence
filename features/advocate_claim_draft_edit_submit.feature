@@ -1,4 +1,4 @@
-@wip @javascript @webmock_allow_localhost_connect
+@javascript @webmock_allow_localhost_connect
 Feature: Advocate partially fills out a draft claim for a trial, then later edits and submits it
 
   Scenario: I create a claim, save it to draft and later complete it
@@ -31,7 +31,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I add a daily attendance fee with dates attended
     And I add a miscellaneous fee 'adjourned appeals' with dates attended
     And I add a miscellaneous fee 'noting brief fee' with dates attended
-    And I add an expenses 'Travel' with one date attended
+    And I add an expense 'Parking'
     And I upload 3 documents
     And I check the boxes for the uploaded documents
     And I add some additional information

@@ -24,15 +24,12 @@
       load File.join(Rails.root, 'db', 'seeds', 'certification_types.rb')
     end
 
-
-
-    desc 'Adds Graduated Fee types to fee_types_table'
-    task :grad_fee_types => :environment do
+    desc 'Seed new fee types'
+    task :fee_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
     end
 
-
-    desc 'Updates case types to point tothe correct graduated fee type'
+    desc 'Updates case types to point to the correct graduated and fixed fee types'
     task :case_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
     end
@@ -42,21 +39,11 @@
       load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
     end
 
-    desc 'Seed New Warrant Fee Type'
-    task :warrant_fee_type => :environment do
-      load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
-    end
-
-
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-          :expenses => 'Expense types and expenses',
-          :certification => 'Certifications',
-          :grad_fee_types => 'Graduated Fee Types',
-          :case_types => 'New Case Types',
-          :disbursement_types => 'Disbursement types',
-          :warrant_fee_type => 'Warrant fee type'
+        fee_types: 'New fee types',
+        case_types: 'Update case types'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke
@@ -64,4 +51,4 @@
     end
   end
 end
- 
+

@@ -14,13 +14,13 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  parent_id               :integer
-#  grad_fee_code           :string
+#  fee_type_code           :string
 #
 
 class CaseType < ActiveRecord::Base
   ROLES = %w{ lgfs agfs }
   include Roles
-  
+
   auto_strip_attributes :name, squish: true, nullify: true
 
   has_many :children, class_name: CaseType, foreign_key: :parent_id
@@ -43,7 +43,12 @@ class CaseType < ActiveRecord::Base
   end
 
   def graduated_fee_type
-    return nil if grad_fee_code.nil?
-    Fee::GraduatedFeeType.by_code(grad_fee_code)
+    return nil if fee_type_code.nil?
+    Fee::GraduatedFeeType.by_code(fee_type_code)
+  end
+
+  def fixed_fee_type
+    return nil if fee_type_code.nil?
+    Fee::FixedFeeType.by_code(fee_type_code)
   end
 end

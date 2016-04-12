@@ -14,7 +14,7 @@ data.shift
 
 data.each do |row|
   begin
-    fee_type, roles, description, code, max_amount, calculated, grad_fee_code = row
+    fee_type, roles, description, code, max_amount, calculated, fee_type_code = row
     klass = "Fee::#{fee_type.capitalize}FeeType".constantize
     roles = roles.split(';')
     calculated = 'false' if calculated.nil?
@@ -28,7 +28,7 @@ data.each do |row|
       klass.create!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s)
     end
   rescue => err
-    puts ">>>>>>>>>>>>>> ERROR #{err.class}  #{err.message} <<<<<<<< #{__FILE__}::#{__LINE__} <<<<<<<<<\n" 
+    puts ">>>>>>>>>>>>>> ERROR #{err.class}  #{err.message} <<<<<<<< #{__FILE__}::#{__LINE__} <<<<<<<<<\n"
     puts row
   end
 end

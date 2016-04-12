@@ -140,9 +140,6 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
 end
 
 When(/^I add an expenses '(.*?)' with one date attended$/) do |name|
-  puts ">>>>>>>>>>>>>> expense type #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-  ap ExpenseType.all
-  save_and_open_page
   @claim_form_page.expenses.last.select_type_of_expense name
   @claim_form_page.expenses.last.destination.set "foo"
   @claim_form_page.expenses.last.quantity.set "1"

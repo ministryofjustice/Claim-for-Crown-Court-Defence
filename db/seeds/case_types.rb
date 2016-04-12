@@ -138,7 +138,7 @@ create_or_update_by_name(name: 'Hearing subsequent to sentence',
                             allow_pcmh_fee_type:      false,
                             requires_maat_reference:  true,
                             roles:                    ['lgfs'],
-                            fee_type_code:            'XH25',
+                            fee_type_code:            'XH2S',
                             )
 
 create_or_update_by_name(name: 'Transfer',

@@ -251,10 +251,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :expense_type_id,
        :location,
        :quantity,
+       :amount,
        :rate,
        :reason_id,
        :reason_text,
        :distance,
+       :mileage_rate_id,
+       :hours,
        date_attributes_for(:date),
        :_destroy,
        common_dates_attended_attributes

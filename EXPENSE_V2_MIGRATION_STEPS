@@ -1,0 +1,13 @@
+EXPENSE V2 MIGRATION STEPS
+==========================
+
+
+1.  rake db:migrate:
+
+    Adds certification types, dates to fees,
+
+
+2.  rake data:migrate:all
+
+
+3.  Ensure expense_schema_version is 2

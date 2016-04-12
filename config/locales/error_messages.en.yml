@@ -650,27 +650,27 @@ expense:
       short: Choose an expense type
       api: Choose a type for the expense
 
-  quantity:
+  amount:
     _seq: 20
     blank:
-      long: 'Enter a quantity for the #{expense}'
-      short: Enter a quantity
-      api: Enter a quantity for the expense
+      long: 'Enter an amount for the #{expense}'
+      short: Enter an amount
+      api: Enter an amount for the expense
     numericality:
-      long: 'Enter a valid quantity for the #{expense}'
-      short: Enter a valid quantity
-      api: Enter a valid quantity for the expense
+      long: 'Enter a valid amount for the #{expense}'
+      short: Enter a valid amount
+      api: Enter a valid amount for the expense
 
-  rate:
+  location:
     _seq: 30
     blank:
-      long: 'Enter a rate for the #{expense}'
-      short: Enter a rate
-      api: Enter a rate for the expense
+      long: 'Enter a location for the #{expense}'
+      short: Enter a location
+      api: Enter a location for the expense
     numericality:
-      long: 'Enter a valid rate for the #{expense}'
-      short: Enter a valid rate
-      api: Enter a valid rate for the expense
+      long: 'Enter a valid location for the #{expense}'
+      short: Enter a valid location
+      api: Enter a valid location for the expense
 
 #################################################################################
 #                                                                               #

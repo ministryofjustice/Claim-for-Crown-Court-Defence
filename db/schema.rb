@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20160412083654) do
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
     t.string   "roles"
-    t.integer  "parent_id"
     t.string   "fee_type_code"
   end
 
@@ -288,6 +287,7 @@ ActiveRecord::Schema.define(version: 20160412083654) do
     t.boolean  "calculated",  default: true
     t.string   "type"
     t.string   "roles"
+    t.integer  "parent_id"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

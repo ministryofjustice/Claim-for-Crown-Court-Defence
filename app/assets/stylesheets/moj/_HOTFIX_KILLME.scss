@@ -2,6 +2,16 @@
 // THIS FILE NEEDS TO BE KILLED AFTER THE LGFS JOURNEY HAS BEEN PROPERLY IMPLEMENTED
 //
 
+//Start a new claim
+
+#claim-form{
+  h2{
+    margin-top: $gutter*2;
+    margin-bottom: $gutter;
+  }
+  
+}
+
 .grid-row-with-margin,
 .button-holder{
   @include clearfix;

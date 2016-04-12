@@ -28,4 +28,9 @@
     %h2{aria: {selected: 'false', controls: 'panel4', expanded: 'false'},class: 'tab',  id: 'tab4', role: 'tab', tabindex: "-1"}
       = t('.h2_summary')
     .panel.accordion{aria: {hidden:'true', labelledby: 'tab1', }, id: 'panel4', role: 'tabpanel'}
+      =# "Fees"
+      =# render partial: 'external_users/claims/summary_fees', locals:{claim: claim }
+      =# "Expenses"
+      =# render partial: 'external_users/claims/expenses/summary', locals:{claim: claim }
+
       = render partial: 'shared/summary'

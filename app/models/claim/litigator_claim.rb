@@ -53,7 +53,7 @@ module Claim
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
     def eligible_case_types
-      CaseType.top_levels.lgfs
+      CaseType.lgfs
     end
 
     def eligible_basic_fee_types
@@ -65,7 +65,7 @@ module Claim
     end
 
     def eligible_fixed_fee_types
-      Fee::FixedFeeType.lgfs
+      Fee::FixedFeeType.top_levels.lgfs
     end
 
     def external_user_type

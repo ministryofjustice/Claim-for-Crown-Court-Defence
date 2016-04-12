@@ -1,4 +1,4 @@
-CLASS,ROLES,FEE TYPE,CODE,MAX_AMOUNT,CALCULATED
+CLASS,ROLES,FEE TYPE,CODE,MAX_AMOUNT,CALCULATED,PARENT
 GRADUATED,lgfs,Trial,GTRL,9999,true
 GRADUATED,lgfs,Retrial,GRTR,9999,true
 GRADUATED,lgfs,Guilty plea,GGLTY,9999,true
@@ -35,9 +35,9 @@ FIXED,agfs;lgfs,Number of cases uplift,NOC,nil,true,
 FIXED,agfs;lgfs,Number of defendants uplift,NDR,nil,true,
 FIXED,agfs,Standard appearance fee,SAF,nil,true,
 FIXED,lgfs,Hearing subsequent to sentence,XH2S,,
-FIXED,lgfs,Vary/discharge an ASBO s1c Crime and Disorder Act 1998,XASB,,
-FIXED,lgfs,Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000),XALT,,
-FIXED,lgfs,Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005,XASS,,
+FIXED,lgfs,Vary/discharge an ASBO s1c Crime and Disorder Act 1998,XASB,,,Hearing subsequent to sentence
+FIXED,lgfs,Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000),XALT,,,Hearing subsequent to sentence
+FIXED,lgfs,Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005,XASS,,,Hearing subsequent to sentence
 MISC,agfs,Abuse of process hearings (half day),APH,nil,true,
 MISC,agfs,Abuse of process hearings (whole day),APW,nil,true,
 MISC,agfs,Abuse of process hearings (half day uplift),AHU,nil,true,

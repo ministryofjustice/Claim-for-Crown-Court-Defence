@@ -96,5 +96,4 @@ describe CaseType do
       end
     end
   end
-
 end

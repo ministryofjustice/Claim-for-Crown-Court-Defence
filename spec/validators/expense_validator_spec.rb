@@ -99,21 +99,6 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(other_reason_type_expense.errors[:reason_text]).to include('blank_for_other')
         end
       end
-      context 'all expense types apart from other' do
-        it 'should be valid if absent' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
-            ex.reason_text = nil
-            expect(ex).to be_valid
-          end
-        end
-        it 'should be invalid if present' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
-            ex.reason_text = 'some reason'
-            expect(ex).not_to be_valid
-            expect(ex.errors[:reason_text]).to include('invalid')
-          end
-        end
-      end
     end
 
     describe '#validate_claim' do
@@ -124,29 +109,17 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
       it { should_error_if_not_present(expense, :expense_type, 'blank') }
     end
 
-    describe '#validate_quantity' do
-      it { should_be_valid_if_equal_to_value(expense, :quantity, 0) }
-      it { should_error_if_equal_to_value(expense, :quantity, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :quantity, nil,  "blank") }
-    end
-
-    describe '#validate_rate' do
-      it { should_be_valid_if_equal_to_value(expense, :rate, 0) }
-      it { should_error_if_equal_to_value(expense, :rate, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :rate, nil,  'blank') }
-    end
-
     describe '#validate_location' do
-      it 'should be mandatory for everything except parking' do
-        [car_travel_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
+      it 'should be mandatory for everything except parking and travel time ' do
+        [car_travel_expense, hotel_accommodation_expense, train_expense].each do |ex|
           ex.location = nil
           expect(ex.valid?).to be false
           expect(ex.errors[:location]).to include('blank')
         end
       end
 
-      it 'should be valid when a location specified for everything except parking' do
-        [car_travel_expense, hotel_accommodation_expense, train_expense, travel_time_expense].each do |ex|
+      it 'should be valid when a location specified for everything except parking and travel time' do
+        [car_travel_expense, hotel_accommodation_expense, train_expense].each do |ex|
           ex.location = 'Somewhere'
           expect(ex).to be_valid
         end
@@ -165,14 +138,29 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe '#validate_reason_id' do
-      it 'should be valid with values 1-5 for reason set A' do
-        (1..5).each do |i|
+      it 'should be valid with values 1-4 for reason set A' do
+        (1..4).each do |i|
           expense.expense_type.reason_set = 'A'
           expense.reason_id = i
           expense.reason_text = "xxx" if expense.expense_reason_other?
           expect(expense).to be_valid
         end
       end
+
+      it 'should be valid with value 5 for reason set A with reason text filled' do
+        expense.expense_type.reason_set = 'A'
+        expense.reason_id = 5
+        expense.reason_text = 'blah'
+        expect(expense).to be_valid
+      end
+
+      it 'should be invalid with value 5 for reason set A without reason text filled' do
+        expense.expense_type.reason_set = 'A'
+        expense.reason_id = 5
+        expect(expense).not_to be_valid
+        expect(expense.errors[:reason_text]).to include('blank_for_other')
+      end
+
       it 'should be invalid with values 6 and above for reason set A' do
         [0, 6, 22].each do |i|
           expense.expense_type.reason_set = 'B'
@@ -196,6 +184,45 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expense.reason_id = i
           expect(expense.valid?).to be false
           expect(expense.errors[:reason_id]).to include('invalid')
+        end
+      end
+    end
+
+    describe '#validate_reason_text' do
+      context 'validates presence when reason ID is 5 for reason set A' do
+        before do
+          expense.expense_type.reason_set = 'A'
+          expense.reason_id = 5
+        end
+
+        it 'reason text is present' do
+          expense.reason_text = 'blah'
+          expense.valid?
+          expect(expense).to be_valid
+        end
+
+        it 'reason text is not present' do
+          expense.valid?
+          expect(expense).not_to be_valid
+          expect(expense.errors[:reason_text]).to include('blank_for_other')
+        end
+      end
+
+      context 'validates absence when reason ID is other than 5 regardless of the reason set' do
+        before do
+          expense.reason_id = 3
+        end
+
+        it 'reason text is present' do
+          expense.reason_text = 'blah'
+          expense.valid?
+          expect(expense).not_to be_valid
+          expect(expense.errors[:reason_text]).to include('invalid')
+        end
+
+        it 'reason text is not present' do
+          expense.valid?
+          expect(expense).to be_valid
         end
       end
     end
@@ -315,23 +342,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     describe '#validate_claim' do
       it { should_error_if_not_present(expense, :claim, 'blank') }
     end
-
-    describe '#validate_expense_type' do
-      it { should_error_if_not_present(expense, :expense_type, 'blank') }
-    end
-
-    describe '#validate_quantity' do
-      it { should_be_valid_if_equal_to_value(expense, :quantity, 0) }
-      it { should_error_if_equal_to_value(expense, :quantity, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :quantity, nil,  "blank") }
-    end
-
-    describe '#validate_rate' do
-      it { should_be_valid_if_equal_to_value(expense, :rate, 0) }
-      it { should_error_if_equal_to_value(expense, :rate, -1,   'numericality') }
-      it { should_error_if_equal_to_value(expense, :rate, nil,  'blank') }
-    end
   end
-
 end
+
+
 

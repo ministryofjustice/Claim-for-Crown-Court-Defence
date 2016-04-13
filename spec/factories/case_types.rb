@@ -13,7 +13,8 @@
 #  requires_maat_reference :boolean          default(FALSE)
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
-#  grad_fee_code           :string
+#  parent_id               :integer
+#  fee_type_code           :string
 #
 
 FactoryGirl.define do

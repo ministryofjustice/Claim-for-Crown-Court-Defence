@@ -13,7 +13,7 @@
 #  requires_maat_reference :boolean          default(FALSE)
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
-#  grad_fee_code           :string
+#  fee_type_code           :string
 #
 
 class CaseType < ActiveRecord::Base
@@ -38,7 +38,12 @@ class CaseType < ActiveRecord::Base
   end
 
   def graduated_fee_type
-    return nil if grad_fee_code.nil?
-    Fee::GraduatedFeeType.by_code(grad_fee_code)
+    return nil if fee_type_code.nil?
+    Fee::GraduatedFeeType.by_code(fee_type_code)
+  end
+
+  def fixed_fee_type
+    return nil if fee_type_code.nil?
+    Fee::FixedFeeType.by_code(fee_type_code)
   end
 end

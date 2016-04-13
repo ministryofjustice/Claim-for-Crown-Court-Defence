@@ -25,4 +25,8 @@ class Fee::FixedFeeType < Fee::BaseFeeType
   def fee_category_name
     'Fixed Fees'
   end
+
+  def self.by_code(code)
+    self.where(code: code).first
+  end
 end

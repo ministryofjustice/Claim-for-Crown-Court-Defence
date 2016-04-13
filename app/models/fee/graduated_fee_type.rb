@@ -11,6 +11,7 @@
 #  calculated  :boolean          default(TRUE)
 #  type        :string
 #  roles       :string
+#  parent_id   :integer
 #
 
 class Fee::GraduatedFeeType < Fee::BaseFeeType

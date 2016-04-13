@@ -27,11 +27,7 @@ class DisbursementValidator < BaseValidator
   end
 
   def validate_vat_amount
-    if @record.claim.vat_registered?
-      validate_presence_and_numericality_for(:vat_amount) || validate_amount_greater_than(:vat_amount, :net_amount, 'greater_than')
-    else
-      validate_numericality(:vat_amount, 0, 0, 'invalid')
-    end
+    validate_presence_and_numericality_for(:vat_amount) || validate_amount_greater_than(:vat_amount, :net_amount, 'greater_than')
   end
 
   def validate_presence_and_numericality_for(field)

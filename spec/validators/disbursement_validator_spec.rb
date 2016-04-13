@@ -23,30 +23,15 @@ describe DisbursementValidator do
   end
 
   describe '#validate_vat_amount' do
-    context 'VAT registered' do
+    it { should_be_valid_if_equal_to_value(disbursement, :vat_amount, 0) }
+    it { should_error_if_equal_to_value(disbursement, :vat_amount, -1, 'numericality') }
+    it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'blank') }
+
+    context 'vat greater than net amount' do
       before do
-        allow(claim).to receive(:vat_registered?).and_return(true)
+        disbursement.net_amount = 5
       end
-
-      it { should_be_valid_if_equal_to_value(disbursement, :vat_amount, 0) }
-      it { should_error_if_equal_to_value(disbursement, :vat_amount, -1, 'numericality') }
-      it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'blank') }
-
-      context 'vat greater than net amount' do
-        before do
-          disbursement.net_amount = 5
-        end
-        it { should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than') }
-      end
-    end
-
-    context 'not VAT registered' do
-      before do
-        allow(claim).to receive(:vat_registered?).and_return(false)
-      end
-
-      it { should_be_valid_if_equal_to_value(disbursement, :vat_amount, 0) }
-      it { should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'invalid') }
+      it { should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than') }
     end
   end
 end

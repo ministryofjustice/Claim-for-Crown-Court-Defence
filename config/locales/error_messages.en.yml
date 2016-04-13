@@ -690,6 +690,13 @@ expense:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
 
+  date:
+    _seq: 5
+    blank:
+      long: 'Enter a date for the #{expense}'
+      short: Enter a date
+      api: Enter a date for the expense
+
   expense_type:
     _seq: 10
     blank:
@@ -713,11 +720,36 @@ expense:
     blank:
       long: 'Enter a location for the #{expense}'
       short: Enter a location
-      api: Enter a location for the expense
+      api: Enter a location for the expenses
     numericality:
       long: 'Enter a valid location for the #{expense}'
       short: Enter a valid location
       api: Enter a valid location for the expense
+
+  distance:
+    _seq: 40
+    blank:
+      long: 'Enter distance for the #{expense}'
+      short: 'Enter distance'
+      api: Enter distance for the expense
+
+  reason_text:
+    _seq: 50
+    blank_for_other:
+      long: 'Enter a reason for the #{expense}'
+      short: 'Enter a reason'
+      api: Enter a reason for the expense
+
+  mileage_rate_id:
+    _seq: 60
+    blank: 'Select a mileage rate for the #{expense}'
+    short: Select a mileage rate
+    api: Select a mileage rate
+
+
+
+
+
 
 #################################################################################
 #                                                                               #

@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect
+@wip @javascript @webmock_allow_localhost_connect
 Feature: Advocate submits a claim for a Contempt case
 
   Scenario: I create a contempt claim, then submit it

@@ -21,6 +21,7 @@ Given(/^There are courts, offences and expense types in place$/) do
   end
   create(:offence, description: 'Murder')
   create(:expense_type, name: 'Parking')
+  create(:expense_type, name: 'Hotel accommodation')
 end
 
 Given(/^I am on the new claim page$/) do
@@ -141,6 +142,9 @@ end
 
 When(/^I add an expense '(.*?)'$/) do |name|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
+  if name == 'Hotel accommodation'
+    @claim_form_page.expenses.last.destination.set 'Liverpool'
+  end
   @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
   @claim_form_page.expenses.last.amount.set '34.56'
   @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'

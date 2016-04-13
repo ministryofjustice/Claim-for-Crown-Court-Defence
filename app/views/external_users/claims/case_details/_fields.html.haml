@@ -38,7 +38,7 @@
       = f.anchored_label t('.transfer_court')
       .form-hint.xsmall.zero-vert-margin
         = "eg Cardiff"
-      = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+      = f.collection_select :transfer_court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
       = validation_error_message(@error_presenter, :court)
 
 .grid-row

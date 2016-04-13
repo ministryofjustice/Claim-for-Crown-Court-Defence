@@ -52,6 +52,8 @@ module Claim
     validates_with ::Claim::LitigatorClaimValidator
     validates_with ::Claim::LitigatorClaimSubModelValidator
 
+    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
+
     has_one :fixed_fee, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 

@@ -183,12 +183,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
                 additional_information: 'foo',
                 expenses_attributes:
                     [
-                        {
-                            expense_type_id: expense_type.id,
-                            location: 'London',
-                            quantity: 1,
-                            rate: 40
-                        }
+                        expense_params
                     ]
             }
           end

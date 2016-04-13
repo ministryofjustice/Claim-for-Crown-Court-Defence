@@ -1,3 +1,10 @@
+form {
+  fieldset {
+    label {
+      margin-top: 0;
+    }
+  }
+}
 //  label
 label {
   &.form-label {
@@ -70,14 +77,26 @@ button.search {
   }
 }
 
+.form-date {
+  .form-group {
+    label {
+      margin-top: 0;
+    }
+  }
+}
+
 .expense-group {
   margin-bottom:$gutter;
 }
+
 .form-row {
   @include container;
   margin-bottom:$gutter;
   .form-col {
     @include span(4 of 12);
+    &.form-col-two-thirds {
+      @include span(8 of 12);
+    }
     &:nth-child(1), &.first-col {
       @include first;
     }

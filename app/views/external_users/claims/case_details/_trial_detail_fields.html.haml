@@ -1,20 +1,22 @@
-%legend.visuallyhidden
-  Trial details
-.bold-normal
-  Trial details
-%span.auto-width
-  = f.anchored_label t('.first_day_of_trial')
-  = f.gov_uk_date_field :first_day_of_trial
-  = validation_error_message(@error_presenter, :first_day_of_trial)
-%span.auto-width
-  = f.anchored_label t('.estimated_trial_length')
-  = f.number_field :estimated_trial_length, step: 1, min: 1
-  = validation_error_message(@error_presenter, :estimated_trial_length)
-%span.auto-width
-  = f.anchored_label t('.actual_trial_length')
-  = f.number_field :actual_trial_length, step: 1, min: 0
-  = validation_error_message(@error_presenter, :actual_trial_length)
-%span.auto-width
-  = f.anchored_label t('.trial_concluded_at'), 'trial_concluded_at'
-  = f.gov_uk_date_field :trial_concluded_at
-  = validation_error_message(@error_presenter, :trial_concluded_at)
+%fieldset.nested-fields.indent-fieldset#trial-details
+  %legend.visuallyhidden
+    Trial details
+  .bold-normal
+    Trial details
+  .form-hint.xsmall.zero-vert-margin
+    &nbsp;
+
+  .form-row
+    .form-col
+      = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', placeholders: true, id: "first_day_of_trial")
+    .form-col
+      = f.anchored_label t('.estimated_trial_length')
+      = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
+      = validation_error_message(@error_presenter, :estimated_trial_length)
+  .form-row
+    .form-col
+      = f.anchored_label t('.actual_trial_length')
+      = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'
+      = validation_error_message(@error_presenter, :actual_trial_length)
+    .form-col
+      = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_concluded_at")

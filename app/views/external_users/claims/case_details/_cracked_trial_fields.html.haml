@@ -1,22 +1,21 @@
-%fieldset.indent-fieldset#cracked_trial_detail
+%fieldset.nested-fields.indent-fieldset#cracked_trial_detail
   %legend.visuallyhidden
     = t('.cracked_trial_detail')
   .bold-normal
     = t('.cracked_trial_detail')
+  .form-hint.xsmall.zero-vert-margin
+    &nbsp;
 
   #cracked-trial-fields
-    %span.auto-width
-      = f.anchored_label t('.trial_fixed_notice_at'), 'trial_fixed_notice_at'
-      = f.gov_uk_date_field :trial_fixed_notice_at
-      = validation_error_message(@error_presenter, :trial_fixed_notice_at)
-    %span.auto-width
-      = f.anchored_label t('.trial_fixed_at'), 'trial_fixed_at'
-      = f.gov_uk_date_field :trial_fixed_at
-      = validation_error_message(@error_presenter, :trial_fixed_at)
-    %span.auto-width
-      = f.anchored_label t('.trial_cracked_at'), 'trial_cracked_at'
-      = f.gov_uk_date_field :trial_cracked_at
-      = validation_error_message(@error_presenter, :trial_cracked_at)
+    .form-row
+      .form-col
+        = f.gov_uk_date_field(:trial_fixed_notice_at, legend_text: t('.trial_fixed_notice_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_fixed_notice_at")
+    .form-row
+      .form-col
+        = f.gov_uk_date_field(:trial_fixed_at, legend_text: t('.trial_fixed_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_fixed_at")
+    .form-row
+      .form-col
+        = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_cracked_at")
 
     = f.anchored_label t('.trial_cracked_at_third'), 'trial_cracked_at_third'
     %div.form-group.inline

@@ -2,17 +2,18 @@
   - @representation_order_count += 1
   %h3.bold-normal
     = t('.representation_order')
+  .form-hint.xsmall.zero-vert-margin
+    &nbsp;
+  .form-row
+    .form-col
+      = f.gov_uk_date_field(:representation_order_date, legend_text: 'Representation order date', legend_class: 'govuk-legend', placeholders: true, id: "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
 
-  %span.auto-width.ro-date
-    = f.anchored_label 'Representation order date', "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date"
-    = f.gov_uk_date_field :representation_order_date
-    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
-
-  %span.auto-width.maat
-    = f.anchored_label t('maat_reference_number'), "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference"
-    .form-hint.xsmall.zero-vert-margin
-      = t("maat_reference_number_eg")
-    = f.text_field :maat_reference
-    = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference")
+  .form-row
+    .form-col
+      = f.anchored_label t('maat_reference_number'), "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference"
+      .form-hint.xsmall.zero-vert-margin
+        = t("maat_reference_number_eg")
+      = f.text_field :maat_reference, {class: 'form-control'}
+      = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_maat_reference")
 
   = link_to_remove_association t('link.remove_rep_order'), f

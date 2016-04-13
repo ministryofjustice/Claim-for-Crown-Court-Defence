@@ -39,11 +39,16 @@
       load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
     end
 
+    desc 'Remove warrant and transfer case types'
+    task :remove_warrant_transfer => :environment do
+      CaseType.find_by(name: 'Warrant claim').destroy
+      CaseType.find_by(name: 'Transfer').destroy
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        fee_types: 'New fee types',
-        case_types: 'Update case types'
+        remove_warrant_transfer: 'Removing warrant and transfer case types'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

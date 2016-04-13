@@ -1,6 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'api_spec_helper'
+require_relative 'external_users/api_spec_helper'
 
 describe API::V1::DropdownData do
 
@@ -52,10 +52,9 @@ describe API::V1::DropdownData do
         CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
         OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
         OFFENCE_ENDPOINT => Offence.all.to_json,
-        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
-        EXPENSE_TYPE_ENDPOINT => ExpenseType.all.to_json
+        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json
+        # EXPENSE_TYPE_ENDPOINT => ExpenseType.all.to_json
       }
-
     }
 
     it 'should return a JSON formatted list of the required information' do
@@ -123,4 +122,80 @@ describe API::V1::DropdownData do
 
   end
 
+  context "expense v1" do
+    before { create_list(:expense_type, 2) }
+
+    context "v1" do
+      let(:expectation) { ExpenseType.all.to_json }
+
+      before(:each)    { allow(Settings).to receive(:expense_schema_version).and_return(1) }
+      xit 'should return a JSON formatted list of the required information' do
+        response = get EXPENSE_TYPE_ENDPOINT, params, format: :json
+        expect(response.status).to eq 200
+        ap JSON.parse(response.body)
+        expect(JSON.parse(response.body).count).to be > 0
+        expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
+      end
+
+      xit 'should require an API key' do
+        params.delete(:api_key)
+        get EXPENSE_TYPE_ENDPOINT, params, format: :json
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
+  end
+
+  context "expense v2" do
+    before do
+      create_list(:expense_type, 2)
+      get EXPENSE_TYPE_ENDPOINT, params, format: :json
+    end
+
+    context "with api key" do
+      before do
+        allow(Settings).to receive(:expense_schema_version).and_return(2)
+      end
+
+      let(:parsed_body) { JSON.parse(last_response.body) }
+
+      it 'should return a JSON formatted list of the required information' do
+        get EXPENSE_TYPE_ENDPOINT, params, format: :json
+        expect(last_response.status).to eq 200
+      end
+
+      it "has 2 records" do
+        get EXPENSE_TYPE_ENDPOINT, params, format: :json
+        expect(parsed_body.count).to be == 2
+      end
+
+      it "has all the expected keys" do
+        %w{ id name created_at updated_at roles reason_set reasons }.each do |key|
+          expect(parsed_body.first).to have_key(key)
+        end
+      end
+
+      it "has correct roles" do
+        expect(parsed_body.first["roles"].size).to eq(2)
+        expect(parsed_body.first["roles"]).to include("agfs")
+        expect(parsed_body.first["roles"]).to include("lgfs")
+      end
+
+      it "has correct reasons structure" do
+        expect(parsed_body.first["reasons"]).to be_an(Array)
+        expect(parsed_body.first["reasons"].first).to have_key("id")
+        expect(parsed_body.first["reasons"].first).to have_key("reason")
+        expect(parsed_body.first["reasons"].first).to have_key("allow_explanatory_text")
+      end
+    end
+
+    context "without api key" do
+      let(:params) { {} }
+
+      it 'should require an API key' do
+        expect(last_response.status).to eq 401
+        expect(last_response.body).to include('Unauthorised')
+      end
+    end
+  end
 end

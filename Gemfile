@@ -77,6 +77,7 @@ group :development, :test do
   gem 'parallel_tests'
   gem 'site_prism'
   gem 'guard-jasmine', '~> 2.0'
+  gem 'guard-rspec'
 end
 
 group :test do

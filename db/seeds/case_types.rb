@@ -141,22 +141,22 @@ create_or_update_by_name(name: 'Hearing subsequent to sentence',
                             fee_type_code:            'XH2S',
                             )
 
-create_or_update_by_name(name: 'Transfer',
-                            is_fixed_fee:             false,
-                            requires_cracked_dates:   false,
-                            requires_trial_dates:     false,
-                            requires_retrial_dates:   false,
-                            allow_pcmh_fee_type:      false,
-                            requires_maat_reference:  true,
-                            roles:                    ['lgfs'],
-                            )
-
-create_or_update_by_name(name: 'Warrant claim',
-                            is_fixed_fee:             false,
-                            requires_cracked_dates:   false,
-                            requires_trial_dates:     false,
-                            requires_retrial_dates:   false,
-                            allow_pcmh_fee_type:      false,
-                            requires_maat_reference:  true,
-                            roles:                    ['lgfs'],
-                            )
+# create_or_update_by_name(name: 'Transfer',
+#                             is_fixed_fee:             false,
+#                             requires_cracked_dates:   false,
+#                             requires_trial_dates:     false,
+#                             requires_retrial_dates:   false,
+#                             allow_pcmh_fee_type:      false,
+#                             requires_maat_reference:  true,
+#                             roles:                    ['lgfs'],
+#                             )
+#
+# create_or_update_by_name(name: 'Warrant claim',
+#                             is_fixed_fee:             false,
+#                             requires_cracked_dates:   false,
+#                             requires_trial_dates:     false,
+#                             requires_retrial_dates:   false,
+#                             allow_pcmh_fee_type:      false,
+#                             requires_maat_reference:  true,
+#                             roles:                    ['lgfs'],
+#                             )

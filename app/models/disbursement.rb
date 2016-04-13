@@ -6,7 +6,7 @@
 #  disbursement_type_id :integer
 #  claim_id             :integer
 #  net_amount           :decimal(, )
-#  vat_amount           :decimal(, )      default(0.0)
+#  vat_amount           :decimal(, )
 #  created_at           :datetime
 #  updated_at           :datetime
 #  total                :decimal(, )      default(0.0)

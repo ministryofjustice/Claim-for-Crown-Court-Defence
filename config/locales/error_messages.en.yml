@@ -612,6 +612,21 @@ fixed_fee:
       short: Enter a valid quantity
       api: Enter a valid quantity for the fixed fee
 
+  sub_type:
+    _seq: 40
+    blank:
+      long: 'Choose a fee sub type for the fixed fee'
+      short: Choose a fee sub type
+      api: Choose a fee sub type
+    invalid:
+      long: 'Choose a valid fee sub type for the fixed fee'
+      short: Choose a valid fee sub type
+      api: Choose a valid fee sub type
+    present:
+      long: 'Do not choose a fee sub type for the fixed fee'
+      short: Do not choose a fee sub type
+      api: Do not choose a fee sub type
+
 #################################################################################
 #                                                                               #
 #   WARRANT FEE                                                                 #

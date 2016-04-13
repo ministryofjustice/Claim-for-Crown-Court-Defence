@@ -14,6 +14,7 @@
 #  type                  :string
 #  warrant_issued_date   :date
 #  warrant_executed_date :date
+#  sub_type_id           :integer
 #
 
 FactoryGirl.define do

@@ -52,6 +52,7 @@ private
        :id,
        :claim_id,
        :fee_type_id,
+       :sub_type_id,
        :fee_id,
        :quantity,
        :rate,

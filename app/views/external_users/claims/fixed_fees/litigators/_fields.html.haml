@@ -18,18 +18,18 @@
         %tbody.fixed-fee-group
           %tr.nested-fields
             %td
-              %a{name: "fee_type"}
-              = "<Fee type here>"
-              = ff.hidden_field :fee_type_id, value: 36
+              = ff.anchored_attribute 'fee_type'
+              = @claim.case_type.fixed_fee_type.description
+              = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
               = validation_error_message(@error_presenter, :fee_type)
 
             %td
               %div.pound-wrapper
-                %a{name: "amount"}
+                = ff.anchored_attribute 'amount'
                 = ff.label :amount, '£', class: 'pound-sign bold-xsmall'
                 = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
               = validation_error_message(@error_presenter, :amount)
 
-      - if @claim.case_type.is_hearing?
-        //= ff.collection_select :sub_case_type_id, @claim.case_type.children, :id, :name, { prompt: true }, { class: 'select2' }
-        //= validation_error_message(@error_presenter, :sub_case_type_id)
+      - if @claim.case_type.fixed_fee_type.children.any?
+        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { prompt: t('.select_sub_type') }, { class: 'select2' }
+        = validation_error_message(@error_presenter, :sub_type)

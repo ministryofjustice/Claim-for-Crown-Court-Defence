@@ -14,6 +14,7 @@
 #  type                  :string
 #  warrant_issued_date   :date
 #  warrant_executed_date :date
+#  sub_type_id           :integer
 #
 
 module Fee
@@ -33,6 +34,7 @@ module Fee
 
     belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
     belongs_to :fee_type, class_name: Fee::BaseFeeType
+    belongs_to :sub_type, class_name: Fee::BaseFeeType
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 

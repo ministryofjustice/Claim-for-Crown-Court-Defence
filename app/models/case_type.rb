@@ -47,8 +47,4 @@ class CaseType < ActiveRecord::Base
     return nil if fee_type_code.nil?
     Fee::FixedFeeType.by_code(fee_type_code)
   end
-
-  def is_hearing?
-    name == 'Hearing subsequent to sentence'
-  end
 end

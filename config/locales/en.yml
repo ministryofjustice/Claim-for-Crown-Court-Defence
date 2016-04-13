@@ -526,6 +526,7 @@ en:
             fee_type: "Fee type"
             total: "Total"
             prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+            select_sub_type: "Please select the relevant option"
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'

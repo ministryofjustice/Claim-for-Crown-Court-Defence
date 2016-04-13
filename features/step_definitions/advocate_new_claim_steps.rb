@@ -163,6 +163,10 @@ When(/^I add some additional information$/) do
   @claim_form_page.additional_information.set "Bish bosh bash"
 end
 
+When(/^I click "Continue" in the claim form$/) do
+  @claim_form_page.continue.click
+end
+
 When(/^I click Submit to LAA$/) do
   @claim_form_page.submit_to_laa.trigger "click"
 end
@@ -212,13 +216,13 @@ end
 
 Given(/^There are other advocates in my provider$/) do
   FactoryGirl.create(:external_user,
-        :advocate,
-        provider: @advocate.provider,
-        user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
-        supplier_number: 'AC135')
+                     :advocate,
+                     provider: @advocate.provider,
+                     user: FactoryGirl.create(:user, first_name: 'John', last_name: 'Doe'),
+                     supplier_number: 'AC135')
   FactoryGirl.create(:external_user,
-        :advocate,
-        provider: @advocate.provider,
-        user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
-        supplier_number: 'XY455')
+                     :advocate,
+                     provider: @advocate.provider,
+                     user: FactoryGirl.create(:user, first_name: 'Joe', last_name: 'Blow'),
+                     supplier_number: 'XY455')
 end

@@ -24,6 +24,7 @@
 }
 .column-half{
   @include span(6 of 12);
+  padding: 0;
   &:last-child{
     // @include last;
   }
@@ -39,6 +40,9 @@
   &:first-child{
     @include first;
   }
+}
+.column-two-thirds {
+  padding: 0;
 }
 .bold-xsmall{
   @include bold-14();

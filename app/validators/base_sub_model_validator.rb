@@ -23,22 +23,30 @@ class BaseSubModelValidator < BaseValidator
 
   def validate_has_many_associations(record)
     has_many_association_names.each do |association_name|
-      collection = record.__send__(association_name)
-      collection.each_with_index do |associated_record, i|
-        unless associated_record.valid?
-          @result = false
-          copy_errors_to_base_record(record, association_name, associated_record, i)
-        end
-      end
+      validate_collection_for(record, association_name)
     end
   end
 
   def validate_has_one_associations(record)
     has_one_association_names.each do |association_name|
-      associated_record = record.__send__(association_name)
-      unless associated_record.nil?
-        @result = false unless associated_record.valid?
+      validate_association_for(record, association_name)
+    end
+  end
+
+  def validate_collection_for(record, association_name)
+    collection = record.__send__(association_name)
+    collection.each_with_index do |associated_record, i|
+      unless associated_record.valid?
+        @result = false
+        copy_errors_to_base_record(record, association_name, associated_record, i)
       end
+    end
+  end
+
+  def validate_association_for(record, association_name)
+    associated_record = record.__send__(association_name)
+    unless associated_record.nil?
+      @result = false unless associated_record.valid?
     end
   end
 
@@ -60,7 +68,10 @@ class BaseSubModelValidator < BaseValidator
 
   def is_unnumbered_submodel_error?(key)
     key_as_string = key.to_s
-    key_as_string =~ /^(.*)\./ && has_many_association_names.include?($1.to_sym)
+    key_as_string =~ /^(.*)\./ && has_many_association_names_for_errors.include?($1.to_sym)
   end
 
+  def has_many_association_names_for_errors
+    has_many_association_names
+  end
 end

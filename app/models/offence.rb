@@ -21,6 +21,10 @@ class Offence < ActiveRecord::Base
   scope :unique_name,   -> { select('DISTINCT(description)') }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
 
+  def offence_class_description
+    offence_class.letter_and_description
+  end
+
   def as_json(options = {})
     super((options || {}).merge({
       methods: [:offence_class]

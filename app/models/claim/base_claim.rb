@@ -44,6 +44,7 @@
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
+#  transfer_court_id        :integer
 #
 
 module Claim
@@ -62,6 +63,8 @@ module Claim
 
     serialize :evidence_checklist_ids, Array
 
+    attr_accessor :form_step
+
     include ::Claims::StateMachine
     extend ::Claims::Search
     extend ::Claims::Sort
@@ -79,7 +82,7 @@ module Claim
     belongs_to :case_type
 
     delegate :provider_id, :provider, to: :creator
-    delegate :requires_trial_dates, to: :case_type
+    delegate :requires_trial_dates?, :requires_retrial_dates?, :requires_cracked_dates?, to: :case_type
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims
@@ -95,8 +98,8 @@ module Claim
     has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
-    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
+    has_one :graduated_fee, foreign_key: :claim_id, class_name: 'Fee::GraduatedFee', dependent: :destroy, inverse_of: :claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
     has_one  :assessment, foreign_key: :claim_id, dependent: :destroy
@@ -122,8 +125,8 @@ module Claim
     scope :total_lower_than, -> (value) { where { total < value } }
 
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :fixed_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :graduated_fee,     reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :disbursements,     reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
@@ -278,6 +281,22 @@ module Claim
       from_api? || !(draft? || archived_pending_delete?)
     end
 
+    def step?(num)
+      current_step == num
+    end
+
+    def next_step!
+      self.form_step = current_step + 1
+    end
+
+    def current_step
+      self.form_step.to_i
+    end
+
+    def current_step_index
+      current_step - 1
+    end
+
     def from_api?
       source == 'api'
     end
@@ -360,7 +379,15 @@ module Claim
       provider_delegator.supplier_number
     end
 
-  private
+    def allows_graduated_fees?
+      case_type.try(:graduated_fee_type).present?
+    end
+
+    def allows_fixed_fees?
+      case_type.is_fixed_fee?
+    end
+
+    private
 
     def find_and_associate_documents
       return if self.form_id.nil?
@@ -383,16 +410,9 @@ module Claim
       claim_state_transitions.where.not(to: %w(allocated deallocated)).first
     end
 
-    def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
-      else
-        fixed_fees.destroy_all unless fixed_fees.empty?
-      end
-    end
-
     def default_values
       self.source ||= 'web'
+      self.form_step ||= 1
     end
 
     def instantiate_assessment

@@ -1,0 +1,32 @@
+#claim-form
+  = form_for [:external_users, @claim], as: :claim, url: url_for_external_users_claim(@claim), builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
+
+    = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
+    = f.hidden_field :form_step, value: @claim.form_step
+
+    - if @claim.step?(1)
+
+      = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/defendants/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_continue' }
+
+
+    - if @claim.step?(2)
+
+      = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/expenses/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/supporting_documents/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/supporting_evidence_checklist/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/additional_information/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/buttons/continue', locals: { f: f, commit: 'commit_submit_claim' }

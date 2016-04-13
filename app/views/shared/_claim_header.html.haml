@@ -22,7 +22,7 @@
       .claim-detail-actions
         = "Actions:"
         %div
-          = link_to 'Edit this claim', edit_external_users_claim_path(claim), class: 'button'
+          = link_to 'Edit this claim', url_for_edit_external_users_claim(claim), class: 'button'
           = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button button-secondary'
     - if claim.archivable?
       .claim-detail-actions

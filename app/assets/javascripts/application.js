@@ -16,7 +16,9 @@
   'use strict';
   delete moj.Modules.devs;
 
-  $('#fixed-fees, #misc-fees, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
+  jQuery.fn.exists = function() { return this.length > 0 };
+
+  $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
     $(insertedItem).find('.select2').select2();
   });
   $('.select2').select();

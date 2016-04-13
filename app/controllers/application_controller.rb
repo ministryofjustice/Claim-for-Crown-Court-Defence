@@ -95,4 +95,5 @@ class ApplicationController < ActionController::Base
     flash[:ga] ||= []
     flash[:ga] << Hash[type, args]
   end
+
 end

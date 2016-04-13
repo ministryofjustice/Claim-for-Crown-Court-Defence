@@ -26,6 +26,7 @@ describe Claim::BaseClaimSubModelValidator do
       @misc_fee = FactoryGirl.create :misc_fee,:with_date_attended, claim: claim
       FactoryGirl.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
+      claim.form_step = 2
     end
 
     it 'should call the validator on all the attended dates for all the fees' do
@@ -41,6 +42,7 @@ describe Claim::BaseClaimSubModelValidator do
       FactoryGirl.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
+      claim.form_step = 2
     end
 
     it 'should call the validator on all the attended dates for all the expenses' do

@@ -12,56 +12,71 @@
         - b.label(class: "block-label") { b.radio_button + b.value.to_s }
       = validation_error_message(@error_presenter, :advocate_category)
 
-  - if @claim.agfs?
-    .form-group
-      .column-half
-        - if current_user.persona.admin?
-          = f.anchored_label t('.advocate'), 'external_user'
-          = f.collection_select :external_user_id, @advocates_in_provider, :id, :name_and_number, {prompt: true}, {class: 'select2'}
-          = validation_error_message(@error_presenter, :external_user)
+%fieldset
+  .form-group
+    - if current_user.persona.admin?
+      - label = @claim.agfs? ? t('.advocate') : t('.litigator')
+      - external_users_collection = @claim.agfs? ? @advocates_in_provider : @litigators_in_provider
+      = render partial: 'external_users/claims/case_details/case_owner_select', locals: { f: f, label: label, external_users_collection: external_users_collection }
 
-.form-group
-  .column-half
-    = f.anchored_label t('.court')
-    = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-    = validation_error_message(@error_presenter, :court)
+    .form-row
+      .form-col
+        = f.anchored_label t('.case_type')
+        .form-hint.xsmall.zero-vert-margin
+          = "eg Trial"
+        = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
+        = validation_error_message(@error_presenter, :case_type)
 
-.grid-row
-  .column-half
-    = f.anchored_label t('.case_type')
-    .form-hint.xsmall.zero-vert-margin
-      &nbsp;
-    = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
-    = validation_error_message(@error_presenter, :case_type)
+    .form-row
+      .form-col
+        = f.anchored_label t('.court')
+        .form-hint.xsmall.zero-vert-margin
+          = "eg Cardiff"
+        = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+        = validation_error_message(@error_presenter, :court)
 
-  .column-half
-    = f.anchored_label t('.case_number')
-    .form-hint.xsmall.zero-vert-margin
-      = "eg A12345678"
-    = f.text_field :case_number
-    = validation_error_message(@error_presenter, :case_number)
+      - if @claim.lgfs?
+        .form-col
+          = f.anchored_label t('.transfer_court')
+          .form-hint.xsmall.zero-vert-margin
+            = "eg Cardiff"
+          = f.collection_select :transfer_court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+          = validation_error_message(@error_presenter, :court)
 
-= render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
+    .form-row
+      .form-col
+        = f.anchored_label(t('.case_number'), nil, { label_attributes: {class: 'form-label'} })
+        .form-hint.xsmall.zero-vert-margin
+          = "eg A12345678"
+        = f.text_field :case_number, {class: 'form-control'}
+        = validation_error_message(@error_presenter, :case_number)
 
-.indent-fieldset#trial-details
+- if @claim.agfs?
+  = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
   = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
-.indent-fieldset#retrial-details
   = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }
 
-.grid-row#offence
-  .column-half
-    = f.anchored_label t('.offence_category')
-    .form-hint.xsmall.zero-vert-margin
-      = "If the offence category is not listed, choose \"Miscellaneous/other\""
-    - if @claim.new_record?
-      - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
-    - else
-      - selected_offence_category = @claim.offence.description rescue nil
-    = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
-    = validation_error_message(@error_presenter, :offence)
+  #offence
+    .form-row
+      .form-col
+        = f.anchored_label t('.offence_category')
+        .form-hint.xsmall.zero-vert-margin
+          = "If the offence category is not listed, choose \"Miscellaneous/other\""
+        - if @claim.new_record?
+          - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
+        - else
+          - selected_offence_category = @claim.offence.description rescue nil
+        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
+        = validation_error_message(@error_presenter, :offence)
 
-  .column-half
-    .offence-class-select
-      = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
+      .form-col
+        .offence-class-select
+          = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
+        = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
 
-    = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
+- if @claim.lgfs?
+  .form-row
+    .form-col
+      = render partial: 'external_users/claims/case_details/offence_id_select', locals: { f: f }
+
+  = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

@@ -14,7 +14,7 @@ end
 Given(/^I am on the edit page for a draft claim of case type "(.*?)"$/) do |case_type|
   case_type = CaseType.find_or_create_by!(name: case_type)
   claim = create(:claim, case_type: case_type, external_user: @advocate)
-  visit edit_external_users_claim_path(claim.reload)
+  visit edit_advocates_claim_path(claim.reload)
 end
 
 def trial_fields

@@ -32,10 +32,10 @@ RSpec.describe Fee::BaseFeePresenter do
   end
 
   describe '#rate' do
-    context 'calcluated fees' do
+    context 'calculated fees' do
       it 'rounds to 2 decimal places in string format' do
         fee.rate = 12.505
-        expect(presenter.rate).to eq '12.51'
+        expect(presenter.rate).to eq '£12.51'
       end
     end
     context 'for uncalculated fees' do

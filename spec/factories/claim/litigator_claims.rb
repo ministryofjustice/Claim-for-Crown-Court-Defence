@@ -15,10 +15,16 @@ FactoryGirl.define do
       claim.fees << build(:misc_fee, claim: claim) # fees required for valid claims
     end
 
+    after(:create) do |claim|
+      defendant = create(:defendant, claim: claim)
+      create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
+      claim.reload
+    end
+
     factory :unpersisted_litigator_claim do
       court         { build :court }
-      external_user { creator }
       creator       { build :external_user, :litigator, provider: build(:provider, :lgfs) }
+      external_user { creator }
       offence       { build :offence, offence_class: build(:offence_class) }
     end
 

@@ -9,6 +9,7 @@
 #  vat_amount           :decimal(, )
 #  created_at           :datetime
 #  updated_at           :datetime
+#  total                :decimal(, )      default(0.0)
 #
 
 FactoryGirl.define do

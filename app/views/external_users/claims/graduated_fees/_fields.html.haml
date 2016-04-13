@@ -1,0 +1,50 @@
+- if @claim.allows_graduated_fees?
+
+  #graduated-fees
+    %h2.bold-medium
+      = t('.graduated_fees')
+    .form-hint.xsmall
+      = raw t('.graduated_prompt_text')
+
+    = f.fields_for :graduated_fee do |gf|
+      %table
+        %thead
+          %tr
+            %th
+              = t('.fee_type')
+            %th
+              = t('.ppe_total')
+            %th
+              = t('.total')
+
+        %tbody.graduated-fee-group
+          %tr.nested-fields
+
+            %td
+              = gf.anchored_attribute 'fee_type'
+              = @claim.case_type.graduated_fee_type.description
+              = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
+              = validation_error_message(@error_presenter, :fee_type)
+
+            %td
+              = gf.anchored_attribute 'quantity'
+              = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+              = validation_error_message(@error_presenter, 'graduated_fee.quantity')
+
+            %td
+              %div.pound-wrapper
+                = gf.anchored_attribute 'amount'
+                = gf.label :amount, '£', class: 'pound-sign bold-xsmall'
+                = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
+              = validation_error_message(@error_presenter, :amount)
+
+  - if @claim.requires_cracked_dates?
+    = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
+
+  - if @claim.requires_trial_dates?
+    .indent-fieldset#trial-details
+      = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
+
+  - if @claim.requires_retrial_dates?
+    .indent-fieldset#retrial-details
+      = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }

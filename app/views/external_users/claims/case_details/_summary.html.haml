@@ -12,14 +12,15 @@
     %col
   %tbody
     %tr
-      %th{scope: 'row'}
-        = t("#{locale_path}.advocate_category")
-      %td
-        = claim.advocate_category
+      - if claim.agfs?
+        %th{scope: 'row'}
+          = t("#{locale_path}.advocate_category")
+        %td
+          = claim.advocate_category
 
     %tr
       %th{scope: 'row'}
-        = t('common.external_user')
+        = t(claim.external_user_type)
       %td
         = claim.owner.name
 
@@ -52,6 +53,13 @@
         = t("#{locale_path}.offence_class")
       %td
         = claim.offence ? claim.offence.offence_class : t("general.not_provided")
+
+    - if claim.lgfs?
+      %tr
+        %th{scope: 'row'}
+          = t('external_users.claims.case_details.case_concluded_date.case_concluded_at')
+        %td
+          = claim.case_concluded_at
 
     - if claim.case_type && claim.case_type.requires_cracked_dates
       %tr

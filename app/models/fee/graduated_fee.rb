@@ -14,6 +14,7 @@
 #  type                  :string
 #  warrant_issued_date   :date
 #  warrant_executed_date :date
+#  sub_type_id           :integer
 #
 
 class Fee::GraduatedFee < Fee::BaseFee
@@ -21,8 +22,6 @@ class Fee::GraduatedFee < Fee::BaseFee
   belongs_to :fee_type, class_name: Fee::GraduatedFeeType
 
   validates_with Fee::GraduatedFeeValidator
-
-  delegate :first_day_of_trial, :actual_trial_length, :requires_trial_dates, to: :claim, allow_nil: true
 
   def is_graduated?
     true

@@ -65,7 +65,7 @@ header.main-header {
   }
 }
 
-.claim-summary-content{
+.new-claim-content{
   h2{
     @include core-24;
     font-weight: 800;
@@ -75,10 +75,10 @@ header.main-header {
     margin-top: $gutter * 2;
   }
 }
-.claim-summary-hgroup{
+.new-claim-hgroup{
   border-top: 5px solid $link-colour;
   margin-top: 5px;
-  
+
   h2{
     @include core-24;
     font-weight: 800;

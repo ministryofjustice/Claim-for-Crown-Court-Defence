@@ -6,6 +6,7 @@
 //    a. avoid user error
 //    b. simplify form completion.
 //
+/*
 moj.Modules.FeePopulator = {
   $caseTypeSelect: {},
   $actualTrialLength: {},
@@ -60,3 +61,4 @@ moj.Modules.FeePopulator = {
   }
 
 };
+*/

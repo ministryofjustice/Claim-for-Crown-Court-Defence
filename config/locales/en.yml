@@ -24,6 +24,7 @@ en:
     continue: Continue
     submit_to_laa: Submit to LAA
     save_to_drafts: Save to drafts
+    save_a_draft: Save a draft
     clear_form: 'Clear form'
   date:
     formats:
@@ -45,6 +46,7 @@ en:
     models:
       super_admin: &super_admin 'Super administrator'
       external_user: &advocate 'Advocate'
+      external_user_litigator: &litigator 'Litigator'
       case_worker: &case_worker 'Case worker'
     attributes:
       users:
@@ -155,6 +157,10 @@ en:
   maat_reference_number: 'MAAT reference'
   maat_reference_number_eg: 'eg. 1234567890'
 
+  page_headings:
+    edit_lgfs_claim: Edit litigator claim
+    edit_agfs_claim: Edit advocate claim
+
 # en.common
   common:
     advocate: Advocate
@@ -164,6 +170,7 @@ en:
     crown_court: Crown court
     defendant: Defendant
     expenses: Expenses
+    disbursements: Disbursements
     fees: Fees
     or: or
     search: Search
@@ -182,6 +189,7 @@ en:
     view_claim: View your claims
   hint:
     search: eg case number, defendant name, advocate name
+
 
 # en.super_admins
   super_admins:
@@ -268,6 +276,7 @@ en:
   external_users:
     admin:
       external_users:
+        advocates:
         index:
           title: 'Manage users'
           actions: Manage details
@@ -376,6 +385,8 @@ en:
           quantity: 'Quantity'
           rate: 'Rate'
       case_details:
+        case_concluded_date:
+          case_concluded_at: 'Date case concluded'
         cracked_trial_fields:
           cracked_trial_detail: Cracked trial detail
           trial_cracked_at: 'Case cracked'
@@ -390,9 +401,11 @@ en:
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
+          litigator: *litigator
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
+          transfer_court: 'Transfer court'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'
@@ -406,6 +419,10 @@ en:
           retrial_concluded_at: 'Retrial concluded on'
           retrial_estimated_length: 'Estimated retrial length'
           retrial_started_at: 'First day of retrial'
+        offence_id_select:
+          offence_class: "Offence class"
+          offence_class_hint: "eg Theft"
+          select_offence_class: "Please select"
       defendants:
         defendant_fields:
           first_name: *first_name
@@ -458,6 +475,16 @@ en:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove_date: 'Remove date attended'
+      disbursements:
+        fields:
+          disbursements: "Disbursements"
+          disbursement_type: "Disbursement type"
+          net_amount: "Net amount"
+          vat_amount: "VAT amount"
+          total: "Total"
+          add_disbursement: "Add another disbursement"
+        disbursement_fields:
+          remove: *remove
       expenses:
         expense_fields:
           add_date_attended: 'Add date(s)'
@@ -476,12 +503,9 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
-      edit:
-        edit: Edit claim
       summary:
         heading: Check your claim
         case_details: Case details
-
       fee_fields:
         add_date_attended: 'Add date(s)'
         remove: *remove
@@ -496,6 +520,13 @@ en:
         fixed_fee_fields:
           add_date_attended: 'Add date(s)'
           remove: *remove
+        litigators:
+          fields:
+            fixed_fees: "Fixed fees"
+            fee_type: "Fee type"
+            total: "Total"
+            prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+            select_sub_type: "Please select the relevant option"
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
@@ -511,6 +542,13 @@ en:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
         view_details: 'View details'
+      graduated_fees:
+        fields:
+          graduated_fees: 'Graduated fees'
+          graduated_prompt_text: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          fee_type: "Fee type"
+          ppe_total: "PPE total"
+          total: "Total"
       index:
         claims: Claims
         completed: Completed
@@ -546,7 +584,11 @@ en:
       supporting_evidence_checklist:
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
-# en.shared
+      warrant_fee:
+        fields:
+          warrant_fee: "Warrant fee"
+          date_issued: "Warrant date issued"
+          date_executed: "Warrant date executed (optional)"
   shared:
     no_claims_found: 'No claims found'
     claim:
@@ -607,8 +649,11 @@ en:
       reason: 'Reason'
       reason_text: if 'other' reason
       additional_information: Additional information
-
-# en.case_workers
+      disbursements:
+        type: "Disbursement type"
+        net_amount: "Net amount"
+        vat_amount: "VAT amount"
+        total: "Total"
   case_workers:
     table_headings:
       your_claims: Your claims

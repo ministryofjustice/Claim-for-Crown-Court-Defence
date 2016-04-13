@@ -133,6 +133,8 @@ private
   end
 
   def validate_amount
+    return if fee_code.nil?
+
     add_error(:amount,"#{fee_code.downcase}_invalid") if @record.amount < 0
     if !@record.calculated?
       if @record.quantity <= 0 && @record.amount > 0

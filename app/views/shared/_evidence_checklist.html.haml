@@ -5,7 +5,7 @@
     %p.form-hint
       If you don't provide enough evidence, your claim may be rejected.
   - if current_user == @claim.owner.user && @claim.editable?
-    = link_to 'Edit', "#{edit_external_users_claim_path(@claim)}#evidence-checklist"
+    = link_to 'Edit', "#{url_for_edit_external_users_claim(@claim)}#evidence-checklist"
   - if @claim.evidence_checklist_ids.empty?
     %p
       No documentary evidence specified as having been provided.

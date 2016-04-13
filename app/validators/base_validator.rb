@@ -1,9 +1,13 @@
 class BaseValidator < ActiveModel::Validator
 
+  # Override this method in the derived class
+  def validate_step_fields; end
+
   def validate(record)
     @record = record
     if @record.perform_validation?
       validate_fields(:fields)
+      validate_step_fields
     end
     validate_fields(:mandatory_fields)
   end
@@ -87,4 +91,13 @@ class BaseValidator < ActiveModel::Validator
     end
   end
 
+  def validate_zero_or_negative(attribute, message)
+    return if attr_nil?(attribute)
+    add_error(attribute, message) unless @record.__send__(attribute) > 0
+  end
+
+  def validate_amount_greater_than(attribute, another_attribute, message)
+    return if attr_nil?(attribute) || attr_nil?(another_attribute)
+    add_error(attribute, message) if @record.__send__(attribute) > @record.__send__(another_attribute)
+  end
 end

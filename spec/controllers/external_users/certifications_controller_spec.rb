@@ -24,7 +24,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
         expect(response).to render_template(:new)
       end
 
-      it 'should instantiate a new claim with pre-filled fields' do
+      it 'should instantiate a new certification with pre-filled fields' do
         cert = assigns(:certification)
         expect(cert).to be_instance_of(Certification)
         expect(cert.claim_id).to eq claim.id
@@ -46,7 +46,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       it 'should redirect to edit page with flash message' do
         claim = create(:claim, case_type_id: nil)
         get :new, { claim_id: claim }
-        expect(response).to redirect_to(edit_external_users_claim_path(claim))
+        expect(response).to redirect_to(controller.send(:url_for_edit_external_users_claim,claim))
         expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
     end

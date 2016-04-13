@@ -130,6 +130,19 @@ if User.find_by(email: 'admin@agfslgfs.com').blank?
   external_user.save!
 end
 
+if User.find_by(email: 'litigator@agfslgfs.com').blank?
+  user = User.create!(
+      first_name: 'Adliti',
+      last_name: 'Gator',
+      email: 'litigator@agfslgfs.com',
+      password: ENV['ADMIN_PASSWORD'],
+      password_confirmation: ENV['ADMIN_PASSWORD']
+  )
+
+  external_user = ExternalUser.new(roles: ['litigator'], provider_id: provider.id)
+  external_user.user = user
+  external_user.save!
+end
 
 
 # Create advocates belonging to an AGFS Firm - EDGE CASE

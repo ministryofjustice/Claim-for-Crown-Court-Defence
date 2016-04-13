@@ -48,6 +48,11 @@ module DemoData
       DisbursementGenerator.new(claim).generate!
     end
 
+    def add_fees(claim)
+      add_fixed_fees(claim) if claim.case_type.is_fixed_fee?
+      add_misc_fees(claim)
+    end
+
     def latest_of(*dates)
       latest = Date.new(1970, 1, 1)
       dates.each do |date|

@@ -146,6 +146,7 @@ moj.Modules.NewClaim = {
     var newReason = [];
     var expenseReason = {};
     var self = this;
+    var selectedVAL = parseInt(this.$reason.find('select').find('option:selected').val());
 
     self.getCurrentExpenseSection(expenseType);
 
@@ -156,6 +157,9 @@ moj.Modules.NewClaim = {
         var currentOption = new Option(expenseReason[opt].reason, expenseReason[opt].id);
 
         currentOption.setAttribute('data-reason-text', expenseReason[opt].reason_text);
+        if(expenseReason[opt].id === selectedVAL){
+          currentOption.setAttribute('selected', 'selected');
+        }
 
         newReason.push(currentOption);
       }

@@ -14,6 +14,7 @@ class ErrorMessageTranslator
     @short_message    = nil
     @api_message      = nil
     @regex            = /^(\S+?)(_(\d+)_)(\S+)$/
+    @submodel_regex   = /^(\S+?)\.(\S+)$/
     translate!
   end
 
@@ -43,8 +44,12 @@ class ErrorMessageTranslator
 
   def get_messages(translations, key, error)
     error = format_error(error)
+
     if key_refers_to_numbered_submodel?(key)  && submodel_key_exists?(translations, key)
       translation_subset, submodel_key = extract_last_submodel_attribute(translations, key)
+      get_messages(translation_subset, submodel_key, error)
+    elsif key_refers_to_submodel?(key)
+      translation_subset, submodel_key = extract_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
     else
       if translation_exists?(translations, key, error)
@@ -56,12 +61,16 @@ class ErrorMessageTranslator
   end
 
   def submodel_key_exists?(translations, key)
-    parent_model, attribute = last_parent_attribute(translations,key)
+    parent_model, _ = last_parent_attribute(translations,key)
     translations[parent_model].nil? ? false : true
   end
 
   def key_refers_to_numbered_submodel?(key)
     key =~ @regex
+  end
+
+  def key_refers_to_submodel?(key)
+    key =~ @submodel_regex
   end
 
   def last_parent_attribute(translations, key)
@@ -83,6 +92,13 @@ class ErrorMessageTranslator
     [translation_subset, attribute]
   end
 
+  def extract_submodel_attribute(translations, key)
+    key =~ @submodel_regex
+    parent_model, attribute = $1, $2
+    translation_subset = translations[parent_model]
+    [translation_subset, attribute]
+  end
+
   def humanize_submodel_name(submodel_name)
     submodel_name.humanize.downcase.gsub(/misc fee/,'miscellaneous fee')
   end
@@ -98,12 +114,7 @@ class ErrorMessageTranslator
   end
 
   def translation_exists?(translations, key, error)
-    if translations[key]
-      if translations[key][error]
-        return true
-      end
-    end
-    return false
+    translations.key?(key) && translations[key][error].present?
   end
 
   def to_ordinal(number)

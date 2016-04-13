@@ -4,7 +4,6 @@ class ExpenseV2Validator < BaseValidator
     [
       :expense_type,
       :location,
-      :amount,
       :reason_id,
       :reason_text,
       :distance,

@@ -10,10 +10,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
 
   describe "GET #new" do
-    context 'AGFS or LGFS provider members only' do
+    context 'LGFS provider members only' do
       before { get :new }
+
       it "returns http success" do
         expect(response).to have_http_status(:success)
       end
@@ -26,9 +28,14 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         expect(assigns(:claim)).to be_instance_of Claim::LitigatorClaim
       end
 
+      it 'routes to litigators new claim path' do
+        expect(request.path).to eq new_litigators_claim_path
+      end
+
       it 'renders the template' do
         expect(response).to render_template(:new)
       end
+
     end
   end
 
@@ -74,7 +81,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A12345678',
-            advocate_category: nil,
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
             case_concluded_at_yyyy: 5.days.ago.year.to_s,
@@ -111,22 +117,22 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         context 'create draft' do
           it 'creates a claim' do
             expect {
-              post :create, commit: 'Save to drafts', claim: claim_params
+              post :create, commit_save_draft: 'Save to drafts', claim: claim_params
             }.to change(Claim::LitigatorClaim, :count).by(1)
           end
 
           it 'redirects to claims list' do
-            post :create, claim: claim_params, commit: 'Save to drafts'
+            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
             expect(response).to redirect_to(external_users_claims_path)
           end
 
           it 'sets the created claim\'s creator/"owner" to the signed in litigator' do
-            post :create, claim: claim_params, commit: 'Save to drafts'
+            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
             expect(Claim::LitigatorClaim.first.creator).to eq(litigator)
           end
 
           it 'sets the claim\'s state to "draft"' do
-            post :create, claim: claim_params, commit: 'Save to drafts'
+            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
             expect(Claim::LitigatorClaim.first).to be_draft
           end
         end
@@ -134,34 +140,92 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         context 'submit to LAA' do
           it 'creates a claim' do
             expect {
-              post :create, commit: 'Submit to LAA', claim: claim_params
+              post :create, commit_submit_claim: 'Submit to LAA', claim: claim_params
             }.to change(Claim::LitigatorClaim, :count).by(1)
           end
 
           it 'redirects to claim summary if no validation errors present' do
-            post :create, claim: claim_params, commit: 'Submit to LAA'
+            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to redirect_to(summary_external_users_claim_path(Claim::LitigatorClaim.first))
           end
 
           it 'leaves the claim\'s state in "draft"' do
-            post :create, claim: claim_params, commit: 'Submit to LAA'
+            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
             expect(Claim::LitigatorClaim.first).to be_draft
           end
         end
 
+        context 'multi-step form submit to LAA' do
+          let(:case_number) { 'A88888888' }
+
+          let(:claim_params_step1) do
+            {
+                external_user_id: litigator.id,
+                court_id: court,
+                case_type_id: case_type.id,
+                offence_id: offence,
+                case_number: case_number,
+                case_concluded_at_dd: 5.days.ago.day.to_s,
+                case_concluded_at_mm: 5.days.ago.month.to_s,
+                case_concluded_at_yyyy: 5.days.ago.year.to_s,
+                defendants_attributes: [
+                    { first_name: 'John',
+                      last_name: 'Smith',
+                      date_of_birth_dd: '4',
+                      date_of_birth_mm: '10',
+                      date_of_birth_yyyy: '1980',
+                      representation_orders_attributes: [
+                          {
+                              representation_order_date_dd: Time.now.day.to_s,
+                              representation_order_date_mm: Time.now.month.to_s,
+                              representation_order_date_yyyy: Time.now.year.to_s,
+                              maat_reference: '4561237895'
+                          }
+                      ]
+                    }
+                ]
+            }
+          end
+
+          let(:claim_params_step2) do
+            {
+                form_step: 2,
+                additional_information: 'foo',
+                expenses_attributes:
+                    [
+                        expense_params
+                    ]
+            }
+          end
+
+          let(:subject_claim) { Claim::LitigatorClaim.where(case_number: case_number).first }
+
+          it 'validates step fields and move to next steps' do
+            post :create, commit_continue: 'Continue', claim: claim_params_step1
+            expect(subject_claim.draft?).to be_truthy
+            expect(subject_claim.valid?).to be_truthy
+            expect(assigns(:claim).current_step).to eq(2)
+            expect(response).to render_template('external_users/litigators/claims/new')
+
+            put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
+            expect(subject_claim.draft?).to be_truthy
+            expect(subject_claim.valid?).to be_truthy
+            expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
+          end
+        end
       end
 
       context 'submit to LAA with incomplete/invalid params' do
         let(:invalid_claim_params)      { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
-            post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
+            post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
           }.to_not change(Claim::LitigatorClaim, :count)
         end
 
         it 'renders the new template' do
-          post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
+          post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
           expect(response).to render_template(:new)
         end
       end
@@ -187,7 +251,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           end
 
           context 'valid params' do
-            xit 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
+            it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, claim: claim_params
               claim = assigns(:claim)
 
@@ -199,7 +263,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
-              expect(claim.fixed_fees.size).to eq 0
+              expect(claim.fixed_fee.persisted?).to be_falsey
 
               expect(claim.misc_fees.size).to eq 1
               expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
@@ -210,14 +274,15 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           context 'invalid params' do
             render_views
-            xit 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
-              post :create, claim: invalid_claim_params, commit: 'Submit to LAA'
+
+            it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
+              post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
               expect(response.body).to have_content("Enter a case number")
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.fixed_fee).not_to be_nil
               expect(claim.misc_fees.size).to eq 1
 
               bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
@@ -241,7 +306,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'fixed fee case types' do
           context 'valid params' do
-            xit 'should create a claim with fixed fees ONLY' do
+            it 'should create a claim with fixed fees ONLY' do
               claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               response = post :create, claim: claim_params
               claim = assigns(:claim)
@@ -252,8 +317,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
               # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.fixed_fees.size).to eq 1
-              expect(claim.fixed_fees.map(&:amount).sum).to eql 2500.00
+              expect(claim.fixed_fee).not_to be_nil
+              expect(claim.fixed_fee.amount).to eql 2500.00
 
               expect(claim.reload.fees_total).to eq 2750.00
             end
@@ -270,7 +335,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
              case_type_id: case_type.id,
              offence_id: offence,
              case_number: '12345',
-             advocate_category: 'QC',
              evidence_checklist_ids:  ['2', '3', '']
           }
         end
@@ -285,6 +349,131 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
     end
   end
 
+  describe "GET #edit" do
+    before { get :edit, id: subject }
+
+    context 'editable claim' do
+      subject { create(:litigator_claim, creator: litigator) }
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @claim' do
+        expect(assigns(:claim)).to eq(subject)
+      end
+
+      it 'routes to litigators edit path' do
+        expect(request.path).to eq edit_litigators_claim_path(subject)
+      end
+
+      it 'renders the template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'uneditable claim' do
+      subject { create(:litigator_claim, :allocated, creator: litigator) }
+
+      it 'redirects to the claims index' do
+        expect(response).to redirect_to(external_users_claims_path)
+      end
+    end
+  end
+
+  describe "PUT #update" do
+    subject { create(:litigator_claim, creator: litigator) }
+
+    context 'when valid' do
+
+      context 'and deleting a rep order' do
+        before {
+          put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
+        }
+        it 'reduces the number of associated rep orders by 1' do
+          expect(subject.reload.defendants.first.representation_orders.count).to eq 1
+        end
+      end
+
+      context 'and editing an API created claim' do
+        pending 'TODO: reimplement once/if litigator claim creation opened up to API'
+
+        before(:each) do
+          subject.update(source: 'api')
+        end
+
+        context 'and saving to draft' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+
+        context 'and submitted to LAA' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
+          it 'sets API created claims source to indicate it is from API but has been edited in web' do
+            expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+      end
+
+      context 'and saving to draft' do
+        it 'updates a claim' do
+          put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts'
+          subject.reload
+          expect(subject.additional_information).to eq('foo')
+        end
+
+        it 'redirects to claims list path' do
+          put :update, id: subject, claim: { additional_information: 'foo' }
+          expect(response).to redirect_to(external_users_claims_path)
+        end
+      end
+
+      context 'and submitted to LAA' do
+        before do
+          get :edit, id: subject
+          put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA'
+        end
+
+        it 'redirects to the claim summary page' do
+          expect(response).to redirect_to(summary_external_users_claim_path(subject))
+        end
+      end
+    end
+
+    context 'when submitted to LAA and invalid ' do
+      it 'does not set claim to submitted' do
+        put :update, id: subject, claim: { court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        subject.reload
+        expect(subject).to_not be_submitted
+      end
+
+      it 'renders edit template' do
+        put :update, id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_submit_claim: 'Submit to LAA'
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'Date Parameter handling' do
+      it 'should transform dates with named months into dates' do
+        put :update, id: subject, claim: {
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => 'jan',
+          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
+      end
+
+      it 'should transform dates with numbered months into dates' do
+        put :update, id: subject, claim: {
+          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial_mm' => '11',
+          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+      end
+    end
+  end
+
   # local helpers
   # -------------------------
 
@@ -293,13 +482,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
     HashWithIndifferentAccess.new(
       {
        "source" => 'web',
-       "external_user_id" => "4",
        "case_type_id" => case_type.id.to_s,
        "court_id" => court.id.to_s,
        "case_number" => "CASE98989",
-       "advocate_category" => "",
        "offence_class_id" => "2",
        "offence_id" => offence.id.to_s,
+       "external_user_id" => external_user.id.to_s,
        "first_day_of_trial_dd" => '13',
        "first_day_of_trial_mm" => '5',
        "first_day_of_trial_yyyy" => '2015',
@@ -335,9 +523,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
           "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
           },
-        "fixed_fees_attributes"=>
+        "fixed_fee_attributes"=>
         {
-          "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
+          "fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"
         },
         "misc_fees_attributes"=>
         {

@@ -44,6 +44,7 @@
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
+#  transfer_court_id        :integer
 #
 
 module Claim
@@ -51,6 +52,14 @@ module Claim
 
     validates_with ::Claim::LitigatorClaimValidator
     validates_with ::Claim::LitigatorClaimSubModelValidator
+
+    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
+
+    has_one :fixed_fee, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
+    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
+
+    accepts_nested_attributes_for :fixed_fee, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
     def eligible_case_types
       CaseType.lgfs
@@ -79,5 +88,13 @@ module Claim
       provider
     end
 
+    def destroy_all_invalid_fee_types
+      if case_type.present? && case_type.is_fixed_fee?
+        basic_fees.map(&:clear) unless basic_fees.empty?
+      else
+        fixed_fee.try(:delete)
+        warrant_fee.try(:delete)
+      end
+    end
   end
 end

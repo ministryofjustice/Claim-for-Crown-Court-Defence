@@ -132,6 +132,7 @@ form {
 
   .validation-error {
     display: block;
+    clear: left;
     color: #df3034;
   }
 
@@ -243,6 +244,7 @@ form {
 .evidence-checklist div {
   float: left;
   margin-right: 10px;
+  margin-top: 1em;
 }
 
 .defendants {

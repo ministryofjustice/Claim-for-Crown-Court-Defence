@@ -45,6 +45,7 @@
 #  type                     :string
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
+#  transfer_court_id        :integer
 #
 
 require 'rails_helper'
@@ -79,7 +80,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq( ['blank'] )
+      expect(subject.errors[:external_user]).to eq( ['blank_advocate'] )
     end
 
     it 'should be valid with the same external_user_id and creator_id' do
@@ -1420,7 +1421,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
          "evidence_checklist_ids"=>["1", ""]},
        "offence_category"=>{"description"=>""},
        "offence_class"=>{"description"=>"64"},
-       "commit"=>"Submit to LAA"}
+       "commit_submit_claim"=>"Submit to LAA"}
       claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412083654) do
+ActiveRecord::Schema.define(version: 20160413144330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 20160412083654) do
     t.string   "type"
     t.decimal  "disbursements_total",      default: 0.0
     t.date     "case_concluded_at"
+    t.integer  "transfer_court_id"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
@@ -205,6 +206,7 @@ ActiveRecord::Schema.define(version: 20160412083654) do
     t.decimal  "vat_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "total",                default: 0.0
   end
 
   add_index "disbursements", ["claim_id"], name: "index_disbursements_on_claim_id", using: :btree
@@ -305,6 +307,7 @@ ActiveRecord::Schema.define(version: 20160412083654) do
     t.string   "type"
     t.date     "warrant_issued_date"
     t.date     "warrant_executed_date"
+    t.integer  "sub_type_id"
   end
 
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree

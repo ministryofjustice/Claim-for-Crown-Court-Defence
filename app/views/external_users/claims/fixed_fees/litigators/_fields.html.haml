@@ -1,0 +1,35 @@
+- if @claim.allows_fixed_fees?
+
+  #fixed-fees
+    %h2.bold-medium
+      = t('.fixed_fees')
+    .form-hint.xsmall
+      = t('.prompt_text_html')
+
+    = f.fields_for :fixed_fee do |ff|
+      %table
+        %thead
+          %tr
+            %th
+              = t('.fee_type')
+            %th
+              = t('.total')
+
+        %tbody.fixed-fee-group
+          %tr.nested-fields
+            %td
+              = ff.anchored_attribute 'fee_type'
+              = @claim.case_type.fixed_fee_type.description
+              = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
+              = validation_error_message(@error_presenter, :fee_type)
+
+            %td
+              %div.pound-wrapper
+                = ff.anchored_attribute 'amount'
+                = ff.label :amount, '£', class: 'pound-sign bold-xsmall'
+                = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
+              = validation_error_message(@error_presenter, :amount)
+
+      - if @claim.case_type.fixed_fee_type.children.any?
+        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { prompt: t('.select_sub_type') }, { class: 'select2' }
+        = validation_error_message(@error_presenter, :sub_type)

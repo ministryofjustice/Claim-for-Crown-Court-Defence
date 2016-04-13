@@ -466,5 +466,4 @@ describe Claim::BaseClaimValidator do
       expect(claim.errors[:retrial_started_at]).to be_empty
     end
   end
-
 end

@@ -1,4 +1,5 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
+  include ActionView::Helpers::FormTagHelper
 
   def collection_select2_with_data(method, collection, value_method, text_method, data_options, options_hash = {}, html_option_hash = {})
     result = make_select_start(method)
@@ -11,25 +12,36 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
 
-  def anchored_label(label, anchor_name = nil)
+  def anchored_label(label, anchor_name = nil, options = {})
     anchor_name ||= label.gsub(' ', '_').downcase
-    label_for = "#{full_anchor_name_for(object, anchor_name)}"
-    %Q[<a name="#{anchor_name}"></a><label for="#{label_for}">#{label}</label>].html_safe
+    anchor_and_label_markup(anchor_name, label, options)
   end
 
-  def anchored_without_label(label, anchor_name = nil)
+  def anchored_without_label(label, anchor_name = nil, options = {})
     anchor_name ||= label.gsub(' ', '_').downcase
-    %Q[<a name="#{anchor_name}"></a>].html_safe
+    anchor_and_label_markup(anchor_name, nil, options)
   end
 
-  def anchored_attribute(attribute)
+  def anchored_attribute(attribute, options = {})
     resource = object.class.name.demodulize.underscore
     anchor_name = [resource, attribute.gsub(' ', '_')].join('.').downcase
-    %Q[<a name="#{anchor_name}"></a>].html_safe
+    anchor_and_label_markup(anchor_name, nil, options)
   end
 
 
   private
+
+  def anchor_and_label_markup(anchor_name, label, options = {})
+    anchor_html = content_tag(:a, nil, { name: anchor_name }.merge(options[:anchor_attributes] || {}))
+    label_html  = nil
+
+    if label
+      label_for  = full_anchor_name_for(object, anchor_name)
+      label_html = label_tag(label_for, label, options[:label_attributes])
+    end
+
+    [anchor_html, label_html].join.html_safe
+  end
 
   def full_anchor_name_for(object, anchor_name)
     "#{make_object_name}_#{anchor_name}"

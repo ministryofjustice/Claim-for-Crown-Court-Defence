@@ -54,6 +54,7 @@ moj.Modules.NewClaim = {
     self.$expenses.find('select.js-expense-type').each(function (){
       self.showHideExpenseFields(this);
     });
+
   },
 
   attachToOffenceClassSelect : function() {
@@ -140,6 +141,7 @@ moj.Modules.NewClaim = {
     self.$expenses.on('change', '.js-expense-reason select', function(){
       self.showHideExpenseReasonsText(this);
     });
+
   },
 
   buildReasonSelectOptions : function(expenseType) {

@@ -450,8 +450,8 @@ en:
           <p>If you have electronic evidence on disk that relates to this case, you
           must send it by courier.</p>
 
-          <p>A case worker will assess you claim. You will not be notified by email
-          when you claim has been processed, but you can check the status of your
+          <p>A case worker will assess your claim. You will not be notified by email
+          when your claim has been processed, but you can check the status of your
           claim at any time in the "Your claims" view.</p>
         will_be_processed: Your claim will be processed shortly
       date_attended_fields:
@@ -621,7 +621,7 @@ en:
           name: Name
           location: Location
           actions: Manage details
-          hint: 
+          hint:
             search: eg case worker name
         form:
           first_name: *first_name

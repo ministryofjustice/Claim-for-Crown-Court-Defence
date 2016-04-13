@@ -1,0 +1,7 @@
+%fieldset.inline.allocation-filter-form
+  %legend
+    = t('.case_types')
+  -  allocation_filters.each do | filter_name |
+    = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
+      = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
+      = filter_name.humanize

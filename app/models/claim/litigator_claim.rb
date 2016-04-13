@@ -59,7 +59,7 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
     def eligible_case_types
-      CaseType.top_levels.lgfs
+      CaseType.lgfs
     end
 
     def eligible_basic_fee_types
@@ -71,7 +71,7 @@ module Claim
     end
 
     def eligible_fixed_fee_types
-      Fee::FixedFeeType.lgfs
+      Fee::FixedFeeType.top_levels.lgfs
     end
 
     def external_user_type

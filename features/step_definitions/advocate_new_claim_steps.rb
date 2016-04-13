@@ -20,7 +20,7 @@ Given(/^There are courts, offences and expense types in place$/) do
     offence_class.update(description: 'A: Homicide and related grave offences')
   end
   create(:offence, description: 'Murder')
-  create(:expense_type, name: 'Travel')
+  create(:expense_type, name: 'Parking')
 end
 
 Given(/^I am on the new claim page$/) do
@@ -139,14 +139,11 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.fixed_fees.last.rate.set "12.34"
 end
 
-When(/^I add an expenses '(.*?)' with one date attended$/) do |name|
-  @claim_form_page.expenses.last.select_type_of_expense name
-  @claim_form_page.expenses.last.destination.set "foo"
-  @claim_form_page.expenses.last.quantity.set "1"
-  @claim_form_page.expenses.last.rate.set "34.56"
-  @claim_form_page.expenses.last.add_dates.trigger "click"
-  @claim_form_page.expenses.last.dates.from.set_date "2016-01-02"
-  @claim_form_page.expenses.last.dates.to.set_date "2016-01-03"
+When(/^I add an expense '(.*?)'$/) do |name|
+  @claim_form_page.expenses.last.expense_type_dropdown.select name
+  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
+  @claim_form_page.expenses.last.amount.set '34.56'
+  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
 end
 
 When(/^I upload (\d+) documents$/) do |count|

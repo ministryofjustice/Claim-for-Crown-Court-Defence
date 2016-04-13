@@ -1,3 +1,5 @@
+# TODO: need to be updated to support new expenses fields
+@wip
 Feature: Unhappy paths
   Background:
     As an advocate saving drafts and submitting claims I want to be sure that error messages are displayed if I do something wrong

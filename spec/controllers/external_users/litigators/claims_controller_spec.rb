@@ -9,7 +9,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:court)         { create(:court) }
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
-  let(:expense_type)  { create(:expense_type, :lgfs) }
+  let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
   let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
 
   describe "GET #new" do

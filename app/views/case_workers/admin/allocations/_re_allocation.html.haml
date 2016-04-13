@@ -2,24 +2,18 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Re-allocation'}
 
-.search-wrapper
-  .search-form
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = hidden_field_tag :tab, params[:tab]
-      %fieldset
-        %legend
-          = t('common.search')
-        .input.form-group
-          = label_tag :search, class: 'form-label' do
-            %span.label-text
-              = t('common.search')
-            %span.form-hint case worker name or email
-          = text_field_tag :search, params[:search], class: "form-control search"
-          = button_tag(type: 'submit', class: 'button search', title: "Search") do
-            %object{:type => 'image/svg+xml', :data => image_path('icons/search-ico.svg'), :class => "search-icon"}
+= form_tag case_workers_admin_allocations_path, method: :get do
+  = hidden_field_tag :tab, params[:tab]
+  = render partial: 'scheme_filters'
+  %noscript
+    = submit_tag 'Filter'
+
+  .search-wrapper
+    = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path, hint_text: t('.hint.search') }
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
+  = hidden_field_tag :scheme, params[:scheme]
   %fieldset.inline
     %legend.normal
       = "Allocate to"
@@ -63,7 +57,6 @@
           %col
           %col
           %col
-          %col
           - if params[:tab] == 'allocated'
             %col
         %thead
@@ -72,9 +65,7 @@
           %th{scope:'col'}
             = t('.case_number')
           %th{scope:'col'}
-            = t(".scheme")
-          %th{scope:'col'}
-            = t('.advocate')
+            = owner_column_header
           %th{scope:'col'}
             = t('.defendants')
           %th{scope:'col'}
@@ -95,8 +86,6 @@
                   = b.check_box
                 %td
                   = claim.case_number
-                %td
-                  = claim.scheme
                 %td
                   = claim.owner.name
                 %td

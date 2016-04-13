@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect 
+@javascript @webmock_allow_localhost_connect
 Feature: Advocate submits a claim for a Contempt case
 
   Scenario: I create a contempt claim, then submit it
@@ -24,7 +24,7 @@ Feature: Advocate submits a claim for a Contempt case
     And I add a miscellaneous fee 'adjourned appeals' with dates attended
     And I add a miscellaneous fee 'noting brief fee' with dates attended
     And I add a fixed fee 'Contempt hearings - apportioned fee'
-    And I add an expenses 'Travel' with one date attended
+    And I add an expense 'Parking'
     And I upload 3 documents
     And I check the boxes for the uploaded documents
     And I add some additional information

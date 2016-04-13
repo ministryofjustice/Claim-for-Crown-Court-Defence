@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407094104) do
+ActiveRecord::Schema.define(version: 20160412083654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,8 +28,7 @@ ActiveRecord::Schema.define(version: 20160407094104) do
     t.boolean  "requires_maat_reference", default: false
     t.boolean  "requires_retrial_dates",  default: false
     t.string   "roles"
-    t.integer  "parent_id"
-    t.string   "grad_fee_code"
+    t.string   "fee_type_code"
   end
 
   create_table "case_worker_claims", force: :cascade do |t|
@@ -289,6 +288,7 @@ ActiveRecord::Schema.define(version: 20160407094104) do
     t.boolean  "calculated",  default: true
     t.string   "type"
     t.string   "roles"
+    t.integer  "parent_id"
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree

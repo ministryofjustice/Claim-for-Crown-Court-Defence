@@ -14,7 +14,7 @@
 #  requires_retrial_dates  :boolean          default(FALSE)
 #  roles                   :string
 #  parent_id               :integer
-#  grad_fee_code           :string
+#  fee_type_code           :string
 #
 
 FactoryGirl.define do
@@ -25,7 +25,6 @@ FactoryGirl.define do
     requires_trial_dates        false
     requires_maat_reference     true
     roles                       %w{ agfs lgfs }
-    parent_id                   nil
 
     trait :fixed_fee do
       name            'Fixed fee'
@@ -71,30 +70,5 @@ FactoryGirl.define do
       name 'Hearing subsequent to sentence'
       roles [ 'lgfs' ]
     end
-
-    factory :child_case_type do
-      name "Child"
-      roles [ 'lgfs' ]
-
-      trait :asbo do
-        name "Vary /discharge an ASBO s1c Crime and Disorder Act 1998"
-      end
-
-      trait :s155 do
-        name "Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000)"
-      end
-
-      trait :s74 do
-        name "Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005"
-      end
-
-      after(:build) do |case_type|
-        parent = CaseType.where(name: 'Hearing subsequent to sentence').first
-        parent = FactoryGirl.build(:case_type, :hsts) if parent.nil?
-        case_type.parent = parent
-      end
-    end
-
-
   end
 end

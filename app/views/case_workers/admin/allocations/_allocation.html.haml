@@ -3,19 +3,15 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Allocation'}
 
 = form_tag case_workers_admin_allocations_path, method: :get do
-  %fieldset.inline.allocation-filter-form
-    %legend
-      = t('.case_types')
-    -  allocation_filters.each do | filter_name |
-      = label_tag "filter_#{filter_name}", nil, class: 'block-label' do
-        = radio_button_tag :filter, filter_name, (params[:filter].blank? && filter_name == 'all') || params[:filter] == filter_name
-        = filter_name.humanize
-
+  = hidden_field_tag :tab, params[:tab]
+  = render partial: 'scheme_filters'
+  = render partial: 'case_type_filters'
   %noscript
     = submit_tag 'Filter'
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
+  = hidden_field_tag :scheme, params[:scheme]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
   -# TODO: FIX BELOW
   .grid-row
@@ -54,9 +50,7 @@
           %th{scope:'col'}
             = t('.case_number')
           %th{scope:'col'}
-            = t(".scheme")
-          %th{scope:'col'}
-            = t('.advocate')
+            = owner_column_header
           %th{scope:'col'}
             = t('.defendants')
           %th{scope:'col'}
@@ -78,8 +72,6 @@
                 %td
                   %span.js-test-case-number
                     = claim.case_number
-                %td
-                  = claim.scheme
                 %td
                   = claim.owner.name
                 %td

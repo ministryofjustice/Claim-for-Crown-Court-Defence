@@ -2,7 +2,7 @@
   %table.report
     %caption
       %span.table-caption
-        = 'Archived claims'
+        = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
       %span.claim-count
         = "Number of claims: "
         = @claims.total_count

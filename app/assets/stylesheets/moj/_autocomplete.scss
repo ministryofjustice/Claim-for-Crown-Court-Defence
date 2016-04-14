@@ -1,0 +1,42 @@
+.awesomplete {
+  position: relative;
+  input {
+    display: block;
+  }
+  ul {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    min-width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid $border-colour;
+
+    max-height: 208px;
+    overflow-y: scroll;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    mark {
+      background: transparent;
+      font-weight: 700;
+    }
+    li {
+      &[aria-selected="true"] {
+        background-color: $link-colour;
+        color: white;
+        mark {
+          color: inherit;
+        }
+      }
+      &:hover {
+        background-color: $link-colour;
+        color: white;
+        mark {
+          color: white;
+        }
+      }
+    }
+  }
+}

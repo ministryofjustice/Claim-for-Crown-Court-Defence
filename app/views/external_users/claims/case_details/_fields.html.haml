@@ -24,7 +24,7 @@
         = f.anchored_label t('.case_type')
         .form-hint.xsmall.zero-vert-margin
           = "eg Trial"
-        = f.collection_select2_with_data :case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true }
+        = f.collection_select :case_type_id, @case_types, :id, :name, { include_blank: true }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row
@@ -32,7 +32,7 @@
         = f.anchored_label t('.court')
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+        = f.collection_select :court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
       - if @claim.lgfs?
@@ -40,7 +40,7 @@
           = f.anchored_label t('.transfer_court')
           .form-hint.xsmall.zero-vert-margin
             = "eg Cardiff"
-          = f.collection_select :transfer_court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
+          = f.collection_select :transfer_court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
           = validation_error_message(@error_presenter, :court)
 
     .form-row
@@ -66,7 +66,7 @@
           - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
         - else
           - selected_offence_category = @claim.offence.description rescue nil
-        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { prompt: t('.select_category'), selected: selected_offence_category }, { class: 'select2' }
+        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { include_blank: true, selected: selected_offence_category }, { class: 'form-control autocomplete' }
         = validation_error_message(@error_presenter, :offence)
 
       .form-col

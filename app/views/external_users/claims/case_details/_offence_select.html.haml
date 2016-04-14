@@ -2,4 +2,4 @@
 .form-hint.xsmall.zero-vert-margin
   &nbsp;<br/><br/>
 - selected_offence = @claim.try(:offence) ? @claim.offence.id : (offences.count == 1 ? offences.first : nil)
-= collection_select :offence_class, :description, offences, :id, :offence_class, options = { prompt: t('.select_offence_class'), selected: selected_offence }, html_options = { class: 'select2', disabled: offences.count == 1 }
+= collection_select :offence_class, :description, offences, :id, :offence_class, options = { prompt: t('.select_offence_class'), selected: selected_offence }, html_options = { class: 'form-control', disabled: offences.count == 1 }

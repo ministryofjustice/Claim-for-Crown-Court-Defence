@@ -7,9 +7,12 @@
     var self = this;
     
     this.init = function(select) {
-      
-      var input = Awesomplete.$.create('input');
-      $(input).addClass('form-control');
+      if(!select)
+        return false;
+
+      var id = $(select).attr('id'),
+        input = Awesomplete.$.create('input');
+      $(input).addClass('form-control').attr('id', id+'_autocomplete');
       input.disabled = $(select).attr('disabled')? true : false;
       select.parentElement.insertBefore(input, select);
       select.setAttribute("hidden", "");
@@ -41,6 +44,10 @@
         'blur': function(){
           self.copySelectedValue(input, select);
         }
+      });
+
+      $(select).on('change', function(){
+        self.copySelectedValue(input, select);
       });
 
     };

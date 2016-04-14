@@ -7,7 +7,7 @@
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
     %td
       %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
-      = f.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5, class: 'form-control'
+      = f.number_field :quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
     %td
       %a{name: "misc_fee_#{@misc_fee_count}_rate"}

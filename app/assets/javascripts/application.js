@@ -1,7 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
-//= require select2
+// = require select2
 //= require cocoon
 //= require dropzone
 //= require vendor/polyfills/bind
@@ -10,6 +10,7 @@
 //= require govuk/stop-scrolling-at-footer
 //= require moj
 //= require modules/moj.cookie-message.js
+//= require awesomplete.js
 //= require_tree .
 
 (function () {

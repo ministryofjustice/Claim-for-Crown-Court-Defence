@@ -201,31 +201,31 @@ form {
 }
 
 
-.pound-wrapper {
-  position: relative;
-  display: table;
-  border-collapse: separate;
-  .pound-sign {
-    display: table-cell;
-    white-space: nowrap;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 19px;
-    padding: 1px 8px 0 8px;
-    border-left: 1px solid $border-colour;
-    border-top: 1px solid $border-colour;
-    border-bottom: 1px solid $border-colour;
-    background-color: $panel-colour;
-  }
-  .gds-pound-sign{
-    border: 2px solid #6f777b;
-    border-right: 0;
-  }
-  input {
-    display: table-cell;
-    vertical-align: middle;
-  }
-}
+// .pound-wrapper {
+//   position: relative;
+//   display: table;
+//   border-collapse: separate;
+//   .pound-sign {
+//     display: table-cell;
+//     white-space: nowrap;
+//     text-align: center;
+//     vertical-align: middle;
+//     font-size: 19px;
+//     padding: 1px 8px 0 8px;
+//     border-left: 1px solid $border-colour;
+//     border-top: 1px solid $border-colour;
+//     border-bottom: 1px solid $border-colour;
+//     background-color: $panel-colour;
+//   }
+//   .gds-pound-sign{
+//     border: 2px solid #6f777b;
+//     border-right: 0;
+//   }
+//   input {
+//     display: table-cell;
+//     vertical-align: middle;
+//   }
+// }
 
 .warning {
   display: block;

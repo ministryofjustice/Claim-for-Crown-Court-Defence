@@ -65,8 +65,8 @@
 
       .form-col{class: "js-expense-amount"}
         %a{name: "expense_#{@expense_count}_amount"}
+        = f.label :amount, 'Total'
         .pound-wrapper
-          = f.label :amount, '£', class: 'pound-sign bold-xsmall gds-pound-sign'
           = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control medium-input'
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 

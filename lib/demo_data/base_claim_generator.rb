@@ -16,7 +16,7 @@ module DemoData
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users]
       @num_claims = options[:num_claims_per_state]
-      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocate
+      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocat
     end
 
     def run
@@ -122,6 +122,7 @@ module DemoData
 
     def generate_claim_in_state_for_external_user(state, external_user)
       claim = generate_claim(external_user) # see sub classes for implementation
+      claim.form_id = SecureRandom.uuid
       advance_claim_to_state(claim, state)
       add_certification(claim) if !claim.draft?
     end

@@ -340,6 +340,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def create_draft_and_continue(action: :new, event: 'created')
+
+    if action == :new
+      possible_dupe = Claim::BaseClaim.where(form_id: @claim.form_id).first
+      if possible_dupe
+        message = possible_dupe.draft? ? 'Claim already saved - please edit existing claim' : 'Claim already submitted'
+        redirect_to external_users_claims_path, alert: message and return
+      end
+    end
+
     @claim.force_validation = continue_claim?
 
     @claim.class.transaction do

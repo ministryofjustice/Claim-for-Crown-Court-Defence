@@ -1,4 +1,4 @@
-@wip @javascript @webmock_allow_localhost_connect
+@javascript @webmock_allow_localhost_connect
 Feature: Advocate partially fills out a draft claim for a trial, then later edits and submits it
 
   Scenario: I create a claim, save it to draft and later complete it

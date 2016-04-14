@@ -74,7 +74,7 @@ When(/^I enter defendant, representation order and MAAT reference$/) do
   @claim_form_page.defendants.first.first_name.set "Bob"
   @claim_form_page.defendants.first.last_name.set "Billiards"
   @claim_form_page.defendants.first.dob.set_date "1955-01-01"
-  @claim_form_page.defendants.last.representation_orders.first.set_date "2016-01-01"
+  @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
   @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
 end
 
@@ -104,7 +104,7 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
   @claim_form_page.defendants.last.last_name.set "Kelly"
   @claim_form_page.defendants.last.dob.set_date "1912-12-12"
   @claim_form_page.defendants.last.add_another_representation_order.click
-  @claim_form_page.defendants.last.representation_orders.first.set_date "2016-01-01"
+  @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
   @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
 end
 

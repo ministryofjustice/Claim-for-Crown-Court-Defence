@@ -1,3 +1,10 @@
+class CommonDateSection < SitePrism::Section
+  include DateHelper
+  element :day,   'div.form-date > div.form-group-day > input'
+  element :month, 'div.form-date > div.form-group-month > input'
+  element :year,  'div.form-date > div.form-group-year > input'
+end
+
 class FeeSection < SitePrism::Section
   element :quantity, "input.quantity"
   element :rate, "input.rate"
@@ -69,42 +76,22 @@ class ClaimFormPage < SitePrism::Page
   element :case_number, "#claim_case_number"
 
   section :trial_details, "#trial-details" do
-    section :first_day_of_trial, "span:nth-of-type(1)" do
-      include DateHelper
-      element :day, "input#claim_first_day_of_trial_dd"
-      element :month, "input#claim_first_day_of_trial_mm"
-      element :year, "input#claim_first_day_of_trial_yyyy"
-    end
-
+    section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
+    section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
     element :actual_trial_length, "#claim_actual_trial_length"
-
-    section :trial_concluded_on, "span:nth-of-type(4)" do
-      include DateHelper
-      element :day, "input#claim_trial_concluded_at_dd"
-      element :month, "input#claim_trial_concluded_at_mm"
-      element :year, "input#claim_trial_concluded_at_yyyy"
-    end
   end
 
   element :offence_category, "#s2id_autogen3"
 
   sections :defendants, "div.defendants > div.js-test-defendant" do
-    element :first_name, "span.first-name > input"
-    element :last_name, "span.last-name > input"
+    element :first_name, "div.first-name > input"
+    element :last_name, "div.last-name > input"
 
-    section :dob, "span.dob" do
-      include DateHelper
-      element :day, "input:nth-of-type(1)"
-      element :month, "input:nth-of-type(2)"
-      element :year, "input:nth-of-type(3)"
-    end
+    section :dob, CommonDateSection, 'div.dob'
 
     sections :representation_orders, "div.js-test-rep-order" do
-      include DateHelper
-      element :day, "span.ro-date > input:nth-of-type(1)"
-      element :month, "span.ro-date > input:nth-of-type(2)"
-      element :year, "span.ro-date > input:nth-of-type(3)"
-      element :maat_reference, "span.maat > input"
+      section :date, CommonDateSection, 'div.ro-date'
+      element :maat_reference, "div.maat > input"
     end
 
     element :add_another_representation_order, "div.links > a"

@@ -42,5 +42,20 @@ RSpec.describe ExpensePresenter do
       expect(presenter.name).to eql(expense.expense_type.name)
     end
   end
+  
+  describe '#display_reason_text_css' do
+    def reason_requiring_text
+      ExpenseType::REASON_SET_A.map { |reason| reason[1] if reason[1].allow_explanatory_text? }.compact.sample
+    end
+
+    it 'should return "none" for expense reasons NOT requiring explanantory' do
+      expect(presenter.display_reason_text_css).to eql 'none'
+    end
+
+    it 'should return "inline" for expense reasons requiring explanantory text' do
+      expense.reason_id = reason_requiring_text.id
+      expect(presenter.display_reason_text_css).to eql 'inline'
+    end
+  end
 
 end

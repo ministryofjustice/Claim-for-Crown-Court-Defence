@@ -26,8 +26,7 @@
             %td
               %div.pound-wrapper
                 = ff.anchored_attribute 'amount'
-                = ff.label :amount, '£', class: 'pound-sign bold-xsmall'
-                = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
+                = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
               = validation_error_message(@error_presenter, :amount)
 
       - if @claim.case_type.fixed_fee_type.children.any?

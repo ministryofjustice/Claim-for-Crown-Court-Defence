@@ -172,6 +172,9 @@ moj.Modules.NewClaim = {
     var $currentExpense = $reason.closest('.expense-group');
     var visible = $reason.find('option:selected').data('reason-text');
 
+    if (!visible) {
+      $currentExpense.find('.js-expense-reason-text input').val('');
+    }
     $currentExpense.find('.js-expense-reason-text').toggle(visible);
 
   },

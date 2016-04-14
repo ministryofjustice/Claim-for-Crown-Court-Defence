@@ -21,4 +21,8 @@ class ExpensePresenter < BasePresenter
     expense.date.nil? ? 'Date not set' : expense.date.strftime(Settings.date_format)
   end
 
+  def display_reason_text_css
+    expense.expense_reason_other? ? 'inline' : 'none'
+  end
+
 end

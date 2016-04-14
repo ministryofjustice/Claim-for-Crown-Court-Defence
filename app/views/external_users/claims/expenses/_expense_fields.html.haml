@@ -9,7 +9,6 @@
       .form-col{class: "expense_#{@expense_count}_date"}
         = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', placeholders: true, id: "expense_#{@expense_count}_date")
 
-
     .form-row
       .form-col
         %a{name: "expense_#{@expense_count}_expense_type"}
@@ -39,12 +38,13 @@
         = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
 
-      .form-col{class: "js-expense-reason-text"}
-        %a{name: "expense_#{@expense_count}_reason_text"}
-        = f.label :reason_text, 'Reason text'
-        -#  (only will show when selected Reason is Other):
-        = f.text_field :reason_text, {class: 'form-control'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
+      - present(f.object) do |expense|
+        .form-col{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
+          %a{name: "expense_#{@expense_count}_reason_text"}
+          = f.label :reason_text, 'Reason text'
+          -#  (only will show when selected Reason is Other):
+          = f.text_field :reason_text, {class: 'form-control'}
+          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
     .form-row{class: 'js-expense-mileage expense-cost'}
       %fieldset{class: "inline"}
@@ -65,10 +65,10 @@
 
       .form-col{class: "js-expense-amount"}
         %a{name: "expense_#{@expense_count}_amount"}
+        = f.label :amount, 'Total'
         .pound-wrapper
-          = f.label :amount, '£', class: 'pound-sign bold-xsmall gds-pound-sign'
           = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control medium-input'
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
     .remove-expense
-      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' } if @expense_count > 1
+      = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }

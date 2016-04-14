@@ -342,7 +342,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(claim.reload.state).to eq('authorised')
     end
 
-    it 'should not transition when "state_for_form" is blank' do
+    it 'should raise error and not transition when "state_for_form" is blank' do
       claim = FactoryGirl.create :authorised_claim
       claim.assessment = Assessment.new(claim: claim)
       claim_params = {
@@ -353,7 +353,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           'expenses' => '44.00'
         },
         "additional_information"=>""}
-      claim.update_model_and_transition_state(claim_params)
+      expect{ claim.update_model_and_transition_state(claim_params) }.to raise_error ArgumentError
       expect(claim.reload.state).to eq('authorised')
     end
   end
@@ -831,7 +831,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise an exception if anything else' do
       expect{
         subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination'
+      }.to raise_error ArgumentError, 'Invalid state transition for case worker claim status update'
+    end
+    it 'should append an error to the claim object if anything else' do
+      expect{ subject.transition_state('allocated') rescue nil }.to change{ subject.errors.count }.by(1)
+    end
+    it 'should not transition the claim object if anything else' do
+      expect{ subject.transition_state('allocated') rescue nil }.not_to change subject, :state
     end
   end
 

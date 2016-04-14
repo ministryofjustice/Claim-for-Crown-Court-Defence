@@ -235,25 +235,23 @@ module Claim
       self.state
     end
 
-    def form_input_invalid?(form_input)
-      if form_input.blank?
-        true
-      elsif Claims::InputEventMapper.input_event(form_input) == nil
-        raise ArgumentError.new('Only the following state transitions are allowed from form input: allocated to authorised, part_authorised, rejected or refused, part_authorised or refused to redetermination')
-      else
-        false
+    def validate_case_worker_state_transition(state)
+      if Claims::InputEventMapper.input_event(state) == nil
+        self.errors.add(:base, 'You must update the claim status to either authorised, part authorised, rejected or refused')
+        raise ArgumentError, 'Invalid state transition for case worker claim status update'
       end
     end
 
-    def transition_state(form_input)
-      event = Claims::InputEventMapper.input_event(form_input)
-      self.send(event) unless form_input == self.state || form_input_invalid?(form_input)
+    def transition_state(state)
+      event = Claims::InputEventMapper.input_event(state)
+      validate_case_worker_state_transition(state)
+      self.send(event) unless (state.blank? || state == self.state)
     end
 
     def update_model_and_transition_state(params)
-      form_input = params.delete('state_for_form') # assign param to variable and remove from those used for updating the model
-      self.update(params)
-      self.transition_state(form_input)
+      state = params.delete('state_for_form')
+      self.update(params) # must precede state transition to not violate validations
+      self.transition_state(state)
     end
 
     def editable?

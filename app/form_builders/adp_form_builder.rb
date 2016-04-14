@@ -62,7 +62,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
 
   def make_select_start(method)
-    %Q/<select id="#{make_id(method)}" name="#{make_name(method)}" class="select2">/
+    %Q/<select id="#{make_id(method)}" name="#{make_name(method)}" class="form-control autocomplete">/
   end
 
   def make_select_end

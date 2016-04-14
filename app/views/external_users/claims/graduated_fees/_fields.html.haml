@@ -34,8 +34,7 @@
             %td
               %div.pound-wrapper
                 = gf.anchored_attribute 'amount'
-                = gf.label :amount, '£', class: 'pound-sign bold-xsmall'
-                = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'rate', size: 10, maxlength: 8
+                = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
               = validation_error_message(@error_presenter, :amount)
 
   - if @claim.requires_cracked_dates?

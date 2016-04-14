@@ -77,6 +77,27 @@ button.search {
   }
 }
 
+.pound-wrapper {
+  padding-left: 35px;
+  position: relative;
+  &:before {
+    background-color: $panel-colour;
+    border-left: 1px solid $border-colour;
+    border-top: 1px solid $border-colour;
+    border-bottom: 1px solid $border-colour;
+    content: "\00a3";
+    font-size: 19px;
+    height: 34px;
+    left: 0;
+    line-height: 34px;
+    padding: 1px 8px 0 8px;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    width: 18px;
+  }
+}
+
 .form-date {
   .form-group {
     label {

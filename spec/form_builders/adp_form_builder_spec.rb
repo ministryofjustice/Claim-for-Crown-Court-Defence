@@ -18,7 +18,7 @@ describe AdpFormBuilder do
 
 
     it 'should output select with data attributes on each option' do
-      html = builder.collection_select2_with_data(:case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: false } )
+      html = builder.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
       expect(html).to eq(squash(expected_output_with_one_data_attribute))
     end
   end
@@ -90,7 +90,8 @@ end
 
 def expected_output_with_one_data_attribute
   html = <<EOS
-    <select id="claim_case_type_id" name="claim[case_type_id]" class="select2">
+    <select class="autocomplete" name="claim[case_type_id]" id="claim_case_type_id">
+      <option value></option>
       <option data-is-fixed-fee="true" value="#{@ct1.id}">Case Type A</option>
       <option data-is-fixed-fee="false" value="#{@ct2.id}">Case Type B</option>
       <option data-is-fixed-fee="true" value="#{@ct3.id}">Case Type C</option>

@@ -1,7 +1,7 @@
-%fieldset#claim-status
-  = "Current status: #{claim.state.humanize}"
+#claim-status
+  %h3.indent-sides= "Current status: #{claim.state.humanize}"
 
-  %table#determinations
+  %table#determinations.indent-sides
     %thead
       %tr
         %th.numeric{colspan: 2, scope: 'col'} Claimed by advocate

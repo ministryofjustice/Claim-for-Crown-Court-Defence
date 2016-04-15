@@ -67,6 +67,23 @@ FactoryGirl.define do
       roles ['agfs']
     end
 
+    factory :interim_fee_type, class: Fee::InterimFeeType do
+      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      code 'ITRS'
+      calculated true
+      roles ['agfs']
+
+      trait :disbursement do
+        code 'IDISO'
+        description 'Disbursement only'
+      end
+
+      trait :warrant do
+        code 'IWARR'
+        description 'Warrant'
+      end
+    end
+
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
       description  'Warrant Fee'
       code 'XWAR'

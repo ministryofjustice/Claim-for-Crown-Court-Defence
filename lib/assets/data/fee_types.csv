@@ -91,3 +91,9 @@ MISC,lgfs,Costs judge application,XCJA,,
 MISC,lgfs,Costs judge preparation,XCJP,,
 MISC,lgfs,Case uplift,XUPL
 WARRANT,lgfs,Warrant Fee,XWAR
+INTERIM,lgfs,Effective PCMH,IPCMH
+INTERIM,lgfs,Trial start,ITST
+INTERIM,lgfs,Retrial New solicitor,IRNS
+INTERIM,lgfs,Retrial start,IRST
+INTERIM,lgfs,Disbursement only,IDISO
+INTERIM,lgfs,Warrant,IWARR

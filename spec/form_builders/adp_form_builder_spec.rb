@@ -18,7 +18,7 @@ describe AdpFormBuilder do
 
 
     it 'should output select with data attributes on each option' do
-      html = builder.collection_select2_with_data(:case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: true } )
+      html = builder.collection_select2_with_data(:case_type_id, @case_types, :id, :name, {'is-fixed-fee' => :is_fixed_fee?}, { prompt: false } )
       expect(html).to eq(squash(expected_output_with_one_data_attribute))
     end
   end

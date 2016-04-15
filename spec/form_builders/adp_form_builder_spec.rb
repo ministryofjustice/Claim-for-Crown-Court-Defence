@@ -5,25 +5,6 @@ describe AdpFormBuilder do
   let(:resource)  { FactoryGirl.create :claim }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {} ) }
 
-
-  describe 'collection_select2_with_data' do
-
-    before(:each) do
-      CaseType.delete_all
-      @ct1 = FactoryGirl.create :case_type, name: "Case Type A", is_fixed_fee: true
-      @ct2 = FactoryGirl.create :case_type, name: "Case Type B", is_fixed_fee: false
-      @ct3 = FactoryGirl.create :case_type, name: "Case Type C", is_fixed_fee: true
-      @case_types = [@ct1, @ct2, @ct3]
-    end
-
-
-    it 'should output select with data attributes on each option' do
-      html = builder.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
-      expect(html).to eq(squash(expected_output_with_one_data_attribute))
-    end
-  end
-
-
   describe 'anchored_label' do
     context 'no anchor name supplied' do
       it 'should take the label as the anchor name' do
@@ -86,17 +67,6 @@ describe AdpFormBuilder do
       expect(builder.anchored_attribute('test', anchor_attributes: {class: 'red'})).to eq expected_html
     end
   end
-end
-
-def expected_output_with_one_data_attribute
-  html = <<EOS
-    <select class="autocomplete" name="claim[case_type_id]" id="claim_case_type_id">
-      <option value></option>
-      <option data-is-fixed-fee="true" value="#{@ct1.id}">Case Type A</option>
-      <option data-is-fixed-fee="false" value="#{@ct2.id}">Case Type B</option>
-      <option data-is-fixed-fee="true" value="#{@ct3.id}">Case Type C</option>
-    </select>
-EOS
 end
 
 

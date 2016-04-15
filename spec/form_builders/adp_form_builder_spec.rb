@@ -91,7 +91,6 @@ end
 def expected_output_with_one_data_attribute
   html = <<EOS
     <select id="claim_case_type_id" name="claim[case_type_id]" class="select2">
-      <option value="">Please select</option>
       <option data-is-fixed-fee="true" value="#{@ct1.id}">Case Type A</option>
       <option data-is-fixed-fee="false" value="#{@ct2.id}">Case Type B</option>
       <option data-is-fixed-fee="true" value="#{@ct3.id}">Case Type C</option>

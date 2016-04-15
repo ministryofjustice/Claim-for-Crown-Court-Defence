@@ -10,9 +10,15 @@
 
 module ViewSpecHelper
   module ControllerViewHelpers
+
     def current_user_persona_is?(klass)
       raise 'Stub current_user if you want to test the behavior.'
     end
+
+    def url_for_edit_external_users_claim(claim)
+      raise 'Stub url_for_edit_external_users_claims in the spec to provide the behaviour you need'
+    end
+
   end
 
   def initialize_view_helpers(view)

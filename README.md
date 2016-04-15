@@ -71,6 +71,11 @@ rails server -e devunicorn
 A detailed guide can be found [here](https://github.com/ministryofjustice/advocate-defence-payments/tree/plan-cukes-structure/features#cucumber-test-structure) which sets out the directory structure and expectations on future developed cucumber tests.
 
 
+## Javascript Unit Testing
+
+Run it using the `guard` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888)
+
+
 ## Other useful rake tasks
 
 ```

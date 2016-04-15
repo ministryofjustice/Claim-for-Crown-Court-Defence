@@ -16,7 +16,7 @@ module DemoData
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users]
       @num_claims = options[:num_claims_per_state]
-      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocat
+      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocate
     end
 
     def run

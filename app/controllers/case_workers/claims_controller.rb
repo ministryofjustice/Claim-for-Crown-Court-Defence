@@ -39,7 +39,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     begin
       @claim.update_model_and_transition_state(claim_params)
       redirect_to case_workers_claim_path(params.slice(:messages))
-    rescue StateMachines::InvalidTransition => err
+    rescue StateMachines::InvalidTransition, ArgumentError
       prepare_show_action
       render :show
     end

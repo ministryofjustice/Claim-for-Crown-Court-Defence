@@ -35,7 +35,7 @@
             return  elem.text === input.value;
           });
           if(selectedItems.length > 0){
-            $(select).val(selectedItems[0].value).change()
+            $(select).val(selectedItems[0].value).change();
           }
         },
         'blur': function(){

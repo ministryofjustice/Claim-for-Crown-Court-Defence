@@ -1,7 +1,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
-// = require select2
 //= require cocoon
 //= require dropzone
 //= require vendor/polyfills/bind
@@ -20,9 +19,8 @@
   jQuery.fn.exists = function() { return this.length > 0 };
 
   $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
-    $(insertedItem).find('.select2').select2();
+    $(insertedItem).find('select.autocomplete').AutoComplete();
   });
-  $('.select2').select();
 
   //Stops the form from submitting when the user presses 'Enter' key
   $('#claim-form, #claim-status').on('keypress', function(e) {

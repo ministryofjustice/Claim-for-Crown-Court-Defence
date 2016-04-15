@@ -35,8 +35,7 @@ moj.Modules.NewClaim = {
       self.$offenceCategorySelect.change();
     }
     else {
-      // $('#offence_class_description').select2('val', $('#claim_offence_id').val());
-      $('#offence_class_description').val($('#claim_offence_id').val());
+      $('#claim_offence_id').val($('#offence_class_description').val());
     }
 
     self.attachToOffenceClassSelect();
@@ -197,7 +196,7 @@ moj.Modules.NewClaim = {
       if (e.type === 'cocoon:after-insert'){
         self.showHideExpenseFields($(insertedItem).find('.js-expense-type'));
 
-        $(insertedItem).find('input:first').focus() ;
+        $(insertedItem).find('input:first').focus();
       }
     });
   }

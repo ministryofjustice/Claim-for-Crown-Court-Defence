@@ -15,6 +15,7 @@
 #  warrant_issued_date   :date
 #  warrant_executed_date :date
 #  sub_type_id           :integer
+#  case_numbers          :string
 #
 
 module Fee
@@ -31,6 +32,8 @@ module Fee
 
     self.table_name = 'fees'
     numeric_attributes :quantity, :amount
+
+    auto_strip_attributes :case_numbers, squish: true, nullify: true
 
     belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
     belongs_to :fee_type, class_name: Fee::BaseFeeType

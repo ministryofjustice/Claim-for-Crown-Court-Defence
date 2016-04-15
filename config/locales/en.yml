@@ -535,9 +535,20 @@ en:
           misc_fees: 'Miscellaneous fees'
           quantity: 'Quantity'
           rate: 'Rate'
+          prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
         misc_fee_fields:
           add_date_attended: 'Add date(s)'
           remove: *remove
+        litigators:
+          fields:
+            misc_fees: "Miscellaneous fees"
+            prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+            fee_type: "Fee type"
+            case_numbers: "Case number(s)"
+            amount: "Total"
+            add_misc_fee: "Add another miscellaneous fee"
+          misc_fee_fields:
+            remove: *remove
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'

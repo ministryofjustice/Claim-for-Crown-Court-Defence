@@ -15,6 +15,7 @@
 #  warrant_issued_date   :date
 #  warrant_executed_date :date
 #  sub_type_id           :integer
+#  case_numbers          :string
 #
 
 class Fee::GraduatedFee < Fee::BaseFee

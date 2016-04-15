@@ -57,6 +57,7 @@ private
        :quantity,
        :rate,
        :amount,
+       :case_numbers,
        :_destroy,
        common_dates_attended_attributes
       ]

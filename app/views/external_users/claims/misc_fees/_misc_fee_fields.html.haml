@@ -3,7 +3,7 @@
 
     %td
       %a{name: "misc_fee_#{@misc_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {prompt: true}, {class: 'form-control autocomplete', style: 'width:350px'}
+      = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:100%'}
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
     %td
       %a{name: "misc_fee_#{@misc_fee_count}_quantity"}

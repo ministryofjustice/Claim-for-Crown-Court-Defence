@@ -1,86 +1,96 @@
 %section
 
-  - if claim.certification.present?
-    .certification-info-row
-      .bold-normal.title{ style: 'margin-bottom: 5px' }
-        = t('.certification_box_title')
-      .bold-xsmall
-        = t('.certified_by') + ':'
-        %span.xsmall
-          = claim.certification.certified_by
-      - if @claim.is_a? Claim::AdvocateClaim
+  .indent-sides
+    - if claim.certification.present?
+      .certification-info-row
+        .bold-normal.title{ style: 'margin-bottom: 5px' }
+          = t('.certification_box_title')
         .bold-xsmall
-          = t('.certification_reason') + ':'
+          = t('.certified_by') + ':'
           %span.xsmall
-            = claim.certification.certification_type.name rescue ''
+            = claim.certification.certified_by
+        - if @claim.is_a? Claim::AdvocateClaim
+          .bold-xsmall
+            = t('.certification_reason') + ':'
+            %span.xsmall
+              = claim.certification.certification_type.name rescue ''
 
-  - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
+    - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
+      .basic-info-row
+        .column-quarter
+          .bold-xsmall
+            = t ('.assignee')
+          .xsmall
+            = claim.case_worker_names
+
     .basic-info-row
       .column-quarter
         .bold-xsmall
-          = t ('.assignee')
+          - if @claim.agfs?
+            = t('common.external_user')
+          - if @claim.lgfs?
+            = t('common.litigator')
         .xsmall
-          = claim.case_worker_names
+          = claim.owner.name
+      .column-quarter
+        .bold-xsmall
+          - if @claim.agfs?
+            = t('.advocate_category')
+          - if @claim.lgfs?
+            = t('litigator_category')
+        .xsmall
+          = claim.advocate_category
+      .column-quarter
+        .bold-xsmall
+          - if @claim.agfs?
+            = t('.adv_acc_no')
+          - if @claim.lgfs?
+            = t('.lit_acc_no')
+        .xsmall
+          = claim.supplier_number
+      .column-quarter
+        &nbsp;
 
-  .basic-info-row
-    .column-quarter
-      .bold-xsmall
-        = t('common.external_user')
-      .xsmall
-        = claim.owner.name
-    .column-quarter
-      .bold-xsmall
-        = t('.advocate_category')
-      .xsmall
-        = claim.advocate_category
-    .column-quarter
-      .bold-xsmall
-        = t('.adv_acc_no')
-      .xsmall
-        = claim.supplier_number
-    .column-quarter
-      &nbsp;
+    .basic-info-row
+      .column-half
+        .bold-xsmall
+          = t('common.crown_court')
+        .xsmall
+          = claim.court.name if claim.court
+      .column-half
+        &nbsp;
 
-  .basic-info-row
-    .column-half
-      .bold-xsmall
-        = t('common.crown_court')
-      .xsmall
-        = claim.court.name if claim.court
-    .column-half
-      &nbsp;
+    .basic-info-row
+      .column-quarter
+        .bold-xsmall
+          =t('.case_num')
+        .xsmall
+          = claim.case_number
+      .column-quarter
+        .bold-xsmall
+          = t('.case_type')
+        .xsmall
+          = claim.case_type.try(:name)
 
-  .basic-info-row
-    .column-quarter
-      .bold-xsmall
-        =t('.case_num')
-      .xsmall
-        = claim.case_number
-    .column-quarter
-      .bold-xsmall
-        = t('.case_type')
-      .xsmall
-        = claim.case_type.try(:name)
+      .column-quarter
+        .bold-xsmall
+          = t('.offence')
+        .xsmall
+          = claim.offence ? claim.offence.description : t('general.not_provided')
+      .column-quarter
+        .bold-xsmall
+          = t('.offence_class')
+        .xsmall
+          = claim.offence ? claim.offence.offence_class : t('general.not_provided')
 
-    .column-quarter
-      .bold-xsmall
-        = t('.offence')
-      .xsmall
-        = claim.offence ? claim.offence.description : t('general.not_provided')
-    .column-quarter
-      .bold-xsmall
-        = t('.offence_class')
-      .xsmall
-        = claim.offence ? claim.offence.offence_class : t('general.not_provided')
+    - if claim.case_type && claim.case_type.requires_cracked_dates
+      = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
-  - if claim.case_type && claim.case_type.requires_cracked_dates
-    = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
+    - if claim.case_type && claim.case_type.requires_trial_dates
+      = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
-  - if claim.case_type && claim.case_type.requires_trial_dates
-    = render partial: 'shared/claim_trial_details', locals: { claim: claim }
-
-  - if claim.case_type && claim.case_type.requires_retrial_dates
-    = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
+    - if claim.case_type && claim.case_type.requires_retrial_dates
+      = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if claim.defendants.any?
     = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }

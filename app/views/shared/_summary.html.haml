@@ -1,12 +1,12 @@
 - present(@claim) do |claim|
   %section#summary
-    %h3
+    %h3.indent-sides
       = t('common.fees')
     - if @claim.fees_total == 0
       %p
         There are no fees for this claim
     - else
-      %table
+      %table.indent-sides
         %caption.visually-hidden
           = t('common.fees')
         %colgroup
@@ -44,17 +44,17 @@
                 = fee.rate
               %td.numeric
                 = fee.amount
-      .totals
+      .totals.indent-sides
         = t('.fees_total')
         = claim.fees_total
 
-    %h3
+    %h3.indent-sides
       = t('common.expenses')
     - if claim.expenses.empty?
       %p
         There are no expenses for this claim
     - else
-      %table
+      %table.indent-sides
         %caption.visually-hidden
           = t('common.expenses')
         %colgroup
@@ -100,16 +100,16 @@
                   = t('.reason')
                 = expense.expense_reason.reason
 
-      .totals
+      .totals.indent-sides
         = t('.expenses_total')
         = claim.expenses_total
 
-    .totals
+    .totals.indent-sides
       = t('.claim_total')
       = claim.total_inc_vat
 
     - unless @claim.additional_information.blank?
-      %h3
+      %h3.indent-sides
         = t('.additional_information')
-      %p
+      %p.indent-sides
         = @claim.additional_information

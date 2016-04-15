@@ -32,7 +32,7 @@
       Awesomplete.$.bind(input, {
         'awesomplete-selectcomplete': function(){
           var selectedItems = Awesomplete.$$("option", select).filter(function(elem){
-            return  elem.text === input.value
+            return  elem.text === input.value;
           });
           if(selectedItems.length > 0){
             $(select).val(selectedItems[0].value).change()

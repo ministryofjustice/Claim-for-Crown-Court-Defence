@@ -17,10 +17,10 @@
   .grid-row
     .column-quarter
       = label_tag :quantity_to_allocate, t('.no_of_claims')
-      = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5 }
+      = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
     .column-half
       = f.label :case_worker_id, t('dictionary.models.case_worker')
-      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { prompt: 'Select case worker' }, { class: 'select2' }
+      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { include_blank: true }, { class: 'form-control autocomplete' }
     .column-quarter
       = f.submit 'Allocate', class: 'button'
   - if @claims.any?

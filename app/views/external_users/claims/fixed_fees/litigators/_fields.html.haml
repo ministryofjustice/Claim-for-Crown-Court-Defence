@@ -30,5 +30,5 @@
               = validation_error_message(@error_presenter, :amount)
 
       - if @claim.case_type.fixed_fee_type.children.any?
-        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { prompt: t('.select_sub_type') }, { class: 'select2' }
+        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
         = validation_error_message(@error_presenter, :sub_type)

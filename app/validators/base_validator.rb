@@ -1,5 +1,7 @@
 class BaseValidator < ActiveModel::Validator
 
+  CASE_NUMBER_PATTERN ||= /^[A-Z]{1}\d{8}$/
+
   # Override this method in the derived class
   def validate_step_fields; end
 

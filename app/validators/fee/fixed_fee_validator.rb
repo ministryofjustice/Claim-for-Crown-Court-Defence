@@ -20,8 +20,11 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_amount
-    super if run_base_fee_validators? || fee_code.nil?
-    add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0.01
+    if run_base_fee_validators? || fee_code.nil?
+      super
+    else
+      add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0.01
+    end
   end
 
   def validate_sub_type

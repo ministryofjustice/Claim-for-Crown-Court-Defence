@@ -70,7 +70,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
     validate_presence(:case_number, "blank")
-    validate_pattern(:case_number, /^[A-Z]{1}\d{8}$/, "invalid") unless @record.case_number.blank?
+    validate_pattern(:case_number, CASE_NUMBER_PATTERN, "invalid") unless @record.case_number.blank?
   end
 
   def validate_estimated_trial_length

@@ -39,5 +39,16 @@ module Fee
       end
     end
 
+    describe '#case_uplift?' do
+      it 'should return true when fee_type is Case Uplift' do
+        fee_type.code = 'XUPL'
+        expect(fee_type.case_uplift?).to be_truthy
+      end
+
+      it 'should return false when fee_type is not Case Uplift' do
+        fee_type.code = 'XXX'
+        expect(fee_type.case_uplift?).to be_falsey
+      end
+    end
   end
 end

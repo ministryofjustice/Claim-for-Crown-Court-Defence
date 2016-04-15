@@ -22,4 +22,8 @@ class Fee::MiscFeeType < Fee::BaseFeeType
     'Miscellaneous Fees'
   end
 
+  def case_uplift?
+    code == 'XUPL'
+  end
+
 end

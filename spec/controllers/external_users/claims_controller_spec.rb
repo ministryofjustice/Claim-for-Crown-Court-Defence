@@ -76,8 +76,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator.user }
           it 'should assign context to claims for the provider' do
             get :index
-            expected_claims = Claim::BaseClaim.where(external_user_id: litigator.id)
-            expect(assigns(:claims_context)).to eq(expected_claims)
+            expected_claims = Claim::BaseClaim.where(external_user_id: litigator.id).pluck(:id)
+            expect(assigns(:claims_context).map(&:id).sort).to eq(expected_claims.sort)
           end
 
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do

@@ -76,6 +76,7 @@ group :development, :test do
   gem 'webrick',        '~> 1.3'
   gem 'parallel_tests'
   gem 'site_prism'
+  gem 'guard-jasmine', '~> 2.0'
 end
 
 group :test do

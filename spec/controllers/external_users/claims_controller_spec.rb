@@ -60,7 +60,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
-            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.dashboard_displayable_states)
+            expect(assigns(:claims).map(&:id).sort).to eq(advocate_admin.provider.claims.dashboard_displayable_states.map(&:id).sort)
           end
         end
       end

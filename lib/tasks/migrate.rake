@@ -45,10 +45,15 @@
       CaseType.find_by(name: 'Transfer').destroy
     end
 
+    desc 'Add interim role to case types'
+    task :add_interim_role_to_case_types => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        remove_warrant_transfer: 'Removing warrant and transfer case types'
+        add_interim_role_to_case_types: 'Adding interim role to case types'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

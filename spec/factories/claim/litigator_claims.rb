@@ -10,6 +10,7 @@ FactoryGirl.define do
     offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS
     case_type           { create(:case_type) }
     case_concluded_at   { 5.days.ago }
+    supplier_number     { external_user.provider.supplier_numbers.first.supplier_number }
 
     after(:build) do |claim|
       claim.fees << build(:misc_fee, claim: claim) # fees required for valid claims
@@ -19,13 +20,6 @@ FactoryGirl.define do
       defendant = create(:defendant, claim: claim)
       create(:representation_order, defendant: defendant, representation_order_date: 380.days.ago)
       claim.reload
-    end
-
-    factory :unpersisted_litigator_claim do
-      court         { build :court }
-      creator       { build :external_user, :litigator, provider: build(:provider, :lgfs) }
-      external_user { creator }
-      offence       { build :offence, offence_class: build(:offence_class) }
     end
 
     trait :draft do

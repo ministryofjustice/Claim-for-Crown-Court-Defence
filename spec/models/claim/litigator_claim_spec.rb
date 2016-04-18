@@ -45,6 +45,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 require 'rails_helper'
@@ -53,7 +54,7 @@ require 'custom_matchers'
 RSpec.describe Claim::LitigatorClaim, type: :model do
   include DatabaseHousekeeping
 
-  let(:claim)   { build :unpersisted_litigator_claim }
+  let(:claim)   { build :litigator_claim }
 
   describe 'validate creator provider is in LGFS fee scheme' do
     it 'rejects creators whose provider is only agfs' do
@@ -65,13 +66,17 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     it 'accepts creators whose provider is only lgfs' do
       claim.creator = create(:external_user, :litigator, provider: build(:provider, :lgfs))
       claim.external_user =  claim.creator
-      expect(claim).to be_valid
+      claim.valid?
+      expect(claim.errors.key?(:creator)).to be_falsey
+      expect(claim.errors.key?(:external_user)).to be_falsey
     end
 
     it 'accepts creators whose provider is both agfs and lgfs' do
       claim.creator = create(:external_user, :litigator, provider: build(:provider, :agfs_lgfs))
       claim.external_user =  claim.creator
-      expect(claim).to be_valid
+      claim.valid?
+      expect(claim.errors.key?(:creator)).to be_falsey
+      expect(claim.errors.key?(:external_user)).to be_falsey
     end
   end
 
@@ -93,7 +98,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   describe '#eligible_case_types' do
     it 'should return only LGFS case types' do
-      claim = build :unpersisted_litigator_claim
+      claim = build :litigator_claim
       CaseType.delete_all
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
       agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
@@ -111,7 +116,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
       @mft2 = create :misc_fee_type, :lgfs
       @fft1 = create :fixed_fee_type
       @fft2 = create :fixed_fee_type, :lgfs
-      @claim = build :unpersisted_litigator_claim
+      @claim = build :litigator_claim
     end
 
     after(:all) do
@@ -136,19 +141,12 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
         expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
       end
     end
+  end
 
-    describe '#vat_registered?' do
-      it 'returns the value from the provider' do
-        expect(@claim.provider).to receive(:vat_registered?)
-        @claim.vat_registered?
-      end
-    end
-
-    describe '#supplier_number' do
-      it 'returns the value from the provider' do
-        expect(@claim.provider).to receive(:supplier_number)
-        @claim.supplier_number
-      end
+  describe '#vat_registered?' do
+    it 'returns the value from the provider' do
+      expect(claim.provider).to receive(:vat_registered?)
+      claim.vat_registered?
     end
   end
 end

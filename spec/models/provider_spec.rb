@@ -41,13 +41,6 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'when firm' do
-    subject { firm }
-
-    it { should validate_presence_of(:supplier_number) }
-    # it { should validate_uniqueness_of(:supplier_number) }
-  end
-
   context 'when chamber' do
     subject { chamber }
 

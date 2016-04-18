@@ -13,6 +13,8 @@
 #
 
 class ExternalUser < ActiveRecord::Base
+  SUPPLIER_NUMBER_REGEX ||= /\A[0-9a-zA-Z]{5}\z/
+
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 
   ROLES = %w{ admin advocate litigator }
@@ -30,7 +32,7 @@ class ExternalUser < ActiveRecord::Base
   validates :user, presence: true
   validates :provider, presence: true
   validates :supplier_number, presence: true, if: :validate_supplier_number?
-  validates :supplier_number, format: { with: /\A[a-zA-Z0-9]{5}\z/, allow_nil: true }, if: :validate_supplier_number?
+  validates :supplier_number, format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: true }, if: :validate_supplier_number?
 
   accepts_nested_attributes_for :user
 

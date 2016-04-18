@@ -26,6 +26,17 @@ defendant:
 #                                                                               #
 #################################################################################
 
+supplier_number:
+  _seq: 5
+  blank:
+    long: Choose a supplier number
+    short: Choose a supplier number
+    api: Choose a supplier number
+  invalid:
+    long: Supplier number is not valid
+    short: Supplier number is not valid
+    api: Supplier number is not valid
+
 external_user:
   _seq: 10
   blank_advocate:

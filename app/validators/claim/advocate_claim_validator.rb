@@ -47,4 +47,8 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   def validate_case_concluded_at
     validate_absence(:case_concluded_at, 'presence')
   end
+
+  def validate_supplier_number
+    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid') if @record.supplier_number
+  end
 end

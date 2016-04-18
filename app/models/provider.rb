@@ -36,6 +36,7 @@ class Provider < ActiveRecord::Base
     end
   end
 
+  has_many :supplier_numbers, dependent: :destroy
   has_many :claims_created, through: :external_users
   has_many :claims, through: :external_users
 
@@ -43,7 +44,6 @@ class Provider < ActiveRecord::Base
 
   validates :provider_type, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates :supplier_number, presence: true, uniqueness: { case_sensitive: false }, if: :firm?
   validates :api_key, presence: true
 
   # Allows calling of provider.admins or provider.advocates

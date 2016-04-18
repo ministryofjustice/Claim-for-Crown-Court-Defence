@@ -58,6 +58,13 @@ describe Claim::LitigatorClaimValidator do
     end
   end
 
+  context 'supplier_number' do
+    it 'should error when the supplier number is not valid for litigators' do
+      claim.supplier_number = 'XP312'
+      should_error_with(claim, :supplier_number, 'invalid')
+    end
+  end
+
   context 'advocate_category' do
     it 'should be absent' do
       claim.advocate_category = 'QC'

@@ -58,4 +58,10 @@ module SeedHelper
     end
     expense_type
   end
+
+  def self.create_supplier_numbers_for_provider(provider, supplier_numbers)
+    supplier_numbers.each do |number|
+      SupplierNumber.find_or_create_by(provider_id: provider.id, supplier_number: number)
+    end
+  end
 end

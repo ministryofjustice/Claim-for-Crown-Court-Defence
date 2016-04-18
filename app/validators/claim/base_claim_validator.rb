@@ -2,10 +2,11 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def self.mandatory_fields
     [
-    :external_user_id,
-    :creator,
-    :amount_assessed,
-    :evidence_checklist_ids
+      :external_user_id,
+      :creator,
+      :supplier_number,
+      :amount_assessed,
+      :evidence_checklist_ids
     ]
   end
 

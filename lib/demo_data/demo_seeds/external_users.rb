@@ -5,7 +5,7 @@ require Rails.root.join('db','seed_helper')
 #   and should therefore be used so that we can "clean-up" data on staging
 #   and gamma (be very careful)
 #
-# SAMPLE_PROVIDERS = ['Test chamber','Test firm A']
+# SAMPLE_PROVIDERS = ['Test chamber','Test firm A', 'Test firm B']
 #
 #  #destroy the above providers and all their users and claims
 #  rake claims.destroy_sample_providers
@@ -31,7 +31,7 @@ if User.find_by(email: 'advocate@example.com').blank?
     password_confirmation: ENV['ADVOCATE_PASSWORD'],
   )
 
-  external_user = ExternalUser.new(roles: ['advocate'], supplier_number: 'AD123', provider_id: provider.id)
+  external_user = ExternalUser.new(roles: ['advocate'], supplier_number: '11AAA', provider_id: provider.id)
   external_user.user = user
   external_user.save!
 end
@@ -54,12 +54,14 @@ end
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm A',
-  supplier_number: 'A1234567',
+  supplier_number: '1A222Z',
   api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: true,
   roles: ['lgfs']
 )
+
+SeedHelper.create_supplier_numbers_for_provider(provider, %w(1A222Z 2A333Z 3A555Z))
 
 if User.find_by(email: 'litigator@example.com').blank?
   user = User.create!(
@@ -95,12 +97,15 @@ end
 # ------------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm B',
-  supplier_number: 'B1234567',
+  supplier_number: '22BBB',
   api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: false,
   roles: ['agfs','lgfs']
 )
+
+SeedHelper.create_supplier_numbers_for_provider(provider, %w(1B222Z 2B333Z 3B555Z))
+
 if User.find_by(email: 'advocate@agfslgfs.com').blank?
   user = User.create!(
     first_name: 'Adi',

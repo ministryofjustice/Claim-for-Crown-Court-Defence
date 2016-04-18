@@ -39,6 +39,11 @@
       load File.join(Rails.root, 'db', 'seeds', 'disbursement_types.rb')
     end
 
+    desc 'Seed Supplier Numbers'
+    task :supplier_numbers => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'supplier_numbers.rb')
+    end
+
     desc 'Remove warrant and transfer case types'
     task :remove_warrant_transfer => :environment do
       CaseType.find_by(name: 'Warrant claim').destroy
@@ -53,7 +58,7 @@
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        add_interim_role_to_case_types: 'Adding interim role to case types'
+        supplier_numbers: 'Seeding supplier numbers to litigator providers'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

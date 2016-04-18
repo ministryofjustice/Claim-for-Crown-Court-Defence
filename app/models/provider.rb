@@ -36,7 +36,7 @@ class Provider < ActiveRecord::Base
     end
   end
 
-  has_many :supplier_numbers
+  has_many :supplier_numbers, dependent: :destroy
   has_many :claims_created, through: :external_users
   has_many :claims, through: :external_users
 

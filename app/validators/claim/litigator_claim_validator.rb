@@ -50,6 +50,6 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
 
   def validate_supplier_number
     validate_presence(:supplier_number, 'blank')
-    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid') if @record.supplier_number
+    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid') if @record.supplier_number.present?
   end
 end

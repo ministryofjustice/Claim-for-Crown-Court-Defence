@@ -45,6 +45,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 require 'rails_helper'

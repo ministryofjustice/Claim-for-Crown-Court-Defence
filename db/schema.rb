@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414121855) do
+ActiveRecord::Schema.define(version: 20160415120945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160414121855) do
     t.decimal  "disbursements_total",      default: 0.0
     t.date     "case_concluded_at"
     t.integer  "transfer_court_id"
+    t.string   "supplier_number"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
@@ -392,6 +393,11 @@ ActiveRecord::Schema.define(version: 20160414121855) do
   create_table "super_admins", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "supplier_numbers", force: :cascade do |t|
+    t.integer "provider_id"
+    t.string  "supplier_number"
   end
 
   create_table "user_message_statuses", force: :cascade do |t|

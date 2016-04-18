@@ -11,6 +11,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
   let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:supplier_number) { litigator.provider.supplier_numbers.first.supplier_number }
 
   describe "GET #new" do
     context 'LGFS provider members only' do
@@ -81,6 +82,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A12345678',
+            supplier_number: supplier_number,
             case_concluded_at_dd: 5.days.ago.day.to_s,
             case_concluded_at_mm: 5.days.ago.month.to_s,
             case_concluded_at_yyyy: 5.days.ago.year.to_s,
@@ -162,6 +164,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           let(:claim_params_step1) do
             {
                 external_user_id: litigator.id,
+                supplier_number: supplier_number,
                 court_id: court,
                 case_type_id: case_type.id,
                 offence_id: offence,
@@ -479,9 +482,11 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
   def valid_claim_fee_params
     case_type = FactoryGirl.create :case_type
+
     HashWithIndifferentAccess.new(
       {
        "source" => 'web',
+       "supplier_number" => supplier_number,
        "case_type_id" => case_type.id.to_s,
        "court_id" => court.id.to_s,
        "case_number" => "CASE98989",

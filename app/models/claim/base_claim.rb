@@ -45,6 +45,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 module Claim
@@ -59,7 +60,7 @@ module Claim
 
     self.table_name = 'claims'
 
-    auto_strip_attributes :case_number, :cms_number, squish: true, nullify: true
+    auto_strip_attributes :case_number, :cms_number, :supplier_number, squish: true, nullify: true
 
     serialize :evidence_checklist_ids, Array
 
@@ -373,8 +374,8 @@ module Claim
       provider_delegator.vat_registered?
     end
 
-    def supplier_number
-      provider_delegator.supplier_number
+    def supplier_number_regex
+      super
     end
 
     def allows_graduated_fees?

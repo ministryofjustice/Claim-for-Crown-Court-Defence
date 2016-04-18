@@ -45,6 +45,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 module Claim
@@ -72,6 +73,10 @@ module Claim
       Fee::FixedFeeType.top_levels.agfs
     end
 
+    def supplier_number_regex
+      ExternalUser::SUPPLIER_NUMBER_REGEX
+    end
+
     def external_user_type
       :advocate
     end
@@ -87,6 +92,11 @@ module Claim
       else
         raise "Unknown provider type: #{provider.provider_type}"
       end
+    end
+
+    def default_values
+      self.supplier_number ||= (provider_delegator.supplier_number rescue nil)
+      super
     end
 
     def destroy_all_invalid_fee_types

@@ -41,7 +41,7 @@
           .form-hint.xsmall.zero-vert-margin
             = "eg Cardiff"
           = f.collection_select :transfer_court_id, Court.all, :id, :name, { prompt: true }, { class: 'select2' }
-          = validation_error_message(@error_presenter, :court)
+          = validation_error_message(@error_presenter, :transfer_court_id)
 
     .form-row
       .form-col

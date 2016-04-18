@@ -31,22 +31,33 @@ FactoryGirl.define do
 
     trait :lgfs do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}1" }
+      supplier_number nil
       roles ['lgfs']
+
+      after(:create) do |provider|
+        create_list :supplier_number, 1, provider: provider
+      end
     end
 
     trait :agfs_lgfs do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}2" }
+      supplier_number nil
       roles ['agfs', 'lgfs']
+
+      after(:create) do |provider|
+        create_list :supplier_number, 1, provider: provider
+      end
     end
 
-    # requires supplier number
     trait :firm do
       provider_type 'firm'
-      sequence(:supplier_number) { |n| "#{n}-#{Time.now.to_i}3" }
+      supplier_number nil
       vat_registered { true }
       roles ['lgfs']
+
+      after(:create) do |provider|
+        create_list :supplier_number, 1, provider: provider
+      end
     end
 
     # does not require supplier number

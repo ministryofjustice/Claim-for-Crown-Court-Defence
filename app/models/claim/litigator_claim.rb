@@ -45,6 +45,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 module Claim
@@ -75,6 +76,10 @@ module Claim
 
     def eligible_fixed_fee_types
       Fee::FixedFeeType.top_levels.lgfs
+    end
+
+    def supplier_number_regex
+      SupplierNumber::SUPPLIER_NUMBER_REGEX
     end
 
     def external_user_type

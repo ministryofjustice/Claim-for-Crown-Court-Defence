@@ -46,6 +46,7 @@
 #  disbursements_total      :decimal(, )      default(0.0)
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
+#  supplier_number          :string
 #
 
 require 'rails_helper'
@@ -1058,13 +1059,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           claim.vat_registered?
         end
       end
-
-      context '#supplier_number' do
-        it 'returns the value from the external user' do
-          expect(claim.external_user).to receive(:supplier_number)
-          claim.supplier_number
-        end
-      end
     end
 
     describe 'for a firm provider' do
@@ -1078,13 +1072,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           claim.vat_registered?
         end
       end
-
-      context '#supplier_number' do
-        it 'returns the value from the provider' do
-          expect(claim.provider).to receive(:supplier_number)
-          claim.supplier_number
-        end
-      end
     end
 
     describe 'for an unknown provider' do
@@ -1095,12 +1082,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context '#vat_registered?' do
         it 'raises an exception' do
           expect { claim.vat_registered? }.to raise_error
-        end
-      end
-
-      context '#supplier_number' do
-        it 'raises an exception' do
-          expect { claim.supplier_number }.to raise_error
         end
       end
     end

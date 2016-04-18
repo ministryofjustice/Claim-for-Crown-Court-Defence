@@ -19,8 +19,8 @@ module DemoData
         evidence_checklist_ids: [],
         source: "web",
         vat_amount: 0.0,
-        additional_information: generate_additional_info
-        
+        additional_information: generate_additional_info,
+        supplier_number: litigator.provider.supplier_numbers.sample.supplier_number
       )
       claim.case_concluded_at = generate_case_concluded_at(claim)
       claim.save!

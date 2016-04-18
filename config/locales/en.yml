@@ -600,6 +600,9 @@ en:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant date issued"
           date_executed: "Warrant date executed (optional)"
+      supplier_number:
+        fields:
+          supplier_number: "Supplier number"
   shared:
     no_claims_found: 'No claims found'
     claim:

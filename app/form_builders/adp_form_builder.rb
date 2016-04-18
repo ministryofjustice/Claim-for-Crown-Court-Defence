@@ -1,6 +1,6 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::FormTagHelper
-
+  @deprecated
   def collection_select2_with_data(method, collection, value_method, text_method, data_options, options_hash = {}, html_option_hash = {})
     result = make_select_start(method)
     result += make_prompt if options_hash[:prompt] == true
@@ -62,7 +62,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
 
 
   def make_select_start(method)
-    %Q/<select id="#{make_id(method)}" name="#{make_name(method)}" class="select2">/
+    %Q/<select id="#{make_id(method)}" name="#{make_name(method)}" class="form-control autocomplete">/
   end
 
   def make_select_end

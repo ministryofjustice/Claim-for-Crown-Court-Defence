@@ -63,6 +63,7 @@
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
+        supplier_numbers: 'Seeding supplier numbers to litigator providers',
         add_interim_role_to_case_types: 'Adding interim role to case types'
       }.each do |task, comment|
         puts comment

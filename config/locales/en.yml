@@ -94,7 +94,6 @@ en:
         case_number: 'Case number'
         case_type: 'Case type'
         advocate_category: 'Advocate category'
-        litigator_category: 'Litigator category'
     errors:
       models:
         allocation:
@@ -611,6 +610,7 @@ en:
       adv_acc_no: Advocate account number
       lit_acc_no: Litigator account number
       advocate_category: Advocate category
+      litigator_category: 'Litigator category'
       assignee: "Assigned to:"
       case: Case
       case_cracked: Case cracked in

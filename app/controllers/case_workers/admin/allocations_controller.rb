@@ -45,7 +45,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_case_workers
-    @case_workers = CaseWorker.all
+    @case_workers = CaseWorker.includes(:location, :user)
   end
 
   def set_claims
@@ -64,7 +64,17 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def claim_type
-    scheme == 'lgfs' ? Claim::LitigatorClaim : Claim::AdvocateClaim
+    type = (scheme == 'lgfs' ? Claim::LitigatorClaim : Claim::AdvocateClaim)
+    type.includes(
+      :determinations,
+      :redeterminations,
+      :assessment,
+      :defendants,
+      :claim_state_transitions,
+      :case_type,
+      external_user: [:user, :provider],
+      creator: [:user, :provider]
+    )
   end
 
   def search_claims(states=nil)

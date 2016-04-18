@@ -36,6 +36,10 @@ supplier_number:
     long: Supplier number is not valid
     short: Supplier number is not valid
     api: Supplier number is not valid
+  unknown:
+    long: Supplier number is unknown
+    short: Supplier number is unknown
+    api: Supplier number is unknown
 
 external_user:
   _seq: 10

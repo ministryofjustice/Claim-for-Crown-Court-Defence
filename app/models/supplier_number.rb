@@ -14,6 +14,6 @@ class SupplierNumber < ActiveRecord::Base
 
   belongs_to :provider
 
-  validates :supplier_number, presence: true
+  validates :supplier_number, presence: true, uniqueness: true
   validates :supplier_number, format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: true }
 end

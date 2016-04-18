@@ -183,13 +183,16 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
   describe "DELETE #destroy" do
 
-    before { delete :destroy, id: subject }
 
     it 'destroys the external user' do
-      expect(ExternalUser.count).to eq(1)
+      subject     # create an additional External user
+      expect{
+        delete :destroy, id: subject
+      }.to change{ExternalUser.count}.by(-1)
     end
 
     it 'redirects to external_user admin root url' do
+      delete :destroy, id: subject
       expect(response).to redirect_to(external_users_admin_external_users_url)
     end
   end

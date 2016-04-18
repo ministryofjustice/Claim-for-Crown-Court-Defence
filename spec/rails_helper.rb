@@ -60,6 +60,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Paperclip::Shoulda::Matchers
   config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :view
   config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
 

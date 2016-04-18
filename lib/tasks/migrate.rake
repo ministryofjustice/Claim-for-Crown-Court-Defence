@@ -50,6 +50,11 @@
       CaseType.find_by(name: 'Transfer').destroy
     end
 
+    desc 'Add interim role to case types'
+    task :add_interim_role_to_case_types => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {

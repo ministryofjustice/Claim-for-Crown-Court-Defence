@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/validation_helpers'
+require File.dirname(__FILE__) + '/../validation_helpers'
 
 describe Fee::BaseFeeValidator do
 

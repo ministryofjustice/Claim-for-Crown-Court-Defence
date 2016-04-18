@@ -44,8 +44,27 @@ FactoryGirl.define do
       after(:build) do |fee|
         fee.fee_type = Fee::WarrantFeeType.instance || build(:warrant_fee_type)
       end
+    end
 
+    factory :interim_fee, class: Fee::InterimFee do
+      claim
+      fee_type { build :interim_fee_type }
+      quantity  nil
+      amount  245.56
+      uuid SecureRandom.uuid
+      rate nil
+      disbursement_type { build :disbursement_type }
 
+      trait :disbursement do
+        fee_type { build :interim_fee_type, :disbursement }
+        amount nil
+      end
+
+      trait :warrant do
+        fee_type { build :interim_fee_type, :warrant }
+        amount nil
+        disbursement_type nil
+      end
     end
 
     factory :basic_fee, class: Fee::BasicFee do

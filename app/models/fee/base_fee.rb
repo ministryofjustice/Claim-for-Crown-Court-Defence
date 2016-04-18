@@ -137,5 +137,9 @@ module Fee
     def is_warrant?
       false
     end
+
+    def is_interim?
+      false
+    end
   end
 end

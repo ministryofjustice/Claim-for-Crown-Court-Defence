@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect
+@wip @javascript @webmock_allow_localhost_connect
 Feature: Case worker admin allocates claims 
 
   Scenario: I allocate claims, case worker sees them

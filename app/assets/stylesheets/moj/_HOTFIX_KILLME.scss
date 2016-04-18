@@ -41,7 +41,7 @@
     @include first;
   }
 }
-.column-two-thirds {
+.column-half, .column-two-thirds, .column-quarter {
   padding: 0;
 }
 .bold-xsmall{

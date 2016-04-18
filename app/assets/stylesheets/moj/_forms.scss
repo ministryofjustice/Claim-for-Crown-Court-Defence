@@ -197,9 +197,21 @@ button.search {
   }
 
   .panel {
-    padding-top: $gutter-half;
-    padding-left: $gutter;
-    padding-bottom: $gutter-half;
+    border: none;
+    padding: $gutter-half 0;
+  }
+
+  .indent-sides {
+    padding-left: 40px;
+    padding-right: 40px;
+    th,td {
+      &:first-child {
+        padding-left: 40px;
+      }
+      &:last-child {
+        padding-right: 40px;
+      }
+    }
   }
 
 

@@ -94,6 +94,7 @@ en:
         case_number: 'Case number'
         case_type: 'Case type'
         advocate_category: 'Advocate category'
+        litigator_category: 'Litigator category'
     errors:
       models:
         allocation:

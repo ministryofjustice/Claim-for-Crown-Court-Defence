@@ -7,7 +7,9 @@
     var self = this;
     
     this.init = function(select) {
-      
+      if(!select)
+        return false;
+
       var id = $(select).attr('id'),
         input = Awesomplete.$.create('input');
       $(input).addClass('form-control').attr('id', id+'_autocomplete');

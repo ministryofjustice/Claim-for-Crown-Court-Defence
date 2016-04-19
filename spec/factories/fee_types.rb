@@ -71,11 +71,31 @@ FactoryGirl.define do
       sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
       code 'ITRS'
       calculated true
-      roles ['agfs']
+      roles ['lgfs']
 
       trait :disbursement do
         code 'IDISO'
         description 'Disbursement only'
+      end
+
+      trait :effective_pcmh do
+        code 'IPCMH'
+        description 'Effective PCMH'
+      end
+
+      trait :retrial_new_solicitor do
+        code 'IRNS'
+        description 'Retrial new solicitor'
+      end
+
+      trait :retrial_start do
+        code 'IRST'
+        description 'Retrial start'
+      end
+
+      trait :trial_start do
+        code 'ITST'
+        description 'Retrial start'
       end
 
       trait :warrant do

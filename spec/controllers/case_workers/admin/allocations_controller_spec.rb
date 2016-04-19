@@ -62,6 +62,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         @allocated_lgfs_claims = create_list(:litigator_claim, 1, :allocated)
         @submitted_lgfs_claims = create_list(:litigator_claim, 1, :submitted)
       end
+
+      # don't clean database here - leave it until the after :all at the end of the whole test suite.
       after(:all) do
         Claim::BaseClaim.destroy_all
       end

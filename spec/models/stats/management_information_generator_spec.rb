@@ -1,9 +1,6 @@
 require 'rails_helper'
 require 'support/database_housekeeping'
 
-
-include DatabaseHousekeeping
-
 module Stats
 
   describe ManagementInformationGenerator do

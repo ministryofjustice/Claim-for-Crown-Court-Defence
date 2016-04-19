@@ -54,7 +54,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe Claim::LitigatorClaim, type: :model do
-  include DatabaseHousekeeping
 
   let(:claim)   { build :litigator_claim }
 

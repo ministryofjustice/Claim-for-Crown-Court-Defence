@@ -1,9 +1,6 @@
 require 'rails_helper'
 require File.join(Rails.root, 'db', 'migration_helpers', 'expense_type_migrator')
 
-
-
-include DatabaseHousekeeping
 module MigrationHelpers
 
 

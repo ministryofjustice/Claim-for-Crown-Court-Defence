@@ -3,15 +3,16 @@
     = t('.warrant_fee')
 
   = f.fields_for :warrant_fee do |wf|
+
     %table
       %tbody
         %tr
           %td
-            %a{name: 'warrant_issued_date'}
+            = wf.anchored_attribute 'warrant_issued_date'
             = wf.gov_uk_date_field :warrant_issued_date, legend_text: t('.date_issued')
             = validation_error_message(@error_presenter, :warrant_issued_date)
 
           %td
-            %a{name: 'warrant_executed_date'}
+            = wf.anchored_attribute 'warrant_executed_date'
             = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed')
             = validation_error_message(@error_presenter, :warrant_executed_date)

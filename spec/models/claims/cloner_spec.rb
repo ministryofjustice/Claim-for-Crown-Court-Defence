@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'support/database_housekeeping'
 
 RSpec.describe Claims::Cloner, type: :model do
-  include DatabaseHousekeeping
 
   describe '#clone_rejected_to_new_draft' do
     context 'non-rejected_claims' do

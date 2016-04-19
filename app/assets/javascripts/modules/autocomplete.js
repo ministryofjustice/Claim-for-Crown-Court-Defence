@@ -46,6 +46,15 @@
         }
       });
 
+      $(input).on('change', function(){
+        var selectedItems = Awesomplete.$$("option", select).filter(function(elem){
+          return  elem.text === input.value;
+        });
+        if(selectedItems.length > 0){
+          $(select).val(selectedItems[0].value).change();
+        }
+      });
+
       $(select).on('change', function(){
         self.copySelectedValue(input, select);
       });

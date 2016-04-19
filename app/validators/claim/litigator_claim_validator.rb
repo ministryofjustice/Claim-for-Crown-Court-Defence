@@ -50,6 +50,18 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
 
   def validate_supplier_number
     validate_presence(:supplier_number, 'blank')
-    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid') if @record.supplier_number.present?
+
+    return unless @record.supplier_number.present?
+
+    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid')
+    validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
+  end
+
+
+  # local helpers
+  # ---------------------------
+
+  def provider_supplier_numbers
+    @record.provider.supplier_numbers.pluck(:supplier_number) rescue []
   end
 end

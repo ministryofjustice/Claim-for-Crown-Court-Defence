@@ -10,7 +10,7 @@ FactoryGirl.define do
     offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS
     case_type           { create(:case_type) }
     case_concluded_at   { 5.days.ago }
-    supplier_number     { external_user.provider.supplier_numbers.first.supplier_number }
+    supplier_number     { provider.supplier_numbers.first.supplier_number }
 
     after(:build) do |claim|
       claim.fees << build(:misc_fee, claim: claim) # fees required for valid claims

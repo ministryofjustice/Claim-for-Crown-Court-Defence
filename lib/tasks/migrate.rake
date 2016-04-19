@@ -60,11 +60,19 @@
       load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
     end
 
+    desc 'Assign supplier number to the claim attribute (not running callbacks or validations)'
+    task :assign_supplier_numbers => :environment do
+      Claim::AdvocateClaim.where(supplier_number: nil).find_each(batch_size: 100) do |claim|
+        claim.update_column(:supplier_number, claim.__send__(:provider_delegator).supplier_number) rescue (puts "Error for claim ID #{claim.id}")
+      end
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
         supplier_numbers: 'Seeding supplier numbers to litigator providers',
-        add_interim_role_to_case_types: 'Adding interim role to case types'
+        add_interim_role_to_case_types: 'Adding interim role to case types',
+        assign_supplier_numbers: 'Assign supplier number to advocate claims without the attribute set'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

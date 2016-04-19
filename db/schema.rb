@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418123747) do
+ActiveRecord::Schema.define(version: 20160419100425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,8 @@ ActiveRecord::Schema.define(version: 20160418123747) do
     t.date     "case_concluded_at"
     t.integer  "transfer_court_id"
     t.string   "supplier_number"
+    t.date     "effective_pcmh_date"
+    t.date     "legal_aid_transfer_date"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

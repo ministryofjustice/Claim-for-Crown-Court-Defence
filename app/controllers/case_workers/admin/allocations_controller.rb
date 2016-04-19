@@ -106,7 +106,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     case params[:filter]
       when 'redetermination', 'awaiting_written_reasons'
         @claims = @claims.send(params[:filter].to_sym)
-      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea'
+      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees' , 'risk_based_bills'
         @claims = @claims.where{state << %w( redetermination awaiting_written_reasons )}.send(params[:filter].to_sym)
     end
   end
@@ -150,25 +150,9 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
-      [ 'all',
-        'fixed_fee',
-        'cracked',
-        'trial',
-        'guilty_plea',
-        'redetermination',
-        'awaiting_written_reasons'
-      ]
+      %w{ all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }
     elsif scheme == 'lgfs'
-      [ 'all',
-        'fixed_fee',
-        'graduated_fees',
-        'interim_fees',
-        'warrants',
-        'risk_based_bills',
-        'redetermination',
-        'awaiting_written_reasons',
-        'interim_disbursements'
-      ]
+      %w{ all fixed_fee graduated_fees interim_fees warrants risk_based_bills redetermination awaiting_written_reasons interim_disbursements }
     else
       []
     end

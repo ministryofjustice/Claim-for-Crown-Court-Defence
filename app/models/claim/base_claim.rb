@@ -117,11 +117,15 @@ module Claim
 
     scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
 
-    # Trial type scopes
-    scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
-    scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
-    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea', 'Discontinuance')) }
-    scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
+    # Allocation filtering scopes
+
+    # AGFS and LGFS
+    scope :fixed_fee,   -> { where(case_type_id: CaseType.fixed_fee.pluck(:id) ) }
+
+    # AGFS only
+    scope :cracked,     -> { where(case_type_id: CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
+    scope :trial,       -> { where(case_type_id: CaseType.ids_by_types('Trial', 'Retrial')) }
+    scope :guilty_plea, -> { where(case_type_id: CaseType.ids_by_types('Guilty plea', 'Discontinuance')) }
 
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }

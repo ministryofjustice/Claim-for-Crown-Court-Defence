@@ -46,6 +46,8 @@
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
 #  supplier_number          :string
+#  effective_pcmh_date      :date
+#  legal_aid_transfer_date  :date
 #
 
 module Claim
@@ -387,6 +389,8 @@ module Claim
     end
 
     private
+
+    def destroy_all_invalid_fee_types; end
 
     def find_and_associate_documents
       return if self.form_id.nil?

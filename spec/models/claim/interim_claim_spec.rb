@@ -50,64 +50,53 @@
 #  legal_aid_transfer_date  :date
 #
 
-module Claim
-  class AdvocateClaim < BaseClaim
+require 'rails_helper'
+require 'custom_matchers'
 
-    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
-    accepts_nested_attributes_for :fixed_fees, reject_if: :all_blank, allow_destroy: true
+RSpec.describe Claim::InterimClaim, type: :model do
 
-    validates_with ::Claim::AdvocateClaimValidator
-    validates_with ::Claim::AdvocateClaimSubModelValidator
+  let(:claim) { build :interim_claim }
 
-    def eligible_case_types
-      CaseType.agfs
+  describe 'validate creator provider is in LGFS fee scheme' do
+    it 'rejects creators whose provider is only agfs' do
+      claim.creator = build(:external_user, provider: build(:provider, :agfs))
+      expect(claim).not_to be_valid
+      expect(claim.errors[:creator]).to eq(["must be from a provider with permission to submit LGFS claims"])
     end
 
-    def eligible_basic_fee_types
-      Fee::BasicFeeType.agfs
+    it 'accepts creators whose provider is only lgfs' do
+      claim.creator = create(:external_user, :litigator, provider: build(:provider, :lgfs))
+      claim.external_user =  claim.creator
+      claim.valid?
+      expect(claim.errors.key?(:creator)).to be_falsey
+      expect(claim.errors.key?(:external_user)).to be_falsey
     end
 
-    def eligible_misc_fee_types
-      Fee::MiscFeeType.agfs
+    it 'accepts creators whose provider is both agfs and lgfs' do
+      claim.creator = create(:external_user, :litigator, provider: build(:provider, :agfs_lgfs))
+      claim.external_user =  claim.creator
+      claim.valid?
+      expect(claim.errors.key?(:creator)).to be_falsey
+      expect(claim.errors.key?(:external_user)).to be_falsey
     end
+  end
 
-    def eligible_fixed_fee_types
-      Fee::FixedFeeType.top_levels.agfs
+  describe '#eligible_case_types' do
+    xit 'should return only LGFS case types' do
+      claim = build :litigator_claim
+      CaseType.delete_all
+      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
+      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
+      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+
+      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
     end
+  end
 
-    def supplier_number_regex
-      ExternalUser::SUPPLIER_NUMBER_REGEX
-    end
-
-    def external_user_type
-      :advocate
-    end
-
-
-    private
-
-    def provider_delegator
-      if provider.firm?
-        provider
-      elsif provider.chamber?
-        external_user
-      else
-        raise "Unknown provider type: #{provider.provider_type}"
-      end
-    end
-
-    def default_values
-      self.supplier_number ||= (provider_delegator.supplier_number rescue nil)
-      super
-    end
-
-    def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
-      else
-        fixed_fees.destroy_all unless fixed_fees.empty?
-      end
+  describe '#vat_registered?' do
+    it 'returns the value from the provider' do
+      expect(claim.provider).to receive(:vat_registered?)
+      claim.vat_registered?
     end
   end
 end
-

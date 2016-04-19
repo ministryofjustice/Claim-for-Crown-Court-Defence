@@ -51,63 +51,40 @@
 #
 
 module Claim
-  class AdvocateClaim < BaseClaim
+  class InterimClaim < BaseClaim
 
-    has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
-    accepts_nested_attributes_for :fixed_fees, reject_if: :all_blank, allow_destroy: true
+    validates_with ::Claim::InterimClaimValidator
+    validates_with ::Claim::InterimClaimSubModelValidator
 
-    validates_with ::Claim::AdvocateClaimValidator
-    validates_with ::Claim::AdvocateClaimSubModelValidator
+    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
+
+    has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
+    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
+
+    accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
     def eligible_case_types
-      CaseType.agfs
+      CaseType.lgfs
     end
 
-    def eligible_basic_fee_types
-      Fee::BasicFeeType.agfs
-    end
-
-    def eligible_misc_fee_types
-      Fee::MiscFeeType.agfs
-    end
-
-    def eligible_fixed_fee_types
-      Fee::FixedFeeType.top_levels.agfs
+    def eligible_interim_fee_types
+      Fee::InterimFeeType.top_levels
     end
 
     def supplier_number_regex
-      ExternalUser::SUPPLIER_NUMBER_REGEX
+      SupplierNumber::SUPPLIER_NUMBER_REGEX
     end
 
     def external_user_type
-      :advocate
+      :litigator
     end
 
 
     private
 
     def provider_delegator
-      if provider.firm?
-        provider
-      elsif provider.chamber?
-        external_user
-      else
-        raise "Unknown provider type: #{provider.provider_type}"
-      end
-    end
-
-    def default_values
-      self.supplier_number ||= (provider_delegator.supplier_number rescue nil)
-      super
-    end
-
-    def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
-      else
-        fixed_fees.destroy_all unless fixed_fees.empty?
-      end
+      provider
     end
   end
 end
-

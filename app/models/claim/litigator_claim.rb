@@ -46,6 +46,8 @@
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
 #  supplier_number          :string
+#  effective_pcmh_date      :date
+#  legal_aid_transfer_date  :date
 #
 
 module Claim

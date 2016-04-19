@@ -14,5 +14,4 @@ describe CaseWorkers::Admin::AllocationsHelper do
       expect(owner_column_header).to eql 'Litigator'
     end
   end
-
 end

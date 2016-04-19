@@ -4,6 +4,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
   before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
 
+  helper_method :allocation_filters_for_scheme
+
   def new
     @allocation = Allocation.new
   end
@@ -83,6 +85,12 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     end
   end
 
+  def default_scheme_inapplicable_filters
+    if !(allocation_filters_for_scheme(params[:scheme]).include?(params[:filter]))
+      params[:filter] = 'all'
+    end
+  end
+
   def filter_by_claim_type_and_assessed_state
     @claims = tab == 'allocated' ? claim_type.caseworker_dashboard_under_assessment : claim_type.submitted_or_redetermination_or_awaiting_written_reasons
   end
@@ -93,6 +101,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_by_state_and_case_type
+    default_scheme_inapplicable_filters
+    
     case params[:filter]
       when 'redetermination', 'awaiting_written_reasons'
         @claims = @claims.send(params[:filter].to_sym)
@@ -112,7 +122,6 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def order_claims
     @claims = @claims.order(last_submitted_at: :asc)
   end
-
 
   def allocation_params
     ap = params.require(:allocation).permit(
@@ -137,6 +146,32 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def is_allocating?
     params[:commit] == 'Allocate'
+  end
+
+  def allocation_filters_for_scheme(scheme)
+    if scheme == 'agfs'
+      [ 'all',
+        'fixed_fee',
+        'cracked',
+        'trial',
+        'guilty_plea',
+        'redetermination',
+        'awaiting_written_reasons'
+      ]
+    elsif scheme == 'lgfs'
+      [ 'all',
+        'fixed_fee',
+        'graduated_fees',
+        'interim_fees',
+        'warrants',
+        'risk_based_bills',
+        'redetermination',
+        'awaiting_written_reasons',
+        'interim_disbursements'
+      ]
+    else
+      []
+    end
   end
 
 end

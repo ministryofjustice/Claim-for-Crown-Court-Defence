@@ -66,7 +66,7 @@ describe API::V1::ExternalUsers::Expense do
     FIELDS_AND_ERRORS = {
       amount: "Enter an amount for the expense",
       claim_id: "Claim cannot be blank",
-      date: "Expense 1 date blank",
+      date: "Enter a date for the expense",
       expense_type_id: "Choose a type for the expense",
       reason_id: "Expense 1 reason blank"
     }

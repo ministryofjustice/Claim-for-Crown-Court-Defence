@@ -17,20 +17,14 @@
       select.parentElement.insertBefore(input, select);
       select.setAttribute("hidden", "");
 
-      var dataList = [],
-        list = select.options;
-
-      for(var i = 0;i<list.length;i++){
-        var item = {label: list[i].text, value: list[i].text};
-        dataList.push(list[i].text);
-      }
-
       this.copySelectedValue(input, select);
 
       var awesompleteElement = new Awesomplete(input, {
-        list: dataList,
+        list: this.createDataList(select.options),
         autoFirst: true
       });
+
+      this.bindEvents(input, select);
 
       Awesomplete.$.bind(input, {
         'awesomplete-selectcomplete': function(){
@@ -44,8 +38,19 @@
         'blur': function(){
           self.copySelectedValue(input, select);
         }
-      });
+      });     
+    };
 
+    this.createDataList = function(list){
+      var dataList = [];
+      for(var i = 0;i<list.length;i++){
+        var item = {label: list[i].text, value: list[i].text};
+        dataList.push(list[i].text);
+      }
+      return dataList;
+    };
+
+    this.bindEvents = function(input, select){
       $(input).on('change', function(){
         var selectedItems = Awesomplete.$$("option", select).filter(function(elem){
           return  elem.text === input.value;
@@ -54,19 +59,15 @@
           $(select).val(selectedItems[0].value).change();
         }
       });
-
       $(select).on('change', function(){
         self.copySelectedValue(input, select);
       });
-
     };
 
     this.copySelectedValue = function(input, select){
-      
       if(select.selectedIndex > -1){
         input.value = $(select).find('option:selected').text();
       }
-
     };
 
     this.init(this[0]);

@@ -26,12 +26,20 @@ class Fee::WarrantFee < Fee::BaseFee
 
   acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date
 
+  after_initialize :assign_fee_type
+
   def is_warrant?
     true
   end
 
   def self.instance
     Fee::WarrantFee.first
+  end
+
+  private
+
+  def assign_fee_type
+    self.fee_type = Fee::WarrantFeeType.instance
   end
 
 end

@@ -18,7 +18,6 @@ require 'rails_helper'
 
 module Fee
   describe FixedFeeType do
-    include DatabaseHousekeeping
 
     it { should belong_to(:parent) }
     it { should have_many(:children) }

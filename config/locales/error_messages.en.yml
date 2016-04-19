@@ -675,35 +675,43 @@ warrant_fee:
   fee_type:
     _seq: 10
     blank:
-      long: 'Choose a type for the #{warrant_fee}'
+      long: Choose a type for the warrant fee
       short: Choose a fee type
       api: Choose a type for the warrant fee
 
   warrant_issued_date:
     _seq: 20
     blank:
-      long: 'Enter a warrant issued date'
+      long: Enter a warrant issued date
       short: Enter a date
-      api: 'Enter a warrant issued date'
-    invalid_date:
-      long: 'Enter a valid warrant issued date'
+      api: Enter a warrant issued date
+    invalid:
+      long: Enter a valid warrant issued date
       short: Enter a valid date
-      api: 'Enter a valid warrant issued date'
+      api: Enter a valid warrant issued date
+    invalid_date:
+      long: Enter a valid warrant issued date
+      short: Enter a valid date
+      api: Enter a valid warrant issued date
 
   warrant_executed_date:
     _seq: 30
     blank:
-      long: 'Enter a warrant executed date'
+      long: Enter a warrant executed date
       short: Enter a date
-      api: 'Enter a warrant executed date'
+      api: Enter a warrant executed date
+    invalid:
+      long: Enter a valid warrant executed date
+      short: Enter a valid date
+      api: Enter a valid warrant executed date
     invalid_date:
-      long: 'Enter a valid warrant executed date'
+      long: Enter a valid warrant executed date
       short: Enter a valid date
-      api: 'Enter a valid warrant executed date'
+      api: Enter a valid warrant executed date
     warrant_executed_before_issued:
-      long: 'The warrant executed date is before the issued date'
+      long: The warrant executed date is before the issued date
       short: Enter a valid date
-      api: 'The warrant executed date is before the issued date'
+      api: The warrant executed date is before the issued date
 
 #################################################################################
 #                                                                               #

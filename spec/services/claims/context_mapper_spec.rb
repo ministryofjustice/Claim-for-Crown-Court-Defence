@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claims::ContextMapper do
-  include DatabaseHousekeeping
 
   # NOTE: the external user claim controller spec also test this to a degree
   #

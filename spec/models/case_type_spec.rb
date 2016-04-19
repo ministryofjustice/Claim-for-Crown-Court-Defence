@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 describe CaseType do
-  include DatabaseHousekeeping
 
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 

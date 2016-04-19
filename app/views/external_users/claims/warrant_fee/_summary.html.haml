@@ -1,0 +1,31 @@
+- if claim.warrant_fee.nil?
+  %p
+    There is no warrant fee for this claim
+- else
+  - warrant_fee = present(claim.warrant_fee)
+  %table
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('common.warrant_fees')
+    %colgroup
+      %col
+      %col
+      %col
+    %tbody
+      %tr
+        %th{scope: 'row'}
+          = t('shared.summary.warrant_fee.date_issued')
+        %td
+          = warrant_fee.warrant_issued_date
+      %tr
+        %th{scope: 'row'}
+          = t('shared.summary.warrant_fee.executed')
+        %td
+          = warrant_fee.warrant_executed_str
+
+      - if warrant_fee.warrant_executed?
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.warrant_fee.date_executed')
+          %td
+            = warrant_fee.warrant_executed_date

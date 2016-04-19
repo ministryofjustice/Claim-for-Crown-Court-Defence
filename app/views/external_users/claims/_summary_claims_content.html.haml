@@ -22,6 +22,11 @@
   = t('common.expenses')
 = render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
 
+- if @claim.lgfs?
+  %h2
+    = t('common.warrant_fees')
+  = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
+
 %h2
   Supporting evidence documents
 = render partial: 'external_users/claims/supporting_documents/summary', locals: { claim: claim }

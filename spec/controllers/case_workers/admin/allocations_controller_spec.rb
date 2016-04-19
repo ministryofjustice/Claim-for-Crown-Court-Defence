@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
-  include DatabaseHousekeeping
 
   before(:all) do
     load "#{Rails.root}/db/seeds/case_types.rb"

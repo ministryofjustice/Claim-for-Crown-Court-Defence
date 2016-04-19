@@ -16,7 +16,6 @@ require 'rails_helper'
 require 'support/database_housekeeping'
 
 RSpec.describe Disbursement, type: :model do
-  include DatabaseHousekeeping
 
   it { should belong_to(:disbursement_type) }
   it { should belong_to(:claim) }

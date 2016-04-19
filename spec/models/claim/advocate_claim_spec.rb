@@ -53,7 +53,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-  include DatabaseHousekeeping
 
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }

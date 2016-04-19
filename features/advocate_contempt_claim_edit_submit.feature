@@ -21,8 +21,8 @@ Feature: Advocate submits a claim for a Contempt case
 
     Then I click "Continue" in the claim form
 
-    And I add a miscellaneous fee 'adjourned appeals' with dates attended
-    And I add a miscellaneous fee 'noting brief fee' with dates attended
+    And I add a miscellaneous fee 'Adjourned appeals' with dates attended
+    And I add a miscellaneous fee 'Noting brief fee' with dates attended
     And I add a fixed fee 'Contempt hearings - apportioned fee'
     And I add an expense 'Parking'
     And I upload 3 documents

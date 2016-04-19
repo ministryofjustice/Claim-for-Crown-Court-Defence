@@ -30,7 +30,7 @@ end
 class TypedFeeSection < SitePrism::Section
   include Select2Helper
 
-  element :select2_container, "tr:nth-of-type(1) > td:nth-of-type(1) div.select2-container"
+  element :select2_container, "tr:nth-of-type(1) > td:nth-of-type(1) .autocomplete", visible: false
   element :quantity, "tr:nth-of-type(1) input.quantity"
   element :rate, "tr:nth-of-type(1) input.rate"
   element :add_dates, "tr:nth-of-type(1) > td:nth-of-type(5) > a"
@@ -38,7 +38,7 @@ class TypedFeeSection < SitePrism::Section
 
   def select_fee_type(name)
     id = select2_container[:id]
-    select2 name, from: id[5, id.size-1]
+    select2 name, from: id
   end
 
   def populated?

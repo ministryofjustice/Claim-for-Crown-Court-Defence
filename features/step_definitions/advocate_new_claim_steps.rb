@@ -65,6 +65,7 @@ When(/^I select an offence category$/) do
 end
 
 When(/I enter trial start and end dates$/) do
+  sleep 3
   @claim_form_page.trial_details.first_day_of_trial.set_date 9.days.ago.to_s
   @claim_form_page.trial_details.trial_concluded_on.set_date 2.days.ago.to_s
   @claim_form_page.trial_details.actual_trial_length.set 8

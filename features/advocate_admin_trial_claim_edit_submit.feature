@@ -26,8 +26,8 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I add a basic fee with dates attended
     And I add a daily attendance fee with dates attended
-    And I add a miscellaneous fee 'adjourned appeals' with dates attended
-    And I add a miscellaneous fee 'noting brief fee' with dates attended
+    And I add a miscellaneous fee 'Adjourned appeals' with dates attended
+    And I add a miscellaneous fee 'Noting brief fee' with dates attended
     And I add an expense 'Hotel accommodation'
     And I upload 3 documents
     And I check the boxes for the uploaded documents

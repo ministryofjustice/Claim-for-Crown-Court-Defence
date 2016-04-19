@@ -180,6 +180,7 @@ en:
     edit: Edit
     delete: Delete
     view: View
+    warrant_fees: Warrant fees
   link:
     add_claim: Start a claim
     back: Back
@@ -671,6 +672,10 @@ en:
         net_amount: "Net amount"
         vat_amount: "VAT amount"
         total: "Total"
+      warrant_fee:
+        date_issued: "Warrant fee date issued"
+        executed: "Warrant executed"
+        date_executed: "Warrant fee date executed"
   case_workers:
     table_headings:
       your_claims: Your claims

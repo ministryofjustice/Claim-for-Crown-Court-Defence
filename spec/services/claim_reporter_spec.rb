@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'support/database_housekeeping'
 
 RSpec.describe ClaimReporter do
-  include DatabaseHousekeeping
   before(:all) do
     @draft_claim_1 = create(:draft_claim, form_id: SecureRandom.uuid)
     @authorised_claim_1 = create(:authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)

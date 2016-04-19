@@ -100,7 +100,6 @@ module Claim
 
     has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
-    has_one :graduated_fee, foreign_key: :claim_id, class_name: 'Fee::GraduatedFee', dependent: :destroy, inverse_of: :claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
     has_one  :assessment, foreign_key: :claim_id, dependent: :destroy
@@ -127,7 +126,6 @@ module Claim
 
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :graduated_fee,     reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :disbursements,     reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true

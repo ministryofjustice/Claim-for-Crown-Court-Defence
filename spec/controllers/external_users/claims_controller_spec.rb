@@ -3,7 +3,6 @@ require 'custom_matchers'
 require 'support/database_housekeeping'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
-  include DatabaseHousekeeping
 
   let!(:advocate)       { create(:external_user, :advocate) }
   before { sign_in advocate.user }

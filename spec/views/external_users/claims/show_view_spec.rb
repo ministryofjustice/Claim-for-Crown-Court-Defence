@@ -3,7 +3,6 @@ require 'rails_helper'
 describe 'external_users/claims/show.html.haml', type: :view do
 
   include ViewSpecHelper
-  include DatabaseHousekeeping
 
   before(:all) do
     @advocate = create(:external_user, :advocate_and_admin)

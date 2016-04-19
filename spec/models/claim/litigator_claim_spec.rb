@@ -57,46 +57,6 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   let(:claim)   { build :litigator_claim }
 
-  describe 'validate creator provider is in LGFS fee scheme' do
-    it 'rejects creators whose provider is only agfs' do
-      claim.creator = build(:external_user, provider: build(:provider, :agfs))
-      expect(claim).not_to be_valid
-      expect(claim.errors[:creator]).to eq(["must be from a provider with permission to submit LGFS claims"])
-    end
-
-    it 'accepts creators whose provider is only lgfs' do
-      claim.creator = create(:external_user, :litigator, provider: build(:provider, :lgfs))
-      claim.external_user =  claim.creator
-      claim.valid?
-      expect(claim.errors.key?(:creator)).to be_falsey
-      expect(claim.errors.key?(:external_user)).to be_falsey
-    end
-
-    it 'accepts creators whose provider is both agfs and lgfs' do
-      claim.creator = create(:external_user, :litigator, provider: build(:provider, :agfs_lgfs))
-      claim.external_user =  claim.creator
-      claim.valid?
-      expect(claim.errors.key?(:creator)).to be_falsey
-      expect(claim.errors.key?(:external_user)).to be_falsey
-    end
-  end
-
-  #rewrite
-  # describe '#eligible_case_types' do
-  #   it 'should return all lgfs top level case types and non agfs only and none that are children' do
-  #
-  #     claim = build :unpersisted_litigator_claim
-  #     CaseType.delete_all   # kill the case type that was created as part of the claim build
-  #     ct_top_level_both = create :case_type, :hsts, roles: %w{ agfs lgfs }
-  #     ct_top_level_lgfs = create :case_type, roles: %w{ lgfs }
-  #     create :case_type, roles: %w{ agfs }
-  #     create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
-  #     create :child_case_type, roles: %w{ agfs }, parent: ct_top_level_both
-  #
-  #     expect(claim.eligible_case_types.map(&:id).sort).to eq( [ct_top_level_both.id, ct_top_level_lgfs.id].sort )
-  #   end
-  # end
-
   describe '#eligible_case_types' do
     it 'should return only LGFS case types' do
       claim = build :litigator_claim

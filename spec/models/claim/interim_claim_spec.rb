@@ -57,39 +57,16 @@ RSpec.describe Claim::InterimClaim, type: :model do
 
   let(:claim) { build :interim_claim }
 
-  describe 'validate creator provider is in LGFS fee scheme' do
-    it 'rejects creators whose provider is only agfs' do
-      claim.creator = build(:external_user, provider: build(:provider, :agfs))
-      expect(claim).not_to be_valid
-      expect(claim.errors[:creator]).to eq(["must be from a provider with permission to submit LGFS claims"])
-    end
-
-    it 'accepts creators whose provider is only lgfs' do
-      claim.creator = create(:external_user, :litigator, provider: build(:provider, :lgfs))
-      claim.external_user =  claim.creator
-      claim.valid?
-      expect(claim.errors.key?(:creator)).to be_falsey
-      expect(claim.errors.key?(:external_user)).to be_falsey
-    end
-
-    it 'accepts creators whose provider is both agfs and lgfs' do
-      claim.creator = create(:external_user, :litigator, provider: build(:provider, :agfs_lgfs))
-      claim.external_user =  claim.creator
-      claim.valid?
-      expect(claim.errors.key?(:creator)).to be_falsey
-      expect(claim.errors.key?(:external_user)).to be_falsey
-    end
-  end
-
   describe '#eligible_case_types' do
-    xit 'should return only LGFS case types' do
-      claim = build :litigator_claim
+    it 'should return only Interim case types' do
       CaseType.delete_all
-      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
-      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
+      create :case_type, name: 'AGFS case type', roles: ['agfs']
+      create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      ct1 = create :case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim)
+      ct2 = create :case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim)
+
+      expect(claim.eligible_case_types.sort).to eq([ct1, ct2].sort)
     end
   end
 

@@ -104,6 +104,48 @@
         = t('.expenses_total')
         = claim.expenses_total
 
+      %h3.indent-sides
+        = "Disbursements"
+    - if claim.disbursements.empty?
+      %p
+        There are no disbursements for this claim
+    - else
+      %table.indent-sides
+        %caption.visually-hidden
+          = "Disbursements"
+        %colgroup
+          %col
+          %col
+          %col
+          %col
+        %thead
+          %tr
+            %th{scope: 'col'}
+              = "Disbursement type"
+            %th.numeric{scope: 'col'}
+              = "Net amount"
+            %th.numeric{scope: 'col'}
+              = "VAT amount"
+            %th.numeric{scope: 'col'}
+              = "Total amount"
+        %tbody
+          - present_collection(claim.disbursements).each do |disbursement|
+            %tr
+              %td
+                = disbursement.disbursement_type.name
+              %td.numeric
+                = disbursement.net_amount
+              %td.numeric
+                = disbursement.vat_amount
+              %td.numeric
+                = disbursement.total
+
+
+      .totals.indent-sides
+        = t('.expenses_total')
+        = claim.expenses_total
+
+
     .totals.indent-sides
       = t('.claim_total')
       = claim.total_inc_vat

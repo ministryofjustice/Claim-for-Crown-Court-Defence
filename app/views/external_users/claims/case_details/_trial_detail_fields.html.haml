@@ -15,8 +15,8 @@
       = validation_error_message(@error_presenter, :estimated_trial_length)
   .form-row
     .form-col
+      = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_concluded_at")
+    .form-col
       = f.anchored_label t('.actual_trial_length')
       = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'
       = validation_error_message(@error_presenter, :actual_trial_length)
-    .form-col
-      = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_concluded_at")

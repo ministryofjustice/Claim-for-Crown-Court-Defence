@@ -142,13 +142,23 @@
 
 
       .totals.indent-sides
-        = t('.expenses_total')
-        = claim.expenses_total
+        = 'Disbursements total'
+        = claim.disbursements_total
 
 
     .totals.indent-sides
-      = t('.claim_total')
+      = 'Claim total (net):'
+      = claim.total
+
+    .totals.indent-sides
+      = 'VAT:'
+      = claim.vat_amount
+
+    .totals.indent-sides
+      = 'Claim toal (inc. VAT)'
       = claim.total_inc_vat
+
+
 
     - unless @claim.additional_information.blank?
       %h3.indent-sides

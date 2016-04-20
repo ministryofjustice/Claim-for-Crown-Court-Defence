@@ -35,13 +35,13 @@
         = f.collection_select :court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
-      - if @claim.lgfs?
+      - unless @claim.agfs?
         .form-col
           = f.anchored_label t('.transfer_court')
           .form-hint.xsmall.zero-vert-margin
             = "eg Cardiff"
           = f.collection_select :transfer_court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
-          = validation_error_message(@error_presenter, :court)
+          = validation_error_message(@error_presenter, :transfer_court)
 
     .form-row
       .form-col
@@ -74,7 +74,7 @@
           = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
         = f.hidden_field :offence_id, value: f.object.offence ? f.object.offence.id : nil
 
-- if @claim.lgfs?
+- unless @claim.agfs?
   .form-row
     .form-col
       = render partial: 'external_users/claims/case_details/offence_id_select', locals: { f: f }

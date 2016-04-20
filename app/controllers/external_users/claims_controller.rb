@@ -211,6 +211,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       date_attributes_for(:trial_fixed_at),
       date_attributes_for(:trial_cracked_at),
       date_attributes_for(:case_concluded_at),
+      date_attributes_for(:effective_pcmh_date),
+      date_attributes_for(:legal_aid_transfer_date),
       :trial_cracked_at_third,
       :additional_information,
       evidence_checklist_ids: [],
@@ -259,6 +261,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :quantity,
         :amount
       ],
+      interim_fee_attributes: [
+          :id,
+          :claim_id,
+          :fee_type_id,
+          :amount,
+          :disbursement_type_id
+      ],
       warrant_fee_attributes: [
           :id,
           :claim_id,
@@ -294,7 +303,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def build_nested_resources
-    [:defendants, :misc_fees, :disbursements, :expenses, :documents].each do |association|
+    [:defendants, :documents].each do |association|
       build_nested_resource(@claim, association)
     end
 

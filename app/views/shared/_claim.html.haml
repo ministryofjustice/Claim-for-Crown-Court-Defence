@@ -26,26 +26,17 @@
     .basic-info-row
       .column-quarter
         .bold-xsmall
-          - if @claim.agfs?
-            = t('common.external_user')
-          - if @claim.lgfs?
-            = t('common.litigator')
+          = t("common.external_user.#{@claim.external_user_type}")
         .xsmall
           = claim.external_user.name
       .column-quarter
         .bold-xsmall
-          - if @claim.agfs?
-            = t('.advocate_category')
-          - if @claim.lgfs?
-            = t('.litigator_category')
+          = t("common.external_user.category.#{@claim.external_user_type}")
         .xsmall
           = claim.advocate_category
       .column-quarter
         .bold-xsmall
-          - if @claim.agfs?
-            = t('.adv_acc_no')
-          - if @claim.lgfs?
-            = t('.lit_acc_no')
+          = t("common.external_user.account_number.#{@claim.external_user_type}")
         .xsmall
           = claim.supplier_number
       .column-quarter

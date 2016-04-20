@@ -163,9 +163,11 @@ module Claim
       raise BaseClaimAbstractClassError if self.class == BaseClaim
     end
 
-    def agfs?;    self.instance_of? Claim::AdvocateClaim;  end
-    def lgfs?;    self.instance_of? Claim::LitigatorClaim; end
-    def interim?; self.instance_of? Claim::InterimClaim;   end
+    # Override the corresponding method in the subclass
+    def agfs?; false; end
+    def lgfs?; false; end
+    def interim?; false; end
+    def transfer?; false; end
 
     def set_force_validation_to_false
       @force_validation = false

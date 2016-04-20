@@ -9,6 +9,8 @@ class ExternalUsers::ApplicationController < ApplicationController
       claim.persisted? ? advocates_claim_path(claim) : advocates_claims_path
     elsif claim.lgfs?
       claim.persisted? ? litigators_claim_path(claim) : litigators_claims_path
+    elsif claim.interim?
+      claim.persisted? ? litigators_interim_claim_path(claim) : litigators_interim_claims_path
     end
   end
 
@@ -17,6 +19,8 @@ class ExternalUsers::ApplicationController < ApplicationController
       edit_advocates_claim_path(claim)
     elsif claim.lgfs?
       edit_litigators_claim_path(claim)
+    elsif claim.interim?
+      edit_litigators_interim_claim_path(claim)
     end
   end
 

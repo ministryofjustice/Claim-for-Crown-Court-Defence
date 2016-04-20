@@ -38,6 +38,7 @@ describe Ability do
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should_not be_able_to(action, Claim::LitigatorClaim) }
+      it { should_not be_able_to(action, Claim::InterimClaim) }
     end
 
     context 'can manage their own claims' do
@@ -201,11 +202,13 @@ context 'external_user litigator' do
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should be_able_to(action, Claim::LitigatorClaim) }
+      it { should be_able_to(action, Claim::InterimClaim) }
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::LitigatorClaim.new(external_user: external_user)) }
+        it { should be_able_to(action, Claim::InterimClaim.new(external_user: external_user)) }
       end
     end
 
@@ -213,6 +216,7 @@ context 'external_user litigator' do
       let(:other_external_user) { create(:external_user, :litigator) }
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::LitigatorClaim.new(external_user: other_external_user)) }
+        it { should_not be_able_to(action, Claim::InterimClaim.new(external_user: other_external_user)) }
       end
     end
 
@@ -245,9 +249,9 @@ context 'external_user litigator' do
       let(:other_external_user) { create(:external_user, :litigator) }
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::LitigatorClaim.new(external_user: other_external_user)) }
+        it { should_not be_able_to(action, Claim::InterimClaim.new(external_user: other_external_user)) }
       end
     end
-
   end
 
   context 'external_user litigator admin' do
@@ -261,11 +265,13 @@ context 'external_user litigator' do
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
       it { should be_able_to(action, Claim::LitigatorClaim) }
+      it { should be_able_to(action, Claim::InterimClaim) }
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::LitigatorClaim.new(external_user: external_user, creator: external_user)) }
+        it { should be_able_to(action, Claim::InterimClaim.new(external_user: external_user, creator: external_user)) }
       end
     end
 
@@ -273,6 +279,7 @@ context 'external_user litigator' do
       let(:other_external_user) { create(:external_user, provider: provider) }
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should be_able_to(action, Claim::LitigatorClaim.new(external_user: other_external_user, creator: external_user)) }
+        it { should be_able_to(action, Claim::InterimClaim.new(external_user: other_external_user, creator: external_user)) }
       end
     end
 
@@ -280,6 +287,7 @@ context 'external_user litigator' do
       let(:other_external_user) { create(:external_user, :litigator) }
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         it { should_not be_able_to(action, Claim::LitigatorClaim.new(external_user: other_external_user, creator: other_external_user)) }
+        it { should_not be_able_to(action, Claim::InterimClaim.new(external_user: other_external_user, creator: other_external_user)) }
       end
     end
 
@@ -314,7 +322,6 @@ context 'external_user litigator' do
         it { should be_able_to(action, ExternalUser.new(provider: provider)) }
       end
     end
-
   end
 
   context 'case worker' do
@@ -334,6 +341,8 @@ context 'external_user litigator' do
 
     context 'cannot update claim when not assigned to claim' do
       it { should_not be_able_to(:update, Claim::AdvocateClaim.new) }
+      it { should_not be_able_to(:update, Claim::LitigatorClaim.new) }
+      it { should_not be_able_to(:update, Claim::InterimClaim.new) }
     end
 
     context 'can view/download documents' do
@@ -448,7 +457,5 @@ context 'external_user litigator' do
         it { should_not be_able_to(action, external_user) }
       end
     end
-
   end
-
 end

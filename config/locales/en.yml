@@ -165,7 +165,15 @@ en:
   common:
     advocate: Advocate
     litigator: Litigator
-    external_user: Advocate
+    external_user:
+      advocate: *advocate
+      litigator: *litigator
+      category:
+        advocate: Advocate category
+        litigator: Litigator category
+      account_number:
+        advocate: Advocate account number
+        litigator: Litigator account number
     court: Court
     crown_court: Crown court
     defendant: Defendant
@@ -606,14 +614,18 @@ en:
       supplier_number:
         fields:
           supplier_number: "Supplier number"
+    litigators:
+      interim_claims:
+        new:
+          start_interim_claim_heading: "Start interim claim"
+        edit:
+          edit_interim_claim_heading: "Edit interim claim"
   shared:
     no_claims_found: 'No claims found'
     claim:
       certification_box_title: Certification
       certified_by: Certified by
       certification_reason: Reason
-      adv_acc_no: Advocate account number
-      lit_acc_no: Litigator account number
       advocate_category: Advocate category
       litigator_category: 'Litigator category'
       assignee: "Assigned to:"

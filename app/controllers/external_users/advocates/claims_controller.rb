@@ -24,6 +24,11 @@ private
 
   def build_nested_resources
     @claim.fixed_fees.build if @claim.fixed_fees.none?
+
+    [:misc_fees, :expenses].each do |association|
+      build_nested_resource(@claim, association)
+    end
+
     super
   end
 end

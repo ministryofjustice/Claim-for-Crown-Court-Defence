@@ -62,9 +62,9 @@ class ExternalUser < ActiveRecord::Base
   def available_claim_types
     claim_types = []
     self.roles.each do |role|
-      claim_types = [ Claim::AdvocateClaim, Claim::LitigatorClaim ] if role == 'admin'
-      claim_types << Claim::AdvocateClaim if role == 'advocate'
-      claim_types << Claim::LitigatorClaim if role == 'litigator'
+      claim_types = [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] if role == 'admin'
+      claim_types.concat [ Claim::AdvocateClaim ] if role == 'advocate'
+      claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim ] if role == 'litigator'
     end
     claim_types.uniq
   end

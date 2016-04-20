@@ -90,6 +90,9 @@ module Claim
       :litigator
     end
 
+    def lgfs?
+      true
+    end
 
     private
 

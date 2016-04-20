@@ -250,3 +250,9 @@ button.search {
     left: 0;
   }
 }
+
+.js-enabled {
+  select.autocomplete {
+    @include visually-hidden;
+  }
+}

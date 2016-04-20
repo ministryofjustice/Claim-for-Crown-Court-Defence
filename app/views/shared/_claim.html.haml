@@ -31,7 +31,7 @@
           - if @claim.lgfs?
             = t('common.litigator')
         .xsmall
-          = claim.owner.name
+          = claim.external_user.name
       .column-quarter
         .bold-xsmall
           - if @claim.agfs?

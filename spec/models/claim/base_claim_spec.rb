@@ -51,7 +51,7 @@
 #
 
 require 'rails_helper'
- 
+
 module Claim
   class MockBaseClaim < BaseClaim; end
 
@@ -65,15 +65,6 @@ module Claim
       expect {
         claim = BaseClaim.new(external_user: advocate, creator: advocate)
       }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
-    end
-
-    describe '#owner' do
-      it 'returns creator for lgfs claims' do
-        expect(lgfs_claim.owner).to eql lgfs_claim.creator
-      end
-      it 'returns external_user for agfs claims' do
-        expect(agfs_claim.owner).to eql agfs_claim.external_user
-      end
     end
 
     describe '#agfs?' do
@@ -131,4 +122,4 @@ module Claim
     end
   end
 end
- 
+

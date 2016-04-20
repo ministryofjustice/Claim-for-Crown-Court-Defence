@@ -112,16 +112,20 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       context 'LGFS case type filter' do
         let(:params) { { tab: 'unallocated', scheme: 'lgfs', filter: filter } }
 
-        %w{ fixed_fee graduated_fees interim_fees warrants risk_based_bills redetermination awaiting_written_reasons interim_disbursements }.each do |filter_type|
-          # if filter_type == "risk_based_bills"
+        %w{ fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
-            before { @claims = create_filterable_claim(:litigator_claim, "#{filter_type}".to_sym, 1) }
+
+            # if filter_type == 'interim_fees'
+            before do
+              @claims = create_filterable_claim(:litigator_claim, "#{filter_type}".to_sym, 1)
+              get :new, params
+            end
             let(:filter) { "#{filter_type}" }
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
+            # end
           end
-          # end
         end
 
         context "fitler by all" do
@@ -298,9 +302,13 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       when :graduated_fees
         create_list(:litigator_claim, number, :submitted, case_type_id: CaseType.by_type('Trial').id) if for_litigator
       when :risk_based_bills
-        if for_litigator
-          [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id )]
-        end
+        [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id )] if for_litigator
+      when :interim_fees
+        [create(:interim_claim, :interim_fee)] if for_litigator
+      when :warrants
+        [create(:interim_claim, :warrant_fee)] if for_litigator
+      when :interim_disbursements
+        [create(:interim_claim, :disbursement_only_fee)] if for_litigator
       else
         raise ArgumentError, "invalid filter type specified for \"#{__method__}\""
     end

@@ -47,7 +47,7 @@ def claim_state_common_traits
     after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
   end
 
-  trait :awaiting_written_reasons_claim do
+  trait :awaiting_written_reasons do
     after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
   end
 

@@ -51,7 +51,8 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_claims
-    filter_by_claim_type_and_assessed_state
+    filter_by_claim_type
+    filter_by_allocation_state
     search_claims
     filter_claims
     order_claims
@@ -65,9 +66,14 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     %w(allocated unallocated).include?(params[:tab]) ? params[:tab] : 'unallocated'
   end
 
-  def claim_type
-    type = (scheme == 'lgfs' ? Claim::LitigatorClaim : Claim::AdvocateClaim)
-    type.includes(
+  def search_claims(states=nil)
+    if params[:search].present?
+      @claims = @claims.search(params[:search], states, :case_worker_name_or_email)
+    end
+  end
+
+  def load_claim_associations
+    @claims.includes(
       :determinations,
       :redeterminations,
       :assessment,
@@ -79,10 +85,18 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     )
   end
 
-  def search_claims(states=nil)
-    if params[:search].present?
-      @claims = @claims.search(params[:search], states, :case_worker_name_or_email)
-    end
+  def filter_by_claim_type
+    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.where(type: [Claim::LitigatorClaim,Claim::InterimClaim] ) : Claim::BaseClaim.where(type: Claim::AdvocateClaim) )
+    load_claim_associations
+  end
+
+  def filter_by_allocation_state
+    @claims = tab == 'allocated' ? @claims.caseworker_dashboard_under_assessment : @claims.submitted_or_redetermination_or_awaiting_written_reasons
+  end
+
+  def filter_claims
+    filter_by_allocation_filters
+    filter_by_value
   end
 
   def default_scheme_inapplicable_filters
@@ -91,23 +105,15 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     end
   end
 
-  def filter_by_claim_type_and_assessed_state
-    @claims = tab == 'allocated' ? claim_type.caseworker_dashboard_under_assessment : claim_type.submitted_or_redetermination_or_awaiting_written_reasons
-  end
-
-  def filter_claims
-    filter_by_state_and_case_type
-    filter_by_value
-  end
-
-  def filter_by_state_and_case_type
+  def filter_by_allocation_filters
     default_scheme_inapplicable_filters
+    filter = params[:filter].to_sym
     
     case params[:filter]
-      when 'redetermination', 'awaiting_written_reasons'
-        @claims = @claims.send(params[:filter].to_sym)
-      when 'fixed_fee', 'cracked', 'trial', 'guilty_plea', 'graduated_fees' , 'risk_based_bills'
-        @claims = @claims.where{state << %w( redetermination awaiting_written_reasons )}.send(params[:filter].to_sym)
+      when *state_allocation_filters
+        @claims = @claims.send(filter)
+      when *non_state_allocation_filters
+        @claims = @claims.where.not(state: state_allocation_filters).send(filter)
     end
   end
 
@@ -148,11 +154,19 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     params[:commit] == 'Allocate'
   end
 
+  def state_allocation_filters
+    %w( redetermination awaiting_written_reasons )
+  end
+
+  def non_state_allocation_filters
+    (allocation_filters_for_scheme('agfs') + allocation_filters_for_scheme('lgfs')).uniq - (state_allocation_filters << 'all')
+  end
+
   def allocation_filters_for_scheme(scheme)
     if scheme == 'agfs'
       %w{ all fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }
     elsif scheme == 'lgfs'
-      %w{ all fixed_fee graduated_fees interim_fees warrants risk_based_bills redetermination awaiting_written_reasons interim_disbursements }
+      %w{ all fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }
     else
       []
     end

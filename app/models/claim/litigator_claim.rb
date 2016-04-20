@@ -66,23 +66,6 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
 
-    # LGFS allocation filtering scopes
-    scope :graduated_fees,        -> { where(case_type_id: CaseType.graduated_fees.pluck(:id) ) }
-
-    # TODO: An "interim fees" filter is for claims that are of type Claim::InterimClaim and have an interim fee that is of type Effective PCMH, Trial Start, Retrial New Solicitor or Retrial Start
-    # scope :interim_fees,          -> { where() }
-
-    # TODO: An "interim disbursments" filter is for claims that are of Type Claim::InterimClaim and have a fee type of disbursment only (This is to be done)
-    # TODO: no case type available yet
-    # scope :interim_disbursements, -> { where() }
-
-    # TODO: A "warrants" filter is for claims that are of Type Claim::InterimClaim and have a fee type of Warrant
-    # scope :warrants,              -> { where() }
-
-    # A "Risk based bill" is a claim that is considered low risk
-    # This filter is for claims that have a case type of Guilty plea and an offence that is of class E, F, H or I and a PPE fee of 50 or less
-    scope :risk_based_bills,      -> { where(case_type_id: CaseType.ids_by_types('Guilty plea')).where(offence_id: Offence.joins(:offence_class).where(offence_class: { class_letter: ['E','F','H','I'] })) }
-
     def eligible_case_types
       CaseType.lgfs
     end
@@ -106,7 +89,6 @@ module Claim
     def external_user_type
       :litigator
     end
-
 
     private
 

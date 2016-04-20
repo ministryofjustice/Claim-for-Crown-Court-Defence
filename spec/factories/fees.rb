@@ -66,6 +66,12 @@ FactoryGirl.define do
         amount nil
         disbursement_type nil
       end
+
+      trait :pcmh do
+        fee_type { build :interim_fee_type, :pcmh }
+        quantity 1
+      end
+
     end
 
     factory :basic_fee, class: Fee::BasicFee do
@@ -104,6 +110,18 @@ FactoryGirl.define do
         rate 0
         amount 25
         fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
+      end
+    end
+
+    factory :graduated_fee, class: Fee::GraduatedFee do
+      claim
+      fee_type { build :graduated_fee_type }
+      quantity 1
+      amount 25
+      rate 0
+
+      trait :guilty_plea_fee do
+        fee_type { build(:graduated_fee_type, description: 'Guilty plea', code: 'GGLTY') }
       end
     end
 

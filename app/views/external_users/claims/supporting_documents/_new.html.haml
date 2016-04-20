@@ -1,6 +1,9 @@
 %h2.bold-medium
   = t('.supporting_evidence_docs')
 
+%p
+  = t('.supporting_evidence_warning')
+
 .document-ids
   - @claim.documents.each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"

@@ -594,6 +594,7 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence_warning: If you have electronic evidence on disk that relates to this case, you must send it by courier.
       supporting_evidence_checklist:
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'

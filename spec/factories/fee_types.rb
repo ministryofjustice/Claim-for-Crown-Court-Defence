@@ -82,6 +82,26 @@ FactoryGirl.define do
         code 'IWARR'
         description 'Warrant'
       end
+
+      trait :pcmh do
+        code 'IPCMH'
+        description 'Effective PCMH'
+      end
+
+      trait :trial_start do
+        code 'ITST'
+        description 'Trial start'
+      end
+
+      trait :retrial_start do
+        code 'IRST'
+        description 'Retrial start'
+      end
+
+      trait :retrial_new_solicitor do
+        code 'IRNS'
+        description 'Retrial New solicitor'
+      end
     end
 
     factory :warrant_fee_type, class: Fee::WarrantFeeType do

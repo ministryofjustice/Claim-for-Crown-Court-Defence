@@ -53,54 +53,20 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-RSpec.describe Claim::LitigatorClaim, type: :model do
+RSpec.describe Claim::InterimClaim, type: :model do
 
-  let(:claim)   { build :litigator_claim }
+  let(:claim) { build :interim_claim }
 
   describe '#eligible_case_types' do
-    it 'should return only LGFS case types' do
-      claim = build :litigator_claim
+    it 'should return only Interim case types' do
       CaseType.delete_all
-      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
-      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
-    end
-  end
+      create :case_type, name: 'AGFS case type', roles: ['agfs']
+      create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      ct1 = create :case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim)
+      ct2 = create :case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim)
 
-  context 'eligible misc and fixed fee types' do
-    before(:all) do
-      @bft1 = create :basic_fee_type
-      @bft2 = create :basic_fee_type, :lgfs
-      @mft1 = create :misc_fee_type
-      @mft2 = create :misc_fee_type, :lgfs
-      @fft1 = create :fixed_fee_type
-      @fft2 = create :fixed_fee_type, :lgfs
-      @claim = build :litigator_claim
-    end
-
-    after(:all) do
-      clean_database
-    end
-
-    describe '#eligible_basic_fee_types' do
-      it 'returns only basic fee types for LGFS' do
-        expect(@claim.eligible_basic_fee_types).to eq([@bft2])
-      end
-    end
-
-    describe '#eligible_misc_fee_types' do
-      it 'returns only misc fee types for LGFS' do
-        expect(@claim.eligible_misc_fee_types).to eq([@mft2])
-      end
-    end
-
-    describe '#eligible_fixed_fee_types' do
-      it 'returns only top level fixed fee types for LGFS' do
-        @fft3 = create :child_fee_type, parent: @fft2
-        expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
-      end
+      expect(claim.eligible_case_types.sort).to eq([ct1, ct2].sort)
     end
   end
 

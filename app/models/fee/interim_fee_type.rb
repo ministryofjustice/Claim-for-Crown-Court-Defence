@@ -27,4 +27,35 @@ class Fee::InterimFeeType < Fee::BaseFeeType
   def self.by_code(code)
     self.where(code: code).first
   end
+
+  def is_effective_pcmh?
+    code == 'IPCMH'
+  end
+
+  def is_retrial_new_solicitor?
+    code == 'IRNS'
+  end
+
+  def is_retrial_start?
+    code == 'IRST'
+  end
+
+  def is_trial_start?
+    code == 'ITST'
+  end
+
+  def is_disbursement?
+    code == 'IDISO'
+  end
+
+  def is_warrant?
+    code == 'IWARR'
+  end
+
+
+
+
+
+
+
 end

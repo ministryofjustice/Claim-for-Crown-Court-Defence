@@ -403,6 +403,15 @@ ActiveRecord::Schema.define(version: 20160419100425) do
     t.string  "supplier_number"
   end
 
+  create_table "transfer_details", force: :cascade do |t|
+    t.integer "claim_id"
+    t.string  "litigator_type"
+    t.boolean "elected_case"
+    t.integer "transfer_stage_id"
+    t.date    "transfer_date"
+    t.integer "case_conclusion_id"
+  end
+
   create_table "user_message_statuses", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "message_id"

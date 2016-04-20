@@ -50,64 +50,41 @@
 #  legal_aid_transfer_date  :date
 #
 
-require 'rails_helper'
-require 'custom_matchers'
+module Claim
+  class InterimClaim < BaseClaim
 
-RSpec.describe Claim::LitigatorClaim, type: :model do
+    validates_with ::Claim::InterimClaimValidator
+    validates_with ::Claim::InterimClaimSubModelValidator
 
-  let(:claim)   { build :litigator_claim }
+    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
 
-  describe '#eligible_case_types' do
-    it 'should return only LGFS case types' do
-      claim = build :litigator_claim
-      CaseType.delete_all
-      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+    has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
+    has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 
-      expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
-    end
-  end
+    accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
-  context 'eligible misc and fixed fee types' do
-    before(:all) do
-      @bft1 = create :basic_fee_type
-      @bft2 = create :basic_fee_type, :lgfs
-      @mft1 = create :misc_fee_type
-      @mft2 = create :misc_fee_type, :lgfs
-      @fft1 = create :fixed_fee_type
-      @fft2 = create :fixed_fee_type, :lgfs
-      @claim = build :litigator_claim
+    def eligible_case_types
+      CaseType.interims
     end
 
-    after(:all) do
-      clean_database
+    def eligible_interim_fee_types
+      Fee::InterimFeeType.top_levels
     end
 
-    describe '#eligible_basic_fee_types' do
-      it 'returns only basic fee types for LGFS' do
-        expect(@claim.eligible_basic_fee_types).to eq([@bft2])
-      end
+    def supplier_number_regex
+      SupplierNumber::SUPPLIER_NUMBER_REGEX
     end
 
-    describe '#eligible_misc_fee_types' do
-      it 'returns only misc fee types for LGFS' do
-        expect(@claim.eligible_misc_fee_types).to eq([@mft2])
-      end
+    def external_user_type
+      :litigator
     end
 
-    describe '#eligible_fixed_fee_types' do
-      it 'returns only top level fixed fee types for LGFS' do
-        @fft3 = create :child_fee_type, parent: @fft2
-        expect(@claim.eligible_fixed_fee_types).to eq([@fft2])
-      end
-    end
-  end
 
-  describe '#vat_registered?' do
-    it 'returns the value from the provider' do
-      expect(claim.provider).to receive(:vat_registered?)
-      claim.vat_registered?
+    private
+
+    def provider_delegator
+      provider
     end
   end
 end

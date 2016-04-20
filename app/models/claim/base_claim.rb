@@ -141,7 +141,9 @@ module Claim
                         :trial_cracked_at,
                         :retrial_started_at,
                         :retrial_concluded_at,
-                        :case_concluded_at
+                        :case_concluded_at,
+                        :effective_pcmh_date,
+                        :legal_aid_transfer_date
 
     before_validation do
       errors.clear
@@ -162,16 +164,12 @@ module Claim
     end
 
     def owner
-      lgfs? ? creator : external_user
+      agfs? ? external_user : creator
     end
 
-    def agfs?
-      self.instance_of? Claim::AdvocateClaim
-    end
-
-    def lgfs?
-      self.instance_of? Claim::LitigatorClaim
-    end
+    def agfs?;    self.instance_of? Claim::AdvocateClaim;  end
+    def lgfs?;    self.instance_of? Claim::LitigatorClaim; end
+    def interim?; self.instance_of? Claim::InterimClaim;   end
 
     def set_force_validation_to_false
       @force_validation = false
@@ -387,6 +385,8 @@ module Claim
     end
 
     private
+
+    def destroy_all_invalid_fee_types; end
 
     def find_and_associate_documents
       return if self.form_id.nil?

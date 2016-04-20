@@ -2,13 +2,13 @@ require 'rails_helper'
 require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
 
-describe Claim::LitigatorClaimValidator do
+describe Claim::InterimClaimValidator do
 
   include ValidationHelpers
   include_context "force-validation"
 
   let(:litigator) { build(:external_user, :litigator) }
-  let(:claim)     { create(:litigator_claim) }
+  let(:claim)     { create(:interim_claim) }
 
   include_examples "common advocate litigator validations", :litigator
   include_examples "common litigator validations"
@@ -26,18 +26,13 @@ describe Claim::LitigatorClaimValidator do
     }
     let(:step2_attributes) {
       [
-          :estimated_trial_length,
-          :actual_trial_length,
-          :retrial_estimated_length,
-          :retrial_actual_length,
-          :trial_cracked_at_third,
-          :trial_fixed_notice_at,
-          :trial_fixed_at,
-          :trial_cracked_at,
           :first_day_of_trial,
+          :estimated_trial_length,
           :trial_concluded_at,
           :retrial_started_at,
-          :retrial_concluded_at,
+          :retrial_estimated_length,
+          :effective_pcmh_date,
+          :legal_aid_transfer_date,
           :total
       ]
     }

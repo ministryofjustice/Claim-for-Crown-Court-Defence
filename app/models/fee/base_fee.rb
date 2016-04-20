@@ -111,6 +111,10 @@ module Fee
       fee_type.fee_category.abbreviation
     end
 
+    def fee_type_code
+      fee_type.try(:code)
+    end
+
     def clear
       self.quantity = nil;
       self.rate = nil;

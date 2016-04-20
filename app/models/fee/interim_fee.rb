@@ -31,11 +31,26 @@ class Fee::InterimFee < Fee::BaseFee
   end
 
   def is_disbursement?
-    self.fee_type && self.fee_type.code == 'IDISO'
+    fee_type_code == 'IDISO'
   end
 
   def is_warrant?
-    self.fee_type && self.fee_type.code == 'IWARR'
+    fee_type_code == 'IWARR'
   end
 
+  def is_effective_pcmh?
+    fee_type_code == 'IPCMH'
+  end
+
+  def is_trial_start?
+    fee_type_code == 'ITST'
+  end
+
+  def is_retrial_start?
+    fee_type_code == 'IRST'
+  end
+
+  def is_retrial_new_solicitor?
+    fee_type_code == 'IRNS'
+  end
 end

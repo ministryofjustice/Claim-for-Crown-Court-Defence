@@ -27,7 +27,12 @@ class DeterminationPresenter < BasePresenter
   end
 
   def changes
-    {'fees' => [0.00, 0.00], 'expenses' => [0.00, 0.00], 'vat_amount' => [0.00, 0.00]}.merge(changeset)
+    {
+      'fees' => [0.00, 0.00],
+      'expenses' => [0.00, 0.00],
+      'total' => [0.00, 0.00],
+      'vat_amount' => [0.00, 0.00]
+    }.merge(changeset)
   end
 
   def total_inc_vat

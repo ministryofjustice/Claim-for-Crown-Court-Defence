@@ -34,7 +34,7 @@ module API
             def build_arguments
               non_date_fields = {
                 attended_item_id: validate_attended_item_presence,
-                attended_item_type: "::Fee::BaseFee"
+                attended_item_type: "Fee::BaseFee"
               }
               args = Hash.new
               args.merge!(non_date_fields).merge_date_fields!([:date, :date_to], params)

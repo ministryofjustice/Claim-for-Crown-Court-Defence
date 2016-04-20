@@ -68,7 +68,7 @@ describe API::V1::ExternalUsers::Expense do
       claim_id: "Claim cannot be blank",
       date: "Enter a date for the expense",
       expense_type_id: "Choose a type for the expense",
-      reason_id: "Expense 1 reason blank"
+      reason_id: "Enter a reason for the expense"
     }
 
     describe "POST #{CREATE_EXPENSE_ENDPOINT}" do

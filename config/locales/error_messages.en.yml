@@ -778,11 +778,19 @@ expense:
       short: 'Enter a reason'
       api: Enter a reason for the expense
 
+  reason_id:
+    _seq: 45
+    blank:
+      long: 'Enter a reason for the #{expense}'
+      short: 'Enter a reason'
+      api: Enter a reason for the expense
+
   mileage_rate_id:
     _seq: 60
-    blank: 'Select a mileage rate for the #{expense}'
-    short: Select a mileage rate
-    api: Select a mileage rate
+    blank:
+      long: 'Select a mileage rate for the #{expense}'
+      short: Select a mileage rate
+      api: Select a mileage rate
 
 
 

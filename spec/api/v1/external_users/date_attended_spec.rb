@@ -54,6 +54,11 @@ describe API::V1::ExternalUsers::DateAttended do
         expect{ post_to_create_endpoint }.to change { DateAttended.count }.by(1)
       end
 
+      it "should be associated with fee" do
+        post_to_create_endpoint
+        expect(fee.reload.dates_attended.count).to eq(1)
+      end
+
       it 'should create a new record using the params provided' do
         post_to_create_endpoint
         date_attended = DateAttended.last

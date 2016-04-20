@@ -2,7 +2,7 @@ moj.Modules.TableRowClick = {
   init: function() {
     $('.js-checkbox-table').on('click', function(e) {
       var $target = $(e.target);
-      if($target.is(':checkbox')) {
+      if($target.is(':checkbox, a')) {
         return;
       }
       var $tr = $target.closest('tr');

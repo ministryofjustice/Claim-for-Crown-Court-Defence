@@ -108,10 +108,24 @@ module API
       end
 
       resource :expense_types do
+        helpers do
+          def reasons_to_array(reason_set)
+            reasons = if reason_set == "A"
+                        ExpenseType::REASON_SET_A
+                      else
+                        ExpenseType::REASON_SET_B
+                      end
+
+            reasons.map { |i, reason| reason.instance_values }
+          end
+        end
+
         desc "Return all Expense Types."
         params { use :api_key_params }
         get do
-          ::ExpenseType.all
+          ::ExpenseType.all.map do |et|
+            et.attributes.merge!(reasons: reasons_to_array(et.reason_set))
+          end
         end
       end
 

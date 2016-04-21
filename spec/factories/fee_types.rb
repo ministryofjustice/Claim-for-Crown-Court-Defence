@@ -63,15 +63,15 @@ FactoryGirl.define do
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do
       sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
       code 'GTRL'
-      calculated true
-      roles ['agfs']
+      calculated false
+      roles ['lgfs']
     end
 
     factory :interim_fee_type, class: Fee::InterimFeeType do
       sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
       code 'ITRS'
-      calculated true
-      roles ['agfs']
+      calculated false
+      roles ['lgfs']
 
       trait :disbursement do
         code 'IDISO'

@@ -6,7 +6,7 @@ class AllocationPage < SitePrism::Page
   element :notice, "#notice-summary-heading"
 
   element :allocate,
-    "form > div.grid-row:nth-of-type(1) > div:nth-of-type(3) > input"
+    "#new_allocation > div.grid-row > div > div:nth-of-type(3) > input"
 
   sections :allocations, "table.report > tbody > tr" do
     element :case_number, "td:nth-of-type(2) span"
@@ -17,6 +17,7 @@ class AllocationPage < SitePrism::Page
   end
 
   def select_claims(case_numbers)
+    wait_until_allocate_visible # This ensures form is fully loaded
     list_to_array(case_numbers).each { |case_number| check(case_number) }
   end
 

@@ -21,7 +21,9 @@
 
       var awesompleteElement = new Awesomplete(input, {
         list: this.createDataList(select.options),
-        autoFirst: true
+        autoFirst: true,
+        minChars: 0,
+        maxItems: 999
       });
 
       this.bindEvents(input, select);
@@ -37,8 +39,24 @@
         },
         'blur': function(){
           self.copySelectedValue(input, select);
+        },
+        'click': function(){
+          self.open(awesompleteElement);
         }
       });     
+    };
+
+    this.open = function(awesompleteElement){
+      if (awesompleteElement.ul.childNodes.length === 0) {
+        awesompleteElement.minChars = 0;
+        awesompleteElement.evaluate();
+      }
+      else if (awesompleteElement.ul.hasAttribute('hidden')) {
+        awesompleteElement.open();
+      }
+      else {
+        awesompleteElement.close();
+      }
     };
 
     this.createDataList = function(list){

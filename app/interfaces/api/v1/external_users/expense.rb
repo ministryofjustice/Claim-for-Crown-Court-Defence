@@ -22,7 +22,7 @@ module API
               optional :reason_id, type: Integer,       desc: "REQUIRED: Unique identifier for the reason for this travel."
               optional :reason_text, type: String,      desc: "OPTIONAL: When reason is Other, give an explanation."
               optional :distance, type: Integer,        desc: "OPTIONAL: Where applicable. In miles."
-              optional :mileage_rate_id, type: Integer, desc: "OPTIONAL: Where applicable. Unique identifier for the mileage rate to apply."
+              optional :mileage_rate_id, type: Integer, desc: "OPTIONAL: Where applicable. Unique identifier for the mileage rate to apply - enter 1 for 25p per mile, 2 for 45p per mile."
               optional :hours, type: Integer,           desc: "OPTIONAL: Where applicable. Number of hours."
               optional :date, type: String,             desc: "REQUIRED: The date applicable to this Expense (YYYY-MM-DD)", standard_json_format: true
             end

@@ -21,7 +21,7 @@
 
 FactoryGirl.define do
   factory :fixed_fee, class: Fee::FixedFee do
-    claim 
+    claim
     fee_type { build :fixed_fee_type }
     quantity 1
     rate 25
@@ -30,7 +30,7 @@ FactoryGirl.define do
       claim
       fee_type { build :misc_fee_type }
       quantity 1
-      rate 25 
+      rate 25
     end
 
     factory :warrant_fee, class: Fee::WarrantFee do
@@ -38,7 +38,7 @@ FactoryGirl.define do
       fee_type { build :warrant_fee_type }
       warrant_issued_date    1.month.ago
 
-      trait :warrant_exectued do
+      trait :warrant_executed do
         warrant_exectuted_date { warrant_issued_date + 5.days }
       end
 
@@ -66,13 +66,19 @@ FactoryGirl.define do
         amount nil
         disbursement_type nil
       end
+
+      trait :pcmh do
+        fee_type { build :interim_fee_type, :pcmh }
+        quantity 1
+      end
+
     end
 
     factory :basic_fee, class: Fee::BasicFee do
       claim
       fee_type { build :basic_fee_type }
       quantity 1
-      rate 25 
+      rate 25
 
       trait :baf_fee do
         fee_type { build :basic_fee_type, code: 'BAF', description: 'Basic Fee' }
@@ -105,7 +111,18 @@ FactoryGirl.define do
         amount 25
         fee_type { build :basic_fee_type, description: 'Number of prosecution witnesses', code: 'NPW', calculated: false }
       end
-      
+    end
+
+    factory :graduated_fee, class: Fee::GraduatedFee do
+      claim
+      fee_type { build :graduated_fee_type }
+      quantity 1
+      amount 25
+      rate 0
+
+      trait :guilty_plea_fee do
+        fee_type { build(:graduated_fee_type, description: 'Guilty plea', code: 'GGLTY') }
+      end
     end
 
     trait :with_date_attended do
@@ -120,8 +137,6 @@ FactoryGirl.define do
       amount   { rand(100..999).round(0) }
     end
 
-
-
     trait :all_zero do
       quantity 0
       rate 0
@@ -130,7 +145,6 @@ FactoryGirl.define do
     trait :from_api do
       claim         { FactoryGirl.create :claim, source: 'api' }
     end
-
 
   end
 

@@ -25,6 +25,7 @@ class CaseType < ActiveRecord::Base
   default_scope -> { order(name: :asc) }
 
   scope :fixed_fee,               -> { where(is_fixed_fee: true) }
+  scope :graduated_fees,          -> { where(fee_type_code: Fee::GraduatedFeeType.pluck(:code))}
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }
   scope :requires_trial_dates,    -> { where(requires_trial_dates: true) }
   scope :requires_retrial_dates,  -> { where(requires_retrial_dates: true) }
@@ -47,4 +48,9 @@ class CaseType < ActiveRecord::Base
     return nil if fee_type_code.nil?
     Fee::FixedFeeType.by_code(fee_type_code)
   end
+
+  def is_graduated_fee?
+    graduated_fee_type.nil? ? false : true
+  end
+
 end

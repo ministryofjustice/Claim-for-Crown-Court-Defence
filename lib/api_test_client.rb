@@ -181,10 +181,6 @@ private
     # add expense
     response = post_to_advocate_endpoint('expenses', expense_data(@claim_id))
 
-    # add date attended to expense
-    attended_item_id = id_from_json(response)
-    post_to_advocate_endpoint('dates_attended', date_attended_data(attended_item_id,"expense"))
-
   ensure
     clean_up
 
@@ -251,15 +247,21 @@ private
       "api_key": @api_key,
       "claim_id": claim_uuid,
       "expense_type_id": expense_type_id,
-      "quantity": 1,
       "rate": 1.1,
-      "location": "London"
+      "quantity": 1,
+      "amount": 1.1,
+      "location": "London",
+      "reason_id": 5,
+      "reason_text": "Foo",
+      "date": "2016-01-01",
+      "distance": 1,
+      "mileage_rate_id": 1
     }
   end
 
   def basic_fee_data(claim_uuid)
 
-    fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id')
+    fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id', 10)
 
     {
       "api_key": @api_key,

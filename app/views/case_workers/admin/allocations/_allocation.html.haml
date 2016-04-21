@@ -4,25 +4,25 @@
 
 = form_tag case_workers_admin_allocations_path, method: :get do
   = hidden_field_tag :tab, params[:tab]
-  = render partial: 'scheme_filters'
-  = render partial: 'case_type_filters'
-  %noscript
-    = submit_tag 'Filter'
+  .grid-row
+    = render partial: 'scheme_filters'
+    = render partial: 'case_type_filters'
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :scheme, params[:scheme]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
-  -# TODO: FIX BELOW
+
   .grid-row
-    .column-quarter
-      = label_tag :quantity_to_allocate, t('.no_of_claims')
-      = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
-    .column-half
-      = f.label :case_worker_id, t('dictionary.models.case_worker')
-      = f.grouped_collection_select :case_worker_id, Location.includes(case_workers: :user), :case_workers, :name, :id, :name, { include_blank: true }, { class: 'form-control autocomplete' }
-    .column-quarter
-      = f.submit 'Allocate', class: 'button'
+    .form-row
+      .form-col
+        = label_tag :quantity_to_allocate, t('.no_of_claims')
+        = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
+      .form-col
+        = f.label :case_worker_id, t('dictionary.models.case_worker')
+        = f.grouped_collection_select :case_worker_id, Location.includes(case_workers: :user), :case_workers, :name, :id, :name, { include_blank: true }, { class: 'form-control autocomplete' }
+      .form-col{ style: 'padding: 26px 0 0' }
+        = f.submit 'Allocate', class: 'button'
   - if @claims.any?
 
     .container.table-container

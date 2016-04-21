@@ -6,7 +6,7 @@ class AllocationPage < SitePrism::Page
   element :notice, "#notice-summary-heading"
 
   element :allocate,
-    "form > div.grid-row:nth-of-type(1) > div:nth-of-type(3) > input"
+    "#new_allocation > div.grid-row > div > div:nth-of-type(3) > input"
 
   sections :allocations, "table.report > tbody > tr" do
     element :case_number, "td:nth-of-type(2) span"

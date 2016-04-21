@@ -74,6 +74,7 @@ module Claim
     include ::Claims::Calculations
     include ::Claims::UserMessages
     include ::Claims::Cloner
+    include ::Claims::AllocationFilters
 
     include NumberCommaParser
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
@@ -116,12 +117,6 @@ module Claim
     scope :any_authorised,  -> { where(state: %w( part_authorised authorised )) }
 
     scope :dashboard_displayable_states, -> { where(state: Claims::StateMachine.dashboard_displayable_states) }
-
-    # Trial type scopes
-    scope :cracked,     -> { where('case_type_id in (?)', CaseType.ids_by_types('Cracked Trial', 'Cracked before retrial')) }
-    scope :trial,       -> { where('case_type_id in (?)', CaseType.ids_by_types('Trial', 'Retrial')) }
-    scope :guilty_plea, -> { where('case_type_id in (?)', CaseType.ids_by_types('Guilty plea', 'Discontinuance')) }
-    scope :fixed_fee,   -> { where('case_type_id in (?)', CaseType.fixed_fee.map(&:id) ) }
 
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }

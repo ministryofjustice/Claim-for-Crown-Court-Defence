@@ -90,7 +90,6 @@ module Claim
       :litigator
     end
 
-
     private
 
     def provider_delegator

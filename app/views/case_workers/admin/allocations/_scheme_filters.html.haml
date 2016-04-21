@@ -1,7 +1,10 @@
 %fieldset.inline.allocation-filter-form
-  %legend
-    = t('.scheme_types')
-  - allocation_scheme_filters.each do | filter_scheme |
-    = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
-      = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-      = filter_scheme.upcase
+  .column-half
+    %legend
+      = t('.scheme_types')
+    - allocation_scheme_filters.each do | filter_scheme |
+      = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
+        = filter_scheme.upcase
+    %noscript
+      = submit_tag 'Filter'

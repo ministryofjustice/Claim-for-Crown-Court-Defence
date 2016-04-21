@@ -47,8 +47,21 @@ def claim_state_common_traits
     after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
   end
 
+  trait :awaiting_written_reasons do
+    after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
+  end
+
   trait :part_authorised do
     after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise_part! }
+  end
+
+  trait :redetermination do
+    after(:create) do |c|
+      Timecop.freeze(Time.now - 3.day) { c.submit! }
+      Timecop.freeze(Time.now - 2.day) { c.allocate! }
+      Timecop.freeze(Time.now - 1.day) { set_amount_assessed(c); c.authorise! }
+      c.redetermine!
+    end
   end
 
   trait :refused do

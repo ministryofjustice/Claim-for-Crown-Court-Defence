@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     end
     namespace :litigators do
       resources :claims, only: [:new, :create, :edit, :update]
+      resources :interim_claims, only: [:new, :create, :edit, :update]
     end
   end
 

@@ -80,6 +80,9 @@ module Claim
       :litigator
     end
 
+    def interim?
+      true
+    end
 
     private
 

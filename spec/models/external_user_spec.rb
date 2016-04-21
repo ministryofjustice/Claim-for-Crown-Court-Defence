@@ -266,15 +266,15 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     it 'returns litigator claims for litigators' do
-      expect(litigator.available_claim_types).to eq( [ Claim::LitigatorClaim ] )
+      expect(litigator.available_claim_types).to eq( [ Claim::LitigatorClaim, Claim::InterimClaim ] )
     end
 
     it 'returns both types of claims for admin' do
-      expect(admin.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+      expect(admin.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
     end
 
     it 'returns both types of claims for advocate_litigators' do
-      expect(advocate_litigator.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+      expect(advocate_litigator.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
     end
 
   end

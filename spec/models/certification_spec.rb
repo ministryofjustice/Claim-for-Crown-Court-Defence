@@ -21,7 +21,9 @@ RSpec.describe Certification, type: :model do
   it { should validate_presence_of(:certification_date) }
 
   let!(:certification_type) { create(:certification_type) }
-  subject { build(:certification, certification_type: certification_type) }
+  let(:claim) { build(:claim) }
+
+  subject { build(:certification, certification_type: certification_type, claim: claim) }
 
   context 'validations' do
     it 'should be invalid without certification type' do

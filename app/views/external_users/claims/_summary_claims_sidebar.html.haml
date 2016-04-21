@@ -9,7 +9,7 @@
       - else
         = claim.fees_total
 
-  - if @claim.lgfs?
+  - if @claim.lgfs? || @claim.interim?
     %h3
       = 'Disbursements total'
       %span.numeric

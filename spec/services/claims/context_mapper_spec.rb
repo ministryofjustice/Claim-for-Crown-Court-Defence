@@ -19,7 +19,7 @@ RSpec.describe Claims::ContextMapper do
 
     it 'should return litigator claims for users in LGFS only provider' do
       context = Claims::ContextMapper.new(litigator)
-      expect(context.available_claim_types).to eql [Claim::LitigatorClaim]
+      expect(context.available_claim_types).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
     end
 
     context 'AGFS and LGFS providers' do
@@ -27,13 +27,13 @@ RSpec.describe Claims::ContextMapper do
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::LitigatorClaim]
+        expect(context.available_claim_types).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
+        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
       end
       
       it 'should return advocate claim for a advocates' do
@@ -45,19 +45,19 @@ RSpec.describe Claims::ContextMapper do
       it 'should return advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
+        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
       end
       
       it 'should return advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
+        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
       end
       
       it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
+        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
       end
 
     end

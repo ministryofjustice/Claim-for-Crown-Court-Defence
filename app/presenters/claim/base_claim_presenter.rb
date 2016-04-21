@@ -140,10 +140,8 @@ class Claim::BaseClaimPresenter < BasePresenter
     case claim
       when Claim::AdvocateClaim
         'AGFS'
-      when Claim::LitigatorClaim
-        'LGFS'
       else
-        'unknown'
+        'LGFS'
     end
   end
 

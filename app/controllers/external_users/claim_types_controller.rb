@@ -16,6 +16,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
                       Claim::AdvocateClaim
                     elsif params['scheme_chosen'].downcase == 'lgfs'
                       Claim::LitigatorClaim
+                    elsif params['scheme_chosen'].downcase == 'interim'
+                      Claim::InterimClaim
                     end
     redirect_for_claim_type
   end
@@ -27,6 +29,8 @@ private
       redirect_to new_advocates_claim_path
     elsif @claim_types.first == Claim::LitigatorClaim
       redirect_to new_litigators_claim_path
+    elsif @claim_types.first == Claim::InterimClaim
+       redirect_to new_litigators_interim_claim_path
     else
       redirect_to external_users_claims_path, error: 'Invalid claim types made available to current user'
     end

@@ -10,7 +10,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       before { get :selection }
 
       it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim]
+        expect(assigns(:claim_types)).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
       end
       it "should render claim type options page" do
         expect(response).to render_template(:selection)
@@ -37,11 +37,11 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       before { get :selection }
 
       it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to eql [Claim::LitigatorClaim]
+        expect(assigns(:claim_types)).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
       end
 
-      it "should redirect to the new litigators claim form page" do
-        expect(response).to redirect_to(new_litigators_claim_path)
+      it "should render claim type options page" do
+        expect(response).to render_template(:selection)
       end
     end
   end

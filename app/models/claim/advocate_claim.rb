@@ -83,6 +83,9 @@ module Claim
       :advocate
     end
 
+    def agfs?
+      true
+    end
 
     private
 

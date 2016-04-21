@@ -124,11 +124,11 @@ RSpec.describe Provider, type: :model do
     end
 
     it 'should return litigator claim for lgfs' do
-      expect(lgfs.available_claim_types).to eq( [ Claim::LitigatorClaim ] )
+      expect(lgfs.available_claim_types).to eq( [ Claim::LitigatorClaim, Claim::InterimClaim ] )
     end
 
     it 'should return both claim types for agfs-lgfs' do
-      expect(both.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim ] )
+      expect(both.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
     end
   end
 

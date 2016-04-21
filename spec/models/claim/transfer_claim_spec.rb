@@ -5,6 +5,13 @@ describe Claim::TransferClaim, type: :model do
 
   let(:claim) { build :transfer_claim }
 
+  it "Delegates attributes to transfer details" do
+    claim.attributes = { litigator_type: "new", elected_case: false, transfer_stage_id: 1, transfer_date: Time.now, case_conclusion_id: 1 }
+    claim.save
+    expect(claim.litigator_type).to eq("new")
+    expect(claim.transfer_detail.litigator_type).to eq("new")
+  end
+
   context "New unsaved transfer claim" do
     it "Has a transfer detail" do
       expect(claim.transfer_detail).not_to be_nil
@@ -21,14 +28,17 @@ describe Claim::TransferClaim, type: :model do
       c3 = create :case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim)
       c4 = create :case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim)
 
-      expect(claim.eligible_case_types.sort).to eq([c2, c3, c4].sort)
+      expect(claim.eligible_case_types).not_to include(c1)
+      expect(claim.eligible_case_types).to include(c2)
+      expect(claim.eligible_case_types).to include(c3)
+      expect(claim.eligible_case_types).to include(c4)
     end
   end
 
-  it "Delegates attributes to transfer details" do
-    claim.attributes = { litigator_type: "new", elected_case: false, transfer_stage_id: 1, transfer_date: Time.now, case_conclusion_id: 1 }
-    claim.save
-    expect(claim.litigator_type).to eq("new")
-    expect(claim.transfer_detail.litigator_type).to eq("new")
+  describe '#vat_registered?' do
+    it 'returns the value from the provider' do
+      expect(claim.provider).to receive(:vat_registered?)
+      claim.vat_registered?
+    end
   end
 end

@@ -20,7 +20,6 @@ Then(/^claims "([^"]*)" should appear on the page$/) do |case_numbers|
 end
 
 When(/^I select claims "(.*?)"$/) do |case_numbers|
-  sleep 5
   @allocation_page.select_claims(case_numbers)
 end
 

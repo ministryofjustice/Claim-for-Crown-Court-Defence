@@ -2,19 +2,22 @@ class ExpenseV2Validator < BaseValidator
 
   def self.fields
     [
-      :expense_type,
-      :location,
-      :reason_id,
-      :reason_text,
       :distance,
+      :hours,
+      :location,
       :mileage_rate_id,
-      :date,
-      :hours
+      :reason_text
     ]
   end
 
   def self.mandatory_fields
-    [:claim, :amount, :expense_type]
+    [
+      :amount,
+      :claim,
+      :date,
+      :expense_type,
+      :reason_id
+    ]
   end
 
   private
@@ -47,7 +50,9 @@ class ExpenseV2Validator < BaseValidator
     if @record.reason_id.nil?
       add_error(:reason_id, 'blank')
     else
-      add_error(:reason_id, 'invalid') unless @record.reason_id.in?(@record.expense_reasons.map(&:id))
+      unless @record.expense_type.nil? || @record.reason_id.in?(@record.expense_reasons.map(&:id))
+        add_error(:reason_id, 'invalid')
+      end
     end
   end
 
@@ -55,7 +60,9 @@ class ExpenseV2Validator < BaseValidator
     if @record.expense_reason_other?
       validate_presence(:reason_text, 'blank_for_other')
     else
-      validate_absence(:reason_text, 'invalid')
+      if @record.reason_id.present? && @record.expense_type.present?
+        validate_absence(:reason_text, 'invalid')
+      end
     end
   end
 

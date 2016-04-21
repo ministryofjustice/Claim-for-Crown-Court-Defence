@@ -17,6 +17,7 @@ class AllocationPage < SitePrism::Page
   end
 
   def select_claims(case_numbers)
+    wait_until_allocate_visible # This ensures form is fully loaded
     list_to_array(case_numbers).each { |case_number| check(case_number) }
   end
 

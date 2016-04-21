@@ -20,7 +20,7 @@ class ErrorResponse
   attr :body
   attr :status
 
-  VALID_MODEL_KLASSES = [Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder]
+  VALID_MODEL_KLASSES = [Fee::GraduatedFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder]
 
   def initialize(object)
     @error_messages = []

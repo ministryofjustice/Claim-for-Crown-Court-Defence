@@ -48,28 +48,35 @@
 #  supplier_number          :string
 #
 
-
-
-
-# TODO make this class derive from Claim::BaseClaim or Claim::LitigatorClaim
-
-
-
-
-
 module Claim
-  class TransferClaim < ActiveRecord::Base
-
-    self.table_name = :claims
+  class TransferClaim < BaseClaim
 
     has_one :transfer_detail, foreign_key: :claim_id
 
+    delegate :litigator_type, :litigator_type=,
+      :elected_case, :elected_case=,
+      :transfer_stage_id, :transfer_stage_id=,
+      :transfer_date, :transfer_date=,
+      :case_conclusion_id, :case_conclusion_id=, to: :transfer_detail
+
+    def initialize
+      super
+      self.transfer_detail = TransferDetail.new if transfer_detail.nil?
+    end
+
+    def eligible_case_types
+      CaseType.lgfs
+    end
 
     # private
     # def destroy_all_invalid_fee_types
     #   # noop
     # end
 
-  end
+    private
 
+    def provider_delegator
+      provider
+    end
+  end
 end

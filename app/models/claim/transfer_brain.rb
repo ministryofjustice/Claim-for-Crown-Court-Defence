@@ -1,13 +1,20 @@
+
+# This class holds only static methods to help with
+# validation, determining visibility, the full fee name and the case
+# allocation type for a TransferClaim.
+#
+
 module Claim
   class TransferBrain
 
     TRANSFER_STAGES = {
-      10 => 'Up to and includeing PCMH transfer',
+      10 => 'Up to and including PCMH transfer',
       20 => 'Before trial transfer',
       30 => 'During trial transfer',
       40 => 'Transfer after trial and before sentence hearing',
       50 => 'Transfer before retrial',
       60 => 'Transfer during retrial',
+      70 => 'Transfer after retrial and before sentence hearing',
     }
 
     CASE_CONCLUSIONS = {
@@ -15,8 +22,10 @@ module Claim
       20 => 'Retrial',
       30 => 'Cracked',
       40 => 'Cracked before retrial',
-      50 => 'Guilty'
+      50 => 'Guilty plea'
     }
+
+
 
     def self.transfer_stage_by_id(id)
       name = TRANSFER_STAGES[id]
@@ -48,6 +57,15 @@ module Claim
 
     def self.case_conclusion_ids
       CASE_CONCLUSIONS.keys
+    end
+
+
+    def self.details_combo_valid?(detail)
+      TransferBrainDataItemCollection.instance.detail_valid?(detail)
+    end
+
+    def self.data_attributes
+      TransferBrainDataItemCollection.instance.to_json.chomp
     end
   end
 end

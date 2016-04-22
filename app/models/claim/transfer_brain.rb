@@ -67,5 +67,6 @@ module Claim
     def self.data_attributes
       TransferBrainDataItemCollection.instance.to_json.chomp
     end
+
   end
 end

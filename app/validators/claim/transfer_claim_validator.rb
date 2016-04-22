@@ -64,7 +64,7 @@ module Claim
     end
 
     def validate_transfer_detail_combo
-      unless TransferBrainDataItemCollection.details_valid?(@record)
+      unless TransferBrain.details_combo_valid?(@record.transfer_detail)
         add_error(:transfer_detail, 'invalid_combo')
       end
     end

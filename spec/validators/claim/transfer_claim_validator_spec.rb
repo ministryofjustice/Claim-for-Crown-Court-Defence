@@ -72,6 +72,27 @@ module Claim
       end
     end
 
+    context 'transfer_details combination' do
+
+      let(:claim) do
+        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10)
+        claim.form_step = 2
+        claim.force_validation = true
+        claim
+      end
+
+      it 'errors if details are an invalid combination' do
+        expect(claim).not_to be_valid
+        expect(claim.errors[:transfer_detail]).to include('invalid_combo')
+      end
+
+      it 'does not error if details are a valid combo' do
+        claim.case_conclusion_id = 20
+        claim.valid?
+        expect(claim.errors.keys).not_to include(:transfer_detail)
+      end
+    end
+
   end
 
 end

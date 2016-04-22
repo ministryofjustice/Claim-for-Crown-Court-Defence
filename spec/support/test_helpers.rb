@@ -11,4 +11,25 @@ module TestHelpers
   # file or files that actually need it.
 
   include DatabaseHousekeeping
+
+  def expect_invalid_attribute_with_message(record, attribute, value, message)
+    error_attribute = attribute if error_attribute.nil?
+    set_value(record, attribute, value)
+    expect(record).not_to be_valid
+    expect(record.errors[error_attribute]).to include(message)
+  end
+
+  def expect_valid_attribute(record, attribute, value)
+    error_attribute = attribute if error_attribute.nil?
+    set_value(record, attribute, value)
+    record.valid?
+    expect(record.errors.keys).not_to include(error_attribute)
+  end
+
+  def set_value(record, attribute, value)
+    setter_method = "#{attribute}=".to_sym
+    record.__send__(setter_method, value)
+    record.form_step = 2
+    record.force_validation = true
+  end
 end

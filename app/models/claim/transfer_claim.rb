@@ -55,6 +55,8 @@ module Claim
 
     has_one :transfer_detail, foreign_key: :claim_id
 
+    validates_with TransferClaimValidator
+
     after_initialize do
       self.transfer_detail = TransferDetail.new if self.transfer_detail.nil?
     end
@@ -80,7 +82,9 @@ module Claim
       self.transfer_detail ||= TransferDetail.new
     end
 
-
+    def external_user_type
+      :litigator
+    end
 
 
     def eligible_case_types

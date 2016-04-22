@@ -19,6 +19,20 @@ module Claim
 
     let(:detail)  { build :transfer_detail }
 
+
+    describe '#blank?' do
+      it 'returns true for an empty object' do
+        detail = TransferDetail.new
+        expect(detail).to be_blank
+      end
+
+      it 'returns false if any fields are populated' do
+        detail = TransferDetail.new(elected_case: false)
+        expect(detail).not_to be_blank
+      end
+    end
+
+
     context 'validations' do
 
       it { should validate_presence_of(:claim).with_message('blank') }

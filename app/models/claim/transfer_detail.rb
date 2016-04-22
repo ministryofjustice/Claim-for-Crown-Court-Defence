@@ -39,5 +39,9 @@ module Claim
       end
     end
 
+    def blank?
+      self.litigator_type.nil? && self.elected_case.nil? && self.transfer_stage_id.nil? && self.case_conclusion_id.nil?
+    end
+
   end
 end

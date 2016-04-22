@@ -282,6 +282,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
        :location,
        :quantity,
        :amount,
+       :vat_amount,
        :rate,
        :reason_id,
        :reason_text,

@@ -39,7 +39,11 @@ module Claims::Calculations
   end
 
   def calculate_expenses_vat
-    VatRate.vat_amount(calculate_expenses_total, self.vat_date)
+    if lgfs?
+      Expense.where(claim_id: self.id).pluck(:vat_amount).sum
+    else
+      VatRate.vat_amount(calculate_expenses_total, self.vat_date)
+    end
   end
 
   def calculate_fees_vat

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419100425) do
+ActiveRecord::Schema.define(version: 20160421104849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(version: 20160419100425) do
     t.integer  "mileage_rate_id"
     t.date     "date"
     t.integer  "hours"
+    t.decimal  "vat_amount",      default: 0.0
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree

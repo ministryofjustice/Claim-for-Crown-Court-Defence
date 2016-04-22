@@ -103,7 +103,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         context "fitler by all" do
           let(:filter) { 'all' }
-          it "should assign @claims to be all unallocated agfs claims" do
+          it "should assign @claims to be all unallocated AGFS claims" do
             expect(assigns(:claims).map(&:id)).to eql @submitted_agfs_claims.map(&:id)
           end
         end
@@ -130,7 +130,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         context "fitler by all" do
           let(:filter) { 'all' }
-          it "should assign @claims to be all unallocated agfs claims" do
+          it "should assign @claims to be all unallocated LGFS claims" do
             expect(assigns(:claims).map(&:id)).to eql @submitted_lgfs_claims.map(&:id)
           end
         end
@@ -282,7 +282,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         return create_list(:litigator_claim, :submitted, number) if for_litigator
       when :fixed_fee
         return create_list(:submitted_claim, number, case_type_id: CaseType.by_type('Contempt').id) if for_advocate
-        return create_list(:litigator_claim, number, :submitted, case_type_id: CaseType.by_type('Contempt').id) if for_litigator
+        return create_list(:litigator_claim, number, :submitted, case_type_id: CaseType.by_type('Hearing subsequent to sentence').id) if for_litigator
       when :redetermination
         return create_list(:redetermination_claim, number) if for_advocate
         return create_list(:litigator_claim, number, :redetermination) if for_litigator

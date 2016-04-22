@@ -9,6 +9,7 @@ moj.Modules.NewClaim = {
   $hours : {},
   $reason : {},
   $amount : {},
+  $vat_amount : {},
   $reasonText : {},
   $ariaLiveRegion : {},
 
@@ -81,6 +82,7 @@ moj.Modules.NewClaim = {
     this.$hours = this.$currentExpense.find('.js-expense-hours');
     this.$reason = this.$currentExpense.find('.js-expense-reason');
     this.$amount = this.$currentExpense.find('.js-expense-amount');
+    this.$vat_amount = this.$currentExpense.find('.js-expense-vat-amount');
     this.$reasonText = this.$currentExpense.find('.js-expense-reason-text');
     this.$ariaLiveRegion = this.$element.next();
   },
@@ -94,6 +96,7 @@ moj.Modules.NewClaim = {
     if(self.$element.find('option:selected').is(':first-child')){
       self.$location
         .add(self.$amount)
+        .add(self.$vat_amount)
         .add(self.$distance)
         .add(self.$mileage)
         .add(self.$mileage)
@@ -109,6 +112,8 @@ moj.Modules.NewClaim = {
   showExpenseFields : function (elem){
     var self = this;
     self.$amount.show();
+
+    self.$vat_amount.show();
 
     self.buildReasonSelectOptions(elem);
 

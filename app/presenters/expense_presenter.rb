@@ -9,6 +9,14 @@ class ExpensePresenter < BasePresenter
     h.number_to_currency(expense.amount)
   end
 
+  def vat_amount
+    h.number_to_currency(expense.vat_amount)
+  end
+
+  def total
+    h.number_to_currency(expense.amount + expense.vat_amount)
+  end
+
   def name
     if expense.expense_type.blank?
       "Not selected"

@@ -5,6 +5,7 @@ module Claim
                 :allocation_case_type, :visibility, :transfer_fee_full_name
 
     def initialize(arry)
+      copy_array = arry
       begin
         @litigator_type           = arry.shift.downcase
         @elected_case             = arry.shift.to_bool
@@ -16,7 +17,7 @@ module Claim
         @allocation_case_type     = arry.shift
       rescue => err
         puts "#{err.class}: #{err.message}"
-        ap arry
+        ap copy_array
         raise 'Boom'
       end
 

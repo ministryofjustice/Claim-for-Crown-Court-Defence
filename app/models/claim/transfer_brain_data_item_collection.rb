@@ -19,6 +19,7 @@ module Claim
     def initialize
       lines = load_file
       @collection = []
+      lines.shift
       lines.each { |line| @collection << TransferBrainDataItem.new(line) }
       @collection_hash = construct_collection_hash
     end
@@ -51,6 +52,8 @@ module Claim
     end
 
     def detail_valid?(detail)
+      return false if detail.nil?
+      return false if detail.unpopulated?
       data_item = data_item_for(detail)
       data_item.nil? ? false : data_item[:validity]
     end

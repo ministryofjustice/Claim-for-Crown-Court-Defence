@@ -61,6 +61,10 @@ group :production, :devunicorn do
   gem 'unicorn-rails',  '2.2.0'
 end
 
+group :development do
+  gem 'meta_request', '~> 0.3.4'
+end
+
 group :development, :test do
   gem 'annotate'
   gem 'better_errors'

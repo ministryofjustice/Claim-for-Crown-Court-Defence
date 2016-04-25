@@ -56,6 +56,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     search_claims
     filter_claims
     order_claims
+    set_claim_carousel_info
   end
 
   def scheme

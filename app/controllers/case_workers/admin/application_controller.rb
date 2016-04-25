@@ -1,2 +1,2 @@
-class CaseWorkers::Admin::ApplicationController < ApplicationController
+class CaseWorkers::Admin::ApplicationController < CaseWorkers::ApplicationController
 end

@@ -54,11 +54,6 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     @message = @claim.messages.build
   end
 
-  def set_claim_carousel_info
-    session[:claim_ids] = @claims.all.map(&:id)
-    session[:claim_count] = @claims.try(:size)
-  end
-
   def search(states=nil)
     @claims = @claims.search(params[:search], states, *search_options)
   end

@@ -43,4 +43,4 @@ claim_csv_headers:
 expense_schema_version: 2
 
 # temporary feature toggle til interim fees ready
-allow_lgfs_interim_fees?: true
+allow_lgfs_interim_fees?: false

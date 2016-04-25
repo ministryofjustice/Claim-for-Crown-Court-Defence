@@ -13,13 +13,7 @@ class Claim::BaseClaimValidator < BaseValidator
   private
 
   def validate_step_fields
-    fields = self.class.fields_for_steps
-
-    if @record.from_web?
-      fields[@record.current_step_index] || []
-    else
-      fields.flatten
-    end.each do |field|
+    self.class.fields_for_steps[steps_range(@record)].flatten.each do |field|
       validate_field(field)
     end
   end

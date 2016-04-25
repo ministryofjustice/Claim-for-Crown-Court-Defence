@@ -31,6 +31,21 @@ RSpec.describe ExpensePresenter do
     end
   end
 
+  describe '#vat_amount' do
+    it 'formats as currency' do
+      expense.vat_amount = 1222.3
+      expect(presenter.vat_amount).to eq '£1,222.30'
+    end
+  end
+
+  describe '#total' do
+    it 'formats as currency' do
+      expense.amount = 32456.3
+      expense.vat_amount = 1.3
+      expect(presenter.total).to eq '£32,457.60'
+    end
+  end
+
   describe '#name' do
     it 'outputs "Not selected" if there is no expense type' do
       expense.expense_type_id = nil
@@ -42,7 +57,7 @@ RSpec.describe ExpensePresenter do
       expect(presenter.name).to eql(expense.expense_type.name)
     end
   end
-  
+
   describe '#display_reason_text_css' do
     def reason_requiring_text
       ExpenseType::REASON_SET_A.map { |reason| reason[1] if reason[1].allow_explanatory_text? }.compact.sample

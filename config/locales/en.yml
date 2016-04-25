@@ -502,6 +502,7 @@ en:
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
+          vat_amount: 'VAT amount'
           expenses: 'Expenses'
           expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
           expense_type: 'Type of expense'
@@ -611,9 +612,24 @@ en:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant date issued"
           date_executed: "Warrant date executed (optional)"
+          total: "Total"
       supplier_number:
         fields:
           supplier_number: "Supplier number"
+      interim_fee:
+        fields:
+          interim_fees: "Interim fees"
+          interim_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          fee_type: "Fee type"
+          ppe_total: "PPE total at the time"
+          total: "Total"
+          effective_pcmh: "Effective PCMH"
+          legal_aid_transfer_date: "Legal aid transfer"
+          first_day_of_trial: "Trial start"
+          estimated_trial_length: "Estimated length of trial"
+          trial_concluded_at: "First trial concluded"
+          retrial_started_at: "Re-trial start date"
+          retrial_estimated_length: "Estimated length of re-trial"
     litigators:
       interim_claims:
         new:
@@ -664,6 +680,7 @@ en:
       actions: Actions
     summary:
       amount: Amount
+      vat_amount: VAT amount
       date: Date
       distance: Distance
       fee_category: Fee category

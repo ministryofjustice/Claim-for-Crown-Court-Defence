@@ -19,6 +19,7 @@
 #  mileage_rate_id :integer
 #  date            :date
 #  hours           :integer
+#  vat_amount      :decimal          default(0.0)
 #
 
 class Expense < ActiveRecord::Base
@@ -33,7 +34,7 @@ class Expense < ActiveRecord::Base
 
   include NumberCommaParser
   include Duplicable
-  numeric_attributes :rate, :amount, :quantity
+  numeric_attributes :rate, :amount, :vat_amount, :quantity
 
   belongs_to :expense_type
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id

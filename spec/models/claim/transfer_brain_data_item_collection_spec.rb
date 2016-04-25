@@ -3,6 +3,8 @@ require 'rails_helper'
 module Claim
   describe TransferBrainDataItemCollection do
 
+    xit 'pending ' do
+
     let(:collection)  { TransferBrainDataItemCollection.instance }
 
     describe '.new' do
@@ -133,6 +135,8 @@ module Claim
          }
       }
     end
+    end
+
 
   end
 end

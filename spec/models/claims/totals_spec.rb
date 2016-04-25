@@ -61,6 +61,30 @@ RSpec.describe Claim, type: :model do
     end
   end
 
+  context 'expenses vat' do
+    let!(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount, vat_amount: 2) } }
+
+    before { subject.reload }
+
+    context 'AGFS claim' do
+      subject { create(:claim) }
+
+      it 'calculates the claim expenses VAT' do
+        # rate 17.5, see rails_helper
+        expect(subject.calculate_expenses_vat).to eq(25.64)
+      end
+    end
+
+    context 'LGFS claim' do
+      subject { create(:litigator_claim, apply_vat: true) }
+      let!(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: subject.id, amount: amount, vat_amount: 2) } }
+
+      it 'calculates the claim expenses VAT' do
+        expect(subject.calculate_expenses_vat).to eq(6.0)
+      end
+    end
+  end
+
   context 'total' do
     before { expenses; subject.reload }
 

@@ -42,10 +42,6 @@ class ExpenseV2Validator < BaseValidator
     end
   end
 
-  def validate_amount
-    validate_presence(:amount, 'blank')
-  end
-
   def validate_reason_id
     if @record.reason_id.nil?
       add_error(:reason_id, 'blank')

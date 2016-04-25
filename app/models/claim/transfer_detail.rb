@@ -27,6 +27,10 @@ module Claim
 
     validate :case_conclusion_validation
 
+    def unpopulated?
+      self.litigator_type.nil? && self.elected_case.nil? && self.transfer_stage_id.nil? && self.transfer_date.nil? && self.case_conclusion_id.nil?
+    end
+
     def case_conclusion_validation
       if self.litigator_type == 'original'
         errors[:case_conclusion] << 'invalid_original' unless case_conclusion_id.blank?

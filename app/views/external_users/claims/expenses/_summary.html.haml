@@ -63,6 +63,13 @@
             %td
               = expense.amount
 
+        - if claim.lgfs?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.vat_amount')
+            %td
+              = expense.vat_amount
+
 
       %tfoot
         %tr

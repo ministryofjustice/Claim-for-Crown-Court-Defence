@@ -85,5 +85,11 @@ module Claim
     def provider_delegator
       provider
     end
+
+    def destroy_all_invalid_fee_types
+      unless interim_fee.try(:is_interim_warrant?)
+        warrant_fee.try(:delete)
+      end
+    end
   end
 end

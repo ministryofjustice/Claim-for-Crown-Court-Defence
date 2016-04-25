@@ -45,7 +45,7 @@ class BaseSubModelValidator < BaseValidator
 
   def validate_association_for(record, association_name)
     associated_record = record.__send__(association_name)
-    unless associated_record.nil?
+    unless associated_record.nil? || associated_record.destroyed?
       @result = false unless associated_record.valid?
     end
   end

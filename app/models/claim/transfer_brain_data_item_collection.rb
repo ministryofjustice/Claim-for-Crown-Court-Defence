@@ -19,6 +19,7 @@ module Claim
     def initialize
       lines = load_file
       @collection = []
+      lines.shift
       lines.each { |line| @collection << TransferBrainDataItem.new(line) }
       @collection_hash = construct_collection_hash
     end

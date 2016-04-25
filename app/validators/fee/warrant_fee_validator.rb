@@ -1,5 +1,9 @@
 class Fee::WarrantFeeValidator < Fee::BaseFeeValidator
 
+  def self.fields
+    [ :amount ]
+  end
+
   private
 
   def validate_warrant_issued_date
@@ -12,5 +16,15 @@ class Fee::WarrantFeeValidator < Fee::BaseFeeValidator
     validate_not_after(Date.today, :warrant_executed_date, 'invalid')
   end
 
-end
+  def validate_amount
+    if validate_amount?
+      validate_numericality(:amount, 0.01, nil, 'numericality')
+    else
+      validate_absence_or_zero(:amount, 'present')
+    end
+  end
 
+  def validate_amount?
+    @record.claim.interim? && @record.claim.interim_fee.try(:is_interim_warrant?)
+  end
+end

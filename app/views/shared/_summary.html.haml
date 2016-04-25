@@ -79,6 +79,11 @@
               = t('.location')
             %th.numeric{scope: 'col'}
               = t('.amount')
+            - if claim.lgfs?
+              %th.numeric{scope: 'col'}
+                = t('.vat_amount')
+              %th.numeric{scope: 'col'}
+                Total amount
         %tbody
           - present_collection(claim.expenses).each do |expense|
             %tr.no-border
@@ -94,8 +99,13 @@
                 = expense.location
               %td.numeric
                 = expense.amount
+              - if claim.lgfs?
+                %td.numeric
+                  = expense.vat_amount
+                %td.numeric
+                  = expense.total
             %tr
-              %td{colspan: "6"} 
+              %td{colspan: "6"}
                 .bold-normal
                   = t('.reason')
                 = expense.expense_reason.reason

@@ -111,14 +111,17 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A88888888' }
-          let(:interim_fee_type)  { create(:interim_fee_type) }
-          let(:disbursement_type) { create(:disbursement_type) }
+          let(:interim_fee_type)  { create(:interim_fee_type, :effective_pcmh) }
 
           let(:interim_fee_params) {
             {
-                fee_type_id: interim_fee_type.id,
-                disbursement_type_id: disbursement_type.id,
-                amount: 10.0
+                interim_fee_attributes: {
+                    fee_type_id: interim_fee_type.id,
+                    amount: 10.0
+                },
+                effective_pcmh_date_dd: 5.days.ago.day.to_s,
+                effective_pcmh_date_mm: 5.days.ago.month.to_s,
+                effective_pcmh_date_yyyy: 5.days.ago.year.to_s
             }
           }
 
@@ -155,9 +158,8 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
           let(:claim_params_step2) do
             {
                 form_step: 2,
-                additional_information: 'foo',
-                interim_fee_attributes: interim_fee_params
-            }
+                additional_information: 'foo'
+            }.merge(interim_fee_params)
           end
 
           let(:subject_claim) { Claim::InterimClaim.where(case_number: case_number).first }
@@ -165,13 +167,11 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
           it 'validates step fields and move to next steps' do
             post :create, commit_continue: 'Continue', claim: claim_params_step1
             expect(subject_claim.draft?).to be_truthy
-            expect(subject_claim.valid?).to be_truthy
             expect(assigns(:claim).current_step).to eq(2)
             expect(response).to render_template('external_users/litigators/interim_claims/new')
 
             put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
             expect(subject_claim.draft?).to be_truthy
-            expect(subject_claim.valid?).to be_truthy
             expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
           end
         end

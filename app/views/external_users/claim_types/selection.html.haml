@@ -5,11 +5,20 @@
     %legend.xsmall
       = t('.choose_fee_scheme_prompt_text')
     .form-group.inline
-      = label_tag :scheme_chosen_agfs, nil, class: "block-label" do
-        = radio_button_tag :scheme_chosen, "agfs", true
-        = 'AGFS'
-      = label_tag :scheme_chosen_lgfs, nil, class: "block-label" do
-        = radio_button_tag :scheme_chosen, "lgfs", false
-        = 'LGFS'
+      - if @claim_types.include?(Claim::AdvocateClaim)
+        = label_tag :scheme_chosen_agfs, nil, class: "block-label" do
+          = radio_button_tag :scheme_chosen, "agfs", true
+          = t('.agfs_rb')
+
+      - if @claim_types.include?(Claim::LitigatorClaim)
+        = label_tag :scheme_chosen_lgfs_final, nil, class: "block-label" do
+          = radio_button_tag :scheme_chosen, "lgfs_final", !@claim_types.include?(Claim::AdvocateClaim)
+          = t('.lgfs_final_rb')
+
+      - if @claim_types.include?(Claim::InterimClaim) && Settings.allow_lgfs_interim_fees?
+        = label_tag :scheme_chosen_lgfs_interim, nil, class: "block-label" do
+          = radio_button_tag :scheme_chosen, "lgfs_interim", false
+          = t('.lgfs_interim_rb')
+
   .form-group
     = submit_tag "Continue", class: "button"

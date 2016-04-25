@@ -59,12 +59,18 @@ class ExternalUser < ActiveRecord::Base
     end
   end
 
+  def litigator_claim_types
+    litigator_claim_types = [Claim::LitigatorClaim]
+    litigator_claim_types.concat [Claim::InterimClaim] if Settings.allow_lgfs_interim_fees?
+    litigator_claim_types
+  end
+
   def available_claim_types
     claim_types = []
     self.roles.each do |role|
-      claim_types = [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] if role == 'admin'
+      claim_types = [ Claim::AdvocateClaim, *litigator_claim_types ] if role == 'admin'
       claim_types.concat [ Claim::AdvocateClaim ] if role == 'advocate'
-      claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim ] if role == 'litigator'
+      claim_types.concat litigator_claim_types if role == 'litigator'
     end
     claim_types.uniq
   end

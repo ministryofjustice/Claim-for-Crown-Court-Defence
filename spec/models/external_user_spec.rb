@@ -257,9 +257,13 @@ RSpec.describe ExternalUser, type: :model do
 
   describe 'available_claim_types' do
     let(:advocate)            { build(:external_user, :advocate) }
-    let(:litigator)           { build(:external_user, :litigator) }   
-    let(:admin)               { build(:external_user, :admin) }   
-    let(:advocate_litigator)  { build(:external_user, :advocate_litigator) }   
+    let(:litigator)           { build(:external_user, :litigator) }
+    let(:admin)               { build(:external_user, :admin) }
+    let(:advocate_litigator)  { build(:external_user, :advocate_litigator) }
+
+    before(:each) do
+      allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
+    end
 
     it 'returns advocate claims for advocates' do
       expect(advocate.available_claim_types).to eq( [ Claim::AdvocateClaim ] )

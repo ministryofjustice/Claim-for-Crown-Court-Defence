@@ -5,6 +5,7 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
   include ViewSpecHelper
 
   before(:each) do
+    allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
     initialize_view_helpers(view)
   end
 
@@ -20,6 +21,10 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
         expect(response.body).to include("Litigator final fee")
         expect(response.body).to include("Litigator interim fee")
       end
+
+      it "should default to selecting Advocaet fees" do
+        expect(response.body).to have_checked_field(:scheme_chosen_agfs)
+      end
     end
 
     context 'when logged in as litigator' do
@@ -32,6 +37,11 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
         expect(response.body).to include("Litigator final fee")
         expect(response.body).to include("Litigator interim fee")
       end
+
+      it "should default to selecting Litigator final fee" do
+        expect(response.body).to have_checked_field(:scheme_chosen_lgfs_final)
+      end
+
     end
 
     context 'when logged in as advocate' do

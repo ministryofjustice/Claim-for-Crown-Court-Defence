@@ -12,10 +12,10 @@
 
       - if @claim_types.include?(Claim::LitigatorClaim)
         = label_tag :scheme_chosen_lgfs_final, nil, class: "block-label" do
-          = radio_button_tag :scheme_chosen, "lgfs_final", false
+          = radio_button_tag :scheme_chosen, "lgfs_final", !@claim_types.include?(Claim::AdvocateClaim)
           = t('.lgfs_final_rb')
 
-      - if @claim_types.include?(Claim::InterimClaim)
+      - if @claim_types.include?(Claim::InterimClaim) && Settings.allow_lgfs_interim_fees?
         = label_tag :scheme_chosen_lgfs_interim, nil, class: "block-label" do
           = radio_button_tag :scheme_chosen, "lgfs_interim", false
           = t('.lgfs_interim_rb')

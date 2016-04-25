@@ -4,6 +4,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
   let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
   before { sign_in agfs_lgfs_admin.user }
+  before { allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true }
 
   describe 'GET #selection' do
     context 'admin of AGFS and LGFS provider' do
@@ -30,7 +31,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(response).to redirect_to(new_advocates_claim_path)
       end
     end
-    
+
     context 'admin of LGFS provider' do
       let!(:lgfs_admin) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
       before { sign_in lgfs_admin.user }

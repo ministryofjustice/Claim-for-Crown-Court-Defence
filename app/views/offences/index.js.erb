@@ -1,4 +1,4 @@
-<% if params[:description] =~ /Please select/ %>
+<% if params[:description].blank? %>
   $('.offence-class-select').html('')
   $('.offence-class-select').hide();
 <% else %>

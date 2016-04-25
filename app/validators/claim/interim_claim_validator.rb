@@ -27,22 +27,60 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   private
 
   def validate_first_day_of_trial
-    validate_presence(:first_day_of_trial, 'blank') if requires_trial_dates?
+    if @record.interim_fee.try(:is_trial_start?)
+      validate_presence(:first_day_of_trial, 'blank')
+    else
+      validate_absence(:first_day_of_trial, 'present')
+    end
+  end
+
+  def validate_estimated_trial_length
+    if @record.interim_fee.try(:is_trial_start?)
+      validate_presence(:estimated_trial_length, 'blank')
+      validate_numericality(:estimated_trial_length, 0, nil, 'invalid')
+    else
+      validate_absence_or_zero(:estimated_trial_length, 'present')
+    end
   end
 
   def validate_trial_concluded_at
-    validate_presence(:trial_concluded_at, 'blank') if requires_trial_dates?
+    if @record.interim_fee.try(:is_retrial_new_solicitor?)
+      validate_presence(:trial_concluded_at, 'blank')
+    else
+      validate_absence(:trial_concluded_at, 'present')
+    end
   end
 
   def validate_retrial_started_at
-    validate_presence(:retrial_started_at, 'blank') if requires_trial_dates?
+    if @record.interim_fee.try(:is_retrial_start?)
+      validate_presence(:retrial_started_at, 'blank')
+    else
+      validate_absence(:retrial_started_at, 'present')
+    end
+  end
+
+  def validate_retrial_estimated_length
+    if @record.interim_fee.try(:is_retrial_start?)
+      validate_presence(:retrial_estimated_length, 'blank')
+      validate_numericality(:retrial_estimated_length, 0, nil, 'invalid')
+    else
+      validate_absence_or_zero(:retrial_estimated_length, 'present')
+    end
   end
 
   def validate_effective_pcmh_date
-    validate_presence(:effective_pcmh_date, 'blank') if @record.interim_fee.try(:is_effective_pcmh?)
+    if @record.interim_fee.try(:is_effective_pcmh?)
+      validate_presence(:effective_pcmh_date, 'blank')
+    else
+      validate_absence(:effective_pcmh_date, 'present')
+    end
   end
 
   def validate_legal_aid_transfer_date
-    validate_presence(:effective_pcmh_date, 'blank') if @record.interim_fee.try(:is_retrial_new_solicitor?)
+    if @record.interim_fee.try(:is_retrial_new_solicitor?)
+      validate_presence(:legal_aid_transfer_date, 'blank')
+    else
+      validate_absence(:legal_aid_transfer_date, 'present')
+    end
   end
 end

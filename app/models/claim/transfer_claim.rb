@@ -46,10 +46,9 @@
 #  case_concluded_at        :date
 #  transfer_court_id        :integer
 #  supplier_number          :string
+#  effective_pcmh_date      :date
+#  legal_aid_transfer_date  :date
 #
-
-
-
 
 # TODO make this class derive from Claim::BaseClaim or Claim::LitigatorClaim
 

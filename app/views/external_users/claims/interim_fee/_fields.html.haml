@@ -1,0 +1,58 @@
+#interim-fee
+  %h2.bold-medium
+    = t('.interim_fees')
+  %p.form-hint.xsmall
+    = t('.interim_fees_prompt_text_html')
+
+  = f.fields_for :interim_fee do |inf|
+    .interim-fee-group.nested-fields
+      %fieldset
+        .form-row
+          .form-col
+            = inf.label :fee_type, t('.fee_type')
+            = inf.anchored_attribute 'fee_type'
+            - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
+            = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control'}
+            = validation_error_message(@error_presenter, 'interim_fee.fee_type')
+
+          .form-col
+            = inf.label :quantity, t('.ppe_total')
+            = inf.anchored_attribute 'quantity'
+            = inf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+            = validation_error_message(@error_presenter, 'interim_fee.quantity')
+
+          .form-col
+            = inf.label :amount, t('.total')
+            .pound-wrapper
+              = inf.anchored_attribute 'amount'
+              = inf.text_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'amount form-control medium-input'
+            = validation_error_message(@error_presenter, 'interim_fee.amount')
+
+        .form-row
+          .form-col
+            = f.anchored_without_label 'effective_pcmh_date'
+            = f.gov_uk_date_field(:effective_pcmh_date, legend_text: t('.effective_pcmh'), legend_class: 'govuk-legend', placeholders: true)
+          .form-col
+            = f.anchored_without_label 'legal_aid_transfer_date'
+            = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', placeholders: true)
+
+        .form-row
+          .form-col
+            = f.anchored_without_label 'first_day_of_trial'
+            = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', placeholders: true)
+          .form-col
+            = f.anchored_without_label 'trial_concluded_at'
+            = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true)
+          .form-col
+            = f.anchored_label(t('.estimated_trial_length'), :estimated_trial_length, { label_attributes: {class: 'form-label'} })
+            = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
+            = validation_error_message(@error_presenter, :estimated_trial_length)
+
+        .form-row
+          .form-col
+            = f.anchored_without_label 'retrial_started_at'
+            = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', placeholders: true)
+          .form-col
+            = f.anchored_label(t('.retrial_estimated_length'), :retrial_estimated_length, { label_attributes: {class: 'form-label'} })
+            = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control'
+            = validation_error_message(@error_presenter, :retrial_estimated_length)

@@ -88,14 +88,14 @@ class ErrorMessageTranslator
 
   def extract_last_submodel_attribute(translations, key)
     parent_model, attribute = last_parent_attribute(translations,key)
-    translation_subset = translations[parent_model]
+    translation_subset = translations.fetch(parent_model, {})
     [translation_subset, attribute]
   end
 
   def extract_submodel_attribute(translations, key)
     key =~ @submodel_regex
     parent_model, attribute = $1, $2
-    translation_subset = translations[parent_model]
+    translation_subset = translations.fetch(parent_model, {})
     [translation_subset, attribute]
   end
 

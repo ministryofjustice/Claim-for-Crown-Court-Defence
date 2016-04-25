@@ -29,6 +29,10 @@ class BaseValidator < ActiveModel::Validator
     I18n.t "activerecord.errors.models.#{model}.attributes.#{attribute}.#{error}"
   end
 
+  def steps_range(record)
+    record.from_api? ? (0..9) : (0..record.current_step_index)
+  end
+
   def attr_nil?(attribute)
     @record.__send__(attribute).nil?
   end

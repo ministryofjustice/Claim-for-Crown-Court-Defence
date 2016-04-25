@@ -75,10 +75,6 @@ module Claim
       Fee::FixedFeeType.top_levels.agfs
     end
 
-    def supplier_number_regex
-      ExternalUser::SUPPLIER_NUMBER_REGEX
-    end
-
     def external_user_type
       :advocate
     end

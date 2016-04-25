@@ -19,65 +19,32 @@ module Claim
 
     let(:detail)  { build :transfer_detail }
 
-    context 'validations' do
-
-      it { should validate_presence_of(:claim).with_message('blank') }
-      it { should validate_presence_of(:litigator_type).with_message('blank') }
-      it { should validate_presence_of(:transfer_stage_id).with_message('blank') }
-      it { should validate_presence_of(:transfer_date).with_message('blank') }
-
-      it { should validate_inclusion_of(:litigator_type).in_array( %w{ original new }) }
-      it { should validate_inclusion_of(:transfer_stage_id).in_array( [ 10, 20, 30, 40, 50, 60 ]).with_message('not_in_list') }
-
-      context 'case_conclusion_id' do
-        context 'original litigator type' do
-          it 'validates that the case_conclusion is absent' do
-            detail.litigator_type = 'original'
-            detail.case_conclusion_id = 10
-            expect(detail).not_to be_valid
-            expect(detail.errors[:case_conclusion]).to eq(['invalid_original'])
-          end
-
-          it 'allows blank conclusion id' do
-            detail.litigator_type = 'original'
-            detail.case_conclusion_id = nil
-            expect(detail).to be_valid
-          end
-        end
+    describe '#unpopulated?' do
+      it 'returns true for an empty object' do
+        detail = TransferDetail.new
+        expect(detail).to be_unpopulated
       end
 
-      context 'new litigator type' do
-        context 'elected case true' do
-
-          let(:detail)   { build :transfer_detail, litigator_type: 'new', elected_case: true }
-
-          it 'validates that case conclusion is absent' do
-            detail.case_conclusion_id = nil
-            expect(detail).to be_valid
-          end
-          it 'throws error if present' do
-            detail.case_conclusion_id = 10
-            expect(detail).not_to be_valid
-            expect(detail.errors[:case_conclusion]).to eq( [ 'invalid_new_elected'] )
-          end
-        end
-
-        context 'elected case false' do
-          let(:detail)   { build :transfer_detail, litigator_type: 'new', elected_case: false }
-
-          it 'validates that case conclusion id is present' do
-            detail.case_conclusion_id = 10
-            expect(detail).to be_valid
-          end
-          it 'errors if absent' do
-            detail.case_conclusion_id = nil
-            expect(detail).not_to be_valid
-            expect(detail.errors[:case_conclusion]).to eq (['invalid_new_non_elected'])
-          end
-        end
-
+      it 'returns false if any fields are populated' do
+        detail = TransferDetail.new(elected_case: false)
+        expect(detail).not_to be_unpopulated
       end
     end
 
+    describe  '#errors?' do
+      it 'returns false if there are no errors relating to transfer_detail fields' do
+        expect(detail.errors?).to be false
+      end
+
+      it 'returns true if any of the transfer detail fields are marked as in error on the claim' do
+        detail.claim.errors[:litigator_type] << 'error'
+        expect(detail.errors?).to be true
+      end
+
+      it 'reteurns false if claim is nil' do
+        detail.claim = nil
+        expect(detail.errors?).to be false
+      end
+    end
   end
 end

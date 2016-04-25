@@ -50,25 +50,56 @@
 #  legal_aid_transfer_date  :date
 #
 
-# TODO make this class derive from Claim::BaseClaim or Claim::LitigatorClaim
-
-
-
-
-
 module Claim
-  class TransferClaim < ActiveRecord::Base
-
-    self.table_name = :claims
+  class TransferClaim < BaseClaim
 
     has_one :transfer_detail, foreign_key: :claim_id
 
+    validates_with TransferClaimValidator
+
+    after_initialize do
+      self.transfer_detail = TransferDetail.new if self.transfer_detail.nil?
+    end
+
+
+    # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
+    # So we have to do this instead.  Probably good to put it in a gem eventually.
+    #
+    DELEGATED_ATTRS = [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :case_conclusion_id ]
+
+    DELEGATED_ATTRS.each do |getter_method|
+      define_method getter_method do
+        proxy_transfer_detail.__send__(getter_method)
+      end
+
+      setter_method = "#{getter_method}=".to_sym
+      define_method setter_method do |value|
+        proxy_transfer_detail.__send__(setter_method, value)
+      end
+    end
+
+    def proxy_transfer_detail
+      self.transfer_detail ||= TransferDetail.new
+    end
+
+    def external_user_type
+      :litigator
+    end
+
+
+    def eligible_case_types
+      CaseType.lgfs
+    end
 
     # private
     # def destroy_all_invalid_fee_types
     #   # noop
     # end
 
-  end
+    private
 
+    def provider_delegator
+      provider
+    end
+  end
 end

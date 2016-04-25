@@ -61,11 +61,12 @@ module Claim
 
 
     def self.details_combo_valid?(detail)
-      TransferBrainDataItemCollection.instance.detail_valid?(detail)
+      TransferBrainDataItemCollection.instance.detail_valid?(detail) unless detail.errors?
     end
 
     def self.data_attributes
       TransferBrainDataItemCollection.instance.to_json.chomp
     end
+
   end
 end

@@ -30,6 +30,10 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
 
   private
 
+  def supplier_number_regex
+    ExternalUser::SUPPLIER_NUMBER_REGEX
+  end
+
   def validate_creator
     super if defined?(super)
     validate_has_role(@record.creator.try(:provider), :agfs, :creator, 'must be from a provider with permission to submit AGFS claims')
@@ -49,6 +53,6 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_supplier_number
-    validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid') if @record.supplier_number
+    validate_pattern(:supplier_number, supplier_number_regex, 'invalid') if @record.supplier_number
   end
 end

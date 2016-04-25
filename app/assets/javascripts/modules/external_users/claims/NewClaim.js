@@ -36,7 +36,8 @@ moj.Modules.NewClaim = {
       self.$offenceCategorySelect.change();
     }
     else {
-      $('#claim_offence_id').val($('#offence_class_description').val());
+      if($('#offence_class_description').val())
+        $('#claim_offence_id').val($('#offence_class_description').val());
     }
 
     self.attachToOffenceClassSelect();

@@ -41,6 +41,7 @@
           self.copySelectedValue(input, select);
         },
         'click': function(){
+          this.value = '';
           self.open(awesompleteElement);
         }
       });     

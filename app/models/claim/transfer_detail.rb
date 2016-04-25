@@ -43,6 +43,10 @@ module Claim
       end
     end
 
+    def allocation_type
+      TransferBrain.allocation_type(self)
+    end
+
     def unpopulated?
       self.litigator_type.nil? && self.elected_case.nil? && self.transfer_stage_id.nil? && self.case_conclusion_id.nil?
     end

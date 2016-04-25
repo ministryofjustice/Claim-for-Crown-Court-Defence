@@ -48,6 +48,7 @@
 #  supplier_number          :string
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
+#  allocation_type          :string
 #
 
 require "rails_helper"
@@ -60,11 +61,34 @@ describe Claim::TransferClaim, type: :model do
   describe '.new' do
     let(:today) { Date.today }
 
-    it 'creates an empty transfer detail class upon instantiation of a new object' do
+    it 'does not create a transfer detail if no params are passed to new' do
       claim = Claim::TransferClaim.new
+      expect(claim.transfer_detail).to be_nil
+    end
+
+    it 'builds a transfer detail if one of the transfer detail attributes is mentioned in a .new' do
+      claim = Claim::TransferClaim.new(elected_case: true)
+      expect(claim.transfer_detail).not_to be_nil
+      expect(claim.elected_case)
+    end
+
+    it 'builds a transfer detail on an existing claim when detail getter first used' do
+      claim = Claim::TransferClaim.new
+      expect(claim.transfer_detail).to be_nil
+      claim.litigator_type
       expect(claim.transfer_detail).not_to be_nil
       expect(claim.transfer_detail).to be_unpopulated
     end
+
+    it 'builds a transfer detail on an existing claim when detail setter first used' do
+      claim = Claim::TransferClaim.new
+      expect(claim.transfer_detail).to be_nil
+      claim.litigator_type = 'original'
+      expect(claim.transfer_detail).not_to be_nil
+      expect(claim.transfer_detail.litigator_type).to eq 'original'
+      expect(claim.litigator_type).to eq 'original'
+    end
+
 
     it 'populates transfer detail with transfer detail attributes' do
       claim = Claim::TransferClaim.new(case_number: 'A12345678', litigator_type: "new", elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)

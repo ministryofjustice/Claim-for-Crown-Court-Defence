@@ -1,5 +1,5 @@
 module Claims::StateMachine
-  ARCHIVE_VALIDITY = 180.days
+  ARCHIVE_VALIDITY  = 180.days
   STANDARD_VALIDITY = 21.days
 
   EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w( draft )
@@ -68,6 +68,7 @@ module Claims::StateMachine
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
       before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
       after_transition on: :deallocate, do: :reset_state
+      before_transition on: :submit,                  do: :set_allocation_type
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
@@ -158,6 +159,10 @@ module Claims::StateMachine
 
   def set_amount_assessed_zero!
     self.assessment.zeroize! if self.state == 'allocated'
+  end
+
+  def set_allocation_type
+    self.set_allocation_type
   end
 
   def remove_case_workers!

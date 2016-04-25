@@ -14,7 +14,7 @@ module Claim
         @validity                 = arry.shift.to_bool
         @visibility               = get_visibility(arry.shift)
         @transfer_fee_full_name   = arry.shift
-        @allocation_case_type     = arry.shift
+        @allocation_type          = arry.shift
       rescue => err
         puts "#{err.class}: #{err.message}"
         ap copy_array
@@ -40,7 +40,7 @@ module Claim
                 :visibility => @visibility,
                 :validity => @validity,
                 :transfer_fee_full_name => @transfer_fee_full_name,
-                :allocation_case_type => @allocation_case_type
+                :allocation_type => @allocation_type
               }
             }
           }

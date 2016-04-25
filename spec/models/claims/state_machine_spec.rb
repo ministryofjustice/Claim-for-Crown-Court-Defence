@@ -241,4 +241,13 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(ClaimStateTransition.last.to).to eq(expected[:to])
     end
   end
+
+  describe 'before submit state transition' do
+    it 'sets the allocation_type for trasfer_claims' do
+      claim = build :transfer_claim
+      expect(claim.allocation_type).to be nil
+      claim.submit!
+      expect(claim.allocation_type).to eq 'Grad'
+    end
+  end
 end

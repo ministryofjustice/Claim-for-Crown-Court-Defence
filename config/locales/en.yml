@@ -502,6 +502,7 @@ en:
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
+          vat_amount: 'VAT amount'
           expenses: 'Expenses'
           expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
           expense_type: 'Type of expense'
@@ -679,6 +680,7 @@ en:
       actions: Actions
     summary:
       amount: Amount
+      vat_amount: VAT amount
       date: Date
       distance: Distance
       fee_category: Fee category

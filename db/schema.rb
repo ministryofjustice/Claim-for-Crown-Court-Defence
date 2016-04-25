@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(version: 20160422103856) do
     t.integer  "mileage_rate_id"
     t.date     "date"
     t.integer  "hours"
+    t.decimal  "vat_amount",      default: 0.0
   end
 
   add_index "expenses", ["claim_id"], name: "index_expenses_on_claim_id", using: :btree

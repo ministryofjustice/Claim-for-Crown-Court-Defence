@@ -83,6 +83,7 @@ GEM
       sass (>= 3.2.0)
     builder (3.2.2)
     byebug (8.2.2)
+    callsite (0.0.11)
     cancancan (1.13.1)
     capybara (2.6.2)
       addressable
@@ -184,6 +185,7 @@ GEM
     ffi (1.9.10)
     formatador (0.2.5)
     gherkin (3.2.0)
+    git-version-bump (0.15.1)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     gov_uk_date_fields (1.0.6)
@@ -321,6 +323,10 @@ GEM
     lumberjack (1.0.10)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    meta_request (0.3.4)
+      callsite (~> 0.0, >= 0.0.11)
+      rack-contrib (~> 1.1)
+      railties (>= 3.0.0, < 5.0.0)
     method_source (0.8.2)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
@@ -378,6 +384,9 @@ GEM
     rack (1.6.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-contrib (1.4.0)
+      git-version-bump (~> 0.15)
+      rack (~> 1.4)
     rack-livereload (0.3.16)
       rack
     rack-mount (0.8.3)
@@ -527,6 +536,7 @@ GEM
       state_machines-activemodel (>= 0.3.0)
     state_machines-audit_trail (1.0.2)
       state_machines
+    string-to-bool (0.0.1)
     susy (2.2.12)
       sass (>= 3.3.0, < 3.5)
     term-ansicolor (1.3.2)
@@ -570,9 +580,6 @@ GEM
     websocket-extensions (0.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    yaml_db (0.3.0)
-      rails (>= 3.0, < 4.3)
-      rake (>= 0.8.7)
     zendesk_api (1.12.1)
       faraday (~> 0.9)
       hashie (>= 1.2, < 4.0, != 3.3.0)
@@ -629,6 +636,7 @@ DEPENDENCIES
   libreconv (~> 0.9.0)
   listen (~> 2.10.0)
   logstasher (>= 0.6.5)
+  meta_request (~> 0.3.4)
   paper_trail (~> 4.0.0.rc)
   paperclip (~> 4.2.2)
   parallel_tests
@@ -666,13 +674,13 @@ DEPENDENCIES
   state_machine (~> 1.2.0)
   state_machines-activerecord
   state_machines-audit_trail
+  string-to-bool (~> 0.0)
   susy (~> 2.2.12)
   timecop (~> 0.7.4)
   uglifier (>= 1.3.0)
   unicorn-rails (= 2.2.0)
   webmock (~> 1.21.0)
   webrick (~> 1.3)
-  yaml_db
   zendesk_api (= 1.12.1)
 
 BUNDLED WITH

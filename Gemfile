@@ -50,14 +50,19 @@ gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'uglifier',                '>= 1.3.0'
-gem 'yaml_db'
-gem 'zendesk_api'  ,       '1.12.1'
-gem 'premailer-rails', '~> 1.9'
-gem 'sidekiq', '~> 4.1'
+# gem 'yaml_db'
+gem 'zendesk_api'  ,           '1.12.1'
+gem 'premailer-rails',         '~> 1.9'
+gem 'sidekiq',                 '~> 4.1'
+gem 'string-to-bool',          '~> 0.0'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
   gem 'unicorn-rails',  '2.2.0'
+end
+
+group :development do
+  gem 'meta_request', '~> 0.3.4'
 end
 
 group :development, :test do

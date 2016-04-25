@@ -19,6 +19,7 @@
 #  mileage_rate_id :integer
 #  date            :date
 #  hours           :integer
+#  vat_amount      :decimal          default(0.0)
 #
 
 require 'rails_helper'
@@ -88,7 +89,7 @@ RSpec.describe Expense, type: :model do
   end
 
   describe 'comma formatted inputs' do
-    [:rate, :quantity, :amount].each do |attribute|
+    [:rate, :quantity, :amount, :vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         expense = build(:expense)
         expense.send("#{attribute}=", '12,321,111')

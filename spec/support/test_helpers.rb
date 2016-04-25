@@ -20,10 +20,11 @@ module TestHelpers
   end
 
   def expect_valid_attribute(record, attribute, value)
-    error_attribute = attribute if error_attribute.nil?
+    # error_attribute = attribute if error_attribute.nil?
     set_value(record, attribute, value)
     record.valid?
-    expect(record.errors.keys).not_to include(error_attribute)
+    expect(no_error_for(record, attribute)).to be true
+    # expect(record.errors.keys).not_to include(error_attribute)
   end
 
   def set_value(record, attribute, value)
@@ -31,5 +32,11 @@ module TestHelpers
     record.__send__(setter_method, value)
     record.form_step = 2
     record.force_validation = true
+  end
+
+  def no_error_for(record, attribute)
+    return true unless record.errors.keys.include?(attribute)
+    return true if record.errors[attribute].empty?
+    return false
   end
 end

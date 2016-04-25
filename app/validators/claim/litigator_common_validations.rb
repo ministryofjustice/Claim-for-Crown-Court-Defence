@@ -26,13 +26,18 @@ module Claim
 
       return unless @record.supplier_number.present?
 
-      validate_pattern(:supplier_number, @record.supplier_number_regex, 'invalid')
+      validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
       validate_inclusion(:supplier_number, provider_supplier_numbers, 'unknown') unless @record.errors.key?(:supplier_number)
     end
 
 
     # local helpers
     # ---------------------------
+
+
+    def supplier_number_regex
+      SupplierNumber::SUPPLIER_NUMBER_REGEX
+    end
 
     def provider_supplier_numbers
       @record.provider.supplier_numbers.pluck(:supplier_number) rescue []

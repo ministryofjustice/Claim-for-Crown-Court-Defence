@@ -365,10 +365,6 @@ module Claim
       provider_delegator.vat_registered?
     end
 
-    def supplier_number_regex
-      super
-    end
-
     def allows_graduated_fees?
       case_type.try(:graduated_fee_type).present?
     end

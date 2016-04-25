@@ -51,8 +51,10 @@ module Claim
     end
 
     def detail_valid?(detail)
+      return false if detail.unpopulated?
       data_item = data_item_for(detail)
-      data_item.nil? ? false : data_item[:validity]
+      return false if data_item.nil?
+      data_item[:validity]
     end
 
     private

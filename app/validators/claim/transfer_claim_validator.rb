@@ -7,7 +7,6 @@ module Claim
         [
           :case_type,
           :court,
-          :case_number,
           :advocate_category,
           :offence,
           :case_concluded_at
@@ -19,7 +18,7 @@ module Claim
           :transfer_date,
           :case_conclusion_id,
           :transfer_detail_combo,
-          # :first_day_of_trial,
+          :first_day_of_trial,
           # :estimated_trial_length,
           # :trial_concluded_at,
           # :retrial_started_at,

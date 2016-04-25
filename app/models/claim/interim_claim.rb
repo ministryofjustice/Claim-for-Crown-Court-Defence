@@ -72,10 +72,6 @@ module Claim
       Fee::InterimFeeType.top_levels
     end
 
-    def supplier_number_regex
-      SupplierNumber::SUPPLIER_NUMBER_REGEX
-    end
-
     def external_user_type
       :litigator
     end

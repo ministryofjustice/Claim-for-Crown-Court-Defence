@@ -6,7 +6,7 @@ require_relative 'shared_examples_for_advocate_litigator'
 module Claim
   describe(Claim::TransferClaimValidator) do
 
-    let(:claim) { TransferClaim.new }
+    let(:claim) { build :transfer_claim }
 
     context 'litigator type' do
       it 'errors if not new or original' do
@@ -30,7 +30,7 @@ module Claim
       end
     end
 
-    context 'transfer_stage' do
+    context 'transfer_stage_id' do
       it 'errors if invalid id' do
         expect_invalid_attribute_with_message(claim, :transfer_stage_id, 33, 'invalid')
       end
@@ -93,6 +93,16 @@ module Claim
       end
     end
 
-  end
+    context 'first day of trial' do
+      let(:claim) do
+        claim = build :transfer_claim, :trial
+        claim.defendants << build(:defendant)
+        claim
+      end
 
+      it 'errors if blank' do
+        expect_invalid_attribute_with_message(claim, :first_day_of_trial, nil, 'blank')
+      end
+    end
+  end
 end

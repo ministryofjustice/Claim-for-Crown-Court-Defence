@@ -63,7 +63,7 @@ describe Claim::TransferClaim, type: :model do
     it 'creates an empty transfer detail class upon instantiation of a new object' do
       claim = Claim::TransferClaim.new
       expect(claim.transfer_detail).not_to be_nil
-      expect(claim.transfer_detail).to be_blank
+      expect(claim.transfer_detail).to be_unpopulated
     end
 
     it 'populates transfer detail with transfer detail attributes' do

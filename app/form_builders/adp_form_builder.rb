@@ -22,6 +22,9 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     anchor_and_label_markup(anchor_name, nil, options)
   end
 
+  # Use this helper to generate the correct anchor for has_one attributes,
+  # do not use it for attributes in the object being rendered.
+  #
   def anchored_attribute(attribute, options = {})
     resource = object.class.name.demodulize.underscore
     anchor_name = [resource, attribute.gsub(' ', '_')].join('.').downcase

@@ -15,10 +15,11 @@
 #
 
 class Fee::InterimFeeType < Fee::BaseFeeType
+  include Fee::InterimFeeTypeCodes
 
   default_scope -> { order(parent_id: :desc, description: :asc) }
 
-  scope :top_levels,              -> { where(parent_id: nil) }
+  scope :top_levels, -> { where(parent_id: nil) }
 
   def fee_category_name
     'Interim Fees'

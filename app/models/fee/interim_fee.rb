@@ -16,13 +16,12 @@
 #  warrant_executed_date :date
 #  sub_type_id           :integer
 #  case_numbers          :string
-#  disbursement_type_id  :integer
 #
 
 class Fee::InterimFee < Fee::BaseFee
+  include Fee::InterimFeeTypeCodes
 
   belongs_to :fee_type, class_name: Fee::InterimFeeType
-  belongs_to :disbursement_type
 
   validates_with Fee::InterimFeeValidator
 
@@ -30,27 +29,7 @@ class Fee::InterimFee < Fee::BaseFee
     true
   end
 
-  def is_disbursement?
-    fee_type_code == 'IDISO'
-  end
-
-  def is_warrant?
-    fee_type_code == 'IWARR'
-  end
-
-  def is_effective_pcmh?
-    fee_type_code == 'IPCMH'
-  end
-
-  def is_trial_start?
-    fee_type_code == 'ITST'
-  end
-
-  def is_retrial_start?
-    fee_type_code == 'IRST'
-  end
-
-  def is_retrial_new_solicitor?
-    fee_type_code == 'IRNS'
+  def code
+    fee_type.try(:code)
   end
 end

@@ -16,7 +16,6 @@
 #  warrant_executed_date :date
 #  sub_type_id           :integer
 #  case_numbers          :string
-#  disbursement_type_id  :integer
 #
 
 module Fee
@@ -96,7 +95,7 @@ module Fee
     end
 
     def blank?
-      self.quantity == 0 && self.amount == 0
+      [0, nil].include?(self.quantity) && [0, nil].include?(self.amount) && [0, nil].include?(self.rate)
     end
 
     def present?
@@ -109,10 +108,6 @@ module Fee
 
     def category
       fee_type.fee_category.abbreviation
-    end
-
-    def fee_type_code
-      fee_type.try(:code)
     end
 
     def clear

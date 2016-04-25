@@ -83,7 +83,7 @@ FactoryGirl.define do
         description 'Warrant'
       end
 
-      trait :pcmh do
+      trait :effective_pcmh do
         code 'IPCMH'
         description 'Effective PCMH'
       end

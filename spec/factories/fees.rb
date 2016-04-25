@@ -16,7 +16,6 @@
 #  warrant_executed_date :date
 #  sub_type_id           :integer
 #  case_numbers          :string
-#  disbursement_type_id  :integer
 #
 
 FactoryGirl.define do
@@ -48,30 +47,29 @@ FactoryGirl.define do
     end
 
     factory :interim_fee, class: Fee::InterimFee do
-      claim
+      claim { build :interim_claim }
       fee_type { build :interim_fee_type }
       quantity  nil
       amount  245.56
       uuid SecureRandom.uuid
       rate nil
-      disbursement_type { build :disbursement_type }
 
       trait :disbursement do
+        claim { build :interim_claim, disbursements: build_list(:disbursement, 1) }
         fee_type { build :interim_fee_type, :disbursement }
         amount nil
       end
 
       trait :warrant do
+        claim { build :interim_claim, warrant_fee: build(:warrant_fee, amount: 10.0) }
         fee_type { build :interim_fee_type, :warrant }
         amount nil
-        disbursement_type nil
       end
 
-      trait :pcmh do
-        fee_type { build :interim_fee_type, :pcmh }
+      trait :effective_pcmh do
+        fee_type { build :interim_fee_type, :effective_pcmh }
         quantity 1
       end
-
     end
 
     factory :basic_fee, class: Fee::BasicFee do

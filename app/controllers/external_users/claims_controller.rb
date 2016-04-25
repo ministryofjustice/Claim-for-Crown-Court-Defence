@@ -266,12 +266,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
           :claim_id,
           :fee_type_id,
           :amount,
-          :disbursement_type_id
+          :quantity
       ],
       warrant_fee_attributes: [
           :id,
           :claim_id,
           :fee_type_id,
+          :amount,
           date_attributes_for(:warrant_issued_date),
           date_attributes_for(:warrant_executed_date)
       ],

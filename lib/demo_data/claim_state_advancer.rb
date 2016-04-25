@@ -39,11 +39,7 @@ module DemoData
     end
 
     def submit(claim)
-      if claim.instance_of? Claim::AdvocateClaim
-        add_message(claim, claim.external_user)
-      else
-        add_message(claim, claim.creator)
-      end
+      add_message(claim, claim.external_user)
       claim.update(last_submitted_at: rand(0..180).days.ago)
       claim.submit!
     end

@@ -349,7 +349,8 @@ en:
     all_claims: All claims
     your_claims: Your claims
     start_agfs_claim_heading: Claim for advocate graduated fees
-    start_lgfs_claim_heading: Claim for litigator graduated fees
+    start_lgfs_final_claim_heading: Claim for litigator graduated fees
+    start_lgfs_interim_claim_heading: Claim for litigator interim fees
     certifications:
       new:
         prohibited_save: This claim certification has
@@ -359,6 +360,9 @@ en:
     claim_types:
       selection:
         choose_fee_scheme_prompt_text: Choose your fee scheme
+        agfs_rb: Advocate fees
+        lgfs_final_rb: Litigator final fee
+        lgfs_interim_rb: Litigator interim fee
     claims:
       additional_information:
         fields:

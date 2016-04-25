@@ -14,9 +14,9 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
   def chosen
     @claim_types << if params['scheme_chosen'].downcase == 'agfs'
                       Claim::AdvocateClaim
-                    elsif params['scheme_chosen'].downcase == 'lgfs'
+                    elsif params['scheme_chosen'].downcase == 'lgfs_final'
                       Claim::LitigatorClaim
-                    elsif params['scheme_chosen'].downcase == 'interim'
+                    elsif params['scheme_chosen'].downcase == 'lgfs_interim'
                       Claim::InterimClaim
                     end
     redirect_for_claim_type

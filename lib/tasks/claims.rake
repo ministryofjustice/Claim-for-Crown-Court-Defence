@@ -16,8 +16,10 @@ namespace :claims do
     load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
     require File.join(Rails.root, 'lib', 'demo_data', 'advocate_claim_generator')
     require File.join(Rails.root, 'lib', 'demo_data', 'litigator_claim_generator')
+    require File.join(Rails.root, 'lib', 'demo_data', 'interim_claim_generator')
     DemoData::AdvocateClaimGenerator.new(num_external_users: 2).run
     DemoData::LitigatorClaimGenerator.new(num_external_users: 2).run
+    DemoData::InterimClaimGenerator.new(num_external_users: 2).run
   end
 
   desc  'ADP Task: Delete sample providers'

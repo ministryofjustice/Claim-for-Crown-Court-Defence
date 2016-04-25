@@ -16,7 +16,7 @@ module DemoData
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users]
       @num_claims = options[:num_claims_per_state]
-      @external_user_persona = self.instance_of?(DemoData::LitigatorClaimGenerator) ? :litigator : :advocate
+      @external_user_persona = self.kind_of?(DemoData::LgfsSchemeClaimGenerator) ? :litigator : :advocate
     end
 
     def run
@@ -80,7 +80,7 @@ module DemoData
     end
 
     def add_defendants(claim)
-      rand(1..5).times { FactoryGirl.create(:defendant, claim: claim) }
+      rand(1..3).times { FactoryGirl.create(:defendant, claim: claim) }
       claim.save!
       claim.reload
     end

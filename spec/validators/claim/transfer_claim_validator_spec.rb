@@ -59,6 +59,42 @@ module Claim
       end
     end
 
+    context 'trial dates validation' do
+      context 'case type: trial' do
+
+        let(:claim) { build :transfer_claim, :trial }
+
+        context 'first_day_of_trial' do
+          it 'is invalid if not present' do
+            expect_invalid_attribute_with_message(claim, :first_day_of_trial, nil, 'blank')
+          end
+          it 'is invalid if the start date is in the future' do
+            expect_invalid_attribute_with_message(claim, :first_day_of_trial, 1.day.from_now, 'blank')
+          end
+        end
+
+        context 'trial_concluded_at' do
+          it 'is invalid if not present' do
+            expect_invalid_attribute_with_message(claim, :trial_concluded_at, nil, 'blank')
+          end
+          it 'is invalid if before the trial start date' do
+            claim.first_day_of_trial = 5.days.ago
+            expect_invalid_attribute_with_message(claim, :trial_concluded_at, 6.days.ago, 'blank')
+          end
+        end
+
+        context 'estimated trial length' do
+          it 'is invalid if absent' do
+            expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
+          end
+          it 'is invalid if negative' do
+            expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
+          end
+        end
+
+      end
+    end
+
     context 'case_conclusion' do
       it 'is valid if nil' do
         expect_valid_attribute claim, :case_conclusion_id, nil

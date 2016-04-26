@@ -61,7 +61,8 @@ class ExternalUser < ActiveRecord::Base
 
   def litigator_claim_types
     litigator_claim_types = [Claim::LitigatorClaim]
-    litigator_claim_types.concat [Claim::InterimClaim] if Settings.allow_lgfs_interim_fees?
+    litigator_claim_types << Claim::InterimClaim if Settings.allow_lgfs_interim_fees?
+    litigator_claim_types << Claim::TransferClaim if Settings.allow_lgfs_transfer_fees?
     litigator_claim_types
   end
 

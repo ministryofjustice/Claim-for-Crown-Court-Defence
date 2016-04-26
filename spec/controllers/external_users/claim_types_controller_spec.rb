@@ -5,14 +5,16 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
   let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
   before { sign_in agfs_lgfs_admin.user }
   before { allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true }
+  before { allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true }
 
   describe 'GET #selection' do
     context 'admin of AGFS and LGFS provider' do
       before { get :selection }
 
       it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(assigns(:claim_types)).to match_array [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
       end
+
       it "should render claim type options page" do
         expect(response).to render_template(:selection)
       end
@@ -38,7 +40,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       before { get :selection }
 
       it "should assign claim_types based on provider roles" do
-        expect(assigns(:claim_types)).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(assigns(:claim_types)).to match_array [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
       end
 
       it "should render claim type options page" do
@@ -52,7 +54,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       before { get :selection }
 
       it "should assign claim_types based on external_user roles" do
-        expect(assigns(:claim_types)).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(assigns(:claim_types)).to match_array [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
       end
 
       it 'should render claim type options' do
@@ -98,6 +100,17 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(response).to redirect_to(new_litigators_interim_claim_path)
       end
     end
-  end
 
+    context "LGFS transfer claim" do
+      before { post :chosen, scheme_chosen: 'lgfs_transfer'}
+
+      it 'should assign claim_types to be an litigator transfer claim' do
+        expect(assigns(:claim_types).first).to eql Claim::TransferClaim
+      end
+
+      it "should redirect to the new litigator transfer claim form page" do
+        expect(response).to redirect_to(new_litigators_transfer_claim_path)
+      end
+    end
+  end
 end

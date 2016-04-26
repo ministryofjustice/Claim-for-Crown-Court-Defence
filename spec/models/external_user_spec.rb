@@ -263,22 +263,23 @@ RSpec.describe ExternalUser, type: :model do
 
     before(:each) do
       allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
+      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
     end
 
     it 'returns advocate claims for advocates' do
-      expect(advocate.available_claim_types).to eq( [ Claim::AdvocateClaim ] )
+      expect(advocate.available_claim_types).to match_array([Claim::AdvocateClaim])
     end
 
     it 'returns litigator claims for litigators' do
-      expect(litigator.available_claim_types).to eq( [ Claim::LitigatorClaim, Claim::InterimClaim ] )
+      expect(litigator.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
 
     it 'returns both types of claims for admin' do
-      expect(admin.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
+      expect(admin.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
 
     it 'returns both types of claims for advocate_litigators' do
-      expect(advocate_litigator.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
+      expect(advocate_litigator.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
 
   end

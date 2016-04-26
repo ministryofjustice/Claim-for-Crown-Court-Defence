@@ -28,7 +28,7 @@ class Ability
         end
 
         if persona.litigator?
-          can_manage_own_claims_of_class(persona, [Claim::LitigatorClaim, Claim::InterimClaim])
+          can_manage_own_claims_of_class(persona, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
         end
 
         can_manage_own_password(persona)

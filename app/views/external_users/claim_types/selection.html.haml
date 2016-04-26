@@ -20,5 +20,10 @@
           = radio_button_tag :scheme_chosen, "lgfs_interim", false
           = t('.lgfs_interim_rb')
 
+      - if @claim_types.include?(Claim::TransferClaim) && Settings.allow_lgfs_transfer_fees?
+        = label_tag :scheme_chosen_lgfs_transfer, nil, class: "block-label" do
+          = radio_button_tag :scheme_chosen, "lgfs_transfer", false
+          = t('.lgfs_transfer_rb')
+
   .form-group
     = submit_tag "Continue", class: "button"

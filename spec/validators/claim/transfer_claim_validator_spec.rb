@@ -7,6 +7,7 @@ module Claim
   describe(Claim::TransferClaimValidator) do
 
     let(:claim) { build :transfer_claim }
+    let(:transfer_detail) { build :transfer_detail, claim: claim }
 
     context 'litigator type' do
       it 'errors if not new or original' do

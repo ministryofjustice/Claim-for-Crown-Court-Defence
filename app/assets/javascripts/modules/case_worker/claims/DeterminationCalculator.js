@@ -12,7 +12,7 @@ moj.Modules.DeterminationCalculator = {
     this.$determinationsTable = $(this.el);
     this.$totalExclVat = $('.js-total-exc-vat-determination', this.$determinationsTable);
     this.$totalVat = $('.js-vat-determination', this.$determinationsTable);
-    this.$totalLgfsVat = $('.js-lgfs-vat-determination', this.$determinationsTable);
+    this.$LgfsVat = $('.js-lgfs-vat-determination', this.$determinationsTable);
     this.$totalInclVat = $('.js-total-determination', this.$determinationsTable);
     this.scheme = this.$determinationsTable.data('scheme');
     this.ajaxVat = this.$determinationsTable.data('applyVat');
@@ -86,6 +86,7 @@ moj.Modules.DeterminationCalculator = {
       url: this.vatUrl,
       data: {
         scheme: this.scheme,
+        lgfs_vat_amount: this.$LgfsVat.val(),
         date: this.vatDate,
         apply_vat: this.ajaxVat,
         net_amount: netAmount

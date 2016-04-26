@@ -54,7 +54,7 @@ describe Assessment do
     end
 
     context 'disbursements' do
-      it 'should not accept negative values'  do
+      it 'should not accept negative values' do
         expect {
           claim.assessment.update!(disbursements: -33.55)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'
@@ -80,7 +80,7 @@ describe Assessment do
       it 'should automatically calculate the vat amount based on the total assessed and the claim vat_date' do
         claim = FactoryGirl.create :advocate_claim, apply_vat: true
         ass = claim.assessment
-        ass.update_values(100.0, 250.0)
+        ass.update_values(100.0, 250.0, 0)
         expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
       end
     end
@@ -90,7 +90,7 @@ describe Assessment do
         claim = FactoryGirl.create :litigator_claim, apply_vat: true
         ass = claim.assessment
         ass.vat_amount = 0.33
-        ass.update_values(100.0, 250.0)
+        ass.update_values(100.0, 250.0, 150.0)
         expect(ass.vat_amount).to eql((0.33))
       end
     end

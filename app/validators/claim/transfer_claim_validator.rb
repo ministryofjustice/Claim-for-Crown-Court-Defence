@@ -68,8 +68,6 @@ module Claim
       end
     end
 
-
-
     def validate_first_day_of_trial
       validate_presence(:first_day_of_trial, 'blank') if requires_trial_dates?
     end

@@ -9,4 +9,3 @@ FactoryGirl.define do
     case_conclusion_id  10
   end
 end
-

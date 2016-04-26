@@ -118,17 +118,17 @@ RSpec.describe Provider, type: :model do
     let(:agfs)    { build :provider, :agfs }
     let(:lgfs)    { build :provider, :lgfs }
     let(:both)    { build :provider, :agfs_lgfs }
-    
+
     it 'should return advocate claim for agfs' do
-      expect(agfs.available_claim_types).to eq ( [ Claim::AdvocateClaim ] )
+      expect(agfs.available_claim_types).to match_array([ Claim::AdvocateClaim ])
     end
 
     it 'should return litigator claim for lgfs' do
-      expect(lgfs.available_claim_types).to eq( [ Claim::LitigatorClaim, Claim::InterimClaim ] )
+      expect(lgfs.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
 
     it 'should return both claim types for agfs-lgfs' do
-      expect(both.available_claim_types).to eq( [ Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim ] )
+      expect(both.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
   end
 

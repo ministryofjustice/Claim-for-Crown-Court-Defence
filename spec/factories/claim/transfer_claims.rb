@@ -17,7 +17,5 @@ FactoryGirl.define do
       estimated_trial_length 3
       actual_trial_length 3
     end
-
   end
 end
-

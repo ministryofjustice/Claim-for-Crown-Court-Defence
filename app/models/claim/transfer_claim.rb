@@ -82,6 +82,9 @@ module Claim
       :litigator
     end
 
+    def transfer?
+      true
+    end
 
     def eligible_case_types
       CaseType.lgfs

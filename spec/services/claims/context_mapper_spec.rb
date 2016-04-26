@@ -13,16 +13,17 @@ RSpec.describe Claims::ContextMapper do
 
     before(:each) do
       allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
+      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
     end
 
     it 'should return advocate claims for users in AGFS only provider' do
       context = Claims::ContextMapper.new(advocate)
-      expect(context.available_claim_types).to eql [Claim::AdvocateClaim]
+      expect(context.available_claim_types).to match_array([Claim::AdvocateClaim])
     end
 
     it 'should return litigator claims for users in LGFS only provider' do
       context = Claims::ContextMapper.new(litigator)
-      expect(context.available_claim_types).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
+      expect(context.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
 
     context 'AGFS and LGFS providers' do
@@ -30,37 +31,37 @@ RSpec.describe Claims::ContextMapper do
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(context.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
-      
+
       it 'should return advocate claim for a advocates' do
         external_user.roles = ['advocate']
         context = Claims::ContextMapper.new(external_user)
         expect(context.available_claim_types).to eql [Claim::AdvocateClaim]
       end
-      
+
       it 'should return advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
-      
+
       it 'should return advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
-      
+
       it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
         context = Claims::ContextMapper.new(external_user)
-        expect(context.available_claim_types).to eql [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim]
+        expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
 
     end
@@ -75,8 +76,8 @@ RSpec.describe Claims::ContextMapper do
       @lgfs_provider    = create :provider, :lgfs
       @both_provider    = create :provider, :agfs_lgfs
       @advocate         = create(:external_user, :advocate, provider: @agfs_provider)
-      @advocate_admin   = create(:external_user, :advocate_and_admin, provider: @agfs_provider) 
-      @litigator        = create(:external_user, :litigator, provider: @lgfs_provider) 
+      @advocate_admin   = create(:external_user, :advocate_and_admin, provider: @agfs_provider)
+      @litigator        = create(:external_user, :litigator, provider: @lgfs_provider)
       @litigator_admin  = create(:external_user, :litigator_and_admin, provider: @lgfs_provider)
       @agfs_lgfs_admin  = create(:external_user, :advocate_litigator, provider: @both_provider)
       @other_litigator  = create(:external_user, :litigator, provider: @lgfs_provider)

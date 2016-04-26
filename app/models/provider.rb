@@ -58,7 +58,7 @@ class Provider < ActiveRecord::Base
   def available_claim_types
     claim_types = []
     claim_types << Claim::AdvocateClaim if self.agfs?
-    claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim ] if self.lgfs?
+    claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim ] if self.lgfs?
     claim_types
   end
 

@@ -351,6 +351,7 @@ en:
     start_agfs_claim_heading: Claim for advocate graduated fees
     start_lgfs_final_claim_heading: Claim for litigator graduated fees
     start_lgfs_interim_claim_heading: Claim for litigator interim fees
+    start_lgfs_transfer_claim_heading: Claim for litigator transfer fees
     certifications:
       new:
         prohibited_save: This claim certification has
@@ -363,6 +364,7 @@ en:
         agfs_rb: Advocate fees
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
+        lgfs_transfer_rb: Litigator transfer fee
     claims:
       additional_information:
         fields:
@@ -640,6 +642,11 @@ en:
           start_interim_claim_heading: "Start interim claim"
         edit:
           edit_interim_claim_heading: "Edit interim claim"
+      transfer_claims:
+        new:
+          start_transfer_claim_heading: "Start transfer claim"
+        edit:
+          edit_transfer_claim_heading: "Edit transfer claim"
   shared:
     no_claims_found: 'No claims found'
     claim:

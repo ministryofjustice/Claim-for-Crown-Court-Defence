@@ -32,6 +32,9 @@ module Claim
     end
 
     describe  '#errors?' do
+
+      before(:each) { detail.claim = build(:transfer_claim) }
+
       it 'returns false if there are no errors relating to transfer_detail fields' do
         expect(detail.errors?).to be false
       end
@@ -44,6 +47,17 @@ module Claim
       it 'reteurns false if claim is nil' do
         detail.claim = nil
         expect(detail.errors?).to be false
+      end
+    end
+
+    describe '#allocation_type' do
+      it 'should return Grad' do
+        expect(detail.allocation_type).to eq 'Grad'
+      end
+
+      it 'should return Fixed' do
+        detail = build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil)
+        expect(detail.allocation_type).to eq 'Fixed'
       end
     end
   end

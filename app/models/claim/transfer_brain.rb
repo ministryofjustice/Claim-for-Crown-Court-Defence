@@ -68,5 +68,9 @@ module Claim
       TransferBrainDataItemCollection.instance.to_json.chomp
     end
 
+    def self.allocation_type(detail)
+      TransferBrainDataItemCollection.instance.allocation_type(detail)
+    end
+
   end
 end

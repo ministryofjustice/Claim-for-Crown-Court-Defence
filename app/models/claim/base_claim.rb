@@ -48,6 +48,7 @@
 #  supplier_number          :string
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
+#  allocation_type          :string
 #
 
 module Claim
@@ -374,6 +375,10 @@ module Claim
     end
 
     private
+
+    # called from state_machine before_transition on submit - override in subclass
+    #
+    def set_allocation_type; end
 
     def destroy_all_invalid_fee_types; end
 

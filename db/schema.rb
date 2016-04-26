@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20160426084323) do
     t.string   "supplier_number"
     t.date     "effective_pcmh_date"
     t.date     "legal_aid_transfer_date"
+    t.string   "allocation_type"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

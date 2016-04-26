@@ -263,6 +263,7 @@ RSpec.describe ExternalUser, type: :model do
 
     before(:each) do
       allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
+      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
     end
 
     it 'returns advocate claims for advocates' do

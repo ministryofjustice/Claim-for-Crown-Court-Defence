@@ -140,6 +140,15 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def external_user_description
+    case claim
+      when Claim::AdvocateClaim
+        'advocate'
+      else
+        'litigator'
+    end
+  end
+
   def scheme
     case claim
       when Claim::AdvocateClaim

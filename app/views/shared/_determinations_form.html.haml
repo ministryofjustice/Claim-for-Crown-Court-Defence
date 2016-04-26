@@ -2,11 +2,12 @@
   = hidden_field_tag :messages, 'true'
 
   #claim-status
-    %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db)}}
+    %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
       %thead
         %tr{:style => "vertical-align: top;"}
           %th &nbsp;
-          %th Claimed by advocate
+          %th
+            = "Claimed by #{ claim.external_user_description }"
           %th
             Total authorised by LAA
             - if claim.opened_for_redetermination?

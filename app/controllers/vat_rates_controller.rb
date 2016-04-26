@@ -33,6 +33,18 @@ class VatRatesController < ApplicationController
 
   private
 
+  def scheme
+    params['scheme']
+  end
+
+  def agfs?
+    scheme == 'agfs'
+  end
+
+  def lgfs?
+    scheme == 'lgfs'
+  end
+
   def apply_vat
     params['apply_vat'] == 'true' ? true : false
   end
@@ -54,7 +66,11 @@ class VatRatesController < ApplicationController
   end
 
   def vat_amount
-    apply_vat ? VatRate.vat_amount(net_amount, date) : 0
+    if agfs?
+      apply_vat ? VatRate.vat_amount(net_amount, date) : 0
+    else
+      0
+    end
   end
 
   def total_inc_vat

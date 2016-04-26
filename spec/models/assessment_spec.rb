@@ -76,11 +76,23 @@ describe Assessment do
   end
 
   context '#calculate_vat' do
-    it 'automatically calculates the vat amount based on the total assessed and the claim vat_date' do
-      claim = FactoryGirl.create :claim, apply_vat: true
-      ass = claim.assessment
-      ass.update_values(100.0, 250.0, 150.0)
-      expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
+    context 'advocate claims' do
+      it 'should automatically calculate the vat amount based on the total assessed and the claim vat_date' do
+        claim = FactoryGirl.create :advocate_claim, apply_vat: true
+        ass = claim.assessment
+        ass.update_values(100.0, 250.0)
+        expect(ass.vat_amount).to eq((ass.total * 0.175).round(2))
+      end
+    end
+
+    context 'litigator claims' do
+      it 'should not automatically calculate the VAT amount, instead using manually input vat_amount' do
+        claim = FactoryGirl.create :litigator_claim, apply_vat: true
+        ass = claim.assessment
+        ass.vat_amount = 0.33
+        ass.update_values(100.0, 250.0)
+        expect(ass.vat_amount).to eql((0.33))
+      end
     end
   end
 

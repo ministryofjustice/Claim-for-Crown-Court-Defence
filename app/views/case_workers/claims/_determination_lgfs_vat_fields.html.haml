@@ -1,0 +1,18 @@
+%tr.determination-form-fields
+  %td
+    = "VAT"
+  %td
+    = claim.vat_amount
+  %td
+    %span.js-lgfs-vat-determination
+      %div.pound-wrapper
+        = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control', size: 10, maxlength: 8
+      = validation_error_message(f.object, :vat_amount)
+%tr.determination-form-fields
+  %td
+    = "Total (including VAT)"
+  %td
+    = claim.total_inc_vat
+  %td
+    %span.js-total-determination
+      = number_to_currency(f.object.total_including_vat)

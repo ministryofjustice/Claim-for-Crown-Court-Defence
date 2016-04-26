@@ -12,7 +12,9 @@ moj.Modules.DeterminationCalculator = {
     this.$determinationsTable = $(this.el);
     this.$totalExclVat = $('.js-total-exc-vat-determination', this.$determinationsTable);
     this.$totalVat = $('.js-vat-determination', this.$determinationsTable);
+    this.$totalLgfsVat = $('.js-lgfs-vat-determination', this.$determinationsTable);
     this.$totalInclVat = $('.js-total-determination', this.$determinationsTable);
+    this.scheme = this.$determinationsTable.data('scheme');
     this.ajaxVat = this.$determinationsTable.data('applyVat');
     this.vatUrl = this.$determinationsTable.data('vatUrl');
     this.vatDate = this.$determinationsTable.data('submittedDate');
@@ -43,19 +45,19 @@ moj.Modules.DeterminationCalculator = {
       });
   },
 
-    calculateAmount: function (fee, expenses, disbursements) {
-        var f = fee || 0,
-            e = expenses || 0,
-            d = disbursements || 0;
+  calculateAmount: function (fee, expenses, disbursements) {
+    var f = fee || 0,
+        e = expenses || 0,
+        d = disbursements || 0;
 
-        f = f < 0 ? 0 : f;
-        e = e < 0 ? 0 : e;
-        d = d < 0 ? 0 : d;
+    f = f < 0 ? 0 : f;
+    e = e < 0 ? 0 : e;
+    d = d < 0 ? 0 : d;
 
-        var t = (f + e + d).toFixed(2);
-        t = t < 0 ? 0 : t;
-        return t;
-    },
+    var t = (f + e + d).toFixed(2);
+    t = t < 0 ? 0 : t;
+    return t;
+  },
 
   addChangeEvent: function() {
     var self = this;
@@ -83,6 +85,7 @@ moj.Modules.DeterminationCalculator = {
     return $.ajax({
       url: this.vatUrl,
       data: {
+        scheme: this.scheme,
         date: this.vatDate,
         apply_vat: this.ajaxVat,
         net_amount: netAmount

@@ -43,15 +43,19 @@ moj.Modules.DeterminationCalculator = {
       });
   },
 
-  calculateAmount: function(fee, expenses) {
-    var f = fee || 0,
-      e = expenses || 0;
-    f = f < 0 ? 0 : f;
-    e = e < 0 ? 0 : e;
-    var t = (f + e).toFixed(2);
-    t = t < 0 ? 0 : t;
-    return t;
-  },
+    calculateAmount: function (fee, expenses, disbursements) {
+        var f = fee || 0,
+            e = expenses || 0,
+            d = disbursements || 0;
+
+        f = f < 0 ? 0 : f;
+        e = e < 0 ? 0 : e;
+        d = d < 0 ? 0 : d;
+
+        var t = (f + e + d).toFixed(2);
+        t = t < 0 ? 0 : t;
+        return t;
+    },
 
   addChangeEvent: function() {
     var self = this;
@@ -67,8 +71,10 @@ moj.Modules.DeterminationCalculator = {
     var $fees = $table.find('.js-fees');
     var fees = parseFloat($fees.val().replace(/,/g, ''));
     var $expenses = $table.find('.js-expenses');
+    var $disbursements = $table.find('.js-disbursements');
     var expenses = parseFloat($expenses.val().replace(/,/g, ''));
-    var total = this.calculateAmount(fees, expenses);
+    var disbursements = $disbursements.exists() ? parseFloat($disbursements.val().replace(/,/g, '')) : 0;
+    var total = this.calculateAmount(fees, expenses, disbursements);
 
     this.applyVAT(total);
   },

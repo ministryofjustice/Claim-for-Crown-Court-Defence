@@ -10,6 +10,10 @@ class RedeterminationPresenter < BasePresenter
     h.number_to_currency(redetermination.expenses)
   end
 
+  def disbursements_total
+    h.number_to_currency(redetermination.disbursements)
+  end
+
   def vat_amount
     h.number_to_currency(redetermination.vat_amount)
   end

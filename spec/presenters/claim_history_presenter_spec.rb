@@ -25,7 +25,7 @@ RSpec.describe ClaimHistoryPresenter do
 
     let(:first_redetermination) do
       Timecop.travel(Time.zone.local(2015, 9, 25, 14, 0, 0)) do
-        claim.redeterminations.create(fees: 500, expenses: 300)
+        claim.redeterminations.create(fees: 500, expenses: 300, disbursements: 0)
         claim.redeterminations.last.versions.last
       end
     end
@@ -34,6 +34,7 @@ RSpec.describe ClaimHistoryPresenter do
       Timecop.travel(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
         claim.assessment.fees = 100
         claim.assessment.expenses = 200
+        claim.assessment.disbursements = 0
         claim.assessment.save
         claim.assessment.versions.last
       end

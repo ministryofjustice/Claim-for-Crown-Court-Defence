@@ -1261,7 +1261,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'previous redetermination record created before state was changed to redetermination' do
         it 'should be true' do
           Timecop.freeze(Time.now - 2.hours) do
-            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
             Timecop.freeze(Time.now ) do
               @claim.authorise_part!
               @claim.redetermine!
@@ -1276,7 +1276,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'latest redetermination created after transition to redetermination' do
         it 'should be false' do
           Timecop.freeze(Time.now + 10.minutes) do
-            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55)
+            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
           end
           expect(@claim.requested_redetermination?).to be false
         end

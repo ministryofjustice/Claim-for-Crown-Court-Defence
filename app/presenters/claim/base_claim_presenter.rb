@@ -104,6 +104,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.number_to_currency(claim.expenses_total)
   end
 
+  def disbursements_total
+    h.number_to_currency(claim.disbursements_total)
+  end
+
   def status_image
     "#{claim.state.gsub('_','-')}.png"
   end
@@ -155,6 +159,10 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def assessment_expenses
     assessment_value(:expenses)
+  end
+
+  def assessment_disbursements
+    assessment_value(:disbursements)
   end
 
   def assessment_total

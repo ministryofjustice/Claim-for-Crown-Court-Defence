@@ -103,7 +103,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     it 'should return the creation date of the assessment' do
       Timecop.freeze Time.new(2015, 8, 13, 14, 55, 23) do
-        claim.assessment.update_values(100.0, 200.0)
+        claim.assessment.update_values(100.0, 200.0, 300.0)
         expect(subject.assessment_date).to eq '13/08/2015'
       end
     end
@@ -111,16 +111,22 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe 'assessment_fees' do
     it 'should  return formatted assessment fees' do
-      claim.assessment.update_values(1234.56, 0.0)
-      # assessment = FactoryGirl.create :assessment, claim: claim, fees: 1234.56
+      claim.assessment.update_values(1234.56, 0.0, 300.0)
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_expenses' do
-    it 'should return formatted assessment expense' do
-      claim.assessment.update_values(0.0, 1234.56)
+    it 'should return formatted assessment expenses' do
+      claim.assessment.update_values(0.0, 1234.56, 300.0)
       expect(subject.assessment_expenses).to eq '£1,234.56'
+    end
+  end
+
+  describe 'assessment_disbursements' do
+    it 'should return formatted assessment disbursements' do
+      claim.assessment.update_values(0.0, 0.0, 300.0)
+      expect(subject.assessment_disbursements).to eq '£300.00'
     end
   end
 
@@ -154,8 +160,8 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   # TODO: do currency converters need internationalisation??
   it '#amount_assessed' do
-    claim.assessment.update(fees: 80.35, expenses: 19.65)
-    expect(subject.assessment_total).to eql("£100.00")
+    claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48)
+    expect(subject.assessment_total).to eql("£152.48")
   end
 
   it '#fees_total' do
@@ -166,6 +172,11 @@ RSpec.describe Claim::BaseClaimPresenter do
   it '#expenses_total' do
     claim.expenses_total = 100
     expect(subject.expenses_total).to eql("£100.00")
+  end
+
+  it '#disbursements_total' do
+    claim.disbursements_total = 100
+    expect(subject.disbursements_total).to eql("£100.00")
   end
 
   it "#total_inc_vat" do
@@ -222,12 +233,12 @@ RSpec.describe Claim::BaseClaimPresenter do
       before do
         claim.submit!
         claim.allocate!
-        claim.assessment.update_values(100, 20.43)
+        claim.assessment.update_values(100, 20.43, 50.45)
         claim.authorise!
       end
 
       it 'display a currency formatted amount assessed' do
-        expect(subject.amount_assessed).to eq('£141.51')
+        expect(subject.amount_assessed).to eq('£200.78')
       end
     end
 

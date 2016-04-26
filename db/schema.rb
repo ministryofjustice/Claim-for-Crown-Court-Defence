@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422103856) do
+ActiveRecord::Schema.define(version: 20160426084323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,12 +186,13 @@ ActiveRecord::Schema.define(version: 20160422103856) do
   create_table "determinations", force: :cascade do |t|
     t.integer  "claim_id"
     t.string   "type"
-    t.decimal  "fees"
-    t.decimal  "expenses"
+    t.decimal  "fees",          default: 0.0
+    t.decimal  "expenses",      default: 0.0
     t.decimal  "total"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "vat_amount", default: 0.0
+    t.float    "vat_amount",    default: 0.0
+    t.decimal  "disbursements", default: 0.0
   end
 
   create_table "disbursement_types", force: :cascade do |t|

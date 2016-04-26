@@ -19,7 +19,7 @@
 #  mileage_rate_id :integer
 #  date            :date
 #  hours           :integer
-#  vat_amount      :decimal          default(0.0)
+#  vat_amount      :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'

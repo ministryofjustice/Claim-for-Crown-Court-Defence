@@ -9,6 +9,12 @@
     %td.numeric
       = claim.expenses_total
     %td.numeric#determination-expenses= determination.expenses_total
+  - if claim.disbursements.any?
+    %tr.determination-display
+      %th{scope:'row'} Disbursements
+      %td.numeric
+        = claim.disbursements_total
+      %td.numeric#determination-disbursements= determination.disbursements_total
   %tr.determination-display
     %th{scope:'row'}
       Total(excluding VAT)

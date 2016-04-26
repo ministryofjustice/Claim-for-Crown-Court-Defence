@@ -4,7 +4,6 @@ module DemoData
     def initialize(claim)
       @claim     = claim
       @fee_types = Fee::InterimFeeType.lgfs
-      @fee_types.reject! {|ft| ft.is_disbursement? }   # temporarily until we fix Assessment
     end
 
     def generate!

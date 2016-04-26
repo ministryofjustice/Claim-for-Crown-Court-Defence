@@ -2,15 +2,16 @@
 #
 # Table name: determinations
 #
-#  id         :integer          not null, primary key
-#  claim_id   :integer
-#  type       :string
-#  fees       :decimal(, )
-#  expenses   :decimal(, )
-#  total      :decimal(, )
-#  created_at :datetime
-#  updated_at :datetime
-#  vat_amount :float            default(0.0)
+#  id            :integer          not null, primary key
+#  claim_id      :integer
+#  type          :string
+#  fees          :decimal(, )      default(0.0)
+#  expenses      :decimal(, )      default(0.0)
+#  total         :decimal(, )
+#  created_at    :datetime
+#  updated_at    :datetime
+#  vat_amount    :float            default(0.0)
+#  disbursements :decimal(, )      default(0.0)
 #
 
 require 'rails_helper'
@@ -24,7 +25,7 @@ describe Redetermination do
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
       rd = FactoryGirl.create :redetermination
-      expect(rd.total).to eq(rd.fees + rd.expenses)
+      expect(rd.total).to eq(rd.fees + rd.expenses + rd.disbursements)
     end
   end
 

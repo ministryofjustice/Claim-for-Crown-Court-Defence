@@ -71,12 +71,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
       :assessment_attributes => [
         :id,
         :fees,
-        :expenses
+        :expenses,
+        :disbursements
       ],
       :redeterminations_attributes => [
         :id,
         :fees,
-        :expenses
+        :expenses,
+        :disbursements
       ]
     )
   end

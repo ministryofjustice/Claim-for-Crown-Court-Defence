@@ -20,6 +20,7 @@ class DeterminationPresenter < BasePresenter
     {
       'Fees' => changes['fees'].last,
       'Expenses' => changes['expenses'].last,
+      'Disbursements' => changes['disbursements'].last,
       'Total (ex VAT)' => changes['total'].last,
       'VAT' => changes['vat_amount'].last,
       'Total (inc VAT)' => total_inc_vat
@@ -30,6 +31,7 @@ class DeterminationPresenter < BasePresenter
     {
       'fees' => [0.00, 0.00],
       'expenses' => [0.00, 0.00],
+      'disbursements' => [0.00, 0.00],
       'total' => [0.00, 0.00],
       'vat_amount' => [0.00, 0.00]
     }.merge(changeset)

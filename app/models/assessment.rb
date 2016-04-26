@@ -2,18 +2,19 @@
 #
 # Table name: determinations
 #
-#  id         :integer          not null, primary key
-#  claim_id   :integer
-#  type       :string
-#  fees       :decimal(, )
-#  expenses   :decimal(, )
-#  total      :decimal(, )
-#  created_at :datetime
-#  updated_at :datetime
-#  vat_amount :float            default(0.0)
+#  id            :integer          not null, primary key
+#  claim_id      :integer
+#  type          :string
+#  fees          :decimal(, )      default(0.0)
+#  expenses      :decimal(, )      default(0.0)
+#  total         :decimal(, )
+#  created_at    :datetime
+#  updated_at    :datetime
+#  vat_amount    :float            default(0.0)
+#  disbursements :decimal(, )      default(0.0)
 #
 
-# The Assessment class represeents the first assessment the case workers make on a claim. Any subsequent assessments are called 
+# The Assessment class represents the first assessment the case workers make on a claim. Any subsequent assessments are called
 # determinations. There can be many determinations per claim, but only one assessment.  An assessment with zero values 
 # (blank? returns true) is created automatically when the claim is created.  
 #
@@ -25,25 +26,24 @@ class Assessment < Determination
 
   self.table_name = 'determinations'
 
-  has_paper_trail on: [:update], only: [:fees, :expenses, :vat_amount, :total]
+  has_paper_trail on: [:update], only: [:fees, :expenses, :disbursements, :vat_amount, :total]
 
   after_initialize :set_default_values
   before_save :set_paper_trail_event!
-
   validates :claim_id, uniqueness: { message: 'This claim already has an assessment' }
 
-  belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
-
   def set_default_values
-    if new_record?
-      self.fees = 0
-      self.expenses = 0
-    end
+    zeroize if new_record?
+  end
+
+  def zeroize
+    self.fees = 0
+    self.expenses = 0
+    self.disbursements = 0
   end
 
   def zeroize!
-    self.fees = 0
-    self.expenses = 0
+    zeroize
     self.save!
   end
 
@@ -52,9 +52,10 @@ class Assessment < Determination
     update_values!(*args)
   end
 
-  def update_values!(fees, expenses, time = Time.now)
+  def update_values!(fees, expenses, disbursements, time = Time.now)
     self.fees = fees
     self.expenses = expenses
+    self.disbursements = disbursements
     self.created_at = time
     save!
   end

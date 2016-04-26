@@ -10,6 +10,10 @@ class AssessmentPresenter < BasePresenter
     h.number_to_currency(assessment.expenses)
   end
 
+  def disbursements_total
+    h.number_to_currency(assessment.disbursements)
+  end
+
   def vat_amount
     h.number_to_currency(assessment.vat_amount)
   end

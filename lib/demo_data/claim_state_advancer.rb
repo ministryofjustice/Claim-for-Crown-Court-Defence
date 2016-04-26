@@ -62,7 +62,10 @@ module DemoData
     def authorise_part(claim)
       add_message(claim, @case_worker)
       claim.save!                 # save in order to update the expense and fee totals
-      claim.assessment.update(fees: claim.fees_total * rand(0.5..0.8), expenses: claim.expenses_total * rand(0.5..0.8))
+      claim.assessment.update(
+          fees: claim.fees_total * rand(0.5..0.8),
+          expenses: claim.expenses_total * rand(0.5..0.8),
+          disbursements: claim.disbursements_total * rand(0.5..0.8))
       claim.reload
       claim.authorise_part!
     end
@@ -70,7 +73,10 @@ module DemoData
     def authorise(claim)
       add_message(claim, @case_worker)
       claim.save!                 # save in order to update the expense and fee totals
-      claim.assessment.update(fees: claim.fees_total, expenses: claim.expenses_total)
+      claim.assessment.update(
+          fees: claim.fees_total,
+          expenses: claim.expenses_total,
+          disbursements: claim.disbursements_total)
       claim.reload
       claim.authorise!
     end

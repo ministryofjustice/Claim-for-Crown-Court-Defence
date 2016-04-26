@@ -269,7 +269,7 @@ describe Claim::BaseClaimValidator do
 
     it 'should error if authorised claim has assessment updated to zero' do
       assessed_claim.authorise_part!
-      assessed_claim.assessment.update(fees: 0, expenses: 0)
+      assessed_claim.assessment.update(fees: 0, expenses: 0, disbursements: 0)
       expect(assessed_claim).to_not be_valid
       expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Part authorised'] )
     end

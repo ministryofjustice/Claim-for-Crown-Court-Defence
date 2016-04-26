@@ -616,7 +616,7 @@ def build_sortable_claims_sample(advocate)
       claim.fees.destroy_all
       claim.expenses.destroy_all
       create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
-      claim.assessment.update_values!(claim.fees_total, 0) if claim.authorised?
+      claim.assessment.update_values!(claim.fees_total, 0, 0) if claim.authorised?
     end
   end
 end

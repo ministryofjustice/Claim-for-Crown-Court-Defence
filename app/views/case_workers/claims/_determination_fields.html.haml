@@ -8,6 +8,7 @@
     %div.pound-wrapper
       = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 8
     = validation_error_message(f.object, :fees)
+
 %tr.determination-form-fields
   %td
     Expenses
@@ -17,6 +18,18 @@
     %div.pound-wrapper
       = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 8
     = validation_error_message(f.object, :expenses)
+
+- if claim.disbursements.any?
+  %tr.determination-form-fields
+    %td
+      Disbursements
+    %td
+      = claim.disbursements_total
+    %td
+      %div.pound-wrapper
+        = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 8
+      = validation_error_message(f.object, :disbursements)
+
 %tr.determination-form-fields
   %td
     Total(excluding VAT)
@@ -25,6 +38,7 @@
   %td
     %span.js-total-exc-vat-determination
       = number_to_currency(f.object.total || 0)
+
 %tr.determination-form-fields
   %td
     = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
@@ -33,6 +47,7 @@
   %td
     %span.js-vat-determination
       = number_to_currency(f.object.vat_amount)
+
 %tr.determination-form-fields
   %td
     = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"

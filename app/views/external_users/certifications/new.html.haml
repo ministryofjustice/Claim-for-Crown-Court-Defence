@@ -74,9 +74,13 @@
             .column-quarter
               &nbsp;
 
-    - else
+    - elsif @claim.is_a? Claim::LitigatorClaim
       %p
         I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
+
+    - else
+      %p
+        I certify on behalf of the payee, that the information provided is correct.
 
     .grid-row
       .column-third

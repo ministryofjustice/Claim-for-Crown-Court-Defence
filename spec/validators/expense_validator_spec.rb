@@ -235,8 +235,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(car_travel_expense).to be_valid
         end
 
-        it 'is valid when present for train' do
-          train_expense.distance = 33
+        it 'is valid when absent for train' do
+          train_expense.distance = nil
           expect(train_expense).to be_valid
         end
 
@@ -264,16 +264,16 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(car_travel_expense.errors[:distance]).to include('zero')
         end
 
-        it 'is invalid when absent for train' do
-          train_expense.distance = nil
+        it 'is invalid when present for train' do
+          train_expense.distance = 33
           expect(train_expense).not_to be_valid
-          expect(train_expense.errors[:distance]).to include('blank')
+          expect(train_expense.errors[:distance]).to include('invalid')
         end
 
-        it 'is invalid when zero for train' do
+        it 'is validß when zero for train' do
           train_expense.distance = 0
           expect(train_expense).not_to be_valid
-          expect(train_expense.errors[:distance]).to include('zero')
+          expect(train_expense.errors[:distance]).to include('invalid')
         end
 
         it 'is invalid when present for parking' do

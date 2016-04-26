@@ -48,7 +48,6 @@ FactoryGirl.define do
 
     trait :train do
       expense_type { build :expense_type, :train }
-      distance 55
     end
 
     trait :travel_time do

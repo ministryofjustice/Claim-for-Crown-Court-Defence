@@ -63,7 +63,7 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_distance
-    if @record.car_travel? || @record.train?
+    if @record.car_travel?
       validate_presence(:distance, 'blank')
       validate_numericality(:distance, 1, nil, 'zero')
     else

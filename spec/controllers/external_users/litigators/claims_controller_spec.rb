@@ -60,7 +60,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         quantity: 1,
         rate: 40,
         reason_id: 1,
-        distance: 55,
+        distance: nil,
         amount: 1125.00,
         date_dd: expense_date.day,
         date_mm: expense_date.month,

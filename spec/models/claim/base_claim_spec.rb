@@ -48,6 +48,7 @@
 #  supplier_number          :string
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
+#  allocation_type          :string
 #
 
 require 'rails_helper'

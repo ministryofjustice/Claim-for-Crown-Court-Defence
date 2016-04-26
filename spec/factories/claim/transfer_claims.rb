@@ -3,6 +3,13 @@ FactoryGirl.define do
     litigator_base_setup
     claim_state_common_traits
 
+    # transfer_detail attributes
+    litigator_type      'original'
+    elected_case        false
+    transfer_stage_id   10
+    transfer_date       2.months.ago
+    case_conclusion_id  10
+
     trait :trial do
       case_type  { build(:case_type, :trial) }
       first_day_of_trial 30.days.ago
@@ -11,12 +18,6 @@ FactoryGirl.define do
       actual_trial_length 3
     end
 
-
-    after(:build) do |rec|
-      if rec.transfer_detail.unpopulated?
-        rec.transfer_detail = build :transfer_detail, claim: rec
-      end
-    end
   end
 end
 

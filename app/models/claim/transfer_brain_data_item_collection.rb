@@ -19,7 +19,6 @@ module Claim
     def initialize
       lines = load_file
       @collection = []
-      lines.shift
       lines.each { |line| @collection << TransferBrainDataItem.new(line) }
       @collection_hash = construct_collection_hash
     end
@@ -36,8 +35,12 @@ module Claim
     end
 
     def data_item_for(detail)
-      result =  @collection_hash[detail.litigator_type][detail.elected_case][detail.transfer_stage_id][detail.case_conclusion_id]
-      result = @collection_hash[detail.litigator_type][detail.elected_case][detail.transfer_stage_id]['*'] if result.nil?
+      begin
+        result = @collection_hash.fetch(detail.litigator_type).fetch(detail.elected_case).fetch(detail.transfer_stage_id)[detail.case_conclusion_id]
+        result = @collection_hash.fetch(detail.litigator_type).fetch(detail.elected_case).fetch(detail.transfer_stage_id).fetch('*') if result.nil?
+      rescue KeyError
+        result = nil
+      end
       result
     end
 
@@ -46,9 +49,9 @@ module Claim
       data_item_for(detail)[:transfer_fee_full_name]
     end
 
-    def allocation_case_type(detail)
+    def allocation_type(detail)
       raise ArgumentError.new('Invalid combination of transfer detail fields') unless detail_valid?(detail)
-      data_item_for(detail)[:allocation_case_type]
+      data_item_for(detail)[:allocation_type]
     end
 
     def detail_valid?(detail)

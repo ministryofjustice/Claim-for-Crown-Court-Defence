@@ -48,6 +48,7 @@
 #  supplier_number          :string
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
+#  allocation_type          :string
 #
 
 module Claim
@@ -56,11 +57,6 @@ module Claim
     has_one :transfer_detail, foreign_key: :claim_id
 
     validates_with TransferClaimValidator
-
-    after_initialize do
-      self.transfer_detail = TransferDetail.new if self.transfer_detail.nil?
-    end
-
 
     # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.
@@ -91,15 +87,16 @@ module Claim
       CaseType.lgfs
     end
 
-    # private
-    # def destroy_all_invalid_fee_types
-    #   # noop
-    # end
-
     private
+
+    # called from state_machine before_submit
+    def set_allocation_type
+      self.allocation_type = self.transfer_detail.allocation_type
+    end
 
     def provider_delegator
       provider
     end
+
   end
 end

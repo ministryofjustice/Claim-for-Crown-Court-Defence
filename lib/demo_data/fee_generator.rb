@@ -4,9 +4,9 @@ module DemoData
 
     # Call as FeeGenerator.new(claim, :fixed) or FeeGenerator.new(claim, :misc)
     #
-    def initialize(claim, fee_type_class)
+    def initialize(claim, fee_type_class, fee_types = nil)
       @claim          = claim
-      @fee_types      = fee_type_class.agfs
+      @fee_types      = fee_types || fee_type_class.agfs
       @codes_added    = []
       @fee_type_class = fee_type_class
       @fee_class      = derive_fee_class_from_fee_type_class

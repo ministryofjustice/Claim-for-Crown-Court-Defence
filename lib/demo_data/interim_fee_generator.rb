@@ -1,3 +1,5 @@
+require_relative 'disbursement_generator'
+
 module DemoData
   class InterimFeeGenerator
 
@@ -24,11 +26,11 @@ module DemoData
 
     def setup_fee(fee)
       if fee.is_interim_warrant?
-        @claim.fees << FactoryGirl.build(:warrant_fee, amount: rand(100.0..2500.0))
+        @claim.fees << warrant_fee
       end
 
       if fee.is_disbursement? || fee.is_effective_pcmh?
-        @claim.disbursements << FactoryGirl.build_list(:disbursement, rand(1..3))
+        @claim.disbursements << disbursements(1..3)
       end
 
       if fee.is_effective_pcmh?
@@ -52,8 +54,19 @@ module DemoData
 
       unless fee.is_disbursement? || fee.is_interim_warrant?
         fee.quantity = rand(10..50)
-        fee.amount   = rand(1000.0..5000.0)
+        fee.amount   = rand(1000.0..5000.0).round(2)
       end
+    end
+
+    def warrant_fee
+      Fee::WarrantFee.new(fee_type: Fee::WarrantFeeType.instance,
+                          amount: rand(100.0..2500.0).round(2),
+                          warrant_issued_date: rand(3..5).months.ago,
+                          warrant_executed_date: rand(1..2).months.ago)
+    end
+
+    def disbursements(range)
+      DisbursementGenerator.new.generate!(range)
     end
   end
 end

@@ -9,7 +9,7 @@ module DemoData
     end
 
     def generate!
-      rand(0..5).times { add_expense }
+      rand(0..3).times { add_expense }
     end
 
     private
@@ -53,7 +53,7 @@ module DemoData
     end
 
     def generate_distance(ex)
-      ex.car_travel? || ex.train? ? rand(1..500) : nil
+      ex.car_travel? ? rand(1..500) : nil
     end
 
     def generate_mileage_rate_id(ex)

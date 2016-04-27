@@ -72,13 +72,15 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
         :id,
         :fees,
         :expenses,
-        :disbursements
+        :disbursements,
+        :vat_amount
       ],
       :redeterminations_attributes => [
         :id,
         :fees,
         :expenses,
-        :disbursements
+        :disbursements,
+        :vat_amount
       ]
     )
   end

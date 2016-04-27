@@ -32,7 +32,9 @@ class Determination < ActiveRecord::Base
   end
 
   def calculate_vat
-    self.vat_amount = VatRate.vat_amount(self.total, self.claim.vat_date).round(2) if self.claim.apply_vat?
+    if self.claim.is_a? Claim::AdvocateClaim
+      self.vat_amount = VatRate.vat_amount(self.total, self.claim.vat_date).round(2) if self.claim.apply_vat?
+    end
   end
 
   def total_including_vat

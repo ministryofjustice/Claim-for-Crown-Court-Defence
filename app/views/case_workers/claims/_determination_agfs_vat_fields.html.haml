@@ -1,0 +1,16 @@
+%tr.determination-form-fields
+  %td
+    = "VAT (#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
+  %td
+    = claim.vat_amount
+  %td
+    %span.js-vat-determination
+      = number_to_currency(f.object.vat_amount)
+%tr.determination-form-fields
+  %td
+    = "Total (including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
+  %td
+    = claim.total_inc_vat
+  %td
+    %span.js-total-determination
+      = number_to_currency(f.object.total_including_vat)

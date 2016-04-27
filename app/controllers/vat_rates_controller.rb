@@ -20,18 +20,26 @@ class VatRatesController < ApplicationController
   respond_to :json
 
   def index
-      respond_with(
-        {
-          'net_amount'    => number_to_currency(net_amount),
-          'date'          => formatted_date,
-          'rate'          => rate,
-          'vat_amount'    => number_to_currency(vat_amount),
-          'total_inc_vat' => total
-        }
-      )
+    respond_with(
+      {
+        'net_amount'    => number_to_currency(net_amount),
+        'date'          => formatted_date,
+        'rate'          => rate,
+        'vat_amount'    => number_to_currency(vat_amount),
+        'total_inc_vat' => total
+      }
+    )
   end
 
   private
+
+  def scheme
+    params['scheme']
+  end
+
+  def lgfs_vat_amount
+    params['lgfs_vat_amount'].to_f.round(2)
+  end
 
   def apply_vat
     params['apply_vat'] == 'true' ? true : false
@@ -54,7 +62,11 @@ class VatRatesController < ApplicationController
   end
 
   def vat_amount
-    apply_vat ? VatRate.vat_amount(net_amount, date) : 0
+    if agfs?
+      apply_vat ? VatRate.vat_amount(net_amount, date) : 0
+    else
+      lgfs_vat_amount
+    end
   end
 
   def total_inc_vat
@@ -62,11 +74,21 @@ class VatRatesController < ApplicationController
   end
 
   def total
-    apply_vat ? number_to_currency(total_inc_vat) : number_to_currency(net_amount)
+    if agfs?
+      apply_vat ? number_to_currency(total_inc_vat) : number_to_currency(net_amount)
+    else
+      number_to_currency(total_inc_vat)
+    end
   end
 
   def number_to_currency(number)
     ActionController::Base.helpers.number_to_currency(number)
+  end
+
+private
+
+  def agfs?
+    scheme == 'agfs'
   end
 
 end

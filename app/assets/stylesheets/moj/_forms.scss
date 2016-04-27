@@ -59,6 +59,11 @@ button.search {
   margin-left: 5px;
 }
 
+.form-control:disabled {
+  border-color: $grey-3;
+  cursor: not-allowed;
+}
+
 .search-form {
   @extend .search-wrapper;
   .search-wrapper & {

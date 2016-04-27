@@ -411,7 +411,6 @@ en:
         fields:
           advocate: *advocate
           advocate_category: 'Advocate category'
-          itigator_category: 'Litigator category'
           case_advocate_offence: 'Case, instructed advocate & offence'
           case_number: 'Case number'
           case_type: 'Case type'

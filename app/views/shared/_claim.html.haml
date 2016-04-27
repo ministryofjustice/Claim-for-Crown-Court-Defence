@@ -30,10 +30,11 @@
         .xsmall
           = claim.external_user.name
       .column-quarter
-        .bold-xsmall
-          = t("common.external_user.category.#{@claim.external_user_type}")
-        .xsmall
-          = claim.advocate_category
+        - if @claim.agfs?
+          .bold-xsmall
+            = t("common.external_user.category.#{@claim.external_user_type}")
+          .xsmall
+            = claim.advocate_category
       .column-quarter
         .bold-xsmall
           = t("common.external_user.account_number.#{@claim.external_user_type}")

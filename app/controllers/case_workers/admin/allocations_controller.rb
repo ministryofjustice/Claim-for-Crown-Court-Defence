@@ -1,4 +1,7 @@
 class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::ApplicationController
+  include PaginationHelpers
+  PaginationHelpers::DEFAULT_PAGE_SIZE = 50
+
   before_action :set_case_workers, only: [:new, :create]
   before_action :set_claims, only: [:new, :create]
   before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
@@ -43,7 +46,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def process_claim_ids
     quantity_to_allocate = params[:quantity_to_allocate].to_i
-    params[:allocation][:claim_ids] = @claims.limit(quantity_to_allocate).map(&:id).map(&:to_s)
+    params[:allocation][:claim_ids] = @claims.page(current_page).per(page_size).limit(quantity_to_allocate).map(&:id).map(&:to_s)
   end
 
   def set_case_workers
@@ -52,6 +55,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_claims
     filter_by_claim_type
+    paginate_claims
     filter_by_allocation_state
     search_claims
     filter_claims
@@ -91,6 +95,10 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     load_claim_associations
   end
 
+  def paginate_claims
+    @claims = @claims.page(current_page).per(page_size)
+  end
+
   def filter_by_allocation_state
     @claims = tab == 'allocated' ? @claims.caseworker_dashboard_under_assessment : @claims.submitted_or_redetermination_or_awaiting_written_reasons
   end
@@ -109,7 +117,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   def filter_by_allocation_filters
     default_scheme_inapplicable_filters
     filter = params[:filter].to_sym
-    
+
     case params[:filter]
       when *state_allocation_filters
         @claims = @claims.send(filter)

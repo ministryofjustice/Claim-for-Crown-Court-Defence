@@ -50,7 +50,7 @@
             = 'Re-allocation'
           %span.claim-count
             = "Number of claims: "
-            = @claims.count
+            = page_entries_info @claims, entry_name: 'claim'
         %colgroup
           %col
           %col

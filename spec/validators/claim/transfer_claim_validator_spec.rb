@@ -2,7 +2,6 @@ require 'rails_helper'
 require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
 
-
 module Claim
   describe(Claim::TransferClaimValidator) do
 
@@ -88,7 +87,7 @@ module Claim
             expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
           end
           it 'is invalid if negative' do
-            expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
+            expect_invalid_attribute_with_message(claim, :estimated_trial_length, -1, 'blank')
           end
         end
 

@@ -19,7 +19,7 @@ module Claim
           :case_conclusion_id,
           :transfer_detail_combo,
           :first_day_of_trial,
-          # :estimated_trial_length,
+          :estimated_trial_length,
           :trial_concluded_at,
           # :retrial_started_at,
           # :retrial_estimated_length,
@@ -31,6 +31,13 @@ module Claim
     end
 
     private
+
+    def validate_estimated_trial_length
+      if @record.estimated_trial_length < 0
+        add_error(:estimated_trial_length, 'invalid')
+      end
+    end
+
     def validate_litigator_type
       unless @record.litigator_type.in? %w{ new original }
         add_error(:litigator_type, 'invalid')

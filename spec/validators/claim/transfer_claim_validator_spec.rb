@@ -8,6 +8,40 @@ module Claim
     let(:claim) { build :transfer_claim }
     let(:transfer_detail) { build :transfer_detail, claim: claim }
 
+    describe 'case_type' do
+      it 'errors if nil' do
+        expect_invalid_attribute_with_message(claim, :case_type, nil, 'blank')
+      end
+    end
+
+    describe 'court' do
+      it 'errors if nil' do
+        expect_invalid_attribute_with_message(claim, :court, nil, 'blank')
+      end
+    end
+
+    describe 'transfer_court' do
+      pending "TODO should be required if 'transfer court' checked"
+    end
+
+    describe 'advocate_category' do
+      pending
+    end
+
+    describe 'offence' do
+      pending
+    end
+
+    describe 'case_concluded_at' do
+      it 'errors if nil' do
+        expect_invalid_attribute_with_message(claim, :case_concluded_at, nil, 'blank')
+      end
+
+      it 'is valid if a valid value' do
+        expect_valid_attribute(claim, :case_concluded_at, Date.today)
+      end
+    end
+
     context 'litigator type' do
       it 'errors if not new or original' do
         expect_invalid_attribute_with_message(claim, :litigator_type, 'xxx', 'invalid')
@@ -87,7 +121,7 @@ module Claim
             expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
           end
           it 'is invalid if negative' do
-            expect_invalid_attribute_with_message(claim, :estimated_trial_length, -1, 'blank')
+            expect_invalid_attribute_with_message(claim, :estimated_trial_length, -1, 'invalid')
           end
         end
 

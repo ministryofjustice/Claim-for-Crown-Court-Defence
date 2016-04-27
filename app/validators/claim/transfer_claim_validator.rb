@@ -33,7 +33,8 @@ module Claim
     private
 
     def validate_estimated_trial_length
-      if @record.estimated_trial_length < 0
+      validate_presence(:estimated_trial_length, 'blank')
+      if @record.estimated_trial_length && @record.estimated_trial_length < 0
         add_error(:estimated_trial_length, 'invalid')
       end
     end

@@ -115,7 +115,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         %w{ fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
 
-            # if filter_type == 'interim_fees'
             before do
               @claims = create_filterable_claim(:litigator_claim, "#{filter_type}".to_sym, 1)
               get :new, params
@@ -124,7 +123,33 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
-            # end
+          end
+        end
+
+        context 'complexities for transfer claims' do
+          before do
+            # create agfs fixed_fee and graduated_fees to ensure they do not show
+            @ff_agfs_claim = create(:advocate_claim, case_type: create(:case_type, :fixed_fee))
+            @gf_agfs_claim = create(:advocate_claim, case_type: create(:case_type, :graduated_fee))
+
+            # create lgfs fixed_fee and graduated_fees, expected results
+            @gf_claim = create(:transfer_claim, :graduated_fee_allocation_type)
+            @ff_claim = create(:transfer_claim, :fixed_fee_allocation_type)
+            get :new, params
+          end
+
+          context 'graduated_fees filter' do
+            let(:params) { { tab: 'unallocated', scheme: 'lgfs', filter: 'graduated_fees' } }
+            it 'should include transfer claims of \'Grad\' allocation type' do
+              expect(assigns(:claims).map(&:id)).to eql [@gf_claim.id]
+            end
+          end
+
+          context 'fixed_fee filter' do
+            let(:params) { { tab: 'unallocated', scheme: 'lgfs', filter: 'fixed_fee' } }
+            it 'should include transfer claims of \'Fixed\' allocation type' do
+              expect(assigns(:claims).map(&:id)).to eql [@ff_claim.id]
+            end
           end
         end
 

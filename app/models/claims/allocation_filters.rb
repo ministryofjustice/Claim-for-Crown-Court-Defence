@@ -21,7 +21,7 @@ module Claims::AllocationFilters
     end
 
     def agfs_lgfs_scopes
-      scope :fixed_fee,   -> { where(case_type_id: CaseType.fixed_fee.pluck(:id) ) }
+      scope :fixed_fee,   -> { all_fixed_fee }
     end
 
     def agfs_scopes
@@ -38,8 +38,12 @@ module Claims::AllocationFilters
       scope :interim_disbursements, -> { all_interim_disbursements }
     end
 
+    def all_fixed_fee
+      where('"claims"."case_type_id" IN (?) OR "claims"."allocation_type" = ?', CaseType.fixed_fee.pluck(:id), 'Fixed')
+    end
+
     def all_graduated_fees
-      where(case_type_id: CaseType.graduated_fees.pluck(:id) )
+      where('"claims"."case_type_id" IN (?) OR "claims"."allocation_type" = ?', CaseType.graduated_fees.pluck(:id), 'Grad')
     end
 
     def all_risk_based_bills

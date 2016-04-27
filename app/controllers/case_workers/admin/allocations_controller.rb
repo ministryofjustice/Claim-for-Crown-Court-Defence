@@ -91,7 +91,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_by_claim_type
-    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.where(type: [Claim::LitigatorClaim,Claim::InterimClaim] ) : Claim::BaseClaim.where(type: Claim::AdvocateClaim) )
+    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] ) : Claim::BaseClaim.where(type: Claim::AdvocateClaim) )
     load_claim_associations
   end
 

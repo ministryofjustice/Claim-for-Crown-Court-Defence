@@ -14,6 +14,8 @@
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :scheme, params[:scheme]
+  = hidden_field_tag :page, params[:page]
+
   %fieldset.inline
     %legend.normal
       = "Allocate to"

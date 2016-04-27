@@ -12,6 +12,7 @@
   = hidden_field_tag :tab, params[:tab]
   = hidden_field_tag :scheme, params[:scheme]
   = hidden_field_tag :filter, params[:filter] if params[:filter]
+  = hidden_field_tag :page, params[:page]
 
   .grid-row
     .form-row
@@ -31,8 +32,8 @@
           %span.table-caption
             = 'Allocations'
           %span.claim-count
-            = "Number of claims: "
-            = @claims.count
+            = "Showing claims: "
+            = page_entries_info @claims, entry_name: 'claim'
         %colgroup
           %col
           %col

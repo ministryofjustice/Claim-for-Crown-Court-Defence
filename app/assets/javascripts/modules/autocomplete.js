@@ -40,7 +40,7 @@
         'blur': function(){
           self.copySelectedValue(input, select);
         },
-        'click': function(){
+        'focus': function(){
           this.value = '';
           self.open(awesompleteElement);
         }

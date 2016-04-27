@@ -30,6 +30,12 @@ FactoryGirl.define do
       is_fixed_fee    true
     end
 
+    trait :graduated_fee do
+      name 'Graduated fee'
+      is_fixed_fee false
+      fee_type_code { build(:graduated_fee_type).code }
+    end
+
     trait :requires_cracked_dates do
       requires_cracked_dates true
     end

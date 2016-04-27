@@ -61,6 +61,23 @@ module Claim
       data_item[:validity]
     end
 
+    def valid_transfer_stage_ids(litigator_type, elected_case)
+      transfer_stages = @collection_hash.fetch(litigator_type).fetch(elected_case)
+      ids = []
+      transfer_stages.each do |transfer_stage_id, result_hash|
+        result_hash.each do |_case_conclusion_id, result|
+          ids << transfer_stage_id if result[:validity] == true
+        end
+      end
+      ids.uniq.sort
+    end
+
+    def valid_case_conclusion_ids(litigator_type, elected_case, transfer_stage_id)
+      result = @collection_hash.fetch(litigator_type).fetch(elected_case).fetch(transfer_stage_id).keys
+      result = TransferBrain.case_conclusion_ids if result ==  ['*']
+      result.sort
+    end
+
     private
 
     def load_file

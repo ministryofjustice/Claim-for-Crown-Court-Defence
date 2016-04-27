@@ -2,7 +2,7 @@ module Claim
   class TransferBrainDataItem
 
     attr_reader :litigator_type, :elected_case, :transfer_stage_id, :case_conclusion_id,
-                :allocation_case_type, :visibility, :transfer_fee_full_name
+                :allocation_type, :validity, :visibility, :transfer_fee_full_name
 
     def initialize(arry)
       copy_array = arry

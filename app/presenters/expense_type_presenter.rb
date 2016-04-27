@@ -30,7 +30,7 @@ class ExpenseTypePresenter < BasePresenter
   end
 
   def distance_field?
-    car_travel? || train?
+    car_travel?
   end
 
   def mileage_field?

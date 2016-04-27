@@ -20,7 +20,7 @@ RSpec.describe ExpenseTypePresenter do
 
       it 'returns the right data attributes' do
         expect(presenter.data_attributes).to \
-          eq({ location: true, location_label: 'Destination', distance: true, mileage: false, hours: false, reason_set: 'A' })
+          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, hours: false, reason_set: 'A' })
       end
     end
 

@@ -10,11 +10,7 @@ class DisbursementPresenter < BasePresenter
   end
 
   def vat_amount
-    if disbursement.claim.vat_registered?
-      h.number_to_currency disbursement.vat_amount
-    else
-      h.content_tag :div, 'n/a', class: 'form-hint'
-    end
+    h.number_to_currency disbursement.vat_amount
   end
 
   def total

@@ -1,8 +1,9 @@
 class CaseWorkers::ApplicationController < ApplicationController
   before_action :authenticate_case_worker!
 
-  def set_claim_carousel_info
-    session[:claim_ids] = @claims.all.map(&:id)
+  # NOTE: limit needed to prevent cookie overflow
+  def set_claim_carousel_info(limit=50)
+    session[:claim_ids] = @claims.limit(limit).map(&:id)
     session[:claim_count] = @claims.try(:size)
   end
 

@@ -20,18 +20,6 @@ module Claim
       end
     end
 
-    describe 'transfer_court' do
-      pending "TODO should be required if 'transfer court' checked"
-    end
-
-    describe 'advocate_category' do
-      pending
-    end
-
-    describe 'offence' do
-      pending
-    end
-
     describe 'case_concluded_at' do
       it 'errors if nil' do
         expect_invalid_attribute_with_message(claim, :case_concluded_at, nil, 'blank')

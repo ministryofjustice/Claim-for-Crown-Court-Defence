@@ -1,0 +1,10 @@
+%fieldset
+  %legend
+    = t('.supplier_numbers')
+  .form-group
+    %table
+      = f.fields_for :supplier_numbers do |snf|
+        - @sn_index = snf.index + 1
+        = render 'shared/supplier_number_fields', f: snf
+    = link_to_add_association t('.add_supplier_number'), f, :supplier_numbers, partial: 'shared/supplier_number_fields',
+        data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}

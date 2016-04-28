@@ -247,6 +247,7 @@ en:
         provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
+        supplier_numbers: "Supplier numbers"
       index:
         add_a_provider: Add a provider
       providers:
@@ -346,6 +347,7 @@ en:
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
+          supplier_numbers: "Supplier numbers"
         edit:
           error: 'error'
           prohibited_save: 'This provider has'
@@ -725,6 +727,11 @@ en:
         date_issued: "Warrant fee date issued"
         executed: "Warrant executed"
         date_executed: "Warrant fee date executed"
+    supplier_numbers:
+      supplier_numbers: "Supplier numbers"
+      add_supplier_number: "Add another supplier number"
+    supplier_number_fields:
+      remove: "Remove supplier number"
   case_workers:
     table_headings:
       your_claims: Your claims

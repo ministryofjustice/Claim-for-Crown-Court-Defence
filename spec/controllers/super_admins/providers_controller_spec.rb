@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SuperAdmins::ProvidersController, type: :controller do
   let(:super_admin) { create(:super_admin) }
   let(:providers)    { create_list(:provider, 5) }
-  let(:provider)     { create(:provider) }
+  let(:provider)     { create(:provider, :lgfs) }
 
   subject { provider }
 
@@ -50,7 +50,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
   end
 
   describe "PUT #update" do
-    before { subject.update(supplier_number: 'AB123') }
+    before { subject.update(name: 'test 123') }
 
     it 'does not allow updating of provider type' do
       provider = create(:provider, :firm)
@@ -59,11 +59,11 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
     end
 
     context 'when valid' do
-      before(:each) { put :update, id: subject, provider: { supplier_number: 'XY123' } }
+      before(:each) { put :update, id: subject, provider: { name: 'test firm' } }
 
       it 'updates successfully' do
         subject.reload
-        expect(subject.reload.supplier_number).to eq('XY123')
+        expect(subject.reload.name).to eq('test firm')
       end
 
       it 'redirects to providers show page' do
@@ -76,11 +76,58 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
 
       it 'does not update provider' do
         subject.reload
-        expect(subject.supplier_number).to eq('AB123')
+        expect(subject.name).to eq('test 123')
       end
 
       it 'renders the edit template' do
         expect(response).to render_template(:edit)
+      end
+    end
+
+    describe 'multiple supplier numbers' do
+      let(:provider) { create(:provider, :lgfs) }
+      subject { provider }
+
+      before(:each) { subject.supplier_numbers.delete_all }
+
+      context 'when invalid' do
+        before(:each) do
+          put :update, id: subject, provider: {
+              supplier_numbers_attributes: [
+                  { supplier_number: 'XY123' },
+                  { supplier_number: '' }
+              ]
+          }
+        end
+
+        it 'does not update provider' do
+          subject.reload
+          expect(subject.supplier_numbers).to be_empty
+        end
+
+        it 'renders the edit template' do
+          expect(response).to render_template(:edit)
+        end
+      end
+
+      context 'when valid' do
+        before(:each) do
+          put :update, id: subject, provider: {
+              supplier_numbers_attributes: [
+                  { supplier_number: '1B222Z' },
+                  { supplier_number: '2B555Z' }
+              ]
+          }
+        end
+
+        it 'updates the provider' do
+          subject.reload
+          expect(subject.supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
+        end
+
+        it 'redirects to providers show page' do
+          expect(response).to redirect_to(super_admins_provider_path(subject))
+        end
       end
     end
   end

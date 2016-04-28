@@ -19,8 +19,8 @@ module Claim
           :case_conclusion_id,
           :transfer_detail_combo,
           :first_day_of_trial,
-          # :estimated_trial_length,
-          # :trial_concluded_at,
+          :estimated_trial_length,
+          :trial_concluded_at,
           # :retrial_started_at,
           # :retrial_estimated_length,
           # :effective_pcmh_date,
@@ -31,6 +31,14 @@ module Claim
     end
 
     private
+
+    def validate_estimated_trial_length
+      validate_presence(:estimated_trial_length, 'blank')
+      if @record.estimated_trial_length && @record.estimated_trial_length < 0
+        add_error(:estimated_trial_length, 'invalid')
+      end
+    end
+
     def validate_litigator_type
       unless @record.litigator_type.in? %w{ new original }
         add_error(:litigator_type, 'invalid')
@@ -68,17 +76,17 @@ module Claim
       end
     end
 
-    def validate_first_day_of_trial
-      validate_presence(:first_day_of_trial, 'blank') if requires_trial_dates?
-    end
+    # def validate_first_day_of_trial
+    #   validate_presence(:first_day_of_trial, 'blank') if requires_trial_dates?
+    # end
 
-    def validate_trial_concluded_at
-      validate_presence(:trial_concluded_at, 'blank') if requires_trial_dates?
-    end
-
-    def validate_retrial_started_at
-      validate_presence(:retrial_started_at, 'blank') if requires_trial_dates?
-    end
+    # def validate_trial_concluded_at
+    #   validate_presence(:trial_concluded_at, 'blank') if requires_trial_dates?
+    # end
+    #
+    # def validate_retrial_started_at
+    #   validate_presence(:retrial_started_at, 'blank') if requires_trial_dates?
+    # end
 
     def validate_effective_pcmh_date
       validate_presence(:effective_pcmh_date, 'blank') if @record.interim_fee.try(:is_effective_pcmh?)

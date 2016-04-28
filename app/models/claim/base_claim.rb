@@ -87,7 +87,7 @@ module Claim
     belongs_to :case_type
 
     delegate :provider_id, :provider, to: :creator
-    delegate :requires_trial_dates?, :requires_retrial_dates?, :requires_cracked_dates?, to: :case_type
+    delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type
 
     has_many :case_worker_claims,       foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers,             through: :case_worker_claims
@@ -164,6 +164,7 @@ module Claim
     def lgfs?; false; end
     def interim?; false; end
     def transfer?; false; end
+    def requires_cracked_dates?; false; end
 
     def set_force_validation_to_false
       @force_validation = false

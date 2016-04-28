@@ -11,11 +11,11 @@ module DemoData
 
     def initialize(param_options = {})
       raise "You cannot instantiate a generator of class #{self.class}" if self.class == BaseClaimGenerator
-      default_options = { states: :all, num_external_users: 2, num_claims_per_state: 2 }
+      default_options = { states: :all, num_external_users: 1, num_claims_per_state: 1 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
-      @num_external_users = options[:num_external_users]
-      @num_claims = options[:num_claims_per_state]
+      @num_external_users = options[:num_external_users].to_i
+      @num_claims = options[:num_claims_per_state].to_i
       @external_user_persona = self.kind_of?(DemoData::LgfsSchemeClaimGenerator) ? :litigator : :advocate
     end
 

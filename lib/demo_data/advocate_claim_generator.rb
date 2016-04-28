@@ -1,4 +1,4 @@
-require_relative 'base_claim_generator'
+require_relative 'lgfs_scheme_claim_generator'
 
 module DemoData
   class AdvocateClaimGenerator < BaseClaimGenerator

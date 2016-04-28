@@ -75,13 +75,13 @@
         .xsmall
           = claim.offence ? claim.offence.offence_class : t('general.not_provided')
 
-    - if claim.case_type && claim.case_type.requires_cracked_dates
+    - if claim.case_type && claim.requires_cracked_dates?
       = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
-    - if claim.case_type && claim.case_type.requires_trial_dates
+    - if claim.case_type && claim.requires_trial_dates?
       = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
-    - if claim.case_type && claim.case_type.requires_retrial_dates
+    - if claim.case_type && claim.requires_retrial_dates?
       = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if claim.defendants.any?

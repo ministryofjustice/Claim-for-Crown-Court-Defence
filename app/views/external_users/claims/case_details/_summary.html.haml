@@ -61,30 +61,30 @@
         %td
           = claim.case_concluded_at
 
-    - unless claim.interim?
-      - if claim.case_type && claim.case_type.requires_cracked_dates
-        %tr
-          %th{scope: 'row'}
-            = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
-          %td
-            = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
-        %tr
-          %th{scope: 'row'}
-            = t("#{cracked_trial_detail_translations}.trial_fixed_at")
-          %td
-            = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
-        %tr
-          %th{scope: 'row'}
-            = t("#{cracked_trial_detail_translations}.trial_cracked_at")
-          %td
-            = claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
-        %tr
-          %th{scope: 'row'}
-            = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
-          %td
-            = claim.trial_cracked_at_third.humanize rescue ''
+    - if claim.case_type && claim.requires_cracked_dates?
+      %tr
+        %th{scope: 'row'}
+          = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
+        %td
+          = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
+      %tr
+        %th{scope: 'row'}
+          = t("#{cracked_trial_detail_translations}.trial_fixed_at")
+        %td
+          = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
+      %tr
+        %th{scope: 'row'}
+          = t("#{cracked_trial_detail_translations}.trial_cracked_at")
+        %td
+          = claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
+      %tr
+        %th{scope: 'row'}
+          = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
+        %td
+          = claim.trial_cracked_at_third.humanize rescue ''
 
-      - if claim.case_type && claim.case_type.requires_trial_dates
+    - unless claim.interim?
+      - if claim.case_type && claim.requires_trial_dates?
         %tr
           %th{scope: 'row'}
             = t("#{trial_detail_translations}.first_day_of_trial")
@@ -106,7 +106,7 @@
           %td
             = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
 
-      - if claim.case_type && claim.case_type.requires_retrial_dates
+      - if claim.case_type && claim.requires_retrial_dates?
         %tr
           %th{scope: 'row'}
             = t("#{retrial_detail_translations}.retrial_started_at")

@@ -29,6 +29,7 @@ max_document_upload_size_mb: 400
 max_document_upload_count: 20
 
 claim_csv_headers:
+  - :scheme
   - :case_number
   - :supplier_number
   - :organisation

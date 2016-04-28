@@ -53,6 +53,7 @@
 
 require 'rails_helper'
 require 'custom_matchers'
+require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::InterimClaim, type: :model do
 
@@ -71,10 +72,6 @@ RSpec.describe Claim::InterimClaim, type: :model do
     end
   end
 
-  describe '#vat_registered?' do
-    it 'returns the value from the provider' do
-      expect(claim.provider).to receive(:vat_registered?)
-      claim.vat_registered?
-    end
-  end
+  include_examples "common litigator claim attributes"
+
 end

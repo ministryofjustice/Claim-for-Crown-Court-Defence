@@ -198,6 +198,7 @@ en:
     delete: Delete
     view: View
     warrant_fees: Warrant fees
+    interim_fees: "Interim fees"
   link:
     add_claim: Start a claim
     back: Back
@@ -727,6 +728,16 @@ en:
         date_issued: "Warrant fee date issued"
         executed: "Warrant executed"
         date_executed: "Warrant fee date executed"
+        total: "Total"
+      total: "Total"
+      ppe_total: "PPE total at the time"
+      effective_pcmh_date: "Effective PCMH"
+      trial_start: "Trial start"
+      estimated_trial_length: "Trial estimated length"
+      retrial_start: "Re-trial start"
+      estimated_retrial_length: "Re-trial estimated length"
+      legal_aid_transfer_date: "Legal aid transfer"
+      trial_concluded_at: "First trial concluded"
     supplier_numbers:
       supplier_numbers: "Supplier numbers"
       add_supplier_number: "Add another supplier number"

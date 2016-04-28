@@ -3,7 +3,6 @@ require 'rails_helper'
 module Claim
   describe TransferBrainDataItem do
 
-    xit  'pending' do
     let(:item) do
       fields = ['original', 'true', 'During trial transfer', 'Guilty plea', 'TRUE', 'false', 'Fee full name', 'grad']
       TransferBrainDataItem.new(fields)
@@ -18,7 +17,7 @@ module Claim
         expect(item.validity).to be true
         expect(item.visibility).to be false
         expect(item.transfer_fee_full_name).to eq 'Fee full name'
-        expect(item.allocation_case_type).to eq 'grad'
+        expect(item.allocation_type).to eq 'grad'
       end
     end
 
@@ -49,15 +48,15 @@ module Claim
               30 => {
                 50 => {
                   :visibility => false,
+                  :validity => true,
                   :transfer_fee_full_name => "Fee full name",
-                  :allocation_case_type => "grad"
+                  :allocation_type => "grad"
                 }
               }
             }
           }
         }
       end
-    end
     end
 
   end

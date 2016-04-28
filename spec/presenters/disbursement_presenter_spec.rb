@@ -21,20 +21,8 @@ RSpec.describe DisbursementPresenter do
   end
 
   describe '#vat_amount' do
-    context 'VAT registered' do
-      let(:claim) { instance_double(Claim::LitigatorClaim, vat_registered?: true) }
-
-      it 'returns the vat_amount rounded and formatted' do
-        expect(subject.vat_amount).to eq('£2.34')
-      end
-    end
-
-    context 'not VAT registered' do
-      let(:claim) { instance_double(Claim::LitigatorClaim, vat_registered?: false) }
-
-      it 'returns the vat_amount rounded and formatted' do
-        expect(subject.vat_amount).to include('n/a')
-      end
+    it 'returns the vat_amount rounded and formatted' do
+      expect(subject.vat_amount).to eq('£2.34')
     end
   end
 end

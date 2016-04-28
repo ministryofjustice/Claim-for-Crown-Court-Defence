@@ -73,6 +73,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { should have_many(:case_workers) }
   it { should have_many(:claim_state_transitions) }
 
+  it { should delegate_method(:provider_id).to(:creator) }
+  it { should delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { should delegate_method(:requires_cracked_dates?).to(:case_type) }
+
   describe 'validates external user and creator with same provider' do
     let(:provider) { create(:provider) }
     let(:other_provider) { create(:provider) }

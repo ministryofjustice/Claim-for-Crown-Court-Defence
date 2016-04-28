@@ -101,6 +101,7 @@ en:
         offence: 'Offence'
         court: 'Court'
         case_number: 'Case number'
+        transfer_case_number: 'Transfer case number'
         case_type: 'Case type'
         advocate_category: 'Advocate category'
     errors:
@@ -185,6 +186,8 @@ en:
         litigator: Litigator account number
     court: Court
     crown_court: Crown court
+    transfer_court: Transfer court
+    transfer_case_number: Transfer case number
     defendant: Defendant
     expenses: Expenses
     disbursements: Disbursements
@@ -423,6 +426,7 @@ en:
           advocate_category: 'Advocate category'
           case_advocate_offence: 'Case, instructed advocate & offence'
           case_number: 'Case number'
+          transfer_case_number: 'Transfer case number'
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'

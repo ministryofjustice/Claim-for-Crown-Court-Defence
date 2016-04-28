@@ -49,6 +49,7 @@
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
 #  allocation_type          :string
+#  transfer_case_number     :string
 #
 
 module Claim
@@ -81,6 +82,7 @@ module Claim
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court
+    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
     belongs_to :offence
     belongs_to :external_user
     belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'

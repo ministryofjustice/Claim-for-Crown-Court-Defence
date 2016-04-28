@@ -37,12 +37,25 @@
             $(select).val(selectedItems[0].value).change();
           }
         },
+        'awesomplete-open': function(){
+          awesompleteElement.opened = true;
+        },
         'blur': function(){
           self.copySelectedValue(input, select);
         },
-        'focus': function(){
+        'mousedown': function(e){
+          awesompleteElement.lastClick = e.target;
           this.value = '';
           self.open(awesompleteElement);
+        },
+        'focus': function(e){
+          if (e.target == awesompleteElement.lastClick) { // Click
+            return;
+          } else { // Tab
+            this.value = '';
+            self.open(awesompleteElement); 
+          }
+          awesompleteElement.lastClick = null;
         }
       });     
     };

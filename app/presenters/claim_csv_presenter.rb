@@ -50,6 +50,16 @@ class ClaimCsvPresenter < BasePresenter
     case_type.name
   end
 
+  def scheme
+    if type == 'Claim::AdvocateClaim'
+      'AGFS'
+    elsif %w( Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim ).include? type
+      'LGFS'
+    else
+      'Unknown'
+    end
+  end
+
   def claim_total
     total_including_vat.to_s
   end

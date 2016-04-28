@@ -39,9 +39,9 @@ module DemoData
   private
 
     def add_claim_detail(claim)
-      add_trial_dates(claim) if claim.case_type.requires_trial_dates?
-      add_retrial_dates(claim) if claim.case_type.requires_retrial_dates?
-      add_cracked_dates(claim) if claim.case_type.requires_cracked_dates?
+      add_trial_dates(claim) if claim.requires_trial_dates?
+      add_retrial_dates(claim) if claim.requires_retrial_dates?
+      add_cracked_dates(claim) if claim.requires_cracked_dates?
     end
 
     def add_fees(claim)

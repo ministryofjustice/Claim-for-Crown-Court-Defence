@@ -43,6 +43,7 @@
         %td
           = claim.transfer_court.name if claim.transfer_court
 
+    - if claim.transfer_case_number.present?
       %tr
         %th{scope: 'row'}
           = t("#{locale_path}.transfer_case_number")

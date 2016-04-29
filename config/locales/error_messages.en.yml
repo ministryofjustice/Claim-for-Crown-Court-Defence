@@ -115,6 +115,10 @@ first_day_of_trial:
     long: Enter a date for the first day of trial
     short: Enter a date
     api: Enter a date for the first day of trial
+  present:
+    long: Date for trial start is not allowed
+    short: Date not allowed
+    api: Date for trial start is not allowed
   invalid_date:
     long: Enter a valid date for the first day of trial
     short: Enter a valid date
@@ -152,6 +156,10 @@ trial_concluded_at:
     long: Enter the date on which the trial concluded
     short: Enter a date
     api: Enter the date on which the trial concluded
+  present:
+    long: Date for trial concluded at is not allowed
+    short: Date not allowed
+    api: Date for trial concluded at is not allowed
   invalid_date:
     long: 'Enter a valid date for trial concluded'
     short: Enter a valid date
@@ -163,6 +171,10 @@ retrial_started_at:
     long: Enter a date for the first day of retrial
     short: Enter a date
     api: Enter a date for the first day of retrial
+  present:
+    long: Date for retrial start date at is not allowed
+    short: Date not allowed
+    api: Date for retrial concluded at is not allowed
   invalid_date:
     long: Enter a valid date for the first day of retrial
     short: Enter a valid date

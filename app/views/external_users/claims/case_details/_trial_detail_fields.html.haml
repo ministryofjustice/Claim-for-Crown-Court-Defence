@@ -8,14 +8,14 @@
 
   .form-row
     .form-col
-      = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', placeholders: true, id: "first_day_of_trial", error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
+      = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', id: "first_day_of_trial", error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
     .form-col
       = f.anchored_label t('.estimated_trial_length')
       = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
       = validation_error_message(@error_presenter, :estimated_trial_length)
   .form-row
     .form-col
-      = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true, id: "trial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
+      = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', id: "trial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
     .form-col
       = f.anchored_label t('.actual_trial_length')
       = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'

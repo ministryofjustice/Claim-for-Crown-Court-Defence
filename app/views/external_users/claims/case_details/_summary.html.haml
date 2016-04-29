@@ -42,11 +42,12 @@
       %td
         = claim.case_type.try(:name)
 
-    %tr
-      %th{scope: 'row'}
-        = t("#{locale_path}.offence_category")
-      %td
-        = claim.offence ? claim.offence.description : t("general.not_provided")
+    - if claim.agfs?
+      %tr
+        %th{scope: 'row'}
+          = t("#{locale_path}.offence_category")
+        %td
+          = claim.offence ? claim.offence.description : t("general.not_provided")
 
     %tr
       %th{scope: 'row'}

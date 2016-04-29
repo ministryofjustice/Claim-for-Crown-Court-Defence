@@ -48,81 +48,76 @@
         = t('.fees_total')
         = claim.fees_total
 
-    %h3.indent-sides
-      = t('common.expenses')
-    - if claim.expenses.empty?
-      %p
-        There are no expenses for this claim
-    - else
-      %table.indent-sides
-        %caption.visually-hidden
-          = t('common.expenses')
-        %colgroup
-          %col
-          %col
-          %col
-          %col
-          %col
-          %col
-          %col
-        %thead
-          %tr
-            %th{scope: 'col'}
-              = t('.date')
-            %th{scope: 'col'}
-              = t('.expense_type')
-            %th.numeric{scope: 'col'}
-              = t('.distance')
-            %th.numeric{scope: 'col'}
-              = t('.quantity_hours')
-            %th{scope: 'col'}
-              = t('.location')
-            %th.numeric{scope: 'col'}
-              = t('.amount')
-            - if claim.lgfs?
-              %th.numeric{scope: 'col'}
-                = t('.vat_amount')
-              %th.numeric{scope: 'col'}
-                Total amount
-        %tbody
-          - present_collection(claim.expenses).each do |expense|
-            %tr.no-border
-              %td
-                = expense.date
-              %td
-                = expense.name
-              %td.numeric
-                = expense.distance
-              %td.numeric
-                = expense.quantity
-              %td
-                = expense.location
-              %td.numeric
-                = expense.amount
-              - if claim.lgfs?
-                %td.numeric
-                  = expense.vat_amount
-                %td.numeric
-                  = expense.total
-            %tr
-              %td{colspan: "6"}
-                .bold-normal
-                  = t('.reason')
-                = expense.expense_reason.reason
-
-      .totals.indent-sides
-        = t('.expenses_total')
-        = claim.expenses_total
-
+    - if claim.can_have_expenses?
       %h3.indent-sides
-        = "Disbursements"
-    - if claim.disbursements.empty?
-      %p
-        There are no disbursements for this claim
-    - else
+        = t('common.expenses')
+      - if claim.expenses.empty?
+        %p
+          There are no expenses for this claim
+      - else
+        %table.indent-sides
+          %caption.visually-hidden
+            = t('common.expenses')
+          %colgroup
+            %col
+            %col
+            %col
+            %col
+            %col
+            %col
+            %col
+          %thead
+            %tr
+              %th{scope: 'col'}
+                = t('.date')
+              %th{scope: 'col'}
+                = t('.expense_type')
+              %th.numeric{scope: 'col'}
+                = t('.distance')
+              %th.numeric{scope: 'col'}
+                = t('.quantity_hours')
+              %th{scope: 'col'}
+                = t('.location')
+              %th.numeric{scope: 'col'}
+                = t('.amount')
+              - if claim.lgfs?
+                %th.numeric{scope: 'col'}
+                  = t('.vat_amount')
+                %th.numeric{scope: 'col'}
+                  Total amount
+          %tbody
+            - present_collection(claim.expenses).each do |expense|
+              %tr.no-border
+                %td
+                  = expense.date
+                %td
+                  = expense.name
+                %td.numeric
+                  = expense.distance
+                %td.numeric
+                  = expense.quantity
+                %td
+                  = expense.location
+                %td.numeric
+                  = expense.amount
+                - if claim.lgfs?
+                  %td.numeric
+                    = expense.vat_amount
+                  %td.numeric
+                    = expense.total
+              %tr
+                %td{colspan: "6"}
+                  .bold-normal
+                    = t('.reason')
+                  = expense.expense_reason.reason
+        .totals.indent-sides
+          = t('.expenses_total')
+          = claim.expenses_total
+
+    - if claim.disbursements.any?
       %table.indent-sides
         %caption.visually-hidden
-          = "Disbursements"
+          = t('common.disbursements')
         %colgroup
           %col
           %col
@@ -149,8 +144,6 @@
                 = disbursement.vat_amount
               %td.numeric
                 = disbursement.total
-
-
       .totals.indent-sides
         = 'Disbursements total'
         = claim.disbursements_total

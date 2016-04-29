@@ -1,0 +1,55 @@
+- fee = present(claim.interim_fee)
+
+.basic-info-row
+  .column-quarter
+    .bold-xsmall
+      = t('shared.summary.fee_type')
+    .xsmall
+      = fee.fee_type.description
+  .column-quarter
+    - unless fee.is_disbursement? || fee.is_interim_warrant?
+      .bold-xsmall
+        = t('shared.summary.ppe_total')
+      .xsmall
+        = fee.quantity
+  .column-quarter
+    - if fee.is_effective_pcmh?
+      .bold-xsmall
+        = t('shared.summary.effective_pcmh_date')
+      .xsmall
+        = fee.effective_pcmh_date
+
+.basic-info-row
+  - if fee.is_trial_start?
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.trial_start')
+      .xsmall
+        = fee.first_day_of_trial
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.estimated_trial_length')
+      .xsmall
+        = fee.estimated_trial_length
+  - if fee.is_retrial_start?
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.retrial_start')
+      .xsmall
+        = fee.retrial_started_at
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.estimated_retrial_length')
+      .xsmall
+        = fee.retrial_estimated_length
+  - if fee.is_retrial_new_solicitor?
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.legal_aid_transfer_date')
+      .xsmall
+        = fee.legal_aid_transfer_date
+    .column-quarter
+      .bold-xsmall
+        = t('shared.summary.trial_concluded_at')
+      .xsmall
+        = fee.trial_concluded_at

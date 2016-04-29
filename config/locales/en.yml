@@ -428,7 +428,7 @@ en:
           advocate_category: 'Advocate category'
           case_advocate_offence: 'Case, instructed advocate & offence'
           case_number: 'Case number'
-          transfer_case_number: 'Transfer case number'
+          transfer_case_number: 'Transfer case number (optional)'
           case_type: 'Case type'
           court: 'Court'
           cracked_trial_detail: 'Cracked trial detail'
@@ -436,7 +436,7 @@ en:
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
-          transfer_court: 'Transfer court'
+          transfer_court: 'Transfer court (optional)'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'

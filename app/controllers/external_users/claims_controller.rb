@@ -417,11 +417,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @defendant_count                = 0
     @representation_order_count     = 0
     @basic_fee_count                = 0
-    @basic_fee_date_attended_count  = 0
     @misc_fee_count                 = 0
-    @misc_fee_date_attended_count   = 0
     @fixed_fee_count                = 0
-    @fixed_fee_date_attended_count  = 0
     @expense_count                  = 0
     @expense_date_attended_count    = 0
     @disbursement_count             = 0

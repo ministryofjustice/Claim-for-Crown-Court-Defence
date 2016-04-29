@@ -13,7 +13,7 @@
       .upload-column
         = f.file_field :attachment, class: 'button-secondary', label: false
       .message-column
-        = f.input :body, as: :string, placeholder: t('.message_placeholder'), label: false
+        = f.text_area :body, as: :text, placeholder: t('.message_placeholder'), label: false, class: 'form-control'
 
         - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
           .written-reasons-checkbox

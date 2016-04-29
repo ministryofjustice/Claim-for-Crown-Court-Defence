@@ -27,7 +27,7 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
   end
 
   def filtered_params
-    [:roles]
+    [:roles, :provider_type]
   end
 
 end

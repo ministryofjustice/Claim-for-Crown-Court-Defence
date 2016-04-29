@@ -14,7 +14,7 @@ class SuperAdmins::ProvidersController < ApplicationController
   end
 
   def update
-    if @provider.update(provider_params)
+    if @provider.update(provider_params.except(*filtered_params))
      redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
     else
       render :edit
@@ -36,4 +36,7 @@ class SuperAdmins::ProvidersController < ApplicationController
     @provider = Provider.find(params[:id])
   end
 
+  def filtered_params
+    [:provider_type]
+  end
 end

@@ -1,13 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe SuperAdmins::ProvidersController, type: :controller do
-  let(:super_admin) { create(:super_admin) }
-  let(:providers)   { create_list(:provider, 5) }
-  let(:provider)    { create(:provider, :lgfs, name: 'test 123') }
+RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
+  let(:admin)     { create(:external_user, :admin, provider: provider) }
+  let(:provider)  { create(:provider, :lgfs, name: 'test 123') }
 
   subject { provider }
 
-  before { sign_in super_admin.user }
+  before { sign_in admin.user }
 
   describe "GET #show" do
     before { get :show, id: subject }
@@ -18,20 +17,6 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
 
     it 'assigns @provider' do
       expect(assigns(:provider)).to eql(subject)
-    end
-  end
-
-  describe "GET #index" do
-    before { get :index }
-
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
-    end
-
-    it 'assigns @providers to ALL providers' do
-      providers.each do |provider|
-        expect(assigns(:providers)).to include(provider)
-      end
     end
   end
 
@@ -49,9 +34,8 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
 
   describe "PUT #update" do
     it 'does not allow updating of provider type' do
-      provider = create(:provider, :firm)
-      put :update, id: provider, provider: {provider_type: 'chamber'}
-      expect(provider.reload).to be_firm
+      put :update, id: subject, provider: {provider_type: 'chamber'}
+      expect(subject.reload).to be_firm
     end
 
     context 'when valid' do
@@ -62,7 +46,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
       end
 
       it 'redirects to providers show page' do
-        expect(response).to redirect_to(super_admins_provider_path(subject))
+        expect(response).to redirect_to(external_users_admin_provider_path(subject))
       end
     end
 
@@ -95,7 +79,8 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
         end
 
         it 'does not update provider' do
-          expect(subject.reload.supplier_numbers).to be_empty
+          subject.reload
+          expect(subject.supplier_numbers).to be_empty
         end
 
         it 'renders the edit template' do
@@ -114,58 +99,13 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
         end
 
         it 'updates the provider' do
-          expect(subject.reload.supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
+          subject.reload
+          expect(subject.supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
         end
 
         it 'redirects to providers show page' do
-          expect(response).to redirect_to(super_admins_provider_path(subject))
+          expect(response).to redirect_to(external_users_admin_provider_path(subject))
         end
-      end
-    end
-  end
-
-  describe "GET #new" do
-    before { get :new }
-
-    it 'returns http succes' do
-      expect(response).to have_http_status(:success)
-    end
-
-    it "assigns a new provider to @provider" do
-      expect(assigns(:provider)).to be_a_new(Provider)
-    end
-  end
-
-  describe "POST #create" do
-    before(:each) do
-      post :create, provider: params
-    end
-
-    context 'when valid' do
-      let(:params) do
-        {provider_type: 'firm', name: 'St Johns', supplier_number: '4321', roles: ['agfs']}
-      end
-
-      it "creates a new provider" do
-        expect(flash[:notice]).to eq 'Provider successfully created'
-      end
-
-      it 'redirects to index' do
-        expect(response).to redirect_to(super_admins_root_path)
-      end
-    end
-
-    context 'when invalid' do
-      let(:params) do
-        {name: 'St Johns', supplier_number: '4321'}
-      end
-
-      it "does not create a provider" do
-        expect(Provider.count).to eq(0)
-      end
-
-      it 'renders new action' do
-        expect(response).to render_template(:new)
       end
     end
   end

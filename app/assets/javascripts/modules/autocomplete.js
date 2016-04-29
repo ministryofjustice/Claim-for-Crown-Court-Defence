@@ -3,9 +3,9 @@
 
 (function($){
   $.fn.AutoComplete = function( options ) {
-    
+
     var self = this;
-    
+
     this.init = function(select) {
       if(!select)
         return false;
@@ -23,7 +23,10 @@
         list: this.createDataList(select.options),
         autoFirst: true,
         minChars: 0,
-        maxItems: 999
+        maxItems: 999,
+        sort: function(a, b) {
+          return a < b? -1 : 1;
+        }
       });
 
       this.bindEvents(input, select);
@@ -53,11 +56,11 @@
             return;
           } else { // Tab
             this.value = '';
-            self.open(awesompleteElement); 
+            self.open(awesompleteElement);
           }
           awesompleteElement.lastClick = null;
         }
-      });     
+      });
     };
 
     this.open = function(awesompleteElement){
@@ -103,7 +106,7 @@
     };
 
     this.init(this[0]);
-      
+
   };
 }(jQuery));
 

@@ -86,4 +86,6 @@
     .form-col
       = render partial: 'external_users/claims/case_details/offence_id_select', locals: { f: f }
 
-  = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }
+  .form-row
+    .form-col
+      = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

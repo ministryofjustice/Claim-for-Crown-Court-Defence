@@ -40,10 +40,15 @@
         - if expense.quantity.present?
           %tr
             %th{scope: 'row'}
-              = t('shared.summary.quantity_hours')
+              = t('shared.summary.quantity')
             %td
               = expense.quantity
-
+        - if expense.hours.present?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.quantity_hours')
+            %td
+              = expense.hours
         %tr
           %th{scope: 'row'}
             = t('shared.summary.reason')

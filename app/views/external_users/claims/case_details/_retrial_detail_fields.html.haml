@@ -8,14 +8,14 @@
 
   .form-row
     .form-col
-      = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', placeholders: true, id: "retrial_started_at")
+      = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', id: "retrial_started_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
     .form-col
       = f.anchored_label t('.retrial_estimated_length'), 'retrial_estimated_length'
       = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control'
       = validation_error_message(@error_presenter, :retrial_estimated_length)
   .form-row
     .form-col
-      = f.gov_uk_date_field(:retrial_concluded_at, legend_text: t('.retrial_concluded_at'), legend_class: 'govuk-legend', placeholders: true, id: "retrial_concluded_at")
+      = f.gov_uk_date_field(:retrial_concluded_at, legend_text: t('.retrial_concluded_at'), legend_class: 'govuk-legend', id: "retrial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_concluded_at))
     .form-col
       = f.anchored_label t('.retrial_actual_length'), 'retrial_actual_length'
       = f.number_field :retrial_actual_length, step: 1, min: 0, class: 'form-control'

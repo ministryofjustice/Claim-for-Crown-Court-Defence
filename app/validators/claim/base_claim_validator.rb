@@ -132,10 +132,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be more than 5 years old
   def validate_trial_fixed_notice_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_fixed_notice_at, "blank_#{snake_case_type}_date")
-      validate_not_after(Date.today, :trial_fixed_notice_at, "check_#{snake_case_type}_date")
-      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, "check_#{snake_case_type}_date")
-      validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "check_#{snake_case_type}_date")
+      validate_presence(:trial_fixed_notice_at, "blank")
+      validate_not_after(Date.today, :trial_fixed_notice_at, "check")
+      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, "check")
+      validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "check")
     end
   end
 
@@ -146,10 +146,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before trial_fixed_notice_at
   def validate_trial_fixed_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_fixed_at, "blank_#{snake_case_type}_date")
-      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, "check_#{snake_case_type}_date")
-      validate_not_before(earliest_rep_order, :trial_fixed_at, "check_#{snake_case_type}_date")
-      validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, "check_#{snake_case_type}_date")
+      validate_presence(:trial_fixed_at, "blank")
+      validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, "check")
+      validate_not_before(earliest_rep_order, :trial_fixed_at, "check")
+      validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, "check")
     end
   end
 
@@ -160,11 +160,11 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
     if @record.case_type && @record.requires_cracked_dates?
-      validate_presence(:trial_cracked_at, "blank_#{snake_case_type}_date")
-      validate_not_after(Date.today, :trial_cracked_at, "check_#{snake_case_type}_date")
-      validate_not_before(Settings.earliest_permitted_date, :trial_cracked_at, "check_#{snake_case_type}_date")
-      validate_not_before(earliest_rep_order, :trial_cracked_at, "check_#{snake_case_type}_date")
-      validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, "check_#{snake_case_type}_date")
+      validate_presence(:trial_cracked_at, "blank")
+      validate_not_after(Date.today, :trial_cracked_at, "check")
+      validate_not_before(Settings.earliest_permitted_date, :trial_cracked_at, "check")
+      validate_not_before(earliest_rep_order, :trial_cracked_at, "check")
+      validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, "check")
     end
   end
 

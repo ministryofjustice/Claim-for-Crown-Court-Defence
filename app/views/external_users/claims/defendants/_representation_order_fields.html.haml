@@ -6,7 +6,7 @@
     &nbsp;
   .form-row
     .form-col.ro-date
-      = f.gov_uk_date_field(:representation_order_date, legend_text: 'Representation order date', legend_class: 'govuk-legend', placeholders: true, id: "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date")
+      = f.gov_uk_date_field(:representation_order_date, legend_text: 'Representation order date', legend_class: 'govuk-legend', id: "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count}_representation_order_#{@representation_order_count}_representation_order_date"))
 
   .form-row
     .form-col.maat

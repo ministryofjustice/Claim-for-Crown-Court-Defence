@@ -115,6 +115,10 @@ first_day_of_trial:
     long: Enter a date for the first day of trial
     short: Enter a date
     api: Enter a date for the first day of trial
+  present:
+    long: Date for trial start is not allowed
+    short: Date not allowed
+    api: Date for trial start is not allowed
   invalid_date:
     long: Enter a valid date for the first day of trial
     short: Enter a valid date
@@ -152,6 +156,10 @@ trial_concluded_at:
     long: Enter the date on which the trial concluded
     short: Enter a date
     api: Enter the date on which the trial concluded
+  present:
+    long: Date for trial concluded at is not allowed
+    short: Date not allowed
+    api: Date for trial concluded at is not allowed
   invalid_date:
     long: 'Enter a valid date for trial concluded'
     short: Enter a valid date
@@ -163,6 +171,10 @@ retrial_started_at:
     long: Enter a date for the first day of retrial
     short: Enter a date
     api: Enter a date for the first day of retrial
+  present:
+    long: Date for retrial start date at is not allowed
+    short: Date not allowed
+    api: Date for retrial concluded at is not allowed
   invalid_date:
     long: Enter a valid date for the first day of retrial
     short: Enter a valid date
@@ -207,19 +219,11 @@ retrial_concluded_at:
 
 trial_fixed_notice_at:
   _seq: 150
-  blank_cracked_trial_date:
+  blank:
     long: 'Enter a date for "Notice of 1st fixed/warned issued"'
     short: Enter a date
     api: 'Enter a date for "Notice of 1st fixed/warned issued"'
-  blank_cracked_before_retrial_date:
-    long: 'Enter a date for "Notice of 1st fixed/warned issued"'
-    short: Enter a date
-    api: 'Enter a date for "Notice of 1st fixed/warned issued"'
-  check_cracked_trial_date:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: Check this date
-    api: 'Check the date for "Notice of 1st fixed/warned issued"'
-  check_cracked_before_retrial_date:
+  check:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
     short: Check this date
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
@@ -230,19 +234,11 @@ trial_fixed_notice_at:
 
 trial_fixed_at:
   _seq: 160
-  blank_cracked_trial_date:
+  blank:
     long: Enter a date for "1st fixed/warned trial"
     short: Enter a date
     api: Enter a date for "1st fixed/warned trial"
-  blank_cracked_before_retrial_date:
-    long: Enter a date for "1st fixed/warned trial"
-    short: Enter a date
-    api: Enter a date for "1st fixed/warned trial"
-  check_cracked_trial_date:
-    long: Check the date for "1st fixed/warned trial"
-    short: Check this date
-    api: Check the date for "1st fixed/warned trial"
-  check_cracked_before_retrial_date:
+  check:
     long: Check the date for "1st fixed/warned trial"
     short: Check this date
     api: Check the date for "1st fixed/warned trial"
@@ -253,19 +249,11 @@ trial_fixed_at:
 
 trial_cracked_at:
   _seq: 170
-  blank_cracked_trial_date:
+  blank:
     long: Enter a date for "Case cracked"
     short: Enter a date
     api: Enter a date for "Case cracked"
-  blank_cracked_before_retrial_date:
-    long: Enter a date for "Case cracked"
-    short: Enter a date
-    api: Enter a date for "Case cracked"
-  check_cracked_trial_date:
-    long: Check the date for "Case cracked"
-    short: Check this date
-    api: Check the date for "Case cracked"
-  check_cracked_before_retrial_date:
+  check:
     long: Check the date for "Case cracked"
     short: Check this date
     api: Check the date for "Case cracked"

@@ -31,18 +31,18 @@
         .form-row
           .form-col
             = f.anchored_without_label 'effective_pcmh_date'
-            = f.gov_uk_date_field(:effective_pcmh_date, legend_text: t('.effective_pcmh'), legend_class: 'govuk-legend', placeholders: true)
+            = f.gov_uk_date_field(:effective_pcmh_date, legend_text: t('.effective_pcmh'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :effective_pcmh_date))
           .form-col
             = f.anchored_without_label 'legal_aid_transfer_date'
-            = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', placeholders: true)
+            = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :legal_aid_transfer_date))
 
         .form-row
           .form-col
             = f.anchored_without_label 'first_day_of_trial'
-            = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', placeholders: true)
+            = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
           .form-col
             = f.anchored_without_label 'trial_concluded_at'
-            = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', placeholders: true)
+            = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
           .form-col
             = f.anchored_label(t('.estimated_trial_length'), :estimated_trial_length, { label_attributes: {class: 'form-label'} })
             = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
@@ -51,7 +51,7 @@
         .form-row
           .form-col
             = f.anchored_without_label 'retrial_started_at'
-            = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', placeholders: true)
+            = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
           .form-col
             = f.anchored_label(t('.retrial_estimated_length'), :retrial_estimated_length, { label_attributes: {class: 'form-label'} })
             = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control'

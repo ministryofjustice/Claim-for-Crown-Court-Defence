@@ -44,20 +44,31 @@
         &nbsp;
 
     .basic-info-row
-      .column-half
+      .column-quarter
         .bold-xsmall
           = t('common.crown_court')
         .xsmall
           = claim.court.name if claim.court
-      .column-half
-        &nbsp;
-
-    .basic-info-row
       .column-quarter
         .bold-xsmall
           =t('.case_num')
         .xsmall
           = claim.case_number
+
+    - if claim.transfer_court.present?
+      .basic-info-row
+        .column-quarter
+          .bold-xsmall
+            = t('common.transfer_court')
+          .xsmall
+            = claim.transfer_court.name
+        .column-quarter
+          .bold-xsmall
+            = t('common.transfer_case_number')
+          .xsmall
+            = claim.transfer_case_number
+
+    .basic-info-row
       .column-quarter
         .bold-xsmall
           = t('.case_type')

@@ -49,6 +49,7 @@
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
 #  allocation_type          :string
+#  transfer_case_number     :string
 #
 
 require "rails_helper"

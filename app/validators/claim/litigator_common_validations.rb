@@ -12,6 +12,10 @@ module Claim
       validate_absence(:advocate_category, "invalid")
     end
 
+    def validate_transfer_case_number
+      validate_pattern(:transfer_case_number, BaseValidator::CASE_NUMBER_PATTERN, "invalid") unless @record.transfer_case_number.blank?
+    end
+
     def validate_offence
       validate_presence(:offence, "blank")
       validate_inclusion(:offence, Offence.miscellaneous.to_a, "invalid")

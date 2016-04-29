@@ -19,6 +19,7 @@ describe Claim::LitigatorClaimValidator do
           :case_type,
           :court,
           :case_number,
+          :transfer_case_number,
           :advocate_category,
           :offence,
           :case_concluded_at

@@ -50,6 +50,7 @@
 #  effective_pcmh_date      :date
 #  legal_aid_transfer_date  :date
 #  allocation_type          :string
+#  transfer_case_number     :string
 #
 
 require 'rails_helper'
@@ -62,6 +63,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { should delegate_method(:provider_id).to(:creator) }
 
   it { should belong_to(:court) }
+  it { should belong_to(:transfer_court) }
   it { should belong_to(:offence) }
   it { should have_many(:fees) }
   it { should have_many(:fee_types) }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426084323) do
+ActiveRecord::Schema.define(version: 20160428124144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20160426084323) do
     t.date     "effective_pcmh_date"
     t.date     "legal_aid_transfer_date"
     t.string   "allocation_type"
+    t.string   "transfer_case_number"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree
@@ -145,6 +146,7 @@ ActiveRecord::Schema.define(version: 20160426084323) do
   add_index "claims", ["form_id"], name: "index_claims_on_form_id", using: :btree
   add_index "claims", ["offence_id"], name: "index_claims_on_offence_id", using: :btree
   add_index "claims", ["state"], name: "index_claims_on_state", using: :btree
+  add_index "claims", ["transfer_case_number"], name: "index_claims_on_transfer_case_number", using: :btree
   add_index "claims", ["valid_until"], name: "index_claims_on_valid_until", using: :btree
 
   create_table "courts", force: :cascade do |t|

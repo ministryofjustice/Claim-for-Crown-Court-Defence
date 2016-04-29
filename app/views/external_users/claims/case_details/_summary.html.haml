@@ -36,6 +36,20 @@
       %td
         = claim.case_number
 
+    - if claim.transfer_court.present?
+      %tr
+        %th{scope: 'row'}
+          = t("common.transfer_court")
+        %td
+          = claim.transfer_court.name if claim.transfer_court
+
+    - if claim.transfer_case_number.present?
+      %tr
+        %th{scope: 'row'}
+          = t("#{locale_path}.transfer_case_number")
+        %td
+          = claim.transfer_case_number
+
     %tr
       %th{scope: 'row'}
         = t("#{locale_path}.case_type")

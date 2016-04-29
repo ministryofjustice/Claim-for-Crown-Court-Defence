@@ -49,7 +49,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_case_concluded_at
-    validate_absence(:case_concluded_at, 'presence')
+    validate_absence(:case_concluded_at, 'present')
   end
 
   def validate_supplier_number

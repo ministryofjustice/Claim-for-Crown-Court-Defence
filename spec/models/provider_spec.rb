@@ -156,4 +156,17 @@ RSpec.describe Provider, type: :model do
       end
     end
   end
+
+  context 'supplier number validations' do
+    it 'validates the supplier numbers sub model if there are supplier_numbers' do
+      allow(subject).to receive(:supplier_numbers).and_return([instance_double(SupplierNumber)])
+      expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(subject, :supplier_numbers)
+      subject.valid?
+    end
+
+    it 'doesn\'t validate the supplier numbers sub model if there are not supplier_numbers' do
+      expect_any_instance_of(SupplierNumberSubModelValidator).not_to receive(:validate_collection_for)
+      subject.valid?
+    end
+  end
 end

@@ -1,7 +1,9 @@
 class SuperAdmins::ProvidersController < ApplicationController
-  before_action :set_provider, only: [:show, :edit, :update]
+  include ProviderAdminConcern
 
   def show; end
+
+  def edit; end
 
   def index
     @providers = Provider.order(name: :asc) 
@@ -11,10 +13,8 @@ class SuperAdmins::ProvidersController < ApplicationController
     @provider = Provider.new
   end
 
-  def edit; end
-
   def update
-    if @provider.update(provider_params.except(:provider_type))
+    if @provider.update(provider_params.except(*filtered_params))
      redirect_to super_admins_provider_path(@provider), notice: 'Provider successfully updated'
     else
       render :edit
@@ -32,17 +32,11 @@ class SuperAdmins::ProvidersController < ApplicationController
 
   private
 
-  def provider_params
-    params.require(:provider).permit(
-      :name,
-      :provider_type,
-      :supplier_number,
-      :vat_registered,
-      roles: []
-      )
-  end
-
   def set_provider
     @provider = Provider.find(params[:id])
+  end
+
+  def filtered_params
+    [:provider_type]
   end
 end

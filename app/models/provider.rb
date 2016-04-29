@@ -40,11 +40,15 @@ class Provider < ActiveRecord::Base
   has_many :claims_created, through: :external_users
   has_many :claims, through: :external_users
 
+  accepts_nested_attributes_for :supplier_numbers, allow_destroy: true
+
   before_validation :set_api_key
 
   validates :provider_type, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
+
+  validates_with SupplierNumberSubModelValidator, if: ->{ supplier_numbers.any? }
 
   # Allows calling of provider.admins or provider.advocates
   ExternalUser::ROLES.each do |role|
@@ -60,6 +64,10 @@ class Provider < ActiveRecord::Base
     claim_types << Claim::AdvocateClaim if self.agfs?
     claim_types.concat [ Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim ] if self.lgfs?
     claim_types
+  end
+
+  def perform_validation?
+    true
   end
 
   private

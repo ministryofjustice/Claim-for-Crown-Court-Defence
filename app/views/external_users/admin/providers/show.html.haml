@@ -24,9 +24,9 @@
         - if @provider.firm?
           %tr
             %th{scope:'row'}
-              = t('.supplier_number')
+              = t('.supplier_numbers')
             %td
-              = @provider.supplier_number
+              = @provider.supplier_numbers.to_sentence
           %tr
             %th{scope:'row'}
               = t('.vat_registered')

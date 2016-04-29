@@ -12,9 +12,10 @@
   = t('.fee_schemes')
 = @provider.roles.map(&:upcase) * ', '
 
-%h3
-  = t('.supplier_number')
-= @provider.supplier_number
+- if @provider.firm?
+  %h3
+    = t('.supplier_numbers')
+  = @provider.supplier_numbers.to_sentence
 
 %h3
   =t('.vat_registered')

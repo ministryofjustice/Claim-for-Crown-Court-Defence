@@ -1,6 +1,5 @@
 class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::ApplicationController
-
-  before_action :set_provider, only: [:show, :edit, :update, :regenerate_api_key]
+  include ProviderAdminConcern
 
   def show; end
 
@@ -13,9 +12,9 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
   end
 
   def update
-    if @provider.update(provider_params)
+    if @provider.update(provider_params.except(*filtered_params))
       send_ga('event', 'provider', 'updated')
-      redirect_to external_users_admin_provider_path, notice: "Provider successfully updated"
+      redirect_to external_users_admin_provider_path, notice: 'Provider successfully updated'
     else
       render :edit
     end
@@ -27,13 +26,8 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
     @provider = current_user.persona.provider
   end
 
-  def provider_params
-    params.require(:provider).permit(
-     :name,
-     :provider_type,
-     :supplier_number,
-     :vat_registered,
-     :api_key
-    )
+  def filtered_params
+    [:roles, :provider_type]
   end
+
 end

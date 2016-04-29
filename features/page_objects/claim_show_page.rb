@@ -9,7 +9,7 @@ class ClaimShowPage < SitePrism::Page
   element :edit_this_claim, "div.claim-detail-actions a:nth-of-type(1)"
 
   section :messages_panel, "#claim-accordion > div.panel:nth-of-type(1)" do
-    element :enter_your_message, "input#message_body"
+    element :enter_your_message, "textarea#message_body"
     element :send, "form#new_message div.submit-column > input.button-secondary"
     element :fees, "#claim_assessment_attributes_fees"
     element :expenses, "#claim_assessment_attributes_expenses"

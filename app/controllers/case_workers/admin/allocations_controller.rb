@@ -1,6 +1,5 @@
 class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::ApplicationController
   include PaginationHelpers
-  PaginationHelpers::DEFAULT_PAGE_SIZE = 50
 
   before_action :set_case_workers, only: [:new, :create]
   before_action :set_claims, only: [:new, :create]
@@ -181,4 +180,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
     end
   end
 
+  def default_page_size
+    50
+  end
 end

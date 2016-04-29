@@ -158,6 +158,11 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  # Override in claim presenter subclasses if necessary
+  def can_have_expenses?
+    true
+  end
+
   def assessment_date
     claim.assessment.blank? ? '(not yet assessed)' : claim.assessment.created_at.strftime(Settings.date_format)
   end

@@ -5,7 +5,7 @@ describe 'external_users/claims/show.html.haml', type: :view do
   include ViewSpecHelper
 
   before(:all) do
-    @advocate = create(:external_user, :advocate_and_admin)
+    @external_user = create(:external_user, :litigator_and_admin)
   end
 
   after(:all) do
@@ -14,7 +14,8 @@ describe 'external_users/claims/show.html.haml', type: :view do
 
   before(:each) do
     initialize_view_helpers(view)
-    sign_in :user, @advocate.user
+    sign_in :user, @external_user.user
+    allow(view).to receive(:current_user_persona_is?).and_return(false)
     allow(view).to receive(:url_for_edit_external_users_claim).and_return('http://my_edit_external_users_path')
     render
   end
@@ -59,6 +60,36 @@ describe 'external_users/claims/show.html.haml', type: :view do
 
       it 'displays the litigator account number section' do
         expect(rendered).to have_selector('div', text: 'Litigator account number')
+      end
+    end
+  end
+
+  context 'Interim claims' do
+    before(:all) do
+      @claim = create(:interim_claim, :interim_fee)
+      @messages = @claim.messages.most_recent_last
+      @message  = @claim.messages.build
+    end
+
+    describe 'basic claim information' do
+      it 'displays the fee type section' do
+        expect(rendered).to have_selector('div', text: 'Fee type')
+      end
+
+      context 'Effective PCMH' do
+        it 'displays the PPE total section' do
+          expect(rendered).to have_selector('div', text: 'PPE total at the time')
+        end
+
+        it 'displays the Effective PCMH section' do
+          expect(rendered).to have_selector('div', text: 'Effective PCMH')
+        end
+      end
+    end
+
+    describe 'Fees, expenses and more information' do
+      it 'should not show the expenses section' do
+        expect(rendered).not_to have_selector('p', text: 'There are no expenses for this claim')
       end
     end
   end

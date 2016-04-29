@@ -32,7 +32,7 @@
         = f.anchored_label t('.court')
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
       .form-col
@@ -48,7 +48,7 @@
           = f.anchored_label t('.transfer_court')
           .form-hint.xsmall.zero-vert-margin
             = "eg Cardiff"
-          = f.collection_select :transfer_court_id, Court.all, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+          = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
           = validation_error_message(@error_presenter, :transfer_court)
 
         .form-col

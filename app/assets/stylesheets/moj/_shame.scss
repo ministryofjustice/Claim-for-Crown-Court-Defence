@@ -666,6 +666,9 @@ Styling for Claims Messaging
         padding: 2px 5px;
         @include core-19();
       }
+      textarea {
+        resize: vertical;
+      }
     }
 
     .submit-column {

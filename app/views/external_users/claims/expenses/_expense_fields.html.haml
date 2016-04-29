@@ -75,7 +75,7 @@
           %a{name: "expense_#{@expense_count}_vat_amount"}
           = f.label :vat_amount, 'VAT'
           .pound-wrapper
-            = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat_amount form-control medium-input'
+            = f.text_field :vat_amount, value: number_with_precision_or_default(f.object.vat_amount, precision: 2), class: 'vat_amount form-control medium-input'
           = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
 
     .remove-expense

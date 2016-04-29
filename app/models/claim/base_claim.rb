@@ -124,22 +124,7 @@ module Claim
 
     accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :expenses,
-      # vat_amount comes in as "0.00" from form so explicitly omit it when
-      # checking blankness.
-      reject_if: proc { |atts|
-        atts["date_dd"].blank? &&
-          atts["date_mm"].blank? &&
-          atts["date_yyyy"].blank? &&
-          atts["expense_type_id"].blank? &&
-          atts["location"].blank? &&
-          atts["distance"].blank? &&
-          atts["reason_id"].blank? &&
-          atts["reason_text"].blank? &&
-          atts["hours"].blank? &&
-          atts["amount"].blank?
-      },
-      allow_destroy: true
+    accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :disbursements,     reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :assessment

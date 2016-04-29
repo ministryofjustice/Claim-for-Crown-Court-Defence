@@ -64,11 +64,12 @@
         .xsmall
           = claim.case_type.try(:name)
 
-      .column-quarter
-        .bold-xsmall
-          = t('.offence')
-        .xsmall
-          = claim.offence ? claim.offence.description : t('general.not_provided')
+      - if claim.agfs?
+        .column-quarter
+          .bold-xsmall
+            = t('.offence')
+          .xsmall
+            = claim.offence ? claim.offence.description : t('general.not_provided')
       .column-quarter
         .bold-xsmall
           = t('.offence_class')

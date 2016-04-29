@@ -277,6 +277,17 @@ trial_cracked_at_third:
     short: "Choose \"Final third\""
     api:  "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
 
+case_concluded_at:
+  _seq: 185
+  blank:
+    long: Enter a date for Case concluded
+    short: Enter a date
+    api: Enter a date for Case concluded
+  present:
+    long: The date case concluded is not allowed
+    short: Date not allowed
+    api: The date case concluded is not allowed
+
 offence:
   _seq: 190
   blank:

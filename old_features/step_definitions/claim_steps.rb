@@ -6,7 +6,7 @@ end
 Then(/^an anonymous user cannot access the claim$/) do
   click 'Sign out' rescue nil
   visit external_users_claim_url(@claim)
-  expect(page).to have_content(/Must be signed in as an external user/i)
+  expect(page).to have_content(/#{I18n.t('.requires_external_user_authorisation')}/i)
 end
 
 Then(/^(?:the|that) (?:advocate(?: admin)?) can (?:access|manage) the claim$/) do

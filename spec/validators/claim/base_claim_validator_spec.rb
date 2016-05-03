@@ -363,9 +363,9 @@ describe Claim::BaseClaimValidator do
     context 'trial_fixed_notice_at' do
       context 'cracked_trial_claim' do
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank') }
-        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_earlier_than_rep_order') }
       end
 
       it 'should error if not present for Cracked before retrial' do
@@ -376,30 +376,30 @@ describe Claim::BaseClaimValidator do
       it 'should error if in the future' do
         cracked_trial_claim.trial_fixed_notice_at = 3.days.from_now.to_date
         expect(cracked_trial_claim.valid?).to be false
-        expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'check' ])
+        expect(cracked_trial_claim.errors[:trial_fixed_notice_at]).to eq( [ 'check_not_in_future' ])
       end
 
       context 'cracked_before_retrial claim' do
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'blank') }
-        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_in_future') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_earlier_than_rep_order') }
       end
     end
 
     context 'trial fixed at' do
       context 'cracked trial claim' do
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'blank') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'check') }
-        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check_not_too_far_in_past') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_fixed_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_at') }
       end
 
       context 'cracked before retrial' do
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'blank') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'check') }
-        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check_not_too_far_in_past') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_fixed_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_fixed_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_fixed_at') }
       end
     end
 
@@ -407,17 +407,17 @@ describe Claim::BaseClaimValidator do
       context 'cracked trial' do
         it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'blank') }
         it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check_not_too_far_in_past') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_trial_claim, :trial_cracked_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_cracked_at') }
       end
 
       context 'cracked before retrial' do
         it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'blank') }
-        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_cracked_at, 'check') }
-        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check') }
+        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_in_future') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_if_earlier_than_earliest_repo_date(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_not_earlier_than_trial_cracked_at') }
       end
     end
   end
@@ -426,18 +426,18 @@ describe Claim::BaseClaimValidator do
     let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt), :first_day_of_trial) }
     before { contempt_claim_with_nil_first_day.force_validation = true }
     it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "blank") }
-    it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, "blank") }
-    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank') }
-    it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank') }
+    it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_not_later_than_trial_concluded_at') }
+    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order') }
+    it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_too_far_in_past') }
   end
 
   context 'trial_concluded_at' do
     let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryGirl.create(:claim, case_type: contempt), :trial_concluded_at) }
     before { contempt_claim_with_nil_concluded_at.force_validation = true }
     it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "blank") }
-    it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, "blank") }
-    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank') }
-    it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank') }
+    it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_not_earlier_than_first_day_of_trial') }
+    it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_earlier_than_rep_order') }
+    it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_too_far_in_past') }
   end
 
   context 'retrial_started_at' do
@@ -448,15 +448,15 @@ describe Claim::BaseClaimValidator do
     end
 
     it 'should error if later than retrial_concluded_at' do
-      should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, "blank")
+      should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'check_not_later_than_retrial_concluded_at')
     end
 
     it 'should error if earlier than claims earliest repo order date' do
-      should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'blank')
+      should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'check_not_earlier_than_rep_order')
     end
 
     it 'should error if too far in the past' do
-      should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'blank')
+      should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'check_not_too_far_in_past')
     end
 
     it 'shoud NOT error if first day of trial is before the claims earliest rep order' do

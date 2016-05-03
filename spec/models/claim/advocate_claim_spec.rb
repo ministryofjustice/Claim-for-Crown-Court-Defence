@@ -334,6 +334,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       # when
       claim.update_model_and_transition_state(claim_params)
       #then
+      puts ">>>>>>>>"
+      ap claim.errors
       expect(claim.reload.state).to eq 'part_authorised'
     end
 

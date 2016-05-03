@@ -210,7 +210,7 @@ en:
     start_claim: Start a new claim
     view_claim: View your claims
   hint:
-    search: eg case number, defendant name, advocate name
+    search: eg case number, defendant name, advocate/litigator name
 
 
 # en.super_admins

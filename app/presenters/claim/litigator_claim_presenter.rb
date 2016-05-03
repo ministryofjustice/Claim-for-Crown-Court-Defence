@@ -10,6 +10,6 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def pretty_type
-    'Final'
+    'LGFS Final'
   end
 end

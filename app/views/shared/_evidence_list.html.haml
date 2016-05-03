@@ -3,7 +3,8 @@
   %h3.indent-sides
     = t('.existing_evidence')
   - if @claim.documents.none?
-    = t('.no_documents_uploaded')
+    .indent-sides
+      = t('.no_documents_uploaded')
   - else
     %table#download-files-report.indent-sides
       %caption.visually-hidden

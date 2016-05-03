@@ -491,6 +491,7 @@ en:
         delete: *delete
         confirm_delete: 'Are you sure?'
         none: 'None'
+        advocate_litigator: "Advocate / Litigator"
       confirmation:
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?

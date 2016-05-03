@@ -20,7 +20,7 @@
         = sortable 'case_number', t(".case_number")
       - if current_user.persona.admin?
         %th{scope:'col'}
-          = sortable 'advocate', t(".advocate")
+          = sortable 'advocate', t(".advocate_litigator")
       - if user_requires_scheme_column?
         %th{scope:'col'}
           = t(".scheme")

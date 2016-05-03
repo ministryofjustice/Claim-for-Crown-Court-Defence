@@ -44,14 +44,19 @@ RSpec.describe HeartbeatController, type: :controller do
 
   describe '#healthcheck' do
     context 'when a problem exists' do
-      before(:each) do
-        expect(ActiveRecord::Base.connection).to receive(:active?).once.and_raise(PG::ConnectionBad)
+      before do
+        allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(PG::ConnectionBad)
+
+        connection = double('connection')
+        allow(connection).to receive(:info).and_raise(Redis::CannotConnectError)
+        allow(Sidekiq).to receive(:redis).and_yield(connection)
+
         get :healthcheck
       end
 
       let(:expected_response) do
         {
-          checks: { database: false }
+          checks: { database: false, redis: false }
         }.to_json
       end
 
@@ -66,12 +71,17 @@ RSpec.describe HeartbeatController, type: :controller do
 
     context 'when everything is ok' do
       before do
+        allow(ActiveRecord::Base.connection).to receive(:active?).and_return(true)
+
+        connection = double('connection', info: {})
+        allow(Sidekiq).to receive(:redis).and_yield(connection)
+
         get :healthcheck
       end
 
       let(:expected_response) do
         {
-          checks: { database: true }
+          checks: { database: true, redis: true }
         }.to_json
       end
 

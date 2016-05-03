@@ -22,5 +22,4 @@
       = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
 
   = f.fields_for :dates_attended do |date_attended|
-    - @misc_fee_date_attended_count += 1
-    = render 'date_attended_fields', f: date_attended, submodel_count: @misc_fee_date_attended_count, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+    = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"

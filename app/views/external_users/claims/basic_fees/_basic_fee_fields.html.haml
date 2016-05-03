@@ -11,5 +11,4 @@
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
 = f.fields_for :dates_attended do |date_attended|
-  - @basic_fee_date_attended_count += 1
-  = render 'date_attended_fields', { f: date_attended, submodel_count: @basic_fee_date_attended_count, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }
+  = render 'date_attended_fields', { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }

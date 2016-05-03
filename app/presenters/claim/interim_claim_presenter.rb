@@ -12,4 +12,8 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     false
   end
 
+  def pretty_type
+    'Interim'
+  end
+
 end

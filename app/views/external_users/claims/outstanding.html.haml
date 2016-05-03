@@ -9,5 +9,5 @@
         = number_to_currency(@total_value)
 
 #details
-  = render partial: 'claims', locals: { claims: @claims }
+  = render partial: 'agfs_claims', locals: { claims: @claims }
   = paginate @claims

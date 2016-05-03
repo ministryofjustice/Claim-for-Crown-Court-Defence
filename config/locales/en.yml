@@ -150,8 +150,9 @@ en:
               blank: Rate cannot be blank
               numericality: Rate must be greater than or equal to 0
 
-  requires_advocate_authorisation: 'You must be signed in as an advocate or advocate admin'
-  requires_case_worker_authorisation: 'You must be signed in as a case worker or case worker admin'
+  requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
+  requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
+  requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'
   number:
     currency:
        format:

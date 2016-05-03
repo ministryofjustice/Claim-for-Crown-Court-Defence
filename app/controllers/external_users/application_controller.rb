@@ -32,7 +32,7 @@ private
 
   def authenticate_external_user!
     unless user_signed_in? && current_user.persona.is_a?(ExternalUser)
-      redirect_to root_path_url_for_user, alert: 'Must be signed in as an external user'
+      redirect_to root_path_url_for_user, alert: t('requires_external_user_authorisation')
     end
   end
 

@@ -14,7 +14,6 @@ else
   # execute smoke test - needs seeded tables
   bundle exec rake db:seed
 
-  # DISABLE API SMOKE TEST
-  # echo "INFO: EXECUTING SMOKE TEST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-  # bundle exec rake api:smoke_test
+  echo "INFO: EXECUTING SMOKE TEST <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+  bundle exec rake api:smoke_test
 fi

@@ -302,11 +302,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context)).to eq(litigator_admin.provider.claims_created)
+            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.sort_by{|c| c.id})
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.archived_pending_delete)
+            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.archived_pending_delete.sort_by{|c| c.id})
           end
         end
       end

@@ -33,6 +33,7 @@ class TypedFeeSection < SitePrism::Section
   element :select2_container, "tr:nth-of-type(1) > td:nth-of-type(1) .autocomplete", visible: false
   element :quantity, "tr:nth-of-type(1) input.quantity"
   element :rate, "tr:nth-of-type(1) input.rate"
+  element :case_numbers, "tr:nth-of-type(1) input.js-misc-fee-case-numbers"
   element :add_dates, "tr:nth-of-type(1) > td:nth-of-type(5) > a"
   section :dates, FeeDatesSection, "tr.fee-dates"
 

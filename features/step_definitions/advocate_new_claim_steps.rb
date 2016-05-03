@@ -12,14 +12,10 @@ Given(/^There are certification types in place$/) do
 end
 
 Given(/^There are courts, offences and expense types in place$/) do
-  create(:court, name: 'some court')
-  offence_class = OffenceClass.find_by(class_letter: "A")
-  if offence_class.nil?
-    create(:offence_class, class_letter: 'A', description: 'A: Homicide and related grave offences')
-  else
-    offence_class.update(description: 'A: Homicide and related grave offences')
-  end
-  create(:offence, description: 'Murder')
+  load("#{Rails.root}/db/seeds/courts.rb")
+  load("#{Rails.root}/db/seeds/offence_classes.rb")
+  load("#{Rails.root}/db/seeds/offences.rb")
+
   create(:expense_type, name: 'Parking')
   create(:expense_type, name: 'Hotel accommodation')
 end
@@ -49,7 +45,7 @@ When(/^I select an advocate$/) do
 end
 
 When(/^I select a court$/) do
-  @claim_form_page.select_court "some court"
+  @claim_form_page.select_court 'Blackfriars Crown'
 end
 
 When(/^I select a case type of '(.*?)'$/) do |name|
@@ -84,7 +80,7 @@ When(/^I save as draft$/) do
 end
 
 Then(/^I should see '(.*?)'$/) do |content|
-  expect(@claim_form_page).to have_content(content)
+  expect(page).to have_content(content)
 end
 
 Given(/^I am later on the Your claims page$/) do
@@ -151,7 +147,7 @@ When(/^I add an expense '(.*?)'$/) do |name|
   @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
 end
 
-When(/^I upload (\d+) documents$/) do |count|
+When(/^I upload (\d+) documents?$/) do |count|
   @document_count = count.to_i
   @claim_form_page.attach_evidence(@document_count)
 end

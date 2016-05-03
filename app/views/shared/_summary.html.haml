@@ -3,7 +3,7 @@
     %h3.indent-sides
       = t('common.fees')
     - if @claim.fees_total == 0
-      %p
+      %p.indent-sides
         There are no fees for this claim
     - else
       %table.indent-sides
@@ -52,7 +52,7 @@
       %h3.indent-sides
         = t('common.expenses')
       - if claim.expenses.empty?
-        %p
+        %p.indent-sides
           There are no expenses for this claim
       - else
         %table.indent-sides

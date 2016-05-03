@@ -15,13 +15,13 @@ class RepresentationOrderValidator < BaseValidator
   # must not be earlier than the first rep order date
   def validate_representation_order_date
     validate_presence(:representation_order_date, "blank")
-    validate_not_after(Date.today, :representation_order_date, "invalid")
-    validate_not_before(Settings.earliest_permitted_date, :representation_order_date, "invalid")
+    validate_not_after(Date.today, :representation_order_date, "check")
+    validate_not_before(Settings.earliest_permitted_date, :representation_order_date, "check")
 
     unless (@record.is_first_reporder_for_same_defendant?)
       first_reporder_date = @record.first_reporder_for_same_defendant.try(:representation_order_date)
       unless first_reporder_date.nil?
-        validate_not_before(first_reporder_date, :representation_order_date, "invalid")
+        validate_not_before(first_reporder_date, :representation_order_date, "check")
       end
     end
   end

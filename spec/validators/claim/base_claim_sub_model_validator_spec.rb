@@ -77,7 +77,7 @@ describe Claim::BaseClaimSubModelValidator do
     context 'bubbling up errors two levels to the claim' do
       let(:expected_results) do
         {
-          defendant_1_representation_order_1_representation_order_date: 'invalid',
+          defendant_1_representation_order_1_representation_order_date: 'check',
           defendant_1_date_of_birth:                                    'blank',
         }
       end

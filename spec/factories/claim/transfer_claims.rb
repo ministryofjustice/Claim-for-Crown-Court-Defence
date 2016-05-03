@@ -20,7 +20,6 @@ FactoryGirl.define do
       actual_trial_length 3
     end
 
-    # TODO: rather than short circuiting the "transfer brain" this trait should apply expected attribute logic
     trait :graduated_fee_allocation_type do
       litigator_type      'new'
       elected_case        false
@@ -31,7 +30,6 @@ FactoryGirl.define do
       end
     end
 
-    # TODO: rather than short circuiting the "transfer brain" this trait should apply expected attribute logic
     trait :fixed_fee_allocation_type do
       litigator_type      'new'
       elected_case        true

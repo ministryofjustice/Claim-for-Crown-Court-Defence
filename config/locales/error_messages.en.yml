@@ -4,6 +4,15 @@
 #                                                                               #
 #################################################################################
 
+dictionary:
+  dates:
+    too_far_in_past: &too_far_in_past "Can't be too far in the past"
+    before_rep_order: &before_rep_order "Can't be before the earliest rep. order"
+    in_future: &in_future "Can't be in the future"
+    enter_date: &enter_date 'Enter a date'
+    enter_valid_date: &enter_valid_date 'Enter a valid date'
+    date_not_allowed: &date_not_allowed 'Date not allowed'
+
 # applies to defendant, fee, expense
 claim:
   _seq: 5
@@ -113,15 +122,27 @@ first_day_of_trial:
   _seq: 70
   blank:
     long: Enter a date for the first day of trial
-    short: Enter a date
+    short: *enter_date
     api: Enter a date for the first day of trial
   present:
     long: Date for trial start is not allowed
-    short: Date not allowed
+    short: *date_not_allowed
     api: Date for trial start is not allowed
+  check_other_date:
+    long: 'Check the date for "First day of trial"'
+    short: Can't be after the date "Trial concluded"
+    api: 'Check the date for "First day of trial"'
+  check_not_too_far_in_past:
+    long: 'Check the date for "First day of trial"'
+    short: *too_far_in_past
+    api: 'Check the date for "First day of trial"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "First day of trial"'
+    short: *before_rep_order
+    api: 'Check the date for "First day of trial"'
   invalid_date:
     long: Enter a valid date for the first day of trial
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid date for the first day of trial
 
 estimated_trial_length:
@@ -154,30 +175,54 @@ trial_concluded_at:
   _seq: 100
   blank:
     long: Enter the date on which the trial concluded
-    short: Enter a date
+    short: *enter_date
     api: Enter the date on which the trial concluded
   present:
     long: Date for trial concluded at is not allowed
-    short: Date not allowed
+    short: *date_not_allowed
     api: Date for trial concluded at is not allowed
+  check_other_date:
+    long: 'Check the date for "Trial concluded"'
+    short: Can't be before the "First day of trial"
+    api: 'Check the date for "Trial concluded"'
+  check_not_too_far_in_past:
+    long: 'Check the date for "Trial concluded"'
+    short: *too_far_in_past
+    api: 'Check the date for "Trial concluded"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "Trial concluded"'
+    short: *before_rep_order
+    api: 'Check the date for "Trial concluded"'
   invalid_date:
     long: 'Enter a valid date for trial concluded'
-    short: Enter a valid date
+    short: *enter_valid_date
     api: 'Enter a valid date for trial concluded'
 
 retrial_started_at:
   _seq: 110
   blank:
     long: Enter a date for the first day of retrial
-    short: Enter a date
+    short: *enter_date
     api: Enter a date for the first day of retrial
   present:
     long: Date for retrial start date at is not allowed
-    short: Date not allowed
+    short: *date_not_allowed
     api: Date for retrial concluded at is not allowed
+  check_other_date:
+    long: 'Check the date for "First day of retrial"'
+    short: Can't be after the date "Retrial concluded"
+    api: 'Check the date for "First day of retrial"'
+  check_not_too_far_in_past:
+    long: 'Check the date for First day of retrial"'
+    short: *too_far_in_past
+    api: 'Check the date for "First day of retrial"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "First day of retrial"'
+    short: *before_rep_order
+    api: 'Check the date for "First day of retrial"'
   invalid_date:
     long: Enter a valid date for the first day of retrial
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid date for the first day of retrial
 
 retrial_estimated_length:
@@ -210,56 +255,111 @@ retrial_concluded_at:
   _seq: 140
   blank:
     long: Enter the date on which the retrial concluded
-    short: Enter a date
+    short: *enter_date
     api: Enter the date on which the retrial concluded
+  check_other_date:
+    long: 'Check the date for "Retrial concluded"'
+    short: Can't be before the "First day of retrial"
+    api: 'Check the date for "Retrial concluded"'
+  check_not_too_far_in_past:
+    long: 'Check the date for Retrial concluded"'
+    short: *too_far_in_past
+    api: 'Check the date for "Retrial concluded"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "Retrial concluded"'
+    short: *before_rep_order
+    api: 'Check the date for "Retrial concluded"'
   invalid_date:
     long: 'Enter a valid date for retrial concluded'
-    short: Enter a valid date
+    short: *enter_valid_date
     api: 'Enter a valid date for retrial concluded'
 
 trial_fixed_notice_at:
   _seq: 150
   blank:
     long: 'Enter a date for "Notice of 1st fixed/warned issued"'
-    short: Enter a date
+    short: *enter_date
     api: 'Enter a date for "Notice of 1st fixed/warned issued"'
-  check:
+  # OLD: Simpler message - less informative and could result in multiple errors of same kind
+  # check:
+  #   long: 'Check the date for "Notice of 1st fixed/warned issued"'
+  #   short: Check this date
+  #   api: 'Check the date for "Notice of 1st fixed/warned issued"'
+  check_not_in_future:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: Check this date
+    short: *in_future
+    api: 'Check the date for "Notice of 1st fixed/warned issued"'
+  check_not_too_far_in_past:
+    long: 'Check the date for "Notice of 1st fixed/warned issued"'
+    short: *too_far_in_past
+    api: 'Check the date for "Notice of 1st fixed/warned issued"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "Notice of 1st fixed/warned issued"'
+    short: *before_rep_order
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
   invalid_date:
     long: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
-    short: Enter a valid date
+    short: *enter_valid_date
     api: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
 
 trial_fixed_at:
   _seq: 160
   blank:
-    long: Enter a date for "1st fixed/warned trial"
-    short: Enter a date
-    api: Enter a date for "1st fixed/warned trial"
-  check:
-    long: Check the date for "1st fixed/warned trial"
-    short: Check this date
-    api: Check the date for "1st fixed/warned trial"
+    long: 'Enter a date for "1st fixed/warned trial"'
+    short: *enter_date
+    api: 'Enter a date for "1st fixed/warned trial"'
+  # OLD: Simpler message - less informative and could result in multiple errors of same kind
+  # check:
+  #   long: Check the date for "1st fixed/warned trial"
+  #   short: Check this date
+  #   api: Check the date for "1st fixed/warned trial"
+  check_not_too_far_in_past:
+    long: 'Check the date for "1st fixed/warned trial"'
+    short: *too_far_in_past
+    api: 'Check the date for "1st fixed/warned trial"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "1st fixed/warned trial"'
+    short: *before_rep_order
+    api: 'Check the date for "1st fixed/warned trial"'
+  check_not_earlier_than_trial_fixed_notice_at:
+    long: 'Check the date for "1st fixed/warned trial"'
+    short: Can't be before the "Notice of 1st fixed/warned issued"
+    api: 'Check the date for "1st fixed/warned trial"'
   invalid_date:
       long: 'Enter a valid date for the "1st fixed/warned trial"'
-      short: Enter a valid date
+      short: *enter_valid_date
       api: 'Enter a valid date for the "1st fixed/warned trial"'
 
 trial_cracked_at:
   _seq: 170
   blank:
     long: Enter a date for "Case cracked"
-    short: Enter a date
+    short: *enter_date
     api: Enter a date for "Case cracked"
-  check:
-    long: Check the date for "Case cracked"
-    short: Check this date
-    api: Check the date for "Case cracked"
+  # OLD: Simpler message - less informative and could result in multiple errors of same kind
+  # check:
+  #   long: Check the date for "Case cracked"
+  #   short: Check this date
+  #   api: Check the date for "Case cracked"
+  check_not_in_future:
+    long: 'Check the date for "Case cracked"'
+    short: *in_future
+    api: 'Check the date for "Case cracked"'
+  check_not_too_far_in_past:
+    long: 'Check the date for "Case cracked"'
+    short: *too_far_in_past
+    api: 'Check the date for "Case cracked"'
+  check_not_earlier_than_rep_order:
+    long: 'Check the date for "Case cracked"'
+    short: *before_rep_order
+    api: 'Check the date for "Case cracked"'
+  check_not_earlier_than_trial_fixed_notice_at:
+    long: 'Check the date for "Case cracked"'
+    short: Can't be before the "Notice of 1st fixed/warned issued"
+    api: 'Check the date for "Case cracked"'
   invalid_date:
     long: 'Enter a valid date for "Case cracked"'
-    short: Enter a valid date
+    short: *enter_valid_date
     api: 'Enter a valid date for "Case cracked"'
 
 trial_cracked_at_third:
@@ -281,11 +381,11 @@ case_concluded_at:
   _seq: 185
   blank:
     long: Enter a date for Case concluded
-    short: Enter a date
+    short: *enter_date
     api: Enter a date for Case concluded
   present:
     long: The date case concluded is not allowed
-    short: Date not allowed
+    short: *date_not_allowed
     api: The date case concluded is not allowed
 
 offence:
@@ -303,34 +403,34 @@ effective_pcmh_date:
   _seq: 200
   blank:
     long: Enter the date of the PCMH
-    short: Enter a date
+    short: *enter_date
     api: Enter the date of the PCMH
+  present:
+    long: Date of the PCMH is not allowed
+    short: *date_not_allowed
+    api: Date of the PCMH is not allowed
   invalid:
     long: Enter a valid date of the PCMH
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid date of the PCMH
   invalid_date:
     long: Enter a valid date of the PCMH
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid date of the PCMH
-  present:
-    long: Date of the PCMH is not allowed
-    short: Date not allowed
-    api: Date of the PCMH is not allowed
 
 legal_aid_transfer_date:
   _seq: 210
   blank:
     long: Enter the date Legal Aid was transferred to you
-    short: Enter a date
+    short: *enter_date
     api: Enter the date Legal Aid was transferred to you
   invalid:
     long: Enter a valid Legal Aid transfer date
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid Legal Aid transfer date
   invalid_date:
     long: Enter a valid Legal Aid transfer date
-    short: Enter a valid date
+    short: *enter_valid_date
     api: Enter a valid Legal Aid transfer date
   present:
     long: The date Legal Aid was transferred is not allowed
@@ -378,7 +478,7 @@ defendant:
       api: "Check the date of birth for the defendant"
     invalid_date:
       long: "Enter a valid date of birth for the #{defendant}"
-      short: Enter a valid date
+      short: *enter_valid_date
       api: "Enter a valid date of birth for the defendant"
 
   representation_orders:
@@ -408,15 +508,15 @@ representation_order:
     _seq: 20
     blank:
       long: 'Enter a representation order date for the #{representation_order} of the #{defendant}'
-      short: Enter a date
+      short: *enter_date
       api: 'Enter a representation order date for the representation order of the defendant'
-    invalid:
-      long: 'Enter a valid representation order date for the #{representation_order} of the #{defendant}'
-      short: Enter a valid date
+    check:
+      long: 'Check the representation order date for the #{representation_order} of the #{defendant}'
+      short: Check this date
       api: 'Enter a valid representation order date for the representation order of the defendant'
     invalid_date:
       long: 'Enter a valid date for the representation order date of the #{representation_order} of the #{defendant}'
-      short: Enter a valid date
+      short: *enter_valid_date
       api: 'Enter a valid date for the representation order date of the representation order of the defendant'
 
   maat_reference:
@@ -738,34 +838,34 @@ warrant_fee:
     _seq: 20
     blank:
       long: Enter a warrant issued date
-      short: Enter a date
+      short: *enter_date
       api: Enter a warrant issued date
     invalid:
       long: Enter a valid warrant issued date
-      short: Enter a valid date
+      short: *enter_valid_date
       api: Enter a valid warrant issued date
     invalid_date:
       long: Enter a valid warrant issued date
-      short: Enter a valid date
+      short: *enter_valid_date
       api: Enter a valid warrant issued date
 
   warrant_executed_date:
     _seq: 30
     blank:
       long: Enter a warrant executed date
-      short: Enter a date
+      short: *enter_date
       api: Enter a warrant executed date
     invalid:
       long: Enter a valid warrant executed date
-      short: Enter a valid date
+      short: *enter_valid_date
       api: Enter a valid warrant executed date
     invalid_date:
       long: Enter a valid warrant executed date
-      short: Enter a valid date
+      short: *enter_valid_date
       api: Enter a valid warrant executed date
     warrant_executed_before_issued:
       long: The warrant executed date is before the issued date
-      short: Enter a valid date
+      short: *enter_valid_date
       api: The warrant executed date is before the issued date
 
   amount:
@@ -802,7 +902,7 @@ expense:
     _seq: 5
     blank:
       long: 'Enter a date for the #{expense}'
-      short: Enter a date
+      short: *enter_date
       api: Enter a date for the expense
 
   expense_type:
@@ -894,7 +994,7 @@ date_attended:
     _seq: 10
     blank:
       long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
-      short: Enter a date
+      short: *enter_date
       api: 'Enter the date attended (from)'
     not_before_earliest_representation_order_date:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
@@ -906,7 +1006,7 @@ date_attended:
       api: The date attended (from) must be less than 5 years ago
     invalid_date:
       long: 'Enter a valid date for the #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
-      short: Enter a valid date
+      short: *enter_valid_date
       api: 'Enter a valid date for the date attended (from)'
 
   date_to:
@@ -921,7 +1021,7 @@ date_attended:
       api: The date attended (to) cannot be in the future
     invalid_date:
       long: 'Enter a valid date for the #{date_attended} (to) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
-      short: Enter a valid date
+      short: *enter_valid_date
       api: 'Enter a valid date for the date attended (to)'
 
 #################################################################################

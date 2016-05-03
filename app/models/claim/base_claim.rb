@@ -246,8 +246,16 @@ module Claim
 
     def update_model_and_transition_state(params)
       state = params.delete('state_for_form')
+      assessment_params = params.delete('assessment_attributes')  # Don't update assessment yet
       self.update(params) # must precede state transition to not violate validations
       self.transition_state(state)
+
+      # Now update assessment if nothing has gone wrong
+      self.assessment.update_values(
+        assessment_params['assessment_attributes']['fees'],
+        assessment_params['assessment_attributes']['expenses'],
+        assessment_params['assessment_attributes']['disbursements']
+      )
     end
 
     def editable?

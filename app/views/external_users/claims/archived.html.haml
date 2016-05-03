@@ -8,5 +8,5 @@
   = render partial: 'search_form', locals: { archived: true }
 
 .container#details
-  = render partial: 'claims', locals: { claims: @claims }
+  = render partial: 'agfs_claims', locals: { claims: @claims }
   = paginate @claims

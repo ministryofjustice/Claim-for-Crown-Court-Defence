@@ -8,4 +8,8 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
   def case_concluded_at
     claim.case_concluded_at.strftime('%d/%m/%Y') rescue ''
   end
+
+  def pretty_type
+    'Final'
+  end
 end

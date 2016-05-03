@@ -1,3 +1,6 @@
 class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
-  # TODO: Any differences in baseclaimpresenters for litigators and advocates to be handled here
+
+  def pretty_type
+    'AGFS Final'
+  end
 end

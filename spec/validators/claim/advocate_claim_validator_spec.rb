@@ -55,8 +55,10 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'supplier_number' do
-    it 'should error when the supplier number is not valid for advocates' do
-      claim.supplier_number = '9G606X'
+    # NOTE: In reality supplier number is derived from external_user which in turn is validated in any event
+    let(:advocate)  { build(:external_user, :advocate, supplier_number: '9G606X') }
+    it 'should error when the supplier number does not match pattern' do
+      claim.external_user = advocate
       should_error_with(claim, :supplier_number, 'invalid')
     end
   end

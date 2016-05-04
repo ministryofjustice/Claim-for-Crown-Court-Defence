@@ -63,6 +63,10 @@ module Claim
 
     delegate :requires_cracked_dates?, to: :case_type
 
+    before_validation do
+      set_supplier_number
+    end
+
     def eligible_case_types
       CaseType.agfs
     end
@@ -99,9 +103,9 @@ module Claim
       end
     end
 
-    def default_values
-      self.supplier_number ||= (provider_delegator.supplier_number rescue nil)
-      super
+    def set_supplier_number
+      supplier_no = (provider_delegator.supplier_number rescue nil)
+      self.supplier_number = supplier_no if self.supplier_number != supplier_no
     end
 
     def destroy_all_invalid_fee_types

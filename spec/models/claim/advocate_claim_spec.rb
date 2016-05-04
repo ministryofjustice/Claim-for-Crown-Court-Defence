@@ -1051,7 +1051,26 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(claim.save).to eq(true)
       expect(claim.source).to eq('api')
     end
+  end
 
+  describe 'sets the supplier number before validation' do
+    let(:advocate)          { create(:external_user, :advocate) }
+    let(:another_advocate)  { create(:external_user, :advocate, provider: advocate.provider) }
+    let(:claim)             { build(:advocate_claim, external_user: advocate) }
+
+    it 'should not have a supplier number before creation' do
+      expect(claim.supplier_number).to be_nil
+    end
+
+    it 'should have a supplier number, derived from the external_user, after creation' do
+      expect{ claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
+    end
+
+    it 'should reset supplier number to match external_user' do
+      claim.save!
+      claim.external_user = another_advocate
+      expect{ claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
+    end
   end
 
   describe 'provider type dependant methods' do

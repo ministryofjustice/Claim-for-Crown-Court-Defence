@@ -11,8 +11,8 @@ describe RepresentationOrderValidator do
 
   context 'representation_order_date' do
     it { should_error_if_not_present(reporder, :representation_order_date, "blank") }
-    it { should_error_if_in_future(reporder, :representation_order_date, "invalid") }
-    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, "invalid") }
+    it { should_error_if_in_future(reporder, :representation_order_date, "check") }
+    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, "check") }
   end
 
   context 'stand-alone rep order' do
@@ -39,7 +39,7 @@ describe RepresentationOrderValidator do
       ro2.representation_order_date = ro1.representation_order_date - 1.day
       claim.force_validation = true
       expect(ro2).not_to be_valid
-      expect(ro2.errors[:representation_order_date]).to include('invalid')
+      expect(ro2.errors[:representation_order_date]).to include('check')
     end
   end
 

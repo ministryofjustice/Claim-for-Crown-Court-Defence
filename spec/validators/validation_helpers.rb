@@ -24,36 +24,50 @@ module ValidationHelpers
     expect(record.errors[field]).to be_empty
   end
 
-  def should_error_if_not_present(record, field, message)
+  def should_error_if_not_present(record, field, message, options={})
     record.send("#{field}=", nil)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
-  def should_error_if_in_future(record, field, message)
+  # checks the translation exists and has expected message
+  def with_expected_error_translation(field, message, options)
+    @translations ||= YAML.load_file("#{Rails.root}/config/locales/error_messages.en.yml") # lazy load translations
+    message_type = options[:translated_message_type] || 'short'
+    expect(@translations.has_key?(field.to_s)).to eql true
+    expect(@translations[field.to_s].has_key?(message)).to eql true
+    expect(@translations[field.to_s][message][message_type]).to eql options[:translated_message]
+  end
+
+  def should_error_if_in_future(record, field, message, options={})
     record.send("#{field}=", 2.days.from_now)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
-  def should_error_if_too_far_in_the_past(record, field, message)
+  def should_error_if_too_far_in_the_past(record, field, message, options={})
     record.send("#{field}=", Settings.earliest_permitted_date - 1.day )
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
-  def should_error_if_earlier_than_earliest_repo_date(record, field, message)
+  def should_error_if_earlier_than_earliest_repo_date(record, field, message, options={})
     stub_earliest_rep_order(record,1.year.ago.to_date)
     record.send("#{field}=", 13.months.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
-  def should_error_if_earlier_than_other_date(record, field, other_date, message)
+  def should_error_if_earlier_than_other_date(record, field, other_date, message, options={})
     record.send("#{field}=", 5.day.ago)
     record.send("#{other_date}=", 3.day.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
   def should_error_if_before_specified_date(record, field, specified_date, message)
@@ -68,11 +82,12 @@ module ValidationHelpers
     expect(record.errors[field]).to include(message)
   end
 
-  def should_errror_if_later_than_other_date(record, field, other_date, message)
+  def should_errror_if_later_than_other_date(record, field, other_date, message, options={})
     record.send("#{field}=", 5.day.ago)
     record.send("#{other_date}=", 7.day.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
+    with_expected_error_translation(field,message,options) if options[:translated_message]
   end
 
   def should_error_if_equal_to_value(record, field, value, message)

@@ -67,12 +67,15 @@
       end
     end
 
+    desc 'Add new TransferFeeType'
+    task :add_transer_fee_type => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        supplier_numbers: 'Seeding supplier numbers to litigator providers',
-        add_interim_role_to_case_types: 'Adding interim role to case types',
-        assign_supplier_numbers: 'Assign supplier number to advocate claims without the attribute set'
+        add_transer_fee_type: 'Adding transfer fee type'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

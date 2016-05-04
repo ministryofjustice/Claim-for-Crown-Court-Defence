@@ -133,7 +133,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
             @gf_agfs_claim = create(:advocate_claim, case_type: create(:case_type, :graduated_fee))
 
             # create lgfs fixed_fee and graduated_fees, expected results
-            @gf_claim = create(:transfer_claim, :graduated_fee_allocation_type)
+            @gf_claim = create(:transfer_claim, ::graduated_fee_allocation_type)
             @ff_claim = create(:transfer_claim, :fixed_fee_allocation_type)
             get :new, params
           end

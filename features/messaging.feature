@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect
+@no-seeding @javascript
 Feature: Case worker messages advocate and advocate responds
 
   Scenario: I message advocate and advocate responds

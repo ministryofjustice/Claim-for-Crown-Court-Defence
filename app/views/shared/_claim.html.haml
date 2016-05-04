@@ -90,7 +90,7 @@
     - if claim.case_type && claim.case_concluded_at
       = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
 
-    - if claim.interim?
+    - if claim.interim? && !claim.interim_fee.nil?
       = render partial: 'shared/claim_interim_details', locals: { claim: claim }
 
     - if claim.case_type && claim.requires_trial_dates?

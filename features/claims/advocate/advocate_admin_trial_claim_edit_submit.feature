@@ -1,12 +1,9 @@
-@javascript @webmock_allow_localhost_connect
+@javascript
 Feature: Advocate admin submits a claim for a Trial case
 
   Scenario: I create a trial claim, then submit it
 
     Given I am a signed in advocate admin
-    And There are case and fee types in place
-    And There are certification types in place
-    And There are courts, offences and expense types in place
     And There are other advocates in my provider
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -14,7 +11,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I select an advocate category of 'Junior alone'
     And I select an advocate
-    And I select a court
+    And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
     And I enter a case number of 'A12345678'
     And I select an offence category

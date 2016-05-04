@@ -1,15 +1,15 @@
-And(/^There are supplier numbers in place$/) do
+And(/^My provider has supplier numbers$/) do
   %w(1A222Z 2B333Z).each do |number|
     @litigator.provider.supplier_numbers << SupplierNumber.new(supplier_number: number)
   end
 end
 
-And(/^There are disbursement types in place$/) do
-  load "#{Rails.root}/db/seeds/disbursement_types.rb"
-end
-
 Then(/^I should be on the litigator new claim page$/) do
   expect(@litigator_claim_form_page).to be_displayed
+end
+
+Then(/^I should be on the litigator new interim claim page$/) do
+  expect(@interim_claim_form_page).to be_displayed
 end
 
 When(/^I select the supplier number '(.*)'$/) do |number|
@@ -39,9 +39,13 @@ And(/^I add a Case uplift fee with case numbers '(.*)'$/) do |case_numbers|
   @litigator_claim_form_page.miscellaneous_fees.last.case_numbers.set case_numbers
 end
 
-And(/^I add a disbursement '(.*)' with net amount '(.*)' and vat amount '(.*)'$/) do |name, net_amount, vat_amount|
+And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amount '(.*)'$/) do |name, net_amount, vat_amount|
   @litigator_claim_form_page.add_disbursement_if_required
   @litigator_claim_form_page.disbursements.last.select_fee_type name
   @litigator_claim_form_page.disbursements.last.net_amount.set net_amount
   @litigator_claim_form_page.disbursements.last.vat_amount.set vat_amount
+end
+
+And(/^I select an interim fee type of '(.*)'$/) do |name|
+  @interim_claim_form_page.interim_fee.select_fee_type(name)
 end

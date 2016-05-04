@@ -131,10 +131,16 @@ RSpec.describe Claims::Cloner, type: :model do
         expect(@rejected_claim.assessment.nil?).to eq(false)
         expect(@cloned_claim.assessment.nil?).to eq(true)
       end
+
+      it 'does not clone certifications' do
+        expect(@rejected_claim.certification).to_not be_nil
+        expect(@cloned_claim.certification).to be_nil
+      end
     end
 
     def create_rejected_claim
       rejected_claim = create(:rejected_claim)
+      create(:certification, claim: rejected_claim)
       rejected_claim.fees.each do |fee|
         fee.dates_attended << create(:date_attended)
       end

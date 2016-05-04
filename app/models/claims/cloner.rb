@@ -21,6 +21,7 @@ module Claims::Cloner
       exclude_association :determinations
       exclude_association :assessment
       exclude_association :redeterminations
+      exclude_association :certification
 
       clone [:fees, :documents, :defendants, :expenses, :disbursements]
 

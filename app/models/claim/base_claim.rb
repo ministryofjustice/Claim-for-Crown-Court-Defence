@@ -244,10 +244,11 @@ module Claim
 
       unless assessment_params.nil?
         # Now update assessment if nothing has gone wrong
+        asssessment_params_with_defaults = {'fees' => 0.0, 'expenses' => 0.0, 'disbursements' => 0.0}.merge(assessment_params)
         self.assessment.update_values(
-          assessment_params['fees'],
-          assessment_params['expenses'],
-          assessment_params['disbursements']
+          asssessment_params_with_defaults['fees'],
+          asssessment_params_with_defaults['expenses'],
+          asssessment_params_with_defaults['disbursements']
         )
       end
 
@@ -258,7 +259,7 @@ module Claim
       state = params.delete('state_for_form')
       assessment_params = params.delete('assessment_attributes')  # Don't update assessment yet
       self.update(params) # must precede state transition to not violate validations
-      self.transition_state(state, assessment_params['assessment_attributes'])
+      self.transition_state(state, assessment_params)
     end
 
     def editable?

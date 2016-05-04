@@ -141,5 +141,9 @@ module Fee
     def is_interim?
       false
     end
+
+    def is_transfer?
+      false
+    end
   end
 end

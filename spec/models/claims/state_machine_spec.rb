@@ -117,6 +117,41 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       it { expect{ subject.archive_pending_delete! }.to raise_error }
     end
+
+    describe "Allocated claim" do
+      let(:claim) { create(:allocated_claim) }
+
+      it "has a blank assessment" do
+        expect(claim.assessment).not_to eq(nil)
+        expect(claim.assessment.fees).to eq(0)
+        expect(claim.assessment.expenses).to eq(0)
+        expect(claim.assessment.disbursements).to eq(0)
+      end
+
+      context "updating assessment" do
+        context "without updating the status" do
+          let(:params) do
+            {
+              "assessment_attributes" => {
+                "fees" => "1.00",
+                "expenses" => "0.00",
+                "vat_amount" => "0.00",
+                "id" => claim.assessment.id
+              }
+            }
+          end
+
+          it "raises ArgumentError" do
+            expect{claim.update_model_and_transition_state(params)}.to raise_error(ArgumentError)
+          end
+
+          it "does not update the assessment" do
+            claim.update_model_and_transition_state(params) rescue nil
+            expect(claim.reload.assessment.fees).to eq(0)
+          end
+        end
+      end
+    end
   end # describe 'valid transitions'
 
   describe 'set triggers' do

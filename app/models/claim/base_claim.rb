@@ -238,16 +238,28 @@ module Claim
       end
     end
 
-    def transition_state(state)
+    def transition_state(state, assessment_params = nil)
       event = Claims::InputEventMapper.input_event(state)
       validate_case_worker_state_transition(state)
+
+      unless assessment_params.nil?
+        # Now update assessment if nothing has gone wrong
+        asssessment_params_with_defaults = {'fees' => 0.0, 'expenses' => 0.0, 'disbursements' => 0.0}.merge(assessment_params)
+        self.assessment.update_values(
+          asssessment_params_with_defaults['fees'],
+          asssessment_params_with_defaults['expenses'],
+          asssessment_params_with_defaults['disbursements']
+        )
+      end
+
       self.send(event) unless (state.blank? || state == self.state)
     end
 
     def update_model_and_transition_state(params)
       state = params.delete('state_for_form')
+      assessment_params = params.delete('assessment_attributes')  # Don't update assessment yet
       self.update(params) # must precede state transition to not violate validations
-      self.transition_state(state)
+      self.transition_state(state, assessment_params)
     end
 
     def editable?

@@ -1,18 +1,15 @@
-@javascript @webmock_allow_localhost_connect
+@javascript
 Feature: Advocate submits a claim for a Contempt case
 
   Scenario: I create a contempt claim, then submit it
 
     Given I am a signed in advocate
-    And There are case and fee types in place
-    And There are certification types in place
-    And There are courts, offences and expense types in place
     And I am on the 'Your claims' page
     And I click 'Start a claim'
     Then I should be on the new claim page
 
     When I select an advocate category of 'Junior alone'
-    And I select a court
+    And I select the court 'Blackfriars Crown'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A12345678'
     And I select an offence category

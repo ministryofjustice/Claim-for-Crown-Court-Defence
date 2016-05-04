@@ -1,69 +1,8 @@
-class CommonDateSection < SitePrism::Section
-  include DateHelper
-  element :day,   'div.form-date > div.form-group-day > input'
-  element :month, 'div.form-date > div.form-group-month > input'
-  element :year,  'div.form-date > div.form-group-year > input'
-end
-
-class FeeSection < SitePrism::Section
-  element :quantity, "input.quantity"
-  element :rate, "input.rate"
-  element :add_dates, "td:nth-of-type(5) > a"
-end
-
-class FeeDatesSection < SitePrism::Section
-  section :from, "td:nth-of-type(1) > span:nth-of-type(1)" do
-    include DateHelper
-    element :day, "input:nth-of-type(1)"
-    element :month, "input:nth-of-type(2)"
-    element :year, "input:nth-of-type(3)"
-  end
-
-  section :to, "td:nth-of-type(1) > span:nth-of-type(2)" do
-    include DateHelper
-    element :day, "input:nth-of-type(1)"
-    element :month, "input:nth-of-type(2)"
-    element :year, "input:nth-of-type(3)"
-  end
-end
-
-class TypedFeeSection < SitePrism::Section
-  include Select2Helper
-
-  element :select2_container, "tr:nth-of-type(1) > td:nth-of-type(1) .autocomplete", visible: false
-  element :quantity, "tr:nth-of-type(1) input.quantity"
-  element :rate, "tr:nth-of-type(1) input.rate"
-  element :case_numbers, "tr:nth-of-type(1) input.js-misc-fee-case-numbers"
-  element :add_dates, "tr:nth-of-type(1) > td:nth-of-type(5) > a"
-  section :dates, FeeDatesSection, "tr.fee-dates"
-
-  def select_fee_type(name)
-    id = select2_container[:id]
-    select2 name, from: id
-  end
-
-  def populated?
-    rate.value.size > 0
-  end
-end
-
-
-
-class ExpenseSection < SitePrism::Section
-  element :expense_type_dropdown, "#claim_expenses_attributes_0_expense_type_id"
-  element :destination, "#claim_expenses_attributes_0_location"
-  element :quantity, "#claim_expenses_attributes_0_distance"
-  element :reason_for_travel_dropdown, "#claim_expenses_attributes_0_reason_id"
-  element :amount, "#claim_expenses_attributes_0_amount"
-  section :expense_date, "fieldset#expense_1_date" do
-    include DateHelper
-    element :day, "input#claim_expenses_attributes_0_date_dd"
-    element :month, "input#claim_expenses_attributes_0_date_mm"
-    element :year, "input#claim_expenses_attributes_0_date_yyyy"
-  end
-end
-
-
+require_relative 'sections/common_date_section'
+require_relative 'sections/fee_dates_section'
+require_relative 'sections/fee_section'
+require_relative 'sections/typed_fee_section'
+require_relative 'sections/expense_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper

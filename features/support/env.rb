@@ -4,14 +4,19 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+require 'capybara'
+require 'capybara/cucumber'
 require 'capybara/poltergeist'
+require 'selenium-webdriver'
+require 'cucumber/rails'
+require 'cucumber/rspec/doubles'
+require 'site_prism'
+
 Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, js_errors: true)
 end
-
-require 'cucumber/rails'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -43,20 +48,6 @@ rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
-
-# lets set up some VAT rates that will apply to all cukes
-Before do
-  FactoryGirl.create :vat_rate, effective_date: Date.new(1970, 1, 1)
-  FactoryGirl.create :vat_rate, effective_date: Date.new(1990, 4, 5)
-end
-
-
-After do
-  VatRate.delete_all
-end
-
-
-
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
@@ -75,8 +66,8 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :truncation
+Cucumber::Rails::Database.javascript_strategy = :truncation, {
+    except: %w(vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types)
+}
 
-Before('@webmock_allow_localhost_connect') do
-  WebMock.disable_net_connect!(allow_localhost: true)
-end
+WebMock.disable_net_connect!(allow_localhost: true)

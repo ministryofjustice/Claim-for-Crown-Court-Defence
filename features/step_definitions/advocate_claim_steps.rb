@@ -1,25 +1,3 @@
-Given(/^There are case and fee types in place$/) do
-  load "#{Rails.root}/db/seeds/case_types.rb"
-  load "#{Rails.root}/db/seeds/fee_types.rb"
-end
-
-Given(/^certification types are seeded$/) do
-  load("#{Rails.root}/db/seeds/certification_types.rb")
-end
-
-Given(/^There are certification types in place$/) do
-  load "#{Rails.root}/db/seeds/certification_types.rb"
-end
-
-Given(/^There are courts, offences and expense types in place$/) do
-  load("#{Rails.root}/db/seeds/courts.rb")
-  load("#{Rails.root}/db/seeds/offence_classes.rb")
-  load("#{Rails.root}/db/seeds/offences.rb")
-
-  create(:expense_type, name: 'Parking')
-  create(:expense_type, name: 'Hotel accommodation')
-end
-
 Given(/^I am on the new claim page$/) do
   @claim_form_page.load
 end
@@ -44,8 +22,8 @@ When(/^I select an advocate$/) do
   @claim_form_page.select_advocate "Doe, John: AC135"
 end
 
-When(/^I select a court$/) do
-  @claim_form_page.select_court 'Blackfriars Crown'
+When(/^I select the court '(.*?)'$/) do |name|
+  @claim_form_page.select_court(name)
 end
 
 When(/^I select a case type of '(.*?)'$/) do |name|

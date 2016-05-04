@@ -1,4 +1,4 @@
-@javascript @webmock_allow_localhost_connect
+@no-seeding @javascript
 Feature: Case worker fully authorises claim
 
   Scenario: I fully authorise a claim

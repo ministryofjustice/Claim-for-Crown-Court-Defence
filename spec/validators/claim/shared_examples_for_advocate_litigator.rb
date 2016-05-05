@@ -135,14 +135,14 @@ shared_examples "common litigator validations" do
 
     it 'should error if NOT present for any case type' do
       claim.case_type.is_fixed_fee = false
-      should_error_with(claim, :offence, "blank")
+      should_error_with(claim, :offence, 'blank_class')
       claim.case_type.is_fixed_fee = true
-      should_error_with(claim, :offence, "blank")
+      should_error_with(claim, :offence, 'blank_class')
     end
 
     it 'should error if NOT a Miscellaneous/other offence' do
       claim.offence = offence
-      should_error_with(claim, :offence, "invalid")
+      should_error_with(claim, :offence, 'invalid_class')
     end
 
     it 'should NOT error if a Miscellaneous/other offence' do

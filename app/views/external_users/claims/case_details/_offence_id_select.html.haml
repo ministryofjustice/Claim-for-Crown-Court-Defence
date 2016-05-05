@@ -1,4 +1,5 @@
-= label_tag t('.offence_class')
+= f.anchored_label t('.offence_class'), :offence
 .form-hint.xsmall.zero-vert-margin
   = t('.offence_class_hint')
 = f.collection_select :offence_id, Offence.miscellaneous, :id, :offence_class_description, { include_blank: true }, { class: 'form-control autocomplete' }
+= validation_error_message(@error_presenter, :offence)

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'support/database_housekeeping'
 
 RSpec.describe Claims::Cloner, type: :model do
 

@@ -26,10 +26,11 @@ class DefendantValidator < BaseValidator
   end
 
   def validate_representation_orders
-    unless @record.claim && @record.claim.api_draft?
-      if @record.representation_orders.none?
-        add_error(:representation_orders, 'no_reporder')
-      end
+    return if @record.claim.try(:api_draft?)
+
+    # Will get validated by the sub-model validator RepresentationOrderValidator
+    if @record.representation_orders.none?
+      @record.representation_orders.build
     end
   end
 

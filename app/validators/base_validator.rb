@@ -46,7 +46,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_presence(attribute, message)
-    add_error(attribute, message) if @record.__send__(attribute).blank?
+    add_error(attribute, message) if attr_blank?(attribute)
   end
 
   def validate_absence(attribute, message)

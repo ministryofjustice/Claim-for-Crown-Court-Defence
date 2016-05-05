@@ -81,7 +81,7 @@ def publicise_errors(claim, &block)
   begin
     block.call
   rescue => err
-    puts ">>>>>>>>>>>>>>>> DEBUG validation errors    #{__FILE__}::#{__LINE__} <<<<<<<<<<"
+    puts "***************** DEBUG validation errors    #{__FILE__}::#{__LINE__} **********"
     ap claim
     puts claim.errors.full_messages
     claim.defendants.each do |d|

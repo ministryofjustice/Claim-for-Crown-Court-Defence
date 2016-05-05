@@ -20,8 +20,8 @@
       "trial_cracked_at": "2015-06-01",
       "defendants": [
         {
-          "first_name": "case",
-          "last_name": "system",
+          "first_name": "Angela",
+          "last_name": "Merkel",
           "date_of_birth": "1979-12-10",
           "order_for_judicial_apportionment": true,
           "representation_orders": [
@@ -50,15 +50,10 @@
         {
           "expense_type_id": 1,
           "quantity": 1,
-          "rate": 1.1,
+          "amount": 235.46,
+          "reason_id": 4,
           "location": "London",
-          "dates_attended": [
-            {
-              "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
-            }
-          ]
+          "date": "2015-06-01"
         }
       ]
     }

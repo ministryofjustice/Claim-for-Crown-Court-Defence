@@ -62,8 +62,8 @@ class JsonDocumentImporter
         create_claim(claim_hash['claim'])
         set_defendants_fees_and_expenses(claim_hash['claim'])
         create_defendants_and_rep_orders
-        create_expenses_or_fees_and_dates_attended(@fees, FEE_CREATION)
-        create_expenses_or_fees_and_dates_attended(@expenses, EXPENSE_CREATION)
+        create_fees_and_dates_attended(@fees, FEE_CREATION)
+        create_expenses(@expenses, EXPENSE_CREATION)
         @imported_claims << Claim::BaseClaim.find_by(uuid: @claim_id)
       rescue ArgumentError => e
         case_number =  claim_hash['claim']['case_number'].blank? ? "Claim #{index+1} (no readable case number)" : claim_hash['claim']['case_number']
@@ -75,6 +75,7 @@ class JsonDocumentImporter
       rescue JSON::Schema::ValidationError => e
         @failed_schema_validation << claim_hash
       end
+
     end
   end
 
@@ -120,11 +121,18 @@ class JsonDocumentImporter
     end
   end
 
-  def create_expenses_or_fees_and_dates_attended(fee_or_expense_array, rest_client_resource)
+  def create_fees_and_dates_attended(fee_or_expense_array, rest_client_resource)
     fee_or_expense_array.each do |fee_or_expense|
       fee_or_expense['claim_id'] = @claim_id
       create(fee_or_expense, rest_client_resource)
       create_dates_attended(fee_or_expense)
+    end
+  end
+
+  def create_expenses(expense_array, rest_client_resource)
+    expense_array.each do |expense|
+      expense['claim_id'] = @claim_id
+      create(expense, rest_client_resource)
     end
   end
 

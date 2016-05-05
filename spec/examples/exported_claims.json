@@ -20,8 +20,8 @@
       "trial_cracked_at": "2015-06-01",
       "defendants": [
         {
-          "first_name": "case",
-          "last_name": "system",
+          "first_name": "David",
+          "last_name": "Cameron",
           "date_of_birth": "1979-12-10",
           "order_for_judicial_apportionment": true,
           "representation_orders": [
@@ -50,15 +50,10 @@
         {
           "expense_type_id": 1,
           "quantity": 1,
-          "rate": 1.1,
+          "amount": 51.1,
+          "reason_id": 3,
           "location": "London",
-          "dates_attended": [
-            {
-              "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
-            }
-          ]
+          "date": "2015-06-01"
         }
       ]
     }
@@ -84,8 +79,8 @@
       "trial_cracked_at": "2015-06-01",
       "defendants": [
         {
-          "first_name": "case",
-          "last_name": "system",
+          "first_name": "Jeremy",
+          "last_name": "Corbyn",
           "date_of_birth": "1979-12-10",
           "order_for_judicial_apportionment": true,
           "representation_orders": [
@@ -114,15 +109,11 @@
         {
           "expense_type_id": 1,
           "quantity": 1,
-          "rate": 1.1,
+          "amount": 1.1,
+          "reason_id": 5,
+          "reason_text": "Secret reason for this expense",
           "location": "London",
-          "dates_attended": [
-            {
-              "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
-            }
-          ]
+          "date": "2016-01-01"
         }
       ]
     }

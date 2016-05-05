@@ -1442,7 +1442,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(claim.save).to be true
       claim.force_validation = true
       result = claim.valid?
-      ap claim.errors if result == false
+      # ap claim.errors if result == false
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end

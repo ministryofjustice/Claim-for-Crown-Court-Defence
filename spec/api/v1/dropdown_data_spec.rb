@@ -132,7 +132,6 @@ describe API::V1::DropdownData do
       xit 'should return a JSON formatted list of the required information' do
         response = get EXPENSE_TYPE_ENDPOINT, params, format: :json
         expect(response.status).to eq 200
-        ap JSON.parse(response.body)
         expect(JSON.parse(response.body).count).to be > 0
         expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
       end

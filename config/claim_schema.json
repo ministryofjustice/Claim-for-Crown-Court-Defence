@@ -212,48 +212,20 @@
             "type": "object",
             "required": [
               "expense_type_id",
-              "quantity",
-              "rate",
-              "location",
-              "dates_attended"
+              "amount",
+              "reason_id",
+              "date"
             ],
             "properties": {
-              "expense_type_id": {
-                "type": "integer"
-              },
-              "quantity": {
-                "type": "number"
-              },
-              "rate": {
-                "type": "number"
-              },
-              "location": {
-                "type": "string"
-              },
-              "dates_attended": {
-                "type": "array",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "attended_item_type",
-                    "date",
-                    "date_to"
-                  ],
-                  "properties": {
-                    "attended_item_type": {
-                      "type": "string"
-                    },
-                    "date": {
-                      "type": "string"
-                    },
-                    "date_to": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
+              "amount":           { "type": "number" },
+              "expense_type_id":  { "type": "integer" },
+              "location":         { "type": "string" },
+              "date":             { "type": "string"},
+              "distance":         { "type": "integer" },
+              "hours":            { "type": "integer" },
+              "mileage_rate_id":  { "type": "integer" },
+              "reason_text":      { "type": "string" },
+              "reason_id":        { "type": "integer" }
             }
           }
         }

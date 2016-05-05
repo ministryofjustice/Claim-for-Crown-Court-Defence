@@ -29,7 +29,7 @@ data.each do |row|
       klass.create!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s, parent_id: parent_id)
     end
   rescue => err
-    puts ">>>>>>>>>>>>>> ERROR #{err.class}  #{err.message} <<<<<<<< #{__FILE__}::#{__LINE__} <<<<<<<<<\n"
+    puts "***************** #{err.class}  #{err.message} *********** #{__FILE__}::#{__LINE__} ***********\n"
     puts row
   end
 end

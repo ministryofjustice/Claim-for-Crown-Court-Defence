@@ -111,6 +111,12 @@ FactoryGirl.define do
       end
     end
 
+    factory :transfer_fee, class: Fee::TransferFee do
+      claim
+      fee_type { build :transfer_fee_type }
+      amount 25
+    end
+
     factory :graduated_fee, class: Fee::GraduatedFee do
       claim
       fee_type { build :graduated_fee_type }

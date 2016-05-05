@@ -56,16 +56,12 @@ module Claim
   class TransferClaim < BaseClaim
 
     has_one :transfer_detail, foreign_key: :claim_id
-
     has_one :transfer_fee, class_name: Fee::TransferFee, foreign_key: :claim_id
 
-    validates_with TransferClaimValidator
+    accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false
 
-    before_save do
-      if self.transfer_fee.nil?
-        self.transfer_fee = Fee::TransferFee.new
-      end
-    end
+    validates_with TransferClaimValidator
 
     # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.

@@ -30,11 +30,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(@document.converted_preview_document).path, view_or_download_file(:view)
+    send_file Paperclip.io_adapters.for(@document.converted_preview_document).path, view_file_options
   end
 
   def download
-    send_file Paperclip.io_adapters.for(@document.document).path, view_or_download_file(:download)
+    send_file Paperclip.io_adapters.for(@document.document).path, download_file_options
   end
 
   def create
@@ -43,7 +43,7 @@ class DocumentsController < ApplicationController
     if @document.save
       render json: { document: @document.reload }, status: :created
     else
-      render json: { error: @document.errors[:document].join(', ') }, status: 400
+      render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
     end
   end
 
@@ -63,25 +63,20 @@ class DocumentsController < ApplicationController
 
   private
 
-  def view_or_download_file(option)
-    file_opts = {}
+  def view_file_options
+    {
+      type:        @document.converted_preview_document_content_type,
+      filename:    @document.converted_preview_document_file_name,
+      disposition: 'inline'
+    }
+  end
 
-    case option
-      when :view
-        file_opts.merge!({
-          type:        @document.converted_preview_document_content_type,
-          filename:    @document.converted_preview_document_file_name,
-          disposition: 'inline'
-        })
-      when :download
-        file_opts.merge!({
-          type:        @document.document_content_type,
-          filename:    @document.document_file_name,
-          x_sendfile:  true
-        })
-    end
-
-    file_opts
+  def download_file_options
+    {
+      type:        @document.document_content_type,
+      filename:    @document.document_file_name,
+      x_sendfile:  true
+    }
   end
 
   def set_document

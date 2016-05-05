@@ -26,26 +26,27 @@ describe DefendantValidator do
     it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'check') }
   end
 
-  # TODO: missing spec to be completed
-  # describe '#validate_representation_orders' do
-  #   before do
-  #       defendant.representation_orders.destroy_all
-  #   end
+  describe '#validate_representation_orders' do
+    before do
+      defendant.representation_orders.destroy_all
+    end
 
-  #   context 'from api' do
-  #     let(:claim) { FactoryGirl.build (:claim, force_validation: true, source: 'api') }
-  #     it 'should not validate for presence of a rep order' do
-  #       expect(defendant).to be_valid
-  #     end
-  #   end
+    context 'from api' do
+      let(:claim) { FactoryGirl.build(:claim, source: 'api') }
 
-  #   context 'not from api' do
-  #     let(:claim) { FactoryGirl.create(:submitted_claim, source: 'web') }
-  #     it 'should validate for presence of a rep order' do
-  #       expect(defendant).to_not be_valid
-  #       expect(defendant.errors[:representation_orders]).to include('no_reporder')
-  #     end
-  #   end
-  # end
+      it 'should not validate for presence of a rep order' do
+        expect(defendant).to be_valid
+      end
+    end
 
+    context 'not from api' do
+      let(:claim) { FactoryGirl.create(:submitted_claim, source: 'web') }
+
+      it 'should validate for presence of a rep order' do
+        expect(defendant).to_not be_valid
+        expect(defendant.errors[:representation_order_1_representation_order_date]).to eq ['blank']
+        expect(defendant.errors[:representation_order_1_maat_reference]).to eq ['invalid']
+      end
+    end
+  end
 end

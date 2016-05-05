@@ -1,6 +1,5 @@
 require 'rails_helper'
 require 'custom_matchers'
-require 'support/database_housekeeping'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
 

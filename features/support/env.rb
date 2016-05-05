@@ -63,11 +63,4 @@ end
 #   end
 #
 
-# Possible values are :truncation and :transaction
-# The :transaction strategy is faster, but might give you threading problems.
-# See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-Cucumber::Rails::Database.javascript_strategy = :truncation, {
-    except: %w(vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types)
-}
-
 WebMock.disable_net_connect!(allow_localhost: true)

@@ -377,17 +377,6 @@ trial_cracked_at_third:
     short: "Choose \"Final third\""
     api:  "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
 
-case_concluded_at:
-  _seq: 185
-  blank:
-    long: Enter a date for Case concluded
-    short: *enter_date
-    api: Enter a date for Case concluded
-  present:
-    long: The date case concluded is not allowed
-    short: *date_not_allowed
-    api: The date case concluded is not allowed
-
 offence:
   _seq: 190
   blank:
@@ -398,6 +387,25 @@ offence:
     long: Choose a valid offence category
     short: Choose a valid offence category
     api: Choose a valid offence category
+  blank_class:
+    long: Choose an offence class
+    short: Choose an offence class
+    api: Choose an offence class
+  invalid_class:
+    long: Choose a valid offence class
+    short: Choose a valid offence class
+    api: Choose a valid offence class
+
+case_concluded_at:
+  _seq: 195
+  blank:
+    long: Enter a date for case concluded
+    short: *enter_date
+    api: Enter a date for case concluded
+  present:
+    long: The case concluded date is not allowed
+    short: *date_not_allowed
+    api: The case concluded date is not allowed
 
 effective_pcmh_date:
   _seq: 200
@@ -480,14 +488,6 @@ defendant:
       long: "Enter a valid date of birth for the #{defendant}"
       short: *enter_valid_date
       api: "Enter a valid date of birth for the defendant"
-
-  representation_orders:
-    _seq: 230
-    no_reporder:
-      _seq: 50
-      long: "Enter the representation order details for the #{defendant}"
-      short: "Enter representation order details"
-      api: "Enter the representation order details for the defendant"
 
   #################################################################################
   #                                                                               #

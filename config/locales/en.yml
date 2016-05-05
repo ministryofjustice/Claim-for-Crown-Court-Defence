@@ -453,7 +453,7 @@ en:
           retrial_started_at: 'First day of retrial'
         offence_id_select:
           offence_class: "Offence class"
-          offence_class_hint: "eg Theft"
+          offence_class_hint: "eg Burglary"
           select_offence_class: "Please select"
       defendants:
         defendant_fields:

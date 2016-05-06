@@ -22,3 +22,12 @@ body {
     @include span(6 of 12);
     @include first;
 }
+
+.grid-sidebar{
+	.column-two-thirds{
+		width: 74%;
+	}
+	.column-one-third{
+		width: 26%;
+	}
+}

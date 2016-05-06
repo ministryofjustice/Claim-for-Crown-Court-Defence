@@ -12,3 +12,13 @@
     @include span(6 of 12);
   }
 }
+
+.mod-fees{
+  .grid-row {
+    .column-one-third,
+    .column-one-half,
+    .column-one-quarter{
+      padding: 0;
+    }
+  }
+}

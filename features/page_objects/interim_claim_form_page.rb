@@ -7,7 +7,7 @@ class InterimClaimFormPage < LitigatorClaimFormPage
 
   section :interim_fee, InterimFeeSection, "div#interim-fee div.interim-fee-group"
 
-  sections :disbursements, DisbursementSection, "div#disbursements tbody.disbursement-group"
+  sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"
   element :add_another_disbursement, "div#disbursements > a.add_fields"
 
   def add_disbursement_if_required

@@ -10,14 +10,13 @@
 
 .dropzone{data: {'dz-template' => render('shared/dropzone_js')}}
   .dz-default.dz-message.grid-row
-    .column-third
-      &nbsp;
-    .column-third.drag-helptext
+    .column-one-third.arrow-icon
+      %p
+
+    .column-one-half
       %span.normal="Drag and drop files here"
       %br
       %span.bold-normal= "or"
       %br
       .button-secondary
         = t('.choose_file')
-    .column-third
-      &nbsp;

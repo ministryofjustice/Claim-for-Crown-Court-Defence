@@ -47,10 +47,10 @@ module Fee
     it { should respond_to(:code) }
     it { should respond_to(:description) }
 
-    describe '#has_dates_attended?' do
+    describe '#requires_dates_attended?' do
       it 'returns false' do
-        expect(build(:fixed_fee_type).has_dates_attended?).to be false
-        expect(build(:misc_fee_type).has_dates_attended?).to be false
+        expect(build(:fixed_fee_type).requires_dates_attended?).to be false
+        expect(build(:misc_fee_type).requires_dates_attended?).to be false
       end
     end
 

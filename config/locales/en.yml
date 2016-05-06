@@ -203,6 +203,7 @@ en:
     view: View
     warrant_fees: Warrant fees
     interim_fees: "Interim fees"
+    transfer_fees: Transfer fees
   link:
     add_claim: Start a claim
     back: Back
@@ -395,14 +396,21 @@ en:
         with_total_assessed_value_of: 'claims with a total assessed value of'
       basic_fees:
         basic_fee_fields:
+          no_dates: 'No dates currently selected.'
           add_date_attended: 'Add date(s)'
           remove: *remove
+          # basic_fee_prompt_text: |
+          #   Please include dates for those Standard appearance fees and PCMH's included in the Basic Fee
         basic_fee_calculated_fields:
           basic_fee_prompt_text: |
-            Please include dates for those Standard appearance<br />
-            fees and PCMH's included in the Basic Fee
+            Please include dates for those Standard appearance fees and PCMH's included in the Basic Fee
+          fee_type: Fee type
+          quantity: Quantity
+          rate: Rate
           saf_prompt_text: Include any additional PCMH fees under SAF
         basic_fee_uncalculated_fields:
+          quantity: Quantity
+          rate: Rate
           ppe_section_header: PPE
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
@@ -528,16 +536,16 @@ en:
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
-        remove_date: 'Remove date attended'
+        remove: 'Remove date attended'
       disbursements:
         fields:
           disbursements: "Disbursements"
-          disbursement_type: "Disbursement type"
+          add_disbursement: "Add another disbursement"
+        disbursement_fields:
           net_amount: "Net amount"
           vat_amount: "VAT amount"
           total: "Total"
-          add_disbursement: "Add another disbursement"
-        disbursement_fields:
+          disbursement_type: "Disbursement type"
           remove: *remove
       expenses:
         expense_fields:
@@ -547,7 +555,7 @@ en:
           add_another_expense: 'Add another expense'
           amount: 'Amount'
           vat_amount: 'VAT amount'
-          expenses: 'Expenses'
+          expenses: 'Travel Expenses'
           expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
@@ -568,13 +576,15 @@ en:
         fields:
           add_fixed_fee: 'Add another fixed fee'
           amount: 'Amount'
-          fee_type: 'Type of fee'
           fixed_fees: 'Fixed fees'
+        fixed_fee_fields:
           quantity: 'Quantity'
           rate: 'Rate'
-        fixed_fee_fields:
+          no_dates: 'No dates currently selected.'
+          total: '????_total'
+          fee_type: 'Type of fee'
           add_date_attended: 'Add date(s)'
-          remove: *remove
+          remove: 'Remove this fixed fee'
         litigators:
           fields:
             fixed_fees: "Fixed fees"
@@ -586,23 +596,24 @@ en:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
           amount: 'Amount'
-          fee_type: 'Type of fee'
           misc_fees: 'Miscellaneous fees'
-          quantity: 'Quantity'
-          rate: 'Rate'
           prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
         misc_fee_fields:
+          rate: 'Rate'
+          quantity: 'Quantity'
+          fee_type: 'Type of fee'
           add_date_attended: 'Add date(s)'
-          remove: *remove
+          remove: 'Remove this miscellaneous fee'
+          no_dates: 'No dates currently selected.'
         litigators:
           fields:
             misc_fees: "Miscellaneous fees"
             prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+            add_misc_fee: "Add another miscellaneous fee"
+          misc_fee_fields:
             fee_type: "Fee type"
             case_numbers: "Case number(s)"
             amount: "Total"
-            add_misc_fee: "Add another miscellaneous fee"
-          misc_fee_fields:
             remove: *remove
       financial_summary:
         total_outstanding: 'Total outstanding:'
@@ -674,6 +685,10 @@ en:
           trial_concluded_at: "First trial concluded"
           retrial_started_at: "Re-trial start date"
           retrial_estimated_length: "Estimated length of re-trial"
+      transfer_fees:
+        fields:
+          transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
+          transfer_fees: Missing Translation
     litigators:
       interim_claims:
         new:

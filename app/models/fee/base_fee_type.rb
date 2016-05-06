@@ -44,7 +44,7 @@ module Fee
       raise FeeBaseFeeTypeAbstractClassError if self.class == BaseFeeType
     end
 
-    def has_dates_attended?
+    def requires_dates_attended?
       false
     end
 

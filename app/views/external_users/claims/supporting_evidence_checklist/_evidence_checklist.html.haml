@@ -1,3 +1,2 @@
 = f.collection_check_boxes :evidence_checklist_ids, DocType.all, :id, :name do |b|
-  %div
-    = b.label(class: "block-label") {b.check_box + b.text}
+  = b.label(class: "block-label") {b.check_box + b.text}

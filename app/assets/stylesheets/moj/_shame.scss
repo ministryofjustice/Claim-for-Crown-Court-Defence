@@ -829,10 +829,16 @@ Styling for Claims Messaging
 .dropzone {
   border: 2px dashed black;
   padding: 30px;
-  width: 100%;
-  min-height: 200px;
+  // width: 100%;
+  // min-height: 200px;
   margin-bottom: 20px;
 
+  .arrow-icon::before {
+    content: asset-data-url('icons/drag-drop-upload-ico.svg');
+    float: right;
+    width: 90px;
+    height: 90px;
+  }
   &.dz-drag-hover {
     border-color: $yellow;
     .drag-helptext::before {

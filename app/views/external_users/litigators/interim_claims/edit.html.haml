@@ -2,4 +2,11 @@
 
 = render partial: 'layouts/header', locals: {page_heading: t('.edit_interim_claim_heading')}
 
-= render 'form'
+- present(@claim) do |claim|
+  .grid-row.grid-sidebar
+    .column-two-thirds
+      = render 'form'
+
+    .column-one-third
+      = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }
+

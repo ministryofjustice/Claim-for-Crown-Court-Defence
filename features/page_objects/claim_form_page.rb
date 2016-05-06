@@ -42,25 +42,25 @@ class ClaimFormPage < SitePrism::Page
   section :initial_fees, "div#basic-fees" do
     # In CSS 'foo + bar' means instances of bar which immediately follow foo and
     # have the same parent.
-    section :basic_fee, FeeSection, "tr.basic-fee.fee-details"
-    section :basic_fee_dates, FeeDatesSection, "tr.basic-fee.fee-details + tr.fee-dates"
+    section :basic_fee, FeeSection, ".basic-fee.fee-details"
+    section :basic_fee_dates, FeeDatesSection, ".basic-fee.fee-details .fee-dates-row"
 
-    section :daily_attendance_fee_3_to_40, FeeSection, "tr.fee-details.daily-attendance-fee-3-to-40"
-    section :daily_attendance_fee_3_to_40_dates, FeeDatesSection, "tr.fee-details.daily-attendance-fee-3-to-40 + tr.fee-dates"
+    section :daily_attendance_fee_3_to_40, FeeSection, ".basic-fee-group.daily-attendance-fee-3-to-40"
+    section :daily_attendance_fee_3_to_40_dates, FeeDatesSection, ".basic-fee-group.daily-attendance-fee-3-to-40 .fee-dates-row"
 
-    section :daily_attendance_fee_41_to_50, FeeSection, "tr.fee-details.daily-attendance-fee-41-to-50"
-    section :daily_attendance_fee_51_plus, FeeSection, "tr.fee-details.daily-attendance-fee-51"
-    section :standard_appearance_fee, FeeSection, "tr.fee-details.standard-appearance-fee"
-    section :plea_and_case_management_hearing, FeeSection, "tr.fee-details.plea-and-case-management-hearing"
-    section :conferences_and_views, FeeSection, "tr.fee-details.conferences-and-views"
-    section :number_of_defendants_uplift, FeeSection, "tr.fee-details.number-of-defendants-uplift"
-    section :number_of_cases_uplift, FeeSection, "tr.fee-details.number-of-cases-uplift"
+    section :daily_attendance_fee_41_to_50, FeeSection, ".basic-fee-group.daily-attendance-fee-41-to-50"
+    section :daily_attendance_fee_51_plus, FeeSection, ".basic-fee-group.daily-attendance-fee-51"
+    section :standard_appearance_fee, FeeSection, ".basic-fee-group.standard-appearance-fee"
+    section :plea_and_case_management_hearing, FeeSection, ".basic-fee-group.plea-and-case-management-hearing"
+    section :conferences_and_views, FeeSection, ".basic-fee-group.conferences-and-views"
+    section :number_of_defendants_uplift, FeeSection, ".basic-fee-group.number-of-defendants-uplift"
+    section :number_of_cases_uplift, FeeSection, ".basic-fee-group.number-of-cases-uplift"
   end
 
-  sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees tbody.misc-fee-group"
+  sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
 
-  sections :fixed_fees, TypedFeeSection, "div#fixed-fees tbody.fixed-fee-group"
+  sections :fixed_fees, TypedFeeSection, "div#fixed-fees .fixed-fee-group"
   element :add_another_fixed_fee, "div#fixed-fees > a.add_fields"
 
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"

@@ -1,13 +1,15 @@
-%td
-  = fee.section_header('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
-%td
-  %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
-  = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
-  = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
-%td
-  = fee.rate
-%td
-  %a{name: "basic_fee_#{@basic_fee_count}_amount"}
-  %div.pound-wrapper
-    = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
-  = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")
+.grid-row
+  .column-one-half.fee-type
+    = fee.section_header('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
+
+  .column-one-quarter.fee-quantity
+    %label.form-label
+      = t('.quantity')
+      %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
+      = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
+      = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
+
+  .column-one-quarter.fee-rate
+    %label.form-label
+      = t('.rate')
+      = fee.rate

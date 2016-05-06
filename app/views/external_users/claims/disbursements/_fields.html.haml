@@ -1,21 +1,11 @@
-#disbursements
+#disbursements.mod-fees
   = f.anchored_without_label 'interim_fee.disbursements'
   %h2.bold-medium
     = t('.disbursements')
-  %table
-    %thead
-      %tr
-        %th
-          = t('.disbursement_type')
-        %th
-          = t('.net_amount')
-        %th
-          = t('.vat_amount')
-        %th
-          = t('.total')
-        %td
+
+  .disbursements-group-wrapper
     = f.fields_for :disbursements do |disbursement_fields|
       - @disbursement_count += 1
       = render 'external_users/claims/disbursements/disbursement_fields', f: disbursement_fields
 
-  = link_to_add_association t('.add_disbursement'), f, :disbursements, partial: 'external_users/claims/disbursements/disbursement_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+  = link_to_add_association t('.add_disbursement'), f, :disbursements, partial: 'external_users/claims/disbursements/disbursement_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}

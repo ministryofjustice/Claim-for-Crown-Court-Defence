@@ -1,8 +1,9 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.heading') }
 
 - present(@claim) do |claim|
+  .grid-row.grid-sidebar
+    .column-two-thirds
+      = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
 
-  .new-claim-sidebar
-    = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim }
-  .new-claim-content
-    = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
+    .column-one-third.new-claim-sidebar
+      = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: true }

@@ -29,6 +29,11 @@
         = validation_error_message(@provider, :name)
 
       #js-supplier-number
+        = f.label t('.supplier_number'), class: "form-label"
+        = f.text_field :supplier_number, class: "form-control"
+        = validation_error_message(@provider, :supplier_number)
+
+      #js-supplier-numbers
         = render 'shared/supplier_numbers', f: f
 
       #js-vat-registered

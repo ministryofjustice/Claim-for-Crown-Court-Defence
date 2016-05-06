@@ -12,7 +12,11 @@
   = t('.fee_schemes')
 = @provider.roles.map(&:upcase) * ', '
 
-- if @provider.firm?
+%h3
+  = t('.supplier_number')
+= @provider.supplier_number
+
+- if @provider.supplier_numbers.any?
   %h3
     = t('.supplier_numbers')
   = @provider.supplier_numbers.to_sentence

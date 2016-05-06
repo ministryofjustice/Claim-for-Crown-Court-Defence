@@ -4,6 +4,7 @@ moj.Modules.SuperAdminProvider = {
   providerType : 'js-provider-type',
   $providerType : {},
   supplierNumber : 'js-supplier-number',
+  supplierNumbers : 'js-supplier-numbers',
   $supplierNumber : {},
   vatRegistered : 'js-vat-registered',
   $vatRegistered : {},
@@ -25,6 +26,7 @@ moj.Modules.SuperAdminProvider = {
     this.$form = $('#' + this.el);
     this.$providerType = $('#' + this.providerType);
     this.$supplierNumber = $('#' + this.supplierNumber);
+    this.$supplierNumbers = $('#' + this.supplierNumbers);
     this.$vatRegistered = $('#' + this.vatRegistered);
   },
 
@@ -32,9 +34,11 @@ moj.Modules.SuperAdminProvider = {
     //Show supplier number and vat registered if the provider is a firm
     if(providerTypeVal === 'firm'){
       this.$supplierNumber.show();
+      this.$supplierNumbers.show();
       this.$vatRegistered.show();
     }else if(providerTypeVal === 'chamber'){
       this.$supplierNumber.hide();
+      this.$supplierNumbers.hide();
       this.$vatRegistered.hide();
     }
   }

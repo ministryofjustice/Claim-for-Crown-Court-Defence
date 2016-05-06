@@ -255,35 +255,6 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
-  describe 'available_claim_types' do
-    let(:advocate)            { build(:external_user, :advocate) }
-    let(:litigator)           { build(:external_user, :litigator) }
-    let(:admin)               { build(:external_user, :admin) }
-    let(:advocate_litigator)  { build(:external_user, :advocate_litigator) }
-
-    before(:each) do
-      allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
-      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
-    end
-
-    it 'returns advocate claims for advocates' do
-      expect(advocate.available_claim_types).to match_array([Claim::AdvocateClaim])
-    end
-
-    it 'returns litigator claims for litigators' do
-      expect(litigator.available_claim_types).to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-    end
-
-    it 'returns both types of claims for admin' do
-      expect(admin.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-    end
-
-    it 'returns both types of claims for advocate_litigators' do
-      expect(advocate_litigator.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
-    end
-
-  end
-
   describe '#available_roles' do
     let(:advocate)            { create(:external_user, :advocate)           }
     let(:litigator)           { create(:external_user, :litigator)          }

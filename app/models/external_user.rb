@@ -45,20 +45,6 @@ class ExternalUser < ActiveRecord::Base
     delegate "#{role}?".to_sym, to: :provider
   end
 
-  def available_roles
-    return %w( admin ) if provider.nil?
-
-    if provider.agfs? && provider.lgfs?
-      %w( admin advocate litigator )
-    elsif provider.agfs?
-      %w( admin advocate )
-    elsif provider.lgfs?
-      %w( admin litigator )
-    else
-      raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
-    end
-  end
-
   def litigator_claim_types
     litigator_claim_types = [Claim::LitigatorClaim]
     litigator_claim_types << Claim::InterimClaim if Settings.allow_lgfs_interim_fees?

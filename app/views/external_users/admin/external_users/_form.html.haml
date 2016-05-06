@@ -21,7 +21,7 @@
     %fieldset.inline.js-advocate-roles
       %legend
         = 'Roles'
-      = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
+      = f.collection_check_boxes(:roles, @available_roles, :to_s, :to_s) do |b|
         - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
       - if current_user.persona.provider.chamber?

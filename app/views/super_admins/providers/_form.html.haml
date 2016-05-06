@@ -20,8 +20,9 @@
 
         = f.label :roles, t('.fee_schemes'), class: "form-label"
         %div.form-group.inline
-          =f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
-            - b.label(class: 'block-label') { b.check_box + b.value.upcase }
+          #js-provider-roles
+            =f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
+              - b.label(class: 'block-label') { b.check_box + b.value.upcase }
 
       #js-provider-name
         = f.label t('.provider_name'), class: "form-label"
@@ -29,7 +30,7 @@
         = validation_error_message(@provider, :name)
 
       #js-supplier-number
-        = f.label t('.supplier_number'), class: "form-label"
+        = f.label :supplier_number, t('.agfs_supplier_number'), class: "form-label"
         = f.text_field :supplier_number, class: "form-control"
         = validation_error_message(@provider, :supplier_number)
 

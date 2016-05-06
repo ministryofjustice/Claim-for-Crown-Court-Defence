@@ -270,6 +270,7 @@ en:
         supplier_number: *supplier_number
         vat_registered: *vat_registered
         form_error_hint: 'Check below for more detail'
+        agfs_supplier_number: "AGFS Supplier Number"
     external_users:
       index:
         name: 'Name'
@@ -767,6 +768,7 @@ en:
     supplier_numbers:
       supplier_numbers: "Supplier numbers"
       add_supplier_number: "Add another supplier number"
+      lgfs_supplier_numbers: "LGFS Supplier Numbers"
     supplier_number_fields:
       remove: "Remove supplier number"
   case_workers:

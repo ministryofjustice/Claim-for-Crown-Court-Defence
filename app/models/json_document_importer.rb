@@ -121,11 +121,11 @@ class JsonDocumentImporter
     end
   end
 
-  def create_fees_and_dates_attended(fee_or_expense_array, rest_client_resource)
-    fee_or_expense_array.each do |fee_or_expense|
-      fee_or_expense['claim_id'] = @claim_id
-      create(fee_or_expense, rest_client_resource)
-      create_dates_attended(fee_or_expense)
+  def create_fees_and_dates_attended(fee_array, rest_client_resource)
+    fee_array.each do |fee|
+      fee['claim_id'] = @claim_id
+      create(fee, rest_client_resource)
+      create_dates_attended(fee)
     end
   end
 

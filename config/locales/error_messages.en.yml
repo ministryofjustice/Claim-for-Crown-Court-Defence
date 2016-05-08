@@ -280,11 +280,6 @@ trial_fixed_notice_at:
     long: 'Enter a date for "Notice of 1st fixed/warned issued"'
     short: *enter_date
     api: 'Enter a date for "Notice of 1st fixed/warned issued"'
-  # OLD: Simpler message - less informative and could result in multiple errors of same kind
-  # check:
-  #   long: 'Check the date for "Notice of 1st fixed/warned issued"'
-  #   short: Check this date
-  #   api: 'Check the date for "Notice of 1st fixed/warned issued"'
   check_not_in_future:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
     short: *in_future
@@ -308,11 +303,6 @@ trial_fixed_at:
     long: 'Enter a date for "1st fixed/warned trial"'
     short: *enter_date
     api: 'Enter a date for "1st fixed/warned trial"'
-  # OLD: Simpler message - less informative and could result in multiple errors of same kind
-  # check:
-  #   long: Check the date for "1st fixed/warned trial"
-  #   short: Check this date
-  #   api: Check the date for "1st fixed/warned trial"
   check_not_too_far_in_past:
     long: 'Check the date for "1st fixed/warned trial"'
     short: *too_far_in_past
@@ -336,11 +326,6 @@ trial_cracked_at:
     long: Enter a date for "Case cracked"
     short: *enter_date
     api: Enter a date for "Case cracked"
-  # OLD: Simpler message - less informative and could result in multiple errors of same kind
-  # check:
-  #   long: Check the date for "Case cracked"
-  #   short: Check this date
-  #   api: Check the date for "Case cracked"
   check_not_in_future:
     long: 'Check the date for "Case cracked"'
     short: *in_future
@@ -444,6 +429,62 @@ legal_aid_transfer_date:
     long: The date Legal Aid was transferred is not allowed
     short: Date not allowed
     api: The date Legal Aid was transferred is not allowed
+
+#################################################################################
+#                                                                               #
+#   TRANSFER DETAIL                                                             #
+#                                                                               #
+#################################################################################
+
+litigator_type:
+  _seq: 215
+  invalid:
+    long: Choose the Litigator Type
+    short: Choose a type
+    api: Choose the Litigator Type
+
+elected_case:
+  _seq: 216
+  invalid:
+    long: Choose the elected case status
+    short: Choose an answer
+    api: Choose the elected case status
+
+transfer_stage_id:
+  _seq: 217
+  invalid:
+    long: Check the stage at which the case was transfered
+    short: Check selected option
+    api: Check the stage at which the case was transfered
+
+transfer_date:
+  _seq: 218
+  blank:
+    long: Enter the transfer date
+    short: *enter_date
+    api: Enter the transfer date
+  check_not_in_future:
+    long: 'Check the transfer date'
+    short: *in_future
+    api: 'Check the transfer date'
+  check_not_too_far_in_past:
+    long: 'Check the transfer date'
+    short: *too_far_in_past
+    api: 'Check the transfer date'
+
+case_conclusion_id:
+  _seq: 219
+  invalid:
+    long: Check the case conclusion state
+    short: Check selected option
+    api: Check the case conclusion state
+
+transfer_detail:
+  _seq: 220
+  invalid_combo:
+    long: Check combination of transfer details
+    short: Check transfer details combination
+    api: Check combination of transfer details
 
 #################################################################################
 #                                                                               #

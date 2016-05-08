@@ -61,7 +61,8 @@ module Claim
     accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false
 
-    validates_with TransferClaimValidator
+    validates_with ::Claim::TransferClaimValidator
+    validates_with ::Claim::TransferClaimSubModelValidator
 
     # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.

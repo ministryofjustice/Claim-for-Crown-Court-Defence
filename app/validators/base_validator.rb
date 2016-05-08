@@ -71,11 +71,27 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) unless inclusion_list.include?(@record.__send__(attribute))
   end
 
+  def bounds(lower=nil,upper=nil)
+    lower_bound = lower.blank? ? -infinity : lower
+    upper_bound = upper.blank? ? infinity : upper
+    return lower_bound, upper_bound
+  end
+
+  def infinity
+    1.0/0
+  end
+
+  #  TODO: refactor validate_numericality to accept options, for taking floating points
   def validate_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
     return if attr_nil?(attribute)
-    lower_bound = lower_bound.blank? ? -infinity : lower_bound
-    upper_bound = upper_bound.blank? ? infinity : upper_bound
+    lower_bound, upper_bound = bounds(lower_bound, upper_bound)
     add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_i)
+  end
+
+  def validate_float_numericality(attribute, lower_bound=nil, upper_bound=nil, message)
+    return if attr_nil?(attribute)
+    lower_bound, upper_bound = bounds(lower_bound,upper_bound)
+    add_error(attribute, message) unless (lower_bound..upper_bound).include?(@record.__send__(attribute).to_f)
   end
 
   def add_error(attribute, message)
@@ -96,10 +112,6 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
   end
 
-  def infinity
-    1.0/0
-  end
-
   def validate_has_role(object, role, error_message_key, error_message)
     return if object.nil?
     unless object.is?(role)
@@ -116,4 +128,5 @@ class BaseValidator < ActiveModel::Validator
     return if attr_nil?(attribute) || attr_nil?(another_attribute)
     add_error(attribute, message) if @record.__send__(attribute) > @record.__send__(another_attribute)
   end
+
 end

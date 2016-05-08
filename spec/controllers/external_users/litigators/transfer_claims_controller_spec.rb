@@ -110,8 +110,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         end
 
         context 'multi-step form submit to LAA' do
+          let!(:transfer_fee_type)  { create(:transfer_fee_type) }
           let(:case_number) { 'A88888888' }
-          let(:transfer_fee_type)  { create(:transfer_fee_type) }
           let(:transfer_detail_params) {
             {
                 transfer_detail_attributes: {

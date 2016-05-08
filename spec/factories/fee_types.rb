@@ -105,6 +105,7 @@ FactoryGirl.define do
     end
 
     factory :transfer_fee_type, class: Fee::TransferFeeType do
+      calculated false
       code 'TRANS'
       description 'Transfer'
       roles [ 'lgfs' ]

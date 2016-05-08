@@ -1,0 +1,41 @@
+
+= f.fields_for :transfer_detail do |td|
+  - present(td.object) do |transfer_detail|
+
+    = td.anchored_without_label 'transfer_detail'
+
+    %fieldset
+      .form-row
+        %fieldset.inline
+          = td.anchored_label t('.litigator_type'), 'litigator_type'
+          = td.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.text }
+        = validation_error_message(@error_presenter, :litigator_type)
+
+    %fieldset
+      .form-row
+        %fieldset.inline
+          = td.anchored_label t('.elected_case'), 'elected_case'
+          = td.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.text }
+        = validation_error_message(@error_presenter, :elected_case)
+
+    %fieldset
+      .form-row
+        .form-col
+          = td.anchored_label t('.transfer_stages'), 'transfer_stage_id'
+          = td.collection_select :transfer_stage_id, transfer_detail.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete'}
+          = validation_error_message(@error_presenter, 'transfer_stage_id')
+
+    %fieldset
+      .form-row
+        .form-col
+          = td.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date'), legend_class: 'govuk-legend', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
+          = validation_error_message(@error_presenter, :transfer_date)
+
+    %fieldset
+      .form-row
+        .form-col
+          = td.anchored_label t('.case_conclusions'), 'case_conclusion_id'
+          = td.collection_select :case_conclusion_id, transfer_detail.case_conclusions, :first, :last,{}, { class: 'form-control autocomplete'}
+          = validation_error_message(@error_presenter, 'case_conclusion_id')

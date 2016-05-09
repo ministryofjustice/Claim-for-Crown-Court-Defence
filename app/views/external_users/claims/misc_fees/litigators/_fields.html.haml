@@ -1,23 +1,12 @@
-#misc-fees
+#misc-fees.mod-fees
   %h2.bold-medium
     = t('.misc_fees')
   .form-hint.xsmall
     = t('.prompt_text_html')
-  %table
-    %thead
-      %tr
-        %th
-          = t('.fee_type')
-        %th
-          = t('.case_numbers')
-          .form-hint.xsmall.zero-vert-margin
-            = "eg A12345678,A12345588"
-        %th
-          = t('.amount')
-        %td
-        %td
+  
+  .misc-fee-group-wrapper
     = f.fields_for :misc_fees do |misc_fee_fields|
       - @misc_fee_count += 1
       = render 'external_users/claims/misc_fees/litigators/misc_fee_fields', f: misc_fee_fields
 
-  = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+  = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/litigators/misc_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}

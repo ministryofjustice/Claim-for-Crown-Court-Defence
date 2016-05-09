@@ -41,8 +41,21 @@
     @include first;
   }
 }
-.column-half, .column-two-thirds, .column-quarter {
+.column-three-quarters{
+  @include span(9 of 12);
+  &:last-child{
+    @include last;
+  }
+  &:first-child{
+    @include first;
+  }
+}
+
+.column-half, .column-two-thirds, .column-quarter, .column-three-quarters {
   padding: 0;
+}
+.column-first-child {
+  @include first;
 }
 .bold-xsmall{
   @include bold-14();

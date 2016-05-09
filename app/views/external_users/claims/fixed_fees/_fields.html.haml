@@ -1,23 +1,12 @@
 - if @claim.allows_fixed_fees?
 
-  #fixed-fees
+  #fixed-fees.mod-fees
     %h2.bold-medium
       = t('.fixed_fees')
-    %table
-      %thead
-        %tr
-          %th
-            = t('.fee_type')
-          %th
-            = t('.quantity')
-          %th
-            = t('.rate')
-          %th
-            = t('.amount')
-          %td
-          %td
+    
+    .fixed-fee-group-wrapper
       = f.fields_for :fixed_fees do |fixed_fee_fields|
         - @fixed_fee_count += 1
         = render 'external_users/claims/fixed_fees/fixed_fee_fields', f: fixed_fee_fields
 
-    = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, partial: 'external_users/claims/fixed_fees/fixed_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'table'}
+    = link_to_add_association t('.add_fixed_fee'), f, :fixed_fees, partial: 'external_users/claims/fixed_fees/fixed_fee_fields', data: {'association-insertion-method' => 'append', 'association-insertion-traversal' => 'prev', 'association-insertion-node' => 'div'}

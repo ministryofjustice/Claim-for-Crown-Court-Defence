@@ -23,12 +23,12 @@ module Fee
     DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF )
     DATES_ATTENDED_NOT_APPLICABLE_FEES = %w( CAV NDR NOC PPE NPW )
 
-    describe '#has_dates_attended?' do
+    describe '#requires_dates_attended?' do
       context 'for fees that can have dates associated with them' do
         DATES_ATTENDED_APPLICABLE_FEES.each do |code|
           it "#{code} should return true" do
             fee_type.code = code
-            expect(fee_type.has_dates_attended?).to be true
+            expect(fee_type.requires_dates_attended?).to be true
           end
         end
       end
@@ -37,7 +37,7 @@ module Fee
         DATES_ATTENDED_NOT_APPLICABLE_FEES.each do |code|
           it "#{code} should return false" do
             fee_type.code = code
-            expect(fee_type.has_dates_attended?).to be false
+            expect(fee_type.requires_dates_attended?).to be false
           end
         end
       end

@@ -3,50 +3,66 @@
   %fieldset
     %legend
       = "Expense"
-      %span.js-expense-count
-        = " #{@expense_count}"
-    .form-row
-      .form-col{class: "expense_#{@expense_count}_date"}
-        = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', id: "expense_#{@expense_count}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date"))
+    
+    .grid-row
+    
+      .column-one-third
 
-    .form-row
-      .form-col
         %a{name: "expense_#{@expense_count}_expense_type"}
         = f.label :expense_type_id, 'Expense type'
         - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
         = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-expense-type'}
         %span{role: 'status', aria: {live: 'assertive', relevant: 'additions' }, class:'visually-hidden'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
-
-      .form-col{class: "js-expense-location"}
+      
+      .column-one-third{class: "js-expense-location"}
         %a{name: "expense_#{@expense_count}_location"}
         = f.label :location, 'Destination'
         = f.text_field :location, {class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
-
-      .form-col{class: "js-expense-distance"}
+      
+      .column-one-third.condensed{class: "js-expense-distance expense-distance"}
         %a{name: "expense_#{@expense_count}_distance"}
-        = f.label :distance, 'Distance (in miles)'
-        = f.number_field :distance, {class: 'form-control short-input'}
+        = f.label :distance, 'Distance'
+        = f.number_field :distance, {class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
+    
+    .grid-row
+      
+      .column-one-third{class: "expense_#{@expense_count}_date"}
+        = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', id: "expense_#{@expense_count}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date"))
 
-    .form-row
-      .form-col{class: "js-expense-reason"}
+      .column-one-third{class: "js-expense-reason"}
         %a{name: "expense_#{@expense_count}_reason_id"}
         = f.label :reason_id, 'Reason for travel'
         -# (hardcoded for now, dependent on chosen Expense Type):
         = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
 
-      - present(f.object) do |expense|
-        .form-col{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
-          %a{name: "expense_#{@expense_count}_reason_text"}
-          = f.label :reason_text, 'Reason text'
-          -#  (only will show when selected Reason is Other):
-          = f.text_field :reason_text, {class: 'form-control'}
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
+        - present(f.object) do |expense|
+          %div{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
+            %a{name: "expense_#{@expense_count}_reason_text"}
+            = f.label :reason_text, 'Reason text'
+            -#  (only will show when selected Reason is Other):
+            = f.text_field :reason_text, {class: 'form-control'}
+            = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
-    .form-row{class: 'js-expense-mileage expense-cost'}
+      .column-one-third.condensed{class: "js-expense-amount fee-total"}
+        %a{name: "expense_#{@expense_count}_amount"}
+        = f.label :amount, 'Total'
+        %span.currency-indicator>< £
+        = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control large-input'
+        = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
+
+        - if @claim.lgfs?
+          .js-expense-vat-amount
+            %a{name: "expense_#{@expense_count}_vat_amount"}
+            = f.label :vat_amount, 'VAT'
+            %span.currency-indicator>< £
+            = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat_amount form-control medium-input'
+            = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
+
+    .grid-row.js-expense-mileage.expense-cost     
       %fieldset{class: "inline"}
         %a{name: "expense_#{@expense_count}_mileage_rate_id"}
         %legend
@@ -55,28 +71,6 @@
         = f.collection_radio_buttons(:mileage_rate_id, Expense::MILEAGE_RATES.values, :id, :description) do |b|
           - b.label(class: "block-label") { b.radio_button + b.object.description }
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
-    .form-row
-      .form-col{class: "js-expense-hours"}
-        %a{name: "expense_#{@expense_count}_hours"}
-        = f.label :hours, 'Number of hours'
-        = f.number_field :hours, {class: 'form-control short-input'}
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
-
-      .form-col{class: "js-expense-amount"}
-        %a{name: "expense_#{@expense_count}_amount"}
-        = f.label :amount, 'Total'
-        .pound-wrapper
-          = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'amount form-control medium-input'
-        = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
-
-      - if @claim.lgfs?
-        .form-col{class: "js-expense-vat-amount"}
-          %a{name: "expense_#{@expense_count}_vat_amount"}
-          = f.label :vat_amount, 'VAT'
-          .pound-wrapper
-            = f.text_field :vat_amount, value: number_with_precision_or_default(f.object.vat_amount, precision: 2), class: 'vat_amount form-control medium-input'
-          = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
-
+    
     .remove-expense
       = link_to_remove_association t('.remove').html_safe , f, { wrapper_class: 'expense-group' }

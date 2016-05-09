@@ -20,7 +20,7 @@ class Fee::BasicFeeType < Fee::BaseFeeType
 
   default_scope { order(id: :asc) }
 
-  def has_dates_attended?
+  def requires_dates_attended?
     DATES_ATTENDED_APPLICABLE_FEES.include?(self.code)
   end
 

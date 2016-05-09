@@ -8,13 +8,14 @@
 
   #cracked-trial-fields
     .form-row
-      .form-col
+
+      .form-col.form-col-two-thirds
         = f.gov_uk_date_field(:trial_fixed_notice_at, legend_text: t('.trial_fixed_notice_at'), legend_class: 'govuk-legend', id: "trial_fixed_notice_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_notice_at))
     .form-row
-      .form-col
+      .form-col.form-col-two-thirds
         = f.gov_uk_date_field(:trial_fixed_at, legend_text: t('.trial_fixed_at'), legend_class: 'govuk-legend', id: "trial_fixed_at",error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_fixed_at))
     .form-row
-      .form-col
+      .form-col.form-col-two-thirds
         = f.gov_uk_date_field(:trial_cracked_at, legend_text: t('.trial_cracked_at'), legend_class: 'govuk-legend', id: "trial_cracked_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_cracked_at))
 
     = f.anchored_label t('.trial_cracked_at_third'), 'trial_cracked_at_third'

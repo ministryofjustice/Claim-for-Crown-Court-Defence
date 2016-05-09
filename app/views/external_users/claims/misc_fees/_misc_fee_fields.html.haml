@@ -1,25 +1,43 @@
-%tbody.misc-fee-group
-  %tr.nested-fields
-
-    %td
+.form-group.misc-fee-group.nested-fields
+  .grid-row
+    .column-one-half.fee-type
+      %label.form-label
+        = t('.fee_type')
       %a{name: "misc_fee_#{@misc_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:100%'}
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
-    %td
-      %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
-      = f.number_field :quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
-    %td
-      %a{name: "misc_fee_#{@misc_fee_count}_rate"}
-      %div.pound-wrapper
-        = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_rate")
-    %td.amount
-      = number_to_currency(f.object.amount)
-    %td.add-misc-fee-date-attended
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'button-secondary', data: {'association-insertion-method' => 'after', 'association-insertion-traversal' => 'closest', 'association-insertion-node' => 'tr'}
-    %td.remove-misc-fee
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {prompt: true}, {class: 'autocomplete js-misc-fee-type', style: 'width:350px'}
+        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-  = f.fields_for :dates_attended do |date_attended|
-    = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+    .column-one-quarter.fee-quantity
+      %label.form-label
+        = t('.quantity')
+      %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
+        = f.number_field :quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
+        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
+
+    .column-one-quarter.fee-rate
+      %label.form-label
+        = t('.rate')
+      %a{name: "misc_fee_#{@misc_fee_count}_rate"}
+      %span.currency-indicator>< £
+      = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
+      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_rate")
+
+  .grid-row
+    .column-one-third.fee-total
+      %label.form-label Total
+      %span.amount
+        = number_to_currency(f.object.amount ||= 0)
+
+  .grid-row.fee-dates-row
+    
+    %label.form-label Dates
+    
+    %span.no-dates.form-hint
+      = t('.no_dates')
+    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
+
+    .grid-row.dates-wrapper
+      = f.fields_for :dates_attended do |date_attended|
+        = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+
+  = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }

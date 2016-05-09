@@ -310,6 +310,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         context 'fixed fee case types' do
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
+              allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
               claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               response = post :create, claim: claim_params
               claim = assigns(:claim)
@@ -327,7 +328,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             end
           end
         end
-
       end
 
       context 'document checklist' do
@@ -395,28 +395,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
-        end
-      end
-
-      context 'and editing an API created claim' do
-        pending 'TODO: reimplement once/if litigator claim creation opened up to API'
-
-        before(:each) do
-          subject.update(source: 'api')
-        end
-
-        context 'and saving to draft' do
-          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
-          it 'sets API created claims source to indicate it is from API but has been edited in web' do
-            expect(subject.reload.source).to eql 'api_web_edited'
-          end
-        end
-
-        context 'and submitted to LAA' do
-          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
-          it 'sets API created claims source to indicate it is from API but has been edited in web' do
-            expect(subject.reload.source).to eql 'api_web_edited'
-          end
         end
       end
 

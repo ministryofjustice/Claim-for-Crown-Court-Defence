@@ -26,7 +26,7 @@ input.form-control[type=tel],
 input.form-control[type=password],
 input.form-control[type=number],
 {
-  @include span(8 of 12);
+  // @include span(8 of 12);
   @include first;
   @include core-19();
   &.short-input{
@@ -82,6 +82,161 @@ button.search {
   }
 }
 
+.currency-indicator{
+    display: inline-block;
+    padding: 4px 12px;
+    border-right: 0;
+    background-color: $panel-colour;
+    border-left: 2px solid $border-colour;
+    border-top: 2px solid $border-colour;
+    border-bottom: 2px solid $border-colour;
+}
+
+.mod-expenses{
+  .govuk-legend{
+    font-weight:normal;
+  }
+  .expense-cost{
+    display:none;
+  }
+  .expense-group{
+    // border: 1px solid red;
+  }
+  .column-one-third{
+    padding:0;
+    width: 40%;
+    &.condensed{
+      // border: 1px solid blue;
+      width: 20%;
+      input.amount{
+        width:70%;
+      }
+    }
+  }
+  .expense-distance,
+  .js-expense-amount{
+    text-align: right;
+    input.form-control[type=text],
+    input.form-control[type=email], 
+    input.form-control[type=tel], 
+    input.form-control[type=password], 
+    input.form-control[type=number]{
+      float: none;
+      text-align: right;
+    }
+  }
+  
+  .js-expense-reason-text{
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  .js-expense-reason-text,
+  .js-expense-location{
+    input{
+      width: 90%;
+    }
+  }
+  select{
+    &.form-control{
+      width:90%;
+      margin-left: 0;
+    }
+  }
+
+  .form-group-year{
+    input{
+      width: 80%;
+    }
+  }
+}
+
+.mod-fees{
+  @include clearfix;
+  .fee-dates-row{
+    margin-top: -65px;
+    .form-label{
+      margin-top: 40px;
+    }
+    .no-dates.form-hint {
+      display: inline-block;
+    }
+  }
+  .awesomplete{
+    input{
+      width: 100%;
+    }
+  }
+  .fee-type{
+    width: 60%;
+  }
+
+  .disbursement-type{
+    width: 40%;
+  }
+
+  .fee-quantity,
+  .fee-rate{
+    width: 20%;
+  }
+  
+  .fee-quantity,
+  .fee-total,
+  .fee-rate{
+    text-align: right;
+    input.form-control[type=text],
+    input.form-control[type=email], 
+    input.form-control[type=tel], 
+    input.form-control[type=password], 
+    input.form-control[type=number]{
+      float: none;
+      text-align: right;
+    }
+  }
+
+  .fee-rate{
+    input.form-control{
+      width: 65%;
+    }
+  }
+
+  .fee-rate{
+    input.form-control{
+      width: 65%;
+    }
+  }
+
+  .fee-rate{
+    input.form-control{
+      width: 65%;
+    }
+  }
+
+  .fee-rate{
+    input.form-control{
+      width: 65%;
+    }
+  }
+
+  .fee-total{
+    float:right;
+  } 
+
+  .dates-wrapper{
+    font-size: 16px;
+    line-height: 1.25;
+    margin-top:0;
+    .nested-fields{
+      margin-top:0;
+    }
+  }
+
+  .fee-date-remove{
+    padding-top: 15px !important;
+    text-align:right;
+  }
+}
+
 .pound-wrapper {
   padding-left: 35px;
   position: relative;
@@ -107,8 +262,13 @@ button.search {
   .form-group {
     label {
       margin-top: 0;
+      margin-bottom: 0;
     }
   }
+}
+
+label.form-date-spacing {
+  padding-top: 60px;
 }
 
 .expense-group {
@@ -122,6 +282,9 @@ button.search {
     @include span(4 of 12);
     &.form-col-two-thirds {
       @include span(8 of 12);
+    }
+    &.form-col-one-half {
+      @include span(6 of 12);
     }
     &:nth-child(1), &.first-col {
       @include first;

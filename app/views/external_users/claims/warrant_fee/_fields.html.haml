@@ -1,27 +1,28 @@
-#warrant_fee
+#warrant_fee.mod-fees
   = f.anchored_without_label 'interim_fee.warrant'
   %h2.bold-medium
     = t('.warrant_fee')
 
   = f.fields_for :warrant_fee do |wf|
 
-    %table
-      %tbody
-        %tr
-          %td
-            = wf.anchored_attribute 'warrant_issued_date'
-            = wf.gov_uk_date_field :warrant_issued_date, legend_text: t('.date_issued')
-            = validation_error_message(@error_presenter, :warrant_issued_date)
+    .form-group.nested-fields
+      .grid-row
+        .column-one-half
+          = wf.anchored_attribute 'warrant_issued_date'
+          = wf.gov_uk_date_field :warrant_issued_date, legend_text: t('.date_issued')
+          = validation_error_message(@error_presenter, :warrant_issued_date)
 
-          %td
-            = wf.anchored_attribute 'warrant_executed_date'
-            = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed')
-            = validation_error_message(@error_presenter, :warrant_executed_date)
+        .column-one-half
+          = wf.anchored_attribute 'warrant_executed_date'
+          = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed')
+          = validation_error_message(@error_presenter, :warrant_executed_date)
 
-          - if @claim.interim?
-            %td
-              = wf.anchored_label(t('.total'), :total, { label_attributes: {class: 'form-label'} })
-              .pound-wrapper
-                = wf.anchored_attribute 'amount'
-                = wf.text_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'amount form-control medium-input'
-              = validation_error_message(@error_presenter, 'warrant_fee.amount')
+      - if @claim.interim?
+        .grid-row
+          .column-one-half
+            %label.form-label
+              = t('.total')
+            %a{name: "amount"}
+            %span.currency-indicator>< £
+            = wf.text_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'amount form-control', size: 10, maxlength: 8
+            = validation_error_message(@error_presenter, 'warrant_fee.amount')

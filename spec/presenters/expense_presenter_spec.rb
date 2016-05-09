@@ -67,9 +67,9 @@ RSpec.describe ExpensePresenter do
       expect(presenter.display_reason_text_css).to eql 'none'
     end
 
-    it 'should return "inline" for expense reasons requiring explanantory text' do
+    it 'should return "inline-block" for expense reasons requiring explanantory text' do
       expense.reason_id = reason_requiring_text.id
-      expect(presenter.display_reason_text_css).to eql 'inline'
+      expect(presenter.display_reason_text_css).to eql 'inline-block'
     end
   end
 

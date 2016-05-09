@@ -88,12 +88,12 @@ describe Claim::AdvocateClaimValidator do
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do
-      claim.case_type.is_fixed_fee = false
+      allow(claim.case_type).to receive(:is_fixed_fee?).and_return(false)
       should_error_with(claim, :offence, "blank")
     end
 
     it 'should NOT error if not present for fixed fee case types' do
-      claim.case_type.is_fixed_fee = true
+      allow(claim.case_type).to receive(:is_fixed_fee?).and_return(true)
       should_not_error(claim,:offence)
     end
   end

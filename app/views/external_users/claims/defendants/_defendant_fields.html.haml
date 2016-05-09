@@ -12,7 +12,8 @@
       = f.text_field :last_name, {class: 'form-control'}
       = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_last_name".to_sym)
   .form-row
-    .form-col.dob
+
+    .form-col.form-col-two-thirds.dob
       = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count}_date_of_birth", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym))
 
   .form-row

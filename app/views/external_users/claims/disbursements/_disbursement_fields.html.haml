@@ -1,21 +1,32 @@
-%tbody.disbursement-group
-  %tr.nested-fields
-
-    %td
+.form-group.disbursement-group.nested-fields
+  .grid-row
+    .column-one-quarter.disbursement-type
+      %label.form-label
+        = t('.disbursement_type')
       %a{name: "disbursement_#{@disbursement_count}_disbursement_type"}
       = f.collection_select :disbursement_type_id, DisbursementType.all, :id, :name, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:350px'}
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
-    %td
+
+    .column-one-quarter.fee-rate
+      %label.form-label
+        = t('.net_amount')
       %a{name: "disbursement_#{@disbursement_count}_net_amount"}
-      %div.pound-wrapper
-        = f.text_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), data: { calculator: 'net' }, size: 10, maxlength: 8, class: 'form-control'
+      %span.currency-indicator>< £
+      = f.text_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), class: 'form-control', size: 10, maxlength: 8, data: { calculator: 'net' }
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_net_amount")
-    %td
+
+    .column-one-quarter.fee-rate
+      %label.form-label
+        = t('.vat_amount')
       %a{name: "disbursement_#{@disbursement_count}_vat_amount"}
-      %div.pound-wrapper
-        = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), data: { calculator: 'vat' }, size: 10, maxlength: 8, class: 'form-control'
+      %span.currency-indicator>< £
+      = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control', size: 10, maxlength: 8, data: { calculator: 'vat' }
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_vat_amount")
-    %td{data:{ calculator: 'total' }}
-      = number_to_currency(f.object.total)
-    %td.remove-disbursement
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group' }
+
+    .column-one-quarter.fee-rate
+      %label.form-label
+        = t('.total')
+      %div{data: { calculator: 'total' }}
+        = number_to_currency(f.object.total)
+
+  = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group' }

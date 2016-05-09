@@ -1,7 +1,8 @@
 moj.Modules.FeeCalculator = {
   el: '#expenses, #basic-fees, #misc-fees, #fixed-fees',
 
-  init : function() {
+  init: function() {
+
     this.addChangeEvent();
   },
 
@@ -17,20 +18,33 @@ moj.Modules.FeeCalculator = {
   addChangeEvent: function() {
     var self = this;
 
-    $(this.el).on('change', '.quantity, .rate', function(e) {
-      var wrapper  = $(e.target).closest('.nested-fields');
-      var quantity = parseFloat(wrapper.find('.quantity').val());
-      var rate     = parseFloat(wrapper.find('.rate').val());
-      var total = self.calculateAmount(rate,quantity);
-      if (isNaN(total) ){
-        wrapper.find('.amount').text(' ');
+    $(this.el).on('cocoon:after-insert', function (e) {
+      var $el = $(e.target);
+      $el.siblings('.no-dates').hide();
+    });
+
+    $(this.el).on('cocoon:after-remove', function (e) {
+      var $el = $(e.target);
+
+      if($el.find('.fee-dates').length === 0){
+       $el.siblings('.no-dates').show();
       }
-      else{
-        wrapper.find('.amount').text('£ '+ total);
+    });
+
+
+    $(this.el).on('change', '.quantity, .rate', function(e) {
+      var wrapper = $(e.target).closest('.nested-fields');
+      var quantity = parseFloat(wrapper.find('.quantity').val());
+      var rate = parseFloat(wrapper.find('.rate').val());
+      var total = self.calculateAmount(rate, quantity);
+      if (isNaN(total)) {
+        wrapper.find('.amount').text(' ');
+      } else {
+        wrapper.find('.amount').text('£ ' + total);
       }
     });
   },
-  totalFee: function(){
+  totalFee: function() {
     //get all the amount values on the page
     var $allAmounts = $('.amount');
     var arrDirtyAmounts = [];
@@ -39,28 +53,28 @@ moj.Modules.FeeCalculator = {
     var index = 0;
 
     //For each amount stick it into an array
-    $allAmounts.each(function(){
-      var $element =$(this);
+    $allAmounts.each(function() {
+      var $element = $(this);
 
-      if($element.filter('td').length > 0){
+      if ($element.filter('td').length > 0) {
         arrDirtyAmounts.push($element.text());
-      }else{
+      } else {
         arrDirtyAmounts.push($element.val());
       }
     });
 
     //clean the values
-    for(index = 0; index < arrDirtyAmounts.length; index++){
+    for (index = 0; index < arrDirtyAmounts.length; index++) {
 
       var currentVal = parseFloat(arrDirtyAmounts[index].replace(/[^0-9-.]/g, ''));
 
-      if(isNaN(currentVal) === false){
+      if (isNaN(currentVal) === false) {
         arrCleanAmounts.push(currentVal);
       }
     }
 
     //Sum the value
-    for(index = 0; index < arrCleanAmounts.length; index++){
+    for (index = 0; index < arrCleanAmounts.length; index++) {
       totalAmount = totalAmount + arrCleanAmounts[index];
     }
 

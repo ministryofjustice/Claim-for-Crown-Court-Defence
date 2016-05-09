@@ -1,49 +1,52 @@
 - if @claim.allows_graduated_fees?
 
-  #graduated-fees
+  #graduated-fees.mod-graduated-fees
     %h2.bold-medium
       = t('.graduated_fees')
     .form-hint.xsmall
       = raw t('.graduated_prompt_text')
 
     = f.fields_for :graduated_fee do |gf|
-      %table
-        %thead
-          %tr
-            %th
+      
+      .expense-group.nested-fields
+        .grid-row
+        
+          .column-one-third
+            %label.form-label
               = t('.fee_type')
-            %th
+            = gf.anchored_attribute 'fee_type'
+            = @claim.case_type.graduated_fee_type.description
+            = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
+            = validation_error_message(@error_presenter, :fee_type)
+          
+          .column-one-third.condensed.js-expense-location
+            %label.form-label
               = t('.ppe_total')
-            %th
-              = t('.total')
+            = gf.anchored_attribute 'quantity'
+            = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+            = validation_error_message(@error_presenter, 'graduated_fee.quantity')
+          
+          
+        
+        .grid-row
+          
+          .column-one-third
+            - gf.object.dates_attended << DateAttended.new unless gf.object.dates_attended.any?
+            = gf.fields_for :dates_attended do |date_attended|
+              = render 'date_generic_fields', f: date_attended, submodel_count: date_attended.index+1
 
-        %tbody.graduated-fee-group
-          %tr.nested-fields
 
-            %td
-              = gf.anchored_attribute 'fee_type'
-              = @claim.case_type.graduated_fee_type.description
-              = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
-              = validation_error_message(@error_presenter, :fee_type)
-
-            %td
-              = gf.anchored_attribute 'quantity'
-              = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
-              = validation_error_message(@error_presenter, 'graduated_fee.quantity')
-
-            %td
-              %div.pound-wrapper
-                = gf.anchored_attribute 'amount'
-                = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
-              = validation_error_message(@error_presenter, :amount)
-
-  - if @claim.requires_cracked_dates?
-    = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }
-
-  - if @claim.requires_trial_dates?
-    .indent-fieldset#trial-details
-      = render partial: 'external_users/claims/case_details/trial_detail_fields', locals: { f: f }
-
-  - if @claim.requires_retrial_dates?
-    .indent-fieldset#retrial-details
-      = render partial: 'external_users/claims/case_details/retrial_detail_fields', locals: { f: f }
+          .column-one-third.js-expense-reason
+            %label.form-label
+              = t('.actual_trial_length')
+            = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'
+            = validation_error_message(@error_presenter, :actual_trial_length)
+            
+          .column-one-third.condensed.js-expense-amount.fee-total
+            %label.form-label Total
+            
+            %span.currency-indicator>< £
+            = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
+            = validation_error_message(@error_presenter, :amount)
+            = gf.anchored_attribute 'amount'
+            

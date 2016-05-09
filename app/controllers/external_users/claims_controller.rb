@@ -260,7 +260,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :fee_type_id,
         :quantity,
-        :amount
+        :amount,
+        common_dates_attended_attributes
       ],
       interim_fee_attributes: [
           :id,

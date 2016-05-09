@@ -92,7 +92,8 @@ button.search {
     border-bottom: 2px solid $border-colour;
 }
 
-.mod-expenses{
+.mod-expenses,
+.mod-graduated-fees{
   .govuk-legend{
     font-weight:normal;
   }
@@ -304,8 +305,8 @@ label.form-date-spacing {
   }
 }
 .new-claim-sidebar{
-  @include span(3 at 9 of 12);
-  @include last;
+  // @include span(3 at 9 of 12);
+  // @include last;
   a{
     display: inline-block;
     margin-bottom: $gutter-half;
@@ -428,4 +429,10 @@ label.form-date-spacing {
 // To ensure date fields are wide enough
 .form-date input[type=number] {
   width: 100%;
+}
+
+.pagination{
+  .page{
+    padding: 0 5px;
+  }
 }

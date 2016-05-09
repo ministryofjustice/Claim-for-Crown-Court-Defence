@@ -32,6 +32,13 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     end
   end
 
+  describe "PATCH #regenerate API key" do
+    it 'changes the API key' do
+      original_api_key = subject.api_key
+      expect{ patch :regenerate_api_key, id: subject }.to change{ subject.reload.api_key }.from(original_api_key)
+    end
+  end
+
   describe "PUT #update" do
     it 'does not allow updating of provider type' do
       put :update, id: subject, provider: {provider_type: 'chamber'}

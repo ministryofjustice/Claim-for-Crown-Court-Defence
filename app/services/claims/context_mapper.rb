@@ -12,7 +12,7 @@ module Claims
     end
 
     def available_claim_types
-      @external_user.available_claim_types & @external_user.provider.available_claim_types
+      ExternalUsers::AvailableClaimTypes.call(@external_user) & ExternalUsers::AvailableClaimTypes.call(@external_user.provider)
     end
 
     def available_claims

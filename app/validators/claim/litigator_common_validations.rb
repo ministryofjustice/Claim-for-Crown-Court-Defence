@@ -23,6 +23,8 @@ module Claim
 
     def validate_case_concluded_at
       validate_presence(:case_concluded_at, 'blank')
+      validate_not_before(Settings.earliest_permitted_date, :case_concluded_at, 'check_not_too_far_in_past')
+      validate_not_after(Date.today, :case_concluded_at, 'check_not_in_future')
     end
 
     def validate_supplier_number

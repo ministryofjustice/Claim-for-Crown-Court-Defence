@@ -60,6 +60,9 @@ describe Claim::TransferClaim, type: :model do
 
   let(:claim) { build :transfer_claim }
 
+  it { should_not delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
+
   context 'transfer fee' do
     it 'creates a transfer fee when created in a factory' do
       claim = create :transfer_claim
@@ -129,6 +132,18 @@ describe Claim::TransferClaim, type: :model do
       expect(claim.eligible_case_types).to include(c2)
       expect(claim.eligible_case_types).to include(c3)
       expect(claim.eligible_case_types).to include(c4)
+    end
+  end
+
+  describe '#requires_trial_dates?' do
+    it 'never requires trial dates' do
+      expect(claim.requires_trial_dates?).to eql false
+    end
+  end
+
+  describe '#requires_retrial_dates?' do
+    it 'never requires retrial dates' do
+      expect(claim.requires_retrial_dates?).to eql false
     end
   end
 

@@ -72,9 +72,15 @@ shared_examples "common litigator validations" do
     before(:each) { claim.force_validation = true }
 
     it 'is invalid when absent' do
-      claim.case_concluded_at = nil
-      claim.valid?
-      expect(claim.errors[:case_concluded_at]).to eq(['blank'])
+      should_error_if_not_present(claim,:case_concluded_at,'blank')
+    end
+
+    it 'is invalid when too far in past' do
+      should_error_if_too_far_in_the_past(claim, :case_concluded_at, 'check_not_too_far_in_past')
+    end
+
+    it 'is invalid when in future' do
+      should_error_if_in_future(claim, :case_concluded_at, 'check_not_in_future')
     end
 
     it 'is valid when present' do

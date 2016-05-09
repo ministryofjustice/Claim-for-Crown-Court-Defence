@@ -391,6 +391,14 @@ case_concluded_at:
     long: The case concluded date is not allowed
     short: *date_not_allowed
     api: The case concluded date is not allowed
+  check_not_in_future:
+    long: Check the date case concluded
+    short: *in_future
+    api: Check the date case concluded
+  check_not_too_far_in_past:
+    long: Check the date case concluded
+    short: *too_far_in_past
+    api: Check the date case concluded
 
 effective_pcmh_date:
   _seq: 200

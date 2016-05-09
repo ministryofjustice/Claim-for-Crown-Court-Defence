@@ -80,6 +80,9 @@ module Claim
       end
     end
 
+    def requires_trial_dates?; false; end
+    def requires_retrial_dates?; false; end
+
     def proxy_transfer_detail
       self.transfer_detail ||= TransferDetail.new
     end

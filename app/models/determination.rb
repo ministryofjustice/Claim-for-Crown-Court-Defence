@@ -28,7 +28,7 @@ class Determination < ActiveRecord::Base
 
 
   def calculate_total
-    self.total = [self.fees, self.expenses, self.disbursements].sum
+    self.total = [self.fees || 0.0, self.expenses || 0.0 , self.disbursements || 0.0].sum
   end
 
   def calculate_vat
@@ -43,6 +43,10 @@ class Determination < ActiveRecord::Base
 
   def blank?
     zero_or_nil?(self.fees) && zero_or_nil?(self.expenses) && zero_or_nil?(self.disbursements)
+  end
+
+  def zero?
+    self.blank?
   end
 
   def present?

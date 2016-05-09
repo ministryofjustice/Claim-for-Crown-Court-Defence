@@ -141,10 +141,6 @@ RSpec.describe Claims::StateMachine, type: :model do
             }
           end
 
-          it "raises ArgumentError" do
-            expect{claim.update_model_and_transition_state(params)}.to raise_error(ArgumentError)
-          end
-
           it "does not update the assessment" do
             claim.update_model_and_transition_state(params) rescue nil
             expect(claim.reload.assessment.fees).to eq(0)

@@ -317,57 +317,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '.update_model_and_transition_state' do
-    it 'should update the model then transition state to prevent state transition validation errors' do
-      # given
-      claim = FactoryGirl.create :allocated_claim
-      claim.assessment = Assessment.new(claim: claim)
-      claim_params = {
-        "state_for_form"=>"part_authorised",
-        "assessment_attributes" => {
-          "id" => claim.assessment.id,
-          "fees" => "66.22",
-          "expenses" => "22.33"
-        },
-        "additional_information"=>""}
-
-      # when
-      claim.update_model_and_transition_state(claim_params)
-      #then
-      expect(claim.reload.state).to eq 'part_authorised'
-    end
-
-    it 'should not transition when "state_for_form" is the same as the claim\'s state' do
-      claim = FactoryGirl.create :authorised_claim
-      claim.assessment = Assessment.new(claim: claim)
-      claim_params = {
-        "state_for_form"=>"authorised",
-        'assessment_attributes' => {
-          "id" => claim.assessment.id,
-          "fees"=>"88.55",
-          'expenses' => '0.00'
-        },
-        "additional_information"=>""}
-      claim.update_model_and_transition_state(claim_params)
-      expect(claim.reload.state).to eq('authorised')
-    end
-
-    it 'should raise error and not transition when "state_for_form" is blank' do
-      claim = FactoryGirl.create :authorised_claim
-      claim.assessment = Assessment.new(claim: claim)
-      claim_params = {
-        "state_for_form"=>"",
-        'assessment_attributes' => {
-          "id" => claim.assessment.id,
-          "fees"=>"44.55",
-          'expenses' => '44.00'
-        },
-        "additional_information"=>""}
-      expect{ claim.update_model_and_transition_state(claim_params) }.to raise_error ArgumentError
-      expect(claim.reload.state).to eq('authorised')
-    end
-  end
-
   context 'basic fees' do
     before(:each) do
       @bft1 = FactoryGirl.create :basic_fee_type,  description: 'ZZZZ', id: 1
@@ -813,41 +762,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           expect(claim.validation_required?).to eq true
         end
       end
-    end
-
-  end
-
-  describe '#transition_state' do
-    it 'should call authorise! if authorised' do
-      expect(subject).to receive(:authorise!)
-      subject.transition_state('authorised')
-    end
-    it 'should call authorise_part! if part_authorised' do
-      expect(subject).to receive(:authorise_part!)
-      subject.transition_state('part_authorised')
-    end
-    it 'should call reject! if rejected' do
-      expect(subject).to receive(:reject!)
-      subject.transition_state('rejected')
-    end
-    it 'should call refuse! if refused' do
-      expect(subject).to receive(:refuse!)
-      subject.transition_state('refused')
-    end
-    it 'should call redetermine! if redetermination' do
-      expect(subject).to receive(:redetermine!)
-      subject.transition_state('redetermination')
-    end
-    it 'should raise an exception if anything else' do
-      expect{
-        subject.transition_state('allocated')
-      }.to raise_error ArgumentError, 'Invalid state transition for case worker claim status update'
-    end
-    it 'should append an error to the claim object if anything else' do
-      expect{ subject.transition_state('allocated') rescue nil }.to change{ subject.errors.count }.by(1)
-    end
-    it 'should not transition the claim object if anything else' do
-      expect{ subject.transition_state('allocated') rescue nil }.not_to change subject, :state
     end
   end
 

@@ -32,14 +32,13 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
-    @claim = Claim::BaseClaim.find(params[:id])
-    @messages = @claim.messages.most_recent_last
+    updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params).update!
+    @claim = updater.claim
     @doc_types = DocType.all
-
-    begin
-      @claim.update_model_and_transition_state(claim_params)
+    if updater.result == :ok
       redirect_to case_workers_claim_path(params.slice(:messages))
-    rescue StateMachines::InvalidTransition, ArgumentError
+    else
+      @claim.errors
       prepare_show_action
       render :show
     end

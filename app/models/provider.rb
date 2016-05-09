@@ -55,10 +55,6 @@ class Provider < ActiveRecord::Base
     delegate role.pluralize.to_sym, to: :external_users
   end
 
-  def regenerate_api_key!
-    update_column(:api_key, SecureRandom.uuid)
-  end
-
   def available_claim_types
     claim_types = []
     claim_types << Claim::AdvocateClaim if self.agfs?

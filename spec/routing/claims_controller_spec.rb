@@ -1,0 +1,92 @@
+require 'rails_helper'
+require 'action_dispatch/routing/polymorphic_routes'
+
+include ActionDispatch::Routing::PolymorphicRoutes
+
+describe ExternalUsers::Advocates::ClaimsController, :type => :routing do
+  let(:claim) { instance_double(Claim::AdvocateClaim, id: 123) }
+
+  it { should route(:get,  '/advocates/claims/new').to(action: :new) }
+  it { should route(:post, '/advocates/claims').to(action: :create) }
+  it { should route(:put,  '/advocates/claims/123').to(action: :update, id: 123) }
+  it { should route(:get,  '/advocates/claims/123/edit').to(action: :edit, id: 123) }
+
+  describe 'Route helpers' do
+    context 'unpersisted (POST)' do
+      let(:claim) { FactoryGirl.build(:advocate_claim) }
+      it { expect(polymorphic_path(claim)).to eq('/advocates/claims') }
+    end
+
+    context 'persisted (put or edit)' do
+      let(:claim) { FactoryGirl.create(:advocate_claim) }
+      it { expect(polymorphic_path(claim)).to eq(%Q{/advocates/claims/#{claim.id}}) }
+      it { expect(edit_polymorphic_path(claim)).to eq(%Q{/advocates/claims/#{claim.id}/edit}) }
+    end
+  end
+end
+
+describe ExternalUsers::Litigators::ClaimsController, :type => :routing do
+  let(:claim) { instance_double(Claim::LitigatorClaim, id: 123) }
+
+  it { should route(:get,  '/litigators/claims/new').to(action: :new) }
+  it { should route(:post, '/litigators/claims').to(action: :create) }
+  it { should route(:put,  '/litigators/claims/123').to(action: :update, id: 123) }
+  it { should route(:get,  '/litigators/claims/123/edit').to(action: :edit, id: 123) }
+
+  describe 'Route helpers' do
+    context 'unpersisted (POST)' do
+      let(:claim) { FactoryGirl.build(:litigator_claim) }
+      it { expect(polymorphic_path(claim)).to eq('/litigators/claims') }
+    end
+
+    context 'persisted (put or edit)' do
+      let(:claim) { FactoryGirl.create(:litigator_claim) }
+      it { expect(polymorphic_path(claim)).to eq(%Q{/litigators/claims/#{claim.id}}) }
+      it { expect(edit_polymorphic_path(claim)).to eq(%Q{/litigators/claims/#{claim.id}/edit}) }
+    end
+  end
+end
+
+describe ExternalUsers::Litigators::InterimClaimsController, :type => :routing do
+  let(:claim) { instance_double(Claim::InterimClaim, id: 123) }
+
+  it { should route(:get,  '/litigators/interim_claims/new').to(action: :new) }
+  it { should route(:post, '/litigators/interim_claims').to(action: :create) }
+  it { should route(:put,  '/litigators/interim_claims/123').to(action: :update, id: 123) }
+  it { should route(:get,  '/litigators/interim_claims/123/edit').to(action: :edit, id: 123) }
+
+  describe 'Route helpers' do
+    context 'unpersisted (POST)' do
+      let(:claim) { FactoryGirl.build(:interim_claim) }
+      it { expect(polymorphic_path(claim)).to eq('/litigators/interim_claims') }
+    end
+
+    context 'persisted (put or edit)' do
+      let(:claim) { FactoryGirl.create(:interim_claim) }
+      it { expect(polymorphic_path(claim)).to eq(%Q{/litigators/interim_claims/#{claim.id}}) }
+      it { expect(edit_polymorphic_path(claim)).to eq(%Q{/litigators/interim_claims/#{claim.id}/edit}) }
+    end
+  end
+end
+
+describe ExternalUsers::Litigators::TransferClaimsController, :type => :routing do
+  let(:claim) { instance_double(Claim::TransferClaim, id: 123) }
+
+  it { should route(:get,  '/litigators/transfer_claims/new').to(action: :new) }
+  it { should route(:post, '/litigators/transfer_claims').to(action: :create) }
+  it { should route(:put,  '/litigators/transfer_claims/123').to(action: :update, id: 123) }
+  it { should route(:get,  '/litigators/transfer_claims/123/edit').to(action: :edit, id: 123) }
+
+  describe 'Route helpers' do
+    context 'unpersisted (POST)' do
+      let(:claim) { FactoryGirl.build(:transfer_claim) }
+      it { expect(polymorphic_path(claim)).to eq('/litigators/transfer_claims') }
+    end
+
+    context 'persisted (put or edit)' do
+      let(:claim) { FactoryGirl.create(:transfer_claim) }
+      it { expect(polymorphic_path(claim)).to eq(%Q{/litigators/transfer_claims/#{claim.id}}) }
+      it { expect(edit_polymorphic_path(claim)).to eq(%Q{/litigators/transfer_claims/#{claim.id}/edit}) }
+    end
+  end
+end

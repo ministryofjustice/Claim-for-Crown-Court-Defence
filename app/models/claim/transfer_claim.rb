@@ -54,6 +54,7 @@
 
 module Claim
   class TransferClaim < BaseClaim
+    set_singular_route_key 'litigators_transfer_claim'
 
     has_one :transfer_detail, foreign_key: :claim_id
 

@@ -9,7 +9,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     if @claim.valid?
       build_certification
     else
-      redirect_to url_for_edit_external_users_claim(@claim), alert: 'Claim is not in a state to be submitted'
+      redirect_to edit_polymorphic_path(@claim), alert: 'Claim is not in a state to be submitted'
     end
   end
 

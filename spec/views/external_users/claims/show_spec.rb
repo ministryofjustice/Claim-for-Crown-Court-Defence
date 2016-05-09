@@ -16,7 +16,6 @@ describe 'external_users/claims/show.html.haml', type: :view do
     initialize_view_helpers(view)
     sign_in :user, @external_user.user
     allow(view).to receive(:current_user_persona_is?).and_return(false)
-    allow(view).to receive(:url_for_edit_external_users_claim).and_return('http://my_edit_external_users_path')
     render
   end
 

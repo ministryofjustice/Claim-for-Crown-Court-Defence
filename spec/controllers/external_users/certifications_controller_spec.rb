@@ -46,7 +46,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       it 'should redirect to edit page with flash message' do
         claim = create(:claim, case_type_id: nil)
         get :new, { claim_id: claim }
-        expect(response).to redirect_to(controller.send(:url_for_edit_external_users_claim,claim))
+        expect(response).to redirect_to(controller.send(:edit_polymorphic_path,claim))
         expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
       end
     end

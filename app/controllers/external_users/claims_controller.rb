@@ -216,6 +216,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       date_attributes_for(:legal_aid_transfer_date),
       :trial_cracked_at_third,
       :additional_information,
+      :litigator_type,
+      :elected_case,
+      :transfer_stage_id,
+      date_attributes_for(:transfer_date),
+      :case_conclusion_id,
       evidence_checklist_ids: [],
       defendants_attributes: [
        :id,
@@ -270,19 +275,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
           :amount,
           :quantity
       ],
-      transfer_detail_attributes: [
-        :litigator_type,
-        :elected_case,
-        :transfer_stage_id,
-        date_attributes_for(:transfer_date),
-        :case_conclusion_id
-        ],
       transfer_fee_attributes: [
         :id,
         :claim_id,
         :fee_type_id,
         :amount
-        ],
+      ],
       warrant_fee_attributes: [
           :id,
           :claim_id,

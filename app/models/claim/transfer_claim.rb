@@ -68,7 +68,7 @@ module Claim
     # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.
     #
-    DELEGATED_ATTRS = [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :case_conclusion_id ]
+    DELEGATED_ATTRS = [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id ]
 
     DELEGATED_ATTRS.each do |getter_method|
       define_method getter_method do

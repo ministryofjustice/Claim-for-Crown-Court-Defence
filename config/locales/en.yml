@@ -534,6 +534,8 @@ en:
           when your claim has been processed, but you can check the status of your
           claim at any time in the "Your claims" view.</p>
         will_be_processed: Your claim will be processed shortly
+      date_generic_fields:
+        date: 'Date'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
@@ -635,6 +637,7 @@ en:
         view_details: 'View details'
       graduated_fees:
         fields:
+          actual_trial_length: 'Actual trial length'
           graduated_fees: 'Graduated fees'
           graduated_prompt_text: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
           fee_type: "Fee type"

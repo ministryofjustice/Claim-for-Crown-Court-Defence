@@ -23,8 +23,6 @@
             = inf.number_field :quantity, class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
             = validation_error_message(@error_presenter, 'interim_fee.quantity')
 
-          
-
         .form-row
           .column-first-child.column-three-quarters.js-interim-effectivePcmh.visually-hidden
             .column-half
@@ -36,7 +34,7 @@
             .column-half
               = f.anchored_without_label 'retrial_started_at'
               = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
-            
+
             .column-half
               = f.anchored_label(t('.retrial_estimated_length'), :retrial_estimated_length, { label_attributes: {class: 'form-label form-date-spacing'} })
               = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control'
@@ -46,7 +44,7 @@
             .column-half
               = f.anchored_without_label 'first_day_of_trial'
               = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
-            
+
             .column-half
               = f.anchored_label(t('.estimated_trial_length'), :estimated_trial_length, { label_attributes: {class: 'form-label form-date-spacing'} })
               = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
@@ -69,8 +67,6 @@
             = inf.text_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'amount form-control', size: 10, maxlength: 8
             = validation_error_message(@error_presenter, 'interim_fee.amount')
 
-          
-        
     .js-interim-disbursements.visually-hidden
       = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }
 

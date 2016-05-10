@@ -5,8 +5,14 @@ require_relative 'shared_examples_for_advocate_litigator'
 module Claim
   describe(Claim::TransferClaimValidator) do
 
+    include ValidationHelpers
+    include_context "force-validation"
+
     let(:claim) { build :transfer_claim }
     let(:transfer_detail) { build :transfer_detail, claim: claim }
+
+    include_examples "common advocate litigator validations", :litigator
+    include_examples "common litigator validations"
 
     describe 'case_type' do
       it 'errors if nil' do
@@ -17,16 +23,6 @@ module Claim
     describe 'court' do
       it 'errors if nil' do
         expect_invalid_attribute_with_message(claim, :court, nil, 'blank')
-      end
-    end
-
-    describe 'case_concluded_at' do
-      it 'errors if nil' do
-        expect_invalid_attribute_with_message(claim, :case_concluded_at, nil, 'blank')
-      end
-
-      it 'is valid if a valid value' do
-        expect_valid_attribute(claim, :case_concluded_at, Date.today)
       end
     end
 
@@ -68,11 +64,11 @@ module Claim
       end
 
       it 'errors if in future' do
-        expect_invalid_attribute_with_message(claim, :transfer_date, 2.days.from_now, 'future')
+        expect_invalid_attribute_with_message(claim, :transfer_date, 2.days.from_now, 'check_not_in_future')
       end
 
       it 'errors if too far in the past' do
-        expect_invalid_attribute_with_message(claim, :transfer_date, 6.years.ago, 'too_far_in_past')
+        expect_invalid_attribute_with_message(claim, :transfer_date, 6.years.ago, 'check_not_too_far_in_past')
       end
 
       it 'is valid if in the recent past' do
@@ -86,31 +82,35 @@ module Claim
         let(:claim) { build :transfer_claim, :trial }
 
         # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
+        # ARE TRIAL DETAILS REALLY REQUIRED?
         context 'first_day_of_trial' do
-          it 'is invalid if not present' do
+          xit 'is invalid if not present' do
             expect_invalid_attribute_with_message(claim, :first_day_of_trial, nil, 'blank')
           end
-          it 'is invalid if after trial concluded date' do
+          xit 'is invalid if after trial concluded date' do
             expect_invalid_attribute_with_message(claim, :first_day_of_trial, 1.day.ago, 'check_other_date')
           end
         end
 
         # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
+        # ARE TRIAL DETAILS REALLY REQUIRED?
         context 'trial_concluded_at' do
-          it 'is invalid if not present' do
+          xit 'is invalid if not present' do
             expect_invalid_attribute_with_message(claim, :trial_concluded_at, nil, 'blank')
           end
-          it 'is invalid if before the trial start date' do
+          xit 'is invalid if before the trial start date' do
             claim.first_day_of_trial = 5.days.ago
             expect_invalid_attribute_with_message(claim, :trial_concluded_at, 6.days.ago, 'check_other_date')
           end
         end
 
+        # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
+        # ARE TRIAL DETAILS REALLY REQUIRED?
         context 'estimated trial length' do
-          it 'is invalid if absent' do
+          xit 'is invalid if absent' do
             expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
           end
-          it 'is invalid if negative' do
+          xit 'is invalid if negative' do
             expect_invalid_attribute_with_message(claim, :estimated_trial_length, -1, 'invalid')
           end
         end
@@ -153,16 +153,5 @@ module Claim
       end
     end
 
-    context 'first day of trial' do
-      let(:claim) do
-        claim = build :transfer_claim, :trial
-        claim.defendants << build(:defendant)
-        claim
-      end
-
-      it 'errors if blank' do
-        expect_invalid_attribute_with_message(claim, :first_day_of_trial, nil, 'blank')
-      end
-    end
   end
 end

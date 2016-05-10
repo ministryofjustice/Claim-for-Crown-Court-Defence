@@ -269,6 +269,19 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
           :amount,
           :quantity
       ],
+      transfer_detail_attributes: [
+        :litigator_type,
+        :elected_case,
+        :transfer_stage_id,
+        date_attributes_for(:transfer_date),
+        :case_conclusion_id
+        ],
+      transfer_fee_attributes: [
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :amount
+        ],
       warrant_fee_attributes: [
           :id,
           :claim_id,

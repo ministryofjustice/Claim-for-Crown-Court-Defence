@@ -60,31 +60,13 @@ describe Claim::TransferClaim, type: :model do
 
   let(:claim) { build :transfer_claim }
 
-
+  it { should_not delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
 
   context 'transfer fee' do
-    it 'creates an empty transfer fee when created in a factory' do
-      claim = create :transfer_claim, :graduated_fee_allocation_type
+    it 'creates a transfer fee when created in a factory' do
+      claim = create :transfer_claim
       expect(claim.transfer_fee).to be_instance_of(Fee::TransferFee)
-      expect(claim.transfer_fee.amount).to eq 0.0
-    end
-
-
-    it 'creates an zero value transfer fee if none already exists' do
-      claim = build :transfer_claim
-      expect(claim.transfer_fee).to be_nil
-      claim.save!
-      expect(claim.transfer_fee).to be_instance_of(Fee::TransferFee)
-      expect(claim.transfer_fee.amount).to eq 0.0
-    end
-
-    it 'does not create a transfer fee' do
-      claim = build :transfer_claim
-      claim.transfer_fee = Fee::TransferFee.new(amount: 25.37)
-      fee_object_id = claim.transfer_fee.object_id
-      claim.save!
-      expect(claim.transfer_fee.object_id).to eq fee_object_id
-      expect(claim.transfer_fee.amount).to eq 25.37
     end
   end
 
@@ -150,6 +132,18 @@ describe Claim::TransferClaim, type: :model do
       expect(claim.eligible_case_types).to include(c2)
       expect(claim.eligible_case_types).to include(c3)
       expect(claim.eligible_case_types).to include(c4)
+    end
+  end
+
+  describe '#requires_trial_dates?' do
+    it 'never requires trial dates' do
+      expect(claim.requires_trial_dates?).to eql false
+    end
+  end
+
+  describe '#requires_retrial_dates?' do
+    it 'never requires retrial dates' do
+      expect(claim.requires_retrial_dates?).to eql false
     end
   end
 

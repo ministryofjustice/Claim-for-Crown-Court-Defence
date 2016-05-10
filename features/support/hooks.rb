@@ -10,6 +10,7 @@ Before('~@no-site-prism') do
   @claim_form_page = ClaimFormPage.new
   @litigator_claim_form_page = LitigatorClaimFormPage.new
   @interim_claim_form_page = InterimClaimFormPage.new
+  @transfer_claim_form_page = TransferClaimFormPage.new
 
   @claim_summary_page = ClaimSummaryPage.new
   @external_user_home_page = ExternalUserHomePage.new

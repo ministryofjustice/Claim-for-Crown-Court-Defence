@@ -18,26 +18,24 @@ module Claim
           :transfer_date,
           :case_conclusion_id,
           :transfer_detail_combo,
-          :first_day_of_trial,
-          :estimated_trial_length,
-          :trial_concluded_at,
-          # :retrial_started_at,
-          # :retrial_estimated_length,
-          # :effective_pcmh_date,
-          # :legal_aid_transfer_date,
-          # :total
+          # TODO: are trial details required - tbc
+          # --------------------------------------
+          # :first_day_of_trial,
+          # :estimated_trial_length,
+          # :trial_concluded_at,
+          # --------------------------------------
         ]
       ]
     end
 
     private
 
-    def validate_estimated_trial_length
-      validate_presence(:estimated_trial_length, 'blank')
-      if @record.estimated_trial_length && @record.estimated_trial_length < 0
-        add_error(:estimated_trial_length, 'invalid')
-      end
-    end
+    # def validate_estimated_trial_length
+    #   validate_presence(:estimated_trial_length, 'blank')
+    #   if @record.estimated_trial_length && @record.estimated_trial_length < 0
+    #     add_error(:estimated_trial_length, 'invalid')
+    #   end
+    # end
 
     def validate_litigator_type
       unless @record.litigator_type.in? %w{ new original }
@@ -59,8 +57,8 @@ module Claim
 
     def validate_transfer_date
       validate_presence(:transfer_date, 'blank')
-      validate_not_after(Date.today, :transfer_date, 'future')
-      validate_not_before(Settings.earliest_permitted_date, :transfer_date, 'too_far_in_past')
+      validate_not_after(Date.today, :transfer_date, 'check_not_in_future')
+      validate_not_before(Settings.earliest_permitted_date, :transfer_date, 'check_not_too_far_in_past')
     end
 
     def validate_case_conclusion_id
@@ -83,17 +81,6 @@ module Claim
     # def validate_trial_concluded_at
     #   validate_presence(:trial_concluded_at, 'blank') if requires_trial_dates?
     # end
-    #
-    # def validate_retrial_started_at
-    #   validate_presence(:retrial_started_at, 'blank') if requires_trial_dates?
-    # end
 
-    def validate_effective_pcmh_date
-      validate_presence(:effective_pcmh_date, 'blank') if @record.interim_fee.try(:is_effective_pcmh?)
-    end
-
-    def validate_legal_aid_transfer_date
-      validate_presence(:effective_pcmh_date, 'blank') if @record.interim_fee.try(:is_retrial_new_solicitor?)
-    end
   end
 end

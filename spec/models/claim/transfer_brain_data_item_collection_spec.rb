@@ -112,8 +112,19 @@ module Claim
     end
 
 
-
-
+    #
+    # Hash elements:
+    #
+    # litigator type (new, original)
+    #   - elected case (boolean)
+    #     - transfer stage id (int)
+    #       - case conclusion id (int) - * means any
+    #         - attributes:
+    #              - visibility: whether combination should display the "how did case conclude?" - use in views
+    #              - validity: whether combination is valid - use in validators
+    #              - transfer fee full name: the description to display to Case workers (only) on the claim details page (show action)
+    #              - allocation type: what allocation filter "queue" this combination should fall into - use in scopes for allocation filters
+    #
     def expected_hash
       {"new"=>
          {true=>

@@ -5,12 +5,17 @@ FactoryGirl.define do
     litigator_base_setup
     claim_state_common_traits
 
-    # transfer_detail attributes
+    # note: transfer_detail attribute getter/setters are delegated to claim
     litigator_type      'original'
     elected_case        false
     transfer_stage_id   10
     transfer_date       2.months.ago
     case_conclusion_id  nil
+
+    # add (only) one transfer_fee
+    after(:build) do |claim|
+      claim.fees << build(:transfer_fee, claim: claim)
+    end
 
     trait :trial do
       case_type  { build(:case_type, :trial) }

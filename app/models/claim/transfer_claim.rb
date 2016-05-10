@@ -57,16 +57,13 @@ module Claim
     set_singular_route_key 'litigators_transfer_claim'
 
     has_one :transfer_detail, foreign_key: :claim_id
-
     has_one :transfer_fee, class_name: Fee::TransferFee, foreign_key: :claim_id
 
-    validates_with TransferClaimValidator
+    accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
+    accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false
 
-    before_save do
-      if self.transfer_fee.nil?
-        self.transfer_fee = Fee::TransferFee.new
-      end
-    end
+    validates_with ::Claim::TransferClaimValidator
+    validates_with ::Claim::TransferClaimSubModelValidator
 
     # The ActiveSupport delegate method doesn't work with new objects - i.e. You can't say Claim.new(xxx: value) where xxx is delegated
     # So we have to do this instead.  Probably good to put it in a gem eventually.
@@ -83,6 +80,9 @@ module Claim
         proxy_transfer_detail.__send__(setter_method, value)
       end
     end
+
+    def requires_trial_dates?; false; end
+    def requires_retrial_dates?; false; end
 
     def proxy_transfer_detail
       self.transfer_detail ||= TransferDetail.new

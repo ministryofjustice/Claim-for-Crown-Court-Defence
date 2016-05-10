@@ -104,6 +104,13 @@ FactoryGirl.define do
       end
     end
 
+    factory :transfer_fee_type, class: Fee::TransferFeeType do
+      calculated false
+      code 'TRANS'
+      description 'Transfer'
+      roles [ 'lgfs' ]
+    end
+
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
       description  'Warrant Fee'
       code 'XWAR'

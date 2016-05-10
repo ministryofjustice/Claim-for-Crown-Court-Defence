@@ -142,6 +142,21 @@ describe Claim::TransferClaim, type: :model do
     end
   end
 
+  describe '#transfer?' do
+    it 'should return true' do
+      expect(claim.transfer?).to eql true
+    end
+  end
+
+  describe '#eligible_misc_fee_types' do
+    it 'should return only LGFS applicable miscellaneous fee types' do
+      mf1 = create :misc_fee_type, :lgfs
+      mf2 = create :misc_fee_type, :lgfs
+      mf3 = create :misc_fee_type
+      expect(claim.eligible_misc_fee_types.map(&:description)).to match [mf1.description,mf2.description]
+    end
+  end
+
   describe '#requires_trial_dates?' do
     it 'never requires trial dates' do
       expect(claim.requires_trial_dates?).to eql false

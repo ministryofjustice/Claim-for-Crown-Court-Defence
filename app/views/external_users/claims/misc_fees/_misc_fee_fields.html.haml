@@ -29,9 +29,7 @@
         = number_to_currency(f.object.amount ||= 0)
 
   .grid-row.fee-dates-row
-    
     %label.form-label Dates
-    
     %span.no-dates.form-hint
       = t('.no_dates')
     = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}

@@ -13,7 +13,7 @@ describe Claim::TransferClaimSubModelValidator do
       ],
       has_many: [
           [:defendants],
-          [:disbursements, :messages, :redeterminations, :documents]
+          [:misc_fees, :disbursements, :messages, :redeterminations, :documents]
       ]
   }
 end

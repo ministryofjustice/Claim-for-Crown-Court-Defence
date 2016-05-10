@@ -47,10 +47,16 @@ FactoryGirl.define do
     end
 
     factory :misc_fee_type, class: Fee::MiscFeeType do
-      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      sequence(:description) { |n| "AGFS, Misc fee type, Noting brief - #{n}" }
       code { random_safe_code }
       calculated true
       roles ['agfs']
+
+      trait :lgfs do
+        sequence(:description) { |n| "LGFS, Misc fee type, Special preparation fee - #{n}" }
+        calculated false
+        roles ['lgfs']
+      end
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do

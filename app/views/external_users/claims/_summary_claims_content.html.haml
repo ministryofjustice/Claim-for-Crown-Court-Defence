@@ -14,7 +14,7 @@
 - else
   = render partial: 'summary_fees', locals: { claim: claim }
 
-- if @claim.lgfs? || @claim.interim?
+- if @claim.lgfs?
   %h2
     = t('common.disbursements')
   = render partial: 'external_users/claims/disbursements/summary', locals: { claim: claim }
@@ -23,7 +23,7 @@
   = t('common.expenses')
 = render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
 
-- if @claim.lgfs? || @claim.interim?
+- if @claim.final? || @claim.interim?
   %h2
     = t('common.warrant_fees')
   = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }

@@ -1,79 +1,43 @@
 - if @claim.allows_fixed_fees?
 
-  #fixed-fees
+  #fixed-fees.mod-fees
     %h2.bold-medium
       = t('.fixed_fees')
     .form-hint.xsmall
       = t('.prompt_text_html')
 
     = f.fields_for :fixed_fee do |ff|
-      %table
-        %thead
-          %tr
-            %th
+
+      .expense-group.nested-fields
+        .grid-row
+        
+          .column-one-third
+            %label.form-label
               = t('.fee_type')
-            %th
-              = t('.total')
-
-        %tbody.fixed-fee-group
-          %tr.nested-fields
-            %td
-              = ff.anchored_attribute 'fee_type'
-              = @claim.case_type.fixed_fee_type.description
-              = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
-              = validation_error_message(@error_presenter, :fee_type)
-
-            %td
-              %div.pound-wrapper
-                = ff.anchored_attribute 'amount'
-                = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
-              = validation_error_message(@error_presenter, :amount)
+            = ff.anchored_attribute 'fee_type'
+            = @claim.case_type.fixed_fee_type.description
+            = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
+            = validation_error_message(@error_presenter, :fee_type)
+          
+          .column-one-third.condensed.js-expense-location
+        
+        .grid-row
+          
+          .column-two-thirds
+            - ff.object.dates_attended << DateAttended.new unless ff.object.dates_attended.any?
+            = ff.fields_for :dates_attended do |date_attended|
+              = render 'date_generic_fields', f: date_attended, submodel_count: date_attended.index+1
+            
+            
+          .column-one-third.condensed.js-expense-amount.fee-total
+            %label.form-label Total
+            
+            %span.currency-indicator>< £
+            = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
+            = validation_error_message(@error_presenter, :amount)
+            = ff.anchored_attribute 'amount'
 
       - if @claim.case_type.fixed_fee_type.children.any?
-        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
-        = validation_error_message(@error_presenter, :sub_type)
-
-/ - if @claim.allows_fixed_fees?
-
-/   #fixed-fees.mod-fees
-/     %h2.bold-medium
-/       = t('.fixed_fees')
-/     .form-hint.xsmall
-/       = t('.prompt_text_html')
-
-/     = f.fields_for :fixed_fee do |ff|
-
-/       .form-group.fixed-fee-group.nested-fields
-/         .grid-row
-/           .column-one-half.fee-type
-/             %label.form-label
-/               = t('.fee_type')
-            
-/             = ff.anchored_attribute 'fee_type'
-/             = @claim.case_type.fixed_fee_type.description
-/             = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
-/             = validation_error_message(@error_presenter, :fee_type)
-
-/           .column-one-quarter.fee-quantity
-/             %p
-/           .column-one-quarter.fee-rate
-/             %p
-/         .grid-row
-/           .column-one-third.fee-total
-/             %label.form-label
-/               = t('.total')
-/             %a{name: "fixed_fee_#{@fixed_fee_count}_amount"}
-/             %span.currency-indicator>< £
-/             = f.text_field :amount, value: number_with_precision(ff.object.rate, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
-/             = validation_error_message(@error_presenter, :fee_type)
-/         .grid-row.fee-dates-row
-/           %span FEE-DATES-ROW
-
-/           .grid-row.dates-wrapper
-/             %span DATES_WRAPPER
-
-/       - if @claim.case_type.fixed_fee_type.children.any?
-/         = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
-/         = validation_error_message(@error_presenter, :sub_type)
-
-/         
+        %span CHECK VIEW IF 
+      /   = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
+      /   = validation_error_message(@error_presenter, :sub_type)

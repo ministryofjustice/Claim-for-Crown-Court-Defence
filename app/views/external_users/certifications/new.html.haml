@@ -100,4 +100,4 @@
         &nbsp;
     .button-holder
       = f.submit "Certify and submit claim", class: "button"
-      = link_to 'Return to claim', url_for_edit_external_users_claim(@claim), class: 'button-secondary'
+      = link_to 'Return to claim', edit_polymorphic_path(@claim), class: 'button-secondary'

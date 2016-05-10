@@ -109,58 +109,106 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           end
         end
 
-        # context 'multi-step form submit to LAA' do
-        #   let(:case_number) { 'A88888888' }
-        #   let(:claim_params_step1) do
-        #     {
-        #         external_user_id: litigator.id,
-        #         supplier_number: supplier_number,
-        #         court_id: court,
-        #         case_type_id: case_type.id,
-        #         offence_id: offence,
-        #         case_number: case_number,
-        #         case_concluded_at_dd: 5.days.ago.day.to_s,
-        #         case_concluded_at_mm: 5.days.ago.month.to_s,
-        #         case_concluded_at_yyyy: 5.days.ago.year.to_s,
-        #         defendants_attributes: [
-        #             { first_name: 'John',
-        #               last_name: 'Smith',
-        #               date_of_birth_dd: '4',
-        #               date_of_birth_mm: '10',
-        #               date_of_birth_yyyy: '1980',
-        #               representation_orders_attributes: [
-        #                   {
-        #                       representation_order_date_dd: Time.now.day.to_s,
-        #                       representation_order_date_mm: Time.now.month.to_s,
-        #                       representation_order_date_yyyy: Time.now.year.to_s,
-        #                       maat_reference: '4561237895'
-        #                   }
-        #               ]
-        #             }
-        #         ]
-        #     }
-        #   end
-        #
-        #   let(:claim_params_step2) do
-        #     {
-        #         form_step: 2,
-        #         additional_information: 'foo'
-        #     }
-        #   end
-        #
-        #   let(:subject_claim) { Claim::TransferClaim.where(case_number: case_number).first }
-        #
-        #   it 'validates step fields and moves to next steps' do
-        #     post :create, commit_continue: 'Continue', claim: claim_params_step1
-        #     expect(subject_claim.draft?).to be_truthy
-        #     expect(assigns(:claim).current_step).to eq(2)
-        #     expect(response).to render_template('external_users/litigators/transfer_claims/new')
-        #
-        #     put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
-        #     expect(subject_claim.draft?).to be_truthy
-        #     expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
-        #   end
-        # end
+        context 'multi-step form submit to LAA' do
+          let!(:transfer_fee_type)  { create(:transfer_fee_type) }
+          let(:case_number) { 'A88888888' }
+          let(:transfer_detail_params) {
+            {
+                transfer_detail_attributes: {
+                  litigator_type: 'original',
+                  elected_case: false,
+                  transfer_stage_id: 10,
+                  transfer_date_dd:   5.days.ago.day.to_s,
+                  transfer_date_mm:   5.days.ago.month.to_s,
+                  transfer_date_yyyy: 5.days.ago.year.to_s,
+                  case_conclusion_id: 10
+                }
+            }
+          }
+          let(:transfer_fee_params) {
+            {
+                transfer_fee_attributes: {
+                  fee_type_id: transfer_fee_type.id,
+                  amount: 10.0
+                }
+            }
+          }
+
+          let(:claim_params_step1) do
+            {
+                external_user_id: litigator.id,
+                supplier_number: supplier_number,
+                court_id: court,
+                case_type_id: case_type.id,
+                offence_id: offence,
+                case_number: case_number,
+                case_concluded_at_dd: 5.days.ago.day.to_s,
+                case_concluded_at_mm: 5.days.ago.month.to_s,
+                case_concluded_at_yyyy: 5.days.ago.year.to_s,
+                defendants_attributes: [
+                    { first_name: 'John',
+                      last_name: 'Smith',
+                      date_of_birth_dd: '4',
+                      date_of_birth_mm: '10',
+                      date_of_birth_yyyy: '1980',
+                      representation_orders_attributes: [
+                          {
+                              representation_order_date_dd: Time.now.day.to_s,
+                              representation_order_date_mm: Time.now.month.to_s,
+                              representation_order_date_yyyy: Time.now.year.to_s,
+                              maat_reference: '4561237895'
+                          }
+                      ]
+                    }
+                ]
+            }
+          end
+
+          let(:claim_params_step2) do
+            {
+                form_step: 2,
+                additional_information: 'foo'
+            }.
+            merge(transfer_detail_params).
+            merge(transfer_fee_params)
+          end
+
+          let(:claim) { Claim::TransferClaim.where(case_number: case_number).first }
+
+          context 'step 1 Continue' do
+            render_views
+            before { post :create, commit_continue: 'Continue', claim: claim_params_step1 }
+
+            it 'should leave claim in draft state'  do expect(claim.draft?).to be_truthy end
+            it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
+            it { expect(response).to render_template('external_users/litigators/transfer_claims/new') }
+            it { expect(response).to render_template(partial: 'external_users/claims/disbursements/_fields') }
+
+          end
+
+          context 'step 2 Submit to LAA' do
+            before do
+              post :create, commit_continue: 'Continue', claim: claim_params_step1
+              put :update, id: claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
+            end
+
+            it 'updates the claim transfer details and transfer fee, still draft, and moves to summary page' do
+              expect(claim.draft?).to be_truthy
+
+              # note: transfer detail attributes are delegated to claim
+              expect(claim.litigator_type).to eql 'original'
+              expect(claim.elected_case).to eql false
+              expect(claim.transfer_stage_id).to eql 10
+              expect(claim.case_conclusion_id).to eql 10
+              expect(claim.transfer_date.to_s).to eql 5.days.ago.strftime('%d/%m/%Y 00:00')
+
+              expect(claim.transfer_fee).to_not be_nil
+              expect(claim.transfer_fee.amount).to eql 10.00
+
+              expect(response).to redirect_to(summary_external_users_claim_path(claim))
+            end
+          end
+        end
       end
 
       context 'submit to LAA with incomplete/invalid params' do

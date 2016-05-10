@@ -1,5 +1,5 @@
 #claim-form
-  = form_for [:external_users, @claim], as: :claim, url: url_for_external_users_claim(@claim), builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
+  = form_for @claim, as: :claim, builder: AdpFormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
 
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
     = f.hidden_field :form_step, value: @claim.form_step
@@ -19,7 +19,9 @@
 
       = render partial: 'external_users/claims/fees_shared_header'
 
-      = render partial: 'external_users/claims/transfer_fees/fields', locals: { f: f }
+      = render partial: 'external_users/claims/transfer_fee/fields', locals: { f: f }
+
+      = render partial: 'external_users/claims/transfer_detail/fields', locals: { f: f }
 
       = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }
 

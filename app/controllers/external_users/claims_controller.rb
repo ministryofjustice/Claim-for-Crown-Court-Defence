@@ -61,7 +61,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     begin
       draft = @claim.clone_rejected_to_new_draft
       send_ga('event', 'claim', 'draft', 'clone-rejected')
-      redirect_to url_for_edit_external_users_claim(draft), notice: 'Draft created'
+      redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
     rescue
       redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
     end
@@ -269,6 +269,19 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
           :amount,
           :quantity
       ],
+      transfer_detail_attributes: [
+        :litigator_type,
+        :elected_case,
+        :transfer_stage_id,
+        date_attributes_for(:transfer_date),
+        :case_conclusion_id
+        ],
+      transfer_fee_attributes: [
+        :id,
+        :claim_id,
+        :fee_type_id,
+        :amount
+        ],
       warrant_fee_attributes: [
           :id,
           :claim_id,

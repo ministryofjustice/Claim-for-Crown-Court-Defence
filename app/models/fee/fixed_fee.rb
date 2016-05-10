@@ -27,5 +27,5 @@ class Fee::FixedFee < Fee::BaseFee
   def is_fixed?
     true
   end
-  
+
 end

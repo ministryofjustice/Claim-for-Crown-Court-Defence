@@ -1,8 +1,6 @@
 shared_examples "common litigator claim attributes" do
 
   it { should delegate_method(:provider_id).to(:creator) }
-  it { should delegate_method(:requires_trial_dates?).to(:case_type) }
-  it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
 
   describe '#vat_registered?' do
     it 'returns the value from the provider' do

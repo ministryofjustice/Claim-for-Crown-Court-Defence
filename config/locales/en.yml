@@ -384,6 +384,7 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
     claims:
+
       additional_information:
         fields:
           additional_information: 'Additional information'
@@ -562,6 +563,19 @@ en:
           location: 'Destination'
           quantity_hours: 'Hours'
           rate: 'Rate'
+      transfer_detail:
+        fields:
+          litigator_type: Litigator type
+          elected_case: Was the case elected?
+          transfer_stages: When did you start acting?
+          transfer_date: Date started acting
+          case_conclusions: How did the case conclude?
+      transfer_fee:
+        fields:
+          transfer_fee_section_header: Transfer fee
+          transfer_fee_prompt_text_html: You must enter a total amount for the transfer fee. Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a>
+          fee_type: Fee type
+          total: Total
       error_summary:
         prohibited_save: This claim has
         error: 'error'

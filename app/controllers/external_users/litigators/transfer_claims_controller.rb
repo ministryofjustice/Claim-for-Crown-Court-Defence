@@ -26,7 +26,7 @@ private
     @claim.build_transfer_detail if @claim.transfer_detail.nil?
     @claim.build_transfer_fee    if @claim.transfer_fee.nil?
 
-    [:disbursements].each do |association|
+    [:disbursements, :expenses].each do |association|
       build_nested_resource(@claim, association)
     end
 

@@ -114,15 +114,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           let(:case_number) { 'A88888888' }
           let(:transfer_detail_params) {
             {
-                transfer_detail_attributes: {
-                  litigator_type: 'original',
-                  elected_case: false,
-                  transfer_stage_id: 10,
-                  transfer_date_dd:   5.days.ago.day.to_s,
-                  transfer_date_mm:   5.days.ago.month.to_s,
-                  transfer_date_yyyy: 5.days.ago.year.to_s,
-                  case_conclusion_id: 10
-                }
+              litigator_type: 'original',
+              elected_case: false,
+              transfer_stage_id: 10,
+              transfer_date_dd:   5.days.ago.day.to_s,
+              transfer_date_mm:   5.days.ago.month.to_s,
+              transfer_date_yyyy: 5.days.ago.year.to_s,
+              case_conclusion_id: 10
             }
           }
           let(:transfer_fee_params) {

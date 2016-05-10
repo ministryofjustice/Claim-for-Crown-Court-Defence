@@ -63,6 +63,13 @@ describe Claim::TransferClaim, type: :model do
   it { should_not delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
 
+  context 'should delegate transfer detail attributes to transfer detail object' do
+    [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id ].
+    each do |attribute|
+      it { should delegate_method(attribute).to(:transfer_detail) }
+    end
+  end
+
   context 'transfer fee' do
     it 'creates a transfer fee when created in a factory' do
       claim = create :transfer_claim

@@ -67,6 +67,9 @@ module Claim
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
+    def lgfs?; true; end
+    def interim?; true; end
+
     def eligible_case_types
       CaseType.interims
     end
@@ -77,10 +80,6 @@ module Claim
 
     def external_user_type
       :litigator
-    end
-
-    def interim?
-      true
     end
 
     private

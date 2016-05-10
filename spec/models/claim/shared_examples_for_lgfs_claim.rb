@@ -2,6 +2,18 @@ shared_examples "common litigator claim attributes" do
 
   it { should delegate_method(:provider_id).to(:creator) }
 
+  describe '#lgfs?' do
+    it 'should return true' do
+      expect(claim.lgfs?).to eql true
+    end
+  end
+
+  describe '#agfs?' do
+    it 'should return true' do
+      expect(claim.agfs?).to eql false
+    end
+  end
+
   describe '#vat_registered?' do
     it 'returns the value from the provider' do
       expect(claim.provider).to receive(:vat_registered?)

@@ -166,6 +166,7 @@ module Claim
     def lgfs?; false; end
     def interim?; false; end
     def transfer?; false; end
+    def final?; false; end
     def requires_cracked_dates?; false; end
 
     def set_force_validation_to_false

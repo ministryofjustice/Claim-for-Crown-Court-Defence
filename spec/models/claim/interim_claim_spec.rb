@@ -63,6 +63,12 @@ RSpec.describe Claim::InterimClaim, type: :model do
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
 
+  describe '#interim?' do
+    it 'should return true' do
+      expect(claim.interim?).to eql true
+    end
+  end
+
   describe '#eligible_case_types' do
     it 'should return only Interim case types' do
       CaseType.delete_all

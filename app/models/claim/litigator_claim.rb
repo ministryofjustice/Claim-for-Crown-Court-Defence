@@ -69,9 +69,10 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
 
+    def lgfs?; true; end
+    def final?; true; end
 
     # Fixed Fee Adder requires a fixed_fees method
-
     def fixed_fees
       self.fixed_fee.nil? ? [] : [ self.fixed_fee ]
     end
@@ -94,10 +95,6 @@ module Claim
 
     def external_user_type
       :litigator
-    end
-
-    def lgfs?
-      true
     end
 
     private

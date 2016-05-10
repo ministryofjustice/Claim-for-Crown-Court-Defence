@@ -1,33 +1,6 @@
 class ExternalUsers::ApplicationController < ApplicationController
   before_action :authenticate_external_user!
 
-  helper_method :url_for_external_users_claim
-  helper_method :url_for_edit_external_users_claim
-
-  def url_for_external_users_claim(claim)
-    if claim.agfs?
-      claim.persisted? ? advocates_claim_path(claim) : advocates_claims_path
-    elsif claim.lgfs?
-      claim.persisted? ? litigators_claim_path(claim) : litigators_claims_path
-    elsif claim.interim?
-      claim.persisted? ? litigators_interim_claim_path(claim) : litigators_interim_claims_path
-    elsif claim.transfer?
-      claim.persisted? ? litigators_transfer_claim_path(claim) : litigators_transfer_claims_path
-    end
-  end
-
-  def url_for_edit_external_users_claim(claim)
-    if claim.agfs?
-      edit_advocates_claim_path(claim)
-    elsif claim.lgfs?
-      edit_litigators_claim_path(claim)
-    elsif claim.interim?
-      edit_litigators_interim_claim_path(claim)
-    elsif claim.transfer?
-      edit_litigators_transfer_claim_path(claim)
-    end
-  end
-
 private
 
   def authenticate_external_user!

@@ -61,7 +61,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     begin
       draft = @claim.clone_rejected_to_new_draft
       send_ga('event', 'claim', 'draft', 'clone-rejected')
-      redirect_to url_for_edit_external_users_claim(draft), notice: 'Draft created'
+      redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
     rescue
       redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
     end

@@ -54,6 +54,7 @@
 
 module Claim
   class LitigatorClaim < BaseClaim
+    set_singular_route_key 'litigators_claim'
 
     validates_with ::Claim::LitigatorClaimValidator
     validates_with ::Claim::LitigatorClaimSubModelValidator

@@ -15,23 +15,23 @@ describe Claim::InterimClaimValidator do
   include_examples "common litigator validations"
 
   include_examples 'common partial validations', [
-      [
-          :case_type,
-          :court,
-          :case_number,
-          :advocate_category,
-          :offence,
-          :case_concluded_at
-      ],
-      [
-          :first_day_of_trial,
-          :estimated_trial_length,
-          :trial_concluded_at,
-          :retrial_started_at,
-          :retrial_estimated_length,
-          :effective_pcmh_date,
-          :legal_aid_transfer_date,
-          :total
-      ]
+    [
+      :case_type,
+      :court,
+      :case_number,
+      :advocate_category,
+      :offence,
+      :case_concluded_at
+    ],
+    [
+      :first_day_of_trial,
+      :estimated_trial_length,
+      :trial_concluded_at,
+      :retrial_started_at,
+      :retrial_estimated_length,
+      :effective_pcmh_date,
+      :legal_aid_transfer_date,
+      :total
+    ]
   ]
 end

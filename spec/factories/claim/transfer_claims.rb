@@ -19,10 +19,10 @@ FactoryGirl.define do
 
     trait :trial do
       case_type  { build(:case_type, :trial) }
-      first_day_of_trial 30.days.ago
-      trial_concluded_at 25.days.ago
-      estimated_trial_length 3
-      actual_trial_length 3
+    end
+
+    trait :retrial do
+      case_type  { build(:case_type, :retrial) }
     end
 
     trait :graduated_fee_allocation_type do

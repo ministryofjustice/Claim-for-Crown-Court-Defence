@@ -2,6 +2,8 @@ require_relative 'sections/common_date_section'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
 require_relative 'sections/typed_fee_section'
+require_relative 'sections/typed_fee_rate_section'
+require_relative 'sections/typed_fee_amount_section'
 require_relative 'sections/expense_section'
 
 class ClaimFormPage < SitePrism::Page

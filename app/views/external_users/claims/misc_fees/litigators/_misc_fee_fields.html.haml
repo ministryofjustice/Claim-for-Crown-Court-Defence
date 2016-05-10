@@ -27,7 +27,7 @@
         = t('.amount')
       %a{name: "misc_fee_#{@misc_fee_count}_amount"}
       %span.currency-indicator>< £
-      = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
+      = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_amount")
   
   = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }

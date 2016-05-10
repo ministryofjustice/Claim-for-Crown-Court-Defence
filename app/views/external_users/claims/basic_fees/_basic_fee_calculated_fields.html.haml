@@ -29,5 +29,5 @@
 .grid-row
   .column-one-third.fee-total
     %label.form-label Total
-    %span.amount
+    %span.amount{data: {'amount': f.object.amount ||= 0}}
       = number_to_currency(f.object.amount ||= 0)

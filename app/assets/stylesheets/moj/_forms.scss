@@ -152,6 +152,11 @@ button.search {
   }
 }
 
+.misc-fee-group-wrapper{
+  .fee-rate{
+    float: right;
+  }
+}
 .mod-fees{
   @include clearfix;
   .fee-dates-row{

@@ -703,6 +703,9 @@ en:
         fields:
           transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
           transfer_fees: Missing Translation
+      fees_shared_header:
+        fees: Fees
+        fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
     litigators:
       interim_claims:
         new:

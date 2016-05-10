@@ -46,6 +46,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '32.50'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
 
+    And I add an expense 'Parking'
+
     And I upload 1 document
     And I check the boxes for the uploaded documents
     And I add some additional information

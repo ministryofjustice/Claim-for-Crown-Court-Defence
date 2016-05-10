@@ -953,6 +953,14 @@ expense:
       long: 'Enter a date for the #{expense}'
       short: *enter_date
       api: Enter a date for the expense
+    future:
+      long: 'Check the date for the #{expense}'
+      short: *in_future
+      api: Check the date for the expense
+    check_not_too_far_in_past:
+      long: 'Check the date for the #{expense}'
+      short: *too_far_in_past
+      api: Check the date for the expense
 
   expense_type:
     _seq: 10

@@ -45,12 +45,6 @@ describe Claim::BaseClaimSubModelValidator do
       claim.form_step = 2
     end
 
-    it 'should call the validator on all the attended dates for all the expenses' do
-      expect(claim.expenses).to have(1).member
-      expect(claim.expenses.first.dates_attended).to have(2).members
-      expect_any_instance_of(DateAttendedValidator).to receive(:validate_date).at_least(:once)
-      claim.valid?
-    end
   end
 
   context 'bubbling up errors to the claim' do

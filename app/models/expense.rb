@@ -43,7 +43,6 @@ class Expense < ActiveRecord::Base
 
   validates_with ExpenseV1Validator, if: :schema_version_1?
   validates_with ExpenseV2Validator, if: :schema_version_2?
-  validates_with ExpenseSubModelValidator
 
   accepts_nested_attributes_for :dates_attended, reject_if: :all_blank, allow_destroy: true
 

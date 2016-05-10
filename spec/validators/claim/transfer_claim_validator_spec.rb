@@ -1,6 +1,7 @@
 require 'rails_helper'
 require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
+require_relative 'shared_examples_for_step_validators'
 
 module Claim
   describe(Claim::TransferClaimValidator) do
@@ -14,17 +15,23 @@ module Claim
     include_examples "common advocate litigator validations", :litigator
     include_examples "common litigator validations"
 
-    describe 'case_type' do
-      it 'errors if nil' do
-        expect_invalid_attribute_with_message(claim, :case_type, nil, 'blank')
-      end
-    end
-
-    describe 'court' do
-      it 'errors if nil' do
-        expect_invalid_attribute_with_message(claim, :court, nil, 'blank')
-      end
-    end
+    include_examples 'common partial validations', [
+      [
+        :case_type,
+        :court,
+        :advocate_category,
+        :offence,
+        :case_concluded_at
+      ],
+      [
+        :litigator_type,
+        :elected_case,
+        :transfer_stage_id,
+        :transfer_date,
+        :case_conclusion_id,
+        :transfer_detail_combo
+      ]
+  ]
 
     context 'litigator type' do
       it 'errors if not new or original' do
@@ -78,43 +85,26 @@ module Claim
 
     context 'trial dates validation' do
       context 'case type: trial' do
-
         let(:claim) { build :transfer_claim, :trial }
 
-        # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
-        # ARE TRIAL DETAILS REALLY REQUIRED?
-        context 'first_day_of_trial' do
-          xit 'is invalid if not present' do
-            expect_invalid_attribute_with_message(claim, :first_day_of_trial, nil, 'blank')
-          end
-          xit 'is invalid if after trial concluded date' do
-            expect_invalid_attribute_with_message(claim, :first_day_of_trial, 1.day.ago, 'check_other_date')
-          end
+        it 'factory builds claim without trial dates' do
+          expect(claim.first_day_of_trial).to be_nil
         end
 
-        # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
-        # ARE TRIAL DETAILS REALLY REQUIRED?
-        context 'trial_concluded_at' do
-          xit 'is invalid if not present' do
-            expect_invalid_attribute_with_message(claim, :trial_concluded_at, nil, 'blank')
-          end
-          xit 'is invalid if before the trial start date' do
-            claim.first_day_of_trial = 5.days.ago
-            expect_invalid_attribute_with_message(claim, :trial_concluded_at, 6.days.ago, 'check_other_date')
-          end
+        it 'should not require trial dates' do
+          expect(claim).to be_valid
+        end
+      end
+      context 'case type: retrial' do
+        let(:claim) { build :transfer_claim, :retrial }
+
+        it 'factory builds claim without trial dates' do
+          expect(claim.retrial_started_at).to be_nil
         end
 
-        # TODO: remove? not really necessary as inherits base claim validator method which is already spec'ed
-        # ARE TRIAL DETAILS REALLY REQUIRED?
-        context 'estimated trial length' do
-          xit 'is invalid if absent' do
-            expect_invalid_attribute_with_message(claim, :estimated_trial_length, nil, 'blank')
-          end
-          xit 'is invalid if negative' do
-            expect_invalid_attribute_with_message(claim, :estimated_trial_length, -1, 'invalid')
-          end
+        it 'should not require retrial dates' do
+          expect(claim).to be_valid
         end
-
       end
     end
 

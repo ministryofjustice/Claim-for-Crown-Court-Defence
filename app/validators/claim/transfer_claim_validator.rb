@@ -17,25 +17,12 @@ module Claim
           :transfer_stage_id,
           :transfer_date,
           :case_conclusion_id,
-          :transfer_detail_combo,
-          # TODO: are trial details required - tbc
-          # --------------------------------------
-          # :first_day_of_trial,
-          # :estimated_trial_length,
-          # :trial_concluded_at,
-          # --------------------------------------
+          :transfer_detail_combo
         ]
       ]
     end
 
     private
-
-    # def validate_estimated_trial_length
-    #   validate_presence(:estimated_trial_length, 'blank')
-    #   if @record.estimated_trial_length && @record.estimated_trial_length < 0
-    #     add_error(:estimated_trial_length, 'invalid')
-    #   end
-    # end
 
     def validate_litigator_type
       unless @record.litigator_type.in? %w{ new original }
@@ -73,14 +60,6 @@ module Claim
         add_error(:transfer_detail, 'invalid_combo')
       end
     end
-
-    # def validate_first_day_of_trial
-    #   validate_presence(:first_day_of_trial, 'blank') if requires_trial_dates?
-    # end
-
-    # def validate_trial_concluded_at
-    #   validate_presence(:trial_concluded_at, 'blank') if requires_trial_dates?
-    # end
 
   end
 end

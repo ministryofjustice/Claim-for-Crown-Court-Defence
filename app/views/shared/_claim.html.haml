@@ -74,7 +74,6 @@
           = t('.case_type')
         .xsmall
           = claim.case_type.try(:name)
-
       - if claim.agfs?
         .column-quarter
           .bold-xsmall
@@ -86,6 +85,9 @@
           = t('.offence_class')
         .xsmall
           = claim.offence ? claim.offence.offence_class : t('general.not_provided')
+
+    - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+      = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
     - if claim.case_type && claim.case_concluded_at
       = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }

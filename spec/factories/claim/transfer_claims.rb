@@ -17,6 +17,22 @@ FactoryGirl.define do
       claim.fees << build(:transfer_fee, claim: claim)
     end
 
+    trait :not_requiring_conclusion do
+      litigator_type 'new'
+      elected_case true
+      transfer_stage_id 10
+      transfer_date 2.months.ago
+      case_conclusion_id nil
+    end
+
+    trait :requiring_conclusion do
+      litigator_type 'new'
+      elected_case false
+      transfer_stage_id 20
+      transfer_date 3.months.ago
+      case_conclusion_id 30
+    end
+
     trait :trial do
       case_type  { build(:case_type, :trial) }
     end

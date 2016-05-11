@@ -40,8 +40,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter the transfer date '2015-05-21'
     And I select a case conclusion of 'Guilty plea'
 
-    And I add a miscellaneous fee 'Costs judge application' to the transfer claim
-    And I add a Case uplift fee with case numbers 'A12345678, A12345588' to the transfer claim
+    And I add a miscellaneous fee 'Costs judge application'
+    And I add a Case uplift fee with case numbers 'A12345678, A12345588'
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '32.50'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'

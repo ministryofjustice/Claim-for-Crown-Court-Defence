@@ -33,8 +33,9 @@ RSpec.describe MessagesController, type: :controller do
       }
     end
 
-    before do
-      request.env['HTTP_REFERER'] = external_users_claim_path(claim)
+    it 'renders the create js template' do
+      xhr :post, :create, message: message_params
+      expect(response).to render_template(:create)
     end
 
     context 'when valid' do
@@ -43,12 +44,25 @@ RSpec.describe MessagesController, type: :controller do
           post :create, message: message_params
         }.to change(Message, :count).by(1)
       end
+
+      context 'when redetermining/awaiting written reasons' do
+        it 'redirects to externl users claim show path with messages param and accordion anchor' do
+          claim.submit!; claim.allocate!; claim.refuse!
+
+          Settings.claim_actions.each do |action|
+            post :create, message: message_params.merge(claim_action: action)
+            expect(response).to redirect_to(external_users_claim_path(claim, messages: true) + '#claim-accordion')
+          end
+        end
+      end
     end
 
     context 'when invalid' do
-      it 'does not create a message' do
+      before do
         message_params.delete(:claim_id)
+      end
 
+      it 'does not create a message' do
         expect {
           post :create, message: message_params
         }.to_not change(Message, :count)

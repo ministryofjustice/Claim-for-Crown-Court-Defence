@@ -21,7 +21,6 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
     if @message.save
-      set_refresh_required
       @notification = { notice: 'Message successfully sent' }
     else
       @notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
@@ -29,7 +28,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to :back, @notification }
+      format.html { redirect_to redirect_to_url, @notification }
     end
   end
 
@@ -47,8 +46,12 @@ class MessagesController < ApplicationController
 
   private
 
-  def set_refresh_required
-    @refresh = Settings.claim_actions.include?(message_params[:claim_action])
+  def redirect_to_url
+    eval("#{current_user.persona.class.to_s.pluralize.underscore}_claim_path(@message.claim, messages: true)") + '#claim-accordion'
+  end
+
+  def refresh_required?
+    Settings.claim_actions.include?(message_params[:claim_action])
   end
 
   def message_params

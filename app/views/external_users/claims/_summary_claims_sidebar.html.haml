@@ -1,9 +1,9 @@
-.new-claim-hgroup.js-stick-at-top-when-scrolling
+.new-claim-hgroup.js-stick-at-top-when-scrolling.totals-summary
   %h2
     Summary total
   %h3
     = 'Fees total '
-    %span.numeric
+    %span.numeric.total-fees{data:{'total-fees': claim.fees_total ||= 0}}
       - if @claim.fees_total == 0
         = "No fees for this claim"
       - else
@@ -12,25 +12,25 @@
   - if @claim.lgfs? || @claim.interim?
     %h3
       = 'Disbursements total'
-      %span.numeric
+      %span.numeric.total-disbursements{data:{'total-disbursements': claim.disbursements_total ||= 0}}
         - if @claim.disbursements.empty?
           = 'No disbursements for this claim'
         - else
           = claim.disbursements_total
   %h3
     = 'Expenses total'
-    %span.numeric
+    %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
       - if @claim.expenses.empty?
         = "No expenses for this claim"
       - else
         = claim.expenses_total
   %h3
     VAT total
-    %span.numeric
+    %span.numeric.total-vat{data:{'total-vat': claim.vat_amount ||= 0}}
       = claim.vat_amount
   %h3.total
     = "Total "
-    %span.numeric
+    %span.numeric.total-inc{data:{'total-inc': claim.total_inc_vat ||= 0}}
       = claim.total_inc_vat
 
   - if display_buttons == true

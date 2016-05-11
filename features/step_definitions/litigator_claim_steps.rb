@@ -31,7 +31,7 @@ end
 And(/^I add a miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.add_misc_fee_if_required
   @litigator_claim_form_page.miscellaneous_fees.last.select_fee_type name
-  @litigator_claim_form_page.miscellaneous_fees.last.rate.set "135.78"
+  @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
 end
 
 And(/^I add a Case uplift fee with case numbers '(.*)'$/) do |case_numbers|

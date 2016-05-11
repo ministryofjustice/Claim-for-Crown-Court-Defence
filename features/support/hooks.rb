@@ -48,7 +48,14 @@ AfterConfiguration do
 end
 
 at_exit do
+  #
+  # NOTE: ActiveRecord may be interfering with exit codes
+  #       so we need to explcitly return the test suite
+  #       run's exit code.
+  #
+  exit_status = $!.status if $!.is_a?(SystemExit)
   NON_TRUNCATED_TABLES.each do |table|
-    table.sub('fee_types', 'Fee::BaseFeeTypes').classify.safe_constantize.delete_all
+    table.sub('fee_types', 'Fee::BaseFeeType').classify.safe_constantize.delete_all
   end
+  exit exit_status if exit_status
 end

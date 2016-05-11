@@ -81,6 +81,8 @@ module Claim
       end
     end
 
+    def lgfs?; true; end
+    def transfer?; true; end
     def requires_trial_dates?; false; end
     def requires_retrial_dates?; false; end
 
@@ -92,12 +94,12 @@ module Claim
       :litigator
     end
 
-    def transfer?
-      true
-    end
-
     def eligible_case_types
       CaseType.lgfs
+    end
+
+    def eligible_misc_fee_types
+      Fee::MiscFeeType.lgfs
     end
 
     private

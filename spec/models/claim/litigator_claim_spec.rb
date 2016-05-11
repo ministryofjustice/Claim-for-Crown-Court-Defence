@@ -63,6 +63,12 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
 
+  describe '#final?' do
+    it 'should return true' do
+      expect(claim.final?).to eql true
+    end
+  end
+
   describe '#eligible_case_types' do
     it 'should return only LGFS case types' do
       claim = build :litigator_claim

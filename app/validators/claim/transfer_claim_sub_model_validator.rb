@@ -17,7 +17,9 @@ class Claim::TransferClaimSubModelValidator < Claim::BaseClaimSubModelValidator
         :defendants
       ],
       [
+        :misc_fees,
         :disbursements,
+        :expenses,
         :messages,
         :redeterminations,
         :documents

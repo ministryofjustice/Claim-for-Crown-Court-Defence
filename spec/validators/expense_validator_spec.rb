@@ -29,10 +29,12 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         expect(expense).to be_valid
       end
 
+      it 'is invalid for dates too far in the past' do
+        should_error_if_too_far_in_the_past(expense, :date, 'check_not_too_far_in_past')
+      end
+
       it 'is invalid for dates in the future' do
-        expense.date = 1.day.from_now
-        expect(expense).not_to be_valid
-        expect(expense.errors[:date]).to include('future')
+        should_error_if_in_future(expense, :date, 'future')
       end
 
       it 'is invalid if absent' do

@@ -84,9 +84,8 @@ class ExpenseV2Validator < BaseValidator
 
   def validate_date
     validate_presence(:date, 'blank')
-    unless @record.date.blank?
-      add_error(:date, 'future') if @record.date > Date.today
-    end
+    validate_not_after(Date.today,:date,'future')
+    validate_not_before(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
   end
 
   def validate_hours

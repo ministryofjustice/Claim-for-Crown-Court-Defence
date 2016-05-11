@@ -111,15 +111,18 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
         context 'multi-step form submit to LAA' do
           let!(:transfer_fee_type)  { create(:transfer_fee_type) }
+          let!(:misc_fee_type)      { create(:misc_fee_type, :lgfs) }
+          let!(:expense_type)       { create(:expense_type, :lgfs, :car_travel) }
           let(:case_number) { 'A88888888' }
+          let(:transfer_date) { 5.days.ago }
           let(:transfer_detail_params) {
             {
               litigator_type: 'original',
               elected_case: false,
               transfer_stage_id: 10,
-              transfer_date_dd:   5.days.ago.day.to_s,
-              transfer_date_mm:   5.days.ago.month.to_s,
-              transfer_date_yyyy: 5.days.ago.year.to_s,
+              transfer_date_dd:   transfer_date.day,
+              transfer_date_mm:   transfer_date.month,
+              transfer_date_yyyy: transfer_date.year,
               case_conclusion_id: 10
             }
           }
@@ -128,6 +131,35 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                 transfer_fee_attributes: {
                   fee_type_id: transfer_fee_type.id,
                   amount: 10.0
+                }
+            }
+          }
+          let(:misc_fees_params) {
+            {
+                misc_fees_attributes:
+                {
+                  "0": { fee_type_id: misc_fee_type.id, amount: 15.0 }
+                }
+            }
+          }
+          let(:expense_date) { 10.days.ago }
+          let(:expenses_params) {
+            {
+                expenses_attributes:
+                {
+                  "0": {
+                          expense_type_id: expense_type.id,
+                          location: "London",
+                          quantity: 1,
+                          rate: 40,
+                          reason_id: 1,
+                          distance: 20,
+                          mileage_rate_id: 1,
+                          amount: 1125.00,
+                          date_dd: expense_date.day,
+                          date_mm: expense_date.month,
+                          date_yyyy: expense_date.year
+                        }
                 }
             }
           }
@@ -168,7 +200,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                 additional_information: 'foo'
             }.
             merge(transfer_detail_params).
-            merge(transfer_fee_params)
+            merge(transfer_fee_params).
+            merge(misc_fees_params).
+            merge(expenses_params)
           end
 
           let(:claim) { Claim::TransferClaim.where(case_number: case_number).first }
@@ -190,21 +224,36 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
               put :update, id: claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
             end
 
-            it 'updates the claim transfer details and transfer fee, still draft, and moves to summary page' do
+            it 'saves as draft' do
               expect(claim.draft?).to be_truthy
+            end
 
-              # note: transfer detail attributes are delegated to claim
+            # note: transfer detail attributes are delegated to claim
+            it 'updates the claim transfer details' do
               expect(claim.litigator_type).to eql 'original'
               expect(claim.elected_case).to eql false
               expect(claim.transfer_stage_id).to eql 10
               expect(claim.case_conclusion_id).to eql 10
               expect(claim.transfer_date.to_s).to eql 5.days.ago.strftime('%d/%m/%Y 00:00')
+            end
 
+            it 'updates the transfer fee' do
               expect(claim.transfer_fee).to_not be_nil
               expect(claim.transfer_fee.amount).to eql 10.00
+            end
 
+            it 'adds the misc fee' do
+              expect(claim.misc_fees.count).to eq 1
+            end
+
+            it 'adds the expense' do
+              expect(claim.expenses.count).to eq 1
+            end
+
+            it 'moves to summary page' do
               expect(response).to redirect_to(summary_external_users_claim_path(claim))
             end
+
           end
         end
       end
@@ -356,52 +405,4 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
   end
 
-  # local helpers
-  # -------------------------
-
-  def valid_claim_fee_params
-    case_type = FactoryGirl.create :case_type
-
-    HashWithIndifferentAccess.new(
-      {
-       "source" => 'web',
-       "supplier_number" => supplier_number,
-       "case_type_id" => case_type.id.to_s,
-       "court_id" => court.id.to_s,
-       "case_number" => "CASE98989",
-       "offence_class_id" => "2",
-       "offence_id" => offence.id.to_s,
-       "external_user_id" => external_user.id.to_s,
-       "first_day_of_trial_dd" => '13',
-       "first_day_of_trial_mm" => '5',
-       "first_day_of_trial_yyyy" => '2015',
-       "estimated_trial_length" => "2",
-       "actual_trial_length" => "2",
-       "trial_concluded_at_dd" => "15",
-       "trial_concluded_at_mm" => "05",
-       "trial_concluded_at_yyyy" => "2015",
-       "evidence_checklist_ids" => ["1", "5", ""],
-       "defendants_attributes"=>
-        {"0"=>
-          {"first_name" => "Stephen",
-           "last_name" => "Richards",
-           "date_of_birth_dd" => "13",
-           "date_of_birth_mm" => "08",
-           "date_of_birth_yyyy" => "1966",
-           "_destroy" => "false",
-           "representation_orders_attributes"=>{
-             "0"=>{
-               "representation_order_date_dd" => "13",
-               "representation_order_date_mm" => "05",
-               "representation_order_date_yyyy" => "2015",
-               "maat_reference" => "1594851269",
-             }
-            }
-          }
-        },
-       "additional_information" => "",
-       "apply_vat" => "0"
-     }
-    )
-  end
 end

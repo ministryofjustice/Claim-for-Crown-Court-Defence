@@ -12,7 +12,7 @@ class TransferClaimFormPage < LitigatorClaimFormPage
 
   section :transfer_date, CommonDateSection, '#transfer_date'
 
-  sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
+  sections :miscellaneous_fees, TypedFeeAmountSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
 
   sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"

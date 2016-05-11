@@ -27,14 +27,3 @@ end
 And(/^I select a case conclusion of '(.*)'$/) do |name|
   @transfer_claim_form_page.select_case_conclusion(name)
 end
-
-And(/^I add a miscellaneous fee '(.*)' to the transfer claim$/) do |name|
-  @transfer_claim_form_page.add_misc_fee_if_required
-  @transfer_claim_form_page.miscellaneous_fees.last.select_fee_type name
-  @transfer_claim_form_page.miscellaneous_fees.last.rate.set "135.78"
-end
-
-And(/^I add a Case uplift fee with case numbers '(.*)' to the transfer claim$/) do |case_numbers|
-  step "I add a miscellaneous fee 'Case uplift' to the transfer claim"
-  @transfer_claim_form_page.miscellaneous_fees.last.case_numbers.set case_numbers
-end

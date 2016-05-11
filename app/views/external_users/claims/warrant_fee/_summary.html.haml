@@ -17,11 +17,6 @@
           = t('shared.summary.warrant_fee.date_issued')
         %td
           = warrant_fee.warrant_issued_date
-      %tr
-        %th{scope: 'row'}
-          = t('shared.summary.warrant_fee.executed')
-        %td
-          = warrant_fee.warrant_executed_str
 
       - if warrant_fee.warrant_executed?
         %tr

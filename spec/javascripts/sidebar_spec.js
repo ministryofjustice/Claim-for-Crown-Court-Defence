@@ -14,7 +14,7 @@ describe("Side Bar", function() {
     fixtureDom.append(sideBarView);
     $('body').append(fixtureDom);
 
-    // reset to default state 
+    // reset to default state
     moj.Modules.SideBar.clearTotals();
   });
 
@@ -94,19 +94,19 @@ describe("Side Bar", function() {
         $el = $(moj.Modules.SideBar.el);
 
         moj.Modules.SideBar.totals = {
-          fees: 11.34,
-          disbursements: 4.34,
-          expenses: 54.56,
-          vat: 9.99,
+          fees: 54321.34,
+          disbursements: 654321.34,
+          expenses: 7654321.56,
+          vat: 123456.99,
           inc: 333
         };
 
         moj.Modules.SideBar.render();
 
-        expect($el.find('.total-fees')[0].innerHTML).toBe('£11.34');
-        expect($el.find('.total-disbursements')[0].innerHTML).toBe('£4.34');
-        expect($el.find('.total-expenses')[0].innerHTML).toBe('£54.56');
-        expect($el.find('.total-vat')[0].innerHTML).toBe('£9.99');
+        expect($el.find('.total-fees')[0].innerHTML).toBe('£54,321.34');
+        expect($el.find('.total-disbursements')[0].innerHTML).toBe('£654,321.34');
+        expect($el.find('.total-expenses')[0].innerHTML).toBe('£7,654,321.56');
+        expect($el.find('.total-vat')[0].innerHTML).toBe('£123,456.99');
         expect($el.find('.total-inc')[0].innerHTML).toBe('£333.00');
       });
 
@@ -114,6 +114,25 @@ describe("Side Bar", function() {
         spyOn(moj.Modules.SideBar, 'sanitzeFeeToFloat');
         moj.Modules.SideBar.render();
         expect(moj.Modules.SideBar.sanitzeFeeToFloat).toHaveBeenCalled();
+      });
+    });
+
+    describe('...addCommas', function() {
+      it('should format the numbers correctly', function() {
+        var expected = {
+          0: '0.01',
+          1: '0.11',
+          2: '1.11',
+          3: '11.11',
+          4: '111.11',
+          5: '1,111.11',
+          6: '11,111.11',
+          7: '111,111,111.11'
+        };
+
+        ['0.01', '0.11', '1.11', '11.11', '111.11', '1111.11', '11111.11', '111111111.11'].forEach(function(val, idx) {
+          expect(expected[idx]).toBe(moj.Modules.SideBar.addCommas(val));
+        });
       });
     });
 
@@ -156,27 +175,25 @@ describe("Side Bar", function() {
       it('should sanitze the totals correctly', function() {
         var expected = {
           fees: 10.20,
-          disbursements: 8.99,
+          disbursements: 4558.99,
           expenses: 4.90,
           vat: 0,
           inc: 0
         };
         moj.Modules.SideBar.totals = {
           fees: 10.20,
-          disbursements: '£8.99',
+          disbursements: '£4,558.99',
           expenses: '£4.90',
           vat: 0,
           inc: 0
         };
-
-
 
         moj.Modules.SideBar.sanitzeFeeToFloat();
         expect(moj.Modules.SideBar.totals).toEqual(expected)
       });
     });
 
-    
+
 
   });
 });

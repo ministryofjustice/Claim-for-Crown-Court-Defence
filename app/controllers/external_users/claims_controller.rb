@@ -93,30 +93,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     build_nested_resources
   end
 
-  def create
-    if submitting_to_laa?
-      create_and_submit
-    else
-      create_draft_and_continue
-    end
-  end
-
   def edit
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
-    @claim.form_step = params[:step].to_i if params.key?(:step)
     redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
   end
 
-  def update
-    update_source_for_api
-    @claim.assign_attributes(claim_params)
-
+  def create
     if submitting_to_laa?
-      update_and_submit
+      claim_creation = Claims::CreateClaim.call(@claim)
+      handle_submit_result(claim_creation)
     else
-      update_draft_and_continue
+      draft_creation = Claims::CreateDraft.call(@claim, validate: continue_claim?)
+      handle_submit_result(draft_creation)
+    end
+  end
+
+  def update
+    if submitting_to_laa?
+      claim_update = Claims::UpdateClaim.call(@claim, params: claim_params)
+      handle_submit_result(claim_update)
+    else
+      draft_update = Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
+      handle_submit_result(draft_update)
     end
   end
 
@@ -330,14 +330,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     object.send(association).build if object.send(association).none?
   end
 
-  def update_source_for_api
-    @claim.update(source: 'api_web_edited') if @claim.from_api?
-  end
-
-  def saving_to_draft?
-    params.key?(:commit_save_draft)
-  end
-
   def submitting_to_laa?
     params.key?(:commit_submit_claim)
   end
@@ -353,69 +345,36 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: action
   end
 
-  def render_edit_with_resources
-    render_action_with_resources(:edit)
-  end
-
-  def render_new_with_resources
-    render_action_with_resources(:new)
-  end
-
-  def update_draft_and_continue
-    create_draft_and_continue(action: :edit, event: 'updated')
-  end
-
-  def create_draft_and_continue(action: :new, event: 'created')
-
-    if action == :new
-      possible_dupe = Claim::BaseClaim.where(form_id: @claim.form_id).first
-      if possible_dupe
-        message = possible_dupe.draft? ? 'Claim already saved - please edit existing claim' : 'Claim already submitted'
-        redirect_to external_users_claims_path, alert: message and return
-      end
+  def handle_submit_result(service)
+    if service.result.success?
+      handle_submit_success(service)
+    else
+      handle_submit_error(service)
     end
-
-    @claim.force_validation = continue_claim?
-
-    @claim.class.transaction do
-      if @claim.save
-        send_ga('event', 'claim', 'draft', event)
-
-        if continue_claim?
-          @claim.next_step!
-          return render_action_with_resources(action)
-        else
-          return redirect_to(external_users_claims_path, notice: 'Draft claim saved')
-        end
-      else
-        raise ActiveRecord::Rollback
-      end
-    end
-    render_action_with_resources(action)
   end
 
-  def update_and_submit
-    create_and_submit(action: :edit)
+  def handle_submit_success(service)
+    send_ga(service.ga_args)
+
+    if continue_claim?
+      @claim.next_step!
+      render_action_with_resources(service.action)
+    elsif service.draft?
+      redirect_to external_users_claims_path, notice: 'Draft claim saved'
+    else
+      redirect_to summary_external_users_claim_url(@claim)
+    end
   end
 
-  def create_and_submit(action: :new)
-    if @claim.class.where(form_id: @claim.form_id).where.not(last_submitted_at: nil).any?
-      redirect_to external_users_claims_path, alert: 'Claim already submitted' and return
+  def handle_submit_error(service)
+    case service.result.error_code
+      when :already_submitted
+        redirect_to external_users_claims_path, alert: 'Claim already submitted'
+      when :already_saved
+        redirect_to external_users_claims_path, alert: 'Claim already saved - please edit existing claim'
+      else # rollback done, show errors
+        render_action_with_resources(service.action)
     end
-
-    @claim.class.transaction do
-      @claim.save
-      @claim.force_validation = true
-
-      if @claim.valid?
-        send_ga('event', 'claim', 'submit', 'started')
-        update_claim_document_owners(@claim)
-        redirect_to summary_external_users_claim_url(@claim) and return
-      else
-        raise ActiveRecord::Rollback
-      end
-    end
-    render_action_with_resources(action)
   end
 
   def present_errors

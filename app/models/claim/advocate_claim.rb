@@ -92,6 +92,10 @@ module Claim
       true
     end
 
+    def update_claim_document_owners
+      documents.each { |d| d.update_column(:external_user_id, self.external_user_id) }
+    end
+
     private
 
     def provider_delegator

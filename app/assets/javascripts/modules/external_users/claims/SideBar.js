@@ -34,10 +34,22 @@ moj.Modules.SideBar = {
   sanitzeFeeToFloat: function() {
     var self = this;
     $.each(this.totals, function(key, val) {
-      if (self.totals[key][0]) {
-        self.totals[key] = parseFloat(self.totals[key].slice(1));
+      if ($.type(self.totals[key]) === 'string') {
+        self.totals[key] = parseFloat(self.totals[key].replace(',', '').replace(/£/g, ''));
       }
     });
+  },
+
+  addCommas: function(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
   },
 
   render: function() {
@@ -47,7 +59,7 @@ moj.Modules.SideBar = {
     this.sanitzeFeeToFloat();
     $.each(this.totals, function(key, val) {
       selector = '.total-' + key;
-      value = '£' + val.toFixed(2);
+      value = '£' + self.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
     });
   },
@@ -68,7 +80,7 @@ moj.Modules.SideBar = {
   },
 
   recalculate: function() {
-    console.log('>>Recalculate');
+    // console.log('>>Recalculate');
     var self = this;
     // clear the cached this.totals obj
     self.clearTotals();

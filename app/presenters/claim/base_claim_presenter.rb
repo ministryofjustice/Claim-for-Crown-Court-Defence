@@ -1,4 +1,5 @@
 class Claim::BaseClaimPresenter < BasePresenter
+
   presents :claim
 
   # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down

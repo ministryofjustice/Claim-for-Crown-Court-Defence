@@ -1,4 +1,4 @@
-- present(f.object.transfer_detail) do |transfer_detail|
+- present(f.object) do |claim|
 
   = f.anchored_without_label 'transfer_detail'
 
@@ -22,7 +22,7 @@
     .form-row
       .form-col
         = f.anchored_label t('.transfer_stages'), 'transfer_stage_id'
-        = f.collection_select :transfer_stage_id, transfer_detail.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete'}
+        = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete'}
         = validation_error_message(@error_presenter, 'transfer_stage_id')
 
   %fieldset
@@ -34,5 +34,5 @@
     .form-row
       .form-col
         = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
-        = f.collection_select :case_conclusion_id, transfer_detail.case_conclusions, :first, :last,{}, { class: 'form-control autocomplete'}
+        = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{}, { class: 'form-control autocomplete'}
         = validation_error_message(@error_presenter, 'case_conclusion_id')

@@ -95,6 +95,9 @@
     - if claim.interim? && !claim.interim_fee.nil?
       = render partial: 'shared/claim_interim_details', locals: { claim: claim }
 
+    - if claim.transfer?
+      = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
+
     - if claim.case_type && claim.requires_trial_dates?
       = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 

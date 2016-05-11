@@ -189,6 +189,8 @@ en:
     crown_court: Crown court
     transfer_court: Transfer court
     transfer_case_number: Transfer case number
+    transfer_detail_summary: Transfer detail summary
+    transfer_date: Transfer date
     defendant: Defendant
     expenses: Expenses
     disbursements: Disbursements

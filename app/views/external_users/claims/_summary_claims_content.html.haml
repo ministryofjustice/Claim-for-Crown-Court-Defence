@@ -5,6 +5,11 @@
   Claim and case type
 = render partial: 'external_users/claims/case_details/summary', locals: { claim: claim }
 
+- if claim.transfer?
+  %h2
+    Transfer details
+  = render partial: 'external_users/claims/transfer_detail/summary', locals: { claim: claim }
+
 %h2
   Defendants
 = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }

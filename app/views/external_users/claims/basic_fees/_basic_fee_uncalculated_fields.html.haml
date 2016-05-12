@@ -11,5 +11,8 @@
 
   .column-one-quarter.fee-rate
     %label.form-label
-      = t('.rate')
-      = fee.rate
+      = t('.total')
+      %a{name: "basic_fee_#{@basic_fee_count}_amount"}
+    %span.currency-indicator>< £
+    = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
+    = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")

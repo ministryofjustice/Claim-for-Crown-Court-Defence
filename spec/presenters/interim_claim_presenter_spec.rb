@@ -11,7 +11,7 @@ RSpec.describe Claim::InterimClaimPresenter do
     expect(subject.can_have_expenses?).to eq(false)
   end
 
-  it 'should not have disbursements' do
+  it 'should have disbursements' do
     expect(subject.can_have_disbursements?).to eq(true)
   end
 end

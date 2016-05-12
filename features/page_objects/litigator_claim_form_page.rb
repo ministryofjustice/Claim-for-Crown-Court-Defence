@@ -1,5 +1,6 @@
 require_relative 'claim_form_page'
 require_relative 'sections/disbursement_section'
+require_relative 'sections/typed_fee_amount_section'
 
 class LitigatorClaimFormPage < ClaimFormPage
 

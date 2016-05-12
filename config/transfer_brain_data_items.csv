@@ -1,22 +1,22 @@
 litigator_type,elected_case,transfer_stage,conclusion,valid,visible,allocation_case_type
-NEW,TRUE,Up to and including PCMH transfer,,TRUE,FALSE,Elected case - up to and including PCMH transfer (new),Fixed
-NEW,TRUE,Before trial transfer,,TRUE,FALSE,Elected case - before trial transfer (new),Fixed
+NEW,TRUE,Up to and including PCMH transfer,,TRUE,FALSE,elected case - up to and including PCMH transfer (new),Fixed
+NEW,TRUE,Before trial transfer,,TRUE,FALSE,elected case - before trial transfer (new),Fixed
 NEW,TRUE,During trial transfer,,FALSE,,,
 NEW,TRUE,Transfer after trial and before sentence hearing,,FALSE,,,
-NEW,TRUE,Transfer before retrial,,TRUE,FALSE,Elected case - transfer before retrial (new),Fixed
+NEW,TRUE,Transfer before retrial,,TRUE,FALSE,elected case - transfer before retrial (new),Fixed
 NEW,TRUE,Transfer during retrial,,FALSE,,,
 NEW,TRUE,Transfer after retrial and before sentence hearing,,FALSE,,,
-NEW,FALSE,Up to and including PCMH transfer,Cracked,TRUE,TRUE,Up to and including PCMH transfer (new) - cracked,Grad
-NEW,FALSE,Up to and including PCMH transfer,Guilty plea,TRUE,TRUE,Up to and including PCMH transfer (new) - guilty plea,Grad
-NEW,FALSE,Up to and including PCMH transfer,Trial,TRUE,TRUE,Up to and including PCMH transfer (new) - trial ,Grad
-NEW,FALSE,Before trial transfer,Cracked,TRUE,TRUE,Before trial transfer (new) - cracked,Grad
-NEW,FALSE,Before trial transfer,Trial,TRUE,TRUE,Before trial transfer (new) - trial,Grad
-NEW,FALSE,During trial transfer,Retrial,TRUE,TRUE,During trial transfer (new) - retrial,Grad
-NEW,FALSE,During trial transfer,Trial,TRUE,TRUE,During trial transfer (new) - trial,Grad
-NEW,FALSE,Transfer after trial and before sentence hearing,,TRUE,FALSE,Transfer after trial and before sentence hearing (new),Grad
-NEW,FALSE,Transfer before retrial,Cracked before retrial,TRUE,TRUE,transfer before retrial (new) cracked retrial,Grad
-NEW,FALSE,Transfer before retrial,Retrial,TRUE,TRUE,transfer before retrial (new) retrial,Grad
-NEW,FALSE,Transfer during retrial,Retrial,TRUE,TRUE,transfer during retrial (new) retrial,Grad
+NEW,FALSE,Up to and including PCMH transfer,Cracked,TRUE,TRUE,up to and including PCMH transfer (new) - cracked,Grad
+NEW,FALSE,Up to and including PCMH transfer,Guilty plea,TRUE,TRUE,up to and including PCMH transfer (new) - guilty plea,Grad
+NEW,FALSE,Up to and including PCMH transfer,Trial,TRUE,TRUE,up to and including PCMH transfer (new) - trial ,Grad
+NEW,FALSE,Before trial transfer,Cracked,TRUE,TRUE,before trial transfer (new) - cracked,Grad
+NEW,FALSE,Before trial transfer,Trial,TRUE,TRUE,before trial transfer (new) - trial,Grad
+NEW,FALSE,During trial transfer,Retrial,TRUE,TRUE,during trial transfer (new) - retrial,Grad
+NEW,FALSE,During trial transfer,Trial,TRUE,TRUE,during trial transfer (new) - trial,Grad
+NEW,FALSE,Transfer after trial and before sentence hearing,,TRUE,FALSE,transfer after trial and before sentence hearing (new),Grad
+NEW,FALSE,Transfer before retrial,Cracked before retrial,TRUE,TRUE,transfer before retrial (new) - cracked retrial,Grad
+NEW,FALSE,Transfer before retrial,Retrial,TRUE,TRUE,transfer before retrial (new) - retrial,Grad
+NEW,FALSE,Transfer during retrial,Retrial,TRUE,TRUE,transfer during retrial (new) - retrial,Grad
 NEW,FALSE,Transfer after retrial and before sentence hearing,,TRUE,FALSE,transfer after retrial and before sentence hearing (new),Grad
 ORIGINAL,TRUE,Up to and including PCMH transfer,,TRUE,FALSE,elected case - up to and including PCMH transfer (org),Fixed
 ORIGINAL,TRUE,Before trial transfer,,TRUE,FALSE,elected case - before trial transfer (org),Fixed
@@ -31,5 +31,5 @@ ORIGINAL,FALSE,Before trial transfer,,TRUE,FALSE,before trial transfer (org),Gra
 ORIGINAL,FALSE,During trial transfer,,TRUE,FALSE,during trial transfer (org) - trial,Grad
 ORIGINAL,FALSE,Transfer after trial and before sentence hearing,,TRUE,FALSE,transfer after trial and before sentence hearing (org),Grad
 ORIGINAL,FALSE,Transfer before retrial,,TRUE,FALSE,transfer before retrial (org) - retrial,Grad
-ORIGINAL,FALSE,Transfer during retrial,,TRUE,FALSE,transfer during retrial (org) retrial,Grad
+ORIGINAL,FALSE,Transfer during retrial,,TRUE,FALSE,transfer during retrial (org) - retrial,Grad
 ORIGINAL,FALSE,Transfer after retrial and before sentence hearing,,TRUE,FALSE,transfer after retrial and before sentence hearing (org),Grad

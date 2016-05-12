@@ -1,1 +1,268 @@
-{"new":{"true":{"10":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"Elected case - up to and including PCMH transfer (new)","allocation_type":"Fixed"}},"20":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"Elected case - before trial transfer (new)","allocation_type":"Fixed"}},"30":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"40":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"50":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"Elected case - transfer before retrial (new)","allocation_type":"Fixed"}},"60":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"70":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}}},"false":{"10":{"30":{"visibility":true,"validity":true,"transfer_fee_full_name":"Up to and including PCMH transfer (new) - cracked","allocation_type":"Grad"},"50":{"visibility":true,"validity":true,"transfer_fee_full_name":"Up to and including PCMH transfer (new) - guilty plea","allocation_type":"Grad"},"10":{"visibility":true,"validity":true,"transfer_fee_full_name":"Up to and including PCMH transfer (new) - trial ","allocation_type":"Grad"}},"20":{"30":{"visibility":true,"validity":true,"transfer_fee_full_name":"Before trial transfer (new) - cracked","allocation_type":"Grad"},"10":{"visibility":true,"validity":true,"transfer_fee_full_name":"Before trial transfer (new) - trial","allocation_type":"Grad"}},"30":{"20":{"visibility":true,"validity":true,"transfer_fee_full_name":"During trial transfer (new) - retrial","allocation_type":"Grad"},"10":{"visibility":true,"validity":true,"transfer_fee_full_name":"During trial transfer (new) - trial","allocation_type":"Grad"}},"40":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"Transfer after trial and before sentence hearing (new)","allocation_type":"Grad"}},"50":{"40":{"visibility":true,"validity":true,"transfer_fee_full_name":"transfer before retrial (new) cracked retrial","allocation_type":"Grad"},"20":{"visibility":true,"validity":true,"transfer_fee_full_name":"transfer before retrial (new) retrial","allocation_type":"Grad"}},"60":{"20":{"visibility":true,"validity":true,"transfer_fee_full_name":"transfer during retrial (new) retrial","allocation_type":"Grad"}},"70":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"transfer after retrial and before sentence hearing (new)","allocation_type":"Grad"}}}},"original":{"true":{"10":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"elected case - up to and including PCMH transfer (org)","allocation_type":"Fixed"}},"20":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"elected case - before trial transfer (org)","allocation_type":"Fixed"}},"30":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"40":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"50":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"elected case - transfer before retrial (org)","allocation_type":"Fixed"}},"60":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}},"70":{"*":{"visibility":false,"validity":false,"transfer_fee_full_name":null,"allocation_type":null}}},"false":{"10":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"up to and including PCMH transfer (org)","allocation_type":"Grad"}},"20":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"before trial transfer (org)","allocation_type":"Grad"}},"30":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"during trial transfer (org) - trial","allocation_type":"Grad"}},"40":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"transfer after trial and before sentence hearing (org)","allocation_type":"Grad"}},"50":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"transfer before retrial (org) - retrial","allocation_type":"Grad"}},"60":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"transfer during retrial (org) retrial","allocation_type":"Grad"}},"70":{"*":{"visibility":false,"validity":true,"transfer_fee_full_name":"transfer after retrial and before sentence hearing (org)","allocation_type":"Grad"}}}}}
+{
+  "new": {
+    "true": {
+      "10": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - up to and including PCMH transfer (new)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "20": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - before trial transfer (new)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "30": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "40": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "50": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - transfer before retrial (new)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "60": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "70": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      }
+    },
+    "false": {
+      "10": {
+        "30": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "up to and including PCMH transfer (new) - cracked",
+          "allocation_type": "Grad"
+        },
+        "50": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "up to and including PCMH transfer (new) - guilty plea",
+          "allocation_type": "Grad"
+        },
+        "10": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "up to and including PCMH transfer (new) - trial ",
+          "allocation_type": "Grad"
+        }
+      },
+      "20": {
+        "30": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "before trial transfer (new) - cracked",
+          "allocation_type": "Grad"
+        },
+        "10": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "before trial transfer (new) - trial",
+          "allocation_type": "Grad"
+        }
+      },
+      "30": {
+        "20": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "during trial transfer (new) - retrial",
+          "allocation_type": "Grad"
+        },
+        "10": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "during trial transfer (new) - trial",
+          "allocation_type": "Grad"
+        }
+      },
+      "40": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer after trial and before sentence hearing (new)",
+          "allocation_type": "Grad"
+        }
+      },
+      "50": {
+        "40": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "transfer before retrial (new) - cracked retrial",
+          "allocation_type": "Grad"
+        },
+        "20": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "transfer before retrial (new) - retrial",
+          "allocation_type": "Grad"
+        }
+      },
+      "60": {
+        "20": {
+          "visibility": true,
+          "validity": true,
+          "transfer_fee_full_name": "transfer during retrial (new) - retrial",
+          "allocation_type": "Grad"
+        }
+      },
+      "70": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer after retrial and before sentence hearing (new)",
+          "allocation_type": "Grad"
+        }
+      }
+    }
+  },
+  "original": {
+    "true": {
+      "10": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - up to and including PCMH transfer (org)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "20": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - before trial transfer (org)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "30": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "40": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "50": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "elected case - transfer before retrial (org)",
+          "allocation_type": "Fixed"
+        }
+      },
+      "60": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      },
+      "70": {
+        "*": {
+          "visibility": false,
+          "validity": false,
+          "transfer_fee_full_name": null,
+          "allocation_type": null
+        }
+      }
+    },
+    "false": {
+      "10": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "up to and including PCMH transfer (org)",
+          "allocation_type": "Grad"
+        }
+      },
+      "20": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "before trial transfer (org)",
+          "allocation_type": "Grad"
+        }
+      },
+      "30": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "during trial transfer (org) - trial",
+          "allocation_type": "Grad"
+        }
+      },
+      "40": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer after trial and before sentence hearing (org)",
+          "allocation_type": "Grad"
+        }
+      },
+      "50": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer before retrial (org) - retrial",
+          "allocation_type": "Grad"
+        }
+      },
+      "60": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer during retrial (org) - retrial",
+          "allocation_type": "Grad"
+        }
+      },
+      "70": {
+        "*": {
+          "visibility": false,
+          "validity": true,
+          "transfer_fee_full_name": "transfer after retrial and before sentence hearing (org)",
+          "allocation_type": "Grad"
+        }
+      }
+    }
+  }
+}

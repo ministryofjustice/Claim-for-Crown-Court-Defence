@@ -13,10 +13,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_detail_summary
-    elected_case_part +
-    transfer_stage_part +
-    litigator_type_part +
-    case_conclusion_part
+    Claim::TransferBrain.transfer_detail_summary(claim.transfer_detail) rescue ''
   end
 
   def litigator_type_description
@@ -28,7 +25,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_stage_description
-    transfer_stage_part
+    Claim::TransferBrain.transfer_stage_by_id(claim.transfer_stage_id) || ''
   end
 
   def transfer_date
@@ -37,31 +34,6 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
 
   def case_conclusion_description
     case_conclusions[claim.case_conclusion_id.to_s] rescue ''
-  end
-
-  private
-
-  def elected_case_part
-    claim.elected_case ? 'elected case - ' : ''
-  end
-
-  def transfer_stage_part
-    transfer_stages[transfer_stage_id.to_s] || ''
-  end
-
-  def litigator_type_part
-    case claim.litigator_type
-      when 'original'
-        ' (org)'
-      when 'new'
-       ' (new)'
-      else
-        ''
-    end
-  end
-
-  def case_conclusion_part
-    ' - ' + case_conclusions[claim.case_conclusion_id.to_s].downcase rescue ''
   end
 
 end

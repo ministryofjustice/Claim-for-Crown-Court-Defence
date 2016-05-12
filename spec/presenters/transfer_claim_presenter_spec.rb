@@ -57,21 +57,21 @@ RSpec.describe Claim::TransferClaimPresenter do
     context 'for transfer details NOT requiring a conclusion' do
       let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil }
       it 'should return a string of expected values' do
-        expect(presenter.transfer_detail_summary).to eql 'elected case - Up to and including PCMH transfer (new)'
+        expect(presenter.transfer_detail_summary).to eql 'elected case - up to and including PCMH transfer (new)'
       end
     end
 
     context 'for transfer details NOT requiring a conclusion and from original litigator' do
       let(:claim) { create :transfer_claim, litigator_type: 'original', elected_case: false, transfer_stage_id: 40, case_conclusion_id: nil }
       it 'should return a string of expected values' do
-        expect(presenter.transfer_detail_summary).to eql 'Transfer after trial and before sentence hearing (org)'
+        expect(presenter.transfer_detail_summary).to eql 'transfer after trial and before sentence hearing (org)'
       end
     end
 
     context 'for transfer details requiring a conclusion' do
       let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 20, case_conclusion_id: 30 }
       it 'should return a string of expected values' do
-        expect(presenter.transfer_detail_summary).to eql 'Before trial transfer (new) - cracked'
+        expect(presenter.transfer_detail_summary).to eql 'before trial transfer (new) - cracked'
       end
     end
 

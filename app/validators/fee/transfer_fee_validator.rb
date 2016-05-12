@@ -1,7 +1,9 @@
 class Fee::TransferFeeValidator < Fee::BaseFeeValidator
 
   def self.fields
-    [ :amount ]
+    [
+      :amount
+    ]
   end
 
   def self.mandatory_fields

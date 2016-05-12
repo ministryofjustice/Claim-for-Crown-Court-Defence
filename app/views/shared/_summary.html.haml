@@ -114,7 +114,7 @@
           = t('.expenses_total')
           = claim.expenses_total
 
-    - if claim.disbursements.any?
+    - if claim.can_have_disbursements?
       %table.indent-sides
         %caption.visually-hidden
           = t('common.disbursements')

@@ -4,12 +4,13 @@
     %td.numeric
       = claim.fees_total
     %td.numeric#determination-fees= determination.fees_total
-  %tr.determination-display
-    %th{scope:'row'} Expenses
-    %td.numeric
-      = claim.expenses_total
-    %td.numeric#determination-expenses= determination.expenses_total
-  - if claim.disbursements.any?
+  - if claim.can_have_expenses?
+    %tr.determination-display
+      %th{scope:'row'} Expenses
+      %td.numeric
+        = claim.expenses_total
+      %td.numeric#determination-expenses= determination.expenses_total
+  - if claim.can_have_disbursements?
     %tr.determination-display
       %th{scope:'row'} Disbursements
       %td.numeric

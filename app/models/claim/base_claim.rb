@@ -359,6 +359,10 @@ module Claim
       case_type.is_fixed_fee?
     end
 
+    def update_claim_document_owners
+      documents.each { |d| d.update_column(:creator_id, self.creator_id) }
+    end
+
     # This will ensure proper route paths are generated
     # when using helpers like: edit_polymorphic_path(claim)
     def self.set_singular_route_key(name)

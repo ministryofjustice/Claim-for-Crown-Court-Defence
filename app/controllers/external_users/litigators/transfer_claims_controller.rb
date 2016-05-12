@@ -14,10 +14,6 @@ class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::Claim
 
 private
 
-  def update_claim_document_owners(claim)
-    claim.documents.each { |d| d.update_column(:creator_id, claim.creator_id) }
-  end
-
   def load_external_users_in_provider
     @litigators_in_provider = @provider.litigators if @external_user.admin?
   end

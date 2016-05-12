@@ -467,6 +467,14 @@ en:
           offence_class: "Offence class"
           offence_class_hint: "eg Burglary"
           select_offence_class: "Please select"
+        transfer_detail_fields:
+          litigator_type: Litigator type
+          elected_case: Elected
+          transfer_stage_new: Started acting
+          transfer_stage_original: Stopped acting
+          transfer_date_new: Date started acting
+          transfer_date_original: Date stopped acting
+          case_conclusion: Case conclusion
       defendants:
         defendant_fields:
           first_name: *first_name

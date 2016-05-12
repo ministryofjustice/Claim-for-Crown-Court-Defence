@@ -1,0 +1,35 @@
+- transfer_detail_translations = 'external_users.claims.case_details.transfer_detail_fields'
+%table
+  %caption
+    %span.table-caption.visuallyhidden
+      = 'Transfer details'
+  %colgroup
+    %col
+    %col
+  %tbody
+    %tr
+      %th{scope: 'row'}
+        = t("#{transfer_detail_translations}.litigator_type")
+      %td
+        = claim.litigator_type_description
+    %tr
+      %th{scope: 'row'}
+        = t("#{transfer_detail_translations}.elected_case")
+      %td
+        = claim.elected_case_description
+    %tr
+      %th{scope: 'row'}
+        = t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}")
+      %td
+        = claim.transfer_stage_description
+    %tr
+      %th{scope: 'row'}
+        = t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}")
+      %td
+        = claim.transfer_date
+    - if claim.case_conclusion_id.present?
+      %tr
+        %th{scope: 'row'}
+          = t("#{transfer_detail_translations}.case_conclusion")
+        %td
+          = claim.case_conclusion_description

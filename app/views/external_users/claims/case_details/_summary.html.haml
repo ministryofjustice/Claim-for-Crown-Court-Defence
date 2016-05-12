@@ -81,17 +81,17 @@
         %th{scope: 'row'}
           = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
         %td
-          = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
+          = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
       %tr
         %th{scope: 'row'}
           = t("#{cracked_trial_detail_translations}.trial_fixed_at")
         %td
-          = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
+          = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
       %tr
         %th{scope: 'row'}
           = t("#{cracked_trial_detail_translations}.trial_cracked_at")
         %td
-          = claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
+          = claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
       %tr
         %th{scope: 'row'}
           = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
@@ -104,7 +104,7 @@
           %th{scope: 'row'}
             = t("#{trial_detail_translations}.first_day_of_trial")
           %td
-            = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
+            = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
         %tr
           %th{scope: 'row'}
             = t("#{trial_detail_translations}.estimated_trial_length")
@@ -119,14 +119,14 @@
           %th{scope: 'row'}
             = t("#{trial_detail_translations}.trial_concluded_at")
           %td
-            = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
+            = claim.trial_concluded_at.strftime(Settings.date_format) rescue ''
 
       - if claim.case_type && claim.requires_retrial_dates?
         %tr
           %th{scope: 'row'}
             = t("#{retrial_detail_translations}.retrial_started_at")
           %td
-            = claim.retrial_started_at.strftime('%d/%m/%Y') rescue ''
+            = claim.retrial_started_at.strftime(Settings.date_format) rescue ''
         %tr
           %th{scope: 'row'}
             = t("#{retrial_detail_translations}.retrial_estimated_length")
@@ -141,4 +141,4 @@
           %th{scope: 'row'}
             = t("#{retrial_detail_translations}.retrial_concluded_at")
           %td
-            = claim.retrial_concluded_at.strftime('%d/%m/%Y') rescue ''
+            = claim.retrial_concluded_at.strftime(Settings.date_format) rescue ''

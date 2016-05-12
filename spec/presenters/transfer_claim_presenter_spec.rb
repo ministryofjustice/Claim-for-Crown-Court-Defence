@@ -83,4 +83,23 @@ RSpec.describe Claim::TransferClaimPresenter do
     end
   end
 
+  context 'descriptor methods' do
+    let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 20, transfer_date: Date.parse('2015-05-21'), case_conclusion_id: 30 }
+    it '#litigator_type_description' do
+      expect(presenter.litigator_type_description).to eql 'New'
+    end
+    it '#elected_case_description' do
+      expect(presenter.elected_case_description).to eql 'No'
+    end
+    it '#transfer_stage_description' do
+      expect(presenter.transfer_stage_description).to eql 'Before trial transfer'
+    end
+    it '#transfer_date' do
+      expect(presenter.transfer_date).to eql '21/05/2015'
+    end
+    it '#case_conclusion_description' do
+      expect(presenter.case_conclusion_description).to eql 'Cracked'
+    end
+  end
+
 end

@@ -12,8 +12,4 @@ class Fee::WarrantFeePresenter < Fee::BaseFeePresenter
   def warrant_executed?
     fee.warrant_executed_date.present?
   end
-
-  def warrant_executed_str
-    warrant_executed? ? 'Yes' : 'No'
-  end
 end

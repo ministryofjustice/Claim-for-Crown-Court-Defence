@@ -788,7 +788,6 @@ en:
         total: "Total"
       warrant_fee:
         date_issued: "Warrant fee date issued"
-        executed: "Warrant executed"
         date_executed: "Warrant fee date executed"
         total: "Total"
       total: "Total"

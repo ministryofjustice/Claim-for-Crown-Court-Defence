@@ -6,18 +6,32 @@
       = t('shared.summary.fee_type')
     .xsmall
       = fee.fee_type.description
-  .column-quarter
-    - unless fee.is_disbursement? || fee.is_interim_warrant?
+
+  - if fee.is_interim_warrant? && (warrant_fee = present(claim.warrant_fee))
+    .column-quarter
       .bold-xsmall
-        = t('shared.summary.ppe_total')
+        = t('shared.summary.warrant_fee.date_issued')
       .xsmall
-        = fee.quantity
-  .column-quarter
-    - if fee.is_effective_pcmh?
-      .bold-xsmall
-        = t('shared.summary.effective_pcmh_date')
-      .xsmall
-        = fee.effective_pcmh_date
+        = warrant_fee.warrant_issued_date
+    .column-quarter
+      - if warrant_fee.warrant_executed?
+        .bold-xsmall
+          = t('shared.summary.warrant_fee.date_executed')
+        .xsmall
+          = warrant_fee.warrant_executed_date
+  - else
+    .column-quarter
+      - unless fee.is_disbursement?
+        .bold-xsmall
+          = t('shared.summary.ppe_total')
+        .xsmall
+          = fee.quantity
+    .column-quarter
+      - if fee.is_effective_pcmh?
+        .bold-xsmall
+          = t('shared.summary.effective_pcmh_date')
+        .xsmall
+          = fee.effective_pcmh_date
 
 .basic-info-row
   - if fee.is_trial_start?

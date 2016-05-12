@@ -418,6 +418,7 @@ en:
           ppe_section_hint: Total number of pages of prosecution evidence
           npw_section_header: Witnesses
           npw_section_hint: Total number of prosecution witnesses
+          total: Total
         fields:
           amount: 'Amount'
           basic_fees: 'Initial fees'

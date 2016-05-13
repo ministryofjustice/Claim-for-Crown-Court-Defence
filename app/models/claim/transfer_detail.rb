@@ -14,7 +14,7 @@
 module Claim
   class TransferDetail < ActiveRecord::Base
 
-    belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id
+    belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
 
     acts_as_gov_uk_date :transfer_date
 

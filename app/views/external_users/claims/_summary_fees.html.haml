@@ -19,16 +19,20 @@
           = t('shared.summary.fee_type')
         %td
           = fee.fee_type.description
-      %tr
-        %th{ scope: 'row'}
-          = t('shared.summary.quantity')
-        %td
-          = fee.quantity
-      %tr
-        %th{ scope: 'row'}
-          = t('shared.summary.rate')
-        %td
-          = fee.rate
+
+      - if fee.claim.agfs? || fee.is_graduated?
+        %tr
+          %th{ scope: 'row'}
+            = t('shared.summary.quantity')
+          %td
+            = fee.quantity
+
+      - if fee.claim.agfs?
+        %tr
+          %th{ scope: 'row'}
+            = t('shared.summary.rate')
+          %td
+            = fee.rate
       %tr
         %th{ scope: 'row'}
           = t('shared.summary.amount')

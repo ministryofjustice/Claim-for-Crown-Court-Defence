@@ -51,9 +51,6 @@ RSpec.describe Claim::TransferClaimPresenter do
   end
 
   context '#transfer_detail_summary' do
-    #
-    # TEMPLATE: '{if elected_case=true, 'elected case -'} {transfer_stage_id description} {(litigator_type abbrev ie. new|org)} - (case_conclusion_id description if exists)'
-    #
     context 'for transfer details NOT requiring a conclusion' do
       let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil }
       it 'should return a string of expected values' do

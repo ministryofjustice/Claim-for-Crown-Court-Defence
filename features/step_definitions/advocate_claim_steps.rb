@@ -2,14 +2,6 @@ Given(/^I am on the new claim page$/) do
   @claim_form_page.load
 end
 
-Given(/^I am on the 'Your claims' page$/) do
-  @external_user_home_page.load
-end
-
-Given(/^I click 'Start a claim'$/) do
-  @external_user_home_page.start_a_claim.click
-end
-
 Then(/^I should be on the new claim page$/) do
   expect(@claim_form_page).to be_displayed
 end
@@ -55,22 +47,6 @@ end
 
 When(/^I save as draft$/) do
   @claim_form_page.save_to_drafts.trigger('click')
-end
-
-Then(/^I should see '(.*?)'$/) do |content|
-  expect(page).to have_content(content)
-end
-
-Given(/^I am later on the Your claims page$/) do
-  @external_user_home_page.load
-end
-
-When(/I click the claim '(.*?)'$/) do |case_number|
-  @external_user_home_page.claim_for(case_number).case_number.click
-end
-
-When(/I edit this claim/) do
-  @external_user_claim_show_page.edit_this_claim.click
 end
 
 When(/^I add another defendant, representation order and MAAT reference$/) do
@@ -153,40 +129,6 @@ end
 
 When(/^I click "Continue"$/) do
   @claim_summary_page.continue.click
-end
-
-Then(/^I should be on the certification page$/) do
-  expect(@certification_page).to be_displayed
-end
-
-When(/^I check “I attended the main hearing”$/) do
-  @certification_page.attended_main_hearing.click
-end
-
-When(/^I click Certify and submit claim$/) do
-  @certification_page.certify_and_submit_claim.trigger "click"
-end
-
-Then(/^I should be on the page showing basic claim information$/) do
-  expect(@confirmation_page).to be_displayed
-end
-
-When(/^I click View your claims$/) do
-  @confirmation_page.view_your_claims.click
-end
-
-Then(/^My new claim should be displayed$/) do
-  expect(@external_user_home_page).to be_displayed
-end
-
-Then(/^I should be on the your claims page$/) do
-  expect(@external_user_home_page).to be_displayed
-end
-
-Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'$/) do |case_number, status|
-  my_claim = @external_user_home_page.claim_for(case_number)
-  expect(my_claim).not_to be_nil
-  expect(my_claim.state.text).to eq(status)
 end
 
 Given(/^There are other advocates in my provider$/) do

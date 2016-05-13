@@ -22,7 +22,6 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I click "Continue" in the claim form
 
     And I add a basic fee with dates attended
-    And I add a daily attendance fee with dates attended
     And I add a miscellaneous fee 'Adjourned appeals' with dates attended
     And I add a miscellaneous fee 'Noting brief fee' with dates attended
     And I add an expense 'Hotel accommodation'
@@ -41,4 +40,4 @@ Feature: Advocate admin submits a claim for a Trial case
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted'
+    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£128.55'

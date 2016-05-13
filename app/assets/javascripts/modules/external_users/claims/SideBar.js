@@ -2,41 +2,31 @@ moj.Modules.SideBar = {
   el: '.totals-summary',
   claimForm: '#claim-form',
   vatfactor: 0.2,
+  blocks: [],
   totals: {
     fees: 0,
     disbursements: 0,
     expenses: 0,
     vat: 0,
-    inc: 0
+    grandTotal: 0
   },
 
   init: function() {
     this.bindListeners();
-    if ($(this.el).length > 0) {
-      this.primeInternalCache();
-    }
+    this.loadBlocks();
   },
 
-  bindListeners: function() {
+  loadBlocks: function() {
     var self = this;
-    $('#claim-form').on('recalculate', function() {
-      self.recalculate();
-    });
-  },
-
-  clearTotals: function() {
-    var self = this;
-    $.each(this.totals, function(key, val) {
-      self.totals[key] = parseFloat(0);
-    });
-  },
-
-  sanitzeFeeToFloat: function() {
-    var self = this;
-    $.each(this.totals, function(key, val) {
-      if ($.type(self.totals[key]) === 'string') {
-        self.totals[key] = parseFloat(self.totals[key].replace(',', '').replace(/£/g, ''));
-      }
+    self.blocks = [];
+    $('.js-block').each(function(id, el) {
+      var $el = $(el);
+      self.blocks.push(new moj.Helpers.SideBar.FeeBlock({
+        type: $el.data('type'),
+        autoVAT: $el.data('autovat'),
+        el: el,
+        $el: $el
+      }));
     });
   },
 
@@ -59,64 +49,52 @@ moj.Modules.SideBar = {
     this.sanitzeFeeToFloat();
     $.each(this.totals, function(key, val) {
       selector = '.total-' + key;
-      value = '£' + self.addCommas(val.toFixed(2));
+      value = '£' + moj.Helpers.SideBar.addCommas(val.toFixed(2));
       $(self.el).find(selector).html(value);
     });
   },
 
-  primeInternalCache: function() {
-    var self = this;
-    var $el = $(this.el);
-    var lookup;
-    // var found;
-
-    $.each(this.totals, function(key, val) {
-      lookup = 'total-' + key;
-      var hasDataAttr = !!$el.find('.' + lookup).data(lookup);
-      self.totals[key] = hasDataAttr ? $el.find('.' + lookup).data(lookup) : parseFloat(0);
-    });
-
-    this.render();
-  },
-
   recalculate: function() {
-    // console.log('>>Recalculate');
     var self = this;
-    // clear the cached this.totals obj
     self.clearTotals();
 
-    // Calculate .mod-fees for visible elements
-    $('.mod-fees .nested-fields:visible').each(function(idx, el) {
-      // cache the el as $el
-      var $el = $(el);
-      var amount;
-      if (!$el.find('.amount').is(':visible')) {
-        return;
+    self.blocks.forEach(function(block) {
+      if (block.isVisible()) {
+        block.reload();
+        self.totals[block.getConfig('type')] += block.totals.total;
+        self.totals.vat += block.totals.vat;
+        self.totals.grandTotal += block.totals.total + block.totals.vat;
       }
-
-      // find the different values and parseFloat them
-      amount = parseFloat($el.find('.amount').data('amount') || $el.find('.amount').val()) || 0;
-
-      // Total Fees amount
-      self.totals.fees = parseFloat(self.totals.fees + amount);
-      self.totals.vat = parseFloat((self.totals.fees + self.totals.expenses) * self.vatfactor);
-      self.totals.inc = parseFloat((self.totals.fees + self.totals.vat + self.totals.expenses + self.totals.disbursements));
-    });
-
-    $('.mod-expenses .nested-fields:visible').each(function(idx, el) {
-      var $el = $(el);
-      var amount;
-      if (!$el.find('.amount').is(':visible')) {
-        return;
-      }
-
-      amount = parseFloat($el.find('.amount').val());
-
-      self.totals.expenses = parseFloat(self.totals.expenses + amount);
-      self.totals.vat = parseFloat((self.totals.fees + self.totals.expenses) * self.vatfactor);
-      self.totals.inc = parseFloat((self.totals.fees + self.totals.vat + self.totals.expenses + self.totals.disbursements));
     });
 
     self.render();
-  }
+  },
+
+  bindListeners: function() {
+    var self = this;
+    $('#claim-form').on('recalculate', function() {
+      self.recalculate();
+    });
+
+    $('#claim-form').on('cocoon:after-insert', function(e) {
+      self.loadBlocks();
+    });
+  },
+
+  clearTotals: function() {
+    var self = this;
+    $.each(this.totals, function(key, val) {
+      self.totals[key] = parseFloat(0);
+    });
+  },
+
+  sanitzeFeeToFloat: function() {
+    var self = this;
+    $.each(this.totals, function(key, val) {
+      if ($.type(self.totals[key]) === 'string') {
+        self.totals[key] = parseFloat(self.totals[key].replace(',', '').replace(/£/g, ''));
+      }
+    });
+  },
+
 };

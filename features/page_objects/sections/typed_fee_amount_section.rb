@@ -1,6 +1,6 @@
 class TypedFeeAmountSection < TypedFeeSection
 
-  element :amount, 'input.amount'
+  element :amount, 'input.total'
   element :rate, nil
 
   def populated?

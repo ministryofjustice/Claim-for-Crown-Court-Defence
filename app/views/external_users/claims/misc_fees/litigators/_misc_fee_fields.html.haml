@@ -1,4 +1,4 @@
-.form-group.misc-fee-group.nested-fields
+.form-group.misc-fee-group.js-block.nested-fields{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
   .grid-row
     .column-three-quarters
       .column-half
@@ -27,7 +27,7 @@
         = t('.amount')
       %a{name: "misc_fee_#{@misc_fee_count}_amount"}
       %span.currency-indicator>< £
-      = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
+      = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_amount")
-  
+
   = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }

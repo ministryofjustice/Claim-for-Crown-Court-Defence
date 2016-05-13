@@ -8,36 +8,32 @@
 
     = f.fields_for :fixed_fee do |ff|
 
-      .expense-group.nested-fields
+      .expense-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
-        
-          .column-one-third
+          .column-two-thirds
             %label.form-label
               = t('.fee_type')
             = ff.anchored_attribute 'fee_type'
             = @claim.case_type.fixed_fee_type.description
             = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
             = validation_error_message(@error_presenter, :fee_type)
-          
+
           .column-one-third.condensed.js-expense-location
-        
+
         .grid-row
-          
           .column-two-thirds
             - ff.object.dates_attended << DateAttended.new unless ff.object.dates_attended.any?
             = ff.fields_for :dates_attended do |date_attended|
               = render 'date_generic_fields', f: date_attended, submodel_count: date_attended.index+1
-            
-            
+
           .column-one-third.condensed.js-expense-amount.fee-total
             %label.form-label Total
-            
+
             %span.currency-indicator>< £
-            = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
+            = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
             = validation_error_message(@error_presenter, :amount)
             = ff.anchored_attribute 'amount'
 
       - if @claim.case_type.fixed_fee_type.children.any?
-        %span CHECK VIEW IF 
-      /   = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
-      /   = validation_error_message(@error_presenter, :sub_type)
+        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
+        = validation_error_message(@error_presenter, :sub_type)

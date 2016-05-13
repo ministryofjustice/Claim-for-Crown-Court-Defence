@@ -1,9 +1,7 @@
 moj.Modules.FeeCalculator = {
-  el: '#expenses, #basic-fees, #misc-fees, #fixed-fees',
+  el: '#expenses, #basic-fees, #misc-fees, #fixed-fees, #graduated-fees',
 
   init: function() {
-    // console.log('mod.FeeCal.init');
-
     this.addCocoonHooks();
     this.addChangeEvent();
   },
@@ -21,14 +19,12 @@ moj.Modules.FeeCalculator = {
     var $elem = $(this.el);
 
     $elem.on('cocoon:after-insert', function(e) {
-      // console.log('mod.evt.after-insert', [e]);
       var $el = $(e.target);
       $el.siblings('.no-dates').hide();
     });
 
     $elem.on('cocoon:after-remove', function(e) {
       var $el = $(e.target);
-
       if ($el.find('.fee-dates').length === 0) {
         $el.siblings('.no-dates').show();
       }
@@ -40,15 +36,16 @@ moj.Modules.FeeCalculator = {
     var self = this;
 
     $(this.el).on('change', '.quantity, .rate', function(e) {
-      self.calculateRow(e);
+      var wrapper = $(e.target).closest('.nested-fields');
+      if(!wrapper.data('muterowcalculation')){
+        self.calculateRow(e);
+      }
     });
 
-    $(this.el).on('change', '.quantity, .rate, .amount, .vat_amount', function(e) {
+    $(this.el).on('change', '.quantity, .rate, .amount, .vat, .total', function(e) {
       var wrapper = $(e.target).closest('.nested-fields');
       wrapper.trigger('recalculate');
     });
-
-
   },
 
   calculateRow: function(e) {
@@ -59,13 +56,13 @@ moj.Modules.FeeCalculator = {
     var total = self.calculateAmount(rate, quantity);
 
     if (isNaN(total)) {
-      wrapper.find('.amount').text('');
+      wrapper.find('.total').text('');
     } else {
-      wrapper.find('.amount').text('£ ' + total);
-      wrapper.find('.amount').data('amount', total);
+      wrapper.find('.total').text('£ ' + total);
+      wrapper.find('.total').data('total', total);
     }
   },
-  
+
   totalFee: function() {
     //get all the amount values on the page
     var $allAmounts = $('.amount');
@@ -78,7 +75,6 @@ moj.Modules.FeeCalculator = {
     $allAmounts.each(function() {
       var $element = $(this);
 
-      // console.log('>> Looking for a TD');
       if ($element.filter('td').length > 0) {
         arrDirtyAmounts.push($element.text());
       } else {
@@ -88,16 +84,13 @@ moj.Modules.FeeCalculator = {
 
     //clean the values
     for (index = 0; index < arrDirtyAmounts.length; index++) {
-
       var currentVal = parseFloat(arrDirtyAmounts[index].replace(/[^0-9-.]/g, ''));
-
       if (isNaN(currentVal) === false) {
         arrCleanAmounts.push(currentVal);
       }
     }
 
     //Sum the value
-    console.log('sum the values loop');
     for (index = 0; index < arrCleanAmounts.length; index++) {
       totalAmount = totalAmount + arrCleanAmounts[index];
     }

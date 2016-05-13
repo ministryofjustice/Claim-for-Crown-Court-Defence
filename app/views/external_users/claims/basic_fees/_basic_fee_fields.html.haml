@@ -1,6 +1,6 @@
-.form-group.basic-fee-group.nested-fields.fee-details{class: to_slug(f.object.description)}
+.form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", "muterowcalculation": !f.object.calculated? ? "true" : "false"}}
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id
-  
+
   - if f.object.calculated?
     = render 'external_users/claims/basic_fees/basic_fee_calculated_fields', f: f
   - else
@@ -10,7 +10,7 @@
     .grid-row.fee-dates-row
       %label.form-label Dates
 
-      %span.no-dates.form-hint 
+      %span.no-dates.form-hint
         = t('.no_dates')
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend', 'association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
 

@@ -52,4 +52,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted'
+    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£589.99'

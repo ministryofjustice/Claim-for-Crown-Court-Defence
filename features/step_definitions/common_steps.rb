@@ -16,6 +16,64 @@ And(/^I select the fee scheme '(.*)'$/) do |fee_scheme|
   @fee_scheme_selector.continue.click
 end
 
+Given(/^I am on the 'Your claims' page$/) do
+  @external_user_home_page.load
+end
+
+Given(/^I click 'Start a claim'$/) do
+  @external_user_home_page.start_a_claim.click
+end
+
+Then(/^I should see '(.*?)'$/) do |content|
+  expect(page).to have_content(content)
+end
+
+Given(/^I am later on the Your claims page$/) do
+  @external_user_home_page.load
+end
+
+When(/I click the claim '(.*?)'$/) do |case_number|
+  @external_user_home_page.claim_for(case_number).case_number.click
+end
+
+When(/I edit this claim/) do
+  @external_user_claim_show_page.edit_this_claim.click
+end
+
+Then(/^I should be on the certification page$/) do
+  expect(@certification_page).to be_displayed
+end
+
+When(/^I check “I attended the main hearing”$/) do
+  @certification_page.attended_main_hearing.click
+end
+
+When(/^I click Certify and submit claim$/) do
+  @certification_page.certify_and_submit_claim.trigger "click"
+end
+
+Then(/^I should be on the page showing basic claim information$/) do
+  expect(@confirmation_page).to be_displayed
+end
+
+When(/^I click View your claims$/) do
+  @confirmation_page.view_your_claims.click
+end
+
+Then(/^My new claim should be displayed$/) do
+  expect(@external_user_home_page).to be_displayed
+end
+
+Then(/^I should be on the your claims page$/) do
+  expect(@external_user_home_page).to be_displayed
+end
+
+Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
+  my_claim = @external_user_home_page.claim_for(case_number)
+  expect(my_claim).not_to be_nil
+  expect(my_claim.state.text).to eq(status)
+  expect(my_claim.claimed.text).to eq(claimed) if claimed
+end
 
 # The following steps are needed until we open the different LGFS claims
 # to the general users. At the moment the options are behind a feature flag.

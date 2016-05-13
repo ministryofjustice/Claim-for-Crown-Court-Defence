@@ -4,6 +4,7 @@ class UserHomePage < SitePrism::Page
   sections :claims, "table.report > tbody > tr" do
     element :case_number, "a.js-test-case-number-link"
     element :state, "span.state"
+    element :claimed, "td.claimed-amount"
     element :view_messages, "td.messages > a"
   end
 

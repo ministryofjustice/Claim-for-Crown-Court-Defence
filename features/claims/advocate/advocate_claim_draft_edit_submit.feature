@@ -47,4 +47,4 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted'
+    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£348.25'

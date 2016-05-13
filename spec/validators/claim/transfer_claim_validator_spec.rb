@@ -18,6 +18,7 @@ module Claim
     include_examples 'common partial validations', [
       [
         :case_type,
+        :case_number,
         :court,
         :advocate_category,
         :offence,
@@ -137,9 +138,9 @@ module Claim
       end
 
       it 'does not error if details are a valid combo' do
-        claim.case_conclusion_id = 20
+        claim.case_conclusion_id = 40
         claim.valid?
-        expect(claim.errors.keys).not_to include(:transfer_detail)
+        expect(claim.errors[:transfer_detail]).not_to include('invalid_combo')
       end
     end
 

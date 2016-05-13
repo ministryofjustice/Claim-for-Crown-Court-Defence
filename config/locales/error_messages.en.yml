@@ -447,9 +447,9 @@ legal_aid_transfer_date:
 litigator_type:
   _seq: 215
   invalid:
-    long: Choose the Litigator Type
+    long: Choose the litigator type
     short: Choose a type
-    api: Choose the Litigator Type
+    api: Choose the litigator type
 
 elected_case:
   _seq: 216
@@ -486,13 +486,6 @@ case_conclusion_id:
     long: Check the case conclusion state
     short: Check selected option
     api: Check the case conclusion state
-
-transfer_detail:
-  _seq: 220
-  invalid_combo:
-    long: Check combination of transfer details
-    short: Check transfer details combination
-    api: Check combination of transfer details
 
 #################################################################################
 #                                                                               #
@@ -934,6 +927,33 @@ warrant_fee:
 
 #################################################################################
 #                                                                               #
+#   TRANSFER FEE                                                                #
+#                                                                               #
+#################################################################################
+
+transfer_fee:
+  _seq: 650
+
+  amount:
+    _seq: 5
+    blank:
+      long: Enter an amount for the tranfer
+      short: Enter an amount
+      api: Enter an amount for the transfer
+    numericality:
+      long: Enter a valid amount for the transfer fee
+      short: Enter a valid amount
+      api: Enter a valid amount for the transfer fee
+
+transfer_detail:
+  _seq: 670
+  invalid_combo:
+    long: Check combination of transfer details
+    short: Check transfer details combination
+    api: Check combination of transfer details
+
+#################################################################################
+#                                                                               #
 #   EXPENSE                                                                     #
 #                                                                               #
 #################################################################################
@@ -1018,11 +1038,6 @@ expense:
       long: 'Select a mileage rate for the #{expense}'
       short: Select a mileage rate
       api: Select a mileage rate
-
-
-
-
-
 
 #################################################################################
 #                                                                               #

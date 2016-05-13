@@ -18,6 +18,6 @@
             = tf.anchored_attribute 'amount'
             %span.currency-indicator>< £
             = tf.number_field :amount, value: number_with_precision(tf.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
-            = validation_error_message(@error_presenter, :amount)
+            = validation_error_message(@error_presenter, 'transfer_fee.amount')
 
   = render partial: 'external_users/claims/transfer_fee/detail_fields', locals: { f: f }

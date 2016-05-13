@@ -7,6 +7,7 @@ module Claim
         [
           :case_type,
           :court,
+          :case_number,
           :advocate_category,
           :offence,
           :case_concluded_at

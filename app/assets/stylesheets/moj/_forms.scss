@@ -115,18 +115,19 @@ button.search {
     }
   }
   .expense-distance,
+  .expense-hours,
   .js-expense-amount{
     text-align: right;
     input.form-control[type=text],
-    input.form-control[type=email], 
-    input.form-control[type=tel], 
-    input.form-control[type=password], 
+    input.form-control[type=email],
+    input.form-control[type=tel],
+    input.form-control[type=password],
     input.form-control[type=number]{
       float: none;
       text-align: right;
     }
   }
-  
+
   .js-expense-reason-text{
     display: inline-block;
     margin-top: 10px;
@@ -185,15 +186,15 @@ button.search {
   .fee-rate{
     width: 20%;
   }
-  
+
   .fee-quantity,
   .fee-total,
   .fee-rate{
     text-align: right;
     input.form-control[type=text],
-    input.form-control[type=email], 
-    input.form-control[type=tel], 
-    input.form-control[type=password], 
+    input.form-control[type=email],
+    input.form-control[type=tel],
+    input.form-control[type=password],
     input.form-control[type=number]{
       float: none;
       text-align: right;
@@ -226,7 +227,7 @@ button.search {
 
   .fee-total{
     float:right;
-  } 
+  }
 
   .dates-wrapper{
     font-size: 16px;

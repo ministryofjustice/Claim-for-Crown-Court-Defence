@@ -124,10 +124,10 @@ module Claim
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }
 
-    accepts_nested_attributes_for :basic_fees,        reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :misc_fees,         reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :expenses,          reject_if: :all_blank, allow_destroy: true
-    accepts_nested_attributes_for :disbursements,     reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :basic_fees,        reject_if: all_blank_or_zero, allow_destroy: true
+    accepts_nested_attributes_for :misc_fees,         reject_if: all_blank_or_zero, allow_destroy: true
+    accepts_nested_attributes_for :expenses,          reject_if: all_blank_or_zero, allow_destroy: true
+    accepts_nested_attributes_for :disbursements,     reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :defendants,        reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :assessment
     accepts_nested_attributes_for :redeterminations,  reject_if: :all_blank

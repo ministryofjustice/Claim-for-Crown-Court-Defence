@@ -57,7 +57,7 @@ module Claim
     set_singular_route_key 'advocates_claim'
 
     has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
-    accepts_nested_attributes_for :fixed_fees, reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
     validates_with ::Claim::AdvocateClaimValidator
     validates_with ::Claim::AdvocateClaimSubModelValidator

@@ -144,6 +144,31 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             expect(response).to have_http_status(:redirect)
             expect(Claim::AdvocateClaim.first).to be_draft
           end
+
+          context 'blank expenses' do
+            let(:expense_params) do
+              {
+                  expense_type_id: '',
+                  location: '',
+                  distance: '',
+                  date_dd: '',
+                  date_mm: '',
+                  date_yyyy: '',
+                  reason_id: '',
+                  reason_text: '',
+                  amount: '0.00',
+                  vat_amount: '0.00',
+                  _destroy: false
+              }
+            end
+
+            it 'rejects the blank expense when all blank or zero, not failing validations, and creates the claim' do
+              expect {
+                post :create, commit_submit_claim: 'Submit to LAA', claim: claim_params
+              }.not_to change(Expense, :count)
+              expect(response).to have_http_status(:redirect)
+            end
+          end
         end
 
         context 'multi-step form submit to LAA' do

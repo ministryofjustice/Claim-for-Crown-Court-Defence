@@ -59,7 +59,6 @@ module Claim
       CASE_CONCLUSIONS.keys
     end
 
-
     def self.details_combo_valid?(detail)
       TransferBrainDataItemCollection.instance.detail_valid?(detail) unless detail.errors?
     end
@@ -70,6 +69,10 @@ module Claim
 
     def self.allocation_type(detail)
       TransferBrainDataItemCollection.instance.allocation_type(detail)
+    end
+
+    def self.transfer_detail_summary(detail)
+      TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
     end
 
   end

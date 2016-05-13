@@ -2,8 +2,8 @@ require 'rails_helper'
 
 module Claim
   describe TransferBrain do
-    describe '.transfer_stage_by_id' do
 
+    describe '.transfer_stage_by_id' do
       it 'returns the name of the transfer_stage with that id' do
         expect(TransferBrain.transfer_stage_by_id(50)).to eq 'Transfer before retrial'
       end
@@ -68,20 +68,32 @@ module Claim
           expect(TransferBrain.details_combo_valid?(detail)).to be true
         end
       end
-
-
-      def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
-        build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id
-      end
     end
 
     describe '.data_attributes' do
       it 'returns a JSON representation of the data attributes hash' do
         expected_json = File.read(File.join(Rails.root, 'spec', 'data', 'transfer_brain_data_attributes.json')).chomp
-        expect(TransferBrain.data_attributes).to eq expected_json
+        expect(JSON.parse(TransferBrain.data_attributes)).to match JSON.parse(expected_json)
       end
     end
+
+    describe '.allocation_type' do
+      it 'returns a string describing an allocation filtering type' do
+        td = transfer_detail('new', true, 10)
+        expect(TransferBrain.allocation_type(td)).to eq "Fixed"
+      end
+    end
+
+    describe '.transfer_detail_summary' do
+      it 'returns a string describing the transfer details' do
+        td = transfer_detail('new', true, 10)
+        expect(TransferBrain.transfer_detail_summary(td)).to eq "elected case - up to and including PCMH transfer (new)"
+      end
+    end
+
+    def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
+      build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id
+    end
+
   end
-
-
 end

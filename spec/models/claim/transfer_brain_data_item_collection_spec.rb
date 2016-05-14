@@ -31,8 +31,25 @@ module Claim
       end
     end
 
+    describe '#visibility' do
+      it 'returns visibility for the matching detail with wildcard case_conclusion id' do
+        detail = build :transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: 20
+        expect(collection.visibility(detail)).to eq false
+      end
+
+      it 'returns visibility for matching detail records with a specific case conclusion id' do
+        detail = build :transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 10, case_conclusion_id: 50
+        expect(collection.visibility(detail)).to eq true
+      end
+
+      it 'raises error if given an invalid combination' do
+        detail = build :transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 10, case_conclusion_id: 20
+        expect{ collection.visibility(detail) }.to raise_error InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
+      end
+    end
+
     describe '#transfer_fee_full_name' do
-      it 'returns transfer fee full name for the matching detail with wildcase case conclusion id' do
+      it 'returns transfer fee full name for the matching detail with wildcard case conclusion id' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: 20
         expect(collection.transfer_fee_full_name(detail)).to eq 'elected case - up to and including PCMH transfer (new)'
       end
@@ -42,14 +59,14 @@ module Claim
         expect(collection.transfer_fee_full_name(detail)).to eq 'up to and including PCMH transfer (new) - guilty plea'
       end
 
-      it 'raises if given an invalid combination' do
+      it 'raises error if given an invalid combination' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 10, case_conclusion_id: 20
-        expect{ collection.transfer_fee_full_name(detail) }.to raise_error ArgumentError, 'Invalid combination of transfer detail fields'
+        expect{ collection.transfer_fee_full_name(detail) }.to raise_error InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
       end
     end
 
     describe '#allocation_type' do
-      it 'returns allocation case type for the matching detail with wildcase case conclusion id' do
+      it 'returns allocation case type for the matching detail with wildcard case conclusion id' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: 20
         expect(collection.allocation_type(detail)).to eq 'Fixed'
       end
@@ -59,9 +76,9 @@ module Claim
         expect(collection.allocation_type(detail)).to eq 'Grad'
       end
 
-      it 'raises if given an invalid combination' do
+      it 'raises error if given an invalid combination' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 10, case_conclusion_id: 20
-        expect{ collection.allocation_type(detail) }.to raise_error ArgumentError, 'Invalid combination of transfer detail fields'
+        expect{ collection.allocation_type(detail) }.to raise_error InvalidTransferCombinationError, 'Invalid combination of transfer detail fields'
       end
     end
 

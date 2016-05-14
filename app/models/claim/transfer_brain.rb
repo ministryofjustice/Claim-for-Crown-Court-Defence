@@ -75,5 +75,11 @@ module Claim
       TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
     end
 
+    def self.case_conclusion_visibility(detail)
+      TransferBrainDataItemCollection.instance.visibility(detail)
+    rescue InvalidTransferCombinationError
+      false
+    end
+
   end
 end

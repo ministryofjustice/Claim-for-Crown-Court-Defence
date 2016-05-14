@@ -91,6 +91,20 @@ module Claim
       end
     end
 
+    describe '.case_conclusion_visibility' do
+      it 'returns a boolean determining visibility of the case conclusion field' do
+        td = transfer_detail('new', true, 10)
+        expect(TransferBrain.case_conclusion_visibility(td)).to eq false
+        td = transfer_detail('new', false, 10, 50)
+        expect(TransferBrain.case_conclusion_visibility(td)).to eq true
+      end
+      it 'returns false for invalid combinations' do
+        td = transfer_detail('new', false, 10, 20)
+        expect(TransferBrain.case_conclusion_visibility(td)).to eq false
+      end
+    end
+
+
     def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
       build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id
     end

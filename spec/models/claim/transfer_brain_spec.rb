@@ -91,19 +91,22 @@ module Claim
       end
     end
 
-    describe '.case_conclusion_visibility' do
-      it 'returns a boolean determining visibility of the case conclusion field' do
-        td = transfer_detail('new', true, 10)
-        expect(TransferBrain.case_conclusion_visibility(td)).to eq false
-        td = transfer_detail('new', false, 10, 50)
-        expect(TransferBrain.case_conclusion_visibility(td)).to eq true
+    # only new litigators on unelected case transfers are required to specify case conclusion
+    #  i.e. new, false, [10,20,30,50,60]
+    describe '.case_conclusion_required?' do
+      [10,20,30,50,60].each do |ts|
+        it "should be visibile for new, unelected cases that were transfered at stage #{ts}" do
+          td = td = transfer_detail('new', false, ts)
+          expect(TransferBrain.case_conclusion_required?(td)).to eq true
+        end
       end
-      it 'returns false for invalid combinations' do
-        td = transfer_detail('new', false, 10, 20)
-        expect(TransferBrain.case_conclusion_visibility(td)).to eq false
+
+      it 'returns false for nil values' do
+        expect(TransferBrain.case_conclusion_required?(td = transfer_detail(nil, true, 10))).to eq false
+        expect(TransferBrain.case_conclusion_required?(td = transfer_detail('new', nil, 10))).to eq false
+        expect(TransferBrain.case_conclusion_required?(td = transfer_detail('new', true, nil))).to eq false
       end
     end
-
 
     def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
       build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id

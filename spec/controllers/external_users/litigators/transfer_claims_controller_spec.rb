@@ -117,7 +117,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           let(:transfer_date) { 5.days.ago }
           let(:transfer_detail_params) {
             {
-              litigator_type: 'original',
+              litigator_type: 'new',
               elected_case: false,
               transfer_stage_id: 10,
               transfer_date_dd:   transfer_date.day,
@@ -230,7 +230,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
             # note: transfer detail attributes are delegated to claim
             it 'updates the claim transfer details' do
-              expect(claim.litigator_type).to eql 'original'
+              expect(claim.litigator_type).to eql 'new'
               expect(claim.elected_case).to eql false
               expect(claim.transfer_stage_id).to eql 10
               expect(claim.case_conclusion_id).to eql 10

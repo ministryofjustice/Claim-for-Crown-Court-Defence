@@ -110,8 +110,12 @@ module Claim
     end
 
     context 'case_conclusion' do
-      it 'is valid if nil' do
-        expect_valid_attribute claim, :case_conclusion_id, nil
+
+      let(:claim) do
+        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id:30, case_conclusion_id: 10)
+        claim.form_step = 2
+        claim.force_validation = true
+        claim
       end
 
       it 'is valid if a valid case conclusion id' do
@@ -120,6 +124,23 @@ module Claim
 
       it 'errors if not a valid case conclusion id' do
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, 44, 'invalid')
+      end
+
+      context 'presence and absence' do
+        let(:claim) do
+          claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10)
+          claim.form_step = 2
+          claim.force_validation = true
+          claim
+        end
+        it 'should error if absent but required' do
+          claim.transfer_stage_id = 30
+          expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'blank')
+        end
+        it 'should error if present but not required' do
+          claim.transfer_stage_id = 40
+          expect_invalid_attribute_with_message(claim, :case_conclusion_id, 10, 'present')
+        end
       end
     end
 

@@ -482,10 +482,18 @@ transfer_date:
 
 case_conclusion_id:
   _seq: 219
+  blank:
+    long: Enter a case conclusion
+    short: Choose an option
+    api:  Enter a case conclusion
+  present:
+    long: Do not enter a case conclusion
+    short: Do not choose an option
+    api: Do not enter a case conclusion
   invalid:
-    long: Check the case conclusion state
+    long: Check the case conclusion
     short: Check selected option
-    api: Check the case conclusion state
+    api: Check the case conclusion
 
 #################################################################################
 #                                                                               #

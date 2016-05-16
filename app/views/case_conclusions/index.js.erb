@@ -1,0 +1,8 @@
+<% if Claim::TransferBrain.case_conclusion_required?(@transfer_detail) %>
+  $('.js-case-conclusions-select').slideDown();
+<% else %>
+   $('.js-case-conclusions-select select').val(''); // reset actual select list value
+   $('#claim_case_conclusion_id_autocomplete').val(''); // reset awesomplete displayed value
+   $('.js-case-conclusions-select').hide();
+<% end %>
+

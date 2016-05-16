@@ -25,8 +25,6 @@ module Claim
       50 => 'Guilty plea'
     }
 
-
-
     def self.transfer_stage_by_id(id)
       name = TRANSFER_STAGES[id]
       raise ArgumentError.new "No such transfer stage id: #{id}" if name.nil?
@@ -75,10 +73,14 @@ module Claim
       TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
     end
 
-    def self.case_conclusion_visibility(detail)
-      TransferBrainDataItemCollection.instance.visibility(detail)
-    rescue InvalidTransferCombinationError
-      false
+    #
+    # only new litigators that transfered onto unelected cases at specific stages
+    # are required to specify case conclusions.
+    # i.e. 'new', false, [10,20,30,50,60]
+    def self.case_conclusion_required?(detail)
+      return detail.litigator_type == 'new' &&
+             detail.elected_case == false && # treat nil as failure i.e. non-false
+             [10,20,30,50,60].include?(detail.transfer_stage_id)
     end
 
   end

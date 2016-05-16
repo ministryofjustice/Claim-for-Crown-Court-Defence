@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   resources :offences, only: [:index], format: :js
   resources :case_types, only: [:show], format: :js
+  resources :case_conclusions, only: [:index], format: :js
 
   resources :user_message_statuses, only: [:index, :update]
 

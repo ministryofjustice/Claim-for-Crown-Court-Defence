@@ -4,7 +4,7 @@ module Claim
   describe TransferBrainDataItem do
 
     let(:item) do
-      fields = ['original', 'true', 'During trial transfer', 'Guilty plea', 'TRUE', 'false', 'Fee full name', 'grad']
+      fields = ['original', 'true', 'During trial transfer', 'Guilty plea', 'TRUE', 'Fee full name', 'grad']
       TransferBrainDataItem.new(fields)
     end
 
@@ -15,7 +15,6 @@ module Claim
         expect(item.transfer_stage_id).to eq 30
         expect(item.case_conclusion_id).to eq 50
         expect(item.validity).to be true
-        expect(item.visibility).to be false
         expect(item.transfer_fee_full_name).to eq 'Fee full name'
         expect(item.allocation_type).to eq 'grad'
       end
@@ -47,7 +46,6 @@ module Claim
             true => {
               30 => {
                 50 => {
-                  :visibility => false,
                   :validity => true,
                   :transfer_fee_full_name => "Fee full name",
                   :allocation_type => "grad"

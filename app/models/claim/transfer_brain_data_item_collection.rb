@@ -1,7 +1,7 @@
 require 'csv'
 
 # This class holds a collection of rules relating to TransferClaims which govern
-# the fee name, the conclusion visibility, the validity of the data, and the
+# the fee name, the validity of the data, and the
 # case allocation type.  The rules are read in from a CSV file, instantiated into
 # TransferDataItem objects and then added to this collection.
 #
@@ -50,11 +50,6 @@ module Claim
         result = nil
       end
       result
-    end
-
-    def visibility(detail)
-      raise InvalidTransferCombinationError.new unless detail_valid?(detail)
-      data_item_for(detail)[:visibility]
     end
 
     def transfer_fee_full_name(detail)

@@ -30,7 +30,8 @@ module Claim
         :transfer_stage_id,
         :transfer_date,
         :case_conclusion_id,
-        :transfer_detail_combo
+        :transfer_detail_combo,
+        :total
       ]
   ]
 

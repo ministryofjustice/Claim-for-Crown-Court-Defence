@@ -1,4 +1,4 @@
-.form-group.fixed-fee-group.nested-fields
+.form-group.fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
   .grid-row
     .column-one-half.fee-type
       %label.form-label
@@ -25,13 +25,13 @@
   .grid-row
     .column-one-third.fee-total
       %label.form-label Total
-      %span.amount{data: {'amount': f.object.amount ||= 0}}
+      %span.total{data: {'total': f.object.amount ||= 0}}
         = number_to_currency(f.object.amount ||= 0)
 
   .grid-row.fee-dates-row
-    
+
     %label.form-label Dates
-    
+
     %span.no-dates.form-hint
       = t('.no_dates')
     = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
@@ -39,5 +39,5 @@
     .grid-row.dates-wrapper
       = f.fields_for :dates_attended do |date_attended|
         = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
-  
+
   = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group' }

@@ -30,7 +30,7 @@
       = claim.vat_amount
   %h3.total
     = "Total "
-    %span.numeric.total-inc{data:{'total-inc': claim.total_inc_vat ||= 0}}
+    %span.numeric.total-grandTotal{data:{'total-grandTotal': claim.total_inc_vat ||= 0}}
       = claim.total_inc_vat
 
   - if display_buttons == true

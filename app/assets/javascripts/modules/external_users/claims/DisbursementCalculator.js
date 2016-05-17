@@ -27,8 +27,9 @@ moj.Modules.DisbursementCalculator = {
       if (isNaN(total)) {
         wrapper.find(self.total).text(' ');
       } else {
-        wrapper.find(self.total).text('£ '+ total);
+        wrapper.find(self.total).text('£'+ total);
       }
+      wrapper.trigger('recalculate');
     });
   }
 };

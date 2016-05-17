@@ -2,28 +2,29 @@
 
   = f.anchored_without_label 'transfer_detail'
 
-  %fieldset
-    .form-row
-      %fieldset.inline
-        = f.anchored_label t('.litigator_type'), 'litigator_type'
-        = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
-          - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
-      = validation_error_message(@error_presenter, :litigator_type)
+  .js-case-conclusion-effectors
+    %fieldset
+      .form-row
+        %fieldset.inline
+          = f.anchored_label t('.litigator_type'), 'litigator_type'
+          = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
+            - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
+        = validation_error_message(@error_presenter, :litigator_type)
 
-  %fieldset
-    .form-row
-      %fieldset.inline
-        = f.anchored_label t('.elected_case'), 'elected_case'
-        = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
-          - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
-      = validation_error_message(@error_presenter, :elected_case)
+    %fieldset
+      .form-row
+        %fieldset.inline
+          = f.anchored_label t('.elected_case'), 'elected_case'
+          = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
+            - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
+        = validation_error_message(@error_presenter, :elected_case)
 
-  %fieldset
-    .form-row
-      .form-col
-        = f.anchored_label t('.transfer_stages'), 'transfer_stage_id'
-        = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete js-transfer-stage-id'}
-        = validation_error_message(@error_presenter, 'transfer_stage_id')
+    %fieldset
+      .form-row
+        .form-col
+          = f.anchored_label t('.transfer_stages'), 'transfer_stage_id'
+          = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete js-transfer-stage-id'}
+          = validation_error_message(@error_presenter, 'transfer_stage_id')
 
   %fieldset
     .form-row

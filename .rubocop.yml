@@ -1,0 +1,40 @@
+# This is the configuration used to check the rubocop source code.
+
+inherit_from:
+  - config/rubocops/gds-ruby-styleguide.yml
+  - config/rubocops/other-lint.yml
+  - config/rubocops/other-rails.yml
+  - config/rubocops/other-style.yml
+  - config/rubocops/other-metrics.yml
+  - .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'lib/demo_data/**/*'
+    - 'lib/tasks/**/*'
+    - 'features/**/*'
+    - 'old_features/**/*'
+    - 'spec/**/*'
+
+Documentation:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false

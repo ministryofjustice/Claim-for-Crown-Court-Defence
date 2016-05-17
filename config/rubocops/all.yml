@@ -1,0 +1,22 @@
+inherit_from:
+  - gds-ruby-styleguide.yml
+  - other-lint.yml
+  - other-rails.yml
+  - other-style.yml
+  - other-metrics.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'lib/demo_data/**/*'
+    - 'lib/tasks/**/*'
+    - 'features/**/*'
+    - 'old_features/**/*'
+    - 'spec/**/*'
+
+Documentation:
+  Enabled: false

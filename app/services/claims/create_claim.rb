@@ -13,15 +13,11 @@ module Claims
 
       save_claim!(validate?)
 
-      self
+      result
     end
 
     def action
       :new
-    end
-
-    def ga_args
-      %w(event claim submit started)
     end
   end
 end

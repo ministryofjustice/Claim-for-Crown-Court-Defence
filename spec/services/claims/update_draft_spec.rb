@@ -17,10 +17,6 @@ describe Claims::UpdateDraft do
       expect(subject.action).to eq(:edit)
     end
 
-    it 'defines the google analytics tokens' do
-      expect(subject.ga_args).to eq %w(event claim draft updated)
-    end
-
     it 'is a draft' do
       expect(subject.draft?).to be_truthy
     end

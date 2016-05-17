@@ -13,6 +13,7 @@ module Claim
           :case_concluded_at
         ],
         [
+          :transfer_fee,
           :litigator_type,
           :elected_case,
           :transfer_stage_id,
@@ -25,6 +26,10 @@ module Claim
     end
 
     private
+
+    def validate_transfer_fee
+      add_error(:transfer_fee, 'blank') if @record.transfer_fee.nil?
+    end
 
     def validate_litigator_type
       unless @record.litigator_type.in? %w{ new original }

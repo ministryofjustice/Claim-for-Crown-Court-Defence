@@ -1,4 +1,5 @@
 #transfer-fee.mod-fees
+  = f.anchored_without_label 'transfer_fee'
   %h2.bold-medium
     = t('.transfer_fee_section_header')
   %p.form-hint.xsmall
@@ -19,5 +20,6 @@
             %span.currency-indicator>< £
             = tf.number_field :amount, value: number_with_precision(tf.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
             = validation_error_message(@error_presenter, 'transfer_fee.amount')
+            = validation_error_message(@error_presenter, 'transfer_fee')
 
   = render partial: 'external_users/claims/transfer_fee/detail_fields', locals: { f: f }

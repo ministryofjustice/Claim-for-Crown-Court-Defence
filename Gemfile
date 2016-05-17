@@ -56,6 +56,7 @@ gem 'premailer-rails',         '~> 1.9'
 gem 'sidekiq',                 '~> 4.1'
 gem 'string-to-bool',          '~> 0.0'
 gem 'utf8-cleaner',            '~> 0.2'
+gem 'rubocop',                 '0.40.0'
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'

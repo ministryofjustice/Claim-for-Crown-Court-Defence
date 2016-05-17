@@ -1,9 +1,7 @@
 require 'csv'
 
-
-
 # This class holds a collection of rules relating to TransferClaims which govern
-# the fee name, the conclusion visibility, the validity of the data, and the
+# the fee name, the validity of the data, and the
 # case allocation type.  The rules are read in from a CSV file, instantiated into
 # TransferDataItem objects and then added to this collection.
 #
@@ -13,6 +11,17 @@ require 'csv'
 # To get a reference to the object, call .instance rather than .new.
 #
 module Claim
+
+  class InvalidTransferCombinationError < ArgumentError
+
+    DEFAULT_MSG = 'Invalid combination of transfer detail fields'
+
+    def initialize(msg=DEFAULT_MSG)
+      super(msg)
+    end
+
+  end
+
   class TransferBrainDataItemCollection
     include Singleton
 
@@ -22,7 +31,6 @@ module Claim
       lines.each { |line| @collection << TransferBrainDataItem.new(line) }
       @collection_hash = construct_collection_hash
     end
-
 
     # Returns a hierarchical hash of the collection with the keys litigator_type -> elected_case -> transfer_stage_id -> case_conclusion_id.
     # In the resulting hash, '*' in the case_conclusion_id key means any case conclusion id
@@ -45,12 +53,12 @@ module Claim
     end
 
     def transfer_fee_full_name(detail)
-      raise ArgumentError.new('Invalid combination of transfer detail fields') unless detail_valid?(detail)
+      raise InvalidTransferCombinationError.new unless detail_valid?(detail)
       data_item_for(detail)[:transfer_fee_full_name]
     end
 
     def allocation_type(detail)
-      raise ArgumentError.new('Invalid combination of transfer detail fields') unless detail_valid?(detail)
+      raise InvalidTransferCombinationError.new unless detail_valid?(detail)
       data_item_for(detail)[:allocation_type]
     end
 

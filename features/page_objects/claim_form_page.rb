@@ -105,7 +105,7 @@ class ClaimFormPage < SitePrism::Page
     available_docs = Dir.glob "spec/fixtures/files/*.pdf"
 
     available_docs[0...count].each do |path|
-      puts "      Attaching #{path}"
+      # puts "      Attaching #{path}"
       drag_and_drop_file("dropzone", path)
     end
   end

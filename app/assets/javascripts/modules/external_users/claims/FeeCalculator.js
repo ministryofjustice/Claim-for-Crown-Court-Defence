@@ -21,7 +21,7 @@ moj.Modules.FeeCalculator = {
     var $elem = $(this.el);
 
     $elem.on('cocoon:after-insert', function(e) {
-      console.log('mod.evt.after-insert', [e]);
+      // console.log('mod.evt.after-insert', [e]);
       var $el = $(e.target);
       $el.siblings('.no-dates').hide();
     });

@@ -17,6 +17,7 @@
 #
 
 class CaseTypesController < ApplicationController
+
   skip_load_and_authorize_resource only: [:show]
 
   def show

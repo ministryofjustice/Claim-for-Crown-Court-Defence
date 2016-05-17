@@ -7,7 +7,7 @@
       %fieldset.inline
         = f.anchored_label t('.litigator_type'), 'litigator_type'
         = f.collection_radio_buttons(:litigator_type, ['original','new'], :to_s, :humanize) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.text }
+          - b.label(class: "block-label") { b.radio_button(class: 'js-litigator-type') + b.text }
       = validation_error_message(@error_presenter, :litigator_type)
 
   %fieldset
@@ -15,14 +15,14 @@
       %fieldset.inline
         = f.anchored_label t('.elected_case'), 'elected_case'
         = f.collection_radio_buttons(:elected_case, [['Yes','true'],['No','false']], :last, :first ) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.text }
+          - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
       = validation_error_message(@error_presenter, :elected_case)
 
   %fieldset
     .form-row
       .form-col
         = f.anchored_label t('.transfer_stages'), 'transfer_stage_id'
-        = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete'}
+        = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete js-transfer-stage-id'}
         = validation_error_message(@error_presenter, 'transfer_stage_id')
 
   %fieldset
@@ -30,9 +30,10 @@
       .form-col
         = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date'), legend_class: 'govuk-legend', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
 
-  %fieldset
-    .form-row
-      .form-col
-        = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
-        = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{}, { class: 'form-control autocomplete'}
-        = validation_error_message(@error_presenter, 'case_conclusion_id')
+  .js-case-conclusions-select
+    %fieldset
+      .form-row
+        .form-col
+          = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
+          = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ prompt: true, include_blank: true }, { class: 'form-control autocomplete'}
+          = validation_error_message(@error_presenter, 'case_conclusion_id')

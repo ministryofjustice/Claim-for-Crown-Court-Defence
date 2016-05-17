@@ -50,9 +50,11 @@ module Claim
     end
 
     def validate_case_conclusion_id
-      return if @record.case_conclusion_id.nil?
-      unless @record.case_conclusion_id.in? TransferBrain.case_conclusion_ids
-        add_error(:case_conclusion_id, 'invalid')
+      if TransferBrain.case_conclusion_required?(@record.transfer_detail)
+        validate_presence(:case_conclusion_id,'blank')
+        validate_inclusion(:case_conclusion_id,TransferBrain.case_conclusion_ids,'invalid')
+      else
+        validate_absence(:case_conclusion_id,'present')
       end
     end
 

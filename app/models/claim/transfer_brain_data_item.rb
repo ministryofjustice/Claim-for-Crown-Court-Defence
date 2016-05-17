@@ -2,7 +2,7 @@ module Claim
   class TransferBrainDataItem
 
     attr_reader :litigator_type, :elected_case, :transfer_stage_id, :case_conclusion_id,
-                :allocation_type, :validity, :visibility, :transfer_fee_full_name
+                :allocation_type, :validity, :transfer_fee_full_name
 
     def initialize(arry)
       copy_array = arry
@@ -12,7 +12,6 @@ module Claim
         @transfer_stage_id        = TransferBrain.transfer_stage_id(arry.shift)
         @case_conclusion_id       = get_case_conclusion_id(arry.shift)
         @validity                 = arry.shift.to_bool
-        @visibility               = get_visibility(arry.shift)
         @transfer_fee_full_name   = arry.shift
         @allocation_type          = arry.shift
       rescue => err
@@ -25,9 +24,9 @@ module Claim
 
     def match_detail?(detail)
       @litigator_type == detail.litigator_type &&
-          @elected_case == detail.elected_case &&
-          @transfer_stage_id == detail.transfer_stage_id &&
-          @case_conclusion_id == detail.case_conclusion_id
+      @elected_case == detail.elected_case &&
+      @transfer_stage_id == detail.transfer_stage_id &&
+      @case_conclusion_id == detail.case_conclusion_id
     end
 
 
@@ -37,7 +36,6 @@ module Claim
           @elected_case => {
             @transfer_stage_id => {
               @case_conclusion_id => {
-                :visibility => @visibility,
                 :validity => @validity,
                 :transfer_fee_full_name => @transfer_fee_full_name,
                 :allocation_type => @allocation_type
@@ -52,10 +50,6 @@ module Claim
 
     def get_case_conclusion_id(item)
       item.blank? ? '*' :  TransferBrain.case_conclusion_id(item)
-    end
-
-    def get_visibility(item)
-      item.blank? ? false : item.to_bool
     end
 
   end

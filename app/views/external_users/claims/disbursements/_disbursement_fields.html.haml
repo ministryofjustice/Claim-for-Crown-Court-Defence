@@ -25,9 +25,9 @@
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_vat_amount")
 
     .column-one-quarter.fee-rate
-      %label.form-label
+      %label.form-label.pb8
         = t('.total')
-      %div{data: { calculator: 'total'}}
+      %div{data: { calculator: 'total', total: number_to_currency(f.object.total) }}
         = number_to_currency(f.object.total)
 
   = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group' }

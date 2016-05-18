@@ -9,7 +9,10 @@
 #end
 #
 #Example: prevent PhantomJS auto install, uses PhantomJS already on your path.
-#Jasmine.configure do |config|
-#   config.prevent_phantom_js_auto_install = true
-#end
-#
+# NOTE: travis has phantomjs pre-installed and on path so auto-install
+#       not needed (and can intermittently fail with travis success
+#       if install site not available)
+Jasmine.configure do |config|
+  config.prevent_phantom_js_auto_install = true
+end
+

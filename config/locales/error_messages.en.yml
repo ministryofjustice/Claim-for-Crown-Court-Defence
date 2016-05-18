@@ -811,6 +811,13 @@ misc_fee:
       short: Enter valid case numbers
       api: Enter valid case numbers for the miscellaneous fee
 
+  amount:
+    _seq: 50
+    invalid:
+      long: 'Enter an amount for the #{misc_fee}'
+      short: Enter a valid amount
+      api: Enter a valid amount for the miscellaneous fee
+
 #################################################################################
 #                                                                               #
 #   FIXED FEE                                                                   #

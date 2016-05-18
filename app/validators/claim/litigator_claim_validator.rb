@@ -13,14 +13,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
         :case_concluded_at
       ],
       [
-        :estimated_trial_length,
         :actual_trial_length,
-        :retrial_estimated_length,
-        :retrial_actual_length,
-        :first_day_of_trial,
-        :trial_concluded_at,
-        :retrial_started_at,
-        :retrial_concluded_at,
         :total
       ]
     ]

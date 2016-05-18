@@ -1076,41 +1076,41 @@ date_attended:
   attended_item:
     _seq: 5
     blank:
-      long: "You must specify an attended item for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}"
+      long: "You must specify an attended item for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}"
       short: You must specify an attended item
       api: Attended item cannot be blank
 
   date:
     _seq: 10
     blank:
-      long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
       short: *enter_date
       api: 'Enter the date attended (from)'
     not_before_earliest_representation_order_date:
-      long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
       short: Enter a date after the earliest representation order date
       api: The date attended (from) must be after the earliest representation order date
     not_before_earliest_permitted_date:
-      long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is more than 5 years ago'
+      long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is more than 5 years ago'
       short: Enter a date less than 5 years ago
       api: The date attended (from) must be less than 5 years ago
     invalid_date:
-      long: 'Enter a valid date for the #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      long: 'Enter a valid date for the #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
       short: *enter_valid_date
       api: 'Enter a valid date for the date attended (from)'
 
   date_to:
     _seq: 20
     not_before_date_from:
-      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
       short: Enter a date after the date attended (from)
       api: 'The date attended (to) must be after the date attended (from)'
     not_after_today:
-      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense} is invalid'
+      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
       short: Enter a date that is not in the future
       api: The date attended (to) cannot be in the future
     invalid_date:
-      long: 'Enter a valid date for the #{date_attended} (to) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{expense}'
+      long: 'Enter a valid date for the #{date_attended} (to) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
       short: *enter_valid_date
       api: 'Enter a valid date for the date attended (to)'
 

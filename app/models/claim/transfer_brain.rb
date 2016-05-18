@@ -78,9 +78,9 @@ module Claim
     # are required to specify case conclusions.
     # i.e. 'new', false, [10,20,30,50,60]
     def self.case_conclusion_required?(detail)
-      return detail.litigator_type == 'new' &&
-             detail.elected_case == false && # treat nil as failure i.e. non-false
-             [10,20,30,50,60].include?(detail.transfer_stage_id)
+      detail.litigator_type == 'new' &&
+        detail.elected_case == false && # treat nil as failure i.e. non-false
+        [10,20,30,50,60].include?(detail.transfer_stage_id)
     end
 
   end

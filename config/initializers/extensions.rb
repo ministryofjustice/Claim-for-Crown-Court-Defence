@@ -11,3 +11,7 @@ end
 class ActiveRecord::Base
   include NestedAttributesExtension
 end
+
+class ActionController::Parameters
+  include ParametersExtension
+end

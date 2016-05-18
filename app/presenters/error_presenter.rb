@@ -42,7 +42,7 @@ class ErrorPresenter
   end
 
   def last_parent_attribute(translations, key)
-    attribute = key
+    attribute = ErrorMessageTranslator.association_key(key)
     while attribute =~ SUBMODEL_REGEX do
       parent_model = $1
       attribute = $4
@@ -73,7 +73,7 @@ class ErrorPresenter
   #
   def generate_sequence(key)
     translations_subset, parent_sequence = translations_sub_set_and_parent_sequence(key)
-    translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequnece || 99999 rescue 99999
+    translations_subset['_seq'].present? ? translations_subset['_seq'] + parent_sequence : parent_sequence || 99999 rescue 99999
  end
 
   def generate_link(fieldname)

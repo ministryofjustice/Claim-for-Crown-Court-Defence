@@ -209,7 +209,7 @@ describe("Modules.SideBar.js", function() {
         expect(jQuery.fn.on).toHaveBeenCalled();
       });
 
-      xit('should call the correct callback for events', function() {
+      it('should call the correct callback for events', function() {
         spyOn(moj.Modules.SideBar, 'recalculate');
         spyOn(moj.Modules.SideBar, 'loadBlocks');
 

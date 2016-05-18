@@ -47,11 +47,11 @@ describe Fee::MiscFeeValidator do
 
     describe '#validate_amount' do
       it 'should error if amount is equal to zero' do
-        should_error_if_equal_to_value(fee, :amount,  0.00, "#{fee_code.downcase}_invalid")
+        should_error_if_equal_to_value(fee, :amount,  0.00, 'invalid')
       end
 
       it 'should error if amount is less than zero' do
-        should_error_if_equal_to_value(fee, :amount,  -10.00, "#{fee_code.downcase}_invalid")
+        should_error_if_equal_to_value(fee, :amount,  -10.00, 'invalid')
       end
     end
 

@@ -24,7 +24,7 @@
           .column-two-thirds
             - ff.object.dates_attended << DateAttended.new unless ff.object.dates_attended.any?
             = ff.fields_for :dates_attended do |date_attended|
-              = render 'date_generic_fields', f: date_attended, submodel_count: date_attended.index+1
+              = render 'date_generic_fields', f: date_attended, field_id: 'fixed_fee.date_attended_1_date'
 
           .column-one-third.condensed.js-expense-amount.fee-total
             %label.form-label Total

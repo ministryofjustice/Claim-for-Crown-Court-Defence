@@ -35,6 +35,14 @@ class ErrorMessageTranslator
     @long_message.nil? || @short_message.nil? || @api_message.nil?
   end
 
+  # Support for keys in the format: fixed_fee.date_attended_1_date
+  # Will convert it to: fixed_fee_0_date_attended_0_date
+  #
+  def self.association_key(key)
+    return key unless key.index('.').present?
+    key.sub('.', '_0_').sub('_1_', '_0_')
+  end
+
   private
 
   # needed for GovUkDateField error handling (at least)
@@ -74,7 +82,7 @@ class ErrorMessageTranslator
   end
 
   def last_parent_attribute(translations, key)
-    attribute = key
+    attribute = self.class.association_key(key)
     while attribute =~ @regex do
       parent_model = $1
       submodel_id  = $3
@@ -127,8 +135,7 @@ class ErrorMessageTranslator
   end
 
   def to_ordinal_in_words(n)
-    ordinals = %w{ first second third fourth fifth sixth seventh eighth ninth tenth }
-    ordinals[n-1]
+    %W(#{} first second third fourth fifth sixth seventh eighth ninth tenth)[n]
   end
 
 end

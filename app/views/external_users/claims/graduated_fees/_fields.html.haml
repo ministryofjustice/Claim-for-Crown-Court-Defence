@@ -30,7 +30,7 @@
           .column-one-third
             - gf.object.dates_attended << DateAttended.new unless gf.object.dates_attended.any?
             = gf.fields_for :dates_attended do |date_attended|
-              = render 'date_generic_fields', f: date_attended, submodel_count: date_attended.index+1
+              = render 'date_generic_fields', f: date_attended, field_id: 'graduated_fee.date_attended_1_date'
 
           .column-one-third.js-expense-reason
             %label.form-label

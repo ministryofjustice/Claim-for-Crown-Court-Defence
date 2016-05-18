@@ -696,7 +696,7 @@ en:
         fields:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant date issued"
-          date_executed: "Warrant date executed (optional)"
+          date_executed: "Warrant date executed (if applicable)"
           total: "Total"
       supplier_number:
         fields:

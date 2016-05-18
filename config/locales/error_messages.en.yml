@@ -444,29 +444,36 @@ legal_aid_transfer_date:
 #                                                                               #
 #################################################################################
 
+transfer_detail:
+  _seq: 220
+  invalid_combo:
+    long: Check combination of transfer details
+    short: Check transfer details combination
+    api: Check combination of transfer details
+
 litigator_type:
-  _seq: 215
+  _seq: 230
   invalid:
     long: Choose the litigator type
     short: Choose a type
     api: Choose the litigator type
 
 elected_case:
-  _seq: 216
+  _seq: 240
   invalid:
     long: Choose the elected case status
     short: Choose an answer
     api: Choose the elected case status
 
 transfer_stage_id:
-  _seq: 217
+  _seq: 250
   invalid:
     long: Check the stage at which the case was transfered
     short: Check selected option
     api: Check the stage at which the case was transfered
 
 transfer_date:
-  _seq: 218
+  _seq: 260
   blank:
     long: Enter the transfer date
     short: *enter_date
@@ -481,7 +488,7 @@ transfer_date:
     api: 'Check the transfer date'
 
 case_conclusion_id:
-  _seq: 219
+  _seq: 270
   blank:
     long: Enter a case conclusion
     short: Choose an option
@@ -814,7 +821,7 @@ misc_fee:
   amount:
     _seq: 50
     invalid:
-      long: 'Enter an amount for the #{misc_fee}'
+      long: 'Enter a valid amount for the #{misc_fee}'
       short: Enter a valid amount
       api: Enter a valid amount for the miscellaneous fee
 
@@ -947,7 +954,7 @@ warrant_fee:
 #################################################################################
 
 transfer_fee:
-  _seq: 650
+  _seq: 200
 
   base:
     uneditable_state:
@@ -955,27 +962,21 @@ transfer_fee:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
   blank:
+    _seq: 5
     long: Add a transfer fee
     short: Enter an amount
     api: Add a transfer fee
 
   amount:
-    _seq: 5
+    _seq: 10
     blank:
-      long: Enter an amount for the tranfer
+      long: Enter an amount for the transfer
       short: Enter an amount
       api: Enter an amount for the transfer
     numericality:
       long: Enter a valid amount for the transfer fee
       short: Enter a valid amount
       api: Enter a valid amount for the transfer fee
-
-transfer_detail:
-  _seq: 670
-  invalid_combo:
-    long: Check combination of transfer details
-    short: Check transfer details combination
-    api: Check combination of transfer details
 
 #################################################################################
 #                                                                               #

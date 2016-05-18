@@ -92,6 +92,20 @@ button.search {
     border-bottom: 2px solid $border-colour;
 }
 
+.pb8{
+  padding-bottom:8px;
+}
+
+.mod-expenses,
+.mod-graduated-fees,
+.mod-fees{
+  input.rate,
+  input.amount,
+  input.total{
+    width: 65%;
+  }
+}
+
 .mod-expenses,
 .mod-graduated-fees{
   .govuk-legend{

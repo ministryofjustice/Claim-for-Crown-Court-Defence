@@ -58,7 +58,7 @@ moj.Modules.FeeCalculator = {
     if (isNaN(total)) {
       wrapper.find('.total').text('');
     } else {
-      wrapper.find('.total').text('£ ' + total);
+      wrapper.find('.total').text('&pound; ' + moj.Helpers.SideBar.addCommas(total));
       wrapper.find('.total').data('total', total);
     }
   },

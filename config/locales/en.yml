@@ -456,9 +456,12 @@ en:
           select_offence_class: 'Please select'
         trial_detail_fields:
           actual_trial_length: 'Actual trial length'
+          actual_trial_length_hint: 'Number of days'
           estimated_trial_length: 'Estimated trial length'
+          estimated_trial_length_hint: 'Number of days'
           first_day_of_trial: 'First day of trial'
           trial_concluded_at: 'Trial concluded on'
+          days: "Days"
         retrial_detail_fields:
           retrial_actual_length: 'Actual retrial length'
           retrial_concluded_at: 'Retrial concluded on'

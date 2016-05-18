@@ -7,19 +7,38 @@
     &nbsp;
 
   .form-row
-    .form-col.form-col-one-half 
+    .form-col.form-col-one-half
       = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', id: "first_day_of_trial", error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
 
     .form-col
-      = f.anchored_label t('.estimated_trial_length')
-      = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
-      = validation_error_message(@error_presenter, :estimated_trial_length)
+      %fieldset
+        %legend.govuk-legend |
+          = t('.estimated_trial_length')
+          .form-date
+            %p.form-hint |
+              = t('.estimated_trial_length_hint')
+
+        .form-group.form-group-day
+          = f.anchored_label t('.days')
+          = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control short-input'
+          = validation_error_message(@error_presenter, :estimated_trial_length)
+
   .form-row
 
     .form-col.form-col-one-half
       = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', id: "trial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
 
     .form-col
-      = f.anchored_label t('.actual_trial_length')
-      = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control'
-      = validation_error_message(@error_presenter, :actual_trial_length)
+      %fieldset
+        %legend.govuk-legend |
+          = t('.actual_trial_length')
+          .form-date
+            %p.form-hint |
+              = t('.actual_trial_length_hint')
+
+        .form-group.form-group-day
+          = f.anchored_label t('.days')
+          = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control short-input'
+          = validation_error_message(@error_presenter, :actual_trial_length)
+
+

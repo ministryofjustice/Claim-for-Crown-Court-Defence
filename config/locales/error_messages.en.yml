@@ -876,6 +876,14 @@ fixed_fee:
       short: Do not choose a fee sub type
       api: Do not choose a fee sub type
 
+  amount:
+    _seq: 50
+    invalid:
+      long: Enter a valid amount for the fixed fee
+      short: Enter a valid amount
+      api: Enter a valid amount for the fixed fee
+
+
 #################################################################################
 #                                                                               #
 #   WARRANT FEE                                                                 #

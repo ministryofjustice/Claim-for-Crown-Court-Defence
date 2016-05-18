@@ -56,18 +56,19 @@ gem 'premailer-rails',         '~> 1.9'
 gem 'sidekiq',                 '~> 4.1'
 gem 'string-to-bool',          '~> 0.0'
 gem 'utf8-cleaner',            '~> 0.2'
-gem 'rubocop',                 '0.40.0'
+
 
 group :production, :devunicorn do
   gem 'rails_12factor', '0.0.3'
   gem 'unicorn-rails',  '2.2.0'
 end
 
-group :development do
+group :development, :devunicorn do
   gem 'meta_request', '~> 0.3.4'
+  gem 'rubocop',      '0.40.0'
 end
 
-group :development, :test do
+group :development, :devunicorn, :test do
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'

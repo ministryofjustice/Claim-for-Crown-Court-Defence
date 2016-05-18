@@ -8,14 +8,12 @@
     .form-group.nested-fields
       .grid-row
         .column-one-half
-          = wf.anchored_attribute 'warrant_issued_date'
-          = wf.gov_uk_date_field :warrant_issued_date, legend_text: t('.date_issued')
-          = validation_error_message(@error_presenter, :warrant_issued_date)
+          = wf.gov_uk_date_field :warrant_issued_date, legend_text: t('.date_issued'), legend_class: 'govuk-legend',
+            id: 'warrant_fee.warrant_issued_date', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_issued_date')
 
         .column-one-half
-          = wf.anchored_attribute 'warrant_executed_date'
-          = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed')
-          = validation_error_message(@error_presenter, :warrant_executed_date)
+          = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed'), legend_class: 'govuk-legend',
+            id: 'warrant_fee.warrant_executed_date', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_executed_date')
 
       - if @claim.interim?
         .grid-row

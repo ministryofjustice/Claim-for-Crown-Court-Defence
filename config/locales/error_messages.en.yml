@@ -942,6 +942,16 @@ warrant_fee:
 transfer_fee:
   _seq: 650
 
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+  blank:
+    long: Add a transfer fee
+    short: Enter an amount
+    api: Add a transfer fee
+
   amount:
     _seq: 5
     blank:

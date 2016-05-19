@@ -1,4 +1,4 @@
-.form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", "muterowcalculation": !f.object.calculated? ? "true" : "false"}}
+.form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", calculated: f.object.calculated? ? "true" : "false"}}
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
   - if f.object.calculated?

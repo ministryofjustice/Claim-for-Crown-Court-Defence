@@ -6,13 +6,13 @@
     %label.form-label
       = t('.quantity')
       %a{name: "basic_fee_#{@basic_fee_count}_quantity"}
-      = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
+      = f.number_field :quantity, value: number_with_precision_or_default(f.object.quantity) , class: 'form-control quantity', min: 0, max: 99999
       = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_quantity")
 
   .column-one-quarter.fee-rate
     %label.form-label
       = t('.total')
       %a{name: "basic_fee_#{@basic_fee_count}_amount"}
-    %span.currency-indicator>< £
-    = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
+    %span.currency-indicator>< &pound;
+    = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
     = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")

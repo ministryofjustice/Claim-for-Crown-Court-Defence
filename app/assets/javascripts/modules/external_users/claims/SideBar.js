@@ -21,25 +21,14 @@ moj.Modules.SideBar = {
     self.blocks = [];
     $('.js-block').each(function(id, el) {
       var $el = $(el);
-      self.blocks.push(new moj.Helpers.SideBar.FeeBlock({
+      var fn = $el.data('calculated') ? 'FeeBlockCalculator' : 'FeeBlock';
+      self.blocks.push(new moj.Helpers.SideBar[fn]({
         type: $el.data('type'),
         autoVAT: $el.data('autovat'),
         el: el,
         $el: $el
       }));
     });
-  },
-
-  addCommas: function(nStr) {
-    nStr += '';
-    var x = nStr.split('.');
-    var x1 = x[0];
-    var x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
   },
 
   render: function() {

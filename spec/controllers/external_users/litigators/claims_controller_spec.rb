@@ -235,96 +235,110 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
       context 'basic and non-basic fees' do
 
-        let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
-        let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
-        let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
-        let!(:basic_fee_type_4)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 4' }
+        # let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
+        # let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
+        # let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
+        # let!(:basic_fee_type_4)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 4' }
         let!(:misc_fee_type_1)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
         let!(:misc_fee_type_2)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
         let!(:fixed_fee_type_1)         { FactoryGirl.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
+        let!(:graduated_fee_type_1)     { FactoryGirl.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
         let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
 
-        context 'non fixed fee case types' do
-          before(:each) do
-            @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
-          end
+        context 'graduated fee case types' do
+          # UNUSED
+          # before(:each) do
+          #   @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
+          # end
 
           context 'valid params' do
-            it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
-              post :create, claim: claim_params
-              claim = assigns(:claim)
+            before { post :create, claim: claim_params }
 
-              # one record for every basic fee regardless of whether blank or not
-              expect(claim.basic_fees.size).to eq 4
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+            it 'should be a redirect' do
+              expect(response.status).to eq 302
+              # expect(response).to redirect_to summary_external_users_claim_url(assigns(:claim))
+            end
 
-              # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
-              expect(claim.fixed_fee.persisted?).to be_falsey
+            it 'should create the graduated fee' do
+              expect(assigns(:claim).graduated_fee.persisted?).to be_truthy
+              expect(assigns(:claim).graduated_fee.amount).to eq 2000
+            end
 
-              expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+            it 'should NOT create the fixed fee' do
+              expect(assigns(:claim).fixed_fee.persisted?).to be_falsey
+            end
 
-              expect(claim.reload.fees_total).to eq 10_375.45
+            it 'should create the miscellaneoous fees' do
+              expect(assigns(:claim).misc_fees.size).to eq 2
+              expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
+            end
+
+             it 'should update claim total to sum of graduated and miscellaneous fees' do
+              expect(assigns(:claim).reload.fees_total).to eq 2375.00
             end
           end
 
           context 'invalid params' do
             render_views
+            before { post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
 
-            it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
-              post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
+            it 'should redisplay the page' do
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
+            end
+
+            it 'should display error messages ' do
               expect(response.body).to have_content("Enter a case number")
+            end
+
+            it 'should retain all the entered data for the graduated fee and miscellaneous fees' do''
               claim = assigns(:claim)
-              expect(claim.basic_fees.size).to eq 4
-              expect(claim.fixed_fee).not_to be_nil
-              expect(claim.misc_fees.size).to eq 1
+              expect(claim.graduated_fee.persisted?).to be_falsey
+              expect(claim.fixed_fee).to have_attributes(fee_type_id: fixed_fee_type_1.id, amount: 2500 )
+              expect(claim.misc_fees.size).to eq 2
+            end
 
-              bf1 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 1' }
-              expect(bf1.quantity).to eq 10
-              expect(bf1.amount).to eq 1000
-
-              bf2 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 2' }
-              expect(bf2.quantity).to eq 0
-              expect(bf2.amount).to eq 0
-
-              bf3 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 3' }
-              expect(bf3.quantity).to eq 1
-              expect(bf3.amount.to_f).to eq 9000.45
-
-              bf4 = claim.basic_fees.detect{ |f| f.description == 'Basic Fee Type 4' }
-              expect(bf4.quantity).to eq 5
-              expect(bf4.amount).to eq 125
+            it 'should not persist any of the data' do
+              claim = assigns(:claim)
+              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000 )
+              expect(claim.fixed_fee.persisted?).to be_falsey
+              expect(claim.misc_fees.count).to eq 0
             end
           end
         end
 
         context 'fixed fee case types' do
           context 'valid params' do
-            it 'should create a claim with fixed fees ONLY' do
-              allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
+            before do
               claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
-              response = post :create, claim: claim_params
-              claim = assigns(:claim)
+              allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
+              post :create, claim: claim_params
+            end
 
-              # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
-              expect(claim.basic_fees.size).to eq 4
-              expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
+            it 'should be a redirect' do
+              expect(response.status).to eq 302
+            end
 
-              # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
-              expect(claim.misc_fees.size).to eq 1
-              expect(claim.fixed_fee).not_to be_nil
-              expect(claim.fixed_fee.amount).to eql 2500.00
+            it 'should create the fixed fee' do
+              expect(assigns(:claim).fixed_fee.persisted?).to be_truthy
+              expect(assigns(:claim).fixed_fee.amount).to eq 2500
+            end
 
-              expect(claim.reload.fees_total).to eq 2750.00
+            it 'should NOT create the graduated fee' do
+              expect(assigns(:claim).graduated_fee.persisted?).to be_falsey
+            end
+
+            it 'should create the miscellaneoous fees' do
+              expect(assigns(:claim).misc_fees.size).to eq 2
+              expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
+            end
+
+            it 'should update claim total to sum of fixed and miscellaneous fees' do
+              expect(assigns(:claim).reload.fees_total).to eq 2875.00
             end
           end
         end
@@ -344,8 +358,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
-          claim = assigns(:claim)
-          expect(claim.evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
         end
       end
 
@@ -499,20 +512,18 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           }
         },
        "additional_information" => "",
-       "basic_fees_attributes"=>
+       "graduated_fee_attributes"=>
         {
-          "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
-          "1"=>{"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-          "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
-          "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
-          },
+          "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "_destroy" => "false"
+        },
         "fixed_fee_attributes"=>
         {
-          "fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"
+          "fee_type_id" => fixed_fee_type_1.id.to_s, "amount" => "2500", "_destroy" => "false"
         },
         "misc_fees_attributes"=>
         {
-          "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
+          "0"=>{"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
+          "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false"},
         },
        "expenses_attributes"=>
        {

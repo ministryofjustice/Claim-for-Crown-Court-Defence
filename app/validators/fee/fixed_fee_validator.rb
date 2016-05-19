@@ -23,7 +23,7 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
     if run_base_fee_validators? || fee_code.nil?
       super
     else
-      add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0.01
+      validate_float_numericality(:amount, 0.01, 'invalid')
     end
   end
 

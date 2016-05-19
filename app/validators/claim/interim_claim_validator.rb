@@ -3,14 +3,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
 
   def self.fields_for_steps
     [
-      [
-        :case_type,
-        :court,
-        :case_number,
-        :advocate_category,
-        :offence,
-        :case_concluded_at
-      ],
+      [].unshift(first_step_common_validations),
       [
         :first_day_of_trial,
         :estimated_trial_length,

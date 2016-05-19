@@ -19,6 +19,8 @@ describe Claim::InterimClaimValidator do
       :case_type,
       :court,
       :case_number,
+      :transfer_court,
+      :transfer_case_number,
       :advocate_category,
       :offence,
       :case_concluded_at

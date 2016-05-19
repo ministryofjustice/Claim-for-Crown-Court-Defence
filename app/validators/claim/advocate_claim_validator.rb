@@ -53,6 +53,6 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_supplier_number
-    validate_pattern(:supplier_number, supplier_number_regex, 'invalid') if @record.supplier_number
+    validate_pattern(:supplier_number, supplier_number_regex, 'invalid')
   end
 end

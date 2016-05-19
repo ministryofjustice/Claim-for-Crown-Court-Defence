@@ -1,4 +1,4 @@
-.form-group.fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+.form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", calculated: f.object.calculated? ? "true" : "false"}}
   .grid-row
     .column-one-half.fee-type
       %label.form-label
@@ -18,8 +18,8 @@
       %label.form-label
         = t('.rate')
       %a{name: "fixed_fee_#{@fixed_fee_count}_rate"}
-      %span.currency-indicator>< £
-      = f.text_field :rate, value: number_with_precision(f.object.rate, precision: 2), class: 'form-control rate', size: 10, maxlength: 8
+      %span.currency-indicator>< &pound;
+      = f.number_field :rate, min: 0, max: 99999, value: number_with_precision(f.object.rate, precision: 2), class: 'form-control rate', size: 10
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_rate")
 
   .grid-row

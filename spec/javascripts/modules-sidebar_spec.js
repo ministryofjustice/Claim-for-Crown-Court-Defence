@@ -12,10 +12,22 @@ describe("Modules.SideBar.js", function() {
 
 
   var jsBlockFixtureDOM = $('<div id="claim-form"/>');
-  var jsBlockView = $([
+  var jsBlockViewNonCalculated = $([
     '<div class="js-block nested-fields" ',
     '  data-autovat="true" ',
-    '  data-muterowcalculation="false" ',
+    '  data-calculated="false" ',
+    '  data-type="fees">',
+    '   <h1>JS BLOCK</h1>',
+    '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
+    '  <input value="0.00" class="form-control rate" size="10" maxlength="8" type="text">',
+    '  <span class="total" data-total="0.0">£0.00</span>',
+    '</div>'
+  ].join(' '));
+
+  var jsBlockViewCalculated = $([
+    '<div class="js-block nested-fields" ',
+    '  data-autovat="true" ',
+    '  data-calculated="true" ',
     '  data-type="fees">',
     '   <h1>JS BLOCK</h1>',
     '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
@@ -82,7 +94,7 @@ describe("Modules.SideBar.js", function() {
       it('should clear the existing cache', function() {
         moj.Modules.SideBar.blocks = [{}, {}];
 
-        jsBlockFixtureDOM.append([jsBlockView.clone(), jsBlockView.clone(), jsBlockView.clone()]);
+        jsBlockFixtureDOM.append([jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone(), jsBlockViewNonCalculated.clone()]);
         $('body').append(jsBlockFixtureDOM);
 
         moj.Modules.SideBar.loadBlocks();
@@ -93,9 +105,9 @@ describe("Modules.SideBar.js", function() {
       });
       it('should cache an instance of `FeeBlock` for every `.js-block` el', function() {
         var fixture = [
-          jsBlockView.clone(),
-          jsBlockView.clone(),
-          jsBlockView.clone()
+          jsBlockViewNonCalculated.clone(),
+          jsBlockViewNonCalculated.clone(),
+          jsBlockViewNonCalculated.clone()
         ];
 
         jsBlockFixtureDOM.append(fixture);

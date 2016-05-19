@@ -53,16 +53,16 @@
       .column-one-third.condensed{class: "js-expense-amount fee-total"}
         %a{name: "expense_#{@expense_count}_amount"}
         = f.label :amount, 'Total'
-        %span.currency-indicator>< £
-        = f.text_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'total form-control large-input'
+        %span.currency-indicator>< &pound;
+        = f.number_field :amount, max:99999, min:0, value: number_with_precision(f.object.amount, precision: 2), class: 'total form-control large-input'
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_amount")
 
         - if @claim.lgfs?
           .js-expense-vat-amount
             %a{name: "expense_#{@expense_count}_vat_amount"}
             = f.label :vat_amount, 'VAT'
-            %span.currency-indicator>< £
-            = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control medium-input'
+            %span.currency-indicator>< &pound;
+            = f.number_field :vat_amount, max:99999, min:0, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control medium-input'
             = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
 
     .grid-row.js-expense-mileage.expense-cost

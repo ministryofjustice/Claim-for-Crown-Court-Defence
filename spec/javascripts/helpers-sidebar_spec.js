@@ -3,6 +3,7 @@ describe('Helpers.SideBar.js', function() {
     expect(moj.Helpers.SideBar).toBeDefined();
     expect(moj.Helpers.SideBar.Base).toBeDefined();
     expect(moj.Helpers.SideBar.FeeBlock).toBeDefined();
+    expect(moj.Helpers.SideBar.FeeBlockCalculator).toBeDefined();
   });
 
   describe('Methods', function() {
@@ -218,6 +219,7 @@ describe('Helpers.SideBar.js', function() {
         });
         expect(instance.getConfig).toBeDefined();
         expect(instance.getConfig('type')).toEqual('sample');
+        $('.js-block').remove();
       });
 
       describe('Methods', function() {
@@ -243,22 +245,47 @@ describe('Helpers.SideBar.js', function() {
           $('.js-block').remove();
         });
 
+        describe('...init', function() {
+          it('should call `this.bindRecalculate`', function() {
+            spyOn(instance, 'bindRecalculate');
+            instance.init();
+            expect(instance.bindRecalculate).toHaveBeenCalled();
+          });
+          it('should call `this.reload`', function() {
+            spyOn(instance, 'reload');
+            instance.init();
+            expect(instance.reload).toHaveBeenCalled();
+          });
+        });
+
+        describe('...bindRecalculate', function() {
+          it('should bind a change event on specific elements', function() {
+            spyOn(instance.$el, 'on');
+            instance.bindRecalculate();
+            expect(instance.$el.on).toHaveBeenCalledWith('change', '.quantity, .rate, .amount, .vat, .total', jasmine.any(Function));
+          });
+
+          it('should trigger the `recalculate` event when `change` is fired', function() {
+            spyOn(instance.$el, 'trigger');
+            instance.bindRecalculate();
+            instance.$el.find('.rate').trigger('change');
+            expect(instance.$el.trigger).toHaveBeenCalledWith('recalculate');
+          });
+        });
+
         describe('...reload', function() {
-          it('should call `updateTotals` & `applyVat`', function() {
-            var called1 = false;
-            var called2 = false;
-
-            instance.updateTotals = function() {
-              called1 = true;
-            };
-            instance.applyVat = function() {
-              called2 = true;
-            };
-
+          it('should call `updateTotals`', function() {
+            spyOn(instance, 'updateTotals');
             instance.reload();
 
-            expect(called1).toBe(true);
-            expect(called2).toBe(true);
+            expect(instance.updateTotals).toHaveBeenCalled();
+          });
+
+          it('should call `applyVat`', function() {
+            spyOn(instance, 'applyVat');
+            instance.reload();
+
+            expect(instance.applyVat).toHaveBeenCalled();
           });
 
           it('should call reload when instantiated', function() {
@@ -272,8 +299,44 @@ describe('Helpers.SideBar.js', function() {
           });
         });
 
+        describe('...setTotals', function() {
+
+          it('should return an updated `this.totals` object', function() {
+            instance.$el.find('.rate').val('222.22');
+            instance.$el.find('.amount').val('333.33');
+            instance.$el.find('.total').data('total', '444.44');
+
+            instance.setTotals();
+            expect(instance.totals).toEqual({
+              quantity: 11.11,
+              rate: 222.22,
+              amount: 333.33,
+              total: 444.44,
+              vat: 0
+            });
+          });
+
+          it('should handle missing `data-total` on the element', function() {
+            instance.$el.find('.rate').val('222.22');
+            instance.$el.find('.amount').val('333.33');
+            instance.$el.find('.total').remove();
+            instance.$el.append('<input class="total" />');
+            instance.$el.find('.total').val('555.55');
+
+            instance.setTotals();
+            expect(instance.totals).toEqual({
+              quantity: 11.11,
+              rate: 222.22,
+              amount: 333.33,
+              total: 555.55,
+              vat: 0
+            });
+          });
+        });
+
         describe('...updateTotals', function() {
           var called = false;
+
           it('should call `this.isVisible`', function() {
             instance.isVisible = function() {
               called = true;
@@ -283,27 +346,131 @@ describe('Helpers.SideBar.js', function() {
           });
 
           it('should return the current `this.totals` when element is hidden', function() {
-            $('.js-block').find('.rate').val(99.99);
-            instance.updateTotals();
-            expect(instance.totals.rate).toBe(99.99);
-            $('.js-block').find('.rate').val(55.55);
-            $('.js-block').hide();
-            instance.updateTotals();
-            expect(instance.totals.rate).toBe(99.99);
+            instance.totals = {
+              current: 'total'
+            };
+            spyOn(instance, 'isVisible').and.returnValue(false);
+            expect(instance.updateTotals()).toEqual({
+              current: 'total'
+            });
           });
-          it('should return an updated `this.totals` object', function() {
-            instance.$el.find('.rate').val('222.22');
-            instance.$el.find('.amount').val('333.33');
-            instance.$el.find('.total').data('total', '444.44');
+
+          it('should call `this.setTotals` when `this.isVisible` returns true', function() {
+            instance.totals = {
+              current: 'total'
+            };
+            spyOn(instance, 'isVisible').and.returnValue(true);
+            spyOn(instance, 'setTotals').and.returnValue('david');
 
             instance.updateTotals();
+
+            expect(instance.isVisible).toHaveBeenCalled();
+            expect(instance.setTotals).toHaveBeenCalled();
+
+          });
+        });
+      });
+    });
+
+    describe('FeeBlockCalculator', function() {
+      it('should apply Base Methods and set config props on the instance', function() {
+        var fixtureDom = [
+          '<div class="js-block">',
+          '</div>'
+        ].join('');
+        $('body').append(fixtureDom);
+        instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+          type: 'sample',
+          $el: $('.js-block'),
+          el: fixtureDom
+        });
+        expect(instance.setTotals).toBeDefined();
+        expect(instance.bindRender).toBeDefined();
+        expect(instance.init).toBeDefined();
+        expect(instance.render).toBeDefined();
+        $('.js-block').remove();
+
+      });
+
+      describe('Methods', function() {
+        var fixtureDom;
+        beforeEach(function() {
+          fixtureDom = [
+            '<div class="js-block">',
+            '<input class="quantity" value="11.11"/>',
+            '<input class="rate" value="22.22"/>',
+            '<input class="amount" value="33.33"/>',
+            '<span class="total" data-total="44.44" />',
+            '<input class="vat" value="88.88"/>',
+            '</div>'
+          ].join('');
+          $('body').append(fixtureDom);
+          instance = new moj.Helpers.SideBar.FeeBlockCalculator({
+            $el: $('.js-block'),
+            el: fixtureDom
+          });
+        });
+
+        afterEach(function() {
+          $('.js-block').remove();
+        });
+
+        describe('...init', function() {
+          it('should call `this.bindRender`', function() {
+            spyOn(instance, 'bindRender');
+            instance.init();
+            expect(instance.bindRender).toHaveBeenCalled();
+          });
+        });
+
+        describe('...render', function() {
+          it('should update the view correctly', function(){
+            instance.totals.total = 1234567.89;
+            instance.render();
+            expect(instance.$el.find('.total').data('total')).toBe(1234567.89);
+            expect(instance.$el.find('.total').html()).toEqual('£1,234,567.89');
+          });
+        });
+
+        describe('...setTotals', function() {
+          it('should set `this.totals` correctly', function(){
+            instance.totals = {
+              quantity: 'changeme',
+              rate: 'changeme',
+              amount: 'changeme',
+              total: 'changeme',
+              vat: 'changeme'
+            };
+            instance.setTotals();
             expect(instance.totals).toEqual({
               quantity: 11.11,
-              rate: 222.22,
-              amount: 333.33,
-              total: 444.44,
-              vat: 0
+              rate: 22.22,
+              amount: 33.33,
+              total: 246.86,
+              vat: 88.88
             });
+          });
+        });
+
+        describe('...bindRender', function() {
+          it('should bind a change event on specific elements', function() {
+            spyOn(instance.$el, 'on');
+            instance.bindRender();
+            expect(instance.$el.on).toHaveBeenCalledWith('change', '.quantity, .rate', jasmine.any(Function));
+          });
+
+          it('should call `this.updateTotals` when `change` is fired', function() {
+            spyOn(instance, 'updateTotals');
+            instance.bindRender();
+            instance.$el.find('.rate').trigger('change');
+            expect(instance.updateTotals).toHaveBeenCalled();
+          });
+
+          it('should call `this.render` when `change` is fired', function() {
+            spyOn(instance, 'render');
+            instance.bindRender();
+            instance.$el.find('.rate').trigger('change');
+            expect(instance.render).toHaveBeenCalled();
           });
         });
       });

@@ -63,8 +63,8 @@
           .column-quarter.fee-rate.js-interim-feeTotal.visually-hidden
             = inf.label :amount, t('.total'), {class: 'form-label form-date-spacing'}
             = inf.anchored_attribute 'amount'
-            %span.currency-indicator>< £
-            = inf.text_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'amount form-control', size: 10, maxlength: 8
+            %span.currency-indicator>< &pound;
+            = inf.number_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'amount form-control', size: 10, min: 0, max: 99999999
             = validation_error_message(@error_presenter, 'interim_fee.amount')
 
     .js-interim-disbursements.visually-hidden

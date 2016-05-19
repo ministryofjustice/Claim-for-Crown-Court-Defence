@@ -14,7 +14,6 @@ class CaseConclusionsController < ApplicationController
     @transfer_detail = Claim::TransferDetail.new(litigator_type: params[:litigator_type],
                                                  elected_case: elected_case?,
                                                  transfer_stage_id: params[:transfer_stage_id])
-
   end
 
 private

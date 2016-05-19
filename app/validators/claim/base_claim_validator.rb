@@ -68,6 +68,15 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_pattern(:case_number, CASE_NUMBER_PATTERN, "invalid")
   end
 
+  def validate_transfer_court
+    validate_presence(:transfer_court, 'blank') if @record.transfer_case_number.present?
+    validate_exclusion(:transfer_court, [@record.court], 'same')
+  end
+
+  def validate_transfer_case_number
+    validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
+  end
+
   def validate_estimated_trial_length
     validate_trial_length(:estimated_trial_length)
   end

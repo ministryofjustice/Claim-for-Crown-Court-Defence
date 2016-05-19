@@ -42,21 +42,20 @@
         = f.text_field :case_number, {class: 'form-control'}
         = validation_error_message(@error_presenter, :case_number)
 
-    - unless @claim.agfs?
-      .form-row
-        .form-col
-          = f.anchored_label t('.transfer_court'), :transfer_court
-          .form-hint.xsmall.zero-vert-margin
-            = "eg Cardiff"
-          = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
-          = validation_error_message(@error_presenter, :transfer_court)
+    .form-row
+      .form-col
+        = f.anchored_label t('.transfer_court'), :transfer_court
+        .form-hint.xsmall.zero-vert-margin
+          = "eg Cardiff"
+        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = validation_error_message(@error_presenter, :transfer_court)
 
-        .form-col.form-col-two-thirds
-          = f.anchored_label t('.transfer_case_number'), :transfer_case_number
-          .form-hint.xsmall.zero-vert-margin
-            = "eg A12345678"
-          = f.text_field :transfer_case_number, {class: 'form-control'}
-          = validation_error_message(@error_presenter, :transfer_case_number)
+      .form-col.form-col-two-thirds
+        = f.anchored_label t('.transfer_case_number'), :transfer_case_number
+        .form-hint.xsmall.zero-vert-margin
+          = "eg A12345678"
+        = f.text_field :transfer_case_number, {class: 'form-control'}
+        = validation_error_message(@error_presenter, :transfer_case_number)
 
 - if @claim.agfs?
   = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }

@@ -33,6 +33,33 @@ shared_examples "common advocate litigator validations" do |external_user_type|
       should_error_with(claim, :court, 'blank')
     end
   end
+
+  context 'transfer_court' do
+    before(:each) { claim.transfer_case_number = 'A12345678' }
+
+    it 'should error if blank when a transfer case number is filled' do
+      should_error_with(claim, :transfer_court, 'blank')
+    end
+
+    it 'should error when the transfer court is the same as the original court' do
+      claim.transfer_court = claim.court
+      should_error_with(claim, :transfer_court, 'same')
+    end
+  end
+
+  context 'transfer_case_number' do
+    before(:each) { claim.transfer_court = FactoryGirl.build(:court) }
+
+    it 'should NOT error if blank' do
+      expect(claim.transfer_case_number).to be_blank
+      expect(claim).to be_valid
+    end
+
+    it 'should error if wrong format' do
+      claim.transfer_case_number = 'ABC'
+      should_error_with(claim, :transfer_case_number, 'invalid')
+    end
+  end
 end
 
 
@@ -154,32 +181,6 @@ shared_examples "common litigator validations" do
     it 'should NOT error if a Miscellaneous/other offence' do
       claim.offence = misc_offence
       expect(claim).to be_valid
-    end
-  end
-
-  context 'transfer_court' do
-    before(:each) { claim.transfer_case_number = 'A12345678' }
-
-    it 'should error if blank when a transfer case number is filled' do
-      should_error_with(claim, :transfer_court, 'blank')
-    end
-
-    it 'should error when the transfer court is the same as the original court' do
-      claim.transfer_court = claim.court
-      should_error_with(claim, :transfer_court, 'same')
-    end
-  end
-
-  context 'transfer_case_number' do
-    before(:each) { claim.transfer_court = FactoryGirl.build(:court) }
-
-    it 'should error if blank when a transfer court is selected' do
-      should_error_with(claim, :transfer_case_number, 'blank')
-    end
-
-    it 'should error if wrong format when a transfer court is selected' do
-      claim.transfer_case_number = 'ABC'
-      should_error_with(claim, :transfer_case_number, 'invalid')
     end
   end
 end

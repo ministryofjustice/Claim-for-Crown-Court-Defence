@@ -22,14 +22,14 @@
     %fieldset
       .form-row
         .form-col
-          = f.anchored_label t('.transfer_stages'), 'transfer_stage_id'
+          = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label' } }
           = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete js-transfer-stage-id'}
           = validation_error_message(@error_presenter, 'transfer_stage_id')
 
-  %fieldset
-    .form-row
-      .form-col
-        = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date'), legend_class: 'govuk-legend', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
+    %fieldset
+      .form-row
+        .form-col
+          = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
 
   .js-case-conclusions-select
     %fieldset

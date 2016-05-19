@@ -588,8 +588,8 @@ en:
         detail_fields:
           litigator_type: Litigator type
           elected_case: Was the case elected?
-          transfer_stages: When did you start acting?
-          transfer_date: Date started acting
+          transfer_stage_default_label_text: When did you stop/start acting?
+          transfer_date_default_label_text: Date stopped/started acting
           case_conclusions: How did the case conclude?
       error_summary:
         prohibited_save: This claim has

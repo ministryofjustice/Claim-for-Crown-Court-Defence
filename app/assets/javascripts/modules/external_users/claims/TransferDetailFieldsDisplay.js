@@ -5,23 +5,25 @@ moj.Modules.TransferDetailFieldsDisplay = {
   electedCaseRadio: '.js-elected-case',
   transferStageSelect: 'select.js-transfer-stage-id',
   caseConclusionSelect: '.js-case-conclusions-select',
+  transferStageLabel: '.js-transfer-stage-label',
+  transferDateLabel: '.js-transfer-date-label',
 
   init: function() {
     if ($(this.tdWrapper).length > 0) {
       this.$tdWrapper = $(this.tdWrapper);
-      this.addCaseConclusionShowHideEvent();
-      this.showHideCaseConclusionField();
+      this.addChangeEvent();
+      this.callCaseConclusionController();
     }
   },
 
-  addCaseConclusionShowHideEvent: function() {
+  addChangeEvent: function() {
     var self = this;
     var elements = [this.litigatorTypeRadio,
                     this.electedCaseRadio,
                     this.transferStageSelect
                     ].join(',');
     this.$tdWrapper.on('change', elements, function() {
-      self.showHideCaseConclusionField();
+      self.callCaseConclusionController();
     });
   },
 
@@ -33,6 +35,11 @@ moj.Modules.TransferDetailFieldsDisplay = {
       $('#claim_case_conclusion_id_autocomplete').val(''); // reset awesomplete displayed value
       $(this.caseConclusionSelect).hide();
     }
+  },
+
+  labelTextToggle: function(transfer_stage_label_text,transfer_date_label_text) {
+    this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text);
+    this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text);
   },
 
   getParamVal: function(param_name, selector) {
@@ -51,7 +58,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
     return params.substr(1);
   },
 
-  showHideCaseConclusionField: function() {
+  callCaseConclusionController: function() {
     var params = this.constructParams();
     $.getScript('/case_conclusions?' + params);
   }

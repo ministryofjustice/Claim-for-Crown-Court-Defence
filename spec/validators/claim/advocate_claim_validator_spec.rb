@@ -103,6 +103,8 @@ describe Claim::AdvocateClaimValidator do
           :case_type,
           :court,
           :case_number,
+          :transfer_court,
+          :transfer_case_number,
           :advocate_category,
           :offence,
           :estimated_trial_length,

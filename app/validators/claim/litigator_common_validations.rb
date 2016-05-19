@@ -29,20 +29,6 @@ module Claim
       validate_absence(:advocate_category, "invalid")
     end
 
-    def validate_transfer_court
-      return unless @record.transfer_case_number.present?
-
-      validate_presence(:transfer_court, 'blank')
-      validate_exclusion(:transfer_court, [@record.court], 'same')
-    end
-
-    def validate_transfer_case_number
-      return unless @record.transfer_court.present?
-
-      validate_presence(:transfer_case_number, 'blank')
-      validate_pattern(:transfer_case_number, BaseValidator::CASE_NUMBER_PATTERN, 'invalid')
-    end
-
     def validate_offence
       validate_presence(:offence, "blank_class")
       validate_inclusion(:offence, Offence.miscellaneous.to_a, "invalid_class")

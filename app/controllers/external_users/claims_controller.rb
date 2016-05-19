@@ -102,24 +102,28 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def create
     if submitting_to_laa?
-      action_service = Claims::CreateClaim.call(@claim)
+      result = Claims::CreateClaim.call(@claim)
       tracking_args = %w(event claim submit started)
     else
-      action_service = Claims::CreateDraft.call(@claim, validate: continue_claim?)
+      result = Claims::CreateDraft.call(@claim, validate: continue_claim?)
       tracking_args = %w(event claim draft created)
     end
-    render_or_redirect(action_service, tracking_args)
+    
+    send_ga(tracking_args) if result.success?
+    render_or_redirect(result)
   end
 
   def update
     if submitting_to_laa?
-      action_service = Claims::UpdateClaim.call(@claim, params: claim_params)
+      result = Claims::UpdateClaim.call(@claim, params: claim_params)
       tracking_args = %w(event claim update started)
     else
-      action_service = Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
+      result = Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
       tracking_args = %w(event claim draft updated)
     end
-    render_or_redirect(action_service, tracking_args)
+
+    send_ga(tracking_args) if result.success?
+    render_or_redirect(result)
   end
 
   private
@@ -346,32 +350,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     render action: action
   end
 
-  def render_or_redirect(service_result, tracking_args)
-    return render_or_redirect_error(service_result) unless service_result.success?
-    render_or_redirect_success(service_result, tracking_args)
+  def render_or_redirect(result)
+    return render_or_redirect_error(result) unless result.success?
+    render_or_redirect_success(result)
   end
 
-  def render_or_redirect_success(service_result, tracking_args)
-    send_ga(tracking_args)
-
+  def render_or_redirect_success(result)
     if continue_claim?
       @claim.next_step!
-      render_action_with_resources(service_result.action)
-    elsif service_result.draft?
+      render_action_with_resources(result.action)
+    elsif result.draft?
       redirect_to external_users_claims_path, notice: 'Draft claim saved'
     else
       redirect_to summary_external_users_claim_url(@claim)
     end
   end
 
-  def render_or_redirect_error(service_result)
-    case service_result.error_code
+  def render_or_redirect_error(result)
+    case result.error_code
       when :already_submitted
         redirect_to external_users_claims_path, alert: 'Claim already submitted'
       when :already_saved
         redirect_to external_users_claims_path, alert: 'Claim already saved - please edit existing claim'
       else # rollback done, show errors
-        render_action_with_resources(service_result.action)
+        render_action_with_resources(result.action)
     end
   end
 

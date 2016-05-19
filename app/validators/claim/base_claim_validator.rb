@@ -69,16 +69,11 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_transfer_court
-    return unless @record.transfer_case_number.present?
-
-    validate_presence(:transfer_court, 'blank')
+    validate_presence(:transfer_court, 'blank') if @record.transfer_case_number.present?
     validate_exclusion(:transfer_court, [@record.court], 'same')
   end
 
   def validate_transfer_case_number
-    return unless @record.transfer_court.present?
-
-    validate_presence(:transfer_case_number, 'blank')
     validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 

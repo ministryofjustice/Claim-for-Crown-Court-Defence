@@ -50,11 +50,12 @@ shared_examples "common advocate litigator validations" do |external_user_type|
   context 'transfer_case_number' do
     before(:each) { claim.transfer_court = FactoryGirl.build(:court) }
 
-    it 'should error if blank when a transfer court is selected' do
-      should_error_with(claim, :transfer_case_number, 'blank')
+    it 'should NOT error if blank' do
+      expect(claim.transfer_case_number).to be_blank
+      expect(claim).to be_valid
     end
 
-    it 'should error if wrong format when a transfer court is selected' do
+    it 'should error if wrong format' do
       claim.transfer_case_number = 'ABC'
       should_error_with(claim, :transfer_case_number, 'invalid')
     end

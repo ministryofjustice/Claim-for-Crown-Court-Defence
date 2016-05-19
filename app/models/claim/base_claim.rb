@@ -99,7 +99,7 @@ module Claim
     has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :representation_orders,    through: :defendants
-    has_many :documents,                foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
+    has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
 
     has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim

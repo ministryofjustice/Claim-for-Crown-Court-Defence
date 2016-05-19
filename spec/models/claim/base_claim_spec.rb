@@ -83,6 +83,17 @@ module Claim
       end
     end
 
+    describe 'has_many documents association' do
+      it 'should return a collection of verified documents only' do
+        claim = create :claim
+        verified_doc_1 = create :document, :verified, claim: claim
+        _unverified_doc_1 = create :document, :unverified, claim: claim
+        _unverified_doc_2 = create :document, :unverified, claim: claim
+        verified_doc_2 = create :document, :verified, claim: claim
+        claim.reload
+        expect(claim.documents.map(&:id)).to match_array([verified_doc_1.id, verified_doc_2.id])
+      end
+    end
   end
 
   describe MockBaseClaim do

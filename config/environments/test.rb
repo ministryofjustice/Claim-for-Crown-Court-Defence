@@ -17,6 +17,30 @@ Rails.application.configure do
 
   GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', '')
 
+  # logstasher
+  # Enable the logstasher logs for the current environment
+  config.logstasher.enabled = true
+
+  # This line is optional, it allows you to set a custom value for the @source field of the log event
+  config.logstasher.source = 'ccd_test'
+
+  # This line is optional if you do not want to suppress app logs in your <environment>.log
+  # config.logstasher.suppress_app_log = true
+
+  # This line is optional if you do not want to log the backtrace of exceptions
+  config.logstasher.backtrace = true
+
+  # Enable logging of controller params
+  config.logstasher.log_controller_parameters = true
+
+  # log to stdout
+  # config.logstasher.logger_path = config.logstasher.logger = Logger.new(STDOUT)
+
+  jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
+  config.logstasher.source = 'ccd_test'
+  # Reuse logstasher logger with logstuff
+  LogStuff.setup(:logger => jsonlogger)
+
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped

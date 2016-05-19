@@ -23,7 +23,7 @@ body {
     @include first;
 }
 
-.grid-sidebar{
+.grid-sidebar:first-child{
 	.column-two-thirds{
 		width: 74%;
 	}

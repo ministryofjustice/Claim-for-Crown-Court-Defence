@@ -1,5 +1,8 @@
 describe("Modules.SideBar.js", function() {
   var sidebarFixtureDOM = $('<div class="grid-sidebar"/>');
+  var jsBlocksFixtureDOM = $('<div class="block-hook"/>');
+  var jsBlockFixtureDOM = $('<div id="claim-form"/>');
+
   var sideBarView = ['<div class="new-claim-hgroup js-stick-at-top-when-scrolling totals-summary">',
     '  <h2>Summary total</h2>',
     '  <h3>Fees total <span class="numeric total-fees" data-total-fees="£1.11">£1.11</span></h3>',
@@ -11,7 +14,6 @@ describe("Modules.SideBar.js", function() {
   ].join(' ');
 
 
-  var jsBlockFixtureDOM = $('<div id="claim-form"/>');
   var jsBlockViewNonCalculated = $([
     '<div class="js-block nested-fields" ',
     '  data-autovat="true" ',
@@ -30,9 +32,9 @@ describe("Modules.SideBar.js", function() {
     '  data-calculated="true" ',
     '  data-type="fees">',
     '   <h1>JS BLOCK</h1>',
-    '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
-    '  <input value="0.00" class="form-control rate" size="10" maxlength="8" type="text">',
-    '  <span class="total" data-total="0.0">£0.00</span>',
+    '  <input value="5" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
+    '  <input value="5.20" class="form-control rate" size="10" maxlength="8" type="text">',
+    '  <span class="total" data-total="31.20">£31.20</span>',
     '</div>'
   ].join(' '));
 
@@ -41,7 +43,7 @@ describe("Modules.SideBar.js", function() {
     $('body').append(sidebarFixtureDOM);
 
     // reset to default state
-    moj.Modules.SideBar.clearTotals();
+    moj.Modules.SideBar.init();
   });
 
   afterEach(function() {
@@ -203,13 +205,33 @@ describe("Modules.SideBar.js", function() {
           moj.Modules.SideBar.recalculate();
           expect(called.getConfig).toBe(true);
         });
-      });
 
-      xdescribe('...calculations', function(){
-        // test the calculations
-        // test the conditional isVisible
-        it('needs more tests', function(){
-          expect(1).toBe(false);
+        describe('...calculations', function() {
+          it('should add to the correct `this.type` property', function() {
+            $('body').append(jsBlockViewCalculated);
+            moj.Modules.SideBar.init();
+            moj.Modules.SideBar.recalculate();
+
+            expect(moj.Modules.SideBar.totals).toEqual({
+              fees: 26,
+              disbursements: 0,
+              expenses: 0,
+              vat: 5.2,
+              grandTotal: 31.2
+            });
+
+            moj.Modules.SideBar.blocks[0].config.type = 'expenses';
+
+            moj.Modules.SideBar.recalculate();
+
+            expect(moj.Modules.SideBar.totals).toEqual({
+              fees: 26,
+              disbursements: 0,
+              expenses: 26,
+              vat: 10.4,
+              grandTotal: 62.4
+            });
+          });
         });
       });
     });

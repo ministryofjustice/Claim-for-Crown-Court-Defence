@@ -92,12 +92,12 @@ court:
 case_number:
   _seq: 50
   blank:
-    long: Enter a case number
-    short: Enter a case number eg A12345678
-    api: Enter a case number
+    long: Enter a case number eg A12345678
+    short: Enter a case number
+    api: Enter a case number eg A12345678
   invalid:
     long: The case number must be in the format A12345678
-    short: Enter a case number eg A12345678
+    short: Invalid case number
     api: The case number must be in the format A12345678
 
 transfer_court:
@@ -106,16 +106,20 @@ transfer_court:
     long: Choose a transfer court
     short: Choose a transfer court
     api: Choose a transfer court
+  same:
+    long: Transfer court cannot be the same as the original court
+    short: Choose a different transfer court
+    api: Transfer court cannot be the same as the original court
 
 transfer_case_number:
   _seq: 60
   blank:
-    long: Enter a transfer case number
-    short: Enter a transfer case number eg A12345678
-    api: Enter a transfer case number
+    long: Enter a transfer case number eg A12345678
+    short: Enter a transfer case number
+    api: Enter a transfer case number eg A12345678
   invalid:
     long: The transfer case number must be in the format A12345678
-    short: Enter a transfer case number eg A12345678
+    short: Invalid transfer case number
     api: The transfer case number must be in the format A12345678
 
 first_day_of_trial:

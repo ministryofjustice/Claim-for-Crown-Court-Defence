@@ -1,6 +1,23 @@
 module Claim
   module LitigatorCommonValidations
 
+    def self.included(base)
+      base.class_eval do
+        def self.first_step_common_validations
+          [
+            :case_type,
+            :court,
+            :case_number,
+            :transfer_court,
+            :transfer_case_number,
+            :advocate_category,
+            :offence,
+            :case_concluded_at
+          ]
+        end
+      end
+    end
+
     private
 
     def validate_creator
@@ -12,8 +29,18 @@ module Claim
       validate_absence(:advocate_category, "invalid")
     end
 
+    def validate_transfer_court
+      return unless @record.transfer_case_number.present?
+
+      validate_presence(:transfer_court, 'blank')
+      validate_exclusion(:transfer_court, [@record.court], 'same')
+    end
+
     def validate_transfer_case_number
-      validate_pattern(:transfer_case_number, BaseValidator::CASE_NUMBER_PATTERN, "invalid") unless @record.transfer_case_number.blank?
+      return unless @record.transfer_court.present?
+
+      validate_presence(:transfer_case_number, 'blank')
+      validate_pattern(:transfer_case_number, BaseValidator::CASE_NUMBER_PATTERN, 'invalid')
     end
 
     def validate_offence

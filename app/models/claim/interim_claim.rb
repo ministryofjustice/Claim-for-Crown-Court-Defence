@@ -59,8 +59,6 @@ module Claim
     validates_with ::Claim::InterimClaimValidator
     validates_with ::Claim::InterimClaimSubModelValidator
 
-    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
-
     has_one :interim_fee, foreign_key: :claim_id, class_name: 'Fee::InterimFee', dependent: :destroy, inverse_of: :claim
     has_one :warrant_fee, foreign_key: :claim_id, class_name: 'Fee::WarrantFee', dependent: :destroy, inverse_of: :claim
 

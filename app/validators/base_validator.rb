@@ -62,13 +62,18 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_pattern(attribute, pattern, message)
-    return if attr_nil?(attribute)
+    return if attr_blank?(attribute)
     add_error(attribute, message) unless @record.__send__(attribute).match(pattern)
   end
 
   def validate_inclusion(attribute, inclusion_list, message)
     return if attr_nil?(attribute)
     add_error(attribute, message) unless inclusion_list.include?(@record.__send__(attribute))
+  end
+
+  def validate_exclusion(attribute, exclusion_list, message)
+    return if attr_nil?(attribute)
+    add_error(attribute, message) if exclusion_list.include?(@record.__send__(attribute))
   end
 
   def bounds(lower=nil,upper=nil)

@@ -12,6 +12,11 @@ dictionary:
     enter_date: &enter_date 'Enter a date'
     enter_valid_date: &enter_valid_date 'Enter a valid date'
     date_not_allowed: &date_not_allowed 'Date not allowed'
+    enter_amount: &enter_amount 'Enter an amount'
+    enter_valid_amount: &enter_valid_amount 'Enter a valid amount'
+    check_amount: &check_amount 'Check amount'
+    enter_valid_quantity: &enter_valid_quantity 'Enter a valid quantity'
+    enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
 
 # applies to defendant, fee, expense
 claim:
@@ -654,98 +659,98 @@ basic_fee:
     # standard quantity validations (when a rate exists but quantity not specified)
     baf_invalid:
       long: Enter a valid quantity for the basic fee
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the basic fee
     daf_invalid:
       long: Enter a valid quantity for daily attendance fees (3-40 days)
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for daily attendance fees (3-40 days)
     dah_invalid:
       long: Enter a valid quantity for daily attendance fees (41-50 days)
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for daily attendance fees (41-50 days)
     daj_invalid:
       long: Enter a valid quantity for daily attendance fees (51+ days)
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for daily attendance fees (51+ days)
     saf_invalid:
       long: Enter a valid quantity for standard appearance fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for standard appearance fees
     pcm_invalid:
       long: Enter a valid quantity for plea and case management hearing fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for plea and case management hearing fees
     cav_invalid:
       long: Enter a valid quantity for conference and views fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for conference and views fees
     ndr_invalid:
       long: Enter a valid quantity for number of defendants uplift fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for number of defendants uplift fees
     noc_invalid:
       long: Enter a valid quantity for number of cases uplift fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for number of cases uplift fees
     npw_invalid:
       long: Enter a valid quantity for number of prosecution witnesses fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for number of prosecution witnesses fees
     ppe_invalid:
       long: Enter a valid quantity for pages of prosecution evidence fees
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for pages of prosecution evidence fees
     invalid:
       long: Enter a valid quantity for the initial fee
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the initial fee
 
   rate:
     _seq: 20
     baf_invalid:
       long: Enter a valid rate for the basic fee
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for the basic fee
     daf_invalid:
       long: Enter a valid rate for daily attendance fees (3-40 days)
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for daily attendance fees (3-40 days)
     dah_invalid:
       long: Enter a valid rate for daily attendance fees (41-50 days)
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for daily attendance fees (41-50 days)
     daj_invalid:
       long: Enter a valid rate for daily attendance fees (51+ days)
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for daily attendance fees (51+ days)
     saf_invalid:
       long: Enter a valid rate for standard appearance fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for standard appearance fees
     pcm_invalid:
       long: Enter a valid rate for plea and case management hearing fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for plea and case management hearing fees
     cav_invalid:
       long: Enter a valid rate for conference and views fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for conference and views fees
     ndr_invalid:
       long: Enter a valid rate for number of defendants uplift fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for number of defendants uplift fees
     noc_invalid:
       long: Enter a valid rate for number of cases uplift fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for number of cases uplift fees
     npw_invalid:
       long: Enter a valid rate for number of prosecution witnesses fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for number of prosecution witnesses fees
     ppe_invalid:
       long: Enter a valid rate for pages of prosecution evidence fees
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for pages of prosecution evidence fees
     npw_must_be_blank:
       long: Number of prosecution witnesses fees must not a have rate
@@ -757,18 +762,18 @@ basic_fee:
       api: Pages of prosecution evidence fees must not a have rate
     invalid:
       long: Enter a valid rate for the initial fee
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a valid rate for the initial fee
 
   amount:
     _seq: 30
     npw_invalid:
       long: Enter a valid amount for number of prosecution witnesses fees
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for number of prosecution witnesses fees
     ppe_invalid:
       long: Enter a valid amount for pages of prosecution evidence fees
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for pages of prosecution evidence fees
 
 #################################################################################
@@ -797,14 +802,14 @@ misc_fee:
     _seq: 20
     invalid:
       long: 'Enter a valid rate for the #{misc_fee}'
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a rate for the miscellaneous fee
 
   quantity:
     _seq: 30
     invalid:
       long: 'Enter a valid quantity for the #{misc_fee}'
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the miscellaneous fee
 
   case_numbers:
@@ -826,7 +831,7 @@ misc_fee:
     _seq: 50
     invalid:
       long: 'Enter a valid amount for the #{misc_fee}'
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the miscellaneous fee
 
 #################################################################################
@@ -855,14 +860,14 @@ fixed_fee:
     _seq: 20
     invalid:
       long: 'Enter a valid rate for the #{fixed_fee}'
-      short: Enter a valid rate
+      short: *enter_valid_rate
       api: Enter a rate for the fixed fee
 
   quantity:
     _seq: 30
     invalid:
       long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the fixed fee
 
   sub_type:
@@ -884,7 +889,7 @@ fixed_fee:
     _seq: 50
     invalid:
       long: Enter a valid amount for the fixed fee
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the fixed fee
 
 
@@ -948,7 +953,7 @@ warrant_fee:
     _seq: 40
     blank:
       long: Enter an amount for the warrant
-      short: Enter an amount
+      short: *enter_amount
       api: Enter an amount for the warrant
     present:
       long: Do not enter an amount for the warrant
@@ -956,7 +961,7 @@ warrant_fee:
       api: Do not enter an amount for the warrant
     numericality:
       long: Enter a valid amount for the warrant
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the warrant
 
 #################################################################################
@@ -976,18 +981,18 @@ transfer_fee:
   blank:
     _seq: 5
     long: Add a transfer fee
-    short: Enter an amount
+    short: *enter_amount
     api: Add a transfer fee
 
   amount:
     _seq: 10
     blank:
       long: Enter an amount for the transfer
-      short: Enter an amount
+      short: *enter_amount
       api: Enter an amount for the transfer
     numericality:
       long: Enter a valid amount for the transfer fee
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the transfer fee
 
 #################################################################################
@@ -1031,11 +1036,11 @@ expense:
     _seq: 20
     blank:
       long: 'Enter an amount for the #{expense}'
-      short: Enter an amount
+      short: *enter_amount
       api: Enter an amount for the expense
     numericality:
       long: 'Enter a valid amount for the #{expense}'
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the expense
 
   location:
@@ -1175,16 +1180,16 @@ disbursement:
     _seq: 30
     blank:
       long: 'Enter a vat amount for the #{disbursement}'
-      short: Enter a vat amount
+      short: *enter_amount
       api: Enter a vat amount for the disbursement
     numericality:
       long: 'Enter a valid vat amount for the #{disbursement}'
-      short: Enter a valid vat amount
+      short: *check_amount
       api: Enter a valid vat amount for the disbursement
     greater_than:
-      long: 'Vat amount is greater than the net amount for the #{disbursement}'
-      short: Enter a valid vat amount
-      api: Enter a valid vat amount for the disbursement
+      long: 'Check VAT amount is less than the net amount for the #{disbursement}'
+      short: *check_amount
+      api: Check VAT amount is less than the net amount for the disbursement
     invalid:
       long: "Vat amount doesn't apply for the #{disbursement}"
       short: "Vat amount doesn't apply"
@@ -1216,7 +1221,7 @@ graduated_fee:
     _seq: 20
     invalid:
       long: 'Enter a valid quantity for the graduated fee'
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the graduated fee
 
 #################################################################################
@@ -1245,7 +1250,7 @@ interim_fee:
     _seq: 20
     invalid:
       long: Enter a valid quantity for the interim fee
-      short: Enter a valid quantity
+      short: *enter_valid_quantity
       api: Enter a valid quantity for the interim fee
     present:
       long: Do not enter a quantity for the interim fee
@@ -1256,7 +1261,7 @@ interim_fee:
     _seq: 30
     invalid:
       long: Enter a valid amount for the interim fee
-      short: Enter a valid amount
+      short: *enter_valid_amount
       api: Enter a valid amount for the interim fee
     present:
       long: Do not enter an amount for the interim fee

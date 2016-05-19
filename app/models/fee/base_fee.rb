@@ -79,19 +79,26 @@ module Fee
       claim && claim.perform_validation?
     end
 
-    # TODO: this should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
-    #       have been deleted/archived.
-    def is_before_rate_reintroduced?
-      self.amount > 0 && self.rate == 0
-    end
+    # # TODO: this should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
+    # #       have been deleted/archived.
+    # def is_before_rate_reintroduced?
+    #   self.amount > 0 && self.rate == 0
+    # end
 
     def calculated?
       fee_type.calculated? rescue true
     end
 
     def calculate_amount
-      return if is_before_rate_reintroduced? || !calculated?
+      return unless calculation_required?
       self.amount = self.quantity * self.rate
+    end
+
+    def calculation_required?
+      # agfs fixed fees and misc fees are calculated
+      # agfs basic fees are calculated based on fee type
+      # no lgfs fees are calculated, regardless
+      (claim && claim.editable? && claim.agfs?) && calculated?
     end
 
     def blank?

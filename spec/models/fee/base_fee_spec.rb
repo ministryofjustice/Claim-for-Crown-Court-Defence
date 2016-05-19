@@ -125,26 +125,63 @@ end
     end
 
     describe '#calculate_amount' do
-
-      # this should be removed after gamma/private beta claims archived/deleted
-      context 'for fees entered before rate was reintroduced' do
-        it 'amount is NOT recalculated and rate presence is NOT validated' do
-          fee = FactoryGirl.build :misc_fee, quantity: 10, rate: nil, amount: 255
+      context 'agfs claims' do
+        let(:claim) { build :advocate_claim }
+        let(:misc_fee_type) { build :misc_fee_type }
+        let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim }
+        
+        it 'should recalculate amount if fee type is calculated' do
+            fee.claim.force_validation = true
+            expect(fee).to be_valid
+            expect(fee.amount).to eq 110
+        end
+        it 'should NOT recalculate amount if fee type is NOT calculated' do
+          misc_fee_type.calculated = false
+          fee.rate = nil
           fee.claim.force_validation = true
           expect(fee).to be_valid
-          expect(fee.amount).to eq 255.00
+          expect(fee.amount).to eq 255
+        end
+        it 'should ONLY recalculate amount if claim is editable' do
+          claim.submit!
+          claim.force_validation = true
+          fee.rate = nil
+          expect(fee).to be_valid
+          expect(fee.amount).to eq 255
         end
       end
+
+      context 'lgfs claims' do
+        let(:claim) { build :litigator_claim }
+        let(:misc_fee_type) { build :misc_fee_type, :lgfs }
+        let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim }
+        
+        it 'should NOT recalculate amount' do
+          fee.rate = 0
+          fee.claim.force_validation = true
+          expect(fee).to be_valid
+          expect(fee.amount).to eq 255
+        end
+      end
+      # this should be removed after gamma/private beta claims archived/deleted
+      # context 'for fees entered before rate was reintroduced' do
+      #   it 'amount is NOT recalculated and rate presence is NOT validated' do
+      #     fee = FactoryGirl.build :misc_fee, quantity: 10, rate: nil, amount: 255
+      #     fee.claim.force_validation = true
+      #     expect(fee).to be_valid
+      #     expect(fee.amount).to eq 255.00
+      #   end
+      # end
 
       # this will become default after gamma/private beta claims archived/deleted
-      context 'for fees entered after rate was reintroduced' do
-        it 'amount is calculated as quantity * rate before validation' do
-          fee = FactoryGirl.build :misc_fee, quantity: 12, rate: 3.01
-          fee.claim.force_validation = true
-          expect(fee).to be_valid
-          expect(fee.amount).to eq 36.12
-        end
-      end
+      # context 'for fees entered after rate was reintroduced' do
+      #   it 'amount is calculated as quantity * rate before validation' do
+      #     fee = FactoryGirl.build :misc_fee, quantity: 12, rate: 3.01
+      #     fee.claim.force_validation = true
+      #     expect(fee).to be_valid
+      #     expect(fee.amount).to eq 36.12
+      #   end
+      # end
     end
 
   end

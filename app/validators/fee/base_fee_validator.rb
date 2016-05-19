@@ -88,9 +88,11 @@ private
   end
 
   def validate_rate
-    # TODO: this return should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
-    #       have been deleted/archived.
-    return if @record.is_before_rate_reintroduced?
+    # # TODO: this return should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
+    # #       have been deleted/archived.
+    # return if @record.is_before_rate_reintroduced?
+
+    return unless @record.try(:claim).try(:editable?)
 
     code = fee_code
     if @record.calculated?

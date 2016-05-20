@@ -22,6 +22,7 @@ class Fee::GraduatedFee < Fee::BaseFee
 
   belongs_to :fee_type, class_name: Fee::GraduatedFeeType
 
+  validates :warrant_issued_date, :warrant_executed_date, :sub_type_id, :case_numbers, absence: true
   validates_with Fee::GraduatedFeeValidator
 
   def is_graduated?

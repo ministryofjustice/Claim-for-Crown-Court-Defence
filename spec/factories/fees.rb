@@ -30,6 +30,13 @@ FactoryGirl.define do
       fee_type { build :misc_fee_type }
       quantity 1
       rate 25
+
+      trait :lgfs do
+        fee_type { build :misc_fee_type, :lgfs }
+        quantity 0
+        rate 0
+        amount 25
+      end
     end
 
     factory :warrant_fee, class: Fee::WarrantFee do

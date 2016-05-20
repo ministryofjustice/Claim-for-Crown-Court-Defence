@@ -56,24 +56,24 @@ module Fee
       end
     end
 
-    # describe 'absence of unnecessary attributes' do
-    #   it 'should validate absence of warrant issued date' do
-    #     fee.warrant_issued_date = Date.today
-    #     expect(fee).not_to be_valid
-    #   end
-    #   it 'should validate absence of warrant executed date' do
-    #     fee.warrant_executed_date = Date.today
-    #     expect(fee).not_to be_valid
-    #   end
-    #   it 'should validate absence of warrant executed date' do
-    #     fee.sub_type_id = 2
-    #     expect(fee).not_to be_valid
-    #   end
-    #   it 'should validate absence of case numbers' do
-    #     fee.case_numbers = 'T20150111,T20150222'
-    #     expect(fee).not_to be_valid
-    #   end
-    # end
+    describe 'absence of unnecessary attributes' do
+      it 'should validate absence of warrant issued date' do
+        fee.warrant_issued_date = Date.today
+        expect(fee).not_to be_valid
+      end
+      it 'should validate absence of warrant executed date' do
+        fee.warrant_executed_date = Date.today
+        expect(fee).not_to be_valid
+      end
+      it 'should validate absence of case-type-fee-sub-type' do
+        fee.sub_type_id = 2
+        expect(fee).not_to be_valid
+      end
+      it 'should validate absence of case numbers' do
+        fee.case_numbers = 'T20150111,T20150222'
+        expect(fee).not_to be_valid
+      end
+    end
 
   end
 end

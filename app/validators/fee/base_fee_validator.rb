@@ -88,10 +88,8 @@ private
   end
 
   def validate_rate
-    # # TODO: this return should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
-    # #       have been deleted/archived.
-    # return if @record.is_before_rate_reintroduced?
-
+    # NOTE: this is to ensure we do not validate those fees for claims that have already been submitted
+    #       and are before rate was re-introduced for advocate claim fees
     return unless @record.try(:claim).try(:editable?)
 
     code = fee_code

@@ -71,34 +71,34 @@ module Fee
       claim.update_vat
     end
 
-    # def self.new_blank(claim, fee_type)    ####=======> moved to Fee::BasicFee
-    #   Fee.new(claim: claim, fee_type: fee_type, quantity: 0, amount: 0)
-    # end
+    # default type logic
+    def is_basic?; false; end
+    def is_misc?; false; end
+    def is_fixed?; false;end
+    def is_graduated?; false; end
+    def is_warrant?; false; end
+    def is_interim?; false; end
+    def is_transfer?; false; end
 
     def perform_validation?
       claim && claim.perform_validation?
     end
 
-    # # TODO: this should be removed once those claims (on gamma/beta-testing) created prior to rate being reintroduced
-    # #       have been deleted/archived.
-    # def is_before_rate_reintroduced?
-    #   self.amount > 0 && self.rate == 0
-    # end
-
     def calculated?
       fee_type.calculated? rescue true
+    end
+
+    def calculation_required?
+      # NOTE:
+      #   - agfs fixed fees and misc fees are calculated, except for old claims (non-draft) that can have nil/0 rate
+      #   - agfs basic fees are calculated based on fee type, except for old claims (non-draft) that can have nil/0 rate
+      #   - no lgfs fees are calculated, regardless
+      claim && claim.editable? && claim.agfs? && calculated?
     end
 
     def calculate_amount
       return unless calculation_required?
       self.amount = self.quantity * self.rate
-    end
-
-    def calculation_required?
-      # agfs fixed fees and misc fees are calculated
-      # agfs basic fees are calculated based on fee type
-      # no lgfs fees are calculated, regardless
-      (claim && claim.editable? && claim.agfs?) && calculated?
     end
 
     def blank?
@@ -125,32 +125,5 @@ module Fee
       self.dates_attended.destroy_all unless self.dates_attended.empty?
     end
 
-    def is_basic?
-      false
-    end
-
-    def is_misc?
-      false
-    end
-
-    def is_fixed?
-      false
-    end
-
-    def is_graduated?
-      false
-    end
-
-    def is_warrant?
-      false
-    end
-
-    def is_interim?
-      false
-    end
-
-    def is_transfer?
-      false
-    end
   end
 end

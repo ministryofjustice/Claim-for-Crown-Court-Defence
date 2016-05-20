@@ -7,7 +7,7 @@ end
 class DocAudit
   def initialize
     @results = []
-    @results << %w{ doc_id claim_id case_number defendants path size created_at notes }
+    @results << %w{ doc_id claim_id case_number state defendants path size created_at notes }
   end
 
   def run
@@ -26,6 +26,7 @@ class DocAudit
     line << doc.claim_id
     if doc.claim_id
       line << doc.claim.case_number
+      line << doc.claim.state
       line << doc.claim.defendants.map(&:name).join(';')
     end
     line << doc.document.path

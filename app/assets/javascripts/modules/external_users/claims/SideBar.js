@@ -12,6 +12,7 @@ moj.Modules.SideBar = {
   },
 
   init: function() {
+    this.clearTotals();
     this.bindListeners();
     this.loadBlocks();
   },
@@ -45,6 +46,7 @@ moj.Modules.SideBar = {
 
   recalculate: function() {
     var self = this;
+
     self.clearTotals();
 
     self.blocks.forEach(function(block) {
@@ -71,10 +73,14 @@ moj.Modules.SideBar = {
   },
 
   clearTotals: function() {
-    var self = this;
-    $.each(this.totals, function(key, val) {
-      self.totals[key] = parseFloat(0);
+    this.totals = $.extend({}, {
+      fees: 0,
+      disbursements: 0,
+      expenses: 0,
+      vat: 0,
+      grandTotal: 0
     });
+    return;
   },
 
   sanitzeFeeToFloat: function() {

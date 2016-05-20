@@ -5,7 +5,7 @@ describe Fee::BaseFeeValidator do
 
   include ValidationHelpers
 
-  let(:claim)      { FactoryGirl.build :claim, force_validation: true }
+  let(:claim)      { FactoryGirl.build :advocate_claim, force_validation: true }
   let(:fee)        { FactoryGirl.build :fixed_fee, claim: claim }
   let(:baf_fee)    { FactoryGirl.build :basic_fee, :baf_fee, claim: claim }
   let(:daf_fee)    { FactoryGirl.build :basic_fee, :daf_fee, claim: claim }
@@ -69,11 +69,34 @@ describe Fee::BaseFeeValidator do
     end
 
     # TODO: to be removed after gamma/private beta claims archived/deleted
-    context 'for fees entered before rate was reintroduced' do
-      it 'should NOT require a rate of more than zero' do
+    # context 'for fees entered before rate was reintroduced' do
+    #   it 'should NOT require a rate of more than zero' do
+    #     byebug
+    #     fee.amount = 255
+    #     fee.rate = nil
+    #     expect(fee).to be_valid
+    #   end
+    # end
+
+    context 'for fees on agfs draft claims' do
+      it 'should validate presence of rate' do
+        fee.amount = nil
+        fee.rate = nil
+        expect(fee).to_not be_valid
+        expect(fee.errors.keys).to include(:rate)
+        expect(fee.rate).to eq 0
+        expect(fee.amount).to eq 0
+      end
+    end
+
+    # NOTE: this enables fees that were created and submitted prior to rate being re-introduced to be valid
+    context 'for fees on agfs submitted claims' do
+      it 'should NOT validate presence of rate' do
         fee.amount = 255
+        fee.claim.submit!
         fee.rate = nil
         expect(fee).to be_valid
+        expect(fee.rate).to eq 0
       end
     end
 

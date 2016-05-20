@@ -2,12 +2,12 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/../validation_helpers'
 
 module Fee
-  describe TransferFeeValidator do
+  describe GraduatedFeeValidator do
 
     include ValidationHelpers
 
-    let(:claim) { build :transfer_claim, force_validation: true }
-    let(:fee) { build :transfer_fee }
+    let(:claim) { build :litigator_claim, force_validation: true }
+    let(:fee) { build :graduated_fee }
 
     before(:each) do
       allow(fee).to receive(:perform_validation?).and_return(true)
@@ -24,6 +24,22 @@ module Fee
     context 'assume valid fee' do
       it 'fee is valid' do
         expect(fee).to be_valid
+      end
+    end
+
+    describe '#validate_quantity' do
+      # note: before validation hook sets nil to zero
+      it { should_error_if_not_present(fee, :quantity, 'numericality') }
+
+      it 'numericality, must be between 1 and 999999' do
+        fee.quantity = 1
+        expect(fee).to be_valid
+        fee.quantity = 99999
+        expect(fee).to be_valid
+        fee.quantity = 0
+        expect(fee).to_not be_valid
+        fee.quantity = 100000
+        expect(fee).to_not be_valid
       end
     end
 
@@ -49,7 +65,7 @@ module Fee
         fee.warrant_executed_date = Date.today
         expect(fee).not_to be_valid
       end
-      it 'should validate absence of warrant executed date' do
+      it 'should validate absence of case-type-fee-sub-type' do
         fee.sub_type_id = 2
         expect(fee).not_to be_valid
       end

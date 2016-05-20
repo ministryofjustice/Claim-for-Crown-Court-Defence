@@ -13,8 +13,10 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       @claims = []
       3.times do |n|
         Timecop.freeze(n.days.ago) do
-          claim = create(:allocated_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
+          claim = create(:draft_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
           create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+          claim.submit!
+          claim.allocate!
           @claims << claim
         end
       end

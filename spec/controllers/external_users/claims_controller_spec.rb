@@ -181,8 +181,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           let(:query_params) { {sort: 'amount_assessed', direction: 'asc'} }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims).map(&:amount_assessed)).to \
-              eq(assigns(:claims).sort_by(&:amount_assessed).map(&:amount_assessed))
+            expect(assigns(:claims).map(&:amount_assessed)).to eq(assigns(:claims).sort_by(&:amount_assessed).map(&:amount_assessed))
           end
         end
 
@@ -614,7 +613,12 @@ def build_sortable_claims_sample(advocate)
       claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A#{(n).to_s.rjust(8,'0')}")
       claim.fees.destroy_all
       claim.expenses.destroy_all
+
+      # cannot stub/mock here so temporarily change state to draft to enable amount calculation of fees
+      old_state = claim.state
+      claim.state = 'draft'
       create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+      claim.state = old_state
       claim.assessment.update_values!(claim.fees_total, 0, 0) if claim.authorised?
     end
   end

@@ -1,6 +1,7 @@
 - present(f.object) do |claim|
 
   = f.anchored_without_label 'transfer_detail'
+  = validation_error_message(@error_presenter, :transfer_detail)
 
   .js-case-conclusion-effectors
     %fieldset

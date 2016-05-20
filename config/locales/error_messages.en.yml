@@ -457,7 +457,7 @@ transfer_detail:
   _seq: 220
   invalid_combo:
     long: Check combination of transfer details
-    short: Check transfer details combination
+    short: Check combination of details
     api: Check combination of transfer details
 
 litigator_type:
@@ -510,6 +510,10 @@ case_conclusion_id:
     long: Check the case conclusion
     short: Check selected option
     api: Check the case conclusion
+  invalid_combo:
+    long: Check the case conclusion in combination with other transfer details
+    short: Check selected option
+    api: Check the case conclusion in combination with other transfer details
 
 #################################################################################
 #                                                                               #

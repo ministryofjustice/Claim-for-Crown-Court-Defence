@@ -2,6 +2,10 @@ module Claims::Cloner
   extend ActiveSupport::Concern
   include Duplicable
 
+  EXCLUDED_FEE_ASSOCIATIONS = [
+    :basic_fees, :fixed_fees, :misc_fees, :fixed_fee, :warrant_fee, :graduated_fee, :interim_fee, :transfer_fee
+  ].freeze
+
   included do |klass|
     klass.duplicate_this do
       enable
@@ -15,13 +19,12 @@ module Claims::Cloner
       exclude_association :case_workers
       exclude_association :claim_state_transitions
       exclude_association :versions
-      exclude_association :basic_fees
-      exclude_association :fixed_fees
-      exclude_association :misc_fees
       exclude_association :determinations
       exclude_association :assessment
       exclude_association :redeterminations
       exclude_association :certification
+
+      EXCLUDED_FEE_ASSOCIATIONS.each { |assoc| exclude_association assoc }
 
       clone [:fees, :documents, :defendants, :expenses, :disbursements]
 

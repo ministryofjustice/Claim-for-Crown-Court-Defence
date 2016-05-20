@@ -2,6 +2,19 @@ require 'rails_helper'
 
 RSpec.describe Claims::Cloner, type: :model do
 
+  context 'ensure we are excluding fee associations' do
+    let(:claim_types) { [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
+    let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }
+
+    it 'should check found fee associations against excluded associations' do
+      found_associations = claim_types.inject([]) do |result, klass|
+        result | klass.send(:fee_associations)
+      end
+
+      expect(found_associations.sort).to eq(excluded_associations.sort)
+    end
+  end
+
   describe '#clone_rejected_to_new_draft' do
     context 'non-rejected_claims' do
       it 'tests the functionality in the new way' do
@@ -138,19 +151,27 @@ RSpec.describe Claims::Cloner, type: :model do
     end
 
     def create_rejected_claim
-      rejected_claim = create(:rejected_claim)
-      create(:certification, claim: rejected_claim)
-      rejected_claim.fees.each do |fee|
+      claim = create(:interim_claim, :interim_fee)
+
+      create(:certification, claim: claim)
+
+      claim.fees.each do |fee|
         fee.dates_attended << create(:date_attended)
       end
-      rejected_claim.expenses << create(:expense)
-      rejected_claim.expenses.each do |expense|
+
+      claim.expenses << create(:expense)
+      claim.expenses.each do |expense|
         expense.dates_attended << create(:date_attended)
       end
-      rejected_claim.disbursements << create(:disbursement)
-      create(:redetermination, claim: rejected_claim)
-      rejected_claim.documents << create(:document, :verified)
-      rejected_claim
+
+      claim.disbursements << create(:disbursement)
+      create(:redetermination, claim: claim)
+
+      claim.documents << create(:document, :verified)
+
+      claim.allocate!
+      claim.reject!
+      claim
     end
   end
 end

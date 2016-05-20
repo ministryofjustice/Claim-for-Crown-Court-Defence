@@ -1,5 +1,14 @@
 moj.Modules.CocoonHelper = {
-  el: '#expenses, #basic-fees, #misc-fees, #fixed-fees, #graduated-fees, #disbursements, #interim-fee, #warrant_fee',
+  el: [
+    '#expenses',
+    '#basic-fees',
+    '#misc-fees',
+    '#fixed-fees',
+    '#graduated-fees',
+    '#disbursements',
+    '#interim-fee',
+    '#warrant_fee',
+    '#transfer-fee'].join(','),
 
   init: function() {
     this.addCocoonHooks();

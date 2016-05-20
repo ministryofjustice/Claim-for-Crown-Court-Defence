@@ -6,7 +6,7 @@
     = t('.transfer_fee_prompt_text_html')
 
   = f.fields_for :transfer_fee do |tf|
-    .transfer-fee-group.nested-fields.mod-fees
+    .transfer-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
           .column-three-quarters
@@ -18,7 +18,7 @@
             = tf.label :amount, t('.total')
             = tf.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
-            = tf.number_field :amount, value: number_with_precision(tf.object.amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8
+            = tf.number_field :amount, value: number_with_precision(tf.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
             = validation_error_message(@error_presenter, 'transfer_fee.amount')
             = validation_error_message(@error_presenter, 'transfer_fee')
 

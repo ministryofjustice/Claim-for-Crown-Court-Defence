@@ -24,6 +24,13 @@ module ValidationHelpers
     expect(record.errors[field]).to be_empty
   end
 
+  def should_error_if_present(record, field, value, message, options={})
+    record.send("#{field}=", value)
+    expect(record.send(:valid?)).to be false
+    expect(record.errors[field]).to include( message )
+    with_expected_error_translation(field,message,options) if options[:translated_message]
+  end
+
   def should_error_if_not_present(record, field, message, options={})
     record.send("#{field}=", nil)
     expect(record.send(:valid?)).to be false

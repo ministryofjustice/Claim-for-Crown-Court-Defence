@@ -5,8 +5,9 @@ module Fee
   describe GraduatedFeeValidator do
 
     include ValidationHelpers
+    include_context 'force-validation'
 
-    let(:claim) { build :litigator_claim, force_validation: true }
+    let(:claim) { build :litigator_claim }
     let(:fee) { build :graduated_fee }
 
     before(:each) do

@@ -11,6 +11,7 @@ inherit_from:
 AllCops:
   TargetRubyVersion: 2.3
   Exclude:
+    - './*'
     - 'db/**/*'
     - 'bin/**/*'
     - 'config/**/*'
@@ -20,6 +21,7 @@ AllCops:
     - 'features/**/*'
     - 'old_features/**/*'
     - 'spec/**/*'
+    - 'vendor/**/*'
 
 Documentation:
   Enabled: false
@@ -34,6 +36,12 @@ Style/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Style/BracesAroundHashParameters:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/TrailingBlankLines:
   Enabled: false
 
 Metrics/LineLength:

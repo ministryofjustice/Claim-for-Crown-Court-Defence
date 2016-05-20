@@ -157,9 +157,14 @@ module Claim
         claim
       end
 
-      it 'errors if details are an invalid combination' do
+      it 'adds a transfer detail combination error for invalid combinations' do
         expect(claim).not_to be_valid
         expect(claim.errors[:transfer_detail]).to include('invalid_combo')
+      end
+
+      it 'adds a specifc error on case conclusion id for invalid combinations to help resolve them' do
+        expect(claim).not_to be_valid
+        expect(claim.errors[:case_conclusion_id]).to include('invalid_combo')
       end
 
       it 'does not error if details are a valid combo' do

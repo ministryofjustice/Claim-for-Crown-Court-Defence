@@ -58,7 +58,8 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   def validate_transfer_detail_combo
     unless Claim::TransferBrain.details_combo_valid?(@record.transfer_detail)
-      add_error(:transfer_detail, 'invalid_combo')
+      add_error(:transfer_detail, 'invalid_combo') # section error
+      add_error(:case_conclusion_id, 'invalid_combo') # field helpful error
     end
   end
 end

@@ -1220,13 +1220,20 @@ graduated_fee:
   quantity:
     _seq: 20
     invalid:
-      long: 'Enter a valid quantity for the graduated fee'
+      long: Enter a valid quantity for the graduated fee
       short: *enter_valid_quantity
       api: Enter a valid quantity for the graduated fee
     numericality:
       long: 'Enter a valid quantity for the graduated fee'
       short: *enter_valid_quantity
       api: Enter a valid quantity for the graduated fee
+
+  amount:
+    _seq: 20
+    numericality:
+      long: Enter a valid amount for the graduated fee
+      short: *enter_valid_amount
+      api: Enter a valid amount for the graduated fee
 
 #################################################################################
 #                                                                               #

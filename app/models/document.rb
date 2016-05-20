@@ -52,7 +52,49 @@ class Document < ActiveRecord::Base
 
   validate :documents_count
 
+
+  def save_and_verify
+    result = save
+    if result
+      result = verify_and_log
+    else
+      log_save_error
+    end
+    result
+  end
+
+  def verify_and_log
+    LogStuff.info(:paperclip, action: 'save', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Document saved' }
+    if verify_file_exists
+      LogStuff.info(:paperclip, action: 'verify', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Document verified' }
+      result = true
+    else
+      LogStuff.error(:paperclip, action: 'verify_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to verify document' }
+      self.errors[:document ] << "Unable to save the file - please retry"
+      result =false
+    end
+    result
+  end
+
+  def log_save_error
+    LogStuff.error(:paperclip, action: 'save_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to save document' }
+  end
+
   private
+
+  def verify_file_exists
+    reloaded_file = reload_saved_file
+    self.verified_file_size = File.stat(reloaded_file).size
+    self.file_path = self.document.path
+    self.verified = self.verified_file_size > 0
+    self.save!
+    self.verified
+  end
+
+  def reload_saved_file
+    Paperclip.io_adapters.for(self.document).path
+  end
+
 
   def documents_count
     return true if self.form_id.nil?

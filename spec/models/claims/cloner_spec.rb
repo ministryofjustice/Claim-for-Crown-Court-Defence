@@ -149,7 +149,7 @@ RSpec.describe Claims::Cloner, type: :model do
       end
       rejected_claim.disbursements << create(:disbursement)
       create(:redetermination, claim: rejected_claim)
-      rejected_claim.documents << create(:document)
+      rejected_claim.documents << create(:document, :verified)
       rejected_claim
     end
   end

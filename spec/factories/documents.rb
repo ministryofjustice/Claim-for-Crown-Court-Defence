@@ -30,5 +30,17 @@ FactoryGirl.define do
       document { File.open(Rails.root + 'features/examples/shorter_lorem.docx')}
       document_content_type { 'application/msword' }
     end
+
+    trait :unverified do
+      verified_file_size 0
+      verified false
+    end
+
+    trait :verified do
+      verified_file_size 2663
+      file_path 'public/tmp/longer_lorem.pdf'
+      verified true
+    end
+
   end
 end

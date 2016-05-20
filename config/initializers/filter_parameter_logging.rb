@@ -3,7 +3,8 @@
 # Configure sensitive parameters which will be filtered from the log file.
 if Rails.env.development?
   Rails.application.config.filter_parameters += [
-    :password
+    :password,
+    :document
   ]
 else
   Rails.application.config.filter_parameters += [
@@ -13,7 +14,8 @@ else
     :last_name,
     :date_of_birth,
     :supplier_number,
-    :body
+    :body,
+    :document
   ]
 end
 

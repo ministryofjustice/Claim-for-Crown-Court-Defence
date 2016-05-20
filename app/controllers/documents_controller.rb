@@ -38,9 +38,11 @@ class DocumentsController < ApplicationController
   end
 
   def create
+    Rails.logger.warn "paperclip: Saving Document"
+
     @document = Document.new(document_params.merge(creator_id: current_user.id))
 
-    if @document.save
+    if @document.save_and_verify
       render json: { document: @document.reload }, status: :created
     else
       render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity

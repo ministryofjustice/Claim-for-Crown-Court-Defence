@@ -1,7 +1,7 @@
 describe('Modules.CocoonHelper.js', function() {
   it('should exist with some config', function() {
     var module = moj.Modules.CocoonHelper;
-    expect(module.el).toBe('#expenses, #basic-fees, #misc-fees, #fixed-fees, #graduated-fees, #disbursements, #interim-fee, #warrant_fee');
+    expect(module.el).toBe('#expenses,#basic-fees,#misc-fees,#fixed-fees,#graduated-fees,#disbursements,#interim-fee,#warrant_fee,#transfer-fee');
     expect(module.init).toEqual(jasmine.any(Function));
     expect(module.addCocoonHooks).toEqual(jasmine.any(Function));
   });

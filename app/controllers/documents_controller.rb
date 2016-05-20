@@ -18,6 +18,9 @@
 #  uuid                                    :uuid
 #  form_id                                 :string
 #  creator_id                              :integer
+#  verified_file_size                      :integer
+#  file_path                               :string
+#  verified                                :boolean          default(FALSE)
 #
 
 class DocumentsController < ApplicationController

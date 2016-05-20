@@ -124,7 +124,10 @@ RSpec.describe Claims::Cloner, type: :model do
       it 'clones the documents' do
         expect(@cloned_claim.documents.count).to eq(1)
         expect(@cloned_claim.documents.count).to eq(@rejected_claim.documents.count)
+      end
 
+      it 'stores the original claim ID in the new cloned claim' do
+        expect(@cloned_claim.clone_source_id).to eq(@rejected_claim.id)
       end
 
       it 'generates a new form_id for the cloned claim' do

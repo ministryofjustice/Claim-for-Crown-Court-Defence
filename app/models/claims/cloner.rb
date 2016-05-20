@@ -31,6 +31,7 @@ module Claims::Cloner
       set form_id: SecureRandom.uuid
 
       customize(lambda { |original_claim, new_claim|
+        new_claim.clone_source_id = original_claim.id
         new_claim.documents.each do |d|
           d.form_id = new_claim.form_id
         end

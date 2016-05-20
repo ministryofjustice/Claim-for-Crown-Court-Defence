@@ -50,6 +50,7 @@
 #  legal_aid_transfer_date  :date
 #  allocation_type          :string
 #  transfer_case_number     :string
+#  clone_source_id          :integer
 #
 
 require 'rails_helper'

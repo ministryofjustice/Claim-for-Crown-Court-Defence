@@ -50,6 +50,7 @@
 #  legal_aid_transfer_date  :date
 #  allocation_type          :string
 #  transfer_case_number     :string
+#  clone_source_id          :integer
 #
 
 module Claim
@@ -123,6 +124,8 @@ module Claim
 
     scope :total_greater_than_or_equal_to, -> (value) { where { total >= value } }
     scope :total_lower_than, -> (value) { where { total < value } }
+
+    scope :cloned, -> { where.not(clone_source_id: nil) }
 
     accepts_nested_attributes_for :basic_fees,        reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: all_blank_or_zero, allow_destroy: true

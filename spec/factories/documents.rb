@@ -45,5 +45,10 @@ FactoryGirl.define do
       verified true
     end
 
+    trait :empty do
+      document nil
+      verified_file_size 0
+      verified false
+    end
   end
 end

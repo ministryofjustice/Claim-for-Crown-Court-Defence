@@ -239,7 +239,24 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  context '#copy_from' do
+    let(:document) { build(:document) }
+    let(:new_document) { build(:document, :empty) }
+
+    before(:each) do
+      document.save_and_verify
+      new_document.save_and_verify
+    end
+
+    it 'copies and verifies the document data' do
+      expect(new_document.verified).to be_falsey
+      expect(new_document.verified_file_size).to eq(0)
+
+      new_document.copy_from(document, verify: true)
+
+      expect(new_document.verified).to be_truthy
+      expect(new_document.verified_file_size).not_to eq(0)
+      expect(new_document.verified_file_size).to eq(document.verified_file_size)
+    end
+  end
 end
-
-
-

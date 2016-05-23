@@ -55,6 +55,10 @@ class Document < ActiveRecord::Base
 
   validate :documents_count
 
+  def copy_from(original_doc, verify: false)
+    self.document = original_doc.document
+    verify ? save_and_verify : save
+  end
 
   def save_and_verify
     result = save
@@ -73,8 +77,8 @@ class Document < ActiveRecord::Base
       result = true
     else
       LogStuff.error(:paperclip, action: 'verify_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to verify document' }
-      self.errors[:document ] << "Unable to save the file - please retry"
-      result =false
+      self.errors[:document] << "Unable to save the file - please retry"
+      result = false
     end
     result
   end
@@ -86,10 +90,15 @@ class Document < ActiveRecord::Base
   private
 
   def verify_file_exists
-    reloaded_file = reload_saved_file
-    self.verified_file_size = File.stat(reloaded_file).size
-    self.file_path = self.document.path
-    self.verified = self.verified_file_size > 0
+    begin
+      reloaded_file = reload_saved_file
+      self.verified_file_size = File.stat(reloaded_file).size
+      self.file_path = self.document.path
+      self.verified = self.verified_file_size > 0
+    rescue
+      self.verified = false
+    end
+
     self.save!
     self.verified
   end

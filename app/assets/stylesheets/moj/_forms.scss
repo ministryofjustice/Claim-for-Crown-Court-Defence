@@ -291,6 +291,10 @@ button.search {
 
 label.form-date-spacing {
   padding-top: 60px;
+
+  &.with-hint {
+    padding-top: 30px;
+  }
 }
 
 .expense-group {

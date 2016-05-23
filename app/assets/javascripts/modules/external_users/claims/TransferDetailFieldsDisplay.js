@@ -7,13 +7,32 @@ moj.Modules.TransferDetailFieldsDisplay = {
   caseConclusionSelect: '.js-case-conclusions-select',
   transferStageLabel: '.js-transfer-stage-label',
   transferDateLabel: '.js-transfer-date-label',
+  params: {},
 
   init: function() {
     if ($(this.tdWrapper).length > 0) {
+      this.cacheEls();
       this.$tdWrapper = $(this.tdWrapper);
       this.addChangeEvent();
       this.callCaseConclusionController();
     }
+  },
+
+  cacheEls: function() {
+    this.params = {
+      litigator_type:{
+        el: this.litigatorTypeRadio,
+        selector: ':checked'
+      },
+      elected_case:{
+        el: this.electedCaseRadio,
+        selector: ':checked'
+      },
+      transfer_stage_id:{
+        el: this.transferStageSelect,
+        selector: ' option:selected'
+      }
+    };
   },
 
   addChangeEvent: function() {
@@ -27,6 +46,7 @@ moj.Modules.TransferDetailFieldsDisplay = {
     });
   },
 
+  // called by controller js view render
   caseConclusionToggle: function(toggle) {
     if (toggle) {
       $(this.caseConclusionSelect).slideDown();
@@ -37,22 +57,23 @@ moj.Modules.TransferDetailFieldsDisplay = {
     }
   },
 
+  // called by controller js view render
   labelTextToggle: function(transfer_stage_label_text,transfer_date_label_text) {
     this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text);
     this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text);
   },
 
-  getParamVal: function(param_name, selector) {
-    if (typeof $(selector) !== 'undefined' && selector !== null) {
-      return '&' + param_name + '=' + $(selector).val();
-    }
+  getParamVal: function(param_key) {
+    var selector = this.params[param_key].el + this.params[param_key].selector;
+    return '&' + param_key + '=' + $(this.$tdWrapper.find(selector)).val();
   },
 
   constructParams: function() {
+    var self = this;
     var params = '';
-    params = params + this.getParamVal('litigator_type',    this.$tdWrapper.find(this.litigatorTypeRadio + ':checked'));
-    params = params + this.getParamVal('elected_case',      this.$tdWrapper.find(this.electedCaseRadio + ':checked'));
-    params = params + this.getParamVal('transfer_stage_id', this.$tdWrapper.find(this.transferStageSelect).find('option:selected'));
+    $.each(this.params, function(key){
+      params += self.getParamVal(key);
+    });
 
     //remove initial &
     return params.substr(1);

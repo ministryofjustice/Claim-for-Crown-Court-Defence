@@ -73,11 +73,17 @@ module Fee
 
     # default type logic
     def is_basic?; false; end
+
     def is_misc?; false; end
-    def is_fixed?; false;end
+
+    def is_fixed?; false; end
+
     def is_graduated?; false; end
+
     def is_warrant?; false; end
+
     def is_interim?; false; end
+
     def is_transfer?; false; end
 
     def perform_validation?

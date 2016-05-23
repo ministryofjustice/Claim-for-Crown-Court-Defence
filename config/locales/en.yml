@@ -711,10 +711,11 @@ en:
           effective_pcmh: "Effective PCMH"
           legal_aid_transfer_date: "Legal aid transfer"
           first_day_of_trial: "Trial start"
-          estimated_trial_length: "Estimated length of trial"
+          estimated_trial_length: "Estimated length"
           trial_concluded_at: "First trial concluded"
           retrial_started_at: "Re-trial start"
-          retrial_estimated_length: "Estimated length of re-trial"
+          retrial_estimated_length: "Estimated length"
+          number_days_hint: "Number of days"
       transfer_fees:
         fields:
           transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help

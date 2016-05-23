@@ -78,7 +78,17 @@ module Claims::Cloner
     Document.class_eval do |klass|
       klass.duplicate_this do
         enable
+        set verified: false
+
         nullify :uuid
+        nullify :file_path
+        nullify :verified_file_size
+
+        exclude_association :document
+
+        customize(lambda { |original_doc, new_doc|
+          new_doc.copy_from(original_doc, verify: true)
+        })
       end
     end
 

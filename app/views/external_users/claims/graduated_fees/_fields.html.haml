@@ -43,5 +43,6 @@
 
             = gf.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
-            = gf.text_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
-            = validation_error_message(@error_presenter, 'graduated_fee.amount')
+            = gf.number_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
+            = validation_error_message(@error_presenter, :amount)
+            = gf.anchored_attribute 'amount'

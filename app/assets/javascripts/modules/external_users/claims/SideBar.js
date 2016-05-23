@@ -12,7 +12,6 @@ moj.Modules.SideBar = {
   },
 
   init: function() {
-    this.clearTotals();
     this.bindListeners();
     this.loadBlocks();
   },
@@ -22,13 +21,15 @@ moj.Modules.SideBar = {
     self.blocks = [];
     $('.js-block').each(function(id, el) {
       var $el = $(el);
-      var fn = $el.data('calculated') ? 'FeeBlockCalculator' : 'FeeBlock';
-      self.blocks.push(new moj.Helpers.SideBar[fn]({
+      var fn = $el.data('block-type') ? $el.data('block-type') : 'FeeBlock';
+      var options = {
+        fn: fn,
         type: $el.data('type'),
         autoVAT: $el.data('autovat'),
         el: el,
         $el: $el
-      }));
+      };
+      self.blocks.push(new moj.Helpers.SideBar[options.fn](options));
     });
   },
 
@@ -47,17 +48,22 @@ moj.Modules.SideBar = {
   recalculate: function() {
     var self = this;
 
-    self.clearTotals();
+    this.totals = {
+      fees: 0,
+      disbursements: 0,
+      expenses: 0,
+      vat: 0,
+      grandTotal: 0
+    };
 
     self.blocks.forEach(function(block) {
       if (block.isVisible()) {
         block.reload();
-        self.totals[block.getConfig('type')] += block.totals.total;
+        self.totals[block.getConfig('type')] += block.totals.typeTotal;
         self.totals.vat += block.totals.vat;
         self.totals.grandTotal += block.totals.total + block.totals.vat;
       }
     });
-
     self.render();
   },
 
@@ -70,17 +76,6 @@ moj.Modules.SideBar = {
     $('#claim-form').on('cocoon:after-insert', function(e) {
       self.loadBlocks();
     });
-  },
-
-  clearTotals: function() {
-    this.totals = $.extend({}, {
-      fees: 0,
-      disbursements: 0,
-      expenses: 0,
-      vat: 0,
-      grandTotal: 0
-    });
-    return;
   },
 
   sanitzeFeeToFloat: function() {

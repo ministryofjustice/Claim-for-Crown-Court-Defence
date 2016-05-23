@@ -1,4 +1,4 @@
-.form-group.disbursement-group.nested-fields.js-block{data:{type:"disbursements", autovat: "false"}}
+.form-group.disbursement-group.nested-fields.js-block{data:{"block-type": "FeeBlockManualAmounts", type:"disbursements", autovat: "false"}}
   .grid-row
     .column-one-quarter.disbursement-type
       %label.form-label
@@ -12,7 +12,7 @@
         = t('.net_amount')
       %a{name: "disbursement_#{@disbursement_count}_net_amount"}
       %span.currency-indicator>< &pound;
-      = f.number_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), class: 'form-control amount total', size: 10, maxlength: 8, min:0, max:99999, data: { calculator: 'net' }
+      = f.number_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8, min:0, max:99999
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_net_amount")
 
     .column-one-quarter.fee-rate
@@ -21,13 +21,13 @@
       %a{name: "disbursement_#{@disbursement_count}_vat_amount"}
 
       %span.currency-indicator>< &pound;
-      = f.number_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control vat', size: 10, min:0, max: 99999999, data: { calculator: 'vat' }
+      = f.number_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control vat', size: 10, min:0, max: 99999999
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_vat_amount")
 
     .column-one-quarter.fee-rate
       %label.form-label.pb8
         = t('.total')
-      %div{data: { calculator: 'total', total: number_to_currency(f.object.total) }}
+      %div.total{data: { total: number_to_currency(f.object.total) }}
         = number_to_currency(f.object.total)
 
   = link_to_remove_association t('.remove'), f, { wrapper_class: 'disbursement-group' }

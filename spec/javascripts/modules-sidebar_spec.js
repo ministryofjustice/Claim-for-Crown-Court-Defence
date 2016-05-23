@@ -17,7 +17,6 @@ describe("Modules.SideBar.js", function() {
   var jsBlockViewNonCalculated = $([
     '<div class="js-block nested-fields" ',
     '  data-autovat="true" ',
-    '  data-calculated="false" ',
     '  data-type="fees">',
     '   <h1>JS BLOCK</h1>',
     '  <input value="" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
@@ -29,7 +28,7 @@ describe("Modules.SideBar.js", function() {
   var jsBlockViewCalculated = $([
     '<div class="js-block nested-fields" ',
     '  data-autovat="true" ',
-    '  data-calculated="true" ',
+    '  data-block-type="FeeBlockCalculator" ',
     '  data-type="fees">',
     '   <h1>JS BLOCK</h1>',
     '  <input value="5" class="form-control quantity" min="0" max="99999" maxlength="5" size="5" type="number" name="claim[basic_fees_attributes][0][quantity]" id="claim_basic_fees_attributes_0_quantity">',
@@ -111,7 +110,6 @@ describe("Modules.SideBar.js", function() {
           jsBlockViewNonCalculated.clone(),
           jsBlockViewNonCalculated.clone()
         ];
-
         jsBlockFixtureDOM.append(fixture);
         $('body').append(jsBlockFixtureDOM);
 
@@ -157,7 +155,6 @@ describe("Modules.SideBar.js", function() {
       describe('...internal calls', function() {
         var called;
         beforeEach(function() {
-          spyOn(moj.Modules.SideBar, 'clearTotals');
           spyOn(moj.Modules.SideBar, 'render');
           called = {};
           moj.Modules.SideBar.blocks = [{
@@ -179,11 +176,6 @@ describe("Modules.SideBar.js", function() {
               return 'config';
             }
           }];
-        });
-
-        it('should call `this.clearTotals`', function() {
-          moj.Modules.SideBar.recalculate();
-          expect(moj.Modules.SideBar.clearTotals).toHaveBeenCalled();
         });
 
         it('should call `this.render`', function() {
@@ -209,7 +201,42 @@ describe("Modules.SideBar.js", function() {
         describe('...calculations', function() {
           it('should add to the correct `this.type` property', function() {
             $('body').append(jsBlockViewCalculated);
+
             moj.Modules.SideBar.init();
+
+            var block = moj.Modules.SideBar.blocks[0];
+
+            moj.Modules.SideBar.recalculate();
+
+            expect(block.totals).toEqual({
+              quantity: 5,
+              rate: 5.2,
+              amount: 0,
+              total: 26,
+              vat: 5.2,
+              typeTotal: 26
+            });
+
+            expect(moj.Modules.SideBar.totals).toEqual({
+              fees: 26,
+              disbursements: 0,
+              expenses: 0,
+              vat: 5.2,
+              grandTotal: 31.2
+            });
+
+            block.config.type = 'expenses';
+            moj.Modules.SideBar.recalculate();
+
+            expect(moj.Modules.SideBar.totals).toEqual({
+              fees: 0,
+              disbursements: 0,
+              expenses: 26,
+              vat: 5.2,
+              grandTotal: 31.2
+            });
+
+            block.config.type = 'fees';
             moj.Modules.SideBar.recalculate();
 
             expect(moj.Modules.SideBar.totals).toEqual({
@@ -220,17 +247,7 @@ describe("Modules.SideBar.js", function() {
               grandTotal: 31.2
             });
 
-            moj.Modules.SideBar.blocks[0].config.type = 'expenses';
-
-            moj.Modules.SideBar.recalculate();
-
-            expect(moj.Modules.SideBar.totals).toEqual({
-              fees: 26,
-              disbursements: 0,
-              expenses: 26,
-              vat: 10.4,
-              grandTotal: 62.4
-            });
+            jsBlockViewCalculated.remove();
           });
         });
       });
@@ -259,27 +276,6 @@ describe("Modules.SideBar.js", function() {
         $('#claim-form').trigger('cocoon:after-insert');
         expect(moj.Modules.SideBar.recalculate).not.toHaveBeenCalled();
         expect(moj.Modules.SideBar.loadBlocks).toHaveBeenCalled();
-      });
-    });
-
-    describe('...clearTotals', function() {
-      it('should clear the totals cache obj', function() {
-        var expected = {
-          fees: 0,
-          disbursements: 0,
-          expenses: 0,
-          vat: 0,
-          grandTotal: 0
-        };
-        moj.Modules.SideBar.totals = {
-          fees: 1,
-          disbursements: 2,
-          expenses: 3,
-          vat: 4,
-          grandTotal: 5
-        };
-        moj.Modules.SideBar.clearTotals();
-        expect(moj.Modules.SideBar.totals).toEqual(expected);
       });
     });
 

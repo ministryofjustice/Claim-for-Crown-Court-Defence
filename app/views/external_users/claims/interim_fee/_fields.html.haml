@@ -5,7 +5,7 @@
     = t('.interim_fees_prompt_text_html')
 
   = f.fields_for :interim_fee do |inf|
-    .interim-fee-group.nested-fields.mod-fees
+    .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
           .column-three-quarters
@@ -64,7 +64,7 @@
             = inf.label :amount, t('.total'), {class: 'form-label form-date-spacing'}
             = inf.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
-            = inf.number_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'amount form-control', size: 10, min: 0, max: 99999999
+            = inf.number_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'total form-control', size: 10, min: 0, max: 99999999
             = validation_error_message(@error_presenter, 'interim_fee.amount')
 
     .js-interim-disbursements.visually-hidden

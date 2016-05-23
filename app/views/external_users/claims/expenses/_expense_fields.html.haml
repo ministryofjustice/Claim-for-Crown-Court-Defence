@@ -27,7 +27,7 @@
 
       .column-one-third.condensed{class: "js-expense-hours expense-hours"}
         %a{name: "expense_#{@expense_count}_hours"}
-        = f.label :hours, 'Number of hours'
+        = f.label :hours, 'Hours'
         = f.number_field :hours, {class: 'form-control short-input'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
 

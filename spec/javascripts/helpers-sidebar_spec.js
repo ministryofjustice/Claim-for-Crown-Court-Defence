@@ -213,12 +213,12 @@ describe('Helpers.SideBar.js', function() {
         ].join('');
         $('body').append(fixtureDom);
         instance = new moj.Helpers.SideBar.FeeBlock({
-          type: 'sample',
+          type: 'FeeBlock',
           $el: $('.js-block'),
           el: fixtureDom
         });
         expect(instance.getConfig).toBeDefined();
-        expect(instance.getConfig('type')).toEqual('sample');
+        expect(instance.getConfig('type')).toEqual('FeeBlock');
         $('.js-block').remove();
       });
 
@@ -294,7 +294,8 @@ describe('Helpers.SideBar.js', function() {
               rate: 22.22,
               amount: 33.33,
               total: 44.44,
-              vat: 8.888
+              vat: 8.888,
+              typeTotal: 44.44
             });
           });
         });
@@ -307,12 +308,14 @@ describe('Helpers.SideBar.js', function() {
             instance.$el.find('.total').data('total', '444.44');
 
             instance.setTotals();
+            // console.log(instance);
             expect(instance.totals).toEqual({
               quantity: 11.11,
               rate: 222.22,
               amount: 333.33,
               total: 444.44,
-              vat: 0
+              vat: 0,
+              typeTotal: 444.44
             });
           });
 
@@ -329,7 +332,8 @@ describe('Helpers.SideBar.js', function() {
               rate: 222.22,
               amount: 333.33,
               total: 555.55,
-              vat: 0
+              vat: 0,
+              typeTotal: 555.55
             });
           });
         });
@@ -380,7 +384,7 @@ describe('Helpers.SideBar.js', function() {
         ].join('');
         $('body').append(fixtureDom);
         instance = new moj.Helpers.SideBar.FeeBlockCalculator({
-          type: 'sample',
+          type: 'FeeBlockCalculator',
           $el: $('.js-block'),
           el: fixtureDom
         });
@@ -447,7 +451,8 @@ describe('Helpers.SideBar.js', function() {
               rate: 22.22,
               amount: 33.33,
               total: 246.86,
-              vat: 88.88
+              vat: 88.88,
+              typeTotal: 246.86
             });
           });
         });

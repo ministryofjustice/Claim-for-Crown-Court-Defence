@@ -48,6 +48,7 @@ moj.Helpers.SideBar = {
     };
 
     this.init = function() {
+      this.config.fn = 'FeeBlock';
       this.bindRecalculate();
       this.reload();
     };
@@ -61,6 +62,7 @@ moj.Helpers.SideBar = {
     this.reload = function() {
       this.updateTotals();
       this.applyVat();
+      return this;
     };
 
     this.setTotals = function() {
@@ -71,6 +73,8 @@ moj.Helpers.SideBar = {
         total: this.getDataVal('total') || this.getVal('.total'),
         vat: this.getVal('.vat')
       };
+
+      this.totals.typeTotal = this.totals.total;
       return this.totals;
     };
 
@@ -80,6 +84,12 @@ moj.Helpers.SideBar = {
       }
       return this.setTotals();
     };
+
+    this.render = function() {
+      this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
+      this.$el.find('.total').data('total', this.totals.total);
+    };
+
     this.init();
   },
   FeeBlockCalculator: function() {
@@ -87,12 +97,9 @@ moj.Helpers.SideBar = {
     moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
 
     this.init = function() {
+      this.config.fn = 'FeeBlockCalculator';
       this.bindRender();
-    };
-
-    this.render = function() {
-      this.$el.find('.total').html('&pound;' + moj.Helpers.SideBar.addCommas(this.totals.total.toFixed(2)));
-      this.$el.find('.total').data('total', this.totals.total);
+      this.setTotals();
     };
 
     this.setTotals = function() {
@@ -103,6 +110,8 @@ moj.Helpers.SideBar = {
         total: parseFloat((this.getVal('.quantity') * this.getVal('.rate')).toFixed(2)),
         vat: this.getVal('.vat')
       };
+
+      this.totals.typeTotal = this.totals.total;
       return this.totals;
     };
 
@@ -115,6 +124,38 @@ moj.Helpers.SideBar = {
 
     this.init();
   },
+  FeeBlockManualAmounts: function() {
+    var self = this;
+    moj.Helpers.SideBar.FeeBlock.apply(this, arguments);
+
+    this.init = function() {
+      this.config.fn = 'FeeBlockManualAmounts';
+      this.bindRender();
+      this.setTotals();
+    };
+
+    this.setTotals = function() {
+      this.totals = {
+        quantity: this.getVal('.quantity'),
+        rate: this.getVal('.rate'),
+        amount: this.getVal('.amount'),
+        total: parseFloat((this.getVal('.amount') + this.getVal('.vat')).toFixed(2)),
+        vat: this.getVal('.vat')
+      };
+      this.totals.typeTotal = this.totals.amount;
+      return this.totals;
+    };
+
+    this.bindRender = function() {
+      this.$el.on('change', '.amount, .vat', function() {
+        self.updateTotals();
+        self.render();
+      });
+    };
+
+    this.init();
+  },
+
   addCommas: function(nStr) {
     nStr += '';
     x = nStr.split('.');
@@ -125,5 +166,5 @@ moj.Helpers.SideBar = {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');
     }
     return x1 + x2;
-  },
+  }
 };

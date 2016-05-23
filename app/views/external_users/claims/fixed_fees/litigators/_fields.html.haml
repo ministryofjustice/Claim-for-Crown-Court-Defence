@@ -38,5 +38,5 @@
 
             = ff.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
-            = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
+            = ff.number_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 999999
             = validation_error_message(@error_presenter, 'fixed_fee.amount')

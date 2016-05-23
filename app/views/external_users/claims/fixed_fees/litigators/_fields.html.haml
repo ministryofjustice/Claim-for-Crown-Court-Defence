@@ -17,6 +17,13 @@
             = @claim.case_type.fixed_fee_type.description
             = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
             = validation_error_message(@error_presenter, :fee_type)
+        .grid-row
+          - if @claim.case_type.fixed_fee_type.children.any?
+            %label.form-label
+              = t('.select_sub_type')
+            = ff.anchored_attribute 'sub_type'
+            = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
+            = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
 
           .column-one-third.condensed.js-expense-location
 
@@ -33,8 +40,3 @@
             %span.currency-indicator>< &pound;
             = ff.text_field :amount, value: number_with_precision(ff.object.amount, precision: 2), class: 'form-control total', size: 10, maxlength: 8
             = validation_error_message(@error_presenter, 'fixed_fee.amount')
-
-
-      - if @claim.case_type.fixed_fee_type.children.any?
-        = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
-        = validation_error_message(@error_presenter, :sub_type)

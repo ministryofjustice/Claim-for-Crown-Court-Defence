@@ -5,8 +5,9 @@ module Fee
   describe TransferFeeValidator do
 
     include ValidationHelpers
+    include_context 'force-validation'
 
-    let(:claim) { build :transfer_claim, force_validation: true }
+    let(:claim) { build :transfer_claim }
     let(:fee) { build :transfer_fee }
 
     before(:each) do

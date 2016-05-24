@@ -1183,21 +1183,21 @@ disbursement:
   vat_amount:
     _seq: 30
     blank:
-      long: 'Enter a vat amount for the #{disbursement}'
+      long: 'Enter a VAT amount for the #{disbursement}'
       short: *enter_amount
-      api: Enter a vat amount for the disbursement
+      api: Enter a VAT amount for the disbursement
     numericality:
-      long: 'Enter a valid vat amount for the #{disbursement}'
+      long: 'Enter a valid VAT amount for the #{disbursement}'
       short: *check_amount
-      api: Enter a valid vat amount for the disbursement
+      api: Enter a valid VAT amount for the disbursement
     greater_than:
       long: 'Check VAT amount is less than the net amount for the #{disbursement}'
       short: *check_amount
       api: Check VAT amount is less than the net amount for the disbursement
     invalid:
-      long: "Vat amount doesn't apply for the #{disbursement}"
-      short: "Vat amount doesn't apply"
-      api: "Vat amount doesn't apply for the disbursement"
+      long: "VAT amount doesn't apply for the #{disbursement}"
+      short: "VAT amount doesn't apply"
+      api: "VAT amount doesn't apply for the disbursement"
 
 #################################################################################
 #                                                                               #

@@ -18,7 +18,11 @@
     .column-one-third,
     .column-one-half,
     .column-one-quarter{
-      padding: 0;
+      padding: 0 10px;
     }
   }
+}
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
 }

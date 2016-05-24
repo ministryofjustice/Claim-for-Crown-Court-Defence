@@ -19,7 +19,7 @@ Rails.application.configure do
   # logging
   jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
   config.logstasher.enabled = true
-  config.logstasher.suppress_app_log = true
+  config.logstasher.suppress_app_log = false
   config.logstasher.logger = jsonlogger
 
   # Need to specifically set the logstasher loglevel since it will overwrite the one set earlier

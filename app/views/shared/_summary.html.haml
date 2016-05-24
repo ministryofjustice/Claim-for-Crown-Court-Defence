@@ -23,8 +23,9 @@
               = t('.fee_type')
             %th.numeric{ scope: 'col'}
               = t('.quantity')
-            %th.numeric{ scope: 'col'}
-              = t('.rate')
+            - if claim.agfs?
+              %th.numeric{ scope: 'col'}
+                = t('.rate')
             %th.numeric{ scope: 'col'}
               = t('.amount')
         %tbody
@@ -40,8 +41,9 @@
                 = fee.fee_type.description
               %td.numeric
                 = fee.quantity
-              %td.numeric
-                = fee.rate
+              - if claim.agfs?
+                %td.numeric
+                  = fee.rate
               %td.numeric
                 = fee.amount
       .totals.indent-sides

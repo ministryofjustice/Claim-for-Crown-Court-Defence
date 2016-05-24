@@ -123,26 +123,27 @@ describe API::V1::DropdownData do
   end
 
   context "expense v1" do
-    before { create_list(:expense_type, 2) }
+    let(:expectation) { ExpenseType.all.to_json }
 
-    context "v1" do
-      let(:expectation) { ExpenseType.all.to_json }
-
-      before(:each)    { allow(Settings).to receive(:expense_schema_version).and_return(1) }
-      xit 'should return a JSON formatted list of the required information' do
-        response = get EXPENSE_TYPE_ENDPOINT, params, format: :json
-        expect(response.status).to eq 200
-        expect(JSON.parse(response.body).count).to be > 0
-        expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
-      end
-
-      xit 'should require an API key' do
-        params.delete(:api_key)
-        get EXPENSE_TYPE_ENDPOINT, params, format: :json
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
+    before(:each) do
+      allow(Settings).to receive(:expense_schema_version).and_return(1)
+      create_list(:expense_type, 2)
     end
+
+    xit 'should return a JSON formatted list of the required information' do
+      get EXPENSE_TYPE_ENDPOINT, params, format: :json
+      expect(last_response.status).to eq 200
+      expect(JSON.parse(last_response.body).count).to be > 0
+      expect(JSON.parse(last_response.body)).to match_array JSON.parse(expectation)
+    end
+
+    it 'should require an API key' do
+      params.delete(:api_key)
+      get EXPENSE_TYPE_ENDPOINT, params, format: :json
+      expect(last_response.status).to eq 401
+      expect(last_response.body).to include('Unauthorised')
+    end
+
   end
 
   context "expense v2" do

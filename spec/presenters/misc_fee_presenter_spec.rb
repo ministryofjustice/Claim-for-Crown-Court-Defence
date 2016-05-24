@@ -6,7 +6,7 @@ describe Fee::MiscFeePresenter do
   let(:presenter) { Fee::MiscFeePresenter.new(misc_fee, view) }
 
   context '#rate' do
-    it 'should call not_applicable if child of LGFS claim' do
+    it 'should call not_applicable when belonging to an LGFS claim' do
       allow(presenter).to receive(:agfs?).and_return false
       expect(presenter).to receive(:not_applicable)
       presenter.rate
@@ -28,13 +28,13 @@ describe Fee::MiscFeePresenter do
   end
 
   context '#quantity' do
-    it 'should return fee quantity if child of AGFS claim' do
+    it 'should return fee quantity when belonging to an AGFS claim' do
       allow(presenter).to receive(:agfs?).and_return true
       expect(misc_fee).to receive(:quantity)
       presenter.quantity
     end
 
-    it 'should return not_applicable if child of LGFS claim' do
+    it 'should return not_applicable when belonging to an LGFS claim' do
       allow(presenter).to receive(:agfs?).and_return false
       expect(presenter).to receive(:not_applicable)
       presenter.quantity

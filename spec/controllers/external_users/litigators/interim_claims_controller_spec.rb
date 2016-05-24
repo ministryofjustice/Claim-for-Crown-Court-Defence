@@ -240,7 +240,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
 
       context 'and editing an API created claim' do
-        pending 'TODO: reimplement once/if interim claim creation opened up to API'
 
         before(:each) do
           subject.update(source: 'api')

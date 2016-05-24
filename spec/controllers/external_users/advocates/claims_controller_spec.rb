@@ -316,27 +316,26 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           end
         end
 
-        pending "FIX ONCE DAVD'S BRANCH IS MERGED IN" do
-          context 'fixed fee case types' do
-            context 'valid params' do
-              it 'should create a claim with fixed fees ONLY' do
-                create :fixed_fee_type, code: 'ZXY'
-                ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
-                claim_params['case_type_id'] = ct.id
-                response = post :create, claim: claim_params
-                claim = assigns(:claim)
+        context 'fixed fee case types' do
+          context 'valid params' do
+            it 'should create a claim with fixed fees ONLY' do
+              create :fixed_fee_type, code: 'ZXY'
+              ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
+              claim_params['case_type_id'] = ct.id
+              response = post :create, claim: claim_params
+              claim = assigns(:claim)
 
-                # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
-                expect(claim.basic_fees.size).to eq 4
-                expect(claim.basic_fees.map(&:amount).sum).to eql 0.00
+              # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
+              expect(claim.basic_fees.size).to eq 4
+              expect(claim.basic_fees.map(&:amount).sum.to_f).to eql 0.00
 
-                # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
-                expect(claim.misc_fees.size).to eq 1
-                expect(claim.fixed_fees.size).to eq 1
-                expect(claim.fixed_fees.map(&:amount).sum).to eql 250.00
+              # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
+              expect(claim.misc_fees.size).to eq 1
+              expect(claim.misc_fees.map(&:amount).sum.to_f).to eql 250.00
+              expect(claim.fixed_fees.size).to eq 1
+              expect(claim.fixed_fees.map(&:amount).sum.to_f).to eql 250.00
 
-                expect(claim.reload.fees_total).to eq 275.00
-              end
+              expect(claim.reload.fees_total).to eq 500.00
             end
           end
         end
@@ -538,7 +537,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         },
       "fixed_fees_attributes"=>
       {
-        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "250", "rate" => "10", "_destroy" => "false"}
+        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "25", "rate" => "10", "_destroy" => "false"}
       },
       "misc_fees_attributes"=>
       {

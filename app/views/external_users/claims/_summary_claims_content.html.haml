@@ -15,9 +15,16 @@
 = render partial: 'external_users/claims/defendants/summary', locals: { claim: claim }
 
 - if claim.interim?
+  %h2
+    = t('common.interim_fees')
   = render partial: 'external_users/claims/interim_fee/summary', locals: { claim: claim }
 - else
   = render partial: 'summary_fees', locals: { claim: claim }
+
+- if @claim.final? || @claim.interim?
+  %h2
+    = t('common.warrant_fees')
+  = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
 
 - if @claim.lgfs?
   %h2
@@ -27,11 +34,6 @@
 %h2
   = t('common.expenses')
 = render partial: 'external_users/claims/expenses/summary', locals: { claim: claim }
-
-- if @claim.final? || @claim.interim?
-  %h2
-    = t('common.warrant_fees')
-  = render partial: 'external_users/claims/warrant_fee/summary', locals: { claim: claim }
 
 %h2
   Supporting evidence documents

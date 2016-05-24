@@ -1,6 +1,18 @@
 class Fee::InterimFeePresenter < Fee::BaseFeePresenter
   presents :fee
 
+  def quantity
+    if fee.is_interim_warrant?
+     not_applicable
+    else
+      super
+    end
+  end
+
+  def rate
+    not_applicable
+  end
+
   def effective_pcmh_date
     format_date(_claim.effective_pcmh_date)
   end

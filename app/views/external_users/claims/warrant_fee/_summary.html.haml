@@ -14,6 +14,12 @@
     %tbody
       %tr
         %th{scope: 'row'}
+          = t('shared.summary.fee_type')
+        %td
+          = warrant_fee.fee_type.description
+
+      %tr
+        %th{scope: 'row'}
           = t('shared.summary.warrant_fee.date_issued')
         %td
           = warrant_fee.warrant_issued_date

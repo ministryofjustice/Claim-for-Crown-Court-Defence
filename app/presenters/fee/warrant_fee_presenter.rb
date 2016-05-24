@@ -1,6 +1,14 @@
 class Fee::WarrantFeePresenter < Fee::BaseFeePresenter
   presents :fee
 
+  def quantity
+    not_applicable
+  end
+
+  def amount
+    not_applicable
+  end
+
   def warrant_issued_date
     fee.warrant_issued_date.strftime(Settings.date_format) rescue ''
   end

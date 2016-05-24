@@ -23,8 +23,9 @@
               = t('.fee_type')
             %th.numeric{ scope: 'col'}
               = t('.quantity')
-            %th.numeric{ scope: 'col'}
-              = t('.rate')
+            - if claim.agfs?
+              %th.numeric{ scope: 'col'}
+                = t('.rate')
             %th.numeric{ scope: 'col'}
               = t('.amount')
         %tbody
@@ -40,8 +41,9 @@
                 = fee.fee_type.description
               %td.numeric
                 = fee.quantity
-              %td.numeric
-                = fee.rate
+              - if claim.agfs?
+                %td.numeric
+                  = fee.rate
               %td.numeric
                 = fee.amount
       .totals.indent-sides
@@ -115,39 +117,44 @@
           = claim.expenses_total
 
     - if claim.can_have_disbursements?
-      %table.indent-sides
-        %caption.visually-hidden
-          = t('common.disbursements')
-        %colgroup
-          %col
-          %col
-          %col
-          %col
-        %thead
-          %tr
-            %th{scope: 'col'}
-              = "Disbursement type"
-            %th.numeric{scope: 'col'}
-              = "Net amount"
-            %th.numeric{scope: 'col'}
-              = "VAT amount"
-            %th.numeric{scope: 'col'}
-              = "Total amount"
-        %tbody
-          - present_collection(claim.disbursements).each do |disbursement|
+      %h3.indent-sides
+        = t('common.disbursements')
+      - if claim.disbursements.empty?
+        %p.indent-sides
+          There are no disbursements for this claim
+      - else
+        %table.indent-sides
+          %caption.visually-hidden
+            = t('common.disbursements')
+          %colgroup
+            %col
+            %col
+            %col
+            %col
+          %thead
             %tr
-              %td
-                = disbursement.disbursement_type.name
-              %td.numeric
-                = disbursement.net_amount
-              %td.numeric
-                = disbursement.vat_amount
-              %td.numeric
-                = disbursement.total
-      .totals.indent-sides
-        = 'Disbursements total'
-        = claim.disbursements_total
-
+              %th{scope: 'col'}
+                = "Disbursement type"
+              %th.numeric{scope: 'col'}
+                = "Net amount"
+              %th.numeric{scope: 'col'}
+                = "VAT amount"
+              %th.numeric{scope: 'col'}
+                = "Total amount"
+          %tbody
+            - present_collection(claim.disbursements).each do |disbursement|
+              %tr
+                %td
+                  = disbursement.disbursement_type.name
+                %td.numeric
+                  = disbursement.net_amount
+                %td.numeric
+                  = disbursement.vat_amount
+                %td.numeric
+                  = disbursement.total
+        .totals.indent-sides
+          = 'Disbursements total'
+          = claim.disbursements_total
 
     .totals.indent-sides
       = 'Claim total (net):'
@@ -160,8 +167,6 @@
     .totals.indent-sides
       = 'Claim total (inc. VAT)'
       = claim.total_inc_vat
-
-
 
     - unless @claim.additional_information.blank?
       %h3.indent-sides

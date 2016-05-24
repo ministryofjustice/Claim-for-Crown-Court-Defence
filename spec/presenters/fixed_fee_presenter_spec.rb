@@ -1,0 +1,44 @@
+require 'rails_helper'
+
+describe Fee::FixedFeePresenter do
+
+  let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double) }
+  let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
+
+  context '#rate' do
+    it 'should call not_applicable when fee belongs to and LGFS claim' do
+      allow(presenter).to receive(:agfs?).and_return false
+      expect(presenter).to receive(:not_applicable)
+      presenter.rate
+    end
+
+    it 'should return number as currency for calculated fees belonging to an AGFS claim' do
+      allow(presenter).to receive(:agfs?).and_return true
+      allow(fixed_fee).to receive(:calculated?).and_return true
+      expect(fixed_fee).to receive(:rate).and_return 12.02
+      expect(presenter.rate).to eq '£12.02'
+    end
+
+    it 'should return not_applicable for uncalculated fees belonging to an AGFS claim' do
+      allow(presenter).to receive(:agfs?).and_return true
+      allow(fixed_fee).to receive(:calculated?).and_return false
+      expect(presenter).to receive(:not_applicable)
+      presenter.rate
+    end
+  end
+
+  context '#quantity' do
+    it 'should return fee quantity when belonging to an AGFS claim' do
+      allow(presenter).to receive(:agfs?).and_return true
+      expect(fixed_fee).to receive(:quantity)
+      presenter.quantity
+    end
+
+    it 'should return not_applicable when belonging to an LGFS claim' do
+      allow(presenter).to receive(:agfs?).and_return false
+      expect(presenter).to receive(:not_applicable)
+      presenter.quantity
+    end
+  end
+
+end

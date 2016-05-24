@@ -34,5 +34,4 @@ class Fee::BasicFee < Fee::BaseFee
     true
   end
 
-
 end

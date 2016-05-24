@@ -9,7 +9,7 @@ class Fee::BaseFeePresenter < BasePresenter
     if fee.calculated?
       h.number_to_currency fee.rate
     else
-      h.content_tag :div, 'n/a', class: 'form-hint'
+      not_applicable
     end
   end
 
@@ -34,6 +34,10 @@ private
 
   def hint_tag(text)
     h.content_tag :div, text, class: 'form-hint'
+  end
+
+  def not_applicable
+    hint_tag I18n.t('general.not_applicable')
   end
 
 end

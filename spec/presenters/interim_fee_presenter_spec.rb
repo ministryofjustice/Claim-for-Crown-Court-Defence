@@ -14,4 +14,26 @@ describe Fee::InterimFeePresenter do
       end
     end
   end
+
+  context '#rate' do
+    it 'should call not_applicable' do
+      expect(presenter).to receive(:not_applicable)
+      presenter.rate
+    end
+  end
+
+  context '#quantity' do
+    it 'should return fee quantity for all interim fees except interim warrants' do
+      allow(interim_fee).to receive(:is_interim_warrant?).and_return false
+      expect(interim_fee).to receive(:quantity)
+      presenter.quantity
+    end
+
+    it 'should return not_applicable for interim warrants' do
+      allow(interim_fee).to receive(:is_interim_warrant?).and_return true
+      expect(presenter).to receive(:not_applicable)
+      presenter.quantity
+    end
+  end
+
 end

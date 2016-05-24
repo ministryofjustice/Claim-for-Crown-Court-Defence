@@ -9,7 +9,7 @@
     - claim.defendants.each_with_index do | defendant, index|
       %tr
         %th{scope:'row'}
-          = "#{t('common.defendant')} #{index + 1} name"
+          = "#{t('common.defendant')} #{index + 1}"
         %td
           = defendant.name
       %tr

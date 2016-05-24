@@ -88,8 +88,14 @@ module Claim
     end
 
     def destroy_all_invalid_fee_types
-      unless interim_fee.try(:is_interim_warrant?)
-        warrant_fee.try(:delete)
+      return unless interim_fee
+
+      if interim_fee.is_interim_warrant?
+        disbursements.destroy_all
+        self.disbursements = []
+      else
+        warrant_fee.try(:destroy)
+        self.warrant_fee = nil
       end
     end
   end

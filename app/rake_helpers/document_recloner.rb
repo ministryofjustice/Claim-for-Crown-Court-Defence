@@ -17,8 +17,6 @@ class DocumentRecloner
 
   def update_messages
     Message.create(claim_id: @cloned_claim.id, body: @message_text.chomp, sender: @sender)
-
-    ap @cloned_claim.reload.messages
   end
 
   def remove_corrupted_documents_from_clone

@@ -105,7 +105,6 @@ module Claim
 
     has_many :claim_state_transitions, -> { order(created_at: :desc) }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
-    has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
@@ -127,7 +126,6 @@ module Claim
 
     scope :cloned, -> { where.not(clone_source_id: nil) }
 
-    accepts_nested_attributes_for :basic_fees,        reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :misc_fees,         reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :expenses,          reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :disbursements,     reject_if: all_blank_or_zero, allow_destroy: true
@@ -152,8 +150,7 @@ module Claim
       documents.each { |d| d.external_user_id = self.external_user_id }
     end
 
-    after_initialize :instantiate_basic_fees,
-                     :ensure_not_abstract_class,
+    after_initialize :ensure_not_abstract_class,
                      :default_values,
                      :instantiate_assessment,
                      :set_force_validation_to_false
@@ -214,17 +211,6 @@ module Claim
 
     def is_allocated_to_case_worker?(cw)
       self.case_workers.include?(cw)
-    end
-
-    # create a blank fee for every basic fee type not passed to Claim::BaseClaim.new
-    def instantiate_basic_fees
-      return unless self.new_record?
-      existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
-      basic_fee_types = Fee::BasicFeeType.all
-      basic_fee_types.each do |basic_fee_type|
-        next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
-        self.basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
-      end
     end
 
     def has_authorised_state?

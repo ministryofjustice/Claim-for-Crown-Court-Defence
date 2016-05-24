@@ -258,10 +258,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(assigns(:claim).graduated_fee.amount).to eq 2000
             end
 
-            it 'should NOT create the fixed fee' do
-              expect(assigns(:claim).fixed_fee.persisted?).to be_falsey
-            end
-
             it 'should create the miscellaneoous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
               expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
@@ -285,17 +281,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(response.body).to have_content("Enter a case number")
             end
 
-            it 'should retain all the entered data for the graduated fee and miscellaneous fees' do''
-              claim = assigns(:claim)
-              expect(claim.graduated_fee.persisted?).to be_falsey
-              expect(claim.fixed_fee).to have_attributes(fee_type_id: fixed_fee_type_1.id, amount: 2500 )
-              expect(claim.misc_fees.size).to eq 2
-            end
-
             it 'should not persist any of the data' do
               claim = assigns(:claim)
               expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000 )
-              expect(claim.fixed_fee.persisted?).to be_falsey
               expect(claim.misc_fees.count).to eq 0
             end
           end
@@ -303,10 +291,16 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         context 'fixed fee case types' do
           context 'valid params' do
+            let(:fixed_fee_claim_params) do
+              params = claim_params.dup
+              params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
+              params.delete(:graduated_fee_attributes)
+              params.merge!(fixed_fee_attributes)
+            end
+
             before do
-              claim_params['case_type_id'] = FactoryGirl.create(:case_type, :fixed_fee).id.to_s
               allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
-              post :create, claim: claim_params
+              post :create, claim: fixed_fee_claim_params
             end
 
             it 'should be a redirect' do
@@ -323,14 +317,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
             end
 
-            # TODO: BUG noted on PT - graduated fee not being destroyed
-            xit 'should NOT create the graduated fee' do
-              expect(assigns(:claim).graduated_fee.persisted?).to be_falsey
+            it 'should NOT create the graduated fee' do
+              expect(assigns(:claim).graduated_fee).to be_nil
             end
 
-            # TODO: BUG noted on PT - graduated fee not being destroyed
-            xit 'should update claim total to sum of fixed and miscellaneous fees' do
-              expect(assigns(:claim).reload.fees_total).to eq 2875.00
+            it 'should update claim total to sum of fixed and miscellaneous fees' do
+              expect(assigns(:claim).fees_total).to eq 2875.00
             end
           end
         end
@@ -508,10 +500,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         {
           "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "_destroy" => "false"
         },
-        "fixed_fee_attributes"=>
-        {
-          "fee_type_id" => fixed_fee_type_1.id.to_s, "amount" => "2500", "_destroy" => "false"
-        },
         "misc_fees_attributes"=>
         {
           "0"=>{"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
@@ -526,5 +514,11 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
     )
   end
 
-
+  def fixed_fee_attributes
+    HashWithIndifferentAccess.new({
+        fixed_fee_attributes: {
+            fee_type_id: fixed_fee_type_1.id.to_s, amount: '2500', _destroy: 'false'
+        }
+    })
+  end
 end

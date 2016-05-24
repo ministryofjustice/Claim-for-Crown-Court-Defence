@@ -57,13 +57,20 @@ module Claim
   class AdvocateClaim < BaseClaim
     set_singular_route_key 'advocates_claim'
 
+    has_many :basic_fees, foreign_key: :claim_id, class_name: 'Fee::BasicFee', dependent: :destroy, inverse_of: :claim
     has_many :fixed_fees, foreign_key: :claim_id, class_name: 'Fee::FixedFee', dependent: :destroy, inverse_of: :claim
+
+    accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :fixed_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
     validates_with ::Claim::AdvocateClaimValidator
     validates_with ::Claim::AdvocateClaimSubModelValidator
 
     delegate :requires_cracked_dates?, to: :case_type
+
+    after_initialize do
+      instantiate_basic_fees
+    end
 
     before_validation do
       set_supplier_number
@@ -112,6 +119,18 @@ module Claim
     def set_supplier_number
       supplier_no = (provider_delegator.supplier_number rescue nil)
       self.supplier_number = supplier_no if self.supplier_number != supplier_no
+    end
+
+    # create a blank fee for every basic fee type not passed to Claim::AdvocateClaim.new
+    def instantiate_basic_fees
+      return unless self.new_record?
+
+      existing_basic_fee_type_ids = basic_fees.map(&:fee_type_id)
+      basic_fee_types = Fee::BasicFeeType.all
+      basic_fee_types.each do |basic_fee_type|
+        next if basic_fee_type.id.in?(existing_basic_fee_type_ids)
+        self.basic_fees << Fee::BasicFee.new_blank(self, basic_fee_type)
+      end
     end
 
     def destroy_all_invalid_fee_types

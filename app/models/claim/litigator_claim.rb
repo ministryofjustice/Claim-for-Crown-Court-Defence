@@ -103,10 +103,14 @@ module Claim
     end
 
     def destroy_all_invalid_fee_types
-      if case_type.present? && case_type.is_fixed_fee?
-        basic_fees.map(&:clear) unless basic_fees.empty?
+      return unless case_type.present?
+
+      if case_type.is_fixed_fee?
+        graduated_fee.try(:destroy)
+        self.graduated_fee = nil
       else
-        fixed_fee.try(:delete)
+        fixed_fee.try(:destroy)
+        self.fixed_fee = nil
       end
     end
   end

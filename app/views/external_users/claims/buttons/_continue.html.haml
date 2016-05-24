@@ -1,5 +1,5 @@
 .button-holder
-  = f.submit t('buttons.continue'), name: commit, class: 'button left'
+  = f.submit t('buttons.continue'), name: commit, class: 'btn-green left'
 
   - if @claim.draft?
-    = f.submit t('buttons.save_a_draft'), name: 'commit_save_draft', class: 'button button-secondary left'
+    = f.submit t('buttons.save_a_draft'), name: 'commit_save_draft', class: 'btn-gray left'

@@ -8,17 +8,18 @@
     .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
-          .column-three-quarters
-            .column-half
-              = inf.label :fee_type, t('.fee_type')
-              = inf.anchored_attribute 'fee_type'
-              - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
-              = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-interim-fee-type'}
-              = validation_error_message(@error_presenter, 'interim_fee.fee_type')
+          .column-half
+            = inf.label :fee_type, t('.fee_type')
+            = inf.anchored_attribute 'fee_type'
+            - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
+            = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-interim-fee-type'}
+            = validation_error_message(@error_presenter, 'interim_fee.fee_type')
 
 
-          .column-quarter.fee-quantity.js-interim-ppe.visually-hidden
+          .column-half.fee-quantity.js-interim-ppe.visually-hidden
             = inf.label :quantity, t('.ppe_total')
+            .form-hint.xsmall
+              = t('.ppe_total_hint')
             = inf.anchored_attribute 'quantity'
             = inf.number_field :quantity, class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
             = validation_error_message(@error_presenter, 'interim_fee.quantity')

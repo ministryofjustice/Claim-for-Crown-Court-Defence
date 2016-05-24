@@ -24,3 +24,10 @@ p.file-upload-name {
 	padding-bottom: 0.1em;
 }
 
+.btn-green{
+	@include button();
+}
+
+.btn-gray{
+	@include button($grey-3);
+}

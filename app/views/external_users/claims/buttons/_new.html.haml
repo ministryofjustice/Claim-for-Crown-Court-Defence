@@ -1,5 +1,5 @@
 .button-holder
-  = f.submit t('buttons.submit_to_laa'), class: 'button left'
+  = f.submit t('buttons.submit_to_laa'), class: 'btn-green left'
   - if @claim.draft?
-    = f.submit t('buttons.save_to_drafts'), class: 'button button-secondary left'
-  = link_to t('buttons.clear_form'), request.fullpath, class: 'button button-secondary right', data: { confirm: 'Are you sure you want to clear this form?' }
+    = f.submit t('buttons.save_to_drafts'), class: 'btn-gray left'
+  = link_to t('buttons.clear_form'), request.fullpath, class: 'btn-gray right', data: { confirm: 'Are you sure you want to clear this form?' }

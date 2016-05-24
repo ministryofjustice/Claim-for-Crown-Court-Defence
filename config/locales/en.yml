@@ -706,7 +706,8 @@ en:
           interim_fees: "Interim fees"
           interim_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
           fee_type: "Fee type"
-          ppe_total: "PPE total at the time"
+          ppe_total: "PPE Total"
+          ppe_total_hint: "at the time of the PCMH"
           total: "Total"
           effective_pcmh: "Effective PCMH"
           legal_aid_transfer_date: "Legal aid transfer"

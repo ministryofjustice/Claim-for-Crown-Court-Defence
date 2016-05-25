@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'fileutils'
 
 describe DocumentRecloner do
+  include DatabaseHousekeeping
 
   before(:all) do
     doc_store = File.join(Rails.root, 'public', 'assets', 'test', 'images')
@@ -9,6 +10,9 @@ describe DocumentRecloner do
     create :case_worker, :admin
   end
 
+  after(:all) do
+    clean_database
+  end
 
 
   it 'should reclone documents from the source claim' do

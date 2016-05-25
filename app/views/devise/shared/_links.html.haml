@@ -7,9 +7,6 @@
     = link_to t(".forgot_your_password"), new_password_path(resource_name)
     %br
 
-Read our
-= link_to t('.terms_and_conditions'), tandcs_page_path
-
 - if Rails.host.api_sandbox?
   %br
   View our
@@ -19,7 +16,7 @@ Read our
   = link_to t(".didnt_receive_confirmation_instructions"), new_confirmation_path(resource_name)
   %br
 
-- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name == 'passwords'
   = link_to t(".didnt_receive_unlock_instructions"), new_unlock_path(resource_name)
   %br
 
@@ -27,3 +24,6 @@ Read our
   - resource_class.omniauth_providers.each do |provider|
     = link_to "#{t('.sign_in_with')} #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
     %br
+
+Read our
+= link_to t('.terms_and_conditions'), tandcs_page_path

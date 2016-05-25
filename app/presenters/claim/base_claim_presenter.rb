@@ -44,11 +44,6 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-  def date_format(options={})
-    options.assert_valid_keys(:include_time)
-    options[:include_time] ? Settings.date_time_format : Settings.date_format
-  end
-
   def submitted_at(options={})
     claim.last_submitted_at.strftime(date_format(options)) unless claim.last_submitted_at.nil?
   end
@@ -67,6 +62,10 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def trial_concluded
     claim.trial_concluded_at.blank? ? 'not specified' : claim.trial_concluded_at.strftime(Settings.date_format)
+  end
+
+  def case_concluded_at
+    format_date(claim.case_concluded_at)
   end
 
   def vat_date(format = nil)

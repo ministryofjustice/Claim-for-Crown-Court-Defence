@@ -41,11 +41,15 @@ class Fee::InterimFeePresenter < Fee::BaseFeePresenter
     _claim.retrial_estimated_length
   end
 
-  private
-
-  def format_date(date)
-    date.strftime(Settings.date_format) rescue '[date error]'
+  def warrant_issued_date
+    format_date(fee.warrant_issued_date)
   end
+
+  def warrant_executed_date
+    format_date(fee.warrant_executed_date)
+  end
+
+  private
 
   def _claim
     fee.claim

@@ -154,7 +154,7 @@ RSpec.describe Claims::Cloner, type: :model do
     end
 
     def create_rejected_claim
-      claim = create(:interim_claim, :interim_fee)
+      claim = create(:interim_claim, :interim_effective_pcmh_fee, :submitted)
 
       create(:certification, claim: claim)
 

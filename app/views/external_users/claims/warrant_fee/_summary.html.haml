@@ -30,10 +30,3 @@
             = t('shared.summary.warrant_fee.date_executed')
           %td
             = warrant_fee.warrant_executed_date
-
-      - if claim.interim?
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.warrant_fee.total')
-          %td
-            = warrant_fee.amount

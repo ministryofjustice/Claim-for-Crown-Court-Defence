@@ -1,9 +1,9 @@
-- if claim.interim_fee.nil? || claim.interim_fee.is_interim_warrant?
+- if claim.interim_fee.nil? || claim.interim_fee.is_disbursement?
   %p
     There is no interim fee for this claim
 - else
   - fee = present(claim.interim_fee)
-    - unless fee.is_disbursement? || fee.is_interim_warrant?
+    - unless fee.is_disbursement?
     %table
       %caption
         %span.table-caption.visuallyhidden
@@ -18,11 +18,26 @@
           %td
             = fee.fee_type.description
 
-        %tr
-          %th{scope: 'row'}
-            = t('shared.summary.ppe_total')
-          %td
-            = fee.quantity
+        - unless fee.is_interim_warrant?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.ppe_total')
+            %td
+              = fee.quantity
+
+        - if fee.is_interim_warrant?
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.warrant_fee.date_issued')
+            %td
+              = fee.warrant_issued_date
+
+          - if fee.warrant_executed_date.present?
+            %tr
+              %th{scope: 'row'}
+                = t('shared.summary.warrant_fee.date_executed')
+              %td
+                = fee.warrant_executed_date
 
         - if fee.is_effective_pcmh?
           %tr

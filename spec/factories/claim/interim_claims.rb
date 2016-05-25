@@ -5,19 +5,17 @@ FactoryGirl.define do
     claim_state_common_traits
   end
 
-  trait :interim_fee do
+  trait :interim_effective_pcmh_fee do
     after(:build) do |claim|
       claim.fees << build(:interim_fee, :effective_pcmh, claim: claim)
+      claim.effective_pcmh_date = 2.days.ago
     end
-    after(:create) { |c| c.submit! }
   end
 
-  trait :warrant_fee do
+  trait :interim_warrant_fee do
     after(:build) do |claim|
-      claim.fees << build(:warrant_fee, amount: 10.0)
       claim.fees << build(:interim_fee, :warrant, claim: claim)
     end
-    after(:create) { |c| c.submit! }
   end
 
   trait :disbursement_only_fee do
@@ -25,6 +23,9 @@ FactoryGirl.define do
       claim.disbursements << build_list(:disbursement, 1)
       claim.fees << build(:interim_fee, :disbursement, claim: claim)
     end
+  end
+
+  trait :submitted do
     after(:create) { |c| c.submit! }
   end
 

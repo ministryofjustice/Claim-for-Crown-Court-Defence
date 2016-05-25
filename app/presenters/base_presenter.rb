@@ -14,8 +14,16 @@ class BasePresenter < SimpleDelegator
 
   private_class_method :presents
 
-  private
+  def format_date(date)
+    date.strftime(Settings.date_format) rescue nil
+  end
 
+  def date_format(options={})
+    options.assert_valid_keys(:include_time)
+    options[:include_time] ? Settings.date_time_format : Settings.date_format
+  end
+
+  private
 
   def h
     @view

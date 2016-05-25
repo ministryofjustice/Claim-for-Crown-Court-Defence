@@ -9,7 +9,7 @@ describe Claim::InterimClaimSubModelValidator do
   include_examples 'common partial association validations', {
       has_one: [
           [],
-          [:interim_fee, :warrant_fee, :assessment, :certification]
+          [:interim_fee, :assessment, :certification]
       ],
       has_many: [
           [:defendants],

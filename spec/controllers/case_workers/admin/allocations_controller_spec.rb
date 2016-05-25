@@ -329,11 +329,11 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       when :risk_based_bills
         [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id )] if for_litigator
       when :interim_fees
-        [create(:interim_claim, :interim_fee)] if for_litigator
+        [create(:interim_claim, :interim_effective_pcmh_fee, :submitted)] if for_litigator
       when :warrants
-        [create(:interim_claim, :warrant_fee)] if for_litigator
+        [create(:interim_claim, :interim_warrant_fee, :submitted)] if for_litigator
       when :interim_disbursements
-        [create(:interim_claim, :disbursement_only_fee)] if for_litigator
+        [create(:interim_claim, :disbursement_only_fee, :submitted)] if for_litigator
       else
         raise ArgumentError, "invalid filter type specified for \"#{__method__}\""
     end

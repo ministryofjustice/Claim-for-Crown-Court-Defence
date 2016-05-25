@@ -36,4 +36,17 @@ describe Fee::InterimFeePresenter do
     end
   end
 
+  context '#amount' do
+    it 'should return fee amount for interim warrants' do
+      allow(interim_fee).to receive(:is_interim_warrant?).and_return true
+      expect(interim_fee).to receive(:amount).and_return 13.00
+      expect(presenter.amount).to eq '£13.00'
+    end
+    it 'should return fee amount for any any other interim fee' do
+      allow(interim_fee).to receive(:is_interim_warrant?).and_return false
+      expect(interim_fee).to receive(:amount).and_return 13.01
+      expect(presenter.amount).to eq '£13.01'
+    end
+  end
+
 end

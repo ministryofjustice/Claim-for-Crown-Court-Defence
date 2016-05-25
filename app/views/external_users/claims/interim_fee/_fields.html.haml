@@ -1,4 +1,5 @@
 #interim-fee.mod-fees
+  = f.anchored_without_label 'interim_fee'
   %h2.bold-medium
     = t('.interim_fees')
   %p.form-hint.xsmall
@@ -55,7 +56,6 @@
               = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
               = validation_error_message(@error_presenter, :estimated_trial_length)
 
-
           .column-first-child.column-three-quarters.js-interim-legalAidTransfer.visually-hidden
             .column-half
               = f.anchored_without_label 'legal_aid_transfer_date'
@@ -65,7 +65,16 @@
               = f.anchored_without_label 'trial_concluded_at'
               = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
 
-          .column-quarter.fee-rate.js-interim-feeTotal.visually-hidden
+          .column-first-child.column-three-quarters.js-interim-warrant.visually-hidden
+            .column-half
+              = inf.anchored_attribute 'warrant_issued_date'
+              = inf.gov_uk_date_field :warrant_issued_date, legend_text: t('.warrant_issued'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_issued_date')
+
+            .column-half
+              = inf.anchored_attribute 'warrant_executed_date'
+              = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
+
+          .column-quarter.fee-amount.js-interim-feeTotal.visually-hidden
             = inf.label :amount, t('.total'), {class: 'form-label form-date-spacing'}
             = inf.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
@@ -75,5 +84,3 @@
     .js-interim-disbursements.visually-hidden
       = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }
 
-    .js-interim-warrant.visually-hidden
-      = render partial: 'external_users/claims/warrant_fee/fields', locals: { f: f }

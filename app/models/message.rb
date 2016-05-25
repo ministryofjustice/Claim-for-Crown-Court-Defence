@@ -59,11 +59,11 @@ class Message < ActiveRecord::Base
   class << self
     def for(object)
       attribute = case object.class.to_s
-        when 'Claim::AdvocateClaim'
-          :claim_id
-        when 'User'
-          :sender_id
-      end
+                  when 'Claim::AdvocateClaim'
+                    :claim_id
+                  when 'User'
+                    :sender_id
+                  end
       where(attribute => object.id)
     end
   end

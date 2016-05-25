@@ -13,16 +13,15 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
 
   def chosen
     @claim_types << case params['scheme_chosen'].downcase
-      when 'agfs'
-        Claim::AdvocateClaim
-      when 'lgfs_final'
-        Claim::LitigatorClaim
-      when 'lgfs_interim'
-        Claim::InterimClaim
-      when 'lgfs_transfer'
-        Claim::TransferClaim
-      end
-
+                    when 'agfs'
+                      Claim::AdvocateClaim
+                    when 'lgfs_final'
+                      Claim::LitigatorClaim
+                    when 'lgfs_interim'
+                      Claim::InterimClaim
+                    when 'lgfs_transfer'
+                      Claim::TransferClaim
+                    end
     redirect_for_claim_type
   end
 

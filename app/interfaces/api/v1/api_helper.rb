@@ -65,7 +65,7 @@ module API
         # use to convert any date to expected format in params
         def to_dd_mm_yyyy_args(date_field, params)
           args = {}
-         { day: 'dd', month: 'mm', year: 'yyyy'}.each do |k,v|
+          { day: 'dd', month: 'mm', year: 'yyyy'}.each do |k,v|
             args["#{date_field.to_s}_#{v}".to_sym] = extract_date(k,params[date_field])
           end
           args
@@ -85,7 +85,7 @@ module API
           model_instance
 
         # unexpected errors could be raised at point of save as well
-        rescue Exception => ex
+        rescue StandardError => ex
           pop_error_response(ex, api_response)
         end
 
@@ -122,7 +122,7 @@ module API
 
           model_instance
 
-        rescue Exception => ex
+        rescue StandardError => ex
           pop_error_response(ex, api_response)
         end
 

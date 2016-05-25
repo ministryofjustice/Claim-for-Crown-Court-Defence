@@ -5,13 +5,17 @@ class BasePresenter < SimpleDelegator
     super(@model)
   end
 
-  private
 
   def self.presents(name)
     define_method(name) do
       @model
     end
   end
+
+  private_class_method :presents
+
+  private
+
 
   def h
     @view

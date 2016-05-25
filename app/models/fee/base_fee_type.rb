@@ -74,11 +74,11 @@ module Fee
       Fee::WarrantFeeType.all
     end
 
-  private
-
     def self.by_fee_category(category)
       self.joins(:fee_category).where('fee_categories.abbreviation = ?', category.upcase).order(:description)
     end
+
+    private_class_method :by_fee_category
 
   end
 end

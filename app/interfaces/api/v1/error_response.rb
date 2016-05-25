@@ -45,7 +45,7 @@ private
     YAML.load_file(message_file)
   end
 
-   def fallback_api_message(field_name, error)
+  def fallback_api_message(field_name, error)
     "#{field_name.to_s.humanize} #{error.humanize.downcase}"
   end
 
@@ -55,14 +55,14 @@ private
 
     if m.is_a?(Fee::BaseFee)
       case
-        when m.is_basic?
-          submodel ='basic_fee'
-        when m.is_misc?
-          submodel ='misc_fee'
-        when m.is_fixed?
-          submodel ='fixed_fee'
-        else
-          submodel = 'fee' # no fee type may have been specified
+      when m.is_basic?
+        submodel ='basic_fee'
+      when m.is_misc?
+        submodel ='misc_fee'
+      when m.is_fixed?
+        submodel ='fixed_fee'
+      else
+        submodel = 'fee' # no fee type may have been specified
       end
       submodel_instance_num = "#{submodel}_1_"
     elsif !m.try(:claim).nil?
@@ -95,7 +95,7 @@ private
       @body = error_messages
       @status = 400
     else
-       raise "unable to build error response as no errors were found"
-     end
+      raise "unable to build error response as no errors were found"
+    end
   end
 end

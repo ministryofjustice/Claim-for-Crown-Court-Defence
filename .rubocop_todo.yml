@@ -10,23 +10,23 @@
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles.
 # SupportedStyles: either, start_of_block, start_of_line
-Lint/BlockAlignment:
-  Exclude:
-    - 'app/interfaces/api/v1/api_helper.rb'
+#Lint/BlockAlignment:
+#  Exclude:
+#    - 'app/interfaces/api/v1/api_helper.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
 # SupportedStyles: start_of_line, def
-Lint/DefEndAlignment:
-  Enabled: false
+#Lint/DefEndAlignment:
+#  Enabled: false
 
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
 # SupportedStyles: keyword, variable, start_of_line
-Lint/EndAlignment:
-  Enabled: false
+#Lint/EndAlignment:
+#  Enabled: false
 
 # Offense count: 3
 Lint/Eval:
@@ -42,10 +42,10 @@ Lint/HandleExceptions:
     - 'app/models/concerns/document_attachment.rb'
 
 # Offense count: 2
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/models/fee/base_fee_type.rb'
-    - 'app/presenters/base_presenter.rb'
+#Lint/IneffectiveAccessModifier:
+#  Exclude:
+#    - 'app/models/fee/base_fee_type.rb'
+#    - 'app/presenters/base_presenter.rb'
 
 # Offense count: 1
 Lint/NonLocalExitFromIterator:
@@ -53,9 +53,7 @@ Lint/NonLocalExitFromIterator:
     - 'app/validators/fee/misc_fee_validator.rb'
 
 # Offense count: 2
-Lint/RescueException:
-  Exclude:
-    - 'app/interfaces/api/v1/api_helper.rb'
+#
 
 # Offense count: 11
 Lint/ShadowingOuterLocalVariable:

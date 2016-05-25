@@ -87,22 +87,22 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   def set_claims
     if current_user.persona.admin?
       @claims = case tab
-        when 'current'
-          current_user.claims.caseworker_dashboard_under_assessment
-        when 'archived'
-          Claim::BaseClaim.caseworker_dashboard_archived
-        when 'allocated'
-          Claim::BaseClaim.caseworker_dashboard_under_assessment
-        when 'unallocated'
-          Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
-      end
+                when 'current'
+                  current_user.claims.caseworker_dashboard_under_assessment
+                when 'archived'
+                  Claim::BaseClaim.caseworker_dashboard_archived
+                when 'allocated'
+                  Claim::BaseClaim.caseworker_dashboard_under_assessment
+                when 'unallocated'
+                  Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
+                end
     else
       @claims = case tab
-        when 'current'
-          current_user.claims.caseworker_dashboard_under_assessment
-        when 'archived'
-          current_user.claims.caseworker_dashboard_archived
-      end
+                when 'current'
+                  current_user.claims.caseworker_dashboard_under_assessment
+                when 'archived'
+                  current_user.claims.caseworker_dashboard_archived
+                end
     end
   end
 

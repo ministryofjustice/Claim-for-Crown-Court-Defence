@@ -24,7 +24,7 @@ class Fee::BasicFeeType < Fee::BaseFeeType
     DATES_ATTENDED_APPLICABLE_FEES.include?(self.code)
   end
 
-   def fee_category_name
+  def fee_category_name
     'Basic Fees'
   end
 

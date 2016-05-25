@@ -310,7 +310,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     )
   end
 
-   def params_with_external_user_and_creator
+  def params_with_external_user_and_creator
     form_params = claim_params
     form_params[:external_user_id] = @external_user.id unless @external_user.admin?
     form_params[:creator_id] = @external_user.id

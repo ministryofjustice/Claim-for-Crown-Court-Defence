@@ -13,7 +13,7 @@ module Claims
 
       save_draft!(validate?)
 
-      self
+      result
     end
 
     def draft?
@@ -22,10 +22,6 @@ module Claims
 
     def action
       :edit
-    end
-
-    def ga_args
-      %w(event claim draft updated)
     end
   end
 end

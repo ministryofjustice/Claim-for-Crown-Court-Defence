@@ -14,10 +14,6 @@ describe Claims::CreateClaim do
       expect(subject.action).to eq(:new)
     end
 
-    it 'defines the google analytics tokens' do
-      expect(subject.ga_args).to eq %w(event claim submit started)
-    end
-
     it 'is not a draft' do
       expect(subject.draft?).to be_falsey
     end

@@ -17,15 +17,11 @@ module Claims
 
       save_claim!(validate?)
 
-      self
+      result
     end
 
     def action
       :edit
-    end
-
-    def ga_args
-      %w(event claim update started)
     end
   end
 end

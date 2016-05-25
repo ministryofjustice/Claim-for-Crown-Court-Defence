@@ -59,8 +59,12 @@ moj.Modules.NewClaim = {
   },
 
   attachToOffenceClassSelect : function() {
-    $('#offence_class_description').change(function() {
+    $('#offence_class_description').on('change', function() {
       $('#claim_offence_id').val($(this).val());
+
+      if (!$(this).val()) {
+        $('.offence-class-select').hide();
+      }
     });
 
     $('#offence_class_description').change();

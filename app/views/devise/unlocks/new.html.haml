@@ -1,0 +1,18 @@
+= render partial: 'layouts/header', locals: {page_heading: 'Resend unlock instructions'}
+
+= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+  - if resource.errors.any?
+    .validation-summary
+      %ul
+        - resource.errors.each do |attribute, message|
+          %li
+            = "#{attribute.to_s.humanize} #{message}"
+
+  %div.form-group
+    = f.label :email, class: 'form-label'
+    = f.input_field :email, autofocus: true, autocomplete: 'off', class: 'form-control'
+
+  %div.form-group
+    = f.button :submit, 'Resend unlock instructions', class: 'button'
+
+= render 'devise/shared/links'

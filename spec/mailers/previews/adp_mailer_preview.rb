@@ -22,8 +22,8 @@ class AdpMailerPreview < ActionMailer::Preview
   end
 
   # NOTE: unlock instructions is not required unless locking strategy is changed to :email or :both - see config
-  # def unlock_instructions
-  #   Devise::Mailer.unlock_instructions(User.first, "faketoken")
-  # end
-
+  def unlock_instructions
+    advocate = FactoryGirl.create(:external_user, :advocate)
+    AdpMailer.unlock_instructions(advocate.user, "faketoken")
+  end
 end

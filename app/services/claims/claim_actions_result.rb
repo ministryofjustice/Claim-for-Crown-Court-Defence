@@ -1,9 +1,11 @@
 module Claims
   class ClaimActionsResult
 
-    attr_accessor :success, :error_code
+    attr_accessor :service, :success, :error_code
+    delegate :action, :draft?, to: :service
 
-    def initialize(success: true, error_code: nil)
+    def initialize(service, success: true, error_code: nil)
+      self.service = service
       self.success = success
       self.error_code = error_code
     end

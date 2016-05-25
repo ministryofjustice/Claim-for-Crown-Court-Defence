@@ -7,10 +7,6 @@ module Claims
       new(*args).call
     end
 
-    def ga_args
-      []
-    end
-
     def draft?
       false
     end
@@ -19,15 +15,14 @@ module Claims
     end
 
     def result
-      @result ||= ClaimActionsResult.new
+      @result ||= ClaimActionsResult.new(self)
     end
-
-
-    private
 
     def validate?
       self.validate
     end
+
+    private
 
     def save_claim!(validation)
       claim.class.transaction do
@@ -63,8 +58,7 @@ module Claims
     end
 
     def set_error_code(code)
-      @result = ClaimActionsResult.new(success: false, error_code: code)
+      @result = ClaimActionsResult.new(self, success: false, error_code: code)
     end
-
   end
 end

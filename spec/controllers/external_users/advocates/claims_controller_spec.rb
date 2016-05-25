@@ -98,26 +98,26 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         end
 
         context 'create draft' do
-          it 'creates a claim' do
-            expect {
-              post :create, commit_save_draft: 'Save to drafts', claim: claim_params
-            }.to change(Claim::AdvocateClaim, :count).by(1)
+          before(:each) do
+            expect(Claim::AdvocateClaim.count).to eq(0)
+            post :create, commit_save_draft: 'Save to drafts', claim: claim_params
+          end
+
+          it 'creates the claim and sets the state to "draft"' do
+            expect(Claim::AdvocateClaim.first).to be_draft
           end
 
           it 'redirects to claims list' do
-            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
             expect(response).to redirect_to(external_users_claims_path)
           end
 
           it 'sets the created claim\'s external_user/"owner" to the signed in advocate' do
-            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
             expect(Claim::AdvocateClaim.first.external_user).to eq(advocate)
             expect(Claim::AdvocateClaim.first.creator).to eq(advocate)
           end
 
-          it 'sets the claim\'s state to "draft"' do
-            post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::AdvocateClaim.first).to be_draft
+          it 'sets the right google analytics' do
+            expect(flash[:ga]).to eq [{%w(event claim draft created) =>[]}]
           end
         end
 
@@ -143,6 +143,11 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
             expect(Claim::AdvocateClaim.first).to be_draft
+          end
+
+          it 'sets the right google analytics' do
+            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
+            expect(flash[:ga]).to eq [{%w(event claim submit started) =>[]}]
           end
 
           context 'blank expenses' do

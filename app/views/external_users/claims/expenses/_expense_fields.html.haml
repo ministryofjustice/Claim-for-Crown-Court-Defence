@@ -22,13 +22,13 @@
       .column-one-third.condensed{class: "js-expense-distance expense-distance"}
         %a{name: "expense_#{@expense_count}_distance"}
         = f.label :distance, 'Distance'
-        = f.number_field :distance, {class: 'form-control'}
+        = f.number_field :distance, {max: 99999, min: 0, class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
 
       .column-one-third.condensed{class: "js-expense-hours expense-hours"}
         %a{name: "expense_#{@expense_count}_hours"}
         = f.label :hours, 'Hours'
-        = f.number_field :hours, {class: 'form-control short-input'}
+        = f.number_field :hours, { max: 9999, min: 0, class: 'form-control short-input' }
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
 
     .grid-row

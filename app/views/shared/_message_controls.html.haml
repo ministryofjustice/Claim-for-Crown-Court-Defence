@@ -18,14 +18,17 @@
           .written-reasons-checkbox
             = f.input :written_reasons_submitted, as: :boolean
       .upload-column
-        = f.file_field :attachment, class: 'button-secondary', label: false
+        = f.file_field :attachment
 
-      .submit-column
-        = f.submit t('.send'), class: 'button-secondary'
     .xsmall.form-hint
       = t('.accepted_files_help_text')
+
     .file-to-be-uploaded
       %span.filename
       = " | "
       %a{href:"#", title: t('.remove_file_tool_tip')}
         = t('.remove')
+
+    .submit-column
+      = f.submit t('.send'), class: 'button-secondary'
+

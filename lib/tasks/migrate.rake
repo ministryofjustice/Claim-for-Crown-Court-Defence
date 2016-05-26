@@ -55,8 +55,8 @@
       load File.join(Rails.root, 'db', 'seeds', 'case_types.rb')
     end
 
-    desc 'Add interim fee types'
-    task :add_interim_fee_types => :environment do
+    desc 'Reseed fee types'
+    task :reseed_fee_types => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
     end
 
@@ -67,15 +67,9 @@
       end
     end
 
-    desc 'Add new TransferFeeType'
-    task :add_transer_fee_type => :environment do
-      load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
-    end
-
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        add_transer_fee_type: 'Adding transfer fee type'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

@@ -4,7 +4,7 @@ GRADUATED,lgfs,Retrial,GRTR,9999,false
 GRADUATED,lgfs,Guilty plea,GGLTY,9999,false
 GRADUATED,lgfs,Discontinuance,GDIS,9999,false
 GRADUATED,lgfs,Cracked trial,GCRAK,9999,false
-GRADUATED,lgfs,Cracked before retrial,GCBR,9999,true
+GRADUATED,lgfs,Cracked before retrial,GCBR,9999,false
 BASIC,agfs,Basic fee,BAF,9999,true,
 BASIC,agfs,Daily attendance fee (3 to 40),DAF,999,true,
 BASIC,agfs,Daily attendance fee (41 to 50),DAH,9999,true,

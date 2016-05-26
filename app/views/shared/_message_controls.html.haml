@@ -10,20 +10,25 @@
 
   - if advocate_messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons
-      .upload-column
-        = f.file_field :attachment, class: 'button-secondary', label: false
+      Enter a message below and optionally attach a file (maximum 1 file per message).
       .message-column
         = f.text_area :body, as: :text, placeholder: t('.message_placeholder'), label: false, class: 'form-control'
 
         - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
           .written-reasons-checkbox
             = f.input :written_reasons_submitted, as: :boolean
-      .submit-column
-        = f.submit t('.send'), class: 'button-secondary'
+      .upload-column
+        = f.file_field :attachment
+
     .xsmall.form-hint
       = t('.accepted_files_help_text')
+
     .file-to-be-uploaded
       %span.filename
       = " | "
       %a{href:"#", title: t('.remove_file_tool_tip')}
         = t('.remove')
+
+    .submit-column
+      = f.submit t('.send'), class: 'button-secondary'
+

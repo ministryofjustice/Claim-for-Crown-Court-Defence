@@ -641,7 +641,7 @@ en:
             add_misc_fee: "Add another miscellaneous fee"
           misc_fee_fields:
             fee_type: "Fee type"
-            case_numbers: "Case number(s)"
+            case_numbers: "Additional case number(s)"
             amount: "Total"
             remove: *remove
       financial_summary:

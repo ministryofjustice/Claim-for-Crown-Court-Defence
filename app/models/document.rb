@@ -65,6 +65,7 @@ class Document < ActiveRecord::Base
     if result
       result = verify_and_log
     else
+      transform_cryptic_paperclip_error
       log_save_error
     end
     result
@@ -77,7 +78,7 @@ class Document < ActiveRecord::Base
       result = true
     else
       LogStuff.error(:paperclip, action: 'verify_fail', document_id: self.id, claim_id: self.claim_id, filename: self.document_file_name, form_id: self.form_id) { 'Unable to verify document' }
-      self.errors[:document] << "Unable to save the file - please retry"
+      self.errors[:document] << "Unable to save the file - please retry" if self.verified_file_size == 0
       result = false
     end
     result
@@ -95,11 +96,11 @@ class Document < ActiveRecord::Base
       self.verified_file_size = File.stat(reloaded_file).size
       self.file_path = self.document.path
       self.verified = self.verified_file_size > 0
-    rescue
+      self.save!
+    rescue => err
+      self.errors[:document] << err.message
       self.verified = false
     end
-
-    self.save!
     self.verified
   end
 
@@ -124,6 +125,13 @@ class Document < ActiveRecord::Base
 
     if total_upload_size_in_mb > Settings.max_document_upload_size_mb
       errors.add(:document, "Total documents exceeded maximum upload size of #{total_upload_size_in_mb}MB. This document has not been uploaded.")
+    end
+  end
+
+  def transform_cryptic_paperclip_error
+    if self.errors[:document].include?('has contents that are not what they are reported to be')
+      self.errors[:document].delete('has contents that are not what they are reported to be')
+      self.errors[:document] << 'The contents of the file do not match the file extension'
     end
   end
 end

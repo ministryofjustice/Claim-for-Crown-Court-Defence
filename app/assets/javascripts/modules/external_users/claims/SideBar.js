@@ -61,7 +61,7 @@ moj.Modules.SideBar = {
         block.reload();
         self.totals[block.getConfig('type')] += block.totals.typeTotal;
         self.totals.vat += block.totals.vat;
-        self.totals.grandTotal += block.totals.total + block.totals.vat;
+        self.totals.grandTotal += block.totals.typeTotal + block.totals.vat;
       }
     });
     self.render();

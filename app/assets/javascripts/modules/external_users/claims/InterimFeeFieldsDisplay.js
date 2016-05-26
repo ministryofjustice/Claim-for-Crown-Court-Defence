@@ -17,6 +17,7 @@ moj.Modules.InterimFeeFieldsDisplay = {
 
     $(this.el).on('change', self.typeSelect, function() {
       self.showHideInterimFeeFields(this);
+      $(self.el).trigger('recalculate');
     });
   },
 

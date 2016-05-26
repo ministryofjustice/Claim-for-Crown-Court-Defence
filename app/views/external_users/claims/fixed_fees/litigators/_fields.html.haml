@@ -10,7 +10,7 @@
 
       .expense-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
-          .column-two-thirds
+          %div
             %label.form-label
               = t('.fee_type')
             = ff.anchored_attribute 'fee_type'
@@ -25,15 +25,15 @@
             = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
             = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
 
-          .column-one-third.condensed.js-expense-location
+          .column-one-quarter.condensed.js-expense-location
 
         .grid-row
-          .column-two-thirds
+          .column-three-quarters
             - ff.object.dates_attended << DateAttended.new unless ff.object.dates_attended.any?
             = ff.fields_for :dates_attended do |date_attended|
               = render 'date_generic_fields', f: date_attended, field_id: 'fixed_fee.date_attended_1_date'
 
-          .column-one-third.condensed.js-expense-amount.fee-total
+          .column-one-quarter.condensed.js-expense-amount.fee-total
             %label.form-label Total
 
             = ff.anchored_attribute 'amount'

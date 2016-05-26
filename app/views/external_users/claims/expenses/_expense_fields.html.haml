@@ -62,7 +62,7 @@
             %a{name: "expense_#{@expense_count}_vat_amount"}
             = f.label :vat_amount, 'VAT'
             %span.currency-indicator>< &pound;
-            = f.number_field :vat_amount, max:99999, min:0, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control medium-input'
+            = f.number_field :vat_amount, max:99999, min:0, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control'
             = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
 
     .grid-row.js-expense-mileage.expense-cost

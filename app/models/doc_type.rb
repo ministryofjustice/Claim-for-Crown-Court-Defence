@@ -25,6 +25,18 @@ class DocType
     DOCTYPES
   end
 
+  def self.all_first_half
+    DOCTYPES.slice(0, slice_size)
+  end
+
+  def self.all_second_half
+    DOCTYPES.slice(slice_size, slice_size)
+  end
+
+  def self.slice_size
+    (DOCTYPES.size + 1) / 2
+  end
+
   # returns a single DocType given its id
   def self.find(id)
     doctype = DOCTYPES.detect{ |dt| dt.id == id }

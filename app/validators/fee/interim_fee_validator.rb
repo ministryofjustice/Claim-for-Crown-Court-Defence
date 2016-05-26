@@ -13,8 +13,8 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement? || @record.is_interim_warrant?
       validate_absence_or_zero(:quantity, 'present')
     else
-      validate_presence(:quantity,'blank')
-      validate_numericality(:quantity,1,nil,'numericality')
+      validate_presence(:quantity, 'blank')
+      validate_numericality(:quantity, 1, nil, 'numericality')
     end
   end
 
@@ -22,8 +22,8 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement?
       validate_absence_or_zero(:amount, 'present')
     else
-      validate_presence(:amount,'blank')
-      validate_float_numericality(:amount,0.01,nil,'numericality')
+      validate_presence(:amount, 'blank')
+      validate_float_numericality(:amount, 0.01, nil, 'numericality')
     end
   end
 

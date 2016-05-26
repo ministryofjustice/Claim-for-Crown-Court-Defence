@@ -108,7 +108,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       result = Claims::CreateDraft.call(@claim, validate: continue_claim?)
       tracking_args = %w(event claim draft created)
     end
-    
+
     send_ga(tracking_args) if result.success?
     render_or_redirect(result)
   end

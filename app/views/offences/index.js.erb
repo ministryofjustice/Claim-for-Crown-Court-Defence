@@ -1,8 +1,8 @@
 <% if params[:description].blank? %>
-  $('.offence-class-select').html('')
-  $('.offence-class-select').hide();
+  $('.offence-class-select').slideUp();
+  $('#claim_offence_id').val('');
 <% else %>
   $('.offence-class-select').html('<%=j render partial: "external_users/claims/case_details/offence_select", locals: { offences: @offences } %>');
-  moj.Modules.NewClaim.attachToOffenceClassSelect();
   $('.offence-class-select').slideDown();
+  moj.Modules.NewClaim.attachToOffenceClassSelect();
 <% end %>

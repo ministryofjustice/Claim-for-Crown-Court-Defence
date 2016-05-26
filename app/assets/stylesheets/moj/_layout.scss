@@ -23,11 +23,11 @@ body {
     @include first;
 }
 
-.grid-sidebar:first-child{
-	.column-two-thirds{
+.grid-sidebar{
+	.column-two-thirds.first{
 		width: 74%;
 	}
-	.column-one-third{
+	.column-one-third.first{
 		width: 26%;
 	}
 }

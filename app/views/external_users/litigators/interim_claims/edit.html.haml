@@ -4,9 +4,9 @@
 
 - present(@claim) do |claim|
   .grid-row.grid-sidebar
-    .column-two-thirds
+    .column-two-thirds.first
       = render 'form'
 
-    .column-one-third
+    .column-one-third.first
       = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: false }
 

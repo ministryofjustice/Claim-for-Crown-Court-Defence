@@ -208,16 +208,14 @@ select.form-control {
 
   .fee-quantity,
   .fee-rate{
-    input{
-      width: 20%;
-    }
+    width: 20%;
   }
 
+  .fee-vat,
   .fee-quantity,
   .fee-amount,
   .fee-total,
-  .fee-rate,
-  .fee-vat{
+  .fee-rate{
     text-align: right;
     input.form-control[type=text],
     input.form-control[type=email],

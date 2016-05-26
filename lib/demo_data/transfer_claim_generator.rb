@@ -1,5 +1,5 @@
 require_relative 'lgfs_scheme_claim_generator'
-require_relative 'interim_fee_generator'
+require_relative 'transfer_fee_generator'
 require_relative 'transfer_detail_generator'
 
 module DemoData
@@ -16,11 +16,12 @@ module DemoData
     end
 
     def add_fees_expenses_and_disbursements(claim)
-      add_interim_fee(claim)
+      add_transfer_fee(claim)
+      add_disbursements(claim)
     end
 
-    def add_interim_fee(claim)
-      DemoData::InterimFeeGenerator.new(claim).generate!
+    def add_transfer_fee(claim)
+      DemoData::TransferFeeGenerator.new(claim).generate!
     end
   end
 end

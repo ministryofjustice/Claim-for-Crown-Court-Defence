@@ -154,7 +154,7 @@ describe Claim::TransferClaim, type: :model do
       mf1 = create :misc_fee_type, :lgfs
       mf2 = create :misc_fee_type, :lgfs
       mf3 = create :misc_fee_type
-      expect(claim.eligible_misc_fee_types.map(&:description)).to match [mf1.description,mf2.description]
+      expect(claim.eligible_misc_fee_types.map(&:description)).to match_array([mf1.description,mf2.description])
     end
   end
 

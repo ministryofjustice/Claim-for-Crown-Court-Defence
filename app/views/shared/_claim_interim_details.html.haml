@@ -7,18 +7,18 @@
     .xsmall
       = fee.fee_type.description
 
-  - if fee.is_interim_warrant? && (warrant_fee = present(claim.warrant_fee))
+  - if fee.is_interim_warrant?
     .column-quarter
       .bold-xsmall
         = t('shared.summary.warrant_fee.date_issued')
       .xsmall
-        = warrant_fee.warrant_issued_date
+        = fee.warrant_issued_date
     .column-quarter
-      - if warrant_fee.warrant_executed?
+      - if fee.warrant_executed_date.present?
         .bold-xsmall
           = t('shared.summary.warrant_fee.date_executed')
         .xsmall
-          = warrant_fee.warrant_executed_date
+          = fee.warrant_executed_date
   - else
     .column-quarter
       - unless fee.is_disbursement?

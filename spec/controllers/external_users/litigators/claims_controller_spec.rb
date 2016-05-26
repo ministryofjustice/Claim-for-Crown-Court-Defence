@@ -233,7 +233,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         end
       end
 
-      context 'basic and non-basic fees' do
+      context 'conditional fee logic' do
         let!(:misc_fee_type_1)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
         let!(:misc_fee_type_2)          { FactoryGirl.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
         let!(:fixed_fee_type_1)         { FactoryGirl.create :fixed_fee_type, description: 'Fixed Fee Type 1' }

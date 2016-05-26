@@ -15,8 +15,6 @@ module DemoData
       'awaiting_written_reasons'  => [ :submit, :allocate, :authorise, :await_written_reasons ]
     }
 
-
-
     def initialize(claim)
       @claim                = claim
       @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").map(&:persona).sample
@@ -30,7 +28,6 @@ module DemoData
       end
       puts "   Claim advanced to #{desired_state}."
     end
-
 
     private
 

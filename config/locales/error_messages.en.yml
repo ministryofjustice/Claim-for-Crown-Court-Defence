@@ -12,6 +12,7 @@ dictionary:
     enter_date: &enter_date 'Enter a date'
     enter_valid_date: &enter_valid_date 'Enter a valid date'
     date_not_allowed: &date_not_allowed 'Date not allowed'
+    enter_quantity: &enter_quantity 'Enter a quantity'
     enter_amount: &enter_amount 'Enter an amount'
     enter_valid_amount: &enter_valid_amount 'Enter a valid amount'
     check_amount: &check_amount 'Check amount'
@@ -933,6 +934,14 @@ warrant_fee:
       long: Enter a valid warrant issued date
       short: *enter_valid_date
       api: Enter a valid warrant issued date
+    check_not_in_future:
+      long: Check the warrant issued date
+      short: *in_future
+      api: Check the warrant issued date
+    check_not_too_far_in_past:
+      long: Check the warrant issued date
+      short: *too_far_in_past
+      api: Check the warrant issued date
 
   warrant_executed_date:
     _seq: 30
@@ -948,6 +957,14 @@ warrant_fee:
       long: Enter a valid warrant executed date
       short: *enter_valid_date
       api: Enter a valid warrant executed date
+    check_not_in_future:
+      long: Check the warrant executed date
+      short: *in_future
+      api: Check the warrant executed date
+    check_not_too_far_in_past:
+      long: Check the warrant executed date
+      short: *too_far_in_past
+      api: Check the warrant executed date
     warrant_executed_before_issued:
       long: The warrant executed date is before the issued date
       short: *enter_valid_date
@@ -1247,6 +1264,11 @@ graduated_fee:
 
 interim_fee:
   _seq: 1100
+  blank:
+    _seq: 5
+    long: Add an interim fee
+    short: *enter_amount
+    api: Add an interim fee
 
   base:
     uneditable_state:
@@ -1263,7 +1285,11 @@ interim_fee:
 
   quantity:
     _seq: 20
-    invalid:
+    blank:
+      long: Enter a quantity for the interim fee
+      short: *enter_quantity
+      api: Enter a quantity for the interim fee
+    numericality:
       long: Enter a valid quantity for the interim fee
       short: *enter_valid_quantity
       api: Enter a valid quantity for the interim fee
@@ -1274,7 +1300,7 @@ interim_fee:
 
   amount:
     _seq: 30
-    invalid:
+    numericality:
       long: Enter a valid amount for the interim fee
       short: *enter_valid_amount
       api: Enter a valid amount for the interim fee
@@ -1283,8 +1309,54 @@ interim_fee:
       short: Do not enter an amount
       api: Do not enter an amount for the interim fee
 
-  disbursements:
+  warrant_issued_date:
     _seq: 40
+    blank:
+      long: Enter a warrant issued date
+      short: *enter_date
+      api: Enter a warrant issued date
+    invalid:
+      long: Enter a valid warrant issued date
+      short: *enter_valid_date
+      api: Enter a valid warrant issued date
+    invalid_date:
+      long: Enter a valid warrant issued date
+      short: *enter_valid_date
+      api: Enter a valid warrant issued date
+    check_not_in_future:
+      long: Check the warrant issued date
+      short: *in_future
+      api: Check the warrant issued date
+    check_not_too_far_in_past:
+      long: Check the warrant issued date
+      short: *too_far_in_past
+      api: Check the warrant issued date
+
+  warrant_executed_date:
+    _seq: 50
+    blank:
+      long: Enter a warrant executed date
+      short: *enter_date
+      api: Enter a warrant executed date
+    invalid:
+      long: Enter a valid warrant executed date
+      short: *enter_valid_date
+      api: Enter a valid warrant executed date
+    invalid_date:
+      long: Enter a valid warrant executed date
+      short: *enter_valid_date
+      api: Enter a valid warrant executed date
+    check_not_in_future:
+      long: Check the warrant issued date
+      short: *in_future
+      api: Check the warrant issued date
+    warrant_executed_before_issued:
+      long: The warrant executed date is before the issued date
+      short: *enter_valid_date
+      api: The warrant executed date is before the issued date
+
+  disbursements:
+    _seq: 70
     blank:
       long: You must add at least one disbursement
       short: Add at least one disbursement
@@ -1295,7 +1367,7 @@ interim_fee:
       api: Adding disbursements to this claim is not allowed
 
   warrant:
-    _seq: 50
+    _seq: 80
     blank:
       long: You must add a warrant fee
       short: Add a warrant fee

@@ -29,7 +29,7 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   end
 
   def transfer_date
-    claim.transfer_date.strftime(Settings.date_format) rescue ''
+    format_date(claim.transfer_date)
   end
 
   def case_conclusion_description

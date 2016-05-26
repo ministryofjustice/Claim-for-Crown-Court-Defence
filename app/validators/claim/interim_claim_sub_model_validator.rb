@@ -5,7 +5,6 @@ class Claim::InterimClaimSubModelValidator < Claim::BaseClaimSubModelValidator
       [ ],
       [
         :interim_fee,
-        :warrant_fee,
         :assessment,
         :certification
       ]

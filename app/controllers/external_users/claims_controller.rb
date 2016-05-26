@@ -278,8 +278,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
           :id,
           :claim_id,
           :fee_type_id,
+          :quantity,
           :amount,
-          :quantity
+          date_attributes_for(:warrant_issued_date),
+          date_attributes_for(:warrant_executed_date)
       ],
       transfer_fee_attributes: [
         :id,

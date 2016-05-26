@@ -65,7 +65,7 @@ describe 'external_users/claims/show.html.haml', type: :view do
 
   context 'Interim claims' do
     before(:all) do
-      @claim = create(:interim_claim, :interim_fee)
+      @claim = create(:interim_claim, :interim_effective_pcmh_fee)
       @messages = @claim.messages.most_recent_last
       @message  = @claim.messages.build
     end

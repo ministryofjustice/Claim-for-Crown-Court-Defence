@@ -5,6 +5,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
     [
       [].unshift(first_step_common_validations),
       [
+        :interim_fee,
         :first_day_of_trial,
         :estimated_trial_length,
         :trial_concluded_at,
@@ -18,6 +19,10 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   end
 
   private
+
+  def validate_interim_fee
+    add_error(:interim_fee, 'blank') if @record.interim_fee.nil?
+  end
 
   def validate_first_day_of_trial
     if @record.interim_fee.try(:is_trial_start?)

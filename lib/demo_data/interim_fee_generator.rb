@@ -26,7 +26,8 @@ module DemoData
 
     def setup_fee(fee)
       if fee.is_interim_warrant?
-        @claim.fees << warrant_fee
+        fee.warrant_issued_date = rand(1..5).months.ago
+        fee.warrant_executed_date = fee.warrant_issued_date + rand(1..7)
       end
 
       if fee.is_disbursement? || fee.is_effective_pcmh?
@@ -52,17 +53,10 @@ module DemoData
         @claim.trial_concluded_at = rand(1..5).months.ago
       end
 
-      unless fee.is_disbursement? || fee.is_interim_warrant?
-        fee.quantity = rand(10..50)
+      unless fee.is_disbursement?
+        fee.quantity = rand(10..50) unless fee.is_interim_warrant?
         fee.amount   = rand(1000.0..5000.0).round(2)
       end
-    end
-
-    def warrant_fee
-      Fee::WarrantFee.new(fee_type: Fee::WarrantFeeType.instance,
-                          amount: rand(100.0..2500.0).round(2),
-                          warrant_issued_date: rand(3..5).months.ago,
-                          warrant_executed_date: rand(1..2).months.ago)
     end
 
     def disbursements(range)

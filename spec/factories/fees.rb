@@ -52,6 +52,7 @@ FactoryGirl.define do
     claim
     fee_type { build :warrant_fee_type }
     warrant_issued_date    1.month.ago
+    amount 25.01
 
     trait :warrant_executed do
       warrant_exectuted_date { warrant_issued_date + 5.days }
@@ -65,7 +66,7 @@ FactoryGirl.define do
   factory :interim_fee, class: Fee::InterimFee do
     claim { build :interim_claim }
     fee_type { build :interim_fee_type }
-    quantity  nil
+    quantity  2
     amount  245.56
     uuid SecureRandom.uuid
     rate nil
@@ -74,12 +75,14 @@ FactoryGirl.define do
       claim { build :interim_claim, disbursements: build_list(:disbursement, 1) }
       fee_type { build :interim_fee_type, :disbursement }
       amount nil
+      quantity nil
     end
 
     trait :warrant do
-      claim { build :interim_claim, warrant_fee: build(:warrant_fee, amount: 10.0) }
       fee_type { build :interim_fee_type, :warrant }
-      amount nil
+      quantity nil
+      amount 25.02
+      warrant_issued_date 5.days.ago
     end
 
     trait :effective_pcmh do

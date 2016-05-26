@@ -695,8 +695,8 @@ en:
       warrant_fee:
         fields:
           warrant_fee: "Warrant fee"
-          date_issued: "Warrant date issued"
-          date_executed: "Warrant date executed (if applicable)"
+          date_issued: "Warrant issued"
+          date_executed: "Warrant executed (if applicable)"
           total: "Total"
       supplier_number:
         fields:
@@ -717,6 +717,8 @@ en:
           retrial_started_at: "Re-trial start"
           retrial_estimated_length: "Estimated length"
           number_days_hint: "Number of days"
+          warrant_issued: "Warrant issued"
+          warrant_executed: "Warrant executed (if applicable)"
       transfer_fees:
         fields:
           transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
@@ -802,8 +804,8 @@ en:
         vat_amount: "VAT amount"
         total: "Total"
       warrant_fee:
-        date_issued: "Warrant fee date issued"
-        date_executed: "Warrant fee date executed"
+        date_issued: "Warrant issued"
+        date_executed: "Warrant executed"
         total: "Total"
       total: "Total"
       ppe_total: "PPE total at the time"

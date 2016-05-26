@@ -8,18 +8,21 @@ class Fee::InterimFeeTypePresenter < BasePresenter
         legal_aid_transfer:   fee_type.is_retrial_new_solicitor?,
         trial_concluded:      fee_type.is_retrial_new_solicitor?,
         retrial_dates:        fee_type.is_retrial_start?,
-        ppe:                  unless_disbursement_or_warrant?,
-        fee_total:            unless_disbursement_or_warrant?,
+        ppe:                  is_not_disbursement_or_warrant?,
+        fee_total:            is_not_disbursement?,
         warrant:              fee_type.is_interim_warrant?,
         disbursements:        is_not_warrant?
     }
   end
 
-
   private
 
-  def unless_disbursement_or_warrant?
-    !(fee_type.is_disbursement? || fee_type.is_interim_warrant?)
+  def is_not_disbursement_or_warrant?
+    is_not_disbursement? && is_not_warrant?
+  end
+
+  def is_not_disbursement?
+    !fee_type.is_disbursement?
   end
 
   def is_not_warrant?

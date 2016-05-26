@@ -1,5 +1,5 @@
 #warrant_fee.mod-fees
-  = f.anchored_without_label 'interim_fee.warrant'
+  = f.anchored_without_label 'warrant_fee'
   %h2.bold-medium
     = t('.warrant_fee')
 
@@ -15,12 +15,11 @@
           = wf.gov_uk_date_field :warrant_executed_date, legend_text: t('.date_executed'), legend_class: 'govuk-legend',
             id: 'warrant_fee.warrant_executed_date', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'warrant_fee.warrant_executed_date')
 
-      - if @claim.interim?
-        .grid-row
-          .column-one-half
-            %label.form-label
-              = t('.total')
-            %a{name: "amount"}
-            %span.currency-indicator>< &pound;
-            = wf.text_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'amount form-control', size: 10, maxlength: 8
-            = validation_error_message(@error_presenter, 'warrant_fee.amount')
+      .grid-row
+        .column-one-half
+          %label.form-label
+            = t('.total')
+          %a{name: "amount"}
+          %span.currency-indicator>< &pound;
+          = wf.number_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'amount form-control', size: 10, maxlength: 8
+          = validation_error_message(@error_presenter, 'interim_fee.amount')

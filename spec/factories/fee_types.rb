@@ -120,6 +120,7 @@ FactoryGirl.define do
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
       description  'Warrant Fee'
       code 'XWAR'
+      calculated false
       roles [ 'lgfs' ]
     end
 

@@ -117,6 +117,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             {
                 interim_fee_attributes: {
                     fee_type_id: interim_fee_type.id,
+                    quantity: 2,
                     amount: 10.0
                 },
                 effective_pcmh_date_dd: 5.days.ago.day.to_s,
@@ -164,15 +165,37 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
           let(:subject_claim) { Claim::InterimClaim.where(case_number: case_number).first }
 
-          it 'validates step fields and move to next steps' do
-            post :create, commit_continue: 'Continue', claim: claim_params_step1
-            expect(subject_claim.draft?).to be_truthy
-            expect(assigns(:claim).current_step).to eq(2)
-            expect(response).to render_template('external_users/litigators/interim_claims/new')
+          context 'step 1 continue' do
+            render_views
+            before do
+              post :create, commit_continue: 'Continue', claim: claim_params_step1
+            end
+            
+            it 'should leave claim in draft state'  do expect(subject_claim.draft?).to be_truthy end
+            it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
+            it { expect(response).to render_template('external_users/litigators/interim_claims/new') }
+          end
 
-            put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
-            expect(subject_claim.draft?).to be_truthy
-            expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
+          context 'step 2 submit to LAA' do
+            before do
+              post :create, commit_continue: 'Continue', claim: claim_params_step1
+              put :update, id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2
+            end
+
+            it 'saves as draft' do
+              expect(subject_claim.draft?).to be_truthy
+            end
+            
+            it 'redirects to summary page' do
+              expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
+            end
+
+            it 'updates the interim fee' do
+              expect(subject_claim.interim_fee).to_not be_nil
+              expect(subject_claim.interim_fee.quantity).to eql 2
+              expect(subject_claim.interim_fee.amount).to eql 10.00
+            end
+
           end
         end
       end
@@ -226,7 +249,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   end
 
   describe 'PUT #update' do
-    subject { create(:interim_claim, creator: litigator) }
+    subject { create(:interim_claim, :interim_effective_pcmh_fee, creator: litigator) }
 
     context 'when valid' do
 
@@ -240,35 +263,34 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
 
       context 'and editing an API created claim' do
-
         before(:each) do
           subject.update(source: 'api')
         end
 
         context 'and saving to draft' do
-          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+          before { put :update, id: subject, claim: { case_number: 'A12345677' }, commit_save_draft: 'Save to drafts' }
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
+            expect(subject.reload.case_number).to eql 'A12345677'
           end
         end
 
-        context 'and submitted to LAA' do
-          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
+        context 'and continuing from step 1' do
+          before { put :update, id: subject, claim: { case_number: 'A12345679' }, commit_continue: 'Continue' }
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
+            expect(subject.reload.case_number).to eql 'A12345679'
           end
         end
       end
 
       context 'and saving to draft' do
+        before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
         it 'updates a claim' do
-          put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts'
-          subject.reload
-          expect(subject.additional_information).to eq('foo')
+          expect(subject.reload.additional_information).to eq('foo')
         end
 
         it 'redirects to claims list path' do
-          put :update, id: subject, claim: { additional_information: 'foo' }
           expect(response).to redirect_to(external_users_claims_path)
         end
       end
@@ -288,8 +310,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     context 'when submitted to LAA and invalid ' do
       it 'does not set claim to submitted' do
         put :update, id: subject, claim: { court_id: nil }, commit_submit_claim: 'Submit to LAA'
-        subject.reload
-        expect(subject).to_not be_submitted
+        expect(subject.reload).to_not be_submitted
       end
 
       it 'renders edit template' do
@@ -317,52 +338,4 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     end
   end
 
-  # local helpers
-  # -------------------------
-
-  def valid_claim_fee_params
-    case_type = FactoryGirl.create :case_type
-
-    HashWithIndifferentAccess.new(
-      {
-       "source" => 'web',
-       "supplier_number" => supplier_number,
-       "case_type_id" => case_type.id.to_s,
-       "court_id" => court.id.to_s,
-       "case_number" => "CASE98989",
-       "offence_class_id" => "2",
-       "offence_id" => offence.id.to_s,
-       "external_user_id" => external_user.id.to_s,
-       "first_day_of_trial_dd" => '13',
-       "first_day_of_trial_mm" => '5',
-       "first_day_of_trial_yyyy" => '2015',
-       "estimated_trial_length" => "2",
-       "actual_trial_length" => "2",
-       "trial_concluded_at_dd" => "15",
-       "trial_concluded_at_mm" => "05",
-       "trial_concluded_at_yyyy" => "2015",
-       "evidence_checklist_ids" => ["1", "5", ""],
-       "defendants_attributes"=>
-        {"0"=>
-          {"first_name" => "Stephen",
-           "last_name" => "Richards",
-           "date_of_birth_dd" => "13",
-           "date_of_birth_mm" => "08",
-           "date_of_birth_yyyy" => "1966",
-           "_destroy" => "false",
-           "representation_orders_attributes"=>{
-             "0"=>{
-               "representation_order_date_dd" => "13",
-               "representation_order_date_mm" => "05",
-               "representation_order_date_yyyy" => "2015",
-               "maat_reference" => "1594851269",
-             }
-            }
-          }
-        },
-       "additional_information" => "",
-       "apply_vat" => "0"
-     }
-    )
-  end
 end

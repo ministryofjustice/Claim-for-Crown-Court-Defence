@@ -2,7 +2,7 @@
   = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
   - if f.object.calculated?
-    = render 'external_users/claims/basic_fees/basic_fee_calculated_fields', f: f
+    = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
   - else
     = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
 

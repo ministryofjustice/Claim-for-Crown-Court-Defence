@@ -2,16 +2,17 @@
 #
 # Table name: fee_types
 #
-#  id          :integer          not null, primary key
-#  description :string
-#  code        :string
-#  created_at  :datetime
-#  updated_at  :datetime
-#  max_amount  :decimal(, )
-#  calculated  :boolean          default(TRUE)
-#  type        :string
-#  roles       :string
-#  parent_id   :integer
+#  id                  :integer          not null, primary key
+#  description         :string
+#  code                :string
+#  created_at          :datetime
+#  updated_at          :datetime
+#  max_amount          :decimal(, )
+#  calculated          :boolean          default(TRUE)
+#  type                :string
+#  roles               :string
+#  parent_id           :integer
+#  quantity_is_decimal :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
@@ -20,6 +21,8 @@ FactoryGirl.define do
     code { random_safe_code }
     calculated true
     roles ['agfs']
+    quantity_is_decimal false
+
 
     trait :ppe do
       description 'Pages of prosecution evidence'
@@ -56,6 +59,12 @@ FactoryGirl.define do
         sequence(:description) { |n| "LGFS, Misc fee type, Special preparation fee - #{n}" }
         calculated false
         roles ['lgfs']
+      end
+
+      trait :spf do
+        description 'Special preparation fee'
+        code 'SPF'
+        quantity_is_decimal true
       end
     end
 

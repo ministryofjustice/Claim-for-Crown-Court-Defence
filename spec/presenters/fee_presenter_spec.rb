@@ -24,6 +24,38 @@ RSpec.describe Fee::BaseFeePresenter do
     end
   end
 
+  describe '#quantity' do
+    context 'quantity  is decimal' do
+      it 'returns a decimal quantity' do
+        allow(fee).to receive(:quantity_is_decimal?).and_return(true)
+        fee.quantity = 54.769
+        expect(presenter.quantity).to eq '54.77'
+      end
+    end
+
+    context 'quantity is not decimal' do
+
+      before(:each) { allow(fee).to receive(:quantity_is_decimal?).and_return(false) }
+
+      context 'valid' do
+        it 'returns an integer quantity' do
+          allow(fee).to receive(:valid?).and_return(true)
+          _fee_quantity = 4.0
+          expect(presenter.quantity).to eq '4'
+        end
+      end
+
+      context 'invalid' do
+        it 'returns decimal quantity' do
+          allow(fee).to receive(:valid?).and_return(false)
+          allow(fee.errors[:quantity]).to receive(:include?).with('integer').and_return true
+          fee.quantity = 3.45
+          expect(presenter.quantity).to eq '3.45'
+        end
+      end
+    end
+  end
+
   describe '#amount' do
     it 'formats as currency' do
       fee.amount = 32456.3

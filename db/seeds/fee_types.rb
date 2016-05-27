@@ -14,7 +14,7 @@ data.shift
 
 data.each do |row|
   begin
-    fee_type, roles, description, code, max_amount, calculated, parent = row
+    fee_type, roles, description, code, max_amount, calculated, parent, quantity_is_decimal = row
     klass = "Fee::#{fee_type.capitalize}FeeType".constantize
     roles = roles.split(';')
     calculated = 'false' if calculated.nil?
@@ -24,12 +24,27 @@ data.each do |row|
     parent_id = parent.nil? ? nil : klass.find_by(description: parent.strip).try(:id)
     record = klass.find_by(description: description)
     if record
-      record.update!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s, parent_id: parent_id)
+      record.update!(roles: roles,
+                     description: description,
+                     code: code,
+                     max_amount: max_amount,
+                     calculated: calculated,
+                     type: klass.to_s,
+                     parent_id: parent_id,
+                     quantity_is_decimal: quantity_is_decimal)
     else
-      klass.create!(roles: roles, description: description, code: code, max_amount: max_amount, calculated: calculated, type: klass.to_s, parent_id: parent_id)
+      klass.create!(roles: roles,
+                    description: description,
+                    code: code,
+                    max_amount: max_amount,
+                    calculated: calculated,
+                    type: klass.to_s,
+                    parent_id: parent_id,
+                    quantity_is_decimal: quantity_is_decimal)
     end
   rescue => err
     puts "***************** #{err.class}  #{err.message} *********** #{__FILE__}::#{__LINE__} ***********\n"
+    puts err.backtrace
     puts row
   end
 end

@@ -1,3 +1,4 @@
+- fee = present(f.object)
 .form-group.misc-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
   .grid-row
     .column-one-half.fee-type
@@ -11,7 +12,7 @@
       %label.form-label
         = t('.quantity')
       %a{name: "misc_fee_#{@misc_fee_count}_quantity"}
-        = f.number_field :quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
+        = f.number_field :quantity, value: fee.quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
         = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_quantity")
 
     .column-one-quarter.fee-rate

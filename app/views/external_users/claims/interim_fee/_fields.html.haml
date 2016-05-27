@@ -6,6 +6,7 @@
     = t('.interim_fees_prompt_text_html')
 
   = f.fields_for :interim_fee do |inf|
+    - fee = present(inf.object)
     .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
@@ -22,7 +23,7 @@
             .form-hint.xsmall
               = t('.ppe_total_hint')
             = inf.anchored_attribute 'quantity'
-            = inf.number_field :quantity, class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
+            = inf.number_field :quantity, value: fee.quantity, class: 'form-control quantity', min: 0, max: 99999, maxlength: 5
             = validation_error_message(@error_presenter, 'interim_fee.quantity')
 
         .form-row

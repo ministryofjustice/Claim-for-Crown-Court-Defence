@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  claim_id              :integer
 #  fee_type_id           :integer
-#  quantity              :integer
+#  quantity              :decimal(, )
 #  amount                :decimal(, )
 #  created_at            :datetime
 #  updated_at            :datetime

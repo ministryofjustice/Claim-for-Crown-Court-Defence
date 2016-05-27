@@ -6,30 +6,30 @@
     .form-hint.xsmall
       = raw t('.graduated_prompt_text')
 
-    = f.fields_for :graduated_fee do |gf|
-
+    = f.fields_for :graduated_fee do |grad_fee_form|
+      - grad_fee = present(grad_fee_form.object)
       .expense-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
 
           .column-one-third
             %label.form-label
               = t('.fee_type')
-            = gf.anchored_attribute 'fee_type'
+            = grad_fee_form.anchored_attribute 'fee_type'
             = @claim.case_type.graduated_fee_type.description
-            = gf.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
+            = grad_fee_form.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id
             = validation_error_message(@error_presenter, :fee_type)
 
           .column-one-third.condensed.js-expense-location
             %label.form-label
               = t('.ppe_total')
-            = gf.anchored_attribute 'quantity'
-            = gf.number_field :quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+            = grad_fee_form.anchored_attribute 'quantity'
+            = grad_fee_form.number_field :quantity, value: grad_fee.quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
             = validation_error_message(@error_presenter, 'graduated_fee.quantity')
 
         .grid-row
           .column-one-third
-            = gf.anchored_attribute 'date'
-            = gf.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
+            = grad_fee_form.anchored_attribute 'date'
+            = grad_fee_form.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
 
           .column-one-third.js-expense-reason
             %label.form-label
@@ -40,8 +40,8 @@
           .column-one-third.condensed.js-expense-amount.fee-total
             %label.form-label Total
 
-            = gf.anchored_attribute 'amount'
+            = grad_fee_form.anchored_attribute 'amount'
             %span.currency-indicator>< &pound;
-            = gf.number_field :amount, value: number_with_precision(gf.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
+            = grad_fee_form.number_field :amount, value: number_with_precision(grad_fee_form.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
             = validation_error_message(@error_presenter, :amount)
-            = gf.anchored_attribute 'amount'
+            = grad_fee_form.anchored_attribute 'amount'

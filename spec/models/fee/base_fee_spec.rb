@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  claim_id              :integer
 #  fee_type_id           :integer
-#  quantity              :integer
+#  quantity              :decimal(, )
 #  amount                :decimal(, )
 #  created_at            :datetime
 #  updated_at            :datetime
@@ -32,6 +32,8 @@ end
 
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
+
+    before(:each) { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
     describe 'blank quantity should be set to zero before validation' do
       it 'should replace blank quantities with zero before save' do
@@ -113,6 +115,7 @@ end
         end
       end
     end
+
 
   end
 

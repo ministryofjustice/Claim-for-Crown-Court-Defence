@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Fee::MiscFeePresenter do
 
-  let(:misc_fee) { instance_double(Fee::MiscFee, claim: double) }
+  let(:misc_fee) { instance_double(Fee::MiscFee, claim: double, quantity_is_decimal?: false, errors: {quantity: [] }) }
   let(:presenter) { Fee::MiscFeePresenter.new(misc_fee, view) }
 
   context '#rate' do

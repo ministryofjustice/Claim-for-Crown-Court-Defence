@@ -41,7 +41,7 @@ module Fee
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-    default_scope { includes(:fee_type) }
+    default_scope   { includes(:fee_type) }
 
     validates_with FeeSubModelValidator
 

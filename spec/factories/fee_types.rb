@@ -16,7 +16,7 @@
 
 FactoryGirl.define do
   factory :basic_fee_type, class: Fee::BasicFeeType do
-    sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+    sequence(:description) { |n| "AGFS, Basic fee type, basic fee -#{n}" }
     code { random_safe_code }
     calculated true
     roles ['agfs']
@@ -60,14 +60,14 @@ FactoryGirl.define do
     end
 
     factory :fixed_fee_type, class: Fee::FixedFeeType do
-      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      sequence(:description) { |n| "AGFS, Fixed fee type, Contempt - #{n}" }
       code { random_safe_code }
       calculated true
       roles ['agfs']
     end
 
     factory :graduated_fee_type, class: Fee::GraduatedFeeType do
-      sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
+      sequence(:description) { |n| "LGFS, Fixed fee, Elected case not proceeded - #{n}" }
       code 'GTRL'
       calculated false
       roles ['lgfs']

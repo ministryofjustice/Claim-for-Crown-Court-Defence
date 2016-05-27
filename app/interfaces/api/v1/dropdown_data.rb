@@ -96,13 +96,13 @@ module API
           end
         end
 
-        desc "Return all Fee Types (optional category filter)."
+        desc "Return all AGFS Fee Types (optional category filter)."
         params { use :category_filter }
         get do
           if args[:category].blank? || args[:category].downcase == 'all'
-            ::Fee::BaseFeeType.all
+            ::Fee::BaseFeeType.all.agfs_only
           else
-            ::Fee::BaseFeeType.__send__(args[:category].downcase)
+            ::Fee::BaseFeeType.__send__(args[:category].downcase).agfs_only
           end
         end
       end

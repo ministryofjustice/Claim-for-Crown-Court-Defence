@@ -99,11 +99,11 @@ describe API::V1::DropdownData do
   end
 
   context 'GET api/fee_types/[:category]' do
-
     before {
       create(:basic_fee_type, id: 1)
       create(:misc_fee_type, id: 2)
       create(:fixed_fee_type, id: 3)
+      create(:graduated_fee_type, id: 4) # LGFS fee, not applicable to AGFS
     }
 
     def get_filtered_fee_types(category=nil)
@@ -111,15 +111,14 @@ describe API::V1::DropdownData do
       get FEE_TYPE_ENDPOINT, params , format: :json
     end
 
-    it 'should filter by category' do
-      categories = ['all', 'basic', 'misc', 'fixed']
+    it 'should filter by category and scheme applicability' do
+      categories = [ 'basic', 'misc', 'fixed']
       categories.each do |category|
         response = get_filtered_fee_types(category)
         expect(response.status).to eq 200
-        expect(response.body).to eq Fee::BaseFeeType.send(category).to_json
+        expect(response.body).to eq Fee::BaseFeeType.send(category).agfs_only.to_json
       end
     end
-
   end
 
   context "expense v1" do

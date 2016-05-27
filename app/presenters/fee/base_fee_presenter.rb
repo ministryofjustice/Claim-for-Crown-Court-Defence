@@ -23,11 +23,20 @@ class Fee::BaseFeePresenter < BasePresenter
 
   def section_header(t_scope)
     header = if ['PPE', 'NPW'].include?(fee.fee_type.code.upcase)
-               t(t_scope, '_section_header') + hint_tag(t(t_scope, '_section_hint'))
+               t(t_scope, '_section_header')
              else
                fee.fee_type.description
              end
     header.html_safe
+  end
+
+  def section_hint(t_scope)
+    hint = if ['PPE', 'NPW'].include?(fee.fee_type.code.upcase)
+               t(t_scope, '_section_hint')
+             else
+               fee.fee_type.description
+             end
+    hint.html_safe
   end
 
 private

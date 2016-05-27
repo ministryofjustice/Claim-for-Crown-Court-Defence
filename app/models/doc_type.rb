@@ -19,7 +19,7 @@ class DocType
     DocType.new(7,  700,  'Hardship supporting evidence'),
     DocType.new(8,  600,  'Details of previous fee advancements'),
     DocType.new(9, 1000,  'Justification for out of time claim'),
-  ].sort{ |a, b|  a.sequence <=> b.sequence }
+  ].sort{ |a, b| a.sequence <=> b.sequence }
 
   def self.all
     DOCTYPES

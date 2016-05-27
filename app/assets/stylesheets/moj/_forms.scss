@@ -153,6 +153,12 @@ select.form-control {
       }
     }
   }
+  .dates-wrapper{
+    .column-one-third{
+    padding:0;
+    width: 33.33%;
+    }
+  }
   .expense-distance,
   .expense-hours,
   .js-expense-amount{

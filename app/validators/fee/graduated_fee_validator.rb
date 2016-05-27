@@ -3,7 +3,8 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   def self.fields
     [
       :quantity,
-      :amount
+      :amount,
+      :date
     ]
   end
 
@@ -21,4 +22,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
     validate_float_numericality(:amount, 0.01, nil, 'numericality')
   end
 
+  def validate_date
+    validate_single_attendance_date
+  end
 end

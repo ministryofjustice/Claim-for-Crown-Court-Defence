@@ -31,6 +31,17 @@ RSpec.describe Fee::BaseFeePresenter do
     end
   end
 
+  describe '#date' do
+    it 'formats as date' do
+      fee.date = Date.parse('21/05/2015')
+      expect(presenter.date).to eq '21/05/2015'
+    end
+
+    it 'returns nil if date attribute is nil' do
+      expect(presenter.date).to be_nil
+    end
+  end
+
   describe '#rate' do
     context 'calculated fees' do
       it 'rounds to 2 decimal places in string format' do

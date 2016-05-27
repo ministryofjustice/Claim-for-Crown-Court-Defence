@@ -1,5 +1,6 @@
 require 'rails_helper'
 require File.dirname(__FILE__) + '/../validation_helpers'
+require_relative 'shared_examples_for_fee_validators_spec'
 
 describe Fee::FixedFeeValidator do
 
@@ -84,8 +85,8 @@ describe Fee::FixedFeeValidator do
         expect(fee).to_not be_valid
         expect(fee.errors[:sub_type]).to include 'present'
       end
-
     end
 
+    include_examples 'common fee date validations'
   end
 end

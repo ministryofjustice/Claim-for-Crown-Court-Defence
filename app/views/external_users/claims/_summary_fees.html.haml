@@ -44,6 +44,12 @@
             = t('shared.summary.dates_attended')
           %td
             = fee.dates_attended_delimited_string
+      - if fee.date?
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.date')
+          %td
+            = fee.date
     %tfoot
       %tr
         %th

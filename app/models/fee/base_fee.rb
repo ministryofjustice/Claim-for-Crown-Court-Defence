@@ -124,9 +124,9 @@ module Fee
     end
 
     def clear
-      self.quantity = nil;
-      self.rate = nil;
-      self.amount = nil;
+      self.quantity = nil
+      self.rate = nil
+      self.amount = nil
       # explicitly destroy child relations
       self.dates_attended.destroy_all unless self.dates_attended.empty?
     end

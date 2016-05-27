@@ -5,6 +5,10 @@ class Fee::BaseFeePresenter < BasePresenter
     fee.dates_attended.order(date: :asc).map(&:to_s).join(', ')
   end
 
+  def date
+    format_date(fee.date)
+  end
+
   def rate
     if fee.calculated?
       h.number_to_currency fee.rate
@@ -18,11 +22,11 @@ class Fee::BaseFeePresenter < BasePresenter
   end
 
   def section_header(t_scope)
-    if ['PPE','NPW'].include?(fee.fee_type.code.upcase)
-      header = t(t_scope,'_section_header') + hint_tag(t(t_scope,'_section_hint'))
-    else
-      header = fee.fee_type.description
-    end
+    header = if ['PPE', 'NPW'].include?(fee.fee_type.code.upcase)
+               t(t_scope, '_section_header') + hint_tag(t(t_scope, '_section_hint'))
+             else
+               fee.fee_type.description
+             end
     header.html_safe
   end
 

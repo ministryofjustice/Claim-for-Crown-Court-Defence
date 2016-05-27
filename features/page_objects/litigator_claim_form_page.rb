@@ -15,6 +15,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   element :add_another_disbursement, "div#disbursements > a.add_fields"
 
   element :fixed_fee_total, "#claim_fixed_fee_attributes_amount"
+  section :fixed_fee_date, CommonDateSection, "div.fixed-fee-group"
 
   def select_supplier_number(number)
     select2 number, from: "claim_supplier_number"

@@ -239,38 +239,45 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         let!(:fixed_fee_type_1)         { FactoryGirl.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
         let!(:graduated_fee_type_1)     { FactoryGirl.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
-        let(:court)                     { create(:court) }
-        let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
         let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
 
         context 'graduated fee case types' do
           context 'valid params' do
-            before { post :create, claim: claim_params }
+            before do
+              post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
+            end
 
             it 'should be a redirect' do
               expect(response.status).to eq 302
               # expect(response).to redirect_to summary_external_users_claim_url(assigns(:claim))
             end
 
+            it 'should be a valid claim' do
+              expect(assigns(:claim)).to be_valid
+            end
+
             it 'should create the graduated fee' do
-              expect(assigns(:claim).graduated_fee.persisted?).to be_truthy
+              expect(assigns(:claim).graduated_fee).to be_valid
               expect(assigns(:claim).graduated_fee.amount).to eq 2000
             end
 
-            it 'should create the miscellaneoous fees' do
+            it 'should create the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
-              expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
+              expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
              it 'should update claim total to sum of graduated and miscellaneous fees' do
-              expect(assigns(:claim).reload.fees_total).to eq 2375.00
+              expect(assigns(:claim).fees_total).to eq 2375.00
             end
           end
 
           context 'invalid params' do
             render_views
-            before { post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
+
+            before do
+              post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
+            end
 
             it 'should redisplay the page' do
               expect(response.status).to eq 200
@@ -300,7 +307,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
             before do
               allow_any_instance_of(CaseType).to receive(:is_fixed_fee?).and_return(true)
-              post :create, claim: fixed_fee_claim_params
+              post :create, claim: fixed_fee_claim_params, commit_submit_claim: 'Submit to LAA'
             end
 
             it 'should be a redirect' do
@@ -308,13 +315,13 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
             end
 
             it 'should create the fixed fee' do
-              expect(assigns(:claim).fixed_fee.persisted?).to be_truthy
+              expect(assigns(:claim).fixed_fee).to be_valid
               expect(assigns(:claim).fixed_fee.amount).to eq 2500
             end
 
-            it 'should create the miscellaneoous fees' do
+            it 'should create the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
-              expect(assigns(:claim).misc_fees.pluck(:amount).sum).to eq 375
+              expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
             it 'should NOT create the graduated fee' do
@@ -464,8 +471,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "supplier_number" => supplier_number,
        "case_type_id" => case_type.id.to_s,
        "court_id" => court.id.to_s,
-       "case_number" => "CASE98989",
-       "offence_class_id" => "2",
+       "case_number" => "A12345678",
+       "offence_class_id" => offence.offence_class.id.to_s,
        "offence_id" => offence.id.to_s,
        "external_user_id" => external_user.id.to_s,
        "first_day_of_trial_dd" => '13',
@@ -476,6 +483,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "trial_concluded_at_dd" => "15",
        "trial_concluded_at_mm" => "05",
        "trial_concluded_at_yyyy" => "2015",
+       "case_concluded_at_dd" => "15",
+       "case_concluded_at_mm" => "05",
+       "case_concluded_at_yyyy" => "2015",
        "evidence_checklist_ids" => ["1", "5", ""],
        "defendants_attributes"=>
         {"0"=>
@@ -498,7 +508,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "additional_information" => "",
        "graduated_fee_attributes"=>
         {
-          "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "_destroy" => "false"
+          "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "date_dd" => "15", "date_mm" => "05", "date_yyyy" => "2015", "_destroy" => "false"
         },
         "misc_fees_attributes"=>
         {
@@ -517,7 +527,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   def fixed_fee_attributes
     HashWithIndifferentAccess.new({
         fixed_fee_attributes: {
-            fee_type_id: fixed_fee_type_1.id.to_s, amount: '2500', _destroy: 'false'
+            fee_type_id: fixed_fee_type_1.id.to_s, amount: '2500', date_dd: '15', date_mm: '05', date_yyyy: '2015', _destroy: 'false'
         }
     })
   end

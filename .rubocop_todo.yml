@@ -45,7 +45,6 @@ Lint/HandleExceptions:
 #Lint/IneffectiveAccessModifier:
 #  Exclude:
 #    - 'app/models/fee/base_fee_type.rb'
-#    - 'app/presenters/base_presenter.rb'
 
 # Offense count: 1
 Lint/NonLocalExitFromIterator:
@@ -203,11 +202,9 @@ Style/ClassVars:
 Style/ConditionalAssignment:
   Exclude:
     - 'app/controllers/case_workers/claims_controller.rb'
-    - 'app/controllers/external_users/claims_controller.rb'
     - 'app/controllers/messages_controller.rb'
     - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/concerns/number_comma_parser.rb'
-    - 'app/presenters/fee/base_fee_presenter.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -250,7 +247,6 @@ Style/EmptyLinesAroundMethodBody:
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claims/sort.rb'
     - 'app/models/claims/state_machine.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
     - 'lib/api_test_client.rb'
 
 # Offense count: 26
@@ -311,7 +307,6 @@ Style/IfInsideElse:
 # SupportedStyles: normal, rails
 Style/IndentationConsistency:
   Exclude:
-    - 'app/controllers/external_users/claims_controller.rb'
     - 'app/helpers/claims_helper.rb'
     - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/interfaces/api/v1/error_response.rb'
@@ -324,8 +319,6 @@ Style/IndentationConsistency:
 Style/IndentationWidth:
   Exclude:
     - 'app/controllers/concerns/password_helpers.rb'
-    - 'app/controllers/external_users/application_controller.rb'
-    - 'app/controllers/external_users/claims_controller.rb'
     - 'app/controllers/super_admins/external_users_controller.rb'
     - 'app/controllers/super_admins/providers_controller.rb'
     - 'app/helpers/claims_helper.rb'
@@ -334,7 +327,6 @@ Style/IndentationWidth:
     - 'app/models/fee/basic_fee_type.rb'
     - 'app/presenters/claim_history_presenter.rb'
     - 'app/validators/base_validator.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
     - 'app/validators/fee/interim_fee_validator.rb'
     - 'app/validators/fee/transfer_fee_validator.rb'
     - 'lib/api_test_client.rb'
@@ -374,8 +366,6 @@ Style/MultilineArrayBraceLayout:
 # SupportedStyles: symmetrical, new_line, same_line
 Style/MultilineHashBraceLayout:
   Exclude:
-    - 'app/controllers/external_users/application_controller.rb'
-    - 'app/controllers/external_users/claims_controller.rb'
     - 'app/models/document.rb'
     - 'app/models/message.rb'
 
@@ -444,7 +434,6 @@ Style/ParallelAssignment:
 Style/ParenthesesAroundCondition:
   Exclude:
     - 'app/services/claims/case_worker_claim_updater.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
     - 'app/validators/fee/interim_fee_validator.rb'
     - 'app/validators/representation_order_validator.rb'
 
@@ -498,10 +487,8 @@ Style/SpaceAfterComma:
     - 'app/models/claims/allocation_filters.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/presenters/error_message_translator.rb'
-    - 'app/presenters/fee/base_fee_presenter.rb'
     - 'app/validators/base_validator.rb'
     - 'app/validators/expense_v2_validator.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
     - 'app/validators/fee/transfer_fee_validator.rb'
     - 'lib/api_test_client.rb'
 
@@ -553,7 +540,6 @@ Style/SpaceAroundOperators:
     - 'app/presenters/error_presenter.rb'
     - 'app/presenters/message_presenter.rb'
     - 'app/validators/base_validator.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
     - 'lib/api_test_client.rb'
 
 # Offense count: 15
@@ -681,7 +667,6 @@ Style/TrivialAccessors:
 # Cop supports --auto-correct.
 Style/UnlessElse:
   Exclude:
-    - 'app/controllers/external_users/claims_controller.rb'
     - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/date_attended.rb'
     - 'app/presenters/claim_csv_presenter.rb'

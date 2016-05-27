@@ -4,7 +4,8 @@ class Fee::BaseFeeValidator < BaseValidator
     [
       :quantity,
       :rate,
-      :amount
+      :amount,
+      :date
     ]
   end
 
@@ -30,6 +31,10 @@ private
     validate_presence(:fee_type, 'blank')
   end
 
+  def validate_date
+    validate_absence(:date, 'present')
+  end
+
   def validate_quantity
     @actual_trial_length = trial_length
 
@@ -47,7 +52,6 @@ private
     end
 
     validate_any_quantity
-
   end
 
   def validate_baf_quantity
@@ -58,28 +62,28 @@ private
   # can only claim a maximum of 38 (or trial length after first 2 days deducted)
   def validate_daily_attendance_3_40_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'daf_qty_mismatch') if daf_trial_length_combination_invalid(3,-2,38)
+    add_error(:quantity, 'daf_qty_mismatch') if daf_trial_length_combination_invalid(3, -2, 38)
   end
 
   # cannot claim this fee if trial lasted less than 41 days
   # can only claim a maximum of 10 (or trial length after first 40 days deducted)
   def validate_daily_attendance_41_50_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'dah_qty_mismatch') if daf_trial_length_combination_invalid(41,-40,10)
+    add_error(:quantity, 'dah_qty_mismatch') if daf_trial_length_combination_invalid(41, -40, 10)
   end
 
   # cannot claim this fee if trial lasted less than 51 days
   # can only claim a maximum of trial length after first 50 days deducted
   def validate_daily_attendance_51_plus_quantity
     return if @record.quantity == 0
-    add_error(:quantity, 'daj_qty_mismatch') if daf_trial_length_combination_invalid(51,-50,nil)
+    add_error(:quantity, 'daj_qty_mismatch') if daf_trial_length_combination_invalid(51, -50, nil)
   end
 
   def validate_pcm_quantity
     if @record.claim.case_type.try(:allow_pcmh_fee_type?)
       add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
     else
-      add_error(:quantity, 'pcm_not_applicable') unless (@record.quantity == 0 || @record.quantity.blank?)
+      add_error(:quantity, 'pcm_not_applicable') unless @record.quantity == 0 || @record.quantity.blank?
     end
   end
 
@@ -125,7 +129,7 @@ private
   # if one has a value and the other doesn't then we add error to the one that does NOT have a value
   # NOTE: we have specific error messages for basic fees
   def validate_basic_fee_rate(code)
-    if @record.quantity > 0 && @record.rate <=0
+    if @record.quantity > 0 && @record.rate <= 0
       add_error(:rate, "#{code.downcase}_invalid")
     elsif @record.quantity <= 0 && @record.rate > 0
       add_error(:quantity, "#{code.downcase}_invalid")
@@ -135,12 +139,19 @@ private
   def validate_amount
     return if fee_code.nil?
 
-    add_error(:amount,"#{fee_code.downcase}_invalid") if @record.amount < 0
+    add_error(:amount, "#{fee_code.downcase}_invalid") if @record.amount < 0
     if !@record.calculated?
       if @record.quantity <= 0 && @record.amount > 0
-        add_error(:quantity,"#{fee_code.downcase}_invalid")
+        add_error(:quantity, "#{fee_code.downcase}_invalid")
       end
     end
+  end
+
+  def validate_single_attendance_date
+    validate_presence(:date, 'blank')
+    validate_not_before(@record.claim.try(:earliest_representation_order).try(:representation_order_date), :date, 'not_before_earliest_representation_order_date')
+    validate_not_before(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
+    validate_not_after(Date.today, :date, 'check_not_in_future')
   end
 
   # local helpers
@@ -168,7 +179,7 @@ private
 
   # This is required for retrial claims created prior to retrial fields being added.
   def daf_retrial_combo_ignorable
-     @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable? rescue false
+    @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable? rescue false
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524161949) do
+ActiveRecord::Schema.define(version: 20160526143740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -321,6 +321,7 @@ ActiveRecord::Schema.define(version: 20160524161949) do
     t.date     "warrant_executed_date"
     t.integer  "sub_type_id"
     t.string   "case_numbers"
+    t.date     "date"
   end
 
   add_index "fees", ["claim_id"], name: "index_fees_on_claim_id", using: :btree

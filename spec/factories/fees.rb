@@ -27,10 +27,11 @@ FactoryGirl.define do
     rate 25
 
     trait :lgfs do
-        fee_type { build :fixed_fee_type, :lgfs }
-        quantity 0
-        rate 0
-        amount 25
+      fee_type { build :fixed_fee_type, :lgfs }
+      quantity 0
+      rate 0
+      amount 25
+      date 3.days.ago
     end
   end
 
@@ -144,6 +145,7 @@ FactoryGirl.define do
     quantity 1
     amount 25
     rate 0
+    date 3.days.ago
 
     trait :guilty_plea_fee do
       fee_type { build(:graduated_fee_type, description: 'Guilty plea', code: 'GGLTY') }

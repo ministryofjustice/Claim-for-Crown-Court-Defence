@@ -1,3 +1,7 @@
+And(/^I select an interim fee type of '(.*)'$/) do |name|
+  @interim_claim_form_page.interim_fee.select_fee_type(name)
+end
+
 And(/^I enter (\d+) in the PPE total field$/) do |value|
   @interim_claim_form_page.interim_fee.ppe_total.set value
 end

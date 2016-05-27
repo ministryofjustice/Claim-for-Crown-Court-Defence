@@ -32,6 +32,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I click "Continue" in the claim form
 
     And I fill '100.25' as the fixed fee total
+    And I enter the fixed fee date
     And I add a miscellaneous fee 'Costs judge application'
     And I add a Case uplift fee with case numbers 'A12345678, A12345588'
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '30.5'

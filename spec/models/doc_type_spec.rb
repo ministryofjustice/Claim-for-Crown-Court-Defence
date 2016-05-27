@@ -33,4 +33,18 @@ describe DocType do
     end
   end
 
+  describe '.all_first_half'do
+    it 'should return the first half of doctypes' do
+      expected = DocType::DOCTYPES[0,5]
+      expect(DocType.all_first_half).to eq expected
+    end
+  end
+
+  describe '.all_second_half'do
+    it 'should return the first half of doctypes' do
+      expected = DocType::DOCTYPES[5,4]
+      expect(DocType.all_second_half).to eq expected
+    end
+  end
+
 end

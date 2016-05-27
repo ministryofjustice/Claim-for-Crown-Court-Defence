@@ -5,6 +5,10 @@ form {
     }
   }
 }
+
+.dz-error-message{
+  color: red;
+}
 //  label
 label {
   &.form-label {
@@ -117,6 +121,17 @@ select.form-control {
 }
 
 .mod-expenses,
+.mod-graduated-fees {
+  .grid-row{
+    .column-one-third.js-expense-reason,
+    .column-one-third.js-expense-amount {
+      padding-top:60px;
+    }
+  }
+}
+
+.mod-fees,
+.mod-expenses,
 .mod-graduated-fees{
   .govuk-legend{
     font-weight:normal;
@@ -183,6 +198,9 @@ select.form-control {
   }
 }
 .mod-fees{
+  .form-control.js-misc-fee-case-numbers{
+    width:100%;
+  }
   @include clearfix;
   .fee-dates-row{
     margin-top: -65px;

@@ -10,7 +10,7 @@
 
       .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
         .grid-row
-          .column-two-thirds
+          %div
             %label.form-label
               = t('.fee_type')
             = ff.anchored_attribute 'fee_type'
@@ -25,14 +25,14 @@
             = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: true }, { class: 'form-control autocomplete' }
             = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
 
-          .column-one-third.condensed.js-expense-location
+          .column-one-quarter.condensed.js-expense-location
 
         .grid-row
-          .column-two-thirds
+          .column-three-quarters
             = ff.anchored_attribute 'date'
             = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
 
-          .column-one-third.condensed.js-expense-amount.fee-total
+          .column-one-quarter.condensed.js-expense-amount.fee-total
             %label.form-label Total
 
             = ff.anchored_attribute 'amount'

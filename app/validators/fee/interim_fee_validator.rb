@@ -40,14 +40,14 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_warrant_issued_date
-    return if !@record.is_interim_warrant?
+    return unless @record.is_interim_warrant?
     validate_presence(:warrant_issued_date, 'blank')
     validate_not_before(Settings.earliest_permitted_date, :warrant_issued_date, 'check_not_too_far_in_past')
     validate_not_after(Date.today, :warrant_issued_date, 'check_not_in_future')
   end
 
   def validate_warrant_executed_date
-    return if !@record.is_interim_warrant?
+    return unless @record.is_interim_warrant?
     validate_not_before(@record.warrant_issued_date, :warrant_executed_date, 'warrant_executed_before_issued')
     validate_not_after(Date.today, :warrant_executed_date, 'check_not_in_future')
   end

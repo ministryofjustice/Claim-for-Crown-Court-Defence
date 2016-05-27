@@ -548,8 +548,6 @@ en:
           when your claim has been processed, but you can check the status of your
           claim at any time in the "Your claims" view.</p>
         will_be_processed: Your claim will be processed shortly
-      date_generic_fields:
-        date: 'Date'
       date_attended_fields:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
@@ -621,6 +619,7 @@ en:
             total: "Total"
             prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
             select_sub_type: "Please select the relevant option"
+            date: "Date"
       misc_fees:
         fields:
           add_misc_fee: 'Add another miscellaneous fee'
@@ -656,6 +655,7 @@ en:
           fee_type: "Fee type"
           ppe_total: "PPE total"
           total: "Total"
+          date: "Date"
       index:
         claims: Claims
         completed: Completed

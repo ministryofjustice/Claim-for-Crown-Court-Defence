@@ -79,12 +79,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def unarchive
-    unless @claim.archived_pending_delete?
-      redirect_to external_users_claim_url(@claim), alert: 'This claim cannot be unarchived'
-    else
+    if @claim.archived_pending_delete?
       @claim = @claim.previous_version
       @claim.save!
       redirect_to external_users_claims_url, notice: 'Claim unarchived'
+    else
+      redirect_to external_users_claim_url(@claim), alert: 'This claim cannot be unarchived'
     end
   end
 
@@ -134,11 +134,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def load_offences_and_case_types
     @offence_descriptions = Offence.unique_name.order(description: :asc)
-    if @claim.offence
-      @offences = Offence.includes(:offence_class).where(description: @claim.offence.description)
-    else
-      @offences = Offence.includes(:offence_class)
-    end
+    @offences = if @claim.offence
+                  Offence.includes(:offence_class).where(description: @claim.offence.description)
+                else
+                  Offence.includes(:offence_class)
+                end
     @case_types = @claim.eligible_case_types
   end
 
@@ -169,8 +169,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def set_sort_defaults(defaults={})
     @sort_defaults = {  column:     defaults.fetch(:column, 'last_submitted_at'),
                         direction:  defaults.fetch(:direction, 'asc'),
-                        pagination: defaults.fetch(:pagination, page_size)
-                      }
+                        pagination: defaults.fetch(:pagination, page_size)}
   end
 
   def sort_column
@@ -272,7 +271,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :fee_type_id,
         :quantity,
         :amount,
-        common_dates_attended_attributes
+        date_attributes_for(:date)
       ],
       interim_fee_attributes: [
           :id,

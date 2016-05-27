@@ -18,30 +18,32 @@ private
   end
 
   def common_dates_attended_attributes
-    { dates_attended_attributes: [
-          :id,
-          :fee_id,
-          date_attributes_for(:date),
-          date_attributes_for(:date_to),
-          :_destroy
-        ]
+    {
+      dates_attended_attributes: [
+        :id,
+        :fee_id,
+        date_attributes_for(:date),
+        date_attributes_for(:date_to),
+        :_destroy
+      ]
     }
   end
 
   def common_fees_attributes
-     [
-       :id,
-       :claim_id,
-       :fee_type_id,
-       :sub_type_id,
-       :fee_id,
-       :quantity,
-       :rate,
-       :amount,
-       :case_numbers,
-       :_destroy,
-       common_dates_attended_attributes
-      ]
+    [
+      :id,
+      :claim_id,
+      :fee_type_id,
+      :sub_type_id,
+      :fee_id,
+      :quantity,
+      :rate,
+      :amount,
+      :case_numbers,
+      :_destroy,
+      date_attributes_for(:date),
+      common_dates_attended_attributes
+    ]
   end
 
 end

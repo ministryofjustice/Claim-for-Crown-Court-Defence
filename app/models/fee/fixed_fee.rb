@@ -22,6 +22,8 @@ class Fee::FixedFee < Fee::BaseFee
 
   belongs_to :fee_type, class_name: Fee::FixedFeeType
 
+  acts_as_gov_uk_date :date
+
   validates_with Fee::FixedFeeValidator
 
   def is_fixed?

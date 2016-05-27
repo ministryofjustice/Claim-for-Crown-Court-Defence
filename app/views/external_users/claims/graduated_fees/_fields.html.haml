@@ -28,9 +28,8 @@
 
         .grid-row
           .column-one-third
-            - gf.object.dates_attended << DateAttended.new unless gf.object.dates_attended.any?
-            = gf.fields_for :dates_attended do |date_attended|
-              = render 'date_generic_fields', f: date_attended, field_id: 'graduated_fee.date_attended_1_date'
+            = gf.anchored_attribute 'date'
+            = gf.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
 
           .column-one-third.js-expense-reason
             %label.form-label

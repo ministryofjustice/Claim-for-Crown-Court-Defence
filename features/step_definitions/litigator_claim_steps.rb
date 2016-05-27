@@ -46,6 +46,6 @@ And(/^I add (?:a|another) disbursement '(.*)' with net amount '(.*)' and vat amo
   @litigator_claim_form_page.disbursements.last.vat_amount.set vat_amount
 end
 
-And(/^I select an interim fee type of '(.*)'$/) do |name|
-  @interim_claim_form_page.interim_fee.select_fee_type(name)
+And(/^I enter the fixed fee date$/) do
+  @litigator_claim_form_page.fixed_fee_date.set_date "2016-01-01"
 end

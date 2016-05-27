@@ -5,7 +5,8 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
       :quantity,
       :rate,
       :amount,
-      :sub_type
+      :sub_type,
+      :date
     ]
   end
 
@@ -25,6 +26,10 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
     else
       validate_float_numericality(:amount, 0.01, 'invalid')
     end
+  end
+
+  def validate_date
+    run_base_fee_validators? ? super : validate_single_attendance_date
   end
 
   def validate_sub_type

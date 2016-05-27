@@ -897,6 +897,28 @@ fixed_fee:
       short: *enter_valid_amount
       api: Enter a valid amount for the fixed fee
 
+  date:
+    _seq: 60
+    blank:
+      long: Enter the fixed fee date
+      short: *enter_date
+      api: Enter the fixed fee date
+    invalid_date:
+      long: Enter a valid fixed fee date
+      short: *enter_valid_date
+      api: Enter a valid fixed fee date
+    check_not_in_future:
+      long: Check the fixed fee date
+      short: *in_future
+      api: Check the fixed fee date
+    check_not_too_far_in_past:
+      long: Check the fixed fee date
+      short: *too_far_in_past
+      api: Check the fixed fee date
+    not_before_earliest_representation_order_date:
+      long: The fixed fee date must be after the earliest representation order date
+      short: *enter_valid_date
+      api: The fixed fee date must be after the earliest representation order date
 
 #################################################################################
 #                                                                               #
@@ -1255,6 +1277,29 @@ graduated_fee:
       long: Enter a valid amount for the graduated fee
       short: *enter_valid_amount
       api: Enter a valid amount for the graduated fee
+
+  date:
+    _seq: 30
+    blank:
+      long: Enter the graduated fee date
+      short: *enter_date
+      api: Enter the graduated fee date
+    invalid_date:
+      long: Enter a valid graduated fee date
+      short: *enter_valid_date
+      api: Enter a valid graduated fee date
+    check_not_in_future:
+      long: Check the graduated fee date
+      short: *in_future
+      api: Check the graduated fee date
+    check_not_too_far_in_past:
+      long: Check the graduated fee date
+      short: *too_far_in_past
+      api: Check the graduated fee date
+    not_before_earliest_representation_order_date:
+      long: The fixed fee date must be after the earliest representation order date
+      short: *enter_valid_date
+      api: The fixed fee date must be after the earliest representation order date
 
 #################################################################################
 #                                                                               #

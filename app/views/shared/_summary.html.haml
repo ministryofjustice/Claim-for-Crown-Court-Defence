@@ -37,6 +37,10 @@
                   %br
                   = t('.dates_attended')
                   = fee.dates_attended_delimited_string
+                - if fee.date?
+                  %br
+                  = t('.date')
+                  = fee.date
               %td
                 = fee.fee_type.description
               %td.numeric

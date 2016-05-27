@@ -1,16 +1,18 @@
+= render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.prohibited_save')}
+
 = render partial: 'layouts/header', locals: {page_heading: 'Change your password'}
 
 = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = f.error_notification
-
   %div.form-group
-  = f.input :reset_password_token, as: :hidden
+  = f.hidden_field :reset_password_token
   = f.full_error :reset_password_token
 
   .form-group
+    %a{name: 'password'}
     = f.label :password, 'New password', class: 'form-label'
     = f.input_field :password, autofocus: true, class: 'form-control'
   .form-group
+    %a{name: 'password_confirmation'}
     = f.label :password_confirmation, 'Confirm your password', class: 'form-label'
     = f.input_field :password_confirmation, class: 'form-control'
 

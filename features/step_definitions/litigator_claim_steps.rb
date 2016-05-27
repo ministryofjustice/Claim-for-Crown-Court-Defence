@@ -10,6 +10,7 @@ end
 
 Then(/^I should be on the litigator new interim claim page$/) do
   expect(@interim_claim_form_page).to be_displayed
+  @interim_claim_form_page.wait_until_continue_button_visible
 end
 
 When(/^I select the supplier number '(.*)'$/) do |number|

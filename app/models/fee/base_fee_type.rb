@@ -40,15 +40,6 @@ module Fee
 
     after_initialize :ensure_not_abstract_class
 
-    scope :agfs_only, -> { matching_role_query(['agfs']) }
-    scope :lgfs_only, -> { matching_role_query(['lgfs']) }
-    scope :agfs_and_lgfs_only, -> { matching_role_query(['agfs','lgfs'],'AND') }
-
-    def self.matching_role_query(roles, condition = 'AND')
-      clause = roles.map { |role| "(roles ILIKE '%#{role}%')" }.join(" #{condition} ")
-      where clause
-    end
-
     def ensure_not_abstract_class
       raise FeeBaseFeeTypeAbstractClassError if self.class == BaseFeeType
     end

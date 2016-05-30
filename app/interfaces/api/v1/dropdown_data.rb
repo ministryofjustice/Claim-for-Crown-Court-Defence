@@ -100,32 +100,18 @@ module API
         params { use :category_filter }
         get do
           if args[:category].blank? || args[:category].downcase == 'all'
-            ::Fee::BaseFeeType.all.agfs_only
+            ::Fee::BaseFeeType.agfs
           else
-            ::Fee::BaseFeeType.__send__(args[:category].downcase).agfs_only
+            ::Fee::BaseFeeType.__send__(args[:category].downcase).agfs
           end
         end
       end
 
       resource :expense_types do
-        helpers do
-          def reasons_to_array(reason_set)
-            reasons = if reason_set == "A"
-                        ExpenseType::REASON_SET_A
-                      else
-                        ExpenseType::REASON_SET_B
-                      end
-
-            reasons.map { |i, reason| reason.instance_values }
-          end
-        end
-
         desc "Return all Expense Types."
         params { use :api_key_params }
         get do
-          ::ExpenseType.all.map do |et|
-            et.attributes.merge!(reasons: reasons_to_array(et.reason_set))
-          end
+          ::ExpenseType.agfs.all_with_reasons
         end
       end
 

@@ -37,37 +37,40 @@ describe API::V1::DropdownData do
 
   context 'each dropdown data endpoint' do
 
-    before {
+    let(:results) {
+                      {
+                        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
+                        COURT_ENDPOINT => Court.all.to_json,
+                        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
+                        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
+                        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
+                        OFFENCE_ENDPOINT => Offence.all.to_json,
+                        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
+                        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json
+                      }
+                    }
+
+    before do
       create_list(:case_type, 2)
       create_list(:court, 2)
       create_list(:offence_class, 2)
       create_list(:offence, 2)
-      create_list(:misc_fee_type, 2)
+      create_list(:basic_fee_type, 2)
       create_list(:expense_type, 2)
+    end
 
-      @endpoints_and_expectations = {
-        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
-        COURT_ENDPOINT => Court.all.to_json,
-        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
-        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
-        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
-        OFFENCE_ENDPOINT => Offence.all.to_json,
-        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json
-        # EXPENSE_TYPE_ENDPOINT => ExpenseType.all.to_json
-      }
-    }
-
-    it 'should return a JSON formatted list of the required information' do
-      @endpoints_and_expectations.each do |endpoint, expectation|
+    it "should return a JSON formatted list of the required information" do
+      results.each do |endpoint, json|
+        # ap "#{endpoint}"
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).count).to be > 0
-        expect(JSON.parse(response.body)).to match_array JSON.parse(expectation)
+        expect(JSON.parse(response.body)).to match_array JSON.parse(json)
       end
     end
 
     it 'should require an API key' do
-      @endpoints_and_expectations.each do |endpoint, expectation|
+      results.each do |endpoint, expectation|
         params.delete(:api_key)
         get endpoint, params, format: :json
         expect(last_response.status).to eq 401
@@ -116,38 +119,40 @@ describe API::V1::DropdownData do
       categories.each do |category|
         response = get_filtered_fee_types(category)
         expect(response.status).to eq 200
-        expect(response.body).to eq Fee::BaseFeeType.send(category).agfs_only.to_json
+        expect(response.body).to eq Fee::BaseFeeType.send(category).agfs.to_json
       end
     end
   end
 
-  context "expense v1" do
-    let(:expectation) { ExpenseType.all.to_json }
+  # TODO: remove or refactor endpoint and spec, not too mention claims,
+  #       to handle v1 potential returns as well!!
+  # context "expense v1" do
+  #   let(:expectation) { ExpenseType.all.to_json }
 
-    before(:each) do
-      allow(Settings).to receive(:expense_schema_version).and_return(1)
-      create_list(:expense_type, 2)
-    end
+  #   before(:each) do
+  #     allow(Settings).to receive(:expense_schema_version).and_return(1)
+  #     create_list(:expense_type, 2)
+  #   end
 
-    xit 'should return a JSON formatted list of the required information' do
-      get EXPENSE_TYPE_ENDPOINT, params, format: :json
-      expect(last_response.status).to eq 200
-      expect(JSON.parse(last_response.body).count).to be > 0
-      expect(JSON.parse(last_response.body)).to match_array JSON.parse(expectation)
-    end
+  #   xit 'should return a JSON formatted list of the required information' do
+  #     get EXPENSE_TYPE_ENDPOINT, params, format: :json
+  #     expect(last_response.status).to eq 200
+  #     expect(JSON.parse(last_response.body).count).to be > 0
+  #     expect(JSON.parse(last_response.body)).to match_array JSON.parse(expectation)
+  #   end
 
-    it 'should require an API key' do
-      params.delete(:api_key)
-      get EXPENSE_TYPE_ENDPOINT, params, format: :json
-      expect(last_response.status).to eq 401
-      expect(last_response.body).to include('Unauthorised')
-    end
-
-  end
+  #   it 'should require an API key' do
+  #     params.delete(:api_key)
+  #     get EXPENSE_TYPE_ENDPOINT, params, format: :json
+  #     expect(last_response.status).to eq 401
+  #     expect(last_response.body).to include('Unauthorised')
+  #   end
+  # end
 
   context "expense v2" do
     before do
       create_list(:expense_type, 2)
+      create(:expense_type,:lgfs)
       get EXPENSE_TYPE_ENDPOINT, params, format: :json
     end
 
@@ -163,9 +168,9 @@ describe API::V1::DropdownData do
         expect(last_response.status).to eq 200
       end
 
-      it "has 2 records" do
+      it "should only include AGFS expense types" do
         get EXPENSE_TYPE_ENDPOINT, params, format: :json
-        expect(parsed_body.count).to be == 2
+        expect(parsed_body.count).to eql 2
       end
 
       it "has all the expected keys" do

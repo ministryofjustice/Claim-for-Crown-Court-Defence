@@ -65,10 +65,16 @@ RSpec.describe Fee::BaseFeePresenter do
       end
     end
     context 'PPE and NPW fees' do
-      it 'outputs header and hint' do
-        allow(I18n).to receive(:t).and_return('header_and_hint_text')
+      it 'outputs header' do
+        allow(I18n).to receive(:t).and_return('header_text')
         fee.fee_type.code = 'PPE'
-        expect(presenter.section_header('scope.for.translation')).to eq "header_and_hint_text<div class=\"form-hint\">header_and_hint_text</div>"
+        expect(presenter.section_header('scope.for.translation')).to eq "header_text"
+      end
+
+      it 'outputs hint' do
+        allow(I18n).to receive(:t).and_return('hint_text')
+        fee.fee_type.code = 'PPE'
+        expect(presenter.section_hint('scope.for.translation')).to eq "hint_text"
       end
     end
   end

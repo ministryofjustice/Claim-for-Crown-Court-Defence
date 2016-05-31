@@ -15,3 +15,7 @@ end
 class ActionController::Parameters
   include ParametersExtension
 end
+
+module Devise::Models::Lockable
+  include DeviseExtension
+end

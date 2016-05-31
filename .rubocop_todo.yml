@@ -651,7 +651,6 @@ Style/TrailingWhitespace:
     - 'app/models/concerns/duplicable.rb'
     - 'app/models/timed_transitions/batch_transitioner.rb'
     - 'app/models/timed_transitions/transitioner.rb'
-    - 'app/models/user.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.

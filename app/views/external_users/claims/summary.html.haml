@@ -3,7 +3,8 @@
 - present(@claim) do |claim|
   .grid-row.grid-sidebar
     .column-two-thirds.first
-      = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
+      .summary-wrapper
+        = render partial: 'external_users/claims/summary_claims_content', locals: { claim: claim }
 
     .column-one-third.new-claim-sidebar.first
       = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim, display_buttons: true }

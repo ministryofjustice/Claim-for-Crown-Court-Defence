@@ -191,11 +191,16 @@ describe API::V1::ExternalUsers::Claim do
         end
       end
 
-      context "invalid advocate email input" do
+      context "invalid email input" do
         it "should return 400 and a JSON error array when advocate email is invalid" do
           valid_params[:advocate_email] = "non_existent_advocate@bigblackhole.com"
           post_to_create_endpoint
           expect_error_response("Advocate email is invalid")
+        end
+         it "should return 400 and a JSON error array when creator email is invalid" do
+          valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
+          post_to_create_endpoint
+          expect_error_response("Creator email is invalid")
         end
       end
 

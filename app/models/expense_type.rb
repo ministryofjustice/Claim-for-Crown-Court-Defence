@@ -14,7 +14,6 @@ class ExpenseType < ActiveRecord::Base
   ROLES = %w( agfs lgfs )
   include Roles
 
-
   REASON_SET_A = {
     1 => ExpenseReason.new(1, 'Court hearing', false),
     2 => ExpenseReason.new(2, 'Pre-trial conference expert witnesses', false),
@@ -71,4 +70,19 @@ class ExpenseType < ActiveRecord::Base
   def self.for_claim_type(claim)
     claim.lgfs? ? self.lgfs : self.agfs
   end
+
+  # Used by API lookup/dropdown data endpoints
+  def self.all_with_reasons
+    ExpenseType.all.map do |et|
+      et.attributes.merge!(reasons: reasons_to_array(et.reason_set))
+    end
+  end
+
+private
+
+  def self.reasons_to_array(reason_set)
+    reasons = reason_set == "A" ? ExpenseType::REASON_SET_A : ExpenseType::REASON_SET_B
+    reasons.map { |i, reason| reason.instance_values }
+  end
+
 end

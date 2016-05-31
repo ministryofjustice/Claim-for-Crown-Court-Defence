@@ -16,7 +16,7 @@ require Rails.root.join('db','seed_helper')
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test chamber',
   supplier_number: nil,
-  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'chamber',
   vat_registered: true,
   roles: ['agfs']
@@ -55,7 +55,7 @@ end
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm A',
   supplier_number: '1A222Z',
-  api_key: ENV['TEST_CHAMBER_API_KEY'],
+  # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: true,
   roles: ['lgfs']
@@ -98,7 +98,7 @@ end
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm B',
   supplier_number: '22BBB',
-  api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+  # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: false,
   roles: ['agfs','lgfs']
@@ -155,7 +155,7 @@ end
 # provider = SeedHelper.find_or_create_provider!(
 #   name: 'Test firm C',
 #   supplier_number: 'C1234567',
-#   api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+#   api_key: ENV['TEST_CHAMBER_API_KEY'],
 #   provider_type: 'firm',
 #   vat_registered: false,
 #   roles: ['agfs']
@@ -194,7 +194,7 @@ end
 # -------------------------------------------------------
 # provider = SeedHelper.find_or_create_provider!(
 #   name: 'Test chamber',
-#   api_key_env_var: ENV['TEST_CHAMBER_API_KEY'],
+#   api_key: ENV['TEST_CHAMBER_API_KEY'],
 #   provider_type: 'chamber',
 #   vat_registered: true,
 #   roles: ['agfs', 'lgfs']

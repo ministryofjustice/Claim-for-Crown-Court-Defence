@@ -17,14 +17,9 @@
 
       = render partial: 'external_users/claims/fees_shared_header'
 
-      // one or the other based on claim type
-      // graduated fees / basic
       = render partial: 'external_users/claims/basic_fees/fields', locals: { f: f }
 
-      // fixed fees
       = render partial: 'external_users/claims/fixed_fees/fields', locals: { f: f }
-
-      
 
       = render partial: 'external_users/claims/misc_fees/fields', locals: { f: f }
 

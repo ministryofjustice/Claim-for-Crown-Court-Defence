@@ -22,27 +22,21 @@ class Fee::BaseFeePresenter < BasePresenter
   end
 
   def section_header(t_scope)
-    header = if ['PPE', 'NPW'].include?(fee.fee_type.code.upcase)
-               t(t_scope, '_section_header')
-             else
-               fee.fee_type.description
-             end
-    header.html_safe
+    uncalculated_fee_type_code? ? t(t_scope, '_section_header') : fee.fee_type.description
   end
 
   def section_hint(t_scope)
-    hint = if ['PPE', 'NPW'].include?(fee.fee_type.code.upcase)
-               t(t_scope, '_section_hint')
-             else
-               fee.fee_type.description
-             end
-    hint.html_safe
+    uncalculated_fee_type_code? ? t(t_scope, '_section_hint') : ''
   end
 
 private
 
   def t(scope, suffix=nil)
     I18n.t("#{scope}.#{fee.fee_type.code.downcase}#{suffix}")
+  end
+
+  def uncalculated_fee_type_code?
+    %w(PPE NPW).include?(fee.fee_type.code.upcase)
   end
 
   def hint_tag(text)

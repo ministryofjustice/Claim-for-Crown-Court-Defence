@@ -2,16 +2,13 @@
   %p
     There are no disbursements for this claim
 - else
-  %table
+  %table{class:'table-summary'}
     %caption
       %span.table-caption.visuallyhidden
         = t('common.disbursements')
     %colgroup
-      %col
-      %col
-      %col
-      %col
-      %col
+      %col.summary-headings
+      %col.summary-desc
     %tbody
       - present_collection(claim.disbursements).each do |disbursement|
         %tr

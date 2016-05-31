@@ -24,10 +24,32 @@ body {
 }
 
 .grid-sidebar{
-	.column-two-thirds.first{
-		width: 74%;
-	}
-	.column-one-third.first{
-		width: 26%;
-	}
+  .column-two-thirds.first{
+    width: 74%;
+  }
+  .column-one-third.first{
+    width: 26%;
+  }
+}
+
+.summary-wrapper{
+  h2{
+    font-weight:700;
+    margin-top: $gutter;
+  }
+  .evidence-checklist-read-only{
+    margin: $gutter 0;
+  }
+  .table-summary{
+    width: 98%;
+    td{
+      vertical-align: top;
+    }
+    .summary-headings{
+      width: 35%
+    }
+    .summary-desc{
+
+    }
+  }
 }

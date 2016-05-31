@@ -2,16 +2,13 @@
   %p
     There are no expenses for this claim
 - else
-  %table
+  %table{class:'table-summary'}
     %caption
       %span.table-caption.visuallyhidden
         = t('common.expenses')
     %colgroup
-      %col
-      %col
-      %col
-      %col
-      %col
+      %col.summary-headings
+      %col.summary-desc
     %tbody
       - present_collection(claim.expenses).each do |expense|
         - if expense.date.present?

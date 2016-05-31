@@ -1,10 +1,10 @@
-%table
+%table{class:'table-summary'}
   %caption
     %span.table-caption.visuallyhidden
       = t('shared.evidence_list.existing_evidence')
   %colgroup
-    %col
-    %col
+    %col.summary-headings
+    %col.summary-desc
   %tbody
     - claim.documents.each do |document|
       %tr

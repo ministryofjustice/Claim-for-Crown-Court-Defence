@@ -1,10 +1,10 @@
-%table
+%table{class:'table-summary'}
   %caption
     %span.table-caption.visuallyhidden
       = 'Defendants'
   %colgroup
-    %col
-    %col
+    %col.summary-headings
+    %col.summary-desc
   %tbody
     - claim.defendants.each_with_index do | defendant, index|
       %tr

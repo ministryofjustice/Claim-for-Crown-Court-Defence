@@ -3,13 +3,13 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 - retrial_detail_translations = 'external_users.claims.case_details.retrial_detail_fields'
 
-%table
+%table{class:'table-summary'}
   %caption
     %span.table-caption.visuallyhidden
       = "Case details"
   %colgroup
-    %col
-    %col
+    %col.summary-headings
+    %col.summary-desc
   %tbody
     %tr
       - if claim.agfs?

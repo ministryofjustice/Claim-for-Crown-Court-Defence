@@ -8,7 +8,7 @@ table {
   background-color: #fff;
   border-collapse: collapse;
   // border-bottom: 1px solid $border-colour;
-  border-top: 1px solid $border-colour;
+  border-top: 2px solid $border-colour;
   caption {
     @include core-19;
     font-weight:700;
@@ -20,7 +20,7 @@ table {
     th,
     td {
       &:first-child{
-        padding-left:$gutter-half/3;
+        padding-left:$gutter-half;
       }
       &:last-child{
         padding-right:$gutter-half/3;

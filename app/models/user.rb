@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   delegate :claims_created, to: :persona
   delegate :roles, to: :persona
   delegate :provider, to: :persona
-  
+
   scope :external_users, -> { where(persona_type: 'ExternalUser') }
 
   def name
@@ -61,6 +61,13 @@ class User < ActiveRecord::Base
 
   def sortable_name
     [last_name, first_name] * ' '
+  end
+
+  # So we are able to return useful error messages to the user related to the locking of the account,
+  # without having to disable Devise paranoid mode globally (security issues).
+  #
+  def unauthenticated_message
+    override_paranoid_setting(false) { super }
   end
 
   private

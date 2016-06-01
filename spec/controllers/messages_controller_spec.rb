@@ -83,8 +83,9 @@ RSpec.describe MessagesController, type: :controller do
     context 'when message does not have attachment' do
       subject { create(:message) }
 
-      it 'raises exception' do
-        expect{ get :download_attachment, id: subject.id }.to raise_exception('No attachment present on this message')
+      it 'redirects to 500 page' do
+        get :download_attachment, id: subject.id
+        expect(response).to redirect_to(error_500_path)
       end
     end
   end

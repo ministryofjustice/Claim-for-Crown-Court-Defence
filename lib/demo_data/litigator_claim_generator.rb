@@ -27,7 +27,7 @@ module DemoData
     # To simplify this generator we avoid this fee type
     #
     def misc_fee_types
-      Fee::MiscFeeType.lgfs.reject!{ |ft| ft.case_uplift? }
+      Fee::MiscFeeType.lgfs.to_a.reject!{ |ft| ft.case_uplift? }
     end
 
     def add_fees_expenses_and_disbursements(claim)

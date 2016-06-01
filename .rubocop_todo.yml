@@ -31,7 +31,6 @@
 # Offense count: 3
 Lint/Eval:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/controllers/concerns/password_helpers.rb'
     - 'app/controllers/messages_controller.rb'
 
@@ -72,7 +71,6 @@ Lint/StringConversionInInterpolation:
 # Configuration parameters: AllowUnusedKeywordArguments.
 Lint/UnusedBlockArgument:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/interfaces/api/v1/dropdown_data.rb'
     - 'app/models/claims/cloner.rb'
@@ -86,7 +84,6 @@ Lint/UnusedBlockArgument:
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
 Lint/UnusedMethodArgument:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/form_builders/adp_form_builder.rb'
     - 'app/jobs/managemen_information_generation_job.rb'
     - 'app/presenters/error_message_translator.rb'
@@ -524,7 +521,6 @@ Style/SpaceAroundEqualsInParameterDefault:
 # Configuration parameters: AllowForAlignment.
 Style/SpaceAroundOperators:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/controllers/external_users/registrations_controller.rb'
     - 'app/controllers/heartbeat_controller.rb'
     - 'app/controllers/super_admins/external_users_controller.rb'

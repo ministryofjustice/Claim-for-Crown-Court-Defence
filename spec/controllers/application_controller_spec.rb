@@ -1,20 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationController, type: :controller do
-  describe '#after_sign_in_path_for' do
-    let(:super_admin) { create(:super_admin) }
-    let(:advocate) { create(:external_user, :advocate) }
-    let(:advocate_admin) { create(:external_user, :admin) }
-    let(:case_worker) { create(:case_worker) }
-    let(:case_worker_admin) { create(:case_worker, :admin) }
+  let(:super_admin) { create(:super_admin) }
+  let(:advocate) { create(:external_user, :advocate) }
+  let(:advocate_admin) { create(:external_user, :admin) }
+  let(:case_worker) { create(:case_worker) }
+  let(:case_worker_admin) { create(:case_worker, :admin) }
 
+  describe '#after_sign_in_path_for' do
     context 'given a super admin' do
       before { sign_in super_admin.user }
 
       it 'returns super admins root url' do
         expect(subject.after_sign_in_path_for(super_admin.user)).to eq(super_admins_root_url)
       end
-
     end
 
     context 'given an advocate' do
@@ -59,12 +58,6 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe '#after_sign_out_path_for' do
-    let(:super_admin) { create(:super_admin) }
-    let(:advocate) { create(:external_user, :advocate) }
-    let(:advocate_admin) { create(:external_user, :admin) }
-    let(:case_worker) { create(:case_worker) }
-    let(:case_worker_admin) { create(:case_worker, :admin) }
-
     before do
       sign_in user
       sign_out user
@@ -107,6 +100,40 @@ RSpec.describe ApplicationController, type: :controller do
 
       it 'returns case workers root url ' do
         expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
+      end
+    end
+  end
+
+  context 'Exceptions handling' do
+    controller do
+      skip_load_and_authorize_resource
+      def record_not_found; raise ActiveRecord::RecordNotFound; end
+      def another_exception; raise Exception; end
+    end
+
+    before do
+      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+    end
+
+    context 'ActiveRecord::RecordNotFound' do
+      it 'should not report the exception, and redirect to the 404 error page' do
+        routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
+
+        expect(Raven).not_to receive(:capture_exception)
+
+        get :record_not_found
+        expect(response).to redirect_to(error_404_url)
+      end
+    end
+
+    context 'Other exceptions' do
+      it 'should report the exception, and redirect to the 500 error page' do
+        routes.draw { get 'another_exception' => 'anonymous#another_exception' }
+
+        expect(Raven).to receive(:capture_exception)
+
+        get :another_exception
+        expect(response).to redirect_to(error_500_url)
       end
     end
   end

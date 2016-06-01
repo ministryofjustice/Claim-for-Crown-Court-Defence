@@ -40,7 +40,7 @@ RSpec.describe Fee::BaseFeePresenter do
       context 'valid' do
         it 'returns an integer quantity' do
           allow(fee).to receive(:valid?).and_return(true)
-          _fee_quantity = 4.0
+          fee.quantity = 4.0
           expect(presenter.quantity).to eq '4'
         end
       end

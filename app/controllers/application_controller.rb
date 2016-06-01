@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     end
 
     rescue_from Exception do |exception|
-      Raven.capture_exception(exception)
+      Raven.capture_exception(exception) if Rails.env.production?
       redirect_to error_500_url
     end
   end

@@ -15,18 +15,14 @@ class ApplicationController < ActionController::Base
     end
 
     rescue_from Exception do |exception|
-      if exception.is_a?(RuntimeError)
-        raise exception
-      else
-        Raven.capture_exception(exception)
-        redirect_to error_500_url
-      end
+      Raven.capture_exception(exception)
+      redirect_to error_500_url
     end
   end
 
 
   def dummy_exception
-    Raise ArgumentError.new('Boom!')
+    Raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_excpetion' endpoint.")
   end
 
 

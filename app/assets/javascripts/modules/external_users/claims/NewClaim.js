@@ -104,7 +104,6 @@ moj.Modules.NewClaim = {
         .add(self.$vat_amount)
         .add(self.$distance)
         .add(self.$mileage)
-        .add(self.$mileage)
         .add(self.$hours)
         .add(self.$reason)
         .add(self.$reasonText)
@@ -141,6 +140,9 @@ moj.Modules.NewClaim = {
 
     self.$currentExpense.find('.js-expense-amount').toggleClass('first-col', !self.dataAttribute.hours);
 
+    // Clear unused fields to avoid submitting them and causing validation errors server-side
+    self.clearUnusedFields(self.$currentExpense);
+
     self.$ariaLiveRegion.children().hide().end().append('<div>Great this works</div>');
   },
 
@@ -150,6 +152,11 @@ moj.Modules.NewClaim = {
     self.$expenses.on('change', '.js-expense-reason select', function(){
       self.showHideExpenseReasonsText(this);
     });
+  },
+
+  clearUnusedFields: function(expenseGroup) {
+    expenseGroup.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
+    expenseGroup.find('input:hidden[type="radio"]').prop("checked", false);
   },
 
   buildReasonSelectOptions : function(expenseType) {

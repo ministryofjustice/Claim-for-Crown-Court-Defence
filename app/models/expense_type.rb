@@ -78,11 +78,11 @@ class ExpenseType < ActiveRecord::Base
     end
   end
 
-private
-
   def self.reasons_to_array(reason_set)
     reasons = reason_set == "A" ? ExpenseType::REASON_SET_A : ExpenseType::REASON_SET_B
-    reasons.map { |i, reason| reason.instance_values }
+    reasons.map { |_i, reason| reason.instance_values }
   end
+
+  private_class_method :reasons_to_array
 
 end

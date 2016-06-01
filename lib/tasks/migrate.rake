@@ -72,6 +72,7 @@
       %w{ SPF WPF RNF CAV WOA }.each do |code|
         recs = Fee::BaseFeeType.where(code: code)
         recs.each { |rec| rec.update(quantity_is_decimal: true) }
+        puts "Quantity is decimal set to TRUE for fee types #{code}"
       end
     end
 

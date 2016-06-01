@@ -26,10 +26,10 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I click the claim 'A12345678'
     And I edit this claim
 
-    And I select the offence class 'E: Burglary'
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
+    And I select the offence class 'E: Burglary'
 
     And I click "Continue" in the claim form
 

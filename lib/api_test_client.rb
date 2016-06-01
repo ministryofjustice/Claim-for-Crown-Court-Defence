@@ -268,7 +268,6 @@ private
       "claim_id": claim_uuid,
       "fee_type_id": fee_type_id,
       "quantity": 1,
-      "rate": 2.1,
     }
   end
 

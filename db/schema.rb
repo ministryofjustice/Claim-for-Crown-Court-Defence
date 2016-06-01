@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526143740) do
+ActiveRecord::Schema.define(version: 20160527102644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -298,10 +298,11 @@ ActiveRecord::Schema.define(version: 20160526143740) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "max_amount"
-    t.boolean  "calculated",  default: true
+    t.boolean  "calculated",          default: true
     t.string   "type"
     t.string   "roles"
     t.integer  "parent_id"
+    t.boolean  "quantity_is_decimal", default: false
   end
 
   add_index "fee_types", ["code"], name: "index_fee_types_on_code", using: :btree
@@ -310,7 +311,7 @@ ActiveRecord::Schema.define(version: 20160526143740) do
   create_table "fees", force: :cascade do |t|
     t.integer  "claim_id"
     t.integer  "fee_type_id"
-    t.integer  "quantity"
+    t.decimal  "quantity"
     t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"

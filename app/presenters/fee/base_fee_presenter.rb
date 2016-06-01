@@ -29,6 +29,17 @@ class Fee::BaseFeePresenter < BasePresenter
     uncalculated_fee_type_code? ? t(t_scope, '_section_hint') : ''
   end
 
+  def quantity
+    # if the error is that the user has typed a decimal when it should be an integer,
+    # we want to preserve the decimal value and display on the error page
+    #
+    if fee.quantity_is_decimal? || fee.errors[:quantity].include?('integer')
+      h.number_with_precision(fee.quantity, precision: 2)
+    else
+      h.number_with_precision(fee.quantity, precision: 0)
+    end
+  end
+
 private
 
   def t(scope, suffix=nil)

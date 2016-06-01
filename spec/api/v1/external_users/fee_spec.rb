@@ -137,7 +137,7 @@ describe API::V1::ExternalUsers::Fee do
         valid_params[:fee_type_id] = basic_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a valid rate for the initial fee",0)
+        expect_error_response("Enter a valid rate for the basic fee",0)
       end
 
       it 'misc fees should raise misc fee errors from translations' do

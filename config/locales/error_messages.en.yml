@@ -768,7 +768,7 @@ basic_fee:
     invalid:
       long: Enter a valid rate for the initial fee
       short: *enter_valid_rate
-      api: Enter a valid rate for the initial fee
+      api: Enter a valid rate for the basic fee
 
   amount:
     _seq: 30
@@ -816,6 +816,11 @@ misc_fee:
       long: 'Enter a valid quantity for the #{misc_fee}'
       short: *enter_valid_quantity
       api: Enter a valid quantity for the miscellaneous fee
+
+    integer:
+      long: You must specify a whole number for this type of fee
+      short: Whole number
+      api: You must specify a whole number for this type of fee
 
   case_numbers:
     _seq: 40
@@ -874,6 +879,11 @@ fixed_fee:
       long: 'Enter a valid quantity for the #{fixed_fee}'
       short: *enter_valid_quantity
       api: Enter a valid quantity for the fixed fee
+    integer:
+      long: You must specify a whole number for this type of fee
+      short: Whole number
+      api: You must specify a whole number for this type of fee
+
 
   sub_type:
     _seq: 40

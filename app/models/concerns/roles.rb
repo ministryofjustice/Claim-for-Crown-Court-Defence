@@ -8,7 +8,7 @@ module Roles
     klass.validate :roles_valid
 
     klass::ROLES.each do |role|
-      klass.scope role.pluralize.to_sym, -> { matching_role_query(["#{role}"]) }
+      klass.scope role.pluralize.to_sym, -> { matching_role_query([role.to_s]) }
 
       define_method "#{role}?" do
         is?(role)

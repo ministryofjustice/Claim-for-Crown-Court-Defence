@@ -88,7 +88,15 @@ private
   end
 
   def validate_any_quantity
+    validate_integer_decimal
     add_error(:quantity, 'invalid') if @record.quantity < 0 || @record.quantity > 99999
+  end
+
+  def validate_integer_decimal
+    return if @record.fee_type.nil? || @record.quantity.nil?
+    unless @record.quantity_is_decimal?
+      add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
+    end
   end
 
   def validate_rate
@@ -130,7 +138,7 @@ private
   # NOTE: we have specific error messages for basic fees
   def validate_basic_fee_rate(code)
     if @record.quantity > 0 && @record.rate <= 0
-      add_error(:rate, "#{code.downcase}_invalid")
+      add_error(:rate, "invalid")
     elsif @record.quantity <= 0 && @record.rate > 0
       add_error(:quantity, "#{code.downcase}_invalid")
     end

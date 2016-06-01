@@ -21,6 +21,7 @@
 #  last_name              :string
 #  failed_attempts        :integer          default(0), not null
 #  locked_at              :datetime
+#  unlock_token           :string
 #
 
 FactoryGirl.define do

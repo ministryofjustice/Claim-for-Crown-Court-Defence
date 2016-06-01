@@ -14,6 +14,7 @@ describe Fee::BaseFeeValidator do
   let(:pcm_fee)    { FactoryGirl.build :basic_fee, :pcm_fee, claim: claim }
   let(:ppe_fee)    { FactoryGirl.build :basic_fee, :ppe_fee, claim: claim }
   let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
+  let(:spf_fee)    { FactoryGirl.build :misc_fee, :spf_fee, claim: claim }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
@@ -51,10 +52,10 @@ describe Fee::BaseFeeValidator do
 
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
-      it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'baf_invalid') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'daf_invalid') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'daf_invalid') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'daf_invalid') }
+      it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'invalid') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'invalid') }
     end
 
     context 'with quantity of zero and a rate greater than zero' do
@@ -152,6 +153,31 @@ describe Fee::BaseFeeValidator do
 
   describe '#validate_quantity' do
 
+    context 'integer / decimal validation' do
+      context 'integer' do
+        it 'should allow integers' do
+          npw_fee.quantity = 44
+          expect(npw_fee).to be_valid
+        end
+        it 'should not allow decimals' do
+          npw_fee.quantity = 34.57
+          expect(npw_fee).not_to be_valid
+          expect(npw_fee.errors[:quantity]).to eq(['integer'])
+        end
+      end
+
+      context 'decimal' do
+        it 'should allow integers' do
+          spf_fee.quantity = 44
+          expect(spf_fee).to be_valid
+        end
+        it 'should allow decimals' do
+          spf_fee.quantity = 21.5
+          expect(spf_fee).to be_valid
+        end
+      end
+    end
+
     context 'basic fee (BAF)' do
 
       context 'when rate present' do
@@ -182,7 +208,7 @@ describe Fee::BaseFeeValidator do
         it 'should raise invalid RATE error when quantity is one' do
           baf_fee.quantity = 1
           expect(baf_fee.valid?).to be false
-          expect(baf_fee.errors[:rate]).to include('baf_invalid')
+          expect(baf_fee.errors[:rate]).to include('invalid')
         end
       end
 

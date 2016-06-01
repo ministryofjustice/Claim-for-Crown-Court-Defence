@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  claim_id              :integer
 #  fee_type_id           :integer
-#  quantity              :integer
+#  quantity              :decimal(, )
 #  amount                :decimal(, )
 #  created_at            :datetime
 #  updated_at            :datetime
@@ -47,6 +47,11 @@ FactoryGirl.define do
       rate 0
       amount 25
     end
+
+    trait :spf_fee do
+      fee_type { build :misc_fee_type, :spf }
+    end
+
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do

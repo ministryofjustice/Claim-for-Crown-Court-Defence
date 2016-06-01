@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  claim_id              :integer
 #  fee_type_id           :integer
-#  quantity              :integer
+#  quantity              :decimal(, )
 #  amount                :decimal(, )
 #  created_at            :datetime
 #  updated_at            :datetime
@@ -41,7 +41,7 @@ module Fee
 
     has_many :dates_attended, as: :attended_item, dependent: :destroy, inverse_of: :attended_item
 
-    default_scope   { includes(:fee_type) }
+    default_scope { includes(:fee_type) }
 
     validates_with FeeSubModelValidator
 
@@ -69,6 +69,11 @@ module Fee
       claim.update_fees_total
       claim.update_total
       claim.update_vat
+    end
+
+    def quantity_is_decimal?
+      return false if fee_type.nil?
+      fee_type.quantity_is_decimal?
     end
 
     # default type logic

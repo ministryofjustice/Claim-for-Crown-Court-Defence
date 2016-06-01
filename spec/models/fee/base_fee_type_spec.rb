@@ -2,16 +2,17 @@
 #
 # Table name: fee_types
 #
-#  id          :integer          not null, primary key
-#  description :string
-#  code        :string
-#  created_at  :datetime
-#  updated_at  :datetime
-#  max_amount  :decimal(, )
-#  calculated  :boolean          default(TRUE)
-#  type        :string
-#  roles       :string
-#  parent_id   :integer
+#  id                  :integer          not null, primary key
+#  description         :string
+#  code                :string
+#  created_at          :datetime
+#  updated_at          :datetime
+#  max_amount          :decimal(, )
+#  calculated          :boolean          default(TRUE)
+#  type                :string
+#  roles               :string
+#  parent_id           :integer
+#  quantity_is_decimal :boolean          default(FALSE)
 #
 
 require 'rails_helper'
@@ -51,6 +52,17 @@ module Fee
       it 'returns false' do
         expect(build(:fixed_fee_type).requires_dates_attended?).to be false
         expect(build(:misc_fee_type).requires_dates_attended?).to be false
+      end
+    end
+
+    describe '#quanity_is_decimal?' do
+      it 'should return false' do
+        ft = build :basic_fee_type
+        expect(ft.quantity_is_decimal).to be false
+      end
+      it 'should return true' do
+        ft = build :misc_fee_type, :spf
+        expect(ft.quantity_is_decimal).to be true
       end
     end
 

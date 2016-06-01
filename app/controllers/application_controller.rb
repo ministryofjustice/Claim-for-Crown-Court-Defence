@@ -18,9 +18,15 @@ class ApplicationController < ActionController::Base
       if exception.is_a?(RuntimeError)
         raise exception
       else
+        Raven.capture_exception(exception)
         redirect_to error_500_url
       end
     end
+  end
+
+
+  def dummy_exception
+    Raise ArgumentError.new('Boom!')
   end
 
 

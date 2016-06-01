@@ -18,7 +18,9 @@ When(/^I select the supplier number '(.*)'$/) do |number|
 end
 
 And(/^I select the offence class '(.*)'$/) do |name|
-  @litigator_claim_form_page.select_offence_class(name)
+  using_wait_time 5 do
+    @litigator_claim_form_page.select_offence_class(name)
+  end
 end
 
 And(/^I fill '(.*)' as the fixed fee total$/) do |total|

@@ -34,7 +34,6 @@ end
 
 When(/I click the claim '(.*?)'$/) do |case_number|
   @external_user_home_page.claim_for(case_number).case_number.click
-  sleep 2   # wait for page to load and populate select lists
 end
 
 When(/I edit this claim/) do

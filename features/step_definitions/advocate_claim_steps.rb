@@ -31,10 +31,11 @@ When(/^I select an offence category$/) do
 end
 
 When(/I enter trial start and end dates$/) do
-  sleep 3
-  @claim_form_page.trial_details.first_day_of_trial.set_date 9.days.ago.to_s
-  @claim_form_page.trial_details.trial_concluded_on.set_date 2.days.ago.to_s
-  @claim_form_page.trial_details.actual_trial_length.set 8
+  using_wait_time 3 do
+    @claim_form_page.trial_details.first_day_of_trial.set_date 9.days.ago.to_s
+    @claim_form_page.trial_details.trial_concluded_on.set_date 2.days.ago.to_s
+    @claim_form_page.trial_details.actual_trial_length.set 8
+  end
 end
 
 When(/^I enter defendant, representation order and MAAT reference$/) do
@@ -50,13 +51,15 @@ When(/^I save as draft$/) do
 end
 
 When(/^I add another defendant, representation order and MAAT reference$/) do
-  @claim_form_page.add_another_defendant.click
-  @claim_form_page.defendants.last.first_name.set "Ned"
-  @claim_form_page.defendants.last.last_name.set "Kelly"
-  @claim_form_page.defendants.last.dob.set_date "1912-12-12"
-  @claim_form_page.defendants.last.add_another_representation_order.click
-  @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
-  @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+  using_wait_time 3 do
+    @claim_form_page.add_another_defendant.click
+    @claim_form_page.defendants.last.first_name.set "Ned"
+    @claim_form_page.defendants.last.last_name.set "Kelly"
+    @claim_form_page.defendants.last.dob.set_date "1912-12-12"
+    @claim_form_page.defendants.last.add_another_representation_order.click
+    @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+  end
 end
 
 When(/^I add a basic fee with dates attended$/) do

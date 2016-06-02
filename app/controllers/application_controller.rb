@@ -10,28 +10,28 @@ class ApplicationController < ActionController::Base
   load_and_authorize_resource
 
   unless Rails.env.development?
-    rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
-      redirect_to error_404_url
-    end
-
     rescue_from Exception do |exception|
-      Raven.capture_exception(exception) if Rails.env.production?
-      redirect_to error_500_url
+      if exception.is_a?(ActiveRecord::RecordNotFound)
+        redirect_to error_404_url
+      else
+        Raven.capture_exception(exception) if Rails.env.production?
+        redirect_to error_500_url
+      end
     end
   end
 
 
   def dummy_exception
-    Raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_excpetion' endpoint.")
+    raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_exception' endpoint.")
   end
 
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_path_url_for_user, alert: 'Unauthorised'
   end
 
   def user_for_paper_trail
-    current_user.nil? ? 'Unknown': current_user.persona.class.to_s.humanize
+    current_user.nil? ? 'Unknown' : current_user.persona.class.to_s.humanize
   end
 
   def current_user_messages_count
@@ -43,7 +43,9 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in_user_profile_path
+    # rubocop:disable Lint/Eval
     eval("#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path(#{current_user.persona_id})")
+    # rubocop:enable Lint/Eval
   end
 
   def root_path_url_for_user
@@ -55,7 +57,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_out_path_for(resource, params={})
+  def after_sign_out_path_for(_resource, params={})
     if Rails.env.development? || Rails.env.devunicorn? || RailsHost.demo? || RailsHost.dev?
       new_user_session_url
     else
@@ -63,7 +65,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.underscore.downcase}"
     send(method_name)
   end

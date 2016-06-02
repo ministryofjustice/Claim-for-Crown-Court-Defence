@@ -158,4 +158,8 @@ Rails.application.routes.draw do
     get 'widgets/average_processing_time', to: 'widgets#average_processing_time'
   end
 
+  # catch-all route
+  unless Rails.env.development?
+    get '*any', via: :all, to: 'errors#not_found'
+  end
 end

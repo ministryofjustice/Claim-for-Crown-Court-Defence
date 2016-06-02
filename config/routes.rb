@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'dummy_exception', to: 'application#dummy_exception'
+  get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page

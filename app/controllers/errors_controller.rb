@@ -9,4 +9,9 @@ class ErrorsController < ApplicationController
   def internal_server_error
     render status: 500
   end
+
+  def dummy_exception
+    raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_exception' endpoint.")
+  end
+
 end

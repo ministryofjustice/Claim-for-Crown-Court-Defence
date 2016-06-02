@@ -123,6 +123,7 @@ end
 
 When(/^I click "Continue" in the claim form$/) do
   @claim_form_page.continue.click
+  wait_for_ajax
 end
 
 When(/^I click Submit to LAA$/) do

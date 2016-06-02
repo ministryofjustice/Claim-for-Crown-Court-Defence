@@ -105,7 +105,6 @@ Lint/UselessAssignment:
     - 'app/models/claims/search.rb'
     - 'app/models/concerns/document_attachment.rb'
     - 'app/models/json_document_importer.rb'
-    - 'app/services/claim_reporter.rb'
     - 'lib/api_test_client.rb'
 
 # Offense count: 1
@@ -343,7 +342,6 @@ Style/MethodCallParentheses:
 Style/MethodCalledOnDoEndBlock:
   Exclude:
     - 'app/models/claim/base_claim.rb'
-    - 'app/services/claim_reporter.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.

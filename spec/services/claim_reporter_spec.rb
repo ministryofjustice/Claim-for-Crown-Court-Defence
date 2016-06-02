@@ -53,24 +53,6 @@ RSpec.describe ClaimReporter do
     end
   end
 
-  describe '#rejected_count' do
-    it 'returns a count of rejected claims' do
-      expect(subject.rejected_count).to eq(3)
-    end
-  end
-
-  describe '#outstanding' do
-    it 'returns all outstanding claims' do
-      expect(subject.outstanding).to match_array([@submitted_claim_1, @allocated_claim_1, @allocated_claim_2])
-    end
-  end
-
-  describe '#oldest_outstanding' do
-    it 'returns the oldest outstanding claim' do
-      expect(subject.oldest_outstanding).to eq(@submitted_claim_1)
-    end
-  end
-
   describe '#completion_rate' do
     before do
       create(:claim_intention, form_id: @submitted_claim_1.form_id)

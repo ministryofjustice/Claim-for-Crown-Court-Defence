@@ -20,12 +20,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
-  def dummy_exception
-    raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_exception' endpoint.")
-  end
-
-
   rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_path_url_for_user, alert: 'Unauthorised'
   end

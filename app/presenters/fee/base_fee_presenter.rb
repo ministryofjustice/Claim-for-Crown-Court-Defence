@@ -17,6 +17,14 @@ class Fee::BaseFeePresenter < BasePresenter
     end
   end
 
+  def rate_as_float
+    if fee.calculated?
+      h.number_with_precision(fee.rate, precision: 2)
+    else
+      not_applicable
+    end
+  end
+
   def amount
     h.number_to_currency(fee.amount)
   end

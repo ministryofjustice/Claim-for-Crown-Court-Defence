@@ -19,25 +19,46 @@
     February 2016
 
   %ul.list-bullet
+    %li case number validation - restricted to A12345678
+    %li indictment removed from claim
+    %li expense quantities allow decimals
+    %li rate added to fees, amount removed except for PPE and NPW
+    %li api key not required by claim importer
+    %li creator does not have to be an admin
+    %li advocates endpoint names renamed to external_users
+    %li granting body removed from representation orders
+    %li PPE and NPW fee types require quantity and amount - rate must be blank
+    %li retrial fields added - required for Retrial case type claims
+    %li claim importer - reports specific errors for valid JSON files that contain model validation errors
+
+  %h2 June 2016
+
+  %ul.list-bullet
     %li
-      case number validation - restricted to A12345678
+      Expense Types:  The list of valid expense types has changed completely, and now matches those that
+      you will see on the website.  A GET request to 'api/expense_types' will return a a JSON response
+      detailing all the expense types, including:
+
+      %ul.list-bullet
+        %li id: the expense_type_id to specify when creating an expense
+        %li role: whether this is a valid expense type for AGFS claims, LGFS claims or both
+        %li reason set: What valid reason_ids can be applied to expenses of this type
+
     %li
-      indictment removed from claim
+      Expense: A number of new fields have been introduced, - see the API documentation for which ones
+      are necessary for which types of expense.
+
     %li
-      expense quantities allow decimals
+      Fee quantities: Quantities on fees of the following types now accept decimal numbers; all others accept only integers
+
+      %ul.list-bullet
+        %li SPF - Special Preparation Fee
+        %li WPF - Wasted Preparation Fee
+        %li RNF - Research of very unusual or novel factual issue
+        %li CAV - Conferences and views
+        %li WOA - Written / oral advice
+
     %li
-      rate added to fees, amount removed except for PPE and NPW
-    %li
-      api key not required by claim importer
-    %li
-      creator does not have to be an admin
-    %li
-      advocates endpoint names renamed to external_users
-    %li
-      granting body removed from representation orders
-    %li
-      PPE and NPW fee types require quantity and amount - rate must be blank
-    %li
-      retrial fields added - required for Retrial case type claims
-    %li
-      claim importer - reports specific errors for valid JSON files that contain model validation errors
+      API to submit litigator claims: Work on this is starting now and expected to be available for beta testing
+      by the end of June.  We will release documentation for litigator claims within the next two weeks.
+

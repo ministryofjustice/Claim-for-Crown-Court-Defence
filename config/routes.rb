@@ -160,6 +160,6 @@ Rails.application.routes.draw do
 
   # catch-all route
   unless Rails.env.development?
-    get '*any', via: :all, to: 'errors#not_found'
+    get '*any', to: 'errors#not_found'
   end
 end

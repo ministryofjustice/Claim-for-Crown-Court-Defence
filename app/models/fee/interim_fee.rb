@@ -23,7 +23,7 @@ class Fee::InterimFee < Fee::BaseFee
 
   belongs_to :fee_type, class_name: Fee::InterimFeeType
 
-  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date
+  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date, validate_if: :perform_validation?
 
   validates_with Fee::InterimFeeValidator
 

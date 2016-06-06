@@ -22,7 +22,7 @@ class Fee::GraduatedFee < Fee::BaseFee
 
   belongs_to :fee_type, class_name: Fee::GraduatedFeeType
 
-  acts_as_gov_uk_date :date
+  acts_as_gov_uk_date :date, validate_if: :perform_validation?
 
   validates :warrant_issued_date, :warrant_executed_date, :sub_type_id, :case_numbers, absence: true
   validates_with Fee::GraduatedFeeValidator

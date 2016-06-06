@@ -4,9 +4,8 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     [
       :quantity,
       :rate,
-      :amount,
       :disbursements,
-    ]
+    ] + super
   end
 
   def validate_quantity
@@ -35,7 +34,7 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement?
       add_error(:disbursements, 'blank') if @record.claim.disbursements.empty?
     else
-      add_error(:disbursements, 'present') if (@record.is_interim_warrant? && @record.claim.disbursements.any?)
+      add_error(:disbursements, 'present') if @record.is_interim_warrant? && @record.claim.disbursements.any?
     end
   end
 

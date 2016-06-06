@@ -90,3 +90,15 @@ Given(/^I am not allowed to submit interim or transfer claims$/) do
   allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return(false)
   allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return(false)
 end
+
+Then(/^I should see the error '(.*?)'$/) do |error_message|
+  within('div.error-summary') do
+    expect(page).to have_content(error_message)
+  end
+end
+
+And(/^I should see the sidebar total '(.*?)'$/) do |total|
+  within('div.totals-summary') do
+    expect(page.find('span.total-grandTotal')).to have_content(total)
+  end
+end

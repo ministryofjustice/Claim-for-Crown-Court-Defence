@@ -4,10 +4,9 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
     [
       :quantity,
       :rate,
-      :amount,
       :sub_type,
       :date
-    ]
+    ] + super
   end
 
   private

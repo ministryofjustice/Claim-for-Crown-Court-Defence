@@ -6,17 +6,17 @@ class ExpenseV2Validator < BaseValidator
       :hours,
       :location,
       :mileage_rate_id,
-      :reason_text
+      :reason_text,
+      :amount,
+      :date,
+      :expense_type,
+      :reason_id
     ]
   end
 
   def self.mandatory_fields
     [
-      :amount,
-      :claim,
-      :date,
-      :expense_type,
-      :reason_id
+      :claim
     ]
   end
 

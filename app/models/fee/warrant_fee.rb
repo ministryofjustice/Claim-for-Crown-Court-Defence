@@ -24,7 +24,7 @@ class Fee::WarrantFee < Fee::BaseFee
 
   validates_with Fee::WarrantFeeValidator
 
-  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date
+  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date, validate_if: :perform_validation?
 
   after_initialize :assign_fee_type
 

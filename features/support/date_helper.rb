@@ -5,4 +5,8 @@ module DateHelper
     self.month.set date.month.to_s
     self.year.set date.year.to_s
   end
+
+  def set_invalid_date
+    self.day.set '1'
+  end
 end

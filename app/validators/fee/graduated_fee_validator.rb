@@ -3,9 +3,8 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   def self.fields
     [
       :quantity,
-      :amount,
       :date
-    ]
+    ] + super
   end
 
   def self.mandatory_fields

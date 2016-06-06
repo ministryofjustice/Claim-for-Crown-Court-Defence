@@ -582,9 +582,9 @@ representation_order:
       short: *enter_date
       api: 'Enter a representation order date for the representation order of the defendant'
     check:
-      long: 'Check the representation order date for the #{representation_order} of the #{defendant}'
+      long: 'Representation orders should be entered in chronological order. Please check representation order dates of the #{defendant}'
       short: Check this date
-      api: 'Enter a valid representation order date for the representation order of the defendant'
+      api: 'Representation orders should be entered in chronological order. Please check representation order dates of the defendant'
     invalid_date:
       long: 'Enter a valid date for the representation order date of the #{representation_order} of the #{defendant}'
       short: *enter_valid_date

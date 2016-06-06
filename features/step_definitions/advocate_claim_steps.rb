@@ -67,10 +67,8 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
 end
 
 When(/^I add a basic fee with dates attended$/) do
-  using_wait_time_3 do
-    @claim_form_page.initial_fees.basic_fee.quantity.set "1"
-    @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
-  end
+  @claim_form_page.initial_fees.basic_fee.quantity.set "1"
+  @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
 end
 
 When(/^I add a daily attendance fee with dates attended$/) do

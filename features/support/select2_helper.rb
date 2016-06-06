@@ -6,6 +6,9 @@ module Select2Helper
   # e.g. select2 'value-to-select', from: 'select2-list-id'
   #
   def select2(value, options)
+    # if value == 'E: Burglary'
+    #   puts page.body
+    # end
     using_wait_time 5 do
       select "#{value}", :from => "#{options[:from]}", :visible => false
     end

@@ -82,6 +82,8 @@
         var item = {label: list[i].text, value: list[i].text};
         dataList.push(list[i].text);
       }
+        console.log(">>>>>>>>>>>>>>>>>>>>");
+        console.log(dataList);
       return dataList;
     };
 

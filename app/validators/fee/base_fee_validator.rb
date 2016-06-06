@@ -2,15 +2,14 @@ class Fee::BaseFeeValidator < BaseValidator
 
   def self.fields
     [
-      :quantity,
-      :rate,
       :amount,
-      :date
+      :warrant_issued_date,
+      :warrant_executed_date
     ]
   end
 
   def self.mandatory_fields
-    [:claim, :fee_type, :warrant_issued_date, :warrant_executed_date]
+    [:claim, :fee_type]
   end
 
 private

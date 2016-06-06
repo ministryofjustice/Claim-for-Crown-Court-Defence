@@ -22,7 +22,7 @@ class Fee::FixedFee < Fee::BaseFee
 
   belongs_to :fee_type, class_name: Fee::FixedFeeType
 
-  acts_as_gov_uk_date :date
+  acts_as_gov_uk_date :date, validate_if: :perform_validation?
 
   validates_with Fee::FixedFeeValidator
 

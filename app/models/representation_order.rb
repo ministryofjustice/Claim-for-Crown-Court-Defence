@@ -25,7 +25,7 @@ class RepresentationOrder < ActiveRecord::Base
     end
   end
 
-  acts_as_gov_uk_date :representation_order_date
+  acts_as_gov_uk_date :representation_order_date, validate_if: :perform_validation?
 
   default_scope { order('id ASC') }
 

@@ -4,9 +4,8 @@ class Fee::MiscFeeValidator < Fee::BaseFeeValidator
     [
       :quantity,
       :rate,
-      :amount,
       :case_numbers
-    ]
+    ] + super
   end
 
   private

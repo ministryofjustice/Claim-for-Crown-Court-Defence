@@ -142,7 +142,7 @@ module Claim
                         :retrial_concluded_at,
                         :case_concluded_at,
                         :effective_pcmh_date,
-                        :legal_aid_transfer_date
+                        :legal_aid_transfer_date, validate_if: :perform_validation?
 
     before_validation do
       errors.clear

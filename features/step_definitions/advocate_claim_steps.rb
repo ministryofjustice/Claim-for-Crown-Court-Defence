@@ -98,14 +98,23 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.fixed_fees.last.rate.set "12.34"
 end
 
-When(/^I add an expense '(.*?)'$/) do |name|
+When(/^I add an expense '(.*?)'( with invalid date)?$/) do |name, invalid_date|
   @claim_form_page.expenses.last.expense_type_dropdown.select name
   if name == 'Hotel accommodation'
     @claim_form_page.expenses.last.destination.set 'Liverpool'
   end
   @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
   @claim_form_page.expenses.last.amount.set '34.56'
-  @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+
+  if invalid_date.present?
+    @claim_form_page.expenses.last.expense_date.set_invalid_date
+  else
+    @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
+  end
+end
+
+And(/^I enter the date for the (\w+) expense '(.*?)'$/) do |ordinal, date|
+  @claim_form_page.expenses.send(ordinal.to_sym).expense_date.set_date date
 end
 
 When(/^I upload (\d+) documents?$/) do |count|

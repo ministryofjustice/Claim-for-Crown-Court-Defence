@@ -19,7 +19,7 @@ class DateAttended < ActiveRecord::Base
 
   validates_with DateAttendedValidator
 
-  acts_as_gov_uk_date :date, :date_to
+  acts_as_gov_uk_date :date, :date_to, validate_if: :perform_validation?
 
   def claim
     self.attended_item.try(:claim)

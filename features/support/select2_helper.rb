@@ -6,7 +6,9 @@ module Select2Helper
   # e.g. select2 'value-to-select', from: 'select2-list-id'
   #
   def select2(value, options)
-    select "#{value}", :from => "#{options[:from]}", :visible => false
+    using_wait_time 5 do
+      select "#{value}", :from => "#{options[:from]}", :visible => false
+    end
   end
 end
 

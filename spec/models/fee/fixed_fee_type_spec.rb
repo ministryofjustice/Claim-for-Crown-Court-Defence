@@ -23,7 +23,7 @@ module Fee
     it { should belong_to(:parent) }
     it { should have_many(:children) }
 
-    let(:fee_type)  { build :fixed_fee_type }
+    let(:fee_type) { build :fixed_fee_type }
 
     describe '.top_levels' do
       before(:all) do
@@ -44,7 +44,7 @@ module Fee
 
     describe '#fee_category_name' do
       it 'should return the category name' do
-          expect(fee_type.fee_category_name).to eq 'Fixed Fees'
+        expect(fee_type.fee_category_name).to eq 'Fixed Fees'
       end
     end
 
@@ -56,7 +56,7 @@ module Fee
       end
 
       it 'should order by description ascending' do
-        expect(Fee::FixedFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
+        expect(Fee::FixedFeeType.all.map(&:description)).to eq ['Ppppp', 'Sssss', 'Xxxxx']
       end
     end
   end

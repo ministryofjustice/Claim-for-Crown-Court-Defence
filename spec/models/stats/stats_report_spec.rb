@@ -33,9 +33,9 @@ module Stats
       expect(results.size).to eq 3
       expect(results).to include(@mi_complete)
       expect(results).to include(@mi_incomplete)
-      expect(results).to include(@mi_old  )
+      expect(results).to include(@mi_old)
     end
- 
+
     it 'returns the latest completed management information report' do
       expect(StatsReport.most_recent_management_information).to eq @mi_complete
     end
@@ -83,7 +83,7 @@ module Stats
         end
 
         report = StatsReport.completed.where(report_name: 'my_new_report').first
-        expect(report.report).to eq 'The contents of my new report'    
+        expect(report.report).to eq 'The contents of my new report'
         expect(report.started_at).to eq frozen_time
         expect(report.completed_at).to eq frozen_time + 2.minutes
       end

@@ -11,7 +11,7 @@
 module ViewSpecHelper
   module ControllerViewHelpers
 
-    def current_user_persona_is?(klass)
+    def current_user_persona_is?(_klass)
       raise 'Stub current_user if you want to test the behavior.'
     end
 

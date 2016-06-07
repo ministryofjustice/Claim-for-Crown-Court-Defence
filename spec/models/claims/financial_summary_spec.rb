@@ -13,7 +13,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       Timecop.freeze(Time.now - 2.week) do
         claim = create(:part_authorised_claim)
         Timecop.freeze(Time.now + 1.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+          claim.determinations.first.update(fees: claim.fees_total / 2, expenses: claim.expenses_total)
           claim
         end
       end
@@ -23,7 +23,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       Timecop.freeze(Time.now - 2.week) do
         claim = create(:part_authorised_claim)
         Timecop.freeze(Time.now + 2.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+          claim.determinations.first.update(fees: claim.fees_total / 2, expenses: claim.expenses_total)
           claim
         end
       end
@@ -115,7 +115,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat)}
       let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat)}
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat)}
-      let(:summary)                               { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let(:summary) { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
@@ -141,7 +141,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       let!(:allocated_claim_from_advocate2)        { create(:allocated_claim,        external_user: advocate2_without_vat) }
       let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim,  external_user: advocate1_without_vat) }
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim,       external_user: advocate2_without_vat) }
-      let(:summary)                   { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let(:summary) { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       it 'calculates the value of outstanding claims' do
         expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +

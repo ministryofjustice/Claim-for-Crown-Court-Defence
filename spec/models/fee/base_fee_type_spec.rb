@@ -31,14 +31,14 @@ module Fee
       # using MiscFeeType becasue the shared exmaples use a factory, which rules out the use of a class double
       it_behaves_like 'roles', MiscFeeType, MiscFeeType::ROLES
     end
-    
+
   end
 
   class FeeTypeDouble < BaseFeeType
   end
 
   RSpec.describe FeeTypeDouble, type: :model do
-    
+
     it { should have_many(:fees) }
 
     it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }

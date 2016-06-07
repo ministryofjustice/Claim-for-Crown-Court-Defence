@@ -73,13 +73,13 @@ def claim_state_common_traits
   end
 
   trait :submitted do
-    after(:create) { |c| c.submit! }
+    after(:create, &:submit!)
   end
 end
 
-def publicise_errors(claim, &block)
+def publicise_errors(claim)
   begin
-    block.call
+    yield
   rescue => err
     puts "***************** DEBUG validation errors    #{__FILE__}::#{__LINE__} **********"
     ap claim
@@ -133,7 +133,7 @@ end
 
 # random capital letter followed by random 8 digits
 def random_case_number
-  ('A'..'Z').to_a.sample << rand(8**8).to_s.rjust(8,'0')
+  ('A'..'Z').to_a.sample << rand(8**8).to_s.rjust(8, '0')
 end
 
 def set_amount_assessed(claim)

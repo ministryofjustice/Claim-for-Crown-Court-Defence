@@ -3,7 +3,7 @@ require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, focus: true do
 
-  let!(:litigator)      { create(:external_user, :litigator) }
+  let!(:litigator) { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
   let(:court)         { create(:court) }
@@ -110,8 +110,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
                     representation_order_date_yyyy: Time.now.year.to_s,
                     maat_reference: '4561237895'
                   }
-                ]
-              }
+                ]}
             ]
           }
         end
@@ -185,8 +184,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
                               representation_order_date_yyyy: Time.now.year.to_s,
                               maat_reference: '4561237895'
                           }
-                      ]
-                    }
+                      ]}
                 ]
             }
           end
@@ -220,7 +218,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
@@ -240,7 +238,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         let!(:graduated_fee_type_1)     { FactoryGirl.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k, _v| k == 'case_number'} }
 
         context 'graduated fee case types' do
           context 'valid params' do
@@ -267,7 +265,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
-             it 'should update claim total to sum of graduated and miscellaneous fees' do
+            it 'should update claim total to sum of graduated and miscellaneous fees' do
               expect(assigns(:claim).fees_total).to eq 2375.00
             end
           end
@@ -290,7 +288,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
             it 'should not persist any of the data' do
               claim = assigns(:claim)
-              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000 )
+              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000)
               expect(claim.misc_fees.count).to eq 0
             end
           end
@@ -349,7 +347,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
         it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
-          expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(assigns(:claim).evidence_checklist_ids).to eql([2, 3])
         end
       end
 
@@ -445,7 +443,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
@@ -453,7 +452,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end
@@ -487,37 +487,35 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "case_concluded_at_mm" => "05",
        "case_concluded_at_yyyy" => "2015",
        "evidence_checklist_ids" => ["1", "5", ""],
-       "defendants_attributes"=>
-        {"0"=>
+       "defendants_attributes" =>
+        {"0" =>
           {"first_name" => "Stephen",
            "last_name" => "Richards",
            "date_of_birth_dd" => "13",
            "date_of_birth_mm" => "08",
            "date_of_birth_yyyy" => "1966",
            "_destroy" => "false",
-           "representation_orders_attributes"=>{
-             "0"=>{
+           "representation_orders_attributes" => {
+             "0" => {
                "representation_order_date_dd" => "13",
                "representation_order_date_mm" => "05",
                "representation_order_date_yyyy" => "2015",
                "maat_reference" => "1594851269",
              }
-            }
-          }
-        },
+            }}},
        "additional_information" => "",
-       "graduated_fee_attributes"=>
+       "graduated_fee_attributes" =>
         {
           "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "date_dd" => "15", "date_mm" => "05", "date_yyyy" => "2015", "_destroy" => "false"
         },
-        "misc_fees_attributes"=>
+        "misc_fees_attributes" =>
         {
-          "0"=>{"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
-          "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false"},
+          "0" => {"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
+          "1" => {"fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false"},
         },
-       "expenses_attributes"=>
+       "expenses_attributes" =>
        {
-        "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
+        "0" => {"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
        },
        "apply_vat" => "0"
      }

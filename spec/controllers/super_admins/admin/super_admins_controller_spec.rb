@@ -77,7 +77,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
- describe "PUT #update" do
+  describe "PUT #update" do
     before(:each) do
       put :update, id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com'} }
     end

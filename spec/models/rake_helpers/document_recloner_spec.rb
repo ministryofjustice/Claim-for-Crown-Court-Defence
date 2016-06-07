@@ -57,7 +57,8 @@ describe DocumentRecloner do
 
   def file_exists_on_backend?(doc)
     local_file = Paperclip.io_adapters.for(doc.document).path
-    File.stat(local_file).size > 0
+    file_count = File.stat(local_file).size
+    file_count > 0
   end
 
   def create_source_claim
@@ -82,7 +83,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
   end
 
@@ -93,7 +95,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
     write_empty_document(doc.document.path)
   end
@@ -107,10 +110,10 @@ describe DocumentRecloner do
     invalid_doc_ids = []
     valid_doc_ids = []
 
-    claim.documents.each do  |doc|
+    claim.documents.each do |doc|
       size = File.stat(doc.document.path).size
       size > 0 ? valid_doc_ids << doc.id : invalid_doc_ids << doc.id
     end
-    [ invalid_doc_ids, valid_doc_ids ]
+    [invalid_doc_ids, valid_doc_ids]
   end
 end

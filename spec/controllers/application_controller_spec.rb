@@ -108,6 +108,7 @@ RSpec.describe ApplicationController, type: :controller do
     controller do
       skip_load_and_authorize_resource
       def record_not_found; raise ActiveRecord::RecordNotFound; end
+
       def another_exception; raise Exception; end
     end
 

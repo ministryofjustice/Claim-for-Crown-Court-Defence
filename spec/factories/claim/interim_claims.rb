@@ -26,7 +26,7 @@ FactoryGirl.define do
   end
 
   trait :submitted do
-    after(:create) { |c| c.submit! }
+    after(:create, &:submit!)
   end
 
 end

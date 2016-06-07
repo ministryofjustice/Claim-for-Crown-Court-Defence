@@ -17,7 +17,7 @@ describe DisbursementValidator do
   end
 
   describe '#validate_net_amount' do
-    it { should_error_if_equal_to_value(disbursement, :net_amount, 0,   'zero_or_negative') }
+    it { should_error_if_equal_to_value(disbursement, :net_amount, 0, 'zero_or_negative') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, -1,   'numericality') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, nil,  'blank') }
   end

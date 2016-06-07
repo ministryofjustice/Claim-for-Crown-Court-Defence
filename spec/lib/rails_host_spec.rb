@@ -9,9 +9,9 @@ describe RailsHost do
     end
 
     after do
-      ENV['ENV'] = @initial_env 
+      ENV['ENV'] = @initial_env
     end
-  
+
     it 'should return the rails host envirobment name' do
       expect(Rails.host.env).to eq 'api-sandbox'
     end
@@ -34,14 +34,14 @@ describe RailsHost do
 
 
   context 'staging' do
-    
+
     before do
       @initial_env = ENV['ENV']
       ENV['ENV'] = 'staging'
     end
 
     after do
-      ENV['ENV'] = @initial_env 
+      ENV['ENV'] = @initial_env
     end
 
     it 'should return the rails environement host name' do

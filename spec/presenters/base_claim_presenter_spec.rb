@@ -91,7 +91,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
+      expect(presenter.valid_transitions).to eq({:redetermination => "Redetermination", :awaiting_written_reasons => "Awaiting written reasons"})
     end
   end
 
@@ -147,12 +147,12 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#any_judicial_apportionments' do
 
     it "returns yes if any defendants have an order for judicial apportionment" do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment,true)
+      @first_defendant.update_attribute(:order_for_judicial_apportionment, true)
       expect(subject.any_judicial_apportionments).to eql 'Yes'
     end
 
     it "returns no if no defendants have an order for judicial apportionment" do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment,false)
+      @first_defendant.update_attribute(:order_for_judicial_apportionment, false)
       expect(subject.any_judicial_apportionments).to eql 'No'
     end
 
@@ -210,15 +210,15 @@ RSpec.describe Claim::BaseClaimPresenter do
       defendant_2 = FactoryGirl.build :defendant
       Timecop.freeze 5.days.ago do
         defendant_1.representation_orders = [
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '1234abc'),
-          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: 'abc1234'),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '1234abc'),
+          FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015, 8, 13), maat_reference: 'abc1234'),
         ]
       end
       Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: 'xyz4321') ]
+        defendant_2.representation_orders = [FactoryGirl.build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: 'xyz4321')]
       end
-      claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "01/03/2015 1234abc<br />13/08/2015 abc1234<br />01/03/2015 xyz4321" )
+      claim.defendants = [defendant_1, defendant_2]
+      expect(subject.representation_order_details).to eq("01/03/2015 1234abc<br />13/08/2015 abc1234<br />01/03/2015 xyz4321")
     end
   end
 

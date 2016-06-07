@@ -17,10 +17,17 @@ describe AdpFormBuilder do
 
   describe 'awesomeplete_collection_select' do
 
-    context 'valid object with values' do
+    context 'error' do
+      it 'raises if no name specified in data_optiont' do
+        expect {
+          builder.awesomeplete_collection_select(:court, Court.all, :id, :name)
+        }.to raise_error ArgumentError, 'Must specify name of field in data options'
+      end
+    end
 
+    context 'valid object with values' do
       it 'produces ordered list with no prompt' do
-        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name)
+        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name, name: 'claim[court_id]')
         expect(actual).to eq expected_html_for_simple_list_no_prompt_with_valid_object
       end
 
@@ -30,13 +37,12 @@ describe AdpFormBuilder do
       end
 
       it 'produces an ordered list with blank first line' do
-        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name, include_blank: true)
-        expect(actual).to eq expected_html_for_simple_list_with_with_blank_first_item_for_valid_object
+        let(:resource)  { FactoryGirl.create :claim, court: Court.find_by(name: 'Reading') }
       end
 
       def expected_html_for_simple_list_no_prompt_with_valid_object
         result = %q|<div class="awesomplete">|
-        result += %q|<input class="form-control" id="claim_case_type_id_autocomplete" value="Reading" autocomplete="off" aria-autocomplete="list">|
+        result += %q|<input class="form-control" id="claim_case_type_id_autocomplete" name="claim[court_id]" value="Reading" autocomplete="off" aria-autocomplete="list">|
         result += %q|<ul>|
         result += %q|<li aria-selected="false" data-value="98731">Kinghtsbridge</li>|
         result += %q|<li aria-selected="true" data-value="98732">Reading</li>|
@@ -73,6 +79,19 @@ describe AdpFormBuilder do
         result += %q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
         result += %q|</div>|
         squash(result)
+      end
+    end
+
+    context 'nil object' do
+      let(:resource)  { FactoryGirl.create :claim, court: nil }
+
+      it 'produces ordered list with nothing selected' do
+        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name)
+        expect(actual).to eq expected_html_for_simple_list_no_prompt_with_nil_object
+      end
+
+      def expected_html_for_simple_list_no_prompt_with_nil_object
+
       end
     end
 

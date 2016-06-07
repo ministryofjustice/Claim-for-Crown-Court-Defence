@@ -18,7 +18,7 @@
 #
 class VatRate < ActiveRecord::Base
 
-  class MissingVatRateError < RuntimeError;end
+  class MissingVatRateError < RuntimeError; end
 
   validates :effective_date, uniqueness: true
 
@@ -28,8 +28,8 @@ class VatRate < ActiveRecord::Base
     end
 
     # Calculate VAT amount for amount_excluding_vat on a given date
-    def vat_amount(amount_excluding_vat, date)
-      rate = VatRate.for_date(date)
+    def vat_amount(amount_excluding_vat, date, calculate: true)
+      rate = calculate ? VatRate.for_date(date) : 0
       (amount_excluding_vat * rate / 10000.0).round(2)
     end
 
@@ -50,7 +50,7 @@ class VatRate < ActiveRecord::Base
 
     def rate_for_date(date)
       result = nil
-      rates.each do | rec |
+      rates.each do |rec|
         unless date < rec.effective_date
           result = rec
           break

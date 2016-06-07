@@ -62,4 +62,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£610.95'
+    And Claim 'A12345678' should be listed with a status of 'Submitted' and a claimed amount of '£643.45'

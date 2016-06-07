@@ -63,7 +63,7 @@ class VatRatesController < ApplicationController
 
   def vat_amount
     if agfs?
-      apply_vat ? VatRate.vat_amount(net_amount, date) : 0
+      VatRate.vat_amount(net_amount, date, calculate: apply_vat)
     else
       lgfs_vat_amount
     end
@@ -84,8 +84,6 @@ class VatRatesController < ApplicationController
   def number_to_currency(number)
     ActionController::Base.helpers.number_to_currency(number)
   end
-
-private
 
   def agfs?
     scheme == 'agfs'

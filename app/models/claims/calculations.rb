@@ -42,12 +42,12 @@ module Claims::Calculations
     if lgfs?
       Expense.where(claim_id: self.id).pluck(:vat_amount).sum
     else
-      VatRate.vat_amount(calculate_expenses_total, self.vat_date)
+      VatRate.vat_amount(calculate_expenses_total, self.vat_date, calculate: self.apply_vat?)
     end
   end
 
   def calculate_fees_vat
-    VatRate.vat_amount(calculate_fees_total, self.vat_date)
+    VatRate.vat_amount(calculate_fees_total, self.vat_date, calculate: self.apply_vat?)
   end
 
   def calculate_disbursements_vat
@@ -61,12 +61,7 @@ module Claims::Calculations
 
   def update_vat
     update_column(:apply_vat, self.vat_registered?) if self.vat_registered?
-
-    if self.apply_vat?
-      update_column(:vat_amount, calculate_total_vat)
-    else
-      update_column(:vat_amount, 0.0)
-    end
+    update_column(:vat_amount, calculate_total_vat)
   end
 
 end

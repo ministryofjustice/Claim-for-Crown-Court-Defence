@@ -150,7 +150,6 @@ Style/AlignArray:
 Style/AndOr:
   Exclude:
     - 'app/controllers/external_users/claim_types_controller.rb'
-    - 'app/services/claims/create_claim.rb'
     - 'app/services/claims/create_draft.rb'
     - 'app/services/claims/update_claim.rb'
 

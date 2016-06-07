@@ -2,8 +2,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, focus: true do
-
-  let!(:advocate)       { create(:external_user, :advocate) }
+  let!(:advocate) { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
   describe "GET #new" do
@@ -91,8 +90,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
                     representation_order_date_yyyy: Time.now.year.to_s,
                     maat_reference: '4561237895'
                   }
-                ]
-              }
+                ]}
             ]
           }
         end
@@ -117,7 +115,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           end
 
           it 'sets the right google analytics' do
-            expect(flash[:ga]).to eq [{%w(event claim draft created) =>[]}]
+            expect(flash[:ga]).to eq [{%w(event claim draft created) => []}]
           end
         end
 
@@ -147,7 +145,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
           it 'sets the right google analytics' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(flash[:ga]).to eq [{%w(event claim submit started) =>[]}]
+            expect(flash[:ga]).to eq [{%w(event claim submit started) => []}]
           end
 
           context 'blank expenses' do
@@ -200,8 +198,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
                               representation_order_date_yyyy: Time.now.year.to_s,
                               maat_reference: '4561237895'
                           }
-                      ]
-                    }
+                      ]}
                 ]
             }
           end
@@ -235,7 +232,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { claim_class: 'Claim::AdvocateClaim' } }
+        let(:invalid_claim_params) { { claim_class: 'Claim::AdvocateClaim' } }
         it 'does not create a claim' do
           expect {
             post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
@@ -249,7 +246,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'basic and non-basic fees' do
-
         let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
         let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
         let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
@@ -261,7 +257,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'advocate_category'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k, _v| k == 'advocate_category'} }
 
         context 'non fixed fee case types' do
           before(:each) do
@@ -275,16 +271,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
               # one record for every basic fee regardless of whether blank or not
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f).to eq 1000
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f).to eq 9000.45
+              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f).to eq 125.0
               expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
               expect(claim.fixed_fees.size).to eq 0
 
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f).to eq 250.0
 
               expect(claim.reload.fees_total).to eq 10_375.45
             end
@@ -325,9 +321,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           context 'valid params' do
             it 'should create a claim with fixed fees ONLY' do
               create :fixed_fee_type, code: 'ZXY'
-              ct = create :case_type, :fixed_fee,  fee_type_code: 'ZXY'
+              ct = create :case_type, :fixed_fee, fee_type_code: 'ZXY'
               claim_params['case_type_id'] = ct.id
-              response = post :create, claim: claim_params
+              post :create, claim: claim_params
               claim = assigns(:claim)
 
               # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
@@ -365,10 +361,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         it 'should create a claim with document checklist items' do
           post :create, claim: claim_params
           claim = assigns(:claim)
-          expect(claim.evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(claim.evidence_checklist_ids).to eql([2, 3])
         end
       end
-
     end
   end
 
@@ -404,7 +399,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
     subject { create(:claim, external_user: advocate) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
@@ -415,7 +409,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'and editing an API created claim' do
-
         before(:each) do
           subject.update(source: 'api')
         end
@@ -446,7 +439,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           put :update, id: subject, claim: { additional_information: 'foo' }
           expect(response).to redirect_to(external_users_claims_path)
         end
-
       end
 
       context 'and submitted to LAA' do
@@ -479,7 +471,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
@@ -487,74 +480,72 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end
   end
 
   def valid_claim_fee_params
-  case_type = FactoryGirl.create :case_type
-  HashWithIndifferentAccess.new(
-    {
-     "source" => 'web',
-     "external_user_id" => "4",
-     "case_type_id" => case_type.id.to_s,
-     "court_id" => court.id.to_s,
-     "case_number" => "CASE98989",
-     "advocate_category" => "QC",
-     "offence_class_id" => "2",
-     "offence_id" => offence.id.to_s,
-     "first_day_of_trial_dd" => '13',
-     "first_day_of_trial_mm" => '5',
-     "first_day_of_trial_yyyy" => '2015',
-     "estimated_trial_length" => "2",
-     "actual_trial_length" => "2",
-     "trial_concluded_at_dd" => "15",
-     "trial_concluded_at_mm" => "05",
-     "trial_concluded_at_yyyy" => "2015",
-     "evidence_checklist_ids" => ["1", "5", ""],
-     "defendants_attributes"=>
-      {"0"=>
-        {"first_name" => "Stephen",
-         "last_name" => "Richards",
-         "date_of_birth_dd" => "13",
-         "date_of_birth_mm" => "08",
-         "date_of_birth_yyyy" => "1966",
-         "_destroy" => "false",
-         "representation_orders_attributes"=>{
-           "0"=>{
-             "representation_order_date_dd" => "13",
-             "representation_order_date_mm" => "05",
-             "representation_order_date_yyyy" => "2015",
-             "maat_reference" => "1594851269",
-           }
-          }
-        }
-      },
-     "additional_information" => "",
-     "basic_fees_attributes"=>
+    case_type = FactoryGirl.create :case_type
+    HashWithIndifferentAccess.new(
       {
-        "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
-        "1"=>{"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-        "2"=>{"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
-        "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
+       "source" => 'web',
+       "external_user_id" => "4",
+       "case_type_id" => case_type.id.to_s,
+       "court_id" => court.id.to_s,
+       "case_number" => "CASE98989",
+       "advocate_category" => "QC",
+       "offence_class_id" => "2",
+       "offence_id" => offence.id.to_s,
+       "first_day_of_trial_dd" => '13',
+       "first_day_of_trial_mm" => '5',
+       "first_day_of_trial_yyyy" => '2015',
+       "estimated_trial_length" => "2",
+       "actual_trial_length" => "2",
+       "trial_concluded_at_dd" => "15",
+       "trial_concluded_at_mm" => "05",
+       "trial_concluded_at_yyyy" => "2015",
+       "evidence_checklist_ids" => ["1", "5", ""],
+       "defendants_attributes" =>
+        {"0" =>
+          {"first_name" => "Stephen",
+           "last_name" => "Richards",
+           "date_of_birth_dd" => "13",
+           "date_of_birth_mm" => "08",
+           "date_of_birth_yyyy" => "1966",
+           "_destroy" => "false",
+           "representation_orders_attributes" => {
+             "0" => {
+               "representation_order_date_dd" => "13",
+               "representation_order_date_mm" => "05",
+               "representation_order_date_yyyy" => "2015",
+               "maat_reference" => "1594851269",
+             }
+            }}},
+       "additional_information" => "",
+       "basic_fees_attributes" =>
+        {
+          "0" => {"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
+          "1" => {"quantity" => "0", "rate" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
+          "2" => {"quantity" => "1", "rate" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
+          "3" => {"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
+          },
+        "fixed_fees_attributes" =>
+        {
+          "0" => {"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "25", "rate" => "10", "_destroy" => "false"}
         },
-      "fixed_fees_attributes"=>
-      {
-        "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "25", "rate" => "10", "_destroy" => "false"}
-      },
-      "misc_fees_attributes"=>
-      {
-        "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
-      },
-     "expenses_attributes"=>
-     {
-      "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
-     },
-     "apply_vat" => "0"
-   }
-   )
+        "misc_fees_attributes" =>
+        {
+          "1" => {"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
+        },
+       "expenses_attributes" =>
+       {
+        "0" => {"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
+       },
+       "apply_vat" => "0"
+     }
+     )
   end
-
 end

@@ -1,7 +1,6 @@
 
 
 class PagesController < ApplicationController
-
   skip_load_and_authorize_resource
 
   def tandcs; end
@@ -9,5 +8,4 @@ class PagesController < ApplicationController
   def api_landing; end
 
   def api_release_notes; end
-
 end

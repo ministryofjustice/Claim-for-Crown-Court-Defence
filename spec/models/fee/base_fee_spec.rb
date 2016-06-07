@@ -22,13 +22,11 @@ require 'rails_helper'
 
 
 module Fee
-
-class FeeDouble < Fee::BaseFee
-end
+  class FeeDouble < Fee::BaseFee
+  end
 
   RSpec.describe Fee::FeeDouble, type: :model do
-
-    let(:subject)   { FeeDouble.new }
+    let(:subject) { FeeDouble.new }
 
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
@@ -115,12 +113,9 @@ end
         end
       end
     end
-
-
   end
 
   RSpec.describe Fee::BaseFee, type: :model do
-
     context '#new' do
       it 'should raise BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error
@@ -134,9 +129,9 @@ end
         let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim }
 
         it 'should recalculate amount if fee type is calculated' do
-            fee.claim.force_validation = true
-            expect(fee).to be_valid
-            expect(fee.amount).to eq 110
+          fee.claim.force_validation = true
+          expect(fee).to be_valid
+          expect(fee.amount).to eq 110
         end
         it 'should NOT recalculate amount if fee type is NOT calculated' do
           misc_fee_type.calculated = false
@@ -167,6 +162,5 @@ end
         end
       end
     end
-
   end
 end

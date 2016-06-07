@@ -6,7 +6,6 @@
 
 module Claim
   class TransferBrain
-
     TRANSFER_STAGES = {
       10 => 'Up to and including PCMH transfer',
       20 => 'Before trial transfer',
@@ -82,6 +81,5 @@ module Claim
         detail.elected_case == false && # treat nil as failure i.e. non-false
         [10,20,30,50,60].include?(detail.transfer_stage_id)
     end
-
   end
 end

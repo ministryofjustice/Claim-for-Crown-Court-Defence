@@ -1,5 +1,4 @@
 class Fee::FixedFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,

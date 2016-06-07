@@ -18,10 +18,9 @@ require 'rails_helper'
 
 
 describe Redetermination do
+  let(:claim) { FactoryGirl.create :claim }
 
-  let(:claim)         { FactoryGirl.create :claim }
 
- 
   context 'automatic calculation of total' do
     it 'should calculate the total on save' do
       rd = FactoryGirl.create :redetermination
@@ -45,8 +44,7 @@ describe Redetermination do
       rds = claim.redeterminations
 
       # it should return them in created_at order - con vert to integer to remove precesion pproblems on travis
-      expect(rds.map(&:created_at).map(&:to_i)).to eq( [ date_1.to_i, date_2.to_i, date_3.to_i ])
+      expect(rds.map(&:created_at).map(&:to_i)).to eq([date_1.to_i, date_2.to_i, date_3.to_i])
     end
   end
-
 end

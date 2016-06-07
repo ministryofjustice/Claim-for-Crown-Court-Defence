@@ -12,20 +12,19 @@
 require 'rails_helper'
 
 RSpec.describe VatRatesController, type: :controller do
-
   before(:all) do
     @vr1 = FactoryGirl.create :vat_rate, effective_date: Date.new(2000, 1, 1),  rate_base_points: 1750
     @vr2 = FactoryGirl.create :vat_rate, effective_date: Date.new(2011, 4, 1),  rate_base_points: 2000
   end
 
   after(:all) do
-    VatRate.destroy( [ @vr1.id, @vr2.id ] )
+    VatRate.destroy([@vr1.id, @vr2.id])
   end
 
   describe 'GET vat' do
     context 'advocate claims' do
       it 'if vat applies, it should return JSON struct with details' do
-        get :index, {:format => 'json',  'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, {:format => 'json', 'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
         expect(response).to have_http_status(200)
         expect(response.body).to eq(
           {
@@ -53,7 +52,7 @@ RSpec.describe VatRatesController, type: :controller do
       end
 
       it 'if vat does not apply, it should return JSON struct with details and total_inc_vat = net_amount' do
-        get :index, {:format => 'json',  'apply_vat' => 'false', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, {:format => 'json', 'apply_vat' => 'false', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
         expect(response).to have_http_status(200)
         expect(response.body).to eq(
           {
@@ -97,5 +96,4 @@ RSpec.describe VatRatesController, type: :controller do
       end
     end
   end
-
 end

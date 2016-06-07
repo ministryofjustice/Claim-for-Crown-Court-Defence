@@ -16,7 +16,6 @@
 #
 
 class Fee::MiscFeeType < Fee::BaseFeeType
-
   default_scope { order(description: :asc) }
 
   def fee_category_name
@@ -26,5 +25,4 @@ class Fee::MiscFeeType < Fee::BaseFeeType
   def case_uplift?
     code == 'XUPL'
   end
-
 end

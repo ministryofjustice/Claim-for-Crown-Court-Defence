@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CaseWorkers::Admin::AllocationsHelper do
-
   describe '#owner_column_header' do
     it 'should return advocate for agfs filter or by default' do
       expect(owner_column_header).to eql 'Advocate'

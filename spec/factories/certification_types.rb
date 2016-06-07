@@ -9,18 +9,6 @@
 #  updated_at   :datetime
 #  roles        :string
 #
-
- # == Schema Information
-#
-# Table name: certification_types
-#
-#  id           :integer          not null, primary key
-#  name         :string
-#  pre_may_2015 :boolean          default(FALSE)
-#  created_at   :datetime
-#  updated_at   :datetime
-#
-
 FactoryGirl.define do
   factory :certification_type do
     name { Faker::Lorem.sentence }

@@ -1,6 +1,5 @@
 module Claim
   module LitigatorCommonValidations
-
     def self.included(base)
       base.class_eval do
         def self.first_step_common_validations

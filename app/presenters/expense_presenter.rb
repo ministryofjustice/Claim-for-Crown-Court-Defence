@@ -32,5 +32,4 @@ class ExpensePresenter < BasePresenter
   def display_reason_text_css
     expense.expense_reason_other? ? 'inline-block' : 'none'
   end
-
 end

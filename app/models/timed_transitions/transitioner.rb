@@ -1,6 +1,5 @@
 module TimedTransitions
   class Transitioner
-
     @@timed_transition_specifications = {
       authorised:               Specification.new(:authorised, 60, :archive),
       part_authorised:          Specification.new(:part_authorised, 60, :archive),
@@ -43,7 +42,5 @@ module TimedTransitions
     def destroy
       @claim.destroy
     end 
-
-
   end
 end

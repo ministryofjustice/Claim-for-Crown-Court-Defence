@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Fee
   describe InterimFeeValidator do
-
     let(:fee) { build :interim_fee }
     let(:disbursement_fee) { build :interim_fee, :disbursement }
     let(:interim_warrant_fee) { build :interim_fee, :warrant }
@@ -181,16 +180,15 @@ module Fee
         it 'should be invalid if not present' do
           fee.warrant_issued_date = nil
           expect(fee).not_to be_valid
-          expect(fee.errors[:warrant_issued_date]).to eq( [ 'blank' ] )
+          expect(fee.errors[:warrant_issued_date]).to eq(['blank'])
         end
       end
 
       describe '#validate_warrant_executed_date' do
-
         it 'should raise error if before warrant_issued_date' do
           fee.warrant_executed_date = fee.warrant_issued_date - 1.day
           expect(fee).not_to be_valid
-          expect(fee.errors[:warrant_executed_date]).to eq( [ 'warrant_executed_before_issued'] )
+          expect(fee.errors[:warrant_executed_date]).to eq(['warrant_executed_before_issued'])
         end
 
         it 'should raise error if in future' do

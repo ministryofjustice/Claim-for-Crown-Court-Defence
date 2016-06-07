@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaimPresenter do
-
   let(:claim) { create :claim }
   subject { Claim::AdvocateClaimPresenter.new(claim, view) }
 

@@ -93,5 +93,4 @@ class Allocation
     claim.case_workers << case_worker
     successful_claims << claim
   end
-
 end

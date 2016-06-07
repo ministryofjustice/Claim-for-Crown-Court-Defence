@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def current_user_is_caseworker?
     current_user.persona.is_a?(CaseWorker)
   end
@@ -113,5 +112,4 @@ module ApplicationHelper
   def user_requires_scheme_column?
     current_user.persona.has_roles?('admin') || current_user.persona.has_roles?(['advocate','litigator']) || current_user.persona.has_roles?(['admin','advocate','litigator'])
   end
-
 end

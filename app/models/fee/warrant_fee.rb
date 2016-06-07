@@ -19,7 +19,6 @@
 #
 
 class Fee::WarrantFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::WarrantFeeType
 
   validates_with Fee::WarrantFeeValidator
@@ -41,5 +40,4 @@ class Fee::WarrantFee < Fee::BaseFee
   def assign_fee_type
     self.fee_type = Fee::WarrantFeeType.instance
   end
-
 end

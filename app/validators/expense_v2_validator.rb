@@ -1,5 +1,4 @@
 class ExpenseV2Validator < BaseValidator
-
   def self.fields
     [
       :distance,

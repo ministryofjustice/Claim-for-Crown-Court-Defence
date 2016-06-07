@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Claims::ContextMapper do
-
   # NOTE: the external user claim controller spec also test this to a degree
   #
 
   describe '#available_claim_types' do
-
     let(:external_user)   { create(:external_user, :advocate_litigator) }
     let(:advocate)      { create(:external_user, :advocate) }
     let(:litigator)     { create(:external_user, :litigator) }
@@ -27,7 +25,6 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'AGFS and LGFS providers' do
-
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
         context = Claims::ContextMapper.new(external_user)
@@ -63,14 +60,11 @@ RSpec.describe Claims::ContextMapper do
         context = Claims::ContextMapper.new(external_user)
         expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
-
     end
-
   end
 
 
   describe '#available_claims' do
-
     before(:all) do
       @agfs_provider    = create :provider, :agfs
       @lgfs_provider    = create :provider, :lgfs
@@ -131,7 +125,6 @@ RSpec.describe Claims::ContextMapper do
   end
 
   context 'AGFS/LGFS' do
-
     before(:all) do
       @provider    = create :provider, :agfs_lgfs
       @litigator_1 = create :external_user, :litigator, provider: @provider
@@ -150,13 +143,13 @@ RSpec.describe Claims::ContextMapper do
     end
 
     it 'returns all claims for the provider for the admin context' do
-      expected_ids = [ @claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id ].sort
+      expected_ids = [@claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id].sort
       actual_ids = Claims::ContextMapper.new(@admin).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end
 
     it 'returns all claims for the external user' do
-      expected_ids = [ @claim_a1.id ]
+      expected_ids = [@claim_a1.id]
       actual_ids = Claims::ContextMapper.new(@advocate_1).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end

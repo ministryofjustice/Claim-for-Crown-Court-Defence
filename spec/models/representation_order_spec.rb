@@ -25,31 +25,30 @@ describe RepresentationOrder do
   end
 
   context 'maat_reference' do
-
     context 'case type requires maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, :requires_maat_reference) }
       it 'should error if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if greater than 10 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if non-numeric characters present' do
         representation_order.maat_reference = '1111a1111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should not error if 7-10 numeric digits' do
@@ -59,7 +58,7 @@ describe RepresentationOrder do
     end
 
     context 'case type does not require maat refrence' do
-      before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, requires_maat_reference: false) }
+      before(:each) { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, requires_maat_reference: false) }
       it 'should not error if present' do
         representation_order.maat_reference = '2078352232'
         expect(representation_order).to be_valid
@@ -69,14 +68,11 @@ describe RepresentationOrder do
         representation_order.maat_reference = nil
         expect(representation_order).to be_valid
       end
-
     end
-
   end
 
   context 'reporders for same defendant methods' do
-
-    let(:claim)         { FactoryGirl.create :claim }
+    let(:claim) { FactoryGirl.create :claim }
     let(:ro1)            { claim.defendants.first.representation_orders.first }
     let(:ro2)            { claim.defendants.first.representation_orders.last }
 
@@ -85,8 +81,8 @@ describe RepresentationOrder do
       it 'should return an array of representation orders' do
         rep_orders = ro1.reporders_for_same_defendant
         expect(rep_orders.size).to eq 2
-        expect(rep_orders.map(&:class).uniq).to eq( [ RepresentationOrder ] )
-        expect(rep_orders.map(&:defendant_id).uniq).to eq( [ claim.defendants.first.id ] )
+        expect(rep_orders.map(&:class).uniq).to eq([RepresentationOrder])
+        expect(rep_orders.map(&:defendant_id).uniq).to eq([claim.defendants.first.id])
       end
     end
 
@@ -104,7 +100,6 @@ describe RepresentationOrder do
       it 'should be false for other reporders' do
         expect(ro2.is_first_reporder_for_same_defendant?).to be false
       end
-
     end
   end
 

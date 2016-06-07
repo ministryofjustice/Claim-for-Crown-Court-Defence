@@ -12,7 +12,6 @@
 require 'rails_helper'
 
 describe VatRate do
-
   before(:all) do
     @vr1 = FactoryGirl.create :vat_rate, effective_date: 1.year.ago, rate_base_points: 2225
     @vr2 = FactoryGirl.create :vat_rate, effective_date: 3.years.ago, rate_base_points: 800
@@ -20,7 +19,7 @@ describe VatRate do
   end
 
   after(:all) do
-    VatRate.destroy( [ @vr1.id, @vr2.id, @vr3.id ] )
+    VatRate.destroy([@vr1.id, @vr2.id, @vr3.id])
   end
 
   describe '.for_date' do
@@ -55,7 +54,6 @@ describe VatRate do
     it 'should return 22.25% for dates less than one year ago' do
       expect(VatRate.pretty_rate(3.months.ago)).to eq '22.25%'
     end
-
   end
 
 
@@ -84,6 +82,4 @@ describe VatRate do
       VatRate.for_date(Date.today)
     end
   end
-
-
 end

@@ -2,11 +2,10 @@ require 'rails_helper'
 require_relative '../validation_helpers'
 
 describe Claim::BaseClaimSubModelValidator do
-
   let(:claim)               { FactoryGirl.create :claim }
   let(:defendant)           { claim.defendants.first }
 
-  before(:each)              { claim.force_validation = true }
+  before(:each) { claim.force_validation = true }
 
   it 'should call the validators on all the defendants' do
     expect(claim.defendants).to have(1).members
@@ -23,9 +22,9 @@ describe Claim::BaseClaimSubModelValidator do
   context 'fees' do
     before(:each) do
       @basic_fee = FactoryGirl.create :basic_fee, :with_date_attended, claim: claim
-      @misc_fee = FactoryGirl.create :misc_fee,:with_date_attended, claim: claim
+      @misc_fee = FactoryGirl.create :misc_fee, :with_date_attended, claim: claim
       FactoryGirl.create :date_attended, attended_item: @misc_fee
-      claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
+      claim.fees.map(&:dates_attended).flatten # iterate through the fees and dates attended so that the examples below know they have been created
       claim.form_step = 2
     end
 
@@ -40,11 +39,10 @@ describe Claim::BaseClaimSubModelValidator do
     before(:each) do
       @expense = FactoryGirl.create :expense, :with_date_attended, claim: claim
       FactoryGirl.create :date_attended, attended_item: @expense
-      claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
+      claim.expenses.map(&:dates_attended).flatten # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
       claim.form_step = 2
     end
-
   end
 
   context 'bubbling up errors to the claim' do
@@ -78,7 +76,7 @@ describe Claim::BaseClaimSubModelValidator do
 
       context 'when claim has case type requiring MAAT reference' do
         before do
-          expected_results.merge!(defendant_1_representation_order_1_maat_reference: 'invalid')
+          expected_results[:defendant_1_representation_order_1_maat_reference] = 'invalid'
 
           claim.case_type.update_column(:requires_maat_reference, true)
 
@@ -93,7 +91,7 @@ describe Claim::BaseClaimSubModelValidator do
 
         it 'should bubble up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
-            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+            expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
         end
       end
@@ -117,7 +115,7 @@ describe Claim::BaseClaimSubModelValidator do
 
         it 'should bubble up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
-            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+            expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
         end
       end

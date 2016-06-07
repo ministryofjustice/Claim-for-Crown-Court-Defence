@@ -2,15 +2,12 @@ require 'rails_helper'
 require File.join(Rails.root, 'db', 'migration_helpers', 'expense_type_migrator')
 
 module MigrationHelpers
-
-
   class MockExpenseTypeMigrator < ExpenseTypeMigrator
     def initialize
     end
   end
 
   describe ExpenseTypeMigrator do
-
     let(:mock_migrator) { MockExpenseTypeMigrator.new }
 
     context 'conference and view - car' do
@@ -22,7 +19,7 @@ module MigrationHelpers
           'Parking',
           'Hotel accommodation'
         ].each do |expense_type_name|
-          ExpenseType.create!(name: expense_type_name,  roles: ['agfs', 'lgfs'], reason_set: 'A')
+          ExpenseType.create!(name: expense_type_name, roles: ['agfs', 'lgfs'], reason_set: 'A')
         end
         @migrated_type = ExpenseType.find_by(name: 'Car travel')
       end
@@ -56,7 +53,7 @@ module MigrationHelpers
     end
 
 
-   
+
     describe 'private method is_single_date' do
       it 'returns true for single date with no date_to' do
         ex = build :expense, :with_single_date_attended
@@ -69,7 +66,7 @@ module MigrationHelpers
       end
 
       it 'returns false for single date with different dates from to' do
-         ex = build :expense, :with_date_range_attended
+        ex = build :expense, :with_date_range_attended
         expect(mock_migrator.send(:is_single_date?, ex.dates_attended)).to be false
       end
     end
@@ -91,8 +88,6 @@ module MigrationHelpers
         expected_text = "03/02/2016 - 15/02/2016, 04/03/2016 - 08/03/2016, 10/03/2016"
         expect(mock_migrator.send(:extract_date_ranges_as_text, ex)).to eq expected_text
       end
-
     end
-
-  end 
+  end
 end

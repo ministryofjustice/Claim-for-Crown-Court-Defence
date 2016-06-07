@@ -19,7 +19,6 @@
 #
 
 module Fee
-
   class BaseFeeAbstractClassError < RuntimeError
     def initialize(message = 'Fee::BaseFee is an abstract class and cannot be instantiated')
       super(message)
@@ -135,6 +134,5 @@ module Fee
       # explicitly destroy child relations
       self.dates_attended.destroy_all unless self.dates_attended.empty?
     end
-
   end
 end

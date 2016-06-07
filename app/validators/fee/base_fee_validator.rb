@@ -1,5 +1,4 @@
 class Fee::BaseFeeValidator < BaseValidator
-
   def self.fields
     [
       :amount,
@@ -188,5 +187,4 @@ private
   def daf_retrial_combo_ignorable
     @record.claim.case_type.requires_retrial_dates? && !@record.claim.editable? rescue false
   end
-
 end

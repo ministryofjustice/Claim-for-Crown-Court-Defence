@@ -3,9 +3,7 @@ require 'rails_helper'
 
 module Claims
   describe CaseWorkerClaimUpdater do
-
     context 'assessments' do
-
       let(:claim) { create :allocated_claim }
 
       context 'successful transitions' do
@@ -48,7 +46,7 @@ module Claims
 
       context 'errors' do
         it 'errors if part auth selected and no values' do
-          params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state_for_form'=>'part_authorised'}
+          params = {'assessment_attributes' => {'fees' => '0.00', 'expenses' => '0.00', 'id' => '3'}, 'state_for_form' => 'part_authorised'}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.assessment).to be_zero
@@ -63,7 +61,7 @@ module Claims
         end
 
         it 'errors if values are supplied with refused' do
-          params = {'state_for_form' => 'refused', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+          params = {'state_for_form' => 'refused', 'assessment_attributes' => {'fees' => '93.65', 'expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when refusing a claim'])
@@ -74,7 +72,7 @@ module Claims
         end
 
         it 'errors if values are supplied with rejected' do
-          params = {'state_for_form' => 'rejected', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+          params = {'state_for_form' => 'rejected', 'assessment_attributes' => {'fees' => '93.65', 'expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when rejecting a claim'])
@@ -87,8 +85,7 @@ module Claims
     end
 
     context 'redeterminations' do
-
-      let(:claim)  {
+      let(:claim) {
         klaim = create :allocated_claim
         klaim.assessment.update(fees: 200.15, expenses: 77.66)
         klaim
@@ -162,4 +159,3 @@ module Claims
     end
   end
 end
-

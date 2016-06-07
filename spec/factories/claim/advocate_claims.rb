@@ -1,7 +1,6 @@
 
 FactoryGirl.define do
   factory :claim, aliases: [:advocate_claim], class: Claim::AdvocateClaim do
-
     # Alias for :claim factory that should be used since we now have a litigator claim factory
     # TODO: replace all instances for create(:claim) to create(:advocate_claim)
     # factory :advocate_claim do
@@ -12,7 +11,7 @@ FactoryGirl.define do
     case_number { random_case_number }
     external_user
     source { 'web' }
-    apply_vat  false
+    apply_vat false
     # assessment    { Assessment.new }
 
     after(:build) do |claim|
@@ -28,21 +27,21 @@ FactoryGirl.define do
       claim.reload
     end
 
-    case_type { FactoryGirl.build  :case_type }
+    case_type { FactoryGirl.build :case_type }
     offence
     advocate_category 'QC'
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     trait :admin_creator do
       after(:build) do |claim|
-        advocate_admin = claim.external_user.provider.external_users.where(role:'admin').sample
+        advocate_admin = claim.external_user.provider.external_users.where(role: 'admin').sample
         advocate_admin ||= create(:external_user, :admin, provider: claim.external_user.provider)
         claim.creator = advocate_admin
       end
     end
 
     trait :without_assessment do
-      assessment  nil
+      assessment nil
     end
 
     trait :without_fees do
@@ -98,7 +97,7 @@ FactoryGirl.define do
     end
 
     factory :authorised_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
     end
 
     factory :redetermination_claim do
@@ -111,7 +110,7 @@ FactoryGirl.define do
     end
 
     factory :awaiting_written_reasons_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
     end
 
     factory :part_authorised_claim do

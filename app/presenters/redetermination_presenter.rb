@@ -1,5 +1,4 @@
 class RedeterminationPresenter < BasePresenter
-
   presents :redetermination
 
   def fees_total
@@ -25,5 +24,4 @@ class RedeterminationPresenter < BasePresenter
   def total_inc_vat
     h.number_to_currency(redetermination.total + redetermination.vat_amount)
   end
-
 end

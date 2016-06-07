@@ -19,7 +19,6 @@
 #
 
 FactoryGirl.define do
-
   factory :fixed_fee, class: Fee::FixedFee do
     claim
     fee_type { build :fixed_fee_type }
@@ -51,13 +50,12 @@ FactoryGirl.define do
     trait :spf_fee do
       fee_type { build :misc_fee_type, :spf }
     end
-
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do
     claim
     fee_type { build :warrant_fee_type }
-    warrant_issued_date    1.month.ago
+    warrant_issued_date 1.month.ago
     amount 25.01
 
     trait :warrant_executed do
@@ -72,8 +70,8 @@ FactoryGirl.define do
   factory :interim_fee, class: Fee::InterimFee do
     claim { build :interim_claim }
     fee_type { build :interim_fee_type }
-    quantity  2
-    amount  245.56
+    quantity 2
+    amount 245.56
     uuid SecureRandom.uuid
     rate nil
 

@@ -28,20 +28,20 @@ RSpec.describe Message, type: :model do
   it { should have_attached_file(:attachment) }
 
   it do
-     should validate_attachment_content_type(:attachment).
-       allowing('application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'text/rtf',
-                'application/rtf',
-                'image/jpeg',
-                'image/png',
-                'image/tiff',
-                'image/bmp',
-                'image/x-bitmap').
-       rejecting('text/plain',
-                 'text/html')
+    should validate_attachment_content_type(:attachment).
+      allowing('application/pdf',
+               'application/msword',
+               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+               'application/vnd.oasis.opendocument.text',
+               'text/rtf',
+               'application/rtf',
+               'image/jpeg',
+               'image/png',
+               'image/tiff',
+               'image/bmp',
+               'image/x-bitmap').
+      rejecting('text/plain',
+                'text/html')
   end
 
   it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
@@ -86,7 +86,6 @@ RSpec.describe Message, type: :model do
 
 
   context 'automotic state change of claim on message creation' do
-
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -103,7 +102,7 @@ RSpec.describe Message, type: :model do
     end
 
     it 'should change claim state from if claim_action not set' do
-      claim.messages.build( sender: user, body: 'xxxxx')
+      claim.messages.build(sender: user, body: 'xxxxx')
       claim.save
       expect(claim.state).to eq 'part_authorised'
     end
@@ -117,9 +116,8 @@ RSpec.describe Message, type: :model do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.messages.first.written_reasons_submitted = '1'
       claim.save
-      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate' ] )
+      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq([nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate'])
       expect(claim.state).to eq 'allocated'
     end
-
   end
 end

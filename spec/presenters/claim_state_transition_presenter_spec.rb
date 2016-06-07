@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ClaimStateTransitionPresenter do
-
   let(:claim)      { create(:allocated_claim) }
   let(:subject)    { ClaimStateTransitionPresenter.new(claim.last_state_transition, view) }
 

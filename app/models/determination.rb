@@ -74,5 +74,4 @@ class Determination < ActiveRecord::Base
   def negative_or_nil?(value)
     value.nil? || value < 0
   end
-
 end

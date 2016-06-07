@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Fee::MiscFeeTypePresenter do
-
   let(:fee_type)  { build :misc_fee_type }
   let(:presenter) { described_class.new(fee_type, view) }
 

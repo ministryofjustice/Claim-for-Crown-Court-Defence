@@ -14,7 +14,6 @@ module Roles
         is?(role)
       end
     end
-
   end
 
   module ClassMethods

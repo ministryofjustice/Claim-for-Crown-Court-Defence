@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claim::LitigatorClaimPresenter do
-
   let(:claim) { create :claim, disbursements_total: 1.346, case_concluded_at: Time.utc(2015, 12, 31, 20, 15) }
   subject { Claim::LitigatorClaimPresenter.new(claim, view) }
 

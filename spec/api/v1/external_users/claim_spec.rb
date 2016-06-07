@@ -4,15 +4,14 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Claim do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  VALIDATE_CLAIM_ENDPOINT = "/api/external_users/claims/validate"
-  CREATE_CLAIM_ENDPOINT = "/api/external_users/claims"
+  VALIDATE_CLAIM_ENDPOINT = "/api/external_users/claims/validate".freeze
+  CREATE_CLAIM_ENDPOINT = "/api/external_users/claims".freeze
 
-  ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
-  FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
+  ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT].freeze
+  FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete].freeze
 
   let!(:provider)       { create(:provider) }
   let!(:other_provider) { create(:provider) }
@@ -21,7 +20,8 @@ describe API::V1::ExternalUsers::Claim do
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence)}
   let!(:court)          { create(:court)}
-  let!(:valid_params)   { {
+  let!(:valid_params)   {
+    {
                           :api_key => provider.api_key,
                           :creator_email => vendor.user.email,
                           :advocate_email => advocate.user.email,
@@ -33,7 +33,9 @@ describe API::V1::ExternalUsers::Claim do
                           :trial_concluded_at => "2015-01-09",
                           :advocate_category => 'Led junior',
                           :offence_id => offence.id,
-                          :court_id => court.id } }
+                          :court_id => court.id
+}
+  }
 
   describe 'vendor' do
     it 'should belong to same provider as advocate' do
@@ -55,7 +57,6 @@ describe API::V1::ExternalUsers::Claim do
   end
 
   describe "POST #{VALIDATE_CLAIM_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
@@ -69,7 +70,6 @@ describe API::V1::ExternalUsers::Claim do
     end
 
     context 'invalid API key' do
-
       include_examples "invalid API key validate endpoint"
 
       it "should return 400 and JSON error array when it is an API key from another provider's admin" do
@@ -77,7 +77,6 @@ describe API::V1::ExternalUsers::Claim do
         post_to_validate_endpoint
         expect_error_response("Creator and advocate must belong to the provider")
       end
-
     end
 
     it "should return 400 and JSON error array when creator email is invalid" do
@@ -110,29 +109,25 @@ describe API::V1::ExternalUsers::Claim do
       expect(last_response.status).to eq(400)
       json = JSON.parse(last_response.body)
       [
-        {"error"=>"first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
-        {"error"=>"retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}
+        {"error" => "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"},
+        {"error" => "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"}
       ].each do |error|
         expect(json).to include error
       end
-
     end
-
   end
 
   describe "POST #{CREATE_CLAIM_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
 
     context "when claim params are valid" do
-
       it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -155,7 +150,6 @@ describe API::V1::ExternalUsers::Claim do
       end
 
       context "the new claim should" do
-
         before(:each) {
           post_to_create_endpoint
           @new_claim = Claim::BaseClaim.last
@@ -176,11 +170,9 @@ describe API::V1::ExternalUsers::Claim do
           expect(@new_claim.external_user).to eq expected_owner.persona
         end
       end
-
     end
 
     context "when claim params are invalid" do
-
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
@@ -197,7 +189,7 @@ describe API::V1::ExternalUsers::Claim do
           post_to_create_endpoint
           expect_error_response("Advocate email is invalid")
         end
-         it "should return 400 and a JSON error array when creator email is invalid" do
+        it "should return 400 and a JSON error array when creator email is invalid" do
           valid_params[:creator_email] = "non_existent_creator@bigblackhole.com"
           post_to_create_endpoint
           expect_error_response("Creator email is invalid")
@@ -209,8 +201,8 @@ describe API::V1::ExternalUsers::Claim do
           valid_params.delete(:case_type_id)
           valid_params.delete(:case_number)
           post_to_create_endpoint
-          expect_error_response("Choose a case type",0)
-          expect_error_response("Enter a case number",1)
+          expect_error_response("Choose a case type", 0)
+          expect_error_response("Enter a case number", 1)
         end
       end
 
@@ -219,16 +211,16 @@ describe API::V1::ExternalUsers::Claim do
           valid_params[:estimated_trial_length] = -1
           valid_params[:actual_trial_length] = -1
           post_to_create_endpoint
-          expect_error_response("Enter a whole number of days for the estimated trial length",0)
-          expect_error_response("Enter a whole number of days for the actual trial length",1)
+          expect_error_response("Enter a whole number of days for the estimated trial length", 0)
+          expect_error_response("Enter a whole number of days for the actual trial length", 1)
         end
 
         it "should return 400 and JSON error array of model validation INVALID errors" do
           valid_params[:estimated_trial_length] = nil
           valid_params[:actual_trial_length] = nil
           post_to_create_endpoint
-          expect_error_response("Enter an estimated trial length",0)
-          expect_error_response("Enter an actual trial length",1)
+          expect_error_response("Enter an estimated trial length", 0)
+          expect_error_response("Enter an actual trial length", 1)
         end
       end
 
@@ -237,13 +229,9 @@ describe API::V1::ExternalUsers::Claim do
           valid_params[:case_type_id] = 1000000000000000000000000000011111
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
           expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
-
     end
-
   end
-
 end

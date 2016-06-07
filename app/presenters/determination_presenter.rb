@@ -1,5 +1,4 @@
 class DeterminationPresenter < BasePresenter
-
   presents :version
 
   def event

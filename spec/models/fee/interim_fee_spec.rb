@@ -22,7 +22,6 @@ require 'rails_helper'
 
 module Fee
   describe InterimFee do
-
     let(:fee)               { build :interim_fee }
     let(:disbursement_fee)  { build :interim_fee, fee_type: build(:interim_fee_type, :disbursement) }
     let(:warrant_fee)       { build :interim_fee, fee_type: build(:interim_fee_type, :warrant) }

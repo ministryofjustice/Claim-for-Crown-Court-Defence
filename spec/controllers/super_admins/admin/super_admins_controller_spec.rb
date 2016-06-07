@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
-
   let(:super_admin) { create(:super_admin) }
 
   subject { super_admin }
@@ -20,7 +19,6 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   end
 
   describe "GET #edit" do
-
     before { get :edit, id: subject }
 
     it "returns http success" do
@@ -37,7 +35,6 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   end
 
   describe "GET #change_password" do
-
     before { get :change_password, id: subject }
 
     it "returns http success" do
@@ -54,7 +51,6 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   end
 
   describe "PUT #update_password" do
-
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -77,13 +73,12 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
- describe "PUT #update" do
+  describe "PUT #update" do
     before(:each) do
       put :update, id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com'} }
     end
 
     context 'when valid' do
-
       it 'updates a super admin' do
         subject.reload
         expect(subject.reload.user.first_name).to eq('Joshua')
@@ -109,5 +104,4 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
       end
     end
   end
-
 end

@@ -49,6 +49,5 @@ FactoryGirl.define do
       name 'Travel time'
       reason_set 'B'
     end
-
   end
 end

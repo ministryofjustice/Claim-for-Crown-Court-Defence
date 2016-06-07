@@ -1,6 +1,5 @@
 module Claims
   class CaseWorkerClaimUpdater
-
     attr_reader :claim, :result, :messages
 
     def initialize(claim_id, params)
@@ -88,6 +87,5 @@ module Claims
       params_with_defaults = {'fees' => '0.00', 'expenses' => '0.00', 'disbursements' => '0.00'}.merge(@redetermination_params)
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
-
   end
 end

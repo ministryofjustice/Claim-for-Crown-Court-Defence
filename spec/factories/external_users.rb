@@ -57,13 +57,12 @@ FactoryGirl.define do
       roles ['admin']
       provider { create(:provider, :agfs_lgfs) }
     end
-
   end
 end
 
 def generate_unique_supplier_number
   alpha_part = ""
-  2.times{alpha_part  << (65 + rand(25)).chr}
+  2.times{alpha_part << (65 + rand(25)).chr}
   numeric_part = rand(999)
   "#{alpha_part}#{sprintf('%03d', numeric_part)}"
 end

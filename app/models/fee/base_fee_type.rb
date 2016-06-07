@@ -16,7 +16,6 @@
 #
 
 module Fee
-
   class FeeBaseFeeTypeAbstractClassError
     def initialize(message = 'Fee::BaseFeeType is an abstract class and cannot be instantiated')
       super(message)
@@ -80,6 +79,5 @@ module Fee
     end
 
     private_class_method :by_fee_category
-
   end
 end

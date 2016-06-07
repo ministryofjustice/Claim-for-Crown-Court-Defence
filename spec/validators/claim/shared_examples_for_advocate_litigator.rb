@@ -1,5 +1,4 @@
 shared_examples "common advocate litigator validations" do |external_user_type|
-
   context 'external_user' do
     it 'should error if not present, regardless' do
       claim.external_user = nil
@@ -64,7 +63,6 @@ end
 
 
 shared_examples "common litigator validations" do
-
   let(:advocate)      { build(:external_user, :advocate) }
   let(:offence)       { build(:offence) }
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
@@ -99,7 +97,7 @@ shared_examples "common litigator validations" do
     before(:each) { claim.force_validation = true }
 
     it 'is invalid when absent' do
-      should_error_if_not_present(claim,:case_concluded_at,'blank')
+      should_error_if_not_present(claim, :case_concluded_at, 'blank')
     end
 
     it 'is invalid when too far in past' do

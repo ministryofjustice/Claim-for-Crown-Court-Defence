@@ -1,5 +1,4 @@
 class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::ApplicationController
-
   include PasswordHelpers
 
   before_action :set_super_admin, only: [:show, :edit, :update, :change_password, :update_password]
@@ -38,5 +37,4 @@ class SuperAdmins::Admin::SuperAdminsController < SuperAdmins::Admin::Applicatio
                       :last_name]
     )
   end
-
 end

@@ -23,7 +23,6 @@
 #
 
 class Expense < ActiveRecord::Base
-
   MILEAGE_RATES = {
     1 => Struct.new(:id, :description).new(1, '25p per mile'),
     2 => Struct.new(:id, :description).new(2, '45p per mile')

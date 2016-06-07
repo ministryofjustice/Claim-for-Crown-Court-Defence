@@ -1,5 +1,4 @@
 class RailsHost
-
   VALID_ENVS = %w{ dev demo staging api-sandbox gamma }
 
 
@@ -15,6 +14,4 @@ class RailsHost
       super
     end
   end
-
-
 end

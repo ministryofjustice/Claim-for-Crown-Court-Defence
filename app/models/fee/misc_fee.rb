@@ -19,7 +19,6 @@
 #
 
 class Fee::MiscFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::MiscFeeType
 
   validates_with Fee::MiscFeeValidator
@@ -27,5 +26,4 @@ class Fee::MiscFee < Fee::BaseFee
   def is_misc?
     true
   end
-
 end

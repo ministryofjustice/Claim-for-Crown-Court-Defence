@@ -28,11 +28,11 @@ FactoryGirl.define do
     claim
     location Faker::Address.city
     amount "9.99"
-    reason_id 2   # reason set B doesn't have ID 1
+    reason_id 2 # reason set B doesn't have ID 1
     date 3.days.ago
 
     trait :car_travel do
-      expense_type  { build :expense_type, :car_travel }
+      expense_type { build :expense_type, :car_travel }
       distance 27
       mileage_rate_id 2
     end
@@ -95,6 +95,5 @@ FactoryGirl.define do
     trait :lgfs do
       expense_type { create(:expense_type, :lgfs) }
     end
-
   end
 end

@@ -2,7 +2,6 @@
 # like :defendant_3_represntation_order_2_date_of_birth
 
 class ErrorMessageTranslator
-
   attr_reader :long_message, :short_message, :api_message
 
   def initialize(translations, fieldname, error)
@@ -137,5 +136,4 @@ class ErrorMessageTranslator
   def to_ordinal_in_words(n)
     %W(#{} first second third fourth fifth sixth seventh eighth ninth tenth)[n] # rubocop:disable Lint/EmptyInterpolation
   end
-
 end

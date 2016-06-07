@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/../validation_helpers'
 
 describe Fee::MiscFeeValidator do
-
   include ValidationHelpers
   include_context 'force-validation'
 
@@ -15,7 +14,7 @@ describe Fee::MiscFeeValidator do
     let(:claim) { FactoryGirl.build :litigator_claim }
 
     before(:each) do
-      fee.clear   # reset some attributes set by the factory
+      fee.clear # reset some attributes set by the factory
       fee.amount = 1.00
     end
 

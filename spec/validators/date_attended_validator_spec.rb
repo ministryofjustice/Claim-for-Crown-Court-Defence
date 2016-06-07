@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe DateAttendedValidator do
-
   include ValidationHelpers
 
   let(:claim) do
@@ -10,8 +9,8 @@ describe DateAttendedValidator do
                       total: 10,
                       force_validation: true,
                       first_day_of_trial: 5.weeks.ago,
-                      fees: [ FactoryGirl.build(:basic_fee, dates_attended: [ FactoryGirl.build(:date_attended) ]) ],
-                      defendants: [ FactoryGirl.build(:defendant) ]
+                      fees: [FactoryGirl.build(:basic_fee, dates_attended: [FactoryGirl.build(:date_attended)])],
+                      defendants: [FactoryGirl.build(:defendant)]
     fee = claim.fees.first
     fee.claim = claim
     date_attended = fee.dates_attended.first
@@ -36,5 +35,4 @@ describe DateAttendedValidator do
       expect(date_attended).to be_valid
     end
   end
-
 end

@@ -19,7 +19,6 @@
 #
 
 class Fee::BasicFee < Fee::BaseFee
-
   belongs_to :fee_type, class_name: Fee::BasicFeeType
 
   validates_with Fee::BasicFeeValidator
@@ -33,5 +32,4 @@ class Fee::BasicFee < Fee::BaseFee
   def is_basic?
     true
   end
-
 end

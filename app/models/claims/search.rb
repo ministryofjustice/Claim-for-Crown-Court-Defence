@@ -1,5 +1,4 @@
 module Claims::Search
-
   QUERY_MAPPINGS_FOR_SEARCH = {
     case_number: {
       query: "claims.case_number ILIKE :term"

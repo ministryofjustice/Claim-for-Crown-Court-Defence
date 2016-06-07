@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../validation_helpers'
 require_relative 'shared_examples_for_fee_validators_spec'
 
 describe Fee::FixedFeeValidator do
-
   include ValidationHelpers
   include_context 'force-validation'
 
@@ -16,7 +15,7 @@ describe Fee::FixedFeeValidator do
     let(:claim) { FactoryGirl.build :litigator_claim }
 
     before(:each) do
-      fee.clear   # reset some attributes set by the factory
+      fee.clear # reset some attributes set by the factory
       fee.amount = 1.00
     end
 
@@ -66,7 +65,7 @@ describe Fee::FixedFeeValidator do
 
       context 'should error if fee type has children but fee has no sub type' do
         it 'should be present' do
-         should_error_if_not_present(fee, :sub_type, 'blank')
+          should_error_if_not_present(fee, :sub_type, 'blank')
         end
 
         it 'should NOT error if it is a valid sub type' do
@@ -76,7 +75,7 @@ describe Fee::FixedFeeValidator do
         it 'should error if not a valid sub type' do
           fee.sub_type = unrelated_child
           expect(fee).to_not be_valid
-          expect(fee.errors[:sub_type]).to include( 'invalid' )
+          expect(fee.errors[:sub_type]).to include('invalid')
         end
       end
 

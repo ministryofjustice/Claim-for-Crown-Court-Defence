@@ -5,15 +5,14 @@ require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
 describe API::V1::ExternalUsers::Fee do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_FEE_ENDPOINT = "/api/external_users/fees"
-  VALIDATE_FEE_ENDPOINT = "/api/external_users/fees/validate"
+  CREATE_FEE_ENDPOINT = "/api/external_users/fees".freeze
+  VALIDATE_FEE_ENDPOINT = "/api/external_users/fees/validate".freeze
 
-  ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT]
-  FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
+  ALL_FEE_ENDPOINTS = [VALIDATE_FEE_ENDPOINT, CREATE_FEE_ENDPOINT].freeze
+  FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete].freeze
 
   let!(:provider)         { create(:provider) }
   let!(:basic_fee_type)   { create(:basic_fee_type) }
@@ -21,7 +20,7 @@ describe API::V1::ExternalUsers::Fee do
   let!(:fixed_fee_type)   { create(:fixed_fee_type) }
   let!(:claim)            { create(:claim, source: 'api').reload }
   let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
-  let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
+  let(:json_error_response) { [{"error" => "Choose a type for the fee" }].to_json }
 
   context 'sending non-permitted verbs' do
     ALL_FEE_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -37,7 +36,6 @@ describe API::V1::ExternalUsers::Fee do
   end
 
   describe "POST #{CREATE_FEE_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_FEE_ENDPOINT, valid_params, format: :json
     end
@@ -45,7 +43,6 @@ describe API::V1::ExternalUsers::Fee do
     include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when fee params are valid' do
-
       it "should create fee, return 201 and fee JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -70,7 +67,7 @@ describe API::V1::ExternalUsers::Fee do
 
       context 'with fee amount provided' do
         it 'should ignore amount for all fee types that are calculated (all except PPE/NPW)' do
-          valid_params.merge!(amount: 155.50)
+          valid_params[:amount] = 155.50
           post_to_create_endpoint
           fee = Fee::BaseFee.last
           expect(fee.amount).to eq 150.00
@@ -78,7 +75,6 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'basic fees' do
-
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
 
         it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
@@ -105,31 +101,29 @@ describe API::V1::ExternalUsers::Fee do
           expect(fee.amount).to eq 210.00
         end
       end
-
     end
 
     context "fee type specific errors" do
-
-      let!(:valid_params)       { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
-      before (:each) { valid_params.delete(:rate) }
+      let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
+      before(:each) { valid_params.delete(:rate) }
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
         valid_params[:fee_type_id] = basic_fee_type.id
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a quantity of 0 to 1 for basic fee",0)
+        expect_error_response("Enter a quantity of 0 to 1 for basic fee", 0)
         # NOTE: basic fee should allow 0 rate for claim basic fee at instantiation/creation but not thereafter
-        expect_error_response("Enter a valid rate for the basic fee",1)
+        expect_error_response("Enter a valid rate for the basic fee", 1)
       end
 
       it 'uncalculated fees (PPE/NPW) should raise an error when rate provided' do
         valid_params[:fee_type_id] = basic_fee_type.id
-        valid_params.merge!(rate: 25)
+        valid_params[:rate] = 25
         basic_fee_type.update(code: 'PPE', calculated: false) # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Pages of prosecution evidence fees must not a have rate",0)
+        expect_error_response("Pages of prosecution evidence fees must not a have rate", 0)
       end
 
       # NOT exhaustive
@@ -137,21 +131,21 @@ describe API::V1::ExternalUsers::Fee do
         valid_params[:fee_type_id] = basic_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a valid rate for the basic fee",0)
+        expect_error_response("Enter a valid rate for the basic fee", 0)
       end
 
       it 'misc fees should raise misc fee errors from translations' do
         valid_params[:fee_type_id] = misc_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a rate for the miscellaneous fee",0)
+        expect_error_response("Enter a rate for the miscellaneous fee", 0)
       end
 
       it 'fixed fees should raise misc fee errors from translations' do
         valid_params[:fee_type_id] = fixed_fee_type.id
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Enter a rate for the fixed fee",0)
+        expect_error_response("Enter a rate for the fixed fee", 0)
       end
     end
 
@@ -165,7 +159,6 @@ describe API::V1::ExternalUsers::Fee do
           valid_params.delete(:fee_type_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          json = JSON.parse(last_response.body)
           expect(last_response.body).to eq json_error_response
         end
       end
@@ -176,7 +169,7 @@ describe API::V1::ExternalUsers::Fee do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           result_hash = JSON.parse(last_response.body)
-          expect(result_hash).to eq( [ {"error"=>"RangeError"} ] )
+          expect(result_hash).to eq([{"error" => "RangeError"}])
         end
       end
 
@@ -185,7 +178,7 @@ describe API::V1::ExternalUsers::Fee do
           valid_params.delete(:claim_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response("Claim cannot be blank",0)
+          expect_error_response("Claim cannot be blank", 0)
         end
       end
 
@@ -194,7 +187,7 @@ describe API::V1::ExternalUsers::Fee do
           valid_params[:claim_id] = SecureRandom.uuid
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response("Claim cannot be blank",0)
+          expect_error_response("Claim cannot be blank", 0)
         end
       end
 
@@ -203,16 +196,13 @@ describe API::V1::ExternalUsers::Fee do
           valid_params[:claim_id] = 'any-old-rubbish'
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          expect_error_response("Claim cannot be blank",0)
+          expect_error_response("Claim cannot be blank", 0)
         end
       end
-
     end
-
   end
 
   describe "POST #{VALIDATE_FEE_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_FEE_ENDPOINT, valid_params, format: :json
     end
@@ -232,5 +222,4 @@ describe API::V1::ExternalUsers::Fee do
       end
     end
   end
-
 end

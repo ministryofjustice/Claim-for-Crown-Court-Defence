@@ -2,12 +2,11 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
-
   let(:super_admin)   { create(:super_admin) }
   let(:provider)      { create(:provider) }
 
-  let(:frozen_time)  { 6.months.ago }
-  let(:external_user)   do
+  let(:frozen_time) { 6.months.ago }
+  let(:external_user) do
     Timecop.freeze(frozen_time) { create(:external_user, :admin, provider: provider) }
   end
 
@@ -25,7 +24,6 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       expect(assigns(:provider)).to eq(provider)
       expect(assigns(:external_user)).to eq(external_user)
     end
-
   end
 
   describe "GET #index" do
@@ -42,14 +40,13 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     it 'assigns @external_users' do
       expect(assigns(:external_users)).to include(external_user)
     end
-
   end
 
   describe "GET #new" do
     let(:external_user) do
-     a = ExternalUser.new(provider: provider)
-     a.build_user
-     a
+      a = ExternalUser.new(provider: provider)
+      a.build_user
+      a
     end
 
     before { get :new, provider_id: provider }
@@ -73,16 +70,14 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     it 'renders the new template' do
       expect(response).to render_template(:new)
     end
-
   end
 
   describe "POST #create" do
-
     def post_to_create_external_user_action(options={})
       post :create,
             provider_id: provider,
-            external_user: { user_attributes: {  email: 'foo@foobar.com',
-                                            first_name: options[:valid]==false ? '' : 'john',
+            external_user: { user_attributes: { email: 'foo@foobar.com',
+                                            first_name: options[:valid] == false ? '' : 'john',
                                             last_name: 'Smith' },
                         roles: ['advocate'],
                         supplier_number: 'AB124' }
@@ -118,7 +113,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-   it 'assigns @provider and @external_user' do
+    it 'assigns @provider and @external_user' do
       expect(assigns(:provider)).to eq(provider)
       expect(assigns(:external_user)).to eq(external_user)
     end
@@ -129,7 +124,6 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   end
 
   describe "PUT #update" do
-
     context 'when valid' do
       before(:each) { put :update, provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } }
 
@@ -175,9 +169,7 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
   end
 
   describe "PUT #update_password" do
-
     context 'when valid' do
-
       before(:each) do
         put :update_password, provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'password123' } }
         external_user.reload
@@ -193,7 +185,6 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
     end
 
     context 'when invalid' do
-
       before(:each) do
         put :update_password, provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } }
       end
@@ -206,7 +197,5 @@ RSpec.describe SuperAdmins::ExternalUsersController, type: :controller do
         expect(response).to render_template(:change_password)
       end
     end
-
   end
-
 end

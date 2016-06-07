@@ -2,15 +2,13 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe 'ExpenseV1Validator and ExpenseV2Validator' do
-
   include ValidationHelpers
 
   context 'schema_version 2' do
-
     let(:claim)                       { build :claim, force_validation: true }
     let(:expense)                     { build :expense, :train, claim: claim }
-    let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
-    let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
+    let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim) }
+    let(:parking_expense)             { build(:expense, :parking, claim: claim) }
     let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
     let(:train_expense)               { build(:expense, :train, claim: claim) }
     let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
@@ -231,7 +229,6 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     describe '#validate distance' do
       context 'valid' do
-
         it 'is valid when present for car travel' do
           car_travel_expense.distance = 33
           expect(car_travel_expense).to be_valid
@@ -330,12 +327,10 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(car_travel_expense.errors[:mileage_rate_id]).to include('blank')
         end
       end
-
     end
   end
 
   context 'schema_version 1' do
-
     let(:claim)      { FactoryGirl.build :claim, force_validation: true }
     let(:expense)    { FactoryGirl.build :expense, claim: claim, expense_type: build(:expense_type) }
 
@@ -346,6 +341,3 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
   end
 end
-
-
-

@@ -1,5 +1,4 @@
 class Fee::InterimFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,
@@ -33,8 +32,8 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
   def validate_disbursements
     if @record.is_disbursement?
       add_error(:disbursements, 'blank') if @record.claim.disbursements.empty?
-    else
-      add_error(:disbursements, 'present') if @record.is_interim_warrant? && @record.claim.disbursements.any?
+    elsif @record.is_interim_warrant? && @record.claim.disbursements.any?
+      add_error(:disbursements, 'present')
     end
   end
 
@@ -50,5 +49,4 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     validate_not_before(@record.warrant_issued_date, :warrant_executed_date, 'warrant_executed_before_issued')
     validate_not_after(Date.today, :warrant_executed_date, 'check_not_in_future')
   end
-
 end

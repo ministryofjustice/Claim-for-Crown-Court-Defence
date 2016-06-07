@@ -143,5 +143,4 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     sort_and_paginate
     set_claim_carousel_info
   end
-
 end

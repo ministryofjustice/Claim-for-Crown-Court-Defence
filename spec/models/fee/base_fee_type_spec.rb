@@ -18,9 +18,7 @@
 require 'rails_helper'
 
 module Fee
-
   RSpec.describe BaseFeeType, type: :model do
-
     context '#new' do
       it 'should raise BaseFeeTypeAbstractClassError' do
         expect { BaseFeeType.new }.to raise_error
@@ -31,14 +29,12 @@ module Fee
       # using MiscFeeType becasue the shared exmaples use a factory, which rules out the use of a class double
       it_behaves_like 'roles', MiscFeeType, MiscFeeType::ROLES
     end
-    
   end
 
   class FeeTypeDouble < BaseFeeType
   end
 
   RSpec.describe FeeTypeDouble, type: :model do
-    
     it { should have_many(:fees) }
 
     it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
@@ -65,7 +61,5 @@ module Fee
         expect(ft.quantity_is_decimal).to be true
       end
     end
-
   end
-
 end

@@ -1,5 +1,4 @@
 class DocumentRecloner
-
   def initialize(claim_id)
     @cloned_claim = Claim::BaseClaim.find claim_id
     @source_claim = Claim::BaseClaim.find @cloned_claim.clone_source_id
@@ -60,7 +59,4 @@ class DocumentRecloner
     File.stat(downloaded_file).size == 0
     # rubocop:enable ZeroLengthPredicate
   end
-
 end
-
-

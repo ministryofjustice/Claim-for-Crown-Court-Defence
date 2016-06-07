@@ -18,13 +18,11 @@ require 'rails_helper'
 
 
 describe Assessment do
-
-  let(:claim)         { FactoryGirl.create :claim }
+  let(:claim) { FactoryGirl.create :claim }
 
   context 'validations' do
-
     context 'fees' do
-      it 'should not accept negative values'  do
+      it 'should not accept negative values' do
         expect {
           # FactoryGirl.create :assessment, claim: claim, fees: -33.55
           claim.assessment.update!(fees: -33.35)
@@ -40,7 +38,7 @@ describe Assessment do
     end
 
     context 'expenses' do
-      it 'should not accept negative values'  do
+      it 'should not accept negative values' do
         expect {
           claim.assessment.update!(expenses: -33.55)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
@@ -91,7 +89,7 @@ describe Assessment do
         ass = claim.assessment
         ass.vat_amount = 0.33
         ass.update_values(100.0, 250.0, 150.0)
-        expect(ass.vat_amount).to eql((0.33))
+        expect(ass.vat_amount).to eql(0.33)
       end
     end
   end
@@ -131,5 +129,4 @@ describe Assessment do
       expect(assessment.created_at).to eq DateTime.new(2016, 1, 2, 3, 4, 5)
     end
   end
-
 end

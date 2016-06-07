@@ -13,7 +13,6 @@ RSpec::Matchers.define :contain_claims do |*expected|
   failure_message do |actual|
     "expected that records:\n\t #{actual.inspect} \n\nwould be equal to records\n\t #{expected.inspect}"
   end
-
 end
 
 

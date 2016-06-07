@@ -54,7 +54,6 @@
 #
 
 module Claim
-
   class BaseClaimAbstractClassError < RuntimeError
     def initialize(message = 'Claim::BaseClaim is an abstract class and cannot be instantiated')
       super(message)
@@ -62,7 +61,6 @@ module Claim
   end
 
   class BaseClaim < ActiveRecord::Base
-
     self.table_name = 'claims'
 
     auto_strip_attributes :case_number, :cms_number, :supplier_number, squish: true, nullify: true

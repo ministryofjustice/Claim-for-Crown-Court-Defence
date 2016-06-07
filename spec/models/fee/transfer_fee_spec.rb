@@ -30,4 +30,3 @@ module Fee
     end
   end
 end
-

@@ -1,16 +1,13 @@
 module API
   module V1
     module ExternalUsers
-
       class Expense < GrapeApiHelper
-
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/external_users'
         content_type :json, 'application/json'
 
         resource :expenses, desc: 'Create or Validate' do
-
           helpers do
             params :expense_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -68,13 +65,8 @@ module API
             status api_response.status
             return api_response.body
           end
-
         end
-
-
       end
-
     end
-
   end
 end

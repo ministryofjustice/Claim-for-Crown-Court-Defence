@@ -5,7 +5,6 @@ require_relative 'shared_examples_for_step_validators'
 
 module Claim
   describe(Claim::TransferClaimValidator) do
-
     include ValidationHelpers
     include_context "force-validation"
 
@@ -114,9 +113,8 @@ module Claim
     end
 
     context 'case_conclusion' do
-
       let(:claim) do
-        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id:30, case_conclusion_id: 10)
+        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 30, case_conclusion_id: 10)
         claim.form_step = 2
         claim.force_validation = true
         claim
@@ -149,7 +147,6 @@ module Claim
     end
 
     context 'transfer_details combination' do
-
       let(:claim) do
         claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10)
         claim.form_step = 2
@@ -183,11 +180,10 @@ module Claim
       end
 
       it 'should validate existence of a transfer fee on the claim' do
-        allow(claim).to receive_message_chain(:transfer_fee,:nil?).and_return(true)
+        allow(claim).to receive_message_chain(:transfer_fee, :nil?).and_return(true)
         expect(claim).not_to be_valid
         expect(claim.errors[:transfer_fee]).to eq ['blank']
       end
     end
-
   end
 end

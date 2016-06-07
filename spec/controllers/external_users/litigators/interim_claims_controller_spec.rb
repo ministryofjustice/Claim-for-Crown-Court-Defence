@@ -2,8 +2,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :controller, focus: true do
-
-  let!(:litigator)      { create(:external_user, :litigator) }
+  let!(:litigator) { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
   let(:court)         { create(:court) }
@@ -40,7 +39,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   describe 'POST #create' do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:claim_params) do
           {
             external_user_id: litigator.id,
@@ -66,8 +64,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
                     representation_order_date_yyyy: Time.now.year.to_s,
                     maat_reference: '4561237895'
                   }
-                ]
-              }
+                ]}
             ]
           }
         end
@@ -111,7 +108,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A88888888' }
-          let(:interim_fee_type)  { create(:interim_fee_type, :effective_pcmh) }
+          let(:interim_fee_type) { create(:interim_fee_type, :effective_pcmh) }
 
           let(:interim_fee_params) {
             {
@@ -150,8 +147,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
                               representation_order_date_yyyy: Time.now.year.to_s,
                               maat_reference: '4561237895'
                           }
-                      ]
-                    }
+                      ]}
                 ]
             }
           end
@@ -170,7 +166,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             before do
               post :create, commit_continue: 'Continue', claim: claim_params_step1
             end
-            
+
             it 'should leave claim in draft state'  do expect(subject_claim.draft?).to be_truthy end
             it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
             it { expect(response).to render_template('external_users/litigators/interim_claims/new') }
@@ -185,7 +181,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             it 'saves as draft' do
               expect(subject_claim.draft?).to be_truthy
             end
-            
+
             it 'redirects to summary page' do
               expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
             end
@@ -195,13 +191,12 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               expect(subject_claim.interim_fee.quantity).to eql 2
               expect(subject_claim.interim_fee.amount).to eql 10.00
             end
-
           end
         end
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
@@ -252,7 +247,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     subject { create(:interim_claim, :interim_effective_pcmh_fee, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
@@ -324,7 +318,8 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
@@ -332,10 +327,10 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end
   end
-
 end

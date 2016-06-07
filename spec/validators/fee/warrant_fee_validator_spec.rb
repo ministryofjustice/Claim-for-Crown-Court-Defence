@@ -2,8 +2,7 @@ require 'rails_helper'
 
 module Fee
   describe WarrantFee do
-
-    let(:fee)       { build :warrant_fee }
+    let(:fee) { build :warrant_fee }
 
     before(:each) do
       allow(fee).to receive(:perform_validation?).and_return(true)
@@ -21,7 +20,6 @@ module Fee
         expect(fee).to_not be_valid
         expect(fee.errors[:amount]).to include 'numericality'
       end
-
     end
 
     describe '#validate_warrant_issued_date' do
@@ -45,16 +43,15 @@ module Fee
       it 'should be invalid if not present' do
         fee.warrant_issued_date = nil
         expect(fee).not_to be_valid
-        expect(fee.errors[:warrant_issued_date]).to eq( [ 'blank' ] )
+        expect(fee.errors[:warrant_issued_date]).to eq(['blank'])
       end
     end
 
     describe '#validate_warrant_executed_date' do
-
       it 'should raise error if before warrant_issued_date' do
         fee.warrant_executed_date = fee.warrant_issued_date - 1.day
         expect(fee).not_to be_valid
-        expect(fee.errors[:warrant_executed_date]).to eq( [ 'warrant_executed_before_issued'] )
+        expect(fee.errors[:warrant_executed_date]).to eq(['warrant_executed_before_issued'])
       end
 
       it 'should be invalid if present and too far in the past' do

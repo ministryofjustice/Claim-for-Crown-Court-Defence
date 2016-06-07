@@ -1,5 +1,4 @@
 class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::ApplicationController
-
   include PasswordHelpers
 
   before_action :set_external_user, only: [:show, :edit, :update, :destroy, :change_password, :update_password]

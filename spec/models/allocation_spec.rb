@@ -17,7 +17,6 @@ RSpec.describe Allocation, type: :model do
   end
 
   describe '#save' do
-
     context 'allocating and re-allocating' do
       let(:claims) { create_list(:submitted_claim, 3) }
       let(:case_worker) { create(:case_worker) }
@@ -80,8 +79,8 @@ RSpec.describe Allocation, type: :model do
         it 'will populate allocation errors including header without failing' do
           subject.save
           expect(subject.errors.count).to eq 2 # claim error plus heading error warning
-          expect(subject.errors.full_messages.first).to match /NO claims allocated/
-          expect(subject.errors.full_messages.second).to match /Claim .* has already been allocated/
+          expect(subject.errors.full_messages.first).to match(/NO claims allocated/)
+          expect(subject.errors.full_messages.second).to match(/Claim .* has already been allocated/)
           expect(case_worker.claims.count).to eq 0
         end
       end

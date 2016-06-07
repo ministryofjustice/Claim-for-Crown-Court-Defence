@@ -26,5 +26,4 @@ module ExternalUsers::ClaimsHelper
     return if presenter.nil? || !presenter.is_a?(ErrorPresenter)
     presenter.field_level_error_for(attribute.to_sym).split(',').each { |e| e.strip! }
   end
-
 end

@@ -3,21 +3,20 @@ require 'spec_helper'
 require_relative 'external_users/api_spec_helper'
 
 describe API::V1::DropdownData do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CASE_TYPE_ENDPOINT          = "/api/case_types"
-  COURT_ENDPOINT              = "/api/courts"
-  ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
-  CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds"
-  OFFENCE_CLASS_ENDPOINT      = "/api/offence_classes"
-  OFFENCE_ENDPOINT            = "/api/offences"
-  FEE_TYPE_ENDPOINT           = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
+  CASE_TYPE_ENDPOINT          = "/api/case_types".freeze
+  COURT_ENDPOINT              = "/api/courts".freeze
+  ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories".freeze
+  CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds".freeze
+  OFFENCE_CLASS_ENDPOINT      = "/api/offence_classes".freeze
+  OFFENCE_ENDPOINT            = "/api/offences".freeze
+  FEE_TYPE_ENDPOINT           = "/api/fee_types".freeze
+  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types".freeze
 
-  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
-  FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
+  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT].freeze
+  FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete].freeze
 
   let(:provider) { create(:provider) }
   let(:params)   { {api_key: provider.api_key} }
@@ -36,19 +35,18 @@ describe API::V1::DropdownData do
   end
 
   context 'each dropdown data endpoint' do
-
     let(:results) {
-                      {
-                        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
-                        COURT_ENDPOINT => Court.all.to_json,
-                        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
-                        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
-                        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
-                        OFFENCE_ENDPOINT => Offence.all.to_json,
-                        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
-                        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json
-                      }
-                    }
+      {
+        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
+        COURT_ENDPOINT => Court.all.to_json,
+        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
+        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
+        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
+        OFFENCE_ENDPOINT => Offence.all.to_json,
+        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
+        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json
+      }
+    }
 
     before do
       create_list(:case_type, 2)
@@ -70,7 +68,7 @@ describe API::V1::DropdownData do
     end
 
     it 'should require an API key' do
-      results.each do |endpoint, expectation|
+      results.each do |endpoint, _expectation|
         params.delete(:api_key)
         get endpoint, params, format: :json
         expect(last_response.status).to eq 401
@@ -80,11 +78,10 @@ describe API::V1::DropdownData do
   end
 
   context 'GET api/offences' do
-
-      let!(:offence)                        { create(:offence) }
-      let!(:other_offence)                  { create(:offence) }
-      let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
-      let!(:response)                       { get OFFENCE_ENDPOINT, params }
+    let!(:offence) { create(:offence) }
+    let!(:other_offence)                  { create(:offence) }
+    let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
+    let!(:response)                       { get OFFENCE_ENDPOINT, params }
 
     it 'should include the offence class as nested JSON' do
       body = JSON.parse(response.body)
@@ -92,7 +89,7 @@ describe API::V1::DropdownData do
     end
 
     it 'should only return offences matching description when offence_description param is present' do
-      params.merge!(offence_description: offence.description)
+      params[:offence_description] = offence.description
       response = get OFFENCE_ENDPOINT, params
       returned_offences = JSON.parse(response.body)
       expect(returned_offences).to include(JSON.parse(offence.to_json), JSON.parse(offence_with_same_description.to_json))
@@ -110,12 +107,12 @@ describe API::V1::DropdownData do
     }
 
     def get_filtered_fee_types(category=nil)
-      params.merge!(category: category)
-      get FEE_TYPE_ENDPOINT, params , format: :json
+      params[:category] = category
+      get FEE_TYPE_ENDPOINT, params, format: :json
     end
 
     it 'should filter by category and scheme applicability' do
-      categories = [ 'basic', 'misc', 'fixed']
+      categories = ['basic', 'misc', 'fixed']
       categories.each do |category|
         response = get_filtered_fee_types(category)
         expect(response.status).to eq 200
@@ -152,7 +149,7 @@ describe API::V1::DropdownData do
   context "expense v2" do
     before do
       create_list(:expense_type, 2)
-      create(:expense_type,:lgfs)
+      create(:expense_type, :lgfs)
       get EXPENSE_TYPE_ENDPOINT, params, format: :json
     end
 

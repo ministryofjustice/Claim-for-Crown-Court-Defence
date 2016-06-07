@@ -4,15 +4,14 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::DateAttended do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended"
-  VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended/validate"
+  CREATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended".freeze
+  VALIDATE_DATE_ATTENDED_ENDPOINT = "/api/external_users/dates_attended/validate".freeze
 
-  ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT]
-  FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
+  ALL_DATES_ATTENDED_ENDPOINTS = [VALIDATE_DATE_ATTENDED_ENDPOINT, CREATE_DATE_ATTENDED_ENDPOINT].freeze
+  FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete].freeze
 
   let!(:provider)     { create(:provider) }
   let!(:claim)        { create(:claim, source: 'api') }
@@ -33,7 +32,6 @@ describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{CREATE_DATE_ATTENDED_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
@@ -106,22 +104,21 @@ describe API::V1::ExternalUsers::DateAttended do
       end
 
       context 'malformed date format' do
-          it 'rejects malformed dates' do
-            valid_params[:date] = '2015-05-32'
-            post_to_create_endpoint
-            expect_error_response("Enter a valid date for the date attended (from)",1)
-          end
+        it 'rejects malformed dates' do
+          valid_params[:date] = '2015-05-32'
+          post_to_create_endpoint
+          expect_error_response("Enter a valid date for the date attended (from)", 1)
+        end
       end
     end
   end
 
   describe "POST #{VALIDATE_DATE_ATTENDED_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
 
-     it 'valid requests should return 200 and String true' do
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect_validate_success_response
     end
@@ -146,10 +143,8 @@ describe API::V1::ExternalUsers::DateAttended do
       valid_params[:date] = '10-05-2015'
       valid_params[:date_to] = '12-05-2015'
       post_to_validate_endpoint
-      expect_error_response("date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",0)
-      expect_error_response("date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",1)
+      expect_error_response("date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])", 0)
+      expect_error_response("date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])", 1)
     end
   end
-
 end
-

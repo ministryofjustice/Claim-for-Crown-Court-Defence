@@ -1,5 +1,4 @@
 shared_examples 'common partial validations' do |steps|
-
   context 'partial validation' do
     let(:step1_attributes) { steps[0] }
     let(:step2_attributes) { steps[1] }
@@ -59,7 +58,6 @@ shared_examples 'common partial validations' do |steps|
 end
 
 shared_examples 'common partial association validations' do |steps|
-
   context 'partial validation' do
     let(:step1_has_one) { steps[:has_one][0] }
     let(:step2_has_one) { steps[:has_one][1] }

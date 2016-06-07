@@ -13,5 +13,4 @@ class Fee::MiscFeeTypePresenter < BasePresenter
   def case_numbers_field?
     case_uplift?
   end
-
 end

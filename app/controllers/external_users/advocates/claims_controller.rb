@@ -1,5 +1,4 @@
 class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsController
-
   skip_load_and_authorize_resource
 
   def new

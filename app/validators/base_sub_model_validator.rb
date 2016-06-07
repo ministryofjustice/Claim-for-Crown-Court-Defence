@@ -1,5 +1,4 @@
 class BaseSubModelValidator < BaseValidator
-
   # Override this method in the derived class
   def has_many_association_names
     []

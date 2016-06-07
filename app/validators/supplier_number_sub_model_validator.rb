@@ -1,5 +1,4 @@
 class SupplierNumberSubModelValidator < BaseSubModelValidator
-
   def has_many_association_names
     [:supplier_numbers]
   end
@@ -7,5 +6,4 @@ class SupplierNumberSubModelValidator < BaseSubModelValidator
   def suffix_error_fields?
     false
   end
-
 end

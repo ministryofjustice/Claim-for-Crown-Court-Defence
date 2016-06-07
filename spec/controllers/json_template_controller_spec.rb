@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe JsonTemplateController, type: :controller do
-
   describe 'GET #index' do
-
     it 'yields a successful response' do
       get :index
       expect(response).to have_http_status(:success)
@@ -18,7 +16,5 @@ RSpec.describe JsonTemplateController, type: :controller do
       get :index
       expect(response).to render_template(:index)
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claim::TransferClaimPresenter do
-
   let(:claim) { instance_double(Claim::TransferClaim, transfer_detail: double) }
   let(:presenter) { Claim::TransferClaimPresenter.new(claim, view) }
 
@@ -9,7 +8,7 @@ RSpec.describe Claim::TransferClaimPresenter do
   it { expect(presenter).to be_kind_of(Claim::BaseClaimPresenter) }
 
   it 'should have expenses' do
-     expect(presenter.can_have_expenses?).to eq(true)
+    expect(presenter.can_have_expenses?).to eq(true)
   end
 
   it 'should have disbursements' do
@@ -98,5 +97,4 @@ RSpec.describe Claim::TransferClaimPresenter do
       expect(presenter.case_conclusion_description).to eql 'Cracked'
     end
   end
-
 end

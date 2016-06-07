@@ -5,7 +5,6 @@
 
 
 class CaseConclusionsController < ApplicationController
-
   skip_load_and_authorize_resource only: [:index]
 
   def index
@@ -42,5 +41,4 @@ private
     end
     label_text
   end
-
 end

@@ -23,7 +23,6 @@
 # be used in testing and will not raise if the assessment already has values.
 #
 class Assessment < Determination
-
   self.table_name = 'determinations'
 
   has_paper_trail on: [:update], only: [:fees, :expenses, :disbursements, :vat_amount, :total]
@@ -65,5 +64,4 @@ class Assessment < Determination
   def set_paper_trail_event!
     self.paper_trail_event = 'Assessment made'
   end
-
 end

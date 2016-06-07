@@ -2,7 +2,6 @@ require 'rails_helper'
 
 
 describe DocType do
-
   describe '.find' do
     it 'should return a DocTypeInstance with the specified id' do
       dti = DocType.find(4)
@@ -21,30 +20,29 @@ describe DocType do
   describe '.find_by_ids' do
     it 'should return a list of matching ids in id order when ids given as a list' do
       doctypes = DocType.find_by_ids(5, 9, 1, 44)
-      expect(doctypes.map(&:id)).to eq( [5, 1, 9])
+      expect(doctypes.map(&:id)).to eq([5, 1, 9])
     end
     it 'should return a list of matching ids in sequence order when ids given as an array' do
       doctypes = DocType.find_by_ids([5, 9, 1, 44])
-      expect(doctypes.map(&:id)).to eq( [5, 1, 9])
+      expect(doctypes.map(&:id)).to eq([5, 1, 9])
     end
     it 'should return an empty array if no matching ids' do
-      doctypes = DocType.find_by_ids( 99, 188 )
+      doctypes = DocType.find_by_ids(99, 188)
       expect(doctypes).to be_empty
     end
   end
 
   describe '.all_first_half'do
     it 'should return the first half of doctypes' do
-      expected = DocType::DOCTYPES[0,5]
+      expected = DocType::DOCTYPES[0, 5]
       expect(DocType.all_first_half).to eq expected
     end
   end
 
   describe '.all_second_half'do
     it 'should return the first half of doctypes' do
-      expected = DocType::DOCTYPES[5,  4]
+      expected = DocType::DOCTYPES[5, 4]
       expect(DocType.all_second_half).to eq expected
     end
   end
-
 end

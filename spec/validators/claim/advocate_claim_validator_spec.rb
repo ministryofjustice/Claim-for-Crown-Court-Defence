@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 describe Claim::AdvocateClaimValidator do
-
   include ValidationHelpers
   include_context "force-validation"
 
@@ -14,7 +13,7 @@ describe Claim::AdvocateClaimValidator do
   include_examples "common advocate litigator validations", :advocate
 
   context 'case concluded at date' do
-    let(:claim)    { build :claim }
+    let(:claim) { build :claim }
 
     it 'is valid when absent' do
       expect(claim.case_concluded_at).to be_nil
@@ -25,7 +24,7 @@ describe Claim::AdvocateClaimValidator do
     it 'is invalid when present' do
       claim.case_concluded_at = 1.month.ago
       expect(claim).not_to be_valid
-      expect(claim.errors[:case_concluded_at]).to eq([ 'present' ])
+      expect(claim.errors[:case_concluded_at]).to eq(['present'])
     end
   end
 
@@ -56,7 +55,7 @@ describe Claim::AdvocateClaimValidator do
 
   context 'supplier_number' do
     # NOTE: In reality supplier number is derived from external_user which in turn is validated in any event
-    let(:advocate)  { build(:external_user, :advocate, supplier_number: '9G606X') }
+    let(:advocate) { build(:external_user, :advocate, supplier_number: '9G606X') }
     it 'should error when the supplier number does not match pattern' do
       claim.external_user = advocate
       should_error_with(claim, :supplier_number, 'invalid')
@@ -66,12 +65,12 @@ describe Claim::AdvocateClaimValidator do
   context 'advocate_category' do
     it 'should error if not present' do
       claim.advocate_category = nil
-      should_error_with(claim, :advocate_category,"blank")
+      should_error_with(claim, :advocate_category, "blank")
     end
 
     it 'should error if not in the available list' do
       claim.advocate_category = 'not-a-QC'
-      should_error_with(claim, :advocate_category,"Advocate category must be one of those in the provided list")
+      should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
     end
 
     valid_entries = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
@@ -84,7 +83,6 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'offence' do
-
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do
@@ -94,7 +92,7 @@ describe Claim::AdvocateClaimValidator do
 
     it 'should NOT error if not present for fixed fee case types' do
       allow(claim.case_type).to receive(:is_fixed_fee?).and_return(true)
-      should_not_error(claim,:offence)
+      should_not_error(claim, :offence)
     end
   end
 

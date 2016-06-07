@@ -2,8 +2,7 @@ require 'rails_helper'
 
 module Claim
   describe TransferBrainDataItemCollection do
-
-    let(:collection)  { TransferBrainDataItemCollection.instance }
+    let(:collection) { TransferBrainDataItemCollection.instance }
 
     describe '.new' do
       it 'should create a collection from the yaml file' do
@@ -20,13 +19,13 @@ module Claim
     describe '#data_item_for' do
       it 'returns the data item for a detail for a specific case conclusion id' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: false, transfer_stage_id: 20, case_conclusion_id: 10
-        expected = { :validity=>true, :transfer_fee_full_name=>"before trial transfer (new) - trial", :allocation_type=>"Grad"}
+        expected = { :validity => true, :transfer_fee_full_name => "before trial transfer (new) - trial", :allocation_type => "Grad"}
         expect(collection.data_item_for(detail)).to eq expected
       end
 
       it 'returns the data item for a detail where the data item has * for case conclusion in the hash' do
         detail = build :transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: 20
-        expected = { :validity=>true, :transfer_fee_full_name=>"elected case - up to and including PCMH transfer (new)", :allocation_type=>"Fixed"}
+        expected = { :validity => true, :transfer_fee_full_name => "elected case - up to and including PCMH transfer (new)", :allocation_type => "Fixed"}
         expect(collection.data_item_for(detail)).to eq expected
       end
     end
@@ -85,7 +84,7 @@ module Claim
     describe '#valid_transfer_stage_ids' do
       context 'new litigator type with elected case' do
         it 'returns a list of valid transfer_stage_ids' do
-          expect(TransferBrainDataItemCollection.instance.valid_transfer_stage_ids('new', true)).to eq([ 10, 20, 50 ])
+          expect(TransferBrainDataItemCollection.instance.valid_transfer_stage_ids('new', true)).to eq([10, 20, 50])
         end
       end
 
@@ -99,13 +98,13 @@ module Claim
     describe '#valid_case_conclusion_ids' do
       context 'new litigator type with elected case and transfer stage id of 20' do
         it 'returns a full set of conclusiont ids' do
-          expect(TransferBrainDataItemCollection.instance.valid_case_conclusion_ids('new', true, 20)).to eq([ 10, 20, 30, 40, 50 ])
+          expect(TransferBrainDataItemCollection.instance.valid_case_conclusion_ids('new', true, 20)).to eq([10, 20, 30, 40, 50])
         end
       end
 
       context 'new litigator type with elected case and transfer stage id of 20' do
         it 'returns a limited set of conclusion ids' do
-          expect(TransferBrainDataItemCollection.instance.valid_case_conclusion_ids('new', false, 20)).to eq( [ 10, 30 ])
+          expect(TransferBrainDataItemCollection.instance.valid_case_conclusion_ids('new', false, 20)).to eq([10, 30])
         end
       end
     end
@@ -124,56 +123,55 @@ module Claim
     #              - allocation type: what allocation filter "queue" this combination should fall into - use in scopes for allocation filters
     #
     def expected_hash
-      {"new"=>
-         {true=>
-            {10=>{"*"=>{ :validity=>true,   :transfer_fee_full_name=>"elected case - up to and including PCMH transfer (new)", :allocation_type=>"Fixed"}},
-             20=>{"*"=>{ :validity=>true,   :transfer_fee_full_name=>"elected case - before trial transfer (new)", :allocation_type=>"Fixed"}},
-             30=>{"*"=>{ :validity=>false,  :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             40=>{"*"=>{ :validity=>false,  :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             50=>{"*"=>{ :validity=>true,   :transfer_fee_full_name=>"elected case - transfer before retrial (new)", :allocation_type=>"Fixed"}},
-             60=>{"*"=>{ :validity=>false,  :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             70=>{"*"=>{ :validity=>false,  :transfer_fee_full_name=>nil, :allocation_type=>nil}}},
-          false=>
-            {10=>
-               {30=>{ :validity=>true, :transfer_fee_full_name=>"up to and including PCMH transfer (new) - cracked", :allocation_type=>"Grad"},
-                50=>{ :validity=>true, :transfer_fee_full_name=>"up to and including PCMH transfer (new) - guilty plea", :allocation_type=>"Grad"},
-                10=>{ :validity=>true, :transfer_fee_full_name=>"up to and including PCMH transfer (new) - trial ", :allocation_type=>"Grad"}},
-             20=>
-               {30=>{ :validity=>true, :transfer_fee_full_name=>"before trial transfer (new) - cracked", :allocation_type=>"Grad"},
-                10=>{ :validity=>true, :transfer_fee_full_name=>"before trial transfer (new) - trial", :allocation_type=>"Grad"}},
-             30=>
-               {20=>{ :validity=>true, :transfer_fee_full_name=>"during trial transfer (new) - retrial", :allocation_type=>"Grad"},
-                10=>{ :validity=>true, :transfer_fee_full_name=>"during trial transfer (new) - trial", :allocation_type=>"Grad"}},
-             40=>{
-                "*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer after trial and before sentence hearing (new)", :allocation_type=>"Grad"}},
-             50=>
-               {40=>{ :validity=>true, :transfer_fee_full_name=>"transfer before retrial (new) - cracked retrial", :allocation_type=>"Grad"},
-                20=>{ :validity=>true, :transfer_fee_full_name=>"transfer before retrial (new) - retrial", :allocation_type=>"Grad"}},
-             60=>{
-                20=>{ :validity=>true, :transfer_fee_full_name=>"transfer during retrial (new) - retrial", :allocation_type=>"Grad"}},
-             70=>{
-                "*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer after retrial and before sentence hearing (new)", :allocation_type=>"Grad"}}}},
-       "original"=>
-         {true=>
-            {10=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"elected case - up to and including PCMH transfer (org)", :allocation_type=>"Fixed"}},
-             20=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"elected case - before trial transfer (org)", :allocation_type=>"Fixed"}},
-             30=>{"*"=>{ :validity=>false, :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             40=>{"*"=>{ :validity=>false, :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             50=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"elected case - transfer before retrial (org)", :allocation_type=>"Fixed"}},
-             60=>{"*"=>{ :validity=>false, :transfer_fee_full_name=>nil, :allocation_type=>nil}},
-             70=>{"*"=>{ :validity=>false, :transfer_fee_full_name=>nil, :allocation_type=>nil}}},
-          false=>
-            {10=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"up to and including PCMH transfer (org)", :allocation_type=>"Grad"}},
-             20=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"before trial transfer (org)", :allocation_type=>"Grad"}},
-             30=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"during trial transfer (org) - trial", :allocation_type=>"Grad"}},
-             40=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer after trial and before sentence hearing (org)", :allocation_type=>"Grad"}},
-             50=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer before retrial (org) - retrial", :allocation_type=>"Grad"}},
-             60=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer during retrial (org) - retrial", :allocation_type=>"Grad"}},
-             70=>{"*"=>{ :validity=>true, :transfer_fee_full_name=>"transfer after retrial and before sentence hearing (org)", :allocation_type=>"Grad"}}
-            }
-         }
-      }
+      {"new" =>
+         {true =>
+            {10 => {"*" => { :validity => true,   :transfer_fee_full_name => "elected case - up to and including PCMH transfer (new)", :allocation_type => "Fixed"}},
+             20 => {"*" => { :validity => true,   :transfer_fee_full_name => "elected case - before trial transfer (new)", :allocation_type => "Fixed"}},
+             30 => {"*" => { :validity => false,  :transfer_fee_full_name => nil, :allocation_type => nil}},
+             40 => {"*" => { :validity => false,  :transfer_fee_full_name => nil, :allocation_type => nil}},
+             50 => {"*" => { :validity => true,   :transfer_fee_full_name => "elected case - transfer before retrial (new)", :allocation_type => "Fixed"}},
+             60 => {"*" => { :validity => false,  :transfer_fee_full_name => nil, :allocation_type => nil}},
+             70 => {"*" => { :validity => false,  :transfer_fee_full_name => nil, :allocation_type => nil}}},
+          false =>
+            {10 =>
+               {30 => { :validity => true, :transfer_fee_full_name => "up to and including PCMH transfer (new) - cracked", :allocation_type => "Grad"},
+                50 => { :validity => true, :transfer_fee_full_name => "up to and including PCMH transfer (new) - guilty plea", :allocation_type => "Grad"},
+                10 => { :validity => true, :transfer_fee_full_name => "up to and including PCMH transfer (new) - trial ", :allocation_type => "Grad"}},
+             20 =>
+               {30 => { :validity => true, :transfer_fee_full_name => "before trial transfer (new) - cracked", :allocation_type => "Grad"},
+                10 => { :validity => true, :transfer_fee_full_name => "before trial transfer (new) - trial", :allocation_type => "Grad"}},
+             30 =>
+               {20 => { :validity => true, :transfer_fee_full_name => "during trial transfer (new) - retrial", :allocation_type => "Grad"},
+                10 => { :validity => true, :transfer_fee_full_name => "during trial transfer (new) - trial", :allocation_type => "Grad"}},
+             40 => {
+                "*" => { :validity => true, :transfer_fee_full_name => "transfer after trial and before sentence hearing (new)", :allocation_type => "Grad"}
+},
+             50 =>
+               {40 => { :validity => true, :transfer_fee_full_name => "transfer before retrial (new) - cracked retrial", :allocation_type => "Grad"},
+                20 => { :validity => true, :transfer_fee_full_name => "transfer before retrial (new) - retrial", :allocation_type => "Grad"}},
+             60 => {
+                20 => { :validity => true, :transfer_fee_full_name => "transfer during retrial (new) - retrial", :allocation_type => "Grad"}
+},
+             70 => {
+                "*" => { :validity => true, :transfer_fee_full_name => "transfer after retrial and before sentence hearing (new)", :allocation_type => "Grad"}
+}}},
+       "original" =>
+         {true =>
+            {10 => {"*" => { :validity => true, :transfer_fee_full_name => "elected case - up to and including PCMH transfer (org)", :allocation_type => "Fixed"}},
+             20 => {"*" => { :validity => true, :transfer_fee_full_name => "elected case - before trial transfer (org)", :allocation_type => "Fixed"}},
+             30 => {"*" => { :validity => false, :transfer_fee_full_name => nil, :allocation_type => nil}},
+             40 => {"*" => { :validity => false, :transfer_fee_full_name => nil, :allocation_type => nil}},
+             50 => {"*" => { :validity => true, :transfer_fee_full_name => "elected case - transfer before retrial (org)", :allocation_type => "Fixed"}},
+             60 => {"*" => { :validity => false, :transfer_fee_full_name => nil, :allocation_type => nil}},
+             70 => {"*" => { :validity => false, :transfer_fee_full_name => nil, :allocation_type => nil}}},
+          false =>
+            {10 => {"*" => { :validity => true, :transfer_fee_full_name => "up to and including PCMH transfer (org)", :allocation_type => "Grad"}},
+             20 => {"*" => { :validity => true, :transfer_fee_full_name => "before trial transfer (org)", :allocation_type => "Grad"}},
+             30 => {"*" => { :validity => true, :transfer_fee_full_name => "during trial transfer (org) - trial", :allocation_type => "Grad"}},
+             40 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer after trial and before sentence hearing (org)", :allocation_type => "Grad"}},
+             50 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer before retrial (org) - retrial", :allocation_type => "Grad"}},
+             60 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer during retrial (org) - retrial", :allocation_type => "Grad"}},
+             70 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer after retrial and before sentence hearing (org)", :allocation_type => "Grad"}}}}}
     end
-
   end
 end

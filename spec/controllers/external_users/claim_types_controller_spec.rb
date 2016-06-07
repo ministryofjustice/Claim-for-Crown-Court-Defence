@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: true do
-
   let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
   before { sign_in agfs_lgfs_admin.user }
   before { allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true }
@@ -61,7 +60,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(response).to render_template(:selection)
       end
     end
-
   end
 
   describe 'POST #chosen' do
@@ -73,7 +71,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       end
 
       it "should redirect to the new advocate claim form page" do
-          expect(response).to redirect_to(new_advocates_claim_path)
+        expect(response).to redirect_to(new_advocates_claim_path)
       end
     end
 
@@ -85,7 +83,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       end
 
       it "should redirect to the new litigator final claim form page" do
-          expect(response).to redirect_to(new_litigators_claim_path)
+        expect(response).to redirect_to(new_litigators_claim_path)
       end
     end
 

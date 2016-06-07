@@ -1,8 +1,6 @@
 
 module TimedTransitions
   class BatchTransitioner
-
-
     def run
       claims = Transitioner.candidate_claims
       claims.each do |claim| 
@@ -10,6 +8,5 @@ module TimedTransitions
         transitioner.run
       end
     end
-
   end
 end

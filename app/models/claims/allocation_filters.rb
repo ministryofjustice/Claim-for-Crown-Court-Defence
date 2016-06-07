@@ -6,14 +6,12 @@
 #  e.g. @claims.where(state: :submitted).risk_based_bills
 #
 module Claims::AllocationFilters
-
   def self.included(base)
     base.extend(ClassMethods)
     base.class_eval { add_scopes }
   end
 
   module ClassMethods
-
     def add_scopes
       agfs_lgfs_scopes
       agfs_scopes
@@ -76,9 +74,5 @@ module Claims::AllocationFilters
       joins(:fees).
       where('"fees"."fee_type_id" = ?', Fee::InterimFeeType.where(description: fee_type_description).pluck(:id).first)
     end
-
-
   end
-
-
 end

@@ -16,7 +16,6 @@
 # #############################################################
 
 class ErrorResponse
-
   attr :body
   attr :status
 

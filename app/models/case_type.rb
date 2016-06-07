@@ -56,7 +56,4 @@ class CaseType < ActiveRecord::Base
   def is_fixed_fee?
     fixed_fee_type.nil? ? false : true
   end
-
-
-
 end

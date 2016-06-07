@@ -1,20 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::ClaimsController, type: :controller do
-
   before do
     sign_in @case_worker.user
   end
 
   context 'non_archive' do
-
     before(:all) do
       @case_worker = create(:case_worker)
       @claims = []
       3.times do |n|
         Timecop.freeze(n.days.ago) do
-          claim = create(:draft_claim, case_number: "A" + "#{(n+1).to_s.rjust(8,"0")}")
-          create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+          claim = create(:draft_claim, case_number: "A" + (n + 1).to_s.rjust(8, '0').to_s)
+          create(:misc_fee, claim: claim, quantity: n * 1, rate: n * 1)
           claim.submit!
           claim.allocate!
           @claims << claim
@@ -215,9 +213,9 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       it 'automatically marks unread messages on claim for current user as "read"' do
         subject.case_workers << @case_worker
 
-        message_1 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
-        message_2 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
-        message_3 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
+        create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
+        create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
+        create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
 
         expect(subject.unread_messages_for(@case_worker.user).count).to eq(3)
 

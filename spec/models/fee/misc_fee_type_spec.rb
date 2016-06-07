@@ -19,12 +19,11 @@ require 'rails_helper'
 
 module Fee
   describe MiscFeeType do
-
-    let(:fee_type)  { build :misc_fee_type }
+    let(:fee_type) { build :misc_fee_type }
 
     describe '#fee_category_name' do
       it 'should return the category name' do
-          expect(fee_type.fee_category_name).to eq 'Miscellaneous Fees'
+        expect(fee_type.fee_category_name).to eq 'Miscellaneous Fees'
       end
     end
 
@@ -36,7 +35,7 @@ module Fee
       end
 
       it 'should order by description ascending' do
-        expect(Fee::MiscFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
+        expect(Fee::MiscFeeType.all.map(&:description)).to eq ['Ppppp', 'Sssss', 'Xxxxx']
       end
     end
 

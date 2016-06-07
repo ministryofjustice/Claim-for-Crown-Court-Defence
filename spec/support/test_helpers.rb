@@ -37,6 +37,6 @@ module TestHelpers
   def no_error_for(record, attribute)
     return true unless record.errors.keys.include?(attribute)
     return true if record.errors[attribute].empty?
-    return false
+    false
   end
 end

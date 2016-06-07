@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 describe CaseType do
-
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   after(:all) do
@@ -27,12 +26,12 @@ describe CaseType do
   end
 
   describe 'graduated_fee_type' do
-    let!(:grad_fee_type)     { create :graduated_fee_type, code: 'GRAD' }
+    let!(:grad_fee_type) { create :graduated_fee_type, code: 'GRAD' }
     let(:grad_case_type)    { build :case_type, fee_type_code: 'GRAD' }
     let(:grad_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
-    let(:nil_case_type)      { build :case_type, fee_type_code: nil }
-    let!(:fixed_fee_type)     { create :fixed_fee_type, code: 'FIXED' }
-    let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
+    let(:nil_case_type) { build :case_type, fee_type_code: nil }
+    let!(:fixed_fee_type) { create :fixed_fee_type, code: 'FIXED' }
+    let(:fixed_case_type) { build :case_type, fee_type_code: 'FIXED' }
 
     it 'returns nil if no fee_type_code' do
       expect(fixed_case_type.graduated_fee_type).to be_nil
@@ -63,14 +62,13 @@ describe CaseType do
         expect(fixed_case_type.is_graduated_fee?).to eql false
       end
     end
-
   end
 
   describe 'fixed_fee_type' do
-    let!(:fixed_fee_type)     { create :fixed_fee_type, code: 'FIXED' }
+    let!(:fixed_fee_type) { create :fixed_fee_type, code: 'FIXED' }
     let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
     let(:fixed_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
-    let(:grad_case_type)   { build :case_type, fee_type_code: nil }
+    let(:grad_case_type) { build :case_type, fee_type_code: nil }
 
     it 'returns nil if no fee_type_code' do
       expect(grad_case_type.fixed_fee_type).to be_nil

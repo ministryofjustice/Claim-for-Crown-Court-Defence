@@ -1,25 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
-
   before(:all) do
-
     # create one graduated fee type to match the "real" Trial case type seeded
     create(:graduated_fee_type, code: 'GTRL') #use seeded case types "real" fee type codes
     load "#{Rails.root}/db/seeds/case_types.rb"
 
     @case_worker = create(:case_worker)
-    @admin  = create(:case_worker, :admin)
+    @admin = create(:case_worker, :admin)
   end
 
   after(:all) { clean_database }
 
   before { sign_in @admin.user }
 
-  let(:tab) { nil }   # default tab is 'unallocated' when tab not provided
+  let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
   describe 'GET #new' do
-
     context 'basic rendering' do
       before(:each) { get :new, tab: tab }
 
@@ -93,8 +90,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         %w{ fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
-            before { @claims = create_filterable_claim(:advocate_claim, "#{filter_type}".to_sym, 1) }
-            let(:filter) { "#{filter_type}" }
+            before { @claims = create_filterable_claim(:advocate_claim, filter_type.to_s.to_sym, 1) }
+            let(:filter) { filter_type.to_s }
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
@@ -114,12 +111,11 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         %w{ fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
-
             before do
-              @claims = create_filterable_claim(:litigator_claim, "#{filter_type}".to_sym, 1)
+              @claims = create_filterable_claim(:litigator_claim, filter_type.to_s.to_sym, 1)
               get :new, params
             end
-            let(:filter) { "#{filter_type}" }
+            let(:filter) { filter_type.to_s }
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
@@ -160,7 +156,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           end
         end
       end
-
     end
 
     context 're-allocation' do
@@ -188,11 +183,9 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         end
       end
     end
-
   end
 
   describe 'POST #create' do
-
     before do
       @case_worker = create(:case_worker)
       @claims = create_list(:submitted_claim, 1)
@@ -229,7 +222,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         end
 
         it 'tells the user how many claims were successfully allocated' do
-          expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
+          expect(flash[:notice]).to match(/\d claim[s]{0,1} allocated to.*/)
         end
 
         it 'renders the new template' do
@@ -279,7 +272,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
 
       it 'tells the user how many claims were successfully re-allocated' do
-        expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
+        expect(flash[:notice]).to match(/\d claim[s]{0,1} allocated to.*/)
       end
 
       it 're-allocates already allocated claims to the case worker' do
@@ -291,7 +284,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         expect(response).to render_template(:new)
       end
     end
-
   end
 
   # local helpers
@@ -327,7 +319,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       when :graduated_fees
         create_list(:litigator_claim, number, :submitted, case_type_id: CaseType.by_type('Trial').id) if for_litigator
       when :risk_based_bills
-        [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id )] if for_litigator
+        [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id)] if for_litigator
       when :interim_fees
         [create(:interim_claim, :interim_effective_pcmh_fee, :submitted)] if for_litigator
       when :warrants
@@ -338,5 +330,4 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         raise ArgumentError, "invalid filter type specified for \"#{__method__}\""
     end
   end
-
 end

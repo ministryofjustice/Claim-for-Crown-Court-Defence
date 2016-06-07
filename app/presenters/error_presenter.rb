@@ -1,5 +1,4 @@
 class ErrorPresenter
-
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/
 
   def initialize(claim, message_file = nil)
@@ -91,5 +90,4 @@ class ErrorPresenter
   def generate_standard_api_message(fieldname, error)
     "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
-
 end

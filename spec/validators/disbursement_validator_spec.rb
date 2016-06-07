@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe DisbursementValidator do
-
   include ValidationHelpers
 
   let(:claim)         { FactoryGirl.build :claim, force_validation: true }
@@ -17,7 +16,7 @@ describe DisbursementValidator do
   end
 
   describe '#validate_net_amount' do
-    it { should_error_if_equal_to_value(disbursement, :net_amount, 0,   'zero_or_negative') }
+    it { should_error_if_equal_to_value(disbursement, :net_amount, 0, 'zero_or_negative') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, -1,   'numericality') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, nil,  'blank') }
   end
@@ -35,4 +34,3 @@ describe DisbursementValidator do
     end
   end
 end
-

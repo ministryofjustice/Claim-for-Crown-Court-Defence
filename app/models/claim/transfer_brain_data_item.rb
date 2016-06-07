@@ -1,6 +1,5 @@
 module Claim
   class TransferBrainDataItem
-
     attr_reader :litigator_type, :elected_case, :transfer_stage_id, :case_conclusion_id,
                 :allocation_type, :validity, :transfer_fee_full_name
 
@@ -51,6 +50,5 @@ module Claim
     def get_case_conclusion_id(item)
       item.blank? ? '*' :  TransferBrain.case_conclusion_id(item)
     end
-
   end
 end

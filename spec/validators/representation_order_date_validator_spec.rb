@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe RepresentationOrderValidator do
-
   include ValidationHelpers
 
   let(:claim)         { FactoryGirl.build :claim, force_validation: true }
@@ -23,7 +22,6 @@ describe RepresentationOrderValidator do
   end
 
   context 'multiple representation orders' do
-
     let(:claim)       { FactoryGirl.create :claim }
     let(:ro1)         { claim.defendants.first.representation_orders.first }
     let(:ro2)         { claim.defendants.first.representation_orders.last }
@@ -42,5 +40,4 @@ describe RepresentationOrderValidator do
       expect(ro2.errors[:representation_order_date]).to include('check')
     end
   end
-
 end

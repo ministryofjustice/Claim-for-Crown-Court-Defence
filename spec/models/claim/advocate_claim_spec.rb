@@ -58,7 +58,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-
   it { should belong_to(:external_user) }
   it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
   it { should delegate_method(:provider_id).to(:creator) }
@@ -91,7 +90,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq( ['blank_advocate'] )
+      expect(subject.errors[:external_user]).to eq(['blank_advocate'])
     end
 
     it 'should be valid with the same external_user_id and creator_id' do
@@ -136,7 +135,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim = build :unpersisted_claim
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
       agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
       expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, agfs_case_type])
     end
@@ -178,11 +177,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryGirl.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
+    let(:all_states)  {
+      ['allocated', 'archived_pending_delete',
+       'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted']
+    }
 
     context 'external_user_dashboard_draft?' do
-      before(:each)     { allow(claim).to receive(:state).and_return('draft') }
+      before(:each) { allow(claim).to receive(:state).and_return('draft') }
 
       it 'should respond true in draft' do
         allow(claim).to receive(:state).and_return('draft')
@@ -198,7 +199,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_rejected?' do
-      before(:each)     { allow(claim).to receive(:state).and_return('rejected') }
+      before(:each) { allow(claim).to receive(:state).and_return('rejected') }
       it 'should respond true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true
@@ -214,14 +215,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_submitted?' do
       it 'should respond true' do
-        [ 'allocated', 'submitted' ].each do |claim_state|
+        ['allocated', 'submitted'].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'allocated', 'submitted' ]).each do |claim_state|
+        (all_states - ['allocated', 'submitted']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be false
         end
@@ -230,14 +231,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_part_authorised' do
       it 'should respond true' do
-        [ 'part_authorised' ].each do |state|
+        ['part_authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_part_authorised?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'part_authorised' ]).each do |claim_state|
+        (all_states - ['part_authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_part_authorised?).to be false
         end
@@ -246,14 +247,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'refused', 'authorised' ].each do |state|
+        ['refused', 'authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'refused', 'authorised' ]).each do |claim_state|
+        (all_states - ['refused', 'authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_completed?).to be false
         end
@@ -333,7 +334,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim = FactoryGirl.build :claim
         expect(claim.basic_fees.size).to eq 3
         claim.basic_fees.each { |fee| expect(fee).to be_blank }
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq([1, 4, 6])
       end
 
       it 'should create a persisted basic fee record for every basic fee type in params plus blank basic fees for those not specified by params' do
@@ -341,7 +342,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.save
         claim.reload
         expect(claim.fees.size).to eq 3
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq([1, 4, 6])
         expect(claim.basic_fees.find_by(fee_type_id: 1).amount).to eq 450
         expect(claim.basic_fees.find_by(fee_type_id: 4).amount).to eq 0
         expect(claim.basic_fees.find_by(fee_type_id: 6).amount).to eq 0
@@ -351,7 +352,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     describe '.basic_fees' do
       it 'should return a fee for every basic fee sorted in order of fee type id (i.e. seeded data order)' do
         claim = FactoryGirl.build :claim
-        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq( [1, 4, 6])
+        expect(claim.basic_fees.map(&:fee_type_id).sort).to eq([1, 4, 6])
       end
     end
   end
@@ -361,19 +362,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = Claim::AdvocateClaim.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map{ |s| "\'#{s}\'"}.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'find by MAAT reference' do
-
       let(:search_options) { :maat_reference }
 
       before do
-        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '111111') ]
-        create :defendant, claim: subject, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '222222') ]
-        create :defendant, claim: other_claim, representation_orders: [ FactoryGirl.create(:representation_order, maat_reference: '333333') ]
+        create :defendant, claim: subject, representation_orders: [FactoryGirl.create(:representation_order, maat_reference: '111111')]
+        create :defendant, claim: subject, representation_orders: [FactoryGirl.create(:representation_order, maat_reference: '222222')]
+        create :defendant, claim: other_claim, representation_orders: [FactoryGirl.create(:representation_order, maat_reference: '333333')]
         subject.reload
         other_claim.reload
       end
@@ -396,10 +396,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'find by Defendant name' do
-
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
-      let(:search_options)    { :defendant_name }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
+      let(:search_options) { :defendant_name }
 
       before do
         subject.external_user = current_external_user
@@ -420,16 +419,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds claim involving other specified defendant' do
-        expect(Claim::AdvocateClaim.search('Hart',states, search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Hart', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find claims involving non-existent defendant"' do
-        expect(Claim::AdvocateClaim.search('Foo Bar',states, search_options)).to be_empty
+        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
     context 'find by Advocate name' do
-
       let(:search_options) { :advocate_name }
 
       before do
@@ -471,34 +469,31 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         bob_hoskins.save!
         adv_bob_hoskins = create(:external_user, user: bob_hoskins)
         adv_bob_hoskins.save!
-        create_list(:archived_pending_delete_claim,   2,  external_user: adv_bob_hoskins)
-        create_list(:authorised_claim,                      2,  external_user: adv_bob_hoskins)
-        create(:allocated_claim,                          external_user: adv_bob_hoskins)
+        create_list(:archived_pending_delete_claim, 2, external_user: adv_bob_hoskins)
+        create_list(:authorised_claim, 2, external_user: adv_bob_hoskins)
+        create(:allocated_claim, external_user: adv_bob_hoskins)
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eql 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
         expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eql 3
       end
-
     end
 
 
     context 'find by advocate and defendant' do
-
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
-      let(:search_options)    { [:advocate_name, :defendant_name] }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
+      let(:search_options) { [:advocate_name, :defendant_name] }
 
       before do
-
         subject.external_user = current_external_user
         subject.creator = current_external_user
         subject.external_user.user.first_name = 'Fred'
@@ -514,21 +509,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         other_claim.external_user.user.save!
         create(:defendant, first_name: 'Fred', last_name: 'Hoskins', claim: other_claim)
         other_claim.save!
-
       end
 
       it 'finds claims with either advocate or defendant matching names' do
         expect(Claim::AdvocateClaim.search('Bloggs', states, *search_options)).to eq([subject])
-        expect(Claim::AdvocateClaim.search('Hoskins',states, *search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Hoskins', states, *search_options)).to eq([other_claim])
         expect(Claim::AdvocateClaim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
-        expect(Claim::AdvocateClaim.search('Johncz',   states, *search_options).count).to eq(1) #advocate only search
-        expect(Claim::AdvocateClaim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
+        expect(Claim::AdvocateClaim.search('Johncz', states, *search_options).count).to eq(1) #advocate only search
+        expect(Claim::AdvocateClaim.search('Joexx', states, *search_options).count).to eq(1) #defendant only search
       end
 
       it 'does not find claims that do not match the name' do
         expect(Claim::AdvocateClaim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
-
     end
 
     context 'find by case worker name or email' do
@@ -565,11 +558,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'with invalid state' do
       it 'raises error for invalid option' do
         expect{
-          Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
+          Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
-
   end
 
   context 'fees total' do
@@ -730,7 +722,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#validation_required?' do
-
     let(:claim) { FactoryGirl.create(:claim, source: 'web') }
 
     context 'should return false for' do
@@ -758,7 +749,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'claims in any state other than draft or archived_pending_delete' do
         states = Claim::AdvocateClaim.state_machine.states.map(&:name)
         states = states.map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }.compact
-        states.each do | state |
+        states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to eq true
         end
@@ -812,27 +803,27 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { create(:draft_claim) }
 
     def expect_has_authorised_state_to_be(bool)
-     expect(claim.has_authorised_state?).to eql(bool)
+      expect(claim.has_authorised_state?).to eql(bool)
     end
 
     it 'should return false for draft, submitted, allocated, and rejected claims' do
-     expect_has_authorised_state_to_be false
-     claim.submit
-     expect_has_authorised_state_to_be false
-     claim.allocate
-     expect_has_authorised_state_to_be false
-     claim.reject
-     expect_has_authorised_state_to_be false
+      expect_has_authorised_state_to_be false
+      claim.submit
+      expect_has_authorised_state_to_be false
+      claim.allocate
+      expect_has_authorised_state_to_be false
+      claim.reject
+      expect_has_authorised_state_to_be false
     end
 
     it 'should return true for part_authorised, authorised claims' do
-     claim.submit
-     claim.allocate
-     claim.assessment.update(fees: 30.01, expenses: 70.00)
-     claim.authorise_part
-     expect_has_authorised_state_to_be true
-     claim.authorise
-     expect_has_authorised_state_to_be true
+      claim.submit
+      claim.allocate
+      claim.assessment.update(fees: 30.01, expenses: 70.00)
+      claim.authorise_part
+      expect_has_authorised_state_to_be true
+      claim.authorise
+      expect_has_authorised_state_to_be true
     end
   end
 
@@ -879,8 +870,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should only return claims with fixed fee case types' do
       claim_1 = FactoryGirl.create :claim, case_type_id: ct_fixed_1.id
       claim_2 = FactoryGirl.create :claim, case_type_id: ct_fixed_2.id
-      claim_3 = FactoryGirl.create :claim, case_type_id: ct_basic_1.id
-      claim_4 = FactoryGirl.create :claim, case_type_id: ct_basic_2.id
+      FactoryGirl.create :claim, case_type_id: ct_basic_1.id
+      FactoryGirl.create :claim, case_type_id: ct_basic_2.id
       expect(Claim::AdvocateClaim.fixed_fee.count).to eq 2
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_1
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_2
@@ -917,7 +908,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.destroy_all_invalid_fee_types' do
-
     let(:claim_with_all_fee_types) do
       claim = FactoryGirl.create :draft_claim
       FactoryGirl.create(:basic_fee, :with_date_attended, claim: claim, rate: 9.99)
@@ -952,11 +942,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim_with_all_fee_types.save
       expect(claim_with_all_fee_types.basic_fees.first.dates_attended.size).to eql 0
     end
-
   end
 
   describe 'sets the source field before saving a claim' do
-    let(:claim)       { FactoryGirl.build :claim }
+    let(:claim) { FactoryGirl.build :claim }
 
     it 'sets the source to web by default if unset' do
       expect(claim.save).to eq(true)
@@ -1033,7 +1022,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'calculate_vat' do
-
     it 'should calaculate vat on submission if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(10)
       claim = FactoryGirl.build :unpersisted_claim, total: 100
@@ -1047,7 +1035,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
-
   end
 
   describe '#opened_for_redetermination?' do
@@ -1185,16 +1172,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#requested_redetermination?' do
-
     context 'allocated state from redetermination' do
-
       before(:each) do
         @claim = FactoryGirl.create :redetermination_claim
         @claim.allocate!
       end
 
       context 'no previous redetermination' do
-
         it 'should be true' do
           expect(@claim.redeterminations).to be_empty
           expect(@claim.requested_redetermination?).to be true
@@ -1205,7 +1189,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         it 'should be true' do
           Timecop.freeze(Time.now - 2.hours) do
             @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
-            Timecop.freeze(Time.now ) do
+            Timecop.freeze(Time.now) do
               @claim.authorise_part!
               @claim.redetermine!
               @claim.allocate!
@@ -1224,7 +1208,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           expect(@claim.requested_redetermination?).to be false
         end
       end
-
     end
 
     context 'allocated state where the previous state was not redetermination' do
@@ -1240,7 +1223,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         expect(claim.requested_redetermination?).to be false
       end
     end
-
   end
 
   describe '#amount_assessed' do
@@ -1264,7 +1246,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when VAT not applied' do
-
       before do
         claim.external_user.vat_registered = false
         claim.submit!
@@ -1288,7 +1269,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       court = FactoryGirl.create :court
       offence = FactoryGirl.create :offence
 
-      params = {"claim"=>
+      params = {"claim" =>
         {"case_type_id" => case_type.id,
          "trial_fixed_notice_at_dd" => "",
          "trial_fixed_notice_at_mm" => "",
@@ -1313,16 +1294,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
          "trial_concluded_at_dd" => "11",
          "trial_concluded_at_mm" => "9",
          "trial_concluded_at_yyyy" => "2015",
-         "defendants_attributes"=>
-          {"0"=>
+         "defendants_attributes" =>
+          {"0" =>
             {"first_name" => "Foo",
              "last_name" => "Bar",
              "date_of_birth_dd" => "04",
              "date_of_birth_mm" => "10",
              "date_of_birth_yyyy" => "1980",
              "order_for_judicial_apportionment" => "0",
-             "representation_orders_attributes"=>
-              {"0"=>
+             "representation_orders_attributes" =>
+              {"0" =>
                 {"representation_order_date_dd" => "30",
                  "representation_order_date_mm" => "08",
                  "representation_order_date_yyyy" => "2015",
@@ -1330,11 +1311,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
                  "_destroy" => "false"}},
              "_destroy" => "false"}},
          "additional_information" => "",
-         "basic_fees_attributes"=>
+         "basic_fees_attributes" =>
           {"0" => {"quantity" => "1", "rate" => "150", "fee_type_id" => fee_type.id}},
-         "misc_fees_attributes" => {"0" => {"fee_type_id"=> "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
+         "misc_fees_attributes" => {"0" => {"fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
          "fixed_fees_attributes" => {"0" => {"fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
-         "expenses_attributes"=>
+         "expenses_attributes" =>
            { "0" =>
              { "expense_type_id" => expense_type.id,
                "location" => "London",
@@ -1345,20 +1326,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
                "amount" => '40.00',
                "date_mm" => 10.days.ago.month.to_s,
                "date_dd" => 10.days.ago.day.to_s,
-               "date_yyyy" => 10.days.ago.year.to_s
-             }
-           },
-         "apply_vat"=>"0",
-         "document_ids"=>[""],
-         "evidence_checklist_ids"=>["1", ""]},
-       "offence_category"=>{"description"=>""},
-       "offence_class"=>{"description"=>"64"},
-       "commit_submit_claim"=>"Submit to LAA"}
+               "date_yyyy" => 10.days.ago.year.to_s}},
+         "apply_vat" => "0",
+         "document_ids" => [""],
+         "evidence_checklist_ids" => ["1", ""]},
+       "offence_category" => {"description" => ""},
+       "offence_class" => {"description" => "64"},
+       "commit_submit_claim" => "Submit to LAA"}
       claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true
       claim.force_validation = true
-      result = claim.valid?
+      claim.valid?
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end
@@ -1369,58 +1348,55 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 # ---------------------
   def valid_params
     external_user = FactoryGirl.create :external_user
-    {"claim"=>
+    {"claim" =>
         {"external_user_id" => external_user.id,
         "creator_id" => external_user.id,
-        "case_type_id"=>"1",
-        "trial_fixed_notice_at_dd"=>"",
-        "trial_fixed_notice_at_mm"=>"",
-        "trial_fixed_notice_at_yyyy"=>"",
-        "trial_fixed_at_dd"=>"",
-        "trial_fixed_at_mm"=>"",
-        "trial_fixed_at_yyyy"=>"",
-        "trial_cracked_at_dd"=>"",
-        "trial_cracked_at_mm"=>"",
-        "trial_cracked_at_yyyy"=>"",
-        "trial_cracked_at_third"=>"",
-        "court_id"=>"1",
-        "case_number"=>"A12345678",
-        "advocate_category"=>"QC",
-        "offence_id"=>"1",
-        "first_day_of_trial_dd"=>"8",
-        "first_day_of_trial_mm"=>"9",
-        "first_day_of_trial_yyyy"=>"2015",
-        "estimated_trial_length"=>"0",
-        "actual_trial_length"=>"0",
-        "trial_concluded_at_dd"=>"11",
-        "trial_concluded_at_mm"=>"9",
-        "trial_concluded_at_yyyy"=>"2015",
-        "defendants_attributes"=>
-          {"0"=>
-            {"first_name"=>"Foo",
-            "last_name"=>"Bar",
-            "date_of_birth_dd"=>"04",
-            "date_of_birth_mm"=>"10",
-            "date_of_birth_yyyy"=>"1980",
-            "order_for_judicial_apportionment"=>"0",
-            "representation_orders_attributes"=>
-              {"0"=>
-                {"representation_order_date_dd"=>"30",
-                "representation_order_date_mm"=>"08",
-                "representation_order_date_yyyy"=>"2015",
-                "maat_reference"=>"aaa1111",
-                "_destroy"=>"false"}},
-            "_destroy"=>"false"}},
-        "additional_information"=>"",
-        "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id}},
-        "apply_vat"=>"0",
-        "document_ids"=>[""],
-        "evidence_checklist_ids"=>["1", ""]},
-      "offence_category"=>{"description"=>""},
-      "offence_class"=>{"description"=>"64"}
-    }
-
+        "case_type_id" => "1",
+        "trial_fixed_notice_at_dd" => "",
+        "trial_fixed_notice_at_mm" => "",
+        "trial_fixed_notice_at_yyyy" => "",
+        "trial_fixed_at_dd" => "",
+        "trial_fixed_at_mm" => "",
+        "trial_fixed_at_yyyy" => "",
+        "trial_cracked_at_dd" => "",
+        "trial_cracked_at_mm" => "",
+        "trial_cracked_at_yyyy" => "",
+        "trial_cracked_at_third" => "",
+        "court_id" => "1",
+        "case_number" => "A12345678",
+        "advocate_category" => "QC",
+        "offence_id" => "1",
+        "first_day_of_trial_dd" => "8",
+        "first_day_of_trial_mm" => "9",
+        "first_day_of_trial_yyyy" => "2015",
+        "estimated_trial_length" => "0",
+        "actual_trial_length" => "0",
+        "trial_concluded_at_dd" => "11",
+        "trial_concluded_at_mm" => "9",
+        "trial_concluded_at_yyyy" => "2015",
+        "defendants_attributes" =>
+          {"0" =>
+            {"first_name" => "Foo",
+            "last_name" => "Bar",
+            "date_of_birth_dd" => "04",
+            "date_of_birth_mm" => "10",
+            "date_of_birth_yyyy" => "1980",
+            "order_for_judicial_apportionment" => "0",
+            "representation_orders_attributes" =>
+              {"0" =>
+                {"representation_order_date_dd" => "30",
+                "representation_order_date_mm" => "08",
+                "representation_order_date_yyyy" => "2015",
+                "maat_reference" => "aaa1111",
+                "_destroy" => "false"}},
+            "_destroy" => "false"}},
+        "additional_information" => "",
+        "basic_fees_attributes" =>
+          {"0" => {"quantity" => "1", "rate" => "450", "fee_type_id" => @bft1.id}},
+        "apply_vat" => "0",
+        "document_ids" => [""],
+        "evidence_checklist_ids" => ["1", ""]},
+      "offence_category" => {"description" => ""},
+      "offence_class" => {"description" => "64"}}
   end
-
 end

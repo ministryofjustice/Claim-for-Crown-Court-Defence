@@ -1,5 +1,4 @@
 class ClaimCsvPresenter < BasePresenter
-
   presents :claim
 
   def present!
@@ -95,5 +94,4 @@ class ClaimCsvPresenter < BasePresenter
   def completed_states
     ['rejected', 'refused', 'authorised', 'part_authorised']
   end
-
 end

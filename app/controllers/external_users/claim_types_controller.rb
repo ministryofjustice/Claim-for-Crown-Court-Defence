@@ -1,5 +1,4 @@
 class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
-
   skip_load_and_authorize_resource
 
   before_action :init_claim_types

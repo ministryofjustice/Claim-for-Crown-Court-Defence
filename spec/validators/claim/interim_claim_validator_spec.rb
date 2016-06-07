@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 describe Claim::InterimClaimValidator do
-
   include ValidationHelpers
   include_context "force-validation"
 

@@ -59,14 +59,13 @@ module Claim
   class MockBaseClaim < BaseClaim; end
 
   describe BaseClaim do
-
     let(:advocate)   { create :external_user, :advocate }
     let(:agfs_claim) { create(:advocate_claim) }
     let(:lgfs_claim) { create(:litigator_claim) }
 
     it 'raises if I try to instantiate a base claim' do
       expect {
-        claim = BaseClaim.new(external_user: advocate, creator: advocate)
+        BaseClaim.new(external_user: advocate, creator: advocate)
       }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
     end
 
@@ -102,11 +101,11 @@ module Claim
       it 'should accept a variety of formats and populate the date accordingly' do
         def make_date_params(date_string)
           day, month, year = date_string.split('-')
-           {
-             "first_day_of_trial_dd" => day,
-             "first_day_of_trial_mm" => month,
-             "first_day_of_trial_yyyy" => year,
-           }
+          {
+            "first_day_of_trial_dd" => day,
+            "first_day_of_trial_mm" => month,
+            "first_day_of_trial_yyyy" => year,
+          }
         end
 
         dates = {
@@ -136,4 +135,3 @@ module Claim
     end
   end
 end
-

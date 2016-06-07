@@ -1,7 +1,5 @@
 class JsonSchema
-
   class << self
-
     def generate
       schema = File.read(File.join(Rails.root, 'config', 'claim_schema.json'))
       parsed_schema = JSON.parse(schema)
@@ -41,6 +39,5 @@ class JsonSchema
     def from_dates_attended(parsed_schema)
       parsed_schema['properties']['claim']['properties']['fees']['items']['properties']['dates_attended']['items'].delete('required')
     end
-
   end
 end

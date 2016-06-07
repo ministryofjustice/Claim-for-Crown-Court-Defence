@@ -1,5 +1,4 @@
 class AssessmentPresenter < BasePresenter
-
   presents :assessment
 
   def fees_total
@@ -25,5 +24,4 @@ class AssessmentPresenter < BasePresenter
   def total_inc_vat
     h.number_to_currency((assessment.total || 0) + assessment.vat_amount)
   end
-
 end

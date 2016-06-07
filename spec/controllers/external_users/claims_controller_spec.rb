@@ -2,12 +2,10 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
-
-  let!(:advocate)       { create(:external_user, :advocate) }
+  let!(:advocate) { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
   context "list views" do
-
     let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
@@ -16,7 +14,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
-
       it 'returns success' do
         get :index
         expect(response).to have_http_status(:success)
@@ -79,9 +76,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
 
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
-            expected_claims = [ @draft_claim ]
             get :index
-            expect(assigns(:claims)).to eq( [ @draft_claim] )
+            expect(assigns(:claims)).to eq([@draft_claim])
           end
         end
 
@@ -238,7 +234,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
 
     describe '#GET archived' do
-
       it 'returns success' do
         get :archived
         expect(response).to have_http_status(:success)
@@ -300,11 +295,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.sort_by{|c| c.id})
+            expect(assigns(:claims_context).sort_by(&:id)).to eq(litigator_admin.provider.claims_created.sort_by(&:id))
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.archived_pending_delete.sort_by{|c| c.id})
+            expect(assigns(:claims).sort_by(&:id)).to eq(litigator_admin.provider.claims_created.archived_pending_delete.sort_by(&:id))
           end
         end
       end
@@ -493,9 +488,9 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
 
     it 'automatically marks unread messages on claim for current user as "read"' do
-      message_1 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
-      message_2 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
-      message_3 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      create(:message, claim_id: subject.id, sender_id: advocate.user.id)
 
       expect(subject.unread_messages_for(advocate.user).count).to eq(3)
 
@@ -609,15 +604,15 @@ end
 def build_sortable_claims_sample(advocate)
   [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
     Timecop.freeze(i.days.ago) do
-      n = i+1
-      claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A#{(n).to_s.rjust(8,'0')}")
+      n = i + 1
+      claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A#{n.to_s.rjust(8, '0')}")
       claim.fees.destroy_all
       claim.expenses.destroy_all
 
       # cannot stub/mock here so temporarily change state to draft to enable amount calculation of fees
       old_state = claim.state
       claim.state = 'draft'
-      create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+      create(:misc_fee, claim: claim, quantity: n * 1, rate: n * 1)
       claim.state = old_state
       claim.assessment.update_values!(claim.fees_total, 0, 0) if claim.authorised?
     end

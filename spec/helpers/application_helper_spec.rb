@@ -1,18 +1,16 @@
 require "rails_helper"
 
 describe ApplicationHelper do
-
   context '#present' do
     let(:claim) { create(:claim) }
 
     it 'returns a <Classname>Presenter instance' do
-     expect(present(claim)).to be_a Claim::BaseClaimPresenter
+      expect(present(claim)).to be_a Claim::BaseClaimPresenter
     end
 
     it 'yields a <Classname>Presenter Class' do
       expect{ |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
     end
-
   end
 
   context '#present_collection' do
@@ -25,13 +23,11 @@ describe ApplicationHelper do
     end
 
     it 'should yield a collection of <Classname>Presenter Class instances' do
-      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter,Claim::BaseClaimPresenter])
+      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
     end
-
   end
 
   context '#number_with_precision_or_default' do
-
     it 'should return empty string if given integer zero and no precision' do
       expect(number_with_precision_or_default(0)).to eq ''
     end
@@ -41,7 +37,7 @@ describe ApplicationHelper do
     end
 
     it 'should return empty string if given BigDecimal zero' do
-      expect(number_with_precision_or_default(BigDecimal.new(0,5))).to eq ''
+      expect(number_with_precision_or_default(BigDecimal.new(0, 5))).to eq ''
     end
 
     it 'should return empty string if given Float zero' do
@@ -89,9 +85,6 @@ describe ApplicationHelper do
         allow(helper).to receive(:current_user).and_return(litigator.user)
         expect(helper.user_requires_scheme_column?).to eql false
       end
-
     end
-
   end
-
 end

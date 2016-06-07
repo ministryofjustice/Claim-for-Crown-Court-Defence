@@ -4,15 +4,14 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Defendant do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants"
-  VALIDATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants/validate"
+  CREATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants".freeze
+  VALIDATE_DEFENDANT_ENDPOINT = "/api/external_users/defendants/validate".freeze
 
-  ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT]
-  FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete]
+  ALL_DEFENDANT_ENDPOINTS = [VALIDATE_DEFENDANT_ENDPOINT, CREATE_DEFENDANT_ENDPOINT].freeze
+  FORBIDDEN_DEFENDANT_VERBS = [:get, :put, :patch, :delete].freeze
 
   # NOTE: need to specify claim.source as api to ensure defendant model validations applied
   let!(:provider)      { create(:provider) }
@@ -41,7 +40,6 @@ describe API::V1::ExternalUsers::Defendant do
   end
 
   describe "POST #{CREATE_DEFENDANT_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_DEFENDANT_ENDPOINT, valid_params, format: :json
     end
@@ -49,7 +47,6 @@ describe API::V1::ExternalUsers::Defendant do
     include_examples "should NOT be able to amend a non-draft claim"
 
     context "when defendant params are valid" do
-
       it "should create defendant, return 201 and defendant JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -77,7 +74,6 @@ describe API::V1::ExternalUsers::Defendant do
         expect(new_defendant.last_name).to eq valid_params[:last_name]
         expect(new_defendant.date_of_birth).to eq valid_params[:date_of_birth].to_date
       end
-
     end
 
     context "when defendant params are invalid" do
@@ -87,7 +83,7 @@ describe API::V1::ExternalUsers::Defendant do
 
       context "missing expected params" do
         it "should return a JSON error array with required model attributes" do
-          [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
+          [:first_name, :last_name, :date_of_birth].each { |k| valid_params.delete(k) }
           post_to_create_endpoint
           expect(last_response.status).to eq 400
           expect(last_response.body).to eq(json_error_response)
@@ -102,11 +98,9 @@ describe API::V1::ExternalUsers::Defendant do
         end
       end
     end
-
   end
 
   describe "POST #{VALIDATE_DEFENDANT_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_DEFENDANT_ENDPOINT, valid_params, format: :json
     end
@@ -121,7 +115,7 @@ describe API::V1::ExternalUsers::Defendant do
     end
 
     it 'missing required params should return 400 and a JSON error array' do
-      [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
+      [:first_name, :last_name, :date_of_birth].each { |k| valid_params.delete(k) }
       post_to_validate_endpoint
       expect(last_response.status).to eq 400
       expect(last_response.body).to eq(json_error_response)
@@ -139,5 +133,4 @@ describe API::V1::ExternalUsers::Defendant do
       expect_error_response("date_of_birth is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
     end
   end
-
 end

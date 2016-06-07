@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :litigator_claim, class: Claim::LitigatorClaim do
-
     litigator_base_setup
     claim_state_common_traits
 
@@ -14,7 +13,7 @@ FactoryGirl.define do
       after(:build) do |claim|
         claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim: claim)
       end
-      after(:create) { |c| c.submit! }
+      after(:create, &:submit!)
     end
   end
 end

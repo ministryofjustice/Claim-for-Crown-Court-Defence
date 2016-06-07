@@ -1,5 +1,4 @@
 class DateAttendedValidator < BaseValidator
-
   def self.fields
     [
       :date,
@@ -26,5 +25,4 @@ class DateAttendedValidator < BaseValidator
     validate_not_before(@record.date, :date_to, 'not_before_date_from')
     validate_not_after(Date.today, :date_to, 'not_after_today')
   end
-
 end

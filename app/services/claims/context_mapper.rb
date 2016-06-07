@@ -1,6 +1,5 @@
 module Claims
   class ContextMapper
-
     # Class to map provider roles and user roles to claim contexts
     # i.e. the provider and external user role combine to
     #      determine what claims the user can both view and create
@@ -18,6 +17,5 @@ module Claims
     def available_claims
       @external_user.admin? ? @provider.claims : @external_user.claims
     end
-
   end
 end

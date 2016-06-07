@@ -30,5 +30,4 @@ class ErrorDetail
   def long_message_link
     %Q[<a href="##{@attribute.to_s}">#{@long_message}</a>].html_safe
   end
-
 end

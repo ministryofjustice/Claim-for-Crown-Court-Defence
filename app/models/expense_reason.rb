@@ -1,5 +1,4 @@
 class ExpenseReason
-
   attr_reader :reason, :id
 
   def initialize(id, reason, allow_explanatory_text)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'external_users/claim_types/selection.html.haml', type: :view do
-
   include ViewSpecHelper
 
   before(:each) do
@@ -12,9 +11,8 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
 
   context 'claim type options' do
     context 'when logged in as AGFS/LGFS admin' do
-
       before do
-        assign(:claim_types, [Claim::AdvocateClaim,Claim::LitigatorClaim,Claim::InterimClaim,Claim::TransferClaim])
+        assign(:claim_types, [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
         render
       end
       it "should include advocate fee, litigator final, interim and transfer fee options" do
@@ -31,7 +29,7 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
 
     context 'when logged in as litigator' do
       before do
-        assign(:claim_types, [Claim::LitigatorClaim,Claim::InterimClaim,Claim::TransferClaim])
+        assign(:claim_types, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
         render
       end
       it "should include litigator final, interim and transfer fee options only" do
@@ -44,7 +42,6 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
       it "should default to selecting Litigator final fee" do
         expect(response.body).to have_checked_field(:scheme_chosen_lgfs_final)
       end
-
     end
 
     context 'when logged in as advocate' do
@@ -60,5 +57,4 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
       end
     end
   end
-
 end

@@ -43,8 +43,8 @@ RSpec.describe DocumentsController, type: :controller do
 
     context 'when form_id present' do
       let!(:form_id) { SecureRandom.uuid }
-      let!(:matching_documents) { create_list(:document, 2, form_id: form_id ) }
-      let!(:not_matching_documents) { create_list(:document, 1, form_id: SecureRandom.uuid ) }
+      let!(:matching_documents) { create_list(:document, 2, form_id: form_id) }
+      let!(:not_matching_documents) { create_list(:document, 1, form_id: SecureRandom.uuid) }
 
       let(:params) { { form_id: form_id } }
 

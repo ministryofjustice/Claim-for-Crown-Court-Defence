@@ -14,10 +14,8 @@
 require 'rails_helper'
 
 module Claim
-
   describe TransferDetail do
-
-    let(:detail)  { build :transfer_detail }
+    let(:detail) { build :transfer_detail }
 
     describe '#unpopulated?' do
       it 'returns true for an empty object' do
@@ -31,8 +29,7 @@ module Claim
       end
     end
 
-    describe  '#errors?' do
-
+    describe '#errors?' do
       before(:each) { detail.claim = build(:transfer_claim) }
 
       it 'returns false if there are no errors relating to transfer_detail fields' do

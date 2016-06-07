@@ -58,8 +58,7 @@ require 'custom_matchers'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::LitigatorClaim, type: :model do
-
-  let(:claim)   { build :litigator_claim }
+  let(:claim) { build :litigator_claim }
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
@@ -75,8 +74,8 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
       claim = build :litigator_claim
       CaseType.delete_all
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
       lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      create :case_type, name: 'AGFS case type', roles: ['agfs']
 
       expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
     end
@@ -118,5 +117,4 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
   end
 
   include_examples "common litigator claim attributes"
-
 end

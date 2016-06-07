@@ -60,5 +60,3 @@ class DocumentRecloner
     # rubocop:enable ZeroLengthPredicate
   end
 end
-
-

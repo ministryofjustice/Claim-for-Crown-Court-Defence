@@ -39,4 +39,3 @@ class Defendant < ActiveRecord::Base
     representation_orders.map(&:detail)
   end
 end
-

@@ -148,4 +148,3 @@ describe API::V1::ExternalUsers::DateAttended do
     end
   end
 end
-

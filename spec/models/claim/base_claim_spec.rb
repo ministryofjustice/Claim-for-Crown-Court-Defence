@@ -135,4 +135,3 @@ module Claim
     end
   end
 end
-

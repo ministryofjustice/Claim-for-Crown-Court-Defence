@@ -204,18 +204,3 @@ describe ErrorMessageTranslator do
     expect(emt.api_message).to    be_nil
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

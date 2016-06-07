@@ -341,6 +341,3 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
   end
 end
-
-
-

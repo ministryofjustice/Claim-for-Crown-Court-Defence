@@ -27,4 +27,3 @@ def generate_random_unused_class_letter(letters=%w{ A B C D E F G H I J K })
   raise "All class letters have been used" if available_class_letters.empty?
   available_class_letters.sample
 end
-

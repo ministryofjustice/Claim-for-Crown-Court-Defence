@@ -16,5 +16,5 @@
       = t('.total')
       %a{name: "basic_fee_#{@basic_fee_count}_amount"}
     %span.currency-indicator>< &pound;
-    = f.number_field :amount, value: number_with_precision(fee.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
+    = f.number_field :amount, value: number_with_precision(fee.fee.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999
     = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_amount")

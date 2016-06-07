@@ -23,11 +23,11 @@
       = t('.rate')
     %a{name: "basic_fee_#{@basic_fee_count}_rate"}
     %span.currency-indicator>< &pound;
-    = f.number_field :rate, value: number_with_precision(fee.rate, precision: 2), class: 'form-control rate', size: 10, min: 0, max: 99999
+    = f.number_field :rate, value: fee.fee.rate, precision: 2, class: 'form-control rate', size: 10, min: 0, max: 99999
     = validation_error_message(@error_presenter, "basic_fee_#{@basic_fee_count}_rate")
 
 .grid-row
   .column-one-third.fee-total
     %label.form-label Total
-    %span.total{data: {'total': fee.amount ||= 0}}
-      = number_to_currency(fee.amount ||= 0)
+    %span.total{data: {'total': fee.fee.amount ||= 0}}
+      = number_to_currency(fee.fee.amount ||= 0)

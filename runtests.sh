@@ -6,7 +6,10 @@ if [ "$TRAVIS" = "true" ]; then
   echo "INFO: this is travis - not running smoke test"
   bundle exec rake db:migrate
   bundle exec rake jasmine:ci
-  bundle exec rake
+  bundle exec rake spec
+  puts ">>>>>>>>>>  SLEEPING FOR ONE SECOND TO GIVE CPU TIME TO COOL DOWN AND PERHAPS NOT FAIL ON THE CUKE TASKS BECAUSE DROP DOWN LISTS AREN'T POPULATED FAST ENOUGH <<<<<<"
+  sleep 2
+  bundle exec rake cucumber
 
   exit 0
 else

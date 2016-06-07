@@ -1,67 +1,77 @@
 require 'rails_helper'
 
 describe Claims::CreateClaim do
-
   after(:all) do
     clean_database
   end
 
-  context 'claim creation' do
-    let(:claim) { FactoryGirl.build :advocate_claim }
-    subject { described_class.new(claim) }
+  let(:claim) { FactoryGirl.build :advocate_claim }
+  subject { described_class.new(claim) }
 
-    it 'defines the action' do
+  describe '#action' do
+    it 'returns :new' do
       expect(subject.action).to eq(:new)
     end
+  end
 
-    it 'is not a draft' do
+  describe '#draft?' do
+    it 'returns false' do
       expect(subject.draft?).to be_falsey
     end
+  end
 
-    context 'successful creations' do
+  describe '#call' do
+    before { expect(subject.claim.persisted?).to be_falsey }
+
+    context 'with a valid Claim' do
+      before { expect(subject.claim).to receive(:update_claim_document_owners) }
+
       it 'forces validation' do
-        allow(subject.claim).to receive(:force_validation=).with(true)
+        expect(subject.claim).to receive(:force_validation=).with(true)
         subject.call
       end
 
-      it 'is successful' do
-        expect(subject.claim.persisted?).to be_falsey
-        expect(subject.claim).to receive(:update_claim_document_owners)
+      it 'returns success' do
+        result = subject.call
 
-        subject.call
-
-        expect(subject.result.success?).to be_truthy
-        expect(subject.result.error_code).to be_nil
-        expect(subject.claim.persisted?).to be_truthy
+        expect(result.success?).to be_truthy
+        expect(result.error_code).to be_nil
       end
+
+      after { expect(subject.claim.persisted?).to be_truthy }
     end
 
-    context 'unsuccessful creations' do
-      it 'is unsuccessful' do
-        claim.case_number = nil
 
-        expect(subject.claim.persisted?).to be_falsey
+    context 'with an invalid Claim' do
+      before do
+        subject.claim.case_number = nil
         expect(subject.claim).not_to receive(:update_claim_document_owners)
-
-        subject.call
-
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:rollback)
-        expect(subject.claim.persisted?).to be_falsey
       end
 
-      it 'is unsuccessful for an already submitted claim' do
+      it 'returns an error' do
+        result = subject.call
+
+        expect(result.success?).to be_falsey
+        expect(result.error_code).to eq(:rollback)
+      end
+
+      after { expect(subject.claim.persisted?).to be_falsey }
+    end
+
+    context "with an already submitted Claim" do
+      before do
         allow(subject).to receive(:already_submitted?).and_return(true)
-
-        expect(subject.claim.persisted?).to be_falsey
         expect(subject.claim).not_to receive(:update_claim_document_owners)
-
-        subject.call
-
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:already_submitted)
-        expect(subject.claim.persisted?).to be_falsey
       end
+
+      it 'returns an error' do
+        result = subject.call
+
+        expect(result.success?).to be_falsey
+        expect(result.error_code).to eq(:already_submitted)
+      end
+
+      after { expect(subject.claim.persisted?).to be_falsey }
     end
   end
 end

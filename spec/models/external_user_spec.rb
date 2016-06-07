@@ -106,19 +106,19 @@ RSpec.describe ExternalUser, type: :model do
         it 'should fail validation if too long' do
           a = build :external_user, supplier_number: 'ACC123', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(['must be 5 alpha-numeric characters'])
         end
 
         it 'should fail validation if too short' do
           a = build :external_user, supplier_number: 'AC12', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(['must be 5 alpha-numeric characters'])
         end
 
         it 'should fail validation if not alpha-numeric' do
           a = build :external_user, supplier_number: 'AC-12', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(['must be 5 alpha-numeric characters'])
         end
 
         it 'should pass validation if 5 alpha-numeric' do
@@ -200,13 +200,13 @@ RSpec.describe ExternalUser, type: :model do
       context 'given advocate' do
         context 'if advocate' do
           it 'returns true' do
-            expect(advocate.is? :advocate).to eq(true)
+            expect(advocate.is?(:advocate)).to eq(true)
           end
         end
 
         context 'for an admin' do
           it 'returns false' do
-            expect(admin.is? :advocate).to eq(false)
+            expect(admin.is?(:advocate)).to eq(false)
           end
         end
       end
@@ -214,13 +214,13 @@ RSpec.describe ExternalUser, type: :model do
       context 'given admin' do
         context 'for an admin' do
           it 'returns true' do
-            expect(admin.is? :admin).to eq(true)
+            expect(admin.is?(:admin)).to eq(true)
           end
         end
 
         context 'for a advocate' do
           it 'returns false' do
-            expect(advocate.is? :admin).to eq(false)
+            expect(advocate.is?(:admin)).to eq(false)
           end
         end
       end

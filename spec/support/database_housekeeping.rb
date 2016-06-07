@@ -1,6 +1,6 @@
 module DatabaseHousekeeping
-	def clean_database
-		models = [
+  def clean_database
+    models = [
       CaseType,
       Expense,
       ClaimStateTransition,
@@ -31,9 +31,7 @@ module DatabaseHousekeeping
       DisbursementType,
     ]
 
-    models.each do |model|
-      model.delete_all
-    end
+    models.each(&:delete_all)
   end
 
   def report_record_counts

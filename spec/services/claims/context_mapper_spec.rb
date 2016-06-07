@@ -150,13 +150,13 @@ RSpec.describe Claims::ContextMapper do
     end
 
     it 'returns all claims for the provider for the admin context' do
-      expected_ids = [ @claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id ].sort
+      expected_ids = [@claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id].sort
       actual_ids = Claims::ContextMapper.new(@admin).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end
 
     it 'returns all claims for the external user' do
-      expected_ids = [ @claim_a1.id ]
+      expected_ids = [@claim_a1.id]
       actual_ids = Claims::ContextMapper.new(@advocate_1).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end

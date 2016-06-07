@@ -13,15 +13,15 @@ FactoryGirl.define do
     sequence(:description) { |n| "#{Faker::Lorem.sentence}-#{n}" }
 
     trait :representation_order do
-      description          'Representation Order'
+      description 'Representation Order'
     end
 
     trait :indictment do
-      description           'Indictment'
+      description 'Indictment'
     end
 
     trait :invoice do
-      description            'Invoice'
+      description 'Invoice'
     end
   end
 end

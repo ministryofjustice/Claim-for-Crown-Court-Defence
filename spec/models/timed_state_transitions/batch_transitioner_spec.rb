@@ -3,7 +3,7 @@ require 'rails_helper'
 
 module TimedTransitions
 
-  describe BatchTransitioner do 
+  describe BatchTransitioner do
 
     it 'should instantiate a Transitioner and run it for each claim' do
       bt = BatchTransitioner.new

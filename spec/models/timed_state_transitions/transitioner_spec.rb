@@ -5,24 +5,25 @@ module TimedTransitions
 
   describe Transitioner do
 
-    let(:claim)           { double Claim }
+    let(:claim) { double Claim }
 
     describe '.candidate_states' do
       it 'should return an array of source states for timed transitions' do
-        expect(Transitioner.candidate_states).to eq (
-          [ :authorised,
-            :part_authorised,
-            :refused,
-            :rejected,
-            :archived_pending_delete
-          ] )
+        expect(Transitioner.candidate_states).to eq([
+          :authorised,
+          :part_authorised,
+          :refused,
+          :rejected,
+          :archived_pending_delete
+        ])
       end
     end
 
     describe '.candidate_claims' do
       it 'should generate the correct sql' do
         expect(Transitioner.candidate_claims.to_sql).to eq(
-          %q<SELECT "claims".* FROM "claims" WHERE (state in ('authorised','part_authorised','refused','rejected','archived_pending_delete'))>)
+          %q<SELECT "claims".* FROM "claims" WHERE (state in ('authorised','part_authorised','refused','rejected','archived_pending_delete'))>
+        )
       end
     end
 

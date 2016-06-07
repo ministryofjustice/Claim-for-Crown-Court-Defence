@@ -9,11 +9,11 @@ describe API::V1::ExternalUsers::Expense do
   include ApiSpecHelper
 
 
-  CREATE_EXPENSE_ENDPOINT = "/api/external_users/expenses"
-  VALIDATE_EXPENSE_ENDPOINT = "/api/external_users/expenses/validate"
+  CREATE_EXPENSE_ENDPOINT = "/api/external_users/expenses".freeze
+  VALIDATE_EXPENSE_ENDPOINT = "/api/external_users/expenses/validate".freeze
 
-  ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT]
-  FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
+  ALL_EXPENSE_ENDPOINTS = [VALIDATE_EXPENSE_ENDPOINT, CREATE_EXPENSE_ENDPOINT].freeze
+  FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete].freeze
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 
@@ -41,7 +41,7 @@ describe API::V1::ExternalUsers::Expense do
       }
     end
 
-    let(:json_error_response)   do
+    let(:json_error_response) do
       [
         {"error" => "Choose a type for the expense"},
         {"error" => "Enter a quantity for the expense"},
@@ -69,7 +69,7 @@ describe API::V1::ExternalUsers::Expense do
       date: "Enter a date for the expense",
       expense_type_id: "Choose a type for the expense",
       reason_id: "Enter a reason for the expense"
-    }
+    }.freeze
 
     describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
 

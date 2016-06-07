@@ -73,7 +73,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       end
 
       it "should redirect to the new advocate claim form page" do
-          expect(response).to redirect_to(new_advocates_claim_path)
+        expect(response).to redirect_to(new_advocates_claim_path)
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
       end
 
       it "should redirect to the new litigator final claim form page" do
-          expect(response).to redirect_to(new_litigators_claim_path)
+        expect(response).to redirect_to(new_litigators_claim_path)
       end
     end
 

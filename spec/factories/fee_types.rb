@@ -46,7 +46,7 @@ FactoryGirl.define do
 
     trait :hsts do
       description 'Hearing subsequent to sentence'
-      roles [ 'lgfs' ]
+      roles ['lgfs']
     end
 
     factory :misc_fee_type, class: Fee::MiscFeeType do
@@ -123,19 +123,19 @@ FactoryGirl.define do
       calculated false
       code 'TRANS'
       description 'Transfer'
-      roles [ 'lgfs' ]
+      roles ['lgfs']
     end
 
     factory :warrant_fee_type, class: Fee::WarrantFeeType do
-      description  'Warrant Fee'
+      description 'Warrant Fee'
       code 'XWAR'
       calculated false
-      roles [ 'lgfs' ]
+      roles ['lgfs']
     end
 
     factory :child_fee_type, class: Fee::FixedFeeType do
       description "Child"
-      roles [ 'lgfs' ]
+      roles ['lgfs']
 
       trait :asbo do
         description "Vary /discharge an ASBO s1c Crime and Disorder Act 1998"

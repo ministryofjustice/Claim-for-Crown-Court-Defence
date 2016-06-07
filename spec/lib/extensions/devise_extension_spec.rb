@@ -24,7 +24,7 @@ describe DeviseExtension do
       expect(Devise.paranoid).to be_falsey
 
       expect(
-          example_class.override_paranoid_setting(true) { Devise.paranoid }
+        example_class.override_paranoid_setting(true) { Devise.paranoid }
       ).to be_truthy
 
       expect(Devise.paranoid).to be_falsey

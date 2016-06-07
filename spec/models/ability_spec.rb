@@ -196,7 +196,7 @@ describe Ability do
     end
   end
 
-context 'external_user litigator' do
+  context 'external_user litigator' do
 
     let(:external_user) { create(:external_user, :litigator) }
     let(:provider)      { external_user.provider }
@@ -267,7 +267,7 @@ context 'external_user litigator' do
   end
 
   context 'external_user litigator admin' do
-    let(:external_user)       { create(:external_user, :litigator_and_admin) }
+    let(:external_user) { create(:external_user, :litigator_and_admin) }
     let(:provider)      { external_user.provider }
     let(:user)          { external_user.user }
 

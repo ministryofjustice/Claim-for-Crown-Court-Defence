@@ -15,7 +15,7 @@ describe Fee::MiscFeeValidator do
     let(:claim) { FactoryGirl.build :litigator_claim }
 
     before(:each) do
-      fee.clear   # reset some attributes set by the factory
+      fee.clear # reset some attributes set by the factory
       fee.amount = 1.00
     end
 

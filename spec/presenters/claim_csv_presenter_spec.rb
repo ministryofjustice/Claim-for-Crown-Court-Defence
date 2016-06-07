@@ -82,7 +82,7 @@ RSpec.describe ClaimCsvPresenter do
         it 'date submitted' do
           subject.present! do |claim_journeys|
             expect(claim_journeys.first).to include((Time.now - 3.day).to_s)
-            expect(claim_journeys.second).to include((Time.now).to_s)
+            expect(claim_journeys.second).to include(Time.now.to_s)
           end
         end
 

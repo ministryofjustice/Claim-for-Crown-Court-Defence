@@ -32,7 +32,7 @@ describe Fee::BaseFeeValidator do
     it 'should raise error if date present' do
       fee.warrant_issued_date = Date.today
       expect(fee).not_to be_valid
-      expect(fee.errors[:warrant_issued_date]).to eq( [ 'present' ])
+      expect(fee.errors[:warrant_issued_date]).to eq(['present'])
     end
   end
 
@@ -40,7 +40,7 @@ describe Fee::BaseFeeValidator do
     it 'should raise error if date present' do
       fee.warrant_executed_date = Date.today
       expect(fee).not_to be_valid
-      expect(fee.errors[:warrant_executed_date]).to eq( [ 'present' ])
+      expect(fee.errors[:warrant_executed_date]).to eq(['present'])
     end
   end
 
@@ -131,7 +131,7 @@ describe Fee::BaseFeeValidator do
       end
 
       it 'should NOT raise an error when amount is zero and quantity is not' do
-        [ppe_fee,npw_fee].each do |f|
+        [ppe_fee, npw_fee].each do |f|
           f.amount = 0
           expect(f).to be_valid
         end
@@ -186,13 +186,13 @@ describe Fee::BaseFeeValidator do
         end
 
         it 'should raise numericality error when quantity not in range 0 to 1' do
-          [-1,2].each do |q|
+          [-1, 2].each do |q|
             should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
           end
         end
 
         it 'should raise invalid error when quantity is nil or 0' do
-          [nil,0].each do |q|
+          [nil, 0].each do |q|
             should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
           end
         end
@@ -241,19 +241,19 @@ describe Fee::BaseFeeValidator do
       end
 
       it 'should validate based on retrial length for retrials' do
-          daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          daf_fee.claim.actual_trial_length = 2
-          daf_fee.claim.retrial_actual_length = 20
-          should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
-          should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
+        daf_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+        daf_fee.claim.actual_trial_length = 2
+        daf_fee.claim.retrial_actual_length = 20
+        should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
+        should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
       end
 
     end
 
     context 'daily_attendance_41_50 (DAH)' do
       it 'should error if trial length is less than 40 days' do
-          dah_fee.claim.actual_trial_length = 35
-          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
+        dah_fee.claim.actual_trial_length = 35
+        should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
       end
 
       context 'trial length greater than 40 days' do
@@ -275,11 +275,11 @@ describe Fee::BaseFeeValidator do
       end
 
       it 'should validate based on retrial length for retrials' do
-          dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          dah_fee.claim.actual_trial_length = 2
-          dah_fee.claim.retrial_actual_length = 45
-          should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
-          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
+        dah_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+        dah_fee.claim.actual_trial_length = 2
+        dah_fee.claim.retrial_actual_length = 45
+        should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
+        should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
       end
     end
 
@@ -305,11 +305,11 @@ describe Fee::BaseFeeValidator do
       end
 
       it 'should validate based on retrial length for retrials' do
-          daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
-          daj_fee.claim.actual_trial_length = 2
-          daj_fee.claim.retrial_actual_length = 70
-          should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
-          should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
+        daj_fee.claim.case_type = FactoryGirl.create(:case_type, :retrial)
+        daj_fee.claim.actual_trial_length = 2
+        daj_fee.claim.retrial_actual_length = 70
+        should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
+        should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
       end
     end
 
@@ -337,7 +337,7 @@ describe Fee::BaseFeeValidator do
     context 'any other fee' do
       it { should_error_if_equal_to_value(fee, :quantity, -1, 'invalid') }
       it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
-      it { should_error_if_equal_to_value(fee, :quantity, 100000,    'invalid') }
+      it { should_error_if_equal_to_value(fee, :quantity, 100000, 'invalid') }
 
       it 'should not allow zero if amount is not zero' do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')

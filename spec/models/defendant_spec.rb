@@ -28,20 +28,20 @@ RSpec.describe Defendant, type: :model do
     context 'non-draft claim' do
       before { subject.claim = create(:submitted_claim) }
 
-      it { should validate_presence_of(:claim).with_message('blank')  }
+      it { should validate_presence_of(:claim).with_message('blank') }
       it { should validate_presence_of(:first_name).with_message('blank') }
       it { should validate_presence_of(:last_name).with_message('blank')  }
     end
 
     context 'draft claim from api' do
-      before { 
-        subject.claim = create(:draft_claim) 
+      before {
+        subject.claim = create(:draft_claim)
         subject.claim.source = 'api'
       }
 
-      it { should validate_presence_of(:claim).with_message('blank')  }
-      it { should validate_presence_of(:first_name).with_message('blank')  }
-      it { should validate_presence_of(:last_name).with_message('blank')  }
+      it { should validate_presence_of(:claim).with_message('blank') }
+      it { should validate_presence_of(:first_name).with_message('blank') }
+      it { should validate_presence_of(:last_name).with_message('blank') }
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe Defendant, type: :model do
 
   context 'representation orders' do
 
-    let(:defendant)  { FactoryGirl.create :defendant, claim: FactoryGirl.create(:claim) }
+    let(:defendant) { FactoryGirl.create :defendant, claim: FactoryGirl.create(:claim) }
 
     it 'should be valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid

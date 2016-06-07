@@ -65,7 +65,7 @@ describe Claim::TransferClaim, type: :model do
   it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
 
   context 'should delegate transfer detail attributes to transfer detail object' do
-    [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id ].
+    [:litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id].
     each do |attribute|
       it { should delegate_method(attribute).to(:transfer_detail) }
     end
@@ -153,8 +153,8 @@ describe Claim::TransferClaim, type: :model do
     it 'should return only LGFS applicable miscellaneous fee types' do
       mf1 = create :misc_fee_type, :lgfs
       mf2 = create :misc_fee_type, :lgfs
-      mf3 = create :misc_fee_type
-      expect(claim.eligible_misc_fee_types.map(&:description)).to match_array([mf1.description,mf2.description])
+      create :misc_fee_type
+      expect(claim.eligible_misc_fee_types.map(&:description)).to match_array([mf1.description, mf2.description])
     end
   end
 

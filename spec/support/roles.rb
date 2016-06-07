@@ -2,7 +2,7 @@ require 'rails_helper'
 
 shared_examples_for 'roles' do |klass, roles|
 
-  let(:factory_name)  { klass.name.demodulize.to_s.underscore.to_sym }
+  let(:factory_name) { klass.name.demodulize.to_s.underscore.to_sym }
 
   describe 'validation' do
     let(:assigned_roles) { [] }
@@ -55,7 +55,7 @@ shared_examples_for 'roles' do |klass, roles|
 
   describe '#has_roles?' do
     subject { create(factory_name, roles: roles) }
-    
+
     it "returns true if subject has exact specified roles" do
       expect(subject.has_roles?(roles)).to eq(true)
       expect(subject.has_roles?(*roles)).to eq(true)

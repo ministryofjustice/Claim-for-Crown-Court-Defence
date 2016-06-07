@@ -28,7 +28,7 @@ FactoryGirl.define do
     end
 
     factory :date_range_attended do
-      date_to  { 10.days.ago }
+      date_to { 10.days.ago }
     end
   end
 

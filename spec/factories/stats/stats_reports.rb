@@ -17,7 +17,7 @@ FactoryGirl.define do
     status 'completed'
     started_at { 2.minutes.ago }
     completed_at { 2.seconds.ago }
-    
+
     trait :incomplete do
       status 'started'
       completed_at nil

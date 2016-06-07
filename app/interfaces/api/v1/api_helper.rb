@@ -110,7 +110,6 @@ module API
           end
 
           test_editability(model_instance)
-
           if model_instance.errors.present?
             pop_error_response(model_instance, api_response)
           elsif model_instance.valid?

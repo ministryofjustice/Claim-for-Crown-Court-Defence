@@ -16,8 +16,8 @@ describe API::V1::ExternalUsers::Disbursement do
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 
-  let!(:provider)            { create(:provider) }
-  let!(:claim)               { create(:claim, source: 'api').reload }
+  let!(:provider)           { create(:provider) }
+  let!(:claim)              { create(:litigator_claim, source: 'api').reload }
   let!(:disbursement_type)  { create(:disbursement_type) }
 
   let!(:params) do
@@ -176,11 +176,11 @@ describe API::V1::ExternalUsers::Disbursement do
     end
 
     context 'AGFS claims' do
-      before { allow(claim).to receive(:agfs?).and_return true }
+      let(:claim)              { create(:advocate_claim, source: 'api').reload }
       it 'should return 400 and JSON error array' do
         post_to_validate_endpoint
         expect(last_response.status).to eq 400
-        expect(last_response.body).to eq "[{\"error\":\"Claim is of an inaapropriate fee scheme type for the disbursement\"}]"
+        expect(last_response.body).to eq "[{\"error\":\"Claim is of an inappropriate fee scheme type for the disbursement\"}]"
       end
     end
   end

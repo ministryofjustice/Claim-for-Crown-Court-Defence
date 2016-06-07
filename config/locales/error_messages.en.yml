@@ -1209,9 +1209,9 @@ disbursement:
 
   claim:
     invalid_fee_scheme:
-      long: 'Claim is of an inaapropriate fee scheme type for the #{disbursement}'
+      long: 'Claim is of an inappropriate fee scheme type for the #{disbursement}'
       short: Inappropriate fee scheme
-      api: Claim is of an inaapropriate fee scheme type for the disbursement
+      api: Claim is of an inappropriate fee scheme type for the disbursement
 
   disbursement_type:
     _seq: 10

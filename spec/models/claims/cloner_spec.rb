@@ -167,7 +167,7 @@ RSpec.describe Claims::Cloner, type: :model do
         expense.dates_attended << create(:date_attended)
       end
 
-      claim.disbursements << create(:disbursement)
+      create(:disbursement, claim: claim)
       create(:redetermination, claim: claim)
 
       claim.documents << create(:document, :verified)

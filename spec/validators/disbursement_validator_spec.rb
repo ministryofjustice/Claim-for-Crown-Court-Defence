@@ -5,7 +5,7 @@ describe DisbursementValidator do
 
   include ValidationHelpers
 
-  let(:claim)         { FactoryGirl.build :claim, force_validation: true }
+  let(:claim)         { FactoryGirl.build :litigator_claim, force_validation: true }
   let(:disbursement)  { FactoryGirl.build :disbursement, claim: claim }
 
   describe '#validate_claim' do

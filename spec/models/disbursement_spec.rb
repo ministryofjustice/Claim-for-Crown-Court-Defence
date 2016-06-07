@@ -33,7 +33,7 @@ RSpec.describe Disbursement, type: :model do
 
   describe 'update claim totals' do
     before :all do
-      @claim = create(:claim, :without_fees)
+      @claim = create(:litigator_claim, :without_fees, apply_vat: true)
 
       [[5.0, 1.5], [3.0, 1.0]].each do |net, vat|
         create(:disbursement, claim: @claim, net_amount: net, vat_amount: vat)

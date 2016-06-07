@@ -79,7 +79,6 @@ Lint/UnusedMethodArgument:
 # Offense count: 2
 Lint/UselessAccessModifier:
   Exclude:
-    - 'app/controllers/vat_rates_controller.rb'
     - 'app/models/fee/base_fee_type.rb'
 
 # Offense count: 9
@@ -475,20 +474,6 @@ Style/SpaceAfterMethodName:
   Exclude:
     - 'app/presenters/claim/base_claim_presenter.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/SpaceAfterSemicolon:
-  Exclude:
-    - 'app/models/vat_rate.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleInsidePipes, SupportedStyles.
-# SupportedStyles: space, no_space
-Style/SpaceAroundBlockParameters:
-  Exclude:
-    - 'app/models/vat_rate.rb'
-
 # Offense count: 36
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -530,7 +515,6 @@ Style/SpaceBeforeBlockBraces:
 Style/SpaceBeforeComma:
   Exclude:
     - 'app/interfaces/api/v1/external_users/claim.rb'
-    - 'app/models/determination.rb'
 
 # Offense count: 16
 # Cop supports --auto-correct.
@@ -576,7 +560,6 @@ Style/SpaceInsideParens:
     - 'app/controllers/case_workers/admin/allocations_controller.rb'
     - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/models/claims/state_machine.rb'
-    - 'app/models/determination.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/validators/claim/base_claim_validator.rb'
     - 'lib/api_test_client.rb'

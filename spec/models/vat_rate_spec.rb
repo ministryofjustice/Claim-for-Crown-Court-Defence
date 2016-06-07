@@ -61,7 +61,6 @@ describe VatRate do
 
   describe '.vat_amount' do
     context '22.25% VAT' do
-
       it 'should return 25.75 for 115.75' do
         vat_amount = VatRate.vat_amount(BigDecimal.new("115.75"), 6.months.ago)
         expect(vat_amount).to eq 25.75
@@ -70,6 +69,11 @@ describe VatRate do
       it 'should return 25.76 for 115.76' do
         vat_amount = VatRate.vat_amount(BigDecimal.new("115.76"), 6.months.ago)
         expect(vat_amount).to eq 25.76
+      end
+
+      it 'should return 0 when calculate option is false' do
+        vat_amount = VatRate.vat_amount(BigDecimal.new("100.00"), 6.months.ago, calculate: false)
+        expect(vat_amount).to eq 0.0
       end
     end
   end

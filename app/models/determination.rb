@@ -28,17 +28,17 @@ class Determination < ActiveRecord::Base
 
 
   def calculate_total
-    self.total = [self.fees || 0.0, self.expenses || 0.0 , self.disbursements || 0.0].sum
+    self.total = [self.fees || 0.0, self.expenses || 0.0, self.disbursements || 0.0].sum
   end
 
   def calculate_vat
     if self.claim.is_a? Claim::AdvocateClaim
-      self.vat_amount = VatRate.vat_amount(self.total, self.claim.vat_date).round(2) if self.claim.apply_vat?
+      self.vat_amount = VatRate.vat_amount(self.total, self.claim.vat_date, calculate: self.claim.apply_vat?).round(2)
     end
   end
 
   def total_including_vat
-    (self.total || 0 ) + (self.vat_amount || 0)
+    (self.total || 0) + (self.vat_amount || 0)
   end
 
   def blank?

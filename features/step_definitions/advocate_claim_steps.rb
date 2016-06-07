@@ -56,6 +56,7 @@ end
 When(/^I add another defendant, representation order and MAAT reference$/) do
   using_wait_time 3 do
     @claim_form_page.add_another_defendant.click
+    wait_for_ajax
     @claim_form_page.defendants.last.first_name.set "Ned"
     @claim_form_page.defendants.last.last_name.set "Kelly"
     @claim_form_page.defendants.last.dob.set_date "1912-12-12"
@@ -67,6 +68,7 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
 end
 
 When(/^I add a basic fee with dates attended$/) do
+  wait_for_ajax
   @claim_form_page.initial_fees.basic_fee.quantity.set "1"
   @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
   # @claim_form_page.initial_fees.basic_fee.add_dates.click
@@ -96,25 +98,6 @@ When(/^I add a fixed fee '(.*?)'$/) do |name|
   @claim_form_page.fixed_fees.last.select_fee_type name
   @claim_form_page.fixed_fees.last.quantity.set 1
   @claim_form_page.fixed_fees.last.rate.set "12.34"
-end
-
-When(/^I add an expense '(.*?)'( with invalid date)?$/) do |name, invalid_date|
-  @claim_form_page.expenses.last.expense_type_dropdown.select name
-  if name == 'Hotel accommodation'
-    @claim_form_page.expenses.last.destination.set 'Liverpool'
-  end
-  @claim_form_page.expenses.last.reason_for_travel_dropdown.select 'View of crime scene'
-  @claim_form_page.expenses.last.amount.set '34.56'
-
-  if invalid_date.present?
-    @claim_form_page.expenses.last.expense_date.set_invalid_date
-  else
-    @claim_form_page.expenses.last.expense_date.set_date '2016-01-02'
-  end
-end
-
-And(/^I enter the date for the (\w+) expense '(.*?)'$/) do |ordinal, date|
-  @claim_form_page.expenses.send(ordinal.to_sym).expense_date.set_date date
 end
 
 When(/^I upload (\d+) documents?$/) do |count|

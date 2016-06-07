@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527102644) do
+ActiveRecord::Schema.define(version: 20160607120655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 20160527102644) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "total",                default: 0.0
+    t.uuid     "uuid",                 default: "uuid_generate_v4()"
   end
 
   add_index "disbursements", ["claim_id"], name: "index_disbursements_on_claim_id", using: :btree

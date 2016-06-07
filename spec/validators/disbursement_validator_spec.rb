@@ -9,10 +9,26 @@ describe DisbursementValidator do
   let(:disbursement)  { FactoryGirl.build :disbursement, claim: claim }
 
   describe '#validate_claim' do
+
     it { should_error_if_not_present(disbursement, :claim, 'blank') }
+    
+    context "AGFS claims" do
+      before { allow(claim).to receive(:agfs?).and_return true }
+      it 'should raise invalid fee scheme error' do
+        expect(disbursement).to_not be_valid
+        expect(disbursement.errors[:claim]).to include 'invalid_fee_scheme'
+      end
+    end
+
+    context "LGFS claims" do
+      before { allow(claim).to receive(:agfs?).and_return false }
+      it 'should NOT raise invalid fee scheme error' do
+        expect(disbursement).to be_valid
+      end
+    end
   end
 
-  describe '#validate_expense_type' do
+  describe '#validate_disbursement_type' do
     it { should_error_if_not_present(disbursement, :disbursement_type, 'blank') }
   end
 
@@ -34,5 +50,6 @@ describe DisbursementValidator do
       it { should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than') }
     end
   end
+
 end
 

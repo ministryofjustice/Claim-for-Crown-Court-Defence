@@ -136,7 +136,7 @@ module API
 
         # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         def test_editability(model_instance)
-          if [ Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Defendant, RepresentationOrder, DateAttended ].include?(model_instance.class)
+          if [ Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Disbursement, Defendant, RepresentationOrder, DateAttended ].include?(model_instance.class)
             model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
           end
         end

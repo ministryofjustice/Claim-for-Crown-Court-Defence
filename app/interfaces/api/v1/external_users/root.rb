@@ -19,10 +19,11 @@ module API
 
         mount API::V1::ExternalUsers::Claim
         mount API::V1::ExternalUsers::Defendant
+        mount API::V1::ExternalUsers::RepresentationOrder
         mount API::V1::ExternalUsers::Fee
         mount API::V1::ExternalUsers::Expense
+        mount API::V1::ExternalUsers::Disbursement
         mount API::V1::ExternalUsers::DateAttended
-        mount API::V1::ExternalUsers::RepresentationOrder
         mount API::V1::DropdownData
 
         add_swagger_documentation(

@@ -33,6 +33,7 @@ class ApiTestClient
   OFFENCE_ENDPOINT            = "offences"
   FEE_TYPE_ENDPOINT           = "fee_types"
   EXPENSE_TYPE_ENDPOINT       = "expense_types"
+  DISBURSEMENT_TYPE_ENDPOINT  = "disbursement_types"
 
   ALL_DROPDOWN_ENDPOINTS      = [CASE_TYPE_ENDPOINT,
                                 COURT_ENDPOINT,
@@ -41,7 +42,8 @@ class ApiTestClient
                                 OFFENCE_CLASS_ENDPOINT,
                                 OFFENCE_ENDPOINT,
                                 FEE_TYPE_ENDPOINT,
-                                EXPENSE_TYPE_ENDPOINT
+                                EXPENSE_TYPE_ENDPOINT,
+                                DISBURSEMENT_TYPE_ENDPOINT
                                 ]
 
   def initialize
@@ -140,6 +142,7 @@ private
   end
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
+    # byebug if resource == 'fees'
     endpoint = RestClient::Resource.new([api_root_url, prefix || EXTERNAL_USER_PREFIX, resource].join('/'))
     endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, _result|
       if response.code.to_s =~ /^2/
@@ -169,9 +172,11 @@ private
     post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # UPDATE basic fee
+    ap "basic fee"
     post_to_advocate_endpoint('fees', basic_fee_data(@claim_id))
 
     # CREATE miscellaneous fee
+    ap "misc fee"
     response = post_to_advocate_endpoint('fees', misc_fee_data(@claim_id))
 
     # add date attended to miscellaneous fee
@@ -261,25 +266,22 @@ private
 
   def basic_fee_data(claim_uuid)
 
-    fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id', 10)
-
     {
       "api_key": @api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id,
+      "fee_type_id": Fee::BasicFeeType.first.id,
       "quantity": 1,
+      "rate": 255.50
     }
   end
 
 
   def misc_fee_data(claim_uuid)
 
-    fee_type_id = json_value_at_index(get_dropdown_endpoint(FEE_TYPE_ENDPOINT),'id',32)
-
     {
       "api_key": @api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id,
+      "fee_type_id": Fee::MiscFeeType.first.id,
       "quantity": 2,
       "rate": 1.55,
     }

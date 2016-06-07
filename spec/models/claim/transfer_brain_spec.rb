@@ -25,7 +25,7 @@ module Claim
 
     describe '.transfer_stage_ids' do
       it 'returns transfer stage ids' do
-        expect(TransferBrain.transfer_stage_ids).to eq( [ 10, 20, 30, 40, 50, 60, 70 ])
+        expect(TransferBrain.transfer_stage_ids).to eq([10, 20, 30, 40, 50, 60, 70])
       end
     end
 
@@ -58,13 +58,13 @@ module Claim
       end
 
       it 'returns true for visible combos' do
-        [ transfer_detail('new', false, 20, 30), transfer_detail('new', false, 30, 20), transfer_detail('new', false, 50, 40) ].each do |detail|
+        [transfer_detail('new', false, 20, 30), transfer_detail('new', false, 30, 20), transfer_detail('new', false, 50, 40)].each do |detail|
           expect(TransferBrain.details_combo_valid?(detail)).to be true
         end
       end
 
       it 'returns true for hidden combos' do
-        [ transfer_detail('original', false, 70), transfer_detail('original', true, 50), transfer_detail('original', false, 10) ].each do |detail|
+        [transfer_detail('original', false, 70), transfer_detail('original', true, 50), transfer_detail('original', false, 10)].each do |detail|
           expect(TransferBrain.details_combo_valid?(detail)).to be true
         end
       end
@@ -94,17 +94,17 @@ module Claim
     # only new litigators on unelected case transfers are required to specify case conclusion
     #  i.e. new, false, [10,20,30,50,60]
     describe '.case_conclusion_required?' do
-      [10,20,30,50,60].each do |ts|
+      [10, 20, 30, 50, 60].each do |ts|
         it "should be visibile for new, unelected cases that were transfered at stage #{ts}" do
-          td = td = transfer_detail('new', false, ts)
+          td = transfer_detail('new', false, ts)
           expect(TransferBrain.case_conclusion_required?(td)).to eq true
         end
       end
 
       it 'returns false for nil values' do
-        expect(TransferBrain.case_conclusion_required?(td = transfer_detail(nil, true, 10))).to eq false
-        expect(TransferBrain.case_conclusion_required?(td = transfer_detail('new', nil, 10))).to eq false
-        expect(TransferBrain.case_conclusion_required?(td = transfer_detail('new', true, nil))).to eq false
+        expect(TransferBrain.case_conclusion_required?(transfer_detail(nil, true, 10))).to eq false
+        expect(TransferBrain.case_conclusion_required?(transfer_detail('new', nil, 10))).to eq false
+        expect(TransferBrain.case_conclusion_required?(transfer_detail('new', true, nil))).to eq false
       end
     end
 

@@ -3,7 +3,7 @@ require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :controller, focus: true do
 
-  let!(:litigator)      { create(:external_user, :litigator) }
+  let!(:litigator) { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
   let(:court)         { create(:court) }
@@ -66,8 +66,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                     representation_order_date_yyyy: Time.now.year.to_s,
                     maat_reference: '4561237895'
                   }
-                ]
-              }
+                ]}
             ]
           }
         end
@@ -188,8 +187,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                               representation_order_date_yyyy: Time.now.year.to_s,
                               maat_reference: '4561237895'
                           }
-                      ]
-                    }
+                      ]}
                 ]
             }
           end
@@ -259,7 +257,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA'
@@ -391,7 +389,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
@@ -399,7 +398,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         put :update, id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA'
+          'first_day_of_trial_dd' => '4'
+}, commit_submit_claim: 'Submit to LAA'
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

@@ -8,7 +8,7 @@ describe Claim::TransferClaimSubModelValidator do
 
   include_examples 'common partial association validations', {
       has_one: [
-          [ ],
+          [],
           [
             :transfer_fee,
             :assessment,

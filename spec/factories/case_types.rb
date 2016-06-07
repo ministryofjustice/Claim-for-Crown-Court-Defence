@@ -73,7 +73,7 @@ FactoryGirl.define do
 
     trait :hsts do
       name 'Hearing subsequent to sentence'
-      roles [ 'lgfs' ]
+      roles ['lgfs']
     end
   end
 end

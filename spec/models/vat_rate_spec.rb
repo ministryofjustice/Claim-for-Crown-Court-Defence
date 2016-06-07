@@ -20,7 +20,7 @@ describe VatRate do
   end
 
   after(:all) do
-    VatRate.destroy( [ @vr1.id, @vr2.id, @vr3.id ] )
+    VatRate.destroy([@vr1.id, @vr2.id, @vr3.id])
   end
 
   describe '.for_date' do

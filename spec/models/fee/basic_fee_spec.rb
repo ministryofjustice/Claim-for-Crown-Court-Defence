@@ -51,7 +51,7 @@ module Fee
       # TODO: BAF fee type used to be instatiated to 1 but has been removed - POCA ticket - can remove eventually
       context 'for the BAF basic fee' do
         it 'should be called as part of claim instatiation and assign 0 as quantity for BAF fee types' do
-          baf_fee_type = FactoryGirl.create :basic_fee_type, code: 'BAF'
+          FactoryGirl.create :basic_fee_type, code: 'BAF'
           claim = FactoryGirl.build :claim
           fee = claim.basic_fees.first
           expect(fee.fee_type.code).to eql 'BAF'
@@ -69,7 +69,7 @@ module Fee
         expect(fee.calculated?).to be false
       end
       it 'should return true for any other fees' do
-        saf = FactoryGirl.create(:basic_fee_type,  code: 'SAF')
+        saf = FactoryGirl.create(:basic_fee_type, code: 'SAF')
         fee = FactoryGirl.create(:basic_fee, fee_type: saf)
         expect(fee.calculated?).to be true
       end

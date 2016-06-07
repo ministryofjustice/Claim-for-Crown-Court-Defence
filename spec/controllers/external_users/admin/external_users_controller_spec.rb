@@ -17,7 +17,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     it 'assigns @eternal_users' do
       external_user = create(:external_user, provider: admin.provider)
-      other_provider_external_user = create(:external_user)
+      create(:external_user)
       get :index
       expect(assigns(:external_users)).to match_array([admin, external_user])
     end
@@ -105,7 +105,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       it 'redirects to external_users index' do
         post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'},
                                   roles: ['advocate'],
-                                  supplier_number: 'XY123'  }
+                                  supplier_number: 'XY123' }
         expect(response).to redirect_to(external_users_admin_external_users_url)
       end
     end
@@ -185,7 +185,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
 
     it 'destroys the external user' do
-      subject     # create an additional External user
+      subject # create an additional External user
       expect{
         delete :destroy, id: subject
       }.to change{ExternalUser.count}.by(-1)

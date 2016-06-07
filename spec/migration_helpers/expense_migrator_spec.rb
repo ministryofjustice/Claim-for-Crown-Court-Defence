@@ -22,7 +22,7 @@ module MigrationHelpers
           'Parking',
           'Hotel accommodation'
         ].each do |expense_type_name|
-          ExpenseType.create!(name: expense_type_name,  roles: ['agfs', 'lgfs'], reason_set: 'A')
+          ExpenseType.create!(name: expense_type_name, roles: ['agfs', 'lgfs'], reason_set: 'A')
         end
         @migrated_type = ExpenseType.find_by(name: 'Car travel')
       end
@@ -56,7 +56,7 @@ module MigrationHelpers
     end
 
 
-   
+
     describe 'private method is_single_date' do
       it 'returns true for single date with no date_to' do
         ex = build :expense, :with_single_date_attended
@@ -69,7 +69,7 @@ module MigrationHelpers
       end
 
       it 'returns false for single date with different dates from to' do
-         ex = build :expense, :with_date_range_attended
+        ex = build :expense, :with_date_range_attended
         expect(mock_migrator.send(:is_single_date?, ex.dates_attended)).to be false
       end
     end
@@ -94,5 +94,5 @@ module MigrationHelpers
 
     end
 
-  end 
+  end
 end

@@ -14,7 +14,7 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
     context 'when logged in as AGFS/LGFS admin' do
 
       before do
-        assign(:claim_types, [Claim::AdvocateClaim,Claim::LitigatorClaim,Claim::InterimClaim,Claim::TransferClaim])
+        assign(:claim_types, [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
         render
       end
       it "should include advocate fee, litigator final, interim and transfer fee options" do
@@ -31,7 +31,7 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
 
     context 'when logged in as litigator' do
       before do
-        assign(:claim_types, [Claim::LitigatorClaim,Claim::InterimClaim,Claim::TransferClaim])
+        assign(:claim_types, [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
         render
       end
       it "should include litigator final, interim and transfer fee options only" do

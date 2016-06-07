@@ -9,14 +9,14 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     load "#{Rails.root}/db/seeds/case_types.rb"
 
     @case_worker = create(:case_worker)
-    @admin  = create(:case_worker, :admin)
+    @admin = create(:case_worker, :admin)
   end
 
   after(:all) { clean_database }
 
   before { sign_in @admin.user }
 
-  let(:tab) { nil }   # default tab is 'unallocated' when tab not provided
+  let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
   describe 'GET #new' do
 
@@ -93,8 +93,8 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         %w{ fixed_fee cracked trial guilty_plea redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
-            before { @claims = create_filterable_claim(:advocate_claim, "#{filter_type}".to_sym, 1) }
-            let(:filter) { "#{filter_type}" }
+            before { @claims = create_filterable_claim(:advocate_claim, filter_type.to_s.to_sym, 1) }
+            let(:filter) { filter_type.to_s }
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
@@ -116,10 +116,10 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           context "filter by #{filter_type}" do
 
             before do
-              @claims = create_filterable_claim(:litigator_claim, "#{filter_type}".to_sym, 1)
+              @claims = create_filterable_claim(:litigator_claim, filter_type.to_s.to_sym, 1)
               get :new, params
             end
-            let(:filter) { "#{filter_type}" }
+            let(:filter) { filter_type.to_s }
             it "should assign @claims to be only #{filter_type} type claims" do
               expect(assigns(:claims).map(&:id)).to eql @claims.map(&:id)
             end
@@ -229,7 +229,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         end
 
         it 'tells the user how many claims were successfully allocated' do
-          expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
+          expect(flash[:notice]).to match(/\d claim[s]{0,1} allocated to.*/)
         end
 
         it 'renders the new template' do
@@ -279,7 +279,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
 
       it 'tells the user how many claims were successfully re-allocated' do
-        expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
+        expect(flash[:notice]).to match(/\d claim[s]{0,1} allocated to.*/)
       end
 
       it 're-allocates already allocated claims to the case worker' do
@@ -327,7 +327,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       when :graduated_fees
         create_list(:litigator_claim, number, :submitted, case_type_id: CaseType.by_type('Trial').id) if for_litigator
       when :risk_based_bills
-        [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id )] if for_litigator
+        [create(:litigator_claim, :risk_based_bill, case_type_id: CaseType.by_type('Guilty plea').id)] if for_litigator
       when :interim_fees
         [create(:interim_claim, :interim_effective_pcmh_fee, :submitted)] if for_litigator
       when :warrants

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AssessmentPresenter do
-  
+
   let(:claim)       { FactoryGirl.create :claim, apply_vat: true }
-  
+
   context 'currency fields' do
     it 'should format currency amount' do
       claim.assessment.update_values(1452.33, 2455.77, 1505.24)

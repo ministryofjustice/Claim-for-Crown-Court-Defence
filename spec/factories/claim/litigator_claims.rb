@@ -14,7 +14,7 @@ FactoryGirl.define do
       after(:build) do |claim|
         claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim: claim)
       end
-      after(:create) { |c| c.submit! }
+      after(:create, &:submit!)
     end
   end
 end

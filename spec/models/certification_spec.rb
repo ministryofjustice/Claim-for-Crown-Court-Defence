@@ -29,7 +29,7 @@ RSpec.describe Certification, type: :model do
     it 'should be invalid without certification type' do
       subject.certification_type_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors.full_messages).to eq( ['You must select one option on this form'] )
+      expect(subject.errors.full_messages).to eq(['You must select one option on this form'])
     end
   end
 end

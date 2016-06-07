@@ -82,7 +82,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
   end
 
@@ -93,7 +94,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
     write_empty_document(doc.document.path)
   end
@@ -107,10 +109,10 @@ describe DocumentRecloner do
     invalid_doc_ids = []
     valid_doc_ids = []
 
-    claim.documents.each do  |doc|
+    claim.documents.each do |doc|
       size = File.stat(doc.document.path).size
       size > 0 ? valid_doc_ids << doc.id : invalid_doc_ids << doc.id
     end
-    [ invalid_doc_ids, valid_doc_ids ]
+    [invalid_doc_ids, valid_doc_ids]
   end
 end

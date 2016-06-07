@@ -9,8 +9,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     let(:claim)                       { build :claim, force_validation: true }
     let(:expense)                     { build :expense, :train, claim: claim }
-    let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
-    let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
+    let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim) }
+    let(:parking_expense)             { build(:expense, :parking, claim: claim) }
     let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
     let(:train_expense)               { build(:expense, :train, claim: claim) }
     let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }

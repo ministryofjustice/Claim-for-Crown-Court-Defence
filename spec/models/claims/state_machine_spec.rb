@@ -53,10 +53,11 @@ RSpec.describe Claims::StateMachine, type: :model do
           subject.authorise_part!
         }.to change{ subject.state }.to('part_authorised') }
 
-      it { expect{
-        subject.assessment.update(fees: 100.00, expenses: 23.45)
-        subject.authorise!
-      }.to change{ subject.state }.to('authorised') }
+      it {
+        expect{
+          subject.assessment.update(fees: 100.00, expenses: 23.45)
+          subject.authorise!
+        }.to change{ subject.state }.to('authorised') }
 
       it { expect{ subject.archive_pending_delete! }.to raise_error }
     end
@@ -233,7 +234,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   end # describe 'set triggers'
 
   describe '.is_in_state?' do
-    let(:claim)         { build :unpersisted_claim }
+    let(:claim) { build :unpersisted_claim }
 
     it 'should be true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')

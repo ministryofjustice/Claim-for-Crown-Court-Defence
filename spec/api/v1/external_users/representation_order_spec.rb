@@ -8,11 +8,11 @@ describe API::V1::ExternalUsers::RepresentationOrder do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders"
-  VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders/validate"
+  CREATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders".freeze
+  VALIDATE_REPRESENTATION_ORDER_ENDPOINT = "/api/external_users/representation_orders/validate".freeze
 
-  ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
-  FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
+  ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT].freeze
+  FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete].freeze
 
   let!(:provider)      { create(:provider) }
   let!(:claim)         { create(:claim, source: 'api') }
@@ -111,7 +111,7 @@ describe API::V1::ExternalUsers::RepresentationOrder do
       post VALIDATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
     end
 
-   it 'valid requests should return 200 and String true' do
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect_validate_success_response
     end

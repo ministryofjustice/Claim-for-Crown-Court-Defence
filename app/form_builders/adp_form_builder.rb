@@ -32,6 +32,25 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
 
+  def awesomeplete_collection_select(method, collection, value_method, text_method, data_options, options_hash = {})
+    result = %Q|<div class="awesomplete">|
+    result += %Q|<input class="form-control" id="claim_case_type_id_autocomplete" autocomplete="off" aria-autocomplete="list">|
+    result += %Q|<ul>|
+    if data_options[:prompt]
+      result += %Q|<li aria-selected="true">#{data_options[:prompt]}</li>|
+    elsif data_options[:include_blank]
+      result += %Q|<li aria-selected="true"></li>|
+    end
+    collection.each do |item|
+      result += %Q|<li aria-selected="false" data-value="#{item.send(value_method)}">#{item.send(text_method)}</li>|
+    end
+    result += %Q|</ul>|
+    result += %Q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
+    result += %Q|</div>|
+    result.html_safe
+  end
+
+
   private
 
   def anchor_and_label_markup(anchor_name, label, options = {})

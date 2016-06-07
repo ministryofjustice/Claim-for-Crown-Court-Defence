@@ -2,8 +2,29 @@ require 'rails_helper'
 
 describe AdpFormBuilder do
 
-  let(:resource)  { FactoryGirl.create :claim }
+  before(:all) do
+    create :court, name: 'Kinghtsbridge', code: '400'
+    create :court, name: 'Reading', code: '635'
+    create :court, name: 'Southward', code: '306'
+  end
+
+  after(:all) do
+    Court.delete_all
+  end
+
+  let(:resource)  { FactoryGirl.create :claim, court: Court.find_by(name: 'Reading') }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {} ) }
+
+  describe 'awesomeplete_collection_select' do
+
+    it 'should produce ordered list with no prompt' do
+      actual = builder.awesomeplete_collection_select(:court_id, Court.all, :id, :name)
+      expect(actual).to eq expected_html_for_simple_selection_no_prompt
+    end
+
+    def expected_html_for_simple_list_no_prompt
+      result =
+    end
 
   describe 'anchored_label' do
     context 'no anchor name supplied' do

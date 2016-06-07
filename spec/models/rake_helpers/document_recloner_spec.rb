@@ -57,7 +57,8 @@ describe DocumentRecloner do
 
   def file_exists_on_backend?(doc)
     local_file = Paperclip.io_adapters.for(doc.document).path
-    File.stat(local_file).size > 0
+    file_count = File.stat(local_file).size
+    file_count > 0
   end
 
   def create_source_claim

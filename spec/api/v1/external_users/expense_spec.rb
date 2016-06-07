@@ -4,7 +4,6 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Expense do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -72,7 +71,6 @@ describe API::V1::ExternalUsers::Expense do
     }.freeze
 
     describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
-
       def post_to_create_endpoint
         post CREATE_EXPENSE_ENDPOINT, params, format: :json
       end
@@ -80,7 +78,6 @@ describe API::V1::ExternalUsers::Expense do
       include_examples "should NOT be able to amend a non-draft claim"
 
       context 'when expense params are valid' do
-
         it "should create expense, return 201 and expense JSON output including UUID" do
           post_to_create_endpoint
           expect(last_response.status).to eq 201
@@ -101,7 +98,6 @@ describe API::V1::ExternalUsers::Expense do
           expect(new_expense.expense_type_id).to eq expense_type.id
           expect(new_expense.location).to eq params[:location]
         end
-
       end
 
       context 'when expense params are invalid' do
@@ -148,13 +144,10 @@ describe API::V1::ExternalUsers::Expense do
             expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
           end
         end
-
       end
-
     end
 
     describe "POST #{VALIDATE_EXPENSE_ENDPOINT}" do
-
       def post_to_validate_endpoint
         post VALIDATE_EXPENSE_ENDPOINT, params, format: :json
       end
@@ -188,7 +181,6 @@ describe API::V1::ExternalUsers::Expense do
         expect(last_response.status).to eq 400
         expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
       end
-
     end
   end
 end

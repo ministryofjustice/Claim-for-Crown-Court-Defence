@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ErrorDetailCollection do
-
   let(:edc) { ErrorDetailCollection.new }
   let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank', 'You must specify a first name', 20) }
   let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date', 'Date of birth is invalid', 10) }
@@ -79,7 +78,5 @@ describe ErrorDetailCollection do
         expect(edc.size).to eq 3
       end
     end
-
   end
-
 end

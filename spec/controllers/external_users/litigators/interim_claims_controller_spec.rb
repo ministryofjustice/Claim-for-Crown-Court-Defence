@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :controller, focus: true do
-
   let!(:litigator) { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
@@ -40,7 +39,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   describe 'POST #create' do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:claim_params) do
           {
             external_user_id: litigator.id,
@@ -193,7 +191,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               expect(subject_claim.interim_fee.quantity).to eql 2
               expect(subject_claim.interim_fee.amount).to eql 10.00
             end
-
           end
         end
       end
@@ -250,7 +247,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     subject { create(:interim_claim, :interim_effective_pcmh_fee, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
@@ -337,5 +333,4 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
     end
   end
-
 end

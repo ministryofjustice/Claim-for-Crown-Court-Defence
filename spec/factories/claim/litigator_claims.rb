@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :litigator_claim, class: Claim::LitigatorClaim do
-
     litigator_base_setup
     claim_state_common_traits
 

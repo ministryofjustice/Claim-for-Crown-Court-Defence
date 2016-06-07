@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Claim
   describe TransferBrainDataItemCollection do
-
     let(:collection) { TransferBrainDataItemCollection.instance }
 
     describe '.new' do
@@ -174,6 +173,5 @@ module Claim
              60 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer during retrial (org) - retrial", :allocation_type => "Grad"}},
              70 => {"*" => { :validity => true, :transfer_fee_full_name => "transfer after retrial and before sentence hearing (org)", :allocation_type => "Grad"}}}}}
     end
-
   end
 end

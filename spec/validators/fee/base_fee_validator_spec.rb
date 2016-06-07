@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/../validation_helpers'
 
 describe Fee::BaseFeeValidator do
-
   include ValidationHelpers
 
   let(:claim)      { FactoryGirl.build :advocate_claim, force_validation: true }
@@ -45,7 +44,6 @@ describe Fee::BaseFeeValidator do
   end
 
   describe '#validate_rate' do
-
     before(:each) do
       daf_fee.claim.actual_trial_length = 10
     end
@@ -148,11 +146,9 @@ describe Fee::BaseFeeValidator do
     #   before(:each)       { fee.fee_type.max_amount = nil }
     #   it { should_be_valid_if_equal_to_value(fee, :amount, 100_000) }
     # end
-
   end
 
   describe '#validate_quantity' do
-
     context 'integer / decimal validation' do
       context 'integer' do
         it 'should allow integers' do
@@ -179,7 +175,6 @@ describe Fee::BaseFeeValidator do
     end
 
     context 'basic fee (BAF)' do
-
       context 'when rate present' do
         it 'should be valid with quantity of one' do
           should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
@@ -211,7 +206,6 @@ describe Fee::BaseFeeValidator do
           expect(baf_fee.errors[:rate]).to include('invalid')
         end
       end
-
     end
 
     context 'daily_attendance_3_40 (DAF)' do
@@ -247,7 +241,6 @@ describe Fee::BaseFeeValidator do
         should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
         should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
       end
-
     end
 
     context 'daily_attendance_41_50 (DAH)' do
@@ -331,7 +324,6 @@ describe Fee::BaseFeeValidator do
         it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
         it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
       end
-
     end
 
     context 'any other fee' do
@@ -346,9 +338,7 @@ describe Fee::BaseFeeValidator do
   end
 
   describe '#validate_amount' do
-
     context 'uncalculated fee validate amount against quantity' do
-
       it 'should be valid if quantity greater than zero and amount is nil, zero or greater than zero' do
         should_be_valid_if_equal_to_value(ppe_fee, :amount, nil)
         should_be_valid_if_equal_to_value(ppe_fee, :amount, 0.00)
@@ -377,7 +367,5 @@ describe Fee::BaseFeeValidator do
         should_be_valid_if_equal_to_value(baf_fee, :amount, 350.00)
       end
     end
-
   end
-
 end

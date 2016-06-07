@@ -1,5 +1,4 @@
 class DisbursementValidator < BaseValidator
-
   def self.fields
     [
       :disbursement_type,
@@ -34,5 +33,4 @@ class DisbursementValidator < BaseValidator
     validate_presence(field, 'blank')
     validate_numericality(field, 0, nil, 'numericality')
   end
-
 end

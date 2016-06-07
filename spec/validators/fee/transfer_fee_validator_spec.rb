@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../validation_helpers'
 
 module Fee
   describe TransferFeeValidator do
-
     include ValidationHelpers
     include_context 'force-validation'
 
@@ -59,6 +58,5 @@ module Fee
         expect(fee).not_to be_valid
       end
     end
-
   end
 end

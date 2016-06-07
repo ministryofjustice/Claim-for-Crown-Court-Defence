@@ -58,7 +58,6 @@ require 'custom_matchers'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::InterimClaim, type: :model do
-
   let(:claim) { build :interim_claim }
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
@@ -84,5 +83,4 @@ RSpec.describe Claim::InterimClaim, type: :model do
   end
 
   include_examples "common litigator claim attributes"
-
 end

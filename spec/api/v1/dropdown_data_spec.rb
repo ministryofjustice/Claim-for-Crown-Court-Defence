@@ -3,7 +3,6 @@ require 'spec_helper'
 require_relative 'external_users/api_spec_helper'
 
 describe API::V1::DropdownData do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -36,7 +35,6 @@ describe API::V1::DropdownData do
   end
 
   context 'each dropdown data endpoint' do
-
     let(:results) {
       {
         CASE_TYPE_ENDPOINT => CaseType.all.to_json,
@@ -80,7 +78,6 @@ describe API::V1::DropdownData do
   end
 
   context 'GET api/offences' do
-
     let!(:offence) { create(:offence) }
     let!(:other_offence)                  { create(:offence) }
     let!(:offence_with_same_description)  { create(:offence, description: offence.description) }

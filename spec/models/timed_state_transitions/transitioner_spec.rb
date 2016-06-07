@@ -2,9 +2,7 @@ require 'rails_helper'
 
 
 module TimedTransitions
-
   describe Transitioner do
-
     let(:claim) { double Claim }
 
     describe '.candidate_states' do
@@ -77,7 +75,5 @@ module TimedTransitions
         transitioner.send(:destroy)
       end
     end
-
   end
-
 end

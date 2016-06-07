@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RedeterminationPresenter do
-
   let(:claim)           { FactoryGirl.create :claim, apply_vat: true }
   let(:rd)              { FactoryGirl.create :redetermination, fees: 1452.33, expenses: 2455.77, disbursements: 2123.55, claim: claim }
   let(:presenter)       { RedeterminationPresenter.new(rd, view) }
@@ -17,5 +16,4 @@ describe RedeterminationPresenter do
       expect(presenter.total_inc_vat).to eq '£7,087.19'
     end
   end
-
 end

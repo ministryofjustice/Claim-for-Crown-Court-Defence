@@ -6,7 +6,6 @@ RSpec.describe Claim, type: :model do
   let(:fee_type) { create(:fixed_fee_type) }
 
   context 'fees total' do
-
     describe '#calculate_fees_total' do
       it 'calculates the fees total' do
         expect(subject.calculate_fees_total).to eq(25.0)

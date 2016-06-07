@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Claim
   describe TransferBrainDataItem do
-
     let(:item) do
       fields = ['original', 'true', 'During trial transfer', 'Guilty plea', 'TRUE', 'Fee full name', 'grad']
       TransferBrainDataItem.new(fields)
@@ -56,6 +55,5 @@ module Claim
         }
       end
     end
-
   end
 end

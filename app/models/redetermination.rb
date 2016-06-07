@@ -15,7 +15,6 @@
 #
 
 class Redetermination < Determination
-
   self.table_name = 'determinations'
 
   has_paper_trail on: [:create, :update], only: [:fees, :expenses, :disbursements, :vat_amount, :total]
@@ -28,5 +27,4 @@ class Redetermination < Determination
   def set_paper_trail_event!
     self.paper_trail_event = 'Redetermination made'
   end
-
 end

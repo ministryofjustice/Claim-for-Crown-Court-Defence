@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, focus: true do
-
   let!(:advocate) { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
@@ -247,7 +246,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'basic and non-basic fees' do
-
         let!(:basic_fee_type_1)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 1' }
         let!(:basic_fee_type_2)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 2' }
         let!(:basic_fee_type_3)         { FactoryGirl.create :basic_fee_type, description: 'Basic Fee Type 3' }
@@ -366,7 +364,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           expect(claim.evidence_checklist_ids).to eql([2, 3])
         end
       end
-
     end
   end
 
@@ -402,7 +399,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
     subject { create(:claim, external_user: advocate) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
@@ -413,7 +409,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'and editing an API created claim' do
-
         before(:each) do
           subject.update(source: 'api')
         end
@@ -444,7 +439,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           put :update, id: subject, claim: { additional_information: 'foo' }
           expect(response).to redirect_to(external_users_claims_path)
         end
-
       end
 
       context 'and submitted to LAA' do
@@ -554,5 +548,4 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
      }
      )
   end
-
 end

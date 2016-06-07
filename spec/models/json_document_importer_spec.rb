@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe JsonDocumentImporter do
-
   let(:schema)                              { JsonSchema.generate }
   let(:exported_claim)                      { double 'cms_export', tempfile: './spec/examples/exported_claim.json', content_type: 'application/json'}
   let(:exported_claim_with_errors)          { double 'cms_export', tempfile: './spec/examples/exported_claim_with_errors.json', content_type: 'application/json'}
@@ -37,7 +36,6 @@ describe JsonDocumentImporter do
   let(:failed_defendant_response)           { double 'api_error_response', code: 400, body: [{'error' => 'Claim cannot be blank'}].to_json }
 
   context 'parses a json document and' do
-
     let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_nulls, schema: schema, api_key: 'test_key') }
 
     it 'removes attributes with NULL/nil value to prevent schema validation fail' do
@@ -48,7 +46,6 @@ describe JsonDocumentImporter do
     end
 
     context 'calls API endpoints for' do
-
       let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema: schema, api_key: 'test_key') }
 
       it 'claims, defendants, representation_orders, fees, expenses' do
@@ -65,20 +62,16 @@ describe JsonDocumentImporter do
       end
 
       context 'validates the data against our schema' do
-
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_schema_error, schema: schema, api_key: 'test_key') }
 
         it 'and adds invalid claim hashes to an array' do
           subject.import!
           expect(subject.failed_schema_validation.count).to eq 1
         end
-
       end
-
     end
 
     context 'each claim is processed as an atomic transaction' do
-
       let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_errors, schema: schema, api_key: 'test_key') }
 
       before {
@@ -94,7 +87,6 @@ describe JsonDocumentImporter do
     end
 
     context 'can validate the json document provided' do
-
       context 'returning true' do
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema: schema, api_key: 'test_key') }
 
@@ -133,7 +125,6 @@ describe JsonDocumentImporter do
       end
 
       context 'and collates errors' do
-
         # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
         let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema: schema, api_key: 'test_key') }
 
@@ -174,7 +165,5 @@ describe JsonDocumentImporter do
         end
       end
     end
-
   end
-
 end

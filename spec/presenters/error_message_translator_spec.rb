@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ErrorMessageTranslator do
-
   let(:translations) do
     {
     "name" => {
@@ -204,7 +203,6 @@ describe ErrorMessageTranslator do
     expect(emt.short_message).to  be_nil
     expect(emt.api_message).to    be_nil
   end
-
 end
 
 

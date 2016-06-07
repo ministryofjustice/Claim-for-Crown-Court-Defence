@@ -10,7 +10,6 @@
 #
 
 class VatRatesController < ApplicationController
-
   skip_load_and_authorize_resource only: [:index]
 
 
@@ -88,5 +87,4 @@ class VatRatesController < ApplicationController
   def agfs?
     scheme == 'agfs'
   end
-
 end

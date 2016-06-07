@@ -1,5 +1,4 @@
 class DocType
-
   attr_reader :id, :sequence, :name
 
   def initialize(id, sequence, name)
@@ -50,6 +49,4 @@ class DocType
     ids = ids.flatten
     DOCTYPES.select{ |dt| ids.include?(dt.id) }
   end
-
-
 end

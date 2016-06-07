@@ -1,6 +1,5 @@
 require 'csv'
 class CloneRepairRunner
-
   def initialize
     @filename = File.join(Rails.root, 'db', 'data', 'CCCD_MissingDocsRegister.csv')
     @claim_ids = []

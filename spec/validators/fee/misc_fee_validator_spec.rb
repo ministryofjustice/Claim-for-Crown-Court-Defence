@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/../validation_helpers'
 
 describe Fee::MiscFeeValidator do
-
   include ValidationHelpers
   include_context 'force-validation'
 

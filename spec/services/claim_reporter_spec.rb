@@ -60,7 +60,6 @@ RSpec.describe ClaimReporter do
 
       create(:claim_intention, form_id: SecureRandom.uuid)
       create(:claim_intention, form_id: SecureRandom.uuid)
-
     end
 
     it 'returns the completion rate for claims in the last 16 weeks' do

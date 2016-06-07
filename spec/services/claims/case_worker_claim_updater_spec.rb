@@ -3,9 +3,7 @@ require 'rails_helper'
 
 module Claims
   describe CaseWorkerClaimUpdater do
-
     context 'assessments' do
-
       let(:claim) { create :allocated_claim }
 
       context 'successful transitions' do
@@ -87,7 +85,6 @@ module Claims
     end
 
     context 'redeterminations' do
-
       let(:claim) {
         klaim = create :allocated_claim
         klaim.assessment.update(fees: 200.15, expenses: 77.66)

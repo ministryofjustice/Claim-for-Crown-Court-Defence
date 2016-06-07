@@ -48,7 +48,6 @@ RSpec.describe Defendant, type: :model do
 
 
   context 'representation orders' do
-
     let(:defendant) { FactoryGirl.create :defendant, claim: FactoryGirl.create(:claim) }
 
     it 'should be valid if there is one representation order that isnt blank' do

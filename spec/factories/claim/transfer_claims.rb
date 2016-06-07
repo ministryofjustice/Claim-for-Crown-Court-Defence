@@ -56,6 +56,5 @@ FactoryGirl.define do
       case_conclusion_id  nil
       after(:create, &:submit!)
     end
-
   end
 end

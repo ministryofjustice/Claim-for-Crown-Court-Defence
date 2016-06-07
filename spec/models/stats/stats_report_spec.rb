@@ -13,9 +13,7 @@
 require 'rails_helper'
 
 module Stats
-
   describe StatsReport do
-
     before(:all) do
       @mi_old = create :stats_report, started_at: 10.days.ago
       @mi_complete = create :stats_report

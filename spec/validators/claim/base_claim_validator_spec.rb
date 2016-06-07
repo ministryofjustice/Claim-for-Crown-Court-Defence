@@ -3,7 +3,6 @@ require_relative '../validation_helpers'
 
 
 describe Claim::BaseClaimValidator do
-
   include ValidationHelpers
 
   let(:claim)                       { FactoryGirl.create :claim }
@@ -36,7 +35,6 @@ describe Claim::BaseClaimValidator do
 
     context 'when claim is draft' do
       context 'and validation is forced' do
-
         before { claim_with_nil_values.force_validation = true }
 
         it 'should validate presence of case_type, court, case_number, advocate_category, offence' do
@@ -45,7 +43,6 @@ describe Claim::BaseClaimValidator do
       end
 
       context 'and validation is NOT forced' do
-
         before { claim_with_nil_values.force_validation = false }
 
         context 'and it is coming from the api' do
@@ -61,12 +58,10 @@ describe Claim::BaseClaimValidator do
             expect(claim_with_nil_values).to be_valid
           end
         end
-
       end
     end
 
     context 'when claim is NOT draft' do
-
       before(:each) do
         claim.force_validation = false
       end
@@ -87,10 +82,8 @@ describe Claim::BaseClaimValidator do
           nulify_fields_on_record(claim, :case_type, :court, :case_number, :advocate_category, :offence, :estimated_trial_length, :actual_trial_length)
           expect(claim).to be_valid
         end
-
       end
     end
-
   end
 
   context 'case_number' do
@@ -190,7 +183,6 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'trial_cracked_at_third' do
-
     context 'for cracked trials' do
       before { claim.case_type = cracked_trial }
 
@@ -299,7 +291,6 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'evidence_checklist_ids' do
-
     let(:doc_types) { DocType.all.sample(4).map(&:id) }
     let(:invalid_ids) { ['a', 'ABC', '??', '-'] }
 
@@ -309,7 +300,6 @@ describe Claim::BaseClaimValidator do
       claim.save!
       dup = Claim::BaseClaim.find claim.id
       expect(dup.evidence_checklist_ids).to eq(doc_types)
-
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
@@ -344,7 +334,6 @@ describe Claim::BaseClaimValidator do
   end
 
   context 'cracked (re)trials' do
-
     let(:cracked_trial_claim) do
       claim = FactoryGirl.create :claim, case_type: cracked_trial
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)

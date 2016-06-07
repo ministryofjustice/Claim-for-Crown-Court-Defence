@@ -19,7 +19,6 @@ require 'rails_helper'
 
 module Fee
   describe MiscFeeType do
-
     let(:fee_type) { build :misc_fee_type }
 
     describe '#fee_category_name' do

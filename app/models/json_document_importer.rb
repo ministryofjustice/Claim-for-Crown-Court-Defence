@@ -1,5 +1,4 @@
 class JsonDocumentImporter
-
   require 'rest-client'
 
   include ActiveModel::Model
@@ -75,7 +74,6 @@ class JsonDocumentImporter
       rescue JSON::Schema::ValidationError => e
         @failed_schema_validation << claim_hash
       end
-
     end
   end
 
@@ -144,5 +142,4 @@ class JsonDocumentImporter
       raise ArgumentError.new(response.body) if response.code != 201
     end
   end
-
 end

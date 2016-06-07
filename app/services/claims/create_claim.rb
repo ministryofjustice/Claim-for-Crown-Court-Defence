@@ -1,6 +1,5 @@
 module Claims
   class CreateClaim < ClaimActionsService
-
     def initialize(claim)
       self.claim = claim
       self.validate = true

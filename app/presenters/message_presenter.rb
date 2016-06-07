@@ -1,5 +1,4 @@
 class MessagePresenter < BasePresenter
-
   presents :message
 
   def sender_is_a?(klass)
@@ -52,5 +51,4 @@ class MessagePresenter < BasePresenter
   def timestamp
     message.created_at.strftime('%H:%M')
   end
-
 end

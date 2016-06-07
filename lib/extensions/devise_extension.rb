@@ -1,5 +1,4 @@
 module DeviseExtension
-
   def override_paranoid_setting(value)
     previous_value = Devise.paranoid
     Devise.paranoid = value
@@ -7,5 +6,4 @@ module DeviseExtension
     Devise.paranoid = previous_value
     result
   end
-
 end

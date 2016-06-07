@@ -18,7 +18,6 @@ FactoryGirl.define do
   trait :risk_based_bill_class do
     sequence(:class_letter) { generate_random_unused_class_letter(%w{ E F H I }) }
   end
-
 end
 
 def generate_random_unused_class_letter(letters=%w{ A B C D E F G H I J K })

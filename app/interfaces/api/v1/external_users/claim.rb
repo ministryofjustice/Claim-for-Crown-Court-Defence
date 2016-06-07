@@ -2,16 +2,13 @@ module API
   module V1
     module ExternalUsers
       class Claim < GrapeApiHelper
-
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/external_users'
         content_type :json, 'application/json'
 
         resource :claims, desc: 'Create or Validate' do
-
           helpers do
-
             params :claim_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,                    desc: "REQUIRED: The API authentication key of the provider"
@@ -101,7 +98,6 @@ module API
             status api_response.status
             return api_response.body
           end
-
         end
       end
     end

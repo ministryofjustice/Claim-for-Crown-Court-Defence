@@ -1,5 +1,4 @@
 class API::Logger < Grape::Middleware::Base
-
   def before
     log_api_request(env['REQUEST_METHOD'], env['PATH_INFO'], env['rack.request.form_hash'])
   end
@@ -30,5 +29,4 @@ class API::Logger < Grape::Middleware::Base
     api_request = { log_type: api_type, timestamp: Time.now }.merge!(data)
     Rails.logger.info api_request.to_json
   end
-
 end

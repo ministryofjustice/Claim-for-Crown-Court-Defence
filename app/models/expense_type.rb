@@ -84,5 +84,4 @@ class ExpenseType < ActiveRecord::Base
   end
 
   private_class_method :reasons_to_array
-
 end

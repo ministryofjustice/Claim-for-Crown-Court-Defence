@@ -58,7 +58,6 @@ require "custom_matchers"
 require_relative 'shared_examples_for_lgfs_claim'
 
 describe Claim::TransferClaim, type: :model do
-
   let(:claim) { build :transfer_claim }
 
   it { should_not delegate_method(:requires_trial_dates?).to(:case_type) }
@@ -171,5 +170,4 @@ describe Claim::TransferClaim, type: :model do
   end
 
   include_examples "common litigator claim attributes"
-
 end

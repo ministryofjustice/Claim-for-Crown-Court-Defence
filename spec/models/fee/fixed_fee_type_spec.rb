@@ -19,7 +19,6 @@ require 'rails_helper'
 
 module Fee
   describe FixedFeeType do
-
     it { should belong_to(:parent) }
     it { should have_many(:children) }
 

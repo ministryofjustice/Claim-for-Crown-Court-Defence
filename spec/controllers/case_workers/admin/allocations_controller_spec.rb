@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
-
   before(:all) do
-
     # create one graduated fee type to match the "real" Trial case type seeded
     create(:graduated_fee_type, code: 'GTRL') #use seeded case types "real" fee type codes
     load "#{Rails.root}/db/seeds/case_types.rb"
@@ -19,7 +17,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
   let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
   describe 'GET #new' do
-
     context 'basic rendering' do
       before(:each) { get :new, tab: tab }
 
@@ -114,7 +111,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
         %w{ fixed_fee graduated_fees interim_fees warrants interim_disbursements risk_based_bills redetermination awaiting_written_reasons }.each do |filter_type|
           context "filter by #{filter_type}" do
-
             before do
               @claims = create_filterable_claim(:litigator_claim, filter_type.to_s.to_sym, 1)
               get :new, params
@@ -160,7 +156,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           end
         end
       end
-
     end
 
     context 're-allocation' do
@@ -188,11 +183,9 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         end
       end
     end
-
   end
 
   describe 'POST #create' do
-
     before do
       @case_worker = create(:case_worker)
       @claims = create_list(:submitted_claim, 1)
@@ -291,7 +284,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         expect(response).to render_template(:new)
       end
     end
-
   end
 
   # local helpers
@@ -338,5 +330,4 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
         raise ArgumentError, "invalid filter type specified for \"#{__method__}\""
     end
   end
-
 end

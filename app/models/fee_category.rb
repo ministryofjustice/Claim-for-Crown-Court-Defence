@@ -45,5 +45,4 @@ class FeeCategory < ActiveRecord::Base
   def is_fixed?
     self.abbreviation == 'FIXED'
   end
-
 end

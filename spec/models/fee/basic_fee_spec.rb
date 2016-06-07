@@ -35,7 +35,6 @@ module Fee
     end
 
     describe '.new_blank' do
-
       it 'should instantiate but not save a fee with all zero values belonging to the claim and fee type' do
         fee_type = FactoryGirl.build :basic_fee_type
         claim = FactoryGirl.build :claim

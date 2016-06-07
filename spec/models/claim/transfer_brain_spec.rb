@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Claim
   describe TransferBrain do
-
     describe '.transfer_stage_by_id' do
       it 'returns the name of the transfer_stage with that id' do
         expect(TransferBrain.transfer_stage_by_id(50)).to eq 'Transfer before retrial'
@@ -111,6 +110,5 @@ module Claim
     def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
       build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id
     end
-
   end
 end

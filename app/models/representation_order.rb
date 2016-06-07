@@ -63,5 +63,4 @@ class RepresentationOrder < ActiveRecord::Base
   def is_first_reporder_for_same_defendant?
     self == first_reporder_for_same_defendant
   end
-
 end

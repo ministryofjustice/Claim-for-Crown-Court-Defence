@@ -16,7 +16,6 @@
 #
 
 class Fee::TransferFeeType < Fee::BaseFeeType
-
   def self.instance
     Fee::TransferFeeType.first
   end
@@ -24,5 +23,4 @@ class Fee::TransferFeeType < Fee::BaseFeeType
   def fee_category_name
     'Transfer Fee'
   end
-
 end

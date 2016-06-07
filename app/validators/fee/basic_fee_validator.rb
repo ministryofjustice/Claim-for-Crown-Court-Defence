@@ -1,5 +1,4 @@
 class Fee::BasicFeeValidator < Fee::BaseFeeValidator
-
   def self.fields
     [
       :quantity,
@@ -7,5 +6,4 @@ class Fee::BasicFeeValidator < Fee::BaseFeeValidator
       :date
     ] + super
   end
-
 end

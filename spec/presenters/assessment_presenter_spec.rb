@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AssessmentPresenter do
-
   let(:claim)       { FactoryGirl.create :claim, apply_vat: true }
 
   context 'currency fields' do
@@ -17,5 +16,4 @@ RSpec.describe AssessmentPresenter do
       expect(presenter.total_inc_vat).to eq '£6,360.67'
     end
   end
-
 end

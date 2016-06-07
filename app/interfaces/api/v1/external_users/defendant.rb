@@ -1,18 +1,14 @@
 module API
   module V1
     module ExternalUsers
-
       class Defendant < GrapeApiHelper
-
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/external_users'
         content_type :json, 'application/json'
 
         resource :defendants, desc: 'Create or Validate' do
-
           helpers do
-
             params :defendant_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,                            desc: "REQUIRED: The API authentication key of the provider"
@@ -34,7 +30,6 @@ module API
               args.merge!(non_date_fields).merge_date_fields!([:date_of_birth], params)
               args
             end
-
           end
 
           desc "Create a defendant."
@@ -62,13 +57,8 @@ module API
             status api_response.status
             return api_response.body
           end
-
         end
-
-
       end
-
     end
-
   end
 end

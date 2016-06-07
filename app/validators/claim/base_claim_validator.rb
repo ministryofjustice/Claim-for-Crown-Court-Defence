@@ -1,5 +1,4 @@
 class Claim::BaseClaimValidator < BaseValidator
-
   def self.mandatory_fields
     [
       :external_user_id,
@@ -287,5 +286,4 @@ class Claim::BaseClaimValidator < BaseValidator
       validate_not_before(Settings.earliest_permitted_date, start_attribute, "check_not_too_far_in_past")
     end
   end
-
 end

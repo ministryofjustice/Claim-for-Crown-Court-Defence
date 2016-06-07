@@ -17,7 +17,6 @@
 # every time.
 #
 class VatRate < ActiveRecord::Base
-
   class MissingVatRateError < RuntimeError; end
 
   validates :effective_date, uniqueness: true
@@ -59,6 +58,5 @@ class VatRate < ActiveRecord::Base
       raise ::VatRate::MissingVatRateError.new("There is no VAT rate for date #{date.strftime(Settings.date_format)}") if result.nil?
       result.rate_base_points
     end
-
   end
 end

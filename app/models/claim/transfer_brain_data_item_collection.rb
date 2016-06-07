@@ -11,15 +11,12 @@ require 'csv'
 # To get a reference to the object, call .instance rather than .new.
 #
 module Claim
-
   class InvalidTransferCombinationError < ArgumentError
-
     DEFAULT_MSG = 'Invalid combination of transfer detail fields'
 
     def initialize(msg=DEFAULT_MSG)
       super(msg)
     end
-
   end
 
   class TransferBrainDataItemCollection
@@ -102,6 +99,5 @@ module Claim
       end
       collection_hash
     end
-
   end
 end

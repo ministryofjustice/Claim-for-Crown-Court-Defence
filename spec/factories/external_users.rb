@@ -57,7 +57,6 @@ FactoryGirl.define do
       roles ['admin']
       provider { create(:provider, :agfs_lgfs) }
     end
-
   end
 end
 

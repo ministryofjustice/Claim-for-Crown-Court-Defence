@@ -113,6 +113,5 @@ module Claim
     def provider_delegator
       provider
     end
-
   end
 end

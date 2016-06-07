@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ZendeskSender do
-
   let(:ticket_payload) { double 'ticket_payload', subject: 'Bug report', description: 'event - outcome - email address', referrer: '/claims', user_agent: 'chrome' }
   subject { ZendeskSender.new(ticket_payload) }
 
@@ -35,7 +34,5 @@ RSpec.describe ZendeskSender do
         subject.send!
       end
     end
-
   end
-
 end

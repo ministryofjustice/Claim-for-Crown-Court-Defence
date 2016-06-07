@@ -4,7 +4,6 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::RepresentationOrder do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -33,7 +32,6 @@ describe API::V1::ExternalUsers::RepresentationOrder do
   end
 
   describe "POST #{CREATE_REPRESENTATION_ORDER_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
     end
@@ -102,11 +100,9 @@ describe API::V1::ExternalUsers::RepresentationOrder do
         end
       end
     end
-
   end
 
   describe "POST #{VALIDATE_REPRESENTATION_ORDER_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_REPRESENTATION_ORDER_ENDPOINT, valid_params, format: :json
     end
@@ -137,7 +133,5 @@ describe API::V1::ExternalUsers::RepresentationOrder do
       post_to_validate_endpoint
       expect_error_response("representation_order_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
     end
-
   end
-
 end

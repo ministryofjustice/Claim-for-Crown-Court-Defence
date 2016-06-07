@@ -34,7 +34,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #show" do
-
     before { get :show, id: subject }
 
     it "returns http success" do
@@ -50,7 +49,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     render_views
-
   end
 
   describe "GET #new" do
@@ -69,11 +67,9 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     render_views
-
   end
 
   describe "GET #edit" do
-
     before { get :edit, id: subject }
 
     it "returns http success" do
@@ -90,7 +86,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #change_password" do
-
     before { get :change_password, id: subject }
 
     it "returns http success" do
@@ -151,7 +146,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "PUT #update" do
-
     context 'when valid' do
       before(:each) { put :update, id: subject, case_worker: { roles: ['admin'] } }
 
@@ -191,7 +185,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "PUT #update_password" do
-
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -217,7 +210,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-
     before { delete :destroy, id: subject }
 
     it 'destroys the case worker' do

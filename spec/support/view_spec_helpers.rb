@@ -10,11 +10,9 @@
 
 module ViewSpecHelper
   module ControllerViewHelpers
-
     def current_user_persona_is?(_klass)
       raise 'Stub current_user if you want to test the behavior.'
     end
-
   end
 
   def initialize_view_helpers(view)

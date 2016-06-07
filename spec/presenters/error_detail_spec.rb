@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ErrorDetail do
-
   let(:ed0) { ErrorDetail.new(:key0, 'long error',  'short error', 'api message') }
   let(:ed1) { ErrorDetail.new(:key3, 'long error',  'short error', 'api message', 10) }
   let(:ed2) { ErrorDetail.new(:key2, 'long error',  'short error', 'api message', 11) }
@@ -34,5 +33,4 @@ describe ErrorDetail do
     expect(ed3 == ed6).to eql false
     expect(ed3 == ed7).to eql false
   end
-
 end

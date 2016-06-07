@@ -104,5 +104,4 @@ class Ability
   def can_manage_own_password(persona)
     can [:show, :change_password, :update_password], persona.class, id: persona.id
   end
-
 end

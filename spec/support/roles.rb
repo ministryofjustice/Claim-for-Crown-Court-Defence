@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 shared_examples_for 'roles' do |klass, roles|
-
   let(:factory_name) { klass.name.demodulize.to_s.underscore.to_sym }
 
   describe 'validation' do

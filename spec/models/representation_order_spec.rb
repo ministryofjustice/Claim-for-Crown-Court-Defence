@@ -25,7 +25,6 @@ describe RepresentationOrder do
   end
 
   context 'maat_reference' do
-
     context 'case type requires maat reference' do
       before(:each)       { representation_order.defendant.claim.case_type = FactoryGirl.build(:case_type, :requires_maat_reference) }
       it 'should error if blank' do
@@ -69,13 +68,10 @@ describe RepresentationOrder do
         representation_order.maat_reference = nil
         expect(representation_order).to be_valid
       end
-
     end
-
   end
 
   context 'reporders for same defendant methods' do
-
     let(:claim) { FactoryGirl.create :claim }
     let(:ro1)            { claim.defendants.first.representation_orders.first }
     let(:ro2)            { claim.defendants.first.representation_orders.last }
@@ -104,7 +100,6 @@ describe RepresentationOrder do
       it 'should be false for other reporders' do
         expect(ro2.is_first_reporder_for_same_defendant?).to be false
       end
-
     end
   end
 

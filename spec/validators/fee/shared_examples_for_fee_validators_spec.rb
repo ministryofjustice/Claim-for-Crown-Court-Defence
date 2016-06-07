@@ -1,5 +1,4 @@
 shared_examples 'common fee date validations' do
-
   describe '#validate_date' do
     it { should_error_if_not_present(fee, :date, 'blank') }
 
@@ -24,5 +23,4 @@ shared_examples 'common fee date validations' do
       expect(fee.errors[:date]).to include 'not_before_earliest_representation_order_date'
     end
   end
-
 end

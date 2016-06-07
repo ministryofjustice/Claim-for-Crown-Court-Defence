@@ -20,7 +20,6 @@
 require 'rest-client'
 
 class ApiTestClient
-
   DROPDOWN_PREFIX = 'api'
   EXTERNAL_USER_PREFIX = 'api/external_users'
 
@@ -294,5 +293,4 @@ private
       "date_to": "2015-06-01"
     }
   end
-
 end

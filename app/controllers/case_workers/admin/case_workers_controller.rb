@@ -1,5 +1,4 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
-
   include PasswordHelpers
 
   before_action :set_case_worker, only: [:show, :edit, :update, :destroy, :change_password, :update_password]

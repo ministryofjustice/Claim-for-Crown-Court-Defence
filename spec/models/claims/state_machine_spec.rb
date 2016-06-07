@@ -108,7 +108,6 @@ RSpec.describe Claims::StateMachine, type: :model do
       before { subject.submit!; subject.allocate!; subject.reject! }
 
       it { expect{ subject.archive_pending_delete! }.to change{ subject.state }.to('archived_pending_delete') }
-
     end
 
     describe 'from submitted' do

@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe Fee::InterimFeeTypePresenter do
-
   describe '#data_attributes' do
-
     let(:presenter) { Fee::InterimFeeTypePresenter.new(fee_type, view) }
 
     context 'disbursement only' do

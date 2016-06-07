@@ -25,7 +25,6 @@
 #
 
 class User < ActiveRecord::Base
-
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
 
   # Include default devise modules. Others available are:
@@ -78,5 +77,4 @@ class User < ActiveRecord::Base
       errors[:email] << '"+" not allowed in addresses'
     end
   end
-
 end

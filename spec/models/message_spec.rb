@@ -86,7 +86,6 @@ RSpec.describe Message, type: :model do
 
 
   context 'automotic state change of claim on message creation' do
-
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -120,6 +119,5 @@ RSpec.describe Message, type: :model do
       expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq([nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate'])
       expect(claim.state).to eq 'allocated'
     end
-
   end
 end

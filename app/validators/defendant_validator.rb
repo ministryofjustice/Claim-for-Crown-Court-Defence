@@ -1,5 +1,4 @@
 class DefendantValidator < BaseValidator
-
   def self.fields
     [
       :date_of_birth,
@@ -41,5 +40,4 @@ class DefendantValidator < BaseValidator
   def validate_last_name
     validate_presence(:last_name, 'blank')
   end
-
 end

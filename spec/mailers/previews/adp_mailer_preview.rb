@@ -1,5 +1,4 @@
 class AdpMailerPreview < ActionMailer::Preview
-
   # NOTE: confirmation instructions not required unless Devise :confirmable is implemented
   # def confirmation_instructions
   #   Devise::Mailer.confirmation_instructions(User.first, "faketoken")

@@ -2,7 +2,6 @@ require 'rails_helper'
 require_relative '../validation_helpers'
 
 describe Claim::BaseClaimSubModelValidator do
-
   let(:claim)               { FactoryGirl.create :claim }
   let(:defendant)           { claim.defendants.first }
 
@@ -44,7 +43,6 @@ describe Claim::BaseClaimSubModelValidator do
       claim.force_validation = true
       claim.form_step = 2
     end
-
   end
 
   context 'bubbling up errors to the claim' do

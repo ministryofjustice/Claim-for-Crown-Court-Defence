@@ -19,7 +19,6 @@ require 'rails_helper'
 
 module Fee
   describe BasicFeeType do
-
     let(:fee_type) { build :basic_fee_type }
     DATES_ATTENDED_APPLICABLE_FEES = %w( BAF DAF DAH DAJ PCM SAF ).freeze
     DATES_ATTENDED_NOT_APPLICABLE_FEES = %w( CAV NDR NOC PPE NPW ).freeze

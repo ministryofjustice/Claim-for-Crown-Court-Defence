@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 module Stats
-
   describe ManagementInformationGenerator do
-
     let(:generator) { ManagementInformationGenerator.new }
 
 
@@ -39,7 +37,6 @@ module Stats
         expect(report.status).to eq 'error'
         expect(report.report).to match(/^ArgumentError - XXXXXX/)
       end
-
     end
   end
 end

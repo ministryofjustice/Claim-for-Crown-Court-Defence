@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :controller, focus: true do
-
   let!(:litigator) { create(:external_user, :litigator) }
   before { sign_in litigator.user }
 
@@ -40,7 +39,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
   describe 'POST #create' do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:claim_params) do
           {
             external_user_id: litigator.id,
@@ -213,7 +211,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             it 'should assign current_step to 2'    do expect(assigns(:claim).current_step).to eq(2) end
             it { expect(response).to render_template('external_users/litigators/transfer_claims/new') }
             it { expect(response).to render_template(partial: 'external_users/claims/disbursements/_fields') }
-
           end
 
           context 'step 2 Submit to LAA' do
@@ -251,7 +248,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             it 'moves to summary page' do
               expect(response).to redirect_to(summary_external_users_claim_path(claim))
             end
-
           end
         end
       end
@@ -314,7 +310,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     subject { create(:transfer_claim, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts'
@@ -404,5 +399,4 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
   end
-
 end

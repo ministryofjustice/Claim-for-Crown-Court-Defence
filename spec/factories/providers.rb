@@ -65,6 +65,5 @@ FactoryGirl.define do
       provider_type 'chamber'
       supplier_number nil
     end
-
   end
 end

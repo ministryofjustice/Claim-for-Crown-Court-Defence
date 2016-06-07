@@ -19,7 +19,6 @@
 #
 
 FactoryGirl.define do
-
   factory :fixed_fee, class: Fee::FixedFee do
     claim
     fee_type { build :fixed_fee_type }
@@ -51,7 +50,6 @@ FactoryGirl.define do
     trait :spf_fee do
       fee_type { build :misc_fee_type, :spf }
     end
-
   end
 
   factory :warrant_fee, class: Fee::WarrantFee do

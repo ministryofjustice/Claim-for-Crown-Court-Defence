@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 describe Claim::AdvocateClaimValidator do
-
   include ValidationHelpers
   include_context "force-validation"
 
@@ -84,7 +83,6 @@ describe Claim::AdvocateClaimValidator do
   end
 
   context 'offence' do
-
     before { claim.offence = nil }
 
     it 'should error if not present for non-fixed fee case types' do

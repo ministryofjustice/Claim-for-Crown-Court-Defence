@@ -1,5 +1,4 @@
 class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
-
   def pretty_type
     'Transfer'
   end
@@ -35,5 +34,4 @@ class Claim::TransferClaimPresenter < Claim::BaseClaimPresenter
   def case_conclusion_description
     case_conclusions[claim.case_conclusion_id.to_s] rescue ''
   end
-
 end

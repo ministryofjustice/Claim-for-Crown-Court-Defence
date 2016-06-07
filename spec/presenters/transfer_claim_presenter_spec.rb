@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claim::TransferClaimPresenter do
-
   let(:claim) { instance_double(Claim::TransferClaim, transfer_detail: double) }
   let(:presenter) { Claim::TransferClaimPresenter.new(claim, view) }
 
@@ -98,5 +97,4 @@ RSpec.describe Claim::TransferClaimPresenter do
       expect(presenter.case_conclusion_description).to eql 'Cracked'
     end
   end
-
 end

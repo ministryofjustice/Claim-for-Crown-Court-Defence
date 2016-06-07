@@ -63,5 +63,4 @@ module Claims::Calculations
     update_column(:apply_vat, self.vat_registered?) if self.vat_registered?
     update_column(:vat_amount, calculate_total_vat)
   end
-
 end

@@ -4,7 +4,6 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::DateAttended do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -33,7 +32,6 @@ describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{CREATE_DATE_ATTENDED_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
@@ -116,7 +114,6 @@ describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{VALIDATE_DATE_ATTENDED_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_DATE_ATTENDED_ENDPOINT, valid_params, format: :json
     end
@@ -150,6 +147,5 @@ describe API::V1::ExternalUsers::DateAttended do
       expect_error_response("date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])", 1)
     end
   end
-
 end
 

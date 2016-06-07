@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe DisbursementValidator do
-
   include ValidationHelpers
 
   let(:claim)         { FactoryGirl.build :claim, force_validation: true }

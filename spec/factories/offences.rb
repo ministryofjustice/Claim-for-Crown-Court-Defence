@@ -17,6 +17,5 @@ FactoryGirl.define do
     trait :miscellaneous do
       description 'Miscellaneous/other'
     end
-
   end
 end

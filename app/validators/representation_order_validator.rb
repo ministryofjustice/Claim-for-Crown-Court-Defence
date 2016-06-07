@@ -1,5 +1,4 @@
 class RepresentationOrderValidator < BaseValidator
-
   def self.fields
     [
       :representation_order_date,

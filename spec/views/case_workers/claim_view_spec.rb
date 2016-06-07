@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'case_workers/claims/show.html.haml', type: :view do
-
   include ViewSpecHelper
 
   before(:all) do
@@ -35,7 +34,6 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   context 'trial and retrial claims' do
-
     it 'shows trial details' do
       trial_claim
       assign(:claim, @claim)
@@ -49,7 +47,6 @@ describe 'case_workers/claims/show.html.haml', type: :view do
       render
       expect(rendered).to have_content('First day of retrial')
     end
-
   end
 
 
@@ -70,5 +67,4 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
   end
-
 end

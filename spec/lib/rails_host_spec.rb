@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RailsHost do
-
   context 'api_sandbox' do
     before do
       @initial_env = ENV['ENV']
@@ -27,14 +26,12 @@ describe RailsHost do
     it 'should raise method missing if invalid method name' do
       expect {
         Rails.host.gibberish?
-
       }.to raise_error NoMethodError, /undefined method .gibberish\?/
     end
   end
 
 
   context 'staging' do
-
     before do
       @initial_env = ENV['ENV']
       ENV['ENV'] = 'staging'
@@ -55,11 +52,5 @@ describe RailsHost do
     it 'should return false for demo' do
       expect(Rails.host.demo?).to be false
     end
-
-
-
   end
-
-
-
 end

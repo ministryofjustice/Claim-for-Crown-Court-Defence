@@ -59,7 +59,6 @@ module Claim
   class MockBaseClaim < BaseClaim; end
 
   describe BaseClaim do
-
     let(:advocate)   { create :external_user, :advocate }
     let(:agfs_claim) { create(:advocate_claim) }
     let(:lgfs_claim) { create(:litigator_claim) }

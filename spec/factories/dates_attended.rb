@@ -13,7 +13,6 @@
 #
 
 FactoryGirl.define do
-
   factory :date_attended do
     attended_item { create(:basic_fee) }
     date    { 12.days.ago }
@@ -31,5 +30,4 @@ FactoryGirl.define do
       date_to { 10.days.ago }
     end
   end
-
 end

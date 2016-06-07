@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.dirname(__FILE__) + '/validation_helpers'
 
 describe DateAttendedValidator do
-
   include ValidationHelpers
 
   let(:claim) do
@@ -36,5 +35,4 @@ describe DateAttendedValidator do
       expect(date_attended).to be_valid
     end
   end
-
 end

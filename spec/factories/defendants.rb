@@ -21,5 +21,4 @@ FactoryGirl.define do
     order_for_judicial_apportionment  false
     representation_orders             { [FactoryGirl.create(:representation_order, representation_order_date: 400.days.ago)] }
   end
-
 end

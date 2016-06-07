@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_fee_validators_spec'
 
 module Fee
   describe GraduatedFeeValidator do
-
     include ValidationHelpers
     include_context 'force-validation'
 

@@ -1,5 +1,4 @@
 class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
-
   # Override this method in the derived class
   def has_many_association_names_for_steps
     []

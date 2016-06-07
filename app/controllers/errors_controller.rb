@@ -18,5 +18,4 @@ class ErrorsController < ApplicationController
   def dummy_exception
     raise ArgumentError.new("This exception has been raised as a test by going to the 'dummy_exception' endpoint.")
   end
-
 end

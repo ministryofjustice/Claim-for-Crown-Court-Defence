@@ -11,9 +11,7 @@
 #
 
 module Stats
-
   class StatsReport < ActiveRecord::Base
-
     validates :status, inclusion: { in: %w{ started completed error } }
 
     default_scope { order('started_at DESC') }
@@ -48,6 +46,5 @@ module Stats
     def download_filename
       "#{self.report_name}_#{self.started_at.strftime('%Y_%m_%d_%H_%M_%S')}.csv"
     end
-
   end
 end

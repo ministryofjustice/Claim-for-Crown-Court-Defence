@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Fee::GraduatedFeePresenter do
-
   let(:grad_fee) { instance_double(Fee::GraduatedFee, claim: double, quantity_is_decimal?: false, errors: {quantity: []}) }
   let(:presenter) { Fee::GraduatedFeePresenter.new(grad_fee, view) }
 
@@ -18,5 +17,4 @@ describe Fee::GraduatedFeePresenter do
       expect(presenter.quantity).to eq '12'
     end
   end
-
 end

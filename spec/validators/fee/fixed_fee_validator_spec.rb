@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + '/../validation_helpers'
 require_relative 'shared_examples_for_fee_validators_spec'
 
 describe Fee::FixedFeeValidator do
-
   include ValidationHelpers
   include_context 'force-validation'
 

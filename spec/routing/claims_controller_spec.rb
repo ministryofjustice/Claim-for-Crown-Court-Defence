@@ -4,7 +4,6 @@ require 'action_dispatch/routing/polymorphic_routes'
 include ActionDispatch::Routing::PolymorphicRoutes
 
 describe ExternalUsers::Advocates::ClaimsController, type: :routing do
-
   it { should route(:get,  '/advocates/claims/new').to(action: :new) }
   it { should route(:post, '/advocates/claims').to(action: :create) }
   it { should route(:put,  '/advocates/claims/123').to(action: :update, id: 123) }
@@ -25,7 +24,6 @@ describe ExternalUsers::Advocates::ClaimsController, type: :routing do
 end
 
 describe ExternalUsers::Litigators::ClaimsController, type: :routing do
-
   it { should route(:get,  '/litigators/claims/new').to(action: :new) }
   it { should route(:post, '/litigators/claims').to(action: :create) }
   it { should route(:put,  '/litigators/claims/123').to(action: :update, id: 123) }
@@ -46,7 +44,6 @@ describe ExternalUsers::Litigators::ClaimsController, type: :routing do
 end
 
 describe ExternalUsers::Litigators::InterimClaimsController, type: :routing do
-
   it { should route(:get,  '/litigators/interim_claims/new').to(action: :new) }
   it { should route(:post, '/litigators/interim_claims').to(action: :create) }
   it { should route(:put,  '/litigators/interim_claims/123').to(action: :update, id: 123) }
@@ -67,7 +64,6 @@ describe ExternalUsers::Litigators::InterimClaimsController, type: :routing do
 end
 
 describe ExternalUsers::Litigators::TransferClaimsController, type: :routing do
-
   it { should route(:get,  '/litigators/transfer_claims/new').to(action: :new) }
   it { should route(:post, '/litigators/transfer_claims').to(action: :create) }
   it { should route(:put,  '/litigators/transfer_claims/123').to(action: :update, id: 123) }

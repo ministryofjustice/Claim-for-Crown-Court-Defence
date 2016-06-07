@@ -1,5 +1,4 @@
 class AdpMailer < Devise::Mailer
-
   # gives access to all helpers defined within `application_helper`.
   helper :application
 
@@ -13,5 +12,4 @@ class AdpMailer < Devise::Mailer
     opts.merge!(subject: t('devise.mailer.welcome_password_instructions.subject')) if record.sign_in_count == 0
     super
   end
-
 end

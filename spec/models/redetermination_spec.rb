@@ -18,7 +18,6 @@ require 'rails_helper'
 
 
 describe Redetermination do
-
   let(:claim) { FactoryGirl.create :claim }
 
 
@@ -48,5 +47,4 @@ describe Redetermination do
       expect(rds.map(&:created_at).map(&:to_i)).to eq([date_1.to_i, date_2.to_i, date_3.to_i])
     end
   end
-
 end

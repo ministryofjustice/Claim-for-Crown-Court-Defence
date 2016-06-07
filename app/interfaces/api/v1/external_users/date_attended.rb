@@ -1,16 +1,13 @@
 module API
   module V1
     module ExternalUsers
-
       class DateAttended < GrapeApiHelper
-
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/external_users'
         content_type :json, 'application/json'
 
         resource :dates_attended, desc: 'Create or Validate' do
-
           helpers do
             params :date_attended_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
@@ -40,7 +37,6 @@ module API
               args.merge!(non_date_fields).merge_date_fields!([:date, :date_to], params)
               args
             end
-
           end
 
           desc "Create a date_attended."
@@ -68,13 +64,8 @@ module API
             status api_response.status
             return api_response.body
           end
-
         end
-
-
       end
-
     end
-
   end
 end

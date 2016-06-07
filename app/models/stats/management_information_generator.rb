@@ -1,9 +1,7 @@
 require 'csv'
 
 module Stats
-
   class ManagementInformationGenerator
-
     def run
       unless StatsReport.generation_in_progress?('management_information')
         begin
@@ -32,6 +30,5 @@ module Stats
       end
       csv_string
     end
-
   end
 end

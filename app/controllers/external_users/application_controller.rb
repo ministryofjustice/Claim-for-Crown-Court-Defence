@@ -45,5 +45,4 @@ private
       common_dates_attended_attributes
     ]
   end
-
 end

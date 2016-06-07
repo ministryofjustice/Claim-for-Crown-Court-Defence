@@ -15,7 +15,6 @@
 require 'rails_helper'
 
 RSpec.describe DateAttended, type: :model do
-
   it { should belong_to(:attended_item) }
 
   describe '#to_s' do

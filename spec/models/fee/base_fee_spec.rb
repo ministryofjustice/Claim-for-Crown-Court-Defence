@@ -22,12 +22,10 @@ require 'rails_helper'
 
 
 module Fee
-
   class FeeDouble < Fee::BaseFee
   end
 
   RSpec.describe Fee::FeeDouble, type: :model do
-
     let(:subject) { FeeDouble.new }
 
     it { should belong_to(:claim) }
@@ -115,12 +113,9 @@ module Fee
         end
       end
     end
-
-
   end
 
   RSpec.describe Fee::BaseFee, type: :model do
-
     context '#new' do
       it 'should raise BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error
@@ -167,6 +162,5 @@ module Fee
         end
       end
     end
-
   end
 end

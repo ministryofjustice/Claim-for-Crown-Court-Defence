@@ -1,5 +1,4 @@
 module Claims::Sort
-
   META_SORT_COLUMNS = %w( advocate amount_assessed case_type total_inc_vat )
 
   def sortable_columns
@@ -69,5 +68,4 @@ module Claims::Sort
       .where('determinations.created_at = (SELECT MAX(d.created_at) FROM "determinations" d WHERE d."claim_id" = "claims"."id")')
       .order("total_inc_vat #{direction}")
   end
-
 end

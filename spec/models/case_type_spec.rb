@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 describe CaseType do
-
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   after(:all) do
@@ -63,7 +62,6 @@ describe CaseType do
         expect(fixed_case_type.is_graduated_fee?).to eql false
       end
     end
-
   end
 
   describe 'fixed_fee_type' do

@@ -30,5 +30,4 @@ class Offence < ActiveRecord::Base
       methods: [:offence_class]
     }))
   end
-
 end

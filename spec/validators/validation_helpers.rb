@@ -1,5 +1,4 @@
 module ValidationHelpers
-
   shared_context "force-validation" do
     before do
       claim.force_validation = true
@@ -119,5 +118,4 @@ module ValidationHelpers
     end
     record
   end
-
 end

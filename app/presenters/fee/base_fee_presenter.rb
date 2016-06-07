@@ -65,5 +65,4 @@ private
   def not_applicable
     hint_tag I18n.t('general.not_applicable')
   end
-
 end

@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   trait :litigator_base_setup do
     court
     case_number         { random_case_number }

@@ -2,15 +2,12 @@ require 'rails_helper'
 require File.join(Rails.root, 'db', 'migration_helpers', 'expense_type_migrator')
 
 module MigrationHelpers
-
-
   class MockExpenseTypeMigrator < ExpenseTypeMigrator
     def initialize
     end
   end
 
   describe ExpenseTypeMigrator do
-
     let(:mock_migrator) { MockExpenseTypeMigrator.new }
 
     context 'conference and view - car' do
@@ -91,8 +88,6 @@ module MigrationHelpers
         expected_text = "03/02/2016 - 15/02/2016, 04/03/2016 - 08/03/2016, 10/03/2016"
         expect(mock_migrator.send(:extract_date_ranges_as_text, ex)).to eq expected_text
       end
-
     end
-
   end
 end

@@ -1,16 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ClaimCsvPresenter do
-
   let(:claim)               { create(:redetermination_claim) }
   let(:subject)             { ClaimCsvPresenter.new(claim, view) }
 
   context '#present!' do
-
     context 'generates a line of CSV for each time a claim passes through the system' do
-
       context 'with identical values for' do
-
         it 'case_number' do
           subject.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.case_number)
@@ -65,7 +61,6 @@ RSpec.describe ClaimCsvPresenter do
             expect(claim_journeys.second).to include(claim.total_including_vat.to_s)
           end
         end
-
       end
 
       context 'and unique values for' do
@@ -106,7 +101,6 @@ RSpec.describe ClaimCsvPresenter do
             expect(claim_journeys.second).to include('submitted')
           end
         end
-
       end
 
       context 'deallocation' do

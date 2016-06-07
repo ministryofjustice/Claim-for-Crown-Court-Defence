@@ -1,5 +1,4 @@
 class Fee::WarrantFeeValidator < Fee::BaseFeeValidator
-
   def validate_warrant_issued_date
     validate_presence(:warrant_issued_date, 'blank')
     validate_not_before(Settings.earliest_permitted_date, :warrant_issued_date, 'check_not_too_far_in_past')
@@ -16,5 +15,4 @@ class Fee::WarrantFeeValidator < Fee::BaseFeeValidator
     validate_presence(:amount, 'blank')
     validate_float_numericality(:amount, 0.01, nil, 'numericality')
   end
-
 end

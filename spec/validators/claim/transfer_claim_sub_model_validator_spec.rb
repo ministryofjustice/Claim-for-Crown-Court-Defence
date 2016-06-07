@@ -3,7 +3,6 @@ require_relative '../validation_helpers'
 require_relative 'shared_examples_for_step_validators'
 
 describe Claim::TransferClaimSubModelValidator do
-
   let(:claim) { FactoryGirl.create :transfer_claim }
 
   include_examples 'common partial association validations', {

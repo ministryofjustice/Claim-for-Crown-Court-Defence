@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::ClaimsController, type: :controller do
-
   before do
     sign_in @case_worker.user
   end
 
   context 'non_archive' do
-
     before(:all) do
       @case_worker = create(:case_worker)
       @claims = []

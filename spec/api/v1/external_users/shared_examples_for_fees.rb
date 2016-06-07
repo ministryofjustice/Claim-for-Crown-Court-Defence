@@ -1,5 +1,4 @@
 shared_examples "fee validate endpoint" do
-
   it 'valid requests should return 200 and String true' do
     post_to_validate_endpoint
     expect(last_response.status).to eq 200
@@ -20,5 +19,4 @@ shared_examples "fee validate endpoint" do
     expect(last_response.status).to eq 400
     expect(last_response.body).to eq "[{\"error\":\"Claim cannot be blank\"}]"
   end
-
 end

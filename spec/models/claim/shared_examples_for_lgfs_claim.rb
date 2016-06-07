@@ -1,5 +1,4 @@
 shared_examples "common litigator claim attributes" do
-
   it { should delegate_method(:provider_id).to(:creator) }
 
   describe '#lgfs?' do

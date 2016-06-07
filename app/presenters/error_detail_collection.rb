@@ -4,7 +4,6 @@
 # short messages by fieldname, and all the long messages with associated fieldnames
 #
 class ErrorDetailCollection
-
   def initialize
     @error_details = {}
   end
@@ -42,5 +41,4 @@ class ErrorDetailCollection
   def size
     @error_details.values.map(&:size).sum
   end
-
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Fee::FixedFeePresenter do
-
   let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double, quantity_is_decimal?: false, errors: {:quantity => []}) }
   let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
 
@@ -40,5 +39,4 @@ describe Fee::FixedFeePresenter do
       presenter.quantity
     end
   end
-
 end

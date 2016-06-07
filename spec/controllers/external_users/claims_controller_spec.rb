@@ -2,12 +2,10 @@ require 'rails_helper'
 require 'custom_matchers'
 
 RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
-
   let!(:advocate) { create(:external_user, :advocate) }
   before { sign_in advocate.user }
 
   context "list views" do
-
     let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
@@ -16,7 +14,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
-
       it 'returns success' do
         get :index
         expect(response).to have_http_status(:success)
@@ -237,7 +234,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
 
     describe '#GET archived' do
-
       it 'returns success' do
         get :archived
         expect(response).to have_http_status(:success)

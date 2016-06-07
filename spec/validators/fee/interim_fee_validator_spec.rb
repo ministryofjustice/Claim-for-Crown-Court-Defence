@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Fee
   describe InterimFeeValidator do
-
     let(:fee) { build :interim_fee }
     let(:disbursement_fee) { build :interim_fee, :disbursement }
     let(:interim_warrant_fee) { build :interim_fee, :warrant }
@@ -186,7 +185,6 @@ module Fee
       end
 
       describe '#validate_warrant_executed_date' do
-
         it 'should raise error if before warrant_issued_date' do
           fee.warrant_executed_date = fee.warrant_issued_date - 1.day
           expect(fee).not_to be_valid

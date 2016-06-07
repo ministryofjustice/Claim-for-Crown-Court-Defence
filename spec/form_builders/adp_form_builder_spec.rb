@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe AdpFormBuilder do
-
   let(:resource)  { FactoryGirl.create :claim }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {}) }
 

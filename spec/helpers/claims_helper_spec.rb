@@ -2,7 +2,6 @@ require "rails_helper"
 
 
 describe ClaimsHelper do
-
   describe '#claim_allocation_checkbox_helper' do
     let(:case_worker)         { double CaseWorker }
     let(:claim)               { double Claim }
@@ -23,11 +22,9 @@ describe ClaimsHelper do
       expected_html = '<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
-
   end
 
   describe "#includes_state?" do
-
     let(:only_allocated_claims) { create_list(:allocated_claim, 5) }
 
     it "returns true if state included as array" do
@@ -44,7 +41,5 @@ describe ClaimsHelper do
       invalid_states = 'draft,submitted'
       expect(includes_state?(only_allocated_claims, invalid_states)).to eql(false)
     end
-
   end
-
 end

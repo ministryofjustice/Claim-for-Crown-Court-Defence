@@ -2,7 +2,6 @@
 # and update the clone_source_id coloumn with the id of the original claim.
 
 class ClonedClaimRepairer
-
   def initialize(claim_id)
     @claim_id = claim_id
     @claim = Claim::BaseClaim.find_by(id: claim_id)

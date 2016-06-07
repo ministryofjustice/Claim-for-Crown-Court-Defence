@@ -16,7 +16,6 @@
 #
 
 class Fee::GraduatedFeeType < Fee::BaseFeeType
-
   default_scope { order(description: :asc) }
 
   def fee_category_name

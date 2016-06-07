@@ -1,5 +1,4 @@
 module ApiSpecHelper
-
   def expect_validate_success_response
     expect(last_response.status).to eq 200
     json = JSON.parse(last_response.body)
@@ -17,5 +16,4 @@ module ApiSpecHelper
     json = JSON.parse(last_response.body)
     expect(json[0]['error']).to eql("Unauthorised")
   end
-
 end

@@ -101,7 +101,6 @@ describe Ability do
         it { should_not be_able_to(action, other_provider) }
       end
     end
-
   end
 
   context 'external_user admin' do
@@ -197,7 +196,6 @@ describe Ability do
   end
 
   context 'external_user litigator' do
-
     let(:external_user) { create(:external_user, :litigator) }
     let(:provider)      { external_user.provider }
     let(:user)          { external_user.user }
@@ -433,7 +431,6 @@ describe Ability do
   end
 
   context 'super admin' do
-
     let(:super_admin)       { create(:super_admin) }
     let(:user)              { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }

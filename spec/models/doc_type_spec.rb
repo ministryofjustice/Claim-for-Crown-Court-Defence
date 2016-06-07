@@ -2,7 +2,6 @@ require 'rails_helper'
 
 
 describe DocType do
-
   describe '.find' do
     it 'should return a DocTypeInstance with the specified id' do
       dti = DocType.find(4)
@@ -46,5 +45,4 @@ describe DocType do
       expect(DocType.all_second_half).to eq expected
     end
   end
-
 end

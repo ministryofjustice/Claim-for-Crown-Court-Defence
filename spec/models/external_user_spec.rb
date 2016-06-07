@@ -281,7 +281,6 @@ RSpec.describe ExternalUser, type: :model do
     it 'returns both types of claims for advocate_litigators' do
       expect(advocate_litigator.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
     end
-
   end
 
   describe '#available_roles' do

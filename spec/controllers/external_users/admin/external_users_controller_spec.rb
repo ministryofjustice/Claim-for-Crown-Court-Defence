@@ -9,7 +9,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   before { sign_in admin.user }
 
   describe "GET #index" do
-
     it "returns http success" do
       get :index
       expect(response).to have_http_status(:success)
@@ -125,7 +124,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   end
 
   describe "PUT #update" do
-
     context 'when valid' do
       before(:each) { put :update, id: subject, external_user: { roles: ['admin'] } }
 
@@ -155,7 +153,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   end
 
   describe "PUT #update_password" do
-
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -182,8 +179,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   end
 
   describe "DELETE #destroy" do
-
-
     it 'destroys the external user' do
       subject # create an additional External user
       expect{

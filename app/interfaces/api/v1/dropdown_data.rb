@@ -1,16 +1,13 @@
 module API
   module V1
-
     # -----------------------
     class DropdownData < GrapeApiHelper
-
       version 'v1', using: :header, vendor: 'Advocate Defence Payments'
       format :json
       prefix 'api'
       content_type :json, 'application/json'
 
       helpers do
-
         params :api_key_params do
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
         end
@@ -20,7 +17,6 @@ module API
         rescue API::V1::ArgumentError
           error!('Unauthorised', 401)
         end
-
       end
 
       before do
@@ -114,7 +110,6 @@ module API
           ::ExpenseType.agfs.all_with_reasons
         end
       end
-
     end
   end
 end

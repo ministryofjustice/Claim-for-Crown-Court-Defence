@@ -1,5 +1,4 @@
 class SuperAdmins::ExternalUsersController < ApplicationController
-
   include PasswordHelpers
 
   before_action :set_provider
@@ -70,5 +69,4 @@ class SuperAdmins::ExternalUsersController < ApplicationController
   def set_provider
     @provider = Provider.find(params[:provider_id])
   end
-
 end

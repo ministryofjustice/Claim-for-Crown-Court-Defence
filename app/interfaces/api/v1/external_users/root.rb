@@ -4,9 +4,7 @@ require 'grape-swagger'
 module API
   module V1
     module ExternalUsers
-
       class Root < Grape::API
-
         # override default json format for multiple grape validation errors
         rescue_from Grape::Exceptions::ValidationErrors do |e|
           @errs = []
@@ -31,7 +29,6 @@ module API
           mount_path: "/api/v1/external_users/swagger_doc",
           hide_format: true
         )
-
       end
     end
   end

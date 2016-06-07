@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: true do
-
   let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
   before { sign_in agfs_lgfs_admin.user }
   before { allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true }
@@ -61,7 +60,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
         expect(response).to render_template(:selection)
       end
     end
-
   end
 
   describe 'POST #chosen' do

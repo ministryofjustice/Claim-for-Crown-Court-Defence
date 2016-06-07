@@ -1,5 +1,4 @@
 class ClaimStateTransitionPresenter < BasePresenter
-
   presents :claim_state_transition
 
   def transition_message
@@ -51,5 +50,4 @@ private
   def previous_transition
     all_transitions[previous_index]
   end
-
 end

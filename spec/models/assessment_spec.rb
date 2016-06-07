@@ -18,11 +18,9 @@ require 'rails_helper'
 
 
 describe Assessment do
-
   let(:claim) { FactoryGirl.create :claim }
 
   context 'validations' do
-
     context 'fees' do
       it 'should not accept negative values' do
         expect {
@@ -131,5 +129,4 @@ describe Assessment do
       expect(assessment.created_at).to eq DateTime.new(2016, 1, 2, 3, 4, 5)
     end
   end
-
 end

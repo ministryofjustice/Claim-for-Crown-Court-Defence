@@ -17,7 +17,6 @@ RSpec.describe Allocation, type: :model do
   end
 
   describe '#save' do
-
     context 'allocating and re-allocating' do
       let(:claims) { create_list(:submitted_claim, 3) }
       let(:case_worker) { create(:case_worker) }

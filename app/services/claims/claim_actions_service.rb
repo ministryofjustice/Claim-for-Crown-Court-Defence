@@ -1,6 +1,5 @@
 module Claims
   class ClaimActionsService
-
     attr_accessor :claim, :params, :validate
 
     def self.call(*args)

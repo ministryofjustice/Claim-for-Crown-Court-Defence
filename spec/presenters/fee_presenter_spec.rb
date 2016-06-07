@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Fee::BaseFeePresenter do
-
   let(:claim)     { create(:claim) }
   let(:fee_type)  { create(:basic_fee_type, description: 'Basic fee type C') }
   let(:fee)       { create(:basic_fee, quantity: 4, claim: claim, fee_type: fee_type) }
   let(:presenter) {Fee::BaseFeePresenter.new(fee, view) }
 
   describe '#dates_attended_delimited_string' do
-
     before {
       claim.fees.each do |fee|
         fee.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
@@ -34,7 +32,6 @@ RSpec.describe Fee::BaseFeePresenter do
     end
 
     context 'quantity is not decimal' do
-
       before(:each) { allow(fee).to receive(:quantity_is_decimal?).and_return(false) }
 
       context 'valid' do
@@ -110,5 +107,4 @@ RSpec.describe Fee::BaseFeePresenter do
       end
     end
   end
-
 end

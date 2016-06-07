@@ -52,5 +52,4 @@ module PasswordHelpers
   def set_temporary_password
     @temporary_password = SecureRandom.uuid
   end
-
 end

@@ -1,7 +1,6 @@
 module API
   module V1
     module ApiHelper
-
       require Rails.root.join('app', 'interfaces', 'api','custom_validations','date_format.rb')
       require_relative 'api_response'
       require_relative 'error_response'
@@ -15,7 +14,6 @@ module API
       end
 
       class << self
-
         def authenticate_key!(params)
           provider = Provider.find_by(api_key: params[:api_key])
           if provider.blank? || provider.api_key.blank?
@@ -158,8 +156,6 @@ module API
         def is_a_basic_fee_type?(args)
           Fee::BaseFeeType.find(args[:fee_type_id]).is_a?(::Fee::BasicFeeType)
         end
-
-
       end
     end
   end

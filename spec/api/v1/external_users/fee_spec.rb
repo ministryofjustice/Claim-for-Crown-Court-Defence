@@ -5,7 +5,6 @@ require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
 describe API::V1::ExternalUsers::Fee do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -37,7 +36,6 @@ describe API::V1::ExternalUsers::Fee do
   end
 
   describe "POST #{CREATE_FEE_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_FEE_ENDPOINT, valid_params, format: :json
     end
@@ -45,7 +43,6 @@ describe API::V1::ExternalUsers::Fee do
     include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when fee params are valid' do
-
       it "should create fee, return 201 and fee JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -78,7 +75,6 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'basic fees' do
-
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
 
         it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
@@ -105,11 +101,9 @@ describe API::V1::ExternalUsers::Fee do
           expect(fee.amount).to eq 210.00
         end
       end
-
     end
 
     context "fee type specific errors" do
-
       let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
       before(:each) { valid_params.delete(:rate) }
 
@@ -205,13 +199,10 @@ describe API::V1::ExternalUsers::Fee do
           expect_error_response("Claim cannot be blank", 0)
         end
       end
-
     end
-
   end
 
   describe "POST #{VALIDATE_FEE_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_FEE_ENDPOINT, valid_params, format: :json
     end
@@ -231,5 +222,4 @@ describe API::V1::ExternalUsers::Fee do
       end
     end
   end
-
 end

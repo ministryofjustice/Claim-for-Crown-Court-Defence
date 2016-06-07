@@ -1,5 +1,4 @@
 class BaseValidator < ActiveModel::Validator
-
   CASE_NUMBER_PATTERN ||= /^[A-Z]{1}\d{8}$/
 
   # Override this method in the derived class
@@ -133,5 +132,4 @@ class BaseValidator < ActiveModel::Validator
     return if attr_nil?(attribute) || attr_nil?(another_attribute)
     add_error(attribute, message) if @record.__send__(attribute) > @record.__send__(another_attribute)
   end
-
 end

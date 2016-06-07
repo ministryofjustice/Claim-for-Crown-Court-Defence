@@ -1,5 +1,4 @@
 class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
-
   def self.fields_for_steps
     [
       [

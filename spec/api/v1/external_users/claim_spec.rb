@@ -4,7 +4,6 @@ require_relative 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 
 describe API::V1::ExternalUsers::Claim do
-
   include Rack::Test::Methods
   include ApiSpecHelper
 
@@ -58,7 +57,6 @@ describe API::V1::ExternalUsers::Claim do
   end
 
   describe "POST #{VALIDATE_CLAIM_ENDPOINT}" do
-
     def post_to_validate_endpoint
       post VALIDATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
@@ -72,7 +70,6 @@ describe API::V1::ExternalUsers::Claim do
     end
 
     context 'invalid API key' do
-
       include_examples "invalid API key validate endpoint"
 
       it "should return 400 and JSON error array when it is an API key from another provider's admin" do
@@ -80,7 +77,6 @@ describe API::V1::ExternalUsers::Claim do
         post_to_validate_endpoint
         expect_error_response("Creator and advocate must belong to the provider")
       end
-
     end
 
     it "should return 400 and JSON error array when creator email is invalid" do
@@ -123,19 +119,15 @@ describe API::V1::ExternalUsers::Claim do
       ].each do |error|
         expect(json).to include error
       end
-
     end
-
   end
 
   describe "POST #{CREATE_CLAIM_ENDPOINT}" do
-
     def post_to_create_endpoint
       post CREATE_CLAIM_ENDPOINT, valid_params, format: :json
     end
 
     context "when claim params are valid" do
-
       it "should create claim, return 201 and claim JSON output including UUID, but not API key" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -158,7 +150,6 @@ describe API::V1::ExternalUsers::Claim do
       end
 
       context "the new claim should" do
-
         before(:each) {
           post_to_create_endpoint
           @new_claim = Claim::BaseClaim.last
@@ -179,11 +170,9 @@ describe API::V1::ExternalUsers::Claim do
           expect(@new_claim.external_user).to eq expected_owner.persona
         end
       end
-
     end
 
     context "when claim params are invalid" do
-
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
@@ -243,9 +232,6 @@ describe API::V1::ExternalUsers::Claim do
           expect_error_response("out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer")
         end
       end
-
     end
-
   end
-
 end

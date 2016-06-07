@@ -1,5 +1,4 @@
 class Fee::TransferFeePresenter < Fee::BaseFeePresenter
-
   def quantity
     not_applicable
   end
@@ -7,5 +6,4 @@ class Fee::TransferFeePresenter < Fee::BaseFeePresenter
   def rate
     not_applicable
   end
-
 end

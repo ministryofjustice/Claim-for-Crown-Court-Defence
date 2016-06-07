@@ -19,7 +19,6 @@
 require 'rails_helper'
 
 RSpec.describe CaseTypesController, type: :controller do
-
   let!(:case_type_1) { create :case_type, name: 'Case Type 1' }
 
   describe 'GET show' do

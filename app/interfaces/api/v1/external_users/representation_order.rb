@@ -1,16 +1,13 @@
 module API
   module V1
     module ExternalUsers
-
       class RepresentationOrder < GrapeApiHelper
-
         version 'v1', using: :header, vendor: 'Advocate Defence Payments'
         format :json
         prefix 'api/external_users'
         content_type :json, 'application/json'
 
         resource :representation_orders, desc: 'Create or Validate' do
-
           helpers do
             # include ExtractDate
             # include API::V1::ApiHelper
@@ -42,7 +39,6 @@ module API
               args.merge!(non_date_fields).merge_date_fields!([:representation_order_date], params)
               args
             end
-
           end
 
           desc "Create a representation_order."

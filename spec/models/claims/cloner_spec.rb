@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claims::Cloner, type: :model do
-
   context 'ensure we are excluding fee associations' do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
     let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Claims::UpdateClaim do
-
   after(:all) do
     clean_database
   end

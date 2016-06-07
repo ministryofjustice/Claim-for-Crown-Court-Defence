@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe DeterminationPresenter do
-
   let(:pt_version) { instance_double(PaperTrail::Version, item_type: 'Determination', changeset: changeset) }
   let(:presenter) { DeterminationPresenter.new(pt_version, view) }
 

@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ExpensePresenter do
-
   let(:claim) { create(:claim) }
   let(:expense_type)  { create(:expense_type) }
   let(:expense)       { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
   let(:presenter) {ExpensePresenter.new(expense, view) }
 
   describe '#dates_attended_delimited_string' do
-
     before {
       claim.expenses .each do |fee|
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
@@ -72,5 +70,4 @@ RSpec.describe ExpensePresenter do
       expect(presenter.display_reason_text_css).to eql 'inline-block'
     end
   end
-
 end

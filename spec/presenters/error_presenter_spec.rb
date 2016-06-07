@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ErrorPresenter do
-
   let(:claim)           { FactoryGirl.build :claim }
 
   let(:filename)        { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
@@ -27,7 +26,6 @@ describe ErrorPresenter do
   context 'one error message per attribute' do
     context 'header_errors' do
       context 'fieldname present in translations file' do
-
         context 'error string present in translations file' do
           it 'should use the long form of the translation' do
             claim.errors[:name] << 'cannot_be_blank'
@@ -65,7 +63,6 @@ describe ErrorPresenter do
 
     context '#field_level_error_for' do
       context 'fieldname present in translations file' do
-
         context 'error string present in translations file' do
           it 'should return the short message' do
             claim.errors[:name] << 'cannot_be_blank'

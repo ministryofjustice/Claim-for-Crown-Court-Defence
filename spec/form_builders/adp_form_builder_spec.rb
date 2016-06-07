@@ -3,9 +3,9 @@ require 'rails_helper'
 describe AdpFormBuilder do
 
   before(:all) do
-    create :court, name: 'Kinghtsbridge', code: '400'
-    create :court, name: 'Reading', code: '635'
-    create :court, name: 'Southward', code: '306'
+    create :court, name: 'Kinghtsbridge', code: '400', id: 98731
+    create :court, name: 'Reading', code: '635', id: 98732
+    create :court, name: 'Southwark', code: '306', id: 98733
   end
 
   after(:all) do
@@ -17,14 +17,67 @@ describe AdpFormBuilder do
 
   describe 'awesomeplete_collection_select' do
 
-    it 'should produce ordered list with no prompt' do
-      actual = builder.awesomeplete_collection_select(:court_id, Court.all, :id, :name)
-      expect(actual).to eq expected_html_for_simple_selection_no_prompt
+    context 'valid object with values' do
+
+      it 'produces ordered list with no prompt' do
+        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name)
+        expect(actual).to eq expected_html_for_simple_list_no_prompt_with_valid_object
+      end
+
+      it 'produces an ordered list with prompt' do
+        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name, prompt: 'Please select value')
+        expect(actual).to eq expected_html_for_simple_list_with_prompt_with_valid_object
+      end
+
+      it 'produces an ordered list with blank first line' do
+        actual = builder.awesomeplete_collection_select(:court, Court.all, :id, :name, include_blank: true)
+        expect(actual).to eq expected_html_for_simple_list_with_with_blank_first_item_for_valid_object
+      end
+
+      def expected_html_for_simple_list_no_prompt_with_valid_object
+        result = %q|<div class="awesomplete">|
+        result += %q|<input class="form-control" id="claim_case_type_id_autocomplete" value="Reading" autocomplete="off" aria-autocomplete="list">|
+        result += %q|<ul>|
+        result += %q|<li aria-selected="false" data-value="98731">Kinghtsbridge</li>|
+        result += %q|<li aria-selected="true" data-value="98732">Reading</li>|
+        result += %q|<li aria-selected="false" data-value="98733">Southwark</li>|
+        result += %q|</ul>|
+        result += %q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
+        result += %q|</div>|
+        squash(result)
+      end
+
+      def expected_html_for_simple_list_with_prompt_with_valid_object
+        result = %q|<div class="awesomplete">|
+        result += %q|<input class="form-control" id="claim_case_type_id_autocomplete" value="Reading" autocomplete="off" aria-autocomplete="list">|
+        result += %q|<ul>|
+        result += %q|<li aria-selected="false">Please select value</li>|
+        result += %q|<li aria-selected="false" data-value="98731">Kinghtsbridge</li>|
+        result += %q|<li aria-selected="true" data-value="98732">Reading</li>|
+        result += %q|<li aria-selected="false" data-value="98733">Southwark</li>|
+        result += %q|</ul>|
+        result += %q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
+        result += %q|</div>|
+        squash(result)
+      end
+
+      def expected_html_for_simple_list_with_with_blank_first_item_for_valid_object
+        result = %q|<div class="awesomplete">|
+        result += %q|<input class="form-control" id="claim_case_type_id_autocomplete" value="Reading" autocomplete="off" aria-autocomplete="list">|
+        result += %q|<ul>|
+        result += %q|<li aria-selected="false"></li>|
+        result += %q|<li aria-selected="false" data-value="98731">Kinghtsbridge</li>|
+        result += %q|<li aria-selected="true" data-value="98732">Reading</li>|
+        result += %q|<li aria-selected="false" data-value="98733">Southwark</li>|
+        result += %q|</ul>|
+        result += %q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
+        result += %q|</div>|
+        squash(result)
+      end
     end
 
-    def expected_html_for_simple_list_no_prompt
-      result =
-    end
+  end
+
 
   describe 'anchored_label' do
     context 'no anchor name supplied' do

@@ -32,17 +32,27 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
 
-  def awesomeplete_collection_select(method, collection, value_method, text_method, data_options, options_hash = {})
+  def awesomeplete_collection_select(method, collection, value_method, text_method, data_options = {}, options_hash = {})
     result = %Q|<div class="awesomplete">|
-    result += %Q|<input class="form-control" id="claim_case_type_id_autocomplete" autocomplete="off" aria-autocomplete="list">|
+    if object.send(method).blank?
+      value_clause = nil
+      display_value = nil
+    else
+      display_value = object.send(method).send(text_method)
+      value_clause = %Q|value="#{display_value}" |
+    end
+    result += %Q|<input class="form-control" id="claim_case_type_id_autocomplete" #{value_clause}autocomplete="off" aria-autocomplete="list">|
     result += %Q|<ul>|
     if data_options[:prompt]
-      result += %Q|<li aria-selected="true">#{data_options[:prompt]}</li>|
+      prompt_selected = object.send(method).blank? ? 'true' : 'false'
+      result += %Q|<li aria-selected="#{prompt_selected}">#{data_options[:prompt]}</li>|
     elsif data_options[:include_blank]
-      result += %Q|<li aria-selected="true"></li>|
+      prompt_selected = object.send(method).blank? ? 'true' : 'false'
+      result += %Q|<li aria-selected="#{prompt_selected}"></li>|
     end
     collection.each do |item|
-      result += %Q|<li aria-selected="false" data-value="#{item.send(value_method)}">#{item.send(text_method)}</li>|
+      selected = display_value == item.send(text_method) ? 'true' : 'false'
+      result += %Q|<li aria-selected="#{selected}" data-value="#{item.send(value_method)}">#{item.send(text_method)}</li>|
     end
     result += %Q|</ul>|
     result += %Q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|

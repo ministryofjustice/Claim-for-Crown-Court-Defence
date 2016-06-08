@@ -111,9 +111,9 @@ describe API::V1::ExternalUsers::Fee do
     context "fee type specific errors" do
 
       let!(:valid_params)       { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
-      before (:each) { valid_params.delete(:rate) }
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
+        valid_params.delete(:rate)
         valid_params[:fee_type_id] = basic_fee_type.id
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
@@ -132,27 +132,53 @@ describe API::V1::ExternalUsers::Fee do
         expect_error_response("Pages of prosecution evidence fees must not a have rate",0)
       end
 
+      context 'quantity as decimal or integer' do
+        let!(:special_preparation_fee) { create(:misc_fee_type, :spf) }
+        let(:parsed_response) { JSON.parse(last_response.body) }
+
+        it 'decimal quantity should raise error if fee type does NOT accept decimal quantities' do
+          valid_params[:quantity] = 9.5
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("You must specify a whole number for this type of fee",0)
+        end
+
+        it 'decimal quantity should NOT raise error if fee type accepts decimals quantities' do
+          valid_params[:fee_type_id] = special_preparation_fee.id
+          valid_params[:quantity] = 9.5
+          post_to_create_endpoint
+          expect(last_response.status).to eq 201
+          fee = Fee::BaseFee.find_by(uuid: parsed_response['id'])
+          expect(fee.quantity).to eq 9.5
+        end
+      end
+
       # NOT exhaustive
-      it 'OTHER basic fees should raise basic fee errors' do
-        valid_params[:fee_type_id] = basic_fee_type.id
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("Enter a valid rate for the basic fee",0)
+      context 'Fee Category' do
+        before (:each) { valid_params.delete(:rate) }
+
+        it 'basic fees should raise basic fee errors from translations' do
+          valid_params[:fee_type_id] = basic_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter a valid rate for the basic fee",0)
+        end
+
+        it 'misc fees should raise misc fee errors from translations' do
+          valid_params[:fee_type_id] = misc_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter a rate for the miscellaneous fee",0)
+        end
+
+        it 'fixed fees should raise misc fee errors from translations' do
+          valid_params[:fee_type_id] = fixed_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter a rate for the fixed fee",0)
+        end
       end
 
-      it 'misc fees should raise misc fee errors from translations' do
-        valid_params[:fee_type_id] = misc_fee_type.id
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("Enter a rate for the miscellaneous fee",0)
-      end
-
-      it 'fixed fees should raise misc fee errors from translations' do
-        valid_params[:fee_type_id] = fixed_fee_type.id
-        post_to_create_endpoint
-        expect(last_response.status).to eq 400
-        expect_error_response("Enter a rate for the fixed fee",0)
-      end
     end
 
     context 'when fee params are invalid' do

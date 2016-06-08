@@ -63,15 +63,7 @@ module ApplicationHelper
   end
 
   def ga_outlet
-    if flash[:ga]
-      flashes = []
-      flash[:ga].map do |item|
-        item.each do |type, data|
-          flashes << "ga('send', '#{type}', '#{data.join("','")}');".html_safe
-        end
-      end
-      flashes.join("\n")
-    end
+    (flash[:ga] || []).join("\n")
   end
 
   def sortable(column, title = nil)

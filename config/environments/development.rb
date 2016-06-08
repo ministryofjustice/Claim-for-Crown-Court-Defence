@@ -7,15 +7,6 @@ Rails.application.configure do
     url: "assets/dev/images/docs/:id_partition/:filename"
   }
 
-  # REPORDER_STORAGE_OPTIONS = {
-  #   storage: :filesystem,
-  #   path: "public/assets/dev/images/reporders/:id_partition/:filename",
-  #   url: "assets/dev/images/reporders/:id_partition/:filename"
-  # }
-
-  GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', 'UA-37377084-48')
-
-
   # logging
   jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
   config.logstasher.enabled = true

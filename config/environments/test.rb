@@ -15,8 +15,6 @@ Rails.application.configure do
     url: "assets/test/images/reporders/:id_partition/:filename"
   }
 
-  GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', '')
-
   # logstasher
   # Enable the logstasher logs for the current environment
   config.logstasher.enabled = true

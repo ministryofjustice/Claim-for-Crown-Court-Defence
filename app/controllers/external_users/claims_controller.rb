@@ -25,6 +25,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include MessageControlsDisplay
 
   def index
+    track_visit(url: "external_user/claims/index/#{current_page}", title: "Your claims page #{current_page}")
+
     @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
@@ -51,16 +53,30 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def show
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
+
+    track_visit({
+        url: 'external_user/%{type}/claim/%{id}',
+        title: 'Show %{type} claim details'
+    }, claim_tracking_substitutions)
   end
 
-  def summary; end
+  def summary
+    track_visit({
+        url: 'external_user/%{type}/claim/%{id}/%{action}/summary',
+        title: '%{action_t} %{type} claim summary'
+    }, claim_tracking_substitutions)
+  end
 
-  def confirmation; end
+  def confirmation
+    track_visit({
+        url: 'external_user/%{type}/claim/%{id}/%{action}/confirmation',
+        title: '%{action_t} %{type} claim confirmation'
+    }, claim_tracking_substitutions)
+  end
 
   def clone_rejected
     begin
       draft = @claim.clone_rejected_to_new_draft
-      send_ga('event', 'claim', 'draft', 'clone-rejected')
       redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
     rescue
       redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
@@ -74,7 +90,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       @claim.archive_pending_delete!
     end
 
-    send_ga('event', 'claim', 'deleted')
     respond_with @claim, { location: external_users_claims_url, notice: 'Claim deleted' }
   end
 
@@ -91,38 +106,41 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def new
     load_offences_and_case_types
     build_nested_resources
+    track_visit(url: "external_user/#{@claim.pretty_type}/claim/new/page1", title: "New #{@claim.pretty_type} claim page 1")
   end
 
   def edit
+    unless @claim.editable?
+      redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims'
+      return
+    end
+
     build_nested_resources
     load_offences_and_case_types
     @disable_assessment_input = true
-    redirect_to external_users_claims_url, notice: 'Can only edit "draft" claims' unless @claim.editable?
+
+    @claim.touch(:last_edited_at)
+
+    track_visit({url: 'external_user/%{type}/claim/%{id}/edit/page1', title: 'Edit %{type} claim page 1'}, claim_tracking_substitutions)
   end
 
   def create
-    if submitting_to_laa?
-      result = Claims::CreateClaim.call(@claim)
-      tracking_args = %w(event claim submit started)
-    else
-      result = Claims::CreateDraft.call(@claim, validate: continue_claim?)
-      tracking_args = %w(event claim draft created)
-    end
+    result = if submitting_to_laa?
+               Claims::CreateClaim.call(@claim)
+             else
+               Claims::CreateDraft.call(@claim, validate: continue_claim?)
+             end
 
-    send_ga(tracking_args) if result.success?
     render_or_redirect(result)
   end
 
   def update
-    if submitting_to_laa?
-      result = Claims::UpdateClaim.call(@claim, params: claim_params)
-      tracking_args = %w(event claim update started)
-    else
-      result = Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
-      tracking_args = %w(event claim draft updated)
-    end
+    result = if submitting_to_laa?
+               Claims::UpdateClaim.call(@claim, params: claim_params)
+             else
+               Claims::UpdateDraft.call(@claim, params: claim_params, validate: continue_claim?)
+             end
 
-    send_ga(tracking_args) if result.success?
     render_or_redirect(result)
   end
 
@@ -348,6 +366,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     present_errors
     build_nested_resources
     load_offences_and_case_types
+
+    track_visit({
+        url: 'external_user/%{type}/claim/%{id}/%{action}/page%{step}',
+        title: '%{action_t} %{type} claim page %{step}'
+    }, claim_tracking_substitutions)
+
     render action: action
   end
 
@@ -395,5 +419,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @expense_count                  = 0
     @expense_date_attended_count    = 0
     @disbursement_count             = 0
+  end
+
+  def claim_tracking_substitutions
+    {
+      id: @claim.id,
+      type: @claim.pretty_type,
+      step: @claim.current_step,
+      action: @claim.edition_state,
+      action_t: @claim.edition_state.titleize
+    }
   end
 end

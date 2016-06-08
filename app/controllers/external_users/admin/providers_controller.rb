@@ -7,13 +7,11 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
 
   def regenerate_api_key
     @provider.regenerate_api_key!
-    send_ga('event', 'api-key', 'updated')
     redirect_to external_users_admin_provider_path(@provider), notice: 'API key successfully updated'
   end
 
   def update
     if @provider.update(provider_params.except(*filtered_params))
-      send_ga('event', 'provider', 'updated')
       redirect_to external_users_admin_provider_path, notice: 'Provider successfully updated'
     else
       render :edit

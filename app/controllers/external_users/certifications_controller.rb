@@ -8,6 +8,10 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     @claim.force_validation = true
     if @claim.valid?
       build_certification
+      track_visit({
+          url: 'external_user/%{type}/claim/%{id}/%{action}/certification',
+          title: '%{action_t} %{type} claim certification'
+      }, claim_tracking_substitutions)
     else
       redirect_to edit_polymorphic_path(@claim), alert: 'Claim is not in a state to be submitted'
     end
@@ -16,7 +20,6 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   def create
     @claim.build_certification(certification_params)
     if @claim.certification.save && @claim.submit
-      send_ga('event', 'submit', 'certified', certification_params.select{|k,v| v == '1'}.keys.join(', '))
       redirect_to confirmation_external_users_claim_path(@claim)
     else
       @certification = @claim.certification
@@ -52,5 +55,9 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
 
   def set_claim
     @claim = Claim::BaseClaim.find(params[:claim_id])
+  end
+
+  def claim_tracking_substitutions
+    { id: @claim.id, type: @claim.pretty_type, action: @claim.edition_state, action_t: @claim.edition_state.titleize }
   end
 end

@@ -24,7 +24,6 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   def create
     @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_provider.id))
     if @external_user.save
-      send_ga('event', 'external_user', 'created')
       deliver_reset_password_instructions(@external_user.user)
       redirect_to external_users_admin_external_users_url, notice: 'User successfully created'
     else
@@ -34,7 +33,6 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def update
     if @external_user.update(external_user_params)
-      send_ga('event', 'external_user', 'updated', @external_user.id == @current_user.persona_id ? 'self' : 'other')
       redirect_to external_users_admin_external_users_url, notice: 'User successfully updated'
     else
       render :edit
@@ -45,7 +43,6 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def destroy
     @external_user.destroy
-    send_ga('event', 'external_user', 'deleted')
     redirect_to external_users_admin_external_users_url, notice: 'User deleted'
   end
 

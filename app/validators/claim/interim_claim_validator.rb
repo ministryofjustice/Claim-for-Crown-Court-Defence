@@ -44,6 +44,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   def validate_trial_concluded_at
     if @record.interim_fee.try(:is_retrial_new_solicitor?)
       validate_presence(:trial_concluded_at, 'blank')
+      validate_not_after(Date.today, :trial_concluded_at, "check_not_in_future")
     else
       validate_absence(:trial_concluded_at, 'present')
     end
@@ -52,6 +53,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   def validate_retrial_started_at
     if @record.interim_fee.try(:is_retrial_start?)
       validate_presence(:retrial_started_at, 'blank')
+      validate_not_after(Date.today, :retrial_started_at, "check_not_in_future")
     else
       validate_absence(:retrial_started_at, 'present')
     end
@@ -69,6 +71,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   def validate_effective_pcmh_date
     if @record.interim_fee.try(:is_effective_pcmh?)
       validate_presence(:effective_pcmh_date, 'blank')
+      validate_not_after(Date.today, :effective_pcmh_date, "check_not_in_future")
     else
       validate_absence(:effective_pcmh_date, 'present')
     end
@@ -77,6 +80,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   def validate_legal_aid_transfer_date
     if @record.interim_fee.try(:is_retrial_new_solicitor?)
       validate_presence(:legal_aid_transfer_date, 'blank')
+      validate_not_after(Date.today, :legal_aid_transfer_date, "check_not_in_future")
     else
       validate_absence(:legal_aid_transfer_date, 'present')
     end

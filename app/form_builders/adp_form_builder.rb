@@ -36,37 +36,6 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     select.to_html
   end
 
-
-  # def awesomeplete_collection_select(method, collection, value_method, text_method, data_options = {})
-  #   raise ArgumentError.new "Must specify name of field in data options" unless data_options.key?(:name)
-  #   result = %Q|<div class="awesomplete">|
-  #   if object.send(method).blank?
-  #     value_clause = nil
-  #     display_value = nil
-  #   else
-  #     display_value = object.send(method).send(text_method)
-  #     value_clause = %Q|value="#{display_value}" |
-  #   end
-  #   result += %Q|<input class="form-control" id="claim_case_type_id_autocomplete" name="#{options[:name]}" #{value_clause}autocomplete="off" aria-autocomplete="list">|
-  #   result += %Q|<ul>|
-  #   if data_options[:prompt]
-  #     prompt_selected = object.send(method).blank? ? 'true' : 'false'
-  #     result += %Q|<li aria-selected="#{prompt_selected}">#{data_options[:prompt]}</li>|
-  #   elsif data_options[:include_blank]
-  #     prompt_selected = object.send(method).blank? ? 'true' : 'false'
-  #     result += %Q|<li aria-selected="#{prompt_selected}"></li>|
-  #   end
-  #   collection.each do |item|
-  #     selected = display_value == item.send(text_method) ? 'true' : 'false'
-  #     result += %Q|<li aria-selected="#{selected}" data-value="#{item.send(value_method)}">#{item.send(text_method)}</li>|
-  #   end
-  #   result += %Q|</ul>|
-  #   result += %Q|<span class="visually-hidden" role="status" aria-live="assertive" aria-relevant="additions"></span>|
-  #   result += %Q|</div>|
-  #   result.html_safe
-  # end
-
-
   private
 
   def anchor_and_label_markup(anchor_name, label, options = {})

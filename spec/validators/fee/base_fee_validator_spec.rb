@@ -75,7 +75,6 @@ describe Fee::BaseFeeValidator do
     # TODO: to be removed after gamma/private beta claims archived/deleted
     # context 'for fees entered before rate was reintroduced' do
     #   it 'should NOT require a rate of more than zero' do
-    #     byebug
     #     fee.amount = 255
     #     fee.rate = nil
     #     expect(fee).to be_valid

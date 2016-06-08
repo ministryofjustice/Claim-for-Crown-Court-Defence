@@ -1207,6 +1207,12 @@ disbursement:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
 
+  claim:
+    invalid_fee_scheme:
+      long: 'Claim is of an inappropriate fee scheme type for the #{disbursement}'
+      short: Inappropriate fee scheme
+      api: Claim is of an inappropriate fee scheme type for the disbursement
+
   disbursement_type:
     _seq: 10
     blank:

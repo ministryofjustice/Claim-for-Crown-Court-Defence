@@ -15,6 +15,7 @@ describe API::V1::DropdownData do
   OFFENCE_ENDPOINT            = "/api/offences"
   FEE_TYPE_ENDPOINT           = "/api/fee_types"
   EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
+  DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
 
   ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
   FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
@@ -46,7 +47,8 @@ describe API::V1::DropdownData do
                         OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
                         OFFENCE_ENDPOINT => Offence.all.to_json,
                         FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
-                        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json
+                        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json,
+                        DISBURSEMENT_TYPE_ENDPOINT => DisbursementType.all.to_json
                       }
                     }
 
@@ -57,6 +59,7 @@ describe API::V1::DropdownData do
       create_list(:offence, 2)
       create_list(:basic_fee_type, 2)
       create_list(:expense_type, 2)
+      create_list(:disbursement_type, 2)
     end
 
     it "should return a JSON formatted list of the required information" do

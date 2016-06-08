@@ -115,6 +115,14 @@ module API
         end
       end
 
+      resource :disbursement_types do
+        desc "Return all Disbursement Types."
+        params { use :api_key_params }
+        get do
+          ::DisbursementType.all
+        end
+      end
+
     end
   end
 end

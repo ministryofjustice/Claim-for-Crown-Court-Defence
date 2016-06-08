@@ -15,7 +15,7 @@ module API
             params :expense_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
               optional :api_key, type: String,          desc: "REQUIRED: The API authentication key of the provider"
-              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this defendant."
+              optional :claim_id, type: String,         desc: "REQUIRED: Unique identifier for the claim associated with this expense."
               optional :expense_type_id, type: Integer, desc: "REQUIRED: The unique identifier for the corresponding expense type."
               optional :amount, type: Float,            desc: "REQUIRED: The total amount of the expense."
               optional :location, type:  String,        desc: "REQUIRED for all expense types other than Parking. Location or destination."

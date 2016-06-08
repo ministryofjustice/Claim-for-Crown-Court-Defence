@@ -8,7 +8,8 @@ module Claims
 
     def call
       if already_saved?
-        set_error_code(:already_saved) and return
+        set_error_code(:already_saved)
+        return result
       end
 
       save_draft!(validate?)

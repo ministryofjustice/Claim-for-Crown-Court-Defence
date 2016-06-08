@@ -54,26 +54,29 @@ When(/^I save as draft$/) do
 end
 
 When(/^I add another defendant, representation order and MAAT reference$/) do
-  using_wait_time 3 do
+  using_wait_time 6 do
     @claim_form_page.add_another_defendant.click
     wait_for_ajax
     @claim_form_page.defendants.last.first_name.set "Ned"
     @claim_form_page.defendants.last.last_name.set "Kelly"
     @claim_form_page.defendants.last.dob.set_date "1912-12-12"
     @claim_form_page.defendants.last.add_another_representation_order.click
-    wait_for_ajax
-    @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
-    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+    sleep 2
+    using_wait_time 10 do
+      @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+      @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
+    end
   end
 end
 
 When(/^I add a basic fee with dates attended$/) do
-  wait_for_ajax
-  @claim_form_page.initial_fees.basic_fee.quantity.set "1"
-  @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
-  # @claim_form_page.initial_fees.basic_fee.add_dates.click
-  # @claim_form_page.initial_fees.basic_fee_dates.from.set_date "2016-01-02"
-  # @claim_form_page.initial_fees.basic_fee_dates.to.set_date "2016-01-03"
+  using_wait_time 6 do
+    @claim_form_page.initial_fees.basic_fee.quantity.set "1"
+    @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
+    # @claim_form_page.initial_fees.basic_fee.add_dates.click
+    # @claim_form_page.initial_fees.basic_fee_dates.from.set_date "2016-01-02"
+    # @claim_form_page.initial_fees.basic_fee_dates.to.set_date "2016-01-03"
+  end
 end
 
 When(/^I add a daily attendance fee with dates attended$/) do

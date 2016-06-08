@@ -142,7 +142,6 @@ private
   end
 
   def post_to_advocate_endpoint(resource, payload, prefix=nil)
-    # byebug if resource == 'fees'
     endpoint = RestClient::Resource.new([api_root_url, prefix || EXTERNAL_USER_PREFIX, resource].join('/'))
     endpoint.post(payload, { :content_type => :json, :accept => :json } ) do |response, request, _result|
       if response.code.to_s =~ /^2/
@@ -172,11 +171,9 @@ private
     post_to_advocate_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # UPDATE basic fee
-    ap "basic fee"
     post_to_advocate_endpoint('fees', basic_fee_data(@claim_id))
 
     # CREATE miscellaneous fee
-    ap "misc fee"
     response = post_to_advocate_endpoint('fees', misc_fee_data(@claim_id))
 
     # add date attended to miscellaneous fee

@@ -1,8 +1,8 @@
 class AwesomepleteCollectionSelector
 
-  def initialize(form_object, method, collection, value_method, text_method, data_options)
-    @form_object = form_object
-    @object = form_object.send(method)
+  def initialize(form, method, collection, value_method, text_method, data_options)
+    @form_object = form.object
+    @object = @form_object.send(method)
     @method = method
     @collection = collection
     @value_method = value_method
@@ -20,7 +20,7 @@ class AwesomepleteCollectionSelector
       result += input_tag
       result += ul_start
       result += prompt_line
-      collection.each { |item| result += item_line(item) }
+      @collection.each { |item| result += item_line(item) }
       result += ul_end
       result += span_tag
       result += div_end
@@ -34,12 +34,17 @@ class AwesomepleteCollectionSelector
     %Q|<input class="form-control" id="claim_case_type_id_autocomplete" name="#{@field_name}" #{@value_clause}autocomplete="off" aria-autocomplete="list">|
   end
 
-  def intialize_value_clause
-    if @object.send(@method).blank?
-      @value_clause = nil
-      @display_value = nil
+  def initialize_value_clause
+    if @object.blank?
+      if prompt?
+        @display_value = @prompt
+        @value_clause = %Q|value="#{@display_value}" |
+      else
+        @value_clause = nil
+        @display_value = nil
+      end
     else
-      @display_value = @object.send(method).send(text_method)
+      @display_value = @object.send(@text_method)
       @value_clause = %Q|value="#{@display_value}" |
     end
   end
@@ -49,7 +54,7 @@ class AwesomepleteCollectionSelector
   end
 
   def prompt?
-    !@promt.nil?
+    !@prompt.nil?
   end
 
   def div_start
@@ -73,7 +78,7 @@ class AwesomepleteCollectionSelector
   end
 
   def prompt_line
-    result = nil
+    result = ''
     if prompt?
       prompt_selected = @object.blank? ? 'true' : 'false'
       result += %Q|<li aria-selected="#{prompt_selected}">#{@prompt}</li>|

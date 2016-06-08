@@ -32,7 +32,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def awesomeplete_collection_select(method, collection, value_method, text_method, data_options = {}, options_hash = {})
-    select = AswesomepleteCollectionSelect.new(object, method, collection, value_method, text_method, data_options = {})
+    select = AswesomepleteCollectionSelector.new(object, method, collection, value_method, text_method, data_options = {})
     select.to_html
   end
 

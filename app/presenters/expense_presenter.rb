@@ -33,4 +33,9 @@ class ExpensePresenter < BasePresenter
     expense.expense_reason_other? ? 'inline-block' : 'none'
   end
 
+  def reason
+    expense.try(:expense_reason).try(:reason)
+  end
+
+
 end

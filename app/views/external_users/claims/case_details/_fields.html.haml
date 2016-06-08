@@ -24,8 +24,8 @@
         = f.anchored_label t('.case_type')
         .form-hint.xsmall.zero-vert-margin
           = "eg Trial"
-        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
-        -#= f.awesomeplete_collection_select(:case_type, @case_types, :id, :name, include_blank: true, name: 'claim')
+        -#= f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
+        = f.awesomeplete_collection_select(:case_type, @case_types, :id, :name, include_blank: true, name: 'claim')
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row

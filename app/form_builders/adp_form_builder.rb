@@ -31,6 +31,10 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     anchor_and_label_markup(anchor_name, nil, options)
   end
 
+  def awesomeplete_collection_select(method, collection, value_method, text_method, data_options)
+    select = AwesomepleteCollectionSelector.new(self, method, collection, value_method, text_method, data_options)
+    select.to_html
+  end
 
   private
 

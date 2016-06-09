@@ -67,7 +67,7 @@ MISC,agfs,Public interest immunity hearings (whole day),PAW,nil,true,,false
 MISC,agfs,Public interest immunity hearings (half day uplift),PHU,nil,true,,false
 MISC,agfs,Public interest immunity hearings (whole day uplift),PWU,nil,true,,false
 MISC,agfs,Research of very unusual or novel factual issue,RNF,nil,true,,true
-MISC,agfs,Research of very unusual or novel point of law,RNL,nil,true,,false
+MISC,agfs,Research of very unusual or novel point of law,RNL,nil,true,,true
 MISC,agfs,Standard appearance fee uplift,SAU,nil,true,,false
 MISC,agfs,Sentence hearings,SHR,nil,true,,false
 MISC,agfs,Sentence hearings uplift,SHU,nil,true,,false

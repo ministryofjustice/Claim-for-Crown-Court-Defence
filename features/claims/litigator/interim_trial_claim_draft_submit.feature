@@ -26,7 +26,6 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click the claim 'A12345678'
     And I edit this claim
 
-    And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
     And I select the offence class 'E: Burglary'

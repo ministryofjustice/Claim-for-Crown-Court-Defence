@@ -3,6 +3,7 @@ FactoryGirl.define do
 
     litigator_base_setup
     claim_state_common_traits
+    case_concluded_at nil
   end
 
   trait :interim_effective_pcmh_fee do

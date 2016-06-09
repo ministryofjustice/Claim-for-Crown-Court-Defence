@@ -20,6 +20,10 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
 
   private
 
+  def validate_case_concluded_at
+    validate_absence(:case_concluded_at, 'present')
+  end
+
   def validate_interim_fee
     add_error(:interim_fee, 'blank') if @record.interim_fee.nil?
   end

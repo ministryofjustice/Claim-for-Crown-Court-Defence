@@ -48,3 +48,4 @@ allow_lgfs_interim_fees?: false
 
 # temporary feature toggle til lgfs transfer ready
 allow_lgfs_transfer_fees?: false
+

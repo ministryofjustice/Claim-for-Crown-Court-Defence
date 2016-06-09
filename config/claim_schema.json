@@ -169,7 +169,7 @@
                 "type": "integer"
               },
               "quantity": {
-                "type": "integer"
+                "type": "number"
               },
               "rate": {
                 "type": "number"

@@ -207,6 +207,10 @@ trial_concluded_at:
     long: 'Enter a valid date for trial concluded'
     short: *enter_valid_date
     api: 'Enter a valid date for trial concluded'
+  check_not_in_future:
+    long: 'Trial concluded date cannot be in future'
+    short: *enter_valid_date
+    api: 'Trial concluded date cannot be in future'
 
 retrial_started_at:
   _seq: 110
@@ -234,6 +238,10 @@ retrial_started_at:
     long: Enter a valid date for the first day of retrial
     short: *enter_valid_date
     api: Enter a valid date for the first day of retrial
+  check_not_in_future:
+    long: First day of retrial cannot be in future
+    short: *enter_valid_date
+    api: First day of retrial cannot be in future
 
 retrial_estimated_length:
   _seq: 120
@@ -428,6 +436,11 @@ effective_pcmh_date:
     long: Enter a valid date of the PCMH
     short: *enter_valid_date
     api: Enter a valid date of the PCMH
+  check_not_in_future:
+    long: Effective PCMH date cannot be in the future
+    short: *enter_valid_date
+    api: Enter a valid effective PCMH date
+
 
 legal_aid_transfer_date:
   _seq: 210

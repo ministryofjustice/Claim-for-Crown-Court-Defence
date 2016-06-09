@@ -18,7 +18,7 @@ module API
               optional :api_key, type:      String,  desc: "REQUIRED: The API authentication key of the provider"
               optional :claim_id, type:     String,  desc: 'REQUIRED: The unique identifier for the corresponding claim.'
               optional :fee_type_id, type:  Integer, desc: 'REQUIRED: The unique identifier for the corresponding fee type'
-              optional :quantity, type:     Integer, desc: 'REQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount)'
+              optional :quantity, type:     Float,   desc: 'REQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount)'
               optional :rate, type:         Float,   desc: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
               optional :amount, type:       Float,   desc: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW'
             end

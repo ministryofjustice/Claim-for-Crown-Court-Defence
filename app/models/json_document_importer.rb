@@ -130,6 +130,7 @@ class JsonDocumentImporter
   end
 
   def create_expenses(expense_array, rest_client_resource)
+    return if expense_array.nil?
     expense_array.each do |expense|
       expense['claim_id'] = @claim_id
       create(expense, rest_client_resource)

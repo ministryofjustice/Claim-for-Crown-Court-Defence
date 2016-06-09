@@ -133,7 +133,7 @@ form {
   .validation-error {
     display: block;
     clear: left;
-    color: #df3034;
+    color: $error-colour;
   }
 
   h2 {
@@ -636,7 +636,7 @@ Styling for Claims Messaging
     }
 
     .message-error {
-      color: $mellow-red;
+      color: $error-colour;
       font-weight: bold;
     }
   }

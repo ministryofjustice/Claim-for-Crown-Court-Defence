@@ -86,6 +86,7 @@
     .form-col.form-col-two-thirds
       = render partial: 'external_users/claims/case_details/offence_id_select', locals: { f: f }
 
-  .form-row
-    .form-col.form-col-two-thirds.case-concluded-date
-      = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }
+  - unless @claim.interim?
+    .form-row
+      .form-col.form-col-two-thirds.case-concluded-date
+        = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

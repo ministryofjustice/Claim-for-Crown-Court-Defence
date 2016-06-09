@@ -94,7 +94,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
-            expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.dashboard_displayable_states)
+            expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, id desc'))
           end
         end
       end

@@ -43,7 +43,7 @@ module Claims::Sort
   end
 
   def sort_submitted_at(direction)
-    order("last_submitted_at #{direction} #{nulls_at_top_asc(direction)}")
+    order("last_submitted_at #{direction} #{nulls_at_top_asc(direction)}, id desc")
   end
 
   def sort_advocates(direction)

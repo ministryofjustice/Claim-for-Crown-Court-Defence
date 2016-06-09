@@ -52,7 +52,7 @@ module Claims
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.assessment).to be_zero
-          expect(updater.claim.errors[:determinations]).to eq(['You must specify values if authorising or part authorising a claim'])
+          expect(updater.claim.errors[:determinations]).to eq(['You must specify positive values if authorising or part authorising a claim'])
         end
 
         it 'errors if assessment data is present in the params but no state specified' do

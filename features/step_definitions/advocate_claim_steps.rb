@@ -62,10 +62,8 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
     @claim_form_page.defendants.last.dob.set_date "1912-12-12"
     @claim_form_page.defendants.last.add_another_representation_order.click
     sleep 2
-    using_wait_time 10 do
-      @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
-      @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
-    end
+    @claim_form_page.defendants.last.representation_orders.first.date.set_date "2016-01-01"
+    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set "1234567890"
   end
 end
 

@@ -50,9 +50,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             offence_id: offence,
             case_number: 'A12345678',
             supplier_number: supplier_number,
-            case_concluded_at_dd: 5.days.ago.day.to_s,
-            case_concluded_at_mm: 5.days.ago.month.to_s,
-            case_concluded_at_yyyy: 5.days.ago.year.to_s,
             defendants_attributes: [
               { first_name: 'John',
                 last_name: 'Smith',
@@ -134,9 +131,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
                 case_type_id: case_type.id,
                 offence_id: offence,
                 case_number: case_number,
-                case_concluded_at_dd: 5.days.ago.day.to_s,
-                case_concluded_at_mm: 5.days.ago.month.to_s,
-                case_concluded_at_yyyy: 5.days.ago.year.to_s,
                 defendants_attributes: [
                     { first_name: 'John',
                       last_name: 'Smith',

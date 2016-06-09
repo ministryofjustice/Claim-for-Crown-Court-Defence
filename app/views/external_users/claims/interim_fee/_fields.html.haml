@@ -62,10 +62,6 @@
               = f.anchored_without_label 'legal_aid_transfer_date'
               = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :legal_aid_transfer_date))
 
-            .column-half
-              = f.anchored_without_label 'trial_concluded_at'
-              = f.gov_uk_date_field(:trial_concluded_at, legend_text: t('.trial_concluded_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :trial_concluded_at))
-
           .column-first-child.column-three-quarters.js-interim-warrant.visually-hidden
             .column-half
               = inf.anchored_attribute 'warrant_issued_date'

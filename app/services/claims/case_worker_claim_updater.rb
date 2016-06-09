@@ -23,13 +23,13 @@ module Claims
 
     def extract_assessment_params
       @assessment_params = @params.delete('assessment_attributes')
-      @assessment_params_present = nil_or_empty?(@assessment_params) ? false : true
+      @assessment_params_present = nil_or_empty_zero_or_negative?(@assessment_params) ? false : true
     end
 
     def extract_redetermination_params
       @redetermination_params = @params.delete('redeterminations_attributes')
       @redetermination_params = @redetermination_params['0'] unless @redetermination_params.nil?
-      @redetermination_params_present = nil_or_empty?(@redetermination_params) ? false : true
+      @redetermination_params_present = nil_or_empty_zero_or_negative?(@redetermination_params) ? false : true
     end
 
     def validate_params
@@ -55,16 +55,16 @@ module Claims
 
     def validate_state_when_no_value_params
       if @state.in?(%w{ authorised part_authorised })
-        @claim.errors[:determinations] << 'You must specify values if authorising or part authorising a claim'
+        @claim.errors[:determinations] << 'You must specify positive values if authorising or part authorising a claim'
         @result = :error
       end
     end
 
-    def nil_or_empty?(determination_params)
+    def nil_or_empty_zero_or_negative?(determination_params)
       return true if determination_params.nil?
       result = true
       %w{ fees expenses disbursements }.each do |field|
-        next if determination_params[field].to_f == 0.0
+        next if determination_params[field].to_f <= 0.0
         result = false
         break
       end

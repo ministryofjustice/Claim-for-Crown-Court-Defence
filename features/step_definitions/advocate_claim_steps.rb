@@ -68,7 +68,7 @@ When(/^I add another defendant, representation order and MAAT reference$/) do
 end
 
 When(/^I add a basic fee with dates attended$/) do
-  wait_for_ajax
+  sleep 1
   @claim_form_page.initial_fees.basic_fee.quantity.set "1"
   @claim_form_page.initial_fees.basic_fee.rate.set "3.45"
   # @claim_form_page.initial_fees.basic_fee.add_dates.click

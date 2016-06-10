@@ -411,7 +411,6 @@ Style/ParallelAssignment:
 Style/ParenthesesAroundCondition:
   Exclude:
     - 'app/services/claims/case_worker_claim_updater.rb'
-    - 'app/validators/representation_order_validator.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -427,7 +426,6 @@ Style/RedundantParentheses:
   Exclude:
     - 'app/controllers/case_workers/admin/allocations_controller.rb'
     - 'app/models/feedback.rb'
-    - 'app/validators/representation_order_validator.rb'
 
 # Offense count: 8
 # Cop supports --auto-correct.

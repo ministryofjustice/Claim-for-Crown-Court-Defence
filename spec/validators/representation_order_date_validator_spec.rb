@@ -11,8 +11,17 @@ describe RepresentationOrderValidator do
 
   context 'representation_order_date' do
     it { should_error_if_not_present(reporder, :representation_order_date, "blank") }
-    it { should_error_if_in_future(reporder, :representation_order_date, "check") }
-    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, "check") }
+    it { should_error_if_in_future(reporder, :representation_order_date, "in_future") }
+    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, "not_before_earliest_permitted_date") }
+  end
+
+  context 'for an interim claim' do
+    let(:claim) { FactoryGirl.build :interim_claim, force_validation: true }
+
+    context 'representation_order_date' do
+      let(:earliest_permitted_date) { Date.new(2014,10,2) }
+      it { should_error_if_before_specified_date(reporder, :representation_order_date, earliest_permitted_date, 'not_before_interim_earliest_permitted_date') }
+    end
   end
 
   context 'stand-alone rep order' do

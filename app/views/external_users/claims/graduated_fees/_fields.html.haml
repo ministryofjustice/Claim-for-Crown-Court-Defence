@@ -23,7 +23,7 @@
             %label.form-label
               = t('.ppe_total')
             = grad_fee_form.anchored_attribute 'quantity'
-            = grad_fee_form.number_field :quantity, value: grad_fee.quantity, class: 'quantity', min: 0, max: 99999, maxlength: 5
+            = grad_fee_form.number_field :quantity, value: grad_fee.quantity, class: 'quantity', min: 0, max: 99999
             = validation_error_message(@error_presenter, 'graduated_fee.quantity')
 
         .grid-row

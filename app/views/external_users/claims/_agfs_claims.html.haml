@@ -16,23 +16,24 @@
       %col
       %col
     %thead
-      %th{scope:'col'}
-        = sortable 'case_number', t(".case_number")
-      - if current_user.persona.admin?
+      %tr
         %th{scope:'col'}
-          = sortable 'advocate', t(".advocate_litigator")
-      %th{scope:'col'}
-        = t(".defendants")
-      %th.numeric{scope:'col'}
-        = sortable 'total_inc_vat', t(".total")
-      %th.numeric{scope:'col'}
-        = sortable 'amount_assessed', t(".assessed")
-      %th{scope:'col'}
-        = sortable 'state', t(".status")
-      %th.numeric{scope:'col'}
-        = sortable 'last_submitted_at', t(".submission_date")
-      %th{scope:'col'}
-        = t(".messages")
+          = sortable 'case_number', t(".case_number")
+        - if current_user.persona.admin?
+          %th{scope:'col'}
+            = sortable 'advocate', t(".advocate_litigator")
+        %th{scope:'col'}
+          = t(".defendants")
+        %th.numeric{scope:'col'}
+          = sortable 'total_inc_vat', t(".total")
+        %th.numeric{scope:'col'}
+          = sortable 'amount_assessed', t(".assessed")
+        %th{scope:'col'}
+          = sortable 'state', t(".status")
+        %th.numeric{scope:'col'}
+          = sortable 'last_submitted_at', t(".submission_date")
+        %th{scope:'col'}
+          = t(".messages")
     %tbody
       - present_collection(claims).each do |claim|
         %tr{id: dom_id(claim),class: claim.state}

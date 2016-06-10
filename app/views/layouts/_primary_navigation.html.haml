@@ -1,5 +1,5 @@
 - if user_signed_in?
-  %nav{:role =>'navigation'}
+  %nav
     %ul.primary-nav
       - if current_user.persona.is_a?(SuperAdmin)
         %li

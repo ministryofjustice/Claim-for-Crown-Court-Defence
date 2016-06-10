@@ -39,6 +39,7 @@
       font-weight: 700;
     }
     li {
+      color: $text-colour;
       &[aria-selected="true"] {
         background-color: $link-colour;
         color: white;

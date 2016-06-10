@@ -463,10 +463,13 @@ en:
           trial_concluded_at: 'Trial concluded on'
           days: "Days"
         retrial_detail_fields:
-          retrial_actual_length: 'Actual retrial length'
-          retrial_concluded_at: 'Retrial concluded on'
-          retrial_estimated_length: 'Estimated retrial length'
+          actual_retrial_length: 'Actual retrial length'
+          actual_retrial_length_hint: 'Number of days'
+          estimated_retrial_length: 'Estimated retrial length'
+          estimated_retrial_length_hint: 'Number of days'
           retrial_started_at: 'First day of retrial'
+          retrial_concluded_at: 'Retrial concluded on'
+          days: "Days"
         offence_id_select:
           offence_class: "Offence class"
           offence_class_hint: "eg Burglary"

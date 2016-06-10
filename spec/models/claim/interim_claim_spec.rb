@@ -51,6 +51,7 @@
 #  allocation_type          :string
 #  transfer_case_number     :string
 #  clone_source_id          :integer
+#  last_edited_at           :datetime
 #
 
 require 'rails_helper'

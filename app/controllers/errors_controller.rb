@@ -1,16 +1,17 @@
 class ErrorsController < ApplicationController
   skip_load_and_authorize_resource only: [:not_found, :internal_server_error]
+  protect_from_forgery except: [:not_found, :internal_server_error]
 
   def not_found
     respond_to do |format|
-      format.html {  render status: 404 }
-      format.all { render status: 404, text: 'invalid' }
+      format.html { render status: 404 }
+      format.all { render status: 404, text: 'not found' }
     end
   end
 
   def internal_server_error
     respond_to do |format|
-      format.html {  render status: 500 }
+      format.html { render status: 500 }
       format.all { render status: 500, text: 'error' }
     end
   end

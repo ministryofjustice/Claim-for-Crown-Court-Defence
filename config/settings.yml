@@ -25,6 +25,8 @@ high_value_claim_threshold: 20000
 earliest_permitted_date: <%= 5.years.ago.to_date %>
 earliest_permitted_date_in_words: 5 years ago
 
+interim_earliest_permitted_repo_date: <%= Date.new(2014,10,2) %>
+
 max_document_upload_size_mb: 400
 max_document_upload_count: 20
 

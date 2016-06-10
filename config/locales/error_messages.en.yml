@@ -9,6 +9,7 @@ dictionary:
     too_far_in_past: &too_far_in_past "Can't be too far in the past"
     before_rep_order: &before_rep_order "Can't be before the earliest rep. order"
     in_future: &in_future "Can't be in the future"
+    check_date: &check_date 'Check this date'
     enter_date: &enter_date 'Enter a date'
     enter_valid_date: &enter_valid_date 'Enter a valid date'
     date_not_allowed: &date_not_allowed 'Date not allowed'
@@ -596,12 +597,24 @@ representation_order:
       api: 'Enter a representation order date for the representation order of the defendant'
     check:
       long: 'Representation orders should be entered in chronological order. Please check representation order dates of the #{defendant}'
-      short: Check this date
+      short: *check_date
       api: 'Representation orders should be entered in chronological order. Please check representation order dates of the defendant'
     invalid_date:
       long: 'Enter a valid date for the representation order date of the #{representation_order} of the #{defendant}'
       short: *enter_valid_date
       api: 'Enter a valid date for the representation order date of the representation order of the defendant'
+    in_future:
+      long: 'Check the representation order date for the #{representation_order} of the #{defendant}'
+      short: *in_future
+      api: 'Check the representation order date for the representation order of the defendant'
+    not_before_earliest_permitted_date:
+      long: 'Representation order date of the #{defendant} is too far in the past. Please check this date'
+      short: *check_date
+      api: 'Representation order date of the defendant is too far in the past. Please check this date'
+    not_before_interim_earliest_permitted_date:
+      long: 'Representation order date of the #{defendant} cannot be prior to 02/10/14. Please check this date'
+      short: *check_date
+      api: 'Representation order date of the defendant cannot be prior to 02/10/14. Please check this date'
 
   maat_reference:
     _seq: 30

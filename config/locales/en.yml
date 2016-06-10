@@ -816,7 +816,7 @@ en:
       trial_start: "Trial start"
       estimated_trial_length: "Trial estimated length"
       retrial_start: "Re-trial start"
-      estimated_retrial_length: "Re-trial estimated lengthXX"
+      estimated_retrial_length: "Re-trial estimated length"
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
     supplier_numbers:

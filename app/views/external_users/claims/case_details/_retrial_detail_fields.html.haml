@@ -19,7 +19,7 @@
               = t('.estimated_retrial_length_hint')
 
         .form-group.form-group-day
-          = f.anchored_label t('.days')
+          = f.anchored_label t('.days'), 'retrial_estimated_length'
           = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control short-input'
           = validation_error_message(@error_presenter, :retrial_estimated_length)
 
@@ -37,7 +37,7 @@
               = t('.actual_retrial_length_hint')
 
         .form-group.form-group-day
-          = f.anchored_label t('.days')
+          = f.anchored_label t('.days'), 'retrial_actual_length'
           = f.number_field :retrial_actual_length, step: 1, min: 0, class: 'form-control short-input'
           = validation_error_message(@error_presenter, :retrial_actual_length)
 

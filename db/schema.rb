@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20160609114327) do
     t.string   "allocation_type"
     t.string   "transfer_case_number"
     t.integer  "clone_source_id"
+    t.datetime "last_edited_at"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

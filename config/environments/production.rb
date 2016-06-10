@@ -15,8 +15,6 @@ Rails.application.configure do
     url: "reporders/:id_partition/:filename"
   }
 
-  GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', 'UA-37377084-37')
-
   # Code is not reloaded between requests.
   config.cache_classes = true
 

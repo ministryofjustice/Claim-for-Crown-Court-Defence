@@ -169,6 +169,14 @@ module Claim
     def final?; false; end
     def requires_cracked_dates?; false; end
 
+    def pretty_type
+      type.demodulize.sub('Claim', '').downcase
+    end
+
+    def edition_state
+      last_edited_at? ? 'edit' : 'new'
+    end
+
     def set_force_validation_to_false
       @force_validation = false
     end

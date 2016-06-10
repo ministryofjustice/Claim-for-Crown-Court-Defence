@@ -115,10 +115,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             expect(Claim::AdvocateClaim.first.external_user).to eq(advocate)
             expect(Claim::AdvocateClaim.first.creator).to eq(advocate)
           end
-
-          it 'sets the right google analytics' do
-            expect(flash[:ga]).to eq [{%w(event claim draft created) =>[]}]
-          end
         end
 
         context 'submit to LAA' do
@@ -143,11 +139,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
             expect(Claim::AdvocateClaim.first).to be_draft
-          end
-
-          it 'sets the right google analytics' do
-            post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(flash[:ga]).to eq [{%w(event claim submit started) =>[]}]
           end
 
           context 'blank expenses' do
@@ -382,6 +373,10 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
         expect(response).to have_http_status(:success)
       end
 
+      it 'updates the last_edited_at field' do
+        expect(assigns(:claim).last_edited_at).to_not be_nil
+      end
+
       it 'assigns @claim' do
         expect(assigns(:claim)).to eq(subject)
       end
@@ -393,6 +388,10 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
     context 'uneditable claim' do
       subject { create(:allocated_claim, external_user: advocate) }
+
+      it 'doesn\'t update the last_edited_at field' do
+        expect(assigns(:claim).last_edited_at).to be_nil
+      end
 
       it 'redirects to advocates claims index' do
         expect(response).to redirect_to(external_users_claims_url)

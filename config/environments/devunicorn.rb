@@ -13,8 +13,6 @@ Rails.application.configure do
     url: "assets/dev/images/reporders/:id_partition/:filename"
   }
 
-  GA_TRACKER_ID = ENV.fetch('GA_TRACKER_ID', 'UA-37377084-48')
-
   #Removed to allow for remote device testing (Ipad or other tablets)
   #config.action_controller.asset_host = "http://localhost:3000"
 

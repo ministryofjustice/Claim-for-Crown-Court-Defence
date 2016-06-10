@@ -10,6 +10,7 @@
 #  created_at           :datetime
 #  updated_at           :datetime
 #  total                :decimal(, )      default(0.0)
+#  uuid                 :uuid
 #
 
 class Disbursement < ActiveRecord::Base

@@ -16,6 +16,7 @@
 #  warrant_executed_date :date
 #  sub_type_id           :integer
 #  case_numbers          :string
+#  date                  :date
 #
 
 module Fee

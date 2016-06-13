@@ -14,7 +14,8 @@
           %col
           %col
           %col
-          %col
+          - if claim.agfs?
+            %col
         %thead
           %tr
             %th{ scope: 'col'}
@@ -128,7 +129,9 @@
             %col
             %col
             %col
-            %col
+            - if claim.lgfs?
+              %col
+              %col
           %thead
             %tr
               %th{scope: 'col'}

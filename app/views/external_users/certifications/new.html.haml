@@ -3,7 +3,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Certification'}
 
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
-  %section.certification.normal
+  %div.certification.normal
     - if @claim.is_a? Claim::AdvocateClaim
       .grid-row
         .column-two-thirds
@@ -70,8 +70,8 @@
               if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this
               payment, with all necessary claim and payment details.
 
-          %p
-            .column-quarter
+          .column-quarter
+            %p
               &nbsp;
 
     - elsif @claim.is_a? Claim::LitigatorClaim

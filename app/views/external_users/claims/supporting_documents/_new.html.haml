@@ -6,7 +6,7 @@
 
 .document-ids
   - @claim.documents.each do |document|
-    = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
+    = f.hidden_field :document_ids, value: document.id, id: "claim_document_ids_#{document.id}"
 
 .dropzone{data: {'dz-template' => render('shared/dropzone_js')}}
   .dz-default.dz-message.grid-row

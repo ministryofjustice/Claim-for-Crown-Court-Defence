@@ -4,21 +4,21 @@
     .column-one-half.fee-type
       %label.form-label
         = t('.fee_type')
-      %a{name: "fixed_fee_#{@fixed_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:400px'}
-        = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
+      %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
+      = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:400px'}
+      = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
     .column-one-quarter.fee-quantity
       %label.form-label
         = t('.quantity')
-      %a{name: "fixed_fee_#{@fixed_fee_count}_quantity"}
-        = f.number_field :quantity, value: fee.quantity, min: 0, max: 99999, maxlength: 5, class: 'form-control quantity'
-        = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_quantity")
+      %a{id: "fixed_fee_#{@fixed_fee_count}_quantity"}
+      = f.number_field :quantity, value: fee.quantity, min: 0, max: 99999, class: 'form-control quantity'
+      = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_quantity")
 
     .column-one-quarter.fee-rate
       %label.form-label
         = t('.rate')
-      %a{name: "fixed_fee_#{@fixed_fee_count}_rate"}
+      %a{id: "fixed_fee_#{@fixed_fee_count}_rate"}
       %span.currency-indicator>< &pound;
       = f.number_field :rate, min: 0, max: 99999, value: fee.rate_as_float, class: 'form-control rate', size: 10
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_rate")

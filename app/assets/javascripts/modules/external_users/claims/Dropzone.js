@@ -68,7 +68,7 @@ moj.Modules.Dropzone = {
     });
   },
   createDocumentIdInput : function(id) {
-    var input = '<input id="claim_document_ids_' + id + '" multiple="multiple" name="claim[document_ids][]" type="hidden" value="' + id + '">';
+    var input = '<input id="claim_document_ids_' + id + '" name="claim[document_ids][]" type="hidden" value="' + id + '">';
     this.$document_ids.append(input);
   },
   removeDocumentIdInput : function(id) {

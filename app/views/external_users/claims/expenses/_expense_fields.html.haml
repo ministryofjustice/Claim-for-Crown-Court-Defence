@@ -6,7 +6,7 @@
 
     .grid-row
       .column-one-third
-        %a{name: "expense_#{@expense_count}_expense_type"}
+        %a{id: "expense_#{@expense_count}_expense_type"}
         = f.label :expense_type_id, 'Expense type'
         - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
         = f.select :expense_type_id, expense_types_collection.map {|et| [et.name, et.id, { data: et.data_attributes }]}, {include_blank: 'Please select'}, {class: 'form-control js-expense-type'}
@@ -14,19 +14,19 @@
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
 
       .column-one-third{class: "js-expense-location"}
-        %a{name: "expense_#{@expense_count}_location"}
+        %a{id: "expense_#{@expense_count}_location"}
         = f.label :location, 'Destination'
         = f.text_field :location, {class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
 
       .column-one-third.condensed{class: "js-expense-distance expense-distance"}
-        %a{name: "expense_#{@expense_count}_distance"}
+        %a{id: "expense_#{@expense_count}_distance"}
         = f.label :distance, 'Distance'
         = f.number_field :distance, {max: 99999, min: 0, class: 'form-control'}
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_distance")
 
       .column-one-third.condensed{class: "js-expense-hours expense-hours"}
-        %a{name: "expense_#{@expense_count}_hours"}
+        %a{id: "expense_#{@expense_count}_hours"}
         = f.label :hours, 'Hours'
         = f.number_field :hours, { max: 9999, min: 0, class: 'form-control short-input' }
         = validation_error_message(@error_presenter, "expense_#{@expense_count}_hours")
@@ -36,7 +36,7 @@
         = f.gov_uk_date_field(:date, legend_text: 'Date of expenses', legend_class: 'govuk-legend', id: "expense_#{@expense_count}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date"))
 
       .column-one-third{class: "js-expense-reason"}
-        %a{name: "expense_#{@expense_count}_reason_id"}
+        %a{id: "expense_#{@expense_count}_reason_id"}
         = f.label :reason_id, 'Reason for travel'
         -# (hardcoded for now, dependent on chosen Expense Type):
         = f.collection_select :reason_id, ExpenseType::REASON_SET_A.values, :id, :reason, {prompt: true}, { disabled: false , class: 'form-control'}
@@ -44,14 +44,14 @@
 
         - present(f.object) do |expense|
           %div{class: "js-expense-reason-text", style: "display: #{expense.display_reason_text_css}" }
-            %a{name: "expense_#{@expense_count}_reason_text"}
+            %a{id: "expense_#{@expense_count}_reason_text"}
             = f.label :reason_text, 'Reason text'
             -#  (only will show when selected Reason is Other):
             = f.text_field :reason_text, {class: 'form-control'}
             = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_text")
 
       .column-one-third.condensed{class: "js-expense-amount fee-total"}
-        %a{name: "expense_#{@expense_count}_amount"}
+        %a{id: "expense_#{@expense_count}_amount"}
         = f.label :amount, 'Total'
         %span.currency-indicator>< &pound;
         = f.number_field :amount, max:99999, min:0, value: number_with_precision(f.object.amount, precision: 2), class: 'total form-control large-input'
@@ -59,15 +59,15 @@
 
         - if @claim.lgfs?
           .js-expense-vat-amount
-            %a{name: "expense_#{@expense_count}_vat_amount"}
+            %a{id: "expense_#{@expense_count}_vat_amount"}
             = f.label :vat_amount, 'VAT'
             %span.currency-indicator>< &pound;
             = f.number_field :vat_amount, max:99999, min:0, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control'
             = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
 
     .grid-row.js-expense-mileage.expense-cost
+      %a{id: "expense_#{@expense_count}_mileage_rate_id"}
       %fieldset{class: "inline"}
-        %a{name: "expense_#{@expense_count}_mileage_rate_id"}
         %legend
           ='Cost'
         -#  (only visible for Car Travel):

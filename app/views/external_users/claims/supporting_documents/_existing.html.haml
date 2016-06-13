@@ -4,10 +4,11 @@
 
   %table.previously-uploaded
     %thead
-      %th
-        = t('.file_name')
-      %th
-        = t('.action')
+      %tr
+        %th
+          = t('.file_name')
+        %th
+          = t('.action')
     %tbody
       - @claim.documents.order(created_at: :asc).each do |document|
         %tr{id: dom_id(document)}

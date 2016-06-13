@@ -3,22 +3,22 @@
     .column-half.disbursement-type
       %label.form-label
         = t('.disbursement_type')
-      %a{name: "disbursement_#{@disbursement_count}_disbursement_type"}
+      %a{id: "disbursement_#{@disbursement_count}_disbursement_type"}
       = f.collection_select :disbursement_type_id, DisbursementType.all, :id, :name, {include_blank: true}, {class: 'form-control autocomplete', style: 'width:350px'}
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 
     .column-one-quarter.fee-amount
       %label.form-label
         = t('.net_amount')
-      %a{name: "disbursement_#{@disbursement_count}_net_amount"}
+      %a{id: "disbursement_#{@disbursement_count}_net_amount"}
       %span.currency-indicator>< &pound;
-      = f.number_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), class: 'form-control amount', size: 10, maxlength: 8, min:0, max:99999
+      = f.number_field :net_amount, value: number_with_precision(f.object.net_amount, precision: 2), class: 'form-control amount', size: 10, min:0, max:99999
       = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_net_amount")
 
     .column-one-quarter.fee-vat
       %label.form-label
         = t('.vat_amount')
-      %a{name: "disbursement_#{@disbursement_count}_vat_amount"}
+      %a{id: "disbursement_#{@disbursement_count}_vat_amount"}
 
       %span.currency-indicator>< &pound;
       = f.number_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control vat', size: 10, min:0, max: 99999999

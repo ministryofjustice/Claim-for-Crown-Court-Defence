@@ -19,7 +19,7 @@
         .column-quarter
           %label.form-label
             = t('.total')
-          %a{name: "amount"}
+          %a{id: "amount"}
           %span.currency-indicator>< &pound;
-          = wf.number_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'total form-control', size: 10, maxlength: 8
+          = wf.number_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'total form-control', size: 10
           = validation_error_message(@error_presenter, 'interim_fee.amount')

@@ -64,14 +64,6 @@
         %table.indent-sides
           %caption.visually-hidden
             = t('common.expenses')
-          %colgroup
-            %col
-            %col
-            %col
-            %col
-            %col
-            %col
-            %col
           %thead
             %tr
               %th{scope: 'col'}
@@ -80,8 +72,9 @@
                 = t('.expense_type')
               %th.numeric{scope: 'col'}
                 = t('.distance')
-              %th.numeric{scope: 'col'}
-                = t('.quantity_hours')
+              - if claim.agfs?
+                %th.numeric{scope: 'col'}
+                  = t('.quantity_hours')
               %th{scope: 'col'}
                 = t('.location')
               %th.numeric{scope: 'col'}
@@ -100,8 +93,9 @@
                   = expense.name
                 %td.numeric
                   = expense.distance
-                %td.numeric
-                  = expense.hours
+                - if claim.agfs?
+                  %td.numeric
+                    = expense.hours
                 %td
                   = expense.location
                 %td.numeric

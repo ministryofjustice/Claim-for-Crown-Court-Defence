@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'dummy_exception', to: 'errors#dummy_exception'
   get 'ping',           to: 'heartbeat#ping', format: :json
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
+  get 'servicedown',    to: 'pages#servicedown',      as: :service_down_page
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes

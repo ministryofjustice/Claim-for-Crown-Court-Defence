@@ -1,5 +1,3 @@
-
-
 class PagesController < ApplicationController
 
   skip_load_and_authorize_resource
@@ -10,4 +8,5 @@ class PagesController < ApplicationController
 
   def api_release_notes; end
 
+  def servicedown; end
 end

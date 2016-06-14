@@ -24,11 +24,4 @@ class Offence < ActiveRecord::Base
   def offence_class_description
     offence_class.letter_and_description
   end
-
-  def as_json(options = {})
-    super((options || {}).merge({
-      methods: [:offence_class]
-    }))
-  end
-
 end

@@ -1,6 +1,6 @@
 class ExpenseReason
 
-  attr_reader :reason, :id
+  attr_reader :reason, :id, :allow_explanatory_text
 
   def initialize(id, reason, allow_explanatory_text)
     raise ArgumentError.new('Allow explanatory text must be boolean') unless allow_explanatory_text.is_a?(TrueClass) || allow_explanatory_text.is_a?(FalseClass)

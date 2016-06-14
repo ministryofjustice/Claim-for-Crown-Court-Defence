@@ -10,7 +10,6 @@ module API
       content_type :json, 'application/json'
 
       helpers do
-
         params :api_key_params do
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
         end
@@ -20,7 +19,6 @@ module API
         rescue API::V1::ArgumentError
           error!('Unauthorised', 401)
         end
-
       end
 
       before do
@@ -31,7 +29,7 @@ module API
         desc "Return all Case Types"
         params { use :api_key_params }
         get do
-          CaseType.agfs
+          present CaseType.agfs, with: API::Entities::CaseType
         end
       end
 
@@ -39,7 +37,7 @@ module API
         desc "Return all Courts"
         params { use :api_key_params }
         get do
-          Court.all
+          present Court.all, with: API::Entities::Court
         end
       end
 
@@ -63,7 +61,7 @@ module API
         desc "Return all Offence Class Types."
         params { use :api_key_params }
         get do
-          ::OffenceClass.all
+          present OffenceClass.all, with: API::Entities::OffenceClass
         end
       end
 
@@ -76,34 +74,40 @@ module API
         end
 
         get do
-          if params[:offence_description].present?
-            ::Offence.where(description: params[:offence_description])
-          else
-            ::Offence.all
-          end
+          offences = if params[:offence_description].present?
+                       Offence.where(description: params[:offence_description])
+                     else
+                       Offence.all
+                     end
+
+          present offences, with: API::Entities::Offence
         end
       end
 
+      # TODO: allow 'graduated, interim and transfer' categories once we open the API to litigator claims
       resource :fee_types do
         helpers do
           params :category_filter do
             use :api_key_params
-            optional :category, type: String, values: ['all','basic','misc','fixed'], desc: "[optional] category - basic, misc, fixed", default: 'all'
+            optional :category, type: String, values: %w(all basic misc fixed ), default: 'all',
+                     desc: "[optional] category - #{%w(all basic misc fixed).to_sentence}. Default: all"
           end
 
-          def args
-            { category: params[:category] }
+          def category
+            params.category.try(:downcase)
           end
         end
 
         desc "Return all AGFS Fee Types (optional category filter)."
         params { use :category_filter }
         get do
-          if args[:category].blank? || args[:category].downcase == 'all'
-            ::Fee::BaseFeeType.agfs
-          else
-            ::Fee::BaseFeeType.__send__(args[:category].downcase).agfs
-          end
+          fee_types = if category.blank? || category == 'all'
+                        Fee::BaseFeeType.agfs
+                      else
+                        Fee::BaseFeeType.__send__(category).agfs
+                      end
+
+          present fee_types, with: API::Entities::BaseFeeType
         end
       end
 
@@ -111,7 +115,7 @@ module API
         desc "Return all Expense Types."
         params { use :api_key_params }
         get do
-          ::ExpenseType.agfs.all_with_reasons
+          present ExpenseType.agfs, with: API::Entities::ExpenseType
         end
       end
 
@@ -119,7 +123,7 @@ module API
         desc "Return all Disbursement Types."
         params { use :api_key_params }
         get do
-          ::DisbursementType.all
+          present DisbursementType.all, with: API::Entities::DisbursementType
         end
       end
 

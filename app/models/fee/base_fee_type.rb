@@ -75,6 +75,18 @@ module Fee
       Fee::WarrantFeeType.all
     end
 
+    def self.graduated
+      Fee::GraduatedFeeType.all
+    end
+
+    def self.interim
+      Fee::InterimFeeType.all
+    end
+
+    def self.transfer
+      Fee::TransferFeeType.all
+    end
+
     def self.by_fee_category(category)
       self.joins(:fee_category).where('fee_categories.abbreviation = ?', category.upcase).order(:description)
     end

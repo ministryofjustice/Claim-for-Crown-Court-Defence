@@ -15,12 +15,15 @@ module API
 
             params :fee_params do
               # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
-              optional :api_key, type:      String,  desc: "REQUIRED: The API authentication key of the provider"
+              optional :api_key, type:      String,  desc: 'REQUIRED: The API authentication key of the provider'
               optional :claim_id, type:     String,  desc: 'REQUIRED: The unique identifier for the corresponding claim.'
               optional :fee_type_id, type:  Integer, desc: 'REQUIRED: The unique identifier for the corresponding fee type'
-              optional :quantity, type:     Float,   desc: 'REQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount)'
+              optional :quantity, type:     Float,   desc: 'REQUIRED/UNREQUIRED: The number of fees of this fee type that are being claimed (quantity x rate will equal amount). NB: Leave blank if not applicable'
               optional :rate, type:         Float,   desc: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
-              optional :amount, type:       Float,   desc: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW'
+              optional :amount, type:       Float,   desc: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW or a Transfer Fee'
+              optional :case_numbers, type: String,  desc: 'REQUIRED/UNREQUIRED: Required for Miscellaneous Fee of type Case Uplift. Leave blank for other types'
+              optional :warrant_issued_date, type:    String, desc: 'REQUIRED/UNREQUIRED: Required for Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)', standard_json_format: true
+              optional :warrant_executed_date, type:  String, desc: 'OPTIONAL: For Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)', standard_json_format: true
             end
 
             # NOTE: explicit error raising because claim_id's presence is not validated by model due to instatiation issues # TODO review in code review
@@ -36,10 +39,13 @@ module API
               claim_id = validate_claim_presence
               {
                 claim_id: claim_id,
-                fee_type_id:  params[:fee_type_id],
-                quantity:     params[:quantity],
-                rate:         params[:rate],
-                amount:       params[:amount]
+                fee_type_id: params[:fee_type_id],
+                quantity: params[:quantity],
+                rate: params[:rate],
+                amount: params[:amount],
+                case_numbers: params[:case_numbers],
+                warrant_issued_date: params[:warrant_issued_date],
+                warrant_executed_date: params[:warrant_executed_date]
               }
             end
 
@@ -52,7 +58,7 @@ module API
           end
 
           post do
-            api_response = ApiResponse.new()
+            api_response = ApiResponse.new
             ApiHelper.create_resource(::Fee::BaseFee, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body
@@ -65,7 +71,7 @@ module API
           end
 
           post '/validate' do
-            api_response = ApiResponse.new()
+            api_response = ApiResponse.new
             ApiHelper.validate_resource(::Fee::BaseFee, params, api_response, method(:build_arguments).to_proc)
             status api_response.status
             return api_response.body

@@ -21,5 +21,9 @@ module DemoData
     def add_interim_fee(claim)
       DemoData::InterimFeeGenerator.new(claim).generate!
     end
+
+    def generate_case_concluded_at(claim)
+      # do nothing for interim claims, not needed
+    end
   end
 end

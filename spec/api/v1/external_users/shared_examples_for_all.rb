@@ -49,3 +49,14 @@ shared_examples "should NOT be able to amend a non-draft claim" do
     end
   end
 end
+
+shared_examples "malformed or not iso8601 compliant dates" do |options|
+  action = options[:action]
+  options[:attributes].each do |attribute|
+    it "returns 400 and JSON error when '#{attribute}' field is not in acceptable format" do
+      valid_params[attribute] = '10-05-2015'
+      action == :create ? post_to_create_endpoint : post_to_validate_endpoint
+      expect_error_response("#{attribute} is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
+    end
+  end
+end

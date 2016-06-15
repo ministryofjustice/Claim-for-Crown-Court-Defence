@@ -30,7 +30,8 @@ class JsonDocumentImporter
 
   def parse_file
     temp_file = File.open(@file.tempfile)
-    @data     = JSON.parse(temp_file.read)
+    @data = JSON.parse(temp_file.read)
+    @data = [@data].flatten
     process_claim_hashes
     temp_file.rewind
   end
@@ -56,7 +57,7 @@ class JsonDocumentImporter
 
   def import!
     parse_file
-    data.each_with_index do |claim_hash, index|
+    @data.each_with_index do |claim_hash, index|
       begin
         JSON::Validator.validate!(@schema, claim_hash)
         create_claim(claim_hash['claim'])
@@ -138,7 +139,7 @@ class JsonDocumentImporter
   end
 
   def create_dates_attended(fee_or_expense)
-    fee_or_expense['dates_attended'].each do |date_attended|
+    fee_or_expense['dates_attended'].to_a.each do |date_attended|
       date_attended['attended_item_id'] = @id_of_owner
       date_attended['attended_item_type'].capitalize!
       response = DATE_ATTENDED_CREATION.post(date_attended.merge(api_key: @api_key)) {|response, request, result| response }

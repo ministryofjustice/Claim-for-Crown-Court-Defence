@@ -107,13 +107,7 @@ describe API::V1::ExternalUsers::DateAttended do
         end
       end
 
-      context 'malformed date format' do
-          it 'rejects malformed dates' do
-            valid_params[:date] = '2015-05-32'
-            post_to_create_endpoint
-            expect_error_response("Enter a valid date for the date attended (from)",1)
-          end
-      end
+      include_examples "malformed or not iso8601 compliant dates", action: :create, attributes: [:date, :date_to]
     end
   end
 
@@ -144,14 +138,6 @@ describe API::V1::ExternalUsers::DateAttended do
       expect_error_response("Attended item cannot be blank")
     end
 
-    it 'returns 400 and JSON error when dates are not in acceptable format' do
-      valid_params[:date] = '10-05-2015'
-      valid_params[:date_to] = '12-05-2015'
-      post_to_validate_endpoint
-      expect_error_response("date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",0)
-      expect_error_response("date_to is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",1)
-    end
+    include_examples "malformed or not iso8601 compliant dates", action: :validate, attributes: [:date, :date_to]
   end
-
 end
-

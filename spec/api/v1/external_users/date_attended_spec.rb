@@ -17,7 +17,9 @@ describe API::V1::ExternalUsers::DateAttended do
   let!(:provider)     { create(:provider) }
   let!(:claim)        { create(:claim, source: 'api') }
   let!(:fee)          { create(:misc_fee, claim: claim) }
-  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: '2015-05-10', date_to: '2015-05-12'} }
+  let!(:from_date)    { claim.earliest_representation_order.representation_order_date }
+  let!(:to_date)      { from_date + 2.days }
+  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json} }
 
   context 'when sending non-permitted verbs' do
     ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint

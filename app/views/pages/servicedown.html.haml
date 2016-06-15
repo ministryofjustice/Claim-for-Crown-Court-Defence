@@ -1,5 +1,7 @@
-= render partial: 'layouts/header', locals: {page_heading: 'Service is down'}
-
 %section
-  %p
-    This service is down. Come back in a few minutes.
+	= render partial: 'layouts/header', locals: {page_heading: 'The service is unavailable'}
+
+	%p This service is not available right now, but we're working hard to get things up and running again.
+	%p
+		You can try again later or email us on
+		%a{:href => "mailto:crowncourtdefence@digital.justice.gov.uk"}crowncourtdefence@digital.justice.gov.uk

@@ -3,8 +3,6 @@ var $importerResults = $('.importer-results');
 $importerResults.find('.js-import-failed').remove();
 
 <% if @json_document_importer.imported_claims.any? %>
-  ga('send', 'event', 'claims-importer', 'imported', '<%= @json_document_importer.imported_claims.count %>');
-
 	$importerResults.html(
       '<div class="results-body import-success">' +
         '<h4>Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, "new claim") %> in draft state</h4>' +
@@ -44,8 +42,6 @@ $importerResults.find('.js-import-failed').remove();
 <% end %>
 
 <% if @json_document_importer.failed_imports.any? %>
-  ga('send', 'event', 'claims-importer', 'failed', '<%= @json_document_importer.failed_imports.count %>');
-
 	$importerResults.append(
     '<div class="error-summary js-import-failed" role="group" aria-labelledby="error-summary-heading" tabindex="-1" aria-live="polite">' +
       '<h1 class="heading-medium error-summary-heading" id="error-summary-heading">' +
@@ -65,8 +61,6 @@ $importerResults.find('.js-import-failed').remove();
 <% end %>
 
 <% if @json_document_importer.failed_schema_validation.any? %>
-  ga('send', 'event', 'claims-importer', 'validation-failed', '<%= @json_document_importer.failed_schema_validation.count %>');
-
   $importerResults.append(
     '<div class="error-summary js-import-failed" role="group" aria-labelledby="error-summary-heading" tabindex="-1" aria-live="polite">' +
       '<h1 class="heading-medium error-summary-heading" id="error-summary-heading">' +

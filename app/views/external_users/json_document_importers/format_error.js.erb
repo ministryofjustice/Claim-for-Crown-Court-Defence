@@ -1,5 +1,6 @@
+$('#importer').find('form').addClass('no-file-selected');
 $('#importer')
   .addClass('has-errors')
   .find('.errors')
-    .html("<em><%= filename %></em> is either not JSON or contains errors");
+    .html("<em><%= filename %></em> is either not JSON or contains errors. Choose another file.");
 $('.importer-results').empty();

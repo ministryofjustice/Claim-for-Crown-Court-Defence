@@ -17,8 +17,18 @@ describe API::V1::DropdownData do
   EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
   DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
 
-  ALL_DROPDOWN_ENDPOINTS       = [CASE_TYPE_ENDPOINT, COURT_ENDPOINT, ADVOCATE_CATEGORY_ENDPOINT, CRACKED_THIRD_ENDPOINT, OFFENCE_CLASS_ENDPOINT, OFFENCE_ENDPOINT, FEE_TYPE_ENDPOINT, EXPENSE_TYPE_ENDPOINT]
-  FORBIDDEN_DROPDOWN_VERBS     = [:post, :put, :patch, :delete]
+  FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
+  ALL_DROPDOWN_ENDPOINTS = [
+      CASE_TYPE_ENDPOINT,
+      COURT_ENDPOINT,
+      ADVOCATE_CATEGORY_ENDPOINT,
+      CRACKED_THIRD_ENDPOINT,
+      OFFENCE_CLASS_ENDPOINT,
+      OFFENCE_ENDPOINT,
+      FEE_TYPE_ENDPOINT,
+      EXPENSE_TYPE_ENDPOINT,
+      DISBURSEMENT_TYPE_ENDPOINT
+  ]
 
   let(:provider) { create(:provider) }
   let(:params)   { {api_key: provider.api_key} }
@@ -38,19 +48,19 @@ describe API::V1::DropdownData do
 
   context 'each dropdown data endpoint' do
 
-    let(:results) {
-                      {
-                        CASE_TYPE_ENDPOINT => CaseType.all.to_json,
-                        COURT_ENDPOINT => Court.all.to_json,
-                        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
-                        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
-                        OFFENCE_CLASS_ENDPOINT => OffenceClass.all.to_json,
-                        OFFENCE_ENDPOINT => Offence.all.to_json,
-                        FEE_TYPE_ENDPOINT => Fee::BaseFeeType.all.to_json,
-                        EXPENSE_TYPE_ENDPOINT => ExpenseType.all_with_reasons.to_json,
-                        DISBURSEMENT_TYPE_ENDPOINT => DisbursementType.all.to_json
-                      }
-                    }
+    let(:results) do
+      {
+        CASE_TYPE_ENDPOINT => API::Entities::CaseType.represent(CaseType.all).to_json,
+        COURT_ENDPOINT => API::Entities::Court.represent(Court.all).to_json,
+        ADVOCATE_CATEGORY_ENDPOINT => Settings.advocate_categories.to_json,
+        CRACKED_THIRD_ENDPOINT => Settings.trial_cracked_at_third.to_json,
+        OFFENCE_CLASS_ENDPOINT => API::Entities::OffenceClass.represent(OffenceClass.all).to_json,
+        OFFENCE_ENDPOINT => API::Entities::Offence.represent(Offence.all).to_json,
+        FEE_TYPE_ENDPOINT => API::Entities::BaseFeeType.represent(Fee::BaseFeeType.all).to_json,
+        EXPENSE_TYPE_ENDPOINT => API::Entities::ExpenseType.represent(ExpenseType.all).to_json,
+        DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.all).to_json
+      }
+    end
 
     before do
       create_list(:case_type, 2)
@@ -89,17 +99,20 @@ describe API::V1::DropdownData do
       let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
       let!(:response)                       { get OFFENCE_ENDPOINT, params }
 
+      let(:exposed_offence_class) { ->(offence_class) { API::Entities::OffenceClass.represent(offence_class).as_json } }
+      let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
+
     it 'should include the offence class as nested JSON' do
-      body = JSON.parse(response.body)
-      expect(body.first['offence_class']).to eq(JSON.parse(offence.offence_class.to_json))
+      body = JSON.parse(response.body, symbolize_names: true)
+      expect(body.first[:offence_class]).to eq(exposed_offence_class[offence.offence_class])
     end
 
     it 'should only return offences matching description when offence_description param is present' do
       params.merge!(offence_description: offence.description)
       response = get OFFENCE_ENDPOINT, params
-      returned_offences = JSON.parse(response.body)
-      expect(returned_offences).to include(JSON.parse(offence.to_json), JSON.parse(offence_with_same_description.to_json))
-      expect(returned_offences).to_not include(JSON.parse(other_offence.to_json))
+      returned_offences = JSON.parse(response.body, symbolize_names: true)
+      expect(returned_offences).to include(exposed_offence[offence], exposed_offence[offence_with_same_description])
+      expect(returned_offences).to_not include(exposed_offence[other_offence])
       expect(returned_offences.count).to eql 2
     end
   end
@@ -118,11 +131,11 @@ describe API::V1::DropdownData do
     end
 
     it 'should filter by category and scheme applicability' do
-      categories = [ 'basic', 'misc', 'fixed']
+      categories = %w(basic misc fixed)
       categories.each do |category|
         response = get_filtered_fee_types(category)
         expect(response.status).to eq 200
-        expect(response.body).to eq Fee::BaseFeeType.send(category).agfs.to_json
+        expect(response.body).to eq API::Entities::BaseFeeType.represent(Fee::BaseFeeType.send(category).agfs).to_json
       end
     end
   end
@@ -177,7 +190,7 @@ describe API::V1::DropdownData do
       end
 
       it "has all the expected keys" do
-        %w{ id name created_at updated_at roles reason_set reasons }.each do |key|
+        %w{ id name roles reason_set reasons }.each do |key|
           expect(parsed_body.first).to have_key(key)
         end
       end

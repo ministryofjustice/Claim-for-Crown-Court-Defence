@@ -70,19 +70,4 @@ class ExpenseType < ActiveRecord::Base
   def self.for_claim_type(claim)
     claim.lgfs? ? self.lgfs : self.agfs
   end
-
-  # Used by API lookup/dropdown data endpoints
-  def self.all_with_reasons
-    ExpenseType.all.map do |et|
-      et.attributes.merge!(reasons: reasons_to_array(et.reason_set))
-    end
-  end
-
-  def self.reasons_to_array(reason_set)
-    reasons = reason_set == "A" ? ExpenseType::REASON_SET_A : ExpenseType::REASON_SET_B
-    reasons.map { |_i, reason| reason.instance_values }
-  end
-
-  private_class_method :reasons_to_array
-
 end

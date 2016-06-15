@@ -20,7 +20,10 @@ class ErrorResponse
   attr :body
   attr :status
 
-  VALID_MODEL_KLASSES = [Fee::GraduatedFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee, Expense, Disbursement, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder]
+  VALID_MODEL_KLASSES = [
+      Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
+      Expense, Disbursement, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder
+  ].freeze
 
   def initialize(object)
     @error_messages = []
@@ -54,16 +57,7 @@ private
     m = @model
 
     if m.is_a?(Fee::BaseFee)
-      case
-      when m.is_basic?
-        submodel ='basic_fee'
-      when m.is_misc?
-        submodel ='misc_fee'
-      when m.is_fixed?
-        submodel ='fixed_fee'
-      else
-        submodel = 'fee' # no fee type may have been specified
-      end
+      submodel = m.class.name.demodulize.underscore
       submodel_instance_num = "#{submodel}_1_"
     elsif !m.try(:claim).nil?
       submodel_instance_num = "#{m.class.name.underscore}_1_"

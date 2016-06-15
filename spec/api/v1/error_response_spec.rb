@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ErrorResponse do
 
-    VALID_MODEL_KLASSES = [::Fee, ::Expense, ::Claim, ::Defendant, ::DateAttended, ::RepresentationOrder]
+    VALID_MODEL_KLASSES = [::Fee, ::Expense, ::Disbursement, ::Claim, ::Defendant, ::DateAttended, ::RepresentationOrder]
     EXCEPTION_KLASSES = [RuntimeError, ArgumentError, API::V1::ArgumentError]
 
     let(:claim) { FactoryGirl.build :claim, case_number: 'A123456' }

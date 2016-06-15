@@ -16,9 +16,14 @@ describe API::V1::ExternalUsers::Fee do
   FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
 
   let!(:provider)         { create(:provider) }
-  let!(:basic_fee_type)   { create(:basic_fee_type) }
-  let!(:misc_fee_type)    { create(:misc_fee_type) }
-  let!(:fixed_fee_type)   { create(:fixed_fee_type) }
+
+  let!(:basic_fee_type)     { create(:basic_fee_type) }
+  let!(:misc_fee_type)      { create(:misc_fee_type) }
+  let!(:fixed_fee_type)     { create(:fixed_fee_type) }
+  let!(:interim_fee_type)   { create(:interim_fee_type) }
+  let!(:graduated_fee_type) { create(:graduated_fee_type) }
+  let!(:transfer_fee_type)  { create(:transfer_fee_type) }
+
   let!(:claim)            { create(:claim, source: 'api').reload }
   let(:valid_params)      { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [ {"error" => "Choose a type for the fee" } ].to_json }
@@ -78,7 +83,6 @@ describe API::V1::ExternalUsers::Fee do
       end
 
       context 'basic fees' do
-
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
 
         it 'should update, not create, the fee, return 200 and fee JSON output including UUID' do
@@ -106,10 +110,25 @@ describe API::V1::ExternalUsers::Fee do
         end
       end
 
+      context 'misc fees of type case uplift' do
+        let!(:misc_fee_xupl_type) { create(:misc_fee_type, code: 'XUPL') }
+        let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_xupl_type.id, quantity: 1, rate: 210.00, case_numbers: 'Q71948311' } }
+
+        it 'should create the misc fee with the provided quantity, rate, amount and case numbers' do
+          post_to_create_endpoint
+          json = JSON.parse(last_response.body)
+          fee = Fee::BaseFee.find_by(uuid: json['id'])
+          expect(fee.claim_id).to eq claim.id
+          expect(fee.fee_type_id).to eq misc_fee_xupl_type.id
+          expect(fee.quantity).to eq 1
+          expect(fee.rate).to eq 210.00
+          expect(fee.amount).to eq 210.00
+          expect(fee.case_numbers).to eq 'Q71948311'
+        end
+      end
     end
 
     context "fee type specific errors" do
-
       let!(:valid_params)       { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
 
       it 'THE basic fee should raise basic fee (code BAF) errors' do
@@ -130,6 +149,37 @@ describe API::V1::ExternalUsers::Fee do
         post_to_create_endpoint
         expect(last_response.status).to eq 400
         expect_error_response("Pages of prosecution evidence fees must not a have rate",0)
+      end
+
+      it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do
+        misc_fee_type.update(code: 'XUPL')
+        post_to_create_endpoint
+        expect(last_response.status).to eq 400
+        expect_error_response("Enter at least one case number for the miscellaneous fee",0)
+      end
+
+      context 'quantity is forbidden' do
+        context 'for interim fee disbursement only' do
+          let!(:interim_fee_type) { create(:interim_fee_type, :disbursement) }
+          let!(:valid_params) { {api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00} }
+
+          it 'should raise error if quantity is provided' do
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Do not enter a quantity for the interim fee",0)
+          end
+        end
+
+        context 'for interim fee warrant only' do
+          let!(:interim_fee_type) { create(:interim_fee_type, :warrant) }
+          let!(:valid_params) { {api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00} }
+
+          it 'should raise error if quantity is provided' do
+            post_to_create_endpoint
+            expect(last_response.status).to eq 400
+            expect_error_response("Do not enter a quantity for the interim fee",0)
+          end
+        end
       end
 
       context 'quantity as decimal or integer' do
@@ -177,8 +227,28 @@ describe API::V1::ExternalUsers::Fee do
           expect(last_response.status).to eq 400
           expect_error_response("Enter a rate for the fixed fee",0)
         end
-      end
 
+        it 'interim fees should raise interim fee errors from translations' do
+          valid_params[:fee_type_id] = interim_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter a valid amount for the interim fee",0)
+        end
+
+        it 'graduates fees should raise graduated fee errors from translations' do
+          valid_params[:fee_type_id] = graduated_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter the graduated fee date",0)
+        end
+
+        it 'transfer fees should raise transfer fee errors from translations' do
+          valid_params[:fee_type_id] = transfer_fee_type.id
+          post_to_create_endpoint
+          expect(last_response.status).to eq 400
+          expect_error_response("Enter a valid amount for the transfer fee",0)
+        end
+      end
     end
 
     context 'when fee params are invalid' do

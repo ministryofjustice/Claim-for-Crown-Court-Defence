@@ -10,12 +10,12 @@ module Claims::Calculations
 
   def calculate_expenses_total
     # #reload prevents cloning
-    Expense.where(claim_id: self.id).pluck(:amount).sum
+    Expense.where(claim_id: self.id).where.not(amount: nil).pluck(:amount).sum
   end
 
   def calculate_disbursements_total
     # #reload prevents cloning
-    Disbursement.where(claim_id: self.id).pluck(:net_amount).sum
+    Disbursement.where(claim_id: self.id).where.not(net_amount: nil).pluck(:net_amount).sum
   end
 
   def calculate_total

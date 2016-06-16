@@ -784,13 +784,13 @@ basic_fee:
       short: *enter_valid_rate
       api: Enter a valid rate for pages of prosecution evidence fees
     npw_must_be_blank:
-      long: Number of prosecution witnesses fees must not a have rate
+      long: Number of prosecution witnesses fees must not have a rate
       short:  Remove the rate
-      api: Number of prosecution witnesses fees must not a have rate
+      api: Number of prosecution witnesses fees must not have a rate
     ppe_must_be_blank:
-      long: Pages of prosecution evidence fees must not a have rate
+      long: Pages of prosecution evidence fees must not have a rate
       short: Remove the rate
-      api: Pages of prosecution evidence fees must not a have rate
+      api: Pages of prosecution evidence fees must not have a rate
     invalid:
       long: Enter a valid rate for the initial fee
       short: *enter_valid_rate

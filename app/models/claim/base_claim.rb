@@ -275,10 +275,6 @@ module Claim
       source == 'api'
     end
 
-    def originally_from_api?
-      !source.match(/^api/).nil?
-    end
-
     def api_web_edited?
       source == 'api_web_edited'
     end
@@ -289,6 +285,10 @@ module Claim
 
     def from_json_import?
       source == 'json_import'
+    end
+
+    def json_import_web_edited?
+      source == 'json_import_web_edited'
     end
 
     def api_draft?

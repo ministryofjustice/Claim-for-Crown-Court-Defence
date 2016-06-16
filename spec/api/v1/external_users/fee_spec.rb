@@ -148,7 +148,7 @@ describe API::V1::ExternalUsers::Fee do
         basic_fee_type.update(code: 'PPE', calculated: false) # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response("Pages of prosecution evidence fees must not a have rate",0)
+        expect_error_response("Pages of prosecution evidence fees must not have a rate",0)
       end
 
       it 'should raise error if case numbers are not provided for miscellaneous fee of type Case Uplift' do

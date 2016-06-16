@@ -14,7 +14,7 @@ module Claims
       end
 
       claim.assign_attributes(params)
-      claim.source = 'api_web_edited' if claim.from_api?
+      update_source
 
       save_claim!(validate?)
 

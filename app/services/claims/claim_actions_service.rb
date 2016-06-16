@@ -44,6 +44,11 @@ module Claims
       end
     end
 
+    def update_source
+      claim.source = 'api_web_edited' if claim.from_api?
+      claim.source = 'json_import_web_edited' if claim.from_json_import?
+    end
+
     def rollback!
       set_error_code(:rollback)
       raise ActiveRecord::Rollback

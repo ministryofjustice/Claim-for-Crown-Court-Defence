@@ -414,7 +414,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
       end
 
       context 'and editing an API created claim' do
-
         before(:each) do
           subject.update(source: 'api')
         end
@@ -430,6 +429,28 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
+          end
+        end
+      end
+
+      context 'and editing a JSON imported claim' do
+        before(:each) do
+          subject.update(source: 'json_import')
+        end
+
+        context 'and saving to draft' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+
+          it 'updates the source to indicate it was originally from JSON import but has been edited via web' do
+            expect(subject.reload.source).to eql 'json_import_web_edited'
+          end
+        end
+
+        context 'and submitted to LAA' do
+          before { put :update, id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' }
+
+          it 'updates the source to indicate it was originally from JSON import but has been edited via web' do
+            expect(subject.reload.source).to eql 'json_import_web_edited'
           end
         end
       end

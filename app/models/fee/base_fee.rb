@@ -92,8 +92,11 @@ module Fee
 
     def is_transfer?; false; end
 
+    # Prevent invalid fees from being created through the JSON importer,
+    # because once created they cannot be amended on the web UI.
+    #
     def perform_validation?
-      claim && claim.perform_validation?
+      claim && (claim.perform_validation? || claim.from_json_import?)
     end
 
     def calculated?

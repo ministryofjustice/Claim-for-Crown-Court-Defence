@@ -6,7 +6,7 @@ class ExternalUsers::JsonDocumentImportersController < ApplicationController
 
   def create
     @api_key = current_user.persona.provider.api_key
-    @schema = JsonSchema.generate
+    @schema = JsonSchema.claim_schema
     @json_document_importer = JsonDocumentImporter.new(json_document_importer_params.merge(schema: @schema, api_key: @api_key))
     if @json_document_importer.valid?
       @json_document_importer.import!

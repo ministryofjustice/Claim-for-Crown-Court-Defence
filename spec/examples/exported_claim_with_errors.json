@@ -1,8 +1,10 @@
-// This is invalid due to the absensce of an advocate email address, but the test in which this is used is stubbed to always raise an error
+// This is invalid due to the advocate email address, but the test in which this is used is stubbed to always raise an error
 [
   {
     "claim": {
       "creator_email": "advocateadmin@example.com",
+      "advocate_email": "advocate",
+      "case_number": "",
       "case_type_id": 1,
       "first_day_of_trial": "2015-06-01",
       "estimated_trial_length": 3,

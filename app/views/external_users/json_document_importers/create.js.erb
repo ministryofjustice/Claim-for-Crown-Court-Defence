@@ -31,12 +31,7 @@ $importerResults.find('.js-import-failed').remove();
       );
 		<% end %>
 	<% end %>
-  $('#importer')
-    .removeClass('has-errors')
-    .find('form')
-      .addClass('no-file-selected')
-      .find('.file-upload-name')
-        .empty();
+  $('#importer').removeClass('has-errors').find('form').addClass('no-file-selected').find('.file-upload-name').empty();
 <% else %>
 	$importerResults.find('.import-success').remove();
 <% end %>
@@ -57,7 +52,7 @@ $importerResults.find('.js-import-failed').remove();
         <% end %>
       '</ul>' +
     '</div>');
-  $('#importer').addClass('has-errors');
+  $('#importer').addClass('has-errors').find('form').addClass('no-file-selected').find('.file-upload-name').empty();
 <% end %>
 
 <% if @json_document_importer.failed_schema_validation.any? %>
@@ -73,7 +68,7 @@ $importerResults.find('.js-import-failed').remove();
       '</ul>' +
     '</div>'
   );
-  $('#importer').addClass('has-errors');
+  $('#importer').addClass('has-errors').find('form').addClass('no-file-selected').find('.file-upload-name').empty();
 <% end %>
 
 // empty the field where format errors would occur, regardless of the result here, incase a previous error is shown

@@ -32,6 +32,12 @@ describe Claims::UpdateClaim do
         expect(subject.claim.source).to eq('api_web_edited')
       end
 
+      it 'updates the source when editing a JSON imported claim' do
+        allow(subject.claim).to receive(:from_json_import?).and_return(true)
+        subject.call
+        expect(subject.claim.source).to eq('json_import_web_edited')
+      end
+
       it 'is successful' do
         expect(subject.claim.case_number).to eq('A12345678')
         expect(subject.claim).to receive(:update_claim_document_owners)

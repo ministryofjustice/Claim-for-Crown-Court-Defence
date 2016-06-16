@@ -16,6 +16,18 @@ describe Fee::BaseFeeValidator do
   let(:npw_fee)    { FactoryGirl.build :basic_fee, :npw_fee, claim: claim }
   let(:spf_fee)    { FactoryGirl.build :misc_fee, :spf_fee, claim: claim }
 
+  context 'for a JSON imported claim (and no forced validation)' do
+    let(:claim) { FactoryGirl.build :advocate_claim, source: 'json_import' }
+
+    it 'should not perform claim validation' do
+      expect(claim.perform_validation?).to be_falsey
+    end
+
+    it 'should perform fee validation' do
+      expect(ppe_fee.perform_validation?).to be_truthy
+    end
+  end
+
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
   end

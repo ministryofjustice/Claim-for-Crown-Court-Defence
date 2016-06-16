@@ -256,28 +256,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         end
       end
 
-      context 'and editing an API created claim' do
-        before(:each) do
-          subject.update(source: 'api')
-        end
-
-        context 'and saving to draft' do
-          before { put :update, id: subject, claim: { case_number: 'A12345677' }, commit_save_draft: 'Save to drafts' }
-          it 'sets API created claims source to indicate it is from API but has been edited in web' do
-            expect(subject.reload.source).to eql 'api_web_edited'
-            expect(subject.reload.case_number).to eql 'A12345677'
-          end
-        end
-
-        context 'and continuing from step 1' do
-          before { put :update, id: subject, claim: { case_number: 'A12345679' }, commit_continue: 'Continue' }
-          it 'sets API created claims source to indicate it is from API but has been edited in web' do
-            expect(subject.reload.source).to eql 'api_web_edited'
-            expect(subject.reload.case_number).to eql 'A12345679'
-          end
-        end
-      end
-
       context 'and saving to draft' do
         before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
         it 'updates a claim' do

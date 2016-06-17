@@ -18,46 +18,118 @@ RSpec.describe Allocation, type: :model do
 
   describe '#save' do
 
-    context 'allocating and re-allocating' do
-      let(:claims) { create_list(:submitted_claim, 3) }
+    context 'allocating' do
+
       let(:case_worker) { create(:case_worker) }
+      let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true) }
 
       context 'when valid' do
-        subject { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+        let(:claims) { create_list(:submitted_claim, 3) }
 
         it 'creates case worker claim join records' do
-          subject.save
+          allocator.save
           expect(CaseWorkerClaim.where(case_worker_id: case_worker.id).map(&:claim_id)).to match_array(claims.map(&:id))
         end
 
-        it 'sets the claims to "allocated"' do
-          subject.save
+        it 'sets the claims to allocated' do
+          allocator.save
           expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
         end
 
         it 'returns true' do
-          expect(subject.save).to eq(true)
+          expect(allocator.save).to eq(true)
         end
       end
 
-      context 'when invalid' do
-        subject { Allocation.new(claim_ids: claims.map(&:id)) }
+      context 'when in an invalid state' do
+        let(:claims) { create_list(:allocated_claim, 2) }
+        let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true) }
 
-        it 'does not create case worker claim join records' do
-          subject.save
-          expect(CaseWorkerClaim.count).to eq(0)
+        it 'returns false' do
+          expect(allocator.save).to be false
+        end
+
+        it 'details the errors' do
+          allocator.save
+          expect(allocator.errors[:base].size).to eq 3
+          expect(allocator.errors[:base]).to include('NO claims allocated because: ')
+          expect(allocator.errors[:base][1]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
+          expect(allocator.errors[:base][2]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
+        end
+      end
+
+      context 'when invalid because no caseworker id specified' do
+        let(:claims) { create_list(:submitted_claim, 3) }
+        let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), allocating: true) }
+
+        it 'returns false' do
+          expect(allocator.save).to be false
+        end
+
+        it 'leaves the claims in submitted state' do
+          allocator.save
+          claims.each do |claim|
+            expect(claim.reload.state).to eq 'submitted'
+          end
+        end
+
+        it 'details the errors' do
+          allocator.save
+          expect(allocator.errors[:case_worker_id]).to include("can't be blank")
+        end
+
+      end
+    end
+
+    context 'reallocating' do
+
+      let(:case_worker) { create(:case_worker) }
+      let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+
+      context 'when valid' do
+        let(:claims) { create_list(:allocated_claim, 3) }
+
+        it 'reponds true to reallocating?()' do
+          expect(reallocator.__send__(:reallocating?)).to be true
+        end
+
+        it 'creates case worker claim join records' do
+          reallocator.save
+          expect(CaseWorkerClaim.where(case_worker_id: case_worker.id).map(&:claim_id)).to match_array(claims.map(&:id))
+        end
+
+        it 'sets the claims to allocated' do
+          reallocator.save
+          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+        end
+
+        it 'returns true' do
+          expect(reallocator.save).to eq(true)
+        end
+      end
+
+      context 'when in an invalid state' do
+        let(:claims) { create_list(:submitted_claim, 2) }
+        let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+
+        it 'responds true to reallocating?' do
+          expect(reallocator.__send__(:reallocating?)).to be true
         end
 
         it 'returns false' do
-          expect(subject.save).to eq(false)
+          expect(reallocator.save).to be false
         end
 
-        it 'contains errors' do
-          subject.save
-          expect(subject.errors).to_not be_empty
+        it 'details the errors' do
+          reallocator.save
+          expect(reallocator.errors[:base].size).to eq 2
+          expect(reallocator.errors[:base]).to include("Claim #{claims.first.id} cannot be transitioned to reallocation from submitted")
+          expect(reallocator.errors[:base]).to include("Claim #{claims.last.id} cannot be transitioned to reallocation from submitted")
         end
       end
     end
+
+
 
     context 'when already allocated claims included' do
       let(:case_worker) { create(:case_worker) }
@@ -90,8 +162,10 @@ RSpec.describe Allocation, type: :model do
         before { allow(subject).to receive(:allocating?).and_return(nil) }
 
         it 'claims will be re-allocated' do
+          submitted_claim_id = claims.detect{ |c| c.submitted? }.id
           subject.save
-          expect(case_worker.claims.count).to eq 2
+          expect(case_worker.claims.count).to eq 0
+          expect(subject.errors[:base]).to include("Claim #{submitted_claim_id} cannot be transitioned to reallocation from submitted")
         end
       end
     end

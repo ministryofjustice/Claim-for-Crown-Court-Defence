@@ -2,6 +2,19 @@ class Allocation
   include ActiveModel::Model
   include ActiveModel::Validations
 
+
+  # we add 'allocated' into the list of valid states for allocation because
+  # that can happen if another caseworker is allocating the claim at the same time.
+  # We test for that in allocate_all_claims_or_none!() and fail with a specific
+  # error message if that's the case: we don't want to catch it with a generic wrong
+  # state error message in claims_in_correct_state_for?(:allocation)
+  #
+  VALID_STATES_FOR_TRANSITION = {
+    allocation: Claims::StateMachine::VALID_STATES_FOR_ALLOCATION + ['allocated'],
+    deallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
+    reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
+  }
+
   class << self
     def i18n_scope
       :activerecord
@@ -12,6 +25,7 @@ class Allocation
 
   validates :case_worker_id, presence: true, unless: :deallocating?
   validates :claim_ids, presence: true
+
 
   def initialize(attributes = {})
     @case_worker_id = attributes[:case_worker_id]
@@ -24,21 +38,29 @@ class Allocation
 
   def save
     return false unless valid?
+    result = true
 
-    # could be allocating, deallocating or reallocating
     if allocating?
-      allocate_all_claims_or_none! @claims
+      allocate_all_claims_or_none!(@claims) if claims_in_correct_state_for?(:allocation)
+    elsif deallocating?
+      deallocate_claims(@claims) if claims_in_correct_state_for?(:deallocation)
+    elsif reallocating?
+      reallocate_claims(@claims) if claims_in_correct_state_for?(:reallocation)
     else
-      @claims.each do |claim|
-        if deallocating?
-          deallocate_claim! claim
-        else #reallocating
-          allocate_claim! claim
-        end
-      end
+      raise "Should never get here!"
     end
+    errors.empty?
+  end
+  
+  def claims_in_correct_state_for?(new_state)
+    @claims.each do |claim|
+      errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}" unless claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])
+    end
+    errors[:base].empty?
+  end
 
-    true
+  def reallocate_claims(claims)
+    claims.each { |claim| allocate_claim!(claim) }
   end
 
   def case_worker
@@ -79,6 +101,14 @@ class Allocation
 
   def deallocating?
     @deallocate
+  end
+
+  def reallocating?
+    !deallocating? && !allocating?
+  end
+
+  def deallocate_claims(claims)
+    claims.each { |claim| deallocate_claim!(claim)}
   end
 
   def deallocate_claim!(claim)

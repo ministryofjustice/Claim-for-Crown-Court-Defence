@@ -13,6 +13,8 @@ module Claims::StateMachine
   CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w( authorised part_authorised rejected refused archived_pending_delete)
   VALID_STATES_FOR_REDETERMINATION                = %w( authorised part_authorised refused )
   VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected )
+  VALID_STATES_FOR_ALLOCATION                     = %w( submitted redetermination awaiting_written_reasons )
+  VALID_STATES_FOR_DEALLOCATION                   = %w( allocated )
   NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
   AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
@@ -79,11 +81,12 @@ module Claims::StateMachine
       end
 
       event :allocate do
-        transition [:submitted, :redetermination, :awaiting_written_reasons] => :allocated
+        transition VALID_STATES_FOR_ALLOCATION.map(&:to_sym) => :allocated
       end
 
       event :deallocate do
-        transition [:allocated] => :deallocated
+        transition VALID_STATES_FOR_DEALLOCATION.map(&:to_sym) => :deallocated
+        # transition [:allocated] => :deallocated
       end
 
       event :archive_pending_delete do

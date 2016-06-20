@@ -3,9 +3,9 @@
     .column-three-quarters
       .column-half
         %label.form-label
-          .form-hint.xsmall.zero-vert-margin
-            &nbsp;<br/>
           = t('.fee_type')
+          %span.form-hint.xsmall.zero-vert-margin
+            &nbsp;<br/>
         %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
         - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
         = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: true}, {class: 'form-control autocomplete js-misc-fee-type', style: 'width:100%'}
@@ -14,7 +14,7 @@
       .column-half
         %label.form-label
           = t('.case_numbers')
-          .form-hint.xsmall.zero-vert-margin
+          %span.form-hint.xsmall.zero-vert-margin
             Separate by commas
         %a{id: "misc_fee_#{@misc_fee_count}_case_numbers"}
         = f.text_field :case_numbers, {class: 'form-control js-misc-fee-case-numbers'}
@@ -22,9 +22,9 @@
 
     .column-one-quarter.fee-rate
       %label.form-label
-        .form-hint.xsmall.zero-vert-margin
-          &nbsp;<br/>
         = t('.amount')
+        %span.form-hint.xsmall.zero-vert-margin
+          &nbsp;<br/>
       %a{id: "misc_fee_#{@misc_fee_count}_amount"}
       %span.currency-indicator>< &pound;
       = f.number_field :amount, value: number_with_precision(f.object.amount, precision: 2), class: 'form-control total', size: 10, min: 0, max: 99999

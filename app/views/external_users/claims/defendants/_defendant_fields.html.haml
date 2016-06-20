@@ -1,15 +1,24 @@
+
 .nested-fields.js-test-defendant
   .form-row
     .form-col.first-name
       - @representation_order_count = 0
-      = f.anchored_label(t('.first_name'), "defendant_#{@defendant_count}_first_name", { label_attributes: {class: 'form-label'} })
-      = f.text_field :first_name, {class: 'form-control'}
-      = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_first_name".to_sym)
+
+      %a{:id => "defendant_#{@defendant_count+1}_first_name"}
+      = f.label :first_name, t('.first_name'), {class: "form-label"}
+      = f.text_field :first_name, class: 'form-control', id: "claim_defendants_attributes_#{@defendant_count}_first_name"
+      = validation_error_message(@error_presenter, "defendant_#{@defendant_count+1}_first_name".to_sym)
+
   .form-row
     .form-col.last-name
-      = f.anchored_label(t('.last_name'), "defendant_#{@defendant_count}_last_name", { label_attributes: {class: 'form-label'} })
-      = f.text_field :last_name, {class: 'form-control'}
-      = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_last_name".to_sym)
+      %a{:id => "defendant_#{@defendant_count+1}_last_name"}
+      = f.label :last_name, t('.last_name'), {class: "form-label"}
+      = f.text_field :last_name, class: 'form-control', id: "claim_defendants_attributes_#{@defendant_count}_last_name"
+      = validation_error_message(@error_presenter, "defendant_#{@defendant_count+1}_last_name".to_sym)
+
+      / = f.anchored_label(t('.last_name'), "defendant_#{@defendant_count}_last_name", { label_attributes: {class: 'form-label'} })
+      / = f.text_field :last_name, {class: 'form-control'}
+      / = validation_error_message(@error_presenter, "defendant_#{@defendant_count}_last_name".to_sym)
   .form-row
 
     .form-col.form-col-two-thirds.dob
@@ -32,4 +41,4 @@
   %p
     = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 1
 
-  - @defendant_count += 1
+- @defendant_count += 1

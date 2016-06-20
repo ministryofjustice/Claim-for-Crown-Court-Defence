@@ -86,12 +86,12 @@
       .column-third
         %div
           = f.label :certified_by, t('.certified_by')
-        .form-hint.xsmall.zero-vert-margin
-          = t('.certified_by_prompt_text')
+          .form-hint.xsmall.zero-vert-margin
+            = t('.certified_by_prompt_text')
         = f.text_field :certified_by
       .column-third
         %div
-          = f.label :certification_date, t('.certification_date')
+          = f.label 'certification_date_dd', t('.certification_date')
         .form-hint.xsmall.zero-vert-margin
           &nbsp;
         = f.gov_uk_date_field :certification_date
@@ -99,5 +99,5 @@
       .column-third
         &nbsp;
     .button-holder
-      = f.submit "Certify and submit claim", class: "button"
-      = link_to 'Return to claim', edit_polymorphic_path(@claim), class: 'button-secondary'
+      = f.submit "Certify and submit claim", class: "btn-green left"
+      = link_to 'Return to claim', edit_polymorphic_path(@claim), class: 'btn-gray left'

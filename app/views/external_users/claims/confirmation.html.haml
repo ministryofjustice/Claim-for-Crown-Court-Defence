@@ -1,7 +1,7 @@
 - present(@claim) do |claim|
   .confirmation-header
     %h1.page-title.bold-large
-      %object{:type => 'image/svg+xml', :data => image_path('icons/tick-white.svg'), :class => "confirmation-tick"}
+      %img{:src => image_path('icons/tick-white.svg'), :class => "confirmation-tick"}/
       = t('.thanks')
 
     .normal

@@ -12,5 +12,5 @@
   %ol.evidence-checklist-read-only
     - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
       %li
-        %object{:type => 'image/svg+xml', :data => image_path('icons/tick.svg'), :class => "selected"}
+        %img{:src => image_path('icons/tick.svg'), :class => "selected"}/
         = dt.name

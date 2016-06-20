@@ -22,6 +22,7 @@ module API
               optional :rate, type:         Float,   desc: 'REQUIRED/UNREQUIRED: The currency value per unit/quantity of the fee (quantity x rate will equal amount). NB: Leave blank for PPE and NPW fee types'
               optional :amount, type:       Float,   desc: 'REQUIRED/UNREQUIRED: The total value of the fee. NB: Leave blank for fee types other than PPE/NPW or a Transfer Fee'
               optional :case_numbers, type: String,  desc: 'REQUIRED/UNREQUIRED: Required for Miscellaneous Fee of type Case Uplift. Leave blank for other types'
+              optional :date, type:         String,  desc: 'REQUIRED/UNREQUIRED: Required for LGFS Fixed Fee or LGFS Graduated Fee, otherwise leave blank (YYYY-MM-DD)', standard_json_format: true
               optional :warrant_issued_date, type:    String, desc: 'REQUIRED/UNREQUIRED: Required for Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)', standard_json_format: true
               optional :warrant_executed_date, type:  String, desc: 'OPTIONAL: For Interim fee of type Warrant, or a Warrant Fee, otherwise leave blank (YYYY-MM-DD)', standard_json_format: true
             end
@@ -44,6 +45,7 @@ module API
                 rate: params[:rate],
                 amount: params[:amount],
                 case_numbers: params[:case_numbers],
+                date: params[:date],
                 warrant_issued_date: params[:warrant_issued_date],
                 warrant_executed_date: params[:warrant_executed_date]
               }

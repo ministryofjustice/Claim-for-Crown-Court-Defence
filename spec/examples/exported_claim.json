@@ -51,7 +51,9 @@
           "expense_type_id": 1,
           "quantity": 1,
           "amount": 235.46,
+          "distance": 300,
           "reason_id": 4,
+          "mileage_rate_id": 1,
           "location": "London",
           "date": "2015-06-01"
         }

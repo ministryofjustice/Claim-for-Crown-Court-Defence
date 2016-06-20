@@ -66,7 +66,7 @@ $importerResults.find('.js-import-failed').remove();
       '</h1>' +
       '<ul class="error-summary-list">' +
         <% @json_document_importer.failed_schema_validation.each do |fail| %>
-          '<li><%= fail["claim"]["case_number"] %></li>' +
+          '<li><%= html_escape_once('%{case_number}: %{error}' % fail) %></li>' +
         <% end %>
       '</ul>' +
     '</div>'

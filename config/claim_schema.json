@@ -15,25 +15,7 @@
         "court_id",
         "case_type_id",
         "case_number",
-        "offence_id",
-        "first_day_of_trial",
-        "estimated_trial_length",
-        "actual_trial_length",
-        "trial_concluded_at",
-        "retrial_started_at",
-        "retrial_estimated_length",
-        "retrial_actual_length",
-        "retrial_concluded_at",
-        "cms_number",
-        "additional_information",
-        "apply_vat",
-        "trial_fixed_notice_at",
-        "trial_fixed_at",
-        "trial_cracked_at",
-        "trial_cracked_at_third",
-        "defendants",
-        "fees",
-        "expenses"
+        "defendants"
       ],
       "properties": {
         "creator_email": {
@@ -58,7 +40,7 @@
           "type": "integer"
         },
         "first_day_of_trial": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "estimated_trial_length": {
           "type": "integer"
@@ -67,10 +49,10 @@
           "type": "integer"
         },
         "trial_concluded_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "retrial_started_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "retrial_estimated_length": {
           "type": "integer"
@@ -79,7 +61,7 @@
           "type": "integer"
         },
         "retrial_concluded_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "cms_number": {
           "type": "string"
@@ -91,16 +73,34 @@
           "type": "boolean"
         },
         "trial_fixed_notice_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "trial_fixed_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "trial_cracked_at": {
-          "type": "string"
+          "type": "string", "format": "date"
         },
         "trial_cracked_at_third": {
           "type": "string"
+        },
+        "case_concluded_at": {
+          "type": "string", "format": "date"
+        },
+        "transfer_court_id": {
+          "type": "integer"
+        },
+        "transfer_case_number": {
+          "type": "string"
+        },
+        "supplier_number": {
+          "type": "string"
+        },
+        "effective_pcmh_date": {
+          "type": "string", "format": "date"
+        },
+        "legal_aid_transfer_date": {
+          "type": "string", "format": "date"
         },
         "defendants": {
           "type": "array",
@@ -112,7 +112,6 @@
               "first_name",
               "last_name",
               "date_of_birth",
-              "order_for_judicial_apportionment",
               "representation_orders"
             ],
             "properties": {
@@ -123,7 +122,7 @@
                 "type": "string"
               },
               "date_of_birth": {
-                "type": "string"
+                "type": "string", "format": "date"
               },
               "order_for_judicial_apportionment": {
                 "type": "boolean"
@@ -143,7 +142,7 @@
                       "type": "string"
                     },
                     "representation_order_date": {
-                      "type": "string"
+                      "type": "string", "format": "date"
                     }
                   }
                 }
@@ -158,11 +157,7 @@
           "items": {
             "type": "object",
             "required": [
-              "fee_type_id",
-              "quantity",
-              "rate",
-              "amount",
-              "dates_attended"
+              "fee_type_id"
             ],
             "properties": {
               "fee_type_id": {
@@ -177,6 +172,18 @@
               "amount": {
                 "type": "number"
               },
+              "case_numbers": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string", "format": "date"
+              },
+              "warrant_issued_date": {
+                "type": "string", "format": "date"
+              },
+              "warrant_executed_date": {
+                "type": "string", "format": "date"
+              },
               "dates_attended": {
                 "type": "array",
                 "minItems": 1,
@@ -185,18 +192,17 @@
                   "type": "object",
                   "required": [
                     "attended_item_type",
-                    "date",
-                    "date_to"
+                    "date"
                   ],
                   "properties": {
                     "attended_item_type": {
                       "type": "string"
                     },
                     "date": {
-                      "type": "string"
+                      "type": "string", "format": "date"
                     },
                     "date_to": {
-                      "type": "string"
+                      "type": "string", "format": "date"
                     }
                   }
                 }
@@ -211,16 +217,13 @@
           "items": {
             "type": "object",
             "required": [
-              "expense_type_id",
-              "amount",
-              "reason_id",
-              "date"
+              "expense_type_id"
             ],
             "properties": {
               "amount":           { "type": "number" },
               "expense_type_id":  { "type": "integer" },
               "location":         { "type": "string" },
-              "date":             { "type": "string"},
+              "date":             { "type": "string", "format": "date" },
               "distance":         { "type": "integer" },
               "hours":            { "type": "integer" },
               "mileage_rate_id":  { "type": "integer" },

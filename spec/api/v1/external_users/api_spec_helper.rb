@@ -12,10 +12,10 @@ module ApiSpecHelper
     expect(json[idx]['error']).to include(message)
   end
 
-  def expect_unauthorised_error
+  def expect_unauthorised_error(message = 'Unauthorised')
     expect(last_response.status).to eq(401)
     json = JSON.parse(last_response.body)
-    expect(json[0]['error']).to eql("Unauthorised")
+    expect(json[0]['error']).to eql(message)
   end
 
 end

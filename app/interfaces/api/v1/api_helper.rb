@@ -2,78 +2,17 @@ module API
   module V1
     module ApiHelper
 
-      require Rails.root.join('app', 'interfaces', 'api','custom_validations','date_format.rb')
+      require Rails.root.join('app', 'interfaces', 'api', 'custom_validations', 'date_format.rb')
       require_relative 'api_response'
       require_relative 'error_response'
 
-      class Hash < ::Hash
-        def merge_date_fields!(date_fields, params)
-          date_fields.each do |field|
-            self.merge!(ApiHelper.to_dd_mm_yyyy_args(field, params))
-          end
-        end
-      end
-
       class << self
-
-        def authenticate_key!(params)
-          provider = Provider.find_by(api_key: params[:api_key])
-          if provider.blank? || provider.api_key.blank?
-            raise API::V1::ArgumentError, 'Unauthorised'
-          end
-          provider
-        end
-
-        def authenticate_claim!(params)
-          provider = authenticate_key!(params)
-          creator  = find_advocate_by_email(email: params[:creator_email], relation: 'Creator' )
-          advocate = find_advocate_by_email(email: params[:advocate_email], relation: 'Advocate')
-
-          if creator.provider != provider || advocate.provider != provider
-            raise API::V1::ArgumentError, 'Creator and advocate must belong to the provider'
-          end
-
-          return { provider: provider, creator: creator, advocate: advocate }
-        end
-
-        def find_advocate_by_email(options = {})
-          user = User.external_users.find_by(email: options[:email])
-          if user.blank?
-            raise API::V1::ArgumentError, "#{options[:relation]} email is invalid"
-          else
-            @advocate = user.persona
-          end
-        end
-
         def response_params(uuid, params)
-          {'id' => uuid }.merge!(params.except(:api_key, :creator_email, :advocate_email))
+          params.merge(id: uuid)
         end
 
-        def extract_date(unit, param)
-          if param.present?
-            case unit
-            when :day
-              param.slice(8..9)
-            when :month
-              param.slice(5..6)
-            when :year
-              param.slice(0..3)
-            end
-          end
-        end
-
-        # use to convert any date to expected format in params
-        def to_dd_mm_yyyy_args(date_field, params)
-          args = {}
-          { day: 'dd', month: 'mm', year: 'yyyy'}.each do |k,v|
-            args["#{date_field.to_s}_#{v}".to_sym] = extract_date(k,params[date_field])
-          end
-          args
-        end
-
-        # --------------------
         def create_resource(model_klass, params, api_response, arg_builder_proc)
-          model_instance = validate_resource(model_klass, params, api_response, arg_builder_proc)
+          model_instance = validate_resource(model_klass, api_response, arg_builder_proc)
 
           if api_response.success?(200)
             created_or_updated_status = model_instance.new_record? ? 201 : 200
@@ -90,10 +29,7 @@ module API
         end
 
         # --------------------
-        def validate_resource(model_klass, params, api_response, arg_builder_proc)
-
-          authenticate_key!(params)
-
+        def validate_resource(model_klass, api_response, arg_builder_proc)
           #
           # basic fees (which are instantiated at claim creation)
           # must be updated if they already exist, otherwise created.
@@ -114,7 +50,7 @@ module API
             pop_error_response(model_instance, api_response)
           elsif model_instance.valid?
             api_response.status = 200
-            api_response.body =  { valid: true }
+            api_response.body = { valid: true }
           else
             pop_error_response(model_instance, api_response)
           end
@@ -135,7 +71,7 @@ module API
 
         # prevent creation/basic-fee-update of sub(sub)models for claims not in a draft state
         def test_editability(model_instance)
-          if (Fee::BaseFee.subclasses + [ Expense, Disbursement, Defendant, RepresentationOrder, DateAttended ]).include?(model_instance.class)
+          if (Fee::BaseFee.subclasses + [Expense, Disbursement, Defendant, RepresentationOrder, DateAttended]).include?(model_instance.class)
             model_instance.errors.add(:base, 'uneditable_state') unless model_instance.claim.editable? rescue true
           end
         end
@@ -147,7 +83,7 @@ module API
         end
 
         def basic_fee_update_required(model_klass, args)
-          is_a_fee?(model_klass)  && is_a_basic_fee_type?(args)
+          is_a_fee?(model_klass) && is_a_basic_fee_type?(args)
         end
 
         def is_a_fee?(model_klass)

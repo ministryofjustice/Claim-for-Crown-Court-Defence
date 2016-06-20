@@ -72,10 +72,10 @@ describe API::V1::ExternalUsers::Claim do
 
       include_examples "invalid API key validate endpoint"
 
-      it "should return 400 and JSON error array when it is an API key from another provider's admin" do
+      it "should return 401 and JSON error array when it is an API key from another provider's admin" do
         valid_params[:api_key] = other_provider.api_key
         post_to_validate_endpoint
-        expect_error_response("Creator and advocate must belong to the provider")
+        expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
       end
 
     end
@@ -184,10 +184,10 @@ describe API::V1::ExternalUsers::Claim do
       context 'invalid API key' do
         include_examples "invalid API key create endpoint"
 
-        it "should return 400 and JSON error array when it is an API key from another provider" do
+        it "should return 401 and JSON error array when it is an API key from another provider" do
           valid_params[:api_key] = other_provider.api_key
           post_to_create_endpoint
-          expect_error_response("Creator and advocate must belong to the provider")
+          expect_unauthorised_error("Creator and advocate/litigator must belong to the provider")
         end
       end
 

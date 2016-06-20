@@ -11,6 +11,10 @@ class ErrorPresenter
     generate_messages
   end
 
+  def errors_for?(fieldname)
+    @error_details.errors_for?(fieldname)
+  end
+
   def field_level_error_for(fieldname)
     @error_details.short_messages_for(fieldname)
   end

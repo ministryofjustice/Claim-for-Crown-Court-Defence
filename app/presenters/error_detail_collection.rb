@@ -17,6 +17,10 @@ class ErrorDetailCollection
     end
   end
 
+  def errors_for?(fieldname)
+    @error_details.key?(fieldname)
+  end
+
   def [](fieldname)
     @error_details[fieldname]
   end

@@ -11,6 +11,10 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
     result.html_safe
   end
 
+  def adp_text_field(method, options = {})
+    atf = AdpTextField.new(self, method, options)
+    atf.to_html
+  end
 
   def anchored_label(label, anchor_name = nil, options = {})
     anchor_name ||= label.gsub(' ', '_').downcase

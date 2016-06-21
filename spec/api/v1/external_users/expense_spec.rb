@@ -63,7 +63,7 @@ describe API::V1::ExternalUsers::Expense do
     end
 
     # Constant so we can refer to it outside of "it" blocks
-    FIELDS_AND_ERRORS = {
+    EXPENSE_FIELDS_AND_ERRORS = {
       amount: "Enter an amount for the expense",
       claim_id: "Claim cannot be blank",
       date: "Enter a date for the expense",
@@ -111,7 +111,7 @@ describe API::V1::ExternalUsers::Expense do
         end
 
         context "missing expected params" do
-          FIELDS_AND_ERRORS.each do |field, expected_message|
+          EXPENSE_FIELDS_AND_ERRORS.each do |field, expected_message|
             it "should give the correct error message when #{field} is blank" do
               params.delete(field)
               post_to_create_endpoint
@@ -172,7 +172,7 @@ describe API::V1::ExternalUsers::Expense do
       end
 
       context "missing expected params" do
-        FIELDS_AND_ERRORS.each do |field, expected_message|
+        EXPENSE_FIELDS_AND_ERRORS.each do |field, expected_message|
           it "should give the correct error message when #{field} is blank" do
             params.delete(field)
             post_to_validate_endpoint

@@ -8,6 +8,7 @@ module API::V1
       optional :creator_email, type: String, desc: "REQUIRED: The ADP administrator account email address that uniquely identifies the creator of the claim."
       optional :court_id, type: Integer, desc: "REQUIRED: The unique identifier for this court"
       optional :case_type_id, type: Integer, desc: "REQUIRED: The unique identifier of the case type"
+      optional :offence_id, type: Integer, desc: "REQUIRED: The unique identifier for this offence"
       optional :case_number, type: String, desc: "REQUIRED: The case number"
       optional :cms_number, type: String, desc: "OPTIONAL: The CMS number"
       optional :additional_information, type: String, desc: "OPTIONAL: Any additional information"

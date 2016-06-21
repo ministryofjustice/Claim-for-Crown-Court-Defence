@@ -18,9 +18,8 @@ module API::V1
       @claim_creator ||= find_user_by_email(email: params.delete(:creator_email), relation: 'Creator')
     end
 
-    # TODO: support user_email param (litigators)
     def claim_user
-      @claim_user ||= find_user_by_email(email: params.delete(:advocate_email), relation: 'Advocate')
+      @claim_user ||= find_user_by_email(email: claim_user_email, relation: claim_user_type)
     end
 
     def current_provider
@@ -47,5 +46,17 @@ module API::V1
       User.external_users.find_by(email: email).try(:persona) || (raise API::V1::ArgumentError, "#{relation} email is invalid")
     end
 
+    def lgfs_schema?
+      namespace =~ /\/claims\/(final|interim|transfer)/
+    end
+
+    def claim_user_email
+      return params.delete(:user_email) if lgfs_schema?
+      params.delete(:advocate_email) || params.delete(:user_email)
+    end
+
+    def claim_user_type
+      lgfs_schema? ? 'Litigator' : 'Advocate'
+    end
   end
 end

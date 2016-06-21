@@ -25,7 +25,9 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_interim_fee
-    add_error(:interim_fee, 'blank') if @record.interim_fee.nil?
+    unless @record.from_api?
+      add_error(:interim_fee, 'blank') if @record.interim_fee.nil?
+    end
   end
 
   def validate_first_day_of_trial

@@ -1,6 +1,9 @@
 require 'rails_helper'
 require 'spec_helper'
+<<<<<<< 370e00e327cf7e0c9c982ab7998d4fc0e9725fd5
 require 'support/claim_api_endpoints'
+=======
+>>>>>>> WIP. Litigator claims API implementation.
 require_relative '../api_spec_helper'
 require_relative '../shared_examples_for_all'
 
@@ -9,6 +12,15 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
+<<<<<<< 370e00e327cf7e0c9c982ab7998d4fc0e9725fd5
+=======
+  VALIDATE_CLAIM_ENDPOINT = "/api/external_users/claims/final/validate"
+  CREATE_CLAIM_ENDPOINT = "/api/external_users/claims/final"
+
+  ALL_CLAIM_ENDPOINTS = [VALIDATE_CLAIM_ENDPOINT, CREATE_CLAIM_ENDPOINT]
+  FORBIDDEN_CLAIM_VERBS ||= [:get, :put, :patch, :delete]
+
+>>>>>>> WIP. Litigator claims API implementation.
   let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
@@ -36,9 +48,15 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
   end
 
   context 'when sending non-permitted verbs' do
+<<<<<<< 370e00e327cf7e0c9c982ab7998d4fc0e9725fd5
     ClaimApiEndpoints.for(:final).all.each do |endpoint| # for each endpoint
       context "to endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+=======
+    ALL_CLAIM_ENDPOINTS.each do |endpoint| # for each endpoint
+      context "to endpoint #{endpoint}" do
+        FORBIDDEN_CLAIM_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
+>>>>>>> WIP. Litigator claims API implementation.
           it "#{api_verb.upcase} should return a status of 405" do
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
@@ -48,10 +66,17 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
     end
   end
 
+<<<<<<< 370e00e327cf7e0c9c982ab7998d4fc0e9725fd5
   describe "POST #{ClaimApiEndpoints.for(:final).validate}" do
 
     def post_to_validate_endpoint
       post ClaimApiEndpoints.for(:final).validate, valid_params, format: :json
+=======
+  describe "POST #{VALIDATE_CLAIM_ENDPOINT}" do
+
+    def post_to_validate_endpoint
+      post VALIDATE_CLAIM_ENDPOINT, valid_params, format: :json
+>>>>>>> WIP. Litigator claims API implementation.
     end
 
     it 'valid requests should return 200 and String true' do
@@ -93,10 +118,17 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
     end
   end
 
+<<<<<<< 370e00e327cf7e0c9c982ab7998d4fc0e9725fd5
   describe "POST #{ClaimApiEndpoints.for(:final).create}" do
 
     def post_to_create_endpoint
       post ClaimApiEndpoints.for(:final).create, valid_params, format: :json
+=======
+  describe "POST #{CREATE_CLAIM_ENDPOINT}" do
+
+    def post_to_create_endpoint
+      post CREATE_CLAIM_ENDPOINT, valid_params, format: :json
+>>>>>>> WIP. Litigator claims API implementation.
     end
 
     context "when claim params are valid" do

@@ -101,6 +101,20 @@ module API
             present DisbursementType.all, with: API::Entities::DisbursementType
           end
         end
+
+        resource :transfer_stages do
+          desc "Return all Transfer Stages"
+          get do
+            present ::Claim::TransferBrain::TRANSFER_STAGES.to_a, with: API::Entities::SimpleKeyValueList
+          end
+        end
+
+        resource :transfer_case_conclusions do
+          desc "Return all Transfer Case Conclusions"
+          get do
+            present ::Claim::TransferBrain::CASE_CONCLUSIONS.to_a, with: API::Entities::SimpleKeyValueList
+          end
+        end
       end
 
     end

@@ -873,6 +873,9 @@ Styling for Claims Messaging
       display: inline-block;
       .dz-upload {
         background-color: $grass-green;
+        display:inline-block;
+        height: 15px;
+        border-radius: 10px;
       }
       &.dz-success {
         .dz-success-mark {

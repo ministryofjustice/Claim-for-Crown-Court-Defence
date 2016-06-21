@@ -25,7 +25,16 @@
 select {
   -webkit-appearance: none;
   -webkit-border-radius: 0px;
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: '';
+
 }
+
+select::-ms-expand{
+  display:none;
+}
+
 .block-label input{
   width: auto;
 }

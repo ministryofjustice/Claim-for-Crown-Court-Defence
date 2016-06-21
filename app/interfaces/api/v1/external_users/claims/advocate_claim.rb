@@ -20,7 +20,6 @@ module API::V1::ExternalUsers
         optional :retrial_concluded_at, type: String, desc: "REQUIRED for retrials: YYYY-MM-DD", standard_json_format: true
         optional :cms_number, type: String, desc: "OPTIONAL: The CMS number"
         optional :additional_information, type: String, desc: "OPTIONAL: Any additional information"
-        optional :apply_vat, type: Boolean, desc: "OPTIONAL: Include VAT (JSON Boolean data type: true or false)"
         optional :trial_fixed_notice_at, type: String, desc: "OPTIONAL: YYYY-MM-DD", standard_json_format: true
         optional :trial_fixed_at, type: String, desc: "OPTIONAL: YYYY-MM-DD", standard_json_format: true
         optional :trial_cracked_at, type: String, desc: "OPTIONAL: YYYY-MM-DD", standard_json_format: true

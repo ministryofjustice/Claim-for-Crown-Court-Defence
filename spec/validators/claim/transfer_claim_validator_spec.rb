@@ -27,7 +27,6 @@ module Claim
         :case_concluded_at
       ],
       [
-        :transfer_fee,
         :litigator_type,
         :elected_case,
         :transfer_stage_id,
@@ -173,21 +172,5 @@ module Claim
         expect(claim.errors[:transfer_detail]).not_to include('invalid_combo')
       end
     end
-
-    context 'transfer fee' do
-      let(:claim) do
-        claim = Claim::TransferClaim.new(litigator_type: 'new', elected_case: false, transfer_stage_id: 50)
-        claim.form_step = 2
-        claim.force_validation = true
-        claim
-      end
-
-      it 'should validate existence of a transfer fee on the claim' do
-        allow(claim).to receive_message_chain(:transfer_fee,:nil?).and_return(true)
-        expect(claim).not_to be_valid
-        expect(claim.errors[:transfer_fee]).to eq ['blank']
-      end
-    end
-
   end
 end

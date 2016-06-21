@@ -5,7 +5,6 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
     [
       [].unshift(first_step_common_validations),
       [
-        :transfer_fee,
         :litigator_type,
         :elected_case,
         :transfer_stage_id,

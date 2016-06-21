@@ -37,7 +37,6 @@ Lint/Eval:
 # Offense count: 2
 Lint/HandleExceptions:
   Exclude:
-    - 'app/interfaces/api/logger.rb'
     - 'app/models/concerns/document_attachment.rb'
 
 # Offense count: 11
@@ -50,7 +49,6 @@ Lint/ShadowingOuterLocalVariable:
 # Cop supports --auto-correct.
 Lint/StringConversionInInterpolation:
   Exclude:
-    - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/presenters/error_detail.rb'
 
 # Offense count: 19
@@ -59,7 +57,6 @@ Lint/StringConversionInInterpolation:
 Lint/UnusedBlockArgument:
   Exclude:
     - 'app/controllers/external_users/certifications_controller.rb'
-    - 'app/interfaces/api/v1/dropdown_data.rb'
     - 'app/models/claims/cloner.rb'
     - 'app/models/json_document_importer.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
@@ -87,7 +84,6 @@ Lint/UselessAssignment:
     - 'app/controllers/case_workers/admin/allocations_controller.rb'
     - 'app/controllers/heartbeat_controller.rb'
     - 'app/form_builders/adp_form_builder.rb'
-    - 'app/interfaces/api/v1/api_response.rb'
     - 'app/models/claims/search.rb'
     - 'app/models/concerns/document_attachment.rb'
     - 'app/models/json_document_importer.rb'
@@ -102,7 +98,6 @@ Lint/Void:
 # Cop supports --auto-correct.
 Performance/Casecmp:
   Exclude:
-    - 'app/interfaces/api/v1/dropdown_data.rb'
     - 'app/models/concerns/document_attachment.rb'
 
 # Offense count: 2
@@ -184,14 +179,7 @@ Style/ConditionalAssignment:
   Exclude:
     - 'app/controllers/case_workers/claims_controller.rb'
     - 'app/controllers/messages_controller.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/concerns/number_comma_parser.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/EmptyCaseCondition:
-  Exclude:
-    - 'app/interfaces/api/v1/error_response.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -223,8 +211,6 @@ Style/EmptyLinesAroundAccessModifier:
 # Cop supports --auto-correct.
 Style/EmptyLinesAroundMethodBody:
   Exclude:
-    - 'app/interfaces/api/custom_validations/date_format.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claims/sort.rb'
     - 'app/models/claims/state_machine.rb'
@@ -239,7 +225,6 @@ Style/ExtraSpacing:
     - 'app/controllers/external_users/registrations_controller.rb'
     - 'app/controllers/heartbeat_controller.rb'
     - 'app/controllers/super_admins/external_users_controller.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/models/claim/base_claim.rb'
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claim/transfer_brain_data_item_collection.rb'
@@ -288,8 +273,6 @@ Style/IfInsideElse:
 Style/IndentationConsistency:
   Exclude:
     - 'app/helpers/claims_helper.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/fee/basic_fee_type.rb'
     - 'app/models/message.rb'
 
@@ -302,23 +285,11 @@ Style/IndentationWidth:
     - 'app/controllers/super_admins/external_users_controller.rb'
     - 'app/controllers/super_admins/providers_controller.rb'
     - 'app/helpers/claims_helper.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/defendant.rb'
     - 'app/models/fee/basic_fee_type.rb'
     - 'app/presenters/claim_history_presenter.rb'
     - 'app/validators/base_validator.rb'
     - 'lib/api_test_client.rb'
-
-# Offense count: 12
-# Cop supports --auto-correct.
-Style/MethodCallParentheses:
-  Exclude:
-    - 'app/interfaces/api/v1/external_users/claim.rb'
-    - 'app/interfaces/api/v1/external_users/date_attended.rb'
-    - 'app/interfaces/api/v1/external_users/defendant.rb'
-    - 'app/interfaces/api/v1/external_users/expense.rb'
-    - 'app/interfaces/api/v1/external_users/fee.rb'
-    - 'app/interfaces/api/v1/external_users/representation_order.rb'
 
 # Offense count: 2
 Style/MethodCalledOnDoEndBlock:
@@ -332,7 +303,6 @@ Style/MethodCalledOnDoEndBlock:
 Style/MultilineArrayBraceLayout:
   Exclude:
     - 'app/helpers/case_workers/admin/allocations_helper.rb'
-    - 'app/interfaces/api/v1/external_users/claim.rb'
     - 'app/models/document.rb'
     - 'app/models/message.rb'
     - 'lib/api_test_client.rb'
@@ -358,7 +328,6 @@ Style/MultilineOperationIndentation:
 Style/MutableConstant:
   Exclude:
     - 'app/form_builders/adp_date_fields.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/case_type.rb'
     - 'app/models/case_worker.rb'
     - 'app/models/certification_type.rb'
@@ -433,17 +402,10 @@ Style/RedundantParentheses:
 Style/RedundantReturn:
   Exclude:
     - 'app/controllers/concerns/password_helpers.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
     - 'app/validators/base_validator.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/SpaceAfterColon:
-  Exclude:
-    - 'app/interfaces/api/v1/external_users/representation_order.rb'
 
 # Offense count: 66
 # Cop supports --auto-correct.
@@ -453,9 +415,6 @@ Style/SpaceAfterComma:
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/claims_helper.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
-    - 'app/interfaces/api/v1/dropdown_data.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/allocation.rb'
     - 'app/models/claim/transfer_brain.rb'
     - 'app/models/claims/allocation_filters.rb'
@@ -486,8 +445,6 @@ Style/SpaceAroundOperators:
     - 'app/controllers/external_users/registrations_controller.rb'
     - 'app/controllers/heartbeat_controller.rb'
     - 'app/controllers/super_admins/external_users_controller.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claim/transfer_brain_data_item_collection.rb'
     - 'app/models/claims/sort.rb'
@@ -507,12 +464,6 @@ Style/SpaceAroundOperators:
 Style/SpaceBeforeBlockBraces:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/SpaceBeforeComma:
-  Exclude:
-    - 'app/interfaces/api/v1/external_users/claim.rb'
-
 # Offense count: 16
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
@@ -525,8 +476,6 @@ Style/SpaceInsideBlockBraces:
 Style/SpaceInsideBrackets:
   Exclude:
     - 'app/helpers/case_workers/admin/allocations_helper.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
-    - 'app/interfaces/api/v1/external_users/claim.rb'
     - 'app/models/ability.rb'
     - 'app/models/claim/litigator_claim.rb'
     - 'app/models/claim/transfer_claim.rb'
@@ -555,7 +504,6 @@ Style/SpaceInsideHashLiteralBraces:
 Style/SpaceInsideParens:
   Exclude:
     - 'app/controllers/case_workers/admin/allocations_controller.rb'
-    - 'app/interfaces/api/v1/api_helper.rb'
     - 'app/models/claims/state_machine.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/validators/claim/base_claim_validator.rb'
@@ -611,7 +559,6 @@ Style/TrailingWhitespace:
 # Whitelist: to_ary, to_a, to_c, to_enum, to_h, to_hash, to_i, to_int, to_io, to_open, to_path, to_proc, to_r, to_regexp, to_str, to_s, to_sym
 Style/TrivialAccessors:
   Exclude:
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/claim/base_claim.rb'
     - 'lib/api_test_client.rb'
 
@@ -619,7 +566,6 @@ Style/TrivialAccessors:
 # Cop supports --auto-correct.
 Style/UnlessElse:
   Exclude:
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/date_attended.rb'
     - 'app/presenters/claim_csv_presenter.rb'
 
@@ -627,7 +573,6 @@ Style/UnlessElse:
 # Cop supports --auto-correct.
 Style/UnneededInterpolation:
   Exclude:
-    - 'app/interfaces/api/v1/error_response.rb'
     - 'app/models/date_attended.rb'
     - 'app/presenters/claim_state_transition_presenter.rb'
 

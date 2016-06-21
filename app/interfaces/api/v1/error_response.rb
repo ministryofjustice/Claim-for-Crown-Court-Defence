@@ -22,7 +22,8 @@ class ErrorResponse
 
   VALID_MODEL_KLASSES = [
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
-      Expense, Disbursement, Claim::AdvocateClaim, Defendant, DateAttended, RepresentationOrder
+      Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
+      Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
   ].freeze
 
   def initialize(object)
@@ -44,7 +45,7 @@ private
   end
 
   def translations
-    message_file ||= Rails.root.join('config','locales',"error_messages.#{I18n.locale}.yml")
+    message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
     YAML.load_file(message_file)
   end
 
@@ -68,7 +69,7 @@ private
 
   # format of field name determines lookup in translations
   def format_field_name(field_name)
-    "#{submodel_prefix + field_name.to_s}".to_sym
+    (submodel_prefix + field_name.to_s).to_s.to_sym
   end
 
   def fetch_and_translate_error_messages
@@ -84,12 +85,12 @@ private
   end
 
   def build_error_response
-    unless @model.errors.empty?
+    if @model.errors.empty?
+      raise "unable to build error response as no errors were found"
+    else
       fetch_and_translate_error_messages
       @body = error_messages
       @status = 400
-    else
-      raise "unable to build error response as no errors were found"
     end
   end
 end

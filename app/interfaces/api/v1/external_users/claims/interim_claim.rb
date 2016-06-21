@@ -6,6 +6,7 @@ module API::V1::ExternalUsers
       params do
         use :common_params
         optional :user_email, type: String, desc: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
+        optional :supplier_number, type: String, desc: 'REQUIRED: The supplier number of the firm submitting the Litigator claim.'
       end
 
       namespace :interim do

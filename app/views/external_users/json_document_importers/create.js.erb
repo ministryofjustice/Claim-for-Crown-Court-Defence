@@ -1,7 +1,9 @@
 var $importerResults = $('.importer-results');
+var $importButton = $('input.btn-import-file');
 var resetUploaderForm = function() { $('#importer').find('form').addClass('no-file-selected').find('.file-upload-name').empty(); };
 
 $importerResults.find('.js-import-failed').remove();
+$importButton.prop('disabled', false).val('Import claim(s)');
 
 <% if @json_document_importer.imported_claims.any? %>
 	$importerResults.html(

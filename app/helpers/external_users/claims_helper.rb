@@ -9,7 +9,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def validation_message_from_presenter(presenter, attribute)
-    if presenter.errors_for?(attribute)
+    if presenter.errors_for?(attribute.to_sym)
       content_tag :span, class: 'error' do
         presenter.field_level_error_for(attribute.to_sym)
       end

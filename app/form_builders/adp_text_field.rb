@@ -135,8 +135,8 @@ class AdpTextField
     result = %Q|<input class="form-control #{@input_classes}" type="#{@input_type}" name="#{@form_field_name}" id="#{@form_field_id}" |
     result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
     if @input_is_number
-      result += %Q| min="#{@input_min}" |
-      result += %Q| max="#{@input_max}" |
+      result += %Q|min="#{@input_min}" |
+      result += %Q|max="#{@input_max}" |
     end
     result += %Q|/>|
     result

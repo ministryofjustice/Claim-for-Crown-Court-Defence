@@ -29,7 +29,7 @@ describe AdpTextField do
           <label class="form-label" for="claim_case_number">
             Case number
           </label>
-          <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
         </div>
         eos
         squash(html)
@@ -42,12 +42,52 @@ describe AdpTextField do
           <label class="form-label" for="claim_case_number">
             Case number
           </label>
-          <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
         </div>
         eos
         squash(html)
       end
     end
+
+    context 'simple number field without hint' do
+      it 'should produce expected html when resource is nil' do
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', errors: error_presenter)
+        expect(atf.to_html).to eq squash(a100_no_value_no_hint)
+      end
+
+      it 'should produce expected result when resource has a value' do
+        resource.case_number = '555'
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', errors: error_presenter)
+        expect(atf.to_html).to eq a200_value_no_hint
+      end
+
+      def a100_no_value_no_hint
+        html = <<-eos
+        <div class="form-group case_number">
+          <a id="case_number"></a>
+          <label class="form-label" for="claim_case_number">
+            Case number
+          </label>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+
+      def a200_value_no_hint
+        html = <<-eos
+        <div class="form-group case_number">
+          <a id="case_number"></a>
+          <label class="form-label" for="claim_case_number">
+            Case number
+          </label>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+    end
+
 
     context 'simple value with hint' do
       it 'produces expected output with value' do
@@ -64,7 +104,7 @@ describe AdpTextField do
             Case number
             <span class="form-hint">Hint text here</span>
           </label>
-          <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
         </div>
         eos
         squash(html)
@@ -87,9 +127,9 @@ describe AdpTextField do
           <label class="form-label" for="claim_case_number">
             Case number
             <span class="form-hint">Hint text here</span>
-            <span class="error">Validation error here</span>
           </label>
-          <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" />
+          <input class="form-control " type="text" name="claim[case_number]" id="claim_case_number" />
+          <span class="error">Validation error here</span>
         </div>
         eos
         squash(html)

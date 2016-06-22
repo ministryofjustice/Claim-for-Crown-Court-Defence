@@ -54,7 +54,7 @@ describe API::V1::ExternalUsers::Disbursement do
   end
 
   # Constant so we can refer to it outside of "it" blocks
-  FIELDS_AND_ERRORS = {
+  DISBURSEMENT_FIELDS_AND_ERRORS = {
     claim_id: "Claim cannot be blank",
     disbursement_type_id: "Choose a type for the disbursement",
     net_amount: "Enter a net amount for the disbursement",
@@ -99,7 +99,7 @@ describe API::V1::ExternalUsers::Disbursement do
       end
 
       context "missing expected params" do
-        FIELDS_AND_ERRORS.each do |field, expected_message|
+        DISBURSEMENT_FIELDS_AND_ERRORS.each do |field, expected_message|
           it "should give the correct error message when #{field} is blank" do
             params.delete(field)
             post_to_create_endpoint
@@ -158,7 +158,7 @@ describe API::V1::ExternalUsers::Disbursement do
     end
 
     context "missing expected params" do
-      FIELDS_AND_ERRORS.each do |field, expected_message|
+      DISBURSEMENT_FIELDS_AND_ERRORS.each do |field, expected_message|
         it "should give the correct error message when #{field} is blank" do
           params.delete(field)
           post_to_validate_endpoint

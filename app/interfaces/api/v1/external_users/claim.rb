@@ -13,11 +13,9 @@ module API
           end
 
           mount API::V1::ExternalUsers::Claims::AdvocateClaim
-
-          # TODO: uncomment to enable the new types
-          #mount API::V1::ExternalUsers::Claims::FinalClaim
-          #mount API::V1::ExternalUsers::Claims::InterimClaim
-          #mount API::V1::ExternalUsers::Claims::TransferClaim
+          mount API::V1::ExternalUsers::Claims::FinalClaim
+          mount API::V1::ExternalUsers::Claims::InterimClaim
+          mount API::V1::ExternalUsers::Claims::TransferClaim
         end
       end
     end

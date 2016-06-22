@@ -16,6 +16,8 @@ describe API::V1::DropdownData do
   FEE_TYPE_ENDPOINT           = "/api/fee_types"
   EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
   DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
+  TRANSFER_STAGES_ENDPOINT    = "/api/transfer_stages"
+  TRANSFER_CASE_CONCLUSIONS_ENDPOINT = "/api/transfer_case_conclusions"
 
   FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
   ALL_DROPDOWN_ENDPOINTS = [
@@ -27,7 +29,9 @@ describe API::V1::DropdownData do
       OFFENCE_ENDPOINT,
       FEE_TYPE_ENDPOINT,
       EXPENSE_TYPE_ENDPOINT,
-      DISBURSEMENT_TYPE_ENDPOINT
+      DISBURSEMENT_TYPE_ENDPOINT,
+      TRANSFER_STAGES_ENDPOINT,
+      TRANSFER_CASE_CONCLUSIONS_ENDPOINT
   ]
 
   let(:provider) { create(:provider) }
@@ -58,7 +62,9 @@ describe API::V1::DropdownData do
         OFFENCE_ENDPOINT => API::Entities::Offence.represent(Offence.all).to_json,
         FEE_TYPE_ENDPOINT => API::Entities::BaseFeeType.represent(Fee::BaseFeeType.all).to_json,
         EXPENSE_TYPE_ENDPOINT => API::Entities::ExpenseType.represent(ExpenseType.all).to_json,
-        DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.all).to_json
+        DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.all).to_json,
+        TRANSFER_STAGES_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::TRANSFER_STAGES.to_a).to_json,
+        TRANSFER_CASE_CONCLUSIONS_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::CASE_CONCLUSIONS.to_a).to_json
       }
     end
 

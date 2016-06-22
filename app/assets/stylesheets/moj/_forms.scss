@@ -483,6 +483,7 @@ label.form-date-spacing {
 .js-enabled {
   select.autocomplete {
     @include visually-hidden;
+    width:1px !important;
   }
 }
 

@@ -62,7 +62,7 @@ describe AdpTextField do
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
-            <div class="form-hint">Hint text here</div>
+            <span class="form-hint">Hint text here</span>
           </label>
           <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" value="X22334455" />
         </div>
@@ -86,8 +86,8 @@ describe AdpTextField do
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
-            <div class="form-hint">Hint text here</div>
-            <span class="validation-error">Validation error here</span>
+            <span class="form-hint">Hint text here</span>
+            <span class="error">Validation error here</span>
           </label>
           <input class="form-control" type="text" name="claim[case_number]" id="claim_case_number" />
         </div>

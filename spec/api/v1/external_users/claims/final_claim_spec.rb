@@ -25,7 +25,8 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
       :case_number => 'A12345678',
       :offence_id => offence.id,
       :court_id => court.id,
-      :case_concluded_at => 1.month.ago.as_json } }
+      :case_concluded_at => 1.month.ago.as_json,
+      :actual_trial_length => 10 } }
 
   after(:all) { clean_database }
 

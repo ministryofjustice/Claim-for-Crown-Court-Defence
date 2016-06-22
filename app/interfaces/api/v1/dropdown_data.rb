@@ -11,11 +11,24 @@ module API
         optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
       end
 
+      helpers do
+        params :role_filter do
+          optional :role, type: String, desc: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.', values: %w(agfs lgfs)
+        end
+
+        def role
+          params.role.try(:downcase).try(:to_sym) || :all
+        end
+      end
+
       group do
         resource :case_types do
           desc "Return all Case Types"
+          params do
+            use :role_filter
+          end
           get do
-            present CaseType.agfs, with: API::Entities::CaseType
+            present CaseType.__send__(role), with: API::Entities::CaseType
           end
         end
 
@@ -63,7 +76,6 @@ module API
           end
         end
 
-        # TODO: allow 'graduated, interim and transfer' categories once we open the API to litigator claims
         resource :fee_types do
           helpers do
             def category
@@ -72,16 +84,17 @@ module API
           end
 
           params do
-            optional :category, type: String, values: %w(all basic misc fixed ), default: 'all',
-                     desc: "[optional] category - #{%w(all basic misc fixed).to_sentence}. Default: all"
+            use :role_filter
+            optional :category, type: String, values: %w(all basic misc fixed graduated interim transfer warrant), default: 'all',
+                     desc: "[optional] category - #{%w(all basic misc fixed graduated interim transfer warrant).to_sentence}. Default: all"
           end
 
           desc "Return all AGFS Fee Types (optional category filter)."
           get do
             fee_types = if category.blank? || category == 'all'
-                          Fee::BaseFeeType.agfs
+                          Fee::BaseFeeType.__send__(role)
                         else
-                          Fee::BaseFeeType.__send__(category).agfs
+                          Fee::BaseFeeType.__send__(category).__send__(role)
                         end
 
             present fee_types, with: API::Entities::BaseFeeType
@@ -90,8 +103,11 @@ module API
 
         resource :expense_types do
           desc "Return all Expense Types."
+          params do
+            use :role_filter
+          end
           get do
-            present ExpenseType.agfs, with: API::Entities::ExpenseType
+            present ExpenseType.__send__(role), with: API::Entities::ExpenseType
           end
         end
 

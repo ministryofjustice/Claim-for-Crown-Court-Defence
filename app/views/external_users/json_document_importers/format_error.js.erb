@@ -9,3 +9,4 @@ $('#importer')
     .html("<em><%= filename %></em> is either not JSON or contains errors. Choose another file.");
 
 $('.importer-results').empty();
+$('input.btn-import-file').prop('disabled', false).val('Import claim(s)');

@@ -29,6 +29,9 @@ moj.Modules.CustomFileUpload = {
           .find('.file-upload-name').text(fileName)
           .parent()
           .find('.errors').empty();
+      })
+      .on('submit', function() {
+        $('input.btn-import-file').prop('disabled', true).val('Please wait...');
       });
   },
 

@@ -74,13 +74,13 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
 
     end
 
-    it "should return 400 and JSON error array when creator email is invalid" do
+    it 'should return 400 and JSON error array when creator email is invalid' do
       valid_params[:creator_email] = "non_existent_admin@bigblackhole.com"
       post_to_validate_endpoint
       expect_error_response("Creator email is invalid")
     end
 
-    it "should return 400 and JSON error array when user email is invalid" do
+    it 'should return 400 and JSON error array when user email is invalid' do
       valid_params[:user_email] = "non_existent_user@bigblackhole.com"
       post_to_validate_endpoint
       expect_error_response("Litigator email is invalid")
@@ -198,7 +198,7 @@ describe API::V1::ExternalUsers::Claims::FinalClaim do
           expect_error_response("Enter a case number eg A12345678",0)
           expect_error_response("Check the date case concluded",1)
         end
-      end
+    end
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do

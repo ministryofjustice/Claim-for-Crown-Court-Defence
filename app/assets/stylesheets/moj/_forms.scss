@@ -503,3 +503,25 @@ label.form-date-spacing {
     width: 77%;
   }
 }
+
+
+.field_with_errors{
+  border-left: 3px solid $error-colour;
+  padding: 15px 0 15px 15px;
+
+  .error{
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 400;
+    text-transform: none;
+    display: block;
+    color: $error-colour;
+    padding-left: 0;
+    border:0;
+  }
+
+  input{
+    border: 2px solid $error-colour;
+  }
+}
+

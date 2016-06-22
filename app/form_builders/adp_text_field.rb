@@ -12,6 +12,8 @@ class AdpTextField
   # * options:
   #   * label: label to be provided for the input field
   #   * hint_text: Hint text displayed underneath the label
+  #   * input_classes: Css classes on the input
+  #   * input_type: Input type will default to `text`
   #   * errors: An ErrorPresenter for the form object, or the form object itself
 
   def initialize(form, method, options)
@@ -21,6 +23,8 @@ class AdpTextField
     @form_field_id = generate_form_field_id
     @form_field_name = generate_form_field_name
     @errors = options[:errors]
+    @input_classes = options[:input_classes] || ''
+    @input_type = options[:input_type] || 'text'
     @anchor_id = generate_anchor_id
   end
 
@@ -37,6 +41,7 @@ class AdpTextField
   end
 
   def has_errors?
+    return false if @errors.nil?
     @errors.errors_for?(@anchor_id.to_sym)
   end
 
@@ -111,14 +116,14 @@ class AdpTextField
 
   def hint
     if @options[:hint_text]
-      %Q|<div class="form-hint">#{@options[:hint_text]}</div>|
+      %Q|<span class="form-hint">#{@options[:hint_text]}</span>|
     else
       ''
     end
   end
 
   def input_field
-    result = %Q|<input class="form-control" type="text" name="#{@form_field_name}" id="#{@form_field_id}" |
+    result = %Q|<input class="form-control #{@input_classes}" type="#{@input_type}" name="#{@form_field_name}" id="#{@form_field_id}" |
     result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
     result += %Q|/>|
     result

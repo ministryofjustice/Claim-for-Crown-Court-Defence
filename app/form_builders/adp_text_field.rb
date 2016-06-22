@@ -25,6 +25,13 @@ class AdpTextField
     @errors = options[:errors]
     @input_classes = options[:input_classes] || ''
     @input_type = options[:input_type] || 'text'
+
+    if @input_type == 'number'
+      @input_is_number = true
+      @input_min = options[:input_min] || '0'
+      @input_max = options[:input_max] || '99999'
+    end
+
     @anchor_id = generate_anchor_id
   end
 
@@ -125,6 +132,10 @@ class AdpTextField
   def input_field
     result = %Q|<input class="form-control #{@input_classes}" type="#{@input_type}" name="#{@form_field_name}" id="#{@form_field_id}" |
     result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
+    if @input_is_number == 'number'
+      result += %Q| min="#{@input_min}" |
+      result += %Q| max="#{@input_max}" |
+    end
     result += %Q|/>|
     result
   end

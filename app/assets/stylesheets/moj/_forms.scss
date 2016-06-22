@@ -508,7 +508,7 @@ label.form-date-spacing {
 
 .field_with_errors{
   border-left: 3px solid $error-colour;
-  padding: 15px 0 15px 15px;
+  padding: 0 0 0 15px;
 
   .error{
     font-size: 16px;

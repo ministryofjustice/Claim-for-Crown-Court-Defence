@@ -59,9 +59,9 @@ class AdpTextField
     result += anchor
     result += label
     result += hint
-    result += error_message
     result += label_close
     result += input_field
+    result += error_message
     result += div_close
     result.html_safe
   end

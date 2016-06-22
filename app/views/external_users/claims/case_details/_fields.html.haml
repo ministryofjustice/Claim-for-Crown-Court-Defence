@@ -24,7 +24,7 @@
         = f.anchored_label t('.case_type'), 'case_type_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Trial"
-        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
+        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row
@@ -32,7 +32,7 @@
         = f.anchored_label t('.court'), 'court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
       .form-col
@@ -43,7 +43,7 @@
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :transfer_court)
 
       .form-col.form-col-two-thirds

@@ -29,4 +29,19 @@ namespace :api do
 
   end
 
+  desc 'display useful api keys in dev'
+  task :keys => :environment do
+    if Rails.env.development?
+      provider = Provider.lgfs.agfs.first
+      puts "Provider: #{provider.name}"
+      puts "API-Key:  #{provider.api_key}"
+      external_users = provider.external_users
+      external_users.each do |eu|
+        puts sprintf("     Email: %-25s   Roles: %s", eu.user.email, eu.roles.join(', '))
+      end
+    else
+      puts "Only available in development mode"
+    end
+  end
+
 end

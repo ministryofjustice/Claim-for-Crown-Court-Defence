@@ -28,4 +28,9 @@ class OffenceClass < ActiveRecord::Base
   def letter_and_description
     "#{class_letter}: #{description}"
   end
+
+  def lgfs_offence_id
+    offences.miscellaneous.first.id
+  end
+
 end

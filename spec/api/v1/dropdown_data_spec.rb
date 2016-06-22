@@ -71,7 +71,7 @@ describe API::V1::DropdownData do
     before do
       create_list(:case_type, 2)
       create_list(:court, 2)
-      create_list(:offence_class, 2)
+      create_list(:offence_class, 2, :with_lgfs_offence)
       create_list(:offence, 2)
       create_list(:basic_fee_type, 2)
       create_list(:expense_type, 2)
@@ -102,6 +102,7 @@ describe API::V1::DropdownData do
 
       let!(:offence)                        { create(:offence) }
       let!(:other_offence)                  { create(:offence) }
+      let!(:misc_offence)                   { create(:offence, :miscellaneous, offence_class: offence.offence_class) }
       let!(:offence_with_same_description)  { create(:offence, description: offence.description) }
       let!(:response)                       { get OFFENCE_ENDPOINT, params }
 
@@ -116,6 +117,7 @@ describe API::V1::DropdownData do
     it 'should only return offences matching description when offence_description param is present' do
       params.merge!(offence_description: offence.description)
       response = get OFFENCE_ENDPOINT, params
+      
       returned_offences = JSON.parse(response.body, symbolize_names: true)
       expect(returned_offences).to include(exposed_offence[offence], exposed_offence[offence_with_same_description])
       expect(returned_offences).to_not include(exposed_offence[other_offence])

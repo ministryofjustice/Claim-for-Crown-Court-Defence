@@ -6,14 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles.
-# SupportedStyles: either, start_of_block, start_of_line
-#Lint/BlockAlignment:
-#  Exclude:
-#    - 'app/interfaces/api/v1/api_helper.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
@@ -61,7 +53,6 @@ Lint/UnusedBlockArgument:
     - 'app/models/json_document_importer.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/presenters/error_detail_collection.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -87,7 +78,6 @@ Lint/UselessAssignment:
     - 'app/models/claims/search.rb'
     - 'app/models/concerns/document_attachment.rb'
     - 'app/models/json_document_importer.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 1
 Lint/Void:
@@ -135,7 +125,6 @@ Performance/StringReplacement:
 Style/AlignArray:
   Exclude:
     - 'app/controllers/super_admins/admin/super_admins_controller.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -214,7 +203,6 @@ Style/EmptyLinesAroundMethodBody:
     - 'app/models/claim/transfer_brain_data_item.rb'
     - 'app/models/claims/sort.rb'
     - 'app/models/claims/state_machine.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 26
 # Cop supports --auto-correct.
@@ -238,7 +226,6 @@ Style/ExtraSpacing:
     - 'app/presenters/error_presenter.rb'
     - 'app/services/zendesk_sender.rb'
     - 'app/validators/claim/base_claim_validator.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -289,7 +276,6 @@ Style/IndentationWidth:
     - 'app/models/fee/basic_fee_type.rb'
     - 'app/presenters/claim_history_presenter.rb'
     - 'app/validators/base_validator.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 2
 Style/MethodCalledOnDoEndBlock:
@@ -305,7 +291,6 @@ Style/MultilineArrayBraceLayout:
     - 'app/helpers/case_workers/admin/allocations_helper.rb'
     - 'app/models/document.rb'
     - 'app/models/message.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
@@ -347,7 +332,6 @@ Style/MutableConstant:
     - 'app/models/feedback.rb'
     - 'app/models/provider.rb'
     - 'app/services/claims/input_event_mapper.rb'
-    - 'lib/api_test_client.rb'
     - 'lib/rails_host.rb'
 
 # Offense count: 4
@@ -422,7 +406,6 @@ Style/SpaceAfterComma:
     - 'app/presenters/error_message_translator.rb'
     - 'app/validators/base_validator.rb'
     - 'app/validators/expense_v2_validator.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -455,7 +438,6 @@ Style/SpaceAroundOperators:
     - 'app/presenters/error_presenter.rb'
     - 'app/presenters/message_presenter.rb'
     - 'app/validators/base_validator.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 15
 # Cop supports --auto-correct.
@@ -507,7 +489,6 @@ Style/SpaceInsideParens:
     - 'app/models/claims/state_machine.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/validators/claim/base_claim_validator.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -560,7 +541,6 @@ Style/TrailingWhitespace:
 Style/TrivialAccessors:
   Exclude:
     - 'app/models/claim/base_claim.rb'
-    - 'lib/api_test_client.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.

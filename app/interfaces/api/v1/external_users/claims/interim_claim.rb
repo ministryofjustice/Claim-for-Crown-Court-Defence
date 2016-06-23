@@ -1,14 +1,14 @@
 module API::V1::ExternalUsers
   module Claims
     class InterimClaim < Grape::API
-      helpers API::V1::ClaimHelper
+      helpers API::V1::ClaimParamsHelper
 
       params do
         use :common_params
-        optional :user_email, type: String, desc: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
-        optional :supplier_number, type: String, desc: 'REQUIRED: The supplier number of the firm submitting the Litigator claim.'
-        optional :transfer_court_id, type: Integer, desc: 'REQUIRED: The unique identifier for the transfer court.'
-        optional :transfer_case_number, type: String, desc: 'REQUIRED: The case number for the transfer court.'
+        use :common_lgfs_params
+        use :common_trial_params
+        optional :effective_pcmh_date, type: String, desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD', standard_json_format: true
+        optional :legal_aid_transfer_date, type: String, desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD', standard_json_format: true
       end
 
       namespace :interim do

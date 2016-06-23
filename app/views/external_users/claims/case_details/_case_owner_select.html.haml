@@ -1,5 +1,5 @@
 .form-row
   .form-col
     = f.anchored_label label, 'external_user_id_autocomplete'
-    = f.collection_select :external_user_id, external_users_collection, :id, :name_and_number, {include_blank: true}, {class: 'form-control autocomplete'}
+    = f.collection_select :external_user_id, external_users_collection, :id, :name_and_number, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete'}
     = validation_error_message(@error_presenter, :external_user)

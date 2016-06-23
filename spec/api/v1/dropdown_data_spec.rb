@@ -146,6 +146,20 @@ describe API::V1::DropdownData do
         expect(response.body).to eq API::Entities::BaseFeeType.represent(Fee::BaseFeeType.send(category).agfs).to_json
       end
     end
+
+    context 'with role filter' do
+      let(:parsed_body) { JSON.parse(last_response.body) }
+
+      it 'should only include AGFS fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
+        expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
+      end
+
+      it 'should only include LGFS fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
+        expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+      end
+    end
   end
 
   # TODO: remove or refactor endpoint and spec, not too mention claims,
@@ -192,9 +206,16 @@ describe API::V1::DropdownData do
         expect(last_response.status).to eq 200
       end
 
-      it "should only include AGFS expense types" do
-        get EXPENSE_TYPE_ENDPOINT, params, format: :json
-        expect(parsed_body.count).to eql 2
+      context 'with role filter' do
+        it 'should only include AGFS expense types' do
+          get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
+          expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
+        end
+
+        it 'should only include LGFS expense types' do
+          get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
+          expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+        end
       end
 
       it "has all the expected keys" do

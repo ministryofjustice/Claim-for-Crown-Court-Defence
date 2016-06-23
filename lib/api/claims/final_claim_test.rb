@@ -38,9 +38,7 @@ class FinalClaimTest < BaseClaimTest
 
 
   def claim_data
-    # use endpoint dropdown/lookup data
-    # NOTE: use case at index 12 (i.e. Trial) since this has least validations
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'lgfs'}), 'id', 12)
+    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'lgfs'}), 'id', 12) # Trial
     offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, {offence_description: 'Miscellaneous/other'}), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
@@ -61,10 +59,12 @@ class FinalClaimTest < BaseClaimTest
   end
 
   def graduated_fee_data
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'graduated', role: 'lgfs'}), 'id', 5) # Trial
+
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": 86, # Trial
+      "fee_type_id": fee_type_id,
       "quantity": 5,
       "amount": 100.25,
       "date": 1.month.ago.as_json
@@ -72,10 +72,12 @@ class FinalClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'misc', role: 'lgfs'}), 'id') # Case Uplift
+
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": 85, # Case Uplift
+      "fee_type_id": fee_type_id,
       "case_numbers": 'A12345678',
       "amount": 200.45
     }

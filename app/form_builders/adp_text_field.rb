@@ -25,13 +25,18 @@ class AdpTextField
     @errors = options[:errors]
     @input_classes = options[:input_classes] || ''
     @input_type = options[:input_type] || 'text'
+    @input_type_string = @input_type;
+    @input_is_number = false
 
-    if @input_type == 'number'
+    if @input_type == 'currency'
+      @input_is_currency = true
+    end
+
+    if @input_type == 'currency' || @input_type =='number'
+      @input_type_string = 'number'
       @input_is_number = true
       @input_min = options[:input_min] || '0'
       @input_max = options[:input_max] || '99999'
-    else
-      @input_is_number = false
     end
 
     @anchor_id = generate_anchor_id
@@ -101,7 +106,7 @@ class AdpTextField
   end
 
   def div_start
-    result = %Q|<div class="form-group #{@method}|
+    result = %Q|<div class="form-group #{@method}_wrapper|
     result += %Q| field_with_errors| if has_errors?
     result += %Q|">|
     result
@@ -109,6 +114,10 @@ class AdpTextField
 
   def anchor
     %Q|<a id="#{@anchor_id}"></a>|
+  end
+
+  def currency
+    %Q|<span class="currency-indicator">&pound;</span>|
   end
 
   def label
@@ -132,7 +141,11 @@ class AdpTextField
   end
 
   def input_field
-    result = %Q|<input class="form-control #{@input_classes}" type="#{@input_type}" name="#{@form_field_name}" id="#{@form_field_id}" |
+    result = %Q||
+    if @input_is_currency
+      result += %Q|<span class="currency-indicator">&pound;</span>|
+    end
+    result += %Q|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
     result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
     if @input_is_number
       result += %Q|min="#{@input_min}" |

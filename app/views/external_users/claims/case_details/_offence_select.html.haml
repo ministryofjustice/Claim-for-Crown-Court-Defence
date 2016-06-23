@@ -1,4 +1,4 @@
-= label_tag t('.offence_class')
+= label_tag 'offence_class_description', t('.offence_class')
 .form-hint.xsmall.zero-vert-margin
   &nbsp;<br/><br/>
 - selected_offence = @claim.try(:offence) ? @claim.offence.id : (offences.count == 1 ? offences.first : nil)

@@ -24,7 +24,7 @@ describe AdpTextField do
 
       def a100_no_value_no_hint
         html = <<-eos
-        <div class="form-group case_number">
+        <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
@@ -37,7 +37,7 @@ describe AdpTextField do
 
       def a200_value_no_hint
         html = <<-eos
-        <div class="form-group case_number">
+        <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
@@ -63,7 +63,7 @@ describe AdpTextField do
 
       def a100_no_value_no_hint
         html = <<-eos
-        <div class="form-group case_number">
+        <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
@@ -76,7 +76,7 @@ describe AdpTextField do
 
       def a200_value_no_hint
         html = <<-eos
-        <div class="form-group case_number">
+        <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
@@ -88,8 +88,48 @@ describe AdpTextField do
       end
     end
 
+    context 'simple currency field without hint' do
+      it 'should produce expected html when resource is nil' do
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', errors: error_presenter)
+        expect(atf.to_html).to eq squash(a100_no_value_no_hint)
+      end
 
-    context 'simple value with hint' do
+      it 'should produce expected result when resource has a value' do
+        resource.case_number = '555'
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', errors: error_presenter)
+        expect(atf.to_html).to eq a200_value_no_hint
+      end
+
+      def a100_no_value_no_hint
+        html = <<-eos
+        <div class="form-group case_number_wrapper">
+          <a id="case_number"></a>
+          <label class="form-label" for="claim_case_number">
+            Case number
+          </label>
+          <span class="currency-indicator">&pound;</span>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+
+      def a200_value_no_hint
+        html = <<-eos
+        <div class="form-group case_number_wrapper">
+          <a id="case_number"></a>
+          <label class="form-label" for="claim_case_number">
+            Case number
+          </label>
+          <span class="currency-indicator">&pound;</span>
+          <input class="form-control " type="number" name="claim[case_number]" id="claim_case_number" value="555" min="0" max="99999" />
+        </div>
+        eos
+        squash(html)
+      end
+    end
+
+    context 'simple text with hint' do
       it 'produces expected output with value' do
         resource.case_number = 'X22334455'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', hint_text: 'Hint text here', errors: error_presenter)
@@ -98,7 +138,7 @@ describe AdpTextField do
 
       def b100_with_value_with_hint
         html = <<-eos
-        <div class="form-group case_number">
+        <div class="form-group case_number_wrapper">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number
@@ -122,7 +162,7 @@ describe AdpTextField do
 
       def c100_with_value_with_hint_and_error
         html = <<-eos
-        <div class="form-group case_number field_with_errors">
+        <div class="form-group case_number_wrapper field_with_errors">
           <a id="case_number"></a>
           <label class="form-label" for="claim_case_number">
             Case number

@@ -32,6 +32,7 @@ class ApiTestClient
     AdvocateClaimTest.new(client: self).test_creation!
     FinalClaimTest.new(client: self).test_creation!
     InterimClaimTest.new(client: self).test_creation!
+    TransferClaimTest.new(client: self).test_creation!
   end
 
   def failure

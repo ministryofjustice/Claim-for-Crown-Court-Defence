@@ -40,9 +40,7 @@ class AdvocateClaimTest < BaseClaimTest
 
 
   def claim_data
-    # use endpoint dropdown/lookup data
-    # NOTE: use Trial since this has least validations
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'agfs'}), 'id', 11)
+    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, {role: 'agfs'}), 'id', 11) # Trial
     advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
     offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
@@ -72,20 +70,24 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def basic_fee_data
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'basic', role: 'agfs'}), 'id')
+
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": Fee::BasicFeeType.first.id,
+      "fee_type_id": fee_type_id,
       "quantity": 1,
       "rate": 255.50
     }
   end
 
   def misc_fee_data
+    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, {category: 'misc', role: 'agfs'}), 'id')
+
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": Fee::MiscFeeType.first.id,
+      "fee_type_id": fee_type_id,
       "quantity": 2,
       "rate": 1.55,
     }

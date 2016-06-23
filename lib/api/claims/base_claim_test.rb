@@ -139,18 +139,18 @@ class BaseClaimTest
     expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, {role: role}), 'id')
 
     {
-        "api_key": api_key,
-        "claim_id": claim_uuid,
-        "expense_type_id": expense_type_id,
-        "rate": 1.1,
-        "quantity": 1,
-        "amount": 1.1,
-        "location": "London",
-        "reason_id": 5,
-        "reason_text": "Foo",
-        "date": "2016-01-01",
-        "distance": 1,
-        "mileage_rate_id": 1
+      "api_key": api_key,
+      "claim_id": claim_uuid,
+      "expense_type_id": expense_type_id,
+      "rate": 1.1,
+      "quantity": 1,
+      "amount": 1.1,
+      "location": "London",
+      "reason_id": 5,
+      "reason_text": "Foo",
+      "date": "2016-01-01",
+      "distance": 1,
+      "mileage_rate_id": 1
     }
   end
 end

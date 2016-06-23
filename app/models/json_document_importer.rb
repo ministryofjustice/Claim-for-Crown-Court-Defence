@@ -72,7 +72,11 @@ class JsonDocumentImporter
       rescue ArgumentError => e
         claim_hash['claim']['case_number'] = case_number
         @failed_imports << claim_hash
-        @errors[case_number] = JSON.parse(e.message).map{ |error_hash| error_hash['error'] }
+        begin
+          @errors[case_number] = JSON.parse(e.message).map{ |error_hash| error_hash['error'] }
+        rescue JSON::ParserError => jpe
+          @errors[case_number] = [jpe.message]
+        end
         claim = Claim::BaseClaim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
         claim.destroy if claim.present?
       rescue JSON::Schema::ValidationError => error

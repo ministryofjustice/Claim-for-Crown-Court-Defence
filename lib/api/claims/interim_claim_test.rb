@@ -1,12 +1,12 @@
 require_relative 'base_claim_test'
 
-class FinalClaimTest < BaseClaimTest
+class InterimClaimTest < BaseClaimTest
 
   def test_creation!
     puts 'starting'
 
     # create a claim
-    response = client.post_to_endpoint('claims/final', claim_data)
+    response = client.post_to_endpoint('claims/interim', claim_data)
     return if client.failure
 
     self.claim_uuid = id_from_json(response)
@@ -18,17 +18,8 @@ class FinalClaimTest < BaseClaimTest
     defendant_id = id_from_json(response)
     client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
 
-    # CREATE graduated fee
-    client.post_to_endpoint('fees', graduated_fee_data)
-
-    # CREATE miscellaneous fee
-    client.post_to_endpoint('fees', misc_fee_data)
-
-    # CREATE a warrant fee
-    client.post_to_endpoint('fees', warrant_fee_data)
-
-    # add expense
-    client.post_to_endpoint('expenses', expense_data(role: 'lgfs'))
+    # CREATE interim fee
+    client.post_to_endpoint('fees', interim_fee_data)
 
     # CREATE a disbursement
     client.post_to_endpoint('disbursements', disbursement_data)
@@ -55,29 +46,17 @@ class FinalClaimTest < BaseClaimTest
       "court_id": court_id,
       "cms_number": "12345678",
       "additional_information": "string",
-      "case_concluded_at": 1.month.ago.as_json,
-      "actual_trial_length": 10
+      "effective_pcmh_date": 1.month.ago.as_json
     }
   end
 
-  def graduated_fee_data
+  def interim_fee_data
     {
       "api_key": api_key,
       "claim_id": claim_uuid,
-      "fee_type_id": 86, # Trial
+      "fee_type_id": 93, # Effective PCMH
       "quantity": 5,
-      "amount": 100.25,
-      "date": 1.month.ago.as_json
-    }
-  end
-
-  def misc_fee_data
-    {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "fee_type_id": 85, # Case Uplift
-      "case_numbers": 'A12345678',
-      "amount": 200.45
+      "amount": 200.50
     }
   end
 end

@@ -71,26 +71,6 @@ class AdvocateClaimTest < BaseClaimTest
     }
   end
 
-  def defendant_data
-    {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "first_name": "case",
-      "last_name": "management",
-      "date_of_birth": "1979-12-10",
-      "order_for_judicial_apportionment": true,
-    }
-  end
-
-  def representation_order_data(defendant_uuid)
-    {
-      "api_key": api_key,
-      "defendant_id": defendant_uuid,
-      "maat_reference": "4546963741",
-      "representation_order_date": "2015-05-21"
-    }
-  end
-
   def basic_fee_data
     {
       "api_key": api_key,
@@ -108,16 +88,6 @@ class AdvocateClaimTest < BaseClaimTest
       "fee_type_id": Fee::MiscFeeType.first.id,
       "quantity": 2,
       "rate": 1.55,
-    }
-  end
-
-  def date_attended_data(attended_item_uuid, attended_item_type)
-    {
-      "api_key": api_key,
-      "attended_item_id": attended_item_uuid,
-      "attended_item_type": attended_item_type,
-      "date": "2015-06-01",
-      "date_to": "2015-06-01"
     }
   end
 end

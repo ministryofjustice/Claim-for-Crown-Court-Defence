@@ -26,7 +26,6 @@ describe Claim::InterimClaimValidator do
       :case_concluded_at
     ],
     [
-      :interim_fee,
       :first_day_of_trial,
       :estimated_trial_length,
       :trial_concluded_at,

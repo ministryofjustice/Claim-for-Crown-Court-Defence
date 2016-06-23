@@ -10,23 +10,19 @@
 #   api_client.run
 #   if api_client.failure
 #     puts "failed"
-#     puts api_client.errors.join("/n")
-#     OR
-#     puts api_client.full_error_messages.join("/n") # still needs work
+#     puts api_client.full_error_messages.join("/n")
 #   end
 # ---------------------------------------
 #
-
 require 'rest-client'
-require_relative 'claims/advocate_claim_test'
-require_relative 'claims/final_claim_test'
+Dir[File.join(Rails.root, 'lib', 'api', 'claims', '*.rb')].each { |file| require file }
 
 class ApiTestClient
+  attr_reader :success, :full_error_messages, :messages
 
-  EXTERNAL_USER_PREFIX = 'api/external_users'
+  EXTERNAL_USER_PREFIX = 'api/external_users'.freeze
 
   def initialize
-    @errors = []
     @full_error_messages = []
     @messages = []
     @success = true
@@ -35,26 +31,11 @@ class ApiTestClient
   def run
     AdvocateClaimTest.new(client: self).test_creation!
     FinalClaimTest.new(client: self).test_creation!
-  end
-
-  def success
-    @success
+    InterimClaimTest.new(client: self).test_creation!
   end
 
   def failure
     !@success
-  end
-
-  def errors
-    @errors
-  end
-
-  def full_error_messages
-    @full_error_messages
-  end
-
-  def messages
-    @messages
   end
 
   def post_to_endpoint(resource, payload)
@@ -83,7 +64,6 @@ class ApiTestClient
   def handle_response(response, resource)
     unless response.code.to_s =~ /^2/
       @success = false
-      @errors << "#{resource} Endpoint raised error - #{response.code}"
       @full_error_messages << "#{resource} Endpoint raised error - #{response}"
     end
   end

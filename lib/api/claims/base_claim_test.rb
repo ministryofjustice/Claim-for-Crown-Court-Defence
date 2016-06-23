@@ -2,18 +2,20 @@ class BaseClaimTest
   attr_accessor :client, :claim_uuid
 
   # dropdown endpoints
-  CASE_TYPE_ENDPOINT          = 'case_types'
-  COURT_ENDPOINT              = 'courts'
-  ADVOCATE_CATEGORY_ENDPOINT  = 'advocate_categories'
-  CRACKED_THIRD_ENDPOINT      = 'trial_cracked_at_thirds'
-  OFFENCE_CLASS_ENDPOINT      = 'offence_classes'
-  OFFENCE_ENDPOINT            = 'offences'
-  FEE_TYPE_ENDPOINT           = 'fee_types'
-  EXPENSE_TYPE_ENDPOINT       = 'expense_types'
-  DISBURSEMENT_TYPE_ENDPOINT  = 'disbursement_types'
-  TRANSFER_STAGES_ENDPOINT    = 'transfer_stages'
-  TRANSFER_CASE_CONCLUSIONS_ENDPOINT = 'transfer_case_conclusions'
+  CASE_TYPE_ENDPOINT          = 'case_types'.freeze
+  COURT_ENDPOINT              = 'courts'.freeze
+  ADVOCATE_CATEGORY_ENDPOINT  = 'advocate_categories'.freeze
+  CRACKED_THIRD_ENDPOINT      = 'trial_cracked_at_thirds'.freeze
+  OFFENCE_CLASS_ENDPOINT      = 'offence_classes'.freeze
+  OFFENCE_ENDPOINT            = 'offences'.freeze
+  FEE_TYPE_ENDPOINT           = 'fee_types'.freeze
+  EXPENSE_TYPE_ENDPOINT       = 'expense_types'.freeze
+  DISBURSEMENT_TYPE_ENDPOINT  = 'disbursement_types'.freeze
+  TRANSFER_STAGES_ENDPOINT    = 'transfer_stages'.freeze
+  TRANSFER_CASE_CONCLUSIONS_ENDPOINT = 'transfer_case_conclusions'.freeze
 
+  ADVOCATE_TEST_EMAIL  = 'advocateadmin@example.com'.freeze
+  LITIGATOR_TEST_EMAIL = 'litigatoradmin@example.com'.freeze
 
   def initialize(client:)
     self.client = client
@@ -44,7 +46,7 @@ class BaseClaimTest
 
   def external_user
     @external_user ||= begin
-      email = agfs_schema? ? 'advocateadmin@example.com' : 'litigatoradmin@example.com'
+      email = agfs_schema? ? ADVOCATE_TEST_EMAIL : LITIGATOR_TEST_EMAIL
       User.external_users.find_by(email: email)
     end
   end
@@ -76,6 +78,36 @@ class BaseClaimTest
         puts 'claim NOT found for destruction!'
       end
     end
+  end
+
+  def defendant_data
+    {
+      "api_key": api_key,
+      "claim_id": claim_uuid,
+      "first_name": "case",
+      "last_name": "management",
+      "date_of_birth": "1979-12-10",
+      "order_for_judicial_apportionment": true,
+    }
+  end
+
+  def representation_order_data(defendant_uuid)
+    {
+      "api_key": api_key,
+      "defendant_id": defendant_uuid,
+      "maat_reference": "4546963741",
+      "representation_order_date": "2015-05-21"
+    }
+  end
+
+  def date_attended_data(attended_item_uuid, attended_item_type)
+    {
+      "api_key": api_key,
+      "attended_item_id": attended_item_uuid,
+      "attended_item_type": attended_item_type,
+      "date": "2015-06-01",
+      "date_to": "2015-06-01"
+    }
   end
 
   def disbursement_data

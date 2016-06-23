@@ -41,14 +41,14 @@ module API
         end
 
         resource :offence_classes do
-          desc "Return all Offence Class Types."
+          desc "Return all Offence Class Types, with the matching offence_id for LGFS claims."
           get do
             present OffenceClass.all, with: API::Entities::OffenceClass
           end
         end
 
         resource :offences do
-          desc "Return all Offence Types."
+          desc "Return all Offence-ids to be used in advocate claims (see OffenceClasses for Litigator claims)."
           params do
             optional :offence_description, type: String, desc: "Offences matching description"
           end

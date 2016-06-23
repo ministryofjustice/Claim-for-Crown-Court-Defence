@@ -19,6 +19,12 @@ FactoryGirl.define do
     sequence(:class_letter)   { generate_random_unused_class_letter(%w{ E F H I }) }
   end
 
+  trait :with_lgfs_offence do
+    after(:create) do |record|
+      create :offence, :miscellaneous, offence_class: record
+    end
+  end
+
 end
 
 def generate_random_unused_class_letter(letters=%w{ A B C D E F G H I J K })

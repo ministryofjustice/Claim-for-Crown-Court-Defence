@@ -43,7 +43,7 @@ module DemoData
 
 
     def allocate(claim)
-      allocator = ::Allocation.new(case_worker_id: @case_worker.id, claim_ids: [claim.id])
+      allocator = ::Allocation.new(case_worker_id: @case_worker.id, claim_ids: [claim.id], allocating: true)
       unless allocator.save
         raise RuntimeError.new("Unable to allocate claim #{claim.id} to case_worker #{@case_worker.id}")
       end

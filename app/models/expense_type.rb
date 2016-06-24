@@ -35,6 +35,10 @@ class ExpenseType < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :reason_set, inclusion: { in:  %w{ A B } }
 
+  def self.reason_sets
+    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }]
+  end
+
   def expense_reasons_hash
     self.reason_set == 'A' ? REASON_SET_A : REASON_SET_B
   end

@@ -111,6 +111,13 @@ module API
           end
         end
 
+        resource :expense_reasons do
+          desc "Return all Expense Reasons by reason set."
+          get do
+            present ExpenseType.reason_sets, with: API::Entities::ExpenseReasonSet
+          end
+        end
+
         resource :disbursement_types do
           desc "Return all Disbursement Types."
           get do

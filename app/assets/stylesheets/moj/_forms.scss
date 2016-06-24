@@ -1,5 +1,11 @@
 form {
   fieldset {
+    &.error{
+      border-left-width: 3px;
+      .form-control{
+        border-width: 2px;
+      }
+    }
     label {
       margin-top: 0;
     }

@@ -27,4 +27,9 @@ module ExternalUsers::ClaimsHelper
     presenter.field_level_error_for(attribute.to_sym).split(',').each { |e| e.strip! }
   end
 
+  def error_class?(presenter, *attributes)
+    return if presenter.nil?
+    options = {name: 'error'}.merge(attributes.extract_options!)
+    options[:name] if attributes.detect { |att| presenter.field_level_error_for(att.to_sym).present? }
+  end
 end

@@ -108,9 +108,18 @@ describe DocumentRecloner do
     valid_doc_ids = []
 
     claim.documents.each do  |doc|
+      check_file_has_been_written(doc)
       size = File.stat(doc.document.path).size
       size > 0 ? valid_doc_ids << doc.id : invalid_doc_ids << doc.id
     end
     [ invalid_doc_ids, valid_doc_ids ]
+  end
+
+  def check_file_has_been_written(doc)
+    5.times do
+      return if File.exist?(doc.document.path)
+      sleep 0.1
+    end
+    raise "Unable to find file #{doc.document.path}"
   end
 end

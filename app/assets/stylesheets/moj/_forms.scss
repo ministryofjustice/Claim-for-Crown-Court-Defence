@@ -49,6 +49,7 @@ input.form-control[type=number],
   &.medium-input{
     @include span(6 of 12);
     margin-left: 0;
+    float: none;
   }
   &.search{
     @include span(10 of 12);

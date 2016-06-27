@@ -20,7 +20,7 @@
       = render partial: 'external_users/claims/case_details/case_owner_select', locals: { f: f, label: label, external_users_collection: external_users_collection }
 
     .form-row
-      .form-col
+      .form-col{class: error_class?(@error_presenter, :case_type)}
         = f.anchored_label t('.case_type'), 'case_type_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Trial"
@@ -28,7 +28,7 @@
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row
-      .form-col
+      .form-col{class: error_class?(@error_presenter, :court)}
         = f.anchored_label t('.court'), 'court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
@@ -39,7 +39,7 @@
         = f.adp_text_field :case_number, label: t('.case_number'), hint_text: 'eg A12345678', errors: @error_presenter
 
     .form-row
-      .form-col
+      .form-col{class: error_class?(@error_presenter, :transfer_court)}
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"

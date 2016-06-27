@@ -499,7 +499,8 @@ en:
           add_another_defendant: 'Add another defendant'
         representation_order_fields:
           representation_order: Representation order
-          maat_reference_number: MAAT reference number
+          maat_reference_number: MAAT reference
+          maat_reference_number_eg: 'eg. 1234567890'
       agfs_claims:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
@@ -569,6 +570,11 @@ en:
         expense_fields:
           add_date_attended: 'Add date(s)'
           remove: Remove Expense <span class="js-expense-remove-count"></span>
+          vat: VAT
+          destination: Destination
+          distance: Distance
+          hours: Hours
+          total: Total
         fields:
           add_another_expense: 'Add another expense'
           amount: 'Amount'

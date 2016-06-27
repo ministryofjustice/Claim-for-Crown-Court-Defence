@@ -12,7 +12,7 @@ describe ExternalUsers::ClaimsHelper do
 
       it 'should return the default error class if there are any errors in the provided field' do
         returned_class = error_class?(presenter, :test_field)
-        expect(returned_class).to eq('error')
+        expect(returned_class).to eq('field_with_errors')
       end
 
       it 'should return the specified class if provided' do
@@ -29,7 +29,7 @@ describe ExternalUsers::ClaimsHelper do
 
       it 'should return the error class if there are errors in any of the provided field' do
         returned_class = error_class?(presenter, :test_field_1, :test_field_2)
-        expect(returned_class).to eq('error')
+        expect(returned_class).to eq('field_with_errors')
       end
 
       it 'should return the specified class if provided' do

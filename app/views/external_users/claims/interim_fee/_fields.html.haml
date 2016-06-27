@@ -10,7 +10,7 @@
     .interim-fee-group.nested-fields.mod-fees.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
       %fieldset
         .form-row
-          .column-half
+          .column-half{class: error_class?(@error_presenter, "interim_fee.fee_type")}
             = inf.label :fee_type, t('.fee_type')
             = inf.anchored_attribute 'fee_type'
             - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
@@ -19,12 +19,14 @@
 
 
           .column-half.fee-quantity.js-interim-ppe.visually-hidden
-            = inf.label :quantity, t('.ppe_total')
-            .form-hint.xsmall
-              = t('.ppe_total_hint')
-            = inf.anchored_attribute 'quantity'
-            = inf.number_field :quantity, value: fee.quantity, class: 'form-control quantity', min: 0, max: 99999
-            = validation_error_message(@error_presenter, 'interim_fee.quantity')
+            = inf.adp_text_field :quantity,
+                          label: t('.ppe_total'),
+                          input_classes:'quantity',
+                          hint_text: t('.ppe_total_hint'),
+                          input_type: 'number',
+                          value: fee.quantity,
+                          error_key:'interim_fee.quantity',
+                          errors: @error_presenter
 
         .form-row
           .column-first-child.column-three-quarters.js-interim-effectivePcmh.visually-hidden
@@ -39,11 +41,12 @@
               = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
 
             .column-half
-              = f.anchored_label(t('.retrial_estimated_length'), :retrial_estimated_length, { label_attributes: {class: 'form-label form-date-spacing with-hint'} })
-              .form-hint.xsmall
-                = t('.number_days_hint')
-              = f.number_field :retrial_estimated_length, step: 1, min: 1, class: 'form-control'
-              = validation_error_message(@error_presenter, :retrial_estimated_length)
+              = f.adp_text_field :retrial_estimated_length,
+                          label: t('.retrial_estimated_length'),
+                          input_classes:'form-date-spacing with-hint',
+                          hint_text: t('.number_days_hint'),
+                          errors: @error_presenter
+
 
           .column-first-child.column-three-quarters.js-interim-trialDates.visually-hidden
             .column-half
@@ -51,11 +54,12 @@
               = f.gov_uk_date_field(:first_day_of_trial, legend_text: t('.first_day_of_trial'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :first_day_of_trial))
 
             .column-half
-              = f.anchored_label(t('.estimated_trial_length'), :estimated_trial_length, { label_attributes: {class: 'form-label form-date-spacing with-hint'} })
-              .form-hint.xsmall
-                = t('.number_days_hint')
-              = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control'
-              = validation_error_message(@error_presenter, :estimated_trial_length)
+              = f.adp_text_field :estimated_trial_length,
+                          label: t('.estimated_trial_length'),
+                          input_classes:'form-date-spacing with-hint',
+                          input_type: 'number',
+                          hint_text: t('.number_days_hint'),
+                          errors: @error_presenter
 
           .column-first-child.column-three-quarters.js-interim-legalAidTransfer.visually-hidden
             .column-half
@@ -76,11 +80,13 @@
               = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 
           .column-quarter.fee-amount.js-interim-feeTotal.visually-hidden
-            = inf.label :amount, t('.total'), {class: 'form-label form-date-spacing'}
-            = inf.anchored_attribute 'amount'
-            %span.currency-indicator>< &pound;
-            = inf.number_field :amount, value: number_with_precision(inf.object.amount, precision: 2), class: 'total form-control', size: 10, min: 0, max: 99999999
-            = validation_error_message(@error_presenter, 'interim_fee.amount')
+            = inf.adp_text_field :amount,
+                          label: t('.total'),
+                          input_classes:'total',
+                          input_type: 'number',
+                          error_key: 'interim_fee.amount',
+                          value: number_with_precision(inf.object.amount, precision: 2),
+                          errors: @error_presenter
 
     .js-interim-disbursements.visually-hidden
       = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }

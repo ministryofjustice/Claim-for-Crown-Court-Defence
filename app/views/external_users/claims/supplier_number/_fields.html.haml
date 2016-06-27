@@ -1,6 +1,6 @@
 .form-group
   .form-row
-    .form-col
+    .form-col{class: error_class?(@error_presenter, :supplier_number)}
       = f.anchored_label(t('.supplier_number'), 'supplier_number', { label_attributes: {class: 'form-label'} })
       = f.collection_select :supplier_number, current_user.persona.provider.supplier_numbers, :supplier_number, :supplier_number, {prompt: true}, {class: 'form-control'}
       = validation_error_message(@error_presenter, :supplier_number)

@@ -43,8 +43,10 @@ module AdvocateDefencePayments
 
     config.assets.enabled = true
 
-    config.paths.add File.join('app', 'interfaces'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
+    # config.paths.add File.join('app', 'interfaces'), glob: File.join('**', '*.rb')
+    # config.paths.add File.join('app', 'services'), glob: File.join('**', '*.rb')
+    # config.autoload_paths += Dir[Rails.root.join('app', 'interfaces', '*')]
+    # config.autoload_paths += Dir[Rails.root.join('app', 'services', 'stats', '*')]
 
     config.exceptions_app = self.routes
 

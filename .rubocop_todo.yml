@@ -251,7 +251,6 @@ Style/IfInsideElse:
   Exclude:
     - 'app/helpers/application_helper.rb'
     - 'app/presenters/error_message_translator.rb'
-    - 'app/validators/expense_v2_validator.rb'
 
 # Offense count: 7
 # Cop supports --auto-correct.
@@ -405,7 +404,6 @@ Style/SpaceAfterComma:
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/validators/base_validator.rb'
-    - 'app/validators/expense_v2_validator.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.

@@ -46,6 +46,30 @@ RSpec.describe ExpensePresenter do
     end
   end
 
+  describe '#distance' do
+    it 'formats as decimal number, 2 decimals precision, with rounding' do
+      expense.distance = 324.479
+      expect(presenter.distance).to eq '324.48'
+    end
+
+    it 'strips insignificant zeros' do
+      expense.distance = 324.00
+      expect(presenter.distance).to eq '324'
+    end
+  end
+
+  describe '#hours' do
+    it 'formats as decimal number, 1 decimal precision with rounding' do
+      expense.hours = 35.22
+      expect(presenter.hours).to eq '35.2'
+    end
+
+    it 'strips insignificant zeros' do
+      expense.hours = 35.0
+      expect(presenter.hours).to eq '35'
+    end
+  end
+
   describe '#name' do
     it 'outputs "Not selected" if there is no expense type' do
       expense.expense_type_id = nil

@@ -1128,7 +1128,7 @@ expense:
       long: 'Enter a location for the #{expense}'
       short: Enter a location
       api: Enter a location for the expenses
-    numericality:
+    invalid:
       long: 'Enter a valid location for the #{expense}'
       short: Enter a valid location
       api: Enter a valid location for the expense
@@ -1136,9 +1136,32 @@ expense:
   distance:
     _seq: 40
     blank:
-      long: 'Enter distance for the #{expense}'
-      short: 'Enter distance'
-      api: Enter distance for the expense
+      long: 'Enter the distance for the #{expense}'
+      short: 'Enter the distance'
+      api: Enter the distance for the expense
+    invalid:
+      long: 'Enter a valid distance for the #{expense}'
+      short: Enter a valid distance
+      api: Enter a valid distance for the expense
+    numericality:
+      long: 'Enter a valid distance for the #{expense}'
+      short: *enter_valid_amount
+      api: Enter a valid distance for the expense
+
+  hours:
+    _seq: 45
+    blank:
+      long: 'Enter the hours for the #{expense}'
+      short: 'Enter the hours'
+      api: Enter the hours for the expense
+    invalid:
+      long: 'Enter valid hours for the #{expense}'
+      short: Enter valid hours
+      api: Enter valid hours for the expense
+    numericality:
+      long: 'Enter valid hours for the #{expense}'
+      short: *enter_valid_amount
+      api: Enter valid hours for the expense
 
   reason_text:
     _seq: 50
@@ -1148,7 +1171,7 @@ expense:
       api: Enter a reason for the expense
 
   reason_id:
-    _seq: 45
+    _seq: 55
     blank:
       long: 'Enter a reason for the #{expense}'
       short: 'Enter a reason'

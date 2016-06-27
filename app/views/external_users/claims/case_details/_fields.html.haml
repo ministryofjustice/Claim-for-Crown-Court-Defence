@@ -27,7 +27,7 @@
         = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :case_type)
 
-    %div.form-row{class: error_class?(@error_presenter, :court, :case_number)}
+    .form-row
       .form-col
         = f.anchored_label t('.court'), 'court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin

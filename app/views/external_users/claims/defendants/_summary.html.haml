@@ -6,38 +6,41 @@
     %col.summary-headings
     %col.summary-desc
   %tbody
-    - claim.defendants.each_with_index do | defendant, index|
+    - claim.defendants.each.with_index(1) do | defendant, index|
       %tr
         %th{scope:'row'}
-          = "#{t('common.defendant')} #{index + 1}"
+          = "#{t('common.defendant')} #{index}"
         %td
           = defendant.name
       %tr
         %th{scope:'row'}
           %span.visuallyhidden
-            = "#{t('common.defendant')} #{index + 1}"
+            = "#{t('common.defendant')} #{index}"
           = t('external_users.claims.defendants.defendant_fields.date_of_birth')
         %td
           = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
-      %tr
-        %th{scope:'row'}
-          %span.visuallyhidden
-            = "#{t('common.defendant')} #{index + 1}"
-          = t('external_users.claims.defendants.defendant_fields.judical_apportionment')
-        %td
-          = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
-      - defendant.representation_orders.each_with_index do | representation_order, index |
+
+      - unless claim.interim?
         %tr
           %th{scope:'row'}
             %span.visuallyhidden
-              = "#{t('common.defendant')} #{index + 1} representation order #{index + 1}"
+              = "#{t('common.defendant')} #{index}"
+            = t('external_users.claims.defendants.defendant_fields.judical_apportionment')
+          %td
+            = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'
+
+      - defendant.representation_orders.each.with_index(1) do | representation_order, index|
+        %tr
+          %th{scope:'row'}
+            %span.visuallyhidden
+              = "#{t('common.defendant')} #{index} representation order #{index}"
             = t('external_users.claims.defendants.representation_order_fields.representation_order')
           %td
             = representation_order.representation_order_date.strftime('%d/%m/%Y') rescue ''
         %tr
           %th{scope: 'row'}
             %span.visuallyhidden
-              = "#{t('common.defendant')} #{index + 1} representation order #{index + 1}"
+              = "#{t('common.defendant')} #{index} representation order #{index}"
             = t('external_users.claims.defendants.representation_order_fields.maat_reference_number')
           %td
             = representation_order.maat_reference

@@ -1,4 +1,0 @@
-expected
-
-ActiveRecord::RecordNotUnique with "PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint \"index_statistics_on_date_and_report_name_and_claim_type\"",
-ActiveRecord::RecordNotUnique: PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_statistics_on_date_and_report_name_and_claim_type"

@@ -15,6 +15,7 @@ class AdpTextField
   #   * input_classes: Css classes on the input
   #   * input_type: Input type will default to `text`
   #   * errors: An ErrorPresenter for the form object, or the form object itself
+  #   * value: the value to display (if no specified, the value is taken by calling method on the form object)
 
   def initialize(form, method, options)
     @form = form
@@ -40,6 +41,7 @@ class AdpTextField
     end
 
     @anchor_id = generate_anchor_id
+    @value = options[:value] || @form.object.__send__(@method)
   end
 
 
@@ -146,7 +148,7 @@ class AdpTextField
       result += %Q|<span class="currency-indicator">&pound;</span>|
     end
     result += %Q|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
-    result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
+    result += %Q|value="#{@value}" | unless @form.object.__send__(@method).nil?
     if @input_is_number
       result += %Q|min="#{@input_min}" |
       result += %Q|max="#{@input_max}" |

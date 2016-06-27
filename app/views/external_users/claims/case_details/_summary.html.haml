@@ -69,7 +69,7 @@
       %td
         = claim.offence ? claim.offence.offence_class : t("general.not_provided")
 
-    - if claim.lgfs? || claim.interim?
+    - if claim.final? || claim.transfer?
       %tr
         %th{scope: 'row'}
           = t('external_users.claims.case_details.case_concluded_date.case_concluded_at')

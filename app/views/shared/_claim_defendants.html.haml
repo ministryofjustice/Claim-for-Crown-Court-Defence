@@ -1,15 +1,12 @@
 - defendant_count = 0
-- defendants.each_slice(2).with_index do |(defendant_left, defendant_right), index |
+- defendants.each_slice(2) do |(defendant_left, defendant_right)|
 
-  -# start a new row for every odd defendant
-  - defendant_count = defendant_count + 1
   .grid-row.defendant-row
     .column-half
-      = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_left, index: defendant_count - 1 }
+      = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_left, index: defendant_count += 1 }
 
-    - defendant_count = defendant_count + 1
     .column-half
       - if defendant_right
-        = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_right, index: defendant_count - 1 }
+        = render partial: 'shared/claim_defendant_details', locals: {defendant: defendant_right, index: defendant_count += 1 }
       - else
         &nbsp;

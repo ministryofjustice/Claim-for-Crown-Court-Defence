@@ -24,12 +24,13 @@
     .form-col.form-col-two-thirds.dob
       = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count}_date_of_birth", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count}_date_of_birth".to_sym))
 
-  .form-row
-    .form-col.form-col-two-thirds
-      %label.block-label.judicial-apportionment-notice
-        = f.check_box :order_for_judicial_apportionment
-        = raw t('.order_for_judicial_apportionment')
-        = validation_error_message(f.object, :order_for_judicial_apportionment)
+  - unless @claim.interim?
+    .form-row
+      .form-col.form-col-two-thirds
+        %label.block-label.judicial-apportionment-notice
+          = f.check_box :order_for_judicial_apportionment
+          = raw t('.order_for_judicial_apportionment')
+          = validation_error_message(f.object, :order_for_judicial_apportionment)
 
   .documents
     %a{id: "defendant_#{@defendant_count}_representation_orders"}

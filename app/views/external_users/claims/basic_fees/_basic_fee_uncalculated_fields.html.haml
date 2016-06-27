@@ -5,7 +5,17 @@
     = fee.section_hint('external_users.claims.basic_fees.basic_fee_uncalculated_fields')
 
   .column-one-quarter.fee-quantity
-    = f.adp_text_field :quantity, label: t('.quantity'), input_classes:'quantity', input_type: 'number', errors: @error_presenter
+    = f.adp_text_field :quantity,
+                        label: t('.quantity'),
+                        input_classes:'quantity',
+                        input_type: 'number',
+                        value: fee.quantity,
+                        errors: @error_presenter
 
   .column-one-quarter.fee-rate
-    = f.adp_text_field :amount, label: t('.total'), input_classes:'total', input_type: 'currency', errors: @error_presenter
+    = f.adp_text_field :amount,
+                        label: t('.total'),
+                        input_classes:'total',
+                        input_type: 'currency',
+                        value: number_with_precision(f.object.rate, precision: 2),
+                        errors: @error_presenter

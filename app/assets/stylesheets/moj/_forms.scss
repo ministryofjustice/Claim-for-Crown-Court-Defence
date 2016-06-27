@@ -45,6 +45,7 @@ input.form-control[type=number],
   &.short-input{
     @include span(4 of 12);
     margin-left: 0;
+    float: none;
   }
   &.medium-input{
     @include span(6 of 12);
@@ -529,6 +530,7 @@ label.form-date-spacing {
     color: $error-colour;
     padding-left: 0;
     border:0;
+    margin-right: 0;
   }
 
   input{

@@ -397,6 +397,15 @@ ActiveRecord::Schema.define(version: 20160627083153) do
     t.uuid     "uuid",                      default: "uuid_generate_v4()"
   end
 
+  create_table "statistics", force: :cascade do |t|
+    t.date    "date"
+    t.string  "report_name"
+    t.string  "claim_type"
+    t.integer "value_1"
+  end
+
+  add_index "statistics", ["date", "report_name", "claim_type"], name: "index_statistics_on_date_and_report_name_and_claim_type", unique: true, using: :btree
+
   create_table "stats_reports", force: :cascade do |t|
     t.string   "report_name"
     t.string   "report"

@@ -22,6 +22,7 @@
         = f.adp_text_field :distance,
                             label: t('.distance'),
                             input_type: 'number',
+                            value: number_with_precision(f.object.distance, precision: 2),
                             errors: @error_presenter
 
       .column-one-third.condensed{class: "js-expense-hours expense-hours"}
@@ -64,12 +65,6 @@
 
         - if @claim.lgfs?
           .js-expense-vat-amount
-            %a{id: "expense_#{@expense_count}_vat_amount"}
-            = f.label :vat_amount, 'VAT'
-            %span.currency-indicator>< &pound;
-            = f.number_field :vat_amount, max:99999, min:0, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'vat form-control'
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_vat_amount")
-            %hr/
             = f.adp_text_field :vat_amount,
                           label: t('.VAT'),
                           input_classes:'vat',

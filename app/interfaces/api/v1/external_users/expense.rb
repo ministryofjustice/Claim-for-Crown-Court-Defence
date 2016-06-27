@@ -18,9 +18,9 @@ module API
           optional :location, type: String, desc: "REQUIRED for all expense types other than Parking. Location or destination."
           optional :reason_id, type: Integer, desc: "REQUIRED: Unique identifier for the reason for this travel: must be one of the valid reason ids associated with the expense type."
           optional :reason_text, type: String, desc: "REQUIRED when reason is Other oitherwise must be absent."
-          optional :distance, type: Integer, desc: "REQUIRED for expense type Car Travel, otherwise must be absent. Distance in miles."
+          optional :distance, type: Float, desc: "REQUIRED for expense type Car Travel, otherwise must be absent. Distance in miles."
           optional :mileage_rate_id, type: Integer, desc: "REQUIRED for expense type Car Travel, otherwise must be absent: Where applicable. Values should be 1 for 25p per mile, 2 for 45p per mile."
-          optional :hours, type: Integer, desc: "REQUIRED for expense type Travel Time, otherwise must be absent. Time in hours."
+          optional :hours, type: Float, desc: "REQUIRED for expense type Travel Time, otherwise must be absent. Time in hours."
           optional :date, type: String, desc: "REQUIRED: The date applicable to this Expense (YYYY-MM-DD)", standard_json_format: true
         end
 

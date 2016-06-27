@@ -15,10 +15,10 @@
 #  reason_id       :integer
 #  reason_text     :string
 #  schema_version  :integer
-#  distance        :integer
+#  distance        :decimal(, )
 #  mileage_rate_id :integer
 #  date            :date
-#  hours           :integer
+#  hours           :decimal(, )
 #  vat_amount      :decimal(, )      default(0.0)
 #
 
@@ -34,7 +34,7 @@ class Expense < ActiveRecord::Base
 
   include NumberCommaParser
   include Duplicable
-  numeric_attributes :rate, :amount, :vat_amount, :quantity
+  numeric_attributes :rate, :amount, :vat_amount, :quantity, :distance, :hours
 
   belongs_to :expense_type
   belongs_to :claim, class_name: Claim::BaseClaim, foreign_key: :claim_id
@@ -56,7 +56,7 @@ class Expense < ActiveRecord::Base
 
   before_validation do
     self.schema_version ||= 2
-    round_hours
+    round_quantity
     self.amount = ((self.rate || 0) * (self.quantity || 0)).abs unless schema_version_2?
   end
 
@@ -84,10 +84,10 @@ class Expense < ActiveRecord::Base
   end
 
   def perform_validation?
-    claim && claim.perform_validation?
+    claim&.perform_validation?
   end
 
-  def round_hours
+  def round_quantity
     self.quantity = (self.quantity*4).round/4.0 if self.quantity
   end
 

@@ -24,19 +24,19 @@ describe API::V1::ExternalUsers::Expense do
 
     let!(:provider)       { create(:provider) }
     let!(:claim)          { create(:claim, source: 'api').reload }
-    let!(:expense_type)   { create(:expense_type) }
+    let!(:expense_type)   { create(:expense_type, :car_travel) }
 
     let!(:params) do
       {
         api_key: provider.api_key,
         claim_id: claim.uuid,
         expense_type_id: expense_type.id,
-        rate: 1,
-        quantity: 2,
-        amount: 2,
+        amount: 500.79,
         location: 'London',
+        distance: 300.58,
         reason_id: 5,
         reason_text: "Foo",
+        mileage_rate_id: 1,
         date: "2016-01-01T12:30:00"
       }
     end
@@ -68,7 +68,8 @@ describe API::V1::ExternalUsers::Expense do
       claim_id: "Claim cannot be blank",
       date: "Enter a date for the expense",
       expense_type_id: "Choose a type for the expense",
-      reason_id: "Enter a reason for the expense"
+      reason_id: "Enter a reason for the expense",
+      distance: "Enter the distance for the expense"
     }
 
     describe "POST #{CREATE_EXPENSE_ENDPOINT}" do
@@ -100,8 +101,9 @@ describe API::V1::ExternalUsers::Expense do
           expect(new_expense.claim_id).to eq claim.id
           expect(new_expense.expense_type_id).to eq expense_type.id
           expect(new_expense.location).to eq params[:location]
+          expect(new_expense.amount).to eq params[:amount]
+          expect(new_expense.distance).to eq params[:distance]
         end
-
       end
 
       context 'when expense params are invalid' do

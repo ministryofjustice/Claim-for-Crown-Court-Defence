@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609114327) do
+ActiveRecord::Schema.define(version: 20160627083153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,10 +271,10 @@ ActiveRecord::Schema.define(version: 20160609114327) do
     t.integer  "reason_id"
     t.string   "reason_text"
     t.integer  "schema_version"
-    t.integer  "distance"
+    t.decimal  "distance"
     t.integer  "mileage_rate_id"
     t.date     "date"
-    t.integer  "hours"
+    t.decimal  "hours"
     t.decimal  "vat_amount",      default: 0.0
   end
 

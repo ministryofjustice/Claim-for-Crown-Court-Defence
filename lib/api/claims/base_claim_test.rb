@@ -142,14 +142,12 @@ class BaseClaimTest
       "api_key": api_key,
       "claim_id": claim_uuid,
       "expense_type_id": expense_type_id,
-      "rate": 1.1,
-      "quantity": 1,
-      "amount": 1.1,
+      "amount": 500.15,
       "location": "London",
       "reason_id": 5,
       "reason_text": "Foo",
       "date": "2016-01-01",
-      "distance": 1,
+      "distance": 100.58,
       "mileage_rate_id": 1
     }
   end

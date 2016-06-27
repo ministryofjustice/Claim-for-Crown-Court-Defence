@@ -15,10 +15,10 @@
 #  reason_id       :integer
 #  reason_text     :string
 #  schema_version  :integer
-#  distance        :integer
+#  distance        :decimal(, )
 #  mileage_rate_id :integer
 #  date            :date
-#  hours           :integer
+#  hours           :decimal(, )
 #  vat_amount      :decimal(, )      default(0.0)
 #
 

@@ -2,15 +2,15 @@ class ExpenseV2Validator < BaseValidator
 
   def self.fields
     [
+      :expense_type,
       :distance,
       :hours,
       :location,
-      :mileage_rate_id,
-      :reason_text,
       :amount,
       :date,
-      :expense_type,
-      :reason_id
+      :reason_id,
+      :reason_text,
+      :mileage_rate_id
     ]
   end
 
@@ -55,17 +55,14 @@ class ExpenseV2Validator < BaseValidator
   def validate_reason_text
     if @record.expense_reason_other?
       validate_presence(:reason_text, 'blank_for_other')
-    else
-      if @record.reason_id.present? && @record.expense_type.present?
-        validate_absence(:reason_text, 'invalid')
-      end
+    elsif @record.reason_id.present? && @record.expense_type.present?
+      validate_absence(:reason_text, 'invalid')
     end
   end
 
   def validate_distance
     if @record.car_travel?
-      validate_presence(:distance, 'blank')
-      validate_numericality(:distance, 1, nil, 'zero')
+      validate_presence_and_numericality(:distance)
     else
       validate_absence(:distance, 'invalid')
     end
@@ -84,18 +81,22 @@ class ExpenseV2Validator < BaseValidator
 
   def validate_date
     validate_presence(:date, 'blank')
-    validate_not_after(Date.today,:date,'future')
+    validate_not_after(Date.today, :date, 'future')
     validate_not_before(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
   end
 
   def validate_hours
     if @record.travel_time?
-      validate_presence(:hours, 'blank')
-      unless @record.hours.blank?
-        add_error(:hours, 'zero_or_negative') if @record.hours < 1
-      end
+      validate_presence_and_numericality(:hours)
     else
       validate_absence(:hours, 'invalid')
     end
+  end
+
+  # helpers for common validation combos
+  #
+  def validate_presence_and_numericality(attribute)
+    validate_presence(attribute, 'blank')
+    validate_float_numericality(attribute, 0.1, nil, 'numericality')
   end
 end

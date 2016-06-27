@@ -17,6 +17,14 @@ class ExpensePresenter < BasePresenter
     h.number_to_currency(expense.amount + expense.vat_amount)
   end
 
+  def distance
+    h.number_with_precision(expense.distance, precision: 2, strip_insignificant_zeros: true)
+  end
+
+  def hours
+    h.number_with_precision(expense.hours, precision: 1, strip_insignificant_zeros: true)
+  end
+
   def name
     if expense.expense_type.blank?
       "Not selected"

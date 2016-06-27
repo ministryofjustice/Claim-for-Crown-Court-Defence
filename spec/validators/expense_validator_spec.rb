@@ -55,17 +55,17 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         it 'is invalid if zero' do
           travel_time_expense.hours = 0
           expect(travel_time_expense).not_to be_valid
-          expect(travel_time_expense.errors[:hours]).to include('zero_or_negative')
+          expect(travel_time_expense.errors[:hours]).to include('numericality')
         end
 
         it 'is invalid if negative' do
           travel_time_expense.hours = -5
           expect(travel_time_expense).not_to be_valid
-          expect(travel_time_expense.errors[:hours]).to include('zero_or_negative')
+          expect(travel_time_expense.errors[:hours]).to include('numericality')
         end
 
         it 'is valid if present and above zero' do
-          travel_time_expense.hours = 1
+          travel_time_expense.hours = 1.5
           expect(travel_time_expense).to be_valid
         end
       end
@@ -237,6 +237,11 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(car_travel_expense).to be_valid
         end
 
+        it 'is valid when distance is decimal' do
+          car_travel_expense.distance = 30.52
+          expect(car_travel_expense).to be_valid
+        end
+
         it 'is valid when absent for train' do
           train_expense.distance = nil
           expect(train_expense).to be_valid
@@ -263,7 +268,13 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         it 'is invalid when zero for car travel' do
           car_travel_expense.distance = 0
           expect(car_travel_expense).not_to be_valid
-          expect(car_travel_expense.errors[:distance]).to include('zero')
+          expect(car_travel_expense.errors[:distance]).to include('numericality')
+        end
+
+        it 'is invalid when negative for car travel' do
+          car_travel_expense.distance = -5
+          expect(car_travel_expense).not_to be_valid
+          expect(car_travel_expense.errors[:distance]).to include('numericality')
         end
 
         it 'is invalid when present for train' do

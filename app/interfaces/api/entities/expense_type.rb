@@ -5,7 +5,6 @@ module API
       expose :name
       expose :roles
       expose :reason_set
-      expose :expense_reasons, using: API::Entities::ExpenseReason, as: :reasons
     end
   end
 end

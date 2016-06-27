@@ -15,6 +15,7 @@ describe API::V1::DropdownData do
   OFFENCE_ENDPOINT            = "/api/offences"
   FEE_TYPE_ENDPOINT           = "/api/fee_types"
   EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
+  EXPENSE_REASONS_ENDPOINT    = "/api/expense_reasons"
   DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
   TRANSFER_STAGES_ENDPOINT    = "/api/transfer_stages"
   TRANSFER_CASE_CONCLUSIONS_ENDPOINT = "/api/transfer_case_conclusions"
@@ -29,6 +30,7 @@ describe API::V1::DropdownData do
       OFFENCE_ENDPOINT,
       FEE_TYPE_ENDPOINT,
       EXPENSE_TYPE_ENDPOINT,
+      EXPENSE_REASONS_ENDPOINT,
       DISBURSEMENT_TYPE_ENDPOINT,
       TRANSFER_STAGES_ENDPOINT,
       TRANSFER_CASE_CONCLUSIONS_ENDPOINT
@@ -62,6 +64,7 @@ describe API::V1::DropdownData do
         OFFENCE_ENDPOINT => API::Entities::Offence.represent(Offence.all).to_json,
         FEE_TYPE_ENDPOINT => API::Entities::BaseFeeType.represent(Fee::BaseFeeType.all).to_json,
         EXPENSE_TYPE_ENDPOINT => API::Entities::ExpenseType.represent(ExpenseType.all).to_json,
+        EXPENSE_REASONS_ENDPOINT => API::Entities::ExpenseReasonSet.represent(ExpenseType.reason_sets).to_json,
         DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.all).to_json,
         TRANSFER_STAGES_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::TRANSFER_STAGES.to_a).to_json,
         TRANSFER_CASE_CONCLUSIONS_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::CASE_CONCLUSIONS.to_a).to_json
@@ -219,7 +222,7 @@ describe API::V1::DropdownData do
       end
 
       it "has all the expected keys" do
-        %w{ id name roles reason_set reasons }.each do |key|
+        %w{ id name roles reason_set }.each do |key|
           expect(parsed_body.first).to have_key(key)
         end
       end
@@ -228,13 +231,6 @@ describe API::V1::DropdownData do
         expect(parsed_body.first["roles"].size).to eq(2)
         expect(parsed_body.first["roles"]).to include("agfs")
         expect(parsed_body.first["roles"]).to include("lgfs")
-      end
-
-      it "has correct reasons structure" do
-        expect(parsed_body.first["reasons"]).to be_an(Array)
-        expect(parsed_body.first["reasons"].first).to have_key("id")
-        expect(parsed_body.first["reasons"].first).to have_key("reason")
-        expect(parsed_body.first["reasons"].first).to have_key("allow_explanatory_text")
       end
     end
 

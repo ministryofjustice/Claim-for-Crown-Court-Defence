@@ -143,7 +143,7 @@ moj.Modules.NewClaim = {
     // Clear unused fields to avoid submitting them and causing validation errors server-side
     self.clearUnusedFields(self.$currentExpense);
 
-    self.$ariaLiveRegion.children().hide().end().append('<div>Great this works</div>');
+    self.$ariaLiveRegion.children().hide().end();
   },
 
   attachToExpenseReason : function() {

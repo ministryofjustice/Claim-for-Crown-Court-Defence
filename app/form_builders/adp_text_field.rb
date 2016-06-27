@@ -12,7 +12,10 @@ class AdpTextField
   # * options:
   #   * label: label to be provided for the input field
   #   * hint_text: Hint text displayed underneath the label
+  #   * input_classes: Css classes on the input
+  #   * input_type: Input type will default to `text`
   #   * errors: An ErrorPresenter for the form object, or the form object itself
+  #   * value: the value to display (if no specified, the value is taken by calling method on the form object)
 
   def initialize(form, method, options)
     @form = form
@@ -21,7 +24,24 @@ class AdpTextField
     @form_field_id = generate_form_field_id
     @form_field_name = generate_form_field_name
     @errors = options[:errors]
+    @input_classes = options[:input_classes] || ''
+    @input_type = options[:input_type] || 'text'
+    @input_type_string = @input_type;
+    @input_is_number = false
+
+    if @input_type == 'currency'
+      @input_is_currency = true
+    end
+
+    if @input_type == 'currency' || @input_type =='number'
+      @input_type_string = 'number'
+      @input_is_number = true
+      @input_min = options[:input_min] || '0'
+      @input_max = options[:input_max] || '99999'
+    end
+
     @anchor_id = generate_anchor_id
+    @value = options[:value] || @form.object.__send__(@method)
   end
 
 
@@ -37,6 +57,7 @@ class AdpTextField
   end
 
   def has_errors?
+    return false if @errors.nil?
     @errors.errors_for?(@anchor_id.to_sym)
   end
 
@@ -45,9 +66,9 @@ class AdpTextField
     result += anchor
     result += label
     result += hint
-    result += error_message
     result += label_close
     result += input_field
+    result += error_message
     result += div_close
     result.html_safe
   end
@@ -87,7 +108,7 @@ class AdpTextField
   end
 
   def div_start
-    result = %Q|<div class="form-group #{@method}|
+    result = %Q|<div class="form-group #{@method}_wrapper|
     result += %Q| field_with_errors| if has_errors?
     result += %Q|">|
     result
@@ -95,6 +116,10 @@ class AdpTextField
 
   def anchor
     %Q|<a id="#{@anchor_id}"></a>|
+  end
+
+  def currency
+    %Q|<span class="currency-indicator">&pound;</span>|
   end
 
   def label
@@ -111,15 +136,23 @@ class AdpTextField
 
   def hint
     if @options[:hint_text]
-      %Q|<div class="form-hint">#{@options[:hint_text]}</div>|
+      %Q|<span class="form-hint">#{@options[:hint_text]}</span>|
     else
       ''
     end
   end
 
   def input_field
-    result = %Q|<input class="form-control" type="text" name="#{@form_field_name}" id="#{@form_field_id}" |
-    result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
+    result = %Q||
+    if @input_is_currency
+      result += %Q|<span class="currency-indicator">&pound;</span>|
+    end
+    result += %Q|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
+    result += %Q|value="#{@value}" | unless @form.object.__send__(@method).nil?
+    if @input_is_number
+      result += %Q|min="#{@input_min}" |
+      result += %Q|max="#{@input_max}" |
+    end
     result += %Q|/>|
     result
   end

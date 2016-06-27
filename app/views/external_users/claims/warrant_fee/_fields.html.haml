@@ -1,5 +1,4 @@
 #warrant_fee.mod-fees
-  = f.anchored_without_label 'warrant_fee'
   %h2.bold-medium
     = t('.warrant_fee')
 
@@ -19,7 +18,10 @@
         .column-quarter
           %label.form-label{:for => "claim_warrant_fee_attributes_amount"}
             = t('.total')
-          %a{id: "amount"}
+          %a{id: "warrant_fee.amount"}
           %span.currency-indicator>< &pound;
           = wf.number_field :amount, value: number_with_precision(wf.object.amount, precision: 2), class: 'total form-control', size: 10
           = validation_error_message(@error_presenter, 'interim_fee.amount')
+
+          / TODO: Error presenter not working
+          / = wf.adp_text_field :amount, label: t('.total'), input_classes:'total', input_type: 'currency', errors: @error_presenter

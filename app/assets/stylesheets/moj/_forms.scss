@@ -1,5 +1,11 @@
 form {
   fieldset {
+    &.error{
+      border-left-width: 3px;
+      .form-control{
+        border-width: 2px;
+      }
+    }
     label {
       margin-top: 0;
     }
@@ -11,6 +17,9 @@ form {
 }
 //  label
 label {
+  .field_with_errors{
+    border-left-width: 0;
+  }
   &.form-label {
     @include clearfix;
   }
@@ -36,10 +45,12 @@ input.form-control[type=number],
   &.short-input{
     @include span(4 of 12);
     margin-left: 0;
+    float: none;
   }
   &.medium-input{
     @include span(6 of 12);
     margin-left: 0;
+    float: none;
   }
   &.search{
     @include span(10 of 12);
@@ -483,6 +494,7 @@ label.form-date-spacing {
 .js-enabled {
   select.autocomplete {
     @include visually-hidden;
+    width:1px !important;
   }
 }
 
@@ -503,3 +515,26 @@ label.form-date-spacing {
     width: 77%;
   }
 }
+
+
+.field_with_errors{
+  border-left: 3px solid $error-colour;
+  padding: 0 0 0 15px;
+
+  .error{
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 400;
+    text-transform: none;
+    display: block;
+    color: $error-colour;
+    padding-left: 0;
+    border:0;
+    margin-right: 0;
+  }
+
+  input{
+    border: 2px solid $error-colour;
+  }
+}
+

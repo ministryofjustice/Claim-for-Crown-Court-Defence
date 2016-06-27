@@ -19,9 +19,7 @@
             = t('.estimated_trial_length_hint')
 
         .form-group.form-group-day
-          = f.anchored_label t('.days'), 'estimated_trial_length'
-          = f.number_field :estimated_trial_length, step: 1, min: 1, class: 'form-control short-input'
-          = validation_error_message(@error_presenter, :estimated_trial_length)
+          = f.adp_text_field :estimated_trial_length, label: t('.days'), input_classes:'short-input', input_type: 'number', errors: @error_presenter
 
   .form-row
 
@@ -37,8 +35,6 @@
             = t('.actual_trial_length_hint')
 
         .form-group.form-group-day
-          = f.anchored_label t('.days'), 'actual_trial_length'
-          = f.number_field :actual_trial_length, step: 1, min: 0, class: 'form-control short-input'
-          = validation_error_message(@error_presenter, :actual_trial_length)
+          = f.adp_text_field :actual_trial_length, label: t('.days'), input_classes:'short-input', input_type: 'number', errors: @error_presenter
 
 

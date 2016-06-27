@@ -24,14 +24,14 @@ class ClaimFormPage < SitePrism::Page
   element :offence_category, "#s2id_autogen3"
 
   sections :defendants, "div.defendants > div.js-test-defendant" do
-    element :first_name, "div.first-name > input"
-    element :last_name, "div.last-name > input"
+    element :first_name, "div.first-name input"
+    element :last_name, "div.last-name input"
 
     section :dob, CommonDateSection, 'div.dob'
 
     sections :representation_orders, "div.js-test-rep-order" do
       section :date, CommonDateSection, 'div.ro-date'
-      element :maat_reference, "div.maat > input"
+      element :maat_reference, "div.maat input"
     end
 
     element :add_another_representation_order, "div.links > a"
@@ -94,7 +94,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def select_offence_category(name)
-    select2 name, from: "offence_category_description"
+    select2 name, from: "claim_offence_category_description"
   end
 
   def add_misc_fee_if_required

@@ -3,7 +3,7 @@
   .grid-row
     .column-one-half.fee-type
       %label.form-label
-        = t('.fee_type'),
+        = t('.fee_type')
       %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
       = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete', style: 'width:400px'}
       = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")

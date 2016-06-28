@@ -34,19 +34,19 @@ module Stats
       {
         'series' => [
           {
-            'name' => 'Advocate Claims',
+            'name' => 'Advocate claims',
             'data' => [250, 260, 270, 280, 290],
           },
           {
-            'name' => 'Interim Claims',
+            'name' => 'Interim claims',
             'data' => [150, 160, 170, 180, 190],
           },
           {
-            'name' => 'Litigator Claims',
+            'name' => 'Litigator claims',
             'data' => [350, 360, 370, 380, 390],
           },
           {
-            'name' => 'Transfer Claims',
+            'name' => 'Transfer claims',
             'data' => [50, 60, 70 ,80, 90]
           }
         ]

@@ -33,7 +33,7 @@ module Stats
     def expected_output
       {
         'x_axis' => {
-          'labels' => [-5, -4, -3, -2, -1]
+          'labels' => %w{-5 -4 -3 -2 -1}
         },
         'series' => [
           {

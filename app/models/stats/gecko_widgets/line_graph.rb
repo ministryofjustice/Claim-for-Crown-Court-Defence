@@ -32,7 +32,7 @@ module Stats
 
       def make_x_axis_labels
         range = @dataset_size * -1 .. -1
-        range.to_a
+        range.to_a.collect(&:to_s)
       end
 
     end

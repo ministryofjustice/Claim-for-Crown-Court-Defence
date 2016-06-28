@@ -166,6 +166,10 @@ estimated_trial_length:
     long: Enter a whole number of days for the estimated trial length
     short: Enter a whole number of days
     api: Enter a whole number of days for the estimated trial length
+  interim_invalid:
+    long: Enter a whole number of days (minimum of 10) for the estimated trial length
+    short: Enter a minimum of 10 days
+    api: Enter a whole number of days (minimum of 10) for the estimated trial length
 
 actual_trial_length:
   _seq: 90
@@ -254,6 +258,10 @@ retrial_estimated_length:
     long: Enter a whole number of days for the estimated retrial length
     short: Enter a whole number of days
     api: Enter a whole number of days for the estimated retrial length
+  interim_invalid:
+    long: Enter a whole number of days (minimum of 10) for the estimated retrial length
+    short: Enter a minimum of 10 days
+    api: Enter a whole number of days (minimum of 10) for the estimated retrial length
 
 retrial_actual_length:
   _seq: 130

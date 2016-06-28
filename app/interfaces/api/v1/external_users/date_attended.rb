@@ -3,11 +3,7 @@ module API
     module ExternalUsers
 
       class DateAttended < Grape::API
-
-        version 'v1', using: :header, vendor: 'Advocate Defence Payments'
-        format :json
         prefix 'api/external_users'
-        content_type :json, 'application/json'
 
         params do
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)

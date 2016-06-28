@@ -1,11 +1,7 @@
 module API
   module V1
     class DropdownData < GrapeApiHelper
-
-      version 'v1', using: :header, vendor: 'Advocate Defence Payments'
-      format :json
       prefix 'api'
-      content_type :json, 'application/json'
 
       params do
         optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'

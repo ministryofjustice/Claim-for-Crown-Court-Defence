@@ -99,6 +99,16 @@ describe API::V1::DropdownData do
         expect(last_response.body).to include('Unauthorised')
       end
     end
+
+    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+      header 'Accept-Version', 'v2'
+
+      results.each do |endpoint, _|
+        get endpoint, params, format: :json
+        expect(last_response.status).to eq 406
+        expect(last_response.body).to include('The requested version is not supported.')
+      end
+    end
   end
 
   context 'GET api/offences' do

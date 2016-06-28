@@ -2,10 +2,7 @@ module API
   module V1
     module ExternalUsers
       class Claim < Grape::API
-        version 'v1', using: :header, vendor: 'Advocate Defence Payments'
-        format :json
         prefix 'api/external_users'
-        content_type :json, 'application/json'
 
         resource :claims, desc: 'Create or Validate' do
           before do

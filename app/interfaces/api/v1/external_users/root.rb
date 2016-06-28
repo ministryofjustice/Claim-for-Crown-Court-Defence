@@ -6,6 +6,10 @@ module API
     module ExternalUsers
       class Root < API::V1::GrapeApiHelper
 
+        version 'v1', using: :accept_version_header, cascade: false
+        format :json
+        content_type :json, 'application/json'
+
         helpers API::Authorisation
         helpers API::V1::ResourceHelper
 

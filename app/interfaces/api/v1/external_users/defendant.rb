@@ -3,11 +3,7 @@ module API
     module ExternalUsers
 
       class Defendant < Grape::API
-
-        version 'v1', using: :header, vendor: 'Advocate Defence Payments'
-        format :json
         prefix 'api/external_users'
-        content_type :json, 'application/json'
 
         params do
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"

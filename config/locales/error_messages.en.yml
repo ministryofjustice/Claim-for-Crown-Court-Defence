@@ -1130,6 +1130,21 @@ expense:
       short: *enter_valid_amount
       api: Enter a valid amount for the expense
 
+  vat_amount:
+    _seq: 25
+    numericality:
+      long: 'Enter a valid VAT amount for the #{expense}'
+      short: *check_amount
+      api: Enter a valid VAT amount for the expense
+    greater_than:
+      long: 'Check VAT amount is less than the net amount for the #{expense}'
+      short: *check_amount
+      api: Check VAT amount is less than the net amount for the expense
+    invalid:
+      long: "VAT amount doesn't apply for the #{expense}"
+      short: "VAT amount doesn't apply"
+      api: "VAT amount doesn't apply for the expense"
+
   location:
     _seq: 30
     blank:

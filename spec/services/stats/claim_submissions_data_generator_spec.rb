@@ -32,21 +32,24 @@ module Stats
 
     def expected_output
       {
+        'x_axis' => {
+          'labels' => [-5, -4, -3, -2, -1]
+        },
         'series' => [
           {
-            'name' => 'Advocate claims',
+            'name' => 'Advocate',
             'data' => [250, 260, 270, 280, 290],
           },
           {
-            'name' => 'Interim claims',
+            'name' => 'Litigator interim',
             'data' => [150, 160, 170, 180, 190],
           },
           {
-            'name' => 'Litigator claims',
+            'name' => 'Litigator final',
             'data' => [350, 360, 370, 380, 390],
           },
           {
-            'name' => 'Transfer claims',
+            'name' => 'Litigator transfer',
             'data' => [50, 60, 70 ,80, 90]
           }
         ]

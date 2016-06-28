@@ -36,4 +36,40 @@ describe Claim::InterimClaimValidator do
       :total
     ]
   ]
+
+  describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do
+    before do
+      allow(claim).to receive(:interim_fee).and_return(interim_fee)
+      claim.source = 'web'
+      claim.form_step = 2
+    end
+
+    context 'estimated_trial_length' do
+      let(:interim_fee) { build :interim_fee_type, :trial_start }
+
+      it 'should error if not present and interim fee type requires it' do
+        claim.estimated_trial_length = nil
+        should_error_with(claim, :estimated_trial_length, 'blank')
+      end
+
+      it 'should error if less than 10 days' do
+        claim.estimated_trial_length = 5
+        should_error_with(claim, :estimated_trial_length, 'interim_invalid')
+      end
+    end
+
+    context 'retrial_estimated_length' do
+      let(:interim_fee) { build :interim_fee_type, :retrial_start }
+
+      it 'should error if not present and interim fee type requires it' do
+        claim.retrial_estimated_length = nil
+        should_error_with(claim, :retrial_estimated_length, 'blank')
+      end
+
+      it 'should error if less than 10 days' do
+        claim.retrial_estimated_length = 5
+        should_error_with(claim, :retrial_estimated_length, 'interim_invalid')
+      end
+    end
+  end
 end

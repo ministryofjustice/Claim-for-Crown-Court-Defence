@@ -40,12 +40,12 @@ module DemoData
 
       if fee.is_trial_start?
         @claim.first_day_of_trial = rand(1..5).months.ago
-        @claim.estimated_trial_length = rand(3..15)
+        @claim.estimated_trial_length = rand(10..15)
       end
 
       if fee.is_retrial_start?
         @claim.retrial_started_at = rand(1..5).months.ago
-        @claim.retrial_estimated_length = rand(3..15)
+        @claim.retrial_estimated_length = rand(10..15)
       end
 
       if fee.is_retrial_new_solicitor?

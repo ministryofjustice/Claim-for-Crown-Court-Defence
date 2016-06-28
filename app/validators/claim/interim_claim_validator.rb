@@ -41,7 +41,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
     return if interim_fee_absent?
 
     if @record.interim_fee.is_trial_start?
-      validate_presence_and_numericality(:estimated_trial_length)
+      validate_presence_and_length(:estimated_trial_length)
     else
       validate_absence_or_zero(:estimated_trial_length, 'present')
     end
@@ -71,7 +71,7 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
     return if interim_fee_absent?
 
     if @record.interim_fee.is_retrial_start?
-      validate_presence_and_numericality(:retrial_estimated_length)
+      validate_presence_and_length(:retrial_estimated_length)
     else
       validate_absence_or_zero(:retrial_estimated_length, 'present')
     end
@@ -105,8 +105,9 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
     validate_not_after(Date.today, attribute, 'check_not_in_future')
   end
 
-  def validate_presence_and_numericality(attribute)
+  def validate_presence_and_length(attribute)
     validate_presence(attribute, 'blank')
-    validate_numericality(attribute, 0, nil, 'invalid')
+    # an interim fee cannot be claimed unless the trial will last 10 days or more
+    validate_numericality(attribute, 10, nil, 'interim_invalid')
   end
 end

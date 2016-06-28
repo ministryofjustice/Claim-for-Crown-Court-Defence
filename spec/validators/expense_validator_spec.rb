@@ -18,6 +18,67 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(2) }
 
+    describe '#validate_vat_amount for AGFS claims' do
+      it 'is valid if absent' do
+        expense.vat_amount = nil
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if blank' do
+        expense.vat_amount = ''
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if zero' do
+        expense.vat_amount = 0
+        expect(expense).to be_valid
+      end
+
+      it 'is invalid if any other value' do
+        expense.vat_amount = 3
+        expect(expense).not_to be_valid
+        expect(expense.errors[:vat_amount]).to include('invalid')
+      end
+    end
+
+    describe '#validate_vat_amount for LGFS claims' do
+      let(:claim) { build :litigator_claim, force_validation: true }
+
+      it 'is valid if absent' do
+        expense.vat_amount = nil
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if blank' do
+        expense.vat_amount = ''
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if zero' do
+        expense.vat_amount = 0
+        expect(expense).to be_valid
+      end
+
+      it 'is valid if less than the total amount' do
+        expense.amount = 11
+        expense.vat_amount = 10.5
+        expect(expense).to be_valid
+      end
+
+      it 'is invalid if greater than the total amount' do
+        expense.amount = 11
+        expense.vat_amount = 11.5
+        expect(expense).not_to be_valid
+        expect(expense.errors[:vat_amount]).to include('greater_than')
+      end
+
+      it 'is invalid if negative' do
+        expense.vat_amount = -5
+        expect(expense).not_to be_valid
+        expect(expense.errors[:vat_amount]).to include('numericality')
+      end
+    end
+
     describe '#validate_date' do
       it 'is valid for todays date' do
         expense.date = Date.today
@@ -283,7 +344,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(train_expense.errors[:distance]).to include('invalid')
         end
 
-        it 'is validß when zero for train' do
+        it 'is invalid when zero for train' do
           train_expense.distance = 0
           expect(train_expense).not_to be_valid
           expect(train_expense.errors[:distance]).to include('invalid')

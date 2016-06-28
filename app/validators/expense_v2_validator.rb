@@ -6,11 +6,12 @@ class ExpenseV2Validator < BaseValidator
       :distance,
       :hours,
       :location,
-      :amount,
       :date,
       :reason_id,
       :reason_text,
-      :mileage_rate_id
+      :mileage_rate_id,
+      :amount,
+      :vat_amount
     ]
   end
 
@@ -32,6 +33,15 @@ class ExpenseV2Validator < BaseValidator
 
   def validate_amount
     validate_presence(:amount, 'blank')
+  end
+
+  def validate_vat_amount
+    if @record.claim.lgfs?
+      validate_float_numericality(:vat_amount, 0.0, nil, 'numericality')
+      validate_amount_greater_than(:vat_amount, :amount, 'greater_than')
+    else
+      validate_absence_or_zero(:vat_amount, 'invalid')
+    end
   end
 
   def validate_location

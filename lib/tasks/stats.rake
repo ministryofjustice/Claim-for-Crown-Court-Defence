@@ -4,6 +4,7 @@ namespace :stats do
     (1..21).each do |offset|
       date = Date.today - offset.days
       Stats::Collector::ClaimSubmissionsCollector.new(date).collect
+      Stats::Collector::MultiSessionSubmissionCollector.new(date).collect
     end
   end
 end

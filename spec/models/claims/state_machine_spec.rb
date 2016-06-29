@@ -257,7 +257,8 @@ RSpec.describe Claims::StateMachine, type: :model do
       {
         event: 'submit',
         from: 'draft',
-        to: 'submitted'
+        to: 'submitted',
+        reason_code: nil
       }
     end
 
@@ -270,6 +271,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(ClaimStateTransition.last.event).to eq(expected[:event])
       expect(ClaimStateTransition.last.from).to eq(expected[:from])
       expect(ClaimStateTransition.last.to).to eq(expected[:to])
+      expect(ClaimStateTransition.last.reason_code).to eq(expected[:reason_code])
     end
   end
 
@@ -279,6 +281,30 @@ RSpec.describe Claims::StateMachine, type: :model do
       expect(claim.allocation_type).to be nil
       claim.submit!
       expect(claim.allocation_type).to eq 'Grad'
+    end
+  end
+
+  describe 'reject! supports a reason code' do
+    before { subject.submit!; subject.allocate!; subject.reject!(reason_code: reason_code) }
+
+    let(:reason_code) { 'reason' }
+
+    it 'updates the transition reason code' do
+      transition = subject.claim_state_transitions.first
+      expect(transition.to).to eq('rejected')
+      expect(transition.reason_code).to eq(reason_code)
+    end
+  end
+
+  describe 'refuse! supports a reason code' do
+    before { subject.submit!; subject.allocate!; subject.refuse!(reason_code: reason_code) }
+
+    let(:reason_code) { 'reason' }
+
+    it 'updates the transition reason code' do
+      transition = subject.claim_state_transitions.first
+      expect(transition.to).to eq('refused')
+      expect(transition.reason_code).to eq(reason_code)
     end
   end
 end

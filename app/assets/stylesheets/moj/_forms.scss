@@ -554,3 +554,9 @@ label.form-date-spacing {
     margin-left:0;
   }
 }
+
+.fee-date-from, .fee-date-to{
+  & > span > div:first-child{
+  display: block;
+  }
+}

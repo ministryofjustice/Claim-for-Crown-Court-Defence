@@ -14,6 +14,13 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     end
   end
 
+  def multi_session_submissions
+    respond_to do |format|
+      payload = Stats::MultiSessionSubmissionDataGenerator.new.run
+      format.json { render :json => payload }
+    end
+  end
+
   private
 
   def set_claim_reporter

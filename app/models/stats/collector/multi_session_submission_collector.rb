@@ -1,10 +1,6 @@
 module Stats
   module Collector
-    class MultiSessionSubmissionCollector
-
-      def initialize(date = Date.today)
-        @date = date
-      end
+    class MultiSessionSubmissionCollector < BaseCollector
 
       def collect
         num_single_session_submissions = submitted_claims_for_day.where(last_edited_at: nil).count

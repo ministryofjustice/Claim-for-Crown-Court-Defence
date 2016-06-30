@@ -15,6 +15,11 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_with_json_payload_from_class(Stats::MultiSessionSubmissionDataGenerator)
   end
 
+  def requests_for_further_info
+    respond_with_json_payload_from_class(Stats::RequestForFurtherInfoDataGenerator)
+  end
+
+
   private
 
   def respond_with_json_payload_from_class(klass)

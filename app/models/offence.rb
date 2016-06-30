@@ -18,7 +18,9 @@ class Offence < ActiveRecord::Base
   validates :offence_class, presence: true
   validates :description, presence: true
 
-  scope :unique_name,   -> { select('DISTINCT(description)') }
+  default_scope { includes(:offence_class).order(:description, :offence_class_id) }
+
+  scope :unique_name,   -> { unscoped.select(:description).distinct }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
 
   def offence_class_description

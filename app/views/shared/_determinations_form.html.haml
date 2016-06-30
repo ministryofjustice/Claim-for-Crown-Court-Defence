@@ -30,9 +30,12 @@
         %legend.bold-normal.form-label
           = "Update the claim status"
 
-        = f.collection_radio_buttons(:state_for_form, claim.valid_transitions_for_detail_form, :first, :last) do |b|
+        = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
           - b.label(class: "block-label") { b.radio_button + b.text }
 
+        #rejectionReasons
+          = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:rejected), :code, :description) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.text }
 
       %p
       = f.submit 'Update', class: 'button', id: 'button'

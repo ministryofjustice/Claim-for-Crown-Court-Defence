@@ -13,7 +13,7 @@ class ClaimShowPage < SitePrism::Page
     element :send, "form#new_message div.submit-column > input.button-secondary"
     element :fees, "#claim_assessment_attributes_fees"
     element :expenses, "#claim_assessment_attributes_expenses"
-    element :authorised, "#claim_state_for_form_authorised"
+    element :authorised, "#claim_state_authorised"
     element :update, "input#button.button"
 
     def upload_file(path)

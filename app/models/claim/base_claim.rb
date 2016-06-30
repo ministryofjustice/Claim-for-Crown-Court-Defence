@@ -226,10 +226,6 @@ module Claim
       Claims::StateMachine::AUTHORISED_STATES.include?(self.state)
     end
 
-    def state_for_form
-      self.state
-    end
-
     def editable?
       draft?
     end
@@ -301,14 +297,6 @@ module Claim
 
     def pretty_vat_rate
       VatRate.pretty_rate(self.vat_date)
-    end
-
-    def last_state_transition
-      claim_state_transitions.first
-    end
-
-    def last_state_transition_time
-      last_state_transition.created_at
     end
 
     def enable_assessment_input?
@@ -397,10 +385,6 @@ module Claim
 
     def last_redetermination
       self.redeterminations.select(&:valid?).last
-    end
-
-    def filtered_last_state_transition
-      claim_state_transitions.where.not(to: %w(allocated deallocated)).first
     end
 
     def default_values

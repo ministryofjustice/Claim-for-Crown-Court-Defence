@@ -137,6 +137,22 @@ module Claims::StateMachine
     end
   end
 
+  def last_state_transition
+    claim_state_transitions.first
+  end
+
+  def last_state_transition_reason
+    last_state_transition.reason
+  end
+
+  def last_state_transition_time
+    last_state_transition.created_at
+  end
+
+  def filtered_last_state_transition
+    claim_state_transitions.where.not(to: %w(allocated deallocated)).first
+  end
+
   private
 
   def reset_state

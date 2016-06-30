@@ -36,7 +36,7 @@
   .js-case-worker-list
     .column-half
       = f.label :case_worker_id
-      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { include_blank: true }, { class: 'form-control autocomplete' }
+      = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
 
   .grid-row
     .column-quarter

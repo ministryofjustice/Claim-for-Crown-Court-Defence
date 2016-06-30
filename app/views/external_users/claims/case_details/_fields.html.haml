@@ -7,7 +7,7 @@
     %legend.xsmall
       = f.anchored_without_label t('.advocate_category')
       = t('.advocate_category')
-    .form-group.inline
+    .form-group.inline{class: error_class?(@error_presenter, :advocate_category)}
       = f.collection_radio_buttons(:advocate_category, Settings.advocate_categories.sort, :to_s, :to_s) do |b|
         - b.label(class: "block-label") { b.radio_button + b.value.to_s }
       = validation_error_message(@error_presenter, :advocate_category)
@@ -20,42 +20,42 @@
       = render partial: 'external_users/claims/case_details/case_owner_select', locals: { f: f, label: label, external_users_collection: external_users_collection }
 
     .form-row
-      .form-col
-        = f.anchored_label t('.case_type'), 'case_type_id_autocomplete'
+      .form-col{class: error_class?(@error_presenter, :case_type)}
+        %a{:id => "case_type"}
+        %label{:for => "claim_case_type_id_autocomplete"}
+          = t('.case_type')
         .form-hint.xsmall.zero-vert-margin
           = "eg Trial"
-        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: true }, { class: 'autocomplete' }
+        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row
-      .form-col
-        = f.anchored_label t('.court'), 'court_id_autocomplete'
+      .form-col{class: error_class?(@error_presenter, :court)}
+        %a{:id => "court"}
+        %label{:for => "claim_court_id_autocomplete"}
+          = t('.court')
+
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
       .form-col
-        = f.anchored_label t('.case_number'), nil, { label_attributes: {class: 'form-label'} }
-        .form-hint.xsmall.zero-vert-margin
-          = "eg A12345678"
-        = f.text_field :case_number, {class: 'form-control'}
-        = validation_error_message(@error_presenter, :case_number)
+        = f.adp_text_field :case_number,
+                            label: t('.case_number'),
+                            hint_text: 'eg A12345678',
+                            errors: @error_presenter
 
     .form-row
-      .form-col
+      .form-col{class: error_class?(@error_presenter, :transfer_court)}
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
-        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: true }, { class: 'autocomplete' }
+        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :transfer_court)
 
-      .form-col.form-col-two-thirds
-        = f.anchored_label t('.transfer_case_number'), :transfer_case_number
-        .form-hint.xsmall.zero-vert-margin
-          = "eg A12345678"
-        = f.text_field :transfer_case_number, {class: 'form-control medium-input'}
-        = validation_error_message(@error_presenter, :transfer_case_number)
+      .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
+        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'eg A12345678', input_classes: 'medium-input',  errors: @error_presenter
 
 
 - if @claim.agfs?
@@ -74,8 +74,7 @@
         - else
           - selected_offence_category = @claim.offence.description rescue nil
 
-        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { include_blank: true, prompt: true, selected: selected_offence_category }, { class: 'form-control autocomplete' }
-
+        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { include_blank: '&#160;'.html_safe, selected: selected_offence_category }, { class: 'form-control autocomplete', id: 'claim_offence_category_description' }
         = validation_error_message(@error_presenter, :offence)
 
       .form-col

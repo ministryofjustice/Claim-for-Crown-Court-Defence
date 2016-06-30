@@ -1,3 +1,10 @@
+.field_with_errors{
+  .field_with_errors{
+    border: none;
+    padding:0;
+  }
+}
+
 .search-wrapper {
   @include container;
   position: relative;
@@ -207,7 +214,7 @@ form {
 }
 
 .field_with_errors {
-  display:inline;
+  display:inline-block;
 }
 
 .remove-expense:first-child a {

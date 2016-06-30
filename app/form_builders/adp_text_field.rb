@@ -2,6 +2,8 @@
 # class to create specialized text field wrapped in all the GDS gubbins
 class AdpTextField
 
+  attr_reader :form, :method, :options
+
   include ExternalUsers::ClaimsHelper
   include ActionView::Helpers::TagHelper
 
@@ -12,16 +14,18 @@ class AdpTextField
   # * options:
   #   * label: label to be provided for the input field
   #   * hint_text: Hint text displayed underneath the label
+  #   * input_classes: Css classes on the input
+  #   * input_type: Input type will default to `text`
   #   * errors: An ErrorPresenter for the form object, or the form object itself
+  #   * value: the value to display (if no specified, the value is taken by calling method on the form object)
 
   def initialize(form, method, options)
     @form = form
     @method = method
     @options = options
-    @form_field_id = generate_form_field_id
-    @form_field_name = generate_form_field_name
-    @errors = options[:errors]
-    @anchor_id = generate_anchor_id
+
+    generate_ids
+    extract_options
   end
 
 
@@ -37,7 +41,8 @@ class AdpTextField
   end
 
   def has_errors?
-    @errors.errors_for?(@anchor_id.to_sym)
+    return false if @errors.nil?
+    @errors.errors_for?(@error_key.to_sym)
   end
 
   def to_html
@@ -45,14 +50,42 @@ class AdpTextField
     result += anchor
     result += label
     result += hint
-    result += error_message
     result += label_close
     result += input_field
+    result += error_message
     result += div_close
     result.html_safe
   end
 
   private
+
+  def generate_ids
+    @form_field_id = generate_form_field_id
+    @form_field_name = generate_form_field_name
+    @anchor_id = generate_anchor_id
+  end
+
+  def extract_options
+    @errors = options[:errors]
+    @input_classes = options[:input_classes] || ''
+    @input_type = options[:input_type] || 'text'
+    @error_key = options[:error_key] || @anchor_id
+    @value = options[:value] || form.object.__send__(method)
+    setup_input_type
+  end
+
+  def setup_input_type
+    @input_is_number = false
+    @input_is_currency = (@input_type == 'currency')
+    @input_type_string = @input_type
+
+    if @input_type == 'currency' || @input_type == 'number'
+      @input_is_number = true
+      @input_type_string = 'number'
+      @input_min = options[:input_min] || '0'
+      @input_max = options[:input_max] || '99999'
+    end
+  end
 
   def generate_form_field_id
     # @form.object_name either returns a symbol for top level fields (e.g. :claim), or
@@ -61,7 +94,7 @@ class AdpTextField
       "#{@form.object_name}_#{@method}"
     else
       # translates e.g. claim[defendants_attributes][0]_last_name to claim_defendants_attributes_0_last_name
-      @form.object_name.to_s.gsub(/\[/, '_').gsub(/\]/, '_').gsub('__', '_') + "#{@method}"
+      @form.object_name.to_s.tr('[', '_').tr(']', '_').gsub('__', '_') + @method.to_s
     end
   end
 
@@ -77,50 +110,62 @@ class AdpTextField
     parts = anchor.split('_')
     incremented_anchor_parts = []
     parts.each do |part|
-      if part =~ /^[0-9]{1,2}$/
-        incremented_anchor_parts << (part.to_i + 1).to_s
-      else
-        incremented_anchor_parts << part
-      end
+      incremented_anchor_parts << if part =~ /^[0-9]{1,2}$/
+                                    (part.to_i + 1).to_s
+                                  else
+                                    part
+                                  end
     end
     incremented_anchor_parts.join('_')
   end
 
   def div_start
-    result = %Q|<div class="form-group #{@method}|
-    result += %Q| field_with_errors| if has_errors?
-    result += %Q|">|
+    result = %|<div class="form-group #{@method}_wrapper|
+    result += %| field_with_errors| if has_errors?
+    result += %|">|
     result
   end
 
   def anchor
-    %Q|<a id="#{@anchor_id}"></a>|
+    %|<a id="#{@anchor_id}"></a>|
+  end
+
+  def currency
+    %|<span class="currency-indicator">&pound;</span>|
   end
 
   def label
-    %Q|<label class="form-label" for="#{@form_field_id}">#{@options[:label]}|
+    %|<label class="form-label" for="#{@form_field_id}">#{@options[:label]}|
   end
 
   def label_close
-    %Q|</label>|
+    %|</label>|
   end
 
   def error_message
-    has_errors? ? validation_error_message(@errors, @anchor_id) : ''
+    has_errors? ? validation_error_message(@errors, @error_key) : ''
   end
 
   def hint
     if @options[:hint_text]
-      %Q|<div class="form-hint">#{@options[:hint_text]}</div>|
+      %|<span class="form-hint">#{@options[:hint_text]}</span>|
     else
       ''
     end
   end
 
   def input_field
-    result = %Q|<input class="form-control" type="text" name="#{@form_field_name}" id="#{@form_field_id}" |
-    result += %Q|value="#{@form.object.__send__(@method)}" | unless @form.object.__send__(@method).nil?
-    result += %Q|/>|
+    result = %||
+    if @input_is_currency
+      result += %|<span class="currency-indicator">&pound;</span>|
+    end
+    result += %|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
+    result += %|value="#{@value}" | unless @form.object.__send__(@method).nil?
+    if @input_is_number
+      result += %|min="#{@input_min}" |
+      result += %|max="#{@input_max}" |
+    end
+    result += %|/>|
     result
   end
 
@@ -128,7 +173,3 @@ class AdpTextField
     '</div>'
   end
 end
-
-
-
-

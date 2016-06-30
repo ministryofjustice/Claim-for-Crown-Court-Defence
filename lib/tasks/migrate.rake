@@ -48,9 +48,15 @@
       end
     end
 
+    desc 'Rename dishonesty offences'
+    task :rename_dishonesty_offences => :environment do
+      Offence.where(description: 'Obtaining services dishonestly').update_all(description: 'Obtaining services by dishonesty')
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
+        'rename_dishonesty_offences' => 'Rename "dishonestly" to "by dishonesty"',
         'reseed_offences' => 'Reseed the offences as there were some missing.'
       }.each do |task, comment|
         puts comment

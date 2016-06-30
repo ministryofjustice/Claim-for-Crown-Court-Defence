@@ -1,10 +1,7 @@
 module Stats
   module Collector
-    class ClaimSubmissionsCollector
+    class ClaimSubmissionsCollector < BaseCollector
 
-      def initialize(date = Date.today)
-        @date = date
-      end
 
       def collect
         count = 0

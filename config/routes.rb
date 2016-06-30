@@ -157,7 +157,7 @@ Rails.application.routes.draw do
     get 'widgets/claims', to: 'widgets#claims'
     get 'widgets/claim_completion', to: 'widgets#claim_completion'
     get 'widgets/average_processing_time', to: 'widgets#average_processing_time'
-    get 'widgets/claim_submisions', to: 'widgets#claim_submissions'
+    get 'widgets/claim_submissions', to: 'widgets#claim_submissions'
     get 'widgets/multi_session_submissions', to: 'widgets#multi_session_submissions'
     get 'widgets/requests_for_further_info', to: 'widgets#requests_for_further_info'
   end

@@ -151,11 +151,11 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def load_offences_and_case_types
-    @offence_descriptions = Offence.unique_name.order(description: :asc)
+    @offence_descriptions = Offence.unique_name
     @offences = if @claim.offence
-                  Offence.includes(:offence_class).where(description: @claim.offence.description)
+                  Offence.where(description: @claim.offence.description)
                 else
-                  Offence.includes(:offence_class)
+                  Offence.all
                 end
     @case_types = @claim.eligible_case_types
   end

@@ -13,7 +13,14 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    @offences = Offence.includes(:offence_class)
-    @offences = @offences.where(description: params[:description]) if params[:description].present?
+    @offences = Offence.where(offence_filter)
+  end
+
+  private
+
+  def offence_filter
+    {}.tap do |filters|
+      filters.merge!(description: params[:description]) if params[:description].present?
+    end
   end
 end

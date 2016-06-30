@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627083153) do
+ActiveRecord::Schema.define(version: 20160628141647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20160627083153) do
     t.string   "from"
     t.string   "to"
     t.datetime "created_at"
+    t.string   "reason_code"
   end
 
   add_index "claim_state_transitions", ["claim_id"], name: "index_claim_state_transitions_on_claim_id", using: :btree

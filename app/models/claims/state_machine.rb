@@ -47,7 +47,7 @@ module Claims::StateMachine
 
   def self.included(klass)
     klass.state_machine :state, initial: :draft do
-      audit_trail class: ClaimStateTransition
+      audit_trail class: ClaimStateTransition, context: [:reason_code]
 
       state :allocated,
             :archived_pending_delete,
@@ -131,6 +131,10 @@ module Claims::StateMachine
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
+    def reason_code(transition)
+      options = transition.args&.extract_options! || {}
+      options[:reason_code]
+    end
   end
 
   private

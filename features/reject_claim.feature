@@ -1,7 +1,7 @@
 @no-seeding @javascript
-Feature: Case worker fully authorises claim
+Feature: Case worker rejects a claim, providing a reason
 
-  Scenario: I fully authorise a claim
+  Scenario: I reject a claim providing a reason
 
     Given a "case worker" user account exists
     And an "advocate" user account exists
@@ -10,11 +10,11 @@ Feature: Case worker fully authorises claim
 
     When I select the claim
     And expand the messages section
-    And fill out the Fees Total authorised by Laa with the amount of fees claimed
-    And do the same with expenses
-    And I click the authorised radio button
+    And I click the rejected radio button
+    And I select the first rejection reason
     And I click update
-    Then the status at top of page should be Authorised
+    Then the status at top of page should be Rejected
+    And I should see 'Reason provided:'
 
     When I click your claims
     Then the claim I've just updated is no longer in the list

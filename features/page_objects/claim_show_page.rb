@@ -14,7 +14,12 @@ class ClaimShowPage < SitePrism::Page
     element :fees, "#claim_assessment_attributes_fees"
     element :expenses, "#claim_assessment_attributes_expenses"
     element :authorised, "#claim_state_authorised"
+    element :rejected, "#claim_state_rejected"
     element :update, "input#button.button"
+
+    section :rejection_reasons, 'div.js-cw-claim-rejection-reasons' do
+      element :first_reason, 'label:nth-of-type(1) input:nth-of-type(1)'
+    end
 
     def upload_file(path)
       attach_file("message_attachment", path)

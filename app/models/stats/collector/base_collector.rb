@@ -6,7 +6,7 @@ module Stats
     #
     class BaseCollector
 
-      STRFTIME_MASK = '%Y-%m-%d %H:%M:%S.%6N'
+      STRFTIME_MASK = '%Y-%m-%d %H:%M:%S.%6N'.freeze
 
       def initialize(date = Date.today)
         @date = date

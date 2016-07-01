@@ -12,7 +12,7 @@ module Stats
       line_graph = Stats::GeckoWidgets::LineGraph.new
       report_types.each do |report_name, description|
         data_series = Statistic.report(report_name, 'Claim::BaseClaim', @start_date, @date).pluck(:value_1)
-        line_graph.add_dataset description,  data_series.map{ |v| transform_data_value(v) }
+        line_graph.add_dataset description, data_series.map{ |v| transform_data_value(v) }
       end
       line_graph.to_json
     end

@@ -29,7 +29,7 @@ module Stats
         stat.update(value_1: value_1, value_2: value_2)
         retval = 0
       else
-        stat = Statistic.create(
+        Statistic.create(
           date: date,
           report_name: report_name,
           claim_type: claim_type,

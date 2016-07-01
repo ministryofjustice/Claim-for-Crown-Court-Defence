@@ -131,10 +131,13 @@ module Claims::StateMachine
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
+
+    # rubocop:disable Lint/NestedMethodDefinition
     def reason_code(transition)
       options = transition.args&.extract_options! || {}
       options[:reason_code]
     end
+    # rubocop:enable Lint/NestedMethodDefinition
   end
 
   def last_state_transition

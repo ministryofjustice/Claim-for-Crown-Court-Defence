@@ -22,7 +22,6 @@ module Stats
         end
         avg = period_total / claim_count
         Statistic.create_or_update(@date, 'time_reject_to_auth', 'Claim::BaseClaim', avg, claim_count)
-
       end
 
       private

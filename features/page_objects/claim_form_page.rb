@@ -94,7 +94,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def select_offence_category(name)
-    select2 name, from: "claim_offence_category_description"
+    select2 name, from: "offence_category_description"
   end
 
   def add_misc_fee_if_required

@@ -41,7 +41,10 @@ class Fee::MiscFeeValidator < Fee::BaseFeeValidator
     return if @record.__send__(attribute).blank?
 
     @record.__send__(attribute).split(',').each do |case_number|
-      case_number.strip.match(CASE_NUMBER_PATTERN) || (add_error(attribute, message) && return)
+      unless case_number.strip.match(CASE_NUMBER_PATTERN)
+        add_error(attribute, message)
+        break
+      end
     end
   end
 

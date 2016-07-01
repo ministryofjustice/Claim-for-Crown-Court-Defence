@@ -24,6 +24,7 @@ module Stats
       end
 
       private
+
       def generate_array_of_series
         @datasets.each do |name, dataset|
           @series << { 'name' => name, 'data' => dataset }
@@ -31,7 +32,7 @@ module Stats
       end
 
       def make_x_axis_labels
-        range = @dataset_size * -1 .. -1
+        range = @dataset_size * -1..-1
         range.to_a.collect(&:to_s)
       end
 

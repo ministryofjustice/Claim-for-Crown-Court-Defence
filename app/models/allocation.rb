@@ -13,7 +13,7 @@ class Allocation
     allocation: Claims::StateMachine::VALID_STATES_FOR_ALLOCATION + ['allocated'],
     deallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
     reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
-  }
+  }.freeze
 
   class << self
     def i18n_scope
@@ -38,8 +38,6 @@ class Allocation
 
   def save
     return false unless valid?
-    result = true
-
     if allocating?
       allocate_all_claims_or_none!(@claims) if claims_in_correct_state_for?(:allocation)
     elsif deallocating?
@@ -51,7 +49,7 @@ class Allocation
     end
     errors.empty?
   end
-  
+
   def claims_in_correct_state_for?(new_state)
     @claims.each do |claim|
       errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}" unless claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])

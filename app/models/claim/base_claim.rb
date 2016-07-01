@@ -239,7 +239,7 @@ module Claim
     end
 
     def redeterminable?
-      VALID_STATES_FOR_REDETERMINATION.include?(self.state)  && !interim?
+      VALID_STATES_FOR_REDETERMINATION.include?(self.state) && !interim?
     end
 
     def perform_validation?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628141647) do
+ActiveRecord::Schema.define(version: 20160630161501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -403,6 +403,7 @@ ActiveRecord::Schema.define(version: 20160628141647) do
     t.string  "report_name"
     t.string  "claim_type"
     t.integer "value_1"
+    t.integer "value_2",     default: 0
   end
 
   add_index "statistics", ["date", "report_name", "claim_type"], name: "index_statistics_on_date_and_report_name_and_claim_type", unique: true, using: :btree

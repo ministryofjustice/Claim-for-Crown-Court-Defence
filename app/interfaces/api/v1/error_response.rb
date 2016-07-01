@@ -20,6 +20,8 @@ class ErrorResponse
   attr :body
   attr :status
 
+  attr_reader :error_messages
+
   VALID_MODEL_KLASSES = [
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,
       Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
@@ -39,10 +41,6 @@ class ErrorResponse
   end
 
 private
-
-  def error_messages
-    @error_messages
-  end
 
   def translations
     message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")

@@ -23,6 +23,7 @@ class API::Logger < Grape::Middleware::Base
     begin
       JSON.parse(@app_response.body.first)
     rescue JSON::ParserError
+      Rails.logger.error "JSON::Parser error parsing: \n#{@app_response.body.first}"
     end
   end
 

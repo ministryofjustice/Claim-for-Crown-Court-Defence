@@ -19,6 +19,10 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_with_json_payload_from_class(Stats::RequestForFurtherInfoDataGenerator)
   end
 
+  def time_reject_to_auth
+    respond_with_json_payload_from_class(Stats::TimeFromRejectToAuthDataGenerator)
+  end
+
 
   private
 

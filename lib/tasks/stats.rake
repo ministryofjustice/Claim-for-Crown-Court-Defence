@@ -7,6 +7,7 @@ namespace :stats do
       Stats::Collector::ClaimSubmissionsCollector.new(date).collect
       Stats::Collector::MultiSessionSubmissionCollector.new(date).collect
       Stats::Collector::InfoRequestCountCollector.new(date).collect
+      Stats::Collector::TimeFromRejectToAuthCollector.new(date).collect
     end
   end
 end

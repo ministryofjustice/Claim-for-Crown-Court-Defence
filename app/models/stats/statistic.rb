@@ -23,17 +23,18 @@ module Stats
       Statistic.where(report_name: report_name, claim_type: claim_type).where('date between ? and ?', start_date.to_date, end_date.to_date).order(:date)
     end
 
-    def self.create_or_update(date, report_name, claim_type, value)
+    def self.create_or_update(date, report_name, claim_type, value_1, value_2 = 0)
       stat = Statistic.where(date: date, report_name: report_name, claim_type: claim_type).first
       if stat
-        stat.update(value_1: value)
+        stat.update(value_1: value_1, value_2: value_2)
         retval = 0
       else
-        stat = Statistic.create(
+        Statistic.create(
           date: date,
           report_name: report_name,
           claim_type: claim_type,
-          value_1: value
+          value_1: value_1,
+          value_2: value_2
         )
         retval = 1
       end

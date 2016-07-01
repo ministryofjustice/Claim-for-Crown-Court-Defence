@@ -48,6 +48,7 @@
 
     .form-row
       .form-col{class: error_class?(@error_presenter, :transfer_court)}
+        %span#transfer_court.visually-hidden
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "eg Cardiff"
@@ -65,7 +66,7 @@
 
   #offence
     .form-row
-      .form-col.form-col-one-half
+      .form-col.form-col-one-half{class: error_class?(@error_presenter, :offence)}
         = f.anchored_label t('.offence_category'), 'offence_category_description_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "If the offence category is not listed, choose \"Miscellaneous/other\""

@@ -160,6 +160,7 @@ Rails.application.routes.draw do
     get 'widgets/claim_submissions', to: 'widgets#claim_submissions'
     get 'widgets/multi_session_submissions', to: 'widgets#multi_session_submissions'
     get 'widgets/requests_for_further_info', to: 'widgets#requests_for_further_info'
+    get 'widgets/time_reject_to_auth', to: 'widgets#time_reject_to_auth'
   end
 
   # catch-all route

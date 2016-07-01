@@ -10,6 +10,7 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
     Stats::Collector::ClaimSubmissionsCollector.new(Date.yesterday).collect
     Stats::Collector::MultiSessionSubmissionCollector.new(Date.yesterday).collect
     Stats::Collector::InfoRequestCountCollector.new(Date.yesterday).collect
+    Stats::Collector::TimeFromRejectToAuthCollector.new(Date.yesterday).collect
   rescue => ex
     log('There was an error: ' + ex.message)
   ensure

@@ -1,6 +1,9 @@
 #claim-status
   %h3.indent-sides= "Current status: #{claim.state.humanize}"
 
+  - if claim.last_state_transition_reason.present?
+    %h3.indent-sides= "Reason provided: #{claim.last_state_transition_reason.description}"
+
   %table#determinations.indent-sides
     %thead
       %tr

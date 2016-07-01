@@ -10,7 +10,7 @@ module Claims
 
       context 'successful transitions' do
         it 'advances the claim to part authorised' do
-          params = {'state_for_form' => 'part_authorised', 'assessment_attributes' => {'fees' => '45', 'expenses' => '0.00'}}
+          params = {'state' => 'part_authorised', 'assessment_attributes' => {'fees' => '45', 'expenses' => '0.00'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'part_authorised'
@@ -20,7 +20,7 @@ module Claims
         end
 
         it 'advances the claim to authorised' do
-          params = {'state_for_form' => 'authorised', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
+          params = {'state' => 'authorised', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'authorised'
@@ -29,16 +29,27 @@ module Claims
           expect(updater.claim.assessment.disbursements).to eq 0.0
         end
 
-        it 'advances the claim to rejected when no values are supplied' do
-          params = {'state_for_form' => 'rejected', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
-          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
-          expect(updater.result).to eq :ok
-          expect(updater.claim.state).to eq 'rejected'
-          expect(updater.claim.assessment).to be_zero
+        context 'rejections' do
+          let(:params) { {'state' => 'rejected', 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}} }
+          let(:reason_param) { {'state_reason' => 'no_indictment'} }
+
+          it 'advances the claim to rejected when no values are supplied' do
+            updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+            expect(updater.result).to eq :ok
+            expect(updater.claim.state).to eq 'rejected'
+            expect(updater.claim.assessment).to be_zero
+          end
+
+          it 'advances the claim to rejected with reason supplied' do
+            updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(reason_param)).update!
+            expect(updater.result).to eq :ok
+            expect(updater.claim.state).to eq 'rejected'
+            expect(updater.claim.last_state_transition.reason_code).to eq 'no_indictment'
+          end
         end
 
         it 'advances the claim to refused when no values are supplied' do
-          params = {'state_for_form' => 'refused', 'assessment_attributes' => {'expenses' => ''}}
+          params = {'state' => 'refused', 'assessment_attributes' => {'expenses' => ''}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'refused'
@@ -48,7 +59,7 @@ module Claims
 
       context 'errors' do
         it 'errors if part auth selected and no values' do
-          params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state_for_form'=>'part_authorised'}
+          params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>'part_authorised'}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.assessment).to be_zero
@@ -56,14 +67,14 @@ module Claims
         end
 
         it 'errors if assessment data is present in the params but no state specified' do
-          params = {'state_for_form' => '', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
+          params = {'state' => '', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You must specify authorised or part authorised if you supply values'])
         end
 
         it 'errors if values are supplied with refused' do
-          params = {'state_for_form' => 'refused', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+          params = {'state' => 'refused', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when refusing a claim'])
@@ -74,7 +85,7 @@ module Claims
         end
 
         it 'errors if values are supplied with rejected' do
-          params = {'state_for_form' => 'rejected', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+          params = {'state' => 'rejected', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when rejecting a claim'])
@@ -96,7 +107,7 @@ module Claims
 
       context 'successful transitions' do
         it 'advances the claim to part authorised' do
-          params = {'state_for_form' => 'part_authorised', 'redeterminations_attributes' => {'0' => {'fees' => '45', 'expenses' => '0.00'}}}
+          params = {'state' => 'part_authorised', 'redeterminations_attributes' => {'0' => {'fees' => '45', 'expenses' => '0.00'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'part_authorised'
@@ -106,7 +117,7 @@ module Claims
         end
 
         it 'advances the claim to authorised' do
-          params = {'state_for_form' => 'authorised', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '230.00'}}}
+          params = {'state' => 'authorised', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '230.00'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'authorised'
@@ -116,7 +127,7 @@ module Claims
         end
 
         it 'advances the claim to rejected when no values are supplied' do
-          params = {'state_for_form' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '0'}}}
+          params = {'state' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '0'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'rejected'
@@ -124,7 +135,7 @@ module Claims
         end
 
         it 'advances the claim to refused when no values are supplied' do
-          params = {'state_for_form' => 'refused'}
+          params = {'state' => 'refused'}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'refused'
@@ -135,14 +146,14 @@ module Claims
 
       context 'errors' do
         it 'errors if assessment data is present in the params but no state specified' do
-          params = {'state_for_form' => '', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
+          params = {'state' => '', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You must specify authorised or part authorised if you supply values'])
         end
 
         it 'errors if values are supplied with refused' do
-          params = {'state_for_form' => 'refused', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
+          params = {'state' => 'refused', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when refusing a claim'])
@@ -151,7 +162,7 @@ module Claims
         end
 
         it 'errors if values are supplied with rejected' do
-          params = {'state_for_form' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
+          params = {'state' => 'rejected', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
           updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
           expect(updater.result).to eq :error
           expect(updater.claim.errors[:determinations]).to eq(['You cannot specify values when rejecting a claim'])

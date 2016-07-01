@@ -7,7 +7,7 @@ module Claims
       @params = params
       @claim = Claim::BaseClaim.find(claim_id)
       @messages = @claim.messages.most_recent_last
-      @state = @params.delete('state_for_form')
+      extract_transition_params
       extract_assessment_params
       extract_redetermination_params
       @result = :ok
@@ -20,6 +20,11 @@ module Claims
     end
 
     private
+
+    def extract_transition_params
+      @state = @params.delete('state')
+      @transition_reason = @params.delete('state_reason')
+    end
 
     def extract_assessment_params
       @assessment_params = @params.delete('assessment_attributes')
@@ -76,7 +81,7 @@ module Claims
       event = Claims::InputEventMapper.input_event(@state)
       update_assessment if @assessment_params_present
       add_redetermination if @redetermination_params_present
-      @claim.send(event) unless (@state.blank? || @state == @claim.state)
+      @claim.send(event, reason_code: @transition_reason) unless (@state.blank? || @state == @claim.state)
     end
 
     def update_assessment

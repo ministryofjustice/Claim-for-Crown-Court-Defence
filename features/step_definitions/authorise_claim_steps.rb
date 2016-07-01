@@ -23,18 +23,26 @@ When(/^I click the authorised radio button$/) do
   @case_worker_claim_show_page.messages_panel.authorised.click
 end
 
+When(/^I click the rejected radio button$/) do
+  @case_worker_claim_show_page.messages_panel.rejected.click
+end
+
+And(/^I select the first rejection reason$/) do
+  @case_worker_claim_show_page.messages_panel.rejection_reasons.first_reason.click
+end
+
 When(/^I click update$/) do
   @case_worker_claim_show_page.messages_panel.update.click
 end
 
-Then(/^the status at top of page should be Authorised$/) do
-  expect(@case_worker_claim_show_page.status.text).to eq("Authorised")
+Then(/^the status at top of page should be (.*)$/) do |text|
+  expect(@case_worker_claim_show_page.status.text).to eq(text)
 end
 
 When(/^I click your claims$/) do
   @case_worker_claim_show_page.nav.your_claims.click
 end
 
-Then(/^the claim I've just authorised is no longer in the list$/) do
+Then(/^the claim I've just updated is no longer in the list$/) do
   expect(@case_worker_home_page).not_to have_content(@claim.case_number)
 end

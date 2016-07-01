@@ -212,7 +212,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     params.require(:claim).permit(
       :form_id,
       :form_step,
-      :state_for_form,
       :advocate_category,
       :source,
       :external_user_id,

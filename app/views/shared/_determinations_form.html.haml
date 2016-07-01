@@ -1,7 +1,7 @@
 = form_for(claim, url: case_workers_claim_path(claim), as: :claim) do |f|
   = hidden_field_tag :messages, 'true'
 
-  #claim-status
+  #claim-status.js-cw-claim-assessment
     %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
       %thead
         %tr{:style => "vertical-align: top;"}
@@ -25,14 +25,19 @@
           = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
 
   - if current_user_is_caseworker?
-    .js-test-cw-claim-action
+    .js-cw-claim-action
       %fieldset.form-group.inline
         %legend.bold-normal.form-label
           = "Update the claim status"
-
-        = f.collection_radio_buttons(:state_for_form, claim.valid_transitions_for_detail_form, :first, :last) do |b|
+        = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
           - b.label(class: "block-label") { b.radio_button + b.text }
 
+    .js-cw-claim-rejection-reasons
+      %fieldset.form-group.nested-fields.indent-fieldset
+        %legend.bold-normal.form-label
+          = "Choose reason for rejection"
+        = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:rejected), :code, :description) do |b|
+          - b.label(class: "block-label") { b.radio_button + b.text }
 
-      %p
+    %p
       = f.submit 'Update', class: 'button', id: 'button'

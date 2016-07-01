@@ -9,21 +9,15 @@
       %table.indent-sides
         %caption.visually-hidden
           = t('common.fees')
-        %colgroup
-          %col
-          %col
-          %col
-          %col
-          - if claim.agfs?
-            %col
         %thead
           %tr
             %th{ scope: 'col'}
               = t('.fee_category')
             %th{ scope: 'col'}
               = t('.fee_type')
-            %th.numeric{ scope: 'col'}
-              = t('.quantity')
+            - unless claim.interim?
+              %th.numeric{ scope: 'col'}
+                = t('.quantity')
             - if claim.agfs?
               %th.numeric{ scope: 'col'}
                 = t('.rate')
@@ -44,8 +38,9 @@
                   = fee.date
               %td
                 = fee.fee_type.description
-              %td.numeric
-                = fee.quantity
+              - unless claim.interim?
+                %td.numeric
+                  = fee.quantity
               - if claim.agfs?
                 %td.numeric
                   = fee.rate

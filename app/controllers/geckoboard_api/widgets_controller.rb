@@ -7,6 +7,10 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
 
   def average_processing_time; end
 
+  def claim_creation_source
+    respond_with_json_payload_from_class(Stats::ClaimCreationSourceDataGenerator)
+  end
+
   def claim_submissions
     respond_with_json_payload_from_class(Stats::ClaimSubmissionsDataGenerator)
   end

@@ -7,6 +7,7 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
 
   def run
     log('Daily stats generation started')
+    Stats::Collector::ClaimCreationSourceCollector.new(Date.yesterday).collect
     Stats::Collector::ClaimSubmissionsCollector.new(Date.yesterday).collect
     Stats::Collector::MultiSessionSubmissionCollector.new(Date.yesterday).collect
     Stats::Collector::InfoRequestCountCollector.new(Date.yesterday).collect

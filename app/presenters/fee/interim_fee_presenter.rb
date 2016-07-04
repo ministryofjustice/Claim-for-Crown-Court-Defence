@@ -3,7 +3,7 @@ class Fee::InterimFeePresenter < Fee::BaseFeePresenter
 
   def quantity
     if fee.is_interim_warrant?
-      not_applicable
+      nil
     else
       super
     end

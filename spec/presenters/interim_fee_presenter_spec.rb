@@ -29,10 +29,9 @@ describe Fee::InterimFeePresenter do
       presenter.quantity
     end
 
-    it 'should return not_applicable for interim warrants' do
+    it 'should return nil for interim warrants' do
       allow(interim_fee).to receive(:is_interim_warrant?).and_return true
-      expect(presenter).to receive(:not_applicable)
-      presenter.quantity
+      expect(presenter.quantity).to be_nil
     end
   end
 

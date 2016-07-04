@@ -106,7 +106,6 @@ RSpec.describe ClaimCsvPresenter do
             expect(claim_journeys.second).to include('submitted')
           end
         end
-
       end
 
       context 'deallocation' do
@@ -128,6 +127,20 @@ RSpec.describe ClaimCsvPresenter do
         it 'and the claim should be refelcted as being in the state prior to allocation' do
           ClaimCsvPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).to include('submitted')
+          end
+        end
+      end
+
+      context 'state transitions reasons' do
+        let(:claim) { create(:allocated_claim) }
+
+        before do
+          claim.reject!(reason_code: 'no_rep_order')
+        end
+
+        it 'the rejection reason code should be reflected in the MI' do
+          ClaimCsvPresenter.new(claim, view).present! do |csv|
+            expect(csv[0][11]).to eq('no_rep_order')
           end
         end
       end

@@ -19,6 +19,7 @@ module Stats
     end
 
   private
+
     def generate_new_report
       csv_string = CSV.generate do |csv|
         csv << Settings.claim_csv_headers.map {|header| header.to_s.humanize}

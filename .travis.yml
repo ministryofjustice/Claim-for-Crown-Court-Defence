@@ -2,6 +2,8 @@ language: ruby
 cache: bundler
 addons:
   postgresql: '9.3'
+  code_climate:
+    repo_token: 21d4b9b324a45c24369ecf4d78711930294c191ebbb2d9e0fd7adf4bbd75b687
 before_install:
 - export TZ=Europe/London
 before_script:

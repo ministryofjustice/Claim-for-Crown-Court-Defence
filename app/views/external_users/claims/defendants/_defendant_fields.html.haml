@@ -30,6 +30,6 @@
     = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
 
   %p
-    = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 1
+    = link_to_remove_association t('.remove_defendant'), f if @defendant_count > 0
 
 - @defendant_count += 1

@@ -30,15 +30,11 @@ class ClaimCsvPresenter < BasePresenter
     journey
   end
 
-  def claim_details
-    Settings.csv_claim_details.map { |detail| send(detail) }
-  end
-
   def claim_state
-    unless state == 'archived_pending_delete'
-      state
-    else
+    if state == 'archived_pending_delete'
       claim_state_transitions.sort.last.from
+    else
+      state
     end
   end
 
@@ -88,12 +84,15 @@ class ClaimCsvPresenter < BasePresenter
     submitted_states.include?(state) ? 'submitted' : state
   end
 
+  def state_reason_code
+    @journey.last.reason&.code
+  end
+
   def submitted_states
-    ['submitted', 'redetermination', 'awaiting_written_reasons']
+    %w(submitted redetermination awaiting_written_reasons)
   end
 
   def completed_states
-    ['rejected', 'refused', 'authorised', 'part_authorised']
+    %w(rejected refused authorised part_authorised)
   end
-
 end

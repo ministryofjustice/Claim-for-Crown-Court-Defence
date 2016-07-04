@@ -194,7 +194,6 @@ Style/EmptyLineBetweenDefs:
 Style/EmptyLinesAroundAccessModifier:
   Exclude:
     - 'app/controllers/external_users/json_document_importers_controller.rb'
-    - 'app/models/stats/management_information_generator.rb'
 
 # Offense count: 12
 # Cop supports --auto-correct.
@@ -545,7 +544,6 @@ Style/TrivialAccessors:
 Style/UnlessElse:
   Exclude:
     - 'app/models/date_attended.rb'
-    - 'app/presenters/claim_csv_presenter.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.

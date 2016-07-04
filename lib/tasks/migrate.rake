@@ -53,11 +53,20 @@
       Offence.where(description: 'Obtaining services dishonestly').update_all(description: 'Obtaining services by dishonesty')
     end
 
+    desc 'Remove contempt AGFS fixed fee types'
+    task :remove_contempt_fee_types => :environment do
+      old_ids = Fee::FixedFeeType.where(code: %w(CON COA)).pluck(:id)
+      new_id  = Fee::FixedFeeType.by_code('ZCON').id
+      Fee::FixedFee.where(fee_type_id: old_ids).update_all(fee_type_id: new_id)
+      Fee::FixedFeeType.delete_all(id: old_ids)
+    end
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
         'rename_dishonesty_offences' => 'Rename "dishonestly" to "by dishonesty"',
-        'reseed_offences' => 'Reseed the offences as there were some missing.'
+        'reseed_offences' => 'Reseed the offences as there were some missing.',
+        'remove_contempt_fee_types' => 'Remove contempt AGFS fixed fee types'
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

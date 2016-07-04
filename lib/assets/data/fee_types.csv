@@ -17,8 +17,6 @@ FIXED,agfs,Appeals to the crown court against sentence uplift,ASU,nil,true,,fals
 FIXED,agfs;lgfs,Breach of a crown court order,CBR,nil,true,,false
 FIXED,agfs,Breach of a crown court order uplift,CBU,nil,true,,false
 FIXED,agfs,Contempt,ZCON,nil,true,,false
-FIXED,agfs,Contempt hearings - unapportioned fee,CON,nil,true,,false
-FIXED,agfs,Contempt hearings - apportioned fee,COA,nil,true,,false
 FIXED,agfs;lgfs,Committal for sentence hearings,CSE,nil,true,,false
 FIXED,agfs,Committal for sentence hearings uplift,CSU,nil,true,,false
 FIXED,agfs;lgfs,Cracked case discontinued,CCD,nil,true,,false

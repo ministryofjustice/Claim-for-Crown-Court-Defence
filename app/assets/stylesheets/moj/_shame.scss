@@ -897,3 +897,12 @@ Styling for Claims Messaging
     color: $secondary-text-colour;
   }
 }
+
+
+
+.dz-success.dz-complete{
+  .dz-progress{
+    display: none;
+  }
+}
+

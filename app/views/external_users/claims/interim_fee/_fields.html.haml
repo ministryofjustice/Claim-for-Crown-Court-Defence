@@ -19,6 +19,7 @@
 
 
           .column-half.fee-quantity.js-interim-ppe.visually-hidden
+            %a{:id => "interim_fee.quantity"}
             = inf.adp_text_field :quantity,
                           label: t('.ppe_total'),
                           input_classes:'quantity',
@@ -80,6 +81,7 @@
               = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
 
           .column-quarter.fee-amount.js-interim-feeTotal.visually-hidden
+            %a{:id => "interim_fee.amount"}
             = inf.adp_text_field :amount,
                           label: t('.total'),
                           input_classes:'total',

@@ -17,13 +17,13 @@
           = 'No disbursements for this claim'
         - else
           = claim.disbursements_total
-  %h3
-    = 'Expenses total'
-    %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
-      - if @claim.expenses.empty?
-        = "No expenses for this claim"
-      - else
+
+  - unless @claim.expenses.empty?
+    %h3
+      = 'Expenses total'
+      %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
         = claim.expenses_total
+
   %h3
     VAT total
     %span.numeric.total-vat{data:{'total-vat': claim.vat_amount ||= 0}}

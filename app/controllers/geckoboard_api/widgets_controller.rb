@@ -27,6 +27,9 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_with_json_payload_from_class(Stats::TimeFromRejectToAuthDataGenerator)
   end
 
+  def completion_rate
+    respond_with_json_payload_from_class(Stats::CompletionRateDataGenerator)
+  end
 
   private
 

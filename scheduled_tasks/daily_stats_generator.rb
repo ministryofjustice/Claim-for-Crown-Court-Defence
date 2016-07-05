@@ -9,11 +9,13 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
     log('Daily stats generation started')
 
     collectors.each do |klass|
-      klass.new(date).collect
+      log("Starting #{klass}")
+      begin
+        klass.new(date).collect
+      rescue => err
+        log("ERROR: #{err.class} #{err.message}")
+      end
     end
-  rescue => ex
-    log('There was an error: ' + ex.message)
-  ensure
     log('Daily stats generation finished')
   end
 
@@ -29,7 +31,8 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
       Stats::Collector::ClaimSubmissionsCollector,
       Stats::Collector::MultiSessionSubmissionCollector,
       Stats::Collector::InfoRequestCountCollector,
-      Stats::Collector::TimeFromRejectToAuthCollector
+      Stats::Collector::TimeFromRejectToAuthCollector,
+      Stats::Collector::CompletionRateCollector
     ]
   end
 end

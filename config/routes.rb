@@ -163,6 +163,7 @@ Rails.application.routes.draw do
       get 'multi_session_submissions'
       get 'requests_for_further_info'
       get 'time_reject_to_auth'
+      get 'completion_rate'
     end
   end
 

@@ -85,7 +85,7 @@ class ClaimCsvPresenter < BasePresenter
   end
 
   def state_reason_code
-    @journey.last.reason&.code
+    @journey.last.reason_code
   end
 
   def submitted_states

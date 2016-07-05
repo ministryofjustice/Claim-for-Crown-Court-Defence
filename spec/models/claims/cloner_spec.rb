@@ -44,6 +44,10 @@ RSpec.describe Claims::Cloner, type: :model do
         expect(@cloned_claim.last_submitted_at).to be_nil
       end
 
+      it 'does not clone last_edited_at' do
+        expect(@cloned_claim.last_edited_at).to be_nil
+      end
+
       it 'does not clone original_submission_date' do
         expect(@cloned_claim.original_submission_date).to be_nil
       end
@@ -150,6 +154,13 @@ RSpec.describe Claims::Cloner, type: :model do
       it 'does not clone certifications' do
         expect(@rejected_claim.certification).to_not be_nil
         expect(@cloned_claim.certification).to be_nil
+      end
+
+      it 'creates the first state transition for the cloned claim' do
+        expect(@cloned_claim.claim_state_transitions.count).to eq(1)
+        expect(@cloned_claim.last_state_transition.claim_id).to eq(@cloned_claim.id)
+        expect(@cloned_claim.last_state_transition.from).to eq('rejected')
+        expect(@cloned_claim.last_state_transition.to).to eq('draft')
       end
     end
 

@@ -26,14 +26,14 @@
 
   - if current_user_is_caseworker?
     .js-cw-claim-action
-      %fieldset.form-group.inline
+      %fieldset.form-group.inline.spacer
         %legend.bold-normal.form-label
           = "Update the claim status"
         = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
           - b.label(class: "block-label") { b.radio_button + b.text }
 
     .js-cw-claim-rejection-reasons
-      %fieldset.form-group.nested-fields.indent-fieldset
+      %fieldset.form-group.nested-fields.indent-fieldset.spacer
         %legend.bold-normal.form-label
           = "Choose reason for rejection"
         = collection_radio_buttons(nil, :state_reason, ClaimStateTransitionReason.reasons(:rejected), :code, :description) do |b|

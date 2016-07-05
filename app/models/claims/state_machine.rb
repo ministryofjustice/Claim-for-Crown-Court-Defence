@@ -68,8 +68,8 @@ module Claims::StateMachine
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      before_transition on: [:reject, :refuse], do: :set_amount_assessed_zero!
-      after_transition on: :deallocate, do: :reset_state
+      before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
+      after_transition  on: :deallocate,              do: :reset_state
       before_transition on: :submit,                  do: :set_allocation_type
 
       event :redetermine do
@@ -112,6 +112,10 @@ module Claims::StateMachine
       event :submit do
         transition [:draft, :allocated] => :submitted
       end
+
+      event :transition_clone_to_draft do
+        transition [:rejected] => :draft
+      end
     end
 
     klass.state_machine.states.map(&:name).each do |s|
@@ -131,13 +135,10 @@ module Claims::StateMachine
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
-
-    # rubocop:disable Lint/NestedMethodDefinition
     def reason_code(transition)
-      options = transition.args&.extract_options! || {}
-      options[:reason_code]
+      options = transition.args&.extract_options!
+      options&.[](:reason_code)
     end
-    # rubocop:enable Lint/NestedMethodDefinition
   end
 
   def last_state_transition

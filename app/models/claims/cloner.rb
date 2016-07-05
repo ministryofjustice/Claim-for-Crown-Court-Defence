@@ -11,6 +11,7 @@ module Claims::Cloner
       enable
 
       nullify :last_submitted_at
+      nullify :last_edited_at
       nullify :original_submission_date
       nullify :uuid
 
@@ -103,8 +104,7 @@ module Claims::Cloner
   def clone_rejected_to_new_draft
     raise 'Can only clone claims in state "rejected"' unless rejected?
     draft = duplicate
-    draft.state = 'draft'
-    draft.save!
+    draft.transition_clone_to_draft!
     draft
   end
 end

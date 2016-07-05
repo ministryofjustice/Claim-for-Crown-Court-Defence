@@ -55,12 +55,13 @@ RSpec.describe ClaimReporter do
 
   describe '#completion_rate' do
     before do
-      create(:claim_intention, form_id: @submitted_claim_1.form_id)
-      create(:claim_intention, form_id: @allocated_claim_1.form_id)
+      Timecop.freeze(5.weeks.ago) do
+        create(:claim_intention, form_id: @submitted_claim_1.form_id)
+        create(:claim_intention, form_id: @allocated_claim_1.form_id)
 
-      create(:claim_intention, form_id: SecureRandom.uuid)
-      create(:claim_intention, form_id: SecureRandom.uuid)
-
+        create(:claim_intention, form_id: SecureRandom.uuid)
+        create(:claim_intention, form_id: SecureRandom.uuid)
+      end
     end
 
     it 'returns the completion rate for claims in the last 16 weeks' do

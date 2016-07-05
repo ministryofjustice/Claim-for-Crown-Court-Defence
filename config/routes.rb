@@ -153,14 +153,17 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :geckoboard_api, format: :json do
-    get 'widgets/claims', to: 'widgets#claims'
-    get 'widgets/claim_completion', to: 'widgets#claim_completion'
-    get 'widgets/average_processing_time', to: 'widgets#average_processing_time'
-    get 'widgets/claim_submissions', to: 'widgets#claim_submissions'
-    get 'widgets/multi_session_submissions', to: 'widgets#multi_session_submissions'
-    get 'widgets/requests_for_further_info', to: 'widgets#requests_for_further_info'
-    get 'widgets/time_reject_to_auth', to: 'widgets#time_reject_to_auth'
+  namespace :geckoboard_api do
+    resource :widgets, only: [:get], format: :json do
+      get 'claims'
+      get 'claim_creation_source'
+      get 'claim_completion'
+      get 'average_processing_time'
+      get 'claim_submissions'
+      get 'multi_session_submissions'
+      get 'requests_for_further_info'
+      get 'time_reject_to_auth'
+    end
   end
 
   # catch-all route

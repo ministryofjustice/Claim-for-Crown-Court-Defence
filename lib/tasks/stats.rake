@@ -4,6 +4,7 @@ namespace :stats do
   task :collect => :environment do
     (1..21).each do |offset|
       date = Date.today - offset.days
+      Stats::Collector::ClaimCreationSourceCollector.new(date).collect
       Stats::Collector::ClaimSubmissionsCollector.new(date).collect
       Stats::Collector::MultiSessionSubmissionCollector.new(date).collect
       Stats::Collector::InfoRequestCountCollector.new(date).collect

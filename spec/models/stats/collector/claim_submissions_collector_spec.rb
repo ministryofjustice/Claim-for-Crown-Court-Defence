@@ -14,6 +14,8 @@ module Stats
         create_claim(:submitted, report_day + 2.days)
       end
 
+      after(:all) { clean_database }
+
       describe '#collect' do
         it 'counts the submitted claims on that day for each claim type' do
           expect(Statistic.count).to eq 0

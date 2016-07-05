@@ -33,17 +33,8 @@ class ClaimReporter
 
   def completion_rate
     intentions_form_id = ClaimIntention.where(created_at: 16.weeks.ago..3.weeks.ago).pluck(:form_id)
-
-    Claim::BaseClaim.where(form_id: intentions_form_id).size
     completed = Claim::BaseClaim.where.not(state: 'draft').where(form_id: intentions_form_id).where.not(last_submitted_at: nil).size
-    abandoned = Claim::BaseClaim.where.not(state: 'draft').where(form_id: intentions_form_id).where(last_submitted_at: nil).pluck(:id)
-
-    # claims_form_id = non_draft_claims.where(created_at: 16.weeks.ago..3.weeks.ago)
-    # intentions_form_id = ClaimIntention.where{ created_at >= 16.weeks.ago }.pluck(:form_id)
-    # claims_form_id = non_draft_claims.where{ created_at >= 16.weeks.ago }.pluck(:form_id)
-
     intentions = intentions_form_id.size
-    # completed = (claims_form_id & intentions_form_id).size
 
     claims_percentage(completed, intentions)
   end

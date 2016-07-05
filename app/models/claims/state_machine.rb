@@ -145,11 +145,11 @@ module Claims::StateMachine
   end
 
   def last_state_transition_reason
-    last_state_transition.reason
+    last_state_transition&.reason
   end
 
   def last_state_transition_time
-    last_state_transition.created_at
+    last_state_transition&.created_at
   end
 
   def filtered_last_state_transition

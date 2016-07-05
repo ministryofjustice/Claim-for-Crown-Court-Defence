@@ -71,7 +71,7 @@ module ApplicationHelper
     title = column == sort_column ? ("#{title} " + (sort_direction == 'asc' ? "\u25B2" : "\u25BC")) : title
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
-    link_to title, params.except(:page).merge({ sort: column, direction: direction }), { class: css_class }
+    link_to title, params.except(:page).merge({ sort: column, direction: direction, anchor: 'listanchor' }), { class: css_class }
   end
 
   def dom_id(record, prefix = nil)

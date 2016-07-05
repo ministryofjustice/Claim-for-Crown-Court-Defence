@@ -1,8 +1,8 @@
 #provider-form
-  = form_for [:super_admins, @provider], html: { novalidate: true } do |f|
+  = form_for [:super_admins, @provider], builder: AdpFormBuilder, html: { novalidate: true } do |f|
 
     - if @provider.errors.any?
-      .validation-summary
+      .validation-summary.error-summary
         %h2.heading-small= "#{t('.prohibited_save')} #{pluralize(@provider.errors.count, t('.error'))}"
         %ul
           - @provider.errors.full_messages.each do |message|
@@ -10,6 +10,7 @@
               = message
         %span.form-hint
           = t('.form_error_hint')
+
     %fieldset.user-form
       #js-provider-type
         = f.label :provider_type, t('.provider_type'), class: "form-label"
@@ -19,17 +20,19 @@
         = validation_error_message(@provider, :provider_type)
 
         = f.label :roles, t('.fee_schemes'), class: "form-label"
-        %div.form-group.inline
-          #js-provider-roles
+        %div.form-group
+          #js-provider-roles.inline
             =f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
               - b.label(class: 'block-label') { b.check_box + b.value.upcase }
 
-      #js-provider-name
-        = f.label t('.provider_name'), class: "form-label"
-        = f.text_field :name, class: "form-control"
-        = validation_error_message(@provider, :name)
+      #js-provider-name.form-group
+        / = f.label t('.provider_name'), class: "form-label"
+        / = f.text_field :name, class: "form-control"
+        / = validation_error_message(@provider, :name)
+        / %hr/
+        = f.adp_text_field :name
 
-      #js-supplier-number
+      #js-supplier-number.form-group
         = f.label :supplier_number, t('.agfs_supplier_number'), class: "form-label"
         = f.text_field :supplier_number, class: "form-control"
         = validation_error_message(@provider, :supplier_number)

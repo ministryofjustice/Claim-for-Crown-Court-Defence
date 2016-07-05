@@ -1,29 +1,36 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Manage providers'}
 
-%h2
+%h2.heading-medium
   = @provider.name
 
-%h3
-  = t('.provider_type')
-= @provider.provider_type.capitalize
+.grid-row
+  .column-one-third
+    %h3
+      = t('.provider_type')
+  .column-one-third
+    = @provider.provider_type.capitalize
 
-
-%h3
-  = t('.fee_schemes')
-= @provider.roles.map(&:upcase) * ', '
-
-%h3
-  = t('.supplier_number')
-= @provider.supplier_number
+.grid-row
+  .column-one-third
+    %h3
+      = t('.fee_schemes')
+  .column-one-third
+    = @provider.roles.map(&:upcase) * ', '
 
 - if @provider.supplier_numbers.any?
-  %h3
-    = t('.supplier_numbers')
-  = @provider.supplier_numbers.to_sentence
+  .grid-row
+    .column-one-third
+      %h3
+        = t('.supplier_numbers')
+    .column-one-third
+      = @provider.supplier_numbers.to_sentence
 
-%h3
-  =t('.vat_registered')
-= @provider.vat_registered == true ? 'Yes' : 'No'
+.grid-row
+  .column-one-third
+    %h3
+      =t('.vat_registered')
+  .column-one-third
+    = @provider.vat_registered == true ? 'Yes' : 'No'
 
 - if can? :edit, @provider
   %p

@@ -75,7 +75,12 @@
         - else
           - selected_offence_category = @claim.offence.description rescue nil
 
-        = collection_select :offence_category, :description, @offence_descriptions, :description, :description, { include_blank: true, prompt: true, selected: selected_offence_category }, { class: 'form-control autocomplete' }
+        = collection_select :offence_category,
+                              :description,
+                              @offence_descriptions,
+                              :description, :description,
+                              { include_blank: '&#160;'.html_safe, selected: selected_offence_category },
+                              { class: 'form-control autocomplete' }
         = validation_error_message(@error_presenter, :offence)
 
       .form-col

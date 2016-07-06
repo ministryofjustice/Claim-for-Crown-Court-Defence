@@ -32,7 +32,8 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
       Stats::Collector::MultiSessionSubmissionCollector,
       Stats::Collector::InfoRequestCountCollector,
       Stats::Collector::TimeFromRejectToAuthCollector,
-      Stats::Collector::CompletionRateCollector
+      Stats::Collector::CompletionRateCollector,
+      Stats::Collector::TimeToCompletionCollector
     ]
   end
 end

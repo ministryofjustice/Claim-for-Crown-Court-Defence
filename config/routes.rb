@@ -164,6 +164,7 @@ Rails.application.routes.draw do
       get 'requests_for_further_info'
       get 'time_reject_to_auth'
       get 'completion_rate'
+      get 'time_to_completion'
     end
   end
 

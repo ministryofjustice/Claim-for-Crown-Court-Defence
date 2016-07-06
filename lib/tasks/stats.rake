@@ -10,6 +10,7 @@ namespace :stats do
       Stats::Collector::InfoRequestCountCollector.new(date).collect
       Stats::Collector::TimeFromRejectToAuthCollector.new(date).collect
       Stats::Collector::CompletionRateCollector.new(date).collect
+      Stats::Collector::TimeToCompletionCollector.new(date).collect
     end
   end
 end

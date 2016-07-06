@@ -29,6 +29,11 @@ module DemoData
       puts "   Claim advanced to #{desired_state}."
     end
 
+    def advance_from_allocated_to(desired_state)
+      transition_method = TRANSITION_METHODS[desired_state].last
+      send(transition_method, @claim)
+    end
+
     private
 
     def add_message(claim, sender)

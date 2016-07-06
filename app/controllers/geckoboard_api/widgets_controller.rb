@@ -31,6 +31,10 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_with_json_payload_from_class(Stats::CompletionRateDataGenerator)
   end
 
+  def time_to_completion
+    respond_with_json_payload_from_class(Stats::TimeToCompletionDataGenerator)
+  end
+
   private
 
   def respond_with_json_payload_from_class(klass)

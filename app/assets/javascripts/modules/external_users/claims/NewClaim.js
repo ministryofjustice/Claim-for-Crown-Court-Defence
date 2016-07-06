@@ -31,17 +31,15 @@ moj.Modules.NewClaim = {
       $.getScript('/offences?' + param);
     });
 
-    if(!$('#claim_offence_id').val()) {
+    if (!$('#claim_offence_id').val()) {
       $('.offence-class-select').hide();
-      self.$offenceCategorySelect.change();
     }
-    else {
-      if($('#offence_class_description').val())
-        $('#claim_offence_id').val($('#offence_class_description').val());
+
+    if ($('#offence_class_description').val()) {
+      $('#claim_offence_id').val($('#offence_class_description').val());
     }
 
     self.attachToOffenceClassSelect();
-
   },
 
   initExpense : function() {
@@ -66,8 +64,6 @@ moj.Modules.NewClaim = {
         $('.offence-class-select').hide();
       }
     });
-
-    $('#offence_class_description').change();
   },
 
   attachEventsForExpenseTypes : function() {

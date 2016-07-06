@@ -67,14 +67,6 @@ module Stats
           DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
         end
       end
-
-      def authorise
-
-      end
-
-
-
-
     end
   end
 end

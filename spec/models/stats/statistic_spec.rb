@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: statistics
+#
+#  id          :integer          not null, primary key
+#  date        :date
+#  report_name :string
+#  claim_type  :string
+#  value_1     :integer
+#  value_2     :integer          default(0)
+#
+
 require 'rails_helper'
 
 module Stats

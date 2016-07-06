@@ -6,6 +6,7 @@
 #  form_id    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :integer
 #
 
 class ClaimIntentionsController < ApplicationController
@@ -13,9 +14,9 @@ class ClaimIntentionsController < ApplicationController
     @claim_intention = ClaimIntention.new(claim_intention_params)
 
     if @claim_intention.save
-      render json: { claim_intention: @claim_intention.reload }, status: :created
+      head :created
     else
-      render json: { error: @claim_intention.errors[:claim_intention].join(', ') }, status: 400
+      head :bad_request
     end
   end
 
@@ -24,6 +25,6 @@ class ClaimIntentionsController < ApplicationController
   def claim_intention_params
     params.require(:claim_intention).permit(
       :form_id
-    )
+    ).merge(user_id: current_user.id)
   end
 end

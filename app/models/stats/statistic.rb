@@ -7,6 +7,7 @@
 #  report_name :string
 #  claim_type  :string
 #  value_1     :integer
+#  value_2     :integer          default(0)
 #
 
 module Stats

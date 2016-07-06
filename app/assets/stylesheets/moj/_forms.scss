@@ -508,6 +508,13 @@ label.form-date-spacing {
   }
 }
 
+// This is needed for javascript in views/case_types/show.js.erb
+.defendants.hide-dob {
+  div.dob {
+    display: none;
+  }
+}
+
 // To ensure date fields are wide enough
 .form-date input[type=number] {
   width: 100%;

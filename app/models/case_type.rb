@@ -57,6 +57,8 @@ class CaseType < ActiveRecord::Base
     fixed_fee_type.nil? ? false : true
   end
 
-
-
+  # We do not need the D.O.B of the defendant to be requested for case type "Breach of Crown Court order"
+  def requires_defendant_dob?
+    fee_type_code != 'CBR'
+  end
 end

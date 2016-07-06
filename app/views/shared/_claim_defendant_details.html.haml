@@ -8,11 +8,12 @@
         = t('external_users.claims.defendants.defendant_fields.full_name')
       .xsmall
         = defendant.name
-    .column-half
-      .dob.bold-xsmall
-        = t('external_users.claims.defendants.defendant_fields.date_of_birth')
-      .xsmall
-        = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
+    - if defendant.date_of_birth.present?
+      .column-half
+        .dob.bold-xsmall
+          = t('external_users.claims.defendants.defendant_fields.date_of_birth')
+        .xsmall
+          = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
 
   - unless @claim.interim?
     .judical_apportionment

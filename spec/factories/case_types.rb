@@ -75,5 +75,12 @@ FactoryGirl.define do
       name 'Hearing subsequent to sentence'
       roles [ 'lgfs' ]
     end
+
+    trait :cbr do
+      name 'Breach of Crown Court order'
+      fee_type_code 'CBR'
+      requires_maat_reference false
+      roles %w(agfs lgfs)
+    end
   end
 end

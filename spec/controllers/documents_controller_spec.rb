@@ -62,7 +62,7 @@ RSpec.describe DocumentsController, type: :controller do
 
     it 'downloads a preview of the document' do
       get :show, id: document.id
-      expect(response.body).to eq(IO.binread(document.converted_preview_document.path))
+      expect(response.body).to eq binread(document.converted_preview_document.path)
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe DocumentsController, type: :controller do
 
     it 'downloads the document' do
       get :show, id: document.id
-      expect(response.body).to eq(IO.binread(document.document.path))
+      expect(response.body).to eq binread(document.document.path)
     end
   end
 
@@ -130,4 +130,13 @@ RSpec.describe DocumentsController, type: :controller do
       }.to change(Document, :count).by(-1)
     end
   end
+
+  def binread(path)
+    5.times do
+      break if File.exist?(path)
+      sleep 0.5
+    end
+    IO.binread(path)
+  end
+
 end

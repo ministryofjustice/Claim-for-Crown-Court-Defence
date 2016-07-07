@@ -29,7 +29,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    And I select the offence class 'E: Burglary'
+    And I select the litigator offence class 'E: Burglary'
 
     And I click "Continue" in the claim form
 
@@ -51,8 +51,10 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I upload 1 document
     And I check the boxes for the uploaded documents
     And I add some additional information
-    And I click Submit to LAA
-    Then I should be on the check your claim page
+
+    Then I click Submit to LAA
+    And I should be on the check your claim page
+    And I should see 'E: Burglary'
 
     When I click "Continue"
     Then I should be on the certification page

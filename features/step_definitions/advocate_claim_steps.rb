@@ -29,8 +29,9 @@ When(/^I enter a case number of '(.*?)'$/) do |number|
   @claim_form_page.case_number.set number
 end
 
-When(/^I select an offence category$/) do
-  @claim_form_page.select_offence_category "Murder"
+When(/^I select the advocate offence class '(.*)'$/) do |offence_class|
+  sleep 1
+  @claim_form_page.select_offence_class(offence_class)
 end
 
 When(/I enter trial start and end dates$/) do

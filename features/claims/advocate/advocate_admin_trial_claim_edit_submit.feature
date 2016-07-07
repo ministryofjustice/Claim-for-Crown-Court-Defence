@@ -14,7 +14,8 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
     And I enter a case number of 'A12345678'
-    And I select an offence category
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
     And I enter defendant, representation order and MAAT reference
     And I enter trial start and end dates
     And I add another defendant, representation order and MAAT reference

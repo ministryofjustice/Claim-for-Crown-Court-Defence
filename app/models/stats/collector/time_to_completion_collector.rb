@@ -29,11 +29,18 @@ module Stats
 
       def average_in_days(total_seconds, count)
         if count == 0
-          0
+          calculate_average
         else
           float = (total_seconds / count.to_f) / SECONDS_IN_DAY
           (float * 100).to_i
         end
+      end
+
+      # if there were no claims authorised/part authorised/rejected/refused today,
+      # use the average of the previous seven days
+      def calculate_average
+        values  = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date-1.day).pluck(:value_1)
+        values.empty? ? 0 : values.sum / values.size
       end
 
     end

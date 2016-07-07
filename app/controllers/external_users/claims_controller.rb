@@ -421,8 +421,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def claim_tracking_substitutions
+    # This modified to send a dummy claim id
     {
-      id: @claim.id,
+      # id: @claim.id,
+      id: '',
       type: @claim.pretty_type,
       step: @claim.current_step,
       action: @claim.edition_state,

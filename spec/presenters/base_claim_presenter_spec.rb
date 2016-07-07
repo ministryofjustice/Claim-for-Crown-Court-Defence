@@ -60,6 +60,10 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
+  it '#unique_id' do
+    expect(subject.unique_id).to eql("##{subject.id}")
+  end
+
   describe '#valid_transitions' do
     it 'should list valid transitions from allocated' do
       claim.state = 'allocated'

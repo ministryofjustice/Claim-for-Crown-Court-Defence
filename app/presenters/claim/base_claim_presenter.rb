@@ -68,6 +68,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     format_date(claim.case_concluded_at)
   end
 
+  def unique_id
+    "##{claim.id}"
+  end
+
   def vat_date(format = nil)
     if format == :db
       claim.vat_date.to_s(:db)
@@ -146,15 +150,6 @@ class Claim::BaseClaimPresenter < BasePresenter
         'advocate'
       else
         'litigator'
-    end
-  end
-
-  def scheme
-    case claim
-      when Claim::AdvocateClaim
-        'AGFS'
-      else
-        'LGFS'
     end
   end
 

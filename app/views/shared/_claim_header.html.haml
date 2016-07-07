@@ -3,6 +3,7 @@
     = 'Case number:'
     %span.case-number-header
       = claim.case_number.blank? ? 'not-provided' : claim.case_number
+      %span.unique-id-small= claim.unique_id
   .claim-status{tabindex: 0}
     = 'Status:'
     %span{class: "state state-#{claim.state}"}

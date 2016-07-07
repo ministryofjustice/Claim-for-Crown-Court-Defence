@@ -118,7 +118,7 @@ describe DocumentRecloner do
   def check_file_has_been_written(doc)
     5.times do
       return if File.exist?(doc.document.path)
-      sleep 0.1
+      sleep 0.5
     end
     raise "Unable to find file #{doc.document.path}"
   end

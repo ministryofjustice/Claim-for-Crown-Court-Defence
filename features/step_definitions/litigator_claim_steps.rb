@@ -17,8 +17,7 @@ When(/^I select the supplier number '(.*)'$/) do |number|
   @litigator_claim_form_page.select_supplier_number(number)
 end
 
-And(/^I select the litigator offence class '(.*)'$/) do |name|
-  sleep 1
+And(/^I select the offence class '(.*)'$/) do |name|
   @litigator_claim_form_page.select_offence_class(name)
 end
 

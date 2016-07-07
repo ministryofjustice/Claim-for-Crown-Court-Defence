@@ -22,7 +22,13 @@ class LitigatorClaimFormPage < ClaimFormPage
   end
 
   def select_offence_class(name)
-    select2 name, from: "claim_offence_id"
+    begin
+      select2 name, from: "claim_offence_id"
+    rescue Capybara::ElementNotFound => err
+      puts "ERROR #{err.class}    #{err.message}"
+      puts self.body
+      raise err
+    end
   end
 
   def add_disbursement_if_required

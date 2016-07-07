@@ -38,7 +38,7 @@ header.main-header {
     display: inline-block;
   }
   .case-number-header{
-    @include core-48();
+    @include core-36();
     display: block;
     font-weight: 700;
   }
@@ -49,7 +49,7 @@ header.main-header {
     }
     @include core-19;
     display: block;
-
+    margin-bottom: 10px;
   }
   .claim-detail-actions{
     @include span(4 at 8 of 12 nobreak);

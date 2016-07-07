@@ -8,5 +8,5 @@
       %span.numerical-value
         = number_to_currency(@total_value)
 #details
-  = render partial: 'agfs_claims', locals: { claims: @claims }
+  = render partial: 'main_claims_list', locals: { claims: @claims }
   = paginate @claims

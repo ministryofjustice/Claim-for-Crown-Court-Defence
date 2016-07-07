@@ -16,7 +16,5 @@
 .container
   .importer-results
 
-- if @claims.present?
-  - partial_name = current_user.provider.lgfs?  ? 'lgfs_claims'  : 'agfs_claims'
-  = render partial: partial_name, locals: { claims: @claims }
-  = paginate @claims
+= render partial: 'main_claims_list', locals: { claims: @claims }
+= paginate @claims

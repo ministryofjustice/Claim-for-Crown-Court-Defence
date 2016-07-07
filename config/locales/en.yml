@@ -501,7 +501,7 @@ en:
           representation_order: Representation order
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'eg. 1234567890'
-      agfs_claims:
+      main_claims_list:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
         advocate: *advocate
@@ -521,26 +521,7 @@ en:
         confirm_delete: 'Are you sure?'
         none: 'None'
         advocate_litigator: "Advocate / Litigator"
-      lgfs_claims:
-        show_count: 'Showing %{page_count} of %{total} claims'
-        table_caption: 'Claims'
-        advocate: *advocate
-        scheme: Scheme
-        messages: 'Messages'
-        defendants: 'Defendant(s)'
-        case_number: 'Case number'
-        case_type: 'Case type'
-        submission_date: 'Date submitted'
-        authorised_date: 'Date authorised'
-        total: 'Claimed'
-        assessed: 'Assessed'
-        status: 'Status'
-        view: *view
-        edit: *edit
-        delete: *delete
-        confirm_delete: 'Are you sure?'
-        none: 'None'
-        advocate_litigator: "Advocate / Litigator"
+        type: "Type"
       confirmation:
         thanks: Thank you for submitting your claim
         what_happens_next: What happens next?

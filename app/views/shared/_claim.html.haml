@@ -54,6 +54,7 @@
           =t('.case_num')
         .xsmall
           = claim.case_number
+          %span.unique-id-small= claim.unique_id
 
     - if claim.transfer_court.present?
       .basic-info-row

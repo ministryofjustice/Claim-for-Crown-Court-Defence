@@ -85,9 +85,9 @@ describe ApplicationHelper do
         expect(helper.user_requires_scheme_column?).to eql false
       end
 
-      it 'should return false for users that only handle LGFS claims' do
+      it 'should return true for users that only handle LGFS claims' do
         allow(helper).to receive(:current_user).and_return(litigator.user)
-        expect(helper.user_requires_scheme_column?).to eql false
+        expect(helper.user_requires_scheme_column?).to eql true
       end
 
     end

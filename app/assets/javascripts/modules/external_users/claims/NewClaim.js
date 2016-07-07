@@ -64,6 +64,8 @@ moj.Modules.NewClaim = {
         $('.offence-class-select').hide();
       }
     });
+
+    $('#offence_class_description').change();
   },
 
   attachEventsForExpenseTypes : function() {

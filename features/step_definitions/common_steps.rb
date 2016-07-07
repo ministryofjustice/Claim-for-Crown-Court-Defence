@@ -28,6 +28,10 @@ Then(/^I should see '(.*?)'$/) do |content|
   expect(page).to have_content(content)
 end
 
+When(/^I select the offence category '(.*?)'$/) do |offence_cat|
+  @claim_form_page.select_offence_category offence_cat
+end
+
 Given(/^I am later on the Your claims page$/) do
   @external_user_home_page.load
 end

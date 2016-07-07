@@ -28,7 +28,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    And I select the offence class 'E: Burglary'
+    And I select the litigator offence class 'E: Burglary'
 
     Then I click "Continue" in the claim form
 

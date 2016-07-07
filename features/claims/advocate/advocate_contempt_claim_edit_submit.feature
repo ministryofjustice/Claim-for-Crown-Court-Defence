@@ -12,7 +12,8 @@ Feature: Advocate submits a claim for a Contempt case
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A12345678'
-    And I select an offence category
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
 
@@ -24,8 +25,11 @@ Feature: Advocate submits a claim for a Contempt case
     And I upload 3 documents
     And I check the boxes for the uploaded documents
     And I add some additional information
-    And I click Submit to LAA
-    Then I should be on the check your claim page
+
+    Then I click Submit to LAA
+    And I should be on the check your claim page
+    And I should see 'Handling stolen goods'
+    And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     When I click "Continue"
     Then I should be on the certification page

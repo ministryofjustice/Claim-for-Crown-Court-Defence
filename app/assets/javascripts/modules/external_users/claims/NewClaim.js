@@ -35,10 +35,6 @@ moj.Modules.NewClaim = {
       $('.offence-class-select').hide();
     }
 
-    if ($('#offence_class_description').val()) {
-      $('#claim_offence_id').val($('#offence_class_description').val());
-    }
-
     self.attachToOffenceClassSelect();
   },
 
@@ -62,10 +58,9 @@ moj.Modules.NewClaim = {
 
       if (!$(this).val()) {
         $('.offence-class-select').hide();
+        $('#claim_offence_id').val('');
       }
     });
-
-    $('#offence_class_description').change();
   },
 
   attachEventsForExpenseTypes : function() {

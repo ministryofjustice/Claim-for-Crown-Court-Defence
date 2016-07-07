@@ -21,8 +21,6 @@ class ClaimFormPage < SitePrism::Page
     element :actual_trial_length, "#claim_actual_trial_length"
   end
 
-  element :offence_category, "#s2id_autogen3"
-
   sections :defendants, "div.defendants > div.js-test-defendant" do
     element :first_name, "div.first-name input"
     element :last_name, "div.last-name input"
@@ -95,6 +93,10 @@ class ClaimFormPage < SitePrism::Page
 
   def select_offence_category(name)
     select2 name, from: "offence_category_description"
+  end
+
+  def select_offence_class(name)
+    select2 name, from: "offence_class_description"
   end
 
   def add_misc_fee_if_required

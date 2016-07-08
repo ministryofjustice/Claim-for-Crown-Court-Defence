@@ -8,12 +8,12 @@ class Feedback
     3 => 'Neither satisfied nor dissatisfied',
     2 => 'Dissatisfied',
     1 => 'Very dissatisfied'
-  }
+  }.freeze
 
   FEEDBACK_TYPES = {
     feedback: [:rating, :comment, :email],
     bug_report: [:event, :outcome, :email]
-  }
+  }.freeze
 
   attr_accessor :email, :referrer, :user_agent, :comment, :rating, :event, :outcome, :type
 
@@ -40,7 +40,9 @@ class Feedback
   end
 
   def save
-    valid? ? (ZendeskSender.send!(self); true) : false
+    return false unless valid?
+    ZendeskSender.send!(self)
+    true
   end
 
   def subject

@@ -10,7 +10,8 @@
     Your answers to the following questions will help us improve this service.
 
   = form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
-    = hidden_field_tag :type, params[:type]
+    = f.hidden_field :type
+    = f.hidden_field :referrer
     .form-group
       = f.label :event, "What you were doing", class: "form-label"
       = f.text_area :event, rows: 5, class: "form-control"

@@ -2,8 +2,8 @@ class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: [:new, :create]
 
   def new
-    @feedback = Feedback.new(type: type)
-    render "feedback/#{type}"
+    @feedback = Feedback.new(type: type, referrer: referrer_path)
+    render "feedback/#{@feedback.type}"
   end
 
   def create
@@ -11,7 +11,7 @@ class FeedbackController < ApplicationController
     if @feedback.save
       redirect_to after_create_url, notice: 'Feedback submitted'
     else
-      render "feedback/#{type}"
+      render "feedback/#{@feedback.type}"
     end
   end
 
@@ -21,11 +21,13 @@ class FeedbackController < ApplicationController
     %w( feedback bug_report ).include?(params[:type]) ? params[:type] : 'feedback'
   end
 
+  def referrer_path
+    URI(request.referrer.to_s).path
+  end
+
   def merged_feedback_params
     feedback_params.merge({
-      type: type,
       email: (current_user.email rescue (email_from_user_id || 'anonymous')),
-      referrer: request.referer,
       user_agent: request.user_agent
     })
   end
@@ -44,10 +46,12 @@ class FeedbackController < ApplicationController
 
   def feedback_params
     params.require(:feedback).permit(
+      :type,
       :comment,
       :rating,
       :event,
-      :outcome
+      :outcome,
+      :referrer
     )
   end
 end

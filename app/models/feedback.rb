@@ -8,14 +8,16 @@ class Feedback
     3 => 'Neither satisfied nor dissatisfied',
     2 => 'Dissatisfied',
     1 => 'Very dissatisfied'
-  }
+  }.freeze
 
   FEEDBACK_TYPES = {
     feedback: [:rating, :comment, :email],
-    bug_report: [:event, :outcome, :email]
-  }
+    bug_report: [:case_number, :event, :outcome, :email]
+  }.freeze
 
-  attr_accessor :email, :referrer, :user_agent, :comment, :rating, :event, :outcome, :type
+  attr_accessor :email, :referrer, :user_agent, :type
+  attr_accessor :event, :outcome, :case_number
+  attr_accessor :comment, :rating
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :rating, inclusion: { in: RATINGS.keys.map(&:to_s) }, if: :feedback?
@@ -40,7 +42,9 @@ class Feedback
   end
 
   def save
-    valid? ? (ZendeskSender.send!(self); true) : false
+    return false unless valid?
+    ZendeskSender.send!(self)
+    true
   end
 
   def subject
@@ -48,7 +52,7 @@ class Feedback
   end
 
   def description
-    feedback_type_attributes.map { |t| self.send(t) }.join(' - ')
+    feedback_type_attributes.map { |t| "#{t}: #{self.send(t)}" }.join(' - ')
   end
 
   private

@@ -50,14 +50,14 @@ RSpec.describe FeedbackController, type: :controller do
           end
 
           it "redirects to the users home" do
-            post :create, type: 'feedback', feedback: params
+            post :create, feedback: params
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
           it "redirects to the sign in page" do
-            post :create, type: 'feedback', feedback: params
+            post :create, feedback: params
             expect(response).to redirect_to(new_user_session_url)
           end
         end
@@ -65,11 +65,11 @@ RSpec.describe FeedbackController, type: :controller do
 
       context 'when invalid' do
         let(:params) do
-          { rating: nil }
+          { type: 'feedback', rating: nil }
         end
 
         it "renders the new template" do
-          post :create, type: 'feedback', feedback: params
+          post :create, feedback: params
           expect(response).to render_template('feedback/feedback')
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe FeedbackController, type: :controller do
 
     context 'bug report' do
       let(:params) do
-        { event: 'lorem', outcome: 'ipsum' }
+        { type: 'bug_report', case_number: 'XXXX', event: 'lorem', outcome: 'ipsum' }
       end
 
       context 'when valid' do
@@ -89,14 +89,14 @@ RSpec.describe FeedbackController, type: :controller do
           end
 
           it "redirects to the users home" do
-            post :create, type: 'bug_report', feedback: params
+            post :create, feedback: params
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
           it "redirects to the sign in page" do
-            post :create, type: 'bug_report', feedback: params
+            post :create, feedback: params
             expect(response).to redirect_to(new_user_session_url)
           end
         end
@@ -108,7 +108,7 @@ RSpec.describe FeedbackController, type: :controller do
         end
 
         it "renders the new template" do
-          post :create, type: 'bug_report', feedback: params
+          post :create, feedback: params
           expect(response).to render_template('feedback/bug_report')
         end
       end

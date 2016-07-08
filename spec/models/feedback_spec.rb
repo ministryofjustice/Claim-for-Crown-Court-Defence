@@ -69,7 +69,7 @@ RSpec.describe Feedback, type: :model do
 
     describe '#description' do
       it 'returns the description' do
-        expect(subject.description).to eq('4 - lorem ipsum - example@example.com')
+        expect(subject.description).to eq('rating: 4 - comment: lorem ipsum - email: example@example.com')
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Feedback, type: :model do
 
   context 'bug report' do
     let(:bug_report_params) do
-      params.merge(type: 'bug_report', event: 'lorem', outcome: 'ipsum')
+      params.merge(type: 'bug_report', case_number: 'XXX', event: 'lorem', outcome: 'ipsum')
     end
 
     subject { Feedback.new(bug_report_params) }
@@ -110,10 +110,15 @@ RSpec.describe Feedback, type: :model do
     it { should_not validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
     it { should validate_presence_of(:event) }
     it { should validate_presence_of(:outcome) }
+    it { should_not validate_presence_of(:case_number) }
 
     describe '#initialize' do
       it 'sets the email' do
         expect(subject.email).to eq('example@example.com')
+      end
+
+      it 'sets the case_number' do
+        expect(subject.case_number).to eq('XXX')
       end
 
       it 'sets the event' do
@@ -161,7 +166,7 @@ RSpec.describe Feedback, type: :model do
 
     describe '#description' do
       it 'returns the description' do
-        expect(subject.description).to eq('lorem - ipsum - example@example.com')
+        expect(subject.description).to eq('case_number: XXX - event: lorem - outcome: ipsum - email: example@example.com')
       end
     end
 

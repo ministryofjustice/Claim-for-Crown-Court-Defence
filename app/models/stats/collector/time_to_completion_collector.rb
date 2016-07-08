@@ -39,11 +39,11 @@ module Stats
       # if there were no claims authorised/part authorised/rejected/refused today,
       # use the average of the previous seven days
       def calculate_average
-        values  = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date-1.day).pluck(:value_1)
+        values = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date - 1.day).pluck(:value_1)
         values.empty? ? 0 : values.sum / values.size
       end
 
     end
   end
-  end
+end
 

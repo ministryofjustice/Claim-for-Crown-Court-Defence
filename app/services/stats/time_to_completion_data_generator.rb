@@ -11,7 +11,7 @@ module Stats
 
     def transform_data_value(value)
       # transform value on statistics table which is in seconds to days
-      (value/100.0).round(2)
+      (value / 100.0).round(2)
     end
   end
 end

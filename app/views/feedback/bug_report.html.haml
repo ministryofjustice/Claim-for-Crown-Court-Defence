@@ -5,18 +5,26 @@
 .body-content
   .panel.panel-border-wide
     %p
-      Tell us about your experience of using this service today.
-  %p
-    Your answers to the following questions will help us improve this service.
+      Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.
 
-  = form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+  = form_for @feedback, builder: AdpFormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
     = f.hidden_field :type
     = f.hidden_field :referrer
+
     .form-group
-      = f.label :event, "What you were doing", class: "form-label"
-      = f.text_area :event, rows: 5, class: "form-control"
+      = f.anchored_label 'Case number / Unique ID', :case_number
+      .form-hint.xsmall.zero-vert-margin
+        = 'If your issue is related to a particular claim, provide the case number along with the unique ID you will find next to it (starts with #)'
+      = f.text_field :case_number, class: 'form-control'
     .form-group
-      = f.label :outcome, "What went wrong", class: "form-label"
-      = f.text_area :outcome, rows: 10, class: "form-control"
+      = f.anchored_label 'What you were doing', :event
+      .form-hint.xsmall.zero-vert-margin
+        = 'Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type'
+      = f.text_area :event, rows: 6, class: 'form-control'
+    .form-group
+      = f.anchored_label 'What went wrong', :outcome
+      .form-hint.xsmall.zero-vert-margin
+        = ''
+      = f.text_area :outcome, rows: 6, class: 'form-control'
     .button-holder
       = f.submit 'Send', class: 'button button-primary', id: 'submit-button'

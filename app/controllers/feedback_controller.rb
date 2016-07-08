@@ -51,6 +51,7 @@ class FeedbackController < ApplicationController
       :rating,
       :event,
       :outcome,
+      :case_number,
       :referrer
     )
   end

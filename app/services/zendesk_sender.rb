@@ -20,7 +20,7 @@ class ZendeskSender
         { id: '26047167', value: ticket_payload.referrer   },
         { id: '23757677', value: 'advocate_defence_payments' },
         { id: '23791776', value: ticket_payload.user_agent },
-        { id: '32342378', value: RailsHost.env }
+        { id: '32342378', value: Rails.host.env }
       ]
     )
   end

@@ -77,7 +77,7 @@ RSpec.describe FeedbackController, type: :controller do
 
     context 'bug report' do
       let(:params) do
-        { type: 'bug_report', event: 'lorem', outcome: 'ipsum' }
+        { type: 'bug_report', case_number: 'XXXX', event: 'lorem', outcome: 'ipsum' }
       end
 
       context 'when valid' do

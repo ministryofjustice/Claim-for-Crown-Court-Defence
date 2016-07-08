@@ -30,7 +30,7 @@
         / = f.text_field :name, class: "form-control"
         / = validation_error_message(@provider, :name)
         / %hr/
-        = f.adp_text_field :name
+        = f.adp_text_field :name, label: t('.provider_name')
 
       #js-supplier-number.form-group
         = f.label :supplier_number, t('.agfs_supplier_number'), class: "form-label"

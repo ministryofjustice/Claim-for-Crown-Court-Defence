@@ -8,14 +8,22 @@
 
   = f.fields_for :user do |user_fields|
     %fieldset.user-form
-      = user_fields.label t(".first_name"), class: "form-label"
-      = user_fields.text_field :first_name, class: "form-control"
-      = user_fields.label t(".last_name"), class: "form-label"
-      = user_fields.text_field :last_name, class: "form-control"
-      = user_fields.label t(".email"), class: "form-label"
-      = user_fields.email_field :email, class: "form-control"
-      = user_fields.label t(".email_confirmation"), class: "form-label"
-      = user_fields.email_field :email_confirmation, class: "form-control"
+
+      .form-group
+        = user_fields.label t(".first_name"), class: "form-label"
+        = user_fields.text_field :first_name, class: "form-control"
+
+      .form-group
+        = user_fields.label t(".last_name"), class: "form-label"
+        = user_fields.text_field :last_name, class: "form-control"
+
+      .form-group
+        = user_fields.label t(".email"), class: "form-label"
+        = user_fields.email_field :email, class: "form-control"
+
+      .form-group
+        = user_fields.label t(".email_confirmation"), class: "form-label"
+        = user_fields.email_field :email_confirmation, class: "form-control"
 
     %fieldset.user-form
       = f.label :roles, class: "form-label"

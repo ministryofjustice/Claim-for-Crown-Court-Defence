@@ -494,6 +494,7 @@ en:
             (You must upload the order for judicial apportionment in the "Upload supporting evidence" section below.)
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
+          defendant: 'Defendant'
         fields:
           defendants: 'Defendants'
           add_another_defendant: 'Add another defendant'

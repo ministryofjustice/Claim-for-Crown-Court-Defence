@@ -1,8 +1,6 @@
-%tbody.supplier-number-group
-  %tr.nested-fields
-    %td
-      %a{id: "supplier_number_#{@sn_index}_supplier_number"}
-      = f.text_field :supplier_number, class: 'form-control'
-      = validation_error_message(@provider, "supplier_number_#{@sn_index}")
-    %td.remove-supplier-number
-      = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }
+.grid-row.supplier-number-group
+  .column-one-half
+    %a{id: "supplier_number_#{@sn_index}_supplier_number"}
+    = f.text_field :supplier_number, class: 'form-control'
+    = validation_error_message(@provider, "supplier_number_#{@sn_index}")
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'supplier-number-group' }

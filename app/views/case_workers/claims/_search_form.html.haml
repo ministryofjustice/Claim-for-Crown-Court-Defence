@@ -1,2 +1,7 @@
-.search-wrapper
-  = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_case_workers_claims_path : case_workers_claims_path, hint_text: t('case_workers.claims.hint.search') }
+.container.search-wrapper#listanchor
+  - if params[:search].present?
+    #search-summary
+      = render partial: 'shared/search_summary'
+.container
+  .search-wrapper
+    = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_case_workers_claims_path : case_workers_claims_path, hint_text: t('case_workers.claims.hint.search') }

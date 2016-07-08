@@ -1,4 +1,4 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.your_claims')}
-
-= render partial: 'claims_list'
+= render partial: 'search_form', locals: { archived: false }
+= render partial: 'claims_list', locals: { claims: @claims }
 = paginate @claims

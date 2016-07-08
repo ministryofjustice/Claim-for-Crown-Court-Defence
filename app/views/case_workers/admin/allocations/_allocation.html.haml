@@ -34,17 +34,6 @@
           %span.claim-count
             = "Showing claims: "
             = page_entries_info @claims, entry_name: 'claim'
-        %colgroup
-          %col
-          %col
-          %col
-          %col
-          %col
-          %col
-          %col
-          %col
-          - if params[:tab] == 'allocated'
-            %col
         %thead
           %th{scope:'col'}
             = link_to 'Select all', '#', class: 'select-all', data: { 'all-checked' => 'false' }
@@ -73,6 +62,7 @@
                 %td
                   %span.js-test-case-number
                     = link_to claim.case_number , case_workers_claim_path(claim)
+                    %div.unique-id-small= claim.unique_id
                 %td
                   = claim.external_user.name
                 %td

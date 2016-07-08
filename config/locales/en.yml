@@ -52,6 +52,8 @@ en:
       remove: &remove 'Remove'
       view: &view 'View'
       save: &save 'Save'
+    labels:
+      advocate_litigator: &advocate_litigator 'Advocate / Litigator'
     models:
       super_admin: &super_admin 'Super administrator'
       external_user: &advocate 'Advocate'
@@ -521,7 +523,7 @@ en:
         delete: *delete
         confirm_delete: 'Are you sure?'
         none: 'None'
-        advocate_litigator: "Advocate / Litigator"
+        advocate_litigator: *advocate_litigator
         type: "Type"
       confirmation:
         thanks: Thank you for submitting your claim
@@ -880,7 +882,8 @@ en:
         h2_status: Status
         h2_summary: Fees, expenses and more information
         heading: Claim
-      claims:
+      claims_list:
+        advocate_litigator: *advocate_litigator
         case_number: Case number
         advocate: Advocate
         defendants: Defendant(s)

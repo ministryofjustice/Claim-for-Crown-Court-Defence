@@ -18,7 +18,6 @@ When(/^I select the supplier number '(.*)'$/) do |number|
 end
 
 And(/^I select the litigator offence class '(.*)'$/) do |name|
-  sleep 1
   @litigator_claim_form_page.select_offence_class(name)
 end
 
@@ -73,3 +72,4 @@ end
 And(/^I enter the date for the (\w+) expense '(.*?)'$/) do |ordinal, date|
   @claim_form_page.expenses.send(ordinal.to_sym).expense_date.set_date date
 end
+

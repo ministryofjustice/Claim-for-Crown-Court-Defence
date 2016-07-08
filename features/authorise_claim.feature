@@ -1,4 +1,4 @@
-@no-seeding @javascript
+@javascript
 Feature: Case worker fully authorises claim
 
   Scenario: I fully authorise a claim

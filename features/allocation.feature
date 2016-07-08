@@ -1,4 +1,4 @@
-@no-seeding @javascript
+@javascript
 Feature: Case worker admin allocates claims 
 
   Scenario: I allocate claims, case worker sees them

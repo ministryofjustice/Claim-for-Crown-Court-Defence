@@ -20,7 +20,7 @@ Before('~@no-site-prism') do
   @allocation_page = AllocationPage.new
 end
 
-Before('~@no-seeding') do
+Before do
   unless ($seed_done ||= false)
 
     load "#{Rails.root}/db/seeds/courts.rb"
@@ -31,14 +31,12 @@ Before('~@no-seeding') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
+    load "#{Rails.root}/db/seeds/vat_rates.rb"
 
     $seed_done = true
   end
 end
 
-Before do
-  load "#{Rails.root}/db/seeds/vat_rates.rb"
-end
 
 AfterConfiguration do
   # Possible values are :truncation and :transaction

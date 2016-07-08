@@ -1,4 +1,4 @@
-@no-seeding @javascript
+@javascript
 Feature: Case worker rejects a claim, providing a reason
 
   Scenario: I reject a claim providing a reason

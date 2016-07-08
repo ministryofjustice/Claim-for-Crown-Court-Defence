@@ -14,8 +14,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the court 'Blackfriars Crown'
     And I select a case type of 'Trial'
     And I enter a case number of 'A12345678'
-    And I select the offence category 'Handling stolen goods'
-    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
+    And I select the offence category 'Activities relating to opium'
     And I enter defendant, representation order and MAAT reference
     And I enter trial start and end dates
     And I add another defendant, representation order and MAAT reference
@@ -29,8 +28,11 @@ Feature: Advocate admin submits a claim for a Trial case
     And I upload 3 documents
     And I check the boxes for the uploaded documents
     And I add some additional information
-    And I click Submit to LAA
-    Then I should be on the check your claim page
+
+    Then I click Submit to LAA
+    And I should be on the check your claim page
+    And I should see 'Activities relating to opium'
+    And I should see 'B: Offences involving serious violence or damage and serious drug offences'
 
     When I click "Continue"
     Then I should be on the certification page

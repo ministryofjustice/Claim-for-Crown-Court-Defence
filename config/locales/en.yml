@@ -658,7 +658,7 @@ en:
         submitted: Submitted to LAA
         show_count: 'Showing %{page_count} of %{total} claims'
       json_document_importer:
-        import_claim: 'Or add your JSON report'
+        import_claim: Or upload your claims in JSON format
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of

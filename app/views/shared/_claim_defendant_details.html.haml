@@ -1,23 +1,23 @@
 .defendant-card
-  .bold-normal.title
+  .b.title
     = t('common.defendant')
     = index
   .grid-row
     .column-half
-      .full-name.bold-xsmall
+      .full-name.b
         = t('external_users.claims.defendants.defendant_fields.full_name')
       .xsmall
         = defendant.name
     - if defendant.date_of_birth.present?
       .column-half
-        .dob.bold-xsmall
+        .dob.b
           = t('external_users.claims.defendants.defendant_fields.date_of_birth')
         .xsmall
           = defendant.date_of_birth.strftime('%d/%m/%Y') rescue ''
 
   - unless @claim.interim?
     .judical_apportionment
-      %span.bold-xsmall
+      %span.b
         Judicial apportionment:
       %span.xsmall
         = defendant.order_for_judicial_apportionment == true ? 'Yes' : 'No'

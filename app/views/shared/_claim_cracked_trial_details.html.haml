@@ -1,22 +1,18 @@
 - cracked_trial_detail_translations = 'external_users.claims.case_details.cracked_trial_fields'
 .basic-info-row
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
-    .xsmall
-      = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{cracked_trial_detail_translations}.trial_fixed_at")
-    .xsmall
-      = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{cracked_trial_detail_translations}.trial_cracked_at")
-    .xsmall
-      =  claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
+    =  claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
-    .xsmall
-      = claim.trial_cracked_at_third.humanize rescue ''
+    = claim.trial_cracked_at_third.humanize rescue ''

@@ -484,10 +484,8 @@ Other Claim Navigation
 }
 
 .certification-info-row {
-  // @extend .grid-row;
   border: 1px solid $border-colour;
   padding: $gutter-half;
-  margin-left: -$gutter-half;
   margin-right: 0px;
   .confirmation-section & {
     margin-left: 0;
@@ -919,7 +917,9 @@ Styling for Claims Messaging
 }
 
 .right{
-  border: 1px solid red;
   float: right;
 }
 
+.b {
+  font-weight: 700;
+}

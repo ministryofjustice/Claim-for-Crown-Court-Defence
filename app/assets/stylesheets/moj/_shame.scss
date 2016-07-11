@@ -906,3 +906,20 @@ Styling for Claims Messaging
   }
 }
 
+
+.btn-spacer-20{
+  margin-right:20px;
+}
+
+
+@include media(desktop) {
+  .btn-spacer-40{
+    margin-right:40px;
+  }
+}
+
+.right{
+  border: 1px solid red;
+  float: right;
+}
+

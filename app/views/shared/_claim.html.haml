@@ -1,109 +1,108 @@
 %div
 
-  .indent-sides
-    - if claim.certification.present?
-      .certification-info-row
-        .bold-normal.title{ style: 'margin-bottom: 5px' }
-          = t('.certification_box_title')
-        .bold-xsmall
-          = t('.certified_by') + ':'
+  - if claim.certification.present?
+    .certification-info-row
+      .b.title{ style: 'margin-bottom: 5px' }
+        = t('.certification_box_title')
+      .b
+        = t('.certified_by') + ':'
+        %span.xsmall
+          = claim.certification.certified_by
+      - if @claim.agfs?
+        .b
+          = t('.certification_reason') + ':'
           %span.xsmall
-            = claim.certification.certified_by
-        - if @claim.agfs?
-          .bold-xsmall
-            = t('.certification_reason') + ':'
-            %span.xsmall
-              = claim.certification.certification_type.name rescue ''
+            = claim.certification.certification_type.name rescue ''
 
-    - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
-      .basic-info-row
-        .column-quarter
-          .bold-xsmall
-            = t ('.assignee')
-          .xsmall
-            = claim.case_worker_names
-
+  - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
     .basic-info-row
       .column-quarter
-        .bold-xsmall
-          = t("common.external_user.#{@claim.external_user_type}")
+        .b
+          = t ('.assignee')
         .xsmall
-          = claim.external_user.name
-      .column-quarter
-        - if @claim.agfs?
-          .bold-xsmall
-            = t("common.external_user.category.#{@claim.external_user_type}")
-          .xsmall
-            = claim.advocate_category
-      .column-quarter
-        .bold-xsmall
-          = t("common.external_user.account_number.#{@claim.external_user_type}")
-        .xsmall
-          = claim.supplier_number
-      .column-quarter
-        &nbsp;
+          = claim.case_worker_names
 
+  .basic-info-row
+    .column-quarter
+      .b
+        = t("common.external_user.#{@claim.external_user_type}")
+      .xsmall
+        = claim.external_user.name
+    .column-quarter
+      - if @claim.agfs?
+        .b
+          = t("common.external_user.category.#{@claim.external_user_type}")
+        .xsmall
+          = claim.advocate_category
+    .column-quarter
+      .b
+        = t("common.external_user.account_number.#{@claim.external_user_type}")
+      .xsmall
+        = claim.supplier_number
+    .column-quarter
+      &nbsp;
+
+  .basic-info-row
+    .column-quarter
+      .b
+        = t('common.crown_court')
+      .xsmall
+        = claim.court.name if claim.court
+    .column-quarter
+      .b
+        =t('.case_num')
+      .xsmall
+        = claim.case_number
+        %span.unique-id-small= claim.unique_id
+
+  - if claim.transfer_court.present?
     .basic-info-row
       .column-quarter
-        .bold-xsmall
-          = t('common.crown_court')
+        .b
+          = t('common.transfer_court')
         .xsmall
-          = claim.court.name if claim.court
+          = claim.transfer_court.name
       .column-quarter
-        .bold-xsmall
-          =t('.case_num')
+        .b
+          = t('common.transfer_case_number')
         .xsmall
-          = claim.case_number
-          %span.unique-id-small= claim.unique_id
+          = claim.transfer_case_number
 
-    - if claim.transfer_court.present?
-      .basic-info-row
-        .column-quarter
-          .bold-xsmall
-            = t('common.transfer_court')
-          .xsmall
-            = claim.transfer_court.name
-        .column-quarter
-          .bold-xsmall
-            = t('common.transfer_case_number')
-          .xsmall
-            = claim.transfer_case_number
-
-    .basic-info-row
+  .basic-info-row
+    .column-quarter
+      .b
+        = t('.case_type')
+      .xsmall
+        = claim.case_type.try(:name)
+    - if claim.agfs?
       .column-quarter
-        .bold-xsmall
-          = t('.case_type')
+        .b
+          = t('.offence')
         .xsmall
-          = claim.case_type.try(:name)
-      - if claim.agfs?
-        .column-quarter
-          .bold-xsmall
-            = t('.offence')
-          .xsmall
-            = claim.offence ? claim.offence.description : t('general.not_provided')
-      .column-quarter
-        .bold-xsmall
-          = t('.offence_class')
-        .xsmall
-          = claim.offence ? claim.offence.offence_class : t('general.not_provided')
+          = claim.offence ? claim.offence.description : t('general.not_provided')
+    .column-half
+      .b
+        = t('.offence_class')
+      .xsmall
+        = claim.offence ? claim.offence.offence_class : t('general.not_provided')
 
-    - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
-      = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
+  - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+    = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
-    - if claim.case_type && claim.case_concluded_at
-      = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
+  - if claim.case_type && claim.case_concluded_at
+    = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
 
-    - if claim.interim? && !claim.interim_fee.nil?
-      = render partial: 'shared/claim_interim_details', locals: { claim: claim }
+  - if claim.interim? && !claim.interim_fee.nil?
+    = render partial: 'shared/claim_interim_details', locals: { claim: claim }
 
-    - if claim.transfer?
-      = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
+  - if claim.transfer?
+    = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
 
-    - if claim.case_type && claim.requires_trial_dates?
-      = render partial: 'shared/claim_trial_details', locals: { claim: claim }
+  - if claim.case_type && claim.requires_trial_dates?
+    = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
-    - if claim.case_type && claim.requires_retrial_dates?
-      = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
+  - if claim.case_type && claim.requires_retrial_dates?
+    = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if claim.defendants.any?
     = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }

@@ -1,22 +1,18 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 .basic-info-row
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{trial_detail_translations}.first_day_of_trial")
-    .xsmall
-      = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
+    = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{trial_detail_translations}.estimated_trial_length")
-    .xsmall
-      = claim.estimated_trial_length rescue ''
+    = claim.estimated_trial_length rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{trial_detail_translations}.actual_trial_length")
-    .xsmall
-      = claim.actual_trial_length rescue ''
+    = claim.actual_trial_length rescue ''
   .column-quarter
-    .bold-xsmall
+    .b
       = t("#{trial_detail_translations}.trial_concluded_at")
-    .xsmall
-      = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''

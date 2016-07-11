@@ -1,0 +1,30 @@
+@media print {
+  #global-header, #global-header-bar, #footer {
+    display: none;
+  }
+
+  .phase-banner, .primary-nav-bar {
+    display: none;
+  }
+
+  #show-messages-wrapper {
+    .claim-hgroup {
+      .claim-status, .claim-detail-actions {
+        display: none;
+      }
+    }
+    .print-messages-hint {
+      display: none;
+    }
+    .messages-container {
+      border: none;
+      .messages-list {
+        .message-left, .message-right{
+          .message-body::after{
+            content: none;
+          }
+        }
+      }
+    }
+  }
+}

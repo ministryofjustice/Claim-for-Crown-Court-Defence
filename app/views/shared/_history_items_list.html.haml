@@ -1,4 +1,4 @@
-- present(@message.claim, ClaimHistoryPresenter) do |claim|
+- present(claim, ClaimHistoryPresenter) do |claim|
   - if claim.history_items_by_date.none?
     %span.no-messages
       No messages found

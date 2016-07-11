@@ -662,14 +662,6 @@ en:
       outstanding:
         heading: Outstanding claims
         claims_value: claims with a total value of
-      show:
-        created_by: "Created by:"
-        h2_basic_info: Basic claim information
-        h2_evidence: Evidence
-        h2_messages: Messages
-        h2_status: Status
-        h2_summary: Fees, expenses and more information
-        heading: Claim
       supporting_documents:
         existing:
           action: "Action"
@@ -815,6 +807,16 @@ en:
       lgfs_supplier_numbers: "LGFS Supplier Numbers"
     supplier_number_fields:
       remove: "Remove supplier number"
+    claim_accordion:
+      created_by: 'Created by:'
+      h2_basic_info: Basic claim information
+      h2_evidence: Evidence
+      h2_messages: Messages
+      h2_status: Status
+      h2_summary: Fees, expenses and more information
+      heading: Claim
+    claim_history:
+      print_messages: Print all messages
   case_workers:
     table_headings:
       your_claims: Your claims
@@ -874,14 +876,6 @@ en:
         archived_claims: Archived claims
       index:
         your_claims: Your claims
-      show:
-        created_by: "Created by:"
-        h2_basic_info: Basic claim information
-        h2_evidence: Evidence
-        h2_messages: Messages
-        h2_status: Status
-        h2_summary: Fees, expenses and more information
-        heading: Claim
       claims_list:
         advocate_litigator: *advocate_litigator
         case_number: Case number

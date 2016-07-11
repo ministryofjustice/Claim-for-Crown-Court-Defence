@@ -15,7 +15,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   before_action :filter_archived_claims,  only: [:archived]
   before_action :sort_claims,             only: [:index, :archived]
 
-  before_action :set_claim, only: [:show]
+  before_action :set_claim, only: [:show, :messages]
   before_action :set_doctypes, only: [:show, :update]
 
   include ReadMessages
@@ -29,6 +29,10 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
 
   def show
     prepare_show_action
+  end
+
+  def messages
+    render template: 'messages/claim_messages'
   end
 
   def update

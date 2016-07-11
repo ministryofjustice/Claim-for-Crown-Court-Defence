@@ -2,7 +2,7 @@
   var data = {
     success : true,
     statusMessage : '<%=j @notification[:notice].html_safe %>',
-    sentMessage : '<%=j render "shared/history_items_list", message: @message.claim %>'
+    sentMessage : '<%=j render "shared/history_items_list", claim: @message.claim %>'
   }
   moj.Modules.Messaging.processMsg(data);
 

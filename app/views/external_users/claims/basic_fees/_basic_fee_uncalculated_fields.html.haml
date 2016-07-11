@@ -17,5 +17,5 @@
                         label: t('.total'),
                         input_classes:'total',
                         input_type: 'currency',
-                        value: number_with_precision(f.object.rate, precision: 2),
+                        value: number_with_precision(fee.fee.amount, precision: 2),
                         errors: @error_presenter

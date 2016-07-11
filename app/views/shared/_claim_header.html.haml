@@ -22,19 +22,19 @@
     - if claim.editable?
       .claim-detail-actions
         = "Actions:"
-        %div
-          = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'btn-green'
-          = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray'
+        %div.action-wrapper
+          = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'btn-green edit-claim'
+          = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray delete-draft'
 
     - if claim.archivable?
       .claim-detail-actions
         = "Actions:"
-        %div
+        %div.action-wrapper
           - if claim.rejected?
-            = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'btn-green', form: { style: 'display: inline-block;' }
-          = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray'
+            = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'btn-green resubmit-claim', form: { style: 'display: inline-block;' }
+          = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray archive-claim'
     - if claim.archived_pending_delete?
       .claim-detail-actions
         = "Actions:"
-        %div
+        %div.action-wrapper
           = button_to 'Unarchive', unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }

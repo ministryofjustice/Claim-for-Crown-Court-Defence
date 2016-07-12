@@ -157,7 +157,31 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'supplier number validations' do
+  context 'AGFS supplier number validation' do
+    context 'for a blank supplier number' do
+      it 'returns no errors' do
+        chamber.supplier_number = ''
+        expect(chamber).to be_valid
+      end
+    end
+
+    context 'for a valid supplier number' do
+      it 'returns no errors' do
+        chamber.supplier_number = '2M462'
+        expect(chamber).to be_valid
+      end
+    end
+
+    context 'for an invalid supplier number' do
+      it 'returns errors' do
+        chamber.supplier_number = 'XXX'
+        expect(chamber).not_to be_valid
+        expect(chamber.errors).to have_key(:supplier_number)
+      end
+    end
+  end
+
+  context 'LGFS supplier number validation' do
     it 'validates the supplier numbers sub model if there are supplier_numbers' do
       allow(subject).to receive(:supplier_numbers).and_return([instance_double(SupplierNumber)])
       expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(subject, :supplier_numbers)

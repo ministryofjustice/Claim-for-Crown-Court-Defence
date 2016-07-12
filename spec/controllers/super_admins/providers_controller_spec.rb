@@ -143,7 +143,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
 
     context 'when valid' do
       let(:params) do
-        {provider_type: 'firm', name: 'St Johns', supplier_number: '4321', roles: ['agfs']}
+        {provider_type: 'firm', name: 'St Johns', supplier_number: '2M462', roles: ['agfs']}
       end
 
       it "creates a new provider" do

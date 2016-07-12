@@ -9,7 +9,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     if @claim.valid?
       build_certification
       track_visit({
-          url: 'external_user/%{type}/claim/%{id}/%{action}/certification',
+          url: 'external_user/%{type}/claim/%{action}/certification',
           title: '%{action_t} %{type} claim certification'
       }, claim_tracking_substitutions)
     else
@@ -58,6 +58,6 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   end
 
   def claim_tracking_substitutions
-    { id: @claim.id, type: @claim.pretty_type, action: @claim.edition_state, action_t: @claim.edition_state.titleize }
+    { type: @claim.pretty_type, action: @claim.edition_state, action_t: @claim.edition_state.titleize }
   end
 end

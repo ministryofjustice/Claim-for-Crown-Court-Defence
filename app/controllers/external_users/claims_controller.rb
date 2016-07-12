@@ -25,7 +25,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include MessageControlsDisplay
 
   def index
-    track_visit(url: "external_user/claims/index/#{current_page}", title: "Your claims page #{current_page}")
+    track_visit(url: 'external_user/claims', title: 'Your claims')
 
     @claims = @claims_context.dashboard_displayable_states
     search if params[:search].present?
@@ -59,21 +59,21 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @message = @claim.messages.build
 
     track_visit({
-        url: 'external_user/%{type}/claim/%{id}',
+        url: 'external_user/%{type}/claim/show',
         title: 'Show %{type} claim details'
     }, claim_tracking_substitutions)
   end
 
   def summary
     track_visit({
-        url: 'external_user/%{type}/claim/%{id}/%{action}/summary',
+        url: 'external_user/%{type}/claim/%{action}/summary',
         title: '%{action_t} %{type} claim summary'
     }, claim_tracking_substitutions)
   end
 
   def confirmation
     track_visit({
-        url: 'external_user/%{type}/claim/%{id}/%{action}/confirmation',
+        url: 'external_user/%{type}/claim/%{action}/confirmation',
         title: '%{action_t} %{type} claim confirmation'
     }, claim_tracking_substitutions)
   end
@@ -110,7 +110,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def new
     load_offences_and_case_types
     build_nested_resources
-    track_visit(url: "external_user/#{@claim.pretty_type}/claim/new/page1", title: "New #{@claim.pretty_type} claim page 1")
+    track_visit({url: 'external_user/%{type}/claim/new/page1', title: 'New %{type} claim page 1'}, claim_tracking_substitutions)
   end
 
   def edit
@@ -125,7 +125,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     @claim.touch(:last_edited_at)
 
-    track_visit({url: 'external_user/%{type}/claim/%{id}/edit/page1', title: 'Edit %{type} claim page 1'}, claim_tracking_substitutions)
+    track_visit({url: 'external_user/%{type}/claim/edit/page1', title: 'Edit %{type} claim page 1'}, claim_tracking_substitutions)
   end
 
   def create
@@ -371,7 +371,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     load_offences_and_case_types
 
     track_visit({
-        url: 'external_user/%{type}/claim/%{id}/%{action}/page%{step}',
+        url: 'external_user/%{type}/claim/%{action}/page%{step}',
         title: '%{action_t} %{type} claim page %{step}'
     }, claim_tracking_substitutions)
 
@@ -425,10 +425,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def claim_tracking_substitutions
-    # This modified to send a dummy claim id
     {
-      # id: @claim.id,
-      id: '',
       type: @claim.pretty_type,
       step: @claim.current_step,
       action: @claim.edition_state,

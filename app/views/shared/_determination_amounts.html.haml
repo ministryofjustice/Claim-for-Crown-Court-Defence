@@ -1,9 +1,10 @@
 - present(determination) do |determination|
-  %tr.determination-display
-    %th{scope:'row'} Fees
-    %td.numeric
-      = claim.fees_total
-    %td.numeric#determination-fees= determination.fees_total
+  - unless claim.interim? && claim.disbursement_only?
+    %tr.determination-display
+      %th{scope:'row'} Fees
+      %td.numeric
+        = claim.fees_total
+      %td.numeric#determination-fees= determination.fees_total
   - if claim.can_have_expenses?
     %tr.determination-display
       %th{scope:'row'} Expenses

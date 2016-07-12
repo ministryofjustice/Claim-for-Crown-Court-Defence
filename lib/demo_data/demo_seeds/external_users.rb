@@ -54,7 +54,7 @@ end
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm A',
-  supplier_number: '1A222Z',
+  supplier_number: '1A222',
   # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: true,

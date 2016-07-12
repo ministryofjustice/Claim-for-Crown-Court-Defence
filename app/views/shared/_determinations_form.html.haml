@@ -15,10 +15,10 @@
       %tbody
         -if current_user_is_caseworker? && @claim.enable_assessment_input?
           = f.fields_for :assessment do |af|
-            = render partial: 'determination_fields', locals: { f: af, claim: claim}
+            = render partial: 'case_workers/claims/determination_fields', locals: { f: af, claim: claim}
         -elsif current_user_is_caseworker? && @claim.enable_determination_input?
           = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
-            = render partial: 'determination_fields', locals: { f: rf, claim: claim}
+            = render partial: 'case_workers/claims/determination_fields', locals: { f: rf, claim: claim}
         - elsif claim.redeterminations.any?
           = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
         - else

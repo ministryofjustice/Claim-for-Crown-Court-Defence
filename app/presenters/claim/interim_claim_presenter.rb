@@ -12,6 +12,10 @@ class Claim::InterimClaimPresenter < Claim::BaseClaimPresenter
     false
   end
 
+  def disbursement_only?
+    claim.interim_fee&.is_disbursement?
+  end
+
   def pretty_type
     'Interim'
   end

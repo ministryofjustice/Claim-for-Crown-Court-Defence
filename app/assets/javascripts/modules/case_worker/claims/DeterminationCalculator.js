@@ -71,11 +71,13 @@ moj.Modules.DeterminationCalculator = {
     var $element = $(element);
     var $table = $element.closest('table');
     var $fees = $table.find('.js-fees');
-    var fees = parseFloat($fees.val().replace(/,/g, ''));
     var $expenses = $table.find('.js-expenses');
     var $disbursements = $table.find('.js-disbursements');
-    var expenses = parseFloat($expenses.val().replace(/,/g, ''));
+
+    var fees = $fees.exists() ? parseFloat($fees.val().replace(/,/g, '')) : 0;
+    var expenses = $expenses.exists() ? parseFloat($expenses.val().replace(/,/g, '')) : 0;
     var disbursements = $disbursements.exists() ? parseFloat($disbursements.val().replace(/,/g, '')) : 0;
+
     var total = this.calculateAmount(fees, expenses, disbursements);
 
     this.applyVAT(total);

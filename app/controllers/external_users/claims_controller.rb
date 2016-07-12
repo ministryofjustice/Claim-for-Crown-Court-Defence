@@ -15,7 +15,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :set_financial_summary, only: [:index, :outstanding, :authorised]
   before_action :initialize_json_document_importer, only: [:index]
 
-  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls]
+  before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls, :messages]
   before_action :load_external_users_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: [:new, :edit]
@@ -48,6 +48,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     @claims = @financial_summary.authorised_claims
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
     @total_value = @financial_summary.total_authorised_claim_value
+  end
+
+  def messages
+    render template: 'messages/claim_messages'
   end
 
   def show

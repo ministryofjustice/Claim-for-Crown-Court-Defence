@@ -1,0 +1,27 @@
+#claim-accordion{role: "tablist", multiselectable: "true"}
+  - @message_expand = params[:messages].present? && params[:messages] == "true" ? true : false
+  - @message_hide   = @message_expand ? false : true
+
+  %h2{aria: {selected: "#{@message_expand}", controls: 'panel1', expanded: "#{@message_expand}"}, class: 'tab', id: 'tab1', role: 'tab', tabindex: "0"}
+    = t('.h2_messages')
+  .panel.accordion{aria: {hidden: "#{@message_hide}", labelledby: 'tab1', }, id: 'panel1', role: 'tabpanel'}
+    = render partial: 'shared/claim_history', locals: {claim: claim }
+    = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
+
+
+  %h2{aria: {selected: 'false', controls: 'panel2', expanded: 'false'}, class: 'tab', id: 'tab2', role: 'tab', tabindex: "-1"}
+    = t(".h2_basic_info")
+  .panel.accordion{aria: {hidden:'true', labelledby: 'tab2', }, id: 'panel2', role: 'tabpanel'}
+    = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
+
+
+  %h2{aria: {selected: 'false', controls: 'panel3', expanded: 'false'},class: 'tab',  id: 'tab3', role: 'tab', tabindex: "-1"}
+    = t('.h2_evidence')
+  .panel.accordion{aria: {hidden:'true', labelledby: 'tab3', }, id: 'panel3', role: 'tabpanel'}
+    = render partial: 'shared/evidence_list'
+
+
+  %h2{aria: {selected: 'false', controls: 'panel4', expanded: 'false'},class: 'tab',  id: 'tab4', role: 'tab', tabindex: "-1"}
+    = t('.h2_summary')
+  .panel.accordion{aria: {hidden:'true', labelledby: 'tab1', }, id: 'panel4', role: 'tabpanel'}
+    = render partial: 'shared/summary'

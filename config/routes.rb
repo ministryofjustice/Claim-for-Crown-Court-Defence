@@ -104,6 +104,7 @@ Rails.application.routes.draw do
       get 'outstanding',            on: :collection
       get 'authorised',             on: :collection
       get 'archived',               on: :collection
+      get 'messages',               on: :member
       patch 'clone_rejected',       to: 'claims#clone_rejected',  on: :member
       patch 'unarchive',            to: 'claims#unarchive',       on: :member
       get  'types',                 to: 'claim_types#selection',  on: :collection
@@ -132,6 +133,7 @@ Rails.application.routes.draw do
 
     resources :claims, only: [:index, :show, :update] do
       get 'show_message_controls', on: :member
+      get 'messages', on: :member
       get 'archived', on: :collection
     end
 

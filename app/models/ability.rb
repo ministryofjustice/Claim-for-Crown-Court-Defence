@@ -58,7 +58,7 @@ class Ability
   def can_administer_any_claim_in_provider(persona)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], Claim::BaseClaim
-    can [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
+    can [:show, :show_message_controls, :messages, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], Claim::BaseClaim, provider_id: persona.provider_id
     can [:show, :create, :update], Certification
     can_administer_documents_in_provider(persona)
   end
@@ -85,7 +85,7 @@ class Ability
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
     can [:index, :outstanding, :authorised, :archived, :new, :create], claim_klass
-    can [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, external_user_id: persona.id
+    can [:show, :show_message_controls, :messages, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy], claim_klass, external_user_id: persona.id
     can [:show, :create, :update], Certification
     can_manage_own_documents(persona)
   end

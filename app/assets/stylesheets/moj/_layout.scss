@@ -53,3 +53,26 @@ body {
     }
   }
 }
+
+#show-messages-wrapper {
+  .print-messages-hint {
+    clear: both;
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+
+  .panel {
+    &.no-border {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .messages-container {
+    .messages-list {
+      max-height: none;
+      overflow-y: visible;
+      overflow-x: visible;
+    }
+  }
+}

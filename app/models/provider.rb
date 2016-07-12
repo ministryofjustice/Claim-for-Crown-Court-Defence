@@ -48,6 +48,7 @@ class Provider < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
 
+  validates :supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
   validates_with SupplierNumberSubModelValidator, if: ->{ supplier_numbers.any? }
 
   # Allows calling of provider.admins or provider.advocates

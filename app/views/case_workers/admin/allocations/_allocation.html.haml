@@ -15,7 +15,7 @@
   = hidden_field_tag :page, params[:page]
 
   .grid-row
-    .form-row
+    .form-row.form-group
       .form-col
         = label_tag :quantity_to_allocate, t('.no_of_claims')
         = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}

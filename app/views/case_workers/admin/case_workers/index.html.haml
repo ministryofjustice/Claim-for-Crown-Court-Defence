@@ -3,6 +3,8 @@
 .container
   = content_for :search_html_block do
     %div
+      %br/
+      %br/
       = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button primary'
 
   = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: t('.hint.search') }

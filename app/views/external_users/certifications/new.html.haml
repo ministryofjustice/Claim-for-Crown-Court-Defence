@@ -5,6 +5,7 @@
 = form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
   %div.certification.normal
     - if @claim.is_a? Claim::AdvocateClaim
+
       .grid-row
         .column-two-thirds
           %p
@@ -12,30 +13,40 @@
             aid was granted on or after 5 May 2015) or instructed advocate and that you
             are entitled to submit a claim for this case. If our records show that you are
             not the trial or instructed advocate, we may reject this claim without payment.
+
           %p
             Please only tick the relevant box.
 
-          %div
-            %p.bold-normal
-              Final fee claims where the representation order was granted on or after 5 May 2015.
+      .grid-row
+        .column-two-thirds
+          %p.bold-normal
+            Final fee claims where the representation order was granted on or after 5 May 2015.
 
-            %p I certify that I am the trial advocate as:
+          %p
+            I certify that I am the trial advocate as:
 
-            %div.form-group.inline
+          .radio-wrapper
+            .form-group.inline
               = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name) do |b|
                 - b.label(class: "block-label #{to_slug(b.object.name)}") { b.radio_button + b.object.name }
 
-            .bold-normal
-              All other claims:
+      .grid-row
+        .column-two-thirds
+          .bold-normal
+            All other claims:
 
-            %p.normal I certify that I am the instructed advocate as:
+          %p.normal
+            I certify that I am the instructed advocate as:
 
-            %div.form-group.inline
+          .radio-wrapper
+            .form-group.inline
               = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name) do |b|
-
                 - b.label(class: "block-label") { b.radio_button + b.object.name }
 
-            %p All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
+      .grid-row
+        .column-two-thirds
+          %p
+            All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
 
           %p.bold-normal
             You also confirm that you certify that:
@@ -70,10 +81,6 @@
               if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this
               payment, with all necessary claim and payment details.
 
-          .column-quarter
-            %p
-              &nbsp;
-
     - elsif @claim.is_a? Claim::LitigatorClaim
       %p
         I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
@@ -84,17 +91,13 @@
 
     .grid-row
       .column-third
-        %div
-          = f.label :certified_by, t('.certified_by')
-          .form-hint.xsmall.zero-vert-margin
-            = t('.certified_by_prompt_text')
-        = f.text_field :certified_by
+        = f.adp_text_field :certified_by,
+                          label: t('.certified_by'),
+                          hint_text: t('.certified_by_prompt_text'),
+                          input_classes: 'long-input'
+
       .column-third
-        %div
-          = f.label 'certification_date_dd', t('.certification_date')
-        .form-hint.xsmall.zero-vert-margin
-          &nbsp;
-        = f.gov_uk_date_field :certification_date
+        = f.gov_uk_date_field(:certification_date, legend_text: t('.date'), legend_class: 'govuk-legend')
 
       .column-third
         &nbsp;

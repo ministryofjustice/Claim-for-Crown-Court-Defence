@@ -55,6 +55,11 @@ input.form-control[type=number]
     margin-left: 0;
     float: none;
   }
+  &.long-input{
+    @include span(8 of 12);
+    margin-left: 0;
+    float: none;
+  }
   &.search{
     @include span(10 of 12);
     @include first;

@@ -53,8 +53,8 @@ RSpec.describe Disbursement, type: :model do
       expect(@claim.total).to eq(8.0)
     end
 
-    it 'calculates the claim vat amount (on claim submit)' do
-      expect{ @claim.submit! }.to change{ @claim.vat_amount }.by(2.5)
+    it 'calculates the claim vat amount' do
+      expect(@claim.vat_amount).to eq 2.5
     end
   end
 end

@@ -31,6 +31,7 @@ class Disbursement < ActiveRecord::Base
   after_save do
     claim.update_disbursements_total
     claim.update_total
+    claim.update_vat
   end
 
   after_destroy do

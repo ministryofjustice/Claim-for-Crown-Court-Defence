@@ -63,6 +63,7 @@ class Expense < ActiveRecord::Base
   after_save do
     claim.update_expenses_total
     claim.update_total
+    claim.update_vat
   end
 
   after_destroy do

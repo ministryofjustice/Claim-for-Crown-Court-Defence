@@ -40,7 +40,7 @@ module Claims::Calculations
 
   def calculate_expenses_vat
     if lgfs?
-      Expense.where(claim_id: self.id).pluck(:vat_amount).sum
+      Expense.where(claim_id: self.id).where.not(vat_amount: nil).pluck(:vat_amount).sum
     else
       VatRate.vat_amount(calculate_expenses_total, self.vat_date, calculate: self.apply_vat?)
     end
@@ -52,7 +52,7 @@ module Claims::Calculations
 
   def calculate_disbursements_vat
     # #reload prevents cloning
-    Disbursement.where(claim_id: self.id).pluck(:vat_amount).sum
+    Disbursement.where(claim_id: self.id).where.not(vat_amount: nil).pluck(:vat_amount).sum
   end
 
   def calculate_total_vat

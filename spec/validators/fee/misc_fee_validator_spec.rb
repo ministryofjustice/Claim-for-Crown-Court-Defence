@@ -1,5 +1,6 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/../validation_helpers'
+require_relative '../validation_helpers'
+require_relative 'shared_examples_for_fee_validators_spec'
 
 describe Fee::MiscFeeValidator do
 
@@ -27,6 +28,8 @@ describe Fee::MiscFeeValidator do
       it { should_error_if_not_present(fee, :fee_type, 'blank') }
     end
 
+    include_examples 'common amount validations'
+
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }
 
@@ -43,16 +46,6 @@ describe Fee::MiscFeeValidator do
       it 'amount' do
         expect_any_instance_of(superclass).not_to receive(:validate_amount)
         fee.valid?
-      end
-    end
-
-    describe '#validate_amount' do
-      it 'should error if amount is equal to zero' do
-        should_error_if_equal_to_value(fee, :amount,  0.00, 'invalid')
-      end
-
-      it 'should error if amount is less than zero' do
-        should_error_if_equal_to_value(fee, :amount,  -10.00, 'invalid')
       end
     end
 

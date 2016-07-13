@@ -104,6 +104,41 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe '#signed_in_user_profile_path' do
+    context 'given a super admin' do
+      before { sign_in super_admin.user }
+      it 'returns super admins user_profile_path' do
+        expect(subject.signed_in_user_profile_path).to eq("/super_admins/admin/super_admins/#{super_admin.id}")
+      end
+    end
+
+    context 'given an advocate' do
+      before { sign_in advocate.user }
+      it 'returns advocate user profile path' do
+        puts subject.signed_in_user_profile_path
+        expect(subject.signed_in_user_profile_path).to eq("/external_users/admin/external_users/#{advocate.id}")
+      end
+    end
+    
+    context 'given a case_worker' do
+      before { sign_in case_worker.user }
+      it 'retutns caseworker Profile path' do
+        puts subject.signed_in_user_profile_path
+        expect(subject.signed_in_user_profile_path).to eq("/case_workers/admin/case_workers/#{case_worker.id}")
+      end
+    end
+
+    context 'given a user with a different role' do
+      before { user = build(:user); sign_in user }
+
+      it 'raises error' do
+        expect { subject.signed_in_user_profile_path }.to raise_error
+      end
+    end
+
+
+  end
+
   context 'Exceptions handling' do
     controller do
       skip_load_and_authorize_resource

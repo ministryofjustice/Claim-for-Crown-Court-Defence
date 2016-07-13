@@ -115,15 +115,13 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an advocate' do
       before { sign_in advocate.user }
       it 'returns advocate user profile path' do
-        puts subject.signed_in_user_profile_path
         expect(subject.signed_in_user_profile_path).to eq("/external_users/admin/external_users/#{advocate.id}")
       end
     end
     
     context 'given a case_worker' do
       before { sign_in case_worker.user }
-      it 'retutns caseworker Profile path' do
-        puts subject.signed_in_user_profile_path
+      it 'returns caseworker Profile path' do
         expect(subject.signed_in_user_profile_path).to eq("/case_workers/admin/case_workers/#{case_worker.id}")
       end
     end

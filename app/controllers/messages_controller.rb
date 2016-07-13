@@ -27,8 +27,13 @@ class MessagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.js
-      format.html { redirect_to redirect_to_url, @notification }
+      format.js {
+        x = "XX"
+        x
+      }
+      format.html {
+        redirection = redirect_to_url
+        redirect_to redirect_to_url, @notification }
     end
   end
 
@@ -47,7 +52,8 @@ class MessagesController < ApplicationController
   private
 
   def redirect_to_url
-    eval("#{current_user.persona.class.to_s.pluralize.underscore}_claim_path(@message.claim, messages: true)") + '#claim-accordion'
+    method = "#{current_user.persona.class.to_s.pluralize.underscore}_claim_path"
+    __send__(method, @message.claim, messages: true) +  '#claim-accordion'
   end
 
   def refresh_required?

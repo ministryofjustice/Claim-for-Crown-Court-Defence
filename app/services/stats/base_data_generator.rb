@@ -14,7 +14,7 @@ module Stats
         data_series = Statistic.report(report_name, 'Claim::BaseClaim', @start_date, @date).pluck(:value_1)
         line_graph.add_dataset description, data_series.map{ |v| transform_data_value(v) }
       end
-      line_graph.to_json
+      line_graph
     end
 
     private

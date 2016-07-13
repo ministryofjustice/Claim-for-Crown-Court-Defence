@@ -170,6 +170,10 @@ Rails.application.routes.draw do
     end
   end
 
+
+  get 'statistics', to: 'geckoboard_api/statistics#index'
+
+
   # catch-all route
   unless Rails.env.development?
     match '*path', to: 'errors#not_found', via: :all

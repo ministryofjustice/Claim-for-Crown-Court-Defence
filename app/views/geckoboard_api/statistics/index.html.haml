@@ -1,0 +1,9 @@
+.body-content
+  .panel.panel-border-wide
+    %p
+      Statistics reports in tabular format.
+
+    %table
+      - @available_reports.each do |title, url_part|
+        %tr
+          %td= link_to(title, send("#{url_part}_geckoboard_api_widgets_path", format: 'html'))

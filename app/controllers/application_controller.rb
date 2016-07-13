@@ -37,9 +37,8 @@ class ApplicationController < ActionController::Base
   end
 
   def signed_in_user_profile_path
-    # rubocop:disable Lint/Eval
-    eval("#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path(#{current_user.persona_id})")
-    # rubocop:enable Lint/Eval
+    path_helper_method = "#{current_user.persona.class.to_s.underscore.pluralize}_admin_#{current_user.persona.class.to_s.underscore}_path"
+    send path_helper_method, current_user.persona_id
   end
 
   def root_path_url_for_user

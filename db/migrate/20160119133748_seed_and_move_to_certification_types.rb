@@ -9,6 +9,7 @@ class SeedAndMoveToCertificationTypes < ActiveRecord::Migration
     previous_advocate_notified_court  = CertificationType.find_or_create_by!(name: 'The previous Instructed Advocate notified the court in writing that they were no longer acting in this case and I was then instructed.', pre_may_2015: true, roles: ['agfs'])
     fixed_fee_case                    = CertificationType.find_or_create_by!(name: 'The case was a fixed fee (with a case number beginning with an S or A) and I attended the main hearing.', pre_may_2015: true, roles: ['agfs'])
 
+    
     Certification.all.each do |certification|
       certification_type = nil
 

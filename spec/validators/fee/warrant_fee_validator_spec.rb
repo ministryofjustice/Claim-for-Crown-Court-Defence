@@ -1,7 +1,10 @@
 require 'rails_helper'
+require_relative '../validation_helpers'
+require_relative 'shared_examples_for_fee_validators_spec'
 
 module Fee
   describe WarrantFee do
+    include ValidationHelpers
 
     let(:fee)       { build :warrant_fee }
 
@@ -9,20 +12,7 @@ module Fee
       allow(fee).to receive(:perform_validation?).and_return(true)
     end
 
-    describe '#amount' do
-      it 'should be invalid if absent' do
-        allow(fee).to receive(:amount).and_return nil # NOTE: need to mock nil amount as callback will set to 0
-        expect(fee).to_not be_valid
-        expect(fee.errors[:amount]).to include 'blank'
-      end
-
-      it 'should be invalid if less than 0.01 ' do
-        fee.amount = 0.00999
-        expect(fee).to_not be_valid
-        expect(fee.errors[:amount]).to include 'numericality'
-      end
-
-    end
+    include_examples 'common amount validations'
 
     describe '#validate_warrant_issued_date' do
       it 'should be valid if present and in the past' do

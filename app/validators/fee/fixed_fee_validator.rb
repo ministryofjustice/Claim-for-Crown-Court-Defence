@@ -23,7 +23,7 @@ class Fee::FixedFeeValidator < Fee::BaseFeeValidator
     if run_base_fee_validators? || fee_code.nil?
       super
     else
-      validate_float_numericality(:amount, 0.01, 'invalid')
+      validate_presence_and_numericality(:amount, minimum: 0.1)
     end
   end
 

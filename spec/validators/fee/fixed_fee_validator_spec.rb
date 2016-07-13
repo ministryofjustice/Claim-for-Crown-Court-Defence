@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/../validation_helpers'
+require_relative '../validation_helpers'
 require_relative 'shared_examples_for_fee_validators_spec'
 
 describe Fee::FixedFeeValidator do
@@ -47,16 +47,6 @@ describe Fee::FixedFeeValidator do
       end
     end
 
-    describe '#validate_amount' do
-      it 'should error if amount is equal to zero' do
-        should_error_if_equal_to_value(fee, :amount, 0.00, 'invalid')
-      end
-
-      it 'should error if amount is less than zero' do
-        should_error_if_equal_to_value(fee, :amount, -10.00, 'invalid')
-      end
-    end
-
     describe '#validate_sub_type' do
       let!(:non_parent) { create :fixed_fee_type }
       let!(:parent) { create :fixed_fee_type }
@@ -87,6 +77,7 @@ describe Fee::FixedFeeValidator do
       end
     end
 
+    include_examples 'common amount validations'
     include_examples 'common fee date validations'
   end
 end

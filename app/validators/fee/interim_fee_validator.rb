@@ -21,8 +21,7 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement?
       validate_absence_or_zero(:amount, 'present')
     else
-      validate_presence(:amount, 'blank')
-      validate_float_numericality(:amount, 0.01, nil, 'numericality')
+      validate_presence_and_numericality(:amount, minimum: 0.1)
     end
   end
 

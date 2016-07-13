@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/../validation_helpers'
+require_relative '../validation_helpers'
 require_relative 'shared_examples_for_fee_validators_spec'
 
 module Fee
@@ -45,19 +45,6 @@ module Fee
       end
     end
 
-    describe '#validate_amount' do
-      # note: before validation hook sets nil to zero
-      it { should_error_if_not_present(fee, :amount, 'numericality') }
-
-      it 'numericality, must be at least 0.01' do
-        fee.amount = 0.01
-        expect(fee).to be_valid
-        fee.amount = 0.00999
-        expect(fee).to_not be_valid
-        expect(fee.errors[:amount]).to eq ['numericality']
-      end
-    end
-
     describe 'absence of unnecessary attributes' do
       it 'should validate absence of warrant issued date' do
         fee.warrant_issued_date = Date.today
@@ -77,6 +64,7 @@ module Fee
       end
     end
 
+    include_examples 'common amount validations'
     include_examples 'common fee date validations'
   end
 end

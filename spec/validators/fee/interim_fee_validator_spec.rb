@@ -1,7 +1,10 @@
 require 'rails_helper'
+require_relative '../validation_helpers'
+require_relative 'shared_examples_for_fee_validators_spec'
 
 module Fee
   describe InterimFeeValidator do
+    include ValidationHelpers
 
     let(:fee) { build :interim_fee }
     let(:disbursement_fee) { build :interim_fee, :disbursement }
@@ -86,7 +89,9 @@ module Fee
       end
     end
 
-    describe '#validate_amount' do
+    describe 'amount validations' do
+      include_examples 'common amount validations'
+
       context 'disbursement fee' do
         it 'is invalid if present' do
           disbursement_fee.amount = 3
@@ -100,26 +105,6 @@ module Fee
           allow(interim_warrant_fee).to receive(:amount).and_return nil
           expect(interim_warrant_fee).not_to be_valid
           expect(interim_warrant_fee.errors[:amount]).to eq ['blank']
-        end
-
-        it 'is invalid if less than 0.01' do
-          interim_warrant_fee.amount = 0.00999
-          expect(interim_warrant_fee).not_to be_valid
-          expect(interim_warrant_fee.errors[:amount]).to eq ['numericality']
-        end
-      end
-
-      context 'other fee' do
-        it 'validates presence' do
-          allow(fee).to receive(:amount).and_return nil #mock amount of nil ass callback sets to 0
-          expect(fee).not_to be_valid
-          expect(fee.errors[:amount]).to eq ['blank']
-        end
-
-        it 'validates numericality' do
-          fee.amount = 0.00999
-          expect(fee).not_to be_valid
-          expect(fee.errors[:amount]).to eq ['numericality']
         end
       end
     end

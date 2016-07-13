@@ -24,5 +24,24 @@ shared_examples 'common fee date validations' do
       expect(fee.errors[:date]).to include 'not_before_earliest_representation_order_date'
     end
   end
+end
 
+shared_examples 'common amount validations' do
+  describe '#validate_amount' do
+    it 'should error if amount is blank' do
+      should_error_if_equal_to_value(fee, :amount, '', 'numericality')
+    end
+
+    it 'should error if amount is equal to zero' do
+      should_error_if_equal_to_value(fee, :amount, 0.00, 'numericality')
+    end
+
+    it 'should error if amount is less than zero' do
+      should_error_if_equal_to_value(fee, :amount, -10.00, 'numericality')
+    end
+
+    it 'should error if amount is greater than the max limit' do
+      should_error_if_equal_to_value(fee, :amount, 200_001, 'item_max_amount')
+    end
+  end
 end

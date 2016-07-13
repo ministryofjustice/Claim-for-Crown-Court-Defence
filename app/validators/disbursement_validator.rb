@@ -24,16 +24,10 @@ class DisbursementValidator < BaseValidator
   end
 
   def validate_net_amount
-    validate_presence_and_numericality_for(:net_amount) || validate_zero_or_negative(:net_amount, 'zero_or_negative')
+    validate_presence_and_numericality(:net_amount, minimum: 0.1)
   end
 
   def validate_vat_amount
-    validate_presence_and_numericality_for(:vat_amount) || validate_amount_greater_than(:vat_amount, :net_amount, 'greater_than')
+    validate_vat_numericality(:vat_amount, lower_than_field: :net_amount, allow_blank: false)
   end
-
-  def validate_presence_and_numericality_for(field)
-    validate_presence(field, 'blank')
-    validate_numericality(field, 0, nil, 'numericality')
-  end
-
 end

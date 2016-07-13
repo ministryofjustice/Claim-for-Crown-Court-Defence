@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.dirname(__FILE__) + '/../validation_helpers'
+require_relative '../validation_helpers'
 
 describe Fee::BaseFeeValidator do
 
@@ -346,6 +346,8 @@ describe Fee::BaseFeeValidator do
     end
 
     context 'any other fee' do
+      before { fee.rate = 1 }
+
       it { should_error_if_equal_to_value(fee, :quantity, -1, 'invalid') }
       it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
       it { should_error_if_equal_to_value(fee, :quantity, 100000,    'invalid') }
@@ -353,13 +355,19 @@ describe Fee::BaseFeeValidator do
       it 'should not allow zero if amount is not zero' do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
       end
+
+      it 'should error if resulting amount (rate * quantity) is greater than the max limit' do
+        fee.rate = 101
+        fee.quantity = 2000
+        expect(fee).not_to be_valid
+        expect(fee.errors[:amount]).not_to be_empty
+      end
     end
   end
 
   describe '#validate_amount' do
 
     context 'uncalculated fee validate amount against quantity' do
-
       it 'should be valid if quantity greater than zero and amount is nil, zero or greater than zero' do
         should_be_valid_if_equal_to_value(ppe_fee, :amount, nil)
         should_be_valid_if_equal_to_value(ppe_fee, :amount, 0.00)
@@ -369,6 +377,11 @@ describe Fee::BaseFeeValidator do
       it 'should error if amount less than zero' do
         should_error_if_equal_to_value(ppe_fee, :amount, -200, 'ppe_invalid')
         should_error_if_equal_to_value(npw_fee, :amount, -200, 'npw_invalid')
+      end
+
+      it 'should error if amount is greater than the max limit' do
+        should_error_if_equal_to_value(ppe_fee, :amount, 200_001, 'ppe_invalid')
+        should_error_if_equal_to_value(npw_fee, :amount, 200_001, 'npw_invalid')
       end
 
       it 'should error if amount greater than zero and quantity is nil, zero or less than zero' do

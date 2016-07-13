@@ -33,15 +33,17 @@ describe DisbursementValidator do
   end
 
   describe '#validate_net_amount' do
-    it { should_error_if_equal_to_value(disbursement, :net_amount, 0,   'zero_or_negative') }
+    it { should_error_if_equal_to_value(disbursement, :net_amount, 0,    'numericality') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, -1,   'numericality') }
     it { should_error_if_equal_to_value(disbursement, :net_amount, nil,  'blank') }
+    it { should_error_if_equal_to_value(disbursement, :net_amount, 200_001, 'item_max_amount') }
   end
 
   describe '#validate_vat_amount' do
     it { should_be_valid_if_equal_to_value(disbursement, :vat_amount, 0) }
     it { should_error_if_equal_to_value(disbursement, :vat_amount, -1, 'numericality') }
     it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'blank') }
+    it { should_error_if_equal_to_value(disbursement, :vat_amount, 200_001, 'item_max_amount') }
 
     context 'vat greater than net amount' do
       before do

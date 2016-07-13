@@ -90,7 +90,29 @@ describe Claim::BaseClaimValidator do
 
       end
     end
+  end
 
+  context 'total' do
+    before do
+      allow(claim).to receive(:total).and_return(total)
+      claim.form_step = 2
+    end
+
+    context 'when total is not greater than 0' do
+      let(:total) { 0.0 }
+
+      it 'should error' do
+        should_error_with(claim, :total, 'numericality')
+      end
+    end
+
+    context 'when total is greater than the max limit' do
+      let(:total) { 1_000_123 }
+
+      it 'should error' do
+        should_error_with(claim, :total, 'claim_max_amount')
+      end
+    end
   end
 
   context 'case_number' do

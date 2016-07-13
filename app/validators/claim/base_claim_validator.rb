@@ -41,9 +41,10 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_total
-    unless @record.source == 'api'
-      validate_numericality(:total, 0.01, nil, "value claimed must be greater than £0.00")
-    end
+    return if @record.source == 'api'
+
+    validate_numericality(:total, 0.1, nil, 'numericality')
+    validate_amount_less_than_claim_max(:total)
   end
 
   # ALWAYS required/mandatory

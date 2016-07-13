@@ -20,6 +20,7 @@ dictionary:
     enter_valid_quantity: &enter_valid_quantity 'Enter a valid quantity'
     enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
     item_max_amount: &item_max_amount 'Amount exceeds limit'
+    claim_max_amount: &claim_max_amount 'Amount claimed exceeds limit'
 
 # applies to defendant, fee, expense
 claim:
@@ -1521,3 +1522,14 @@ interim_fee:
       long: Adding a warrant to this claim is not allowed
       short: Do not add a warrant
       api: Adding a warrant to this claim is not allowed
+
+total:
+  _seq: 9999
+  numericality:
+    long: Total value claimed must be greater than £0.00
+    short: *check_amount
+    api: Total value claimed must be greater than £0.00
+  claim_max_amount:
+    long: Total value claimed exceeds the maximum claim limit
+    short: *claim_max_amount
+    api: Total value claimed exceeds the maximum claim limit

@@ -19,6 +19,7 @@ dictionary:
     check_amount: &check_amount 'Check amount'
     enter_valid_quantity: &enter_valid_quantity 'Enter a valid quantity'
     enter_valid_rate: &enter_valid_rate 'Enter a valid rate'
+    item_max_amount: &item_max_amount 'Amount exceeds limit'
 
 # applies to defendant, fee, expense
 claim:
@@ -1129,6 +1130,10 @@ expense:
       long: 'Enter a valid amount for the #{expense}'
       short: *enter_valid_amount
       api: Enter a valid amount for the expense
+    item_max_amount:
+      long: 'The amount for the #{expense} exceeds the limit'
+      short: *item_max_amount
+      api: The amount for the expense exceeds the limit
 
   vat_amount:
     _seq: 25
@@ -1144,6 +1149,10 @@ expense:
       long: "VAT amount doesn't apply for the #{expense}"
       short: "VAT amount doesn't apply"
       api: "VAT amount doesn't apply for the expense"
+    item_max_amount:
+      long: 'VAT amount for the #{expense} exceeds the limit'
+      short: *item_max_amount
+      api: VAT amount for the expense exceeds the limit
 
   location:
     _seq: 30
@@ -1302,10 +1311,10 @@ disbursement:
       long: 'Enter a valid net amount for the #{disbursement}'
       short: Enter a valid net amount
       api: Enter a valid net amount for the disbursement
-    zero_or_negative:
-      long: 'Enter a positive net amount for the #{disbursement}'
-      short: Enter a positive net amount
-      api: Enter a positive net amount for the disbursement
+    item_max_amount:
+      long: 'The net amount for the #{disbursement} exceeds the limit'
+      short: *item_max_amount
+      api: The net amount for the disbursement exceeds the limit
 
   vat_amount:
     _seq: 30
@@ -1325,6 +1334,10 @@ disbursement:
       long: "VAT amount doesn't apply for the #{disbursement}"
       short: "VAT amount doesn't apply"
       api: "VAT amount doesn't apply for the disbursement"
+    item_max_amount:
+      long: 'VAT amount for the #{disbursement} exceeds the limit'
+      short: *item_max_amount
+      api: VAT amount for the disbursement exceeds the limit
 
 #################################################################################
 #                                                                               #

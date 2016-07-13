@@ -134,4 +134,22 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute) > @record.__send__(another_attribute)
   end
 
+  def validate_amount_less_than_item_max(attribute, message = 'item_max_amount')
+    validate_float_numericality(attribute, nil, Settings.max_item_amount, message)
+  end
+
+  def validate_amount_less_than_claim_max(attribute, message = 'claim_max_amount')
+    validate_float_numericality(attribute, nil, Settings.max_claim_amount, message)
+  end
+
+  def validate_presence_and_numericality(field, minimum: 0, allow_blank: false)
+    validate_presence(field, 'blank') unless allow_blank
+    validate_float_numericality(field, minimum, nil, 'numericality')
+    validate_amount_less_than_item_max(field)
+  end
+
+  def validate_vat_numericality(field, lower_than_field:, allow_blank: true)
+    validate_presence_and_numericality(field, minimum: 0, allow_blank: allow_blank)
+    validate_amount_greater_than(field, lower_than_field, 'greater_than')
+  end
 end

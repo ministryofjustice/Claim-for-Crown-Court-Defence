@@ -18,6 +18,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(2) }
 
+    it { should_error_if_equal_to_value(expense, :amount, 200_001, 'item_max_amount') }
+
     describe '#validate_vat_amount for AGFS claims' do
       it 'is valid if absent' do
         expense.vat_amount = nil
@@ -43,6 +45,8 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     describe '#validate_vat_amount for LGFS claims' do
       let(:claim) { build :litigator_claim, force_validation: true }
+
+      it { should_error_if_equal_to_value(expense, :vat_amount, 200_001, 'item_max_amount') }
 
       it 'is valid if absent' do
         expense.vat_amount = nil

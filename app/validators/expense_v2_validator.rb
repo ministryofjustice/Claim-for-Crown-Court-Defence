@@ -32,13 +32,12 @@ class ExpenseV2Validator < BaseValidator
   end
 
   def validate_amount
-    validate_presence(:amount, 'blank')
+    validate_presence_and_numericality(:amount, minimum: 0.1)
   end
 
   def validate_vat_amount
     if @record.claim.lgfs?
-      validate_float_numericality(:vat_amount, 0.0, nil, 'numericality')
-      validate_amount_greater_than(:vat_amount, :amount, 'greater_than')
+      validate_vat_numericality(:vat_amount, lower_than_field: :amount)
     else
       validate_absence_or_zero(:vat_amount, 'invalid')
     end
@@ -72,7 +71,7 @@ class ExpenseV2Validator < BaseValidator
 
   def validate_distance
     if @record.car_travel?
-      validate_presence_and_numericality(:distance)
+      validate_presence_and_numericality(:distance, minimum: 0.1)
     else
       validate_absence(:distance, 'invalid')
     end
@@ -97,16 +96,9 @@ class ExpenseV2Validator < BaseValidator
 
   def validate_hours
     if @record.travel_time?
-      validate_presence_and_numericality(:hours)
+      validate_presence_and_numericality(:hours, minimum: 0.1)
     else
       validate_absence(:hours, 'invalid')
     end
-  end
-
-  # helpers for common validation combos
-  #
-  def validate_presence_and_numericality(attribute)
-    validate_presence(attribute, 'blank')
-    validate_float_numericality(attribute, 0.1, nil, 'numericality')
   end
 end

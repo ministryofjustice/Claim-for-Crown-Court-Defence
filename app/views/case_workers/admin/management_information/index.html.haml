@@ -16,7 +16,7 @@
 
   - unless @time_generated.nil?
     .form.fieldset.label
-    = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button"
+    = link_to 'Download', case_workers_admin_management_information_download_url(format: :csv), class: "button btn-spacer-40 btn-spacer-20"
 
   .form.fieldset.label
   = link_to 'Regenerate', case_workers_admin_management_information_generate_url, class: "button"

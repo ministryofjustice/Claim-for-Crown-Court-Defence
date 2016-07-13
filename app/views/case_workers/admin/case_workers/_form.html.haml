@@ -1,31 +1,30 @@
-= form_for [:case_workers, :admin, @case_worker] do |f|
+= form_for [:case_workers, :admin, @case_worker], builder: AdpFormBuilder do |f|
   = f.fields_for :user do |user_fields|
     %fieldset
       %legend
         = 'Case worker details'
-      .form-group
-        = user_fields.label :first_name, t('.first_name'), class: "form-label"
-        = user_fields.text_field :first_name, class: "form-control"
-      .form-group
-        = user_fields.label :last_name, t('.last_name'), class: "form-label"
-        = user_fields.text_field :last_name, class: "form-control"
-      .form-group
-        = user_fields.label :email, t('.email'), class: "form-label"
-        = user_fields.email_field :email, class: "form-control"
+
+      = user_fields.adp_text_field :first_name, label: t('.first_name')
+
+      = user_fields.adp_text_field :last_name, label: t('.last_name')
+
+      = user_fields.adp_text_field :email, label: t('.email')
+
       - if @case_worker.new_record?
-        .form-group
-          = user_fields.label :email_confirmation, t('.email_confirmation'), class: "form-label"
-          = user_fields.email_field :email_confirmation, class: "form-control"
+        = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
+
       %fieldset.inline
         %legend
           = 'Location'
-        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-          - b.label(class: "block-label") { b.radio_button + b.object.name }
+        .form-group
+          = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
+            - b.label(class: "block-label") { b.radio_button + b.object.name }
 
       %fieldset.inline
         %legend
           = 'Roles'
-        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-          - b.label(class: "block-label") { b.check_box + b.value.humanize }
+        .form-group
+          = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
+            - b.label(class: "block-label") { b.check_box + b.value.humanize }
 
     = f.submit 'Save', class: "button"

@@ -4,19 +4,15 @@
       %legend
         = 'Case worker details'
 
-      = f.adp_text_field :first_name,
-                          label: t('.first_name')
+      = user_fields.adp_text_field :first_name, label: t('.first_name')
 
-      = f.adp_text_field :last_name,
-                          label: t('.last_name')
+      = user_fields.adp_text_field :last_name, label: t('.last_name')
 
-      = f.adp_text_field :email,
-                          label: t('.email'),
-                          input_classes: 'long-input'
+      = user_fields.adp_text_field :email, label: t('.email')
 
       - if @case_worker.new_record?
-        = f.adp_text_field :email_confirmation,
-                          label: t('.email_confirmation')
+        = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
+
       %fieldset.inline
         %legend
           = 'Location'

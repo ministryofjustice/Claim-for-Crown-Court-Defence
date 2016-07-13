@@ -6,7 +6,7 @@ module Stats
   describe ClaimSubmissionsDataGenerator do
     it 'should instantiate' do
       populate_statistics_table
-      expect(ClaimSubmissionsDataGenerator.new.run).to eq expected_output
+      expect(ClaimSubmissionsDataGenerator.new.run.to_json).to eq expected_output.to_json
     end
 
     def populate_statistics_table
@@ -53,7 +53,7 @@ module Stats
             'data' => [50, 60, 70 ,80, 90]
           }
         ]
-      }.to_json
+      }
     end
   end
 end

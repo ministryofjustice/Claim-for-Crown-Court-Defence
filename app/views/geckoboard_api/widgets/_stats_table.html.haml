@@ -1,0 +1,13 @@
+-# payload is a GeckoWidgets::LineGraph object
+%p
+= link_to 'Return to Statistics Page', statistics_path
+
+%table
+  %tr
+    %th Date
+    - payload.dataset_names.each do |source|
+      %th= source
+  - payload.to_a.each do |row|
+    %tr
+      - row.each do |value|
+        %td= value

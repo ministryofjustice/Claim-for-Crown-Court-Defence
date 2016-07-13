@@ -393,6 +393,10 @@ form {
 .certification {
   ul, ol {
     list-style-type: initial;
+
+  }
+  ul{
+    margin-left: 7%;
   }
   li {
     margin-bottom: $gutter;
@@ -409,6 +413,10 @@ form {
   }
   .button-holder {
     margin-top: $gutter;
+  }
+  .radio-wrapper{
+    margin-left: 5%;
+    @include clearfix;
   }
 }
 // ================================================================//

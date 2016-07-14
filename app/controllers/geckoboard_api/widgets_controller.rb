@@ -37,6 +37,10 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_payload_from_class(Stats::TimeToCompletionDataGenerator)
   end
 
+  def redeterminations_average
+    respond_payload_from_class(Stats::ClaimRedeterminationsDataGenerator)
+  end
+
   private
 
   def respond_payload_from_class(klass)

@@ -167,6 +167,7 @@ Rails.application.routes.draw do
       get 'time_reject_to_auth'
       get 'completion_rate'
       get 'time_to_completion'
+      get 'redeterminations_average'
     end
   end
 

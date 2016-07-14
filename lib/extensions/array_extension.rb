@@ -8,4 +8,8 @@ module ArrayExtension
     replace(zeroize_nils(value))
   end
 
+  def average(total = size)
+    any? ? sum.to_f / total : 0
+  end
+
 end

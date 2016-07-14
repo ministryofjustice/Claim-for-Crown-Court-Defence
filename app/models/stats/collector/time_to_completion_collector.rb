@@ -40,7 +40,7 @@ module Stats
       # use the average of the previous seven days
       def calculate_average
         values = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date - 1.day).pluck(:value_1)
-        values.empty? ? 0 : values.sum / values.size
+        values.average
       end
 
     end

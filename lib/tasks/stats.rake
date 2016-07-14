@@ -11,6 +11,7 @@ namespace :stats do
       Stats::Collector::TimeFromRejectToAuthCollector.new(date).collect
       Stats::Collector::CompletionRateCollector.new(date).collect
       Stats::Collector::TimeToCompletionCollector.new(date).collect
+      Stats::Collector::ClaimRedeterminationsCollector.new(date).collect
     end
   end
 end

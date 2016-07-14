@@ -33,7 +33,8 @@ class DailyStatsGenerator < Scheduler::SchedulerTask
       Stats::Collector::InfoRequestCountCollector,
       Stats::Collector::TimeFromRejectToAuthCollector,
       Stats::Collector::CompletionRateCollector,
-      Stats::Collector::TimeToCompletionCollector
+      Stats::Collector::TimeToCompletionCollector,
+      Stats::Collector::ClaimRedeterminationsCollector
     ]
   end
 end

@@ -20,7 +20,7 @@ module Stats
         claim_ids.each do |claim_id|
           period_total += days_reject_to_auth(claim_id)
         end
-        avg = period_total / claim_count
+        avg = claim_count.zero? ? 0 : period_total / claim_count
         Statistic.create_or_update(@date, 'time_reject_to_auth', 'Claim::BaseClaim', avg, claim_count)
       end
 

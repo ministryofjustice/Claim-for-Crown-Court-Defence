@@ -20,7 +20,7 @@ end
 
 Given(/an? "(.*?)" user account exists$/) do |role|
   accounts = make_accounts(role)
-  eval "@#{role.gsub(' ','_')} = accounts.first"
+  instance_variable_set("@#{role.gsub(' ', '_')}", accounts.first)
 end
 
 Given(/^I am a signed in advocate$/) do

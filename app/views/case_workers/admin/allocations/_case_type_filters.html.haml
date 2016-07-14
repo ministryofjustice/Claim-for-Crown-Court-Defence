@@ -1,8 +1,8 @@
-%fieldset.inline.allocation-filter-form
-  .form-row.form-group
-    .form-col
-      %legend
-        = t('.case_types')
-      = select_tag :filter, options_for_select(allocation_filters_for_scheme(params[:scheme] || 'agfs').collect{ |filter| [filter.humanize, filter] }, params[:filter]), class: 'form-control'
-    .form-col{ style: 'padding: 26px 0 0' }
-      = submit_tag 'Select', class: 'button'
+%fieldset.inline.allocation-filter-form.form-row
+  .form-col.form-group
+    %label{for: 'filter'}
+      = t('.case_types')
+
+    = select_tag :filter, options_for_select(allocation_filters_for_scheme(params[:scheme] || 'agfs').collect{ |filter| [filter.humanize, filter] }, params[:filter]), class: 'form-control'
+  .form-col{ style: 'padding: 26px 0 0' }
+    = submit_tag 'Select', class: 'button'

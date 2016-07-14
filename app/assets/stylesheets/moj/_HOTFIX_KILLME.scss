@@ -104,3 +104,13 @@ td {
     }
   }
 }
+
+
+.unique-id-small{
+  display: block;
+}
+.case-number-header{
+  .unique-id-small{
+    display: inline-block;
+  }
+}

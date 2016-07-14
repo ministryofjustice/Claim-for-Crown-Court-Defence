@@ -20,7 +20,7 @@
         = label_tag :quantity_to_allocate, t('.no_of_claims')
         = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
       .form-col
-        = f.label :case_worker_id, t('dictionary.models.case_worker')
+        = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
         = f.grouped_collection_select :case_worker_id, Location.includes(case_workers: :user), :case_workers, :name, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
       .form-col{ style: 'padding: 26px 0 0' }
         = f.submit 'Allocate', class: 'button'
@@ -62,7 +62,7 @@
                 %td
                   %span.js-test-case-number
                     = link_to claim.case_number , case_workers_claim_path(claim)
-                    %div.unique-id-small= claim.unique_id
+                    %span.unique-id-small= claim.unique_id
                 %td
                   = claim.external_user.name
                 %td

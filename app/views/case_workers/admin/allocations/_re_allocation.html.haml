@@ -19,22 +19,23 @@
   %fieldset.inline
     %legend.normal
       = "Allocate to"
-    .form-hint
-      To de-allocate claims, choose "Allocation pool".
-      %br
-      To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
+    .form-group
+      .form-hint
+        To de-allocate claims, choose "Allocation pool".
+        %br
+        To re-allocate claims to another case worker, choose "Case worker" and then select their name from the dropdown that appears below.
 
-    .js-re-allocation-options
-      = f.label :deallocate, value: true, class: 'block-label' do
-        Allocation pool
-        = f.radio_button :deallocate, true, checked: false, value: true
+      .js-re-allocation-options
+        = f.label :deallocate, value: true, class: 'block-label' do
+          Allocation pool
+          = f.radio_button :deallocate, true, checked: false, value: true
 
-      = f.label :deallocate, value: false, class: 'block-label' do
-        Case worker
-        = f.radio_button :deallocate, false, checked: true, value: false
+        = f.label :deallocate, value: false, class: 'block-label' do
+          Case worker
+          = f.radio_button :deallocate, false, checked: true, value: false
 
   .js-case-worker-list
-    .column-half
+    .column-half.form-group
       = f.label :case_worker_id
       = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
 

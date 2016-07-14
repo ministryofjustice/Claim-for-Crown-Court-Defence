@@ -9,7 +9,7 @@ class AllocationPage < SitePrism::Page
     "#new_allocation > div.grid-row > div > div:nth-of-type(3) > input"
 
   sections :allocations, "table.report > tbody > tr" do
-    element :case_number, "td:nth-of-type(2) span"
+    element :case_number, "td:nth-of-type(2) span.js-test-case-number"
   end
 
   def select_case_worker(name)

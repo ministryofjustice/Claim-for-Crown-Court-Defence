@@ -27,13 +27,8 @@ class MessagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.js {
-        x = "XX"
-        x
-      }
-      format.html {
-        redirection = redirect_to_url
-        redirect_to redirect_to_url, @notification }
+      format.js
+      format.html { redirect_to redirect_to_url, @notification }
     end
   end
 

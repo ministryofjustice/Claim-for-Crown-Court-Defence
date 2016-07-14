@@ -10,20 +10,20 @@
         %th{scope:'col'}
           = t('.type')
       %th{scope:'col'}
-        = sortable 'case_number', t(".case_number_html")
+        = sortable 'case_number', t(".case_number")
       - if current_user.persona.admin?
         %th{scope:'col'}
           = sortable 'advocate', t(".advocate_litigator")
       %th{scope:'col'}
         = t(".defendants")
       %th.numeric{scope:'col'}
-        = sortable 'total_inc_vat', t(".total_html")
+        = sortable 'total_inc_vat', t(".total")
       %th.numeric{scope:'col'}
-        = sortable 'amount_assessed', t(".assessed_html")
+        = sortable 'amount_assessed', t(".assessed")
       %th{scope:'col'}
-        = sortable 'state', t(".status_html")
+        = sortable 'state', t(".status")
       %th.numeric{scope:'col'}
-        = sortable 'last_submitted_at', t(".submission_date_html")
+        = sortable 'last_submitted_at', t(".submission_date")
       %th{scope:'col', tabindex:0}
         = t(".messages")
     %tbody

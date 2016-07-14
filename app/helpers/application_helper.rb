@@ -69,9 +69,15 @@ module ApplicationHelper
   def sortable(column, title = nil)
     title ||= column.titleize
     title = column == sort_column ? ("#{title} " + (sort_direction == 'asc' ? "\u25B2" : "\u25BC")) : title
+
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
-    link_to title.html_safe, params.except(:page).merge({ sort: column, direction: direction, anchor: 'listanchor' }), { class: css_class, tabindex: 0 }
+
+    hidden_hint = content_tag(:span, 'click to order by this column', class: 'visuallyhidden')
+    query_params = params.except(:page).merge({sort: column, direction: direction, anchor: 'listanchor'})
+    html_options = {class: css_class, tabindex: 0}
+
+    link_to [title, hidden_hint].join(' ').html_safe, query_params, html_options
   end
 
   def dom_id(record, prefix = nil)

@@ -512,13 +512,13 @@ en:
         scheme: Scheme
         messages: 'Messages'
         defendants: 'Defendant(s)'
-        case_number_html: 'Case number <span class="visuallyhidden">click to order by this column</span></a>'
+        case_number: 'Case number'
         case_type: 'Case type'
-        submission_date_html: 'Date submitted <span class="visuallyhidden">click to order by this column</span></a>'
+        submission_date: 'Date submitted'
         authorised_date: 'Date authorised'
-        total_html: 'Claimed <span class="visuallyhidden">click to order by this column</span></a>'
-        assessed_html: 'Assessed <span class="visuallyhidden">click to order by this column</span></a>'
-        status_html: 'Status  <span class="visuallyhidden">click to order by this column</span></a>'
+        total: 'Claimed'
+        assessed: 'Assessed'
+        status: 'Status'
         view: *view
         edit: *edit
         delete: *delete

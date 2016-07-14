@@ -10,21 +10,21 @@
         %th{scope:'col'}
           = t('.type')
       %th{scope:'col'}
-        = sortable 'case_number', t(".case_number")
+        = sortable 'case_number', t(".case_number_html")
       - if current_user.persona.admin?
         %th{scope:'col'}
           = sortable 'advocate', t(".advocate_litigator")
       %th{scope:'col'}
         = t(".defendants")
       %th.numeric{scope:'col'}
-        = sortable 'total_inc_vat', t(".total")
+        = sortable 'total_inc_vat', t(".total_html")
       %th.numeric{scope:'col'}
-        = sortable 'amount_assessed', t(".assessed")
+        = sortable 'amount_assessed', t(".assessed_html")
       %th{scope:'col'}
-        = sortable 'state', t(".status")
+        = sortable 'state', t(".status_html")
       %th.numeric{scope:'col'}
-        = sortable 'last_submitted_at', t(".submission_date")
-      %th{scope:'col'}
+        = sortable 'last_submitted_at', t(".submission_date_html")
+      %th{scope:'col', tabindex:0}
         = t(".messages")
     %tbody
       - present_collection(claims).each do |claim|

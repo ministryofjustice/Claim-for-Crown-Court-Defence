@@ -14,6 +14,6 @@
             = hint_text
         = text_field_tag :search, params[:search], class: "form-control search"
         = button_tag(type: 'submit', class: 'button search', title: "#{ t('common.search') }") do
-          %img{:src => image_path('icons/search-ico.svg'), :class => "search-icon"}/
+          %img{:src => image_path('icons/search-ico.svg'), :alt => 'Click to search',:class => "search-icon"}/
 
   = yield :search_html_block

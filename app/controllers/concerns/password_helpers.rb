@@ -25,7 +25,7 @@ module PasswordHelpers
   private
 
   def user_for_controller_action
-    eval("@#{controller_name.singularize}").user
+    instance_variable_get("@#{controller_name.singularize}").user
   end
 
   def params_with_temporary_password

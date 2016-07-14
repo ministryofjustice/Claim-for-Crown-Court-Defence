@@ -47,7 +47,8 @@ class MessagesController < ApplicationController
   private
 
   def redirect_to_url
-    eval("#{current_user.persona.class.to_s.pluralize.underscore}_claim_path(@message.claim, messages: true)") + '#claim-accordion'
+    method = "#{current_user.persona.class.to_s.pluralize.underscore}_claim_path"
+    __send__(method, @message.claim, messages: true) +  '#claim-accordion'
   end
 
   def refresh_required?

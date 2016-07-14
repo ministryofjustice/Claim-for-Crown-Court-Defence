@@ -168,6 +168,8 @@ Rails.application.routes.draw do
       get 'completion_rate'
       get 'time_to_completion'
       get 'redeterminations_average'
+      get 'money_to_date'
+      get 'money_claimed_per_month'
     end
   end
 

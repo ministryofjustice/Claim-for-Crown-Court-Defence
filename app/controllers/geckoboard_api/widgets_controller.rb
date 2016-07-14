@@ -41,6 +41,14 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_payload_from_class(Stats::ClaimRedeterminationsDataGenerator)
   end
 
+  def money_to_date
+    respond_payload_from_class(Stats::MoneyToDateDataGenerator)
+  end
+
+  def money_claimed_per_month
+    respond_payload_from_class(Stats::MoneyClaimedPerMonthDataGenerator)
+  end
+
   private
 
   def respond_payload_from_class(klass)

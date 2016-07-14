@@ -13,5 +13,15 @@ namespace :stats do
       Stats::Collector::TimeToCompletionCollector.new(date).collect
       Stats::Collector::ClaimRedeterminationsCollector.new(date).collect
     end
+
+    # and this one just has to be run the once
+    Stats::Collector::MoneyToDateCollector.new(Date.today).collect
+
+    # and this one we run just once per month for the last day of each month.
+    date = Date.new(2015, 11, 1)
+    while date < Date.today do
+      Stats::Collector::MoneyClaimedPerMonthCollector.new(date).collect
+      date += 1.month
+    end
   end
 end

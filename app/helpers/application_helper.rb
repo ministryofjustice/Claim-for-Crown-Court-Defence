@@ -106,4 +106,11 @@ module ApplicationHelper
     current_user.persona.has_roles?('admin') || current_user.persona.has_roles?('litigator')
   end
 
+  def title(page_title)
+    content_for :page_title, [page_title, 'Claim for crown court defence', 'Gov.uk'].join(' - ')
+  end
+
+  def contextual_title
+    title [controller_name, action_name].join(' ').titleize
+  end
 end

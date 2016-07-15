@@ -1,5 +1,6 @@
-= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'This feedback has '}
+- title 'Feedback'
 
+= render partial: 'errors/error_summary', locals:{ ep: @feedback, error_summary: 'This feedback has '}
 = render partial: 'layouts/header', locals: {page_heading: 'Help us improve this service'}
 
 .body-content

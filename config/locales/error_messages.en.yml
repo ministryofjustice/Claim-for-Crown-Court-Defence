@@ -317,10 +317,6 @@ trial_fixed_notice_at:
     long: 'Check the date for "Notice of 1st fixed/warned issued"'
     short: *too_far_in_past
     api: 'Check the date for "Notice of 1st fixed/warned issued"'
-  check_not_earlier_than_rep_order:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: *before_rep_order
-    api: 'Check the date for "Notice of 1st fixed/warned issued"'
   invalid_date:
     long: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
     short: *enter_valid_date
@@ -335,10 +331,6 @@ trial_fixed_at:
   check_not_too_far_in_past:
     long: 'Check the date for "1st fixed/warned trial"'
     short: *too_far_in_past
-    api: 'Check the date for "1st fixed/warned trial"'
-  check_not_earlier_than_rep_order:
-    long: 'Check the date for "1st fixed/warned trial"'
-    short: *before_rep_order
     api: 'Check the date for "1st fixed/warned trial"'
   check_not_earlier_than_trial_fixed_notice_at:
     long: 'Check the date for "1st fixed/warned trial"'
@@ -362,10 +354,6 @@ trial_cracked_at:
   check_not_too_far_in_past:
     long: 'Check the date for "Case cracked"'
     short: *too_far_in_past
-    api: 'Check the date for "Case cracked"'
-  check_not_earlier_than_rep_order:
-    long: 'Check the date for "Case cracked"'
-    short: *before_rep_order
     api: 'Check the date for "Case cracked"'
   check_not_earlier_than_trial_fixed_notice_at:
     long: 'Check the date for "Case cracked"'

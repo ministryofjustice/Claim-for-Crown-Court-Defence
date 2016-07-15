@@ -103,10 +103,6 @@ class BaseValidator < ActiveModel::Validator
     @record.errors.add(attribute, message)
   end
 
-  def case_type_in(*case_types)
-    case_types.include?(@record.case_type.name) rescue false
-  end
-
   def validate_not_after(date, attribute, message)
     return if attr_nil?(attribute) || date.nil?
     add_error(attribute, message) if @record.__send__(attribute) > date.to_date

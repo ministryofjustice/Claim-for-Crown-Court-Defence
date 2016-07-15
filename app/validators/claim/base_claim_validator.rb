@@ -145,7 +145,6 @@ class Claim::BaseClaimValidator < BaseValidator
       validate_presence(:trial_fixed_notice_at, "blank")
       validate_not_after(Date.today, :trial_fixed_notice_at, "check_not_in_future")
       validate_not_before(Settings.earliest_permitted_date, :trial_fixed_notice_at, "check_not_too_far_in_past")
-      validate_not_before(earliest_rep_order, :trial_fixed_notice_at, "check_not_earlier_than_rep_order")
     end
   end
 
@@ -158,7 +157,6 @@ class Claim::BaseClaimValidator < BaseValidator
     if @record.case_type && @record.requires_cracked_dates?
       validate_presence(:trial_fixed_at, "blank")
       validate_not_before(Settings.earliest_permitted_date, :trial_fixed_at, "check_not_too_far_in_past")
-      validate_not_before(earliest_rep_order, :trial_fixed_at, "check_not_earlier_than_rep_order")
       validate_not_before(@record.trial_fixed_notice_at, :trial_fixed_at, "check_not_earlier_than_trial_fixed_notice_at")
     end
   end
@@ -173,7 +171,6 @@ class Claim::BaseClaimValidator < BaseValidator
       validate_presence(:trial_cracked_at, "blank")
       validate_not_after(Date.today, :trial_cracked_at, "check_not_in_future")
       validate_not_before(Settings.earliest_permitted_date, :trial_cracked_at, "check_not_too_far_in_past")
-      validate_not_before(earliest_rep_order, :trial_cracked_at, "check_not_earlier_than_rep_order")
       validate_not_before(@record.trial_fixed_notice_at, :trial_cracked_at, "check_not_earlier_than_trial_fixed_notice_at")
     end
   end

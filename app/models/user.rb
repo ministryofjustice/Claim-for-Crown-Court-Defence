@@ -46,8 +46,6 @@ class User < ActiveRecord::Base
   validates :email, confirmation: true
   attr_accessor :email_confirmation
 
-  validate :validate_no_plus_suffix
-
   # enable current_user to directly call persona methods (in controllers)
   delegate :claims, to: :persona
   delegate :claims_created, to: :persona
@@ -70,13 +68,4 @@ class User < ActiveRecord::Base
   def unauthenticated_message
     override_paranoid_setting(false) { super }
   end
-
-  private
-
-  def validate_no_plus_suffix
-    if self.email =~ /\+/
-      errors[:email] << '"+" not allowed in addresses'
-    end
-  end
-
 end

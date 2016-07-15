@@ -60,8 +60,115 @@
 
     %li
       API to submit litigator claims: Work on this is starting now and expected to be available for beta testing
-      by the end of June. We will release documentation for litigator claims within the next two weeks.
+    by the end of June. We will release documentation for litigator claims within the next two weeks.
 
     %li
       Submitted dates must conform to ISO 8601, being the time information and time zone offset optional.
       Examples: 2016-12-31, 2016-12-31T11:45, 2016-12-31T11:45:30Z
+
+  %h2 July 2016
+
+  %ul.list-bullet
+    %li
+      Litigator Claims can now be submitted via the API. Please consult the
+      = link_to "interactive documentation", grape_swagger_rails_path
+      for further deatils.
+      %p
+      An overview of which endpoints to use for claim submission is as follows:
+      %table
+        %tr
+          %th Action
+          %th Endpoint URL
+        %tr
+          %td Validate advocate claim
+          %td POST /api/external_users/claims/validate
+        %tr
+          %td Create advocate claim
+          %td POST /api/external_users/claims
+        %tr
+          %td Validate litigator final claim
+          %td POST /api/external_users/claims/final/validate
+        %tr
+          %td Create litigator interim claim
+          %td POST /api/external_users/claims/final
+        %tr
+          %td Validate litigator interim claim
+          %td POST /api/external_users/claims/interim/validate
+        %tr
+          %td Create litigator interim claim
+          %td POST /api/external_users/claims/interim
+        %tr
+          %td Validate litigator transfer claim
+          %td POST /api/external_users/claims/transfer/validate
+        %tr
+          %td Create litigator transfer claim
+          %td POST /api/external_users/claims/transfer
+
+
+
+    %li
+      Disbursements can now be validated and added to a claim via the API via:
+      %table
+        %tr
+          %td POST /api/external_users/disbursements/validate
+        %tr
+          %td POST /api/external_users/disbursements
+
+    %li
+      A list of valid Disbursement Types can be retrieved via:
+      %table
+        %tr
+          %td GET /api/disbursement_types
+
+    %li
+      A list of valid Transfer Stages (to be used when creating a litigator transfer claim) can be retrieved via:
+      %table
+        %tr
+          %td GET /api/transfer_stages
+
+    %li
+      A list of valid Transfer Case Conclusions (to be used when creating a litigator transfer claim) can be retrieved via:
+      %table
+        %tr
+          %td GET /api/transfer_case_conclusions
+
+
+    %li
+      An attribute 'roles' has been added to the returned structure for the expense types to indicate their validity:
+
+      The roles attribute is an array and of one or both of the following values:
+      %table
+        %tr
+          %th Value
+          %th Meaning
+        %tr
+          %td agfs
+          %td The expense type is valid for advocate claims
+        %tr
+          %td lgfs
+          %td The expense type is valid for litigator final, litigater interim, and litigator transfer claims.
+
+    %li
+      An attribute 'roles' has been added to the returned structure for the case types to indicate their validity:
+
+      The roles attribute is an array and of one or many of the following values:
+      %table
+        %tr
+          %th Value
+          %th Meaning
+        %tr
+          %td agfs
+          %td The case type is valid for advocate claims
+        %tr
+          %td lgfs
+          %td The case type is valid for litigator final and litigator transfer claims.
+        %tr
+          %td interim
+          %td The case type is valid for litigator interim claims
+
+    %li
+      An attribute 'lgfs_offence_id' has been added to the returned structure for offence classes.  For litigator final, litigator
+      interim and litigator transfer claims, the offence id specified in the claim
+      %strong MUST
+      be one of the lgfs_offence_ids returned in the offence_classes list. You should still use the offence ids returned from the /api/offences
+      endpoint for advocate claims.

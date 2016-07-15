@@ -4,10 +4,13 @@ module Stats
 
       attr_reader :dataset_size
 
+      attr_writer :x_axis_labels
+
       def initialize
         @datasets = {}
         @series = []
         @dataset_size = nil
+        @x_axis_labels = nil
       end
 
       def add_dataset(name, dataset)
@@ -15,12 +18,13 @@ module Stats
         @dataset_size = dataset.size
       end
 
+
       # return a json structure in the format suitable for generating a Geckoboard Line graph widget
       def to_json
         generate_array_of_series
         {
           'x_axis' => {
-            'labels' => make_x_axis_labels
+            'labels' => (@x_axis_labels || make_x_axis_labels)
           },
           'series' => @series
         }.to_json
@@ -35,7 +39,7 @@ module Stats
         array = []
         (0..@dataset_size - 1).each do |i|
           row = []
-          row << (Date.today - (@dataset_size - i).days).strftime('%a %d %b %Y')
+          row << label_column(i)
           dataset_names.each do |dataset_name|
             row << @datasets[dataset_name][i]
           end
@@ -47,6 +51,15 @@ module Stats
 
 
       private
+
+      def label_column(i)
+        if @x_axis_labels.nil?
+          (Date.today - (@dataset_size - i).days).strftime('%a %d %b %Y')
+        else
+          @x_axis_labels[i]
+        end
+      end
+
 
       def generate_array_of_series
         @datasets.each do |name, dataset|

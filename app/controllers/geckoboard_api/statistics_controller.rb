@@ -13,7 +13,8 @@ class GeckoboardApi::StatisticsController < ApplicationController
       'Time reject to auth' => 'time_reject_to_auth',
       'Completion rate' => 'completion_rate',
       'Time to completion' => 'time_to_completion',
-      'Redeterminations average' => 'redeterminations_average'
+      'Redeterminations average' => 'redeterminations_average',
+      'Money claimed per month' => 'money_claimed_per_month'
     }
   end
 end

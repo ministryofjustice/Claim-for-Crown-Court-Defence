@@ -14,10 +14,19 @@ describe API::V1::ExternalUsers::RepresentationOrder do
   ALL_REP_ORDER_ENDPOINTS = [VALIDATE_REPRESENTATION_ORDER_ENDPOINT, CREATE_REPRESENTATION_ORDER_ENDPOINT]
   FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
 
+  let(:representation_order_date) { 10.days.ago }
+
   let!(:provider)      { create(:provider) }
   let!(:claim)         { create(:claim, source: 'api') }
   let!(:defendant)     { create(:defendant, claim: claim).reload }
-  let!(:valid_params)  { {api_key: provider.api_key, defendant_id: defendant.uuid, representation_order_date: '2015-06-10', maat_reference: '0123456789' } }
+  let!(:valid_params)  {
+    {
+        api_key: provider.api_key,
+        defendant_id: defendant.uuid,
+        representation_order_date: representation_order_date.as_json,
+        maat_reference: '0123456789'
+    }
+  }
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint

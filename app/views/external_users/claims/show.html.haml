@@ -1,4 +1,5 @@
-- present(@claim) do |claim|
+- title 'Claim details'
 
+- present(@claim) do |claim|
   = render partial: 'shared/claim_header', locals: {  claim: claim }
   = render partial: 'shared/claim_accordion', locals: { claim: claim, status_disabled: true }

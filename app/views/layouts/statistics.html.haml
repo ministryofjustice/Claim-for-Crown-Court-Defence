@@ -1,4 +1,7 @@
 - @disable_logo_link  = true
+
+- content_for?(:page_title) ? yield(:page_title) : contextual_title
+
 - content_for :head do
   %meta{:name =>"format-detection", :content => "telephone=no"}
   = stylesheet_link_tag "application", media: "all"

@@ -1,48 +1,13 @@
-var $importerResults = $('.importer-results');
+var $importerResults = $('.importer-results').empty();
 var $importButton = $('input.btn-import-file');
-var resetUploaderForm = function() { $('#importer').find('form').addClass('no-file-selected').find('.file-upload-name').empty(); };
+var resetUploaderForm = function() { $('#importer').find('form').find('.file-upload-name').empty();$('.btn-import-file').hide(); };
 
 $importerResults.find('.js-import-failed').remove();
 $importButton.prop('disabled', false).val('Import claim(s)');
 
-<% if @json_document_importer.imported_claims.any? %>
-	$importerResults.html(
-      '<div class="results-body import-success">' +
-        '<h4>Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, "new claim") %> in draft state</h4>' +
-        '<ul>' +
-        <% @json_document_importer.imported_claims.each do |claim| %>
-          '<li><%= claim.case_number %></li>' +
-        <% end %>
-        '</ul>' +
-      '</div>'
-  );
-	<% @json_document_importer.imported_claims.each do |imported_claim| %>
-		<% present(imported_claim) do |claim| %>
-      $('table.report').prepend(
-        '<tr class="<%= claim.state %>">' +
-          '<td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), external_users_claim_path(claim) %></td>' +
-          <% if current_user.persona.admin? %>
-            '<td><%= claim.external_user.name %></td>' +
-          <% end %>
-          '<td><%= claim.defendant_names %></td>' +
-          '<td class="numeric"><%= claim.total_inc_vat %></td>' +
-          '<td class="numeric"><%= claim.amount_assessed %></td>' +
-          '<td><span class="state state-<%= claim.state %>"><%= claim.state.humanize %></td>' +
-          '<td class="numeric"><%= claim.last_submitted_at %></td>' +
-          '<td class="messages"><span class="none">None</span></td>' +
-        '</tr>'
-      );
-		<% end %>
-	<% end %>
-  $('#importer').removeClass('has-errors');
-  resetUploaderForm();
-<% else %>
-	$importerResults.find('.import-success').remove();
-<% end %>
-
 <% if @json_document_importer.failed_imports.any? %>
 	$importerResults.append(
-    '<div class="error-summary js-import-failed" role="group" aria-labelledby="error-summary-heading" tabindex="-1" aria-live="polite">' +
+    '<div class="error-summary js-import-failed" aria-labelledby="error-summary-heading" tabindex="0">' +
       '<h1 class="heading-medium error-summary-heading" id="error-summary-heading">' +
         'There were errors in the following <%= pluralize(@json_document_importer.failed_imports.count, "claim") %> and these were not imported' +
       '</h1>' +
@@ -62,7 +27,7 @@ $importButton.prop('disabled', false).val('Import claim(s)');
 
 <% if @json_document_importer.failed_schema_validation.any? %>
   $importerResults.append(
-    '<div class="error-summary js-import-failed" role="group" aria-labelledby="error-summary-heading" tabindex="-1" aria-live="polite">' +
+    '<div class="error-summary js-import-failed" aria-labelledby="error-summary-heading" tabindex="0">' +
       '<h1 class="heading-medium error-summary-heading" id="error-summary-heading">' +
         'The following <%= pluralize(@json_document_importer.failed_schema_validation.count, "claim was") %> formatted incorrectly in the uploaded document' +
       '</h1>' +
@@ -75,6 +40,41 @@ $importButton.prop('disabled', false).val('Import claim(s)');
   );
   $('#importer').addClass('has-errors');
   resetUploaderForm();
+<% end %>
+
+<% if @json_document_importer.imported_claims.any? %>
+  $importerResults.append(
+      '<div class="results-body import-success" aria-describedby="successDesc" aria-labelledby="successLabel" tabindex="0">' +
+        '<h4 id="successLabel">Successfully imported <%= pluralize(@json_document_importer.imported_claims.count, "new claim") %> in draft state</h4>' +
+        '<ul id="successDesc">' +
+        <% @json_document_importer.imported_claims.each do |claim| %>
+          '<li><span class="visuallyhidden">claim number </span><%= claim.case_number %></li>' +
+        <% end %>
+        '</ul>' +
+      '</div>'
+  );
+  <% @json_document_importer.imported_claims.each do |imported_claim| %>
+    <% present(imported_claim) do |claim| %>
+      $('table.report').prepend(
+        '<tr class="<%= claim.state %>">' +
+          '<td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), external_users_claim_path(claim) %></td>' +
+          <% if current_user.persona.admin? %>
+            '<td><%= claim.external_user.name %></td>' +
+          <% end %>
+          '<td><%= claim.defendant_names %></td>' +
+          '<td class="numeric"><%= claim.total_inc_vat %></td>' +
+          '<td class="numeric"><%= claim.amount_assessed %></td>' +
+          '<td><span class="state state-<%= claim.state %>"><%= claim.state.humanize %></td>' +
+          '<td class="numeric"><%= claim.last_submitted_at %></td>' +
+          '<td class="messages"><span class="none">None</span></td>' +
+        '</tr>'
+      );
+    <% end %>
+  <% end %>
+  $('#importer').removeClass('has-errors');
+  resetUploaderForm();
+<% else %>
+  $importerResults.find('.import-success').remove();
 <% end %>
 
 // empty the field where format errors would occur, regardless of the result here, incase a previous error is shown

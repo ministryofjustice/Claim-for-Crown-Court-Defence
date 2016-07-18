@@ -24,7 +24,7 @@
         = sortable 'state', t(".status")
       %th.numeric{scope:'col'}
         = sortable 'last_submitted_at', t(".submission_date")
-      %th{scope:'col'}
+      %th{scope:'col', tabindex:0}
         = t(".messages")
     %tbody
       - present_collection(claims).each do |claim|

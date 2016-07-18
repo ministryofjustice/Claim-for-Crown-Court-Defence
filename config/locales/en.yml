@@ -523,7 +523,7 @@ en:
         edit: *edit
         delete: *delete
         confirm_delete: 'Are you sure?'
-        none: 'None'
+        none: 'No messages'
         advocate_litigator: *advocate_litigator
         type: "Type"
       confirmation:
@@ -640,7 +640,8 @@ en:
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
-        view_details: 'View details'
+        view_details_outstanding_html: 'View details <span class="visuallyhidden">for total outstanding</span>'
+        view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
       graduated_fees:
         fields:
           actual_trial_length: 'Actual trial length'

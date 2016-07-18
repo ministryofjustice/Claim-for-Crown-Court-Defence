@@ -75,3 +75,11 @@ moj.Modules.Dropzone = {
     $('#claim_document_ids_' + id).remove();
   }
 };
+
+moj.Modules.ExternalLinks = {
+  init: function(){
+    $('[rel="external"]').is(function(id, el){
+      $(el).append('<span class="visuallyhidden">opens in new window</span>');
+    });
+  }
+};

@@ -5,7 +5,7 @@
   %table#determinations.indent-sides
     %thead
       %tr
-        %th.numeric{colspan: 2, scope: 'col'} Claimed by advocate
+        %th.numeric{colspan: 2, scope: 'col'}= t('shared.assessment.claimed_by', type: claim.external_user_description)
         %th.numeric{ scope: 'col'} Total authorised by LAA
     %tbody
       - if claim.redeterminations.any?

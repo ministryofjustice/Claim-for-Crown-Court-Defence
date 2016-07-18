@@ -7,7 +7,7 @@
         %tr{:style => "vertical-align: top;"}
           %th &nbsp;
           %th
-            = "Claimed by #{ claim.external_user_description }"
+            = t('shared.assessment.claimed_by', type: claim.external_user_description)
           %th
             Total authorised by LAA
             - if claim.opened_for_redetermination?

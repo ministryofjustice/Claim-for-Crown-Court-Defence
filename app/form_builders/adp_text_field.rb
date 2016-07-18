@@ -6,6 +6,7 @@ class AdpTextField
 
   include ExternalUsers::ClaimsHelper
   include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::SanitizeHelper
 
 
   # instantiate an AdpTextField object
@@ -70,7 +71,7 @@ class AdpTextField
     @input_classes = options[:input_classes] || ''
     @input_type = options[:input_type] || 'text'
     @error_key = options[:error_key] || @anchor_id
-    @value = options[:value] || form.object.__send__(method)
+    @value = (options[:value] || form.object.__send__(method)).to_s
     setup_input_type
   end
 
@@ -160,7 +161,7 @@ class AdpTextField
       result += %|<span class="currency-indicator">&pound;</span>|
     end
     result += %|<input class="form-control #{@input_classes}" type="#{@input_type_string}" name="#{@form_field_name}" id="#{@form_field_id}" |
-    result += %|value="#{@value}" | unless @form.object.__send__(@method).nil?
+    result += %|value="#{strip_tags(@value)}" | unless @form.object.__send__(@method).nil?
     if @input_is_number
       result += %|min="#{@input_min}" |
       result += %|max="#{@input_max}" |

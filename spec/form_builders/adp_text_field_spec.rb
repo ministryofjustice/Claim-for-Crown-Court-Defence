@@ -22,6 +22,12 @@ describe AdpTextField do
         expect(atf.to_html).to eq a200_value_no_hint
       end
 
+      it 'should strip html tags from output value' do
+        resource.case_number = '<b>X22334455</b>'
+        atf = AdpTextField.new(builder, :case_number, label: 'Case number', errors: error_presenter)
+        expect(atf.to_html).to eq a200_value_no_hint
+      end
+
       def a100_no_value_no_hint
         html = <<-eos
         <div class="form-group case_number_wrapper">

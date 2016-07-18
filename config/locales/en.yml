@@ -818,6 +818,8 @@ en:
       heading: Claim
     claim_history:
       print_messages: Print all messages
+    assessment:
+      claimed_by: "Claimed by %{type}"
   case_workers:
     table_headings:
       your_claims: Your claims

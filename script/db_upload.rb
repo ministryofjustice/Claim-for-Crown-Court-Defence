@@ -4,8 +4,8 @@ require 'net/ssh' # gem install net-ssh
 require 'net/scp' # gem install net-scp
 
 ENVIRONMENTS = {
-  'dev' => %w(dev adp_dev_new),
-  'staging' => %w(staging adp_staging)
+  'dev' => 'dev',
+  'staging' => 'staging'
 }
 
 def ssh_user
@@ -21,7 +21,7 @@ def ssh_env
 end
 
 def ssh_address
-  @ssh_address ||= (ARGV[2].to_s.end_with?('.psql') ? ENVIRONMENTS[ssh_env].first : ARGV[2])
+  @ssh_address ||= (ARGV[2].to_s.end_with?('.psql') ? ENVIRONMENTS[ssh_env] : ARGV[2])
 end
 
 def dump_file_name
@@ -36,21 +36,23 @@ def install_postgres(ssh)
 end
 
 begin
-  puts 'Preparing to upload to host %s dump file %s' % [ssh_address, dump_file_name]
+  puts 'Uploading dump file %s to host %s' % [dump_file_name, ssh_address]
+  Net::SCP.upload!(ssh_address, ssh_user, dump_file_name, "/home/#{ssh_user}/#{dump_file_name}.uploading") do |_channel, _name, sent, total|
+    puts "...uploading... #{sent}/#{total}" if sent % 512_000 == 0
+  end
+
   ssh = Net::SSH.start ssh_address, ssh_user
+  puts ssh.exec!("mv /home/#{ssh_user}/#{dump_file_name}.uploading /home/#{ssh_user}/#{dump_file_name}")
 
-  puts 'Installing postgres in container (this might take a minute)...'
-  install_postgres ssh
-
-  puts 'Uploading dump file %s...' % dump_file_name
-  Net::SCP.upload! ssh_address, ssh_user, dump_file_name, "/home/#{ssh_user}/#{dump_file_name}"
-
-  # Note: Docker 1.8 support cp command to copy a file from the host to the container, but we are using Docker 1.6
+  # Note: Docker 1.8 supports cp command to copy a file from the host to the container, but we are using a lower version
   puts 'Copying dump file into container...'
   puts ssh.exec!("cat #{dump_file_name} | sudo docker exec -i advocatedefencepayments sh -c 'cat > /usr/src/app/#{dump_file_name}'")
   puts ssh.exec!("rm -f /home/#{ssh_user}/#{dump_file_name}")
 
-  puts 'Running task db:restore (this might take some minutes)...'
+  puts 'Installing postgresql in container...'
+  install_postgres ssh
+
+  puts 'Running task db:restore (this will take several minutes)...'
   puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:restore[#{dump_file_name}]")
 
   puts 'Dump %s was successfully restored' % dump_file_name

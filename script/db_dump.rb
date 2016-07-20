@@ -26,7 +26,7 @@ def ssh_address
 end
 
 def dump_file_name
-  @dump_file_name ||= "#{Time.now.strftime('%Y%m%d%H%M%S')}_#{ENVIRONMENTS[ssh_env].last}.psql"
+  @dump_file_name ||= "#{ENVIRONMENTS[ssh_env].last}_dump.psql"
 end
 
 def install_postgres(ssh)
@@ -38,19 +38,20 @@ begin
   puts 'Connecting to host %s' % ssh_address
   ssh = Net::SSH.start ssh_address, ssh_user
 
-  puts 'Installing postgres in container (this might take a minute)...'
+  puts 'Installing postgresql in container...'
   install_postgres ssh
 
   puts 'Running task db:dump_anonymised...'
   puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
   puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{dump_file_name} ~/")
+  ssh.close
 
-  puts 'Downloading dump file (this might take several minutes)...'
-  Net::SCP.download! ssh_address, ssh_user, "/home/#{ssh_user}/#{dump_file_name}", '.'
-  puts ssh.exec!("rm -f /home/#{ssh_user}/#{dump_file_name}")
+  puts 'Downloading dump file'
+  Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{dump_file_name}", '.') do |_channel, _name, sent, total|
+    puts "...downloading... #{sent}/#{total}" if sent % 512_000 == 0
+  end
 
   puts 'File %s downloaded' % dump_file_name
-  ssh.close
 rescue Exception => e
   puts 'Usage: ./db_dump username environment [IP]'
   puts e

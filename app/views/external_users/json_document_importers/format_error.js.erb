@@ -1,5 +1,4 @@
 $('#importer').find('form')
-  .addClass('no-file-selected')
   .find('.file-upload-name')
     .empty();
 
@@ -9,4 +8,4 @@ $('#importer')
     .html("<em><%= filename %></em> is either not JSON or contains errors. Choose another file.");
 
 $('.importer-results').empty();
-$('input.btn-import-file').prop('disabled', false).val('Import claim(s)');
+$('input.btn-import-file').prop('disabled', false).val('Import claim(s)').prop('aria-hidden', false).hide();

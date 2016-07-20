@@ -2,25 +2,28 @@
   %h2
     Summary total
   %h3
-    = 'Fees total '
+    = t('.fees_total')
     %span.numeric.total-fees{data:{'total-fees': claim.fees_total ||= 0}}
       - if @claim.fees_total == 0
-        = "No fees for this claim"
+        = t('.no_fees')
+        /No fees for this claim
       - else
         = claim.fees_total
 
   - if @claim.lgfs? || @claim.interim?
     %h3
-      = 'Disbursements total'
+      = t('.disbursements_total')
+      /Disbursements total
       %span.numeric.total-disbursements{data:{'total-disbursements': claim.disbursements_total ||= 0}}
         - if @claim.disbursements.empty?
-          = 'No disbursements for this claim'
+          = t('.no_disbursements')
+          /No disbursements for this claim
         - else
           = claim.disbursements_total
 
   - unless @claim.expenses.empty?
     %h3
-      = 'Expenses total'
+      = t('.expenses_total')
       %span.numeric.total-expenses{data:{'total-expenses': claim.expenses_total ||= 0}}
         = claim.expenses_total
 
@@ -29,10 +32,11 @@
     %span.numeric.total-vat{data:{'total-vat': claim.vat_amount ||= 0}}
       = claim.vat_amount
   %h3.total
-    = "Total "
+    = t('.total')
     %span.numeric.total-grandTotal{data:{'total-grandTotal': claim.total_inc_vat ||= 0}}
       = claim.total_inc_vat
 
   - if display_buttons == true
-    = link_to 'Continue', new_external_users_claim_certification_path(claim), {class: 'btn-green', role: 'button'}
-    = link_to 'Edit this claim', edit_polymorphic_path(claim), {class: 'btn-gray', role: 'button'}
+    = link_to t('.continue'), new_external_users_claim_certification_path(claim), {class: 'btn-green', role: 'button', 'aria-label': t('.button_label')}
+    = link_to t('.edit_claim'), edit_polymorphic_path(claim), {class: 'btn-gray', role: 'button'}
+    /Edit this claim

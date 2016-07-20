@@ -25,6 +25,8 @@
   .rep-orders
     - if defendant.representation_orders.any?
       %table
+        %caption.visually-hidden
+          = t('.caption')
         %thead
           %tr
             %th

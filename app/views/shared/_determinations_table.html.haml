@@ -2,11 +2,17 @@
   - if claim.last_state_transition_reason.present?
     %h3.indent-sides= "Reason provided: #{claim.last_state_transition_reason.description}"
 
-  %table#determinations.indent-sides
+  %table#determinations.indent-sides{summary: t('.summary')}
+    %caption.visuallyhidden
+      = t('.caption')
     %thead
       %tr
-        %th.numeric{colspan: 2, scope: 'col'}= t('shared.assessment.claimed_by', type: claim.external_user_description)
-        %th.numeric{ scope: 'col'} Total authorised by LAA
+        %th
+
+        %th.numeric{scope: 'col'}
+          = t('.claimed_by', type: claim.external_user_description)
+        %th.numeric{ scope: 'col'}
+          = t('.laa_heading')
     %tbody
       - if claim.redeterminations.any?
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }

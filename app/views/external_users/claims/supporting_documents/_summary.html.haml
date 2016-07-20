@@ -1,14 +1,11 @@
-%table{class:'table-summary'}
+%table{class:'table-summary', summary: t('.summary')}
   %caption
     %span.table-caption.visuallyhidden
-      = t('shared.evidence_list.existing_evidence')
-  %colgroup
-    %col.summary-headings
-    %col.summary-desc
+      = t('.caption')
   %tbody
     - claim.documents.each do |document|
       %tr
-        %th{scope:'row'}
+        %th.summary-headings{scope:'row'}
           = t('shared.evidence_list.name_of_file')
         %td
           = document.document_file_name

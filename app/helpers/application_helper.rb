@@ -73,11 +73,10 @@ module ApplicationHelper
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
 
-    hidden_hint = content_tag(:span, 'click to order by this column', class: 'visuallyhidden')
     query_params = params.except(:page).merge({sort: column, direction: direction, anchor: 'listanchor'})
     html_options = {class: css_class, tabindex: 0}
 
-    link_to [title, hidden_hint].join(' ').html_safe, query_params, html_options
+    link_to [title].join(' ').html_safe, query_params, html_options
   end
 
   def dom_id(record, prefix = nil)

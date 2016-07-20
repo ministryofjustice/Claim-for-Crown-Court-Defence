@@ -24,7 +24,7 @@ namespace :db do
   desc 'Dumps a backup of the database'
   task :dump => :environment do
     sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD pg_dump -v -w -U #{user} -h #{host} -d #{db} -f #{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.psql"
+      "PGPASSWORD=$DB_PASSWORD pg_dump -v -O -x -w -U #{user} -h #{host} -d #{db} -f #{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.psql"
     end)
   end
 
@@ -36,7 +36,7 @@ namespace :db do
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
 
     sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD pg_dump -w #{exclusions} -U #{user} -h #{host} -d #{db} -f #{filename}"
+      "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} -U #{user} -h #{host} -d #{db} -f #{filename}"
     end)
 
     # The following will export the previously excluded tables data, in an anonymised way
@@ -50,6 +50,8 @@ namespace :db do
 
   desc 'Anonymise current database data (in-place, no dump)'
   task :anonymise => :environment do
+    production_protected
+
     translation = [('a'..'z'), ('A'..'Z')].map(&:to_a).map(&:shuffle).join
 
     sh (with_config do |host, db, user|
@@ -59,19 +61,27 @@ namespace :db do
 
   desc 'Restores the database from a backup'
   task :restore, [:file] => :environment do |_task, args|
+    production_protected
+
     unless args.file.present?
       puts 'Please provide the file to restore to the task. Ex: rake db:restore[20160719112847_dump.psql]'
       puts 'Note: if you are using zsh, scape the brackets. Ex: rake db:restore\[20160719112847_dump.psql\]'
       exit(1)
     end
 
-    puts 'Dropping database...'
-    Rake::Task['db:drop'].invoke
-    puts 'Creating database...'
-    Rake::Task['db:create'].invoke
+    unless File.exists?(args.file)
+      puts 'File %s not found.' % args.file
+      exit(1)
+    end
 
     sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD psql -q -b -U #{user} -h #{host} -d #{db} -f #{args.file}"
+      "PGPASSWORD=$DB_PASSWORD psql -U #{user} -h #{host} -d #{db} -c \"drop schema public cascade\""
+    end)
+    sh (with_config do |host, db, user|
+      "PGPASSWORD=$DB_PASSWORD psql -U #{user} -h #{host} -d #{db} -c \"create schema public\""
+    end)
+    sh (with_config do |host, db, user|
+      "PGPASSWORD=$DB_PASSWORD psql -q -U #{user} -h #{host} -d #{db} -f #{args.file}"
     end)
   end
 
@@ -112,6 +122,10 @@ namespace :db do
 
 
   private
+
+  def production_protected
+    raise 'This operation was aborted because the result might destroy production data' if ActiveRecord::Base.connection_config[:database] =~ /gamma/
+  end
 
   def with_config
     yield ActiveRecord::Base.connection_config[:host],

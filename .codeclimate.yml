@@ -9,4 +9,5 @@ exclude_paths:
 - "db/*"
 - "db/migrate/*"
 - "db/seeds/*"
+- "script/*"
 - "Gemfile*"

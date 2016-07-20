@@ -3,20 +3,17 @@
     There is no warrant fee for this claim
 - else
   - warrant_fee = present(claim.warrant_fee)
-  %table{class:'table-summary'}
+  %table{class:'table-summary', summary: t('.summary')}
     %caption
       %span.table-caption.visuallyhidden
         = t('common.warrant_fees')
-    %colgroup
-      %col.summary-headings
-      %col.summary-desc
+        = t('.caption')
     %tbody
       %tr
-        %th{scope: 'row'}
+        %th.summary-headings{scope: 'row'}
           = t('shared.summary.fee_type')
         %td
           = warrant_fee.fee_type.description
-
       %tr
         %th{scope: 'row'}
           = t('shared.summary.warrant_fee.date_issued')

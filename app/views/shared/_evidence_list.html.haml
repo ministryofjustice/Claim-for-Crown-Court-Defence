@@ -6,14 +6,9 @@
     .indent-sides
       = t('.no_documents_uploaded')
   - else
-    %table#download-files-report.indent-sides
+    %table#download-files-report.indent-sides{summary: t('.summary')}
       %caption.visually-hidden
-        = t('.existing_evidence')
-      %colgroup
-        %col
-        %col
-        %col
-        %col
+        = t('.caption')
       %thead
         %tr
           %th{scope:'col'}
@@ -28,7 +23,7 @@
 
         - @claim.documents.each do |document|
           %tr
-            %td
+            %td{scope:'row'}
               = document.document_file_name
             %td
               = number_to_human_size(document.document_file_size)

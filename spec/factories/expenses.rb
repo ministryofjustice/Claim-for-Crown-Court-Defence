@@ -55,6 +55,18 @@ FactoryGirl.define do
       hours 4
     end
 
+    trait :road_tolls do
+      expense_type { build :expense_type, :road_tolls }
+    end
+
+    trait :cab_fares do
+      expense_type { build :expense_type, :cab_fares }
+    end
+
+    trait :subsistence do
+      expense_type { build :expense_type, :subsistence }
+    end
+
     trait :with_date_attended do
       after(:build) do |expense|
         expense.dates_attended << build(:date_attended, attended_item: expense)

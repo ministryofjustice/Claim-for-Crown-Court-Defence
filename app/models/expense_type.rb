@@ -71,7 +71,19 @@ class ExpenseType < ActiveRecord::Base
     name == 'Travel time'
   end
 
+  def road_tolls?
+    name == 'Road or tunnel tolls'
+  end
+
+  def cab_fares?
+    name == 'Cab fares'
+  end
+
+  def subsistence?
+    name == 'Subsistence'
+  end
+
   def self.for_claim_type(claim)
-    claim.lgfs? ? self.lgfs : self.agfs
+    (claim.lgfs? ? self.lgfs : self.agfs).order(:name)
   end
 end

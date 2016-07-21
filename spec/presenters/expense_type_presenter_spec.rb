@@ -50,5 +50,32 @@ RSpec.describe ExpenseTypePresenter do
           eq({ location: true, location_label: 'Destination', distance: false, mileage: false, hours: true, reason_set: 'B' })
       end
     end
+
+    context 'Road or tunnel tolls' do
+      let(:expense_type) { :road_tolls }
+
+      it 'returns the right data attributes' do
+        expect(presenter.data_attributes).to \
+          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, hours: false, reason_set: 'A' })
+      end
+    end
+
+    context 'Cab fares' do
+      let(:expense_type) { :cab_fares }
+
+      it 'returns the right data attributes' do
+        expect(presenter.data_attributes).to \
+          eq({ location: true, location_label: 'Destination', distance: false, mileage: false, hours: false, reason_set: 'A' })
+      end
+    end
+
+    context 'Subsistence' do
+      let(:expense_type) { :subsistence }
+
+      it 'returns the right data attributes' do
+        expect(presenter.data_attributes).to \
+          eq({ location: true, location_label: 'Location', distance: false, mileage: false, hours: false, reason_set: 'A' })
+      end
+    end
   end
 end

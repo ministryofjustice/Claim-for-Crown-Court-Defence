@@ -32,6 +32,9 @@ RSpec.describe ExpenseType, type: :model do
     let(:hotel_accommodation_expense) { build(:expense_type, :hotel_accommodation) }
     let(:train_expense)               { build(:expense_type, :train) }
     let(:travel_time_expense)         { build(:expense_type, :travel_time) }
+    let(:road_tolls_expense)          { build(:expense_type, :road_tolls) }
+    let(:cab_fares_expense)           { build(:expense_type, :cab_fares) }
+    let(:subsistence_expense)         { build(:expense_type, :subsistence) }
 
     it 'returns true for the type of expense it is' do
       expect(car_travel_expense.car_travel?).to be true
@@ -48,6 +51,15 @@ RSpec.describe ExpenseType, type: :model do
 
       expect(travel_time_expense.travel_time?).to be true
       expect(travel_time_expense.train?).to be false
+
+      expect(road_tolls_expense.road_tolls?).to be true
+      expect(road_tolls_expense.car_travel?).to be false
+
+      expect(cab_fares_expense.cab_fares?).to be true
+      expect(cab_fares_expense.train?).to be false
+
+      expect(subsistence_expense.subsistence?).to be true
+      expect(subsistence_expense.hotel_accommodation?).to be false
     end
   end
 
@@ -96,7 +108,7 @@ RSpec.describe ExpenseType, type: :model do
       let(:claim) { Claim::AdvocateClaim.new }
 
       it 'returns applicable expense types for AGFS' do
-        expect(described_class).to receive(:agfs)
+        expect(described_class).to receive(:agfs).and_return(double(order: []))
         described_class.for_claim_type(claim)
       end
     end
@@ -105,7 +117,7 @@ RSpec.describe ExpenseType, type: :model do
       let(:claim) { Claim::LitigatorClaim.new }
 
       it 'returns applicable expense types for LGFS' do
-        expect(described_class).to receive(:lgfs)
+        expect(described_class).to receive(:lgfs).and_return(double(order: []))
         described_class.for_claim_type(claim)
       end
     end

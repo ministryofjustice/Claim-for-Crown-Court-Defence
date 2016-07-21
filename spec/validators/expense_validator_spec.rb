@@ -13,6 +13,9 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
     let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
     let(:train_expense)               { build(:expense, :train, claim: claim) }
+    let(:road_tolls_expense)          { build(:expense, :road_tolls, claim: claim) }
+    let(:cab_fares_expense)           { build(:expense, :cab_fares, claim: claim) }
+    let(:subsistence_expense)         { build(:expense, :subsistence, claim: claim) }
     let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
     let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5)}
 
@@ -136,8 +139,10 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
       end
 
       context 'not travel time' do
+        let(:expenses_to_test) { [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
+
         it 'is invalid if present' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense].each do |ex|
+          expenses_to_test.each do |ex|
             ex.hours = 5
             expect(ex).not_to be_valid
             expect(ex.errors[:hours]).to include('invalid')
@@ -145,7 +150,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         end
 
         it 'is valid if absent' do
-          [car_travel_expense, parking_expense, hotel_accommodation_expense, train_expense].each do |ex|
+          expenses_to_test.each do |ex|
             ex.hours = nil
             expect(ex).to be_valid
           end
@@ -177,8 +182,10 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
     end
 
     describe '#validate_location' do
+      let(:expenses_to_test) { [car_travel_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
+
       it 'should be mandatory for everything except parking and travel time ' do
-        [car_travel_expense, hotel_accommodation_expense, train_expense].each do |ex|
+        expenses_to_test.each do |ex|
           ex.location = nil
           expect(ex.valid?).to be false
           expect(ex.errors[:location]).to include('blank')
@@ -186,7 +193,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
       end
 
       it 'should be valid when a location specified for everything except parking and travel time' do
-        [car_travel_expense, hotel_accommodation_expense, train_expense].each do |ex|
+        expenses_to_test.each do |ex|
           ex.location = 'Somewhere'
           expect(ex).to be_valid
         end
@@ -370,8 +377,10 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
 
     describe 'validate_mileage_rate_id' do
       context 'not car travel' do
+        let(:expenses_to_test) { [parking_expense, travel_time_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
+
         it 'is invalid if present' do
-          [parking_expense, hotel_accommodation_expense, train_expense, train_expense].each do |ex|
+          expenses_to_test.each do |ex|
             ex.mileage_rate_id = 2
             expect(ex).not_to be_valid
             expect(ex.errors[:mileage_rate_id]).to include('invalid')
@@ -379,7 +388,7 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
         end
 
         it 'is valid when absent' do
-          [parking_expense, hotel_accommodation_expense, train_expense, train_expense].each do |ex|
+          expenses_to_test.each do |ex|
             ex.mileage_rate_id = nil
             expect(ex).to be_valid
           end

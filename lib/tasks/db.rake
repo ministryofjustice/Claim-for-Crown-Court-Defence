@@ -119,7 +119,7 @@ namespace :db do
           unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
             user.first_name = Faker::Name.first_name
             user.last_name  = Faker::Name.last_name
-            user.email = [user.first_name, '.', user.last_name, '@example.com'].join.downcase
+            user.email = [user.id, '@', 'example.com'].join
             user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
           end
 

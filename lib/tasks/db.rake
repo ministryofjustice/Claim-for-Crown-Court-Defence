@@ -23,8 +23,8 @@ namespace :db do
 
   desc 'Dumps a backup of the database'
   task :dump => :environment do
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD pg_dump -v -O -x -w -U #{user} -h #{host} -d #{db} -f #{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.psql"
+    sh (with_config do |db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD pg_dump -v -O -x -w #{connection_opts} -f #{Time.now.strftime('%Y%m%d%H%M%S')}_#{db_name}.psql"
     end)
   end
 
@@ -35,8 +35,8 @@ namespace :db do
     exclusions = excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     filename = args.file || "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql"
 
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} -U #{user} -h #{host} -d #{db} -f #{filename}"
+    sh (with_config do |_db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD pg_dump -O -x -w #{exclusions} #{connection_opts} -f #{filename}"
     end)
 
     # The following will export the previously excluded tables data, in an anonymised way
@@ -54,8 +54,8 @@ namespace :db do
 
     translation = [('a'..'z'), ('A'..'Z')].map(&:to_a).map(&:shuffle).join
 
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD psql -v translation=\\'#{translation}\\' -U #{user} -h #{host} -d #{db} -f #{Rails.root}/db/data/anonymise_db.sql"
+    sh (with_config do |_db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
     end)
   end
 
@@ -63,25 +63,27 @@ namespace :db do
   task :restore, [:file] => :environment do |_task, args|
     production_protected
 
-    unless args.file.present?
+    dump_file = args.file
+
+    unless dump_file.present?
       puts 'Please provide the file to restore to the task. Ex: rake db:restore[20160719112847_dump.psql]'
       puts 'Note: if you are using zsh, scape the brackets. Ex: rake db:restore\[20160719112847_dump.psql\]'
       exit(1)
     end
 
-    unless File.exists?(args.file)
-      puts 'File %s not found.' % args.file
+    unless File.exists?(dump_file)
+      puts 'File %s not found.' % dump_file
       exit(1)
     end
 
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD psql -U #{user} -h #{host} -d #{db} -c \"drop schema public cascade\""
+    sh (with_config do |_db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD psql #{connection_opts} -c \"drop schema public cascade\""
     end)
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD psql -U #{user} -h #{host} -d #{db} -c \"create schema public\""
+    sh (with_config do |_db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD psql #{connection_opts} -c \"create schema public\""
     end)
-    sh (with_config do |host, db, user|
-      "PGPASSWORD=$DB_PASSWORD psql -q -U #{user} -h #{host} -d #{db} -f #{args.file}"
+    sh (with_config do |_db_name, connection_opts|
+      "PGPASSWORD=$DB_PASSWORD psql -q #{connection_opts} -f #{dump_file}"
     end)
   end
 
@@ -110,10 +112,17 @@ namespace :db do
 
     desc 'Export anonymised users data'
     task :users, [:file] => :environment do |_task, args|
+      whitelist_domains = %w(example.com agfslgfs.com)
+
       write_to_file(args.file) do |writer|
         User.find_each(batch_size: 50) do |user|
-          user.first_name = Faker::Name.first_name
-          user.last_name  = Faker::Name.last_name
+          unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
+            user.first_name = Faker::Name.first_name
+            user.last_name  = Faker::Name.last_name
+            user.email = [user.first_name, '.', user.last_name, '@example.com'].join.downcase
+            user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
+          end
+
           writer.call(user)
         end
       end
@@ -128,9 +137,18 @@ namespace :db do
   end
 
   def with_config
-    yield ActiveRecord::Base.connection_config[:host],
-          ActiveRecord::Base.connection_config[:database],
-          ActiveRecord::Base.connection_config[:username]
+    yield ActiveRecord::Base.connection_config[:database], connection_opts
+  end
+
+  def connection_opts
+    [
+      ['-U', ActiveRecord::Base.connection_config[:username]],
+      ['-h', ActiveRecord::Base.connection_config[:host]],
+      ['-d', ActiveRecord::Base.connection_config[:database]]
+    ].inject([]) do |result, (flag, value)|
+      result.push([flag, value]) unless (value.nil? || value.empty?)
+      result
+    end.join(' ')
   end
 
   def write_to_file(name)

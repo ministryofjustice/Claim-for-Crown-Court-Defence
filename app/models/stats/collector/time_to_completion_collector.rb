@@ -1,14 +1,16 @@
+require File.join(Rails.root, 'lib', 'working_day_calculator')
+
 module Stats
   module Collector
     class TimeToCompletionCollector < BaseCollector
 
       def collect
-        total_seconds = 0
+        total_num_days = 0
         transitions = todays_transitions.where(to: decision_states)
         transitions.each do |transition|
-          total_seconds += calculate_submission_to_decision_time(transition)
+          total_num_days += calculate_submission_to_decision_time(transition)
         end
-        Statistic.create_or_update(@date, 'completion_time', 'Claim::BaseClaim', average_in_days(total_seconds, transitions.size), transitions.size)
+        Statistic.create_or_update(@date, 'completion_time', 'Claim::BaseClaim', average_in_days(total_num_days, transitions.size), transitions.size)
       end
 
       private
@@ -24,14 +26,14 @@ module Stats
       def calculate_submission_to_decision_time(transition)
         previous_transitions = ClaimStateTransition.where(claim_id: transition.claim_id).where{ id < transition.id }.order('created_at desc')
         submitted_transition = previous_transitions.detect{ |t| t.to.in? ['submitted', 'redetermination'] }
-        transition.created_at - submitted_transition.created_at
+        working_days(submitted_transition, transition)
       end
 
       def average_in_days(total_seconds, count)
         if count == 0
           calculate_average
         else
-          float = (total_seconds / count.to_f) / SECONDS_IN_DAY
+          float = (total_seconds / count.to_f)
           (float * 100).to_i
         end
       end
@@ -41,6 +43,10 @@ module Stats
       def calculate_average
         values = Statistic.where(report_name: 'completion_time').where(date: @date - 8.days..@date - 1.day).pluck(:value_1)
         values.average
+      end
+
+      def working_days(submitted_transition, decided_transition)
+        WorkingDayCalculator.new(submitted_transition.created_at.to_date, decided_transition.created_at.to_date).working_days
       end
 
     end

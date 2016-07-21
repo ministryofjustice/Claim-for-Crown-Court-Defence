@@ -34,17 +34,17 @@ module Stats
 
 
       it 'should work out the average time to completion' do
-        # the following claims should be authorised on decision day:
-        # - claim_c - submitted 4 days earlier
-        # - claim_d - submitted 1 day earlier
-        # - claim_2 - submitted 12 days earlier
-        # so the average time to submission should be 17/3 = 5.66 days, with a count of 3
+        # the following claims should be authorised on decision day (Friday 15 Jan):
+        # - claim_c - submitted 4 days earlier - 4 working days
+        # - claim_d - submitted 1 day earlier - 1 working day
+        # - claim_e - submitted 12 days earlier - 9 working days
+        # so the average time to submission should be 14/3 = 4.66 days, with a count of 3
         decision_day = decision_time.to_date
         TimeToCompletionCollector.new(decision_day).collect
         stats = Statistic.report('completion_time', 'Claim::BaseClaim', decision_day, decision_day)
         expect(stats.size).to eq 1
         stat = stats.first
-        expect(stat.value_1).to eq 566
+        expect(stat.value_1).to eq 466
         expect(stat.value_2).to eq 3
       end
 
@@ -66,6 +66,7 @@ module Stats
           claim.allocate!
           DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
         end
+        claim
       end
     end
   end

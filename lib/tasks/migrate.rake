@@ -33,6 +33,11 @@
       load File.join(Rails.root, 'db', 'seeds', 'fee_types.rb')
     end
 
+    desc 'Reseed expense types'
+    task :reseed_expense_types => :environment do
+      load File.join(Rails.root, 'db', 'seeds', 'expense_types.rb')
+    end
+
     desc 'Reseed offences'
     task :reseed_offences => :environment do
       load File.join(Rails.root, 'db', 'seeds', 'offences.rb')
@@ -64,9 +69,7 @@
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'rename_dishonesty_offences' => 'Rename "dishonestly" to "by dishonesty"',
-        'reseed_offences' => 'Reseed the offences as there were some missing.',
-        'remove_contempt_fee_types' => 'Remove contempt AGFS fixed fee types'
+        'reseed_expense_types' => 'Reseed the expense types as there are some new.',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

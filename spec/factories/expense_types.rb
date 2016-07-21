@@ -45,6 +45,18 @@ FactoryGirl.define do
       name 'Train/public transport'
     end
 
+    trait :road_tolls do
+      name 'Road or tunnel tolls'
+    end
+
+    trait :cab_fares do
+      name 'Cab fares'
+    end
+
+    trait :subsistence do
+      name 'Subsistence'
+    end
+
     trait :travel_time do
       name 'Travel time'
       reason_set 'B'

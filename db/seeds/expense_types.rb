@@ -18,6 +18,9 @@ new_expense_types = [
   ['Hotel accommodation',                     ['agfs', 'lgfs'], 'A'],
   ['Train/public transport',                  ['agfs', 'lgfs'], 'A'],
   ['Travel time',                             ['agfs'],         'B'],
+  ['Road or tunnel tolls',                    ['agfs', 'lgfs'], 'A'],
+  ['Cab fares',                               ['agfs', 'lgfs'], 'A'],
+  ['Subsistence',                             ['agfs', 'lgfs'], 'A'],
 ]
 
 expense_types = Settings.expense_schema_version == 1 ? old_expense_types : new_expense_types

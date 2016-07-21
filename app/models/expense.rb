@@ -51,6 +51,9 @@ class Expense < ActiveRecord::Base
            :hotel_accommodation?,
            :train?,
            :travel_time?,
+           :road_tolls?,
+           :cab_fares?,
+           :subsistence?,
            to: :expense_type, allow_nil: true
 
 

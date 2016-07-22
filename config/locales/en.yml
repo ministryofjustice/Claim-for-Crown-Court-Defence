@@ -486,8 +486,8 @@ en:
           transfer_date_original: Date stopped acting
           case_conclusion: Case conclusion
         summary:
-          caption: 'Case Details: A list of information about the claim and court case'
-          summary: 'Note: To best navigate this table, step down the second column'
+          caption: 'Case Details: This section contains information about the case.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       defendants:
         defendant_fields:
           first_name: *first_name
@@ -509,8 +509,8 @@ en:
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'eg. 1234567890'
         summary:
-          caption: 'Defendants: A list of details for each defendant'
-          summary: 'Note: To best navigate this table, step down the second column'
+          caption: 'Defendants: This section contains details about each defendant.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       main_claims_list:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
@@ -548,12 +548,12 @@ en:
         date_to: 'Date attended (to - optional)'
         remove: 'Remove date attended'
       summary_fees:
-        caption: 'Fees: A list of information as provided'
-        summary: 'Note: To best navigate this table, step down the second column'
+        caption: 'Fees: This section contains details of all fees that have been claimed.'
+        summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       disbursements:
         summary:
-          caption: 'Disbursements: A list of information as provided'
-          summary: 'Note: To best navigate the table, step down the second column'
+          caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
@@ -584,8 +584,8 @@ en:
           quantity_hours: 'Hours'
           rate: 'Rate'
         summary:
-          caption: 'Expenses: A detailed list of expenses by type'
-          summary: 'Note: To best navigate this table, step down the second column'
+          caption: 'Expenses: This section contains details of all expenses that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fee:
         fields:
           transfer_fee_section_header: Transfer fee
@@ -681,8 +681,8 @@ en:
         claims_value: claims with a total value of
       supporting_documents:
         summary:
-          caption: 'Supporting Documents: A detailed list of documents provided'
-          summary: 'Note: To best navigate this table, step down the second column'
+          caption: 'Supporting Documents: This section contains a list of all the files that you have uploaded as supporting evidence.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         existing:
           action: "Action"
           add_another_doc: 'Add another document'
@@ -696,13 +696,13 @@ en:
           supporting_evidence_warning: If you have electronic evidence on disk that relates to this case, you must send it by courier.
       supporting_evidence_checklist:
         summary:
-          caption: 'Supporting evidence: A list of supporting evidence provided'
+          caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
       warrant_fee:
         summary:
-          caption: 'Warrant Fees: A list of information as provided'
-          summary: 'Note: To best navigate this table, step down by column'
+          caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
@@ -730,12 +730,12 @@ en:
           warrant_issued: "Warrant issued"
           warrant_executed: "Warrant executed (if applicable)"
         summary:
-          caption: 'Interim Fees: A list of information as provided'
-          summary: 'Note: To best navigate this table, step down by column'
+          caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       tranfer_detail:
         summary:
-          caption: 'Transfer Detail: A list of information as provided'
-          summary: 'Note: To best navigate this table, step down by column'
+          caption: 'Transfer Detail: This section contains transfer details.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fees:
         fields:
           transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
@@ -756,8 +756,8 @@ en:
         no_disbursements: 'No disbursements for this claim'
       transfer_detail:
         summary:
-          caption: 'Transfer Details: A list of information as provided'
-          summary: 'Note: To best navigate this table, step down by column'
+          caption: 'Transfer Detail: This section contains transfer details.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
     litigators:
       interim_claims:
         new:
@@ -770,12 +770,17 @@ en:
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
   shared:
+    claim_defendant_details:
+      caption: 'Defendant: Additional information'
+    evidence_checklist:
+      caption: 'Supporting evidence checklist'
+      summary: 'Note: To best navigate this table, step down the second column'
     determination:
       caption: 'Total of assessed amounts by category'
-      summary: 'Note: To best navigate this table, step down the second column'
+      summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
     determinations_table:
-      caption: 'A categorised list of amounts claimed and the amount authorised by the LAA'
-      summary: 'Note: To best navigate this table, step down by column'
+      caption: 'This section contains a categorised list of amounts claimed and the amount authorised by the LAA'
+      summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
     no_claims_found: 'No claims found'

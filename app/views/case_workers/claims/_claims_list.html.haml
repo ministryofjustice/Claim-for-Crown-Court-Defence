@@ -29,8 +29,12 @@
       - present_collection(claims).each do |claim|
         %tr
           %td
-            = link_to claim.case_number , case_workers_claim_path(claim),{:class => 'js-test-case-number-link'}
-            %div.unique-id-small= claim.unique_id
+            = link_to claim.case_number ,
+                      case_workers_claim_path(claim),
+                      {:class => 'js-test-case-number-link',
+                        'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"}
+            %div.unique-id-small
+              = claim.unique_id
           %td
             = claim.external_user.name
           %td

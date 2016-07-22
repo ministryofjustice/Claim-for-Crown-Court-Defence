@@ -6,22 +6,23 @@
       %p.indent-sides
         There are no fees for this claim
     - else
+      / table does noe require summary
       %table.indent-sides
         %caption.visually-hidden
-          = t('common.fees')
+          = t('.fees.caption')
         %thead
           %tr
-            %th{ scope: 'col'}
+            %th{ scope: 'col' }
               = t('.fee_category')
-            %th{ scope: 'col'}
+            %th{ scope: 'col' }
               = t('.fee_type')
             - unless claim.interim?
-              %th.numeric{ scope: 'col'}
+              %th.numeric{ scope: 'col' }
                 = t('.quantity')
             - if claim.agfs?
-              %th.numeric{ scope: 'col'}
+              %th.numeric{ scope: 'col' }
                 = t('.rate')
-            %th.numeric{ scope: 'col'}
+            %th.numeric{ scope: 'col' }
               = t('.amount')
         %tbody
           - present_collection(claim.fees.select(&:present?)).each do |fee|
@@ -36,8 +37,9 @@
                   %br
                   = t('.date')
                   = fee.date
-              %td
+              %td{scope: 'row'}
                 = fee.fee_type.description
+
               - unless claim.interim?
                 %td.numeric
                   = fee.quantity
@@ -57,9 +59,10 @@
         %p.indent-sides
           There are no expenses for this claim
       - else
+        / table does noe require summary
         %table.indent-sides
           %caption.visually-hidden
-            = t('common.expenses')
+            = t('.expenses.caption')
           %thead
             %tr
               %th{scope: 'col'}
@@ -85,7 +88,7 @@
               %tr.no-border
                 %td
                   = expense.date
-                %td
+                %td{scope:'row'}
                   = expense.name
                 %td.numeric
                   = expense.distance
@@ -117,16 +120,10 @@
         %p.indent-sides
           There are no disbursements for this claim
       - else
+        / table does noe require summary
         %table.indent-sides
           %caption.visually-hidden
-            = t('common.disbursements')
-          %colgroup
-            %col
-            %col
-            %col
-            - if claim.lgfs?
-              %col
-              %col
+            = t('.disbursements.caption')
           %thead
             %tr
               %th{scope: 'col'}
@@ -140,7 +137,7 @@
           %tbody
             - present_collection(claim.disbursements).each do |disbursement|
               %tr
-                %td
+                %td{scope:'row'}
                   = disbursement.disbursement_type.name
                 %td.numeric
                   = disbursement.net_amount

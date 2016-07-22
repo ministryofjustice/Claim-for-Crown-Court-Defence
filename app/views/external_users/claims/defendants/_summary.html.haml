@@ -1,14 +1,11 @@
-%table{class:'table-summary'}
+%table{class:'table-summary', summary: t('.summary')}
   %caption
     %span.table-caption.visuallyhidden
-      = 'Defendants'
-  %colgroup
-    %col.summary-headings
-    %col.summary-desc
+      = t('.caption')
   %tbody
     - claim.defendants.each.with_index(1) do | defendant, index|
       %tr
-        %th{scope:'row'}
+        %th.summary-headings{scope:'row'}
           = "#{t('common.defendant')} #{index}"
         %td
           = defendant.name

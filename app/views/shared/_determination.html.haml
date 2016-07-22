@@ -6,11 +6,12 @@
       %strong
         = determination.event
       = determination.timestamp
-      %table
+      %table{summary: t('.summary')}
+        %caption.visuallyhidden
+          = t('.caption')
         - determination.itemise do |item, amount|
           %tr
-            %td
+            %th{scope: 'row'}
               #{item}:
-            %td
+            %td{scope:'col'}
               #{number_to_currency(amount)}
-              

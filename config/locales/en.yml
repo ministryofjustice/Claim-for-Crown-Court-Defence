@@ -485,6 +485,9 @@ en:
           transfer_date_new: Date started acting
           transfer_date_original: Date stopped acting
           case_conclusion: Case conclusion
+        summary:
+          caption: 'Case Details: This section contains information about the case.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       defendants:
         defendant_fields:
           first_name: *first_name
@@ -505,6 +508,9 @@ en:
           representation_order: Representation order
           maat_reference_number: MAAT reference
           maat_reference_number_eg: 'eg. 1234567890'
+        summary:
+          caption: 'Defendants: This section contains details about each defendant.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       main_claims_list:
         show_count: 'Showing %{page_count} of %{total} claims'
         table_caption: 'Claims'
@@ -541,7 +547,13 @@ en:
         date_from: 'Date attended (from)'
         date_to: 'Date attended (to - optional)'
         remove: 'Remove date attended'
+      summary_fees:
+        caption: 'Fees: This section contains details of all fees that have been claimed.'
+        summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       disbursements:
+        summary:
+          caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           disbursements: "Disbursements"
           add_disbursement: "Add another disbursement"
@@ -571,6 +583,9 @@ en:
           location: 'Destination'
           quantity_hours: 'Hours'
           rate: 'Rate'
+        summary:
+          caption: 'Expenses: This section contains details of all expenses that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fee:
         fields:
           transfer_fee_section_header: Transfer fee
@@ -665,6 +680,9 @@ en:
         heading: Outstanding claims
         claims_value: claims with a total value of
       supporting_documents:
+        summary:
+          caption: 'Supporting Documents: This section contains a list of all the files that you have uploaded as supporting evidence.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         existing:
           action: "Action"
           add_another_doc: 'Add another document'
@@ -677,9 +695,14 @@ en:
           supporting_evidence_docs: 'Upload supporting evidence'
           supporting_evidence_warning: If you have electronic evidence on disk that relates to this case, you must send it by courier.
       supporting_evidence_checklist:
+        summary:
+          caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
         fields:
           supporting_evidence_checklist: 'Supporting evidence checklist'
       warrant_fee:
+        summary:
+          caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
         fields:
           warrant_fee: "Warrant fee"
           date_issued: "Warrant issued"
@@ -706,6 +729,13 @@ en:
           number_days_hint: "Number of days"
           warrant_issued: "Warrant issued"
           warrant_executed: "Warrant executed (if applicable)"
+        summary:
+          caption: 'Interim Fees: This section contains details of any interim fees that have been claimed.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+      tranfer_detail:
+        summary:
+          caption: 'Transfer Detail: This section contains transfer details.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       transfer_fees:
         fields:
           transfer_fees_prompt_text_html: Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fee Calculator">graduated fee calculators</a> for help
@@ -713,6 +743,21 @@ en:
       fees_shared_header:
         fees: Fees
         fees_header_prompt_text_html: All fees should be entered exclusive of VAT. The system will add VAT to fees for VAT registered users.
+      summary_claims_sidebar:
+        button_label: 'Continue to certification'
+        continue: 'Continue'
+
+        fees_total: 'Fees Total '
+        disbursements_total: 'Disbursements Total'
+        expenses_total: 'Expenses Total'
+        edit_claim: 'Edit this claim'
+        total: 'Total'
+        no_fees: 'No fees for this claim'
+        no_disbursements: 'No disbursements for this claim'
+      transfer_detail:
+        summary:
+          caption: 'Transfer Detail: This section contains transfer details.'
+          summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
     litigators:
       interim_claims:
         new:
@@ -725,6 +770,19 @@ en:
         edit:
           edit_transfer_claim_heading: "Edit transfer claim"
   shared:
+    claim_defendant_details:
+      caption: 'Defendant: Additional information'
+    evidence_checklist:
+      caption: 'Supporting evidence checklist'
+      summary: 'Note: To best navigate this table, step down the second column'
+    determination:
+      caption: 'Total of assessed amounts by category'
+      summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
+    determinations_table:
+      caption: 'This section contains a categorised list of amounts claimed and the amount authorised by the LAA'
+      summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+      claimed_by: 'Claimed by %{type}'
+      laa_heading: 'Total authorised by LAA'
     no_claims_found: 'No claims found'
     claim:
       certification_box_title: Certification
@@ -760,6 +818,8 @@ en:
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
     evidence_list:
+      caption: 'Evidence Provided: A list of uploaded documents'
+      summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
       name_of_file: Name of file
@@ -767,6 +827,10 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Amount
       vat_amount: VAT amount
       date: Date
@@ -786,6 +850,7 @@ en:
       reason_text: if 'other' reason
       additional_information: Additional information
       disbursements:
+        caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"
         net_amount: "Net amount"
         vat_amount: "VAT amount"

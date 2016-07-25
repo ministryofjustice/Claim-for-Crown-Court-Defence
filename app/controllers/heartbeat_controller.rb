@@ -1,4 +1,6 @@
 class HeartbeatController  < ApplicationController
+  require 'sidekiq/api'
+
   skip_load_and_authorize_resource only: [:ping, :healthcheck]
 
   respond_to :json
@@ -17,7 +19,9 @@ class HeartbeatController  < ApplicationController
   def healthcheck
     checks = {
       database: database_alive?,
-      redis: redis_alive?
+      redis: redis_alive?,
+      sidekiq: sidekiq_alive?,
+      sidekiq_queue: sidekiq_queue_healthy?,
     }
 
     status = :bad_gateway unless checks.values.all?
@@ -35,6 +39,21 @@ class HeartbeatController  < ApplicationController
     rescue => e
       false
     end
+  end
+
+  def sidekiq_alive?
+    ps = Sidekiq::ProcessSet.new
+    !ps.size.zero?
+  rescue
+    false
+  end
+
+  def sidekiq_queue_healthy?
+    dead = Sidekiq::DeadSet.new
+    retries = Sidekiq::RetrySet.new
+    dead.size.zero? && retries.size.zero?
+  rescue
+    false
   end
 
   def database_alive?

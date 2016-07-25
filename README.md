@@ -106,6 +106,17 @@ alias rake.fast='rake parallel:spec; rake parallel:features'
 
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
 
+## Contributing
+
+Bug reports and pull requests are welcome.
+
+1. Fork the project (https://github.com/ministryofjustice/advocate-defence-payments/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit until you are happy with your contribution (`git commit -am 'Add some feature'`)
+4. Push the branch (`git push origin my-new-feature`)
+5. Make sure your changes are covered by tests, so that we don't break it unintentionally in the future.
+6. Create a new pull request.
+
 ## License
 
 Released under the [MIT License](http://www.opensource.org/licenses/MIT). Copyright (c) 2015-2016 Ministry of Justice.

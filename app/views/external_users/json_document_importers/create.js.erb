@@ -3,7 +3,7 @@ var $importButton = $('input.btn-import-file');
 var resetUploaderForm = function() { $('#importer').find('form').find('.file-upload-name').empty();$('.btn-import-file').hide(); };
 
 $importerResults.find('.js-import-failed').remove();
-$importButton.prop('disabled', false).val('Import claim(s)');
+$importButton.prop('disabled', false).val('Import claims');
 
 <% if @json_document_importer.failed_imports.any? %>
 	$importerResults.append(

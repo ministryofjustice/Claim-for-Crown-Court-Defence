@@ -105,3 +105,7 @@ alias rake.fast='rake parallel:spec; rake parallel:features'
 ## Mailer previewing
 
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
+
+## License
+
+Released under the [MIT License](http://www.opensource.org/licenses/MIT). Copyright (c) 2015-2016 Ministry of Justice.

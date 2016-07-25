@@ -19,6 +19,8 @@ moj.Modules.NewClaim = {
     this.initBasicClaim();
     //Attach Expense type event listeners
     this.initExpense();
+    //Attach on submit claim validation
+    this.initSubmitValidation();
   },
 
   initBasicClaim : function() {
@@ -36,6 +38,22 @@ moj.Modules.NewClaim = {
     }
 
     self.attachToOffenceClassSelect();
+  },
+
+  initSubmitValidation: function () {
+    //
+    // Warn the user if 'A copy of the indictment' is not selected in the supporting evidence checklist.
+    // Tests in /spec/javascripts/supporting-evidence_spec.js
+    //
+    $('input[name="commit_submit_claim"]').on('click', function () {
+      if ($('#claim_evidence_checklist_ids_4').exists() && !$('#claim_evidence_checklist_ids_4').prop('checked')) {
+        return confirm(
+          "The evidence checklist suggests that no indictment has been attached.\n" +
+          "This can lead to your claim being rejected.\n\n" +
+          "Do you wish to proceed without attaching an indictment?"
+        );
+      }
+    });
   },
 
   initExpense : function() {

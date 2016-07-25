@@ -12,7 +12,7 @@ class DocType
   DOCTYPES = [
     DocType.new(1,  500,  'Representation order'),
     DocType.new(2,  200,  'LAC1 - memo of conviction'),
-    DocType.new(3,  300,  'Committal bundle front sheet(s)'),
+    DocType.new(3,  300,  'Committal bundle front sheets'),
     DocType.new(4,  400,  'A copy of the indictment'),
     DocType.new(5,  100,  'Order in respect of judicial apportionment'),
     DocType.new(6,  800,  'Expenses invoices'),

@@ -88,7 +88,7 @@ When(/^I add (\d+) dates? attended for one of my "(.*?)" fees$/) do |number, fee
   fee_div = fee_type_to_id(fee_type)
   number.to_i.times do
   within fee_div do
-    click_on 'Add date(s)'
+    click_on 'Add dates'
     wait_for_ajax
   end
  end
@@ -147,7 +147,7 @@ end
 
 Given(/^I add dates attended for the first miscellaneous fee$/) do
   within '#misc-fees' do
-    click_on 'Add date(s)'
+  click_on 'Add dates'
   end
 end
 

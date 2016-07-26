@@ -43,9 +43,17 @@ RSpec.describe HeartbeatController, type: :controller do
   end
 
   describe '#healthcheck' do
+    before do
+      allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
+      allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
+      allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
+    end
+
     context 'when a problem exists' do
       before do
         allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(PG::ConnectionBad)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 0))
+        allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
 
         connection = double('connection')
         allow(connection).to receive(:info).and_raise(Redis::CannotConnectError)
@@ -56,7 +64,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       let(:expected_response) do
         {
-          checks: { database: false, redis: false }
+          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: false }
         }.to_json
       end
 
@@ -81,7 +89,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       let(:expected_response) do
         {
-          checks: { database: true, redis: true }
+          checks: { database: true, redis: true, sidekiq: true, sidekiq_queue: true }
         }.to_json
       end
 

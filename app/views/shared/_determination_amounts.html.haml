@@ -1,38 +1,49 @@
 - present(determination) do |determination|
   - unless claim.interim? && claim.disbursement_only?
     %tr.determination-display
-      %th{scope:'row'} Fees
+      %th
+        Fees
       %td.numeric
         = claim.fees_total
-      %td.numeric#determination-fees= determination.fees_total
+      %td.numeric#determination-fees
+        = determination.fees_total
+
   - if claim.can_have_expenses?
     %tr.determination-display
-      %th{scope:'row'} Expenses
+      %th
+        Expenses
       %td.numeric
         = claim.expenses_total
-      %td.numeric#determination-expenses= determination.expenses_total
+      %td.numeric#determination-expenses
+        = determination.expenses_total
+
   - if claim.can_have_disbursements?
     %tr.determination-display
-      %th{scope:'row'} Disbursements
+      %th
+        Disbursements
       %td.numeric
         = claim.disbursements_total
-      %td.numeric#determination-disbursements= determination.disbursements_total
+      %td.numeric#determination-disbursements
+        = determination.disbursements_total
+
   %tr.determination-display
-    %th{scope:'row'}
+    %th
       Total(excluding VAT)
     %td.numeric
       = claim.total
     %td.numeric#js-determination-total-exc-vat
       = determination.total
+
   %tr.determination-display
-    %th{scope:'row'}
+    %th
       = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
     %td.numeric
       = claim.vat_amount
     %td.numeric#js-determination-total-vat
       = determination.vat_amount
+
   %tr.determination-display
-    %th{scope:'row'}
+    %th
       = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
     %td.numeric
       = claim.total_inc_vat

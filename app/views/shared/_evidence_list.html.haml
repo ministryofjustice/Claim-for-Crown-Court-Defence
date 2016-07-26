@@ -1,48 +1,45 @@
+
 %section
   = render partial: 'shared/evidence_checklist'
-  %h3.indent-sides
-    = t('.existing_evidence')
-  - if @claim.documents.none?
-    .indent-sides
+  %div.grid-row
+    %h3
+      = t('.existing_evidence')
+    - if @claim.documents.none?
       = t('.no_documents_uploaded')
-  - else
-    %table#download-files-report.indent-sides
-      %caption.visually-hidden
-        = t('.existing_evidence')
-      %colgroup
-        %col
-        %col
-        %col
-        %col
-      %thead
-        %tr
-          %th{scope:'col'}
-            = t('.name_of_file')
-          %th{scope:'col'}
-            = t('.file_size')
-          %th.numeric{scope:'col'}
-            = t('.date_added')
-          %th{scope:'col'}
-            = t('.actions')
-      %tbody
 
-        - @claim.documents.each do |document|
+    - else
+      %table#download-files-report{summary: t('.summary')}
+        %caption.visually-hidden
+          = t('.caption')
+        %thead
           %tr
-            %td
-              = document.document_file_name
-            %td
-              = number_to_human_size(document.document_file_size)
-            %td.numeric
-              = document.created_at
-            %td
-              - if document.converted_preview_document.present?
-                = link_to t('common.view'),
-                          document_path(document),
-                          target: '_blank',
-                          class: 'view',
-                          'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
-                = " | "
-              = link_to t('common.download'),
-                        download_document_path(document),
-                        class: 'download',
-                        'aria-label': "Evidence: Download document #{document.document_file_name}"
+            %th{scope:'col'}
+              = t('.name_of_file')
+            %th{scope:'col'}
+              = t('.file_size')
+            %th.numeric{scope:'col'}
+              = t('.date_added')
+            %th{scope:'col'}
+              = t('.actions')
+        %tbody
+
+          - @claim.documents.each do |document|
+            %tr
+              %td{scope:'row'}
+                = document.document_file_name
+              %td
+                = number_to_human_size(document.document_file_size)
+              %td.numeric
+                = document.created_at
+              %td
+                - if document.converted_preview_document.present?
+                  = link_to t('common.view'),
+                            document_path(document),
+                            target: '_blank',
+                            class: 'view',
+                            'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
+                  = " | "
+                = link_to t('common.download'),
+                          download_document_path(document),
+                          class: 'download',
+                          'aria-label': "Evidence: Download document #{document.document_file_name}"

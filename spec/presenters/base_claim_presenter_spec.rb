@@ -64,6 +64,17 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(subject.unique_id).to eql("##{subject.id}")
   end
 
+  describe '#case_number' do
+    it 'returns a placeholder text when not provided' do
+      subject.case_number = nil
+      expect(subject.case_number).to eql('not-provided')
+    end
+
+    it 'returns it when provided' do
+      expect(subject.case_number).to eql(claim.case_number)
+    end
+  end
+
   describe '#valid_transitions' do
     it 'should list valid transitions from allocated' do
       claim.state = 'allocated'

@@ -68,6 +68,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     format_date(claim.case_concluded_at)
   end
 
+  def case_number
+    claim.case_number.blank? ? 'not-provided' : claim.case_number
+  end
+
   def unique_id
     "##{claim.id}"
   end

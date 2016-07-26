@@ -57,7 +57,7 @@ $importButton.prop('disabled', false).val('Import claims');
     <% present(imported_claim) do |claim| %>
       $('table.report').prepend(
         '<tr class="<%= claim.state %>">' +
-          '<td><%= link_to (claim.case_number.blank? ? "not-provided" : claim.case_number), external_users_claim_path(claim) %></td>' +
+          '<td><%= link_to claim.case_number, external_users_claim_path(claim) %></td>' +
           <% if current_user.persona.admin? %>
             '<td><%= claim.external_user.name %></td>' +
           <% end %>

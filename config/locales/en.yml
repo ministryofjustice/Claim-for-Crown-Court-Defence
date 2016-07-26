@@ -562,7 +562,7 @@ en:
           vat_amount: "VAT amount"
           total: "Total"
           disbursement_type: "Disbursement type"
-          remove: *remove
+          remove: "Remove disbursement"
       expenses:
         expense_fields:
           add_date_attended: 'Add dates'
@@ -651,7 +651,7 @@ en:
             fee_type: "Fee type"
             case_numbers: "Additional case numbers"
             amount: "Total"
-            remove: *remove
+            remove: "Remove miscellaneous fee"
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'

@@ -33,6 +33,13 @@
                 = document.created_at
               %td
                 - if document.converted_preview_document.present?
-                  = link_to t('common.view'), document_path(document), target: '_blank', class: 'view'
+                  = link_to t('common.view'),
+                            document_path(document),
+                            target: '_blank',
+                            class: 'view',
+                            'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
                   = " | "
-                = link_to t('common.download'), download_document_path(document), class: 'download'
+                = link_to t('common.download'),
+                          download_document_path(document),
+                          class: 'download',
+                          'aria-label': "Evidence: Download document #{document.document_file_name}"

@@ -15,6 +15,14 @@
           %td
             = document.document_file_name
           %td
-            = link_to t('common.download'), download_document_path(document), class: 'download'
+            = link_to t('common.download'),
+                      download_document_path(document),
+                      class: 'download',
+                      'aria-label': "Download document: #{document.document_file_name}"
             = " | "
-            = link_to t('common.remove'), document_path(document), method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+            = link_to t('common.remove'),
+                      document_path(document),
+                      method: :delete,
+                      remote: true,
+                      'aria-label': "Remove document: #{document.document_file_name}",
+                      data: { confirm: 'Are you sure?' }

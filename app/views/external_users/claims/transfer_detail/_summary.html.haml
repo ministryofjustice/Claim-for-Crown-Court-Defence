@@ -1,14 +1,11 @@
 - transfer_detail_translations = 'external_users.claims.case_details.transfer_detail_fields'
-%table{class:'table-summary'}
+%table{class:'table-summary', summary: t('.summary')}
   %caption
     %span.table-caption.visuallyhidden
-      = 'Transfer details'
-  %colgroup
-    %col.summary-headings
-    %col.summary-desc
+      = t('.caption')
   %tbody
     %tr
-      %th{scope: 'row'}
+      %th.summary-headings{scope: 'row'}
         = t("#{transfer_detail_translations}.litigator_type")
       %td
         = claim.litigator_type_description

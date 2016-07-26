@@ -4,10 +4,10 @@
 - else
   - fee = present(claim.interim_fee)
     - unless fee.is_disbursement?
-    %table{class:'table-summary'}
+    %table{class:'table-summary', summary: t('.summary')}
       %caption
         %span.table-caption.visuallyhidden
-          = t('common.interim_fees')
+          = t('.caption')
       %colgroup
         %col.summary-headings
         %col.summary-desc

@@ -168,7 +168,7 @@ en:
     form:
       upload: 'Choose file to upload'
   maat_reference_number: 'MAAT reference'
-  maat_reference_number_eg: 'eg. 1234567890'
+  maat_reference_number_eg: 'for example 1234567890'
 
   page_headings:
     edit_lgfs_claim: Edit litigator claim
@@ -216,7 +216,7 @@ en:
     start_claim: Start a new claim
     view_claim: View your claims
   hint:
-    search: eg case number, defendant name, advocate/litigator name
+    search: for example case number, defendant name, advocate/litigator name
 
 
 # en.super_admins
@@ -393,7 +393,7 @@ en:
       additional_information:
         fields:
           additional_information: 'Additional information'
-          additional_information_prompt_text: 'eg any other information that will help us process your claim'
+          additional_information_prompt_text: 'for example any other information that will help us process your claim'
       archived:
         archived_claims: 'Archived claims'
         archived_claim: 'archived claim'
@@ -475,7 +475,7 @@ en:
           days: "Days"
         offence_id_select:
           offence_class: "Offence class"
-          offence_class_hint: "eg Burglary"
+          offence_class_hint: "for example Burglary"
           select_offence_class: "Please select"
         transfer_detail_fields:
           litigator_type: Litigator type
@@ -507,7 +507,7 @@ en:
         representation_order_fields:
           representation_order: Representation order
           maat_reference_number: MAAT reference
-          maat_reference_number_eg: 'eg. 1234567890'
+          maat_reference_number_eg: 'for example 1234567890'
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
@@ -577,9 +577,9 @@ en:
           amount: 'Amount'
           vat_amount: 'VAT amount'
           expenses: 'Travel Expenses'
-          expenses_prompt_text: Please enter each expense (eg train ticket, hotel stay) separately
+          expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
-          hours_help_text: Hours should be in decimal format (eg 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter (eg 1.40 becomes 1.50)
+          hours_help_text: Hours should be in decimal format (for example 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter hour (so 1.40 becomes 1.50)
           location: 'Destination'
           quantity_hours: 'Hours'
           rate: 'Rate'
@@ -899,7 +899,7 @@ en:
           location: Location
           actions: Manage details
           hint:
-            search: eg case worker name
+            search: for example case worker name
         form:
           first_name: *first_name
           last_name: *last_name
@@ -957,7 +957,7 @@ en:
         messages: Messages
         none: None
       hint:
-        search: eg case number, MAAT reference, defendant name, case worker name or email
+        search: for example case number, MAAT reference, defendant name, case worker name or email
   devise:
     shared:
       links:

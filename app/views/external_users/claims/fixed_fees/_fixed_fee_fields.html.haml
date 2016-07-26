@@ -1,45 +1,48 @@
 -fee = present(f.object)
-.form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-  .grid-row
-    .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
-      %label.form-label
-        = t('.fee_type')
-      %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
-      = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete', style: 'width:400px'}
-      = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
+%fieldset
+  %legend.visuallyhidden
+    = t('.fixed_fee')
+  .form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
+    .grid-row
+      .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
+        %label.form-label
+          = t('.fee_type')
+        %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
+        = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete', style: 'width:400px'}
+        = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
-    .column-one-quarter.fee-quantity
-      = f.adp_text_field :quantity,
-                          label: t('.quantity'),
-                          input_classes:'quantity',
-                          input_type: 'number',
-                          value: fee.quantity,
-                          errors: @error_presenter
+      .column-one-quarter.fee-quantity
+        = f.adp_text_field :quantity,
+                            label: t('.quantity'),
+                            input_classes:'quantity',
+                            input_type: 'number',
+                            value: fee.quantity,
+                            errors: @error_presenter
 
-    .column-one-quarter.fee-rate
-      = f.adp_text_field :rate,
-                          label: t('.rate'),
-                          input_classes:'rate',
-                          input_type: 'currency',
-                          errors: @error_presenter,
-                          value: number_with_precision(f.object.rate, precision: 2)
+      .column-one-quarter.fee-rate
+        = f.adp_text_field :rate,
+                            label: t('.rate'),
+                            input_classes:'rate',
+                            input_type: 'currency',
+                            errors: @error_presenter,
+                            value: number_with_precision(f.object.rate, precision: 2)
 
-  .grid-row
-    .column-one-third.fee-total
-      %label.form-label Total
-      %span.total{data: {'total': fee.amount ||= 0}}
-        = fee.amount ||= 0
+    .grid-row
+      .column-one-third.fee-total
+        %label.form-label Total
+        %span.total{data: {'total': fee.amount ||= 0}}
+          = fee.amount ||= 0
 
-  .grid-row.fee-dates-row
+    .grid-row.fee-dates-row
 
-    %label.form-label Dates
+      %label.form-label Dates
 
-    %span.no-dates.form-hint
-      = t('.no_dates')
-    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
+      %span.no-dates.form-hint
+        = t('.no_dates')
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend','association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
 
-    .grid-row.dates-wrapper
-      = f.fields_for :dates_attended do |date_attended|
-        = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
+      .grid-row.dates-wrapper
+        = f.fields_for :dates_attended do |date_attended|
+          = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "fixed_fee_#{@fixed_fee_count}"
 
-  = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group' }
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'fixed-fee-group' }

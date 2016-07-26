@@ -562,6 +562,7 @@ en:
           vat_amount: "VAT amount"
           total: "Total"
           disbursement_type: "Disbursement type"
+          disbursement: "Disbursement"
           remove: "Remove disbursement"
       expenses:
         expense_fields:
@@ -614,10 +615,10 @@ en:
           amount: 'Amount'
           fixed_fees: 'Fixed fees'
         fixed_fee_fields:
+          fixed_fee: "Fixed fee"
           quantity: 'Quantity'
           rate: 'Rate'
           no_dates: 'No dates currently selected.'
-          total: '????_total'
           fee_type: 'Type of fee'
           add_date_attended: 'Add dates'
           remove: 'Remove this fixed fee'
@@ -648,6 +649,7 @@ en:
             prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
             add_misc_fee: "Add another miscellaneous fee"
           misc_fee_fields:
+            miscellaneous_fee: 'Miscellaneous Fee'
             fee_type: "Fee type"
             case_numbers: "Additional case numbers"
             amount: "Total"

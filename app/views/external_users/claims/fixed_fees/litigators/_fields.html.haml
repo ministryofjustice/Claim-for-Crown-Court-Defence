@@ -7,37 +7,39 @@
       = t('.prompt_text_html')
 
     = f.fields_for :fixed_fee do |ff|
+      %fieldset
+        %legend.visuallyhidden
+          = t('.fixed_fees')
+        .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+          .grid-row
+            %div
+              %label.form-label
+                = t('.fee_type')
+              = ff.anchored_attribute 'fee_type'
+              = @claim.case_type.fixed_fee_type.description
+              = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
+              = validation_error_message(@error_presenter, :fee_type)
+          .grid-row
+            - if @claim.case_type.fixed_fee_type.children.any?
+              %label.form-label
+                = t('.select_sub_type')
+              = ff.anchored_attribute 'sub_type'
+              = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
+              = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
 
-      .fixed-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        .grid-row
-          %div
-            %label.form-label
-              = t('.fee_type')
-            = ff.anchored_attribute 'fee_type'
-            = @claim.case_type.fixed_fee_type.description
-            = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
-            = validation_error_message(@error_presenter, :fee_type)
-        .grid-row
-          - if @claim.case_type.fixed_fee_type.children.any?
-            %label.form-label
-              = t('.select_sub_type')
-            = ff.anchored_attribute 'sub_type'
-            = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
-            = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
+            .column-one-quarter.condensed.js-expense-location
 
-          .column-one-quarter.condensed.js-expense-location
+          .grid-row
+            .column-three-quarters
+              = ff.anchored_attribute 'date'
+              = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
 
-        .grid-row
-          .column-three-quarters
-            = ff.anchored_attribute 'date'
-            = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
-
-          .column-one-quarter.condensed.js-expense-amount.fee-total
-            %a{:id => "fixed_fee.amount"}
-            = ff.adp_text_field :amount,
-                                  label: t('.total'),
-                                  input_classes:'total',
-                                  input_type: 'currency',
-                                  errors: @error_presenter,
-                                  error_key: 'fixed_fee.amount',
-                                  value: number_with_precision(ff.object.amount, precision: 2)
+            .column-one-quarter.condensed.js-expense-amount.fee-total
+              %a{:id => "fixed_fee.amount"}
+              = ff.adp_text_field :amount,
+                                    label: t('.total'),
+                                    input_classes:'total',
+                                    input_type: 'currency',
+                                    errors: @error_presenter,
+                                    error_key: 'fixed_fee.amount',
+                                    value: number_with_precision(ff.object.amount, precision: 2)

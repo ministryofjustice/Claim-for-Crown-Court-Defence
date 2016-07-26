@@ -1,19 +1,20 @@
-.form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
-  = f.hidden_field :fee_type_id, value: f.object.fee_type_id
+%fieldset
+  .form-group.basic-fee-group.nested-fields.fee-details.js-block{class: to_slug(f.object.description), data:{type:'fees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": f.object.calculated? ? "FeeBlockCalculator" : "FeeBlock"}}
+    = f.hidden_field :fee_type_id, value: f.object.fee_type_id
 
-  - if f.object.calculated?
-    = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
-  - else
-    = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
+    - if f.object.calculated?
+      = render partial: 'external_users/claims/basic_fees/basic_fee_calculated_fields', locals: { f: f, fee: present(f.object) }
+    - else
+      = render partial: 'external_users/claims/basic_fees/basic_fee_uncalculated_fields', locals: { f: f, fee: present(f.object) }
 
-  - if f.object.fee_type.requires_dates_attended?
-    .grid-row.fee-dates-row
-      %label.form-label Dates
+    - if f.object.fee_type.requires_dates_attended?
+      .grid-row.fee-dates-row
+        %label.form-label Dates
 
-      %span.no-dates.form-hint
-        = t('.no_dates')
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend', 'association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
+        %span.no-dates.form-hint
+          = t('.no_dates')
+        = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', data: {'association-insertion-method' => 'prepend', 'association-insertion-traversal' => 'next', 'association-insertion-node' => 'div'}
 
-      .grid-row.dates-wrapper
-        = f.fields_for :dates_attended do |date_attended|
-          = render 'date_attended_fields', { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }
+        .grid-row.dates-wrapper
+          = f.fields_for :dates_attended do |date_attended|
+            = render 'date_attended_fields', { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }

@@ -1,31 +1,35 @@
-.form-group.misc-fee-group.js-block.nested-fields{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
-  .grid-row
-    .column-three-quarters
-      .column-half{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
-        %label.form-label
-          = t('.fee_type')
-          %span.form-hint.xsmall.zero-vert-margin
-            &nbsp;<br/>
-        %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-        - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
-        = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete js-misc-fee-type', style: 'width:100%'}
-        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+%fieldset
+  %legend.visuallyhidden
+    = t('.miscellaneous_fee')
 
-      .column-half
-        = f.adp_text_field :case_numbers,
-                            label: t('.case_numbers'),
-                            input_classes:'js-misc-fee-case-numbers',
-                            hint_text:'Separate by commas',
+  .form-group.misc-fee-group.js-block.nested-fields{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .grid-row
+      .column-three-quarters
+        .column-half{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+          %label.form-label
+            = t('.fee_type')
+            %span.form-hint.xsmall.zero-vert-margin
+              &nbsp;<br/>
+          %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
+          - misc_fee_types_collection = present_collection(@claim.eligible_misc_fee_types)
+          = f.select :fee_type_id, misc_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete js-misc-fee-type', style: 'width:100%'}
+          = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+
+        .column-half
+          = f.adp_text_field :case_numbers,
+                              label: t('.case_numbers'),
+                              input_classes:'js-misc-fee-case-numbers',
+                              hint_text:'Separate by commas',
+                              errors: @error_presenter
+
+
+      .column-one-quarter.fee-rate
+        = f.adp_text_field :amount,
+                            label: t('.amount'),
+                            input_classes:'total',
+                            input_type:'currency',
+                            hint_text:'&nbsp;<br />',
+                            value: number_with_precision(f.object.amount, precision: 2),
                             errors: @error_presenter
 
-
-    .column-one-quarter.fee-rate
-      = f.adp_text_field :amount,
-                          label: t('.amount'),
-                          input_classes:'total',
-                          input_type:'currency',
-                          hint_text:'&nbsp;<br />',
-                          value: number_with_precision(f.object.amount, precision: 2),
-                          errors: @error_presenter
-
-  = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }
+    = link_to_remove_association t('.remove'), f, { wrapper_class: 'misc-fee-group' }

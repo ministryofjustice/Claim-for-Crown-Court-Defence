@@ -13,6 +13,9 @@ module Stats
         create_claim(:draft,            report_day - 2.days) # will be ignored (not a redetermination)
         create_claim(:redetermination,  report_day - 5.days)
         create_claim(:redetermination,  report_day - 8.days) # will be ignored (out of 7-days range)
+        create_claim(:submitted,        report_day - 8.days) # will be ignored (out of 7-days range)
+        create_claim(:submitted,        report_day - 4.days) # will be ignored (out of 7-days range)
+        create_claim(:submitted,        report_day - 4.days) # will be ignored (out of 7-days range)
       end
 
       after(:all) { clean_database }
@@ -26,7 +29,10 @@ module Stats
           stats = Statistic.find_by_date_and_report_name(report_day, 'redeterminations_average').to_a
           expect(stats.size).to eq(1)
           expect(stats.first.value_1).to eq(1) # 7-days average (rounded to closest integer)
-          expect(stats.first.value_2).to eq(4) # 7-days total
+
+          stats = Statistic.find_by_date_and_report_name(report_day, 'claim_submissions_average').to_a
+          expect(stats.size).to eq(1)
+          expect(stats.first.value_1).to eq(1) # 7-days average (rounded to closest integer)
         end
       end
 

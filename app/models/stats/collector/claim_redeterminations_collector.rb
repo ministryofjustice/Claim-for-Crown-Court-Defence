@@ -10,7 +10,8 @@ module Stats
       end
 
       def collect
-        Statistic.create_or_update(@date, 'redeterminations_average', Claim::BaseClaim, average, total)
+        Statistic.create_or_update(@date, 'redeterminations_average', Claim::BaseClaim, redeterminations_average)
+        Statistic.create_or_update(@date, 'claim_submissions_average', Claim::BaseClaim, submissions_average)
       end
 
 
@@ -20,16 +21,24 @@ module Stats
         ClaimStateTransition.where(event: 'redetermine', created_at: @rolling_period_start..@rolling_period_end)
       end
 
-      def redeterminations
-        @redeterminations ||= redeterminations_in_period.group_by { |t| t.created_at.day }.values.map(&:size)
+      def submissions_in_period
+        ClaimStateTransition.where(event: 'submit', created_at: @rolling_period_start..@rolling_period_end)
       end
 
-      def average
+      def redeterminations
+        @redeterminations ||= redeterminations_in_period.group_by { |t| t.created_at.to_date }.values.map(&:size)
+      end
+
+      def redeterminations_average
         redeterminations.average(@rolling_period).round
       end
 
-      def total
-        redeterminations.sum
+      def submissions
+        @submissions ||= submissions_in_period.group_by { |s| s.created_at.to_date }.values.map(&:size)
+      end
+
+      def submissions_average
+        submissions.average(@rolling_period).round
       end
     end
   end

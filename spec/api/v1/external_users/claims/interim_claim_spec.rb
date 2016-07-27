@@ -144,7 +144,7 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
           valid_params[:case_number] = nil
           valid_params[:case_concluded_at] = 1.month.from_now.as_json
           post_to_create_endpoint
-          expect_error_response('Enter a case number eg A12345678')
+          expect_error_response('Enter a case number for example A12345678')
         end
       end
 

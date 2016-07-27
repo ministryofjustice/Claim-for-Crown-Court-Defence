@@ -25,7 +25,7 @@
         %label{:for => "claim_case_type_id_autocomplete"}
           = t('.case_type')
         .form-hint.xsmall.zero-vert-margin
-          = "eg Trial"
+          = "for example Trial"
         = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :case_type)
 
@@ -36,14 +36,14 @@
           = t('.court')
 
         .form-hint.xsmall.zero-vert-margin
-          = "eg Cardiff"
+          = "for example Cardiff"
         = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :court)
 
       .form-col
         = f.adp_text_field :case_number,
                             label: t('.case_number'),
-                            hint_text: 'eg A12345678',
+                            hint_text: 'for example A12345678',
                             errors: @error_presenter
 
     .form-row
@@ -51,12 +51,12 @@
         %span#transfer_court.visually-hidden
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
-          = "eg Cardiff"
+          = "for example Cardiff"
         = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
         = validation_error_message(@error_presenter, :transfer_court)
 
       .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
-        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'eg A12345678', input_classes: 'medium-input',  errors: @error_presenter
+        = f.adp_text_field :transfer_case_number, label: t('.transfer_case_number'), hint_text: 'for example A12345678', input_classes: 'medium-input',  errors: @error_presenter
 
 
 - if @claim.agfs?

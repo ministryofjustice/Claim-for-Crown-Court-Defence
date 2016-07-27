@@ -39,40 +39,7 @@ class ClaimReporter
     claims_percentage(completed, intentions)
   end
 
-  def processing_times
-    claims_map = processed_claims.where{ created_at >= 16.weeks.ago }.uniq.pluck(:id, :original_submission_date).to_h
-    claims_states = ClaimStateTransition.where(claim_id: claims_map.keys).order(created_at: :desc).pluck(:claim_id, :created_at)
-
-    timings = claims_states.map do |(claim_id, created_at)|
-      next unless claims_map.key?(claim_id)
-
-      processed_timestamp = created_at
-      submitted_timestamp = claims_map.delete(claim_id)
-
-      (processed_timestamp - submitted_timestamp)
-    end
-
-    timings.compact
-  end
-
-  def average_processing_time
-    average_processing_time = calculate_average(processing_times)
-    average_processing_time.nan? ? 0.0 : average_processing_time
-  end
-
-  def average_processing_time_in_words
-    distance_of_time_in_words(Time.now, Time.now - average_processing_time)
-  end
-
   private
-
-  def calculate_average(collection)
-    collection.sum.to_f / collection.size
-  end
-
-  def processed_claims
-    Claim::BaseClaim.caseworker_dashboard_completed
-  end
 
   def non_draft_claims
     Claim::BaseClaim.non_draft

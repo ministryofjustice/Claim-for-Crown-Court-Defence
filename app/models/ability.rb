@@ -10,12 +10,14 @@ class Ability
       can [:show, :index, :new, :create, :edit, :update], Provider
       can [:show, :index, :new, :create, :edit, :update, :change_password, :update_password ], ExternalUser
       can [:show, :edit, :update, :change_password, :update_password], SuperAdmin, id: persona.id
+      can [:update_settings], User, id: user.id
       return
     end
 
     # applies to all external users and case workers
     can [:create, :download_attachment], Message
     can [:index, :update], UserMessageStatus
+    can [:update_settings], User, id: user.id
 
     if persona.is_a? ExternalUser
       if persona.admin?

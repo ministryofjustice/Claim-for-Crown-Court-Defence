@@ -4,6 +4,7 @@ require 'cancan/matchers'
 describe Ability do
   subject { Ability.new(user) }
   let(:user) { nil }
+  let(:another_user) { create(:external_user).user }
 
   context 'when not a signed in user' do
     it { should_not be_able_to(:create, Message.new) }
@@ -11,6 +12,7 @@ describe Ability do
     it { should_not be_able_to(:index, UserMessageStatus) }
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
+    it { should_not be_able_to(:update_settings, User.new) }
   end
 
   context 'when a signed in user' do
@@ -21,6 +23,9 @@ describe Ability do
     it { should be_able_to(:download_attachment, Message.new) }
     it { should be_able_to(:index, UserMessageStatus) }
     it { should be_able_to(:update, UserMessageStatus.new) }
+
+    it { should be_able_to(:update_settings, user) }
+    it { should_not be_able_to(:update_settings, another_user) }
   end
 
   context 'external_user advocate' do
@@ -196,7 +201,7 @@ describe Ability do
     end
   end
 
-context 'external_user litigator' do
+  context 'external_user litigator' do
 
     let(:external_user) { create(:external_user, :litigator) }
     let(:provider)      { external_user.provider }
@@ -348,6 +353,9 @@ context 'external_user litigator' do
     let(:case_worker) { create(:case_worker) }
     let(:user) { case_worker.user }
 
+    it { should be_able_to(:update_settings, user) }
+    it { should_not be_able_to(:update_settings, another_user) }
+
     [:index, :archived, :show, :show_message_controls].each do |action|
       it { should be_able_to(action, Claim::AdvocateClaim.new) }
     end
@@ -441,6 +449,9 @@ context 'external_user litigator' do
     let(:other_provider)    { create(:provider) }
     let(:external_user)          { create(:external_user, provider: provider)}
     let(:other_external_user)    { create(:external_user, provider: other_provider)}
+
+    it { should be_able_to(:update_settings, user) }
+    it { should_not be_able_to(:update_settings, another_user) }
 
     context 'can manage any provider' do
       [:show, :index, :new, :create, :edit, :update].each do |action|

@@ -13,4 +13,8 @@ module ClaimsHelper
   def to_slug(string)
     string.downcase.gsub(/ +/, "-").gsub(/[^a-zA-Z0-9-]/, "")
   end
+
+  def show_api_promo_to_user?
+    Settings.api_promo_enabled? && current_user.setting?(:api_promo_seen).nil?
+  end
 end

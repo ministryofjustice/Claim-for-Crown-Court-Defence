@@ -44,7 +44,46 @@ describe ClaimsHelper do
 			invalid_states ='draft,submitted'
 			expect(includes_state?(only_allocated_claims,invalid_states)).to eql(false)
 		end
+  end
 
-	end
+  describe '#show_api_promo_to_user?' do
+    helper do
+      def current_user
+        instance_double(User, setting?: api_promo_seen_setting)
+      end
+    end
 
+    before do
+      allow(Settings).to receive(:api_promo_enabled?).and_return(api_promo_enabled)
+    end
+
+    context 'feature flag enabled' do
+      let(:api_promo_enabled) { true }
+
+      context 'user has not seen yet the promo' do
+        let(:api_promo_seen_setting) { nil }
+
+        it 'should return true' do
+          expect(show_api_promo_to_user?).to be_truthy
+        end
+      end
+
+      context 'user has seen the promo' do
+        let(:api_promo_seen_setting) { '1' }
+
+        it 'should return false' do
+          expect(show_api_promo_to_user?).to be_falsey
+        end
+      end
+    end
+
+    context 'feature flag disabled' do
+      let(:api_promo_enabled) { false }
+
+      it 'should return false regardless of the user setting' do
+        expect(helper).not_to receive(:current_user)
+        expect(show_api_promo_to_user?).to be_falsey
+      end
+    end
+  end
 end

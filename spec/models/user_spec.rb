@@ -27,6 +27,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  subject { build(:user) }
+
   it { should belong_to(:persona) }
   it { should validate_presence_of(:first_name) }
   it { should validate_presence_of(:last_name) }
@@ -36,10 +38,96 @@ RSpec.describe User, type: :model do
   it { should delegate_method(:claims).to(:persona) }
 
   describe '#name' do
-    subject { build(:user) }
-
     it 'returns the first and last names' do
       expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")
+    end
+  end
+
+  describe '#settings' do
+    context 'without settings' do
+      it 'returns an empty hash when there are no settings yet for the user' do
+        expect(subject.settings).to eq({})
+      end
+    end
+
+    context 'with settings' do
+      subject { build(:user, :with_settings) }
+
+      it 'returns a hash with the settings' do
+        expect(subject.settings).to be_kind_of(Hash)
+        expect(subject.settings.keys).not_to be_empty
+      end
+    end
+  end
+
+  describe '#setting?' do
+    context 'without settings' do
+      it 'returns nil if no default value provided' do
+        expect(subject.setting?(:setting1)).to eq(nil)
+      end
+
+      it 'returns default value when provided' do
+        expect(subject.setting?(:setting1, 'hello')).to eq('hello')
+      end
+    end
+
+    context 'with settings' do
+      subject { build(:user, :with_settings) }
+
+      it 'returns the setting if found' do
+        expect(subject.setting?(:setting1)).to eq('test1')
+      end
+
+      it 'returns nil if no default value provided and setting not found' do
+        expect(subject.setting?(:setting123)).to eq(nil)
+      end
+
+      it 'returns default value when provided and setting not found' do
+        expect(subject.setting?(:setting123, 'hello')).to eq('hello')
+      end
+    end
+  end
+
+  describe '#save_setting!' do
+    it 'is an alias for save_settings!' do
+      expect(subject.method(:save_setting!)).to eq(subject.method(:save_settings!))
+    end
+  end
+
+  describe '#save_settings!' do
+    context 'without previous settings' do
+      before do
+        expect(subject.settings).to eq({})
+        subject.save_settings!(setting1: 'hello')
+      end
+
+      it 'save the setting' do
+        expect(subject.settings).to eq({'setting1' => 'hello'})
+      end
+    end
+
+    context 'with previous settings present' do
+      subject { build(:user, :with_settings) }
+
+      before do
+        expect(subject.settings.keys).not_to be_empty
+        subject.save_settings!(test123: 'blabla')
+      end
+
+      it 'creates and saves the setting if not already present' do
+        expect(subject.settings.keys).to include('test123')
+        expect(subject.settings[:test123]).to eq('blabla')
+      end
+
+      it 'updates and saves the setting if already present' do
+        expect(subject.settings[:setting1]).to eq('test1')
+        subject.save_settings!(setting1: 'blabla')
+        expect(subject.settings[:setting1]).to eq('blabla')
+      end
+
+      it 'maintains the other settings' do
+        expect(subject.settings.keys.sort).to eq(%w(setting1 setting2 test123))
+      end
     end
   end
 end

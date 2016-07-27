@@ -58,6 +58,10 @@ Rails.application.routes.draw do
 
   resources :user_message_statuses, only: [:index, :update]
 
+  resources :users, only: [] do
+    put :settings, on: :member, action: :update_settings, format: :js
+  end
+
   namespace :super_admins do
     root to: 'providers#index'
 

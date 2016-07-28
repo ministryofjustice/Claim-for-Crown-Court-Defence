@@ -6,7 +6,7 @@ class ExpensePresenter < BasePresenter
   # end
 
   def amount
-    h.number_to_currency(expense.amount)
+    h.number_to_currency(expense.amount || 0)
   end
 
   def vat_amount

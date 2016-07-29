@@ -68,22 +68,4 @@ RSpec.describe ClaimReporter do
       expect(subject.completion_rate).to eq(50.0)
     end
   end
-
-  describe 'processing_times' do
-    it 'returns the claim processing times' do
-      expect(subject.processing_times.count).to eq(7)
-    end
-  end
-
-  describe '#average_processing_time' do
-    it 'returns the average processing time for claims' do
-      expect(subject.average_processing_time).to be_a Float
-    end
-  end
-
-  describe '#average_processing_time_in_words' do
-    it 'returns the average processing time in words' do
-      expect(subject.average_processing_time_in_words).to eq('less than a minute')
-    end
-  end
 end

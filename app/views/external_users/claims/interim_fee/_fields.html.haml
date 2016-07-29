@@ -23,7 +23,6 @@
             = inf.adp_text_field :quantity,
                           label: t('.ppe_total'),
                           input_classes:'quantity',
-                          hint_text: t('.ppe_total_hint'),
                           input_type: 'number',
                           value: fee.quantity,
                           error_key:'interim_fee.quantity',
@@ -85,7 +84,7 @@
             = inf.adp_text_field :amount,
                           label: t('.total'),
                           input_classes:'total',
-                          input_type: 'number',
+                          input_type: 'currency',
                           error_key: 'interim_fee.amount',
                           value: number_with_precision(inf.object.amount, precision: 2),
                           errors: @error_presenter

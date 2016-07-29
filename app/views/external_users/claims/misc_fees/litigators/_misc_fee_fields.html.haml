@@ -22,13 +22,11 @@
                               hint_text:'Separate by commas',
                               errors: @error_presenter
 
-
-      .column-one-quarter.fee-rate
+      .column-one-quarter.fee-rate.margin-spacer-sm
         = f.adp_text_field :amount,
                             label: t('.amount'),
                             input_classes:'total',
                             input_type:'currency',
-                            hint_text:'&nbsp;<br />',
                             value: number_with_precision(f.object.amount, precision: 2),
                             errors: @error_presenter
 

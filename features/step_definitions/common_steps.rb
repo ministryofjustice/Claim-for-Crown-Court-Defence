@@ -24,8 +24,12 @@ Given(/^I click 'Start a claim'$/) do
   @external_user_home_page.start_a_claim.click
 end
 
-Then(/^I should see '(.*?)'$/) do |content|
-  expect(page).to have_content(content)
+Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
+  if (visibility == 'see')
+    expect(page).to have_content(text)
+  else
+    expect(page).not_to have_content(text)
+  end
 end
 
 When(/^I select the offence category '(.*?)'$/) do |offence_cat|
@@ -38,6 +42,11 @@ end
 
 When(/I click the claim '(.*?)'$/) do |case_number|
   @external_user_home_page.claim_for(case_number).case_number.click
+end
+
+When(/I click the link '(.*?)'$/) do |text|
+  expect(page).to have_link(text)
+  click_link(text)
 end
 
 When(/I edit this claim/) do
@@ -111,4 +120,8 @@ And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
   within('div.totals-summary') do
     expect(page.find('span.total-vat')).to have_content(total)
   end
+end
+
+And(/^I reload the page$/) do
+  page.evaluate_script('window.location.reload()')
 end

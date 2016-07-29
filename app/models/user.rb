@@ -62,6 +62,19 @@ class User < ActiveRecord::Base
     [last_name, first_name] * ' '
   end
 
+  def settings
+    HashWithIndifferentAccess.new(JSON.parse(read_attribute(:settings))) rescue {}
+  end
+
+  def setting?(name, default = nil)
+    settings.fetch(name, default)
+  end
+
+  def save_settings!(data)
+    update_attributes(settings: settings.merge(data).to_json)
+  end
+  alias save_setting! save_settings!
+
   # So we are able to return useful error messages to the user related to the locking of the account,
   # without having to disable Devise paranoid mode globally (security issues).
   #

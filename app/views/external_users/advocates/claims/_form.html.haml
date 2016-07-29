@@ -6,6 +6,8 @@
 
     - if @claim.step?(1)
 
+      = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
+
       = render partial: 'external_users/claims/case_details/fields', locals: { f: f }
 
       = render partial: 'external_users/claims/defendants/fields', locals: { f: f }

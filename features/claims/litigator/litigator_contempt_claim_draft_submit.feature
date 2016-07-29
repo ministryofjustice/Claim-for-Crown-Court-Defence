@@ -4,10 +4,10 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
   Scenario: I create a final fee claim, save it to draft and later complete it
 
     Given I am a signed in litigator
-    And I am not allowed to submit interim or transfer claims
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
+    And I select the fee scheme 'Litigator final fee'
     Then I should be on the litigator new claim page
 
     When I select the supplier number '1A222Z'

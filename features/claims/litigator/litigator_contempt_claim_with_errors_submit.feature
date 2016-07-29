@@ -4,10 +4,10 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
   Scenario: I create a final fee claim with an error, fixing it
 
     Given I am a signed in litigator
-    And I am not allowed to submit interim or transfer claims
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
+    And I select the fee scheme 'Litigator final fee'
     Then I should be on the litigator new claim page
 
     When I select the supplier number '1A222Z'

@@ -49,12 +49,6 @@ claim_csv_headers:
 
 expense_schema_version: 2
 
-# temporary feature toggle til interim fees ready
-allow_lgfs_interim_fees?: true
-
-# temporary feature toggle til lgfs transfer ready
-allow_lgfs_transfer_fees?: true
-
 # Feature flag to enable or disable API promo banner in the claims page
 # If enabled, users will see it, and will have a 'dismiss' link to hide and do not show it again
 api_promo_enabled?: false

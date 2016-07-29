@@ -4,8 +4,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller, focus: tr
 
   let(:agfs_lgfs_admin) { create(:external_user, :agfs_lgfs_admin) }
   before { sign_in agfs_lgfs_admin.user }
-  before { allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true }
-  before { allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true }
 
   describe 'GET #selection' do
     context 'admin of AGFS and LGFS provider' do

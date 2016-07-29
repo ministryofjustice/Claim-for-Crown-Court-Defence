@@ -4,7 +4,6 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
   Scenario: I create an interim claim, save it to draft and later complete it
 
     Given I am a signed in litigator
-    And I am allowed to submit interim claims
     And My provider has supplier numbers
     And I am on the 'Your claims' page
 

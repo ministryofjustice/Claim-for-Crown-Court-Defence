@@ -254,10 +254,24 @@ select.form-control {
     width: 20%;
   }
 
+  .js-interim-trialDates, .js-interim-retrialDates{
+    .estimated_trial_length_wrapper,.retrial_estimated_length_wrapper {
+      margin-top: 30px;
+    }
+  }
+
+  .js-interim-feeTotal{
+    .amount_wrapper{
+      margin-top: 60px;
+    }
+  }
   .fee-quantity{
     &.js-interim-ppe{
       float:right;
       width: 32%;
+      .form-group{
+        margin-bottom: auto;
+      }
     }
   }
 

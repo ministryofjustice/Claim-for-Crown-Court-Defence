@@ -11,11 +11,6 @@ RSpec.describe Claims::ContextMapper do
     let(:advocate)      { create(:external_user, :advocate) }
     let(:litigator)     { create(:external_user, :litigator) }
 
-    before(:each) do
-      allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
-      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
-    end
-
     it 'should return advocate claims for users in AGFS only provider' do
       context = Claims::ContextMapper.new(advocate)
       expect(context.available_claim_types).to match_array([Claim::AdvocateClaim])

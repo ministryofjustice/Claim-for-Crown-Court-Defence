@@ -17,12 +17,12 @@
           = radio_button_tag :scheme_chosen, "lgfs_final", !@claim_types.include?(Claim::AdvocateClaim)
           = t('.lgfs_final_rb')
 
-      - if @claim_types.include?(Claim::InterimClaim) && Settings.allow_lgfs_interim_fees?
+      - if @claim_types.include?(Claim::InterimClaim)
         = label_tag :scheme_chosen_lgfs_interim, nil, class: "block-label" do
           = radio_button_tag :scheme_chosen, "lgfs_interim", false
           = t('.lgfs_interim_rb')
 
-      - if @claim_types.include?(Claim::TransferClaim) && Settings.allow_lgfs_transfer_fees?
+      - if @claim_types.include?(Claim::TransferClaim)
         = label_tag :scheme_chosen_lgfs_transfer, nil, class: "block-label" do
           = radio_button_tag :scheme_chosen, "lgfs_transfer", false
           = t('.lgfs_transfer_rb')

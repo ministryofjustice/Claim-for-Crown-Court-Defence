@@ -5,8 +5,6 @@ describe 'external_users/claim_types/selection.html.haml', type: :view do
   include ViewSpecHelper
 
   before(:each) do
-    allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
-    allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
     initialize_view_helpers(view)
   end
 

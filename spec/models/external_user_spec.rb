@@ -261,11 +261,6 @@ RSpec.describe ExternalUser, type: :model do
     let(:admin)               { build(:external_user, :admin) }
     let(:advocate_litigator)  { build(:external_user, :advocate_litigator) }
 
-    before(:each) do
-      allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return true
-      allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return true
-    end
-
     it 'returns advocate claims for advocates' do
       expect(advocate.available_claim_types).to match_array([Claim::AdvocateClaim])
     end

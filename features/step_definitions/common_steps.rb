@@ -88,22 +88,6 @@ Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed 
   expect(my_claim.claimed.text).to eq(claimed) if claimed
 end
 
-# The following steps are needed until we open the different LGFS claims
-# to the general users. At the moment the options are behind a feature flag.
-#
-Given(/^I am allowed to submit interim claims$/) do
-  allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return(true)
-end
-
-Given(/^I am allowed to submit transfer claims$/) do
-  allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return(true)
-end
-
-Given(/^I am not allowed to submit interim or transfer claims$/) do
-  allow(Settings).to receive(:allow_lgfs_interim_fees?).and_return(false)
-  allow(Settings).to receive(:allow_lgfs_transfer_fees?).and_return(false)
-end
-
 Then(/^I should see the error '(.*?)'$/) do |error_message|
   within('div.error-summary') do
     expect(page).to have_content(error_message)

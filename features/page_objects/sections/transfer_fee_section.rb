@@ -1,5 +1,5 @@
 class TransferFeeSection < SitePrism::Section
-  include Select2Helper
+  include SelectHelper
 
   element :transfer_fee_total, "#claim_transfer_fee_attributes_amount"
   element :litigator_type_original, "#claim_litigator_type_original"
@@ -10,10 +10,10 @@ class TransferFeeSection < SitePrism::Section
   section :transfer_date, CommonDateSection, '#transfer_date'
 
   def select_transfer_stage(name)
-    select2 name, from: "claim_transfer_stage_id"
+    select name, from: "claim_transfer_stage_id"
   end
 
   def select_case_conclusion(name)
-    select2 name, from: "claim_case_conclusion_id"
+    select name, from: "claim_case_conclusion_id"
   end
 end

@@ -202,9 +202,6 @@ form {
       font-weight: bold;
     }
   }
-  .select2 {
-    display: block;
-  }
 }
 
 .warning {
@@ -261,23 +258,6 @@ form {
   padding-bottom: 5px;
 }
 
-// ================================================================//
-// DYNAMIC-OFFENCE-LIST.SCSS
-// ================================================================//
-/*
-*  select2 prevents function of normal jQuery .hide()
-*  and .show() functions - these classes are used as a
-*  workaround.
-*
-*/
-
-.hide-optgroup {
-	display: none!important;
-}
-
-.show-optgroup {
-	display: block!important;
-}
 // ================================================================//
 // ADMIN.SCSS
 // ================================================================//

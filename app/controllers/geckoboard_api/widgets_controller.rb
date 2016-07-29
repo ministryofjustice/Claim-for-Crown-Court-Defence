@@ -1,11 +1,13 @@
 class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
-  before_action :set_claim_reporter
-
   layout 'statistics'
 
-  def claims; end
+  def claims
+    respond_payload_from_reporter_class(Stats::ClaimsReporterGenerator)
+  end
 
-  def claim_completion; end
+  def claim_completion
+    respond_payload_from_reporter_class(Stats::ClaimCompletionReporterGenerator)
+  end
 
   def claim_creation_source
     respond_payload_from_class(Stats::ClaimCreationSourceDataGenerator)
@@ -57,7 +59,12 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     end
   end
 
-  def set_claim_reporter
-    @reporter = ClaimReporter.new
+  def respond_payload_from_reporter_class(klass)
+    reporter = ClaimReporter.new
+    payload = klass.new(reporter)
+
+    respond_to do |format|
+      format.json { render :json => payload }
+    end
   end
 end

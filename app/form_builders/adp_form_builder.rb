@@ -1,15 +1,5 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::FormTagHelper
-  @deprecated
-  def collection_select2_with_data(method, collection, value_method, text_method, data_options, options_hash = {}, html_option_hash = {})
-    result = make_select_start(method)
-    result += make_prompt if options_hash[:prompt] == true
-    collection.each do |member|
-      result += make_option(object.send(method), member, value_method, text_method, data_options)
-    end
-    result += make_select_end
-    result.html_safe
-  end
 
   def adp_text_field(method, options = {})
     atf = AdpTextField.new(self, method, options)

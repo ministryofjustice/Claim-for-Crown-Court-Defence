@@ -6,7 +6,7 @@ require_relative 'sections/expense_section'
 
 class ClaimFormPage < SitePrism::Page
   include DropzoneHelper
-  include Select2Helper
+  include SelectHelper
 
   set_url "/advocates/claims/new"
 
@@ -80,23 +80,23 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def select_advocate(name)
-    select2 name, from: "claim_external_user_id"
+    select name, from: "claim_external_user_id"
   end
 
   def select_court(name)
-    select2 name, from: "claim_court_id"
+    select name, from: "claim_court_id"
   end
 
   def select_case_type(name)
-    select2 name, from: "claim_case_type_id"
+    select name, from: "claim_case_type_id"
   end
 
   def select_offence_category(name)
-    select2 name, from: "offence_category_description"
+    select name, from: "offence_category_description"
   end
 
   def select_offence_class(name)
-    select2 name, from: "offence_class_description"
+    select name, from: "offence_class_description"
   end
 
   def add_misc_fee_if_required

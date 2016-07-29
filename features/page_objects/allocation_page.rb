@@ -1,5 +1,5 @@
 class AllocationPage < SitePrism::Page
-  include Select2Helper
+  include SelectHelper
 
   set_url "/case_workers/admin"
 
@@ -13,7 +13,7 @@ class AllocationPage < SitePrism::Page
   end
 
   def select_case_worker(name)
-    select2 name, from: "allocation_case_worker_id"
+    select name, from: "allocation_case_worker_id"
   end
 
   def select_claims(case_numbers)

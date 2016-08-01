@@ -22,6 +22,7 @@
 #  failed_attempts        :integer          default(0), not null
 #  locked_at              :datetime
 #  unlock_token           :string
+#  settings               :text
 #
 
 class User < ActiveRecord::Base

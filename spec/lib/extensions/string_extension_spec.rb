@@ -47,7 +47,7 @@ describe String do
 
     context 'for falsey values' do
       %W(false f no n 0).each do |value|
-        it "should be true for '#{value}'" do
+        it "should be false for '#{value}'" do
           expect(value.to_bool).to eq(false)
         end
       end

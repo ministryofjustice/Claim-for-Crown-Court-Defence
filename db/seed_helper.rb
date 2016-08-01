@@ -1,7 +1,7 @@
 module SeedHelper
 
   def self.find_or_create_caseworker!(attrs)
-    user = User.find_by(first_name: attrs[:first_name], last_name: attrs[:last_name], email: attrs[:email].downcase)
+    user = User.find_by(email: attrs[:email].downcase)
     if user.blank?
       user = User.create!(
         first_name: attrs[:first_name],

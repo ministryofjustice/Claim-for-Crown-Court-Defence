@@ -15,6 +15,8 @@ form {
   }
 }
 
+
+
 .dz-error-message{
   color: $error-colour;
 }
@@ -173,9 +175,7 @@ select.form-control {
   .expense-cost{
     display:none;
   }
-  .expense-group{
-    // border: 1px solid red;
-  }
+
   .column-one-third{
     padding:0;
     width: 40%;
@@ -195,7 +195,8 @@ select.form-control {
   }
   .expense-distance,
   .expense-hours,
-  .js-expense-amount{
+  .js-expense-amount,
+  .vat_amount_wrapper{
     text-align: right;
     input.form-control[type=text],
     input.form-control[type=email],
@@ -213,7 +214,11 @@ select.form-control {
   }
 
   .js-expense-reason-text,
-  .js-expense-location{
+  .js-expense-location,
+  .js-expense-distance{
+    .form-group{
+      margin-bottom: 0;
+    }
     input{
       width: 90%;
     }
@@ -275,6 +280,12 @@ select.form-control {
     }
   }
 
+  .margin-spacer-lg{
+    margin-top: 60px;
+  }
+  .margin-spacer-sm{
+    margin-top: 30px;
+  }
   .js-interim-feeTotal{
     .amount_wrapper{
       margin-top: 60px;
@@ -611,4 +622,14 @@ label.form-date-spacing {
   background-color: #F7F7F7;
   padding: 10px;
   margin-bottom: 20px;
+}
+
+
+#warrant_fee{
+  .warrant-amount{
+    text-align: right;
+    .column-quarter{
+      float: right;
+    }
+  }
 }

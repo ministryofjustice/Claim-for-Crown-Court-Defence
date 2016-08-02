@@ -34,7 +34,7 @@
               = ff.anchored_attribute 'date'
               = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
 
-            .column-one-quarter.condensed.js-expense-amount.fee-total
+            .column-one-quarter.condensed.js-expense-amount.fee-total.margin-spacer-lg
               %a{:id => "fixed_fee.amount"}
               = ff.adp_text_field :amount,
                                     label: t('.total'),

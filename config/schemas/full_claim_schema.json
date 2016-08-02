@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "description": "Generated from Claim for crown court defence - claim import with shasum d906843941f10e978fb08a852865cd757b961033",
   "type": "object",
   "required": [
     "claim"

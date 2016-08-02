@@ -35,7 +35,6 @@ Lint/HandleExceptions:
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'app/models/claims/cloner.rb'
-    - 'app/models/json_document_importer.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -50,7 +49,6 @@ Lint/UnusedBlockArgument:
   Exclude:
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/models/claims/cloner.rb'
-    - 'app/models/json_document_importer.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/presenters/error_detail_collection.rb'
 
@@ -77,7 +75,6 @@ Lint/UselessAssignment:
     - 'app/form_builders/adp_form_builder.rb'
     - 'app/models/claims/search.rb'
     - 'app/models/concerns/document_attachment.rb'
-    - 'app/models/json_document_importer.rb'
 
 # Offense count: 1
 Lint/Void:
@@ -189,12 +186,6 @@ Style/EmptyLineBetweenDefs:
     - 'app/models/claim/transfer_claim.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundAccessModifier:
-  Exclude:
-    - 'app/controllers/external_users/json_document_importers_controller.rb'
-
 # Offense count: 12
 # Cop supports --auto-correct.
 Style/EmptyLinesAroundMethodBody:
@@ -219,7 +210,6 @@ Style/ExtraSpacing:
     - 'app/models/defendant.rb'
     - 'app/models/document.rb'
     - 'app/models/fee/fixed_fee_type.rb'
-    - 'app/models/json_document_importer.rb'
     - 'app/models/redetermination.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
@@ -428,7 +418,6 @@ Style/SpaceAroundOperators:
     - 'app/models/claims/sort.rb'
     - 'app/models/document.rb'
     - 'app/models/expense.rb'
-    - 'app/models/json_document_importer.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
     - 'app/presenters/message_presenter.rb'

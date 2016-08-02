@@ -2,8 +2,9 @@ require 'rails_helper'
 
 describe JsonDocumentImporter do
 
-  let(:schema)                              { JsonSchema.claim_schema }
+  let(:schema_validator)                    { ClaimJsonSchemaValidator }
   let(:exported_claim)                      { double 'cms_export', tempfile: './spec/examples/exported_claim.json', content_type: 'application/json'}
+  let(:exported_claim_with_basic_error)     { double 'cms_export', tempfile: './spec/examples/exported_claim_with_basic_error.json', content_type: 'application/json'}
   let(:exported_claim_with_errors)          { double 'cms_export', tempfile: './spec/examples/exported_claim_with_errors.json', content_type: 'application/json'}
   let(:exported_claims)                     { double 'cms_export', tempfile: './spec/examples/exported_claims.json', content_type: 'application/json'}
   let(:wrong_format_file)                   { double 'erroneous_file_selection', tempfile: './features/examples/shorter_lorem.pdf', content_type: 'application/pdf' }
@@ -38,12 +39,22 @@ describe JsonDocumentImporter do
   let(:failed_claim_response_2)             { double 'api_error_response', code: 400, body: [{'error'=>'Case type cannot be blank, you must select a case type'}, {'error'=>'Court cannot be blank, you must select a court'}, {'error'=>'Case number cannot be blank, you must enter a case number'}, {'error'=>'Advocate category cannot be blank, you must select an appropriate advocate category'}, {'error'=>'Offence Category cannot be blank, you must select an offence category'}].to_json }
   let(:failed_defendant_response)           { double 'api_error_response', code: 400, body: [{'error'=> 'Claim cannot be blank'}].to_json }
 
+  context 'document fails basic validation' do
+    let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_basic_error, schema_validator: schema_validator, api_key: 'test_key') }
+
+    it 'returns error' do
+      expect(subject).not_to be_valid
+      expect(subject.errors[:file]).to eq(["The property '#/0' did not contain a required property of 'claim'"])
+    end
+  end
+
   context 'parses a json document and' do
 
-    let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_nulls, schema: schema, api_key: 'test_key') }
+    let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_nulls, schema_validator: schema_validator, api_key: 'test_key') }
+    let(:schema) { schema_validator.full_schema }
 
     it 'removes attributes with NULL/nil value to prevent schema validation fail' do
-      subject.parse_file
+      subject.process_claim_hashes
       data = subject.data
       expect(data.to_s.scan(/nil/)).to be_empty
       expect(JSON::Validator.validate!(schema, data[0])).to eq true
@@ -51,7 +62,7 @@ describe JsonDocumentImporter do
 
     context 'calls API endpoints for' do
 
-      let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema: schema, api_key: 'test_key') }
+      let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema_validator: schema_validator, api_key: 'test_key') }
 
       it 'claims, defendants, representation_orders, fees, expenses' do
         # importer is instantiated with a json doc which contains a single, entire, claim hash.
@@ -67,7 +78,7 @@ describe JsonDocumentImporter do
       end
 
       context 'validates the data against our schema' do
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_schema_error, schema: schema, api_key: 'test_key') }
+        let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_schema_error, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'and adds invalid claim hashes to an array' do
           subject.import!
@@ -79,7 +90,7 @@ describe JsonDocumentImporter do
 
     context 'each claim is processed as an atomic transaction' do
 
-      let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_errors, schema: schema, api_key: 'test_key') }
+      let(:subject) { JsonDocumentImporter.new(json_file: exported_claim_with_errors, schema_validator: schema_validator, api_key: 'test_key') }
 
       before {
         allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
@@ -89,14 +100,14 @@ describe JsonDocumentImporter do
         expect(subject.errors.blank?).to be true
         subject.import!
         expect(subject.errors.blank?).to be false
-        expect(subject.errors).to eq({'Claim 1 (no readable case number)'=>['Advocate email is invalid']})
+        expect(subject.errors.full_messages).to eq(['Claim 1 (no readable case number) Advocate email is invalid'])
       end
     end
 
     context 'can validate the json document provided' do
 
       context 'returning true' do
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema: schema, api_key: 'test_key') }
+        let(:subject) { JsonDocumentImporter.new(json_file: exported_claim, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'when valid' do
           expect(subject.valid?).to eq true
@@ -104,7 +115,7 @@ describe JsonDocumentImporter do
       end
 
       context 'returning false' do
-        let(:subject) { JsonDocumentImporter.new(json_file: wrong_format_file, schema: schema, api_key: 'test_key') }
+        let(:subject) { JsonDocumentImporter.new(json_file: wrong_format_file, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'when invalid' do
           expect(subject.valid?).to eq false
@@ -123,7 +134,7 @@ describe JsonDocumentImporter do
       }
 
       context 'and creates claims' do
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema: schema, api_key: 'test_key') }
+        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'from valid hashes' do
           expect(subject).to receive(:create_claim).exactly(2).times
@@ -135,26 +146,26 @@ describe JsonDocumentImporter do
       context 'and collates errors' do
 
         # API calls are stubbed to return errors so the only thing that matters here is that the subject is instantiated with a document describing two claims
-        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema: schema, api_key: 'test_key') }
+        let(:subject) { JsonDocumentImporter.new(json_file: exported_claims, schema_validator: schema_validator, api_key: 'test_key') }
 
         it 'one Claim model error from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response)
           subject.import!
-          expect(subject.errors).to eq({'A12345678'=>['Advocate email is invalid'], 'A987654321' => ['Advocate email is invalid']})
+          expect(subject.errors.to_hash).to eq({A12345678: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']})
         end
 
         it 'multiple Claim model errors from each of two claims' do
           allow(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).and_return(failed_claim_response_2)
           subject.import!
-          expect(subject.errors).to eq({
-            'A12345678'=>[
+          expect(subject.errors.to_hash).to eq({
+            A12345678: [
               'Case type cannot be blank, you must select a case type', 
               'Court cannot be blank, you must select a court', 
               'Case number cannot be blank, you must enter a case number', 
               'Advocate category cannot be blank, you must select an appropriate advocate category', 
               'Offence Category cannot be blank, you must select an offence category'
             ], 
-            'A987654321'=>[
+            A987654321: [
               'Case type cannot be blank, you must select a case type',
               'Court cannot be blank, you must select a court',
               'Case number cannot be blank, you must enter a case number',
@@ -170,7 +181,7 @@ describe JsonDocumentImporter do
           expect(JsonDocumentImporter::CLAIM_CREATION).to receive(:post).exactly(2).times # claim creation end point is hit and returns an error
           expect(JsonDocumentImporter::DEFENDANT_CREATION).not_to receive(:post) # defendant creation is, therefore, not hit
           subject.import!
-          expect(subject.errors).to eq({'A12345678' => ['Advocate email is invalid'], 'A987654321'=>['Advocate email is invalid']}) # claim model errors are received and stored but no error is returned from defendant model
+          expect(subject.errors.to_hash).to eq({A12345678: ['Advocate email is invalid'], A987654321: ['Advocate email is invalid']}) # claim model errors are received and stored but no error is returned from defendant model
         end
       end
     end

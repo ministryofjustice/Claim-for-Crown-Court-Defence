@@ -12,11 +12,9 @@ $importButton.prop('disabled', false).val('Import claims');
         'There were errors in the following <%= pluralize(@json_document_importer.failed_imports.count, "claim") %> and these were not imported' +
       '</h1>' +
       '<ul class="error-summary-list">' +
-        <% @json_document_importer.errors.each do |case_number, error_messages| %>
+        <% @json_document_importer.errors.each do |case_number, error_message| %>
           '<li><%= "#{case_number}:" %><ul>' +
-          <% error_messages.each do |msg| %>
-            '<li><%= msg %></li>' +
-          <% end %>
+            '<li><%= html_escape_once(error_message) %></li>' +
           '</ul></li>' +
         <% end %>
       '</ul>' +
@@ -66,7 +64,7 @@ $importButton.prop('disabled', false).val('Import claims');
           '<td class="numeric"><%= claim.amount_assessed %></td>' +
           '<td><span class="state state-<%= claim.state %>"><%= claim.state.humanize %></td>' +
           '<td class="numeric"><%= claim.last_submitted_at %></td>' +
-          '<td class="messages"><span class="none">None</span></td>' +
+          '<td class="messages"><span class="none">No Messages</span></td>' +
         '</tr>'
       );
     <% end %>

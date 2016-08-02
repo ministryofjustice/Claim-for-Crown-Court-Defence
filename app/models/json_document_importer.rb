@@ -5,10 +5,10 @@ class JsonDocumentImporter
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :file, :data, :errors, :schema, :failed_imports, :imported_claims, :failed_schema_validation
+  attr_reader :file, :data, :failed_imports, :imported_claims, :failed_schema_validation
 
-  validates :file, presence: true
-  validates :file, json_format: true
+  validate :file_parses_to_json
+  validate :file_conforms_to_basic_json_schema, if: :json_data
 
   BASE_URL                      = GrapeSwaggerRails.options.app_url
   CLAIM_CREATION                = RestClient::Resource.new BASE_URL + '/api/external_users/claims'
@@ -19,29 +19,74 @@ class JsonDocumentImporter
   DATE_ATTENDED_CREATION        = RestClient::Resource.new BASE_URL + '/api/external_users/dates_attended'
 
   def initialize(attributes = {})
-    @file   = attributes[:json_file] # this expects an ActionDispatch::Http::UploadedFile object
-    @errors = {}
-    @schema = attributes[:schema]
+    @file = attributes[:json_file] # this expects an ActionDispatch::Http::UploadedFile object
+    @schema_validator = attributes[:schema_validator]
+    @api_key = attributes[:api_key]
     @failed_imports = []
     @imported_claims = []
     @failed_schema_validation = []
-    @api_key = attributes[:api_key]
-  end
-
-  def parse_file
-    temp_file = File.open(@file.tempfile)
-    @data = JSON.parse(temp_file.read)
-    @data = [@data].flatten
-    process_claim_hashes
-    temp_file.rewind
   end
 
   def process_claim_hashes
+    @data = [json_data].flatten
     @data.each do |claim_hash|
-      claim_hash.each do |claim, attributes_hash|
+      claim_hash.each do |_claim, attributes_hash|
         delete_nils(attributes_hash)
       end
     end
+  end
+
+  def import!
+    process_claim_hashes
+    @data.each.with_index(1) do |claim_hash, index|
+      case_number = case_number_for(claim_hash, index)
+
+      begin
+        @schema_validator.validate_full!(claim_hash)
+        create_claim_and_associations(claim_hash)
+        @imported_claims << Claim::BaseClaim.find_by(uuid: @claim_id)
+      rescue ArgumentError => ex
+        claim_hash['claim']['case_number'] = case_number
+        @failed_imports << claim_hash
+        process_errors(case_number, ex)
+        destroy_claim_if_any
+      rescue JSON::Schema::ValidationError => error
+        @failed_schema_validation << {case_number: case_number, error: error.message}
+      end
+    end
+  end
+
+  private
+
+  def json_data
+    @json_data ||= JSON.parse(File.read(@file.tempfile)) rescue nil
+  end
+
+  def file_parses_to_json
+    json_data.present? || errors.add(:file, 'File is either not JSON or is malformed.')
+  end
+
+  # This will validate against a very basic schema to check the 'claim' object is present.
+  # The main reason is for the JSON importer to not start processing the claims and to fail early,
+  # giving the user error feedback similar to the 'malformed JSON' but a bit more specific.
+  #
+  # If this validates then there is a full validation against each of the individual claims in
+  # the import! method, providing the user feedback about which claim (case_number) fails the schema.
+  #
+  def file_conforms_to_basic_json_schema
+    @schema_validator.validate_basic!(json_data)
+  rescue JSON::Schema::ValidationError => error
+    errors.add(:file, error.message)
+  end
+
+  def api_key_params
+    HashWithIndifferentAccess.new(api_key: @api_key)
+  end
+
+  def case_number_for(claim_hash, index)
+    case_number = claim_hash.fetch('claim', {}).fetch('case_number', nil)
+    case_number = "Claim #{index} (no readable case number)" if case_number.blank?
+    case_number
   end
 
   def delete_nils(attributes_hash)
@@ -55,45 +100,30 @@ class JsonDocumentImporter
     end
   end
 
-  def import!
-    parse_file
-    @data.each_with_index do |claim_hash, index|
-      case_number = claim_hash.fetch('claim', {}).fetch('case_number', nil)
-      case_number = "Claim #{index+1} (no readable case number)" if case_number.blank?
-
-      begin
-        JSON::Validator.validate!(@schema, claim_hash)
-        create_claim(claim_hash['claim'])
-        set_defendants_fees_and_expenses(claim_hash['claim'])
-        create_defendants_and_rep_orders
-        create_fees_and_dates_attended(@fees, FEE_CREATION)
-        create_expenses(@expenses, EXPENSE_CREATION)
-        @imported_claims << Claim::BaseClaim.find_by(uuid: @claim_id)
-      rescue ArgumentError => e
-        claim_hash['claim']['case_number'] = case_number
-        @failed_imports << claim_hash
-        begin
-          @errors[case_number] = JSON.parse(e.message).map{ |error_hash| error_hash['error'] }
-        rescue JSON::ParserError => jpe
-          @errors[case_number] = [jpe.message]
-        end
-        claim = Claim::BaseClaim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
-        claim.destroy if claim.present?
-      rescue JSON::Schema::ValidationError => error
-        @failed_schema_validation << {case_number: case_number, error: error.message}
-      end
+  def process_errors(case_number, error)
+    begin
+      JSON.parse(error.message).each { |error_hash| errors.add(case_number, error_hash['error']) }
+    rescue JSON::ParserError => jpe
+      errors.add(case_number, jpe.message)
     end
   end
 
-  private
+  def destroy_claim_if_any
+    claim = Claim::BaseClaim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
+    claim.destroy if claim.present?
+  end
 
-  def api_key_params
-    HashWithIndifferentAccess.new(api_key: @api_key)
+  def create_claim_and_associations(claim_hash)
+    create_claim(claim_hash['claim'])
+    set_defendants_fees_and_expenses(claim_hash['claim'])
+    create_defendants_and_rep_orders
+    create_fees_and_dates_attended(@fees, FEE_CREATION)
+    create_expenses(@expenses, EXPENSE_CREATION)
   end
 
   def create_claim(hash)
     claim_params = parse_hash(hash)
-    response = CLAIM_CREATION.post(claim_params.merge(source: 'json_import')) {|response, request, result| response }
+    response = CLAIM_CREATION.post(claim_params.merge(source: 'json_import')) { |res, _request, _result| res }
     response.code == 201 ? @claim_id = JSON.parse(response.body)['id'] : raise(ArgumentError.new(response.body))
   end
 
@@ -119,14 +149,14 @@ class JsonDocumentImporter
 
   def create(attributes_hash, rest_client_resource) # used to create defendants, fees and expenses
     obj_params = parse_hash(attributes_hash)
-    response = rest_client_resource.post(obj_params.merge(api_key_params)) {|response, request, result| response }
+    response = rest_client_resource.post(obj_params.merge(api_key_params)) { |res, _request, _result| res }
     (response.code == 201 || response.code == 200) ? @id_of_owner = JSON.parse(response.body)['id'] : raise(ArgumentError.new(response.body))
   end
 
   def create_rep_orders(defendant)
     defendant['representation_orders'].each do |rep_order|
       rep_order['defendant_id'] = @id_of_owner
-      response = REPRESENTATION_ORDER_CREATION.post(rep_order.merge(api_key_params)) {|response, request, result| response }
+      response = REPRESENTATION_ORDER_CREATION.post(rep_order.merge(api_key_params)) { |res, _request, _result| res }
       raise ArgumentError.new(response.body) if response.code != 201
     end
   end
@@ -150,7 +180,7 @@ class JsonDocumentImporter
     fee_or_expense['dates_attended'].to_a.each do |date_attended|
       date_attended['attended_item_id'] = @id_of_owner
       date_attended['attended_item_type'].capitalize!
-      response = DATE_ATTENDED_CREATION.post(date_attended.merge(api_key_params)) {|response, request, result| response }
+      response = DATE_ATTENDED_CREATION.post(date_attended.merge(api_key_params)) { |res, _request, _result| res }
       raise ArgumentError.new(response.body) if response.code != 201
     end
   end

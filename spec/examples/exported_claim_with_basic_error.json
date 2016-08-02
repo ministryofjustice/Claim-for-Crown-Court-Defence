@@ -1,0 +1,36 @@
+// This is invalid due to the claim object not specified
+[
+  {
+    "creator_email": "advocateadmin@example.com",
+    "advocate_email": "advocate@example.com",
+    "case_number": "",
+    "case_type_id": 1,
+    "first_day_of_trial": "2015-06-01",
+    "estimated_trial_length": 3,
+    "actual_trial_length": 3,
+    "trial_concluded_at": "2015-06-03",
+    "advocate_category": "QC",
+    "offence_id": 1,
+    "court_id": 1,
+    "cms_number": "12345678",
+    "additional_information": "string",
+    "apply_vat": true,
+    "trial_fixed_notice_at": "2015-06-01",
+    "trial_fixed_at": "2015-06-01",
+    "trial_cracked_at": "2015-06-01",
+    "defendants": [
+      {
+        "first_name": "case",
+        "last_name": "system",
+        "date_of_birth": "1979-12-10",
+        "order_for_judicial_apportionment": true,
+        "representation_orders": [
+          {
+            "maat_reference": "1234567890",
+            "representation_order_date": "2015-05-01"
+          }
+        ]
+      }
+    ]
+  }
+]

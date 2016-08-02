@@ -35,6 +35,21 @@ label {
     }
   }
 }
+
+.js-case-worker-list{
+  .margin-spacer-sm{
+    margin-top: 25px;
+  }
+  .column-one-quarter{
+    padding: 0;
+  }
+  .awesomplete{
+    input{
+      width: 88%;
+    }
+  }
+}
+
 //  input
 input.form-control[type=text],
 input.form-control[type=email],

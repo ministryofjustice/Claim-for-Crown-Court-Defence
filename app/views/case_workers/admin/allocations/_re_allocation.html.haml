@@ -34,13 +34,12 @@
           Case worker
           = f.radio_button :deallocate, false, checked: true, value: false
 
-  .js-case-worker-list
-    .column-half.form-group
+  .js-case-worker-list.grid-row.form-group
+    / .column-half
+    .column-one-quarter
       = f.label :case_worker_id
       = f.grouped_collection_select :case_worker_id, Location.all, :case_workers, :name, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
-
-  .grid-row
-    .column-quarter
+    .column-half.margin-spacer-sm
       = f.submit 'Re-allocate', class: 'button'
 
   - if @claims.any?

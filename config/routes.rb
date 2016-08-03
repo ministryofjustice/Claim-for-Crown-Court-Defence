@@ -99,8 +99,6 @@ Rails.application.routes.draw do
 
     resources :json_document_importers, only: [:create], format: :js
 
-    post '/external_users/json_importer' => 'json_document_importer#create'
-
     resources :claims, except: [:new, :create, :edit, :update] do
       get 'confirmation',           on: :member
       get 'summary',                on: :member

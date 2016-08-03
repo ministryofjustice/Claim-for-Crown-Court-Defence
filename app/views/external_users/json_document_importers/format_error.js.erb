@@ -5,7 +5,7 @@ $('#importer').find('form')
 $('#importer')
   .addClass('has-errors')
   .find('.errors')
-    .html("<em><%= filename %></em> is either not JSON or contains errors. Choose another file.");
+    .html("<%= html_escape_once(errors[:file].to_sentence) %>");
 
 $('.importer-results').empty();
 $('input.btn-import-file').prop('disabled', false).val('Import claims').prop('aria-hidden', false).hide();

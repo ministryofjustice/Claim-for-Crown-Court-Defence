@@ -85,10 +85,12 @@ class Allocation
 
   def allocate_or_error_claim!(claim)
     if claim.case_workers.exists?
-      errors.add(:base,"Claim #{claim.case_number} has already been allocated to #{claim.case_workers.first.name}")
+      errors.add(:base, "Claim #{claim.case_number} has already been allocated to #{claim.case_workers.first.name}")
     else
       allocate_claim! claim
     end
+  rescue => ex
+    errors.add(:base, "Claim #{claim.case_number} has errors: #{ex.message}")
   end
 
   def rollback_all_allocations!

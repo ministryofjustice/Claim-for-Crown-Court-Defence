@@ -43,7 +43,6 @@ RSpec.describe Allocation, type: :model do
 
       context 'when in an invalid state' do
         let(:claims) { create_list(:allocated_claim, 2) }
-        let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true) }
 
         it 'returns false' do
           expect(allocator.save).to be false
@@ -55,6 +54,26 @@ RSpec.describe Allocation, type: :model do
           expect(allocator.errors[:base]).to include('NO claims allocated because: ')
           expect(allocator.errors[:base][1]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
           expect(allocator.errors[:base][2]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
+        end
+      end
+
+      context 'when claim contains errors that forbids transitioning' do
+        let(:claims) { create_list(:submitted_claim, 1) }
+
+        before do
+          # Introduce an error in the claim
+          claims.each { |claim| claim.update_column(:case_number, 'case_number') }
+        end
+
+        it 'returns false' do
+          expect(allocator.save).to be false
+        end
+
+        it 'details the errors' do
+          allocator.save
+          expect(allocator.errors[:base].size).to eq 2
+          expect(allocator.errors[:base]).to include('NO claims allocated because: ')
+          expect(allocator.errors[:base][1]).to match(/^Claim case_number has errors/)
         end
       end
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# last modified 12-09-2015
+# last modified 03-08-2016
 set -ex
 
 echo "DEBUG: *************************************************************"
@@ -77,8 +77,13 @@ reseed)
     ;;
 esac
 
-echo "starting redis server"
-service redis-server start
+# if REDIS_URL is not set then we start redis-server locally
+if [ -z ${REDIS_URL+x} ]; then
+    echo "starting redis server"
+    service redis-server start
+else
+    echo "using remote redis server"
+fi
 
 echo "starting scheduler daemon"
 bundle exec scheduler_daemon start

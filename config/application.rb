@@ -55,6 +55,5 @@ module AdvocateDefencePayments
     end
 
     config.active_job.queue_adapter = :sidekiq
-    Sidekiq.default_worker_options = { retry: 1 }
   end
 end

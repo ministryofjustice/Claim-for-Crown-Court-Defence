@@ -146,6 +146,7 @@ RSpec.describe ApplicationController, type: :controller do
 
     before do
       allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+      request.env['HTTPS'] = 'on'
     end
 
     context 'ActiveRecord::RecordNotFound' do
@@ -168,6 +169,24 @@ RSpec.describe ApplicationController, type: :controller do
         get :another_exception
         expect(response).to redirect_to(error_500_url)
       end
+    end
+  end
+
+  context 'force_ssl when in production' do
+    controller do
+      def test_endpoint; end
+    end
+
+    before do
+      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+    end
+
+    it 'should redirect to https' do
+      routes.draw { get 'test_endpoint' => 'anonymous#test_endpoint' }
+
+      get :test_endpoint
+      expect(response.status).to eq(301)
+      expect(response.location).to start_with('https:')
     end
   end
 end

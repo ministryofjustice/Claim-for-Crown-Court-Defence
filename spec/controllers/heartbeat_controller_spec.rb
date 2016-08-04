@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe HeartbeatController, type: :controller do
+
+  describe 'ping and heartbeat do not force ssl' do
+    before do
+      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+    end
+
+    after do
+      expect(response.status).not_to eq(301)
+    end
+
+    it 'ping endpoint' do
+      get :ping
+    end
+
+    it 'healthcheck endpoint' do
+      get :healthcheck
+    end
+  end
+
   describe '#ping' do
     context 'when environment variables not set' do
       before do

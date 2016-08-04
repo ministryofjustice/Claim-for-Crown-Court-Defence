@@ -125,3 +125,13 @@ header.main-header {
   border-color: $button-colour;
 
 }
+
+.contact-us-details {
+  li {
+    line-height: 30px;
+
+    &.last-element {
+      margin-bottom: 40px;
+    }
+  }
+}

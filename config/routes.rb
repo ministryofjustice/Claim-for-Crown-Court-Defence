@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'healthcheck',    to: 'heartbeat#healthcheck',  as: 'healthcheck', format: :json
   get 'servicedown',    to: 'pages#servicedown',      as: :service_down_page
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
+  get '/contact_us',    to: 'pages#contact_us',       as: :contact_us_page
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
 

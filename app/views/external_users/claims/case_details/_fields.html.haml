@@ -9,7 +9,7 @@
 
 - if @claim.agfs?
   %fieldset
-    %legend.xsmall
+    %span
       = f.anchored_without_label t('.advocate_category')
       = t('.advocate_category')
     .form-group.inline{class: error_class?(@error_presenter, :advocate_category)}

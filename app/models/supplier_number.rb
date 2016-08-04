@@ -8,7 +8,7 @@
 #
 
 class SupplierNumber < ActiveRecord::Base
-  SUPPLIER_NUMBER_REGEX ||= /\A[0-9][a-zA-Z][0-9]{3}[a-zA-Z]\z/
+  SUPPLIER_NUMBER_REGEX ||= /\A[0-9][A-Z][0-9]{3}[A-Z]\z/
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 

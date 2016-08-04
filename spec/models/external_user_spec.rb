@@ -96,6 +96,8 @@ RSpec.describe ExternalUser, type: :model do
       context 'for advocate' do
         before { subject.roles = ['advocate'] }
 
+        let(:format_error) { ['must be 5 alpha-numeric uppercase characters'] }
+
         it { should validate_presence_of(:supplier_number) }
 
         it 'should not be valid without a supplier number' do
@@ -106,19 +108,19 @@ RSpec.describe ExternalUser, type: :model do
         it 'should fail validation if too long' do
           a = build :external_user, supplier_number: 'ACC123', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'should fail validation if too short' do
           a = build :external_user, supplier_number: 'AC12', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'should fail validation if not alpha-numeric' do
           a = build :external_user, supplier_number: 'AC-12', provider: provider
           expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq( ['must be 5 alpha-numeric characters'] )
+          expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'should pass validation if 5 alpha-numeric' do

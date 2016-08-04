@@ -385,7 +385,6 @@ Style/SpaceAfterComma:
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/claims_helper.rb'
-    - 'app/models/allocation.rb'
     - 'app/models/claim/transfer_brain.rb'
     - 'app/models/claims/allocation_filters.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'

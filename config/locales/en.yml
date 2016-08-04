@@ -46,6 +46,7 @@ en:
     errors:
       blank: &blank "cannot be blank"
       inclusion: &inclusion 'is not included in the list'
+      invalid_supplier_number: &invalid_supplier_number 'invalid format or lowercase'
     actions:
       edit: &edit 'Edit'
       delete: &delete 'Delete'
@@ -114,6 +115,14 @@ en:
               blank: "can't be blank"
             claim_ids:
               blank: "can't be blank"
+        supplier_number:
+          attributes:
+            supplier_number:
+              invalid: *invalid_supplier_number
+        provider:
+          attributes:
+            supplier_number:
+              invalid: *invalid_supplier_number
         external_user:
           attributes:
             roles:
@@ -121,7 +130,7 @@ en:
               inclusion: *inclusion
             supplier_number:
               blank: cannot be blank
-              invalid: 'must be 5 alpha-numeric characters'
+              invalid: 'must be 5 alpha-numeric uppercase characters'
         case_worker:
           attributes:
             roles:

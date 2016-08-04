@@ -13,7 +13,7 @@
 #
 
 class ExternalUser < ActiveRecord::Base
-  SUPPLIER_NUMBER_REGEX ||= /\A[0-9a-zA-Z]{5}\z/
+  SUPPLIER_NUMBER_REGEX ||= /\A[0-9A-Z]{5}\z/
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
 

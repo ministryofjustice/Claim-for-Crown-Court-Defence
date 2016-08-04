@@ -53,23 +53,18 @@
       end
     end
 
-    desc 'Rename dishonesty offences'
-    task :rename_dishonesty_offences => :environment do
-      Offence.where(description: 'Obtaining services dishonestly').update_all(description: 'Obtaining services by dishonesty')
-    end
-
-    desc 'Remove contempt AGFS fixed fee types'
-    task :remove_contempt_fee_types => :environment do
-      old_ids = Fee::FixedFeeType.where(code: %w(CON COA)).pluck(:id)
-      new_id  = Fee::FixedFeeType.by_code('ZCON').id
-      Fee::FixedFee.where(fee_type_id: old_ids).update_all(fee_type_id: new_id)
-      Fee::FixedFeeType.delete_all(id: old_ids)
+    desc 'Make all current supplier numbers uppercase'
+    task :uppercase_supplier_numbers => :environment do
+      %w(supplier_numbers external_users providers claims).each do |table|
+        sql = 'update %s set supplier_number = upper(supplier_number)' % table
+        ActiveRecord::Base.connection.execute(sql)
+      end
     end
 
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {
-        'reseed_expense_types' => 'Reseed the expense types as there are some new.',
+        'uppercase_supplier_numbers' => 'Make all current supplier numbers uppercase',
       }.each do |task, comment|
         puts comment
         Rake::Task["data:migrate:#{task}"].invoke

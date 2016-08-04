@@ -51,4 +51,4 @@ expense_schema_version: 2
 
 # Feature flag to enable or disable API promo banner in the claims page
 # If enabled, users will see it, and will have a 'dismiss' link to hide and do not show it again
-api_promo_enabled?: false
+api_promo_enabled?: true

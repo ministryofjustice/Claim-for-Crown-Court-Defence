@@ -113,9 +113,11 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute) < date.to_date
   end
 
-  def validate_has_role(object, role, error_message_key, error_message)
+  def validate_has_role(object, role_or_roles, error_message_key, error_message)
     return if object.nil?
-    unless object.is?(role)
+
+    roles = *role_or_roles
+    unless roles.any? { |role| object.is?(role) }
       @record.errors[error_message_key] << error_message
     end
   end

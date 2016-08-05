@@ -453,7 +453,6 @@ en:
           advocate: *advocate
           advocate_category: 'Advocate category'
           case_offence: 'Case & offence'
-          case_instructed_offence: 'Case, instructed %{type} & offence'
           case_number: 'Case number'
           transfer_case_number: 'Transfer case number (optional)'
           case_type: 'Case type'

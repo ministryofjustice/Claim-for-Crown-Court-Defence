@@ -31,7 +31,7 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def validate_external_user_has_required_role
-    validate_has_role(@record.external_user, @record.external_user_type, :external_user,  "must have #{@record.external_user_type} role")
+    validate_has_role(@record.external_user, [@record.external_user_type, :admin], :external_user,  "must have #{@record.external_user_type} role")
   end
 
   def validate_creator_and_external_user_have_same_provider

@@ -16,7 +16,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   before_action :initialize_json_document_importer, only: [:index]
 
   before_action :set_and_authorize_claim, only: [:show, :edit, :update, :unarchive, :clone_rejected, :destroy, :summary, :confirmation, :show_message_controls, :messages]
-  before_action :load_external_users_in_provider, only: [:new, :create, :edit, :update]
   before_action :set_doctypes, only: [:show]
   before_action :generate_form_id, only: [:new, :edit]
   before_action :initialize_submodel_counts
@@ -340,7 +339,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def params_with_external_user_and_creator
     form_params = claim_params
-    form_params[:external_user_id] = @external_user.id unless @external_user.admin?
+    form_params[:external_user_id] ||= @external_user.id
     form_params[:creator_id] = @external_user.id
     form_params
   end

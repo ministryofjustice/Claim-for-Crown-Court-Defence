@@ -1,7 +1,0 @@
-.form-row
-  .form-col{class: error_class?(@error_presenter, :external_user)}
-    %a{:id => :external_user}
-    %label{:for => "claim_external_user_id_autocomplete"}
-      = label
-    = f.collection_select :external_user_id, external_users_collection, :id, :name_and_number, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete'}
-    = validation_error_message(@error_presenter, :external_user)

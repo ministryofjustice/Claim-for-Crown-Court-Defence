@@ -10,6 +10,7 @@
 //= require moj
 //= require modules/moj.cookie-message.js
 //= require awesomplete.js
+//= require jquery-accessible-accordion-aria.js
 //= require_tree .
 
 (function () {

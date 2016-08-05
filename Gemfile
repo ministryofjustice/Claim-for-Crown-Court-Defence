@@ -29,7 +29,8 @@ gem 'libreconv',              '~> 0.9.0'
 gem 'logstasher',             '0.6.2'
 gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 4.2.2'
-gem 'paper_trail',            '~> 4.2.0'
+gem 'paper_trail',            '~> 4.0.0.rc'
+#gem 'paper_trail',           '~> 4.2.0' this version introduces a change in behavior, we need to adapt the code first
 gem 'pg',                     '~> 0.18.2'
 gem 'rails',                  '4.2.7'
 gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism

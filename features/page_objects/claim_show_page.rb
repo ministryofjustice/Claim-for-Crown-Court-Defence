@@ -5,21 +5,21 @@ class ClaimShowPage < SitePrism::Page
   end
 
   element :status, "div.claim-hgroup > div.claim-status > span.state"
-  element :messages_tab, "#claim-accordion > h2.tab:nth-of-type(1)"
+  element :messages_tab, "#claim-accordion button:nth-of-type(1)"
   element :edit_this_claim, "div.claim-detail-actions a:nth-of-type(1)"
+  element :fees, "#claim_assessment_attributes_fees"
+  element :expenses, "#claim_assessment_attributes_expenses"
+  element :authorised, "#claim_state_authorised"
+  element :update, "input#button.button"
+  element :rejected, "#claim_state_rejected"
 
-  section :messages_panel, "#claim-accordion > div.panel:nth-of-type(1)" do
-    element :enter_your_message, "textarea#message_body"
-    element :send, "form#new_message div.submit-column > input.button-secondary"
-    element :fees, "#claim_assessment_attributes_fees"
-    element :expenses, "#claim_assessment_attributes_expenses"
-    element :authorised, "#claim_state_authorised"
-    element :rejected, "#claim_state_rejected"
-    element :update, "input#button.button"
-
-    section :rejection_reasons, 'div.js-cw-claim-rejection-reasons' do
+  section :rejection_reasons, 'div.js-cw-claim-rejection-reasons' do
       element :first_reason, 'label:nth-of-type(1) input:nth-of-type(1)'
     end
+
+  section :messages_panel, "#claim-accordion .messages-container" do
+    element :enter_your_message, "textarea#message_body"
+    element :send, "form#new_message div.submit-column > input.button-secondary"
 
     def upload_file(path)
       attach_file("message_attachment", path)

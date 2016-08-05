@@ -12,27 +12,27 @@ When(/^expand the messages section$/) do
 end
 
 When(/^fill out the Fees Total authorised by Laa with the amount of fees claimed$/) do
-  @case_worker_claim_show_page.messages_panel.fees.set "1.23"
+  @case_worker_claim_show_page.fees.set "1.23"
 end
 
 When(/^do the same with expenses$/) do
-  @case_worker_claim_show_page.messages_panel.expenses.set "2.34"
+  @case_worker_claim_show_page.expenses.set "2.34"
 end
 
 When(/^I click the authorised radio button$/) do
-  @case_worker_claim_show_page.messages_panel.authorised.click
+  @case_worker_claim_show_page.authorised.click
 end
 
 When(/^I click the rejected radio button$/) do
-  @case_worker_claim_show_page.messages_panel.rejected.click
+  @case_worker_claim_show_page.rejected.click
 end
 
 And(/^I select the first rejection reason$/) do
-  @case_worker_claim_show_page.messages_panel.rejection_reasons.first_reason.click
+  @case_worker_claim_show_page.rejection_reasons.first_reason.click
 end
 
 When(/^I click update$/) do
-  @case_worker_claim_show_page.messages_panel.update.click
+  @case_worker_claim_show_page.update.click
 end
 
 Then(/^the status at top of page should be (.*)$/) do |text|

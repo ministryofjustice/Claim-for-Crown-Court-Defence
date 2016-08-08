@@ -19,9 +19,9 @@ moj.Modules.ReAllocation = {
 
   showHideCaseWorkersList: function(){
     if(this.$ReAllocationRadioButtons.find(':checked').val() === 'false' ){
-      this.$CaseWorkerList.slideDown();
+      this.$CaseWorkerList.show();
     }else{
-      this.$CaseWorkerList.slideUp();
+      this.$CaseWorkerList.hide();
     }
   }
 };

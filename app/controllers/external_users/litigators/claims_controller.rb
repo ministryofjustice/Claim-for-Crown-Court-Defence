@@ -14,10 +14,6 @@ class ExternalUsers::Litigators::ClaimsController < ExternalUsers::ClaimsControl
 
 private
 
-  def load_external_users_in_provider
-    @litigators_in_provider = @provider.litigators if @external_user.admin?
-  end
-
   def build_nested_resources
     @claim.build_graduated_fee if @claim.graduated_fee.nil?
     @claim.build_warrant_fee if @claim.warrant_fee.nil?

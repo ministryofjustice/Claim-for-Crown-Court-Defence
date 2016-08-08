@@ -14,10 +14,6 @@ class ExternalUsers::Advocates::ClaimsController < ExternalUsers::ClaimsControll
 
 private
 
-  def load_external_users_in_provider
-    @advocates_in_provider = @provider.advocates if @external_user.admin?
-  end
-
   def build_nested_resources
     @claim.fixed_fees.build if @claim.fixed_fees.none?
 

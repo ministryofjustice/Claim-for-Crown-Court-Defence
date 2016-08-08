@@ -14,10 +14,6 @@ class ExternalUsers::Litigators::TransferClaimsController < ExternalUsers::Claim
 
 private
 
-  def load_external_users_in_provider
-    @litigators_in_provider = @provider.litigators if @external_user.admin?
-  end
-
   def build_nested_resources
     @claim.build_transfer_detail if @claim.transfer_detail.nil?
     @claim.build_transfer_fee    if @claim.transfer_fee.nil?

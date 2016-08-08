@@ -518,7 +518,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
   HashWithIndifferentAccess.new(
     {
      "source" => 'web',
-     "external_user_id" => "4",
      "case_type_id" => case_type.id.to_s,
      "court_id" => court.id.to_s,
      "case_number" => "CASE98989",

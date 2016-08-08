@@ -1,11 +1,5 @@
-- external_user_label = @claim.agfs? ? t('.advocate') : t('.litigator')
-
 %h2.bold-medium
-  - if current_user.persona.admin?
-    = t('.case_instructed_offence', type: external_user_label.downcase)
-  - else
-    = t('.case_offence')
-
+  = t('.case_offence')
 
 - if @claim.agfs?
   %fieldset
@@ -19,9 +13,14 @@
 
 %fieldset
   .form-group
-    - if current_user.persona.admin?
-      - external_users_collection = @claim.agfs? ? @advocates_in_provider : @litigators_in_provider
-      = render partial: 'external_users/claims/case_details/case_owner_select', locals: { f: f, label: external_user_label, external_users_collection: external_users_collection }
+    - if @claim.agfs? && @external_user.admin?
+      .form-row
+        .form-col{class: error_class?(@error_presenter, :external_user)}
+          %a{:id => :external_user}
+          %label{:for => "claim_external_user_id_autocomplete"}
+            = t('.advocate')
+          = f.collection_select :external_user_id, @provider.advocates, :id, :name_and_number, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete'}
+          = validation_error_message(@error_presenter, :external_user)
 
     .form-row
       .form-col{class: error_class?(@error_presenter, :case_type)}

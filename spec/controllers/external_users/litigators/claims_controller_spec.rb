@@ -474,7 +474,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
        "case_number" => "A12345678",
        "offence_class_id" => offence.offence_class.id.to_s,
        "offence_id" => offence.id.to_s,
-       "external_user_id" => external_user.id.to_s,
        "first_day_of_trial_dd" => '13',
        "first_day_of_trial_mm" => '5',
        "first_day_of_trial_yyyy" => '2015',

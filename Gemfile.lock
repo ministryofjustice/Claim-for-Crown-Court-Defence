@@ -622,7 +622,7 @@ DEPENDENCIES
   logstasher (= 0.6.2)
   logstuff (= 0.0.2)
   meta_request (~> 0.3.4)
-  paper_trail (~> 4.0.0.rc)
+  paper_trail (= 4.0.2)
   paperclip (~> 4.2.2)
   parallel_tests
   pg (~> 0.18.2)

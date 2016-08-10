@@ -16,4 +16,12 @@ RSpec.describe DisbursementType, type: :model do
 
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
+
+  describe '.allowable_types' do
+    let!(:travel_costs) { create(:disbursement_type, name: 'Travel costs') }
+
+    it 'should exclude "Travel costs" from the result set' do
+      expect(described_class.allowable_types).to_not include(travel_costs)
+    end
+  end
 end

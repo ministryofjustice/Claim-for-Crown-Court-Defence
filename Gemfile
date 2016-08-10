@@ -28,6 +28,7 @@ gem 'kaminari',               '~> 0.16.2'
 gem 'libreconv',              '~> 0.9.0'
 gem 'logstasher',             '0.6.2'
 gem 'logstuff',               '0.0.2'
+gem 'notifications-ruby-client', '~> 0.0.1', git: 'https://github.com/alphagov/notifications-ruby-client.git'
 gem 'paperclip',              '~> 4.2.2'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pg',                     '~> 0.18.2'

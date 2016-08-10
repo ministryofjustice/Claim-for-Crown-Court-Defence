@@ -4,7 +4,7 @@
       = "BETA"
     %span
       This is a new service – your
-      = link_to content_tag(:span, 'Give your ', class: 'visuallyhidden') + "feedback", new_feedback_path(type: 'feedback')
+      = link_to content_tag(:span, 'Give your ', class: 'visuallyhidden') + "feedback", new_feedback_path, target: '_blank'
       will help us to improve it.
       You can
-      = link_to "report a fault here.", new_feedback_path(type: 'bug_report')
+      = link_to "report a fault here.", new_feedback_path(type: 'bug_report'), target: '_blank'

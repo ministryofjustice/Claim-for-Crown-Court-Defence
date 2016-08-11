@@ -2,8 +2,8 @@
   %h2.bold-medium
     = t('.misc_fees')
   .form-hint.xsmall
-    = t('.prompt_text_html')
-  
+    = t('prep_forms.litigators_html')
+
   .misc-fee-group-wrapper
     = f.fields_for :misc_fees do |misc_fee_fields|
       - @misc_fee_count += 1

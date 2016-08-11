@@ -226,6 +226,9 @@ en:
     view_claim: View your claims
   hint:
     search: for example case number, defendant name, advocate/litigator name
+  prep_forms:
+    advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
+    litigators_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
 
 
 # en.super_admins
@@ -644,7 +647,6 @@ en:
           add_misc_fee: 'Add another miscellaneous fee'
           amount: 'Amount'
           misc_fees: 'Miscellaneous fees'
-          prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
         misc_fee_fields:
           rate: 'Rate'
           quantity: 'Quantity'
@@ -655,7 +657,6 @@ en:
         litigators:
           fields:
             misc_fees: "Miscellaneous fees"
-            prompt_text_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
             add_misc_fee: "Add another miscellaneous fee"
           misc_fee_fields:
             miscellaneous_fee: 'Miscellaneous Fee'

@@ -1,6 +1,8 @@
 #misc-fees.mod-fees
   %h2.bold-medium
     = t('.misc_fees')
+  .form-hint.xsmall
+    = t('prep_forms.advocates_html')
 
   .misc-fee-group-wrapper
     = f.fields_for :misc_fees do |misc_fee_fields|

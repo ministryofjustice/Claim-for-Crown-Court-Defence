@@ -7,6 +7,7 @@
   .panel.panel-border-wide
     %p
       Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.
+      = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
 
   = form_for @feedback, builder: AdpFormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
     = f.hidden_field :type

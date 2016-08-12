@@ -20,7 +20,7 @@ FactoryGirl.define do
     claim
 
     after(:build) do |message|
-      message.sender_id = create(:user, email: Faker::Internet.email, password: 'password', password_confirmation: 'password').id
+      message.sender_id ||= create(:user, email: Faker::Internet.email, password: 'password', password_confirmation: 'password').id
     end
   end
 

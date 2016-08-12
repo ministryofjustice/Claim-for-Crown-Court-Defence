@@ -197,6 +197,8 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     describe "GET #show" do
       subject { create(:claim) }
 
+      let(:another_case_worker) { create(:case_worker) }
+
       it "returns http success" do
         get :show, id: subject
         expect(response).to have_http_status(:success)
@@ -215,14 +217,11 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       it 'automatically marks unread messages on claim for current user as "read"' do
         subject.case_workers << @case_worker
 
-        message_1 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
-        message_2 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
-        message_3 = create(:message, claim_id: subject.id, sender_id: @case_worker.user.id)
+        create_list(:message, 3, claim_id: subject.id, sender_id: another_case_worker.user.id)
 
         expect(subject.unread_messages_for(@case_worker.user).count).to eq(3)
 
         get :show, id: subject
-
 
         expect(subject.unread_messages_for(@case_worker.user).count).to eq(0)
       end

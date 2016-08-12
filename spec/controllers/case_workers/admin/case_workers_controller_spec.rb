@@ -217,15 +217,37 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-
-    before { delete :destroy, id: subject }
-
-    it 'destroys the case worker' do
-      expect(CaseWorker.count).to eq(1)
+    after do
+      expect(response).to redirect_to(case_workers_admin_case_workers_url)
     end
 
-    it 'redirects to case worker admin root url' do
-      expect(response).to redirect_to(case_workers_admin_case_workers_url)
+    context 'case worker with sent messages' do
+      before do
+        create(:message, sender_id: subject.user.id)
+        delete :destroy, id: subject
+      end
+
+      it 'doesn\'t destroy the case worker' do
+        expect(CaseWorker.count).to eq(2)
+      end
+
+      it 'redirects to case worker admin root url with alert message' do
+        expect(flash[:alert]).to eq('A case worker cannot be deleted if they\'ve created messages in any claim')
+      end
+    end
+
+    context 'case worker without sent messages' do
+      before do
+        delete :destroy, id: subject
+      end
+
+      it 'destroys the case worker' do
+        expect(CaseWorker.count).to eq(1)
+      end
+
+      it 'redirects to case worker admin root url with notice message' do
+        expect(flash[:notice]).to eq('Case worker deleted')
+      end
     end
   end
 end

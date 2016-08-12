@@ -477,6 +477,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   describe "GET #show" do
     subject { create(:claim, external_user: advocate) }
 
+    let(:case_worker) { create(:case_worker) }
+
     it "returns http success" do
       get :show, id: subject
       expect(response).to have_http_status(:success)
@@ -493,9 +495,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     end
 
     it 'automatically marks unread messages on claim for current user as "read"' do
-      message_1 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
-      message_2 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
-      message_3 = create(:message, claim_id: subject.id, sender_id: advocate.user.id)
+      create_list(:message, 3, claim_id: subject.id, sender_id: case_worker.user.id)
 
       expect(subject.unread_messages_for(advocate.user).count).to eq(3)
 

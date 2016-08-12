@@ -42,8 +42,14 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
   # NOTE: update_password in PasswordHelper
 
   def destroy
-    @case_worker.destroy
-    redirect_to case_workers_admin_case_workers_url, notice: 'Case worker deleted'
+    result = if @case_worker.user.messages_sent.any?
+               {alert: 'A case worker cannot be deleted if they\'ve created messages in any claim'}
+             else
+               @case_worker.destroy
+               {notice: 'Case worker deleted'}
+             end
+
+    redirect_to case_workers_admin_case_workers_url, result
   end
 
   private

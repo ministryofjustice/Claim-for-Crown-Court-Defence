@@ -51,8 +51,8 @@ module Stats
     end
 
     describe '#download_filename' do
-      it 'generates a filename incorportating the report name and started at time' do\
-        report = build :stats_report, report_name: 'my_new_report', started_at: Time.new(2016, 2, 3, 4, 55, 12)
+      it 'generates a filename incorportating the report name and started at time' do
+        report = build :stats_report, report_name: 'my_new_report', started_at: Time.zone.local(2016, 2, 3, 4, 55, 12)
         expect(report.download_filename).to eq 'my_new_report_2016_02_03_04_55_12.csv'
       end
     end

@@ -81,21 +81,21 @@ RSpec.describe ClaimCsvPresenter do
 
         it 'date submitted' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include((Time.now - 3.day).to_s)
-            expect(claim_journeys.second).to include((Time.now).to_s)
+            expect(claim_journeys.first).to include((Time.zone.now - 3.day).to_s)
+            expect(claim_journeys.second).to include((Time.zone.now).to_s)
           end
         end
 
         it 'date allocated' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include((Time.now - 2.day).to_s)
+            expect(claim_journeys.first).to include((Time.zone.now - 2.day).to_s)
             expect(claim_journeys.second).to include('n/a', 'n/a')
           end
         end
 
         it 'date of last assessment' do
           subject.present! do |claim_journeys|
-            expect(claim_journeys.first).to include((Time.now - 1.day).to_s)
+            expect(claim_journeys.first).to include((Time.zone.now - 1.day).to_s)
             expect(claim_journeys.second).to include('n/a', 'n/a')
           end
         end

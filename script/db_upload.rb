@@ -21,13 +21,17 @@ def ssh_env
 end
 
 def ssh_address
-  @ssh_address ||= (ARGV[2].to_s.end_with?('.psql') ? ENVIRONMENTS[ssh_env] : ARGV[2])
+  @ssh_address ||= (argument_is_file?(ARGV[2]) ? ENVIRONMENTS[ssh_env] : ARGV[2])
 end
 
 def dump_file_name
   @dump_file_name ||= begin
-    (ARGV[2].to_s.end_with?('.psql') ? ARGV[2] : ARGV[3]) || (raise 'Please specify the dump file name as the third (or fourth if IP was provided) argument')
+    (argument_is_file?(ARGV[2]) ? ARGV[2] : ARGV[3]) || (raise 'Please specify the dump file name as the third (or fourth if IP was provided) argument')
   end
+end
+
+def argument_is_file?(arg)
+  arg.to_s.end_with?('.psql') || arg.to_s.end_with?('.gz')
 end
 
 def install_postgres(ssh)

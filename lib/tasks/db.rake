@@ -28,7 +28,7 @@ namespace :db do
     end)
   end
 
-  desc 'Dumps an anonymised backup of the database'
+  desc 'Dumps an anonymised (gzip) backup of the database'
   task :dump_anonymised, [:file] => :environment do |_task, args|
     excluded_tables = %w(providers defendants users) # make sure a db:dump task exists for each of these tables (i.e. db:dump:providers)
 
@@ -46,6 +46,8 @@ namespace :db do
 
       Rake::Task[task_name].invoke(filename)
     end
+
+    compress_file(filename)
   end
 
   desc 'Anonymise current database data (in-place, no dump)'
@@ -74,6 +76,11 @@ namespace :db do
     unless File.exists?(dump_file)
       puts 'File %s not found.' % dump_file
       exit(1)
+    end
+
+    if dump_file.end_with?('.gz')
+      decompress_file(dump_file)
+      dump_file = dump_file[0..-4]
     end
 
     sh (with_config do |_db_name, connection_opts|
@@ -162,4 +169,13 @@ namespace :db do
     end
   end
 
+  def compress_file(filename)
+    puts 'Compressing file...'
+    sh "gzip #{filename}"
+  end
+
+  def decompress_file(filename)
+    puts 'Decompressing file...'
+    sh "gzip -d #{filename}"
+  end
 end

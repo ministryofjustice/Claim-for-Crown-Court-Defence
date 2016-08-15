@@ -50,6 +50,7 @@ dump.rdb
 
 # Ignore Postgres database dumps
 *_dump.psql
+*_dump.psql.gz
 
 # Ignore any stats files that have been generated
 /tmp/stats/*

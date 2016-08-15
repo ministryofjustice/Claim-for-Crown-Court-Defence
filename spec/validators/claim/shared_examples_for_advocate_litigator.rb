@@ -173,10 +173,10 @@ shared_examples "common litigator validations" do
       should_error_with(claim, :offence, 'blank_class')
     end
 
-    it 'should error if NOT a Miscellaneous/other offence' do
-      claim.offence = offence
-      should_error_with(claim, :offence, 'invalid_class')
-    end
+    # it 'should error if NOT a Miscellaneous/other offence' do
+    #   claim.offence = offence
+    #   should_error_with(claim, :offence, 'invalid_class')
+    # end
 
     it 'should NOT error if a Miscellaneous/other offence' do
       claim.offence = misc_offence

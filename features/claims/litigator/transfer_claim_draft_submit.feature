@@ -28,7 +28,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    And I select the litigator offence class 'E: Burglary'
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     And I click "Continue" in the claim form
 
@@ -53,7 +54,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     Then I click Submit to LAA
     And I should be on the check your claim page
-    And I should see 'E: Burglary'
+    And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     When I click "Continue"
     Then I should be on the certification page

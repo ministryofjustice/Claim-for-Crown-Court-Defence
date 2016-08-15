@@ -20,7 +20,7 @@ class Offence < ActiveRecord::Base
 
   default_scope { includes(:offence_class).order(:description, :offence_class_id) }
 
-  scope :unique_name,   -> { unscoped.select(:description).distinct }
+  scope :unique_name,   -> { unscoped.select(:description).distinct.order(:description) }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
 
   def offence_class_description

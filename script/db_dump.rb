@@ -29,6 +29,10 @@ def dump_file_name
   @dump_file_name ||= "#{ENVIRONMENTS[ssh_env].last}_dump.psql"
 end
 
+def gzip_file_name
+  "#{dump_file_name}.gz"
+end
+
 def install_postgres(ssh)
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get update'
   ssh.exec! 'sudo docker exec advocatedefencepayments apt-get -y install postgresql-9.4'
@@ -43,15 +47,15 @@ begin
 
   puts 'Running task db:dump_anonymised...'
   puts ssh.exec!("sudo docker exec advocatedefencepayments rake db:dump_anonymised[#{dump_file_name}]")
-  puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{dump_file_name} ~/")
+  puts ssh.exec!("sudo docker cp advocatedefencepayments:/usr/src/app/#{gzip_file_name} ~/")
   ssh.close
 
   puts 'Downloading dump file'
-  Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{dump_file_name}", '.') do |_channel, _name, sent, total|
+  Net::SCP.download!(ssh_address, ssh_user, "/home/#{ssh_user}/#{gzip_file_name}", '.') do |_channel, _name, sent, total|
     puts "...downloading... #{sent}/#{total}" if sent % 512_000 == 0
   end
 
-  puts 'File %s downloaded' % dump_file_name
+  puts 'File %s downloaded' % gzip_file_name
 rescue Exception => e
   puts 'Usage: ./db_dump username environment [IP]'
   puts e

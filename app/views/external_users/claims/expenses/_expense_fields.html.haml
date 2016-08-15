@@ -33,7 +33,7 @@
                             errors: @error_presenter
 
     .grid-row
-      .column-one-third{class: "expense_#{@expense_count}_date"}
+      .column-one-third{class: "js-expense-date expense_#{@expense_count}_date"}
         = f.gov_uk_date_field :date,
                                 legend_text: 'Date of expenses',
                                 legend_class: 'govuk-legend',

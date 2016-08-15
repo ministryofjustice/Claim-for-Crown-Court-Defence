@@ -11,6 +11,7 @@ moj.Modules.NewClaim = {
   $amount : {},
   $vat_amount : {},
   $reasonText : {},
+  $date : {},
   $ariaLiveRegion : {},
 
   init : function() {
@@ -100,6 +101,7 @@ moj.Modules.NewClaim = {
     this.$amount = this.$currentExpense.find('.js-expense-amount');
     this.$vat_amount = this.$currentExpense.find('.js-expense-vat-amount');
     this.$reasonText = this.$currentExpense.find('.js-expense-reason-text');
+    this.$date = this.$currentExpense.find('.js-expense-date');
     this.$ariaLiveRegion = this.$element.next();
   },
 
@@ -118,14 +120,21 @@ moj.Modules.NewClaim = {
         .add(self.$hours)
         .add(self.$reason)
         .add(self.$reasonText)
+        .add(self.$date)
         .hide();
     }else{
       self.showExpenseFields(elem);
     }
+
+    // Clear unused fields to avoid submitting them and causing validation errors server-side
+    self.clearUnusedFields(self.$currentExpense);
   },
 
   showExpenseFields : function (elem){
     var self = this;
+
+    self.$date.show();
+
     self.$amount.show();
 
     self.$vat_amount.show();
@@ -151,9 +160,6 @@ moj.Modules.NewClaim = {
 
     self.$currentExpense.find('.js-expense-amount').toggleClass('first-col', !self.dataAttribute.hours);
 
-    // Clear unused fields to avoid submitting them and causing validation errors server-side
-    self.clearUnusedFields(self.$currentExpense);
-
     self.$ariaLiveRegion.children().hide().end();
   },
 
@@ -167,6 +173,7 @@ moj.Modules.NewClaim = {
 
   clearUnusedFields: function(expenseGroup) {
     expenseGroup.find('input:hidden').not('input[type="hidden"]').not('input[type="radio"]').val('');
+    expenseGroup.find('select:hidden').not('select[type="hidden"]').val('');
     expenseGroup.find('input:hidden[type="radio"]').prop("checked", false);
   },
 

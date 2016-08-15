@@ -1,6 +1,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'API release notes'}
 
 %section.api-documentation
+  %hr
   %h2
     July 2015
 
@@ -8,6 +9,7 @@
     %li
       created
 
+  %hr
   %h2
     October 2015
 
@@ -15,6 +17,7 @@
     %li
       first significant release
 
+  %hr
   %h2
     February 2016
 
@@ -31,6 +34,7 @@
     %li retrial fields added - required for Retrial case type claims
     %li claim importer - reports specific errors for valid JSON files that contain model validation errors
 
+  %hr
   %h2 June 2016
 
   %ul.list-bullet
@@ -66,6 +70,7 @@
       Submitted dates must conform to ISO 8601, being the time information and time zone offset optional.
       Examples: 2016-12-31, 2016-12-31T11:45, 2016-12-31T11:45:30Z
 
+  %hr
   %h2 July 2016
 
   %ul.list-bullet
@@ -172,3 +177,12 @@
       %strong MUST
       be one of the lgfs_offence_ids returned in the offence_classes list. You should still use the offence ids returned from the /api/offences
       endpoint for advocate claims.
+
+%hr
+%h1 August 2016
+
+%ul.list-bullet
+  %li
+    Offence Ids on LGFS claims (Litigator Final Claim, Litigator Transfer Claim, Litigator Interim Claim) are no longer limited to those ids derived from the Offence Class.  Previously,
+    the only offence ids that were considered valid on an LGFS claim were those that were derived from the litigator_offence_id on the relevant Offence Class.  This is no longer that case,
+    any offence id may be used.

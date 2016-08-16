@@ -29,8 +29,8 @@ module API::V1
     params :common_lgfs_params do
       optional :user_email, type: String, desc: 'REQUIRED: The ADP account email address that uniquely identifies the litigator to whom this claim belongs.'
       optional :supplier_number, type: String, desc: 'REQUIRED. The supplier number.'
-      optional :transfer_court_id, type: Integer, desc: 'REQUIRED: The unique identifier for the transfer court.'
-      optional :transfer_case_number, type: String, desc: 'REQUIRED: The case number for the transfer court.'
+      optional :transfer_court_id, type: Integer, desc: 'OPTIONAL: The unique identifier for the transfer court.'
+      optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number for the transfer court.'
     end
 
     def build_arguments

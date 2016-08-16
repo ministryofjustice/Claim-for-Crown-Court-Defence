@@ -83,7 +83,6 @@ describe API::V1::DropdownData do
 
     it "should return a JSON formatted list of the required information" do
       results.each do |endpoint, json|
-        # ap "#{endpoint}"
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
         expect(JSON.parse(response.body).count).to be > 0

@@ -36,6 +36,11 @@ When(/^I select the offence category '(.*?)'$/) do |offence_cat|
   @claim_form_page.select_offence_category offence_cat
 end
 
+And(/^I sleep for '(.*?)' second$/) do |num_seconds|
+  puts ">>>>>>>>>>>>>> sleeping for #{num_seconds} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+  sleep num_seconds.to_i
+end
+
 Given(/^I am later on the Your claims page$/) do
   @external_user_home_page.load
 end

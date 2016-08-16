@@ -31,7 +31,6 @@ module Claim
 
     def validate_offence
       validate_presence(:offence, "blank_class")
-      validate_inclusion(:offence, Offence.miscellaneous.to_a, "invalid_class")
     end
 
     def validate_case_concluded_at

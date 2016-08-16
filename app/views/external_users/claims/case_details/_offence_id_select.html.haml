@@ -1,7 +1,0 @@
-%fieldset
-  %div{class: error_class?(@error_presenter, :offence)}
-    = f.anchored_label t('.offence_class'), :offence
-    .form-hint.xsmall.zero-vert-margin
-      = t('.offence_class_hint')
-    = f.collection_select :offence_id, Offence.miscellaneous, :id, :offence_class_description, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
-    = validation_error_message(@error_presenter, :offence)

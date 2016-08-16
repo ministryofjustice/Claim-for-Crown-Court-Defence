@@ -1,4 +1,4 @@
-require 'rails_helper'
+  require 'rails_helper'
 require_relative '../validation_helpers'
 require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'

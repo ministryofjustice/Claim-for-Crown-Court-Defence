@@ -27,7 +27,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I enter the case concluded date
     And I enter defendant, representation order and MAAT reference
     And I add another defendant, representation order and MAAT reference
-    And I select the litigator offence class 'E: Burglary'
+    And I select the offence category 'Handling stolen goods'
+    And I select the advocate offence class 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     Then I click "Continue" in the claim form
 

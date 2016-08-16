@@ -45,7 +45,35 @@ RSpec.describe Defendant, type: :model do
     end
   end
 
+  describe '#validate_date?' do
 
+    let(:defendant) { Defendant.new(claim: Claim::AdvocateClaim.new(case_type: CaseType.new)) }
+
+    before(:each) do
+      expect(defendant).to receive(:perform_validation?).and_return(true)
+    end
+
+    
+    it 'should return false if there is no associated claim' do
+      defendant.claim = nil
+      expect(defendant.validate_date?).to be_falsey
+    end
+
+    it 'should return false if there is a claim but no case type' do
+      defendant.claim.case_type = nil
+      expect(defendant.validate_date?).to be_falsey
+    end
+
+    it 'should return false if there is a claim with a case type that does not require a date of birth' do
+      expect(defendant.claim.case_type).to receive(:requires_defendant_dob?).and_return false
+      expect(defendant.validate_date?).to be_falsey
+    end
+
+    it 'should return true if there is a claim with a case type that requires a date of birth' do
+      expect(defendant.claim.case_type).to receive(:requires_defendant_dob?).and_return true
+      expect(defendant.validate_date?).to be true
+    end
+  end
 
   context 'representation orders' do
 

@@ -371,6 +371,11 @@ form {
 // certification.SCSS
 // ================================================================//
 .certification {
+  .form-group{
+    &.certified_by_wrapper{
+      margin-bottom:0;
+    }
+  }
   ul, ol {
     list-style-type: initial;
 
@@ -378,9 +383,12 @@ form {
   ul{
     margin-left: 7%;
   }
-  li {
+  .confirmation-list{
+    li {
     margin-bottom: $gutter;
+    }
   }
+
   legend {
     font-weight: normal;
   }

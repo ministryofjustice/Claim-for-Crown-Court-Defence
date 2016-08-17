@@ -36,5 +36,9 @@ FactoryGirl.define do
     trait :with_settings do
       settings { {setting1: 'test1', setting2: 'test2'}.to_json }
     end
+
+    trait :softly_deleted do
+      deleted_at 10.minutes.ago
+    end
   end
 end

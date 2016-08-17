@@ -15,13 +15,18 @@ class CaseWorker < ActiveRecord::Base
   ROLES = %w{ admin case_worker }
 
   include Roles
+  include SoftlyDeletable
 
   belongs_to :location
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :case_worker_claims, dependent: :destroy
   has_many :claims, class_name: Claim::BaseClaim, through: :case_worker_claims, after_remove: :unallocate!
 
+
+
   default_scope { includes(:user) }
+  scope :active, -> { where(deleted_at: nil) }
+  scope :deleted, -> { where.not(deleted_at: nil) }
 
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}
@@ -32,6 +37,10 @@ class CaseWorker < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+
+  def before_soft_delete
+    self.user.soft_delete
+  end
 
   protected
 

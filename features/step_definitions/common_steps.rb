@@ -37,8 +37,7 @@ When(/^I select the offence category '(.*?)'$/) do |offence_cat|
 end
 
 And(/^I sleep for '(.*?)' second$/) do |num_seconds|
-  puts ">>>>>>>>>>>>>> sleeping for #{num_seconds} #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-  sleep num_seconds.to_i
+  sleep num_seconds.to_f
 end
 
 Given(/^I am later on the Your claims page$/) do

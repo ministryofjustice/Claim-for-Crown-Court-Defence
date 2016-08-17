@@ -131,4 +131,46 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  context 'soft deletions' do
+    before(:all) do
+      @live_user_1 = create :user
+      @live_user_2 = create :user
+      @dead_user_1 = create :user, :softly_deleted
+      @dead_user_2 = create :user, :softly_deleted
+    end
+
+    after(:all) { clean_database }
+
+    describe 'default scope' do
+      it 'should only return undeleted records' do
+        expect(User.all.order(:id)).to eq([ @live_user_1, @live_user_2 ])
+      end
+
+      it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
+        expect{
+          User.find(@dead_user_1.id)
+        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find User with 'id'=#{@dead_user_1.id} [WHERE "users"."deleted_at" IS NULL]}
+      end
+
+      it 'returns an empty array if the selection criteria only reference deleted records' do
+        expect(User.where(id: [@dead_user_1.id, @dead_user_2.id])).to be_empty
+      end
+
+    end
+
+    describe 'including_deleted scope' do
+      it 'should return deleted and undeleted records' do
+        expect(User.including_deleted.order(:id)).to eq([ @live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
+      end
+
+      it 'should return the record if find by id relates to a deleted record' do
+        expect(User.including_deleted.find(@dead_user_1.id)).to eq @dead_user_1
+      end
+
+      it 'returns the deleted records if the selection criteria reference only deleted records' do
+        expect(User.including_deleted.where(id: [@dead_user_1.id, @dead_user_2.id]).order(:id)).to eq([@dead_user_1, @dead_user_2])
+      end
+    end
+  end
 end

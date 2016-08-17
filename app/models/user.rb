@@ -27,6 +27,10 @@
 
 class User < ActiveRecord::Base
 
+  default_scope { where(deleted_at: nil) }
+
+  scope :including_deleted, -> { unscoped }
+
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
 
   # Include default devise modules. Others available are:

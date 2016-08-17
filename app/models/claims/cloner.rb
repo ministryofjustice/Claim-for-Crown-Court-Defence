@@ -107,4 +107,20 @@ module Claims::Cloner
     draft.transition_clone_to_draft!
     draft
   end
+
+  # `other_claim` can be a draft instance of any kind of claim scheme (agfs or lgfs).
+  # Once this is implemented in the UI, this instance will need to be initialized with the creator
+  # and external_user, which will be the logged-in user performing the action.
+  #
+  def clone_details_to_draft(other_claim)
+    raise ArgumentError, 'Can only clone details to claims in state "draft"' unless other_claim.draft?
+
+    other_claim.attributes = {
+      court_id: court_id,
+      defendants: defendants.map(&:duplicate)
+    }
+
+    other_claim.save(validate: false)
+    other_claim
+  end
 end

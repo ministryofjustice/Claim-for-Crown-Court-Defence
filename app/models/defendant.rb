@@ -23,7 +23,7 @@ class Defendant < ActiveRecord::Base
   validates_with DefendantValidator
   validates_with DefendantSubModelValidator
 
-  acts_as_gov_uk_date :date_of_birth, validate_if: :perform_validation?
+  acts_as_gov_uk_date :date_of_birth, validate_if: :validate_date?
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank, allow_destroy: true
 
@@ -37,6 +37,14 @@ class Defendant < ActiveRecord::Base
 
   def representation_order_details
     representation_orders.map(&:detail)
+  end
+
+  def validate_date?
+    self.perform_validation? && case_type_requires_date?
+  end
+
+  def case_type_requires_date?
+    claim&.case_type&.requires_defendant_dob?
   end
 
 end

@@ -4,7 +4,7 @@ class DocumentRecloner
     @cloned_claim = Claim::BaseClaim.find claim_id
     @source_claim = Claim::BaseClaim.find @cloned_claim.clone_source_id
     @message_text = 'SYSTEM NOTICE: '
-    @sender = CaseWorker.admins.first.user
+    @sender = CaseWorker.active.admins.first.user
   end
 
   def run

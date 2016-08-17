@@ -95,8 +95,8 @@ When(/^I enter (\d+) in the quantity text field$/) do |quantity|
 end
 
 Then(/^the first (\d+) claims in the list should be allocated to the case worker$/) do |quantity|
-  expect(CaseWorker.last.claims.count).to eq(quantity.to_i)
-  CaseWorker.last.claims.each do |claim|
+  expect(CaseWorker.active.last.claims.count).to eq(quantity.to_i)
+  CaseWorker.active.last.claims.each do |claim|
     expect(claim).to be_allocated
   end
 
@@ -105,7 +105,7 @@ Then(/^the first (\d+) claims in the list should be allocated to the case worker
 end
 
 Then(/^the first (\d+) claims should no longer be displayed$/) do |quantity|
-  CaseWorker.last.claims.each do |claim|
+  CaseWorker.active.last.claims.each do |claim|
     expect(page).to_not have_selector("#claim_#{claim.id}")
   end
 end

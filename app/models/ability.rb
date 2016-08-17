@@ -71,7 +71,7 @@ class Ability
     # NOTE: for destroy action, at least, the document may not be persisted/saved
     can [:show, :download, :destroy], Document do |document|
       if document.external_user_id.nil?
-        User.find(document.creator_id).persona.provider.id == persona.provider.id
+        User.active.find(document.creator_id).persona.provider.id == persona.provider.id
       else
         document.external_user.provider.id == persona.provider.id
       end

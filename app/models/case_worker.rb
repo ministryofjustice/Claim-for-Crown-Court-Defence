@@ -21,7 +21,9 @@ class CaseWorker < ActiveRecord::Base
   has_many :case_worker_claims, dependent: :destroy
   has_many :claims, class_name: Claim::BaseClaim, through: :case_worker_claims, after_remove: :unallocate!
 
-  default_scope { includes(:user) }
+  default_scope { includes(:user).where(deleted_at: nil) }
+
+  scope :including_deleted, -> {unscoped.includes(:user) }
 
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}

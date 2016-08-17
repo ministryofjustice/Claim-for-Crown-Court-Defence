@@ -12,6 +12,14 @@ RSpec.describe DisbursementPresenter do
     it 'returns the disbursement type name' do
       expect(subject.name).to eq('name')
     end
+
+    context 'when disbursement type was not specified' do
+      let(:disbursement_type) { nil }
+
+      it 'returns a placeholder text' do
+        expect(subject.name).to eq('not provided')
+      end
+    end
   end
 
   describe '#net_amount' do

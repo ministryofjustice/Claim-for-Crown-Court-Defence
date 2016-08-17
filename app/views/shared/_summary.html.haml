@@ -138,7 +138,7 @@
             - present_collection(claim.disbursements).each do |disbursement|
               %tr
                 %td{scope:'row'}
-                  = disbursement.disbursement_type.name
+                  = disbursement.name
                 %td.numeric
                   = disbursement.net_amount
                 %td.numeric

@@ -97,6 +97,10 @@ module Claim
       :litigator
     end
 
+    def requires_case_concluded_date?
+      true
+    end
+
     private
 
     def provider_delegator

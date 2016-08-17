@@ -104,6 +104,10 @@ module Claim
       Fee::MiscFeeType.lgfs
     end
 
+    def requires_case_concluded_date?
+      true
+    end
+
     private
 
     # called from state_machine before_submit

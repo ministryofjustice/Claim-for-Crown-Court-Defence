@@ -169,6 +169,7 @@ module Claim
     def transfer?; false; end
     def final?; false; end
     def requires_cracked_dates?; false; end
+    def requires_case_concluded_date?; false; end
 
     def pretty_type
       type.demodulize.sub('Claim', '').downcase

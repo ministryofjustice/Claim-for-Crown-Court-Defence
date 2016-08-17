@@ -92,7 +92,7 @@
           = render partial: 'external_users/claims/case_details/offence_select', locals: { offences: @offences }
         = f.hidden_field :offence_id
 
-- unless @claim.interim?
+- if @claim.requires_case_concluded_date?
   .form-row
     .form-col.form-col-two-thirds.case-concluded-date
       = render partial: 'external_users/claims/case_details/case_concluded_date', locals: { f: f }

@@ -21,7 +21,11 @@ class CaseWorker < ActiveRecord::Base
   has_many :case_worker_claims, dependent: :destroy
   has_many :claims, class_name: Claim::BaseClaim, through: :case_worker_claims, after_remove: :unallocate!
 
+
+
   default_scope { includes(:user) }
+  scope :active, -> { where(deleted_at: nil) }
+  scope :deleted, -> { where.not(deleted_at: nil) }
 
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}
@@ -32,6 +36,17 @@ class CaseWorker < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+
+  def soft_delete
+    self.transaction do
+      self.user.soft_delete
+      update(deleted_at: Time.zone.now)
+    end
+  end
+
+  def active?
+    self.deleted_at.nil?
+  end
 
   protected
 

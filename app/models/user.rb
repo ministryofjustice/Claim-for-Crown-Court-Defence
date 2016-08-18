@@ -27,6 +27,9 @@
 
 class User < ActiveRecord::Base
 
+  scope :active, -> { where(deleted_at: nil) }
+  scope :deleted, -> { where.not(deleted_at: nil) }
+
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
 
   # Include default devise modules. Others available are:
@@ -41,7 +44,7 @@ class User < ActiveRecord::Base
 
   belongs_to :persona, polymorphic: true
   has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
-  has_many :user_message_statuses, dependent: :destroy
+  has_many :user_message_statuses
 
   validates :first_name, :last_name, presence: true
   validates :email, confirmation: true
@@ -81,5 +84,21 @@ class User < ActiveRecord::Base
   #
   def unauthenticated_message
     override_paranoid_setting(false) { super }
+  end
+
+  def soft_delete
+    update(deleted_at: Time.zone.now)
+  end
+
+  def active?
+    self.deleted_at.nil?
+  end
+
+  def active_for_authentication?
+    super && active?
+  end
+
+  def inactive_message
+    active? ? super : 'This account has been deleted.'
   end
 end

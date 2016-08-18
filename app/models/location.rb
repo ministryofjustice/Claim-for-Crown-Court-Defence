@@ -11,7 +11,7 @@
 class Location < ActiveRecord::Base
   auto_strip_attributes :name, squish: true, nullify: true
 
-  has_many :case_workers, dependent: :destroy
+  has_many :case_workers
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

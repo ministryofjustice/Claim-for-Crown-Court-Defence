@@ -28,7 +28,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
 
       it 'assigns @case_workers' do
-        expect(assigns(:case_workers)).to eq(CaseWorker.all)
+        expect(assigns(:case_workers)).to eq(CaseWorker.active)
       end
 
       it 'assigns @allocation' do

@@ -33,7 +33,7 @@ class FeedbackController < ApplicationController
   end
 
   def email_from_user_id
-    User.find(params[:user_id]).try(:email) rescue nil
+    User.active.find(params[:user_id]).try(:email) rescue nil
   end
 
   def after_create_url

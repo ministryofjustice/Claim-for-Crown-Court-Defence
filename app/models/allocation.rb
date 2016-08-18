@@ -62,7 +62,7 @@ class Allocation
   end
 
   def case_worker
-    CaseWorker.find(@case_worker_id) rescue nil #deallocation will have a nil case worker id
+    CaseWorker.active.find(@case_worker_id) rescue nil #deallocation will have a nil case worker id
   end
 
   def allocating?

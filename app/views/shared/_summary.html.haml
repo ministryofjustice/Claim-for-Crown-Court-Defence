@@ -39,6 +39,9 @@
                   = fee.date
               %td{scope: 'row'}
                 = fee.fee_type.description
+                - if fee.sub_type.present?
+                  %p
+                    = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
 
               - unless claim.interim?
                 %td.numeric

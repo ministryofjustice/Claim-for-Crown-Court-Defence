@@ -848,6 +848,7 @@ en:
       distance: Distance
       fee_category: Fee category
       fee_type: Fee type
+      fee_subtype: Fee subtype
       quantity: Quantity
       dates_attended: 'Dates attended:'
       fees_total: 'Fees total:'

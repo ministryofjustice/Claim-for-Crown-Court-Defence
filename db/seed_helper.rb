@@ -28,7 +28,8 @@ module SeedHelper
         api_key: attrs[:api_key],
         provider_type: attrs[:provider_type],
         vat_registered: attrs[:vat_registered],
-        roles: attrs[:roles]
+        roles: attrs[:roles],
+        supplier_numbers: attrs[:supplier_numbers] || []
       )
     end
     provider
@@ -59,9 +60,9 @@ module SeedHelper
     expense_type
   end
 
-  def self.create_supplier_numbers_for_provider(provider, supplier_numbers)
-    supplier_numbers.each do |number|
-      SupplierNumber.find_or_create_by(provider_id: provider.id, supplier_number: number)
+  def self.build_supplier_numbers(supplier_numbers)
+    supplier_numbers.map do |number|
+      SupplierNumber.find_or_initialize_by(supplier_number: number)
     end
   end
 end

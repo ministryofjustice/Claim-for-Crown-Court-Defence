@@ -48,12 +48,17 @@ class Provider < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
 
+  validates :supplier_number, presence: true, if: :agfs_firm?
   validates :supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
-  validates_with SupplierNumberSubModelValidator, if: ->{ supplier_numbers.any? }
+  validates_with SupplierNumberSubModelValidator, if: :lgfs?
 
   # Allows calling of provider.admins or provider.advocates
   ExternalUser::ROLES.each do |role|
     delegate role.pluralize.to_sym, to: :external_users
+  end
+
+  def agfs_firm?
+    agfs? && firm?
   end
 
   def regenerate_api_key!

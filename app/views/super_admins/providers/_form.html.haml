@@ -17,21 +17,22 @@
         %div.form-group.inline
           =f.collection_radio_buttons(:provider_type, Provider::PROVIDER_TYPES, :to_s, :to_s) do |b|
             - b.label(class: 'block-label') { b.radio_button(disabled: @provider.persisted?) + b.value.capitalize }
-        = validation_error_message(@provider, :provider_type)
+          = validation_error_message(f.object, :provider_type)
 
         = f.label :roles, t('.fee_schemes'), class: "form-label"
         %div.form-group
           #js-provider-roles.inline
             =f.collection_check_boxes(:roles, Provider::ROLES, :to_s, :to_s) do |b|
               - b.label(class: 'block-label') { b.check_box + b.value.upcase }
+            = validation_error_message(f.object, :roles)
 
       #js-provider-name.form-group
         = f.adp_text_field :name, label: t('.provider_name')
+        = validation_error_message(f.object, :name)
 
       #js-supplier-number.form-group
-        = f.label :supplier_number, t('.agfs_supplier_number'), class: "form-label"
-        = f.text_field :supplier_number, class: "form-control"
-        = validation_error_message(@provider, :supplier_number)
+        = f.adp_text_field :supplier_number, label: t('.agfs_supplier_number')
+        = validation_error_message(f.object, :supplier_number)
 
       #js-supplier-numbers
         = render 'shared/supplier_numbers', f: f

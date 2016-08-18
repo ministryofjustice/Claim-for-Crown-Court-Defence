@@ -18,6 +18,10 @@ def make_accounts(role, number = 1)
   end
 end
 
+Given(/^The caseworker is marked as deleted$/) do
+  @case_worker.soft_delete
+end
+
 Given(/an? "(.*?)" user account exists$/) do |role|
   accounts = make_accounts(role)
   instance_variable_set("@#{role.gsub(' ', '_')}", accounts.first)
@@ -71,6 +75,10 @@ When(/^I sign in as the case worker$/) do
   sign_in(@case_worker.user, @password)
 end
 
+When(/^I attempt to sign in again as the deleted caseworker$/) do
+  sign_in(@case_worker.user, 'password')
+end
+
 When(/^I sign out as/) do
   click_link "Sign out"
 end
@@ -94,4 +102,12 @@ end
 
 Given(/^I sign out$/) do
   click_link 'Sign out' rescue nil
+end
+
+When(/^I should be on the Allocation page$/) do
+  expect(find('header.main-header')).to have_content('Allocation')
+end
+
+Then(/^I should get a page telling me my account has been deleted$/) do
+  expect(page).to have_content('This account has been deleted.')
 end

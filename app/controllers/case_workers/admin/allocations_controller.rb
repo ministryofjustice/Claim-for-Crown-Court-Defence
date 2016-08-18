@@ -33,7 +33,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_summary_values
-    @case_worker = CaseWorker.find(params[:case_worker_id]) rescue nil
+    @case_worker = CaseWorker.active.find(params[:case_worker_id]) rescue nil
     @allocated_claims = Claim::BaseClaim.find(params[:claim_ids].reject(&:blank?))
     params.delete(:case_worker_id)
     params.delete(:claim_ids)
@@ -49,7 +49,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_case_workers
-    @case_workers = CaseWorker.includes(:location, :user)
+    @case_workers = CaseWorker.active.includes(:location, :user)
   end
 
   def set_claims

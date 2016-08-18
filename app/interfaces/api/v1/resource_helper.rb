@@ -43,7 +43,7 @@ module API::V1
     end
 
     def find_user_by_email(email:, relation:)
-      User.external_users.find_by(email: email).try(:persona) || (raise API::V1::ArgumentError, "#{relation} email is invalid")
+      User.active.external_users.find_by(email: email).try(:persona) || (raise API::V1::ArgumentError, "#{relation} email is invalid")
     end
 
     def lgfs_schema?

@@ -27,5 +27,9 @@ FactoryGirl.define do
     trait :admin do
       roles ['admin']
     end
+
+    trait :softly_deleted do
+      deleted_at 10.minutes.ago
+    end
   end
 end

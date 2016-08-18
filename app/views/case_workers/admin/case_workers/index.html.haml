@@ -32,6 +32,9 @@
           %td
             = case_worker.location.name
           %td.user-controls
-            = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
-            = " | "
-            = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
+            - if case_worker.active?
+              = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
+              = " | "
+              = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: 'Are you sure?' }
+            - else
+              Inactive

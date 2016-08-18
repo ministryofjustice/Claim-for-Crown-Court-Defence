@@ -25,8 +25,6 @@ class CaseWorker < ActiveRecord::Base
 
 
   default_scope { includes(:user) }
-  scope :active, -> { where(deleted_at: nil) }
-  scope :deleted, -> { where.not(deleted_at: nil) }
 
   validates :location, presence: {message: 'Location cannot be blank'}
   validates :user, presence: {message: 'User cannot be blank'}

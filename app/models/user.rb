@@ -85,8 +85,12 @@ class User < ActiveRecord::Base
     override_paranoid_setting(false) { super }
   end
 
-  def active?
-    self.deleted_at.nil?
+  def active_for_authentication?
+    super && active?
+  end
+
+  def inactive_message
+    active? ? super : 'This account has been deleted.'
   end
 
 end

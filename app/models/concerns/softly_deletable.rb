@@ -22,12 +22,6 @@ module SoftlyDeletable
       self.deleted_at.nil?
     end
 
-    def active_for_authentication?
-      super && active?
-    end
 
-    def inactive_message
-      active? ? super : 'This account has been deleted.'
-    end
   end
 end

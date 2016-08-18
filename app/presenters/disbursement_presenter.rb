@@ -2,7 +2,7 @@ class DisbursementPresenter < BasePresenter
   presents :disbursement
 
   def name
-    disbursement.disbursement_type.name
+    disbursement.disbursement_type&.name || 'not provided'
   end
 
   def net_amount

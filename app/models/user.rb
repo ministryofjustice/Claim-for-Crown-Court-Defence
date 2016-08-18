@@ -89,4 +89,16 @@ class User < ActiveRecord::Base
   def soft_delete
     update(deleted_at: Time.zone.now)
   end
+
+  def active?
+    self.deleted_at.nil?
+  end
+
+  def active_for_authentication?
+    super && active?
+  end
+
+  def inactive_message
+    active? ? super : 'This account has been deleted.'
+  end
 end

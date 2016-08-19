@@ -97,4 +97,30 @@ RSpec.describe ExpensePresenter do
     end
   end
 
+  describe '#reason' do
+    context 'when a specific reason was selected' do
+      before do
+        expense.reason_id = 1
+      end
+
+      it 'outputs the reason text' do
+        expect(presenter.reason).to eq('Court hearing')
+      end
+    end
+
+    context 'when Other was selected' do
+      before do
+        expense.reason_id = 5
+      end
+
+      it 'outputs a placeholder text if no free text reason was provided' do
+        expect(presenter.reason).to eq('Not provided')
+      end
+
+      it 'outputs the free text reason if provided' do
+        expense.reason_text = 'This is a test reason'
+        expect(presenter.reason).to eq('This is a test reason')
+      end
+    end
+  end
 end

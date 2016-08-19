@@ -116,7 +116,7 @@ class Expense < ActiveRecord::Base
     if allow_reason_text?
       read_attribute(:reason_text)
     else
-      expense_reason.reason
+      expense_reason&.reason
     end
   end
 end

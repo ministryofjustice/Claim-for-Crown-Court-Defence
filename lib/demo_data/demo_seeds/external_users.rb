@@ -58,10 +58,9 @@ provider = SeedHelper.find_or_create_provider!(
   # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: true,
-  roles: ['lgfs']
+  roles: ['lgfs'],
+  supplier_numbers: SeedHelper.build_supplier_numbers(%w(1A222Z 2A333Z 3A555Z))
 )
-
-SeedHelper.create_supplier_numbers_for_provider(provider, %w(1A222Z 2A333Z 3A555Z))
 
 if User.find_by(email: 'litigator@example.com').blank?
   user = User.create!(
@@ -101,10 +100,9 @@ provider = SeedHelper.find_or_create_provider!(
   # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: false,
-  roles: ['agfs','lgfs']
+  roles: ['agfs','lgfs'],
+  supplier_numbers: SeedHelper.build_supplier_numbers(%w(1B222Z 2B333Z 3B555Z))
 )
-
-SeedHelper.create_supplier_numbers_for_provider(provider, %w(1B222Z 2B333Z 3B555Z))
 
 if User.find_by(email: 'advocate@agfslgfs.com').blank?
   user = User.create!(

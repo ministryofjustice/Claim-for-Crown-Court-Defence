@@ -24,6 +24,10 @@ FactoryGirl.define do
 
     roles ['agfs']
 
+    before(:create) do |provider|
+      provider.supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
+    end
+
     trait :agfs do
       provider_type 'chamber'
       roles ['agfs']
@@ -33,20 +37,12 @@ FactoryGirl.define do
       provider_type 'firm'
       supplier_number nil
       roles ['lgfs']
-
-      after(:create) do |provider|
-        create_list :supplier_number, 1, provider: provider
-      end
     end
 
     trait :agfs_lgfs do
       provider_type 'firm'
-      supplier_number nil
+      supplier_number '123AB'
       roles ['agfs', 'lgfs']
-
-      after(:create) do |provider|
-        create_list :supplier_number, 1, provider: provider
-      end
     end
 
     trait :firm do
@@ -54,10 +50,6 @@ FactoryGirl.define do
       supplier_number nil
       vat_registered { true }
       roles ['lgfs']
-
-      after(:create) do |provider|
-        create_list :supplier_number, 1, provider: provider
-      end
     end
 
     # does not require supplier number

@@ -8,4 +8,8 @@ class SupplierNumberSubModelValidator < BaseSubModelValidator
     false
   end
 
+  def validate(record)
+    record.errors.add(:base, :blank_supplier_numbers) if record.supplier_numbers.empty?
+    super
+  end
 end

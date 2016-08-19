@@ -21,6 +21,7 @@ RSpec.describe Provider, type: :model do
 
   let(:firm) { create(:provider, :firm) }
   let(:chamber) { create(:provider, :chamber) }
+  let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }
 
   it { should have_many(:external_users) }
   it { should have_many(:claims) }
@@ -157,7 +158,7 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'AGFS supplier number validation' do
+  context 'AGFS supplier number validation for a chamber' do
     context 'for a blank supplier number' do
       it 'returns no errors' do
         chamber.supplier_number = ''
@@ -181,16 +182,45 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'LGFS supplier number validation' do
-    it 'validates the supplier numbers sub model if there are supplier_numbers' do
-      allow(subject).to receive(:supplier_numbers).and_return([instance_double(SupplierNumber)])
-      expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(subject, :supplier_numbers)
-      subject.valid?
+  context 'AGFS supplier number validation for a firm' do
+    context 'for a blank supplier number' do
+      it 'returns no errors' do
+        agfs_lgfs.supplier_number = ''
+        expect(agfs_lgfs).to_not be_valid
+      end
     end
 
-    it 'doesn\'t validate the supplier numbers sub model if there are not supplier_numbers' do
+    context 'for a valid supplier number' do
+      it 'returns no errors' do
+        agfs_lgfs.supplier_number = '2M462'
+        expect(agfs_lgfs).to be_valid
+      end
+    end
+
+    context 'for an invalid supplier number' do
+      it 'returns errors' do
+        agfs_lgfs.supplier_number = 'XXX'
+        expect(agfs_lgfs).not_to be_valid
+        expect(agfs_lgfs.errors).to have_key(:supplier_number)
+      end
+    end
+  end
+
+  context 'LGFS supplier number validation' do
+    it 'validates the supplier numbers sub model for LGFS role' do
+      expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(firm, :supplier_numbers)
+      firm.valid?
+    end
+
+    it 'doesn\'t validate the supplier numbers sub model for AGFS role' do
       expect_any_instance_of(SupplierNumberSubModelValidator).not_to receive(:validate_collection_for)
-      subject.valid?
+      chamber.valid?
+    end
+
+    it 'returns error if supplier numbers is blank' do
+      allow(firm).to receive(:supplier_numbers).and_return([])
+      expect(firm).to_not be_valid
+      expect(firm.errors[:base]).to eq(["LGFS supplier numbers can't be blank"])
     end
   end
 end

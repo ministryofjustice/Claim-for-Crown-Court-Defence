@@ -1,6 +1,5 @@
 %w(
   external_users
-  providers
   case_workers
 ).
 each do |seed|

@@ -121,6 +121,8 @@ en:
               invalid: *invalid_supplier_number
         provider:
           attributes:
+            base:
+              blank_supplier_numbers: "LGFS supplier numbers can't be blank"
             supplier_number:
               invalid: *invalid_supplier_number
         external_user:

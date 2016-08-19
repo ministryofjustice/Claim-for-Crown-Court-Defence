@@ -10,6 +10,7 @@
 #  vat_registered  :boolean          default(TRUE)
 #  provider_id     :integer
 #  roles           :string
+#  deleted_at      :datetime
 #
 
 FactoryGirl.define do
@@ -56,6 +57,10 @@ FactoryGirl.define do
     trait :agfs_lgfs_admin do
       roles ['admin']
       provider { create(:provider, :agfs_lgfs) }
+    end
+
+    trait :softly_deleted do
+      deleted_at 10.minutes.ago
     end
 
   end

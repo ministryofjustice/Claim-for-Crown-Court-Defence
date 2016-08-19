@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817083149) do
+ActiveRecord::Schema.define(version: 20160818080705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,7 @@ ActiveRecord::Schema.define(version: 20160817083149) do
     t.boolean  "vat_registered",  default: true
     t.integer  "provider_id"
     t.string   "roles"
+    t.datetime "deleted_at"
   end
 
   add_index "external_users", ["provider_id"], name: "index_external_users_on_provider_id", using: :btree

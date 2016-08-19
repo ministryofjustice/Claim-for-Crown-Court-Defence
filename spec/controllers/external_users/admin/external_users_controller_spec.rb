@@ -188,7 +188,8 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       subject     # create an additional External user
       expect{
         delete :destroy, id: subject
-      }.to change{ExternalUser.count}.by(-1)
+      }.to change{ExternalUser.active.count}.by(-1)
+      expect(subject.reload.deleted_at).not_to be_nil
     end
 
     it 'redirects to external_user admin root url' do

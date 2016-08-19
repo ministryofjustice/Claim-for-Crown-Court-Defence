@@ -64,7 +64,7 @@ class SuperAdmins::ExternalUsersController < ApplicationController
   end
 
   def set_external_user
-    @external_user  = ExternalUser.find(params[:id])
+    @external_user  = ExternalUser.active.find(params[:id])
   end
 
   def set_provider

@@ -23,6 +23,7 @@
 #  locked_at              :datetime
 #  unlock_token           :string
 #  settings               :text
+#  deleted_at             :datetime
 #
 
 class User < ActiveRecord::Base

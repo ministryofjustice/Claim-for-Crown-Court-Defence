@@ -23,9 +23,9 @@ module DemoData
       generate_external_user_if_required
 
       if @external_user_persona == :advocate
-        external_users = ExternalUser.advocates[0, @num_external_users]
+        external_users = ExternalUser.active.advocates[0, @num_external_users]
       elsif @external_user_persona == :litigator
-        external_users = ExternalUser.litigators[0, @num_external_users]
+        external_users = ExternalUser.active.litigators[0, @num_external_users]
       end
 
       external_users.each do |external_user|
@@ -132,7 +132,7 @@ module DemoData
     end
 
     def generate_external_user_if_required
-      num_external_users_existing = ExternalUser.__send__(@external_user_persona.to_s.pluralize.to_sym).count
+      num_external_users_existing = ExternalUser.active.__send__(@external_user_persona.to_s.pluralize.to_sym).count
       num_external_users_required = @num_external_users - num_external_users_existing
       num_external_users_required.times do
         FactoryGirl.create(:external_user, @external_user_persona)

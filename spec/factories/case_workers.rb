@@ -7,6 +7,7 @@
 #  updated_at  :datetime
 #  location_id :integer
 #  roles       :string
+#  deleted_at  :datetime
 #
 
 FactoryGirl.define do

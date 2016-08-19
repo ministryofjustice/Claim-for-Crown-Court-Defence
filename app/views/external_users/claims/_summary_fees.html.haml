@@ -17,6 +17,13 @@
         %td
           = fee.fee_type.description
 
+      - if fee.sub_type.present?
+        %tr
+          %th{scope: 'row'}
+            = t('shared.summary.fee_subtype')
+          %td
+            = fee.sub_type.description
+
       - if fee.claim.agfs? || fee.is_graduated?
         %tr
           %th{ scope: 'row'}

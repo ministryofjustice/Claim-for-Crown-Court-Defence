@@ -5,7 +5,7 @@ module Claims
 
     def initialize(claim_id, params)
       @params = params
-      @claim = Claim::BaseClaim.find(claim_id)
+      @claim = Claim::BaseClaim.active.find(claim_id)
       @messages = @claim.messages.most_recent_last
       extract_transition_params
       extract_assessment_params

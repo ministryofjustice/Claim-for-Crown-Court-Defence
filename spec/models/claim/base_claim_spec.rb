@@ -52,6 +52,7 @@
 #  transfer_case_number     :string
 #  clone_source_id          :integer
 #  last_edited_at           :datetime
+#  deleted_at               :datetime
 #
 
 require 'rails_helper'

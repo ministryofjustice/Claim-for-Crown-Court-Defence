@@ -329,7 +329,7 @@ describe Claim::BaseClaimValidator do
       claim.evidence_checklist_ids = doc_types
       should_not_error(claim,:evidence_checklist_ids)
       claim.save!
-      dup = Claim::BaseClaim.find claim.id
+      dup = Claim::BaseClaim.active.find claim.id
       expect(dup.evidence_checklist_ids).to eq( doc_types )
 
     end

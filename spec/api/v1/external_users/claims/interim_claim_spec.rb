@@ -85,7 +85,7 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
           post_to_create_endpoint
           expect(last_response.status).to eq 201
           response_hash = JSON.parse( last_response.body)
-          claim = Claim::InterimClaim.find_by(uuid: response_hash['id'])
+          claim = Claim::InterimClaim.active.find_by(uuid: response_hash['id'])
           expect(claim).not_to be_nil, "Unable to locate claim with uuid #{response_hash['id']}"
 
           valid_params.each do |parameter_key, parameter_value|
@@ -98,7 +98,7 @@ describe API::V1::ExternalUsers::Claims::InterimClaim do
           post_to_create_endpoint
           expect(last_response.status).to eq 201
           response_hash = JSON.parse( last_response.body)
-          claim = Claim::InterimClaim.find_by(uuid: response_hash['id'])
+          claim = Claim::InterimClaim.active.find_by(uuid: response_hash['id'])
           expect(claim).not_to be_nil, "Unable to locate claim with uuid #{response_hash['id']}"
 
           expected_owner = User.find_by(email: valid_params[:user_email])

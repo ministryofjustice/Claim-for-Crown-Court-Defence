@@ -300,11 +300,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.sort_by{|c| c.id})
+            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.sort_by{|c| c.id})
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.archived_pending_delete.sort_by{|c| c.id})
+            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by{|c| c.id})
           end
         end
       end
@@ -514,12 +514,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'creates a draft from the rejected claim' do
-        expect(Claim::BaseClaim.last).to be_draft
-        expect(Claim::BaseClaim.last.case_number).to eq(subject.case_number)
+        expect(Claim::BaseClaim.active.last).to be_draft
+        expect(Claim::BaseClaim.active.last.case_number).to eq(subject.case_number)
       end
 
       it 'redirects to the draft\'s edit page' do
-        expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.last))
+        expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.active.last))
       end
     end
 
@@ -535,7 +535,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       end
 
       it 'does not create a draft claim' do
-        expect(Claim::BaseClaim.last).to_not be_draft
+        expect(Claim::BaseClaim.active.last).to_not be_draft
       end
     end
   end
@@ -547,7 +547,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       let(:claim) { create(:draft_claim, external_user: advocate) }
 
       it 'deletes the claim' do
-        expect(Claim::BaseClaim.count).to eq(0)
+        expect(Claim::BaseClaim.active.count).to eq(0)
       end
 
       it 'redirects to advocates root url' do
@@ -559,7 +559,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
       let(:claim) { create(:authorised_claim, external_user: advocate) }
 
       it "sets the claim's state to 'archived_pending_delete'" do
-        expect(Claim::BaseClaim.count).to eq(1)
+        expect(Claim::BaseClaim.active.count).to eq(1)
         expect(claim.reload.state).to eq 'archived_pending_delete'
       end
     end

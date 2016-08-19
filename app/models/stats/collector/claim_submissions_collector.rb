@@ -15,7 +15,7 @@ module Stats
       private
 
       def count_claims(claim_type)
-        claim_type.where('last_submitted_at between ? and ?', @date.beginning_of_day, @date.end_of_day).count
+        claim_type.active.where('last_submitted_at between ? and ?', @date.beginning_of_day, @date.end_of_day).count
       end
     end
 

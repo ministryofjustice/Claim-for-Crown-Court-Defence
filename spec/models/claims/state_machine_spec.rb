@@ -21,7 +21,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       ]
     end
 
-    it('exist') { expect(Claim::BaseClaim.state_machine.states.map(&:name).sort).to eq(states.sort) }
+    it('exist') { expect(Claim::BaseClaim.active.state_machine.states.map(&:name).sort).to eq(states.sort) }
   end
 
   describe 'valid transitions' do

@@ -11,7 +11,7 @@ module API::V1
     end
 
     def claim_id
-      ::Claim::BaseClaim.find_by(uuid: params.claim_id).try(:id) || (raise API::V1::ArgumentError, 'Claim cannot be blank')
+      ::Claim::BaseClaim.active.find_by(uuid: params.claim_id).try(:id) || (raise API::V1::ArgumentError, 'Claim cannot be blank')
     end
 
     def claim_creator

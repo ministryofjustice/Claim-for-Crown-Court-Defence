@@ -86,7 +86,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
           it 'sets the claim\'s state to "draft"' do
             post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::TransferClaim.first).to be_draft
+            expect(Claim::TransferClaim.active.first).to be_draft
           end
         end
 
@@ -99,13 +99,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
           it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to redirect_to(summary_external_users_claim_path(Claim::TransferClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::TransferClaim.active.first))
           end
 
           it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim::TransferClaim.first).to be_draft
+            expect(Claim::TransferClaim.active.first).to be_draft
           end
         end
 
@@ -205,7 +205,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             merge(expenses_params)
           end
 
-          let(:claim) { Claim::TransferClaim.where(case_number: case_number).first }
+          let(:claim) { Claim::TransferClaim.active.where(case_number: case_number).first }
 
           context 'step 1 Continue' do
             render_views

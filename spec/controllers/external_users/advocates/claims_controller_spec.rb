@@ -99,12 +99,12 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
         context 'create draft' do
           before(:each) do
-            expect(Claim::AdvocateClaim.count).to eq(0)
+            expect(Claim::AdvocateClaim.active.count).to eq(0)
             post :create, commit_save_draft: 'Save to drafts', claim: claim_params
           end
 
           it 'creates the claim and sets the state to "draft"' do
-            expect(Claim::AdvocateClaim.first).to be_draft
+            expect(Claim::AdvocateClaim.active.first).to be_draft
           end
 
           it 'redirects to claims list' do
@@ -112,8 +112,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
           end
 
           it 'sets the created claim\'s external_user/"owner" to the signed in advocate' do
-            expect(Claim::AdvocateClaim.first.external_user).to eq(advocate)
-            expect(Claim::AdvocateClaim.first.creator).to eq(advocate)
+            expect(Claim::AdvocateClaim.active.first.external_user).to eq(advocate)
+            expect(Claim::AdvocateClaim.active.first.creator).to eq(advocate)
           end
         end
 
@@ -126,19 +126,19 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
 
           it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to redirect_to(summary_external_users_claim_path(Claim::AdvocateClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::AdvocateClaim.active.first))
           end
 
           it 'sets the created claim\'s external_user/owner to the signed in advocate' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(Claim::AdvocateClaim.first.external_user).to eq(advocate)
-            expect(Claim::AdvocateClaim.first.creator).to eq(advocate)
+            expect(Claim::AdvocateClaim.active.first.external_user).to eq(advocate)
+            expect(Claim::AdvocateClaim.active.first.creator).to eq(advocate)
           end
 
           it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim::AdvocateClaim.first).to be_draft
+            expect(Claim::AdvocateClaim.active.first).to be_draft
           end
 
           context 'blank expenses' do
@@ -208,7 +208,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller, fo
             }
           end
 
-          let(:subject_claim) { Claim::AdvocateClaim.where(case_number: case_number).first }
+          let(:subject_claim) { Claim::AdvocateClaim.active.where(case_number: case_number).first }
 
           it 'validates step fields and move to next steps' do
             post :create, commit_continue: 'Continue', claim: claim_params_step1

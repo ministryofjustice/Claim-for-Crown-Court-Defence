@@ -28,14 +28,14 @@ When(/^I select case worker "(.*?)"$/) do |name|
 end
 
 Then(/^claims? "(.*?)" should be allocated to case worker "(.*?)"$/) do |case_numbers, name|
-  case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
+  case_worker = User.active.where(first_name: name.split.first, last_name: name.split.last).first.persona
   case_numbers = case_numbers.split(',').map(&:strip)
   expect(case_worker.claims.map(&:case_number)).to match_array(case_numbers)
 end
 
 Then(/^(\d+) claims should be allocated to case worker "(.*?)"$/) do |quantity, name|
   case_worker = User.where(first_name: name.split.first, last_name: name.split.last).first.persona
-  expect(case_worker.claims.count).to eq(quantity.to_i)
+  expect(case_worker.active.claims.count).to eq(quantity.to_i)
 end
 
 Then(/^claims? "(.*?)" should no longer be displayed$/) do |case_numbers|
@@ -88,7 +88,7 @@ When(/^I enter (\d+) in the quantity text field$/) do |quantity|
   end
   @claims_on_page = []
   @case_numbers.each do |case_number|
-    @claims_on_page << Claim::BaseClaim.find_by(case_number: case_number)
+    @claims_on_page << Claim::BaseClaim.active.find_by(case_number: case_number)
   end
   @claims_to_allocate = @claims_on_page.take(quantity.to_i)
   fill_in 'quantity_to_allocate', with: quantity
@@ -100,7 +100,7 @@ Then(/^the first (\d+) claims in the list should be allocated to the case worker
     expect(claim).to be_allocated
   end
 
-  expect(CaseWorker.last.claims.map(&:id)).to match_array @claims_to_allocate.map(&:id)
+  expect(CaseWorker.active.last.claims.map(&:id)).to match_array @claims_to_allocate.map(&:id)
 
 end
 
@@ -138,13 +138,13 @@ When(/^I filter by "(.*?)"$/) do |filter|
 end
 
 Then(/^I should only see (\d+) "(.*?)" claims? after filtering$/) do |quantity, type|
-  claims = type == 'all' ? Claim::BaseClaim.all : Claim::BaseClaim.send(type.to_sym)
+  claims = type == 'all' ? Claim::BaseClaim.active : Claim::BaseClaim.active.send(type.to_sym)
   claims.each { |claim| expect(page).to have_selector("#claim_#{claim.id}") }
   expect(claims.count).to eq(quantity.to_i)
 end
 
 Then(/^I should not see any redetermination or awaiting_written_reasons claims$/) do
-  claims = Claim::BaseClaim.redetermination + Claim::BaseClaim.awaiting_written_reasons
+  claims = Claim::BaseClaim.active.redetermination + Claim::BaseClaim.active.awaiting_written_reasons
   claims.each do |claim|
     expect(page).to_not have_selector("#claim_#{claim.id}")
   end

@@ -23,7 +23,7 @@ module Stats
     def generate_new_report
       csv_string = CSV.generate do |csv|
         csv << Settings.claim_csv_headers.map {|header| header.to_s.humanize}
-        Claim::BaseClaim.non_draft.find_each do |claim|
+        Claim::BaseClaim.active.non_draft.find_each do |claim|
           ClaimCsvPresenter.new(claim, 'view').present! do |claim_journeys|
             claim_journeys.each do |claim_journey|
               csv << claim_journey

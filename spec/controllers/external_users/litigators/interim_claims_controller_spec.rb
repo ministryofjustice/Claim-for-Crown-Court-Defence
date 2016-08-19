@@ -83,7 +83,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
           it 'sets the claim\'s state to "draft"' do
             post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::InterimClaim.first).to be_draft
+            expect(Claim::InterimClaim.active.first).to be_draft
           end
         end
 
@@ -96,13 +96,13 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
           it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to redirect_to(summary_external_users_claim_path(Claim::InterimClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::InterimClaim.active.first))
           end
 
           it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim::InterimClaim.first).to be_draft
+            expect(Claim::InterimClaim.active.first).to be_draft
           end
         end
 

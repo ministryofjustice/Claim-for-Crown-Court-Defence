@@ -17,7 +17,7 @@ class ProviderSwitcher
   end
 
   def switch!
-    claim = Claim::BaseClaim.find(@claim_id)
+    claim = Claim::BaseClaim.active.find(@claim_id)
     provider = claim.provider
 
     user = User.where(email: 'advocateadmin@example.com').first
@@ -28,8 +28,8 @@ class ProviderSwitcher
   end
 
   def reset!
-    advocate_external_user = User.where(email: 'advocate@example.com').first.persona
-    admin_external_user = User.where(email: 'advocateadmin@example.com').first.persona
+    advocate_external_user = User.active.where(email: 'advocate@example.com').first.persona
+    admin_external_user = User.active.where(email: 'advocateadmin@example.com').first.persona
     admin_external_user.provider_id = advocate_external_user.provider_id
     admin_external_user.save!
     puts "Test user reset to belong to Provider #{admin_external_user.provider_id} #{admin_external_user.provider.name}"

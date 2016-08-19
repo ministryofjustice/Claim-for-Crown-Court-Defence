@@ -32,6 +32,6 @@ module Claims::Search
       raise "Invalid state, #{state}, specified" unless Claim::BaseClaim.state_machine.states.map(&:name).include?(state.to_sym)
     end
 
-    relation.where(sql, term: "%#{term.strip.downcase}%").where(state: states).uniq
+    relation.active.where(sql, term: "%#{term.strip.downcase}%").where(state: states).uniq
   end
 end

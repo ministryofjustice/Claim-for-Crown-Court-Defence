@@ -54,7 +54,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   end
 
   def set_claim
-    @claim = Claim::BaseClaim.find(params[:claim_id])
+    @claim = Claim::BaseClaim.active.find(params[:claim_id])
   end
 
   def claim_tracking_substitutions

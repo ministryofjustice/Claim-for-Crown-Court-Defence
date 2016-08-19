@@ -11,7 +11,7 @@ module Stats
       end
 
       def run
-        claim_ids = Claim::BaseClaim.all.pluck(:id)
+        claim_ids = Claim::BaseClaim.active.pluck(:id)
         claim_ids.each { |claim_id| calculate_time_draft_to_submitted(claim_id) }
         print_results
       end
@@ -25,7 +25,7 @@ module Stats
       end
 
       def calculate_time_draft_to_submitted(claim_id)
-        claim = Claim::BaseClaim.find claim_id
+        claim = Claim::BaseClaim.active.find claim_id
         if claim.state != 'draft'
           period_in_secs = first_submitted_at(claim) - claim.created_at
           period_in_days = (period_in_secs / SECONDS_IN_DAY).to_i

@@ -52,6 +52,7 @@
 #  transfer_case_number     :string
 #  clone_source_id          :integer
 #  last_edited_at           :datetime
+#  deleted_at               :datetime
 #
 
 module Claim
@@ -63,6 +64,7 @@ module Claim
   end
 
   class BaseClaim < ActiveRecord::Base
+    include SoftlyDeletable
 
     self.table_name = 'claims'
 

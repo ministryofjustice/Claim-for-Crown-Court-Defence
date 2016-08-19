@@ -47,13 +47,7 @@
           %th{scope: 'row'}
             = t('shared.summary.reason')
           %td
-            = expense.expense_reason.reason
-        - if expense.reason_text.present?
-          %tr
-            %th{scope: 'row'}
-              = t('shared.summary.reason_text')
-            %td
-              = expense.reason_text
+            = expense.reason
 
         - if expense.amount.present?
           %tr

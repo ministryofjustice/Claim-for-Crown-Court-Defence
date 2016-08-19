@@ -858,7 +858,6 @@ en:
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       reason: 'Reason'
-      reason_text: if 'other' reason
       additional_information: Additional information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'

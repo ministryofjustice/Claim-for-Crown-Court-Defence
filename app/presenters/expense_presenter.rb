@@ -38,8 +38,6 @@ class ExpensePresenter < BasePresenter
   end
 
   def reason
-    expense.try(:expense_reason).try(:reason)
+    expense.displayable_reason_text || 'Not provided'
   end
-
-
 end

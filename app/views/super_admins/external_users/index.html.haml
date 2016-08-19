@@ -13,12 +13,16 @@
       = t('.supplier_number')
     %th
       = t('.email')
+    %th
+      State
   %tbody
     - @external_users.each do |advocate|
       %tr
         %td
-          = link_to advocate.name, super_admins_provider_external_user_path(@provider, advocate)
+          = advocate.active? ? link_to(advocate.name, super_admins_provider_external_user_path(@provider, advocate)) : advocate.name
         %td
           = advocate.supplier_number
         %td
           = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
+        %td
+          = advocate.active? ? "Live"  : "Inactive"

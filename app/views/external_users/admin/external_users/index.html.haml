@@ -29,6 +29,9 @@
         %td
           = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
         %td.user-controls
-          = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)
-          = " | "
-          = link_to 'Delete', external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+          - if advocate.active?
+            = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)
+            = " | "
+            = link_to 'Delete', external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: 'Are you sure?' }
+          - else
+            Inactive

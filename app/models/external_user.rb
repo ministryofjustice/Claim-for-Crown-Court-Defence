@@ -10,6 +10,7 @@
 #  vat_registered  :boolean          default(TRUE)
 #  provider_id     :integer
 #  roles           :string
+#  deleted_at      :datetime
 #
 
 class ExternalUser < ActiveRecord::Base
@@ -19,6 +20,7 @@ class ExternalUser < ActiveRecord::Base
 
   ROLES = %w{ admin advocate litigator }
   include Roles
+  include SoftlyDeletable
 
   belongs_to :provider
 
@@ -75,6 +77,10 @@ class ExternalUser < ActiveRecord::Base
 
   def name_and_number
     "#{self.user.last_name}, #{self.user.first_name}: #{self.supplier_number}"
+  end
+
+  def before_soft_delete
+    self.user.soft_delete
   end
 
   private

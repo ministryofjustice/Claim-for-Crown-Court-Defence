@@ -42,7 +42,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   # NOTE: update_password in PasswordHelper
 
   def destroy
-    @external_user.destroy
+    @external_user.soft_delete
     redirect_to external_users_admin_external_users_url, notice: 'User deleted'
   end
 

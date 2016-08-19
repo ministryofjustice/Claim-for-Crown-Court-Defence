@@ -23,6 +23,7 @@
 #  locked_at              :datetime
 #  unlock_token           :string
 #  settings               :text
+#  deleted_at             :datetime
 #
 
 FactoryGirl.define do

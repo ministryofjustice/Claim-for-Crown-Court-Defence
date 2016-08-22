@@ -71,7 +71,7 @@ class BaseClaimTest
   def clean_up
     puts 'cleaning up'
 
-    if (claim = Claim::BaseClaim.find_by(uuid: claim_uuid))
+    if (claim = Claim::BaseClaim.active.find_by(uuid: claim_uuid))
       if claim.destroy
         puts 'claim destroyed'
       else

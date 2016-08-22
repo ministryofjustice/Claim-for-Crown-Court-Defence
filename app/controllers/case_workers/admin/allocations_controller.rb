@@ -34,7 +34,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def set_summary_values
     @case_worker = CaseWorker.active.find(params[:case_worker_id]) rescue nil
-    @allocated_claims = Claim::BaseClaim.find(params[:claim_ids].reject(&:blank?))
+    @allocated_claims = Claim::BaseClaim.active.find(params[:claim_ids].reject(&:blank?))
     params.delete(:case_worker_id)
     params.delete(:claim_ids)
   end
@@ -90,7 +90,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_by_claim_type
-    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] ) : Claim::BaseClaim.where(type: Claim::AdvocateClaim) )
+    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.active.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] ) : Claim::BaseClaim.active.where(type: Claim::AdvocateClaim) )
     load_claim_associations
   end
 

@@ -22,7 +22,7 @@ module TimedTransitions
     describe '.candidate_claims' do
       it 'should generate the correct sql' do
         expect(Transitioner.candidate_claims.to_sql).to eq(
-          %q<SELECT "claims".* FROM "claims" WHERE (state in ('authorised','part_authorised','refused','rejected','archived_pending_delete'))>)
+          %q<SELECT "claims".* FROM "claims" WHERE "claims"."deleted_at" IS NULL AND (state in ('authorised','part_authorised','refused','rejected','archived_pending_delete'))>)
       end
     end
 

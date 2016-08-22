@@ -37,8 +37,8 @@ class Provider < ActiveRecord::Base
   end
 
   has_many :supplier_numbers, dependent: :destroy
-  has_many :claims_created, through: :external_users
-  has_many :claims, through: :external_users
+  has_many :claims_created, -> { active }, through: :external_users
+  has_many :claims, -> { active }, through: :external_users
 
   accepts_nested_attributes_for :supplier_numbers, allow_destroy: true
 

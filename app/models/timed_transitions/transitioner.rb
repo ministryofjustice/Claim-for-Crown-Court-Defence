@@ -12,7 +12,7 @@ module TimedTransitions
     # generates sql to retrieve all claims in a state from which a timed transition can be made.
     #
     def self.candidate_claims
-      Claim::BaseClaim.where('state in (?)', candidate_states)
+      Claim::BaseClaim.active.where('state in (?)', candidate_states)
     end
 
 

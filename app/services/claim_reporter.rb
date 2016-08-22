@@ -33,7 +33,7 @@ class ClaimReporter
 
   def completion_rate
     intentions_form_id = ClaimIntention.where(created_at: 16.weeks.ago..3.weeks.ago).pluck(:form_id)
-    completed = Claim::BaseClaim.where.not(state: 'draft').where(form_id: intentions_form_id).where.not(last_submitted_at: nil).size
+    completed = Claim::BaseClaim.active.where.not(state: 'draft').where(form_id: intentions_form_id).where.not(last_submitted_at: nil).size
     intentions = intentions_form_id.size
 
     claims_percentage(completed, intentions)
@@ -42,7 +42,7 @@ class ClaimReporter
   private
 
   def non_draft_claims
-    Claim::BaseClaim.non_draft
+    Claim::BaseClaim.active.non_draft
   end
 
   def claims_percentage(subset_count, all_count)

@@ -130,12 +130,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           it 'sets the created claim\'s creator/"owner" to the signed in litigator' do
             post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::LitigatorClaim.first.creator).to eq(litigator)
+            expect(Claim::LitigatorClaim.active.first.creator).to eq(litigator)
           end
 
           it 'sets the claim\'s state to "draft"' do
             post :create, claim: claim_params, commit_save_draft: 'Save to drafts'
-            expect(Claim::LitigatorClaim.first).to be_draft
+            expect(Claim::LitigatorClaim.active.first).to be_draft
           end
         end
 
@@ -148,13 +148,13 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
 
           it 'redirects to claim summary if no validation errors present' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
-            expect(response).to redirect_to(summary_external_users_claim_path(Claim::LitigatorClaim.first))
+            expect(response).to redirect_to(summary_external_users_claim_path(Claim::LitigatorClaim.active.first))
           end
 
           it 'leaves the claim\'s state in "draft"' do
             post :create, claim: claim_params, commit_submit_claim: 'Submit to LAA'
             expect(response).to have_http_status(:redirect)
-            expect(Claim::LitigatorClaim.first).to be_draft
+            expect(Claim::LitigatorClaim.active.first).to be_draft
           end
         end
 

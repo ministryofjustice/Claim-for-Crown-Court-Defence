@@ -32,7 +32,7 @@ class Allocation
     @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
     @deallocate = [true, 'true'].include?(attributes[:deallocate])
     @allocating = attributes[:allocating]
-    @claims = Claim::BaseClaim.find(@claim_ids) rescue nil
+    @claims = Claim::BaseClaim.active.find(@claim_ids) rescue nil
     @successful_claims = []
   end
 

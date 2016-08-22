@@ -18,7 +18,7 @@ module Stats
       private
 
       def created_claims_for_day_and_source(source)
-        Claim::BaseClaim.where(created_at: @date.beginning_of_day..@date.end_of_day).where(source: source).count
+        Claim::BaseClaim.active.where(created_at: @date.beginning_of_day..@date.end_of_day).where(source: source).count
       end
 
     end

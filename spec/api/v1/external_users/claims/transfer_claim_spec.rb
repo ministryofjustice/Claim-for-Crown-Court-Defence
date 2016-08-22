@@ -111,7 +111,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
-        expect(Claim::TransferClaim.find_by(uuid: json['id']).uuid).to eq(json['id'])
+        expect(Claim::TransferClaim.active.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
       it "should exclude API key, creator email and user email from response" do
@@ -124,7 +124,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
       end
 
       it "should create one new claim" do
-        expect{ post_to_create_endpoint }.to change { Claim::TransferClaim.count }.by(1)
+        expect{ post_to_create_endpoint }.to change { Claim::TransferClaim.active.count }.by(1)
       end
 
       it "should create one transfer detail" do
@@ -135,7 +135,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
 
         before(:each) {
           post_to_create_endpoint
-          @new_claim = Claim::TransferClaim.last
+          @new_claim = Claim::TransferClaim.active.last
         }
 
         it "have the same attributes as described in params" do

@@ -26,7 +26,7 @@ module Stats
 
 
       def submitted_claims_this_period
-        Claim::BaseClaim.where(last_submitted_at: @period_start..@period_end)
+        Claim::BaseClaim.active.where(last_submitted_at: @period_start..@period_end)
       end
     end
   end

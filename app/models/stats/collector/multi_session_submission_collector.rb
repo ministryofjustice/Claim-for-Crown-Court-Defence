@@ -12,7 +12,7 @@ module Stats
       private
 
       def submitted_claims_for_day
-        Claim::BaseClaim.where('last_submitted_at between ? and ?', @date.beginning_of_day, @date.end_of_day)
+        Claim::BaseClaim.active.where('last_submitted_at between ? and ?', @date.beginning_of_day, @date.end_of_day)
       end
 
 

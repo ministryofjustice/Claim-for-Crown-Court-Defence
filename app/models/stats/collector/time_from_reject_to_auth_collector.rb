@@ -35,12 +35,12 @@ module Stats
       end
 
       def claims_authorised_in_rolling_average_period
-        Claim::BaseClaim.where('authorised_at between ? and ?', @rolling_period_start, @rolling_period_end)
+        Claim::BaseClaim.active.where('authorised_at between ? and ?', @rolling_period_start, @rolling_period_end)
       end
 
       def days_reject_to_auth(claim_id)
-        cloned_claim = Claim::BaseClaim.find claim_id
-        source_claim = Claim::BaseClaim.find cloned_claim.clone_source_id
+        cloned_claim = Claim::BaseClaim.active.find claim_id
+        source_claim = Claim::BaseClaim.active.find cloned_claim.clone_source_id
         cloned_claim.authorised_at - rejected_date_for(source_claim)
       end
 

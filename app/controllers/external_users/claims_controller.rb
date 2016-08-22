@@ -88,7 +88,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def destroy
     if @claim.draft?
-      @claim.destroy
+      @claim.soft_delete
     else
       @claim.archive_pending_delete!
     end
@@ -207,7 +207,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_and_authorize_claim
-    @claim = Claim::BaseClaim.find(params[:id])
+    @claim = Claim::BaseClaim.active.find(params[:id])
     authorize! params[:action].to_sym, @claim
   end
 

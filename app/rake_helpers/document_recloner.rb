@@ -1,8 +1,8 @@
 class DocumentRecloner
 
   def initialize(claim_id)
-    @cloned_claim = Claim::BaseClaim.find claim_id
-    @source_claim = Claim::BaseClaim.find @cloned_claim.clone_source_id
+    @cloned_claim = Claim::BaseClaim.active.find claim_id
+    @source_claim = Claim::BaseClaim.active.find @cloned_claim.clone_source_id
     @message_text = 'SYSTEM NOTICE: '
     @sender = CaseWorker.active.admins.first.user
   end
@@ -36,14 +36,25 @@ class DocumentRecloner
 
 
   def copy_document_to_clone(source_document)
-    cloned_document = Document.new(
+    cloned_document = nil
+    begin
+      cloned_document = create_cloned_document(source_document)
+    rescue Errno::ENOENT
+      sleep 1
+      cloned_document = create_cloned_document(source_document)
+    end
+    cloned_document.save_and_verify
+    @message_text += "#{source_document.document_file_name} has been copied from source claim #{@source_claim.id} (#{@source_claim.case_number})\n"
+  end
+
+
+  def create_cloned_document(source_document)
+    Document.new(
       claim: @cloned_claim,
       document: source_document.document,
       document_content_type: source_document.document_content_type,
       external_user: source_document.external_user
     )
-    cloned_document.save_and_verify
-    @message_text += "#{source_document.document_file_name} has been copied from source claim #{@source_claim.id} (#{@source_claim.case_number})\n"
   end
 
 

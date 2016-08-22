@@ -94,11 +94,11 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
                 when 'current'
                   current_user.claims.caseworker_dashboard_under_assessment
                 when 'archived'
-                  Claim::BaseClaim.caseworker_dashboard_archived
+                  Claim::BaseClaim.active.caseworker_dashboard_archived
                 when 'allocated'
-                  Claim::BaseClaim.caseworker_dashboard_under_assessment
+                  Claim::BaseClaim.active.caseworker_dashboard_under_assessment
                 when 'unallocated'
-                  Claim::BaseClaim.submitted_or_redetermination_or_awaiting_written_reasons
+                  Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
                 end
     else
       @claims = case tab
@@ -119,7 +119,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claim
-    @claim = Claim::BaseClaim.find(params[:id])
+    @claim = Claim::BaseClaim.active.find(params[:id])
   end
 
   def filter_current_claims

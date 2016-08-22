@@ -44,7 +44,7 @@ class JsonDocumentImporter
       begin
         @schema_validator.validate_full!(claim_hash)
         create_claim_and_associations(claim_hash)
-        @imported_claims << Claim::BaseClaim.find_by(uuid: @claim_id)
+        @imported_claims << Claim::BaseClaim.active.find_by(uuid: @claim_id)
       rescue ArgumentError => ex
         claim_hash['claim']['case_number'] = case_number
         @failed_imports << claim_hash
@@ -109,7 +109,7 @@ class JsonDocumentImporter
   end
 
   def destroy_claim_if_any
-    claim = Claim::BaseClaim.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
+    claim = Claim::BaseClaim.active.find_by(uuid: @claim_id) # if an exception is raised the claim is destroyed along with all its dependent objects
     claim.destroy if claim.present?
   end
 

@@ -84,7 +84,7 @@ module Claim
       end
     end
 
-    def lgfs?; true; end
+    def lgfs?; self.class.lgfs?; end
     def transfer?; true; end
     def requires_trial_dates?; false; end
     def requires_retrial_dates?; false; end

@@ -6,7 +6,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   skip_load_and_authorize_resource
 
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :scheme
 
   respond_to :html
 
@@ -169,8 +169,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_claims_context
-    context = Claims::ContextMapper.new(@external_user)
+    context = Claims::ContextMapper.new(@external_user, scheme: scheme)
     @claims_context = context.available_claims
+    @available_schemes = context.available_schemes
   end
 
   def set_financial_summary
@@ -204,6 +205,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def sort_and_paginate(options={})
     set_sort_defaults(options)
     @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
+  end
+
+  def scheme
+    %w(agfs lgfs).include?(params[:scheme]) ? params[:scheme].to_sym : :all
   end
 
   def set_and_authorize_claim

@@ -70,7 +70,7 @@ module Claim
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :graduated_fee, reject_if: :all_blank, allow_destroy: false
 
-    def lgfs?; true; end
+    def lgfs?; self.class.lgfs?; end
     def final?; true; end
 
     # Fixed Fee Adder requires a fixed_fees method

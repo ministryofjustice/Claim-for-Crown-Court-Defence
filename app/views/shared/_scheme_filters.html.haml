@@ -1,0 +1,12 @@
+- unless available_schemes.one?
+
+  %fieldset.inline.js-claim-scheme-filter
+    .column-half.form-group
+      %legend
+        = t('.scheme_filter')
+      .form-hint.xsmall.zero-vert-margin
+        = t('.scheme_filter_hint')
+      - [:all].concat(available_schemes).each do |filter_scheme|
+        = label_tag "scheme_#{filter_scheme}", nil, class: "block-label" do
+          = radio_button_tag :scheme, filter_scheme, scheme.blank? ? filter_scheme == :all : scheme == filter_scheme
+          = filter_scheme == :all ? t('.scheme_filter_all') : filter_scheme.upcase

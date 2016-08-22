@@ -86,6 +86,20 @@ module Claim
       end
     end
 
+    describe '.agfs?' do
+      it 'returns true if class is advocate claim, false otherwise' do
+        expect(agfs_claim.class.agfs?).to eql true
+        expect(lgfs_claim.class.agfs?).to eql false
+      end
+    end
+
+    describe '.lgfs?' do
+      it 'returns true if claim is litigator/lgfs claim, false for advocate/agfs claims' do
+        expect(lgfs_claim.class.lgfs?).to eql true
+        expect(agfs_claim.class.lgfs?).to eql false
+      end
+    end
+
     describe 'has_many documents association' do
       it 'should return a collection of verified documents only' do
         claim = create :claim

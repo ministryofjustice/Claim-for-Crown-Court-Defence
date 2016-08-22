@@ -68,7 +68,7 @@ module Claim
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :warrant_fee, reject_if: :all_blank, allow_destroy: false
 
-    def lgfs?; true; end
+    def lgfs?; self.class.lgfs?; end
     def interim?; true; end
 
     def eligible_case_types

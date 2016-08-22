@@ -41,6 +41,7 @@ caption {
 // claim detail page
 
 .financial-summary{
+  padding-bottom: 56px;
   @include span(8 of 12);
   @include first;
   div{

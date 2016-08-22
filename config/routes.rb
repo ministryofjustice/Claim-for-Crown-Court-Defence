@@ -181,7 +181,7 @@ Rails.application.routes.draw do
 
 
   # catch-all route
-  unless Rails.env.development?
+  unless Rails.env.development? || Rails.env.devunicorn?
     match '*path', to: 'errors#not_found', via: :all
   end
 end

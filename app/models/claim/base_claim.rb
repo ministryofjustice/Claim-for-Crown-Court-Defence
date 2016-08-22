@@ -100,7 +100,6 @@ module Claim
     has_many :expenses,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :disbursements,            foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
     has_many :defendants,               foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
-    has_many :representation_orders,    through: :defendants
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages,                 foreign_key: :claim_id, dependent: :destroy,          inverse_of: :claim
 
@@ -202,6 +201,13 @@ module Claim
       else
         false
       end
+    end
+
+    # Do not use `has_many :representation_orders, through: :defendants`
+    # The relationship is not properly handled on partial claim validation
+    #
+    def representation_orders
+      defendants.reduce([]) { |col, d| col.concat(d.representation_orders) }
     end
 
     def earliest_representation_order

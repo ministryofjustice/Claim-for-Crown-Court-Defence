@@ -5,7 +5,7 @@ module API
         prefix 'api/external_users'
 
         resource :claims, desc: 'Create or Validate' do
-          before do
+          before_validation do
             authorise_claim!
           end
 

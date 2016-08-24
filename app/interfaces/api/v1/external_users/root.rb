@@ -13,18 +13,18 @@ module API
         helpers API::Authorisation
         helpers API::V1::ResourceHelper
 
-        # override default json format for multiple grape validation errors
+        error_formatter :json, API::V1::JsonErrorFormatter
+
         rescue_from Grape::Exceptions::ValidationErrors, API::V1::ArgumentError do |error|
-          errors = error.message.split(', ').collect { |msg| {error: msg} }
-          error!(errors, 400)
+          error!(error.message.split(','), 400)
         end
 
         rescue_from API::Authorisation::AuthorisationError do |error|
-          error!([{error: error.message}], 401)
+          error!(error.message, 401)
         end
 
         group do
-          before do
+          before_validation do
             authenticate_key!
           end
 

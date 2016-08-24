@@ -144,7 +144,7 @@ module Claim
                         :retrial_concluded_at,
                         :case_concluded_at,
                         :effective_pcmh_date,
-                        :legal_aid_transfer_date, validate_if: :perform_validation?
+                        :legal_aid_transfer_date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
     before_validation do
       errors.clear

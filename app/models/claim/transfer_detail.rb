@@ -16,7 +16,7 @@ module Claim
 
     belongs_to :claim, class_name: Claim::TransferClaim, foreign_key: :claim_id, inverse_of: :transfer_detail
 
-    acts_as_gov_uk_date :transfer_date
+    acts_as_gov_uk_date :transfer_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
     def unpopulated?
       self.litigator_type.nil? && self.elected_case.nil? && self.transfer_stage_id.nil? && self.transfer_date.nil? && self.case_conclusion_id.nil?

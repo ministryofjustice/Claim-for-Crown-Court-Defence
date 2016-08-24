@@ -1,44 +1,40 @@
 moj.Modules.HideErrorOnChange = {
-    el: '.form-group.field_with_errors',
-    dd: '.dropdown_field_with_errors',
-    dates: 'fieldset.gov_uk_date.error',
-    $el: null,
-    $dd: null,
-    $dates: null,
+  config: [{
+    delegate: '.form-group.field_with_errors',
+    wrapperClassName: 'field_with_errors',
+    messageSelector: '.error'
+  }, {
+    delegate: '.dropdown_field_with_errors',
+    wrapperClassName: 'dropdown_field_with_errors',
+    messageSelector: '.error'
+  }, {
+    delegate: 'fieldset.gov_uk_date.error',
+    wrapperClassName: 'error',
+    messageSelector: 'ul'
+  }],
 
-    init: function() {
-        console.log("Firing now");
-        this.$el = $(this.el);
-        this.$dd = $(this.dd);
-        this.$dates = $(this.dates);
+  init: function() {
+    this.bindListeners();
+  },
+  removeClassName: function($el, className) {
+    return $el.removeClass(className);
+  },
+  removeBySelector: function($el, selector) {
+    return $el.find(selector).remove();
+  },
+  bindListeners: function() {
+    var self = this;
+    this.config.forEach(function(opt) {
+      $(opt.delegate).one('click', 'input', function(e) {
+        var $el = $(e.delegateTarget);
+        self.removeClassName($el, opt.wrapperClassName);
+        self.removeBySelector($el, opt.messageSelector);
+      });
 
-        this.bindEvents();
-        console.log(this);
-    },
-
-    bindEvents: function() {
-        this.$el.each( function(idx, el) {
-            $(el).on('focus', 'input', function(e) {
-                $(e.delegateTarget).removeClass('field_with_errors');
-                $(e.delegateTarget).find('.error').remove();
-            })
-        })
-
-        this.$dd.each(function(idx, el) {
-            $(el).on('focus', 'input', function(e) {
-                $(e.delegateTarget).removeClass('dropdown_field_with_errors');
-                $(e.delegateTarget).find('.error').remove();
-            })
-        })
-
-        this.$dates.each(function(idx, el) {
-            $(el).on('focus', 'input', function(e) {
-                $(e.delegateTarget).removeClass('error');
-                $(e.delegateTarget).find('ul').remove();
-            })
-
-        })
-    }
-
-
+      // mainly for FF
+      $(opt.delegate).one('focus', 'input', function(e) {
+        $(e.target).trigger('click');
+      });
+    });
+  }
 };

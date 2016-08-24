@@ -25,7 +25,7 @@ class RepresentationOrder < ActiveRecord::Base
     end
   end
 
-  acts_as_gov_uk_date :representation_order_date, validate_if: :perform_validation?
+  acts_as_gov_uk_date :representation_order_date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   default_scope { order('id ASC') }
 

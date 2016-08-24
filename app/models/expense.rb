@@ -30,7 +30,8 @@ class Expense < ActiveRecord::Base
   }
 
   auto_strip_attributes :location, squish: true, nullify: true
-  acts_as_gov_uk_date :date, validate_if: :perform_validation?
+
+  acts_as_gov_uk_date :date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   include NumberCommaParser
   include Duplicable

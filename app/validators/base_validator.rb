@@ -39,7 +39,7 @@ class BaseValidator < ActiveModel::Validator
 
   def attr_present?(attribute)
     !attr_nil?(attribute)
-  ends
+  end
 
   def attr_zero?(attribute)
     @record.__send__(attribute) == 0

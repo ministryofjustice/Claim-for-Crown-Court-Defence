@@ -263,4 +263,33 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
   end
+
+  describe 'defendant_summary' do
+    let(:my_claim)  { Claim::AdvocateClaim.new }
+    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view)}
+
+    context '3 defendants' do
+      it 'returns name and intial of first defendant and count of additional defendants' do
+        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
+        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
+        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
+        expect(presenter.defendant_summary).to eq 'S. Richards + 2 others'
+      end
+    end
+
+    context '1 defendant' do
+      it 'returns the name and initial of the only defendant' do
+        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
+        expect(presenter.defendant_summary).to eq 'M. Withers'
+      end
+    end
+
+    context 'no defendants' do
+      it 'returns nil' do
+        expect(presenter.defendant_summary).to be_nil
+      end
+    end
+  end
+
+
 end

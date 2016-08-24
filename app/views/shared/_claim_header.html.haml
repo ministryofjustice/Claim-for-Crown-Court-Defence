@@ -8,6 +8,23 @@
     = 'Status:'
     %span{class: "state state-#{claim.state}"}
       = claim.state.humanize
+  .claim-detail-actions
+    = 'Claim assessed date:'
+    %span.case-number-header
+      = claim.assessment_date
+
+.claim-hgroup
+  %h1
+    = 'Defendant names:'
+    %span.case-number-header
+      = claim.defendant_summary
+  .claim-status{tabindex: 0}
+    = 'Claim Organisation:'
+    %span.case-number-header
+      = claim.provider.name
+
+
+
 
   - if current_user.persona.is_a?(CaseWorker)
     .claim-detail-actions

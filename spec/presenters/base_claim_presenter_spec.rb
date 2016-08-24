@@ -284,6 +284,14 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
 
+    context '2 defendants' do
+      it 'returns the name and initial of the first defendant + 1 other' do
+        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
+        my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
+        expect(presenter.defendant_summary).to eq 'M. Withers + 1 other'
+      end
+    end
+
     context 'no defendants' do
       it 'returns nil' do
         expect(presenter.defendant_summary).to be_nil

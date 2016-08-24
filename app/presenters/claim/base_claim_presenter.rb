@@ -160,7 +160,10 @@ class Claim::BaseClaimPresenter < BasePresenter
   def defendant_summary
     if claim.defendants.any?
       result = claim.defendants.first.name_and_initial
-      result += " + #{claim.defendants.size - 1} others" if claim.defendants.size > 1
+      num_others = claim.defendants.size - 1
+      if num_others > 0
+        result += " + #{@view.pluralize(num_others, 'other')}"
+      end
     end
     result
   end

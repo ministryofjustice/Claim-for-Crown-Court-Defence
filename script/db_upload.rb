@@ -5,6 +5,7 @@ require 'net/scp' # gem install net-scp
 
 ENVIRONMENTS = {
   'dev' => 'dev',
+  'demo' => 'demo',
   'staging' => 'staging'
 }
 

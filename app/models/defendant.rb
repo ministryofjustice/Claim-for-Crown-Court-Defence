@@ -31,6 +31,10 @@ class Defendant < ActiveRecord::Base
       [first_name, last_name].join(' ').gsub("  ", " ")
   end
 
+  def name_and_initial
+    first_name && last_name ? "#{first_name.first}. #{last_name}" : ''
+  end
+
   def perform_validation?
     claim && claim.perform_validation?
   end

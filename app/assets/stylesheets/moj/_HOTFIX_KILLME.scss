@@ -113,3 +113,8 @@ td {
     display: inline-block;
   }
 }
+
+// ie error state fix
+input[type=radio]{
+  border: none;
+}

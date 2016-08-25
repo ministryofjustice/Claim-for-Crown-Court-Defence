@@ -1,61 +1,83 @@
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>"><!--<![endif]-->
-<html data-swagger-options="<%= GrapeSwaggerRails.options.to_h.to_json %>">
+<!--[if lt IE 9]><html class="lte-ie8" lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.marshal_dump.to_json %>"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="<%= content_for?(:html_lang) ? yield(:html_lang) : "en" %>" <%= yield(:html_attributes) %> data-swagger-options="<%= GrapeSwaggerRails.options.marshal_dump.to_json %>"><!--<![endif]-->
+<html data-swagger-options="<%= GrapeSwaggerRails.options.marshal_dump.to_json %>">
 <% @disable_logo_link = true %>
 <head>
-  <!-- <title><%#= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title> -->
-  <!-- <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/> -->
+  <title><%= GrapeSwaggerRails.options.app_name || 'Swagger UI' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
   <%= stylesheet_link_tag 'grape_swagger_rails/application.css' %>
   <%= javascript_include_tag 'grape_swagger_rails/application.js' %>
-
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-
-  <title><%= content_for?(:page_title) ? yield(:page_title) : "Ministry of Justice" %></title>
 
   <script type="text/javascript">
     (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
   </script>
 
-  <!--[if gt IE 8]><!--><link href="<%= asset_path "moj-internal.css" %>" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
-  <!--[if IE 6]><link href="<%= asset_path "moj-internal-ie6.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
-  <!--[if IE 7]><link href="<%= asset_path "moj-internal-ie7.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
-  <!--[if IE 8]><link href="<%= asset_path "moj-internal-ie8.css" %>" media="all" rel="stylesheet" type="text/css" /><![endif]-->
+  <title>Your account - Claim for crown court defence - Gov.uk</title>
+
+  <!--[if gt IE 8]><!--><link href="/assets/govuk-template.css" media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
+  <!--[if IE 6]><link href="/assets/govuk-template-ie6.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+  <!--[if IE 7]><link href="/assets/govuk-template-ie7.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+  <!--[if IE 8]><link href="/assets/govuk-template-ie8.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+  <link href="/assets/govuk-template-print.css" media="print" rel="stylesheet" type="text/css" />
+
+  <!--[if IE 8]>
+  <script type="text/javascript">
+    (function(){if(window.opera){return;}
+      setTimeout(function(){var a=document,g,b={families:(g=
+              ["nta"]),urls:["/assets/fonts-ie8.css"]},
+          c="/assets/vendor/goog/webfont-debug.js",d="script",
+          e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
+          ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
+          .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
+    })()
+  </script>
+  <![endif]-->
+  <!--[if gte IE 9]><!-->
+  <link href="/assets/fonts.css" media="all" rel="stylesheet" type="text/css" />
+  <!--<![endif]-->
+
 
   <!--[if lt IE 9]>
-    <script src="<%= asset_path "ie.js" %>" type="text/javascript"></script>
+  <script src="/assets/ie.js" type="text/javascript"></script>
   <![endif]-->
 
-  <link rel="shortcut icon" href="<%= asset_path 'favicon.ico' %>" type="image/x-icon" />
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon" />
+  <link rel="mask-icon" href="/assets/gov.uk_logotype_crown.svg" color="#0b0c0c">
 
-  <!-- For third-generation iPad with high-resolution Retina display: -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= asset_path "apple-touch-icon-144x144.png" %>">
-  <!-- For iPhone with high-resolution Retina display: -->
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= asset_path "apple-touch-icon-114x114.png" %>">
-  <!-- For first- and second-generation iPad: -->
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= asset_path "apple-touch-icon-72x72.png" %>">
-  <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-  <link rel="apple-touch-icon-precomposed" href="<%= asset_path "apple-touch-icon-57x57.png" %>">
+  <!-- Size for iPad and iPad mini (high resolution) -->
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/apple-touch-icon-152x152.png">
+  <!-- Size for iPhone and iPod touch (high resolution) -->
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/apple-touch-icon-120x120.png">
+  <!-- Size for iPad 2 and iPad mini (standard resolution) -->
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/apple-touch-icon-76x76.png">
+  <!-- Default non-defined size, also used for Android 2.1+ devices -->
+  <link rel="apple-touch-icon-precomposed" href="/assets/apple-touch-icon-60x60.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:image" content="<%= asset_path "opengraph-image.png" %>">
+  <meta property="og:image" content="/assets/opengraph-image.png">
 
-  <%= yield :head %>
-
-  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <meta content='telephone=no' name='format-detection'>
+  <link rel="stylesheet" media="all" href="/assets/application.self.css?body=1" />
 
   <script type="text/javascript">
     $(function () {
       var options = $("html").data('swagger-options');
-
+      var headers = {};
+      <% GrapeSwaggerRails.options.headers.each_with_index do |(key, value), index| %>
+      <%=raw "headers.header_#{index} = new SwaggerClient.ApiKeyAuthorization('#{CGI.escapeHTML(key)}', '#{CGI.escapeHTML(value)}', 'header');" %>
+      <% end %>
       window.swaggerUi = new SwaggerUi({
         url: options.app_url + options.url,
-        dom_id:"swagger-ui-container",
+        dom_id: "swagger-ui-container",
         supportHeaderParams: true,
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+        supportedSubmitMethods: options.supported_submit_methods || [],
+        authorizations: headers,
         onComplete: function(swaggerApi, swaggerUi){
           if('console' in window) {
-            console.log("Loaded ADP SwaggerUI")
+            console.log("Loaded SwaggerUI")
             console.log(swaggerApi);
             console.log(swaggerUi);
           }
@@ -63,39 +85,21 @@
         },
         onFailure: function(data) {
           if('console' in window) {
-            console.log("Unable to Load ADP SwaggerUI");
+            console.log("Unable to Load SwaggerUI");
             console.log(data);
           }
         },
-        docExpansion: "none"
+        docExpansion: options.doc_expansion,
+        validatorUrl: options.validator_url,
+        apisSorter: "alpha"
       });
-
-      $('#input_apiKey').change(function() {
-        var key = $('#input_apiKey')[0].value;
-
-        if(key && key.trim() != "") {
-          if (options.api_auth == 'basic') {
-            key = "Basic " + Base64.encode(key);
-          } else if (options.api_auth == 'bearer') {
-            key = "Bearer " + key
-          }
-          window.authorizations.add("key", new ApiKeyAuthorization(options.api_key_name, key, options.api_key_type));
-        } else {
-          window.authorizations.add("key", null);
-        }
-      });
-
-      <% GrapeSwaggerRails.options.headers.each_pair do |key, value| %>
-        <%= raw "window.authorizations.add('key', new ApiKeyAuthorization('#{CGI.escapeHTML(key)}', '#{CGI.escapeHTML(value)}', 'header'));" %>
-      <% end %>
 
       window.swaggerUi.load();
     });
   </script>
 </head>
 
-<body class="swagger-section #{'controller-'' + controller.controller_name}">
-  <script type="text/javascript">document.body.className = 'js-enabled ' + document.body.className;</script>
+<body class="swagger-section">
 
   <div id="skiplink-container">
     <div>
@@ -103,48 +107,44 @@
     </div>
   </div>
 
-  <div id="global-cookie-message">
-    <div class="outer-block">
-      <div class="inner-block">
-        <% if content_for?(:cookie_message) %>
-          <%= yield :cookie_message %>
-        <% else %>
-          <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <!--end global-cookie-message-->
-
   <% unless @omit_header %>
-  <header role="banner" id="global-header" class="<%= yield(:header_class) %>">
-    <div class="header-wrapper">
-      <div class="header-global">
-        <div class="header-logo">
-          <div id="logo">
-            <% if @disable_logo_link -%>
-              <%= image_tag('moj_logo_horizontal_36x246_for_swagger.png',
-      class: 'content',
-      width: 36, height: 246, alt: 'Ministry of Justice') %>
-            <% else -%>
-              <a href="/" title="Go to the homepage">
-                <%= image_tag('moj_logo_horizontal_36x246_for_swagger.png',
-      class: 'content',
-      width: 36, height: 246, alt: 'Ministry of Justice') %>
+    <header role="banner" id="global-header" class="">
+      <div class="header-wrapper">
+        <div class="header-global">
+          <div class="header-logo">
+            <a href="https://www.gov.uk/" title="Go to the GOV.UK homepage" id="logo" class="content">
+              <img src="/assets/gov.uk_logotype_crown_invert_trans.png" width="35" height="31" alt=""> GOV.UK
+            </a>
+          </div>
+
+        </div>
+        <div class="header-proposition">
+          <div class="content">
+            <nav id="proposition-menu">
+              <a href="/" id="proposition-name">
+        <span class="visuallyhidden">
+          Home link
+        </span>
+                Claim for crown court defence
               </a>
-             <% end -%>
+              <div id="proposition-links">
+                <% if user_signed_in? %>
+                    <ul>
+                      <li>
+                        <%= link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}", class: 'current' %>
+                      </li>
+                      <li>
+                        <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
+                      </li>
+                    </ul>
+                <% end %>
+              </div>
+            </nav>
           </div>
         </div>
-        <div class="header-app-name">
-          <%= content_for?(:header_app_name) ? yield(:header_app_name) : 'Claim for crown court defence' %>
-        </div>
-        <div id="log-in-out">
-          <%= yield :log_in_out %>
-        </div>
-        <%= yield :inside_header %>
+
       </div>
-    </div>
-  </header>
+    </header>
   <!--end header-->
   <% end %>
 
@@ -157,108 +157,48 @@
     </div>
   </div>
   <!--end global-header-bar-->
-  <%= csrf_meta_tags %>
-  <div id="page">
 
-    <div class="phase-banner">
+  <%= csrf_meta_tags %>
+
+  <div id="page">
+    <div class='phase-banner'>
       <p>
-        <strong class="phase-tag">
-          <%= Rails.configuration.send(:phase) %>
+        <strong class='phase-tag'>
+          BETA
         </strong>
-      <span>
+        <span>
         This is a new service – your
-        <%= link_to "feedback", "/feedback/new" %>
+        <a target="_blank" href="/feedback/new"><span class="visuallyhidden">Give your </span>feedback</a>
         will help us to improve it.
+        You can
+        <a target="_blank" href="/feedback/new?type=bug_report">report a fault here.</a>
       </span>
       </p>
     </div>
 
-    <div class="primary-nav-bar">
-      <% if user_signed_in? %>
-        <nav role="navigation">
-          <ul class="primary-nav">
-            <% if current_user.persona.is_a?(ExternalUser) %>
-              <li>
-                <%= link_to "#{current_user.persona.admin? ? 'All' : 'Your'} claims", '/external_users'%>
-              </li>
-              <li>
-                <%= link_to "Archive", '/external_users/claims/archived', title: "View archived claims"%>
-              </li>
-              <% if Rails.host.api_sandbox? %>
-                <li>
-                  <%= link_to "API Documentation", '/api/landing', class: "current"%>
-                </li>
-              <% end %>
-              <li>
-                <%= link_to t('link.add_claim'), '/external_users/claims/new', title: "Start a new claim" %>
-              </li>
-              <% if current_user.persona.admin? %>
-                <li>
-                  <%= link_to 'Manage users', '/external_users/admin/external_users' %>
-                </li>
-                <li>
-                  <%= link_to "Manage provider", "/external_users/admin/providers/#{current_user.persona.provider.id}" %>
-                </li>
-              <% end %>
-            <% else %>
-              <li>
-                <%= "Error" %>
-              </li>
-            <% end %>
-          </ul>
-
-          <div class='user_links'>
-            <ul>
-              <li>
-                <%= link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}"%>
-              </li>
-              <li>
-                <%= link_to 'Sign out', '/users/sign_out', method: :delete %>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      <% end %>
-    </div>
-    <!-- end nav bar-->
-
-
     <div id="content">
       <main class="main-content">
-        <header class="main-header" role="banner">
-          <h1>
-            Interactive API Documentation
-          </h1>
-        </header>
         <div id="message-bar" class="swagger-ui-wrap">
           &nbsp;
         </div>
+
         <div id="swagger-ui-container" class="swagger-ui-wrap">
         </div>
       </main>
     </div>
     <!-- end content -->
 
-
-
     <div id="global-app-error" class="app-error hidden"></div>
 
     <%= yield :body_end %>
 
   </div>
+
   <footer class="group js-footer" id="footer" role="contentinfo">
 
     <div class="footer-wrapper">
-      <%= yield :footer_top %>
-
       <div class="footer-meta">
         <div class="footer-meta-inner">
-          <div class="copyright">
-            <a href="https://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">© Crown copyright</a>
-          </div>
-          <h2 class="visuallyhidden">
-            Support links
-          </h2>
           <ul>
             <li>
               <a href="http://www.gov.uk/help/cookies">Cookies</a>
@@ -266,28 +206,32 @@
             <li>
               <a href="/contact_us">Contact</a>
             </li>
+            <li>
+              <a href="/tandcs">Terms and Conditions</a>
+            </li>
+            <li>
+              <a target="_blank" href="/feedback/new">Feedback</a>
+            </li>
+            <li>
+              <span>Built by</span>
+              <a href="https://mojdigital.blog.gov.uk/">
+                <abbr title="Ministry of Justice">MOJ Digital Services</abbr>
+              </a>
+            </li>
           </ul>
-          <div class="show">
-            <span>Built by</span>
-            <a href="https://mojdigital.blog.gov.uk/">
-              <abbr title="Ministry of Justice">MOJ Digital Services</abbr>
-            </a>
-          </div>
+
           <div class="open-government-licence">
-            <h2>
-              <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence</a>
-            </h2>
-            <p>
-              All content is available under the
-              <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence v2.0</a>,
-              except where otherwise stated
-            </p>
+            <p class="logo"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a></p>
+            <p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>
           </div>
+        </div>
+
+        <div class="copyright">
+          <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/">© Crown copyright</a>
         </div>
       </div>
     </div>
   </footer>
-
   <!--end footer-->
 
   <!-- do NOT include ADPs application,js as it including jquery twice causes a jquery error in swagger, the impact of which is unclear, but we do not need this js anyway execpt jquery_ujs -->

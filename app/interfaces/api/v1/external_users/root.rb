@@ -13,33 +13,40 @@ module API
         helpers API::Authorisation
         helpers API::V1::ResourceHelper
 
-        # override default json format for multiple grape validation errors
+        error_formatter :json, API::V1::JsonErrorFormatter
+
         rescue_from Grape::Exceptions::ValidationErrors, API::V1::ArgumentError do |error|
-          errors = error.message.split(', ').collect { |msg| {error: msg} }
-          error!(errors, 400)
+          error!(error.message.split(','), 400)
         end
 
         rescue_from API::Authorisation::AuthorisationError do |error|
-          error!([{error: error.message}], 401)
+          error!(error.message, 401)
         end
 
         group do
-          before do
+          before_validation do
             authenticate_key!
           end
 
-          mount API::V1::ExternalUsers::Claim
-          mount API::V1::ExternalUsers::Defendant
-          mount API::V1::ExternalUsers::RepresentationOrder
-          mount API::V1::ExternalUsers::Fee
-          mount API::V1::ExternalUsers::Expense
-          mount API::V1::ExternalUsers::Disbursement
-          mount API::V1::ExternalUsers::DateAttended
-          mount API::V1::DropdownData
+          namespace :api, desc: 'Retrieval, creation and validation operations' do
+            mount API::V1::DropdownData
+
+            namespace :external_users do
+              mount API::V1::ExternalUsers::Claim
+              mount API::V1::ExternalUsers::Defendant
+              mount API::V1::ExternalUsers::RepresentationOrder
+              mount API::V1::ExternalUsers::Fee
+              mount API::V1::ExternalUsers::Expense
+              mount API::V1::ExternalUsers::Disbursement
+              mount API::V1::ExternalUsers::DateAttended
+            end
+          end
         end
 
         add_swagger_documentation(
+          info: { title: 'Claim for crown court defence API' },
           api_version: "v1",
+          doc_version: 'v1',
           hide_documentation_path: true,
           mount_path: "/api/v1/external_users/swagger_doc",
           hide_format: true

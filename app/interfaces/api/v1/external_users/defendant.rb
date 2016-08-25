@@ -3,8 +3,6 @@ module API
     module ExternalUsers
 
       class Defendant < Grape::API
-        prefix 'api/external_users'
-
         params do
           optional :api_key, type: String, desc: "REQUIRED: The API authentication key of the provider"
           optional :claim_id, type: String, desc: "REQUIRED: Unique identifier for the claim associated with this defendant."

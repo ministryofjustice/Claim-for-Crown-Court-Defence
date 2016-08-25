@@ -46,7 +46,7 @@ class AdpTextField
   def has_errors?
     return false if @errors.nil?
     if @errors.is_a?(ActiveModel::Errors)
-      return false unless @errors.key?(@error_key)
+      @errors.key?(@error_key.to_sym)
     else
       @errors.errors_for?(@error_key.to_sym)
     end
@@ -61,6 +61,11 @@ class AdpTextField
     result += input_field
     result += error_message
     result += div_close
+    if @method.to_s == 'certified_by'
+      puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+      puts result
+      puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
+    end
     result.html_safe
   end
 

@@ -19,9 +19,9 @@ module ExternalUsers::ClaimsHelper
   end
 
   def validation_message_from_resource(resource, attribute)
-    if resource.errors[attribute]
-      content_tag :span, class: 'validation-error' do
-        resource.errors[attribute].join(", ")
+    if resource[attribute]
+      content_tag :span, class: 'validation-error error' do
+        resource[attribute].join(", ")
       end
     else
       ''

@@ -4,7 +4,9 @@ class PagesController < ApplicationController
 
   def tandcs; end
 
-  def contact_us; end
+  def contact_us
+    @suppress_contact_us_message = true
+  end
 
   def api_landing; end
 

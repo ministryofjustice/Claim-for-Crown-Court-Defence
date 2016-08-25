@@ -13,6 +13,11 @@ describe("Modules.HideErrorOnChange.js", function() {
     delegate: 'fieldset.gov_uk_date.error',
     wrapperClassName: 'error',
     messageSelector: 'ul'
+  },{
+    delegate: '.dropdown_field_with_errors.has-select',
+    wrapperClassName: 'dropdown_field_with_errors',
+    messageSelector: '.error',
+    eventSelector: 'select'
   }];
 
   describe('Config', function() {

@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_persona_is?(persona_class)
-    current_user.persona.is_a?(persona_class)
+    current_user&.persona.is_a?(persona_class)
   end
 
   def signed_in_user_profile_path
@@ -100,4 +100,7 @@ class ApplicationController < ActionController::Base
     (flash.now[:ga] ||= []) << GoogleAnalytics::DataLayer.new(:virtual_page, *args)
   end
 
+  def suppress_hotline_link
+    @suppress_contact_us_message = true
+  end
 end

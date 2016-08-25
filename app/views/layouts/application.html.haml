@@ -38,10 +38,15 @@
       = render partial: 'layouts/flashes' unless flash.empty?
       = yield
 
+    .grid-row.contactus-link
+      = render partial: 'layouts/contact_us_link'
+
 - content_for :footer_support_links do
   = render partial: 'layouts/footer'
 
 - content_for :body_end do
   = javascript_include_tag "application"
 
+
 = render template: 'layouts/govuk_template'
+

@@ -1,2 +1,3 @@
 -if current_user_persona_is?(ExternalUser)  && !@suppress_contact_us_message
-  = link_to("Should you require help with completing this form you can contact us.", contact_us_page_path)
+  %p
+    = link_to("Should you require help with completing this form you can contact us.", contact_us_page_path)

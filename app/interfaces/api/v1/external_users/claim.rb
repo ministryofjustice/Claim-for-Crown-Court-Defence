@@ -2,8 +2,6 @@ module API
   module V1
     module ExternalUsers
       class Claim < Grape::API
-        prefix 'api/external_users'
-
         resource :claims, desc: 'Create or Validate' do
           before_validation do
             authorise_claim!

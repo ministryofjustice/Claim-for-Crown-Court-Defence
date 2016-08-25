@@ -1,8 +1,11 @@
 module ExternalUsers::ClaimsHelper
   def validation_error_message(error_presenter_or_resource, attribute)
     return if error_presenter_or_resource.nil?
-    if error_presenter_or_resource.is_a?(ErrorPresenter)
+    case error_presenter_or_resource
+    when ErrorPresenter
       validation_message_from_presenter(error_presenter_or_resource, attribute)
+    when ActiveModel::Errors
+      validation_message_from_errors_hash(error_presenter_or_resource, attribute)
     else
       validation_message_from_resource(error_presenter_or_resource, attribute)
     end
@@ -18,7 +21,7 @@ module ExternalUsers::ClaimsHelper
     end
   end
 
-  def validation_message_from_resource(resource, attribute)
+  def validation_message_from_errors_hash(resource, attribute)
     if resource[attribute]
       content_tag :span, class: 'validation-error error' do
         resource[attribute].join(", ")
@@ -26,6 +29,10 @@ module ExternalUsers::ClaimsHelper
     else
       ''
     end
+  end
+
+  def validation_message_from_resource(resource, attribute)
+    validation_message_from_errors_hash(resource.errors, attribute)
   end
 
   def gov_uk_date_field_error_messages(presenter, attribute)

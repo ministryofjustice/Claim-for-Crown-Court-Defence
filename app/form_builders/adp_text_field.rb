@@ -61,11 +61,6 @@ class AdpTextField
     result += input_field
     result += error_message
     result += div_close
-    if @method.to_s == 'certified_by'
-      puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-      puts result
-      puts ">>>>>>>>>>>>>>  #{__FILE__}:#{__LINE__} <<<<<<<<<<<<<<<<<\n"
-    end
     result.html_safe
   end
 

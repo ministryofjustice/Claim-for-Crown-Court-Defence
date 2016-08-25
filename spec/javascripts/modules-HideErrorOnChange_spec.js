@@ -1,6 +1,7 @@
 describe("Modules.HideErrorOnChange.js", function() {
 
   var module = moj.Modules.HideErrorOnChange;
+  var railsErrorClassName ='field_with_errors';
   var configFixture = [{
     delegate: '.form-group.field_with_errors',
     wrapperClassName: 'field_with_errors',
@@ -24,6 +25,10 @@ describe("Modules.HideErrorOnChange.js", function() {
     it('should have the correct config', function() {
       expect(module.config).toEqual(configFixture);
     });
+
+    it('should have the correct `railsErrorClassName`', function() {
+      expect(module.railsErrorClassName).toEqual(railsErrorClassName);
+    });
   });
 
   describe('Methods', function() {
@@ -43,9 +48,26 @@ describe("Modules.HideErrorOnChange.js", function() {
         $el = $('<div></div>');
         spyOn($el, 'removeClass');
       });
+      it('should call `this.removeNestedErrorWrappers` with the `$el`', function() {
+        spyOn(module, 'removeNestedErrorWrappers');
+        module.removeClassName($el, 'className');
+        expect(module.removeNestedErrorWrappers).toHaveBeenCalledWith($el);
+      });
       it('should call $.fn.removeClass with params', function() {
         module.removeClassName($el, 'className');
         expect($el.removeClass).toHaveBeenCalledWith('className');
+      });
+    });
+
+    describe('...removeNestedErrorWrappers', function() {
+      var $el;
+      beforeEach(function() {
+        $el = $('<div><span class="field_with_errors"></span></div>');
+        spyOn($el, 'removeClass').and.callThrough();
+      });
+      it('should remove any nested classNames', function() {
+        module.removeNestedErrorWrappers($el);
+        expect($el.find('.field_with_errors').length).toBe(0);
       });
     });
 

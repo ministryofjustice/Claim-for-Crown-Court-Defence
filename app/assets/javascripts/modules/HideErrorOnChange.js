@@ -1,4 +1,5 @@
 moj.Modules.HideErrorOnChange = {
+  railsErrorClassName: 'field_with_errors',
   config: [{
     delegate: '.form-group.field_with_errors',
     wrapperClassName: 'field_with_errors',
@@ -21,11 +22,14 @@ moj.Modules.HideErrorOnChange = {
   init: function() {
     this.bindListeners();
   },
-  removeClassName: function($el, className) {
-    var nestedWrappers = $el.find('.field_with_errors');
-    if(nestedWrappers.length){
-      nestedWrappers.removeClass('field_with_errors');
+  removeNestedErrorWrappers: function($el) {
+    var wrappers = $el.find('.' + this.railsErrorClassName);
+    if (wrappers.length) {
+      wrappers.removeClass(this.railsErrorClassName);
     }
+  },
+  removeClassName: function($el, className) {
+    this.removeNestedErrorWrappers($el);
     return $el.removeClass(className);
   },
   removeBySelector: function($el, selector) {

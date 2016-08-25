@@ -118,4 +118,8 @@ module ApplicationHelper
   def contextual_title
     title [controller_name, action_name].join(' ').titleize
   end
+
+  def show_contact_us_link?
+    current_user_persona_is?(ExternalUser) && !defined?(@suppress_contact_us_message)
+  end
 end

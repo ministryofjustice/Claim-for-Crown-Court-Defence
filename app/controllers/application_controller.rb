@@ -100,4 +100,7 @@ class ApplicationController < ActionController::Base
     (flash.now[:ga] ||= []) << GoogleAnalytics::DataLayer.new(:virtual_page, *args)
   end
 
+  def suppress_hotline_link
+    @suppress_contact_us_message = true
+  end
 end

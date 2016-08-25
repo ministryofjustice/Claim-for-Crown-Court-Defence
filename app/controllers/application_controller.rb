@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
-  unless Rails.env.development?
+  unless Rails.env.development? || Rails.env.devunicorn?
     rescue_from Exception do |exception|
       if exception.is_a?(ActiveRecord::RecordNotFound)
         redirect_to error_404_url

@@ -58,11 +58,41 @@ RSpec.describe Claims::ContextMapper do
         context = Claims::ContextMapper.new(external_user)
         expect(context.available_claim_types).to match_array([Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
       end
-
     end
-
   end
 
+  describe '#available_schemes' do
+    let(:external_user) { create(:external_user, :advocate_litigator) }
+    let(:advocate) { create(:external_user, :advocate) }
+    let(:litigator) { create(:external_user, :litigator) }
+
+    it 'for users in AGFS only provider' do
+      context = Claims::ContextMapper.new(advocate)
+      expect(context.available_schemes).to match_array([:agfs])
+    end
+
+    it 'for users in LGFS only provider' do
+      context = Claims::ContextMapper.new(litigator)
+      expect(context.available_schemes).to match_array([:lgfs])
+    end
+
+    context 'AGFS and LGFS providers' do
+      [
+        [%w(advocate),                  [:agfs]],
+        [%w(litigator),                 [:lgfs]],
+        [%w(admin),                     [:agfs, :lgfs]],
+        [%w(litigator admin),           [:agfs, :lgfs]],
+        [%w(advocate admin),            [:agfs, :lgfs]],
+        [%w(admin advocate litigator),  [:agfs, :lgfs]],
+      ].each do |(roles, schemes)|
+        it "returns the schemes #{schemes} for roles #{roles}" do
+          external_user.roles = roles
+          context = Claims::ContextMapper.new(external_user)
+          expect(context.available_schemes).to match_array(schemes)
+        end
+      end
+    end
+  end
 
   describe '#available_claims' do
 
@@ -154,6 +184,38 @@ RSpec.describe Claims::ContextMapper do
       expected_ids = [ @claim_a1.id ]
       actual_ids = Claims::ContextMapper.new(@advocate_1).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
+    end
+
+    context 'for AGFS scheme filter' do
+      let(:options) { {scheme: :agfs} }
+
+      it 'returns all AGFS claims for the provider for the admin context' do
+        expected_ids = [ @claim_a1.id, @claim_a2.id ].sort
+        actual_ids = Claims::ContextMapper.new(@admin, options).available_claims.map(&:id).sort
+        expect(actual_ids).to eq expected_ids
+      end
+
+      it 'returns all AGFS claims for the external user' do
+        expected_ids = [ @claim_a1.id ]
+        actual_ids = Claims::ContextMapper.new(@advocate_1, options).available_claims.map(&:id).sort
+        expect(actual_ids).to eq expected_ids
+      end
+    end
+
+    context 'for LGFS scheme filter' do
+      let(:options) { {scheme: :lgfs} }
+
+      it 'returns all LGFS claims for the provider for the admin context' do
+        expected_ids = [ @claim_l1.id, @claim_l2.id ].sort
+        actual_ids = Claims::ContextMapper.new(@admin, options).available_claims.map(&:id).sort
+        expect(actual_ids).to eq expected_ids
+      end
+
+      it 'returns all LGFS claims for the external user' do
+        expected_ids = []
+        actual_ids = Claims::ContextMapper.new(@advocate_1, options).available_claims.map(&:id).sort
+        expect(actual_ids).to eq expected_ids
+      end
     end
   end
 end

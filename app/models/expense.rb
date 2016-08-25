@@ -103,8 +103,7 @@ class Expense < ActiveRecord::Base
   end
 
   def allow_reason_text?
-    return false if self.reason_id.nil?
-    expense_reason.allow_explanatory_text?
+    !!expense_reason&.allow_explanatory_text?
   end
 
   def expense_reasons

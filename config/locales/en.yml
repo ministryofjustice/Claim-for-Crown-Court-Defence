@@ -899,6 +899,10 @@ en:
       print_messages: Print all messages
     assessment:
       claimed_by: "Claimed by %{type}"
+    scheme_filters:
+      scheme_filter_hint: 'Configure list below by AGFS and LGFS claims'
+      scheme_filter: 'Filter list by:'
+      scheme_filter_all: 'All'
   case_workers:
     table_headings:
       your_claims: Your claims

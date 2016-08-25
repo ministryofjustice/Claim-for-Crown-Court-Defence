@@ -6,17 +6,26 @@ module Claims
     #      determine what claims the user can both view and create
     #
 
-    def initialize(external_user)
+    def initialize(external_user, options = {})
       @external_user = external_user
       @provider = external_user.provider
+      @scheme_filter = options[:scheme] || :all
     end
 
     def available_claim_types
-      @external_user.available_claim_types & @external_user.provider.available_claim_types
+      @available_claim_types ||= @external_user.available_claim_types & @external_user.provider.available_claim_types
+    end
+
+    def available_schemes
+      [].tap do |schemes|
+        schemes.push(:agfs) if available_claim_types.any?(&:agfs?)
+        schemes.push(:lgfs) if available_claim_types.any?(&:lgfs?)
+      end
     end
 
     def available_claims
-      @external_user.admin? ? @provider.claims : @external_user.claims
+      claims = @external_user.admin? ? @provider.claims : @external_user.claims
+      claims.send(@scheme_filter)
     end
 
   end

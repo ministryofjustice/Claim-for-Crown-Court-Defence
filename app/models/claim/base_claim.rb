@@ -128,6 +128,9 @@ module Claim
 
     scope :cloned, -> { where.not(clone_source_id: nil) }
 
+    scope :agfs, -> { where(type: 'Claim::AdvocateClaim') }
+    scope :lgfs, -> { where.not(type: 'Claim::AdvocateClaim') }
+
     accepts_nested_attributes_for :misc_fees,         reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :expenses,          reject_if: all_blank_or_zero, allow_destroy: true
     accepts_nested_attributes_for :disbursements,     reject_if: all_blank_or_zero, allow_destroy: true
@@ -171,6 +174,14 @@ module Claim
     def final?; false; end
     def requires_cracked_dates?; false; end
     def requires_case_concluded_date?; false; end
+
+    def self.agfs?
+      [Claim::AdvocateClaim].include?(self)
+    end
+
+    def self.lgfs?
+      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].include?(self)
+    end
 
     def pretty_type
       type.demodulize.sub('Claim', '').downcase

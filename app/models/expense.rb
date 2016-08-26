@@ -30,7 +30,8 @@ class Expense < ActiveRecord::Base
   }
 
   auto_strip_attributes :location, squish: true, nullify: true
-  acts_as_gov_uk_date :date, validate_if: :perform_validation?
+
+  acts_as_gov_uk_date :date, validate_if: :perform_validation?, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   include NumberCommaParser
   include Duplicable
@@ -102,8 +103,7 @@ class Expense < ActiveRecord::Base
   end
 
   def allow_reason_text?
-    return false if self.reason_id.nil?
-    expense_reason.allow_explanatory_text?
+    !!expense_reason&.allow_explanatory_text?
   end
 
   def expense_reasons

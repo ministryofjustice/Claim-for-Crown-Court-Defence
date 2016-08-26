@@ -5,7 +5,7 @@ class API::Logger < Grape::Middleware::Base
   end
 
   def after
-    log_api_response(@app_response.status)
+    log_api_response(@app_response.status) if @app_response
     @app_response # this must return @app_response or nil
   end
 

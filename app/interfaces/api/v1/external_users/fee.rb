@@ -3,8 +3,6 @@ module API
     module ExternalUsers
 
       class Fee < Grape::API
-        prefix 'api/external_users'
-
         params do
           # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
           optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'

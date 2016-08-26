@@ -1,5 +1,6 @@
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: [:new, :create]
+  before_action :suppress_hotline_link
 
   def new
     @feedback = Feedback.new(type: type, referrer: referrer_path)

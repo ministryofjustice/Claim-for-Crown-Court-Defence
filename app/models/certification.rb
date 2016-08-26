@@ -22,7 +22,7 @@ class Certification < ActiveRecord::Base
 
   validate :at_least_one_boolean_selected
 
-  acts_as_gov_uk_date :certification_date
+  acts_as_gov_uk_date :certification_date, error_clash_behaviour: :override_with_gov_uk_date_field_error
 
   private
 

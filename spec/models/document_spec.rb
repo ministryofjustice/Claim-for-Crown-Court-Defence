@@ -252,8 +252,13 @@ RSpec.describe Document, type: :model do
       expect(new_document.verified).to be_falsey
       expect(new_document.verified_file_size).to eq(0)
 
-      new_document.copy_from(document, verify: true)
+      # Wait for document creation to finish if necessary
+      5.times do
+        break if File.exist?(document.file_path)
+        sleep 0.1
+      end
 
+      new_document.copy_from(document, verify: true)
       expect(new_document.verified).to be_truthy
       expect(new_document.verified_file_size).not_to eq(0)
       expect(new_document.verified_file_size).to eq(document.verified_file_size)

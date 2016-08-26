@@ -22,8 +22,8 @@ describe API::V1::ExternalUsers::Claim do
     before(:all) do
       @declared_routes = []
       API::V1::ExternalUsers::Root.routes.each do |route|
-        info = route.instance_variable_get(:@options)
-        @declared_routes << info[:path].sub('(.:format)', '')
+        path = route.pattern.path
+        @declared_routes << path.sub('(.:format)', '')
       end
     end
 

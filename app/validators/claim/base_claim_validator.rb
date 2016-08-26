@@ -65,6 +65,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be present
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
+    @record.case_number&.upcase!
     validate_presence(:case_number, "blank")
     validate_pattern(:case_number, CASE_NUMBER_PATTERN, "invalid")
   end

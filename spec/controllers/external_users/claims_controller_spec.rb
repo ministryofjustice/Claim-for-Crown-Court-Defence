@@ -99,6 +99,37 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
       end
 
+      context 'scheme filtering' do
+        before do
+          sign_in advocate_admin.user
+          get :index, query_params
+        end
+
+        context 'ALL filter' do
+          let(:query_params) { {scheme: 'all'} }
+
+          it 'should assign context to claims for the provider' do
+            expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
+          end
+        end
+
+        context 'AGFS filter' do
+          let(:query_params) { {scheme: 'agfs'} }
+
+          it 'should assign context to claims for the provider' do
+            expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
+          end
+        end
+
+        context 'LGFS filter' do
+          let(:query_params) { {scheme: 'lgfs'} }
+
+          it 'should assign context to claims for the provider' do
+            expect(assigns(:claims_context)).to eq([])
+          end
+        end
+      end
+
       context 'sorting' do
         let(:query_params) { {} }
         let(:limit) { 10 }

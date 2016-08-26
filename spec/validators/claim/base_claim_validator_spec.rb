@@ -121,8 +121,18 @@ describe Claim::BaseClaimValidator do
       should_error_with(claim, :case_number, "blank")
     end
 
-    # invalid_formats = ['a12345678','A123456789','a12345678','a 1234567','ab1234567','A_1234567','A-1234567']
-    invalid_formats = ['a12345678']
+    it 'should not error if valid' do
+      claim.case_number = 'X87654321'
+      expect(claim).to be_valid
+    end
+
+    it 'upcases the first letter and does not error' do
+      claim.case_number = 'z87654321'
+      expect(claim).to be_valid
+      expect(claim.case_number).to eq 'Z87654321'
+    end
+
+    invalid_formats = ['A123456789','a 1234567','ab1234567','A_1234567','A-1234567']
     invalid_formats.each do |invalid_format|
       it "should error if invalid format #{invalid_format}" do
         claim.case_number = invalid_format

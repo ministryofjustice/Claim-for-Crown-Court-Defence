@@ -37,6 +37,10 @@ class BaseValidator < ActiveModel::Validator
     @record.__send__(attribute).nil?
   end
 
+  def attr_present?(attribute)
+    !attr_nil?(attribute)
+  end
+
   def attr_zero?(attribute)
     @record.__send__(attribute) == 0
   end
@@ -46,13 +50,31 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_presence(attribute, message)
+    return if already_errored_date?(attribute)
     add_error(attribute, message) if attr_blank?(attribute)
   end
 
+  def already_errored_date?(attribute)
+    is_gov_uk_date?(attribute) && already_errored?(attribute)
+  end
+
+  def is_gov_uk_date?(attribute)
+    @record.respond_to?(:_gov_uk_dates) && attribute.in?(@record._gov_uk_dates)
+  end
+
+  def already_errored?(attribute)
+    @record.errors[attribute].any?
+  end
+
   def validate_absence(attribute, message)
-    unless attr_nil?(attribute)
+    if attr_present?(attribute)
+      clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
       add_error(attribute, message) unless attr_blank?(attribute)
     end
+  end
+
+  def clear_pre_existing_error(attribute)
+    @record.errors[attribute].clear
   end
 
   def validate_absence_or_zero(attribute, message)

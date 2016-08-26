@@ -99,7 +99,7 @@ module Claim
     end
 
     def agfs?
-      true
+      self.class.agfs?
     end
 
     def update_claim_document_owners

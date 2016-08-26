@@ -20,6 +20,13 @@
         = user_fields.label :email_confirmation, t(".email_confirmation"), class: "form-label"
         = user_fields.email_field :email_confirmation, class: "form-control"
 
+    - if Settings.email_notification_enabled?
+      %fieldset.inline
+        %legend
+          = 'Get email notifications of caseworker messages on claims you created?'
+        =f.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
+          - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
+
     %fieldset.inline.js-advocate-roles
       %legend
         = 'Roles'

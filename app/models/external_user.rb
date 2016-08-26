@@ -42,6 +42,8 @@ class ExternalUser < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+  delegate :save_settings!, to: :user
+  delegate :settings, to: :user
 
   Provider::ROLES.each do |role|
     delegate "#{role}?".to_sym, to: :provider
@@ -82,6 +84,16 @@ class ExternalUser < ActiveRecord::Base
   def before_soft_delete
     self.user.soft_delete
   end
+
+  def email_notification_of_message
+    settings[:email_notification_of_message] || false
+  end
+
+  def email_notification_of_message=(value)
+    save_settings! email_notification_of_message: value.to_bool
+  end
+
+
 
   private
 

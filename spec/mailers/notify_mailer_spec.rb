@@ -12,7 +12,7 @@ RSpec.describe NotifyMailer, type: :mailer do
     let(:mail) { described_class.new_message_test_email(claim) }
 
     it 'is a govuk_notify delivery' do
-      expect(mail.delivery_method).to be_a(GovukNotifyDelivery)
+      expect(mail.delivery_method).to be_a(GovukNotifyRails::Delivery)
     end
 
     it 'sets the recipient' do

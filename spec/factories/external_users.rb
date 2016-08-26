@@ -63,6 +63,31 @@ FactoryGirl.define do
       deleted_at 10.minutes.ago
     end
 
+    trait :with_settings do
+      after(:build) do |a|
+        a.user = build(:user,
+                         first_name: Faker::Name.first_name,
+                         last_name: Faker::Name.last_name,
+                         email: Faker::Internet.email,
+                         password: 'password',
+                         password_confirmation: 'password',
+                         settings: {setting1: 'test1', setting2: 'test2'}.to_json
+        )
+      end
+    end
+
+    trait :with_email_notification_of_messages do
+      after(:build) do |a|
+        a.save_settings! email_notification_of_message: true
+      end
+    end
+
+    trait :without_email_notification_of_messages do
+      after(:build) do |a|
+        a.save_settings! email_notification_of_message: false
+      end
+    end
+
   end
 end
 

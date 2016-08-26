@@ -60,6 +60,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
     params.require(:external_user).permit(
      :vat_registered,
      :supplier_number,
+     :email_notification_of_message,
      roles: [],
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )

@@ -403,6 +403,77 @@ RSpec.describe ExternalUser, type: :model do
     end
   end
 
+  context 'email notification of messages preferences' do
+    context 'settings on user record are nil' do
+
+      let(:eu)  { build :external_user }
+
+      it 'has an underlying user setting of nil' do
+        expect(eu.user.settings).to eq Hash.new
+      end
+
+      it 'returns false' do
+        expect(eu.email_notification_of_message).to be false
+      end
+
+      it 'sets the setting to true' do
+        eu.email_notification_of_message = 'true'
+        expect(eu.email_notification_of_message).to be true
+      end
+
+      it 'sets the setting to false' do
+        eu.email_notification_of_message = 'false'
+        expect(eu.email_notification_of_message).to be false
+      end
+    end
+
+    context 'no setttings for email notifications present' do
+
+      let(:eu)  { build :external_user, :with_settings }
+
+      it 'returns false' do
+        expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
+        expect(eu.email_notification_of_message).to be false
+      end
+      it 'sets the setting to true' do
+        eu.email_notification_of_message = 'true'
+        expect(eu.email_notification_of_message).to be true
+      end
+
+      it 'sets the setting to false' do
+        eu.email_notification_of_message = 'false'
+        expect(eu.email_notification_of_message).to be false
+      end
+    end
+
+    context 'settings for email notification are true' do
+
+      let(:eu) { build :external_user, :with_email_notification_of_messages}
+
+      it 'returns true' do
+        expect(eu.email_notification_of_message).to be true
+      end
+
+      it 'sets the setting to false' do
+        eu.email_notification_of_message = 'false'
+        expect(eu.email_notification_of_message).to be false
+      end
+    end
+
+    context 'settings for email notification are false' do
+
+      let(:eu) { build :external_user, :without_email_notification_of_messages }
+
+      it 'returns false' do
+        expect(eu.email_notification_of_message).to be false
+      end
+
+      it 'sets the setting to true' do
+        eu.email_notification_of_message = 'true'
+        expect(eu.email_notification_of_message).to be true
+      end
+    end
+  end
 end
 
 

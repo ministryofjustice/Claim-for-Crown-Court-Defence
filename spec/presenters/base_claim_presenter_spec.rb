@@ -113,7 +113,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#assessment_date' do
     it 'should return not yet assessed if there is no assessment' do
-      expect(subject.assessment_date).to eq '(not yet assessed)'
+      expect(subject.assessment_date).to eq 'not yet assessed'
     end
 
     it 'should return the creation date of the assessment' do

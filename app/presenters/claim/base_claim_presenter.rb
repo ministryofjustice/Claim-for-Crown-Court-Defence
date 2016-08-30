@@ -179,7 +179,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   def can_have_disbursements?; true; end
 
   def assessment_date
-    claim.assessment.blank? ? '(not yet assessed)' : claim.determinations.order(created_at: :desc).first.created_at.strftime(Settings.date_format)
+    claim.assessment.blank? ? 'not yet assessed' : claim.determinations.order(created_at: :desc).first.created_at.strftime(Settings.date_format)
   end
 
   def assessment_fees

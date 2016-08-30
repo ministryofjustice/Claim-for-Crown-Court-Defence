@@ -97,8 +97,6 @@
                           input_classes: 'long-input',
                           id: 'certified_by'
 
-        = validation_error_message(f.object, :certified_by)
-
       .column-third
         = f.gov_uk_date_field(:certification_date, form_hint_text: '', legend_text: t('.date'), legend_class: 'govuk-legend', id: 'certification_date')
 

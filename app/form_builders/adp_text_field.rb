@@ -46,7 +46,7 @@ class AdpTextField
   def has_errors?
     return false if @errors.nil?
     if @errors.is_a?(ActiveModel::Errors)
-      return false unless @errors.key?(@error_key)
+      @errors.key?(@error_key.to_sym)
     else
       @errors.errors_for?(@error_key.to_sym)
     end

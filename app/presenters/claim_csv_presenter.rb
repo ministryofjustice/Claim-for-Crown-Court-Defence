@@ -66,17 +66,17 @@ class ClaimCsvPresenter < BasePresenter
 
   def submitted_at
     submission_steps = @journey.select { |step| submitted_states.include?(step.to) }
-    submission_steps.present? ? submission_steps.first.created_at.to_s : 'n/a'
+    submission_steps.present? ? submission_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
   end
 
   def allocated_at
     allocation_steps = @journey.select { |step| step.to == 'allocated' }
-    allocation_steps.present? ? allocation_steps.last.created_at.to_s : 'n/a'
+    allocation_steps.present? ? allocation_steps.last.created_at.strftime('%d/%m/%Y') : 'n/a'
   end
 
   def completed_at
     completion_steps = @journey.select { |step| completed_states.include?(step.to) }
-    completion_steps.present? ? completion_steps.first.created_at.to_s : 'n/a'
+    completion_steps.present? ? completion_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
   end
 
   def current_or_end_state

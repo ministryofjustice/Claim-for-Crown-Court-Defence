@@ -60,4 +60,4 @@ scheme_filters_enabled?: false
 # Feature flag to enable ability to set user email notification user preferences.  If true, external
 # users will be able to set preference to say whether they want email notifications of outstanding messages
 # on their claim
-email_notification_enabled?: false
+email_notification_enabled?: true

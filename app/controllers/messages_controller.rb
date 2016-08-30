@@ -21,6 +21,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
     if @message.save
+      send_email_if_required
       @notification = { notice: 'Message successfully sent' }
     else
       @notification = { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
@@ -45,6 +46,14 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def send_email_if_required
+    if current_user.persona.is_a?(CaseWorker)
+      if @message.claim.creator.send_email_notification_of_message?
+        MessageNotificationMailer.notify_message(@message.claim).deliver_later
+      end
+    end
+  end
 
   def redirect_to_url
     method = "#{current_user.persona.class.to_s.pluralize.underscore}_claim_path"

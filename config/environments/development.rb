@@ -71,10 +71,14 @@ Rails.application.configure do
   #Rack livereload for frontend development
   config.middleware.use Rack::LiveReload rescue (puts 'Rack::LiveReload not available')
 
+
+  # normal dev mail configuration
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :file
 
-  # set local dev vars, uncomment and change delivery_emthod to :smtp
+  # config for sending mails from dev
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
   #   address:              ENV['SMTP_SERVER'],
   #   port:                 ENV['SMTP_PORT'],

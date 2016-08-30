@@ -33,7 +33,7 @@
           = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
         - if Settings.email_notification_enabled?
           %td
-            = advocate.email_notification_of_message ? 'Yes' : 'No'
+            = advocate.send_email_notification_of_message? ? 'Yes' : 'No'
         %td.user-controls
           - if advocate.active?
             = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)

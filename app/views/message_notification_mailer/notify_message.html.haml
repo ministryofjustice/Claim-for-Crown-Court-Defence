@@ -1,0 +1,22 @@
+%p
+  = "Hello #{@user.name},"
+
+%p
+  = "There is a new message for you on claim #{@claim.case_number}."
+
+%p You will need to be logged in to the Claim for crown court defence system in order to view the message.
+
+%p Please click the following link to read it:
+
+%p
+  = link_to(external_users_claim_url(@claim.id, messages: true), external_users_claim_url(@claim.id, messages: true))
+
+%p
+  Should you wish to stop receiving these e-mail notifications, you can choose to do so through the
+  = link_to('Edit user', edit_external_users_admin_external_user_url(@user))
+  page
+
+%p
+  Crime Case Management Team
+  %br/
+  Legal Aid Agency

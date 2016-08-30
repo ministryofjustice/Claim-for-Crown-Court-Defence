@@ -17,75 +17,130 @@
 require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
-  let(:sender) { create(:external_user) }
+  context 'standard sign in' do
+    let(:sender) { create(:external_user) }
 
-  before do
-    sign_in sender.user
-  end
-
-  describe "POST #create" do
-    let(:claim) { create(:claim) }
-    let(:message_params) do
-      {
-        claim_id: claim.id,
-        sender_id: sender.user.id,
-        body: 'lorem ipsum',
-      }
+    before do
+      sign_in sender.user
     end
 
-    it 'renders the create js template' do
-      xhr :post, :create, message: message_params
-      expect(response).to render_template(:create)
-    end
-
-    context 'when valid' do
-      it 'creates a message' do
-        expect {
-          post :create, message: message_params
-        }.to change(Message, :count).by(1)
+    describe "POST #create" do
+      let(:claim) { create(:claim) }
+      let(:message_params) do
+        {
+          claim_id: claim.id,
+          sender_id: sender.user.id,
+          body: 'lorem ipsum',
+        }
       end
 
-      context 'when redetermining/awaiting written reasons' do
-        it 'redirects to externl users claim show path with messages param and accordion anchor' do
-          claim.submit!; claim.allocate!; claim.refuse!
+      it 'renders the create js template' do
+        xhr :post, :create, message: message_params
+        expect(response).to render_template(:create)
+      end
 
-          Settings.claim_actions.each do |action|
-            post :create, message: message_params.merge(claim_action: action)
-            expect(response).to redirect_to(external_users_claim_path(claim, messages: true) + '#claim-accordion')
+      context 'when valid' do
+        it 'creates a message' do
+          expect {
+            post :create, message: message_params
+          }.to change(Message, :count).by(1)
+        end
+
+        context 'when redetermining/awaiting written reasons' do
+          it 'redirects to externl users claim show path with messages param and accordion anchor' do
+            claim.submit!; claim.allocate!; claim.refuse!
+
+            Settings.claim_actions.each do |action|
+              post :create, message: message_params.merge(claim_action: action)
+              expect(response).to redirect_to(external_users_claim_path(claim, messages: true) + '#claim-accordion')
+            end
           end
+        end
+      end
+
+      context 'when invalid' do
+        before do
+          message_params.delete(:claim_id)
+        end
+
+        it 'does not create a message' do
+          expect {
+            post :create, message: message_params
+          }.to_not change(Message, :count)
         end
       end
     end
 
-    context 'when invalid' do
-      before do
-        message_params.delete(:claim_id)
+    describe 'GET #download_attachment' do
+      context 'when message has attachment' do
+        subject { create(:message, :with_attachment) }
+
+        it 'returns the attachment file' do
+          get :download_attachment, id: subject.id
+          expect(response.headers['Content-Disposition']).to include("filename=\"#{subject.attachment.original_filename}\"")
+        end
       end
 
-      it 'does not create a message' do
-        expect {
-          post :create, message: message_params
-        }.to_not change(Message, :count)
+      context 'when message does not have attachment' do
+        subject { create(:message) }
+
+        it 'redirects to 500 page' do
+          get :download_attachment, id: subject.id
+          expect(response).to redirect_to(error_500_path)
+        end
       end
     end
   end
 
-  describe 'GET #download_attachment' do
-    context 'when message has attachment' do
-      subject { create(:message, :with_attachment) }
 
-      it 'returns the attachment file' do
-        get :download_attachment, id: subject.id
-        expect(response.headers['Content-Disposition']).to include("filename=\"#{subject.attachment.original_filename}\"")
+  context 'email notifications' do
+    let(:claim) { create :claim }
+    let(:message_params) { message_params = { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
+
+    context 'external_user_sending_messages' do
+
+      let(:sender) { claim.creator }
+
+      context 'claim creator is set up to receive mails' do
+        it 'does not attempt to send an email' do
+          sender.email_notification_of_message = 'true'
+          sign_in sender.user
+          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          post :create, message: message_params
+        end
+      end
+
+      context 'claim creator is set up NOT to receive mails' do
+        it 'does not attempt to send an email' do
+          sender.email_notification_of_message = 'false'
+          sign_in sender.user
+          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          post :create, message: message_params
+        end
       end
     end
 
-    context 'when message does not have attachment' do
-      subject { create(:message) }
+    context 'case_worker_sending_messages' do
 
-      it 'redirects to 500 page' do
-        get :download_attachment, id: subject.id
-        expect(response).to redirect_to(error_500_path)
+      let(:sender) { create :case_worker}
+
+      context 'claim creator is set up to receive mails' do
+        it 'sends an email' do
+          claim.creator.email_notification_of_message = 'true'
+          sign_in sender.user
+          mock_mail = double 'Mail message'
+          expect(MessageNotificationMailer).to receive(:notify_message).and_return(mock_mail)
+          expect(mock_mail).to receive(:deliver_later)
+          post :create, message: message_params
+        end
+      end
+      context 'external_user_is_not_setup_to_recieve_emails' do
+        it 'does not send an email' do
+          claim.creator.email_notification_of_message = 'false'
+          sign_in sender.user
+          expect(MessageNotificationMailer).not_to receive(:notify_message)
+          post :create, message: message_params
+        end
       end
     end
   end

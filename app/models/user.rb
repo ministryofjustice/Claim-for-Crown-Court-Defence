@@ -62,6 +62,10 @@ class User < ActiveRecord::Base
     [first_name, last_name] * ' '
   end
 
+  def email_with_name
+    "#{first_name} #{last_name} <#{email}>"
+  end
+
   def sortable_name
     [last_name, first_name] * ' '
   end

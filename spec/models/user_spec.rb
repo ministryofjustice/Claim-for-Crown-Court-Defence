@@ -189,4 +189,11 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#email_with_name' do
+    it 'returns name and email' do
+      user = build(:user, first_name: 'Winston', last_name: 'Churchill', email: 'winnie@pm.example.com')
+      expect(user.email_with_name).to eq 'Winston Churchill <winnie@pm.example.com>'
+    end
+  end
 end

@@ -157,16 +157,22 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-  def defendant_summary
-    if claim.defendants.any?
-      result = claim.defendants.first.name_and_initial
-      num_others = claim.defendants.size - 1
-      if num_others > 0
-        result += " + #{@view.pluralize(num_others, 'other')}"
-      end
-    end
-    result
+  def defendant_name_and_initial
+    claim.defendants.first.name_and_initial if claim.defendants.any?
   end
+
+  def other_defendant_summary
+    num_others = claim.defendants.size - 1
+    if num_others > 0
+      "+ #{@view.pluralize(num_others, 'other')}"
+    else
+      ''
+    end
+  end
+
+
+
+
 
   # Override in subclasses if necessary
   def can_have_expenses?; true; end

@@ -4,7 +4,7 @@
     = t('.fixed_fee')
   .form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row
-      .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
+      .column-one-half.fee-type.ui-front{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
         %label.form-label
           = t('.fee_type')
         %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}

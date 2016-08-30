@@ -4,11 +4,11 @@
     Miscellaneous fee
   .form-group.misc-fee-group.nested-fields.js-block{data:{"type":"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
     .grid-row
-      .column-one-half.fee-type{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
+      .column-one-half.fee-type.ui-front{class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")}
         %label.form-label
           = t('.fee_type')
         %a{id: "misc_fee_#{@misc_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: '&#160;'.html_safe}, {class: 'autocomplete js-misc-fee-type', style: 'width:350px'}
+        = f.collection_select :fee_type_id, @claim.eligible_misc_fee_types, :id, :description, {include_blank: '&#160;'.html_safe}, {class: 'autocomplete form-control js-misc-fee-type', style: 'width:350px'}
         = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
       .column-one-quarter.fee-quantity

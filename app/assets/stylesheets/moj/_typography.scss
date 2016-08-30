@@ -28,12 +28,13 @@ header.main-header {
 
 .claim-hgroup{
   @include clearfix;
+  .column-one-third{
+    padding: 0;
+  }
   margin-bottom: 10px;
   h1{
-    @include span(6 of 12);
     @include first;
     @include media(desktop) {
-      @include span(4 of 12);
       margin-left: 0;
     }
     @include core-19;
@@ -47,19 +48,18 @@ header.main-header {
     font-weight: 700;
   }
   .claim-status{
-    @include span(6 at 6 of 12);
+    @include span(7 of 12);
     @include media(desktop){
-      @include span(2 at 4 of 12);
+      // @include span(2 at 4 of 12);
     }
     @include core-19;
     display: block;
     margin-bottom: 10px;
+    float:none;
   }
   .claim-detail-actions{
-    @include span(5 of 12);
     @include last;
     @include media(mobile){
-      @include span(8 of 12);
       @include first;
       margin-bottom: 10px;
     }

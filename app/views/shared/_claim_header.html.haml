@@ -53,11 +53,11 @@
 
   - if current_user.persona.is_a?(CaseWorker)
     .grid-row
-      .claim-detail-actions
-        = 'Other claims:'
-        .other-claims
-          - if claim_ids.present? && claim_ids.include?(@claim.id)
-            = claim_position_and_count
-            - unless last_claim?
-              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+      .other-claims
+        - if claim_ids.present? && claim_ids.include?(@claim.id)
+          = "Showing "
+          = claim_position_and_count
+          = "claims"
+          - unless last_claim?
+            = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
 

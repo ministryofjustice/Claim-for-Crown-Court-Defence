@@ -20,7 +20,7 @@ nav {
       &:first-child a{
         padding-left:0;
       }
-      &.last a{
+      &:last-child a{
         margin-right:0;
         border-right:none;
         padding-right: 0;
@@ -36,8 +36,4 @@ nav {
     padding:0 $gutter-half/2;
     border-right: 1px solid $grey-3;
   }
-}
-
-.fl-right{
-  float:right;
 }

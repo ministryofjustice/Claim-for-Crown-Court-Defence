@@ -4,7 +4,7 @@ class ClaimShowPage < SitePrism::Page
     element :archive, "li:nth-of-type(2) > a"
   end
 
-  element :status, "div.claim-hgroup > div.claim-status > span.state"
+  element :status, "div.claim-hgroup div.claim-status > span.state"
   element :messages_tab, "#claim-accordion button:nth-of-type(1)"
   element :edit_this_claim, "div.claim-detail-actions a:nth-of-type(1)"
   element :fees, "#claim_assessment_attributes_fees"

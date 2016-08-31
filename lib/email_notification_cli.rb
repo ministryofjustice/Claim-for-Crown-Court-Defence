@@ -54,7 +54,7 @@ class EmailNotificationCLI
     #
     @options = {
         service_id: ENV['GOVUK_NOTIFY_SERVICE_ID'],
-        secret_key: ENV['NOTIFICATIONS_API_SECRET'],
+        secret_key: ENV['GOVUK_NOTIFY_API_SECRET'],
         template_id: TEMPLATE_ID,
         personalisation: {
             full_name: 'Full Name',

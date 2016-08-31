@@ -34,6 +34,7 @@ class Ability
         end
 
         can_manage_own_password(persona)
+        can_manage_self(persona)
       end
 
     elsif persona.is_a? CaseWorker
@@ -105,6 +106,10 @@ class Ability
 
   def can_manage_own_password(persona)
     can [:show, :change_password, :update_password], persona.class, id: persona.id
+  end
+
+  def can_manage_self(persona)
+    can [:show, :edit, :update], persona.class, id: persona.id
   end
 
 end

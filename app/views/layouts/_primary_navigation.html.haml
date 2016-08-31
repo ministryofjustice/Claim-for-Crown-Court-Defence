@@ -21,6 +21,9 @@
             = link_to 'Manage users', external_users_admin_external_users_path, class: cp(external_users_admin_external_users_path)
           %li
             = link_to "Manage provider", external_users_admin_provider_path(current_user.persona.provider), class: cp(external_users_admin_provider_path(current_user.persona.provider))
+        - else
+          %li
+            = link_to "Manage your settings", edit_external_users_admin_external_user_path(current_user.persona), class: cp(edit_external_users_admin_external_user_path(current_user.persona))
       - elsif current_user.persona.is_a?(CaseWorker)
         - if current_user.persona.admin?
           %li

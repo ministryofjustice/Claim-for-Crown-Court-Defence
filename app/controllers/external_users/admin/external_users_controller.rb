@@ -33,7 +33,8 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def update
     if @external_user.update(external_user_params)
-      redirect_to external_users_admin_external_users_url, notice: 'User successfully updated'
+      redirect_path = @external_user.admin? ? external_users_admin_external_users_url : external_users_claims_path
+      redirect_to redirect_path, notice: 'User successfully updated'
     else
       render :edit
     end
@@ -57,12 +58,25 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
   end
 
   def external_user_params
+    current_user.persona.admin? ? admin_external_user_params : non_privileged_external_user_params
+  end
+
+  def admin_external_user_params
     params.require(:external_user).permit(
      :vat_registered,
      :supplier_number,
      :email_notification_of_message,
      roles: [],
      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
+    )
+  end
+
+  def non_privileged_external_user_params
+    params.require(:external_user).permit(
+      :vat_registered,
+      :supplier_number,
+      :email_notification_of_message,
+      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
     )
   end
 end

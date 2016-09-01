@@ -16,7 +16,7 @@
 
 ## S3 for document storage
 
-AWS S3 the **default** docuemnt storage mechanism. It is stubbed out
+AWS S3 the **default** document storage mechanism. It is stubbed out
 using webmock for all tests, but active in development mode.
 
 ```
@@ -28,7 +28,7 @@ adp_bucket_name       = <AWS bucket name> # Optional
 The bucket name will default to `moj_cbo_documents_#{Rails.env}` if
 `adp_bucket_name` is not set.
 
-## Setting up development enviroment
+## Setting up development environment
 
 Install gems
 
@@ -92,15 +92,19 @@ rake api:smoke_test  -- test basic API functionality
 
 ## Useful aliases
 
-To ping all enviroments
+To ping all environments
 ```
 alias ping.adp='for i in dev-adp.dsd.io staging-adp.dsd.io demo-adp.dsd.io api-sandbox-adp.dsd.io claim-crown-court-defence.service.gov.uk ; do a="https://${i}/ping.json" ; echo $a; b=`curl --silent $a` ; echo $b; echo; done'
 ```
 
-To run unit and integration tests in parrallel
+To run unit and integration tests in parallel
 ```
 alias rake.fast='rake parallel:spec; rake parallel:features'
 ```
+
+## Sidekiq Console
+
+To display the current state of the Sidekiq queues, as a logged in superadmin browse to `/sidekiq`
 
 ## Mailer previewing
 

@@ -6,6 +6,8 @@
           = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)
         %li
           = link_to 'Add a provider', new_super_admins_provider_path, class: cp(new_super_admins_provider_path)
+        %li
+          = link_to 'Sidekiq console', sidekiq_web_path
       - elsif current_user.persona.is_a?(ExternalUser)
         %li
           = link_to your_claims_header, external_users_root_path, class: cp(external_users_root_path)

@@ -41,6 +41,7 @@ gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.
 gem 'susy',	                  '~> 2.2.12'
 gem 'sentry-raven',           '~> 1.2.2'
 gem 'simple_form',            '~> 3.1.0'
+gem 'sinatra',                '~> 1.4.7', require: false
 gem 'sprockets-rails',        '~> 2.3.3'
 gem 'squeel',                 '~> 1.2.3'
 gem 'state_machine',          '~> 1.2.0'

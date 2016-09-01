@@ -26,8 +26,11 @@ Rails.application.routes.draw do
     root to: 'case_workers/claims#index', as: :case_workers_home
   end
 
- authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
+  authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
     root to: 'super_admins/providers#index', as: :super_admins_home
+
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   devise_scope :user do

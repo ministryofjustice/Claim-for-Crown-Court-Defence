@@ -1,18 +1,17 @@
 Hello <%= @user.name %>,
 
 
-There is a new message for you on claim <%= @claim.case_number %>.
+There's a new message for you on claim <%= @claim.case_number %>.
 
-You will need to be logged in to the Claim for crown court defence system in order to view
-the message.
+You'll need to log ino the Claim for crown court defence system in order to read
+and reply to the message.
 
-Please click the following link to read it:
+Click the link below to see the message:
 
 <%= external_users_claim_url(@claim.id, messages: true) %>.
 
 
-Should you wish to stop receiving these e-mail notifications, you can choose to do so
-through the 'Edit user' line:
+To stop receiving these notifications, go to the 'Edit user' page:
 
 <%= edit_external_users_admin_external_user_url(@user) %>.
 

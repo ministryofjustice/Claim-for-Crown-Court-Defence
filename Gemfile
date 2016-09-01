@@ -32,7 +32,7 @@ gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 4.2.2'
 gem 'paper_trail',            '4.0.2' # version locked, https://github.com/airblade/paper_trail/issues/738
 gem 'pg',                     '~> 0.18.2'
-gem 'rails',                  '4.2.7'
+gem 'rails',                  '~> 4.2.7.1'
 gem 'config',                 '~> 1.2.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.2'
 gem 'rest-client',            '~> 1.8' # needed for scheduled smoke testing plus others

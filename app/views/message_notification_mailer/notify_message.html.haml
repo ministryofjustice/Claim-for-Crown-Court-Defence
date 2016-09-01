@@ -2,19 +2,19 @@
   = "Hello #{@user.name},"
 
 %p
-  = "There is a new message for you on claim #{@claim.case_number}."
+  = "There's a new message for you on claim #{@claim.case_number}."
 
-%p You will need to be logged in to the Claim for crown court defence system in order to view the message.
+%p You'll need to log into the Claim for crown court defence system to read and reply to the message.
 
-%p Please click the following link to read it:
+%p Click the link below to see the message:
 
 %p
   = link_to(external_users_claim_url(@claim.id, messages: true), external_users_claim_url(@claim.id, messages: true))
 
 %p
-  Should you wish to stop receiving these e-mail notifications, you can choose to do so through the
+  To stop receiving these notifications, go to
   = link_to('Edit user', edit_external_users_admin_external_user_url(@user))
-  page
+  page.
 
 %p
   Crime Case Management Team

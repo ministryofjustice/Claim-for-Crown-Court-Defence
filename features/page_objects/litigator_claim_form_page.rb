@@ -18,7 +18,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   section :fixed_fee_date, CommonDateSection, "div.fixed-fee-group"
 
   def select_supplier_number(number)
-    select number, from: "claim_supplier_number"
+    select number, from: "claim_supplier_number", autocomplete: false
   end
 
   def select_offence_class(name)

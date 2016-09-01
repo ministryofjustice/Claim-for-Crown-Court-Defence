@@ -15,6 +15,18 @@
     end
 
 
+    desc 'Set fee types quantities to decimal for SPF, WPF, RNF, CAV, WOA'
+    task :set_quantity_is_decimal => :environment do
+      %w{ SPF WPF RNF RNL CAV WOA }.each do |code|
+        recs = Fee::BaseFeeType.where(code: code).where.not(quantity_is_decimal: true)
+        recs.each do |rec| rec.update(quantity_is_decimal: true)
+          puts "Quantity is decimal set to TRUE for fee type #{code}"
+        end
+      end
+    end
+
+
+
     desc 'Run all outstanding data migrations'
     task :all => :environment do
       {

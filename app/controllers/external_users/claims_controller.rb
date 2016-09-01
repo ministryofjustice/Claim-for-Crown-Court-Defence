@@ -89,11 +89,15 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def destroy
     if @claim.draft?
       @claim.soft_delete
-    else
+      flash[:notice] = 'Claim deleted'
+    elsif @claim.can_archive_pending_delete?
       @claim.archive_pending_delete!
+      flash[:notice] = 'Claim archived'
+    else
+      flash[:alert] = 'This claim cannot be deleted'
     end
 
-    respond_with @claim, { location: external_users_claims_url, notice: 'Claim deleted' }
+    respond_with @claim, location: external_users_claims_url
   end
 
   def unarchive

@@ -47,21 +47,17 @@ module Claims
 
     def validate_state_when_value_params_present
       if @state.blank?
-        @claim.errors[:determinations] << 'You must specify authorised or part authorised if you supply values'
-        @result = :error
+        set_error 'You must specify authorised or part authorised if you supply values'
       elsif @state == 'refused'
-        @claim.errors[:determinations] << 'You cannot specify values when refusing a claim'
-        @result = :error
+        set_error 'You cannot specify values when refusing a claim'
       elsif @state == 'rejected'
-        @claim.errors[:determinations] << 'You cannot specify values when rejecting a claim'
-        @result = :error
+        set_error 'You cannot specify values when rejecting a claim'
       end
     end
 
     def validate_state_when_no_value_params
       if @state.in?(%w{ authorised part_authorised })
-        @claim.errors[:determinations] << 'You must specify positive values if authorising or part authorising a claim'
-        @result = :error
+        set_error 'You must specify positive values if authorising or part authorising a claim'
       end
     end
 
@@ -77,11 +73,19 @@ module Claims
     end
 
     def update_and_transition_state
-      @claim.update(@params)
       event = Claims::InputEventMapper.input_event(@state)
-      update_assessment if @assessment_params_present
-      add_redetermination if @redetermination_params_present
-      @claim.send(event, reason_code: @transition_reason) unless (@state.blank? || @state == @claim.state)
+
+      @claim.class.transaction do
+        begin
+          @claim.update(@params)
+          update_assessment if @assessment_params_present
+          add_redetermination if @redetermination_params_present
+          @claim.send(event, reason_code: @transition_reason) unless (@state.blank? || @state == @claim.state)
+        rescue => ex
+          set_error ex.message
+          raise ActiveRecord::Rollback
+        end
+      end
     end
 
     def update_assessment
@@ -94,5 +98,9 @@ module Claims
       @claim.redeterminations << Redetermination.new(params_with_defaults)
     end
 
+    def set_error(message)
+      @claim.errors[:determinations] << message
+      @result = :error
+    end
   end
 end

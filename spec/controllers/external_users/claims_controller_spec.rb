@@ -583,15 +583,26 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
       it 'redirects to advocates root url' do
         expect(response).to redirect_to(external_users_claims_url)
+        expect(flash[:notice]).to eq 'Claim deleted'
       end
     end
 
-    context 'when non-draft claim valid for archival' do
+    context 'when non-draft claim in a valid state for archival' do
       let(:claim) { create(:authorised_claim, external_user: advocate) }
 
       it "sets the claim's state to 'archived_pending_delete'" do
         expect(Claim::BaseClaim.active.count).to eq(1)
         expect(claim.reload.state).to eq 'archived_pending_delete'
+        expect(flash[:notice]).to eq 'Claim archived'
+      end
+    end
+
+    context 'when non-draft claim in an invalid state for archival' do
+      let(:claim) { create(:archived_pending_delete_claim, external_user: advocate) }
+
+      it 'responds with an error' do
+        expect(Claim::BaseClaim.active.count).to eq(1)
+        expect(flash[:alert]).to eq 'This claim cannot be deleted'
       end
     end
   end

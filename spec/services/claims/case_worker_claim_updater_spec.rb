@@ -7,6 +7,7 @@ module Claims
     context 'assessments' do
 
       let(:claim) { create :allocated_claim }
+      let(:submitted_claim) { create :claim, :submitted }
 
       context 'successful transitions' do
         it 'advances the claim to part authorised' do
@@ -93,6 +94,22 @@ module Claims
           expect(updater.claim.assessment.fees.to_f).to eq 0.0
           expect(updater.claim.assessment.expenses).to eq 0.0
           expect(updater.claim.assessment.disbursements).to eq 0.0
+        end
+
+        it 'rollbacks the transaction if transition fails' do
+          expect(submitted_claim.assessment.fees.to_f).to eq 0.0
+
+          params = {'state' => 'authorised', 'assessment_attributes' => {'fees' => '200', 'expenses' => '0.00'}}
+          updater = CaseWorkerClaimUpdater.new(submitted_claim.id, params).update!
+
+          expect(updater.result).to eq :error
+          expect(updater.claim.errors[:determinations]).to eq(['Cannot transition state via :authorise from :submitted (Reason(s): State cannot transition via "authorise")'])
+
+          # objects will not have their instance data returned to their pre-transactional state
+          expect(updater.claim.assessment.fees.to_f).to eq 200.0
+          updater.claim.reload
+          expect(updater.claim.state).to eq 'submitted'
+          expect(updater.claim.assessment.fees.to_f).to eq 0.0
         end
       end
     end

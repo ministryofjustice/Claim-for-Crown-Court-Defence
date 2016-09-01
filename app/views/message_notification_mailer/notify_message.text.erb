@@ -1,0 +1,20 @@
+Hello <%= @user.name %>,
+
+
+There is a new message for you on claim <%= @claim.case_number %>.
+
+You will need to be logged in to the Claim for crown court defence system in order to view
+the message.
+
+Please click the following link to read it:
+
+<%= external_users_claim_url(@claim.id, messages: true) %>.
+
+
+Should you wish to stop receiving these e-mail notifications, you can choose to do so
+through the 'Edit user' line:
+
+<%= edit_external_users_admin_external_user_url(@user) %>.
+
+Crime Case Management Team
+Legal Aid Agency

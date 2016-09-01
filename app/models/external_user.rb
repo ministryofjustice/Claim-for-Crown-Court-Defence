@@ -42,6 +42,7 @@ class ExternalUser < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+  delegate :email_with_name, to: :user
   delegate :save_settings!, to: :user
   delegate :settings, to: :user
 
@@ -87,6 +88,10 @@ class ExternalUser < ActiveRecord::Base
 
   def email_notification_of_message
     settings[:email_notification_of_message] || false
+  end
+
+  def send_email_notification_of_message?
+    email_notification_of_message
   end
 
   def email_notification_of_message=(value)

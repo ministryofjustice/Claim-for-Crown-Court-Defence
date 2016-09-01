@@ -413,17 +413,17 @@ RSpec.describe ExternalUser, type: :model do
       end
 
       it 'returns false' do
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
 
       it 'sets the setting to true' do
         eu.email_notification_of_message = 'true'
-        expect(eu.email_notification_of_message).to be true
+        expect(eu.send_email_notification_of_message?).to be true
       end
 
       it 'sets the setting to false' do
         eu.email_notification_of_message = 'false'
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
     end
 
@@ -433,16 +433,16 @@ RSpec.describe ExternalUser, type: :model do
 
       it 'returns false' do
         expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
       it 'sets the setting to true' do
         eu.email_notification_of_message = 'true'
-        expect(eu.email_notification_of_message).to be true
+        expect(eu.send_email_notification_of_message?).to be true
       end
 
       it 'sets the setting to false' do
         eu.email_notification_of_message = 'false'
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
     end
 
@@ -451,12 +451,12 @@ RSpec.describe ExternalUser, type: :model do
       let(:eu) { build :external_user, :with_email_notification_of_messages}
 
       it 'returns true' do
-        expect(eu.email_notification_of_message).to be true
+        expect(eu.send_email_notification_of_message?).to be true
       end
 
       it 'sets the setting to false' do
         eu.email_notification_of_message = 'false'
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
     end
 
@@ -465,12 +465,12 @@ RSpec.describe ExternalUser, type: :model do
       let(:eu) { build :external_user, :without_email_notification_of_messages }
 
       it 'returns false' do
-        expect(eu.email_notification_of_message).to be false
+        expect(eu.send_email_notification_of_message?).to be false
       end
 
       it 'sets the setting to true' do
         eu.email_notification_of_message = 'true'
-        expect(eu.email_notification_of_message).to be true
+        expect(eu.send_email_notification_of_message?).to be true
       end
     end
   end

@@ -1,0 +1,20 @@
+.grid-row
+  %h3.heading-medium
+    = t('.certification_box_title')
+  %table.table-summary
+    %caption
+      %span.table-caption.visuallyhidden
+        = t('.certification_caption')
+    %tbody
+      %tr
+        %th{scope: "col"}
+          = t('.instructed_heading')
+        %td
+          = claim.certification.certified_by
+
+      - if @claim.agfs?
+        %tr
+          %th{scope: "col"}
+            = t('.certification_reason')
+          %td
+            = claim.certification.certification_type.name rescue ''

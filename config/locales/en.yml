@@ -797,10 +797,13 @@ en:
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
     no_claims_found: 'No claims found'
-    claim:
+    certification:
       certification_box_title: Certification
       certified_by: Certified by
       certification_reason: Reason
+      certification_caption: Certification details
+      instructed_heading: Instructed advocate
+    claim:
       advocate_category: Advocate category
       litigator_category: 'Litigator category'
       assignee: "Assigned to:"

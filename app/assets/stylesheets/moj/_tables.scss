@@ -100,3 +100,17 @@ span.state {
   color: #8c8e90;
   font-size: 12px;
 }
+
+#claim-accordion {
+  .heading-medium{
+    margin-bottom: 0;
+  }
+  .table-summary{
+    th, td{
+      vertical-align: top;
+    }
+    tr > th{
+      width: 20%;
+    }
+  }
+}

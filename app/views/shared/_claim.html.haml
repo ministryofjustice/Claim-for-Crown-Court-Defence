@@ -1,18 +1,8 @@
-%div
+- if claim.certification.present?
+  = render partial: 'shared/certification', locals: { claim: claim }
 
-  - if claim.certification.present?
-    .certification-info-row
-      .b.title{ style: 'margin-bottom: 5px' }
-        = t('.certification_box_title')
-      .b
-        = t('.certified_by') + ':'
-        %span.xsmall
-          = claim.certification.certified_by
-      - if @claim.agfs?
-        .b
-          = t('.certification_reason') + ':'
-          %span.xsmall
-            = claim.certification.certification_type.name rescue ''
+
+%div
 
   - if claim.case_workers.any? && CaseWorker === current_user.persona && current_user.persona.admin?
     .basic-info-row

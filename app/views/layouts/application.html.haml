@@ -45,8 +45,7 @@
   = render partial: 'layouts/footer'
 
 - content_for :body_end do
-  = javascript_include_tag "application"
-
+  = javascript_include_tag Rails.env.test? ? 'application.test' : 'application'
 
 = render template: 'layouts/govuk_template'
 

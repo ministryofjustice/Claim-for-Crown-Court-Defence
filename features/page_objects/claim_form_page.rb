@@ -96,7 +96,7 @@ class ClaimFormPage < SitePrism::Page
   end
 
   def select_offence_class(name)
-    select name, from: "offence_class_description"
+    select name, from: "offence_class_description", autocomplete: false
   end
 
   def add_misc_fee_if_required

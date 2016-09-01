@@ -1,7 +1,7 @@
 class TypedFeeSection < SitePrism::Section
   include SelectHelper
 
-  element :select_container, ".autocomplete", visible: false
+  element :select_container, "select.autocomplete", visible: false
   element :quantity, "input.quantity"
   element :rate, "input.rate"
   element :amount, nil

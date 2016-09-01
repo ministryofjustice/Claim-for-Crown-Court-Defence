@@ -19,8 +19,8 @@
               = @claim.case_type.fixed_fee_type.description
               = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
               = validation_error_message(@error_presenter, :fee_type)
-          .grid-row
-            - if @claim.case_type.fixed_fee_type.children.any?
+          - if @claim.case_type.fixed_fee_type.children.any?
+            .grid-row.ui-front
               %label.form-label
                 = t('.select_sub_type')
               = ff.anchored_attribute 'sub_type'

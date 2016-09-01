@@ -157,12 +157,29 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def defendant_name_and_initial
+    claim.defendants.first.name_and_initial if claim.defendants.any?
+  end
+
+  def other_defendant_summary
+    num_others = claim.defendants.size - 1
+    if num_others > 0
+      "+ #{@view.pluralize(num_others, 'other')}"
+    else
+      ''
+    end
+  end
+
+
+
+
+
   # Override in subclasses if necessary
   def can_have_expenses?; true; end
   def can_have_disbursements?; true; end
 
   def assessment_date
-    claim.assessment.blank? ? '(not yet assessed)' : claim.assessment.created_at.strftime(Settings.date_format)
+    claim.assessment.blank? ? 'not yet assessed' : claim.determinations.order(created_at: :desc).first.created_at.strftime(Settings.date_format)
   end
 
   def assessment_fees

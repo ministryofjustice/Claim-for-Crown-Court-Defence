@@ -104,12 +104,33 @@ RSpec.describe Defendant, type: :model do
     end
   end
 
-  describe '#name' do
+  context 'name presentation methods' do
     let(:claim) { create(:claim) }
-    subject { create(:defendant, first_name: 'Roberto', last_name: 'Smith', claim_id: claim.id) }
 
-    it 'joins first name and last name together' do
-      expect(subject.name).to eq('Roberto Smith')
+    describe '#name' do
+      it 'joins first name and last name together' do
+        defendant = create(:defendant, first_name: 'Roberto', last_name: 'Smith', claim_id: claim.id)
+        expect(defendant.name).to eq('Roberto Smith')
+      end
+
+      it 'returns empty string if defendant is uninitialized' do
+        defendant = Defendant.new(claim_id: claim.id)
+        expect(defendant.name).to eq ' '
+      end
     end
+
+    describe '#name and initial' do
+      it 'returns initial and surname' do
+        defendant = create(:defendant, first_name: 'Roberto', last_name: 'Smith', claim_id: claim.id)
+        expect(defendant.name_and_initial).to eq('R. Smith')
+      end
+
+      it 'returns empty string if defendant is uninitialised' do
+        defendant = Defendant.new(claim_id: claim.id)
+        expect(defendant.name_and_initial).to eq ''
+      end
+    end
+
+
   end
 end

@@ -1,7 +1,7 @@
 class DisbursementSection < SitePrism::Section
   include SelectHelper
 
-  element :select_container, ".autocomplete", visible: false
+  element :select_container, "select.autocomplete", visible: false
   element :net_amount, "input.amount"
   element :vat_amount, "input.vat"
 

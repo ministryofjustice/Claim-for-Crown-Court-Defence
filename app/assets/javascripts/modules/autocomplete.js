@@ -112,6 +112,7 @@
 
 $(function (){
   $('select.autocomplete').each(function(i,select){
-    $(select).AutoComplete();
+    // $(select).AutoComplete();
+    $(select).selectToAutocomplete();
   });
 });

@@ -457,9 +457,7 @@ page
 Other Claim Navigation
 ****************************************/
 .other-claims {
-  background-color: $panel-colour;
-  padding: 5px $gutter-half/2;
-  border: 1px solid $border-colour;
+  text-align:right;
 }
 
 .evidence-checklist-read-only {
@@ -576,7 +574,7 @@ Styling for Claims Messaging
     }
     .message-left {
       .message-body {
-        background-color: $grey-3;
+        background-color: $panel-colour;
         position: relative;
         text-align: left;
         border-radius: 0.5em 0.5em 0.5em 0.75em;
@@ -587,7 +585,7 @@ Styling for Claims Messaging
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-right: 1em solid $grey-3;
+          border-right: 1em solid $panel-colour;
           border-bottom-right-radius: 1.75em 1.5em;
         }
       }
@@ -595,9 +593,10 @@ Styling for Claims Messaging
 
     .message-right {
       .message-body {
-        background-color: $panel-colour;
+        background-color: $link-hover-colour;
         position: relative;
         text-align: left;
+        color: white;
         border-radius: 0.5em 0.5em 0.75em 0.5em;
         &::after {
           content: "";
@@ -606,7 +605,7 @@ Styling for Claims Messaging
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-left: 1em solid $panel-colour;
+          border-left: 1em solid $link-hover-colour;
           border-bottom-left-radius: 1.75em 1.5em;
         }
       }

@@ -476,15 +476,6 @@ Other Claim Navigation
   margin-bottom: $gutter;
 }
 
-.certification-info-row {
-  border: 1px solid $border-colour;
-  padding: $gutter-half;
-  margin-right: 0px;
-  .confirmation-section & {
-    margin-left: 0;
-  }
-}
-
 .defendant-row {
   margin-left: -30px;
   .confirmation-section & {

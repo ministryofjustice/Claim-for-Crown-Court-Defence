@@ -12,7 +12,7 @@
 //= require awesomplete.js
 //= require jquery-ui.min.js
 //= require jquery.select-to-autocomplete.js
-//= require_tree .
+//= require_tree ./modules
 
 (function () {
   'use strict';

@@ -71,7 +71,10 @@ header.main-header {
     .edit-claim, .resubmit-claim{
       float: left;
     }
-
+    .resubmit-claim{
+      width: -moz-calc(216px);
+      padding-left: -moz-calc(3px);
+    }
     .archive-claim, .delete-draft{
       float:right;
     }

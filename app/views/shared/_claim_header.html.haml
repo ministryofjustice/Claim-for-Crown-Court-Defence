@@ -28,9 +28,10 @@
           = claim.other_defendant_summary
     .column-one-third
       %h1
-        = 'Case number:'
+        = 'Claim Organisation:'
         %span.case-number-header
-          = claim.case_number
+          = claim.provider.name
+
 
     .column-one-third.claim-detail-actions
       - if current_user.persona.is_a?(ExternalUser)

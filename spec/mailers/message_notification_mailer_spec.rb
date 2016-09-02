@@ -16,7 +16,7 @@ RSpec.describe MessageNotificationMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['crowncourtdefence@digital.justice.gov.uk'])
+      expect(mail.from).to eq(['noreply@digital.justice.gov.uk'])
     end
 
     it 'substitutes variables' do

@@ -1,4 +1,4 @@
- namespace :data do
+namespace :data do
   namespace :migrate do
 
     desc 'Seed Disbursement Types'

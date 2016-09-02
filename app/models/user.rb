@@ -98,4 +98,16 @@ class User < ActiveRecord::Base
     active? ? super : 'This account has been deleted.'
   end
 
+  def email_notification_of_message
+    settings[:email_notification_of_message] || false
+  end
+
+  def send_email_notification_of_message?
+    email_notification_of_message
+  end
+
+  def email_notification_of_message=(value)
+    save_settings! email_notification_of_message: value.to_bool
+  end
+
 end

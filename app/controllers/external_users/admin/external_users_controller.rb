@@ -65,9 +65,8 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
     params.require(:external_user).permit(
      :vat_registered,
      :supplier_number,
-     :email_notification_of_message,
      roles: [],
-     user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
+     user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name, :email_notification_of_message]
     )
   end
 
@@ -75,8 +74,7 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
     params.require(:external_user).permit(
       :vat_registered,
       :supplier_number,
-      :email_notification_of_message,
-      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name]
+      user_attributes: [:id, :email, :email_confirmation, :password, :password_confirmation, :current_password, :first_name, :last_name, :email_notification_of_message]
     )
   end
 end

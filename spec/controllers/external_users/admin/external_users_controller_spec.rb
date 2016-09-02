@@ -98,10 +98,18 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       context 'when valid' do
         it 'creates a external_user' do
           expect {
-            post :create, external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith' },
+            post :create, external_user: { user_attributes: {
+                                            email: 'foo@foobar.com',
+                                            password: 'password',
+                                            password_confirmation: 'password',
+                                            first_name: 'John',
+                                            last_name: 'Smith',
+                                            email_notification_of_message: 'true'},
                                       roles: ['advocate'],
                                       supplier_number: 'AB124' }
           }.to change(User, :count).by(1)
+          user = User.find_by_email('foo@foobar.com')
+          expect(user.settings).to eq({'email_notification_of_message' => true})
         end
 
         it 'redirects to external_users index' do

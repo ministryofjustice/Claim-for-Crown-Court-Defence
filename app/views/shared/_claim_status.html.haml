@@ -1,10 +1,20 @@
 - if claim.opened_for_redetermination?
-  %p
-    Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').first.created_at} (see messages for further details).
+  .grid-row
+    .notice
+      %i.icon.icon-important
+        %span.visuallyhidden
+          Warning
+      %strong.bold-small
+        Opened for redetermination on #{@claim.claim_state_transitions.where(to: 'redetermination').first.created_at} (see messages for further details).
 
 - if claim.written_reasons_outstanding?
-  %p
-    Awaiting written reasons.
+  .grid-row
+    .notice
+      %i.icon.icon-important
+        %span.visuallyhidden
+          Warning
+      %strong.bold-small
+        Awaiting written reasons.
 
 - if current_user.persona.is_a?(CaseWorker) && claim.valid_transitions_for_detail_form
   = render partial: 'shared/determinations_form', locals: { claim: claim }

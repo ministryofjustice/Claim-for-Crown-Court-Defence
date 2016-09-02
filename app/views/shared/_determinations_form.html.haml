@@ -2,6 +2,8 @@
   = hidden_field_tag :messages, 'true'
 
   #claim-status.js-cw-claim-assessment
+    %h3.heading-medium
+      = 'Assessment summary'
     %table#determinations{data:{apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }}
       %thead
         %tr{:style => "vertical-align: top;"}
@@ -13,17 +15,26 @@
             - if claim.opened_for_redetermination?
               .form-hint.xsmall include any amount already authorised
       %tbody
+        // CASEWORKER
         -if current_user_is_caseworker? && @claim.enable_assessment_input?
+          // ASSESSMENT INPUT
           = f.fields_for :assessment do |af|
             = render partial: 'case_workers/claims/determination_fields', locals: { f: af, claim: claim}
+
         -elsif current_user_is_caseworker? && @claim.enable_determination_input?
+          // DETERMINATION INPUT
           = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
             = render partial: 'case_workers/claims/determination_fields', locals: { f: rf, claim: claim}
+
         - elsif claim.redeterminations.any?
+          // REDETERMINATION
           = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
+
         - else
+          // ELSE
           = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
 
+  // CASE WORKER ACTIONS
   - if current_user_is_caseworker?
     .js-cw-claim-action
       %fieldset.form-group.inline.spacer

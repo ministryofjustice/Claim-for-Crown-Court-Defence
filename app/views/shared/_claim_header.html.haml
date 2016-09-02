@@ -1,40 +1,53 @@
 .claim-hgroup
-  %h1
-    = 'Case number:'
-    %span.case-number-header
-      = claim.case_number
-      %span.unique-id-small= claim.unique_id
-  .claim-status{tabindex: 0}
-    = 'Status:'
-    %span{class: "state state-#{claim.state}"}
-      = claim.state.humanize
+  .grid-row
+    .column-one-third
+      %h1
+        = 'Case number:'
+        %span.case-number-header
+          = claim.case_number
+          %span.unique-id-small= claim.unique_id
+    .column-one-third
+      .claim-status{tabindex: 0}
+        = 'Status:'
+        %span{class: "state state-#{claim.state}"}
+          = claim.state.humanize
 
-  - if current_user.persona.is_a?(CaseWorker)
-    .claim-detail-actions
-      = 'Other claims:'
-      .other-claims
-        - if claim_ids.present? && claim_ids.include?(@claim.id)
-          = claim_position_and_count
-          - unless last_claim?
-            = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+    .column-one-third
+      %h1
+        = 'Claim assessed date:'
+        %span.case-number-header
+          = claim.assessment_date
 
-  - if current_user.persona.is_a?(ExternalUser)
-    - if claim.editable?
-      .claim-detail-actions
-        = "Actions:"
-        %div.action-wrapper
-          = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'btn-green edit-claim'
-          = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray delete-draft'
+  .grid-row
+    .column-one-third
+      %h1
+        = 'Defendant names:'
+        %span.case-number-header
+          = claim.defendant_name_and_initial
+        %span
+          = claim.other_defendant_summary
+    .column-one-third
+      %h1
+        = 'Claim Organisation:'
+        %span.case-number-header
+          = claim.provider.name
 
-    - if claim.archivable?
-      .claim-detail-actions
-        = "Actions:"
-        %div.action-wrapper
-          - if claim.rejected?
-            = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'btn-green resubmit-claim', form: { style: 'display: inline-block;' }
-          = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray archive-claim'
-    - if claim.archived_pending_delete?
-      .claim-detail-actions
-        = "Actions:"
-        %div.action-wrapper
-          = button_to 'Unarchive', unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
+
+    .column-one-third.claim-detail-actions
+      - if current_user.persona.is_a?(ExternalUser)
+        - if claim.editable?
+          = "Actions:"
+          %div.action-wrapper
+            = link_to 'Edit this claim', edit_polymorphic_path(claim), class: 'btn-green edit-claim'
+            = link_to 'Delete draft', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray delete-draft'
+
+        - if claim.archivable?
+          = "Actions:"
+          %div.action-wrapper
+            - if claim.rejected?
+              = button_to 'Create draft and resubmit', clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'btn-green resubmit-claim', form: { style: 'display: inline-block;' }
+            = link_to 'Archive', external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn-gray archive-claim'
+        - if claim.archived_pending_delete?
+          = "Actions:"
+          %div.action-wrapper
+            = button_to 'Unarchive', unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }

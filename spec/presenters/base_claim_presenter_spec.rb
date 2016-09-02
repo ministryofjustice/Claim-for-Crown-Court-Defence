@@ -113,7 +113,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#assessment_date' do
     it 'should return not yet assessed if there is no assessment' do
-      expect(subject.assessment_date).to eq '(not yet assessed)'
+      expect(subject.assessment_date).to eq 'not yet assessed'
     end
 
     it 'should return the creation date of the assessment' do
@@ -263,4 +263,45 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
   end
+
+
+  context 'defendant_summary' do
+    let(:my_claim)  { Claim::AdvocateClaim.new }
+    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view)}
+
+    context '3 defendants' do
+      it 'returns name and intial of first defendant and count of additional defendants' do
+        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
+        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
+        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
+        expect(presenter.defendant_name_and_initial).to eq 'S. Richards'
+        expect(presenter.other_defendant_summary).to eq '+ 2 others'
+      end
+    end
+
+    context '1 defendant' do
+      it 'returns the name and initial of the only defendant' do
+        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
+        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
+      end
+    end
+
+    context '2 defendants' do
+      it 'returns the name and initial of the first defendant + 1 other' do
+        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
+        my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
+        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
+        expect(presenter.other_defendant_summary).to eq '+ 1 other'
+      end
+    end
+
+    context 'no defendants' do
+      it 'returns nil' do
+        expect(presenter.defendant_name_and_initial).to be_nil
+        expect(presenter.other_defendant_summary).to eq ''
+      end
+    end
+  end
+
+
 end

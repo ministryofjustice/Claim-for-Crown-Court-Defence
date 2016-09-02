@@ -17,11 +17,26 @@ RSpec.describe DisbursementType, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
 
-  describe '.allowable_types' do
-    let!(:travel_costs) { create(:disbursement_type, name: 'Travel costs') }
+  context 'scopes' do
 
-    it 'should exclude "Travel costs" from the result set' do
-      expect(described_class.allowable_types).to_not include(travel_costs)
+    before(:all) do
+      create :disbursement_type, name: 'Zebras'
+      create :disbursement_type, name: 'Travel Costs', deleted_at: 3.minutes.ago
+      create :disbursement_type, name: 'Aardvarks'
+    end
+
+    after(:all) { DisbursementType.delete_all }
+
+    describe 'default scope' do
+      it 'returns in alphabetical order by name' do
+        expect(DisbursementType.all.map(&:name)).to eq([ 'Aardvarks', 'Travel Costs', 'Zebras' ])
+      end
+    end
+
+    describe 'active scope' do
+      it 'excludes records with non-nil deleted_at' do
+        expect(DisbursementType.active.map(&:name)).to eq([ 'Aardvarks', 'Zebras' ])
+      end
     end
   end
 end

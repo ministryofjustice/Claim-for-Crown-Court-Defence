@@ -24,7 +24,7 @@
       %fieldset.inline
         %legend
           = 'Get email notifications of caseworker messages on claims you created?'
-        =f.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
+        = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
           - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
 
     - if current_user.persona.admin?

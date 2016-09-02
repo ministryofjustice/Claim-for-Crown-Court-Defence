@@ -1,8 +1,18 @@
 #claim-status
   - if claim.last_state_transition_reason.present?
-    %h3.indent-sides= "Reason provided: #{claim.last_state_transition_reason.description}"
+    .grid-row
+      .notice
+        %i.icon.icon-important
+          %span.visuallyhidden
+            = "Warning"
+        %strong.bold-small
+          = "Reason provided: #{claim.last_state_transition_reason.description}"
 
-  %table#determinations.indent-sides{summary: t('.summary')}
+
+  %h3.heading-medium
+    = "Assessment summary"
+
+  %table#determinations{summary: t('.summary')}
     %caption.visuallyhidden
       = t('.caption')
     %thead
@@ -18,3 +28,4 @@
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
       - else
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
+

@@ -51,14 +51,3 @@
           = "Actions:"
           %div.action-wrapper
             = button_to 'Unarchive', unarchive_external_users_claim_path(claim), method: 'patch', class: 'button', form: { style: 'display: inline-block;' }
-
-  - if current_user.persona.is_a?(CaseWorker)
-    .grid-row
-      .other-claims
-        - if claim_ids.present? && claim_ids.include?(@claim.id)
-          = "Showing "
-          = claim_position_and_count
-          = "claims"
-          - unless last_claim?
-            = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-

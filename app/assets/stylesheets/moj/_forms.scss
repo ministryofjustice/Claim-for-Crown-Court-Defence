@@ -384,6 +384,29 @@ select.form-control {
   }
 }
 
+#determinations{
+  th, td{
+    text-align: right;
+    width: 33.33%;
+  }
+  tr th:first-child, tr td:first-child{
+    text-align: left;
+  }
+  .pound-wrapper{
+    display: inline-block;
+    input{
+      display:block;
+      width: 100%;
+      text-align:right;
+    }
+  }
+  .form-hint{
+    font-size: inherit;
+  }
+}
+
+
+
 .form-date {
   .form-group {
     label {

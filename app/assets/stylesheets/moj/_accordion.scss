@@ -1,4 +1,9 @@
 #claim-accordion {
+  .panel-messages{
+    .column-one-half{
+      padding: 0;
+    }
+  }
   button {
     @include core-19();
     margin-top: 0;

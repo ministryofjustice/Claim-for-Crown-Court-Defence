@@ -1,7 +1,7 @@
 - present(determination) do |determination|
   - unless claim.interim? && claim.disbursement_only?
     %tr.determination-display
-      %th
+      %td
         Fees
       %td.numeric
         = claim.fees_total
@@ -10,7 +10,7 @@
 
   - if claim.can_have_expenses?
     %tr.determination-display
-      %th
+      %td
         Expenses
       %td.numeric
         = claim.expenses_total
@@ -19,7 +19,7 @@
 
   - if claim.can_have_disbursements?
     %tr.determination-display
-      %th
+      %td
         Disbursements
       %td.numeric
         = claim.disbursements_total
@@ -27,7 +27,7 @@
         = determination.disbursements_total
 
   %tr.determination-display
-    %th
+    %td
       Total(excluding VAT)
     %td.numeric
       = claim.total
@@ -35,7 +35,7 @@
       = determination.total
 
   %tr.determination-display
-    %th
+    %td
       = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
     %td.numeric
       = claim.vat_amount
@@ -43,7 +43,7 @@
       = determination.vat_amount
 
   %tr.determination-display
-    %th
+    %td
       = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
     %td.numeric
       = claim.total_inc_vat

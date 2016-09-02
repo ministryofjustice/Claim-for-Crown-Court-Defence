@@ -1,6 +1,18 @@
 #claim-accordion
+  .grid-row.panel-messages
+    .column-one-half
+      = t('.h2_messages')
 
-  = t('.h2_messages')
+    .column-one-half
+      - if current_user.persona.is_a?(CaseWorker)
+        .other-claims
+          - if claim_ids.present? && claim_ids.include?(@claim.id)
+            = "Showing "
+            = claim_position_and_count
+            = "claims"
+            - unless last_claim?
+              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
   = render partial: 'shared/claim_history', locals: {claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
 

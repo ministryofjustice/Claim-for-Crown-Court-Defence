@@ -19,3 +19,7 @@ end
 module Devise::Models::Lockable
   include DeviseExtension
 end
+
+module Rails
+  extend RailsModuleExtension
+end

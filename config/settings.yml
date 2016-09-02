@@ -55,9 +55,9 @@ api_promo_enabled?: true
 
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
-scheme_filters_enabled?: false
+scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 
 # Feature flag to enable ability to set user email notification user preferences.  If true, external
 # users will be able to set preference to say whether they want email notifications of outstanding messages
 # on their claim
-email_notification_enabled?: true
+email_notification_enabled?: <%= ENV['ENV'] == 'staging' %>

@@ -25,7 +25,12 @@
       end
     end
 
-
+    desc 'softly delete Travel costs disbursement type'
+    task :delete_travel_costs => :environment do
+      dt = DisbursementType.where(name: 'Travel costs').first
+      dt.deleted_at = Time.now
+      dt.save!
+    end
 
     desc 'Run all outstanding data migrations'
     task :all => :environment do

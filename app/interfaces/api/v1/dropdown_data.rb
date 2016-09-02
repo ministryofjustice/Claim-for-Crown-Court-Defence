@@ -115,7 +115,7 @@ module API
         resource :disbursement_types do
           desc "Return all Disbursement Types."
           get do
-            present DisbursementType.allowable_types, with: API::Entities::DisbursementType
+            present DisbursementType.active, with: API::Entities::DisbursementType
           end
         end
 

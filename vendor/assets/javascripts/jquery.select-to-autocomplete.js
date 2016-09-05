@@ -285,6 +285,8 @@ THE SOFTWARE.
         change: function(event, ui) {
           update_select_value(ui.item);
         }
+      }).click(function(){
+        $(this).autocomplete("search");
       });
       // force refresh value of select field when form is submitted
       context.$text_field.parents('form:first').submit(function() {

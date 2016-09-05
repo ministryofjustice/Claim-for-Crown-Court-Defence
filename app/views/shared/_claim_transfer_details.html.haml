@@ -1,9 +1,10 @@
-.basic-info-row
-  .column-half
-    .b
-      = t('common.transfer_detail_summary')
+%tr
+  %th{scope: "col"}
+    = t('common.transfer_detail_summary')
+  %td
     = claim.transfer_detail_summary
-  .column-half
-    .b
-      = t('common.transfer_date')
+%tr
+  %th{scope: "col"}
+    = t('common.transfer_date')
+  %td
     = claim.transfer_date

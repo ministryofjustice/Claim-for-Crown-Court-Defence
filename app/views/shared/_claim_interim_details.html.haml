@@ -1,58 +1,73 @@
 - fee = present(claim.interim_fee)
-
-.basic-info-row
-  .column-quarter
-    .b
-      = t('shared.summary.fee_type')
+%tr
+  %th{scope: "col"}
+    = t('shared.summary.fee_type')
+  %td
     = fee.fee_type.description
 
-  - if fee.is_interim_warrant?
-    .column-quarter
-      .b
-        = t('shared.summary.warrant_fee.date_issued')
+- if fee.is_interim_warrant?
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.warrant_fee.date_issued')
+    %td
       = fee.warrant_issued_date
-    .column-quarter
-      - if fee.warrant_executed_date.present?
-        .b
-          = t('shared.summary.warrant_fee.date_executed')
-        = fee.warrant_executed_date
-  - else
-    .column-quarter
-      - unless fee.is_disbursement?
-        .b
-          = t('shared.summary.ppe_total')
-        = fee.quantity
-    .column-quarter
-      - if fee.is_effective_pcmh?
-        .b
-          = t('shared.summary.effective_pcmh_date')
-        = fee.effective_pcmh_date
 
-.basic-info-row
-  - if fee.is_trial_start?
-    .column-quarter
-      .b
-        = t('shared.summary.trial_start')
+- if fee.warrant_executed_date.present?
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.warrant_fee.date_executed')
+    %td
+      = fee.warrant_executed_date
+
+- else
+  - unless fee.is_disbursement?
+    %tr
+      %th{scope: "col"}
+        = t('shared.summary.ppe_total')
+      %td
+        = fee.quantity
+    - if fee.is_effective_pcmh?
+      %tr
+        %th{scope: "col"}
+          = t('shared.summary.effective_pcmh_date')
+        %td
+          = fee.effective_pcmh_date
+
+- if fee.is_trial_start?
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.trial_start')
+    %td
       = fee.first_day_of_trial
-    .column-quarter
-      .b
-        = t('shared.summary.estimated_trial_length')
+
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.estimated_trial_length')
+    %td
       = fee.estimated_trial_length
-  - if fee.is_retrial_start?
-    .column-quarter
-      .b
-        = t('shared.summary.retrial_start')
+
+
+- if fee.is_retrial_start?
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.retrial_start')
+    %td
       = fee.retrial_started_at
-    .column-quarter
-      .b
-        = t('shared.summary.estimated_retrial_length')
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.estimated_retrial_length')
+    %td
       = fee.retrial_estimated_length
-  - if fee.is_retrial_new_solicitor?
-    .column-quarter
-      .b
-        = t('shared.summary.legal_aid_transfer_date')
+
+
+- if fee.is_retrial_new_solicitor?
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.legal_aid_transfer_date')
+    %td
       = fee.legal_aid_transfer_date
-    .column-quarter
-      .b
-        = t('shared.summary.trial_concluded_at')
+  %tr
+    %th{scope: "col"}
+      = t('shared.summary.trial_concluded_at')
+    %td
       = fee.trial_concluded_at

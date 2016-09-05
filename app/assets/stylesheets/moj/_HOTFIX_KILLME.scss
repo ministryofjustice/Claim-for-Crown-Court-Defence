@@ -15,8 +15,7 @@
 .button-holder{
   @include clearfix;
 }
-.grid-row,
-.basic-info-row {
+.grid-row {
   @include container;
   margin-top:$gutter-half;
   margin-bottom:$gutter-half;

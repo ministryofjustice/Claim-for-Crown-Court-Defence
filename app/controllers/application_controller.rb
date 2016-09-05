@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
   end
 
   def track_visit(*args)
-    (flash.now[:ga] ||= []) << GoogleAnalytics::DataLayer.new(:virtual_page, *args)
+    (flash.now[:ga] ||= []) << GoogleAnalytics::DataTracking.track(:virtual_page, *args)
   end
 
   def suppress_hotline_link

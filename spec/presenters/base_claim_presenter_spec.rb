@@ -112,14 +112,33 @@ RSpec.describe Claim::BaseClaimPresenter do
 
 
   describe '#assessment_date' do
-    it 'should return not yet assessed if there is no assessment' do
-      expect(subject.assessment_date).to eq 'not yet assessed'
+    context 'blank assessment' do
+      it 'returns not yet assessed if there is no assessment' do
+        expect(subject.assessment_date).to eq 'not yet assessed'
+      end
     end
 
-    it 'should return the creation date of the assessment' do
-      Timecop.freeze Time.new(2015, 8, 13, 14, 55, 23) do
-        claim.assessment.update_values(100.0, 200.0, 300.0)
-        expect(subject.assessment_date).to eq '13/08/2015'
+    let(:creation_date) { Time.new(2015, 8, 13, 14, 55, 23) }
+    let(:assessment_date) { Time.new(2015, 9, 1, 12, 34, 55) }
+    let(:first_redetermination_date)  { Time.new(2015, 9, 4, 7, 33, 22) }
+    let(:second_redetermination_date) { Time.new(2015, 9, 9, 13, 33, 55) }
+    let(:presenter)  { Claim::BaseClaimPresenter.new(@claim, view) }
+
+    context 'one assessment, no redeterminations' do
+      it 'returns the updated date of the assessment' do
+        Timecop.freeze(creation_date) { @claim = create :submitted_claim }
+        Timecop.freeze(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
+        expect(presenter.assessment_date).to eq '01/09/2015'
+      end
+    end
+
+    context 'multiple redeterminations' do
+      it 'returns creation date of last redetermination' do
+        Timecop.freeze(creation_date) { @claim = create :submitted_claim }
+        Timecop.freeze(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
+        Timecop.freeze (first_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 110.0, expenses: 205.88) }
+        Timecop.freeze (second_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 113.0, expenses: 208.88) }
+        expect(presenter.assessment_date).to eq '09/09/2015'
       end
     end
   end

@@ -271,7 +271,7 @@ form {
     text-align: center;
     width: 15%;
     display: inline-block;
-    background-color: $white;
+    background-color: $page-colour;
     &.working-day{
       background-color: $grey-2;
     }
@@ -296,7 +296,7 @@ form {
             width: 10em;
             margin: -2em auto 1em;
             text-align: center;
-            background-color: white;
+            background-color: $page-colour;
         }
         ul {
           margin: 0;
@@ -587,7 +587,7 @@ Styling for Claims Messaging
         background-color: $link-hover-colour;
         position: relative;
         text-align: left;
-        color: white;
+        color: $page-colour;
         border-radius: 0.5em 0.5em 0.75em 0.5em;
         &::after {
           content: "";
@@ -598,6 +598,17 @@ Styling for Claims Messaging
           height: 1.5em;
           border-left: 1em solid $link-hover-colour;
           border-bottom-left-radius: 1.75em 1.5em;
+        }
+        a{
+          &:link { /* Essentially means a[href], or that the link actually goes somewhere */
+              color: $page-colour;
+          }
+          &:hover {
+            color: $border-colour;
+          }
+          &:active {
+            color: $page-colour;
+          }
         }
       }
     }
@@ -671,7 +682,7 @@ Styling for Claims Messaging
         padding-left: $gutter;
         padding-right: $gutter;
         background-color: $link-hover-colour;
-        color: $white;
+        color: $page-colour;
         box-shadow: 0 2px 0 $link-colour;
         &:hover {
           background-color: $link-colour;
@@ -760,7 +771,7 @@ Styling for Claims Messaging
 
 .confirmation-header {
   background-color: $turquoise;
-  color: $white;
+  color: $page-colour;
   text-align: center;
   padding-top: $gutter * 2;
   padding-bottom: $gutter * 2;

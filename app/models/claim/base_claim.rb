@@ -110,10 +110,10 @@ module Claim
     has_many :misc_fees, foreign_key: :claim_id, class_name: 'Fee::MiscFee', dependent: :destroy, inverse_of: :claim
 
     has_many :determinations, foreign_key: :claim_id, dependent: :destroy
-    has_one  :assessment, foreign_key: :claim_id, dependent: :destroy
-    has_many :redeterminations, foreign_key: :claim_id, dependent: :destroy
+    has_one  :assessment, foreign_key: :claim_id
+    has_many :redeterminations, foreign_key: :claim_id
 
-    has_one  :certification, foreign_key: :claim_id
+    has_one  :certification, foreign_key: :claim_id, dependent: :destroy
 
     has_paper_trail on: [:update], only: [:state]
 

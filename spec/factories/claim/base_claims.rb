@@ -40,7 +40,15 @@ def claim_state_common_traits
   end
 
   trait :archived_pending_delete do
-    after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
+    # after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
+    after(:create) do |c|
+      c.submit!
+      c.case_workers << create(:case_worker)
+      c.reload
+      set_amount_assessed(c)
+      c.authorise!
+      c.archive_pending_delete!
+    end
   end
 
   trait :authorised do

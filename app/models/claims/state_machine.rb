@@ -94,7 +94,7 @@ module Claims::StateMachine
       end
 
       event :authorise_part do
-        transition [:allocated] => :part_authorised
+        transition [:allocated, :awaiting_written_reasons] => :part_authorised
       end
 
       event :authorise do
@@ -102,11 +102,11 @@ module Claims::StateMachine
       end
 
       event :refuse do
-        transition [:allocated] => :refused
+        transition [:allocated, :awaiting_written_reasons] => :refused
       end
 
       event :reject do
-        transition [:allocated] => :rejected, :if => :rejectable?
+        transition [:allocated, :awaiting_written_reasons] => :rejected, :if => :rejectable?
       end
 
       event :submit do
@@ -155,8 +155,12 @@ module Claims::StateMachine
     last_state_transition&.created_at
   end
 
+  def filtered_state_transitions
+    claim_state_transitions.where.not(to: %w(allocated deallocated))
+  end
+
   def filtered_last_state_transition
-    claim_state_transitions.where.not(to: %w(allocated deallocated)).first
+    filtered_state_transitions.first
   end
 
   private

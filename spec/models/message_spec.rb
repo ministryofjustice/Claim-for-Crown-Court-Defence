@@ -113,13 +113,13 @@ RSpec.describe Message, type: :model do
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
-    it 'should change claim state from back to what it was three back if written reasons submitted' do
+    it 'should change claim state back to what it was before, if written reasons submitted' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.messages.first.written_reasons_submitted = '1'
       claim.save
-      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'allocate' ] )
-      expect(claim.state).to eq 'allocated'
+      claim.reload
+      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'authorise_part' ] )
+      expect(claim.state).to eq 'part_authorised'
     end
-
   end
 end

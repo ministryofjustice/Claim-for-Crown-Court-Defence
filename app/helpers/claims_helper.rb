@@ -21,4 +21,13 @@ module ClaimsHelper
   def show_claim_list_scheme_filters?(available_schemes)
     Settings.scheme_filters_enabled? && available_schemes.size > 1
   end
+
+  def show_message_controls?(claim)
+    (current_user_is_caseworker? || current_user_is_external_user?) &&
+      %w(draft rejected archived_pending_delete).exclude?(claim.state)
+  end
+
+  def messaging_permitted?(message)
+    (current_user_is_external_user? && !message.claim.redeterminable?) || message.claim_action.present?
+  end
 end

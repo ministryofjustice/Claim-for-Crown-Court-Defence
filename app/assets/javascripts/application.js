@@ -9,7 +9,6 @@
 //= require govuk/stop-scrolling-at-footer
 //= require moj
 //= require modules/moj.cookie-message.js
-//= require awesomplete.js
 //= require jquery-accessible-accordion-aria.js
 //= require jquery-ui.min.js
 //= require jquery.select-to-autocomplete.js

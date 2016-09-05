@@ -10,8 +10,8 @@
   = "controller-" + controller.controller_name
 
 - content_for :body_start do
-  - unless Rails.env.test?
-    = render partial: 'layouts/ga_tag_manager', :formats => [:js]
+  - if GoogleAnalytics::DataTracking.enabled?
+    = render partial: 'layouts/analytics', :formats => [:js], locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
     %script
       != ga_outlet
 

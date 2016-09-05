@@ -1,29 +1,28 @@
 module GoogleAnalytics
-  class UnknownDataLayerTemplate < ArgumentError; end
+  class UnknownDataTemplate < ArgumentError; end
 
-  class DataLayer
-
-    TEMPLATES = {
-      virtual_page: {event: 'VirtualPageview', virtualPageURL: '%{url}', virtualPageTitle: '%{title}'}
-    }.freeze
-
+  class DataAdapter
 
     def initialize(template_id, template_data, interpolation_data = {})
       @template_id = template_id
       @template_data = template_data
       @interpolation_data = interpolation_data
-      raise UnknownDataLayerTemplate.new("Unknown template '#{@template_id}'") if template.nil?
+      raise UnknownDataTemplate.new("Unknown template '#{@template_id}'") if template.nil?
     end
 
     def to_s
-      "dataLayer.push(#{template_data.to_json});"
+      raise 'implement in subclasses'
     end
 
     def template
-      TEMPLATES[@template_id]
+      templates[@template_id]
     end
 
-    private
+    protected
+
+    def templates
+      raise 'implement in subclasses'
+    end
 
     def template_data
       interpolate(template, interpolated_data)

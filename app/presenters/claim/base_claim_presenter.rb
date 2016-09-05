@@ -179,7 +179,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   def can_have_disbursements?; true; end
 
   def assessment_date
-    claim.assessment.blank? ? 'not yet assessed' : claim.determinations.order(created_at: :desc).first.created_at.strftime(Settings.date_format)
+    claim.assessment.blank? ? 'not yet assessed' : assessment_or_determination_date.strftime(Settings.date_format)
   end
 
   def assessment_fees
@@ -201,4 +201,16 @@ class Claim::BaseClaimPresenter < BasePresenter
   def assessment_value(assessment_attr)
     claim.assessment.new_record? ? h.number_to_currency(0) : h.number_to_currency(claim.assessment.__send__(assessment_attr))
   end
+
+  private
+
+  # a blank assessment is created when the claim is created, so the assessment date is the updated_at date, not created_at
+  def assessment_or_determination_date
+    claim.redeterminations.any? ? last_redetermination_date : claim.assessment.updated_at
+  end
+
+  def last_redetermination_date
+    claim.determinations.order(created_at: :desc).first.created_at
+  end
+
 end

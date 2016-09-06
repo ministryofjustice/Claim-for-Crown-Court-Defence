@@ -12,8 +12,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
   end
 
   def validate_quantity
-    validate_presence(:quantity, 'blank')
-    validate_numericality(:quantity, 1, 99999, 'numericality')
+    validate_numericality(:quantity, 0, 99999, 'numericality')
   end
 
   def validate_amount

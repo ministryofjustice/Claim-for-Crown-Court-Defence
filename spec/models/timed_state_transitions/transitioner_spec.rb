@@ -11,7 +11,8 @@ module TimedTransitions
     describe '.candidate_states' do
       it 'should return an array of source states for timed transitions' do
         expect(Transitioner.candidate_states).to eq (
-          [ :authorised,
+          [ :draft,
+            :authorised,
             :part_authorised,
             :refused,
             :rejected,
@@ -21,8 +22,8 @@ module TimedTransitions
     end
 
     describe '.candidate_claim_ids' do
-      it 'should generate the correct sql' do
-        create :advocate_claim
+      it 'returns a list of ids in the target states' do
+        draft_claim = create :advocate_claim
         create :submitted_claim
         create :allocated_claim
         authorised_claim = create :authorised_claim
@@ -31,10 +32,24 @@ module TimedTransitions
         part_authorised_claim = create :part_authorised_claim
         refused_claim = create :refused_claim
         rejected_claim = create :rejected_claim
-        expected_ids = [ authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id ].sort
+        expected_ids = [ draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id ].sort
 
         expect(Transitioner.candidate_claims_ids.sort).to eq expected_ids
       end
+    end
+
+    describe '.softly_deleted_ids' do
+      it 'returns ids of claims that were softly deleted more than 16 weeks ago' do
+        claim_a = claim_b = claim_c = nil
+        Timecop.freeze(18.weeks.ago) { claim_a, claim_b, claim_c = create_list :advocate_claim, 3 }
+        Timecop.freeze(17.weeks.ago) { claim_a.soft_delete }
+        Timecop.freeze(15.weeks.ago) { claim_b.soft_delete }
+        ids = Transitioner.softly_deleted_ids
+        expect(ids).not_to include(claim_c.id)
+        expect(ids).not_to include(claim_b.id)
+        expect(ids).to include(claim_a.id)
+      end
+
     end
 
     describe '#run' do
@@ -45,6 +60,7 @@ module TimedTransitions
               claim = double Claim
               expect(claim).to receive(:last_state_transition_time).and_return(59.days.ago)
               expect(claim).to receive(:state).and_return('authorised')
+              expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim)
               expect(transitioner).not_to receive(:archive)
               transitioner.run
@@ -53,14 +69,14 @@ module TimedTransitions
 
           context 'more than 60 days ago' do
             before(:each) do
-              Timecop.freeze(61.days.ago) do
+              Timecop.freeze(17.weeks.ago) do
                 @claim = create :authorised_claim, case_number: 'Z88299822'
               end
             end
 
             after(:all) { clean_database }
 
-            it 'should call archive if last state change more than 60 days ago' do
+            it 'should call archive if last state change more than 16 weeks ago' do
               Transitioner.new(@claim).run
               expect(@claim.reload.state).to eq 'archived_pending_delete'
             end
@@ -81,19 +97,20 @@ module TimedTransitions
 
         context 'destroying' do
           context 'less than 60 days ago' do
-            it 'should not call destroy if last state change less than 60 days ago' do
+            it 'should not call destroy if last state change less than 16 weeks ago' do
               claim = double Claim
-              expect(claim).to receive(:last_state_transition_time).and_return(59.days.ago)
+              expect(claim).to receive(:last_state_transition_time).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('archived_pending_delete')
+              expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim)
               expect(transitioner).not_to receive(:destroy)
               transitioner.run
             end
           end
 
-          context 'more than 60 days ago' do
+          context 'more than 16 weeks ago' do
             before(:each) do
-              Timecop.freeze(61.days.ago) do
+              Timecop.freeze(17.weeks.ago) do
                 @claim = create :litigator_claim, :archived_pending_delete, case_number: 'Z88299822'
               end
             end

@@ -3,4 +3,4 @@
 #   :ga  -> Google Analytics
 #   :gtm -> Google Tag Manager
 #
-GoogleAnalytics::DataTracking.adapter = :gtm
+GoogleAnalytics::DataTracking.adapter = Rails.host.gamma? ? :ga : :gtm

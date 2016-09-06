@@ -4,6 +4,10 @@ module ApplicationHelper
     current_user.persona.is_a?(CaseWorker)
   end
 
+  def current_user_is_external_user?
+    current_user.persona.is_a?(ExternalUser)
+  end
+
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
   # following the <Model>Presenter naming convention or, optionally, a named presenter
@@ -93,10 +97,6 @@ module ApplicationHelper
 
   def strip_params(path)
     URI.parse(path).path rescue nil
-  end
-
-  def advocate_messaging_permitted?(message)
-    (current_user.persona.is_a?(ExternalUser) && !@claim.redeterminable?) || message.claim_action.present?
   end
 
   def your_claims_header

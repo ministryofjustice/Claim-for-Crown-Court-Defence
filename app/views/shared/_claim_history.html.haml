@@ -14,6 +14,6 @@
     = "Status:"
     %span.message-success
     %span.message-error
-  - if (current_user.persona.is_a?(CaseWorker) || (current_user.persona.is_a?(ExternalUser) && claim.rejected? == false && claim.draft? == false)) && claim.archived_pending_delete? == false
+  - if show_message_controls?(claim)
     .js-controls.message-controls{"data-auth-url" => message_controls_url }
       = render partial: "shared/message_controls", locals: {message: @message }

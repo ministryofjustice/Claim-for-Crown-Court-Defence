@@ -68,19 +68,16 @@ header.main-header {
       margin-right: 5px;
     }
 
-    .edit-claim, .resubmit-claim{
-      float: left;
-    }
     .resubmit-claim{
       width: -moz-calc(216px);
       padding-left: -moz-calc(3px);
     }
-    .archive-claim, .delete-draft{
-      float:right;
-    }
 
     .action-wrapper{
-      // text-align: right;
+      overflow: auto;
+      a:first-child, .resubmit-claim{
+        margin-right: 20px;
+      }
     }
   }
 }

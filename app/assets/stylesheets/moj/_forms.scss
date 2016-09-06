@@ -81,7 +81,7 @@ input.form-control[type=number]
     float: none;
   }
   &.search{
-    @include span(10 of 12);
+    @include span(9 of 12);
     @include first;
   }
 }

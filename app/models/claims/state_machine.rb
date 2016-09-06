@@ -98,7 +98,7 @@ module Claims::StateMachine
       end
 
       event :authorise do
-        transition [:allocated] => :authorised
+        transition [:allocated, :awaiting_written_reasons] => :authorised
       end
 
       event :refuse do

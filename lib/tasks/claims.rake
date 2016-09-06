@@ -71,8 +71,21 @@ namespace :claims do
   end
 
   desc 'ADP Task: Archives or deletes stale claims'
-  task :archive_stale => :environment do
-    TimedTransition::BatchTransitioner.new.run
+  task :archive_stale, [:param] => :environment do |_task, args|
+    if args.names.size != 1
+      raise ArgumentError.new "Only valid parameter is 'dummy'"
+    end
+
+    case args[:param]
+    when 'dummy'
+      @dummy = true
+    when nil
+      @dummy = false
+    else
+      raise ArgumentError.new "Only valid parameter is 'dummy'"
+    end
+
+    TimedTransitions::BatchTransitioner.new(dummy: @dummy).run
   end
 
 

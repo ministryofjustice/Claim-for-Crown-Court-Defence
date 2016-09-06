@@ -61,3 +61,5 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # users will be able to set preference to say whether they want email notifications of outstanding messages
 # on their claim
 email_notification_enabled?: true
+
+timed_transition_log_path: <%= File.join(Rails.root, 'log', 'timed_transitions.log') %>

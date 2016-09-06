@@ -94,7 +94,14 @@ FactoryGirl.define do
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
+      after(:create) do |c|
+        c.submit!
+        c.case_workers << create(:case_worker)
+        c.reload
+        set_amount_assessed(c)
+        c.authorise!
+        c.archive_pending_delete!
+      end
     end
 
     factory :authorised_claim do

@@ -74,15 +74,25 @@ module Fee
       end
 
       context 'other fee' do
-        it 'is invalid if absent' do
-          allow(fee).to receive(:quantity).and_return nil
+        it 'numericality, must be between 0 and 999999' do
+          # note: before validation hook sets nil to zero
           fee.quantity = nil
-          expect(fee).not_to be_valid
-          expect(fee.errors[:quantity]).to eq ['blank']
-        end
+          expect(fee).to be_valid
 
-        it 'validates numericality' do
           fee.quantity = 0
+          expect(fee).to be_valid
+
+          fee.quantity = 1
+          expect(fee).to be_valid
+
+          fee.quantity = 99999
+          expect(fee).to be_valid
+
+          fee.quantity = 100000
+          expect(fee).to_not be_valid
+          expect(fee.errors[:quantity]).to eq ['numericality']
+
+          fee.quantity = -10
           expect(fee).not_to be_valid
           expect(fee.errors[:quantity]).to eq ['numericality']
         end

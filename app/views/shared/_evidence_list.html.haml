@@ -2,7 +2,7 @@
 %section
   = render partial: 'shared/evidence_checklist'
   %div.grid-row
-    %h3
+    %h3.heading-medium
       = t('.existing_evidence')
     - if @claim.documents.none?
       = t('.no_documents_uploaded')

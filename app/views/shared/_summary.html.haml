@@ -1,13 +1,13 @@
 - present(@claim) do |claim|
   %section#summary
-    %h3.indent-sides
+    %h3.heading-medium
       = t('common.fees')
     - if @claim.fees_total == 0
       %p.indent-sides
         There are no fees for this claim
     - else
       / table does noe require summary
-      %table.indent-sides
+      %table
         %caption.visually-hidden
           = t('.fees.caption')
         %thead
@@ -51,19 +51,19 @@
                   = fee.rate
               %td.numeric
                 = fee.amount
-      .totals.indent-sides
+      .totals
         = t('.fees_total')
         = claim.fees_total
 
     - if claim.can_have_expenses?
-      %h3.indent-sides
+      %h3.heading-medium
         = t('common.expenses')
       - if claim.expenses.empty?
         %p.indent-sides
           There are no expenses for this claim
       - else
         / table does noe require summary
-        %table.indent-sides
+        %table
           %caption.visually-hidden
             = t('.expenses.caption')
           %thead
@@ -112,19 +112,19 @@
                   .bold-normal
                     = t('.reason')
                   = expense.reason
-        .totals.indent-sides
+        .totals
           = t('.expenses_total')
           = claim.expenses_total
 
     - if claim.can_have_disbursements?
-      %h3.indent-sides
+      %h3.heading-medium
         = t('common.disbursements')
       - if claim.disbursements.empty?
         %p.indent-sides
           There are no disbursements for this claim
       - else
         / table does noe require summary
-        %table.indent-sides
+        %table
           %caption.visually-hidden
             = t('.disbursements.caption')
           %thead
@@ -148,24 +148,24 @@
                   = disbursement.vat_amount
                 %td.numeric
                   = disbursement.total
-        .totals.indent-sides
+        .totals
           = 'Disbursements total'
           = claim.disbursements_total
 
-    .totals.indent-sides
+    .totals
       = 'Claim total (net):'
       = claim.total
 
-    .totals.indent-sides
+    .totals
       = 'VAT:'
       = claim.vat_amount
 
-    .totals.indent-sides
+    .totals
       = 'Claim total (inc. VAT)'
       = claim.total_inc_vat
 
     - if claim.additional_information.present?
-      %h3.indent-sides
+      %h3.heading-medium
         = t('.additional_information')
       %p.indent-sides
         = claim.additional_information

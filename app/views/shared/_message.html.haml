@@ -22,7 +22,7 @@
       .message-right
         .message-container
           .message-body
-            = message.body.gsub(/\n/, '<br/>').html_safe
+            = message.body
           .grid-row.message-audit
             .column-half.sender
               - if current_user_is_caseworker?

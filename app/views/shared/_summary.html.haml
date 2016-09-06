@@ -164,8 +164,8 @@
       = 'Claim total (inc. VAT)'
       = claim.total_inc_vat
 
-    - unless @claim.additional_information.blank?
+    - if claim.additional_information.present?
       %h3.indent-sides
         = t('.additional_information')
       %p.indent-sides
-        = @claim.additional_information
+        = claim.additional_information

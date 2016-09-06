@@ -25,7 +25,7 @@
 
   //Stops the form from submitting when the user presses 'Enter' key
   $('#claim-form, #claim-status').on('keypress', function(e) {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && e.target.type !== 'textarea') {
       return false;
     }
   });

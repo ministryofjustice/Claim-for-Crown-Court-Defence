@@ -1,6 +1,6 @@
-- unless claim.additional_information.blank?
+- if claim.additional_information.present?
   %p
-    = @claim.additional_information
+    = claim.additional_information
 - else
   %p
     No additional information has been provided

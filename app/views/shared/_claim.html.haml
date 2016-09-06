@@ -7,7 +7,7 @@
   %table.table-summary
     %caption
       %span.table-caption.visuallyhidden
-        = "some caption here"
+        = "This section contains details of the case"
     %tbody
       - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
         %tr

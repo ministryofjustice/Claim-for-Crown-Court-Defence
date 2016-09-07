@@ -122,7 +122,7 @@ module TimedTransitions
               expect(Claim::BaseClaim.where(id: @claim.id)).to be_empty
             end
 
-            it 'should destroy all associated records' do
+            it 'should destroy all associated records', delete: true do
               setup_associations
               Transitioner.new(@claim).run
               expect_claim_and_all_associations_to_be_gone
@@ -159,6 +159,7 @@ module TimedTransitions
               expect(@claim.defendants.first.representation_orders).not_to be_empty
               expect(@claim.documents).not_to be_empty
               expect(File.exist?(@claim.documents.first.document.path)).to be true
+              expect(File.exist?(@claim.documents.first.converted_preview_document.path)).to be true
               expect(@claim.messages).not_to be_empty
               expect(@claim.claim_state_transitions).not_to be_empty
               expect(@claim.determinations).not_to be_empty
@@ -175,7 +176,8 @@ module TimedTransitions
               expect(Defendant.where(claim_id: @claim_id)).to be_empty
               expect(RepresentationOrder.where(defendant_id: @defendant.id)).to be_empty
               expect(Document.where(claim_id: @claim.id)).to be_empty
-              # expect(File.exist?(@document.document.path)).to be false
+              expect(File.exist?(@document.document.path)).to be false
+              expect(File.exist?(@document.converted_preview_document.path)).to be false
               expect(Message.where(claim_id: @claim_id)).to be_empty
               expect(ClaimStateTransition.where(claim_id: @claim.id)).to be_empty
               expect(Determination.where(claim_id: @claim.id)).to be_empty

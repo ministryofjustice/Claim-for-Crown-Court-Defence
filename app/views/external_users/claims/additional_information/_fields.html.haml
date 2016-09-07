@@ -2,9 +2,5 @@
   = f.label :additional_information, t('.additional_information')
 #additional-info-hint.form-hint.xsmall
   = t('.additional_information_prompt_text')
-.grid-row
-  .column-half
-    = f.text_area :additional_information, rows: 7, 'aria-describedby': 'additional-info-hint'
-    = validation_error_message(@claim, :additional_information)
-  .column-half
-    &nbsp;
+#additional-info-area
+  = f.text_area :additional_information, rows: 5, 'aria-describedby': 'additional-info-hint'

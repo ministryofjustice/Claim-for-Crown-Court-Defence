@@ -70,7 +70,7 @@ class ClaimFormPage < SitePrism::Page
     element :check, "input"
   end
 
-  element :additional_information, "div.grid-row > div.column-half > textarea"
+  element :additional_information, "textarea#claim_additional_information"
   element :continue, "div.button-holder > input:nth-of-type(1)"
   element :submit_to_laa, "div.button-holder > input:nth-of-type(1)"
   element :save_to_drafts, "div.button-holder > input:nth-of-type(2)"

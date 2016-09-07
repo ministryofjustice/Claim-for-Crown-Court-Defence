@@ -1,5 +1,5 @@
 .evidence-checklist-read-only.grid-row
-  %h3
+  %h3.heading-medium
     = "Supporting evidence checklist"
   - if current_user.persona.is_a? ExternalUser
     %p.form-hint
@@ -9,15 +9,7 @@
     %p
       No documentary evidence specified as having been provided.
   - else
-
-    %table{class:'table-summary'}
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
-      %tbody
-        - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-          %tr
-            %th{scope: 'row'}
-              = dt.name
-            %td
-              Provided
+    %ul
+    - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
+      %li
+        = dt.name

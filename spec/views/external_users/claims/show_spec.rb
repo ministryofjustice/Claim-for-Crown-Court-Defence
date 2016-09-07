@@ -28,8 +28,8 @@ describe 'external_users/claims/show.html.haml', type: :view do
 
     describe 'document checklist' do
       it 'displays the documents that have been uploaded' do
-        expect(rendered).to have_selector('th', text: 'Representation order')
-        expect(rendered).to have_selector('th', text: 'Justification for out of time claim')
+        expect(rendered).to have_selector('li', text: 'Representation order')
+        expect(rendered).to have_selector('li', text: 'Justification for out of time claim')
       end
     end
 

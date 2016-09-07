@@ -1,4 +1,5 @@
 class BasePresenter < SimpleDelegator
+  include ActionView::Helpers::TextHelper
 
   def initialize(model, view)
     @model, @view = model, view

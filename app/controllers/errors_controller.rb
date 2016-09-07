@@ -1,5 +1,5 @@
 class ErrorsController < ApplicationController
-  skip_load_and_authorize_resource only: [:not_found, :internal_server_error]
+  skip_load_and_authorize_resource only: [:not_found, :internal_server_error, :dummy_exception]
   protect_from_forgery except: [:not_found, :internal_server_error]
 
   def not_found

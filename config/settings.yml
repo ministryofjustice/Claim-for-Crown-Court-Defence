@@ -62,4 +62,15 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 # on their claim
 email_notification_enabled?: true
 
+
+# location to write log messages regarding timed transitions
 timed_transition_log_path: <%= File.join(Rails.root, 'log', 'timed_transitions.log') %>
+
+# number of weeks in one state before automatic transition to archived pending delete
+timed_transition_stale_weeks: 16
+
+# number of weeks in archived pending delete before hard delete of claim
+timed_transition_pending_weeks: 16
+
+# number of weeks a claim can be soft deleted before hard delete of claim
+timed_transition_soft_delete_weeks: 16

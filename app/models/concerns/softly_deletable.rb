@@ -6,7 +6,7 @@ module SoftlyDeletable
   
   included do
     scope :active, -> { where(deleted_at: nil) }
-    scope :deleted, -> { where.not(deleted_at: nil) }
+    scope :softly_deleted, -> { where.not(deleted_at: nil) }
 
     # Define instance methods :before_soft_delete and :after_soft_delete if you want any methods to be
     # called before or after the soft delete of this record
@@ -20,6 +20,10 @@ module SoftlyDeletable
 
     def active?
       self.deleted_at.nil?
+    end
+
+    def softly_deleted?
+      !active?
     end
 
 

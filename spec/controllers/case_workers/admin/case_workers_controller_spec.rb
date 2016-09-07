@@ -226,7 +226,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
       it 'destroys the case worker' do
         delete :destroy, id: subject
         expect(CaseWorker.active.count).to eq(1)
-        expect(CaseWorker.deleted.count).to eq(1)
+        expect(CaseWorker.softly_deleted.count).to eq(1)
         expect(subject.reload.deleted_at).not_to be_nil
       end
 

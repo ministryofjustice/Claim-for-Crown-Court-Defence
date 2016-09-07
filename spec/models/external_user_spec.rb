@@ -352,17 +352,17 @@ RSpec.describe ExternalUser, type: :model do
 
     describe 'deleted scope' do
       it 'should return only deleted records' do
-        expect(ExternalUser.deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
+        expect(ExternalUser.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect{
-          ExternalUser.deleted.find(@live_user_1.id)
+          ExternalUser.softly_deleted.find(@live_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@live_user_1.id} [WHERE "external_users"."deleted_at" IS NOT NULL]}
       end
 
       it 'returns an empty array if the selection criteria only reference live records' do
-        expect(User.deleted.where(id: [@live_user_1.id, @live_user_2.id])).to be_empty
+        expect(User.softly_deleted.where(id: [@live_user_1.id, @live_user_2.id])).to be_empty
       end
     end
 

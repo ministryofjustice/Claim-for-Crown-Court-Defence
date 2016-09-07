@@ -67,17 +67,17 @@ RSpec.describe CaseWorker, type: :model do
 
     describe 'deleted scope' do
       it 'should return only deleted records' do
-        expect(CaseWorker.deleted.order(:id)).to eq([@dead_cw1, @dead_cw2])
+        expect(CaseWorker.softly_deleted.order(:id)).to eq([@dead_cw1, @dead_cw2])
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect{
-          CaseWorker.deleted.find(@live_cw1.id)
+          CaseWorker.softly_deleted.find(@live_cw1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@live_cw1.id} [WHERE "case_workers"."deleted_at" IS NOT NULL]}
       end
 
       it 'returns an empty array if the selection criteria only reference live records' do
-        expect(CaseWorker.deleted.where(id: [@live_cw1.id, @live_cw2.id])).to be_empty
+        expect(CaseWorker.softly_deleted.where(id: [@live_cw1.id, @live_cw2.id])).to be_empty
       end
     end
 

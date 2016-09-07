@@ -403,10 +403,6 @@ module Claim
       last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
     end
 
-    def last_redetermination
-      self.redeterminations.select(&:valid?).last
-    end
-
     def default_values
       self.source ||= 'web'
       self.form_step ||= 1

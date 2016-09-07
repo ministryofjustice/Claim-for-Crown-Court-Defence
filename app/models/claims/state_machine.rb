@@ -155,6 +155,10 @@ module Claims::StateMachine
     last_state_transition&.created_at
   end
 
+  def last_redetermination
+    redeterminations.select(&:valid?).last
+  end
+
   def filtered_state_transitions
     claim_state_transitions.where.not(to: %w(allocated deallocated))
   end

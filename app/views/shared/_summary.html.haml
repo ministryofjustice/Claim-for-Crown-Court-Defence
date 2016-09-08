@@ -93,10 +93,10 @@
                   = expense.date.strftime(Settings.date_format)
                 %td{scope:'row'}
                   = expense.name
-                %td.numeric
-                  = expense.distance
                   - if expense.distance?
                     = expense.mileage_rate_id == 1 ? '(25p)' : '(45p)'
+                %td.numeric
+                  = expense.distance
                 - if claim.agfs?
                   %td.numeric
                     = expense.hours

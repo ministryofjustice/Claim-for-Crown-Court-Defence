@@ -843,6 +843,7 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      mileage_rate: Mileage rate
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
@@ -855,7 +856,7 @@ en:
       fee_type: Fee type
       fee_subtype: Fee subtype
       quantity: Quantity
-      dates_attended: 'Dates attended:'
+      dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Expense type
       location: Destination

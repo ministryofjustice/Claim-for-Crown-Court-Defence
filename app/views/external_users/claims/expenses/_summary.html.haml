@@ -31,6 +31,11 @@
               = t('shared.summary.distance')
             %td
               = expense.distance
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.mileage_rate')
+            %td
+              = expense.mileage_rate_id == 1 ? '25p' : '45p'
         - if expense.quantity.present?
           %tr
             %th{scope: 'row'}

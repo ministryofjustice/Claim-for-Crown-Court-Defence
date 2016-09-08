@@ -12,4 +12,5 @@ class PagesController < ApplicationController
 
   def servicedown; end
 
+  def timed_retention; end
 end

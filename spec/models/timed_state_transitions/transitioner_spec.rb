@@ -340,7 +340,6 @@ module TimedTransitions
               expect(Defendant.where(claim_id: @claim.id)).not_to be_empty
               expect(RepresentationOrder.where(defendant_id: @defendant.id)).not_to be_empty
               expect(Document.where(claim_id: @claim.id)).not_to be_empty
-              # expect(File.exist?(@document.document.path)).to be false
               expect(Message.where(claim_id: @claim.id)).not_to be_empty
               expect(ClaimStateTransition.where(claim_id: @claim.id)).not_to be_empty
               expect(Determination.where(claim_id: @claim.id)).not_to be_empty

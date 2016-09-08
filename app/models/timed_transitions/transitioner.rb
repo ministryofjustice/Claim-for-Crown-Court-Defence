@@ -1,7 +1,6 @@
 module TimedTransitions
   class Transitioner
 
-    @@logger = Logger.new Settings.timed_transition_log_path
 
     @@timed_transition_specifications = {
       draft:                    Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
@@ -9,7 +8,7 @@ module TimedTransitions
       part_authorised:          Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
       refused:                  Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
       rejected:                 Specification.new(:rejected, Settings.timed_transition_stale_weeks, :archive),
-      archived_pending_delete:  Specification.new(:archived_pending_delete, Settings.timed_transition_pending_weeks, :destroy)
+      archived_pending_delete:  Specification.new(:archived_pending_delete, Settings.timed_transition_pending_weeks, :destroy_claim)
     }
 
     def self.candidate_claims_ids
@@ -30,38 +29,48 @@ module TimedTransitions
     end
 
     def run
-      @claim.softly_deleted? ? process_softly_deleted_claim : process_stale_claim
+      @claim.softly_deleted? ? destroy : process_stale_claim
     end
 
     private
 
-    def process_softly_deleted_claim
-      @@logger.info "Deleting claim #{@claim.id}: #{@claim.case_number} (softly deleted on #{@claim.deleted_at.strftime(Settings.date_format)}"
-      @claim.destroy
+    def is_dummy?
+      @dummy
+    end
+
+    def log_level
+      is_dummy? ? :debug : :info
     end
 
     def process_stale_claim
       specification = @@timed_transition_specifications[@claim.state.to_sym]
       if @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
-        if @dummy
-          @@logger.debug "Dummy run: would have transitioned claim id #{@claim.id} - #{@claim.case_number} from #{@claim.state} to #{specification.method}"
-        else
-          send(specification.method, reason_code: 'timed_transition')
-        end
+        send(specification.method)
       end
     end
 
-    def archive(options)
-      @@logger.info "Changing state of claim #{@claim_id}: #{@claim.case_number} from #{@claim.state} to archived_pending_delete"
-      @claim.archive_pending_delete!(options)
+    def archive
+      LogStuff.send(log_level, 'TimedTransitions::Transitioner',
+                    action: 'archive',
+                    claim_id: @claim.id,
+                    softly_deleted_on: @claim.deleted_at,
+                    dummy_run: @dummy) do
+                      'Archiving claim'
+                    end
+      @claim.archive_pending_delete!(reason_code: 'timed_transition') unless is_dummy?
     end
 
 
-    def destroy(_options)
-      @@logger.info "Deleting claim #{@claim_id}: #{@claim.case_number}"
-      @claim.destroy
+    def destroy_claim
+      LogStuff.send(log_level, 'TimedTransitions::Transitioner',
+                      action: 'destroy',
+                      claim_id: @claim.id,
+                      claim_state: @claim.state,
+                      softly_deleted_on: @claim.deleted_at,
+                      dummy_run: @dummy) do
+                        'Destroying soft-deleted claim'
+                      end
+      @claim.destroy unless is_dummy?
     end 
-
-
   end
 end

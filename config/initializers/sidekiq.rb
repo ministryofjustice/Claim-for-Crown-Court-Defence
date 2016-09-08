@@ -9,4 +9,4 @@
 #
 # https://github.com/mperham/sidekiq/wiki/Using-Redis
 
-Sidekiq.default_worker_options = { retry: 1 }
+Sidekiq.default_worker_options = { retry: 5 }

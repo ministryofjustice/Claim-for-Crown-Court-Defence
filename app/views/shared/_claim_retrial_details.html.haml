@@ -3,7 +3,7 @@
   %th{scope: "col"}
     = t("#{retrial_detail_translations}.retrial_started_at")
   %td
-    = claim.retrial_started_at.strftime('%d/%m/%Y') rescue ''
+    = claim.retrial_started_at.strftime(Settings.date_format) rescue ''
 
 %tr
   %th{scope: "col"}
@@ -21,4 +21,4 @@
   %th{scope: "col"}
     = t("#{retrial_detail_translations}.retrial_concluded_at")
   %td
-    = claim.retrial_concluded_at.strftime('%d/%m/%Y') rescue ''
+    = claim.retrial_concluded_at.strftime(Settings.date_format) rescue ''

@@ -3,7 +3,7 @@
   %th{scope: "col"}
     = t("#{trial_detail_translations}.first_day_of_trial")
   %td
-    = claim.first_day_of_trial.strftime('%d/%m/%Y') rescue ''
+    = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
 %tr
   %th{scope: "col"}
     = t("#{trial_detail_translations}.estimated_trial_length")
@@ -18,4 +18,4 @@
   %th{scope: "col"}
     = t("#{trial_detail_translations}.trial_concluded_at")
   %td
-    = claim.trial_concluded_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_concluded_at.strftime(Settings.date_format) rescue ''

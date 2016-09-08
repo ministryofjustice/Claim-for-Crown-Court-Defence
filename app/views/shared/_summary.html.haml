@@ -3,8 +3,8 @@
     %h3.heading-medium
       = t('common.fees')
     - if @claim.fees_total == 0
-      %p.indent-sides
-        There are no fees for this claim
+      %p
+        = "There are no fees for this claim"
     - else
       / table does noe require summary
       %table
@@ -59,8 +59,8 @@
       %h3.heading-medium
         = t('common.expenses')
       - if claim.expenses.empty?
-        %p.indent-sides
-          There are no expenses for this claim
+        %p
+          = "There are no expenses for this claim"
       - else
         / table does noe require summary
         %table
@@ -90,11 +90,13 @@
             - present_collection(claim.expenses).each do |expense|
               %tr.no-border
                 %td
-                  = expense.date
+                  = expense.date.strftime(Settings.date_format)
                 %td{scope:'row'}
                   = expense.name
                 %td.numeric
                   = expense.distance
+                  - if expense.distance?
+                    = expense.mileage_rate_id == 1 ? '(25p)' : '(45p)'
                 - if claim.agfs?
                   %td.numeric
                     = expense.hours
@@ -120,8 +122,8 @@
       %h3.heading-medium
         = t('common.disbursements')
       - if claim.disbursements.empty?
-        %p.indent-sides
-          There are no disbursements for this claim
+        %p
+          = "There are no disbursements for this claim"
       - else
         / table does noe require summary
         %table

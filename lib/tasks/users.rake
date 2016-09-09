@@ -13,4 +13,17 @@ namespace :users do
     end
     puts "CSV file created: #{filename}"
   end
+
+  desc 'Change the password of the internal user accounts'
+  task :set_internal_password, [:password] => :environment do |_task, args|
+    password = args.password || (raise 'Use: rake users:set_internal_password[pa$$w0rd]')
+
+    User.where('email ILIKE any (array[?])', %w(%@example.com %@agfslgfs.com)).each do |user|
+      user.password = password
+      user.password_confirmation = password
+      user.save || (raise 'Error: %s' % user.errors.messages)
+    end
+
+    puts 'Passwords changed.'
+  end
 end

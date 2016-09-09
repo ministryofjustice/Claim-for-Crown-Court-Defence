@@ -222,8 +222,8 @@
               "expense_type_id":  { "type": "integer" },
               "location":         { "type": "string" },
               "date":             { "type": "string", "format": "date" },
-              "distance":         { "type": "integer" },
-              "hours":            { "type": "integer" },
+              "distance":         { "type": "number" },
+              "hours":            { "type": "number" },
               "mileage_rate_id":  { "type": "integer" },
               "reason_text":      { "type": "string" },
               "reason_id":        { "type": "integer" }

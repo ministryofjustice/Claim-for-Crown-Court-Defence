@@ -19,7 +19,7 @@ describe JsonDocumentImporter do
                                                 'expense_type_id' => 1,
                                                 'quantity' => 1,
                                                 'amount' => 235.46,
-                                                'distance' => 300,
+                                                'distance' => 300.25,
                                                 'reason_id' => 4,
                                                 'mileage_rate_id' => 1,
                                                 'location'=>'London',

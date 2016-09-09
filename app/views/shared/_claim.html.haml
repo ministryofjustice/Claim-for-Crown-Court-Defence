@@ -22,12 +22,20 @@
             = t ('.assignee')
           %td
             = claim.case_worker_names
-      %tr
-        %th{scope: "col"}
-          = t("common.external_user.#{@claim.external_user_type}")
-        %td
-          = claim.external_user.name
+
+      - if @claim.lgfs?
+        %tr
+          %th{scope: "col"}
+            = t('common.external_user.claim_creator')
+          %td
+            = claim.creator.name
+
       - if @claim.agfs?
+        %tr
+          %th{scope: "col"}
+            = t("common.external_user.#{@claim.external_user_type}")
+          %td
+            = claim.external_user.name
         %tr
           %th{scope: "col"}
             = t("common.external_user.category.#{@claim.external_user_type}")

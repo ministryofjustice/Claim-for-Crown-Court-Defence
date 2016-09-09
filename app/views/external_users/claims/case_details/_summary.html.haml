@@ -8,18 +8,24 @@
     %span.table-caption.visuallyhidden
       = t('.caption')
   %tbody
-    %tr
-      - if claim.agfs?
+    - if claim.lgfs?
+      %tr
         %th{scope: 'row'}
-          = t("#{locale_path}.advocate_category")
+          = t('common.external_user.claim_creator')
+        %td
+          = claim.creator.name
+
+    - if claim.agfs?
+      %tr
+        %th.summary-headings{scope: 'row'}
+          = t("common.external_user.#{claim.external_user_type}")
+        %td
+          = claim.external_user.name
+      %tr
+        %th{scope: 'row'}
+          = t("common.external_user.category.#{claim.external_user_type}")
         %td
           = claim.advocate_category
-
-    %tr
-      %th.summary-headings{scope: 'row'}
-        = t(claim.external_user_type)
-      %td
-        = claim.external_user.name
 
     %tr
       %th{scope: 'row'}

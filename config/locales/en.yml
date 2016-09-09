@@ -885,6 +885,10 @@ en:
       estimated_retrial_length: "Re-trial estimated length"
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
+      no_values:
+        fees: "There are no fees for this claim"
+        expenses: "There are no expenses for this claim"
+        disbursements: "There are no disbursements for this claim"
     supplier_numbers:
       supplier_numbers: "Supplier numbers"
       add_supplier_number: "Add another supplier number"

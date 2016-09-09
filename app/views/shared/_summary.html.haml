@@ -4,7 +4,7 @@
       = t('common.fees')
     - if @claim.fees_total == 0
       %p
-        = "There are no fees for this claim"
+        = t('shared.summary.no_values.fees')
     - else
       / table does noe require summary
       %table
@@ -60,7 +60,7 @@
         = t('common.expenses')
       - if claim.expenses.empty?
         %p
-          = "There are no expenses for this claim"
+          = t('shared.summary.no_values.expenses')
       - else
         / table does noe require summary
         %table
@@ -94,7 +94,7 @@
                 %td{scope:'row'}
                   = expense.name
                   - if expense.distance?
-                    = expense.mileage_rate_id == 1 ? '(25p)' : '(45p)'
+                    (#{expense.mileage_rate.name})
                 %td.numeric
                   = expense.distance
                 - if claim.agfs?
@@ -123,7 +123,7 @@
         = t('common.disbursements')
       - if claim.disbursements.empty?
         %p
-          = "There are no disbursements for this claim"
+          = t('shared.summary.no_values.disbursements')
       - else
         / table does noe require summary
         %table

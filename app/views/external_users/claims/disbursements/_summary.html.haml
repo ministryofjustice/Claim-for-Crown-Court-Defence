@@ -1,6 +1,6 @@
 - if claim.disbursements.empty?
   %p
-    There are no disbursements for this claim
+    = t('shared.summary.no_values.disbursements')
 - else
   %table{class:'table-summary', summary: t('.summary')}
     %caption

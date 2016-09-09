@@ -12,7 +12,7 @@
     .grid-row.js-test-send-buttons
       Enter a message below and optionally attach a file (maximum 1 file per message).
       .message-column
-        = f.text_area :body, as: :text, rows: 5, placeholder: t('.message_placeholder'), label: false, class: 'form-control'
+        = f.text_area :body, as: :text, rows: 10, placeholder: t('.message_placeholder'), label: false, class: 'form-control'
 
         - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
           .written-reasons-checkbox

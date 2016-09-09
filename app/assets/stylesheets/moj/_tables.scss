@@ -44,7 +44,8 @@ table {
     padding-bottom:$gutter-half;
   }
   tbody {
-    tr:hover {
+    tr:nth-child(odd) {
+      background-color: $grey-3;
       background-color: $grey-4;
     }
     th {

@@ -843,6 +843,7 @@ en:
       date_added: Date added
       actions: Actions
     summary:
+      mileage_rate: Mileage rate
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
@@ -855,7 +856,7 @@ en:
       fee_type: Fee type
       fee_subtype: Fee subtype
       quantity: Quantity
-      dates_attended: 'Dates attended:'
+      dates_attended: Dates attended
       fees_total: 'Fees total:'
       expense_type: Expense type
       location: Destination
@@ -884,6 +885,10 @@ en:
       estimated_retrial_length: "Re-trial estimated length"
       legal_aid_transfer_date: "Legal aid transfer"
       trial_concluded_at: "First trial concluded"
+      no_values:
+        fees: "There are no fees for this claim"
+        expenses: "There are no expenses for this claim"
+        disbursements: "There are no disbursements for this claim"
     supplier_numbers:
       supplier_numbers: "Supplier numbers"
       add_supplier_number: "Add another supplier number"

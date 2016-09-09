@@ -25,8 +25,8 @@
 class Expense < ActiveRecord::Base
 
   MILEAGE_RATES = {
-    1 => Struct.new(:id, :description).new(1, '25p per mile'),
-    2 => Struct.new(:id, :description).new(2, '45p per mile')
+    1 => Struct.new(:id, :name, :description).new(1, '25p', '25p per mile'),
+    2 => Struct.new(:id, :name, :description).new(2, '45p', '45p per mile')
   }
 
   auto_strip_attributes :location, squish: true, nullify: true
@@ -94,6 +94,10 @@ class Expense < ActiveRecord::Base
 
   def round_quantity
     self.quantity = (self.quantity*4).round/4.0 if self.quantity
+  end
+
+  def mileage_rate
+    MILEAGE_RATES[self.mileage_rate_id]
   end
 
   def expense_reason

@@ -19,7 +19,7 @@
               = t('.file_size')
             %th.numeric{scope:'col'}
               = t('.date_added')
-            %th{scope:'col'}
+            %th.numeric{scope:'col'}
               = t('.actions')
         %tbody
 
@@ -30,8 +30,8 @@
               %td
                 = number_to_human_size(document.document_file_size)
               %td.numeric
-                = document.created_at
-              %td
+                = document.created_at.strftime(Settings.date_format)
+              %td.numeric
                 - if document.converted_preview_document.present?
                   = link_to t('common.view'),
                             document_path(document),

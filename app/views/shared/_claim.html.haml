@@ -9,6 +9,13 @@
       %span.table-caption.visuallyhidden
         = "This section contains details of the case"
     %tbody
+      - unless claim.draft?
+        %tr
+          %th{scope: "col"}
+            = "Claim submitted on"
+          %td
+            = claim.submitted_at
+
       - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
         %tr
           %th{scope: "col"}

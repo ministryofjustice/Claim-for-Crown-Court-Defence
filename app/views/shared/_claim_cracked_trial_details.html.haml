@@ -3,17 +3,17 @@
   %th{scope: "col"}
     = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
   %td
-    = claim.trial_fixed_notice_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
 %tr
   %th{scope: "col"}
     = t("#{cracked_trial_detail_translations}.trial_fixed_at")
   %td
-    = claim.trial_fixed_at.strftime('%d/%m/%Y') rescue ''
+    = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
 %tr
   %th{scope: "col"}
     = t("#{cracked_trial_detail_translations}.trial_cracked_at")
   %td
-    =  claim.trial_cracked_at.strftime('%d/%m/%Y') rescue ''
+    =  claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
 %tr
   %th{scope: "col"}
     = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")

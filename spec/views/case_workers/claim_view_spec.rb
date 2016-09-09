@@ -23,9 +23,9 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   context 'certified claims' do
     before(:all) { certified_claim }
 
-    it 'displays who certified the claim' do
+    it 'displays the name of the external user' do
       render
-      expect(rendered).to include('Bobby Legrand')
+      expect(rendered).to include('Stepriponikas Bonstart')
     end
 
     it 'shows the reason for certification' do
@@ -54,7 +54,8 @@ describe 'case_workers/claims/show.html.haml', type: :view do
 
 
   def certified_claim
-    @claim = create(:allocated_claim)
+    @eu = create :external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart')
+    @claim = create(:allocated_claim, external_user: @eu)
     @claim.certification.destroy unless @claim.certification.nil?
     certification_type = FactoryGirl.create(:certification_type, name: 'which ever reason i please')
     FactoryGirl.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)

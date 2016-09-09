@@ -1,6 +1,6 @@
 - if claim.expenses.empty?
   %p
-    There are no expenses for this claim
+    = t('shared.summary.no_values.expenses')
 - else
   %table{class:'table-summary', summary: t('.summary')}
     %caption
@@ -31,6 +31,11 @@
               = t('shared.summary.distance')
             %td
               = expense.distance
+          %tr
+            %th{scope: 'row'}
+              = t('shared.summary.mileage_rate')
+            %td
+              = expense.mileage_rate.name
         - if expense.quantity.present?
           %tr
             %th{scope: 'row'}

@@ -55,7 +55,7 @@ api_promo_enabled?: true
 
 # Feature flag to enable or disable the timed retention banner
 # If enabled, external users will see it, and will have a 'dismiss' link to hide and do not show it again
-timed_retention_banner_enabled?: false
+timed_retention_banner_enabled?: true
 
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list

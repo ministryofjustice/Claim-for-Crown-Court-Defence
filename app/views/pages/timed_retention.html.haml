@@ -1,14 +1,12 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Time-limited retention of claims'}
 
-- stale_weeks     = Settings.timed_transition_stale_weeks
-- archived_weeks  = Settings.timed_transition_pending_weeks
-
-- contact_name    = 'Bethany Henshaw'
-- contact_email   = 'bethany.henshaw@legalaid.gsi.gov.uk'
+- stale_weeks    = Settings.timed_transition_stale_weeks
+- archived_weeks = Settings.timed_transition_pending_weeks
+- contact_email  = 'bethany.henshaw@legalaid.gsi.gov.uk'
 
 %section.timed-retention
   %p
-    Starting from {DATE} 2016, claims will only be retained on the system for a limited period, and not indefinitely.
+    Starting from 19th September 2016, claims will only be retained on the system for a limited period, and not indefinitely.
   %p
     Claims that are in one of the following states for #{stale_weeks} weeks, AND have had no messages added to the claim for #{stale_weeks} weeks will have their status changed to archived:
 
@@ -29,4 +27,4 @@
   %p
     Claims that have been in archived state for #{archived_weeks} weeks, along with any attached documents, will be deleted from the database and will no longer be retrievable.
   %p
-    Contact #{contact_name} #{mail_to contact_email, contact_email} if you have any questions about this policy.
+    Contact #{mail_to contact_email, contact_email} if you have any questions about this policy.

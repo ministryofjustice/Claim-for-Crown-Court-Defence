@@ -1,6 +1,5 @@
-%header.main-header{role: 'banner'}
-  %h1
-    = t('.archived_claims')
+= render partial: 'layouts/header', locals: {page_heading: t('.archived_claims')}
+= render partial: 'external_users/shared/timed_retention_banner'
 
 .container.search-wrapper#listanchor
   - if params[:search].present?

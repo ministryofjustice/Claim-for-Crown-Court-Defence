@@ -1,4 +1,7 @@
-- if @result
-  $('.js-api-promo-container').slideUp(300);
-- else
-  $('.js-api-promo-hide-link').html('There was a problem. Try again later.');
+- @settings.each do |name, _value|
+  - callout = "div.js-callout-banner[data-setting=#{name}]"
+
+  - if @result
+    $("#{callout}").slideUp(300);
+  - else
+    $("#{callout} p.hide-link").html('There was a problem. Try again later.');

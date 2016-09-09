@@ -1,11 +1,11 @@
 - if claim.new_record? && show_api_promo_to_user?
 
-  .api-promo-alert.js-api-promo-container
+  .js-callout-banner{'data-setting': 'api_promo_seen'}
     %p
       If you use a case management system, you may be able to import claims directly without re-typing them.
     %p
       Many case management systems have this capability; if yours doesn't, or hasn't been set up to make use of it, contact your software vendor.
       = link_to 'See here for details', api_landing_page_path, target: '_blank'
 
-    %p.js-api-promo-hide-link
+    %p.hide-link
       = link_to 'Do not show me again', settings_user_path(current_user.id, api_promo_seen: 1), method: :put, remote: true

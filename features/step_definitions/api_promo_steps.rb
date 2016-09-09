@@ -4,5 +4,5 @@ end
 
 And(/^The API promo banner (is|is not) visible$/) do |visibility|
   visible = visibility == 'is'
-  expect(page).to have_selector('.js-api-promo-container', visible: visible)
+  expect(page).to have_selector('div.js-callout-banner[data-setting=api_promo_seen]', visible: visible)
 end

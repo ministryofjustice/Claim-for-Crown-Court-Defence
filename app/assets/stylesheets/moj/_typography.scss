@@ -135,3 +135,16 @@ header.main-header {
     }
   }
 }
+
+.timed-retention-states {
+  padding-left: 20px;
+
+  li {
+    list-style: disc inside;
+    line-height: 30px;
+
+    &.last-element {
+      margin-bottom: 30px;
+    }
+  }
+}

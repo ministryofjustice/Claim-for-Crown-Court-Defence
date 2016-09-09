@@ -45,4 +45,8 @@ module ExternalUsers::ClaimsHelper
     options = {name: 'dropdown_field_with_errors'}.merge(attributes.extract_options!)
     options[:name] if attributes.detect { |att| presenter.field_level_error_for(att.to_sym).present? }
   end
+
+  def show_timed_retention_banner_to_user?
+    Settings.timed_retention_banner_enabled? && current_user_is_external_user? && current_user.setting?(:timed_retention_banner_seen).nil?
+  end
 end

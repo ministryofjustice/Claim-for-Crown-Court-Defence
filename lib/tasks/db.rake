@@ -123,11 +123,12 @@ namespace :db do
 
       write_to_file(args.file) do |writer|
         User.find_each(batch_size: 50) do |user|
+          user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
+
           unless whitelist_domains.detect { |domain| user.email.end_with?(domain) }
             user.first_name = Faker::Name.first_name
             user.last_name  = Faker::Name.last_name
             user.email = [user.id, '@', 'example.com'].join
-            user.encrypted_password = '$2a$10$r4CicQylcCuq34E1fysqEuRlWRN4tiTPUOHwksecXT.hbkukPN5F2'
           end
 
           writer.call(user)

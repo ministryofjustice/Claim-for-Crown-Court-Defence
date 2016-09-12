@@ -90,7 +90,7 @@
             - present_collection(claim.expenses).each do |expense|
               %tr.no-border
                 %td
-                  = expense.date.strftime(Settings.date_format)
+                  = expense.pretty_date
                 %td{scope:'row'}
                   = expense.name
                   - if expense.distance?

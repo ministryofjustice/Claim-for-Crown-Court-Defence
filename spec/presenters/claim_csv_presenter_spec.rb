@@ -113,9 +113,9 @@ RSpec.describe ClaimCsvPresenter do
 
         before {
           case_worker = claim.case_workers.first
-          claim.case_workers.destroy_all; claim.deallocate!
-          claim.case_workers << case_worker; claim.allocate!
-          claim.case_workers.destroy_all; claim.deallocate!
+          claim.deallocate!
+          claim.case_workers << case_worker
+          claim.reload.deallocate!
         }
 
         it 'should not be reflected in the MI' do

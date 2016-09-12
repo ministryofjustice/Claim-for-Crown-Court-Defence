@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Allocation, type: :model do
+  let(:current_user) { create(:case_worker, :admin) }
+
   it { should validate_presence_of(:case_worker_id) }
   it { should validate_presence_of(:claim_ids) }
 
@@ -17,11 +19,9 @@ RSpec.describe Allocation, type: :model do
   end
 
   describe '#save' do
-
     context 'allocating' do
-
       let(:case_worker) { create(:case_worker) }
-      let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true) }
+      let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
 
       context 'when valid' do
         let(:claims) { create_list(:submitted_claim, 3) }
@@ -34,6 +34,13 @@ RSpec.describe Allocation, type: :model do
         it 'sets the claims to allocated' do
           allocator.save
           expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+        end
+
+        it 'saves audit attributes' do
+          allocator.save
+          transition = claims.first.last_state_transition
+          expect(transition.author_id).to eq(current_user.id)
+          expect(transition.subject_id).to eq(case_worker.user.id)
         end
 
         it 'returns true' do
@@ -73,7 +80,7 @@ RSpec.describe Allocation, type: :model do
           allocator.save
           expect(allocator.errors[:base].size).to eq 2
           expect(allocator.errors[:base]).to include('NO claims allocated because: ')
-          expect(allocator.errors[:base][1]).to match(/^Claim case_number has errors/)
+          expect(allocator.errors[:base][1]).to match(/^Claim CASE_NUMBER has errors/)
         end
       end
 
@@ -101,9 +108,8 @@ RSpec.describe Allocation, type: :model do
     end
 
     context 'reallocating' do
-
       let(:case_worker) { create(:case_worker) }
-      let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+      let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, current_user: current_user) }
 
       context 'when valid' do
         let(:claims) { create_list(:allocated_claim, 3) }
@@ -120,6 +126,13 @@ RSpec.describe Allocation, type: :model do
         it 'sets the claims to allocated' do
           reallocator.save
           expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+        end
+
+        it 'saves audit attributes' do
+          reallocator.save
+          transition = claims.first.last_state_transition
+          expect(transition.author_id).to eq(current_user.id)
+          expect(transition.subject_id).to eq(case_worker.user.id)
         end
 
         it 'returns true' do
@@ -147,8 +160,6 @@ RSpec.describe Allocation, type: :model do
         end
       end
     end
-
-
 
     context 'when already allocated claims included' do
       let(:case_worker) { create(:case_worker) }
@@ -200,7 +211,7 @@ RSpec.describe Allocation, type: :model do
           end
         end
 
-        subject { Allocation.new(claim_ids: claims.map(&:id), deallocate: true) }
+        subject { Allocation.new(claim_ids: claims.map(&:id), deallocate: true, current_user: current_user) }
 
         it 'deletes case worker claim join records' do
           subject.save
@@ -209,6 +220,13 @@ RSpec.describe Allocation, type: :model do
 
         it 'returns true' do
           expect(subject.save).to eq(true)
+        end
+
+        it 'saves audit attributes' do
+          subject.save
+          transition = claims.first.last_state_transition
+          expect(transition.author_id).to eq(current_user.id)
+          expect(transition.subject_id).to be_nil
         end
 
         describe 'state change' do

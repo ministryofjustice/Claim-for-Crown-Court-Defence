@@ -36,7 +36,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
-    updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params).update!
+    updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user: current_user)).update!
     @claim = updater.claim
     @doc_types = DocType.all
     if updater.result == :ok
@@ -89,8 +89,8 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    if current_user.persona.admin?
-      @claims = case tab
+    @claims = if current_user.persona.admin?
+                case tab
                 when 'current'
                   current_user.claims.caseworker_dashboard_under_assessment
                 when 'archived'
@@ -100,14 +100,14 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
                 when 'unallocated'
                   Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
                 end
-    else
-      @claims = case tab
+              else
+                case tab
                 when 'current'
                   current_user.claims.caseworker_dashboard_under_assessment
                 when 'archived'
                   current_user.claims.caseworker_dashboard_archived
                 end
-    end
+              end
   end
 
   def tab

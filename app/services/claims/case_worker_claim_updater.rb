@@ -1,7 +1,7 @@
 module Claims
   class CaseWorkerClaimUpdater
 
-    attr_reader :claim, :result, :messages
+    attr_reader :current_user, :claim, :result, :messages
 
     def initialize(claim_id, params)
       @params = params
@@ -24,6 +24,7 @@ module Claims
     def extract_transition_params
       @state = @params.delete('state')
       @transition_reason = @params.delete('state_reason')
+      @current_user = @params.delete(:current_user)
     end
 
     def extract_assessment_params
@@ -80,7 +81,7 @@ module Claims
           @claim.update(@params)
           update_assessment if @assessment_params_present
           add_redetermination if @redetermination_params_present
-          @claim.send(event, reason_code: @transition_reason) unless (@state.blank? || @state == @claim.state)
+          @claim.send(event, audit_attributes.merge(reason_code: @transition_reason)) unless @state.blank? || @state == @claim.state
         rescue => ex
           set_error ex.message
           raise ActiveRecord::Rollback
@@ -101,6 +102,10 @@ module Claims
     def set_error(message)
       @claim.errors[:determinations] << message
       @result = :error
+    end
+
+    def audit_attributes
+      {author_id: current_user&.id}
     end
   end
 end

@@ -99,6 +99,7 @@ GEM
     coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    colorize (0.8.1)
     concurrent-ruby (1.0.2)
     config (1.2.1)
       activesupport (>= 3.0)
@@ -601,6 +602,7 @@ DEPENDENCIES
   capybara (~> 2.6.2)
   cocoon (~> 1.2.6)
   codeclimate-test-reporter
+  colorize
   config (~> 1.2.1)
   cucumber-rails
   database_cleaner (~> 1.4.1)

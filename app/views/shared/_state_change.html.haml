@@ -1,9 +1,14 @@
 .grid-row.history
-  .column-quarter
+  .column-third
     &nbsp;
-  .column-three-quarter
-    .event
-      %strong
-        = claim_state_transition.transition_message
-      = claim_state_transition.timestamp
-      
+  .column-two-thirds
+    .message-right
+      .message-container
+        .message-body
+          %p
+            = claim_state_transition.transition_message
+          .grid-row.message-audit
+            (System)
+            = claim_state_transition.timestamp
+
+

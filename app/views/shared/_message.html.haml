@@ -1,4 +1,4 @@
-.grid-row{id: dom_id(message) }
+.grid-row.message{id: dom_id(message) }
 
   - if message.sender_is_a?(ExternalUser)
     .column-two-thirds
@@ -6,12 +6,11 @@
         .message-container
           .message-body
             = message.body
-          .grid-row.message-audit
-            .column-half.sender
+            .grid-row.message-audit
               = message.sender_name
               (#{message.sender_persona})
-            .column-half.sent
               = message.timestamp
+
     .column-third
       &nbsp;
 
@@ -23,10 +22,9 @@
         .message-container
           .message-body
             = message.body
-          .grid-row.message-audit
-            .column-half.sender
+            .grid-row.message-audit
+
               - if current_user_is_caseworker?
                 = message.sender_name
               (#{message.sender_persona})
-            .column-half.sent
               = message.timestamp

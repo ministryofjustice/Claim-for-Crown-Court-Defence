@@ -5,7 +5,7 @@
   - open_messages_url = messages_external_users_claim_path(claim)
   - message_controls_url = show_message_controls_external_users_claim_path(claim)
 
-.messages-container
+.messages-container.no-print
   .messages-list
     = render partial: 'shared/history_items_list', locals: {claim: claim }
   .messages-print-link

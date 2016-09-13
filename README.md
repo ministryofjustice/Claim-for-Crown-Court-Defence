@@ -110,6 +110,38 @@ To display the current state of the Sidekiq queues, as a logged in superadmin br
 
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
 
+## Anonymised Database Dumps/restores
+
+In order to copy the live database, anonymising all entries, execute the following command:
+
+```
+./script/db_dump <ssh-username> <environment> [<ip_address>]
+```
+
+The ```environment``` parameter can be ```gamma```, ```staging```, ```dev```, ```demo```, etc.  The IP address is only required if there is no entry for ```environment``` in your ```/etc/hosts``` file.
+
+
+
+This will create a file in the root directory, e.g ```adp_gamma_dump.psql.gz```
+
+To restore this file to one of the other environments, type:
+
+```
+./script/db_restore <ssh-name> <environment> [<ip_address>]
+```
+
+In this case, ```environment``` CANNOT be gamma.
+
+
+To load the database dump on to your local database, use:
+
+```
+rake db:restore[dump-file]
+```
+
+
+
+
 ## Contributing
 
 Bug reports and pull requests are welcome.

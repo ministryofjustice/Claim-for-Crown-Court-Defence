@@ -13,7 +13,7 @@ module API
           optional :reason_text, type: String, desc: "REQUIRED when reason is Other oitherwise must be absent."
           optional :distance, type: Float, desc: "REQUIRED for expense type Car Travel, otherwise must be absent. Distance in miles."
           optional :mileage_rate_id, type: Integer, desc: "REQUIRED for expense type Car Travel, otherwise must be absent: Where applicable. Values should be 1 for 25p per mile, 2 for 45p per mile."
-          optional :hours, type: Float, desc: "REQUIRED for expense type Travel Time, otherwise must be absent. Time in hours."
+          optional :hours, type: Float, desc: "REQUIRED for expense type Travel Time, otherwise must be absent. Time in hours to a maximum of 1 decimal place."
           optional :date, type: String, desc: "REQUIRED: The date applicable to this Expense (YYYY-MM-DD)", standard_json_format: true
           optional :amount, type: Float, desc: "REQUIRED: The total amount of the expense."
           optional :vat_amount, type: Float, desc: "OPTIONAL: The VAT amount of the expense. For LGFS claims."

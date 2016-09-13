@@ -97,8 +97,12 @@ class ExpenseV2Validator < BaseValidator
   def validate_hours
     if @record.travel_time?
       validate_presence_and_numericality(:hours, minimum: 0.1)
+      validate_one_place_of_decimals(:hours) if @record.errors[:hours].empty?
     else
       validate_absence(:hours, 'invalid')
     end
   end
+
+
+
 end

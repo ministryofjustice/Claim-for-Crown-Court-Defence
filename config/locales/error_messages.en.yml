@@ -1182,6 +1182,11 @@ expense:
       long: 'Enter valid hours for the #{expense}'
       short: *enter_valid_amount
       api: Enter valid hours for the expense
+    decimal:
+      long: 'Travel time for #{expense} can be maximum one place of decimals'
+      short: 'Max 1 decimal'
+      api: 'Travel time for #{expense} can be maximum one place of decimals'
+
 
   reason_text:
     _seq: 50

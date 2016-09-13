@@ -52,6 +52,8 @@ gem 'zendesk_api'  ,           '1.12.1'
 gem 'premailer-rails',         '~> 1.9'
 gem 'sidekiq',                 '4.1.2' # version locked, as 4.1.3 forces Sinatra dependency
 gem 'utf8-cleaner',            '~> 0.2'
+gem 'colorize'
+
 
 
 group :production, :devunicorn do

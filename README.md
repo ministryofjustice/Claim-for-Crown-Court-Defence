@@ -115,7 +115,7 @@ With your local rails server running you can browse to ```http://localhost:3000/
 In order to copy the live database, anonymising all entries, execute the following command:
 
 ```
-./script/db_dump <ssh-username> <environment> [<ip_address>]
+./script/db_dump.rb <ssh-username> <environment> [<ip_address>]
 ```
 
 The ```environment``` parameter can be ```gamma```, ```staging```, ```dev```, ```demo```, etc.  The IP address is only required if there is no entry for ```environment``` in your ```/etc/hosts``` file.

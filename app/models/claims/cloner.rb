@@ -101,10 +101,10 @@ module Claims::Cloner
     end
   end
 
-  def clone_rejected_to_new_draft
+  def clone_rejected_to_new_draft(author_id:)
     raise 'Can only clone claims in state "rejected"' unless rejected?
     draft = duplicate
-    draft.transition_clone_to_draft!
+    draft.transition_clone_to_draft!(author_id: author_id)
     draft
   end
 

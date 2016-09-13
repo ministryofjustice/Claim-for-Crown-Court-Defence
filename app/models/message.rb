@@ -84,10 +84,10 @@ class Message < ActiveRecord::Base
     return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(self.claim.state)
 
     case self.claim_action
-      when /Apply for redetermination/
-        self.claim.redetermine!
-      when /Request written reasons/
-        self.claim.await_written_reasons!
+    when /Apply for redetermination/
+      claim_updater.request_redetermination
+    when /Request written reasons/
+      claim_updater.request_written_reasons
     end
   end
 
@@ -95,7 +95,11 @@ class Message < ActiveRecord::Base
     return unless self.claim.written_reasons_outstanding?
 
     if self.written_reasons_submitted == '1'
-      self.claim.send("#{self.claim.filtered_state_transitions.second.event}!")
+      self.claim.send("#{self.claim.filtered_state_transitions.second.event}!", author_id: sender_id)
     end
+  end
+
+  def claim_updater
+    Claims::ExternalUserClaimUpdater.new(self.claim, current_user: sender)
   end
 end

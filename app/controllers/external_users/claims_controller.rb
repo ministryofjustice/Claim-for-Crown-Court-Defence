@@ -79,7 +79,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def clone_rejected
     begin
-      draft = @claim.clone_rejected_to_new_draft
+      draft = claim_updater.clone_rejected
       redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
     rescue
       redirect_to external_users_claims_url, alert: 'Can only clone rejected claims'
@@ -88,10 +88,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def destroy
     if @claim.draft?
-      @claim.soft_delete
+      claim_updater.delete
       flash[:notice] = 'Claim deleted'
     elsif @claim.can_archive_pending_delete?
-      @claim.archive_pending_delete!
+      claim_updater.archive
       flash[:notice] = 'Claim archived'
     else
       flash[:alert] = 'This claim cannot be deleted'

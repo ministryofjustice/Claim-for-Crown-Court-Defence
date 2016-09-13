@@ -127,7 +127,7 @@ This will create a file in the root directory, e.g ```adp_gamma_dump.psql.gz```
 To restore this file to one of the other environments, type:
 
 ```
-./script/db_restore <ssh-name> <environment> [<ip_address>]
+./script/db_upload.rb <ssh-name> <environment> [<ip_address>] filename
 ```
 
 In this case, ```environment``` CANNOT be gamma.

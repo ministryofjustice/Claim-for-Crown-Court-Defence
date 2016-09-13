@@ -232,6 +232,12 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
           expect(flash[:notice]).to match /\d claim[s]{0,1} allocated to.*/
         end
 
+        it 'saves audit attributes' do
+          transition = @claims.first.last_state_transition
+          expect(transition.author_id).to eq(@admin.user.id)
+          expect(transition.subject_id).to eq(@case_worker.user.id)
+        end
+
         it 'renders the new template' do
           expect(response).to render_template(:new)
         end
@@ -272,6 +278,12 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
       it 're-allocates claims to case worker' do
         expect(@case_worker.claims.map(&:id)).to match_array(@claims.map(&:id))
+      end
+
+      it 'saves audit attributes' do
+        transition = @claims.first.last_state_transition
+        expect(transition.author_id).to eq(@admin.user.id)
+        expect(transition.subject_id).to eq(@case_worker.user.id)
       end
 
       it 'renders new allocation template' do

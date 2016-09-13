@@ -2,20 +2,20 @@ module Claims::StateMachine
   ARCHIVE_VALIDITY  = 180.days
   STANDARD_VALIDITY = 21.days
 
-  EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w( draft )
-  EXTERNAL_USER_DASHBOARD_REJECTED_STATES         = %w( rejected )
-  EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES        = %w( allocated submitted )
-  EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES  = %w( part_authorised )
-  EXTERNAL_USER_DASHBOARD_COMPLETED_STATES        = %w( refused authorised )
-  CASEWORKER_DASHBOARD_COMPLETED_STATES           = %w( authorised part_authorised rejected refused )
-  CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w( allocated )
-  CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w( submitted redetermination awaiting_written_reasons )
-  CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w( authorised part_authorised rejected refused archived_pending_delete)
-  VALID_STATES_FOR_REDETERMINATION                = %w( authorised part_authorised refused )
-  VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected )
-  VALID_STATES_FOR_ALLOCATION                     = %w( submitted redetermination awaiting_written_reasons )
-  VALID_STATES_FOR_DEALLOCATION                   = %w( allocated )
-  NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete)
+  EXTERNAL_USER_DASHBOARD_DRAFT_STATES            = %w( draft ).freeze
+  EXTERNAL_USER_DASHBOARD_REJECTED_STATES         = %w( rejected ).freeze
+  EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES        = %w( allocated submitted ).freeze
+  EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES  = %w( part_authorised ).freeze
+  EXTERNAL_USER_DASHBOARD_COMPLETED_STATES        = %w( refused authorised ).freeze
+  CASEWORKER_DASHBOARD_COMPLETED_STATES           = %w( authorised part_authorised rejected refused ).freeze
+  CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w( allocated ).freeze
+  CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w( submitted redetermination awaiting_written_reasons ).freeze
+  CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w( authorised part_authorised rejected refused archived_pending_delete).freeze
+  VALID_STATES_FOR_REDETERMINATION                = %w( authorised part_authorised refused ).freeze
+  VALID_STATES_FOR_ARCHIVAL                       = %w( authorised part_authorised refused rejected ).freeze
+  VALID_STATES_FOR_ALLOCATION                     = %w( submitted redetermination awaiting_written_reasons ).freeze
+  VALID_STATES_FOR_DEALLOCATION                   = %w( allocated ).freeze
+  NON_DRAFT_STATES                                = %w( allocated authorised part_authorised refused rejected submitted awaiting_written_reasons redetermination archived_pending_delete).freeze
   AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES + EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
 
   def self.dashboard_displayable_states
@@ -47,7 +47,7 @@ module Claims::StateMachine
 
   def self.included(klass)
     klass.state_machine :state, initial: :draft do
-      audit_trail class: ClaimStateTransition, context: [:reason_code]
+      audit_trail class: ClaimStateTransition, context: [:reason_code, :author_id, :subject_id]
 
       state :allocated,
             :archived_pending_delete,
@@ -68,9 +68,9 @@ module Claims::StateMachine
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
-      before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
-      after_transition  on: :deallocate,              do: :reset_state
+      after_transition  on: :deallocate,              do: [:remove_case_workers!, :reset_state]
       before_transition on: :submit,                  do: :set_allocation_type
+      before_transition on: [:reject, :refuse],       do: :set_amount_assessed_zero!
 
       event :redetermine do
         transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :redetermination
@@ -126,19 +126,31 @@ module Claims::StateMachine
 
     klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, -> { klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES) }
 
-    klass.scope :external_user_dashboard_draft,           -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES ) }
-    klass.scope :external_user_dashboard_rejected,        -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES ) }
-    klass.scope :external_user_dashboard_submitted,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES ) }
-    klass.scope :external_user_dashboard_part_authorised, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES ) }
-    klass.scope :external_user_dashboard_completed,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES ) }
+    klass.scope :external_user_dashboard_draft,           -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES) }
+    klass.scope :external_user_dashboard_rejected,        -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES) }
+    klass.scope :external_user_dashboard_submitted,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES) }
+    klass.scope :external_user_dashboard_part_authorised, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES) }
+    klass.scope :external_user_dashboard_completed,       -> { klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES) }
     klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
 
     # rubocop:disable Lint/NestedMethodDefinition
     def reason_code(transition)
-      options = transition.args&.extract_options!
-      options&.[](:reason_code)
+      _extract_option!(transition, :reason_code)
+    end
+
+    def author_id(transition)
+      _extract_option!(transition, :author_id)
+    end
+
+    def subject_id(transition)
+      _extract_option!(transition, :subject_id)
+    end
+
+    def _extract_option!(transition, option)
+      args = transition.args
+      args&.last.is_a?(Hash) ? args.last.delete(option) : nil
     end
     # rubocop:enable Lint/NestedMethodDefinition
   end

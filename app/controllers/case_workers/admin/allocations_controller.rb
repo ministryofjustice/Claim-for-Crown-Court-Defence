@@ -13,7 +13,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def create
-    @allocation = Allocation.new(allocation_params)
+    @allocation = Allocation.new(allocation_params.merge(current_user: current_user))
     if @allocation.save
       render_new_with_feedback(@allocation)
     else
@@ -90,7 +90,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def filter_by_claim_type
-    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.active.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] ) : Claim::BaseClaim.active.where(type: Claim::AdvocateClaim) )
+    @claims = (scheme == 'lgfs' ? Claim::BaseClaim.active.where(type: [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]) : Claim::BaseClaim.active.where(type: Claim::AdvocateClaim))
     load_claim_associations
   end
 
@@ -108,7 +108,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def default_scheme_inapplicable_filters
-    if !(allocation_filters_for_scheme(params[:scheme]).include?(params[:filter]))
+    unless allocation_filters_for_scheme(params[:scheme]).include?(params[:filter])
       params[:filter] = 'all'
     end
   end
@@ -138,24 +138,20 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def allocation_params
-    ap = params.require(:allocation).permit(
-     :case_worker_id,
-     :deallocate,
-     claim_ids: []
-    )
+    ap = params.require(:allocation).permit(:case_worker_id, :deallocate, claim_ids: [])
     ap.merge(allocating: is_allocating?)
   end
 
   def notification(allocation)
     claims = allocation.successful_claims
     case_worker = allocation.case_worker
-
     message = "#{claims.size} #{'claim'.pluralize(claims.size)}"
-    message = if case_worker
-                "#{message} allocated to #{case_worker.name}"
-              else
-                "#{message} returned to allocation pool"
-              end
+
+    if case_worker
+      "#{message} allocated to #{case_worker.name}"
+    else
+      "#{message} returned to allocation pool"
+    end
   end
 
   def is_allocating?

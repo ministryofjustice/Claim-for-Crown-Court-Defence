@@ -59,6 +59,17 @@ RSpec.describe Claims::StateMachine, type: :model do
       }.to change{ subject.state }.to('authorised') }
 
       it { expect{ subject.archive_pending_delete! }.to raise_error }
+
+      it 'should be able to deallocate' do
+        expect{
+          subject.deallocate!
+        }.to change{ subject.state }.to('submitted')
+      end
+
+      it 'should unlink case workers on deallocate' do
+        expect(subject.case_workers).to receive(:destroy_all)
+        subject.deallocate!
+      end
     end
 
     describe 'from draft' do

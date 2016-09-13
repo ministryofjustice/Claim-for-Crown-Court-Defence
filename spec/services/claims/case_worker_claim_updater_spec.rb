@@ -8,26 +8,29 @@ module Claims
 
       let(:claim) { create :allocated_claim }
       let(:submitted_claim) { create :claim, :submitted }
+      let(:current_user) { double(User, id: 12345) }
 
       context 'successful transitions' do
         it 'advances the claim to part authorised' do
           params = {'state' => 'part_authorised', 'assessment_attributes' => {'fees' => '45', 'expenses' => '0.00'}}
-          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'part_authorised'
           expect(updater.claim.assessment.fees).to eq 45.0
           expect(updater.claim.assessment.expenses).to eq 0.0
           expect(updater.claim.assessment.disbursements).to eq 0.0
+          expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
         end
 
         it 'advances the claim to authorised' do
           params = {'state' => 'authorised', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
-          updater = CaseWorkerClaimUpdater.new(claim.id, params).update!
+          updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
           expect(updater.result).to eq :ok
           expect(updater.claim.state).to eq 'authorised'
           expect(updater.claim.assessment.fees.to_f).to eq 128.33
           expect(updater.claim.assessment.expenses).to eq 42.88
           expect(updater.claim.assessment.disbursements).to eq 0.0
+          expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
         end
 
         context 'rejections' do
@@ -46,6 +49,11 @@ module Claims
             expect(updater.result).to eq :ok
             expect(updater.claim.state).to eq 'rejected'
             expect(updater.claim.last_state_transition.reason_code).to eq 'no_indictment'
+          end
+
+          it 'saves audit attributes' do
+            updater = CaseWorkerClaimUpdater.new(claim.id, params.merge(current_user: current_user)).update!
+            expect(updater.claim.last_state_transition.author_id).to eq(current_user.id)
           end
         end
 

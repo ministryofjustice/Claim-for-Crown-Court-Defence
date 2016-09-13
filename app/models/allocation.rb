@@ -11,8 +11,8 @@ class Allocation
   #
   VALID_STATES_FOR_TRANSITION = {
     allocation: Claims::StateMachine::VALID_STATES_FOR_ALLOCATION + ['allocated'],
-    deallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
-    reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION + ['allocated'],
+    deallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION,
+    reallocation: Claims::StateMachine::VALID_STATES_FOR_DEALLOCATION,
   }.freeze
 
   class << self
@@ -21,43 +21,47 @@ class Allocation
     end
   end
 
-  attr_accessor :case_worker_id, :claim_ids, :claims, :deallocate, :allocating, :successful_claims
+  attr_accessor :current_user, :case_worker_id, :claim_ids, :deallocate, :allocating, :successful_claims
 
   validates :case_worker_id, presence: true, unless: :deallocating?
   validates :claim_ids, presence: true
 
 
   def initialize(attributes = {})
+    @current_user = attributes[:current_user]
     @case_worker_id = attributes[:case_worker_id]
-    @claim_ids = attributes[:claim_ids].reject(&:blank?) rescue nil
+    @claim_ids = attributes[:claim_ids]&.reject(&:blank?)
     @deallocate = [true, 'true'].include?(attributes[:deallocate])
     @allocating = attributes[:allocating]
-    @claims = Claim::BaseClaim.active.find(@claim_ids) rescue nil
     @successful_claims = []
   end
 
   def save
     return false unless valid?
     if allocating?
-      allocate_all_claims_or_none!(@claims) if claims_in_correct_state_for?(:allocation)
+      allocate_all_claims_or_none! if claims_in_correct_state_for?(:allocation)
     elsif deallocating?
-      deallocate_claims(@claims) if claims_in_correct_state_for?(:deallocation)
+      deallocate_claims if claims_in_correct_state_for?(:deallocation)
     elsif reallocating?
-      reallocate_claims(@claims) if claims_in_correct_state_for?(:reallocation)
+      reallocate_claims if claims_in_correct_state_for?(:reallocation)
     else
       raise "Should never get here!"
     end
     errors.empty?
   end
 
+  def claims
+    @claims ||= Claim::BaseClaim.active.find(@claim_ids)
+  end
+
   def claims_in_correct_state_for?(new_state)
-    @claims.each do |claim|
+    claims.each do |claim|
       errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}" unless claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])
     end
     errors[:base].empty?
   end
 
-  def reallocate_claims(claims)
+  def reallocate_claims
     claims.each { |claim| allocate_claim!(claim) }
   end
 
@@ -71,7 +75,7 @@ class Allocation
 
   private
 
-  def allocate_all_claims_or_none!(claims)
+  def allocate_all_claims_or_none!
     ActiveRecord::Base.transaction do
       claims.each do |claim|
         allocate_or_error_claim! claim
@@ -107,21 +111,26 @@ class Allocation
     !deallocating? && !allocating?
   end
 
-  def deallocate_claims(claims)
+  def deallocate_claims
     claims.each { |claim| deallocate_claim!(claim)}
   end
 
   def deallocate_claim!(claim)
-    claim.case_workers.destroy_all
-    claim.deallocate!
+    claim.deallocate!(audit_attributes)
     successful_claims << claim
   end
 
   def allocate_claim!(claim)
-    #NOTE: associating a case worker implicitly changes the state of the claim and saves via the state machine allocate! event method
-    claim.case_workers.destroy_all
+    claim.deallocate!(audit_attributes) if claim.allocated?
+    claim.allocate!(audit_attributes)
+
     claim.case_workers << case_worker
     successful_claims << claim
   end
 
+  def audit_attributes
+    author_user = current_user
+    subject_user = case_worker&.user
+    {author_id: author_user&.id, subject_id: subject_user&.id}
+  end
 end

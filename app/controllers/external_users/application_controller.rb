@@ -46,4 +46,7 @@ private
     ]
   end
 
+  def claim_updater
+    Claims::ExternalUserClaimUpdater.new(@claim, current_user: current_user)
+  end
 end

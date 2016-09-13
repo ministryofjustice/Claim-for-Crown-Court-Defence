@@ -19,7 +19,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
 
   def create
     @claim.build_certification(certification_params)
-    if @claim.certification.save && @claim.submit
+    if @claim.certification.save && claim_updater.submit
       redirect_to confirmation_external_users_claim_path(@claim)
     else
       @certification = @claim.certification

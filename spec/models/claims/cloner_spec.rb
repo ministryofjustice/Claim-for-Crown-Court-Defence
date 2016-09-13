@@ -53,8 +53,9 @@ RSpec.describe Claims::Cloner, type: :model do
 
     context 'rejected_claims' do
       before(:all) do
+        @current_user = create(:external_user)
         @original_claim = create_rejected_claim
-        @cloned_claim = @original_claim.clone_rejected_to_new_draft
+        @cloned_claim = @original_claim.clone_rejected_to_new_draft(author_id: @current_user.id)
       end
 
       after(:all) do
@@ -166,9 +167,13 @@ RSpec.describe Claims::Cloner, type: :model do
 
       it 'creates the first state transition for the cloned claim' do
         expect(@cloned_claim.claim_state_transitions.count).to eq(1)
-        expect(@cloned_claim.last_state_transition.claim_id).to eq(@cloned_claim.id)
-        expect(@cloned_claim.last_state_transition.from).to eq('rejected')
-        expect(@cloned_claim.last_state_transition.to).to eq('draft')
+
+        transition = @cloned_claim.last_state_transition
+        expect(transition.claim_id).to eq(@cloned_claim.id)
+        expect(transition.from).to eq('rejected')
+        expect(transition.to).to eq('draft')
+        expect(transition.event).to eq('transition_clone_to_draft')
+        expect(transition.author_id).to eq(@current_user.id)
       end
     end
   end

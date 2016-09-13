@@ -118,7 +118,9 @@ RSpec.describe Message, type: :model do
       claim.messages.first.written_reasons_submitted = '1'
       claim.save
       claim.reload
+
       expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'authorise_part' ] )
+      expect(claim.last_state_transition.author_id).to eq(user.id)
       expect(claim.state).to eq 'part_authorised'
     end
   end

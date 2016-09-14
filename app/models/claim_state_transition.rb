@@ -10,6 +10,8 @@
 #  to          :string
 #  created_at  :datetime
 #  reason_code :string
+#  author_id   :integer
+#  subject_id  :integer
 #
 
 class ClaimStateTransition < ActiveRecord::Base

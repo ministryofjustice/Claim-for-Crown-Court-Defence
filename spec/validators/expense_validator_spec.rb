@@ -132,10 +132,23 @@ describe 'ExpenseV1Validator and ExpenseV2Validator' do
           expect(travel_time_expense.errors[:hours]).to include('numericality')
         end
 
-        it 'is valid if present and above zero' do
+        it 'is invalid if more than one place of decimals' do
+          travel_time_expense.hours = 6.78
+          expect(travel_time_expense).not_to be_valid
+          expect(travel_time_expense.errors[:hours]).to include('decimal')
+        end
+
+        it 'is valid if present and above zero with one place of decimals' do
           travel_time_expense.hours = 1.5
           expect(travel_time_expense).to be_valid
         end
+
+        it 'is valid if present and above zero with no decimals' do
+          travel_time_expense.hours = 7
+          expect(travel_time_expense).to be_valid
+        end
+
+
       end
 
       context 'not travel time' do

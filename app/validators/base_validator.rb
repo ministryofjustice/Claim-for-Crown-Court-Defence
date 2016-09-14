@@ -172,4 +172,12 @@ class BaseValidator < ActiveModel::Validator
     validate_presence_and_numericality(field, minimum: 0, allow_blank: allow_blank)
     validate_amount_greater_than(field, lower_than_field, 'greater_than')
   end
+
+  def validate_one_place_of_decimals(field)
+    value = @record.__send__(field)
+    rounded = value.round(1)
+    unless value == rounded
+      add_error(field, 'decimal')
+    end
+  end
 end

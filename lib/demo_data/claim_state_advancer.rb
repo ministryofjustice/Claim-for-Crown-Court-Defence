@@ -17,8 +17,8 @@ module DemoData
 
     def initialize(claim)
       @claim                = claim
-      @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").map(&:persona).sample
-      @advocate             = User.where("email like '%example.com' and  persona_type = 'ExternalUser'").map(&:persona).sample
+      @case_worker          = User.where("email like '%example.com' and  persona_type = 'CaseWorker'").order('RANDOM()').first.persona
+      @advocate             = User.where("email like '%example.com' and  persona_type = 'ExternalUser'").order('RANDOM()').first.persona
     end
 
     def advance_to(desired_state)
@@ -43,22 +43,20 @@ module DemoData
     def submit(claim)
       add_message(claim, claim.external_user)
       claim.update(last_submitted_at: rand(0..180).days.ago)
-      claim.submit!
+      claim.submit!(author_id: claim.creator.user.id)
     end
 
-
     def allocate(claim)
-      allocator = ::Allocation.new(case_worker_id: @case_worker.id, claim_ids: [claim.id], allocating: true)
+      allocator = ::Allocation.new(current_user: @case_worker.user, case_worker_id: @case_worker.id, claim_ids: [claim.id], allocating: true)
       unless allocator.save
         raise RuntimeError.new("Unable to allocate claim #{claim.id} to case_worker #{@case_worker.id}")
       end
-      add_message(claim, @case_worker)
-      claim.allocate!
+      claim.allocate!(case_worker_author.merge(subject_id: @case_worker.user.id))
     end
 
     def reject(claim)
       add_message(claim, @case_worker)
-      claim.reject!
+      claim.reject!(case_worker_author)
     end
 
     def authorise_part(claim)
@@ -69,7 +67,7 @@ module DemoData
           expenses: claim.expenses_total * rand(0.5..0.8),
           disbursements: claim.disbursements_total * rand(0.5..0.8))
       claim.reload
-      claim.authorise_part!
+      claim.authorise_part!(case_worker_author)
     end
 
     def authorise(claim)
@@ -80,24 +78,31 @@ module DemoData
           expenses: claim.expenses_total,
           disbursements: claim.disbursements_total)
       claim.reload
-      claim.authorise!
+      claim.authorise!(case_worker_author)
     end
 
     def refuse(claim)
       add_message(claim, @case_worker)
-      claim.refuse!
+      claim.refuse!(case_worker_author)
     end
 
     def redetermine(claim)
-      add_message(claim, @advocate)
-      claim.redetermine!
+      add_message(claim, @case_worker)
+      claim.redetermine!(case_worker_author)
     end
 
     def await_written_reasons(claim)
       add_message(claim, @advocate)
-      claim.redetermine!
+      claim.await_written_reasons!(advocate_author)
     end
 
+    def case_worker_author
+      {author_id: @case_worker.user.id}
+    end
+
+    def advocate_author
+      {author_id: @advocate.user.id}
+    end
   end
 
 end

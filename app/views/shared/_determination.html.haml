@@ -6,7 +6,6 @@
       .message-container
         .message-body
           = determination.event
-
           %table{summary: t('.summary')}
             %caption.visuallyhidden
               = t('.caption')
@@ -16,7 +15,3 @@
                   #{item}:
                 %td{scope:'col'}
                   #{number_to_currency(amount)}
-
-          .grid-row.message-audit
-            = "(System) "
-            = determination.timestamp

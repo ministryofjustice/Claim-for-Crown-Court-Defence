@@ -51,6 +51,7 @@ class AdvocateClaimTest < BaseClaimTest
       "creator_email": "advocateadmin@example.com",
       "advocate_email": "advocate@example.com",
       "case_number": "P12345678",
+      "providers_ref": SecureRandom.uuid[3..15].upcase,
       "case_type_id": case_type_id,
       "first_day_of_trial": "2015-06-01",
       "estimated_trial_length": 1,

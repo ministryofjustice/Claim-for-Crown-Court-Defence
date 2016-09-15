@@ -8,6 +8,13 @@
     %span.table-caption.visuallyhidden
       = t('.caption')
   %tbody
+    - unless claim.providers_ref.blank?
+      %tr
+        %th{scope: "col"}
+          = t('common.external_user.providers_ref')
+        %td
+          = claim.providers_ref
+
     - if claim.lgfs?
       %tr
         %th{scope: 'row'}

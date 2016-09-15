@@ -11,6 +11,7 @@ FactoryGirl.define do
     case_type           { create(:case_type) }
     case_concluded_at   { 5.days.ago }
     supplier_number     { provider.supplier_numbers.first.supplier_number }
+    providers_ref       { random_providers_ref }
 
     after(:create) do |claim|
       defendant = create(:defendant, claim: claim)
@@ -150,4 +151,8 @@ end
 
 def random_amount
   rand(0.0..999.99).round(2)
+end
+
+def random_providers_ref
+  SecureRandom.uuid[3..10].upcase
 end

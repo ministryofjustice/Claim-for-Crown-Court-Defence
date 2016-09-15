@@ -13,6 +13,7 @@ FactoryGirl.define do
     external_user
     source { 'web' }
     apply_vat  false
+    providers_ref { random_providers_ref }
     # assessment    { Assessment.new }
 
     after(:build) do |claim|

@@ -6,6 +6,5 @@ FactoryGirl.define do
     elected_case        false
     transfer_stage_id   10
     transfer_date       2.months.ago
-    # case_conclusion_id  10
   end
 end

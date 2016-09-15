@@ -225,6 +225,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :form_id,
       :form_step,
       :advocate_category,
+      :providers_ref,
       :source,
       :external_user_id,
       :supplier_number,

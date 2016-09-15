@@ -12,6 +12,9 @@
       = validation_error_message(@error_presenter, :advocate_category)
 
 %fieldset
+
+
+%fieldset
   .form-group
     - if @claim.agfs? && @external_user.admin?
       .form-row
@@ -21,6 +24,14 @@
             = t('.advocate')
           = f.collection_select :external_user_id, @provider.advocates, :id, :name_and_number, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete'}
           = validation_error_message(@error_presenter, :external_user)
+
+        .form-col
+          = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter
+
+    - else
+      .form-row
+        .form-col
+          = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter
 
     .form-row
       .form-col{class: error_class?(@error_presenter, :case_type)}

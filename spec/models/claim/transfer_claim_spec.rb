@@ -53,6 +53,7 @@
 #  clone_source_id          :integer
 #  last_edited_at           :datetime
 #  deleted_at               :datetime
+#  providers_ref            :string
 #
 
 require "rails_helper"

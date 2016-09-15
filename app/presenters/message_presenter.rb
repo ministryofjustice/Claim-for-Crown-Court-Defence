@@ -22,9 +22,11 @@ class MessagePresenter < BasePresenter
 
   def download_file_link
     h.concat(
-      h.content_tag :a, "#{attachment_file_name} (#{attachment_file_size})",
-      href: "/messages/#{message.id}/download_attachment",
-      title: 'Download '+ attachment_file_name
+      h.content_tag(
+        :a, "#{attachment_file_name} (#{attachment_file_size})",
+        href: "/messages/#{message.id}/download_attachment",
+        title: 'Download ' + attachment_file_name
+      )
     )
   end
 
@@ -37,20 +39,15 @@ class MessagePresenter < BasePresenter
   end
 
   def sender_name
+    return '(Case worker)' if sender_is_a?(CaseWorker) && hide_author?
     message.sender.name
-  end
-
-  def sender_persona
-    case message.sender.persona
-      when CaseWorker
-        'Caseworker'
-      when ExternalUser
-        'Advocate'
-    end
   end
 
   def timestamp
     message.created_at.strftime('%H:%M')
   end
 
+  def hide_author?
+    h.current_user_is_external_user?
+  end
 end

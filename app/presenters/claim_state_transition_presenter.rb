@@ -7,7 +7,7 @@ class ClaimStateTransitionPresenter < BasePresenter
   end
 
   def timestamp
-    " - #{claim_state_transition.created_at.strftime('%H:%M')}"
+    "#{claim_state_transition.created_at.strftime('%H:%M')}"
   end
 
 private

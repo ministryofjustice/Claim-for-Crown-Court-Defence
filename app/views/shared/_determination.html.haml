@@ -1,17 +1,22 @@
 .grid-row.history
-  .column-two-thirds
-    &nbsp;
   .column-third
-    .event
-      %strong
-        = determination.event
-      = determination.timestamp
-      %table{summary: t('.summary')}
-        %caption.visuallyhidden
-          = t('.caption')
-        - determination.itemise do |item, amount|
-          %tr
-            %th{scope: 'row'}
-              #{item}:
-            %td{scope:'col'}
-              #{number_to_currency(amount)}
+    &nbsp;
+  .column-two-thirds
+    .message-right.event
+      .message-container
+        .message-body
+          = determination.event
+
+          %table{summary: t('.summary')}
+            %caption.visuallyhidden
+              = t('.caption')
+            - determination.itemise do |item, amount|
+              %tr
+                %th{scope: 'row'}
+                  #{item}:
+                %td{scope:'col'}
+                  #{number_to_currency(amount)}
+
+          .grid-row.message-audit
+            = "(System) "
+            = determination.timestamp

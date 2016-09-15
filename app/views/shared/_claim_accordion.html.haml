@@ -1,7 +1,8 @@
 #claim-accordion
   .grid-row.panel-messages
     .column-one-half
-      = t('.h2_messages')
+      %h3.heading-medium
+        = t('.h2_messages')
 
     .column-one-half
       - if current_user.persona.is_a?(CaseWorker)

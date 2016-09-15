@@ -7,7 +7,7 @@ class DeterminationPresenter < BasePresenter
   end
 
   def timestamp
-    " - #{version.created_at.strftime('%H:%M')}"
+    " #{version.created_at.strftime('%H:%M')}"
   end
 
   def itemise

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909150238) do
+ActiveRecord::Schema.define(version: 20160915090550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 20160909150238) do
     t.integer  "clone_source_id"
     t.datetime "last_edited_at"
     t.datetime "deleted_at"
+    t.string   "providers_ref"
   end
 
   add_index "claims", ["case_number"], name: "index_claims_on_case_number", using: :btree

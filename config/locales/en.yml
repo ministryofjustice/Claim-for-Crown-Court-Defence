@@ -199,6 +199,7 @@ en:
         advocate: Advocate account number
         litigator: Litigator account number
       claim_creator: Claim creator
+      providers_ref: Provider reference number
     court: Court
     crown_court: Crown court
     transfer_court: Transfer court

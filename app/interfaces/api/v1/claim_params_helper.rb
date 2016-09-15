@@ -11,6 +11,7 @@ module API::V1
       optional :case_type_id, type: Integer, desc: "REQUIRED: The unique identifier of the case type"
       optional :offence_id, type: Integer, desc: "REQUIRED: The unique identifier for this offence."
       optional :case_number, type: String, desc: "REQUIRED: The case number"
+      optional :providers_ref, type: String, desc: "OPTIONAL: Providers reference number"
       optional :cms_number, type: String, desc: "OPTIONAL: The CMS number"
       optional :additional_information, type: String, desc: "OPTIONAL: Any additional information"
       optional :apply_vat, type: Boolean, desc: "OPTIONAL: Include VAT (JSON Boolean data type: true or false)"

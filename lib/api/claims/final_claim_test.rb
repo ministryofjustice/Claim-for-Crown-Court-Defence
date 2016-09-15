@@ -47,6 +47,7 @@ class FinalClaimTest < BaseClaimTest
       "creator_email": "litigatoradmin@example.com",
       "user_email": "litigator@example.com",
       "case_number": "P12345678",
+      "providers_ref": SecureRandom.uuid[3..15].upcase,
       "supplier_number": supplier_number,
       "case_type_id": case_type_id,
       "offence_id": offence_id,

@@ -9,6 +9,13 @@
       %span.table-caption.visuallyhidden
         = "This section contains details of the case"
     %tbody
+      - unless claim.providers_ref.blank?
+        %tr
+          %th{scope: "col"}
+            = 'Provider reference number'
+          %td
+            = claim.providers_ref
+
       - unless claim.draft?
         %tr
           %th{scope: "col"}

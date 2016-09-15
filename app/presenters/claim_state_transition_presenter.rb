@@ -1,16 +1,21 @@
 class ClaimStateTransitionPresenter < BasePresenter
-
-  presents :claim_state_transition
+  presents :transition
 
   def transition_message
-    transition_messages[claim_state_transition.to][current_user_persona]
+    transition_messages[transition.to][current_user_persona]
   end
 
   def timestamp
-    "#{claim_state_transition.created_at.strftime('%H:%M')}"
+    transition.created_at.strftime('%H:%M')
   end
 
-private
+  def audit_users
+    return '(System)' if transition.author.nil? || hide_author?
+    sentence = allocation? ? '%{author} to %{subject}' : '%{author}'
+    sentence % {author: transition.author.name, subject: transition.subject&.name}
+  end
+
+  private
 
   def transition_messages
     {
@@ -27,15 +32,15 @@ private
   end
 
   def current_user_persona
-    @view.current_user.persona.class.to_s
+    h.current_user.persona.class.to_s
   end
 
   def all_transitions
-    @all_transitions ||= claim_state_transition.claim.reload.claim_state_transitions
+    @all_transitions ||= transition.claim.reload.claim_state_transitions
   end
 
   def current_index
-    all_transitions.index(claim_state_transition)
+    all_transitions.index(transition)
   end
 
   # Transitions are ordered: 'created_at desc'
@@ -43,4 +48,11 @@ private
     all_transitions[current_index + 1]
   end
 
+  def hide_author?
+    h.current_user_is_external_user? && (h.current_user != transition.author)
+  end
+
+  def allocation?
+    transition.to == 'allocated'
+  end
 end

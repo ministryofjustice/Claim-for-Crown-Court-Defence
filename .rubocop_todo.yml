@@ -320,7 +320,6 @@ Style/MutableConstant:
 Style/NestedParenthesizedCalls:
   Exclude:
     - 'app/presenters/claim/base_claim_presenter.rb'
-    - 'app/presenters/message_presenter.rb'
 
 # Offense count: 1
 Style/NestedTernaryOperator:
@@ -353,7 +352,6 @@ Style/PercentQLiterals:
 Style/RedundantReturn:
   Exclude:
     - 'app/controllers/concerns/password_helpers.rb'
-    - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
     - 'app/validators/base_validator.rb'
@@ -400,7 +398,6 @@ Style/SpaceAroundOperators:
     - 'app/models/expense.rb'
     - 'app/presenters/error_message_translator.rb'
     - 'app/presenters/error_presenter.rb'
-    - 'app/presenters/message_presenter.rb'
     - 'app/validators/base_validator.rb'
 
 # Offense count: 15
@@ -515,7 +512,6 @@ Style/UnlessElse:
 Style/UnneededInterpolation:
   Exclude:
     - 'app/models/date_attended.rb'
-    - 'app/presenters/claim_state_transition_presenter.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.

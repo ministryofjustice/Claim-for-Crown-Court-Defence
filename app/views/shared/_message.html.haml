@@ -8,7 +8,6 @@
             = message.body
             .grid-row.message-audit
               = message.sender_name
-              (#{message.sender_persona})
               = message.timestamp
 
     .column-third
@@ -23,8 +22,5 @@
           .message-body
             = message.body
             .grid-row.message-audit
-
-              - if current_user_is_caseworker?
-                = message.sender_name
-              (#{message.sender_persona})
+              = message.sender_name
               = message.timestamp

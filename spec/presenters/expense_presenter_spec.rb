@@ -123,4 +123,16 @@ RSpec.describe ExpensePresenter do
       end
     end
   end
+
+  describe '#mileage_rate' do
+    it 'outputs the mileage rate name if any' do
+      expense.mileage_rate_id = 1
+      expect(presenter.mileage_rate).to eq('25p')
+    end
+
+    it 'outputs n/a if no mileage rate was selected' do
+      expense.mileage_rate_id = nil
+      expect(presenter.mileage_rate).to eq('n/a')
+    end
+  end
 end

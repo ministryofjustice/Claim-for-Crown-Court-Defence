@@ -40,4 +40,8 @@ class ExpensePresenter < BasePresenter
   def reason
     expense.displayable_reason_text || 'Not provided'
   end
+
+  def mileage_rate
+    expense.mileage_rate&.name || 'n/a'
+  end
 end

@@ -94,7 +94,7 @@
                 %td{scope:'row'}
                   = expense.name
                   - if expense.distance?
-                    (#{expense.mileage_rate.name})
+                    (#{expense.mileage_rate})
                 %td.numeric
                   = expense.distance
                 - if claim.agfs?

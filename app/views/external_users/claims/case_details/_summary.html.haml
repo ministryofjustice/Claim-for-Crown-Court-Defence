@@ -64,7 +64,7 @@
       %th{scope: 'row'}
         = t("#{locale_path}.case_type")
       %td
-        = claim.case_type.try(:name)
+        = claim.remote_case_type.try(:name)
 
     - if claim.agfs?
       %tr

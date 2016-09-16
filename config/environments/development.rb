@@ -21,7 +21,7 @@ Rails.application.configure do
   LogStuff.source = 'cccd.development'
 
 
-  #Removed to allow for remote device testing (Ipad or other tablets)
+  #Removed to allow for remotes device testing (Ipad or other tablets)
   #config.action_controller.asset_host = "http://localhost:3000"
 
   # In the development environment your application's code is reloaded on

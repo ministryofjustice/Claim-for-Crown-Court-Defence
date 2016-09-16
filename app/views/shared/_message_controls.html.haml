@@ -1,4 +1,4 @@
-= simple_form_for message, remotes: !@claim.redeterminable?, authenticity_token: true  do |f|
+= simple_form_for message, remote: !@claim.redeterminable?, authenticity_token: true  do |f|
   = f.input :claim_id, value: @claim.id, as: :hidden
 
   - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?

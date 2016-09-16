@@ -82,7 +82,7 @@ if [ -z ${REDIS_URL+x} ]; then
     echo "starting redis server"
     service redis-server start
 else
-    echo "using remotes redis server"
+    echo "using remote redis server"
 fi
 
 echo "starting scheduler daemon"

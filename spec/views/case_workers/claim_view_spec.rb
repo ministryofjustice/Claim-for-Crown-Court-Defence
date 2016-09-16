@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'rest_client_helper'
 
 describe 'case_workers/claims/show.html.haml', type: :view do
 
@@ -37,6 +38,7 @@ describe 'case_workers/claims/show.html.haml', type: :view do
   context 'trial and retrial claims' do
 
     it 'shows trial details' do
+      allow(RemoteCaseType).to receive(:all).and_return(@remote_case_types)
       trial_claim
       assign(:claim, @claim)
       render
@@ -73,4 +75,22 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     @message = @claim.messages.build
   end
 
+  def case_types
+    [
+      {
+        :id => 1,
+        :name => "Retrial",
+        :is_fixed_fee => false,
+        :created_at => Date.today,
+        :updated_at => Date.today,
+        :requires_cracked_dates => false,
+        :requires_trial_dates => true,
+        :allow_pcmh_fee_type => false,
+        :requires_maat_reference => true,
+        :requires_retrial_dates => true,
+        :roles => %w( agfs lgfs ),
+        :fee_type_code => nil
+      }
+    ].to_json
+  end
 end

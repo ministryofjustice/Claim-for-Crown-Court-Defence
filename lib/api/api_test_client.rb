@@ -14,7 +14,11 @@
 #   end
 # ---------------------------------------
 #
+<<<<<<< fee36aef5b24d7d476bebf59bffdb91563c34490
 require 'caching/api_request'
+=======
+require 'cached_api_request'
+>>>>>>> Spike to implement a backend-agnostic caching wrapper.
 require 'rest-client'
 Dir[File.join(Rails.root, 'lib', 'api', 'claims', '*.rb')].each { |file| require file }
 

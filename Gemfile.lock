@@ -648,6 +648,7 @@ DEPENDENCIES
   rack-livereload (~> 0.3.16)
   rails (~> 4.2.7.1)
   rails_12factor (= 0.0.3)
+  redis (~> 3.3.1)
   remotipart (~> 1.2)
   rest-client (~> 1.8)
   rspec-collection_matchers

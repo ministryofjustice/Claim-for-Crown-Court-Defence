@@ -4,7 +4,9 @@ require 'digest/sha1'
 class CachedApiRequest
   attr_accessor :url
 
-  VERSION = 1 # cache version, not necessarily matching API version
+  # Cache version, not necessarily matching API version
+  # Used for global invalidation when structure/data changes
+  VERSION = 2
 
   class << self
     def cache(url, cache_policy = -> { 15.minutes.ago })
@@ -19,44 +21,47 @@ class CachedApiRequest
   end
 
   def cache(cache_policy)
-    if new_record? || created_at < cache_policy.call
+    if content.nil? || created_at < cache_policy.call
       puts "caching response for url: #{url}"
-      Caching.set(policy_key, Time.zone.now.to_s)
-      Caching.set(cache_key, yield)
+      self.content = [timestamp, yield].join(';')
     else
       puts "reading response for url: #{url}"
     end
-    content
+    data
   end
 
 
   private
 
-  def url_digest
-    @url_digest ||= Digest::SHA1.hexdigest(url)
+  def digest
+    Digest::SHA1.hexdigest(url)
   end
 
   def cache_key
-    "api:#{version}:#{url_digest}"
-  end
-
-  def policy_key
-    "api:#{version}:#{url_digest}:created_at"
-  end
-
-  def version
-    VERSION
+    "api:#{VERSION}:#{digest}"
   end
 
   def content
-    Caching.get(cache_key)
+    @content ||= Caching.get(cache_key)
+  end
+
+  def content=(value)
+    @content = Caching.set(cache_key, value)
+  end
+
+  def parsed_content
+    content.split(';', 2)
+  end
+
+  def data
+    parsed_content.last
   end
 
   def created_at
-    Time.zone.parse(Caching.get(policy_key)) rescue nil
+    Time.zone.at(parsed_content.first.to_i) rescue nil
   end
 
-  def new_record?
-    content.nil? || created_at.nil?
+  def timestamp
+    Time.zone.now.to_i
   end
 end

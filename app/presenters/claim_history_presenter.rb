@@ -24,7 +24,7 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def state_transitions
-    claim_state_transitions.reject{ |transition| transition.to == 'draft' || transition.to == 'deallocated' }
+    claim_state_transitions.where.not(to: ['draft'])
   end
 
   def state_transition_dates

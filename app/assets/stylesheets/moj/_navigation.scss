@@ -5,11 +5,14 @@ nav.pagination {
 }
 nav {
   &.pagination {
-    ul {
-      float:right;
-    }
+    float: right;
     a {
-      border:none;
+      border: none;
+    }
+    span {
+      &.page { padding: 0 5px; }
+      &.prev { padding-left: 5px; }
+      &.next { padding-right: 5px; }
     }
   }
   ul {

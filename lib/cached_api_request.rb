@@ -1,27 +1,34 @@
 require 'caching'
 require 'digest/sha1'
+require 'uri'
 
 class CachedApiRequest
-  attr_accessor :url
+  attr_accessor :url, :options
 
   # Cache version, not necessarily matching API version
   # Used for global invalidation when structure/data changes
   VERSION = 2
 
+  DEFAULT_OPTIONS = {
+    ttl: 900, # 15 minutes
+    ignore_params: ['api_key']
+  }.freeze
+
   class << self
-    def cache(url, cache_policy = -> { 15.minutes.ago })
-      new(url).cache(cache_policy) do
+    def cache(url, options = {})
+      new(url, options).cache do
         yield if block_given?
       end
     end
   end
 
-  def initialize(url)
-    self.url = url
+  def initialize(url, options = {})
+    self.options = DEFAULT_OPTIONS.merge(options)
+    self.url = processed_url(url)
   end
 
-  def cache(cache_policy)
-    if content.nil? || created_at < cache_policy.call
+  def cache
+    if content.nil? || stale?
       puts "caching response for url: #{url}"
       self.content = [timestamp, yield].join(';')
     else
@@ -63,5 +70,22 @@ class CachedApiRequest
 
   def timestamp
     Time.zone.now.to_i
+  end
+
+  def stale?
+    created_at < options[:ttl].seconds.ago
+  end
+
+  def processed_url(url)
+    parsed = URI::parse(url)
+    parsed.query = filter_query(parsed.query)
+    parsed.fragment = nil
+    parsed.to_s
+  end
+
+  def filter_query(query)
+    return nil unless query.present?
+    params = query.downcase.split('&').reject { |param| options[:ignore_params].include?(param.split('=')[0]) }
+    params.any? ? params.sort.join('&') : nil
   end
 end

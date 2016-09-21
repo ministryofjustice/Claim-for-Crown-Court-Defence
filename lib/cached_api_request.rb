@@ -77,15 +77,15 @@ class CachedApiRequest
   end
 
   def processed_url(url)
-    parsed = URI::parse(url)
-    parsed.query = filter_query(parsed.query)
-    parsed.fragment = nil
-    parsed.to_s
+    uri = URI::parse(url.downcase)
+    uri.query = filter_query(uri.query)
+    uri.fragment = nil
+    uri.to_s
   end
 
   def filter_query(query)
     return nil unless query.present?
-    params = query.downcase.split('&').reject { |param| options[:ignore_params].include?(param.split('=')[0]) }
+    params = query.split('&').reject { |param| options[:ignore_params].include?(param.split('=')[0]) }
     params.any? ? params.sort.join('&') : nil
   end
 end

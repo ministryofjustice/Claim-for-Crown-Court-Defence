@@ -19,7 +19,8 @@ moj.Modules.SuperAdminProvider = {
         self.showHide();
 
         //Add event listeners
-        self.$providerType.on('change', ':radio', function () {
+        self.$providerType.on('change', ':radio', function (e) {
+            self.showHideRoles(e);
             self.showHide();
         });
         self.$providerRoles.on('change', ':checkbox', function () {
@@ -36,6 +37,29 @@ moj.Modules.SuperAdminProvider = {
         this.$vatRegistered = $('#' + this.vatRegistered);
     },
 
+    showHideRoles: function(e) {
+        var $el = $(e.target);
+        this.$providerRoles.show();
+        if ($el.val() == 'chamber') {
+            return this.setRoles(0);
+        }
+        return this.setRoles(1)
+    },
+
+    setRoles: function(role) {
+        var $lgfs = $('#provider_roles_lgfs');
+        var $agfs = $('#provider_roles_agfs');
+
+        if (role === 0) {
+            $agfs.attr('checked', true).parent().addClass('focus selected').change();
+            $lgfs.attr('checked', false).parent().hide();
+        };
+        if (role === 1) {
+            $agfs.attr('checked', false).attr('disabled', false).parent().removeClass('focus selected').change();
+            $lgfs.attr('checked', false).attr('disabled', false).parent().removeClass('focus selected').show();
+        }
+    },
+
     showHide: function () {
         var providerTypeVal = this.$providerType.find(':radio').filter(':checked').val();
         var selectedRoles = $.map(this.$providerRoles.find(':checkbox').filter(':checked'), function(checkbox) {
@@ -49,7 +73,7 @@ moj.Modules.SuperAdminProvider = {
             this.$vatRegistered.hide();
         }
 
-        if ($.inArray("agfs", selectedRoles) != -1) {
+        if (($.inArray("agfs", selectedRoles) != -1) && providerTypeVal == 'firm') {
             this.$supplierNumber.show();
         } else {
             this.$supplierNumber.hide();
@@ -59,6 +83,10 @@ moj.Modules.SuperAdminProvider = {
             this.$supplierNumbers.show();
         } else {
             this.$supplierNumbers.hide();
+        }
+
+        if (providerTypeVal == 'chamber') {
+
         }
     }
 };

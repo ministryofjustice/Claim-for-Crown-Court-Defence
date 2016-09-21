@@ -384,19 +384,19 @@ ActiveRecord::Schema.define(version: 20160926133641) do
 
   create_table "providers", force: :cascade do |t|
     t.string   "name"
-    t.string   "supplier_number"
+    t.string   "firm_agfs_supplier_number"
     t.string   "provider_type"
     t.boolean  "vat_registered"
     t.uuid     "uuid"
     t.uuid     "api_key"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "roles"
   end
 
+  add_index "providers", ["firm_agfs_supplier_number"], name: "index_providers_on_firm_agfs_supplier_number", using: :btree
   add_index "providers", ["name"], name: "index_providers_on_name", using: :btree
   add_index "providers", ["provider_type"], name: "index_providers_on_provider_type", using: :btree
-  add_index "providers", ["supplier_number"], name: "index_providers_on_supplier_number", using: :btree
 
   create_table "representation_orders", force: :cascade do |t|
     t.integer  "defendant_id"

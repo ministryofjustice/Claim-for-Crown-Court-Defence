@@ -20,7 +20,7 @@ describe API::V1::ExternalUsers::Claims::TransferClaim do
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
       :user_email => litigator.user.email,
-      :supplier_number => provider.supplier_numbers.first,
+      :supplier_number => provider.lgfs_supplier_numbers.first,
       :case_type_id => FactoryGirl.create(:case_type, :trial).id,
       :case_number => 'A12345678',
       :offence_id => offence.id,

@@ -2,16 +2,16 @@
 #
 # Table name: providers
 #
-#  id              :integer          not null, primary key
-#  name            :string
-#  supplier_number :string
-#  provider_type   :string
-#  vat_registered  :boolean
-#  uuid            :uuid
-#  api_key         :uuid
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  roles           :string
+#  id                        :integer          not null, primary key
+#  name                      :string
+#  firm_agfs_supplier_number :string
+#  provider_type             :string
+#  vat_registered            :boolean
+#  uuid                      :uuid
+#  api_key                   :uuid
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  roles                     :string
 #
 
 FactoryGirl.define do
@@ -25,7 +25,7 @@ FactoryGirl.define do
     roles ['agfs']
 
     before(:create) do |provider|
-      provider.supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
+      provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
     end
 
     trait :agfs do
@@ -35,19 +35,19 @@ FactoryGirl.define do
 
     trait :lgfs do
       provider_type 'firm'
-      supplier_number nil
+      firm_agfs_supplier_number nil
       roles ['lgfs']
     end
 
     trait :agfs_lgfs do
       provider_type 'firm'
-      supplier_number '123AB'
+      firm_agfs_supplier_number '123AB'
       roles ['agfs', 'lgfs']
     end
 
     trait :firm do
       provider_type 'firm'
-      supplier_number nil
+      firm_agfs_supplier_number nil
       vat_registered { true }
       roles ['lgfs']
     end
@@ -55,7 +55,7 @@ FactoryGirl.define do
     # does not require supplier number
     trait :chamber do
       provider_type 'chamber'
-      supplier_number nil
+      firm_agfs_supplier_number nil
     end
 
   end

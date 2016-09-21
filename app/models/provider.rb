@@ -2,20 +2,28 @@
 #
 # Table name: providers
 #
-#  id              :integer          not null, primary key
-#  name            :string
-#  supplier_number :string
-#  provider_type   :string
-#  vat_registered  :boolean
-#  uuid            :uuid
-#  api_key         :uuid
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  roles           :string
+#  id                        :integer          not null, primary key
+#  name                      :string
+#  firm_agfs_supplier_number :string
+#  provider_type             :string
+#  vat_registered            :boolean
+#  uuid                      :uuid
+#  api_key                   :uuid
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  roles                     :string
+#
+
+
+# Note on supplier numbers:
+#
+# Firms have 1 or more lgfs supplier numbers which are held as an association
+# Chambers have an agfs_supplier number for each advocate
+# Firms that do AGFS work as well as LGFS work have an additional firm agfs supplier number, instead of an agfs supplier number for each advocate
 #
 
 class Provider < ActiveRecord::Base
-  auto_strip_attributes :name, :supplier_number, squish: true, nullify: true
+  auto_strip_attributes :name, :firm_agfs_supplier_number, squish: true, nullify: true
 
   PROVIDER_TYPES = %w( chamber firm )
 
@@ -36,20 +44,22 @@ class Provider < ActiveRecord::Base
     end
   end
 
-  has_many :supplier_numbers, dependent: :destroy
+  has_many :lgfs_supplier_numbers, class_name: SupplierNumber, dependent: :destroy
+
   has_many :claims_created, -> { active }, through: :external_users
   has_many :claims, -> { active }, through: :external_users
 
-  accepts_nested_attributes_for :supplier_numbers, allow_destroy: true
+  accepts_nested_attributes_for :lgfs_supplier_numbers, allow_destroy: true
 
-  before_validation :set_api_key
+  before_validation :set_api_key, :upcase_firm_agfs_supplier_number
 
   validates :provider_type, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
 
-  validates :supplier_number, presence: true, if: :agfs_firm?
-  validates :supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
+  validates :firm_agfs_supplier_number, presence: true, if: :agfs_firm?
+  validates :firm_agfs_supplier_number, absence: true, unless: :agfs_firm?
+  validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
   validates_with SupplierNumberSubModelValidator, if: :lgfs?
 
   # Allows calling of provider.admins or provider.advocates
@@ -76,7 +86,15 @@ class Provider < ActiveRecord::Base
     true
   end
 
+  def agfs_supplier_numbers
+    advocates.map(&:supplier_number)
+  end
+
   private
+
+  def upcase_firm_agfs_supplier_number
+    firm_agfs_supplier_number.upcase! unless firm_agfs_supplier_number.blank?
+  end
 
   def set_api_key
     self.api_key ||= SecureRandom.uuid

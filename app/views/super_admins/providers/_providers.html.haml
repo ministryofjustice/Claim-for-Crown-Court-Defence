@@ -5,8 +5,6 @@
   %table.providers_table
     %thead
       %th
-        = t('.supplier_number')
-      %th
         = t('.provider_name')
       %th
         = t('.provider_type')
@@ -20,9 +18,7 @@
       - providers.each do |provider|
         %tr{id: dom_id(provider) }
           %td
-            = link_to (provider.supplier_number.blank? ? 'not-provided' : provider.supplier_number), super_admins_provider_path(provider)
-          %td
-            = provider.name
+            = link_to provider.name, super_admins_provider_path(provider)
           %td
             = provider.provider_type.humanize
           %td

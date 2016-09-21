@@ -82,7 +82,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
       let(:provider) { create(:provider, :lgfs) }
       subject { provider }
 
-      before(:each) { subject.supplier_numbers.delete_all }
+      before(:each) { subject.lgfs_supplier_numbers.delete_all }
 
       context 'when invalid' do
         before(:each) do
@@ -95,7 +95,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
         end
 
         it 'does not update provider' do
-          expect(subject.reload.supplier_numbers).to be_empty
+          expect(subject.reload.lgfs_supplier_numbers).to be_empty
         end
 
         it 'renders the edit template' do
@@ -106,7 +106,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
       context 'when valid' do
         before(:each) do
           put :update, id: subject, provider: {
-              supplier_numbers_attributes: [
+              lgfs_supplier_numbers_attributes: [
                   {supplier_number: '1B222Z'},
                   {supplier_number: '2B555Z'}
               ]
@@ -114,7 +114,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
         end
 
         it 'updates the provider' do
-          expect(subject.reload.supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
+          expect(subject.reload.lgfs_supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
         end
 
         it 'redirects to providers show page' do
@@ -143,7 +143,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
 
     context 'when valid' do
       let(:params) do
-        {provider_type: 'firm', name: 'St Johns', supplier_number: '2M462', roles: ['agfs']}
+        {provider_type: 'firm', name: 'St Johns', firm_agfs_supplier_number: '2M462', roles: ['agfs']}
       end
 
       it "creates a new provider" do

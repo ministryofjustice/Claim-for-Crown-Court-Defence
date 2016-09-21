@@ -15,10 +15,10 @@ module ProviderAdminConcern
     params.require(:provider).permit(
       :name,
       :provider_type,
-      :supplier_number,
+      :firm_agfs_supplier_number,
       :vat_registered,
       roles: [],
-      supplier_numbers_attributes: [
+      lgfs_supplier_numbers_attributes: [
         :id,
         :provider_id,
         :supplier_number,

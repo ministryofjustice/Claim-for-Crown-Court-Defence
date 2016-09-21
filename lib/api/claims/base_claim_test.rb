@@ -52,7 +52,7 @@ class BaseClaimTest
   end
 
   def supplier_number
-    @supplier_number ||= external_user.persona.provider.supplier_numbers.first
+    @supplier_number ||= external_user.persona.provider.lgfs_supplier_numbers.first
   end
 
   def json_value_at_index(json, key=nil, index=0)

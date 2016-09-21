@@ -1,6 +1,6 @@
 And(/^My provider has supplier numbers$/) do
   %w(1A222Z 2B333Z).each do |number|
-    @litigator.provider.supplier_numbers << SupplierNumber.new(supplier_number: number)
+    @litigator.provider.lgfs_supplier_numbers << SupplierNumber.new(supplier_number: number)
   end
 end
 

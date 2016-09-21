@@ -80,7 +80,7 @@ module Claim
     end
 
     def eligible_case_types
-      CaseType.agfs
+      Remotes::RemoteCaseType.agfs
     end
 
     def eligible_basic_fee_types

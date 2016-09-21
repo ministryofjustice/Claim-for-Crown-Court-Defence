@@ -136,10 +136,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#eligible_case_types' do
     it 'should return only AGFS case types' do
-      claim = build :unpersisted_claim
+
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
       agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
       lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      claim = build :unpersisted_claim
+
 
       expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, agfs_case_type])
     end

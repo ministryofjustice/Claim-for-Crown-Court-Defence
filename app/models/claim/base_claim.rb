@@ -176,6 +176,10 @@ module Claim
     def requires_cracked_dates?; false; end
     def requires_case_concluded_date?; false; end
 
+    def remote_case_type
+      Remotes::RemoteCaseType.find(case_type_id)
+    end
+
     def self.agfs?
       [Claim::AdvocateClaim].include?(self)
     end

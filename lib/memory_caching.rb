@@ -17,4 +17,8 @@ class MemoryCaching
   def set(key, value)
     self.store[key] = value
   end
+
+  def clear
+    self.store.clear
+  end
 end

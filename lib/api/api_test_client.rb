@@ -14,7 +14,7 @@
 #   end
 # ---------------------------------------
 #
-require 'cached_api_request'
+require 'caching/api_request'
 require 'rest-client'
 Dir[File.join(Rails.root, 'lib', 'api', 'claims', '*.rb')].each { |file| require file }
 
@@ -56,7 +56,7 @@ class ApiTestClient
     query_params = '?' + params.merge(api_key: api_key).to_query
     endpoint = RestClient::Resource.new([api_root_url, 'api', resource].join('/') + query_params)
 
-    CachedApiRequest.cache(endpoint.url) do
+    Caching::ApiRequest.cache(endpoint.url) do
       endpoint.get do |response, _request, _result|
         handle_response(response, resource)
         response

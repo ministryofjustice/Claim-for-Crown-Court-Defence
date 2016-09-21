@@ -1,18 +1,17 @@
 require 'rails_helper'
-require 'cached_api_request'
+require 'caching/api_request'
 
-describe CachedApiRequest do
-  let(:store) { MemoryCaching.current }
+describe Caching::ApiRequest do
   let(:url) { 'http://test.com/ping.json' }
   let(:value) { 'test value' }
   let(:cache_request) { described_class.cache(url) { value } }
 
   before(:each) do
-    Caching.backend = store
+    Caching.backend = Caching::MemoryStore
   end
 
   after(:each) do
-    store.clear
+    Caching.clear
   end
 
   describe 'options' do
@@ -62,9 +61,11 @@ describe CachedApiRequest do
   end
 
   describe 'writing and reading from the cache' do
+    let(:current_store) { Caching.backend.current }
+
     context 'caching new content' do
       it 'should write to the cache and return the content' do
-        expect(store).to receive(:set).with(/api:/, /value/).once.and_call_original
+        expect(current_store).to receive(:set).with(/api:/, /value/).once.and_call_original
         expect(cache_request).to eq(value)
       end
 
@@ -81,8 +82,8 @@ describe CachedApiRequest do
 
     context 'reading from cache existing content' do
       it 'should read from the cache and return the content' do
-        expect(store).to receive(:set).with(/api:/, /value/).once.and_call_original
-        expect(store).to receive(:get).with(/api:/).twice.and_call_original
+        expect(current_store).to receive(:set).with(/api:/, /value/).once.and_call_original
+        expect(current_store).to receive(:get).with(/api:/).twice.and_call_original
 
         returned_1 = described_class.cache(url) { 'test value' }
         returned_2 = described_class.cache(url) { 'another value' }

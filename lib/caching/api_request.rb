@@ -29,10 +29,7 @@ module Caching
 
     def cache
       if content.nil? || stale?
-        puts "caching response for url: #{url}"
         self.content = [timestamp, yield].join(';')
-      else
-        puts "reading response for url: #{url}"
       end
       data
     end

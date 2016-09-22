@@ -74,7 +74,3 @@ timed_transition_pending_weeks: 16
 
 # number of weeks a claim can be soft deleted before hard delete of claim
 timed_transition_soft_delete_weeks: 16
-
-# base url for all remotes api calls
-remote_api_key: '753822a6-dd7a-43bc-a48a-e8b3698504d5'
-remote_api_url: 'http://localhost:3001/api/'

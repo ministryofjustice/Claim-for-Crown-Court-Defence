@@ -16,7 +16,7 @@ module Remote
       # that it is using the API to get data, not the DB.
       #
       def all
-        get.map { |h| new(h.merge(name: h['name'] += ' *')) }
+        client.get(resource_path, ttl: resource_ttl).map { |h| new(h.merge(name: h['name'] += ' *')) }
       end
 
       def find(id)
@@ -25,23 +25,8 @@ module Remote
 
       private
 
-      # TODO 1: decide which http library to use (RestClient, Faraday, Typhoeus...)
-      # TODO 2: sort out timeouts at the http library level
-      # TODO 3: extract all http related code to a separated class and inject it
-      #
-      def get
-        response = Caching::ApiRequest.cache(endpoint.url, ttl: resource_ttl) do
-          endpoint.get { |response, _request, _result| response }
-        end
-        JSON.parse(response)
-      end
-
-      def endpoint
-        RestClient::Resource.new([Settings.remote_api_url, resource_path].join('/') + query_params)
-      end
-
-      def query_params
-        '?' + {api_key: Settings.remote_api_key}.to_query
+      def client
+        Remote::HttpClient.current
       end
     end
   end

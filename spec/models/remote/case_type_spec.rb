@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 describe Remote::CaseType do
+  let(:client) { instance_double(Remote::HttpClient, get: response) }
+
   it 'has the correct resource path' do
     expect(described_class.resource_path).to eq('case_types')
   end
 
   context 'class methods' do
     before(:each) do
-      allow(described_class).to receive(:get).and_return(response)
+      allow(described_class).to receive(:client).and_return(client)
     end
 
     describe '.all' do

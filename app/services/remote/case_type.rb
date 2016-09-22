@@ -11,6 +11,8 @@ module Remote
                   :roles,
                   :fee_type_code
 
+    alias is_fixed_fee? is_fixed_fee
+
     class << self
       def resource_path
         'case_types'

@@ -1,5 +1,5 @@
 module Caching
-  class RedisStore < AbstractStore
+  class RedisStore < Caching::AbstractStore
     def initialize
       self.store = Redis.current
     end

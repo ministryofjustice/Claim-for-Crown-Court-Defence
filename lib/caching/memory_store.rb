@@ -1,5 +1,5 @@
 module Caching
-  class MemoryStore < AbstractStore
+  class MemoryStore < Caching::AbstractStore
     def initialize
       self.store = Hash.new
     end

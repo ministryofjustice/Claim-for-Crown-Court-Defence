@@ -84,9 +84,5 @@ moj.Modules.SuperAdminProvider = {
         } else {
             this.$supplierNumbers.hide();
         }
-
-        if (providerTypeVal == 'chamber') {
-
-        }
     }
 };

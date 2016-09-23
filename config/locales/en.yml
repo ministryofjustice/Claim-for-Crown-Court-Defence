@@ -733,7 +733,7 @@ en:
           total: "Total"
       supplier_number:
         fields:
-          supplier_number: "Supplier number"
+          lgfs_supplier_number: "LGFS supplier number"
       interim_fee:
         fields:
           interim_fees: "Interim fees"

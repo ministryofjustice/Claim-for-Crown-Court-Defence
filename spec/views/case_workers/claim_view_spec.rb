@@ -72,5 +72,4 @@ describe 'case_workers/claims/show.html.haml', type: :view do
     @messages = @claim.messages.most_recent_last
     @message = @claim.messages.build
   end
-
 end

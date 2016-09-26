@@ -15,7 +15,7 @@ require Rails.root.join('db','seed_helper')
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test chamber',
-  supplier_number: nil,
+  firm_agfs_supplier_number: nil,
   api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'chamber',
   vat_registered: true,
@@ -54,12 +54,11 @@ end
 # -------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm A',
-  supplier_number: '1A222',
-  # api_key: ENV['TEST_CHAMBER_API_KEY'],
+  firm_agfs_supplier_number: nil,
   provider_type: 'firm',
   vat_registered: true,
   roles: ['lgfs'],
-  supplier_numbers: SeedHelper.build_supplier_numbers(%w(1A222Z 2A333Z 3A555Z))
+  lgfs_supplier_numbers: SeedHelper.build_supplier_numbers(%w(1A222Z 2A333Z 3A555Z))
 )
 
 if User.find_by(email: 'litigator@example.com').blank?
@@ -96,12 +95,12 @@ end
 # ------------------------------------------------------------
 provider = SeedHelper.find_or_create_provider!(
   name: 'Test firm B',
-  supplier_number: '22BBB',
+  firm_agfs_supplier_number: '22BBB',
   # api_key: ENV['TEST_CHAMBER_API_KEY'],
   provider_type: 'firm',
   vat_registered: false,
   roles: ['agfs','lgfs'],
-  supplier_numbers: SeedHelper.build_supplier_numbers(%w(1B222Z 2B333Z 3B555Z))
+  lgfs_supplier_numbers: SeedHelper.build_supplier_numbers(%w(1B222Z 2B333Z 3B555Z))
 )
 
 if User.find_by(email: 'advocate@agfslgfs.com').blank?

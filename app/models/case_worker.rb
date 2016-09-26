@@ -8,6 +8,7 @@
 #  location_id :integer
 #  roles       :string
 #  deleted_at  :datetime
+#  uuid        :uuid
 #
 
 class CaseWorker < ActiveRecord::Base

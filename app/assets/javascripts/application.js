@@ -9,18 +9,24 @@
 //= require govuk/stop-scrolling-at-footer
 //= require moj
 //= require modules/moj.cookie-message.js
-//= require awesomplete.js
 //= require jquery-accessible-accordion-aria.js
-//= require_tree .
+//= require typeahead-aria.js
+//= require_tree ./modules
 
 (function () {
   'use strict';
   delete moj.Modules.devs;
 
-  jQuery.fn.exists = function() { return this.length > 0 };
+  jQuery.fn.exists = function() { return this.length > 0; };
 
   $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
-    $(insertedItem).find('select.autocomplete').AutoComplete();
+    var $insertedItem = $(insertedItem);
+    var insertedSelect = $insertedItem.find('select.typeahead');
+    var typeaheadWrapper = $insertedItem.find('.js-typeahead');
+
+    moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect);
+    moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper);
+    moj.Modules.MiscFeeFieldsDisplay.addMiscFeeChangeEvent(typeaheadWrapper);
   });
 
   //Stops the form from submitting when the user presses 'Enter' key

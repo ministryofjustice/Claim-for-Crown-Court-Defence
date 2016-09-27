@@ -19,12 +19,12 @@
               = @claim.case_type.fixed_fee_type.description
               = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id
               = validation_error_message(@error_presenter, :fee_type)
-          .grid-row
+          .grid-row.js-typeahead
             - if @claim.case_type.fixed_fee_type.children.any?
               %label.form-label
                 = t('.select_sub_type')
               = ff.anchored_attribute 'sub_type'
-              = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
+              = ff.collection_select :sub_type_id, @claim.case_type.fixed_fee_type.children, :id, :description, { include_blank: ''.html_safe }, { class: 'form-control typeahead' }
               = validation_error_message(@error_presenter, 'fixed_fee.sub_type')
 
             .column-one-quarter.condensed.js-expense-location

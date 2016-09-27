@@ -58,3 +58,35 @@
     }
   }
 }
+
+select.typeahead{
+  @extend .visuallyhidden;
+  width: auto !important;
+}
+
+//autocomplete styling
+.tt-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: scroll;
+}
+
+.tt-suggestion {
+  padding: 0.5em;
+
+  &:hover,
+  &.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.twitter-typeahead {
+  width: 100%;
+}

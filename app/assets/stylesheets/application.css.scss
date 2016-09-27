@@ -62,3 +62,9 @@
 /////////////////////////////// TODO: KILL THIS ASAP
 @import "moj/HOTFIX_KILLME";
 ///////////////////////////////
+
+select {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+}

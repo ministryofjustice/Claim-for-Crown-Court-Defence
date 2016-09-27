@@ -10,7 +10,7 @@ moj.Modules.CaseTypeFieldsDisplay = {
     this.$defendantFieldSet = $('div.defendants');
 
     if (!this.$caseTypeSelect.exists()) {
-      return
+      return;
     }
 
     // add change listener

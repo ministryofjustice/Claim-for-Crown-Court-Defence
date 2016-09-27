@@ -1,6 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
-require_relative 'api_spec_helper'
+require 'api_spec_helper'
 require_relative 'shared_examples_for_all'
 require_relative 'shared_examples_for_fees'
 
@@ -268,7 +268,7 @@ describe API::V1::ExternalUsers::Fee do
 
       context "unexpected error" do
         it "should return 400 and JSON error array of error message" do
-          allow(API::V1::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
+          allow(API::Helpers::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           result_hash = JSON.parse(last_response.body)

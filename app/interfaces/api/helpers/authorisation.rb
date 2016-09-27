@@ -1,4 +1,4 @@
-module API
+module API::Helpers
   module Authorisation
     class AuthorisationError < StandardError; end
 

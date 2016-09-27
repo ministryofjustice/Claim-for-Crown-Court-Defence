@@ -14,7 +14,7 @@ module API
         resource :dates_attended, desc: 'Create or Validate' do
           helpers do
             def attended_item_id
-              ::Fee::BaseFee.find_by(uuid: params[:attended_item_id]).try(:id) || (raise API::V1::ArgumentError, 'Attended item cannot be blank')
+              ::Fee::BaseFee.find_by(uuid: params[:attended_item_id]).try(:id) || (raise API::ArgumentError, 'Attended item cannot be blank')
             end
 
             def build_arguments

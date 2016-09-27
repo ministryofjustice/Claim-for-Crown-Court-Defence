@@ -1,4 +1,4 @@
-module API::V1
+module API::Helpers
   module ResourceHelper
     extend Grape::API::Helpers
 
@@ -11,7 +11,7 @@ module API::V1
     end
 
     def claim_id
-      ::Claim::BaseClaim.active.find_by(uuid: params.claim_id).try(:id) || (raise API::V1::ArgumentError, 'Claim cannot be blank')
+      ::Claim::BaseClaim.active.find_by(uuid: params.claim_id).try(:id) || (raise API::ArgumentError, 'Claim cannot be blank')
     end
 
     def claim_creator
@@ -27,11 +27,11 @@ module API::V1
     end
 
     def create_resource(klass)
-      API::V1::ApiHelper.create_resource(klass, params, api_response, arguments_proc)
+      API::Helpers::ApiHelper.create_resource(klass, params, api_response, arguments_proc)
     end
 
     def validate_resource(klass)
-      API::V1::ApiHelper.validate_resource(klass, api_response, arguments_proc)
+      API::Helpers::ApiHelper.validate_resource(klass, api_response, arguments_proc)
     end
 
     def arguments_proc
@@ -39,11 +39,11 @@ module API::V1
     end
 
     def api_response
-      @api_response ||= ApiResponse.new
+      @api_response ||= API::ApiResponse.new
     end
 
     def find_user_by_email(email:, relation:)
-      User.active.external_users.find_by(email: email).try(:persona) || (raise API::V1::ArgumentError, "#{relation} email is invalid")
+      User.active.external_users.find_by(email: email).try(:persona) || (raise API::ArgumentError, "#{relation} email is invalid")
     end
 
     def lgfs_schema?

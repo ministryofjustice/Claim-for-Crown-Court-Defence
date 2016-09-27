@@ -1,10 +1,10 @@
 module API
-  module V1
+  module Helpers
     module ApiHelper
 
       require Rails.root.join('app', 'interfaces', 'api', 'custom_validations', 'date_format.rb')
-      require_relative 'api_response'
-      require_relative 'error_response'
+      require_relative '../api_response'
+      require_relative '../error_response'
 
       class << self
         def response_params(uuid, params)
@@ -77,7 +77,7 @@ module API
         end
 
         def pop_error_response(error_or_model_instance, api_response)
-          err_resp = ErrorResponse.new(error_or_model_instance)
+          err_resp = API::ErrorResponse.new(error_or_model_instance)
           api_response.status = err_resp.status
           api_response.body   = err_resp.body
         end

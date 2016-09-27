@@ -1,27 +1,11 @@
-require 'grape'
-require 'grape-swagger'
-
 module API
   module V1
     module ExternalUsers
-      class Root < API::V1::GrapeApiHelper
+      class Root < API::Helpers::GrapeApiHelper
 
         version 'v1', using: :accept_version_header, cascade: false
         format :json
         content_type :json, 'application/json'
-
-        helpers API::Authorisation
-        helpers API::V1::ResourceHelper
-
-        error_formatter :json, API::V1::JsonErrorFormatter
-
-        rescue_from Grape::Exceptions::ValidationErrors, API::V1::ArgumentError do |error|
-          error!(error.message.split(','), 400)
-        end
-
-        rescue_from API::Authorisation::AuthorisationError do |error|
-          error!(error.message, 401)
-        end
 
         group do
           before_validation do
@@ -44,7 +28,7 @@ module API
         end
 
         add_swagger_documentation(
-          info: { title: 'Claim for crown court defence API' },
+          info: { title: 'Claim for crown court defence API - v1' },
           api_version: "v1",
           doc_version: 'v1',
           hide_documentation_path: true,

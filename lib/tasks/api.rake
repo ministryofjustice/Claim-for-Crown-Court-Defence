@@ -1,7 +1,18 @@
 namespace :api do
+  desc "API Routes"
+  task :routes => :environment do
+    [
+        API::V1::ExternalUsers::Root,
+        API::V2::Root
+    ].map(&:routes).flatten.each do |api|
+      method = api.request_method.ljust(10)
+      path = api.path.sub('(.:format)', '')
+      version = api.version
+      puts " #{version}   #{method} #{path}"
+    end
+  end
 
   desc "Smoke test for the REST API"
-
   task :smoke_test, [:io] => :environment do |task,args|
     Rake::Task['claims:sample_users'].invoke
 

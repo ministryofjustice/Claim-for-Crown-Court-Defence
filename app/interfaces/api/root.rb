@@ -1,11 +1,26 @@
 require 'grape'
 require 'grape-swagger'
+Dir[File.join(Rails.root, 'app', 'interfaces', 'api', 'helpers', '*.rb')].each { |file| require file }
 
 module API
-
   class Root < Grape::API
     use API::Logger
+
+    helpers API::Helpers::Authorisation
+    helpers API::Helpers::ResourceHelper
+
+    error_formatter :json, API::Helpers::JsonErrorFormatter
+
+    rescue_from Grape::Exceptions::ValidationErrors, API::ArgumentError do |error|
+      error!(error.message.split(','), 400)
+    end
+
+    rescue_from API::Helpers::Authorisation::AuthorisationError do |error|
+      error!(error.message, 401)
+    end
+
     mount API::V1::ExternalUsers::Root
+    mount API::V2::Root
 
     # Set the papertrail user 'whodunnit' attribute.
     # Normally 'ExternalUser' or 'Caseworker' via the front-end.

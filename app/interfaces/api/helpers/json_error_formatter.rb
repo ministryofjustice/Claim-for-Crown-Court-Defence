@@ -1,4 +1,4 @@
-module API::V1
+module API::Helpers
   module JsonErrorFormatter
 
     class << self

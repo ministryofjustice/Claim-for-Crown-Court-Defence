@@ -3,8 +3,11 @@ require 'caching/api_request'
 
 describe Caching::ApiRequest do
   let(:url) { 'http://test.com/ping.json' }
-  let(:value) { 'test value' }
-  let(:cache_request) { described_class.cache(url) { value } }
+
+  let(:value1) { 'test value 1' }
+  let(:response1) { double('Response1', headers: {}, body: value1) }
+  let(:value2) { 'test value 2' }
+  let(:response2) { double('Response2', headers: {}, body: value2) }
 
   before(:each) do
     Caching.backend = Caching::MemoryStore
@@ -65,28 +68,30 @@ describe Caching::ApiRequest do
 
     context 'caching new content' do
       it 'should write to the cache and return the content' do
-        expect(current_store).to receive(:set).with(/api:/, /value/).once.and_call_original
-        expect(cache_request).to eq(value)
+        expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original
+        returned = described_class.cache(url) { response1 }
+        expect(returned).to eq(value1)
       end
 
       it 'should cache again a stale content' do
         Timecop.freeze(1.day.ago) do
-          returned = described_class.cache(url) { 'old value' }
-          expect(returned).to eq('old value')
+          returned = described_class.cache(url) { response1 }
+          expect(returned).to eq(value1)
         end
 
-        returned = described_class.cache(url) { 'new value' }
-        expect(returned).to eq('new value')
+        returned = described_class.cache(url) { response2 }
+        expect(returned).to eq(value2)
       end
     end
 
     context 'reading from cache existing content' do
       it 'should read from the cache and return the content' do
-        expect(current_store).to receive(:set).with(/api:/, /value/).once.and_call_original
+        expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original
+        expect(current_store).not_to receive(:set).with(/api:/, /test value 2/)
         expect(current_store).to receive(:get).with(/api:/).twice.and_call_original
 
-        returned_1 = described_class.cache(url) { 'test value' }
-        returned_2 = described_class.cache(url) { 'another value' }
+        returned_1 = described_class.cache(url) { response1 }
+        returned_2 = described_class.cache(url) { response2 }
 
         expect(returned_1).to eq(returned_2)
       end

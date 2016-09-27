@@ -7,51 +7,43 @@ module Caching
 
     # Cache version, not necessarily matching API version
     # Used for global invalidation when structure/data changes
-    VERSION = 2
+    VERSION = 3
 
     DEFAULT_OPTIONS = {
       ttl: 900, # 15 minutes
       ignore_params: ['api_key']
     }.freeze
 
-    class << self
-      def cache(url, options = {})
-        new(url, options).cache do
-          yield if block_given?
-        end
-      end
-    end
-
     def initialize(url, options = {})
       self.options = DEFAULT_OPTIONS.merge(options)
       self.url = processed_url(url)
     end
 
+    def self.cache(url, options = {}, &block)
+      new(url, options).cache(&block)
+    end
+
     def cache
-      if content.nil? || stale?
-        self.content = [timestamp, yield].join(';')
+      if (content.nil? || stale?) && block_given?
+        save! Caching::Response.new(yield)
       end
       data
     end
 
-    def data
-      parsed_content.last
-    end
-
-    def created_at
-      Time.zone.at(parsed_content.first.to_i) rescue nil
-    end
+    def created_at; content_parts[0].to_i; end
+    def max_age; content_parts[1].to_i; end
+    def data; content_parts[2]; end
 
     def stale?
-      created_at < ttl.seconds.ago
+      now > (created_at + max_age)
     end
 
     def ignore_params
       options[:ignore_params] || []
     end
 
-    def ttl
-      options[:ttl] || 0
+    def default_ttl
+      options[:ttl].to_i
     end
 
 
@@ -65,20 +57,26 @@ module Caching
       "api:#{VERSION}:#{digest}"
     end
 
+    def now
+      Time.zone.now.to_i
+    end
+
     def content
       @content ||= Caching.get(cache_key)
     end
 
-    def content=(value)
-      @content = Caching.set(cache_key, value)
+    def save!(response)
+      payload = [
+        now,
+        response.ttl || default_ttl,
+        response.body
+      ].join(';')
+
+      @content = Caching.set(cache_key, payload)
     end
 
-    def parsed_content
-      content.split(';', 2)
-    end
-
-    def timestamp
-      Time.zone.now.to_i
+    def content_parts
+      content.to_s.split(';', 3)
     end
 
     def processed_url(url)

@@ -21,7 +21,7 @@ describe API::V1::ExternalUsers::Claim do
   describe 'Claim endpoints' do
     before(:all) do
       @declared_routes = []
-      API::V1::ExternalUsers::Root.routes.each do |route|
+      API::V1::Root.routes.each do |route|
         path = route.pattern.path
         @declared_routes << path.sub('(.:format)', '')
       end

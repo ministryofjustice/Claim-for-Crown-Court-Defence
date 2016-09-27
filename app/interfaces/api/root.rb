@@ -19,7 +19,8 @@ module API
       error!(error.message, 401)
     end
 
-    mount API::V1::ExternalUsers::Root
+    # Mount the different API versions here
+    mount API::V1::Root
     mount API::V2::Root
 
     # Set the papertrail user 'whodunnit' attribute.

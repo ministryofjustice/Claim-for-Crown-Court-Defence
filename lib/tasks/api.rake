@@ -2,7 +2,7 @@ namespace :api do
   desc "API Routes"
   task :routes => :environment do
     [
-        API::V1::ExternalUsers::Root,
+        API::V1::Root,
         API::V2::Root
     ].map(&:routes).flatten.each do |api|
       method = api.request_method.ljust(10)

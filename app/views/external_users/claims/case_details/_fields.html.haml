@@ -18,7 +18,7 @@
   .form-group
     - if @claim.agfs? && @external_user.admin?
       .form-row
-        .form-col{class: error_class?(@error_presenter, :external_user)}
+        .form-col.ui-front{class: error_class?(@error_presenter, :external_user)}
           %a{:id => :external_user}
           %label{:for => "claim_external_user_id_autocomplete"}
             = t('.advocate')
@@ -34,24 +34,24 @@
           = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter
 
     .form-row
-      .form-col{class: error_class?(@error_presenter, :case_type)}
+      .form-col.ui-front{class: error_class?(@error_presenter, :case_type)}
         %a{:id => "case_type"}
         %label{:for => "claim_case_type_id_autocomplete"}
           = t('.case_type')
         .form-hint.xsmall.zero-vert-margin
           = "for example Trial"
-        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
+        = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, {data: {'is-fixed-fee' => ct.is_fixed_fee?}}] }, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete form-control' }
         = validation_error_message(@error_presenter, :case_type)
 
     .form-row
-      .form-col{class: error_class?(@error_presenter, :court)}
+      .form-col.ui-front{class: error_class?(@error_presenter, :court)}
         %a{:id => "court"}
         %label{:for => "claim_court_id_autocomplete"}
           = t('.court')
 
         .form-hint.xsmall.zero-vert-margin
           = "for example Cardiff"
-        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
+        = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete form-control' }
         = validation_error_message(@error_presenter, :court)
 
       .form-col
@@ -61,12 +61,12 @@
                             errors: @error_presenter
 
     .form-row
-      .form-col{class: error_class?(@error_presenter, :transfer_court)}
+      .form-col.ui-front{class: error_class?(@error_presenter, :transfer_court)}
         %span#transfer_court.visually-hidden
         = f.anchored_label t('.transfer_court'), 'transfer_court_id_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "for example Cardiff"
-        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete' }
+        = f.collection_select :transfer_court_id, Court.alphabetical, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'autocomplete form-control' }
         = validation_error_message(@error_presenter, :transfer_court)
 
       .cssfix.form-col.form-col-two-thirds{class: error_class?(@error_presenter, :transfer_case_number)}
@@ -81,7 +81,7 @@
 %fieldset
   #offence
     .form-row
-      .form-col.form-col-one-half{class: error_class?(@error_presenter, :offence)}
+      .form-col.form-col-one-half.ui-front{class: error_class?(@error_presenter, :offence)}
         = f.anchored_label t('.offence_category'), 'offence_category_description_autocomplete'
         .form-hint.xsmall.zero-vert-margin
           = "If the offence category is not listed, choose \"Miscellaneous/other\""

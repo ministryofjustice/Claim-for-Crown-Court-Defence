@@ -9,9 +9,10 @@
 //= require govuk/stop-scrolling-at-footer
 //= require moj
 //= require modules/moj.cookie-message.js
-//= require awesomplete.js
 //= require jquery-accessible-accordion-aria.js
-//= require_tree .
+//= require jquery-ui.min.js
+//= require jquery.select-to-autocomplete.js
+//= require_tree ./modules
 
 (function () {
   'use strict';
@@ -20,7 +21,8 @@
   jQuery.fn.exists = function() { return this.length > 0 };
 
   $('#fixed-fees, #misc-fees, #disbursements, #expenses, #documents').on('cocoon:after-insert', function (e, insertedItem) {
-    $(insertedItem).find('select.autocomplete').AutoComplete();
+    //$(insertedItem).find('select.autocomplete').AutoComplete();
+    $(insertedItem).find('select.autocomplete').selectToAutocomplete();
   });
 
   //Stops the form from submitting when the user presses 'Enter' key

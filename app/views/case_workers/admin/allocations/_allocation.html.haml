@@ -19,7 +19,7 @@
       .form-col
         = label_tag :quantity_to_allocate, t('.no_of_claims')
         = number_field_tag :quantity_to_allocate, nil, { style: 'width:100%', min: 0, size: 5, class: 'form-control'}
-      .form-col
+      .form-col.ui-front
         = f.label :case_worker_id, t('dictionary.models.case_worker'), {for: "allocation_case_worker_id_autocomplete"}
         = f.collection_select :case_worker_id, CaseWorker.active, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
 

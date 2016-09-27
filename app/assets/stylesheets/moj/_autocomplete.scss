@@ -58,3 +58,186 @@
     }
   }
 }
+
+.ui-autocomplete {
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 2px solid #6f777b;
+  max-height: 350px;
+  overflow-x: hidden;
+}
+
+.ui-autocomplete .ui-menu-item {
+  border-top: 1px solid #bfc1c3;
+  display: block;
+  padding: 4px 6px;
+  color: #0b0c0c;
+  cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item:first-child {
+  border-top: none;
+}
+
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+  font-weight: bold;
+  background-color: #6f777b;
+  color: #fff;
+}
+
+.ui-autocomplete {
+  width: 100%;
+}
+
+@media (min-width: 641px) {
+  .ui-autocomplete {
+    width: 66.66%;
+  }
+}
+
+
+.ui-autocomplete .ui-menu-item {
+  border-top: 1px solid #bfc1c3;
+  display: block;
+  padding: 4px 6px;
+  color: #0b0c0c;
+  cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item:first-child {
+  border-top: none;
+}
+
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+  font-weight: bold;
+  background-color: #6f777b;
+  color: #fff;
+}
+
+.ui-autocomplete {
+  width: 100%;
+}
+
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+@media (min-width: 641px) {
+  .ui-autocomplete {
+    width: 66.66%;
+  }
+}
+
+.added-country .form-control {
+  padding: 0.5em;
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  font-size: 19px;
+  font-weight: 300;
+  text-transform: none;
+  margin: 0;
+  padding: 0.5em;
+}
+
+.tt-hint {
+  display: none;
+}
+
+.tt-dropdown-menu {
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.tt-suggestion {
+  padding: 0.5em;
+  font-size: 19px;
+  line-height: 24px;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.validation-wrapper .optional-section .twitter-typeahead input {
+  margin-bottom: 0;
+}
+
+.test-case {
+  overflow: visible;
+}
+
+.visually-hidden,
+.visuallyhidden,
+.hidden-hint .screenreader-punctuation,
+.hidden-hint .form-hint {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+.added-country .form-control {
+  padding: 0.5em;
+}
+
+.tt-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 65%;
+  max-height: 220px;
+  overflow-y: scroll;
+}
+
+.tt-suggestion {
+  padding: 0.5em;
+}
+
+.tt-suggestion:hover, .tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.test-case {
+  overflow: visible;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    width: auto !important;
+    min-width: 300px;
+    max-width: 650px;
+    z-index: 10;
+}

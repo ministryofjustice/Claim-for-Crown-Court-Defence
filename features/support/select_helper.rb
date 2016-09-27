@@ -23,8 +23,9 @@ module SelectHelper
     page.execute_script %Q{ $(document.body).xpath('#{input_field.path}').trigger('keydown') }
 
     selector = %Q{.tt-menu .tt-suggestion:contains("#{options[:with]}")}
+    filter = %Q{function() { return $(this).text() === "#{options[:with]}" }} # needed to rule out multiple matches
 
-    page.execute_script %Q{ $('#{selector}').trigger('mouseenter').click() }
+    page.execute_script %Q{ $('#{selector}').filter(#{filter}).trigger('mouseenter').click() }
   end
 end
 

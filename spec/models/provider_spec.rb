@@ -2,16 +2,16 @@
 #
 # Table name: providers
 #
-#  id              :integer          not null, primary key
-#  name            :string
-#  supplier_number :string
-#  provider_type   :string
-#  vat_registered  :boolean
-#  uuid            :uuid
-#  api_key         :uuid
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  roles           :string
+#  id                        :integer          not null, primary key
+#  name                      :string
+#  firm_agfs_supplier_number :string
+#  provider_type             :string
+#  vat_registered            :boolean
+#  uuid                      :uuid
+#  api_key                   :uuid
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  roles                     :string
 #
 
 require 'rails_helper'
@@ -45,8 +45,9 @@ RSpec.describe Provider, type: :model do
   context 'when chamber' do
     subject { chamber }
 
-    it { should_not validate_presence_of(:supplier_number) }
-    it { should_not validate_uniqueness_of(:supplier_number) }
+    it { should_not validate_presence_of(:firm_agfs_supplier_number) }
+    it { should_not validate_uniqueness_of(:firm_agfs_supplier_number) }
+    it { should validate_absence_of(:firm_agfs_supplier_number) }
   end
 
   context 'ROLES' do
@@ -161,54 +162,54 @@ RSpec.describe Provider, type: :model do
   context 'AGFS supplier number validation for a chamber' do
     context 'for a blank supplier number' do
       it 'returns no errors' do
-        chamber.supplier_number = ''
+        chamber.firm_agfs_supplier_number = ''
         expect(chamber).to be_valid
       end
     end
 
     context 'for a valid supplier number' do
       it 'returns no errors' do
-        chamber.supplier_number = '2M462'
-        expect(chamber).to be_valid
+        chamber.firm_agfs_supplier_number = '2M462'
+        expect(chamber).not_to be_valid
       end
     end
 
     context 'for an invalid supplier number' do
       it 'returns errors' do
-        chamber.supplier_number = 'XXX'
+        chamber.firm_agfs_supplier_number = 'XXX'
         expect(chamber).not_to be_valid
-        expect(chamber.errors).to have_key(:supplier_number)
+        expect(chamber.errors).to have_key(:firm_agfs_supplier_number)
       end
     end
   end
 
   context 'AGFS supplier number validation for a firm' do
     context 'for a blank supplier number' do
-      it 'returns no errors' do
-        agfs_lgfs.supplier_number = ''
-        expect(agfs_lgfs).to_not be_valid
+      it 'returns errors' do
+        agfs_lgfs.firm_agfs_supplier_number = ''
+        expect(agfs_lgfs).not_to be_valid
       end
     end
 
     context 'for a valid supplier number' do
       it 'returns no errors' do
-        agfs_lgfs.supplier_number = '2M462'
+        agfs_lgfs.firm_agfs_supplier_number = '2M462'
         expect(agfs_lgfs).to be_valid
       end
     end
 
     context 'for an invalid supplier number' do
       it 'returns errors' do
-        agfs_lgfs.supplier_number = 'XXX'
+        agfs_lgfs.firm_agfs_supplier_number = 'XXX'
         expect(agfs_lgfs).not_to be_valid
-        expect(agfs_lgfs.errors).to have_key(:supplier_number)
+        expect(agfs_lgfs.errors).to have_key(:firm_agfs_supplier_number)
       end
     end
   end
 
   context 'LGFS supplier number validation' do
     it 'validates the supplier numbers sub model for LGFS role' do
-      expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(firm, :supplier_numbers)
+      expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(firm, :lgfs_supplier_numbers)
       firm.valid?
     end
 
@@ -218,7 +219,7 @@ RSpec.describe Provider, type: :model do
     end
 
     it 'returns error if supplier numbers is blank' do
-      allow(firm).to receive(:supplier_numbers).and_return([])
+      allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
       expect(firm).to_not be_valid
       expect(firm.errors[:base]).to eq(["LGFS supplier numbers can't be blank"])
     end

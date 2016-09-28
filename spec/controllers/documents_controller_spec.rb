@@ -126,7 +126,7 @@ RSpec.describe DocumentsController, type: :controller do
 
     it 'destroys the document' do
       expect {
-        delete :destroy, id: document.id
+        delete :destroy, id: document.id, format: :json
       }.to change(Document, :count).by(-1)
     end
   end

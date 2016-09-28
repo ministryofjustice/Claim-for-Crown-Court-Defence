@@ -17,13 +17,21 @@
   .column-one-third
     = @provider.roles.map(&:upcase) * ', '
 
-- if @provider.supplier_numbers.any?
+- if @provider.lgfs_supplier_numbers.any?
   .grid-row
     .column-one-third
       %h3
-        = t('.supplier_numbers')
+        = t('.lgfs_supplier_numbers')
     .column-one-third
-      = @provider.supplier_numbers.to_sentence
+      = @provider.lgfs_supplier_numbers.to_sentence
+
+- if @provider.firm? && @provider.agfs?
+  .grid-row
+    .column-one-third
+      %h3
+        = t('.firm_agfs_supplier_number')
+    .column-one-third
+      = @provider.firm_agfs_supplier_number
 
 .grid-row
   .column-one-third

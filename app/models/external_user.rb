@@ -31,6 +31,8 @@ class ExternalUser < ActiveRecord::Base
 
   default_scope { includes(:user, :provider) }
 
+  before_validation { supplier_number.upcase! unless supplier_number.blank? }
+
   validates :user, presence: true
   validates :provider, presence: true
   validates :supplier_number, presence: true, if: :validate_supplier_number?

@@ -24,12 +24,12 @@ module SeedHelper
     if provider.blank?
       provider = Provider.create!(
         name: attrs[:name],
-        supplier_number: attrs[:supplier_number],
+        firm_agfs_supplier_number: attrs[:firm_agfs_supplier_number],
         api_key: attrs[:api_key],
         provider_type: attrs[:provider_type],
         vat_registered: attrs[:vat_registered],
         roles: attrs[:roles],
-        supplier_numbers: attrs[:supplier_numbers] || []
+        lgfs_supplier_numbers: attrs[:lgfs_supplier_numbers] || []
       )
     end
     provider

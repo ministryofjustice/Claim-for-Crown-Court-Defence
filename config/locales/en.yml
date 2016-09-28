@@ -280,7 +280,8 @@ en:
         provider_name: *provider_name
         supplier_number: *supplier_number
         vat_registered: *vat_registered
-        supplier_numbers: "Supplier numbers"
+        lgfs_supplier_numbers: 'LGFS supplier numbers'
+        firm_agfs_supplier_number: 'AGFS supplier number'
       index:
         add_a_provider: Add a provider
       providers:
@@ -381,7 +382,8 @@ en:
           supplier_number: *supplier_number
           vat_registered: *vat_registered
           api_key: *api_key
-          supplier_numbers: "Supplier numbers"
+          lgfs_supplier_numbers: "LGFS supplier numbers"
+          firm_agfs_supplier_number: "AGFS suppliper number"
         edit:
           error: 'error'
           prohibited_save: 'This provider has'

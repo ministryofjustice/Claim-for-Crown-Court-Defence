@@ -14,6 +14,9 @@ class SupplierNumber < ActiveRecord::Base
 
   belongs_to :provider
 
+  before_validation { supplier_number.upcase! unless supplier_number.blank? }
+
+
   validates :supplier_number, format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: false }, uniqueness: true
 
   def to_s

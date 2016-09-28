@@ -21,7 +21,7 @@ module DemoData
           source: "web",
           vat_amount: 0.0,
           additional_information: generate_additional_info,
-          supplier_number: litigator.provider.supplier_numbers.sample.supplier_number
+          supplier_number: litigator.provider.lgfs_supplier_numbers.sample.supplier_number
       )
 
       claim.case_type = claim.eligible_case_types.sample

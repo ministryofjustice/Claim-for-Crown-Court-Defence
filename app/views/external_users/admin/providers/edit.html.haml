@@ -2,37 +2,5 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Edit provider details'}
 
-.body-content
-  = form_for [:external_users, :admin, @provider], html: { novalidate: true } do |f|
-    %fieldset
-      %legend
-        = 'Provider details'
-      .form-group
-        = f.label :name, t('.provider_name'), class: "form-label"
-        = validation_error_message(@provider, :name)
-        = f.text_field :name, class: "form-control"
+= render partial: 'super_admins/providers/form'
 
-      - if @provider.firm?
-        - if @provider.lgfs?
-          = render 'shared/supplier_numbers', f: f
-
-        - else
-          .form-group
-            = f.label :supplier_number, t('.supplier_number'), class: "form-label"
-            = f.text_field :supplier_number, class: "form-control"
-            = validation_error_message(@provider, :supplier_number)
-
-      - if @provider.firm?
-        %fieldset.inline
-          %legend
-            = 'VAT registered'
-          =f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-            - b.label(class: 'block-label') { b.radio_button + (b.value.to_s == 'true' ? 'Yes' : 'No') }
-
-      %h2
-        = t('.api_key')
-      %p
-        = @provider.api_key
-
-      .form-group
-        = f.submit 'Save', class: "button"

@@ -62,6 +62,8 @@ moj.Modules.Autocomplete = {
     var $wrapper = $(e.delegateTarget);
     var selectedTextString = $wrapper.find('select.typeahead option:selected').text();
 
+    console.log($wrapper, selectedTextString);
+
     if (str === "" || !str) {
       $wrapper.find('select.typeahead').prop('selectedIndex', 0).change();
       return;
@@ -69,7 +71,7 @@ moj.Modules.Autocomplete = {
 
     if (str !== selectedTextString) {
       $wrapper.find('select.typeahead option').filter(function() {
-        return $(this).text() === str;
+        return $.trim($(this).text()) === $.trim(str);
       }).prop('selected', true).change();
       return;
     }
@@ -85,6 +87,8 @@ moj.Modules.Autocomplete = {
       var typeaheadList = self.bh({
         local: self.typeaheadBuildDataFromSelect($select)
       });
+
+      $select.attr('tabindex', -1);
 
       self.typeaheadPrepInputAndAttach($select, $input).then(function() {
         self.typeaheadInit($input, typeaheadList);
@@ -160,7 +164,7 @@ moj.Modules.Autocomplete = {
 
     $input.removeClass('js-hidden');
     $input.addClass('form-control');
-    $input.attr('tabindex', 1);
+    $input.attr('tabindex', 0);
     $input.attr('autocomplete', 'off');
     defer.resolve($input);
 

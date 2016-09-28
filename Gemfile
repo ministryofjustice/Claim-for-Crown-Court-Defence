@@ -85,7 +85,6 @@ group :development, :devunicorn, :test do
   gem 'site_prism'
   gem 'guard-jasmine',      '~> 2.0'
   gem 'guard-rspec'
-  gem 'colorize'
 end
 
 group :test do

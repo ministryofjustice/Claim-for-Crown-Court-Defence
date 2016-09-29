@@ -3,12 +3,12 @@
   %legend.visuallyhidden
     = t('.fixed_fee')
   .form-group.fixed-fee-group.nested-fields.js-block{data:{type:"fees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    .grid-row
+    .grid-row.js-typeahead
       .column-one-half.fee-type{class: error_class?(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")}
         %label.form-label
           = t('.fee_type')
         %a{id: "fixed_fee_#{@fixed_fee_count}_fee_type"}
-        = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete', style: 'width:400px'}
+        = f.collection_select :fee_type_id, @claim.eligible_fixed_fee_types, :id, :description, { include_blank: ''.html_safe }, {class: 'form-control typeahead', style: 'width:400px'}
         = validation_error_message(@error_presenter, "fixed_fee_#{@fixed_fee_count}_fee_type")
 
       .column-one-quarter.fee-quantity

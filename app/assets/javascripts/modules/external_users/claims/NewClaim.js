@@ -27,7 +27,7 @@ moj.Modules.NewClaim = {
   initBasicClaim : function() {
     var self = this;
 
-    self.$offenceCategorySelect = $('#offence_category_description');
+    self.$offenceCategorySelect = $('#claim_offence_category_description');
 
     self.$offenceCategorySelect.change(function() {
       var param = $.param({description : $(this).find(':selected').text()});

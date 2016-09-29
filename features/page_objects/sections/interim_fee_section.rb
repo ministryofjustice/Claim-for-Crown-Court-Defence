@@ -9,6 +9,6 @@ class InterimFeeSection < SitePrism::Section
 
   def select_fee_type(name)
     id = select_container[:id]
-    select name, from: id
+    select name, from: id, autocomplete: false
   end
 end

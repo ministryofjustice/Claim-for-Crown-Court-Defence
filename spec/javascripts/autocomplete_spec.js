@@ -1,60 +1,101 @@
 describe("Autocomplete", function() {
+  var module = moj.Modules.Autocomplete;
+  beforeEach(function() {});
 
-  var fixtureDom = $('<div/>').attr('id', 'autocomplete_wrapper'),
-    selectObj = '<select class="autocomplete" name="claim[case_type_id]" id="claim_case_type_id">' +
-    '<option value=""></option>' +
-    '<option data-is-fixed-fee="true" value="1">Appeal against conviction</option>' +
-    '<option data-is-fixed-fee="true" value="2">Appeal against sentence</option>' +
-    '<option data-is-fixed-fee="true" value="3">Breach of Crown Court order</option>' +
-    '<option data-is-fixed-fee="true" value="4">Committal for Sentence</option>' +
-    '<option data-is-fixed-fee="true" value="5">Contempt</option>' +
-    '<option data-is-fixed-fee="false" value="6">Cracked Trial</option>' +
-    '<option data-is-fixed-fee="false" value="7">Cracked before retrial</option>' +
-    '<option data-is-fixed-fee="false" value="8">Discontinuance</option>' +
-    '<option data-is-fixed-fee="true" value="9">Elected cases not proceeded</option>' +
-    '<option data-is-fixed-fee="false" value="10">Guilty plea</option>' +
-    '<option data-is-fixed-fee="false" value="11">Retrial</option>' +
-    '<option data-is-fixed-fee="false" value="12">Trial</option>' +
-    '</select>';
+  afterEach(function() {});
 
-
-  beforeEach(function() {
-    fixtureDom.append(selectObj);
-    $('body').append(fixtureDom);
-  });
-
-  describe('init', function() {
-
-    var select, input, list;
-
-    beforeEach(function() {
-      select = fixtureDom.find('select.autocomplete');
-      select.AutoComplete();
-      input = fixtureDom.find('#claim_case_type_id_autocomplete');
-      list = fixtureDom.find('ul');
-
-    });
-    it('should be defined', function() {
-      expect(select).toBeDefined();
-    });
-    it('should create the awesomplete input and hidden ul', function() {
-      expect(input.is(':visible')).toBe(true);
-      expect(list.is(':visible')).toBe(false);
-    });
-    it('should hide the select', function() {
-      expect(fixtureDom.find('#claim_case_type_id').is(':visible')).toBe(false);
-    });
-
-    describe('enter Trial text', function() {
-      beforeEach(function() {
-        fixtureDom.find('#claim_case_type_id_autocomplete').val('Trial').trigger('change');
+  describe('Methods', function() {
+    describe('...init', function() {
+      it('should call `this.doKickoff`', function() {
+        spyOn(module, 'doKickoff');
+        module.init();
+        expect(module.doKickoff).toHaveBeenCalled();
       });
-      it('should update the select', function() {
-        expect(fixtureDom.find('select').find('option:selected').text()).toBe('Trial');
-        $('#autocomplete_wrapper').remove();
+
+      it('should not call `this.typeaheadKickoff` if there are NO elements to bind', function() {
+        spyOn(module, 'typeaheadKickoff');
+        spyOn(module, 'doKickoff').and.returnValue(0);
+        module.init();
+        expect(module.typeaheadKickoff).not.toHaveBeenCalled();
+      });
+
+      it('should call `this.typeaheadKickoff` if there are elements to bind', function() {
+        spyOn(module, 'typeaheadKickoff');
+        spyOn(module, 'doKickoff').and.returnValue(1);
+        module.init();
+        expect(module.typeaheadKickoff).toHaveBeenCalled();
       });
     });
 
-  });
+    describe('...bh', function() {
+      it('should return a Bloodhound instance', function() {
+        var bh;
+        var data = {
+          local: [{
+            "id": "10",
+            "displayName": "Up to and including PCMH transfer"
+          }, {
+            "id": "20",
+            "displayName": "Before trial transfer"
+          }]
+        };
+        bh = module.bh(data);
+        expect(bh.all()).toEqual(data.local);
+      });
+    });
 
+    describe('...sourceWithDefaults', function() {
+      it('should return all results with no `q` specified', function() {
+        var output;
+        var sync = function(data) {
+          output = data;
+        };
+        var result;
+        var data = {
+          local: [{
+            "id": "10",
+            "displayName": "Up to and including PCMH transfer"
+          }, {
+            "id": "20",
+            "displayName": "Before trial transfer"
+          }]
+        };
+        var bh = module.bh(data);
+
+        module.sourceWithDefaults('', sync, bh);
+        expect(output).toEqual(data.local);
+        module.sourceWithDefaults('Be', sync, bh);
+        expect(output).toEqual([data.local[1]]);
+      });
+    });
+
+
+    describe('...typeaheadInit', function() {
+      it('should throw and error if either param is undefined', function() {
+        expect(function() {
+          module.typeaheadInit();
+        }).toThrowError('Missing params');
+      });
+
+      it('should call $.fn.typeahead', function(){
+        spyOn($.fn, 'typeahead');
+        module.typeaheadInit($('<input />'), []);
+        expect($.fn.typeahead).toHaveBeenCalled();
+      });
+    });
+
+    describe('...typeaheadInit', function() {
+      it('should throw and error if either param is undefined', function() {
+        expect(function() {
+          module.typeaheadInit();
+        }).toThrowError('Missing params');
+      });
+
+      it('should call $.fn.typeahead', function(){
+        spyOn($.fn, 'typeahead');
+        module.typeaheadInit($('<input />'), []);
+        expect($.fn.typeahead).toHaveBeenCalled();
+      });
+    });
+  });
 });

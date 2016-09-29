@@ -37,7 +37,7 @@
   .case-worker-reallocation.grid-row.form-group
     .column-one-quarter.js-case-worker-list
       = f.label :case_worker_id
-      = f.collection_select :case_worker_id, CaseWorker.active, :id, :name, { include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete' }
+      = f.collection_select :case_worker_id, CaseWorker.active, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control autocomplete' }
     .column-half.margin-spacer-sm
       = f.submit 'Re-allocate', class: 'button'
 

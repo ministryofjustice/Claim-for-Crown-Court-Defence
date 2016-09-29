@@ -19,11 +19,11 @@
           - b.label(class: "block-label") { b.radio_button(class: 'js-elected-case') + b.text }
       = validation_error_message(@error_presenter, :elected_case)
 
-    .form-row
+    .form-row.js-typeahead
       .form-col.form-col-two-thirds
         %fieldset
           = f.anchored_label t('.transfer_stage_default_label_text'), 'transfer_stage_id', { label_attributes: { class: 'js-transfer-stage-label' } }
-          = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control autocomplete js-transfer-stage-id'}
+          = f.collection_select :transfer_stage_id, claim.transfer_stages, :first, :last,{}, { class: 'form-control typeahead js-transfer-stage-id'}
           = validation_error_message(@error_presenter, 'transfer_stage_id')
 
     .form-row
@@ -31,9 +31,9 @@
         = f.gov_uk_date_field(:transfer_date, legend_text: t('.transfer_date_default_label_text'), legend_class: 'govuk-legend js-transfer-date-label', id: "transfer_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, 'transfer_date'))
 
   .js-case-conclusions-select
-    .form-row
+    .form-row.js-typeahead
       .form-col.form-col-one-half{class: error_class?(@error_presenter, 'case_conclusion_id')}
         %fieldset
           = f.anchored_label t('.case_conclusions'), 'case_conclusion_id'
-          = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: '&#160;'.html_safe }, { class: 'form-control autocomplete medium-input'}
+          = f.collection_select :case_conclusion_id, claim.case_conclusions, :first, :last,{ include_blank: ''.html_safe },{ class: 'form-control typeahead medium-input'}
           = validation_error_message(@error_presenter, 'case_conclusion_id')

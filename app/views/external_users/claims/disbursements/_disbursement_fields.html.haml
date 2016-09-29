@@ -2,12 +2,12 @@
   %legend.visuallyhidden
     = t('.disbursement')
   .form-group.disbursement-group.nested-fields.js-block{data:{"block-type": "FeeBlockManualAmounts", type:"disbursements", autovat: "false"}}
-    .grid-row
+    .grid-row.js-typeahead
       .column-half.disbursement-type{class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")}
         %label.form-label
           = t('.disbursement_type')
         %a{id: "disbursement_#{@disbursement_count}_disbursement_type"}
-        = f.collection_select :disbursement_type_id, DisbursementType.active, :id, :name, { include_blank: '&#160;'.html_safe }, {class: 'form-control autocomplete', style: 'width:350px'}
+        = f.collection_select :disbursement_type_id, DisbursementType.active, :id, :name, { include_blank: ''.html_safe }, {class: 'form-control typeahead', style: 'width:350px'}
         = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
 
       .column-one-quarter.fee-amount

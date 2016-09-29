@@ -1,60 +1,35 @@
-.awesomplete {
-  position: relative;
-  input {
-    display: block;
-    background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4zLjMgKDEyMDgxKSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5UcmlhbmdsZSAyIENvcHk8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iTWFpbi1mbG93IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8ZyBpZD0iQ2xhaW0tZGV0YWlsLS0tT1BFTiIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0Ny4wMDAwMDAsIC03NzUuMDAwMDAwKSIgZmlsbD0iIzZGNzc3QiI+CiAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJUcmlhbmdsZS0yLUNvcHkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1NS4wMDAwMDAsIDc4My4wMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC0xNTUuMDAwMDAwLCAtNzgzLjAwMDAwMCkgIiBwb2ludHM9IjE1NS4zODA5NTIgNzc1IDE2MyA3OTEgMTQ3IDc5MSAiPjwvcG9seWdvbj4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==') no-repeat right 5px center;
-    padding-right: 25px;
-  }
-  *[hidden] {
-    display: none;
-  }
-  ul {
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 7px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background-color: rgba(0,0,0,.5);
-      -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-    }
-    position: absolute;
-    left: 0;
-    z-index: 50;
-    min-width: 100%;
-    box-sizing: border-box;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid $border-colour;
+.js-enabled select.typeahead{
+  @extend .visuallyhidden;
+  width: auto !important;
+}
 
-    max-height: 208px;
-    -ms-overflow-style: none;
-    overflow: auto;
-    background-color: #fff;
-    -webkit-box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
-    -moz-box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
-    mark {
-      background: transparent;
-      font-weight: 700;
-    }
-    li {
-      color: $text-colour;
-      &[aria-selected="true"] {
-        background-color: $link-colour;
-        color: white;
-        mark {
-          color: inherit;
-        }
-      }
-      &:hover {
-        background-color: $link-colour;
-        color: white;
-        mark {
-          color: white;
-        }
-      }
-    }
+//autocomplete styling
+.tt-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: scroll;
+}
+
+.tt-hint{
+  opacity: 0.6 !important;
+}
+
+.tt-suggestion {
+  padding: 0.5em;
+
+  &:hover,
+  &.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.twitter-typeahead {
+  width: 100%;
 }

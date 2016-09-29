@@ -1,70 +1,183 @@
 <claim>
-  <claim_details>
-    <!-- type can be Advocate, Litigator Final, Litigator Interim, Litigator Transfer -->
-    <type>Advocate</type>
-    <!--provider_key is the key that CCR/CCLF use to identify provider-->
-    <provider_key>2161f858-cb16-4c77-9792-28defcbc5688</provider_key>
-    <!--We can either send an id that identifies the creator to CCCD, or an id used byCCRR/CCLF -->
-    <created_by_uuid>2161f859-cb16-4c77-9792-28defcbc5688</created_by_uuid>
-    <!--External_user_uuid identifies the advocate or litigator who is making the claim-->
-    <external_user_uuid>2161f859-cb16-4c77-9792-28defcbc5688</external_user_uuid>
-    <!--Advocate Category can be QC, Leading Junior, Led Junior, Junior alone,  or we can send a code which identifies this to CCR/CCLF-->
-    <advocate_category>QC</advocate_category>
-  </claim_details>
-
-  <case_details>
-    <!--Case type is a code which identifies the case type to the CCR/CCLF systems -->
-    <case_type>XX1111</case_type>
-    <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
-    <court>Aylesbury Crown</court>
-    <case_number>A12345678</case_number>
-
-    <!--Transsfer court details are optional-->
-    <transfer_court_details>
-      <court>Basildon</court>
-      <case_number>X12345678</case_number>
-    </transfer_court_details>
-
-    <offence>
-      <!--Will probably want to send a key identifying the offence category and class-->
-      <category>Abandonment of children under two</category>
-      <class>C: Lesser offences involving violence or damage and less serious drug offences</class>
-    </offence>
+    <claim_details>
+        <claim_uuid>2161f858-cb16-4c77-9792-28defcbc5688</claim_uuid>
+        <!-- type can be Advocate, Litigator Final, Litigator Interim, Litigator Transfer -->
+        <type>Advocate</type>
+        <!--provider_key is the key that CCR/CCLF use to identify provider-->
+        <provider_key>2161f858-cb16-4c77-9792-28defcbc5688</provider_key>
+        <!--We can either send an id that identifies the creator to CCCD, or an id used byCCRR/CCLF -->
+        <supplier_number>1B222Z</supplier_number>
+        <created_by_uuid>2161f859-cb16-4c77-9792-28defcbc5688</created_by_uuid>
+        <!--External_user_uuid identifies the advocate or litigator who is making the claim-->
+        <external_user_uuid>2161f859-cb16-4c77-9792-28defcbc5688</external_user_uuid>
+        <!--Advocate Category can be QC, Leading Junior, Led Junior, Junior alone,  or we can send a code which identifies this to CCR/CCLF-->
+        <advocate_category>QC</advocate_category>
+        <additional_information>
+            Free form text that the creator may add to explain certain aspects of the claim
+        </additional_information>
+        <apply_vat>true</apply_vat>
+        <!--Date and time (UTC) claim last submitted-->
+        <submitted_at>2016-09-29T13:11:43Z</submitted_at>
+        <!--Date and time claim originally submitted-->
+        <originally_submitted_at>2016-09-29T13:11:43Z</originally_submitted_at>
+        <state>Authorised</state>
+        <!--Time claim authorised in UTC-->
+        <authorised_at>2016-09-29T13:11:43Z</authorised_at>
+    </claim_details>
 
 
-  </case_details>
+    <case_details>
+        <!--Case type is a code which identifies the case type to the CCR/CCLF systems -->
+        <case_type>XX1111</case_type>
+        <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
+        <court>Aylesbury Crown</court>
+        <case_number>A12345678</case_number>
+        <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
+        <transfer_court>Reading Crown</transfer_court>
+        <transfer_case_number>Z12345678</transfer_case_number>
 
-  <defendants>
-    <!--At least one defendant must be specified-->
-    <defendant>
-      <defendant_first_name>John</defendant_first_name>
-      <defendant_last_name>Smith</defendant_last_name>
-      <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
-      <representation_order>
-        <date>2016-05-22</date>
-        <number>1234567890</number>
-      </representation_order>
-    </defendant>
-    <defendant>
-      <defendant_first_name>John</defendant_first_name>
-      <defendant_last_name>Smith</defendant_last_name>
-      <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
-      <representation_order>
-        <date>2016-05-22</date>
-        <number>1234567890</number>
-      </representation_order>
-    </defendant>
-  </defendants>
+        <date_case_started>2016-07-01</date_case_started>
+        <date_trial_concluded>2016-07-06</date_trial_concluded>
+        <estimated_trial_length>4</estimated_trial_length>
+        <actual_trial_length>5</actual_trial_length>
+        <date_trial_fixed_notice>2016-07-06</date_trial_fixed_notice>
+        <date_trial_fixed>2016-07-06</date_trial_fixed>
+        <date_trial_cracked>2016-07-06</date_trial_cracked>
+        <date_trial_cracked_at_third>2016-07-06</date_trial_cracked_at_third>
+        <date_retrial_started>2016-07-06</date_retrial_started>
+        <date_retrial_concluded>2016-07-06</date_retrial_concluded>
+        <retrial_estimated_length>4</retrial_estimated_length>
+        <retrial_actual_length>6</retrial_actual_length>
+        <effictive_pcmh_date>2016-07-06</effictive_pcmh_date>
+        <legal_aid_transfer_date>2016-07-06</legal_aid_transfer_date>
+        <source>Web</source>
 
-  <fees>
-   <fee>
-     <!--Fee type can be: Fixed, Miscellaneous, Interim, Graduated-->
-     <type>Fixed</type>
-     <!--Fee code can be some code which represents the actual fee (e.g. "Cracked case discontinued" to the CCR/CCLF systems-->
-     <fee_code>ABC2161f859-cb16-4c77-9792-28defcbc5688123</fee_code>
-     <quantity>5</quantity>
-     <rate>149.33</rate>
-   </fee>
-  </fees>
+        <fees_total>3577.33</fees_total>
+        <expenses_total>840.22</expenses_total>
+        <claim_total>4417.55</claim_total>
+        <disbursements_total>6772.33</disbursements_total>
+        <vat_amount>350.66</vat_amount>
+        <cms_number>X67676767</cms_number>
+        <providers_reference>PSR-001/2016/5/88</providers_reference>
+        <evidence_checklist>
+            <!--Doc types can by one of the following:-->
+            <!--'Representation order'-->
+            <!--'LAC1 - memo of conviction'-->
+            <!--'Committal bundle front sheets'-->
+            <!--'A copy of the indictment'-->
+            <!--'Order in respect of judicial apportionment'-->
+            <!--'Expenses invoices'-->
+            <!--'Hardship supporting evidence'-->
+            <!--'Details of previous fee advancements'-->
+            <!--'Justification for out of time claim'-->
+            <doc_type>Representation order</doc_type>
+            <doc_type>Expenses invoices</doc_type>
+        </evidence_checklist>
+
+        <offence>
+            <!--Will probably want to send a key identifying the offence category and class-->
+            <category>Abandonment of children under two</category>
+            <class>C: Lesser offences involving violence or damage and less serious drug offences</class>
+        </offence>
+    </case_details>
+
+    <case_workers>
+        <!--This could be some other reference to the case worker, not necessarily the UUID from our system-->
+        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
+        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
+        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
+    </case_workers>
+
+
+    <defendants>
+        <!--At least one defendant must be specified-->
+        <defendant>
+            <defendant_first_name>John</defendant_first_name>
+            <defendant_last_name>Smith</defendant_last_name>
+            <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
+            <representation_order>
+                <date>2016-05-22</date>
+                <number>1234567890</number>
+            </representation_order>
+        </defendant>
+        <defendant>
+            <defendant_first_name>John</defendant_first_name>
+            <defendant_last_name>Smith</defendant_last_name>
+            <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
+            <representation_order>
+                <date>2016-05-22</date>
+                <number>1234567890</number>
+            </representation_order>
+        </defendant>
+    </defendants>
+
+    <fees>
+        <fee>
+            <!--Fee type can be: Fixed, Miscellaneous, Interim, Graduated-->
+            <type>Fixed</type>
+            <!--Fee code can be some code which represents the actual fee (e.g. "Cracked case discontinued" to the CCR/CCLF systems-->
+            <fee_code>ABC2161f859-cb16-4c77-9792-28defcbc5688123</fee_code>
+            <quantity>5</quantity>
+            <rate>149.33</rate>
+            <dates_attended>
+
+            </dates_attended>
+        </fee>
+    </fees>
+
+    <expenses>
+        <expense>
+            <!--Expense Type can be one of the following:-->
+            <!--Car travel-->
+            <!--Parking-->
+            <!--Hotel accommodation-->
+            <!--Train/public transport-->
+            <!--Travel time-->
+            <!--Road or tunnel tolls-->
+            <!--Cab fares-->
+            <!--Subsistence-->
+            <date>2016-05-22</date>
+            <expense_type> Car travel</expense_type>
+            <location>Peterborough</location>
+            <quantity></quantity>
+            <rate></rate>
+            <amount>35.44</amount>
+            <distance>170</distance>
+            <mileage_rate>25p</mileage_rate>
+            <reason_type></reason_type>
+
+        </expense>
+
+    </expenses>
+
+    <disbursements>
+
+    </disbursements>
+
+    <documents>
+
+    </documents>
+
+    <messages>
+
+    </messages>
+
+    <determinations>
+        <!--One assessment must exist. There may be zero or more redeterminations-->
+        <assessment>
+            <created_at>2016-09-29T13:11:43Z</created_at>
+            <caseworker_uuid>ABC2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
+            <fees>6773.44</fees>
+            <expenses>7566.33</expenses>
+            <disbursements>388.44</disbursements>
+        </assessment>
+        <redetermination>
+            <created_at>2016-09-29T13:11:43Z</created_at>
+            <caseworker_uuid>ABC2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
+            <fees>6773.44</fees>
+            <expenses>7566.33</expenses>
+            <disbursements>388.44</disbursements>
+        </redetermination>
+    </determinations>
 
 </claim>

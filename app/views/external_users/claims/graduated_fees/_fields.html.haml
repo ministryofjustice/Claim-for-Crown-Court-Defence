@@ -29,7 +29,7 @@
         .grid-row
           .column-one-third
             = grad_fee_form.anchored_attribute 'date'
-            = grad_fee_form.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
+            = grad_fee_form.gov_uk_date_field(:date, legend_text: 'First day of hearing', legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'graduated_fee.date'))
 
           .column-one-third.js-expense-reason
             %label.form-label

@@ -35,7 +35,6 @@
         <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
         <transfer_court>Reading Crown</transfer_court>
         <transfer_case_number>Z12345678</transfer_case_number>
-
         <date_case_started>2016-07-01</date_case_started>
         <date_trial_concluded>2016-07-06</date_trial_concluded>
         <estimated_trial_length>4</estimated_trial_length>
@@ -50,8 +49,8 @@
         <retrial_actual_length>6</retrial_actual_length>
         <effictive_pcmh_date>2016-07-06</effictive_pcmh_date>
         <legal_aid_transfer_date>2016-07-06</legal_aid_transfer_date>
+        <!--- sourece can be Web, Api, Json -->
         <source>Web</source>
-
         <fees_total>3577.33</fees_total>
         <expenses_total>840.22</expenses_total>
         <claim_total>4417.55</claim_total>
@@ -60,7 +59,7 @@
         <cms_number>X67676767</cms_number>
         <providers_reference>PSR-001/2016/5/88</providers_reference>
         <evidence_checklist>
-            <!--Doc types can by one of the following:-->
+            <!--Doc types can by one of the following (zero or more may be specified:-->
             <!--'Representation order'-->
             <!--'LAC1 - memo of conviction'-->
             <!--'Committal bundle front sheets'-->
@@ -81,16 +80,9 @@
         </offence>
     </case_details>
 
-    <case_workers>
-        <!--This could be some other reference to the case worker, not necessarily the UUID from our system-->
-        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
-        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
-        <case_worker_uuid>2161f859-cb16-4c77-9792-28defcbc5688</case_worker_uuid>
-    </case_workers>
-
 
     <defendants>
-        <!--At least one defendant must be specified-->
+        <!--One or more defendants-->
         <defendant>
             <defendant_first_name>John</defendant_first_name>
             <defendant_last_name>Smith</defendant_last_name>
@@ -111,12 +103,15 @@
         </defendant>
     </defendants>
 
+
+
     <fees>
+        <!--Zero or more fees-->
         <fee>
             <!--Fee type can be: Fixed, Miscellaneous, Interim, Graduated-->
             <type>Fixed</type>
             <!--Fee code can be some code which represents the actual fee (e.g. "Cracked case discontinued" to the CCR/CCLF systems-->
-            <fee_code>ABC2161f859-cb16-4c77-9792-28defcbc5688123</fee_code>
+            <fee_code>2161f859-cb16-4c77-9792-28defcbc5688123</fee_code>
             <quantity>5</quantity>
             <rate>149.33</rate>
             <dates_attended>
@@ -125,7 +120,9 @@
         </fee>
     </fees>
 
+
     <expenses>
+        <!--Zero or more expenses-->
         <expense>
             <!--Expense Type can be one of the following:-->
             <!--Car travel-->
@@ -145,35 +142,92 @@
             <distance>170</distance>
             <mileage_rate>25p</mileage_rate>
             <reason_type></reason_type>
-
         </expense>
-
     </expenses>
 
-    <disbursements>
 
+    <disbursements>
+        <!--Zero or more disbursments-->
+        <disbursement>
+            <!--Disbursement types can be one of the following, or a code to represent one of the following:-->
+            <!--Accident reconstruction report-->
+            <!--Accounts-->
+            <!--Computer experts-->
+            <!--Consultant medical reports-->
+            <!--Costs judge application fee-->
+            <!--Costs judge preparation award-->
+            <!--DNA testing-->
+            <!--Engineer-->
+            <!--Enquiry agents-->
+            <!--Facial mapping expert-->
+            <!--Financial expert-->
+            <!--Fingerprint expert-->
+            <!--Fire assessor/explosives expert-->
+            <!--Forensic scientists-->
+            <!--Handwriting expert-->
+            <!--Interpreter-->
+            <!--Lip readers-->
+            <!--Medical expert-->
+            <!--Memorandum of conviction fee-->
+            <!--Meteorologist-->
+            <!--Other-->
+            <!--Overnight expenses-->
+            <!--Pathologist-->
+            <!--Photocopying-->
+            <!--Psychiatric reports-->
+            <!--Psychological report-->
+            <!--Surveyor/architect-->
+            <!--Transcripts-->
+            <!--Translator-->
+            <!--Vet report-->
+            <!--Voice recognition-->
+            <disbursement_types>Accident reconstruction report</disbursement_types>
+            <net_amount>9.70</net_amount>
+            <vat_amount>1.94</vat_amount>
+        </disbursement>
     </disbursements>
 
     <documents>
-
+        <!--Zero or more documents - always pdf-->
+        <document>
+            <uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</uuid>
+            <file_name>Hogdson_-_re_order.pdf</file_name>
+            <!--URI refers to location where document is stored in Amazon S3 bucket-->
+            <uri>documents/000/044/782/Hogdson_-_rep_order.pdf</uri>
+            <size>388031</size>
+        </document>
     </documents>
 
-    <messages>
 
+
+    <messages>
+        <!--Zero or more messages-->
+        <message>
+            <!--UUID of message sender - either caseworker or external user-->
+            <sender_uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</sender_uuid>
+            <body>Please find enclosed invoice for printhouse.  This was enclosed with our original claim however, we have enclosed it again.  \r
+                As you will see from the invoice the copies are for colour copies.  We do not have facilities in our office to produce colour photos.\r
+                We also enclose an amended more detailed invoice from the Private Investigator.\r                                                                                                                                                                                   +
+                We hope the above is now sufficient to be able to pay these invoices..
+            </body>
+            <created_at>2016-09-29T13:11:43Z</created_at>
+            <!--Optional attached document - UUID refers to a document specified in the document section above-->
+            <document_uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</document_uuid>
+        </message>
     </messages>
 
     <determinations>
         <!--One assessment must exist. There may be zero or more redeterminations-->
         <assessment>
             <created_at>2016-09-29T13:11:43Z</created_at>
-            <caseworker_uuid>ABC2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
+            <caseworker_uuid>2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
             <fees>6773.44</fees>
             <expenses>7566.33</expenses>
             <disbursements>388.44</disbursements>
         </assessment>
         <redetermination>
             <created_at>2016-09-29T13:11:43Z</created_at>
-            <caseworker_uuid>ABC2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
+            <caseworker_uuid>2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
             <fees>6773.44</fees>
             <expenses>7566.33</expenses>
             <disbursements>388.44</disbursements>

@@ -24,6 +24,7 @@
 #  unlock_token           :string
 #  settings               :text
 #  deleted_at             :datetime
+#  api_key                :uuid
 #
 
 class User < ActiveRecord::Base

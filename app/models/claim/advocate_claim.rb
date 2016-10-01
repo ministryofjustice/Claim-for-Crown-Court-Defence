@@ -119,8 +119,20 @@ module Claim
       end
     end
 
+    def agfs_supplier_number
+      begin
+        if provider.firm?
+          provider.firm_agfs_supplier_number
+        else
+          external_user.supplier_number
+        end
+      rescue StandardError
+        nil
+      end
+    end
+
     def set_supplier_number
-      supplier_no = (provider_delegator.supplier_number rescue nil)
+      supplier_no = agfs_supplier_number
       self.supplier_number = supplier_no if self.supplier_number != supplier_no
     end
 

@@ -43,7 +43,7 @@ label {
 
   .margin-spacer-sm{
     padding: 0;
-    margin: 25px 0 0;
+    margin: 25px 0 0 25px;
   }
   .column-one-quarter{
     padding: 0;
@@ -426,6 +426,12 @@ label.form-date-spacing {
 
 .expense-group {
   margin-bottom:$gutter;
+}
+
+.js-case-worker-list {
+  .form-control {
+      width: 100%;
+    }
 }
 
 .form-row {

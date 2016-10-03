@@ -3,7 +3,6 @@ ruby '2.3.0'
 
 gem 'amoeba',                 '~> 3.0.0'
 gem 'auto_strip_attributes',  '~> 2.0'
-# gem 'aws-sdk-v1',             '1.64.0'
 gem 'aws-sdk',                '~> 2'
 gem 'awesome_print'
 gem 'cancancan',              '~> 1.15'

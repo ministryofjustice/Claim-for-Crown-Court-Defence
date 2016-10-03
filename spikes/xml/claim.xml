@@ -7,9 +7,19 @@
         <provider_key>2161f858-cb16-4c77-9792-28defcbc5688</provider_key>
         <!--We can either send an id that identifies the creator to CCCD, or an id used byCCRR/CCLF -->
         <supplier_number>1B222Z</supplier_number>
-        <created_by_uuid>2161f859-cb16-4c77-9792-28defcbc5688</created_by_uuid>
-        <!--External_user_uuid identifies the advocate or litigator who is making the claim-->
-        <external_user_uuid>2161f859-cb16-4c77-9792-28defcbc5688</external_user_uuid>
+
+        <created_by>
+            <last_name>Richards</last_name>
+            <first_name>Stephen</first_name>
+            <email>stephen.richards@example.com</email>
+        </created_by>
+
+        <advocate_litigator>
+            <last_name>Richards</last_name>
+            <first_name>Stephen</first_name>
+            <email>stephen.richards@example.com</email>
+        </advocate_litigator>
+
         <!--Advocate Category can be QC, Leading Junior, Led Junior, Junior alone,  or we can send a code which identifies this to CCR/CCLF-->
         <advocate_category>QC</advocate_category>
         <additional_information>
@@ -84,18 +94,18 @@
     <defendants>
         <!--One or more defendants-->
         <defendant>
-            <defendant_first_name>John</defendant_first_name>
-            <defendant_last_name>Smith</defendant_last_name>
-            <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
+            <first_name>John</first_name>
+            <last_name>Smith</last_name>
+            <date_of_birth>1976-05-19</date_of_birth>
             <representation_order>
                 <date>2016-05-22</date>
                 <number>1234567890</number>
             </representation_order>
         </defendant>
         <defendant>
-            <defendant_first_name>John</defendant_first_name>
-            <defendant_last_name>Smith</defendant_last_name>
-            <defendant_date_of_birth>1976-05-19</defendant_date_of_birth>
+            <first_name>John</first_name>
+            <last_name>Smith</last_name>
+            <date_of_birth>1976-05-19</date_of_birth>
             <representation_order>
                 <date>2016-05-22</date>
                 <number>1234567890</number>
@@ -193,7 +203,7 @@
             <uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</uuid>
             <file_name>Hogdson_-_re_order.pdf</file_name>
             <!--URI refers to location where document is stored in Amazon S3 bucket-->
-            <uri>documents/000/044/782/Hogdson_-_rep_order.pdf</uri>
+            <uri>https://s3-eu-west-1.amazonaws.com/adp-staging-documents/documents/000/001/002/repo_order_2.pdf</uri>
             <size>388031</size>
         </document>
     </documents>
@@ -216,22 +226,32 @@
         </message>
     </messages>
 
-    <determinations>
-        <!--One assessment must exist. There may be zero or more redeterminations-->
-        <assessment>
-            <created_at>2016-09-29T13:11:43Z</created_at>
-            <caseworker_uuid>2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
-            <fees>6773.44</fees>
-            <expenses>7566.33</expenses>
-            <disbursements>388.44</disbursements>
-        </assessment>
+
+    <assessment>
+        <created_at>2016-09-29T13:11:43Z</created_at>
+        <caseworker>
+            <first_name>John</first_name>
+            <last_name>Doe</last_name>
+            <email>john.doe@example.com</email>
+        </caseworker>
+        <fees>6773.44</fees>
+        <expenses>7566.33</expenses>
+        <disbursements>388.44</disbursements>
+    </assessment>
+
+    <!--Zero or more redeterminations may exist &ndash;-->
+    <redeterminations>
         <redetermination>
             <created_at>2016-09-29T13:11:43Z</created_at>
-            <caseworker_uuid>2161f859-cb16-4c77-9792-28defcbc5688123</caseworker_uuid>
+            <caseworker>
+                <first_name>John</first_name>
+                <last_name>Doe</last_name>
+                <email>john.doe@example.com</email>
+            </caseworker>
             <fees>6773.44</fees>
             <expenses>7566.33</expenses>
             <disbursements>388.44</disbursements>
         </redetermination>
-    </determinations>
+    </redeterminations>
 
 </claim>

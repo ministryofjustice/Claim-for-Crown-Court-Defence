@@ -11,7 +11,6 @@ module API
 
     error_formatter :json, API::Helpers::JsonErrorFormatter
 
-    require File.join(Rails.root, 'app', 'interfaces', 'api', 'helpers', 'grape_api_helper')
     rescue_from Grape::Exceptions::ValidationErrors, API::ArgumentError do |error|
       error!(error.message.split(','), 400)
     end

@@ -62,8 +62,6 @@ moj.Modules.Autocomplete = {
     var $wrapper = $(e.delegateTarget);
     var selectedTextString = $wrapper.find('select.typeahead option:selected').text();
 
-    console.log($wrapper, selectedTextString);
-
     if (str === "" || !str) {
       $wrapper.find('select.typeahead').prop('selectedIndex', 0).change();
       return;

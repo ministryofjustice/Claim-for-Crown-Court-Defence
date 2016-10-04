@@ -1,4 +1,7 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Our current JSON schema'}
 %h3 Given below is the JSON schema that can be used to validate your JSON documents.
-%p
-  != ap @schema
+
+Note: JSON files must be UTF-8 encoded.
+
+%pre.json-schema
+  = @schema

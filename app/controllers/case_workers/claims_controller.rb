@@ -5,7 +5,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   skip_load_and_authorize_resource
   authorize_resource class: Claim::BaseClaim
 
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :search_terms
 
   respond_to :html
 
@@ -58,7 +58,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def search(states=nil)
-    @claims = @claims.search(params[:search], states, *search_options)
+    @claims = @claims.search(search_terms, states, *search_options) unless @claims.remote?
   end
 
   def search_options
@@ -89,24 +89,15 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    @claims = if current_user.persona.admin?
-                case tab
-                when 'current'
-                  current_user.claims.caseworker_dashboard_under_assessment
-                when 'archived'
-                  Claim::BaseClaim.active.caseworker_dashboard_archived
-                when 'allocated'
-                  Claim::BaseClaim.active.caseworker_dashboard_under_assessment
-                when 'unallocated'
-                  Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
-                end
-              else
-                case tab
-                when 'current'
-                  current_user.claims.caseworker_dashboard_under_assessment
-                when 'archived'
-                  current_user.claims.caseworker_dashboard_archived
-                end
+    @claims = case tab
+              when 'current', 'archived'
+                Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
+              when 'allocated'
+                # TODO: to be moved to service object and implement remote API endpoint
+                Claim::BaseClaim.active.caseworker_dashboard_under_assessment
+              when 'unallocated'
+                # TODO: to be moved to service object and implement remote API endpoint
+                Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons
               end
   end
 
@@ -123,24 +114,28 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def filter_current_claims
-    search(Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) if params[:search].present?
+    search(Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) if search_terms.present?
   end
 
   def filter_archived_claims
-    search(Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES) if params[:search].present?
+    search(Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES) if search_terms.present?
   end
 
   def sort_column
-    @claims.sortable_by?(params[:sort]) ? params[:sort] : 'last_submitted_at'
+    params[:sort].blank? ? 'last_submitted_at' : params[:sort]
   end
 
   def sort_direction
     %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
+  def search_terms
+    params[:search]
+  end
+
   def sort_and_paginate
     # GOTCHA: must paginate in same call that sorts/orders
-    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size)
+    @claims = @claims.sort(sort_column, sort_direction).page(current_page).per(page_size) unless @claims.remote?
   end
 
   def sort_claims
@@ -148,4 +143,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     set_claim_carousel_info
   end
 
+  def criteria_params
+    {sorting: sort_column, direction: sort_direction, page: current_page, limit: page_size, search: search_terms}
+  end
 end

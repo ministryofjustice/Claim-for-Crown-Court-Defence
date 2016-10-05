@@ -8,7 +8,7 @@ module API
 
       group do
         before_validation do
-          authenticate_key!
+          authenticate_provider_key!
         end
 
         namespace :api, desc: 'Retrieval, creation and validation operations' do

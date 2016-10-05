@@ -11,7 +11,7 @@ module Caching
 
     DEFAULT_OPTIONS = {
       ttl: 900, # 15 minutes
-      ignore_params: ['api_key']
+      ignore_params: []
     }.freeze
 
     def initialize(url, options = {})

@@ -17,4 +17,8 @@ module StringExtension
     return false if false?
     raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
   end
+
+  def strftime(format)
+    Time.zone.parse(self).strftime(format)
+  end
 end

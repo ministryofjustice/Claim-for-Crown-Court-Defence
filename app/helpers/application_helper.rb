@@ -22,7 +22,7 @@ module ApplicationHelper
   # e.g. - present_collection(@claims, ClaimPresenter)
   #
   def present(model, presenter_class=nil)
-    presenter_class ||= "#{model.class}Presenter".constantize
+    presenter_class ||= model.respond_to?(:presenter) ? model.presenter : "#{model.class}Presenter".constantize
     presenter = presenter_class.new(model, self)
     yield(presenter) if block_given?
     presenter

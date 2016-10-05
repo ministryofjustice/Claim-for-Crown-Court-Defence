@@ -41,7 +41,7 @@ describe Remote::CaseType do
       it 'returns the case type with the specified id' do
         ct = described_class.find(9)
         expect(ct.id).to eq 9
-        expect(ct.name).to eq("Elected cases not proceeded *")
+        expect(ct.name).to eq("Elected cases not proceeded")
         expect(ct.is_fixed_fee).to be true
         expect(ct.requires_cracked_dates).to be false
         expect(ct.requires_trial_dates).to be false

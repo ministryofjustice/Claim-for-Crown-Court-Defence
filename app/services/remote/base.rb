@@ -3,16 +3,17 @@ module Remote
     include ActiveModel::Model
     attr_accessor :id, :created_at, :updated_at
 
+    def remote?; true; end
+    def persisted?; true; end
+
     class << self
       def resource_path
         raise 'not implemented'
       end
 
-      # Add * as a temporary measure so that we can easily see in the UI
-      # that it is using the API to get data, not the DB.
-      #
-      def all
-        client.get(resource_path).map { |h| new(h.merge(name: h['name'] += ' *')) }
+      def all(query = {})
+        result = client.get(resource_path, query)
+        parse_result(result)
       end
 
       def find(id)
@@ -23,6 +24,14 @@ module Remote
 
       def client
         Remote::HttpClient.current
+      end
+
+      def parse_result(result)
+        result = {items: result} unless result.is_a?(Hash)
+        pagination = result.fetch(:pagination, {})
+        collection = result.fetch(:items, result).map { |attrs| new(attrs) }
+
+        Remote::Collections::PaginatedCollection.new(collection, pagination)
       end
     end
   end

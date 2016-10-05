@@ -74,3 +74,6 @@ timed_transition_pending_weeks: 16
 
 # number of weeks a claim can be soft deleted before hard delete of claim
 timed_transition_soft_delete_weeks: 16
+
+# Use remote API calls to retrieve the list of allocated/archived claims for case workers
+case_workers_remote_allocations?: false

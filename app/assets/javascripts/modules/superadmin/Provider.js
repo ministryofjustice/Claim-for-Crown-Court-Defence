@@ -5,6 +5,7 @@ moj.Modules.SuperAdminProvider = {
     providerRoles: 'js-provider-roles',
     $providerType: {},
     $providerRoles: {},
+    firm_agfs_supplier_number: 'provider_firm_agfs_supplier_number',
     supplierNumber: 'js-supplier-number',
     supplierNumbers: 'js-supplier-numbers',
     $supplierNumber: {},
@@ -12,6 +13,7 @@ moj.Modules.SuperAdminProvider = {
     $vatRegistered: {},
 
     init: function () {
+        console.log("init starting");
         var self = this;
         self.cacheElems();
 
@@ -23,15 +25,22 @@ moj.Modules.SuperAdminProvider = {
             self.showHideRoles(e);
             self.showHide();
         });
-        self.$providerRoles.on('change', ':checkbox', function () {
+        self.$providerRoles.on('change', ':checkbox', function (e) {
+            console.log('sssss');
+            console.log($(e.target).val());
+            if ($(e.target).val() === 'agfs') {
+                self.$firm_agfs_supplier_number.val('');
+            }
             self.showHide();
         });
+        console.log('end of init');
     },
 
     cacheElems: function () {
         this.$form = $('#' + this.el);
         this.$providerType = $('#' + this.providerType);
         this.$providerRoles = $('#' + this.providerRoles);
+        this.$firm_agfs_supplier_number = $('#' + this.$firm_agfs_supplier_number);
         this.$supplierNumber = $('#' + this.supplierNumber);
         this.$supplierNumbers = $('#' + this.supplierNumbers);
         this.$vatRegistered = $('#' + this.vatRegistered);
@@ -61,6 +70,7 @@ moj.Modules.SuperAdminProvider = {
     },
 
     showHide: function () {
+        console.log('starting showHide');
         var providerTypeVal = this.$providerType.find(':radio').filter(':checked').val();
         var selectedRoles = $.map(this.$providerRoles.find(':checkbox').filter(':checked'), function(checkbox) {
             return checkbox.value;
@@ -69,6 +79,7 @@ moj.Modules.SuperAdminProvider = {
         // Show supplier number and vat registered if the provider is a firm
         if (providerTypeVal === 'firm') {
             this.$vatRegistered.show();
+            this.$providerRoles.show();
         } else {
             this.$vatRegistered.hide();
         }

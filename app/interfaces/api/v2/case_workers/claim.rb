@@ -43,10 +43,6 @@ module API
             end
           end
 
-          after do
-            header 'Cache-Control', 'max-age=15'
-          end
-
           resource :claims, desc: 'Operations on allocated claims' do
             desc 'Retrieve list of allocated or archived claims'
             get do

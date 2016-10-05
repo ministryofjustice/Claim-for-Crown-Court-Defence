@@ -8,12 +8,14 @@
         <!--We can either send an id that identifies the creator to CCCD, or an id used byCCRR/CCLF -->
         <supplier_number>1B222Z</supplier_number>
 
+        <!--LAA don't need this, so will ignore this sectio-->
         <created_by>
             <last_name>Richards</last_name>
             <first_name>Stephen</first_name>
             <email>stephen.richards@example.com</email>
         </created_by>
 
+        <!--LAA don't need this, so will ignore this section->
         <advocate_litigator>
             <last_name>Richards</last_name>
             <first_name>Stephen</first_name>
@@ -21,6 +23,9 @@
         </advocate_litigator>
 
         <!--Advocate Category can be QC, Leading Junior, Led Junior, Junior alone,  or we can send a code which identifies this to CCR/CCLF-->
+        <!--LAA CODES AS FOLLOWS: -->
+        <!--QC, LEADJR, LEDJR, JRALONE-->
+
         <advocate_category>QC</advocate_category>
         <additional_information>
             Free form text that the creator may add to explain certain aspects of the claim
@@ -38,14 +43,19 @@
 
     <case_details>
         <!--Case type is a code which identifies the case type to the CCR/CCLF systems -->
+        <!--This is known as scenarios in CCR/CCLF-->
+
         <case_type>XX1111</case_type>
         <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
+        <!--better to send coourt code, e.g. 401-->
         <court>Aylesbury Crown</court>
+        <!--prefix can only be A, S, T-->
         <case_number>A12345678</case_number>
         <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
         <transfer_court>Reading Crown</transfer_court>
         <transfer_case_number>Z12345678</transfer_case_number>
-        <date_case_started>2016-07-01</date_case_started>
+
+        <date_trial_started>2016-07-01</date_trial_started>
         <date_trial_concluded>2016-07-06</date_trial_concluded>
         <estimated_trial_length>4</estimated_trial_length>
         <actual_trial_length>5</actual_trial_length>

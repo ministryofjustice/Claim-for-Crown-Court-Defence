@@ -34,8 +34,11 @@ module API
                   search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options)
             end
 
+            def claims_scope
+              params.status == 'allocated' ? allocated_claims : archived_claims
+            end
+
             def claims
-              claims_scope = params.status == 'allocated' ? allocated_claims : archived_claims
               claims_scope.sort(params.sorting, params.direction).page(params.page).per(params.limit)
             end
           end

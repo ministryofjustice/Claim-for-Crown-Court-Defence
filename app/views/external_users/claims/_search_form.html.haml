@@ -1,2 +1,3 @@
-#report-options
-  = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path, hint_text: t('hint.search') }
+.grid-row
+  .column-full
+    = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path, hint_text: t('hint.search') }

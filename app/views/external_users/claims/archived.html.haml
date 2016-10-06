@@ -6,9 +6,6 @@
     = render partial: 'shared/search_summary'
   = render partial: 'search_form', locals: { archived: true }
 
-.grid-row
-  %input#something{:type => "text"}/
-
 .container#details
   = render partial: 'main_claims_list', locals: { claims: @claims }
   = paginate @claims

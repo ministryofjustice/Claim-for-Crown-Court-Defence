@@ -95,7 +95,7 @@
   </div>
 
   <% unless @omit_header %>
-    <header role="banner" id="global-header" class="">
+    <header role="banner" id="global-header" class="with-proposition">
       <div class="header-wrapper">
         <div class="header-global">
           <div class="header-logo">
@@ -107,16 +107,19 @@
         </div>
         <div class="header-proposition">
           <div class="content">
+          <a class="js-header-toggle menu" href="#proposition-links">
+              Menu
+            </a>
             <nav id="proposition-menu">
               <a href="/" id="proposition-name">
-        <span class="visuallyhidden">
-          Home link
-        </span>
+              <span class="visuallyhidden">
+                Home link
+              </span>
                 Claim for crown court defence
               </a>
               <div id="proposition-links">
                 <% if user_signed_in? %>
-                    <ul>
+                    <ul id="proposition-links">
                       <li>
                         <%= link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}", class: 'current' %>
                       </li>
@@ -129,7 +132,6 @@
             </nav>
           </div>
         </div>
-
       </div>
     </header>
   <!--end header-->

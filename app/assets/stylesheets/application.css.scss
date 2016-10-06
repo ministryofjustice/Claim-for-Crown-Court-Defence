@@ -40,3 +40,14 @@
   margin-top: 60px;
   margin-bottom: -60px
 }
+
+.search-form{
+  @include clearfix;
+  .heading-medium{
+    margin-top:0;
+  }
+}
+
+form{
+  @include clearfix;
+}

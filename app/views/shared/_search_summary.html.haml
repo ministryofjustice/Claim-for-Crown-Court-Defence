@@ -1,7 +1,0 @@
-.search-summary
-  .panel-indent
-    %p
-      - if @claims.none?
-        = t("shared.no_claims_found")
-      - else
-        #{pluralize(@claims.size, 'claim')} of #{@claims.total_count} matching "#{params[:search]}"

@@ -1,13 +1,9 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Manage case workers'}
 
-.container
-  = content_for :search_html_block do
-    %div
-      %br/
-      %br/
-      = link_to 'New case worker', new_case_workers_admin_case_worker_path, class: 'button primary'
+= content_for :search_html_block do
+  = link_to 'Create a new case worker', new_case_workers_admin_case_worker_path
 
-  = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: t('.hint.search') }
+= render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: t('hint.search_caseworker'), button_text: t('search.caseworkers') }
 
 .container.table-container
   %table.report
@@ -25,13 +21,13 @@
     %tbody
       - @case_workers.each do |case_worker|
         %tr
-          %td
+          %td{'aria-label' => t(".surname")}
             = case_worker.user.last_name
-          %td
+          %td{'aria-label' => t(".name")}
             = case_worker.user.first_name
-          %td
+          %td{'aria-label' => t(".location")}
             = case_worker.location.name
-          %td.user-controls
+          %td.user-controls{'aria-label' => t(".actions")}
             - if case_worker.active?
               = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker)
               = " | "

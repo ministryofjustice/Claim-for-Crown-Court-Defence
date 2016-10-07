@@ -37,7 +37,7 @@ class Claim::BaseClaimPresenter < BasePresenter
       defendant_names.each do |name|
         h.concat(name)
         unless name == defendant_names.last
-          h.concat(',')
+          h.concat(', ')
           h.concat(h.tag :br)
         end
       end

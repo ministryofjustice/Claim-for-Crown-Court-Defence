@@ -4,7 +4,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
   describe 'ping and heartbeat do not force ssl' do
     before do
-      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+      allow(Rails).to receive(:env).and_return('production'.inquiry)
     end
 
     after do

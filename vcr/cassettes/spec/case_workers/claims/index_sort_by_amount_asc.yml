@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=cc76414e-a3b9-4a2a-850f-6d09a85e3832&direction=asc&limit=10&page=0&search=&sorting=total_inc_vat&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2525'
+      Etag:
+      - W/"33ac5b10d4c7c93a9644f13194549745"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 4a362604-e7a0-4d77-b41c-9676d7f0ee2b
+      X-Runtime:
+      - '0.125923'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 06 Oct 2016 16:59:56 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":3,"limit_value":10},"items":[{"id":1,"uuid":"9b1c4d30-7481-41a2-bfd2-e8010b7881e7","case_number":"A00000001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T16:59:54.234Z","total":25.0,"vat_amount":4.38,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"13822124-9f8f-47c5-bfa5-583eee4a72e9","first_name":"Louie","last_name":"Barton"},"defendants":[{"id":1,"uuid":"78711133-9d89-4735-817c-3e11208a9290","first_name":"Melvina","last_name":"Gerlach"}],"case_type":{"id":1,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":2,"uuid":"c6b20d66-8cb6-410a-a102-6074d12e36f5","case_number":"A00000002","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-05T16:59:54.944Z","total":26.0,"vat_amount":4.55,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":2,"uuid":"1c564f0c-4d13-4abe-82fc-b648279f4259","first_name":"Briana","last_name":"Stark"},"defendants":[{"id":2,"uuid":"9b02e727-5efb-482b-8508-73cf63685c29","first_name":"Brooks","last_name":"Schmeler"}],"case_type":{"id":2,"name":"Case
+        Type 2","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}},{"id":3,"uuid":"aed528df-5837-42b0-88c8-e773bd968e2f","case_number":"A00000003","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T16:59:55.864Z","total":29.0,"vat_amount":5.08,"opened_for_redetermination":true,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":3,"uuid":"82d954dc-64e3-4d9f-bc01-f3b7160470ee","first_name":"Randall","last_name":"Stroman"},"defendants":[{"id":3,"uuid":"341f6719-64f6-45ce-aa30-c649a3760931","first_name":"Sincere","last_name":"Upton"}],"case_type":{"id":3,"name":"Case
+        Type 3","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Thu, 06 Oct 2016 16:59:56 GMT
+recorded_with: VCR 3.0.3

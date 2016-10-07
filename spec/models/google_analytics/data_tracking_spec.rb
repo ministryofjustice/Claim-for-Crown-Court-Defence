@@ -5,7 +5,7 @@ module GoogleAnalytics
   describe DataTracking do
     context '#enabled?' do
       before do
-        allow(Rails).to receive(:env).and_return(double(production?: true))
+        allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
       context 'with an adapter set' do

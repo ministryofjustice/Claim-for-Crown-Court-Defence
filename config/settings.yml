@@ -75,5 +75,11 @@ timed_transition_pending_weeks: 16
 # number of weeks a claim can be soft deleted before hard delete of claim
 timed_transition_soft_delete_weeks: 16
 
+# Settings for remote API calls
+# Override them in your settings.local.yml if needed, but DO NOT change these here
+#
+remote_api_key: 'not-provided'
+remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') + '/api' %>
+
 # Use remote API calls to retrieve the list of allocated/archived claims for case workers
-case_workers_remote_allocations?: false
+case_workers_remote_allocations?: <%= ENV['ENV'] != 'gamma' %>

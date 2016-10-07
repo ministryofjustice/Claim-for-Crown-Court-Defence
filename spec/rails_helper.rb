@@ -32,6 +32,7 @@ require 'shoulda/matchers'
 require 'paperclip/matchers'
 require 'webmock/rspec'
 require 'kaminari_rspec'
+require 'vcr_helper'
 
 include ActionDispatch::TestProcess #required for fixture_file_upload
 
@@ -53,8 +54,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
-
-WebMock.disable_net_connect!(allow: [/codeclimate/, /latest\/meta-data\/iam\/security\-credentials/, /api\/advocates/])
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

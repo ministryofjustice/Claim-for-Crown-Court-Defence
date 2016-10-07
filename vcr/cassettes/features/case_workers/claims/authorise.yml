@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=ce635a1c-fd44-49cc-b56e-119bd19b0ff4&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '900'
+      Etag:
+      - W/"e43bcc5b4a74a3e1d09ac237341082df"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ac5583ee-bae0-4a57-8675-ceb14d47dc29
+      X-Runtime:
+      - '0.047622'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 06 Oct 2016 10:51:42 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"b627cf1f-92c3-434a-94a7-1cd839b13f32","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:51:42.152Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"5f61dca6-ae15-460a-9bde-c63fa3c2e2f6","first_name":"Murphy","last_name":"Watsica"},"defendants":[{"id":1,"uuid":"0816be8f-2fd6-49cd-b5cf-a1cca00f884a","first_name":"Ali","last_name":"Bode"}],"case_type":{"id":1457,"name":"Case
+        Type 6","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Thu, 06 Oct 2016 10:51:42 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=ce635a1c-fd44-49cc-b56e-119bd19b0ff4&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '93'
+      Etag:
+      - W/"500b0d951cb8a894fba8adf918e3cbb5"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 13270451-1571-41ea-b15a-1ed0bdc4feb3
+      X-Runtime:
+      - '0.022462'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 06 Oct 2016 10:51:44 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
+    http_version: 
+  recorded_at: Thu, 06 Oct 2016 10:51:44 GMT
+recorded_with: VCR 3.0.3

@@ -1,5 +1,5 @@
-Given(/^there is a claim allocated to the case worker$/) do
-  @claim = create(:allocated_claim, external_user: @advocate)
+Given(/^there is a claim allocated to the case worker with case number '(.*?)'$/) do |case_number|
+  @claim = create(:allocated_claim, external_user: @advocate, case_number: case_number)
   @case_worker.claims << @claim
 end
 

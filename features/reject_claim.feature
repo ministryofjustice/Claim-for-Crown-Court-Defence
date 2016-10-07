@@ -1,14 +1,16 @@
-@javascript
+@javascript @vcr
 Feature: Case worker rejects a claim, providing a reason
 
   Scenario: I reject a claim providing a reason
 
     Given a "case worker" user account exists
     And an "advocate" user account exists
-    And there is a claim allocated to the case worker
-    And I am signed in as the case worker
+    And there is a claim allocated to the case worker with case number 'A12345678'
 
-    When I select the claim
+    And I insert the VCR cassette 'features/case_workers/claims/reject'
+
+    When I am signed in as the case worker
+    And I select the claim
     And expand the messages section
     And I click the rejected radio button
     And I select the first rejection reason
@@ -18,3 +20,5 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I click your claims
     Then the claim I've just updated is no longer in the list
+
+    And I eject the VCR cassette

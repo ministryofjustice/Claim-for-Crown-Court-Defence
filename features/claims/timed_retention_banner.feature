@@ -10,5 +10,5 @@ Feature: A timed retention banner will appear on the claims list, until the user
     Then The timed retention banner is visible
     When I click the link 'Do not show me again'
     Then The timed retention banner is not visible
-    When I reload the page
+    When I click 'Your claims' link
     Then The timed retention banner is not visible

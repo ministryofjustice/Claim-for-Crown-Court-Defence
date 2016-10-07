@@ -5,5 +5,9 @@ module Remote
     def name
       [first_name, last_name].join(' ')
     end
+
+    def sortable_name
+      [last_name, first_name].join(' ')
+    end
   end
 end

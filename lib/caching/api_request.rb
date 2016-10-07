@@ -66,13 +66,11 @@ module Caching
     end
 
     def save!(response)
-      payload = [
-        now,
-        response.ttl || default_ttl,
-        response.body
-      ].join(';')
+      ttl = (response.ttl || default_ttl).to_i
+      body = response.body
+      payload = [now, ttl, body].join(';')
 
-      @content = Caching.set(cache_key, payload)
+      @content = ttl.zero? ? payload : Caching.set(cache_key, payload)
     end
 
     def content_parts

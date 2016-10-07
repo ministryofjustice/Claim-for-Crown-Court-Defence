@@ -1,4 +1,4 @@
-@javascript
+@javascript @vcr
 Feature: Case worker admin allocates claims 
 
   Scenario: I allocate claims, case worker sees them
@@ -14,8 +14,12 @@ Feature: Case worker admin allocates claims
     Then claims "T00000001, T00000002" should be allocated to case worker "John Smith"
     And claims "T00000001, T00000002" should no longer be displayed
     And I should see '2 claims allocated to John Smith'
+    And I sign out
 
-    Given I sign out
-    And I sign in as John Smith
+    Then I insert the VCR cassette 'features/case_workers/claims/allocation'
+
+    When I sign in as John Smith
     Then I should be on the 'Your claims' page
     And claims "T00000001, T00000002" should appear on the page
+
+    And I eject the VCR cassette

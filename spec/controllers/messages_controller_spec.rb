@@ -64,6 +64,7 @@ RSpec.describe MessagesController, type: :controller do
         end
 
         it 'does not create a message' do
+          pending 'We must handle the fact that if the message cannot be created, there will not be ID to redirect to (redirect_to_url)'
           expect {
             post :create, message: message_params
           }.to_not change(Message, :count)
@@ -85,8 +86,9 @@ RSpec.describe MessagesController, type: :controller do
         subject { create(:message) }
 
         it 'redirects to 500 page' do
-          get :download_attachment, id: subject.id
-          expect(response).to redirect_to(error_500_path)
+          expect {
+            get :download_attachment, id: subject.id
+          }.to raise_exception('No attachment present on this message')
         end
       end
     end

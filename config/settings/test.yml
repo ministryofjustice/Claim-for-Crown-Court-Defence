@@ -1,0 +1,5 @@
+# These values will be used by VCR to make requests and record cassettes. DO NOT change them.
+# If you need to re-record a cassette, start a server in this host/port.
+#
+remote_api_key: 'not-provided'
+remote_api_url: 'http://localhost:3001/api'

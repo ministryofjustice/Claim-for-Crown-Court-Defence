@@ -50,6 +50,10 @@ module Remote
       @case_type = Remote::CaseType.new(attrs)
     end
 
+    def total_including_vat
+      total + vat_amount
+    end
+
     def presenter
       [type, 'Presenter'].join.constantize
     end

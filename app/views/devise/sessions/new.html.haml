@@ -3,13 +3,10 @@
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
   .form-group
     = f.label :email, class: "form-label"
-    = f.input_field :email, autofocus: true, class: "form-control medium-input"
+    = f.input_field :email, autofocus: true, class: "form-control"
   .form-group
-    = f.label :password, class:"form-label"
-    = f.input_field :password, autocomplete: 'off', class: "form-control medium-input"
-
-  -#%div.form-group
-    -# f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+    = f.label :password, class: "form-label"
+    = f.input_field :password, autocomplete: 'off', class: "form-control"
 
   .form-group
     = f.button :submit, "Sign in", class: "button"

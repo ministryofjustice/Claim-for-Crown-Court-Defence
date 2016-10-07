@@ -97,7 +97,7 @@ end
 
 Then(/^I should see an Manage advocates link and it should work$/) do
   find('#primary-nav').click_link('Manage users')
-  expect(find('header.main-header')).to have_content('Manage users')
+  expect(find('#page-h1')).to have_content('Manage users')
 end
 
 Given(/^I sign out$/) do
@@ -105,7 +105,7 @@ Given(/^I sign out$/) do
 end
 
 When(/^I should be on the Allocation page$/) do
-  expect(find('header.main-header')).to have_content('Allocation')
+  expect(find('#page-h1')).to have_content('Allocation')
 end
 
 Then(/^I should get a page telling me my account has been deleted$/) do

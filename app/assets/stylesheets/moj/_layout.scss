@@ -21,6 +21,7 @@ body {
 .body-content{
     @include span(6 of 12);
     @include first;
+    float: none;
 }
 
 .grid-sidebar{

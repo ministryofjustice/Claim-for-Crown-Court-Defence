@@ -424,21 +424,7 @@ form {
   margin-left: 0.35em;
   margin-right: 0.35em;
 }
-// search form for tables
-.search-form {
-  legend{
-    @include visually-hidden;
-  }
-  label {
-    margin-top:0;
-  }
-  button {
-    margin-bottom:0;
-  }
-  input.form-control[type=text]{
-    @include first;
-  }
-}
+
 // search result for tables when nothing exists
 .search-summary .panel-indent{
   margin-top:0;

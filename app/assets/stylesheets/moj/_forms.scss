@@ -107,24 +107,6 @@ button.search {
   cursor: not-allowed;
 }
 
-.search-form {
-  @extend .search-wrapper;
-  .search-wrapper & {
-    @include span(6 of 12);
-    @include first;
-  }
-  > form {
-    @include span(6 of 12);
-    @include first;
-    .search-wrapper & {
-      width:100%;
-    }
-    & + div {
-      @extend .claim-count;
-    }
-  }
-}
-
 .currency-indicator{
     display: inline-block;
     padding: 4px 12px;
@@ -483,6 +465,7 @@ label.form-date-spacing {
   .button-holder{
     @include clearfix;
   }
+  float: none;
 }
 
 // TODO: FIX BELOW

@@ -1,6 +1,6 @@
 - if user_signed_in?
-  %nav
-    %ul.primary-nav
+  .breadcrumbs
+    %ol
       - if current_user.persona.is_a?(SuperAdmin)
         %li
           = link_to 'Manage providers', super_admins_providers_path, class: cp(super_admins_providers_path)

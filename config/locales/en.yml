@@ -228,6 +228,9 @@ en:
     warrant_fees: Warrant fees
     interim_fees: "Interim fees"
     transfer_fees: Transfer fees
+    search:
+      label: Search
+      legend: Search for a claim using a case number, defendant name or advocate/litigator name
   link:
     add_claim: Start a claim
     back: Back

@@ -1,50 +1,16 @@
-// From GDS's alphagov/govuk_frontend_toolkit
-@import 'colours';
-@import 'font_stack';
-@import 'measurements';
-@import 'conditionals';
-@import 'device-pixels';
-@import 'typography';
-@import 'shims';
+// Here we include the core files
+// https://github.com/alphagov/govuk_elements#alternate-usage
+@import "application_prep";
+@import "moj/govuk_overrides";
 
-@import 'design-patterns/alpha-beta';
-@import 'design-patterns/buttons';
-
-// From GDS's alphagov/govuk_elements
-@import 'elements/helpers';
-@import 'elements/reset';
-
-// Base (unclassed HTML elements)
-// These are predefined by govuk_template
-// If you're not using govuk_template, uncomment the line below.
-// HTML elements, set by the GOV.UK template
-// @import 'elements/base';
-
-@import 'elements/layout';
-@import 'elements/elements-typography';
-@import 'elements/buttons';
-@import 'elements/icons';
-@import 'elements/lists';
-@import 'elements/tables';
-@import 'elements/details';
-@import 'elements/panels';
-@import 'elements/forms';
-@import 'elements/forms/form-block-labels';
-@import 'elements/forms/form-date';
-@import 'elements/forms/form-validation';
-@import 'elements/phase-banner';
-@import 'elements/components';
-
-
-// grid system
+// // // grid system
 @import "susy";
 @import "moj/config";
 
-// custom mixins & helpers
-@import "moj/mixins";
+// // custom mixins & helpers
 @import "moj/helpers";
 
-//project specific
+// //project specific
 @import "moj/buttons";
 @import "moj/shame";
 @import "moj/layout";
@@ -52,19 +18,25 @@
 @import "moj/tables";
 @import "moj/forms";
 @import "moj/typography";
-@import "moj/govuk_overrides";
 @import "moj/autocomplete";
 @import "moj/accordion";
 @import "moj/icons";
 @import "moj/messages";
 @import "moj/print";
 
-/////////////////////////////// TODO: KILL THIS ASAP
+// /////////////////////////////// TODO: KILL THIS ASAP
 @import "moj/HOTFIX_KILLME";
-///////////////////////////////
+// ///////////////////////////////
 
-select {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
+// Phase banner
+.phase-banner {
+  @include phase-banner(beta);
+}
+
+.contactus-link{
+  font-size: 19px;
+  line-height: 1.31579;
+  @include clearfix;
+  margin-top: 60px;
+  margin-bottom: -60px
 }

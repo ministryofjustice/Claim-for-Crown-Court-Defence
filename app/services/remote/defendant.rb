@@ -1,3 +1,5 @@
 module Remote
-  class Defendant < Remote::User; end
+  class Defendant < Remote::User
+    has_many :representation_orders
+  end
 end

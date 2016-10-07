@@ -83,16 +83,21 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         end
       end
 
-      pending 'TODO: rep orders (needed for maat) not yet implemented in remote response'
-      # context 'search by maat', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_maat'} do
-      #   let(:maat) { @claims.first.defendants.first.representation_orders.first.maat_reference }
-      #   let(:query_params) { { search: maat } }
-      #
-      #   it 'finds the claims with MAAT reference "12345"' do
-      #     expect(assigns(:claims).size).to eq(1)
-      #     expect(assigns(:claims).first.defendants.first.representation_orders.first.maat_reference).to eq(maat)
-      #   end
-      # end
+      context 'search by MAAT', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_maat'} do
+        let(:maat) { '0802551537' }
+        let(:query_params) { { search: maat } }
+
+        # Ensure the repo has this MAAT, otherwise VCR will fail.
+        # Rep orders should really be generated with deterministic data in first place, this is a patch.
+        before do
+          @claims.first.defendants.first.representation_orders.first.update_column(:maat_reference, maat)
+        end
+
+        it 'finds the claims matching the MAAT reference' do
+          expect(assigns(:claims).size).to eq(1)
+          expect(assigns(:claims).first.defendants.first.representation_orders.first.maat_reference).to eq(maat)
+        end
+      end
 
       context 'search by defendant', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_defendant'} do
         let(:name) { 'Mya Keeling' }

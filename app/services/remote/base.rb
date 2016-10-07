@@ -1,7 +1,11 @@
+require_relative 'lib/simple_associations'
+
 module Remote
   class Base
     include ActiveModel::Model
-    attr_accessor :id, :created_at, :updated_at
+    include Remote::SimpleAssociations
+
+    attr_accessor :id, :uuid, :created_at, :updated_at
 
     def remote?; true; end
     def persisted?; true; end

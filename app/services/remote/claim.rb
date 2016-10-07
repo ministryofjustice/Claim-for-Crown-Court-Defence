@@ -1,7 +1,6 @@
 module Remote
   class Claim < Base
-    attr_accessor :uuid,
-                  :case_number,
+    attr_accessor :case_number,
                   :state,
                   :type,
                   :last_submitted_at,
@@ -10,10 +9,11 @@ module Remote
                   :opened_for_redetermination,
                   :written_reasons_outstanding,
                   :messages_count,
-                  :unread_messages_count,
-                  :external_user,
-                  :defendants,
-                  :case_type
+                  :unread_messages_count
+
+    has_one :external_user
+    has_one :case_type
+    has_many :defendants
 
     alias opened_for_redetermination? opened_for_redetermination
     alias written_reasons_outstanding? written_reasons_outstanding
@@ -36,18 +36,6 @@ module Remote
       def all_by_status(status, user:, query:)
         all(query.merge(api_key: user.api_key, status: status))
       end
-    end
-
-    def external_user=(attrs)
-      @external_user = Remote::ExternalUser.new(attrs)
-    end
-
-    def defendants=(attrs)
-      @defendants = attrs.map { |d| Remote::Defendant.new(d) }
-    end
-
-    def case_type=(attrs)
-      @case_type = Remote::CaseType.new(attrs)
     end
 
     def total_including_vat

@@ -1,0 +1,75 @@
+[
+  {
+    "id": 11,
+    "name": "Car travel",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 12,
+    "name": "Parking",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 13,
+    "name": "Hotel accommodation",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 14,
+    "name": "Train/public transport",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 15,
+    "name": "Travel time",
+    "roles": [
+      "agfs"
+    ],
+    "reason_set": "B"
+  },
+  {
+    "id": 16,
+    "name": "Road or tunnel tolls",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 17,
+    "name": "Cab fares",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  },
+  {
+    "id": 18,
+    "name": "Subsistence",
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "reason_set": "A"
+  }
+]
+Response Code
+200

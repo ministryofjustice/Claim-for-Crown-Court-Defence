@@ -397,13 +397,6 @@ module Claim
     end
 
 
-
-    <created_by>
-    <last_name>Richards</last_name>
-            <first_name>Stephen</first_name>
-    <email>stephen.richards@example.com</email>
-        </created_by>
-
     def to_json
       to_hash.to_json
     end

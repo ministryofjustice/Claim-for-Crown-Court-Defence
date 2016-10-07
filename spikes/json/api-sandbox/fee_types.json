@@ -1,0 +1,1369 @@
+[
+  {
+    "id": 1,
+    "description": "Basic fee",
+    "code": "BAF",
+    "created_at": "2016-09-28T16:46:55.592+01:00",
+    "updated_at": "2016-09-28T16:46:55.592+01:00",
+    "max_amount": "9999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 2,
+    "description": "Daily attendance fee (3 to 40)",
+    "code": "DAF",
+    "created_at": "2016-09-28T16:46:55.606+01:00",
+    "updated_at": "2016-09-28T16:46:55.606+01:00",
+    "max_amount": "999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 3,
+    "description": "Daily attendance fee (41 to 50)",
+    "code": "DAH",
+    "created_at": "2016-09-28T16:46:55.618+01:00",
+    "updated_at": "2016-09-28T16:46:55.618+01:00",
+    "max_amount": "9999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 4,
+    "description": "Daily attendance fee (51+)",
+    "code": "DAJ",
+    "created_at": "2016-09-28T16:46:55.629+01:00",
+    "updated_at": "2016-09-28T16:46:55.629+01:00",
+    "max_amount": "999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 5,
+    "description": "Standard appearance fee",
+    "code": "SAF",
+    "created_at": "2016-09-28T16:46:55.641+01:00",
+    "updated_at": "2016-09-28T16:46:55.641+01:00",
+    "max_amount": "999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 6,
+    "description": "Plea and case management hearing",
+    "code": "PCM",
+    "created_at": "2016-09-28T16:46:55.652+01:00",
+    "updated_at": "2016-09-28T16:46:55.652+01:00",
+    "max_amount": "999.0",
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 7,
+    "description": "Conferences and views",
+    "code": "CAV",
+    "created_at": "2016-09-28T16:46:55.663+01:00",
+    "updated_at": "2016-09-28T16:46:55.663+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 8,
+    "description": "Number of defendants uplift",
+    "code": "NDR",
+    "created_at": "2016-09-28T16:46:55.675+01:00",
+    "updated_at": "2016-09-28T16:46:55.675+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 9,
+    "description": "Number of cases uplift",
+    "code": "NOC",
+    "created_at": "2016-09-28T16:46:55.687+01:00",
+    "updated_at": "2016-09-28T16:46:55.687+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 10,
+    "description": "Number of prosecution witnesses",
+    "code": "NPW",
+    "created_at": "2016-09-28T16:46:55.698+01:00",
+    "updated_at": "2016-09-28T16:46:55.698+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 11,
+    "description": "Pages of prosecution evidence",
+    "code": "PPE",
+    "created_at": "2016-09-28T16:46:55.710+01:00",
+    "updated_at": "2016-09-28T16:46:55.710+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 12,
+    "description": "Appeals to the crown court against conviction",
+    "code": "ACV",
+    "created_at": "2016-09-28T16:46:55.731+01:00",
+    "updated_at": "2016-09-28T16:46:55.731+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 13,
+    "description": "Appeals to the crown court against conviction uplift",
+    "code": "ACU",
+    "created_at": "2016-09-28T16:46:55.743+01:00",
+    "updated_at": "2016-09-28T16:46:55.743+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 14,
+    "description": "Appeals to the crown court against sentence",
+    "code": "ASE",
+    "created_at": "2016-09-28T16:46:55.755+01:00",
+    "updated_at": "2016-09-28T16:46:55.755+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 15,
+    "description": "Appeals to the crown court against sentence uplift",
+    "code": "ASU",
+    "created_at": "2016-09-28T16:46:55.771+01:00",
+    "updated_at": "2016-09-28T16:46:55.771+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 16,
+    "description": "Breach of a crown court order",
+    "code": "CBR",
+    "created_at": "2016-09-28T16:46:55.783+01:00",
+    "updated_at": "2016-09-28T16:46:55.783+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 17,
+    "description": "Breach of a crown court order uplift",
+    "code": "CBU",
+    "created_at": "2016-09-28T16:46:55.797+01:00",
+    "updated_at": "2016-09-28T16:46:55.797+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 18,
+    "description": "Contempt",
+    "code": "ZCON",
+    "created_at": "2016-09-28T16:46:55.810+01:00",
+    "updated_at": "2016-09-28T16:46:55.810+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 19,
+    "description": "Committal for sentence hearings",
+    "code": "CSE",
+    "created_at": "2016-09-28T16:46:55.822+01:00",
+    "updated_at": "2016-09-28T16:46:55.822+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 20,
+    "description": "Committal for sentence hearings uplift",
+    "code": "CSU",
+    "created_at": "2016-09-28T16:46:55.834+01:00",
+    "updated_at": "2016-09-28T16:46:55.834+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 21,
+    "description": "Cracked case discontinued",
+    "code": "CCD",
+    "created_at": "2016-09-28T16:46:55.851+01:00",
+    "updated_at": "2016-09-28T16:46:55.851+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 22,
+    "description": "Cracked case discontinued uplift",
+    "code": "CDU",
+    "created_at": "2016-09-28T16:46:55.862+01:00",
+    "updated_at": "2016-09-28T16:46:55.862+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 23,
+    "description": "Elected case not proceeded",
+    "code": "ENP",
+    "created_at": "2016-09-28T16:46:55.873+01:00",
+    "updated_at": "2016-09-28T16:46:55.873+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 24,
+    "description": "Elected case not proceeded uplift",
+    "code": "ENU",
+    "created_at": "2016-09-28T16:46:55.885+01:00",
+    "updated_at": "2016-09-28T16:46:55.885+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 25,
+    "description": "Number of cases uplift",
+    "code": "NOC",
+    "created_at": "2016-09-28T16:46:55.900+01:00",
+    "updated_at": "2016-09-28T16:46:55.900+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 26,
+    "description": "Number of defendants uplift",
+    "code": "NDR",
+    "created_at": "2016-09-28T16:46:55.912+01:00",
+    "updated_at": "2016-09-28T16:46:55.912+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 27,
+    "description": "Standard appearance fee",
+    "code": "SAF",
+    "created_at": "2016-09-28T16:46:55.923+01:00",
+    "updated_at": "2016-09-28T16:46:55.923+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 28,
+    "description": "Hearing subsequent to sentence",
+    "code": "XH2S",
+    "created_at": "2016-09-28T16:46:55.934+01:00",
+    "updated_at": "2016-09-28T16:46:55.934+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 29,
+    "description": "Vary/discharge an ASBO s1c Crime and Disorder Act 1998",
+    "code": "XASB",
+    "created_at": "2016-09-28T16:46:55.947+01:00",
+    "updated_at": "2016-09-28T16:46:55.947+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": 28,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 30,
+    "description": "Alteration of Crown Court sentence s155 Powers of Criminal Courts (Sentencing Act 2000)",
+    "code": "XALT",
+    "created_at": "2016-09-28T16:46:55.961+01:00",
+    "updated_at": "2016-09-28T16:46:55.961+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": 28,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 31,
+    "description": "Assistance by defendant: review of sentence s74 Serious Organised Crime and Police Act 2005",
+    "code": "XASS",
+    "created_at": "2016-09-28T16:46:55.974+01:00",
+    "updated_at": "2016-09-28T16:46:55.974+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": 28,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 32,
+    "description": "Abuse of process hearings (half day)",
+    "code": "APH",
+    "created_at": "2016-09-28T16:46:55.993+01:00",
+    "updated_at": "2016-09-28T16:46:55.993+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 33,
+    "description": "Abuse of process hearings (whole day)",
+    "code": "APW",
+    "created_at": "2016-09-28T16:46:56.004+01:00",
+    "updated_at": "2016-09-28T16:46:56.004+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 34,
+    "description": "Abuse of process hearings (half day uplift)",
+    "code": "AHU",
+    "created_at": "2016-09-28T16:46:56.015+01:00",
+    "updated_at": "2016-09-28T16:46:56.015+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 35,
+    "description": "Abuse of process hearings (whole day uplift)",
+    "code": "AWU",
+    "created_at": "2016-09-28T16:46:56.026+01:00",
+    "updated_at": "2016-09-28T16:46:56.026+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 36,
+    "description": "Adjourned appeals",
+    "code": "SAF",
+    "created_at": "2016-09-28T16:46:56.038+01:00",
+    "updated_at": "2016-09-28T16:46:56.038+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 37,
+    "description": "Application to dismiss a charge (half day)",
+    "code": "PAH",
+    "created_at": "2016-09-28T16:46:56.049+01:00",
+    "updated_at": "2016-09-28T16:46:56.049+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 38,
+    "description": "Application to dismiss a charge (whole day)",
+    "code": "PAW",
+    "created_at": "2016-09-28T16:46:56.062+01:00",
+    "updated_at": "2016-09-28T16:46:56.062+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 39,
+    "description": "Application to dismiss a charge (half day uplift)",
+    "code": "PHU",
+    "created_at": "2016-09-28T16:46:56.073+01:00",
+    "updated_at": "2016-09-28T16:46:56.073+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 40,
+    "description": "Application to dismiss a charge (whole day uplift)",
+    "code": "PWU",
+    "created_at": "2016-09-28T16:46:56.085+01:00",
+    "updated_at": "2016-09-28T16:46:56.085+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 41,
+    "description": "Confiscation hearings (half day)",
+    "code": "DTH",
+    "created_at": "2016-09-28T16:46:56.096+01:00",
+    "updated_at": "2016-09-28T16:46:56.096+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 42,
+    "description": "Confiscation hearings (whole day)",
+    "code": "DTW",
+    "created_at": "2016-09-28T16:46:56.107+01:00",
+    "updated_at": "2016-09-28T16:46:56.107+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 43,
+    "description": "Confiscation hearings (half day uplift)",
+    "code": "DHU",
+    "created_at": "2016-09-28T16:46:56.118+01:00",
+    "updated_at": "2016-09-28T16:46:56.118+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 44,
+    "description": "Confiscation hearings (whole day uplift)",
+    "code": "DWU",
+    "created_at": "2016-09-28T16:46:56.129+01:00",
+    "updated_at": "2016-09-28T16:46:56.129+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 45,
+    "description": "Deferred sentence hearings",
+    "code": "DSE",
+    "created_at": "2016-09-28T16:46:56.140+01:00",
+    "updated_at": "2016-09-28T16:46:56.140+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 46,
+    "description": "Deferred sentence hearings uplift",
+    "code": "DSU",
+    "created_at": "2016-09-28T16:46:56.152+01:00",
+    "updated_at": "2016-09-28T16:46:56.152+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 47,
+    "description": "Hearings relating to admissibility of evidence (half day)",
+    "code": "AEH",
+    "created_at": "2016-09-28T16:46:56.163+01:00",
+    "updated_at": "2016-09-28T16:46:56.163+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 48,
+    "description": "Hearings relating to admissibility of evidence (whole day)",
+    "code": "AEW",
+    "created_at": "2016-09-28T16:46:56.175+01:00",
+    "updated_at": "2016-09-28T16:46:56.175+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 49,
+    "description": "Hearings relating to admissibility of evidence (half day uplift)",
+    "code": "EHU",
+    "created_at": "2016-09-28T16:46:56.190+01:00",
+    "updated_at": "2016-09-28T16:46:56.190+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 50,
+    "description": "Hearings relating to admissibility of evidence (whole day uplift)",
+    "code": "EWU",
+    "created_at": "2016-09-28T16:46:56.201+01:00",
+    "updated_at": "2016-09-28T16:46:56.201+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 51,
+    "description": "Hearings relating to disclosure (half day)",
+    "code": "HDH",
+    "created_at": "2016-09-28T16:46:56.214+01:00",
+    "updated_at": "2016-09-28T16:46:56.214+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 52,
+    "description": "Hearings relating to disclosure (whole day)",
+    "code": "HDW",
+    "created_at": "2016-09-28T16:46:56.226+01:00",
+    "updated_at": "2016-09-28T16:46:56.226+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 53,
+    "description": "Hearings relating to disclosure (half day uplift)",
+    "code": "HHU",
+    "created_at": "2016-09-28T16:46:56.237+01:00",
+    "updated_at": "2016-09-28T16:46:56.237+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 54,
+    "description": "Hearings relating to disclosure (whole day uplift)",
+    "code": "HWU",
+    "created_at": "2016-09-28T16:46:56.249+01:00",
+    "updated_at": "2016-09-28T16:46:56.249+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 55,
+    "description": "Noting brief fee",
+    "code": "NBR",
+    "created_at": "2016-09-28T16:46:56.260+01:00",
+    "updated_at": "2016-09-28T16:46:56.260+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 56,
+    "description": "Paper plea & case management",
+    "code": "PPC",
+    "created_at": "2016-09-28T16:46:56.271+01:00",
+    "updated_at": "2016-09-28T16:46:56.271+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 57,
+    "description": "Paper plea & case management uplift",
+    "code": "PCU",
+    "created_at": "2016-09-28T16:46:56.283+01:00",
+    "updated_at": "2016-09-28T16:46:56.283+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 58,
+    "description": "Proceeds of crime hearings (half day)",
+    "code": "PCH",
+    "created_at": "2016-09-28T16:46:56.294+01:00",
+    "updated_at": "2016-09-28T16:46:56.294+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 59,
+    "description": "Proceeds of crime hearings (whole day)",
+    "code": "PCW",
+    "created_at": "2016-09-28T16:46:56.308+01:00",
+    "updated_at": "2016-09-28T16:46:56.308+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 60,
+    "description": "Proceeds of crime hearings (half day uplift)",
+    "code": "CHU",
+    "created_at": "2016-09-28T16:46:56.320+01:00",
+    "updated_at": "2016-09-28T16:46:56.320+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 61,
+    "description": "Proceeds of crime hearings (whole day uplift)",
+    "code": "CHW",
+    "created_at": "2016-09-28T16:46:56.332+01:00",
+    "updated_at": "2016-09-28T16:46:56.332+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 62,
+    "description": "Public interest immunity hearings (half day)",
+    "code": "PAH",
+    "created_at": "2016-09-28T16:46:56.343+01:00",
+    "updated_at": "2016-09-28T16:46:56.343+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 63,
+    "description": "Public interest immunity hearings (whole day)",
+    "code": "PAW",
+    "created_at": "2016-09-28T16:46:56.356+01:00",
+    "updated_at": "2016-09-28T16:46:56.356+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 64,
+    "description": "Public interest immunity hearings (half day uplift)",
+    "code": "PHU",
+    "created_at": "2016-09-28T16:46:56.368+01:00",
+    "updated_at": "2016-09-28T16:46:56.368+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 65,
+    "description": "Public interest immunity hearings (whole day uplift)",
+    "code": "PWU",
+    "created_at": "2016-09-28T16:46:56.379+01:00",
+    "updated_at": "2016-09-28T16:46:56.379+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 66,
+    "description": "Research of very unusual or novel factual issue",
+    "code": "RNF",
+    "created_at": "2016-09-28T16:46:56.391+01:00",
+    "updated_at": "2016-09-28T16:46:56.391+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 67,
+    "description": "Research of very unusual or novel point of law",
+    "code": "RNL",
+    "created_at": "2016-09-28T16:46:56.404+01:00",
+    "updated_at": "2016-09-28T16:46:56.404+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 68,
+    "description": "Standard appearance fee uplift",
+    "code": "SAU",
+    "created_at": "2016-09-28T16:46:56.416+01:00",
+    "updated_at": "2016-09-28T16:46:56.416+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 69,
+    "description": "Sentence hearings",
+    "code": "SHR",
+    "created_at": "2016-09-28T16:46:56.427+01:00",
+    "updated_at": "2016-09-28T16:46:56.427+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 70,
+    "description": "Sentence hearings uplift",
+    "code": "SHU",
+    "created_at": "2016-09-28T16:46:56.438+01:00",
+    "updated_at": "2016-09-28T16:46:56.438+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 71,
+    "description": "Special preparation fee",
+    "code": "SPF",
+    "created_at": "2016-09-28T16:46:56.450+01:00",
+    "updated_at": "2016-09-28T16:46:56.450+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 72,
+    "description": "Trial not proceed",
+    "code": "TNP",
+    "created_at": "2016-09-28T16:46:56.463+01:00",
+    "updated_at": "2016-09-28T16:46:56.463+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 73,
+    "description": "Trial not proceed uplift",
+    "code": "TNU",
+    "created_at": "2016-09-28T16:46:56.475+01:00",
+    "updated_at": "2016-09-28T16:46:56.475+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 74,
+    "description": "Unsuccessful application to vacate a guilty plea (half day)",
+    "code": "PAH",
+    "created_at": "2016-09-28T16:46:56.486+01:00",
+    "updated_at": "2016-09-28T16:46:56.486+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 75,
+    "description": "Unsuccessful application to vacate a guilty plea (whole day)",
+    "code": "PAW",
+    "created_at": "2016-09-28T16:46:56.497+01:00",
+    "updated_at": "2016-09-28T16:46:56.497+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 76,
+    "description": "Unsuccessful application to vacate a guilty plea (half day uplift)",
+    "code": "PHU",
+    "created_at": "2016-09-28T16:46:56.509+01:00",
+    "updated_at": "2016-09-28T16:46:56.509+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 77,
+    "description": "Unsuccessful application to vacate a guilty plea (whole day uplift)",
+    "code": "PWU",
+    "created_at": "2016-09-28T16:46:56.520+01:00",
+    "updated_at": "2016-09-28T16:46:56.520+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 78,
+    "description": "Written / oral advice",
+    "code": "WOA",
+    "created_at": "2016-09-28T16:46:56.530+01:00",
+    "updated_at": "2016-09-28T16:46:56.530+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 79,
+    "description": "Wasted preparation fee",
+    "code": "WPF",
+    "created_at": "2016-09-28T16:46:56.541+01:00",
+    "updated_at": "2016-09-28T16:46:56.541+01:00",
+    "max_amount": null,
+    "calculated": true,
+    "roles": [
+      "agfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": true
+  },
+  {
+    "id": 80,
+    "description": "Evidence provision fee",
+    "code": "XEVI",
+    "created_at": "2016-09-28T16:46:56.553+01:00",
+    "updated_at": "2016-09-28T16:46:56.553+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 81,
+    "description": "Costs judge application",
+    "code": "XCJA",
+    "created_at": "2016-09-28T16:46:56.564+01:00",
+    "updated_at": "2016-09-28T16:46:56.564+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 82,
+    "description": "Costs judge preparation",
+    "code": "XCJP",
+    "created_at": "2016-09-28T16:46:56.575+01:00",
+    "updated_at": "2016-09-28T16:46:56.575+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 83,
+    "description": "Case uplift",
+    "code": "XUPL",
+    "created_at": "2016-09-28T16:46:56.587+01:00",
+    "updated_at": "2016-09-28T16:46:56.587+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 84,
+    "description": "Trial",
+    "code": "GTRL",
+    "created_at": "2016-09-28T16:46:56.605+01:00",
+    "updated_at": "2016-09-28T16:46:56.605+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 85,
+    "description": "Retrial",
+    "code": "GRTR",
+    "created_at": "2016-09-28T16:46:56.618+01:00",
+    "updated_at": "2016-09-28T16:46:56.618+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 86,
+    "description": "Guilty plea",
+    "code": "GGLTY",
+    "created_at": "2016-09-28T16:46:56.630+01:00",
+    "updated_at": "2016-09-28T16:46:56.630+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 87,
+    "description": "Discontinuance",
+    "code": "GDIS",
+    "created_at": "2016-09-28T16:46:56.641+01:00",
+    "updated_at": "2016-09-28T16:46:56.641+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 88,
+    "description": "Cracked trial",
+    "code": "GCRAK",
+    "created_at": "2016-09-28T16:46:56.653+01:00",
+    "updated_at": "2016-09-28T16:46:56.653+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 89,
+    "description": "Cracked before retrial",
+    "code": "GCBR",
+    "created_at": "2016-09-28T16:46:56.664+01:00",
+    "updated_at": "2016-09-28T16:46:56.664+01:00",
+    "max_amount": "9999.0",
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 90,
+    "description": "Warrant Fee",
+    "code": "XWAR",
+    "created_at": "2016-09-28T16:46:56.683+01:00",
+    "updated_at": "2016-09-28T16:46:56.683+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 91,
+    "description": "Effective PCMH",
+    "code": "IPCMH",
+    "created_at": "2016-09-28T16:46:56.703+01:00",
+    "updated_at": "2016-09-28T16:46:56.703+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 92,
+    "description": "Trial start",
+    "code": "ITST",
+    "created_at": "2016-09-28T16:46:56.715+01:00",
+    "updated_at": "2016-09-28T16:46:56.715+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 93,
+    "description": "Retrial New solicitor",
+    "code": "IRNS",
+    "created_at": "2016-09-28T16:46:56.728+01:00",
+    "updated_at": "2016-09-28T16:46:56.728+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 94,
+    "description": "Retrial start",
+    "code": "IRST",
+    "created_at": "2016-09-28T16:46:56.749+01:00",
+    "updated_at": "2016-09-28T16:46:56.749+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 95,
+    "description": "Disbursement only",
+    "code": "IDISO",
+    "created_at": "2016-09-28T16:46:56.761+01:00",
+    "updated_at": "2016-09-28T16:46:56.761+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 96,
+    "description": "Warrant",
+    "code": "IWARR",
+    "created_at": "2016-09-28T16:46:56.773+01:00",
+    "updated_at": "2016-09-28T16:46:56.773+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  },
+  {
+    "id": 97,
+    "description": "Transfer",
+    "code": "TRANS",
+    "created_at": "2016-09-28T16:46:56.797+01:00",
+    "updated_at": "2016-09-28T16:46:56.797+01:00",
+    "max_amount": null,
+    "calculated": false,
+    "roles": [
+      "lgfs"
+    ],
+    "parent_id": null,
+    "quantity_is_decimal": false
+  }
+]

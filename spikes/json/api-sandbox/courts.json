@@ -1,0 +1,476 @@
+[
+  {
+    "id": 1,
+    "code": "401",
+    "name": "Aylesbury Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 2,
+    "code": "461",
+    "name": "Basildon Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 3,
+    "code": "404",
+    "name": "Birmingham Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 4,
+    "code": "428",
+    "name": "Blackfriars Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 5,
+    "code": "470",
+    "name": "Bolton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 6,
+    "code": "406",
+    "name": "Bournemouth Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 7,
+    "code": "402",
+    "name": "Bradford Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 8,
+    "code": "408",
+    "name": "Bristol Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 9,
+    "code": "409",
+    "name": "Burnley Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 10,
+    "code": "410",
+    "name": "Cambridge Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 11,
+    "code": "479",
+    "name": "Canterbury Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 12,
+    "code": "411",
+    "name": "Cardiff Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 13,
+    "code": "412",
+    "name": "Carlisle Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 14,
+    "code": "413",
+    "name": "Central Criminal Court",
+    "court_type": "crown"
+  },
+  {
+    "id": 15,
+    "code": "414",
+    "name": "Chelmsford Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 16,
+    "code": "415",
+    "name": "Chester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 17,
+    "code": "416",
+    "name": "Chichester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 18,
+    "code": "417",
+    "name": "Coventry Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 19,
+    "code": "418",
+    "name": "Croydon Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 20,
+    "code": "419",
+    "name": "Derby Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 21,
+    "code": "420",
+    "name": "Doncaster Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 22,
+    "code": "422",
+    "name": "Durham Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 23,
+    "code": "423",
+    "name": "Exeter Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 24,
+    "code": "424",
+    "name": "Gloucester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 25,
+    "code": "425",
+    "name": "Grimsby Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 26,
+    "code": "474",
+    "name": "Guildford Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 27,
+    "code": "468",
+    "name": "Harrow Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 28,
+    "code": "403",
+    "name": "Hull Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 29,
+    "code": "440",
+    "name": "Inner London Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 30,
+    "code": "426",
+    "name": "Ipswich Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 31,
+    "code": "475",
+    "name": "Isleworth Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 32,
+    "code": "427",
+    "name": "Kingston Upon Thames Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 33,
+    "code": "429",
+    "name": "Leeds Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 34,
+    "code": "430",
+    "name": "Leicester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 35,
+    "code": "431",
+    "name": "Lewes Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 36,
+    "code": "432",
+    "name": "Lincoln Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 37,
+    "code": "433",
+    "name": "Liverpool Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 38,
+    "code": "476",
+    "name": "Luton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 39,
+    "code": "434",
+    "name": "Maidstone Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 40,
+    "code": "435",
+    "name": "Manchester (Crown Sq)",
+    "court_type": "crown"
+  },
+  {
+    "id": 41,
+    "code": "436",
+    "name": "Manchester (Minshull St)",
+    "court_type": "crown"
+  },
+  {
+    "id": 42,
+    "code": "437",
+    "name": "Merthyr Tydfil Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 43,
+    "code": "464",
+    "name": "Middx Guildhall Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 44,
+    "code": "438",
+    "name": "Mold Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 45,
+    "code": "439",
+    "name": "Newcastle Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 46,
+    "code": "478",
+    "name": "Newport (IOW) Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 47,
+    "code": "441",
+    "name": "Newport Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 48,
+    "code": "442",
+    "name": "Northampton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 49,
+    "code": "443",
+    "name": "Norwich Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 50,
+    "code": "444",
+    "name": "Nottingham Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 51,
+    "code": "445",
+    "name": "Oxford Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 52,
+    "code": "473",
+    "name": "Peterborough Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 53,
+    "code": "446",
+    "name": "Plymouth Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 54,
+    "code": "447",
+    "name": "Portsmouth Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 55,
+    "code": "448",
+    "name": "Preston Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 56,
+    "code": "449",
+    "name": "Reading Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 57,
+    "code": "480",
+    "name": "Salisbury Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 58,
+    "code": "451",
+    "name": "Sheffield Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 59,
+    "code": "452",
+    "name": "Shrewsbury Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 60,
+    "code": "453",
+    "name": "Snaresbrook Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 61,
+    "code": "454",
+    "name": "Southampton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 62,
+    "code": "471",
+    "name": "Southwark Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 63,
+    "code": "450",
+    "name": "St Albans Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 64,
+    "code": "455",
+    "name": "Stafford Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 65,
+    "code": "456",
+    "name": "Stoke on Trent Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 66,
+    "code": "457",
+    "name": "Swansea Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 67,
+    "code": "458",
+    "name": "Swindon Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 68,
+    "code": "459",
+    "name": "Taunton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 69,
+    "code": "460",
+    "name": "Teesside Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 70,
+    "code": "477",
+    "name": "Truro Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 71,
+    "code": "462",
+    "name": "Warrington Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 72,
+    "code": "463",
+    "name": "Warwick Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 73,
+    "code": "407",
+    "name": "Weymouth and Dorcester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 74,
+    "code": "465",
+    "name": "Winchester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 75,
+    "code": "421",
+    "name": "Wolverhampton Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 76,
+    "code": "469",
+    "name": "Wood Green Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 77,
+    "code": "472",
+    "name": "Woolwich Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 78,
+    "code": "466",
+    "name": "Worcester Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 79,
+    "code": "467",
+    "name": "York Crown",
+    "court_type": "crown"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1,
+    "name": "Accident reconstruction report"
+  },
+  {
+    "id": 2,
+    "name": "Accounts"
+  },
+  {
+    "id": 3,
+    "name": "Computer experts"
+  },
+  {
+    "id": 4,
+    "name": "Consultant medical reports"
+  },
+  {
+    "id": 5,
+    "name": "Costs judge application fee"
+  },
+  {
+    "id": 6,
+    "name": "Costs judge preparation award"
+  },
+  {
+    "id": 7,
+    "name": "DNA testing"
+  },
+  {
+    "id": 8,
+    "name": "Engineer"
+  },
+  {
+    "id": 9,
+    "name": "Enquiry agents"
+  },
+  {
+    "id": 10,
+    "name": "Facial mapping expert"
+  },
+  {
+    "id": 11,
+    "name": "Financial expert"
+  },
+  {
+    "id": 12,
+    "name": "Fingerprint expert"
+  },
+  {
+    "id": 13,
+    "name": "Fire assessor/explosives expert"
+  },
+  {
+    "id": 14,
+    "name": "Forensic scientists"
+  },
+  {
+    "id": 15,
+    "name": "Handwriting expert"
+  },
+  {
+    "id": 16,
+    "name": "Interpreter"
+  },
+  {
+    "id": 17,
+    "name": "Lip readers"
+  },
+  {
+    "id": 18,
+    "name": "Medical expert"
+  },
+  {
+    "id": 19,
+    "name": "Memorandum of conviction fee"
+  },
+  {
+    "id": 20,
+    "name": "Meteorologist"
+  },
+  {
+    "id": 21,
+    "name": "Other"
+  },
+  {
+    "id": 22,
+    "name": "Overnight expenses"
+  },
+  {
+    "id": 23,
+    "name": "Pathologist"
+  },
+  {
+    "id": 24,
+    "name": "Photocopying"
+  },
+  {
+    "id": 25,
+    "name": "Psychiatric reports"
+  },
+  {
+    "id": 26,
+    "name": "Psychological report"
+  },
+  {
+    "id": 27,
+    "name": "Surveyor/architect"
+  },
+  {
+    "id": 28,
+    "name": "Transcripts"
+  },
+  {
+    "id": 29,
+    "name": "Translator"
+  },
+  {
+    "id": 30,
+    "name": "Travel costs"
+  },
+  {
+    "id": 31,
+    "name": "Vet report"
+  },
+  {
+    "id": 32,
+    "name": "Voice recognition"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "reason_set": "A",
+    "reasons": [
+      {
+        "id": 1,
+        "reason": "Court hearing",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 4,
+        "reason": "View of crime scene",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 5,
+        "reason": "Other",
+        "allow_explanatory_text": true
+      }
+    ]
+  },
+  {
+    "reason_set": "B",
+    "reasons": [
+      {
+        "id": 2,
+        "reason": "Pre-trial conference expert witnesses",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 3,
+        "reason": "Pre-trial conference defendant",
+        "allow_explanatory_text": false
+      },
+      {
+        "id": 4,
+        "reason": "View of crime scene",
+        "allow_explanatory_text": false
+      }
+    ]
+  }
+]

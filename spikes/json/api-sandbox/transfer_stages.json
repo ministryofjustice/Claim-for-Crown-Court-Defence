@@ -1,0 +1,30 @@
+[
+  {
+    "id": 10,
+    "description": "Up to and including PCMH transfer"
+  },
+  {
+    "id": 20,
+    "description": "Before trial transfer"
+  },
+  {
+    "id": 30,
+    "description": "During trial transfer"
+  },
+  {
+    "id": 40,
+    "description": "Transfer after trial and before sentence hearing"
+  },
+  {
+    "id": 50,
+    "description": "Transfer before retrial"
+  },
+  {
+    "id": 60,
+    "description": "Transfer during retrial"
+  },
+  {
+    "id": 70,
+    "description": "Transfer after retrial and before sentence hearing"
+  }
+]

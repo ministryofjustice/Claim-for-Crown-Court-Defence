@@ -1,0 +1,198 @@
+[
+  {
+    "id": 1,
+    "name": "Appeal against conviction",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "ACV"
+  },
+  {
+    "id": 2,
+    "name": "Appeal against sentence",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": false,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "ASE"
+  },
+  {
+    "id": 3,
+    "name": "Breach of Crown Court order",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": false,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "CBR"
+  },
+  {
+    "id": 4,
+    "name": "Committal for Sentence",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "CSE"
+  },
+  {
+    "id": 5,
+    "name": "Contempt",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "ZCON"
+  },
+  {
+    "id": 7,
+    "name": "Cracked before retrial",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": true,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "GCBR"
+  },
+  {
+    "id": 6,
+    "name": "Cracked Trial",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": true,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "GCRAK"
+  },
+  {
+    "id": 8,
+    "name": "Discontinuance",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "GDIS"
+  },
+  {
+    "id": 9,
+    "name": "Elected cases not proceeded",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "ENP"
+  },
+  {
+    "id": 10,
+    "name": "Guilty plea",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs"
+    ],
+    "fee_type_code": "GGLTY"
+  },
+  {
+    "id": 13,
+    "name": "Hearing subsequent to sentence",
+    "is_fixed_fee": true,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": false,
+    "allow_pcmh_fee_type": false,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "lgfs"
+    ],
+    "fee_type_code": "XH2S"
+  },
+  {
+    "id": 11,
+    "name": "Retrial",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": true,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": true,
+    "roles": [
+      "agfs",
+      "lgfs",
+      "interim"
+    ],
+    "fee_type_code": "GRTR"
+  },
+  {
+    "id": 12,
+    "name": "Trial",
+    "is_fixed_fee": false,
+    "requires_cracked_dates": false,
+    "requires_trial_dates": true,
+    "allow_pcmh_fee_type": true,
+    "requires_maat_reference": true,
+    "requires_retrial_dates": false,
+    "roles": [
+      "agfs",
+      "lgfs",
+      "interim"
+    ],
+    "fee_type_code": "GTRL"
+  }
+]

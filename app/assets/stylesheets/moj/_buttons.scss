@@ -2,11 +2,6 @@
   @include button($grey-3);
 }
 
-.button-start {
-  background-image: image-url('icons/icon-pointer.png');
-  margin-bottom: $gutter-half;
-}
-
 .button-holder {
   margin-top: $gutter;
 }

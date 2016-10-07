@@ -13,9 +13,10 @@
 .container.search-wrapper#listanchor
   - if params[:search].present?
     = render partial: 'shared/search_summary'
-  #report-options
-    = render partial: 'shared/scheme_filters', locals: { available_schemes: @available_schemes }
-    = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path, hint_text: t('hint.search') }
+  .grid-row
+    .column-full
+      = render partial: 'shared/scheme_filters', locals: { available_schemes: @available_schemes }
+      = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path, hint_text: t('hint.search') }
 .container
   .importer-results{'aria-live': 'polite'}
 

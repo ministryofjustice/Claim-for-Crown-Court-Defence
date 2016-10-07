@@ -3,17 +3,18 @@
     = hidden_field_tag :tab, params[:tab]
     = hidden_field_tag :sort, params[:sort]
     = hidden_field_tag :direction, params[:direction]
-    %fieldset
-      %legend
-        = t('common.search')
-      .input.form-group
-        = label_tag :search, class: 'form-label' do
-          %span.label-text.heading-medium
-            = t('common.search')
+    .form-group
+      %fieldset.inline
+        %legend.visuallyhidden
+          = t('common.search.legend')
+
+        %label.heading-medium{:for => "first-name-2"}
+          = t('common.search.label')
           %span.form-hint
             = hint_text
-        = text_field_tag :search, params[:search], class: "form-control search"
-        = button_tag(type: 'submit', class: 'button search', title: "#{ t('common.search') }") do
+        = text_field_tag :search, params[:search], class: "form-control"
+
+        = button_tag(type: 'submit', class: 'button', title: "#{ t('common.search.label') }") do
           = "Search"
 
   = yield :search_html_block

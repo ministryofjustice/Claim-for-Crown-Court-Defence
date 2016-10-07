@@ -1,3 +1,4 @@
+-# NO Idea what this does
 - @disable_logo_link  = true
 
 - content_for?(:page_title) ? yield(:page_title) : contextual_title
@@ -15,13 +16,18 @@
     %script
       != ga_outlet
 
+- content_for :header_class do
+  = "with-proposition"
+
 - content_for :proposition_header do
   .header-proposition
     .content
+      %a.js-header-toggle.menu{:href => "#proposition-links"}
+        = "Menu"
       %nav#proposition-menu
-        %a#proposition-name{:href =>"/"}
+        %a#proposition-name{:href => "/"}
           %span.visuallyhidden
-            Home link
+            = "Home link"
           = "Claim for crown court defence"
 
         - unless current_user.nil?
@@ -29,14 +35,15 @@
 
 = content_for :content do
   = csrf_meta_tags
-  #page
+
+  %main#content
     = render partial: 'shared/phase_banner'
-    .primary-nav-bar
-      - if user_signed_in?
-        = render partial: 'layouts/primary_navigation'
-    %main#content
-      = render partial: 'layouts/flashes' unless flash.empty?
-      = yield
+    - if user_signed_in?
+      = render partial: 'layouts/primary_navigation'
+
+
+    = render partial: 'layouts/flashes' unless flash.empty?
+    = yield
 
     .grid-row.contactus-link
       = render partial: 'layouts/contact_us_link'
@@ -48,4 +55,3 @@
   = javascript_include_tag Rails.env.test? ? 'application.test' : 'application'
 
 = render template: 'layouts/govuk_template'
-

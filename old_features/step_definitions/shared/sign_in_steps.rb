@@ -73,7 +73,7 @@ end
 
 Then(/^I should see an Manage advocates link and it should work$/) do
   find('#primary-nav').click_link('Manage users')
-  expect(find('header.main-header')).to have_content('Manage users')
+  expect(find('#page-h1')).to have_content('Manage users')
 end
 
 Given(/^I sign out$/) do

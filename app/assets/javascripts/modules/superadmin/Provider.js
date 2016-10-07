@@ -68,6 +68,7 @@ moj.Modules.SuperAdminProvider = {
   },
 
   showHide: function() {
+    var $lgfs = $('#provider_roles_lgfs');
     var providerTypeVal = this.$providerType.find(':radio').filter(':checked').val();
     var selectedRoles = $.map(this.$providerRoles.find(':checkbox').filter(':checked'), function(checkbox) {
       return checkbox.value;
@@ -75,6 +76,9 @@ moj.Modules.SuperAdminProvider = {
 
     // Show supplier number and vat registered if the provider is a firm
     if (providerTypeVal === 'firm') {
+      $lgfs.prop('disabled', 'disabled');
+      $lgfs.prop('checked', 'checked');
+      $lgfs.parent().addClass('selected');
       this.$vatRegistered.show();
       this.$providerRoles.show();
     } else {

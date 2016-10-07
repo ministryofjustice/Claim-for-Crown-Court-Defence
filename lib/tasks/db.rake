@@ -1,5 +1,36 @@
 namespace :db do
 
+  namespace :static do
+    desc 'Dumps all static data tables to db/static.sql'
+    task :dump => :environment do
+      raise 'Can only run in development mode' unless Rails.env.development?
+      cmd = "pg_dump #{connection_opts} --clean #{static_tables} > #{Rails.root}/db/static.sql"
+      system cmd
+    end
+
+    desc 'restores static data tables on api-sandbox'
+    task :static_data_restore do
+      production_protected
+
+      dump_file = args.file
+
+      unless dump_file.present?
+        puts 'Please provide the file to restore to the task. Ex: rake db:restore[20160719112847_dump.psql]'
+        puts 'Note: if you are using zsh, scape the brackets. Ex: rake db:restore\[20160719112847_dump.psql\]'
+        exit(1)
+      end
+
+      unless File.exists?(dump_file)
+        puts 'File %s not found.' % dump_file
+        exit(1)
+      end
+
+      sh (with_config do |_db_name, connection_opts|
+        "PGPASSWORD=$DB_PASSWORD psql -q #{connection_opts} -f #{dump_file}"
+      end)
+    end
+  end
+
   desc "Erase all tables"
   task :clear => :environment do
     conn = ActiveRecord::Base.connection
@@ -178,5 +209,9 @@ namespace :db do
   def decompress_file(filename)
     puts 'Decompressing file...'
     sh "gzip -d #{filename}"
+  end
+
+  def static_tables
+    '-t courts -t case_types -t disbursement_types -t expense_types -t fee_types -t offence_classes -t offences'
   end
 end

@@ -7,7 +7,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -18,7 +18,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -29,7 +29,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -40,7 +40,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -51,7 +51,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -62,7 +62,7 @@
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
@@ -73,7 +73,7 @@
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
@@ -84,7 +84,7 @@
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
@@ -95,7 +95,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -106,7 +106,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -117,7 +117,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -128,7 +128,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -139,7 +139,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -150,7 +150,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -161,7 +161,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -172,7 +172,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -183,7 +183,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -194,7 +194,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -205,7 +205,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -216,7 +216,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -227,7 +227,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -238,7 +238,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -249,7 +249,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -260,7 +260,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -271,7 +271,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -282,7 +282,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -293,7 +293,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -304,7 +304,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -315,7 +315,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -326,7 +326,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -337,7 +337,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -348,7 +348,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -359,7 +359,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -370,7 +370,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -381,7 +381,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -392,7 +392,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -403,7 +403,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -414,7 +414,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -425,7 +425,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -436,7 +436,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -447,7 +447,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -458,7 +458,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -469,7 +469,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -480,7 +480,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -491,7 +491,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -502,7 +502,7 @@
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
@@ -513,7 +513,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -524,7 +524,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -535,7 +535,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -546,7 +546,7 @@
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
@@ -557,7 +557,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -568,7 +568,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -579,7 +579,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -590,7 +590,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -601,7 +601,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -612,7 +612,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -623,7 +623,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -634,7 +634,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -645,7 +645,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -656,7 +656,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -667,7 +667,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -678,7 +678,7 @@
       "id": 5,
       "class_letter": "E",
       "description": "Burglary",
-      "lgfs_offence_id": 411
+      "lgfs_offence_id": 383
     }
   },
   {
@@ -689,7 +689,7 @@
       "id": 5,
       "class_letter": "E",
       "description": "Burglary",
-      "lgfs_offence_id": 411
+      "lgfs_offence_id": 383
     }
   },
   {
@@ -700,7 +700,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -711,7 +711,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -722,7 +722,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -733,7 +733,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -744,7 +744,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -755,7 +755,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -766,7 +766,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -777,7 +777,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -788,7 +788,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -799,7 +799,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -810,7 +810,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -821,7 +821,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -832,7 +832,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -843,7 +843,7 @@
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
@@ -854,7 +854,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -865,7 +865,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -876,7 +876,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -887,7 +887,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -898,7 +898,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -909,7 +909,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -920,7 +920,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -931,7 +931,7 @@
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
@@ -942,7 +942,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -953,7 +953,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -964,7 +964,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -975,7 +975,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -986,7 +986,7 @@
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
@@ -997,7 +997,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -1008,7 +1008,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -1019,7 +1019,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -1030,7 +1030,7 @@
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
@@ -1041,7 +1041,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -1052,7 +1052,7 @@
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
@@ -1063,7 +1063,7 @@
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
@@ -1074,7 +1074,7 @@
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
@@ -1085,7 +1085,7 @@
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
@@ -1096,7 +1096,7 @@
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
@@ -1107,7 +1107,7 @@
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
@@ -1118,7 +1118,7 @@
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
@@ -1129,7 +1129,7 @@
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
@@ -1140,7 +1140,7 @@
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
@@ -1151,7 +1151,7 @@
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
@@ -1162,7 +1162,7 @@
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
@@ -1173,7 +1173,7 @@
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
@@ -1184,3406 +1184,3406 @@
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 390,
+    "description": "Counterfeiting notes and coins",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
     }
   },
   {
     "id": 109,
     "description": "Counterfeiting notes and coins",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 110,
-    "description": "Counterfeiting notes and coins",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 111,
+    "id": 391,
     "description": "Counterfeiting notes and coins",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 110,
+    "description": "Counterfeiting of dies or marks",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 111,
+    "description": "Counterfeiting of dies or marks",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
     }
   },
   {
     "id": 112,
     "description": "Counterfeiting of dies or marks",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 113,
-    "description": "Counterfeiting of dies or marks",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 114,
-    "description": "Counterfeiting of dies or marks",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 115,
+    "id": 113,
     "description": "Criminal damage (other than aggravated criminal damage)",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 116,
+    "id": 114,
     "description": "Cruelty to persons under 16",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 117,
+    "id": 115,
     "description": "Cultivation of cannabis plant",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 118,
+    "id": 116,
     "description": "Custody or control of false instruments etc.",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 119,
+    "id": 117,
     "description": "Custody or control of false instruments etc.",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 120,
+    "id": 118,
     "description": "Custody or control of false instruments etc.",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 121,
+    "id": 119,
     "description": "Dangerous driving",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 122,
+    "id": 120,
     "description": "Dealing in firearms",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 123,
+    "id": 121,
     "description": "Destruction of registers of births etc.",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 124,
+    "id": 392,
     "description": "Destruction of registers of births etc.",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 125,
+    "id": 393,
     "description": "Destruction of registers of births etc.",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 126,
+    "id": 122,
     "description": "Detention of woman in brothel or other premises",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 127,
+    "id": 123,
     "description": "Directing terrorist organisation",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 128,
+    "id": 124,
     "description": "Disclosure prejudicing, or interference of material relevant to, investigation of terrorism",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 129,
+    "id": 125,
     "description": "Disclosure under sections 330, 331, 332 or 333 of the Proceeds of Crime Act 2002 otherwise than in the form and manner prescribed",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 130,
+    "id": 126,
     "description": "Drug trafficking offences at sea",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 131,
+    "id": 127,
     "description": "Embracery",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 132,
+    "id": 128,
     "description": "Endangering the safety of an aircraft",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 133,
+    "id": 129,
     "description": "Endangering the safety of railway passengers",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 134,
+    "id": 130,
     "description": "Engaging in sexual activity in the presence of a child",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 135,
+    "id": 131,
     "description": "Engaging in sexual activity in the presence of a person with a mental disorder",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 136,
+    "id": 132,
     "description": "Escaping from lawful custody without force",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 137,
+    "id": 133,
     "description": "Evasion of liability by deception",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 138,
+    "id": 134,
     "description": "Evasion of liability by deception",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 139,
+    "id": 135,
     "description": "Evasion of liability by deception",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 140,
+    "id": 136,
     "description": "Exposure",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 141,
+    "id": 137,
     "description": "Fabrication of evidence with intent to mislead a tribunal",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 142,
+    "id": 138,
     "description": "Facilitating child prostitution",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 143,
+    "id": 139,
     "description": "Failing to keep dogs under proper control resulting in injury",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 144,
+    "id": 140,
     "description": "Failure to comply with certificate when transferring firearm",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 145,
+    "id": 141,
     "description": "Failure to disclose information about terrorism",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 146,
+    "id": 142,
     "description": "Failure to disclose knowledge or suspicion of money laundering",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 147,
+    "id": 143,
     "description": "Failure to disclose knowledge or suspicion of money laundering: nominated officers in the regulated sector",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 148,
+    "id": 144,
     "description": "Failure to disclose knowledge or suspicion of money laundering: other nominated officers",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 149,
+    "id": 145,
     "description": "Failure to disclose knowledge or suspicion of money laundering: regulated sector",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 150,
+    "id": 146,
     "description": "False accounting",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 151,
+    "id": 147,
     "description": "False accounting",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 152,
+    "id": 148,
     "description": "False accounting",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 153,
+    "id": 149,
     "description": "False evidence before European Court",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 154,
+    "id": 150,
     "description": "False imprisonment",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 155,
+    "id": 151,
     "description": "False statement tendered under section 5B of the Magistrates' Courts Act 1980",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 156,
+    "id": 152,
     "description": "False statement tendered under section 9 of the Criminal Justice Act 1967",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 157,
+    "id": 153,
     "description": "Firing on Revenue vessel",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 158,
+    "id": 154,
     "description": "Forgery",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 159,
+    "id": 155,
     "description": "Forgery",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 160,
+    "id": 156,
     "description": "Forgery",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 164,
+    "id": 160,
     "description": "Forgery, alteration, fraud of licences etc.",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 161,
+    "id": 157,
     "description": "Forgery and misuse of driving documents",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 162,
+    "id": 158,
     "description": "Forgery etc. of licences and other documents",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 163,
+    "id": 159,
     "description": "Forgery of driving documents",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
+    }
+  },
+  {
+    "id": 161,
+    "description": "Fraud by abuse of position",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 162,
+    "description": "Fraud by abuse of position",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 163,
+    "description": "Fraud by abuse of position",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 164,
+    "description": "Fraud by failing to disclose information",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
     }
   },
   {
     "id": 165,
-    "description": "Fraud by abuse of position",
-    "offence_class_id": 6,
+    "description": "Fraud by failing to disclose information",
+    "offence_class_id": 7,
     "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
     }
   },
   {
     "id": 166,
-    "description": "Fraud by abuse of position",
-    "offence_class_id": 7,
+    "description": "Fraud by failing to disclose information",
+    "offence_class_id": 11,
     "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
     }
   },
   {
     "id": 167,
-    "description": "Fraud by abuse of position",
-    "offence_class_id": 11,
+    "description": "Fraud by false representation",
+    "offence_class_id": 6,
     "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
     }
   },
   {
     "id": 168,
-    "description": "Fraud by failing to disclose information",
-    "offence_class_id": 6,
+    "description": "Fraud by false representation",
+    "offence_class_id": 7,
     "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
     }
   },
   {
     "id": 169,
-    "description": "Fraud by failing to disclose information",
+    "description": "Fraud by false representation",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 394,
+    "description": "Fraudulent evasion: counterfeit notes or coins",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 176,
+    "description": "Fraudulent evasion: counterfeit notes or coins",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 395,
+    "description": "Fraudulent evasion: counterfeit notes or coins",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 177,
+    "description": "Fraudulent evasion: not elsewhere specified",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 178,
+    "description": "Fraudulent evasion: not elsewhere specified",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 179,
+    "description": "Fraudulent evasion: not elsewhere specified",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
     }
   },
   {
     "id": 170,
-    "description": "Fraud by failing to disclose information",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 171,
-    "description": "Fraud by false representation",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 172,
-    "description": "Fraud by false representation",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 173,
-    "description": "Fraud by false representation",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 180,
-    "description": "Fraudulent evasion: counterfeit notes or coins",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 181,
-    "description": "Fraudulent evasion: counterfeit notes or coins",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 182,
-    "description": "Fraudulent evasion: counterfeit notes or coins",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 183,
-    "description": "Fraudulent evasion: not elsewhere specified",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 184,
-    "description": "Fraudulent evasion: not elsewhere specified",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 185,
-    "description": "Fraudulent evasion: not elsewhere specified",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 174,
     "description": "Fraudulent evasion of agricultural levy",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 175,
+    "id": 171,
     "description": "Fraudulent evasion of controls on Class A and B drugs",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 176,
+    "id": 172,
     "description": "Fraudulent evasion of controls on Class C drugs",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 177,
+    "id": 173,
     "description": "Fraudulent evasion of duty",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 178,
+    "id": 174,
     "description": "Fraudulent evasion of duty",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 179,
+    "id": 175,
     "description": "Fraudulent evasion of duty",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 186,
+    "id": 180,
     "description": "Fund-raising for terrorism",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 187,
+    "id": 181,
     "description": "Giving false statements to procure cremation",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 188,
+    "id": 182,
     "description": "Going equipped to steal",
     "offence_class_id": 5,
     "offence_class": {
       "id": 5,
       "class_letter": "E",
       "description": "Burglary",
-      "lgfs_offence_id": 411
+      "lgfs_offence_id": 383
     }
   },
   {
-    "id": 189,
+    "id": 183,
     "description": "Gross indecency between male of 21 or over and male under 16",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 190,
+    "id": 184,
     "description": "Gross indecency between males (other than where one is 21 or over and the other is under 16)",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 191,
+    "id": 185,
     "description": "Handling stolen goods",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 192,
+    "id": 186,
     "description": "Handling stolen goods",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 193,
+    "id": 187,
     "description": "Handling stolen goods",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 194,
+    "id": 188,
     "description": "Harbouring escaped prisoners",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 195,
+    "id": 189,
     "description": "Harming, threatening to harm a witness, juror etc.",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 196,
+    "id": 190,
     "description": "Having an article with a blade or point in a public place",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 197,
+    "id": 191,
     "description": "Hostage taking",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 200,
+    "id": 396,
     "description": "Illegal importation: counterfeit notes or coins",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 201,
+    "id": 194,
     "description": "Illegal importation: counterfeit notes or coins",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 202,
+    "id": 397,
     "description": "Illegal importation: counterfeit notes or coins",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 203,
+    "id": 195,
     "description": "Illegal importation: not elsewhere specified",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 204,
+    "id": 196,
     "description": "Illegal importation: not elsewhere specified",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 205,
+    "id": 197,
     "description": "Illegal importation: not elsewhere specified",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 198,
+    "id": 192,
     "description": "Illegal importation of Class A and B drugs",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 199,
+    "id": 193,
     "description": "Illegal importation of Class C drugs",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 206,
+    "id": 198,
     "description": "Ill-treatment of persons of unsound mind",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 207,
+    "id": 199,
     "description": "Impeding persons endeavouring to escape wrecks",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 208,
+    "id": 200,
     "description": "Impersonating Customs officer",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 209,
+    "id": 201,
     "description": "Incest by man with a girl under 13",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 210,
+    "id": 202,
     "description": "Incest other than by man with a girl under 13",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 211,
+    "id": 203,
     "description": "Incitement of terrorism overseas",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 212,
+    "id": 204,
     "description": "Incitement to commit incest",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 213,
+    "id": 205,
     "description": "Inciting a child family member to engage in sexual activity",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 214,
+    "id": 206,
     "description": "Indecency with children under 14",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 215,
+    "id": 207,
     "description": "Indecent assault on a man",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 216,
+    "id": 208,
     "description": "Indecent assault on a woman",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 217,
+    "id": 209,
     "description": "Indecent display",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 218,
+    "id": 210,
     "description": "Inducing person with mental disorder to engage in sexual activity",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 219,
+    "id": 211,
     "description": "Infanticide",
     "offence_class_id": 1,
     "offence_class": {
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
-    "id": 220,
+    "id": 212,
     "description": "Intercourse with an animal",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 221,
+    "id": 213,
     "description": "Intimidating a witness, juror etc.",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 222,
+    "id": 214,
     "description": "Involvement in arrangements facilitating the acquisition, retention, use or control of criminal property",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 223,
+    "id": 215,
     "description": "Keeping a disorderly house",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 224,
+    "id": 216,
     "description": "Kidnapping",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 225,
+    "id": 217,
     "description": "Living on earnings of male prostitution",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 226,
+    "id": 218,
     "description": "Making a false statement to obtain interim possession order",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 240,
+    "id": 400,
     "description": "Making, custody or control of counterfeiting materials etc.",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 241,
-    "description": "Making, custody or control of counterfeiting materials etc.",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 242,
-    "description": "Making, custody or control of counterfeiting materials etc.",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 227,
-    "description": "Making false entries in copies of registers sent to register",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 228,
-    "description": "Making false entries in copies of registers sent to register",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 229,
-    "description": "Making false entries in copies of registers sent to register",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 384
     }
   },
   {
     "id": 230,
+    "description": "Making, custody or control of counterfeiting materials etc.",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 401,
+    "description": "Making, custody or control of counterfeiting materials etc.",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 219,
+    "description": "Making false entries in copies of registers sent to register",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 398,
+    "description": "Making false entries in copies of registers sent to register",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 399,
+    "description": "Making false entries in copies of registers sent to register",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 220,
     "description": "Making false statement to authorised officer",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 231,
+    "id": 221,
     "description": "Making false statement to resist making of interim possession order",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 232,
+    "id": 222,
     "description": "Making gunpowder etc. to commit offences",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 233,
+    "id": 223,
     "description": "Making off without payment",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 234,
+    "id": 224,
     "description": "Making or possession of explosive in suspicious circumstances",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 235,
+    "id": 225,
     "description": "Making or supplying articles for use in frauds",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 236,
+    "id": 226,
     "description": "Making or supplying articles for use in frauds",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 237,
+    "id": 227,
     "description": "Making or supplying articles for use in frauds",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 238,
+    "id": 228,
     "description": "Making threats to destroy or damage property",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 239,
+    "id": 229,
     "description": "Making threats to kill",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 243,
+    "id": 231,
     "description": "Man living on earnings of prostitution",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 244,
+    "id": 232,
     "description": "Manslaughter",
     "offence_class_id": 1,
     "offence_class": {
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
-    "id": 245,
+    "id": 233,
     "description": "Manufacture and supply of scheduled substances",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 246,
+    "id": 234,
     "description": "Meeting child following sexual grooming",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 247,
+    "id": 235,
     "description": "Membership of proscribed organisations",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 407,
+    "id": 379,
     "description": "Miscellaneous/other",
     "offence_class_id": 1,
     "offence_class": {
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
-    "id": 408,
+    "id": 380,
     "description": "Miscellaneous/other",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 409,
+    "id": 381,
     "description": "Miscellaneous/other",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 410,
+    "id": 382,
     "description": "Miscellaneous/other",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 411,
+    "id": 383,
     "description": "Miscellaneous/other",
     "offence_class_id": 5,
     "offence_class": {
       "id": 5,
       "class_letter": "E",
       "description": "Burglary",
-      "lgfs_offence_id": 411
+      "lgfs_offence_id": 383
     }
   },
   {
-    "id": 412,
+    "id": 384,
     "description": "Miscellaneous/other",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 413,
+    "id": 385,
     "description": "Miscellaneous/other",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 414,
+    "id": 386,
     "description": "Miscellaneous/other",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 415,
+    "id": 387,
     "description": "Miscellaneous/other",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 416,
+    "id": 388,
     "description": "Miscellaneous/other",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 417,
+    "id": 389,
     "description": "Miscellaneous/other",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 248,
+    "id": 236,
     "description": "Misconduct endangering ship or persons on board ship",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 249,
+    "id": 237,
     "description": "Mishandling or falsifying parking documents etc.",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 250,
+    "id": 238,
     "description": "Murder",
     "offence_class_id": 1,
     "offence_class": {
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
-    "id": 251,
+    "id": 239,
     "description": "Neglecting to provide food for or assaulting servants etc.",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 252,
+    "id": 240,
     "description": "Obscene articles intended for publication for gain",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 253,
+    "id": 241,
     "description": "Obstructing Customs officer",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 254,
+    "id": 242,
     "description": "Obstructing engine or carriage on railway",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
+    }
+  },
+  {
+    "id": 243,
+    "description": "Obtaining pecuniary advantage by deception",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 244,
+    "description": "Obtaining pecuniary advantage by deception",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 245,
+    "description": "Obtaining pecuniary advantage by deception",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 246,
+    "description": "Obtaining property by deception",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 247,
+    "description": "Obtaining property by deception",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 248,
+    "description": "Obtaining property by deception",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 249,
+    "description": "Obtaining services by deception",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 250,
+    "description": "Obtaining services by deception",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 251,
+    "description": "Obtaining services by deception",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 252,
+    "description": "Obtaining services by dishonesty",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 253,
+    "description": "Obtaining services by dishonesty",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 254,
+    "description": "Obtaining services by dishonesty",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
     }
   },
   {
     "id": 255,
-    "description": "Obtaining pecuniary advantage by deception",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 256,
-    "description": "Obtaining pecuniary advantage by deception",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 257,
-    "description": "Obtaining pecuniary advantage by deception",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 258,
-    "description": "Obtaining property by deception",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 259,
-    "description": "Obtaining property by deception",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 260,
-    "description": "Obtaining property by deception",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 261,
-    "description": "Obtaining services by deception",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 262,
-    "description": "Obtaining services by deception",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 263,
-    "description": "Obtaining services by deception",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 264,
-    "description": "Obtaining services by dishonesty",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 265,
-    "description": "Obtaining services by dishonesty",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 266,
-    "description": "Obtaining services by dishonesty",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 267,
     "description": "Occupier knowingly permitting drugs offences etc.",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 268,
+    "id": 256,
     "description": "Offences against international protection of nuclear material",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 269,
+    "id": 257,
     "description": "Offences in relation to dies or stamps",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 270,
+    "id": 258,
     "description": "Offences in relation to dies or stamps",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 271,
+    "id": 259,
     "description": "Offences in relation to dies or stamps",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 272,
+    "id": 260,
     "description": "Offences in relation to money laundering investigations",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 273,
+    "id": 261,
     "description": "Offences in relation to proceeds of drug trafficking",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 274,
+    "id": 402,
     "description": "Offences involving custody or control of counterfeit notes and coins",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 275,
+    "id": 262,
     "description": "Offences involving custody or control of counterfeit notes and coins",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 276,
+    "id": 403,
     "description": "Offences involving custody or control of counterfeit notes and coins",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 277,
+    "id": 263,
     "description": "Offences of publication of obscene matter",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 278,
+    "id": 264,
     "description": "Offences relating to the safe custody of controlled drugs",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 279,
+    "id": 265,
     "description": "Offender armed or disguised",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 280,
+    "id": 266,
     "description": "Offering inducement to procure sexual activity with a person with a mental disorder",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 281,
+    "id": 267,
     "description": "Other offences involving money or property to be used for terrorism",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 282,
+    "id": 268,
     "description": "Participating in fraudulent business carried on by sole trader etc.",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 283,
+    "id": 269,
     "description": "Participating in fraudulent business carried on by sole trader etc.",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 284,
+    "id": 270,
     "description": "Participating in fraudulent business carried on by sole trader etc.",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 285,
+    "id": 404,
     "description": "Passing counterfeit notes and coins",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 286,
+    "id": 271,
     "description": "Passing counterfeit notes and coins",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 287,
+    "id": 405,
     "description": "Passing counterfeit notes and coins",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 288,
+    "id": 272,
     "description": "Paying for sexual services of a child",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 289,
+    "id": 273,
     "description": "Perjuries (7 offences)",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 290,
+    "id": 274,
     "description": "Permitting an escape",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 291,
+    "id": 275,
     "description": "Permitting defective to use premises for intercourse",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 292,
+    "id": 276,
     "description": "Permitting girl under 13 to use premises for sexual intercourse",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 293,
+    "id": 277,
     "description": "Permitting girl under 16 to use premises for intercourse",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 294,
+    "id": 278,
     "description": "Personating for purposes of bail etc.",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 295,
+    "id": 279,
     "description": "Personation of jurors",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 296,
+    "id": 280,
     "description": "Perverting the course of public justice",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 297,
+    "id": 281,
     "description": "Placing explosives with intent to cause bodily injury",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 298,
+    "id": 282,
     "description": "Possessing anything with intent to destroy or damage property",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 311,
+    "id": 287,
     "description": "Possession etc of articles for use in frauds",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 312,
+    "id": 288,
     "description": "Possession etc of articles for use in frauds",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 313,
+    "id": 289,
     "description": "Possession etc of articles for use in frauds",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 314,
+    "id": 290,
     "description": "Possession of a Class A or B drug with intent to supply",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 315,
+    "id": 291,
     "description": "Possession of a Class C drug with intent to supply",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 316,
+    "id": 292,
     "description": "Possession of articles for terrorist purposes",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 317,
+    "id": 293,
     "description": "Possession of Class A drug",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 318,
+    "id": 294,
     "description": "Possession of Class B or C drug",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 305,
+    "id": 285,
     "description": "Possession of false identify documents",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 306,
+    "id": 410,
     "description": "Possession of false identify documents",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 307,
+    "id": 411,
     "description": "Possession of false identify documents",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 322,
+    "id": 298,
     "description": "Possession of firearms by person convicted of crime",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 319,
+    "id": 295,
     "description": "Possession of firearm with criminal intent",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 320,
+    "id": 296,
     "description": "Possession of firearm with intent to endanger life",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 321,
+    "id": 297,
     "description": "Possession of firearm without certificate",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 323,
+    "id": 299,
     "description": "Possession of offensive weapon",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 324,
+    "id": 300,
     "description": "Possession or acquisition of certain prohibited weapons etc.",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 325,
+    "id": 301,
     "description": "Possession or acquisition of shotgun without certificate",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 299,
+    "id": 283,
     "description": "Possession (with intention) of apparatus or material for making false identity documents",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 300,
+    "id": 406,
     "description": "Possession (with intention) of apparatus or material for making false identity documents",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 301,
+    "id": 407,
     "description": "Possession (with intention) of apparatus or material for making false identity documents",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 284,
+    "description": "Possession (with intention) of false identity documents",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 408,
+    "description": "Possession (with intention) of false identity documents",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 409,
+    "description": "Possession (with intention) of false identity documents",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
+    }
+  },
+  {
+    "id": 286,
+    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
+    "offence_class_id": 6,
+    "offence_class": {
+      "id": 6,
+      "class_letter": "F",
+      "description": "Other offences of dishonesty up to £30,000",
+      "lgfs_offence_id": 384
+    }
+  },
+  {
+    "id": 412,
+    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
+    "offence_class_id": 7,
+    "offence_class": {
+      "id": 7,
+      "class_letter": "G",
+      "description": "Other offences of dishonesty between £30,001 and £100,000",
+      "lgfs_offence_id": 385
+    }
+  },
+  {
+    "id": 413,
+    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
+    "offence_class_id": 11,
+    "offence_class": {
+      "id": 11,
+      "class_letter": "K",
+      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
+      "lgfs_offence_id": 389
     }
   },
   {
     "id": 302,
-    "description": "Possession (with intention) of false identity documents",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 303,
-    "description": "Possession (with intention) of false identity documents",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 304,
-    "description": "Possession (with intention) of false identity documents",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 308,
-    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
-    "offence_class_id": 6,
-    "offence_class": {
-      "id": 6,
-      "class_letter": "F",
-      "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
-    }
-  },
-  {
-    "id": 309,
-    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
-    "offence_class_id": 7,
-    "offence_class": {
-      "id": 7,
-      "class_letter": "G",
-      "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
-    }
-  },
-  {
-    "id": 310,
-    "description": "Possession (without reasonable excuse) of false identity documents or apparatus or material for making false identity documents",
-    "offence_class_id": 11,
-    "offence_class": {
-      "id": 11,
-      "class_letter": "K",
-      "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
-    }
-  },
-  {
-    "id": 326,
     "description": "Practitioner contravening drug supply regulations",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 327,
+    "id": 303,
     "description": "Prejudicing a drug trafficking investigation",
     "offence_class_id": 9,
     "offence_class": {
       "id": 9,
       "class_letter": "I",
       "description": "Offences against public justice and similar offences",
-      "lgfs_offence_id": 415
+      "lgfs_offence_id": 387
     }
   },
   {
-    "id": 328,
+    "id": 304,
     "description": "Presentation of obscene performance",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 329,
+    "id": 305,
     "description": "Prison mutiny",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 330,
+    "id": 306,
     "description": "Procuration of girl under 21",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 331,
+    "id": 307,
     "description": "Procurement of a defective",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 332,
+    "id": 308,
     "description": "Procurement of a woman by false pretences",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 333,
+    "id": 309,
     "description": "Procurement of intercourse by threats etc.",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 334,
+    "id": 310,
     "description": "Procuring others to commit homosexual acts",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 335,
+    "id": 311,
     "description": "Producing or supplying a Class A or B drug",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 336,
+    "id": 312,
     "description": "Producing or supplying Class C drug",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 337,
+    "id": 313,
     "description": "Putting people in fear of violence",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 339,
+    "id": 315,
     "description": "Racially-aggravated arson (not endangering life)",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 340,
+    "id": 316,
     "description": "Racially-aggravated assault",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 341,
+    "id": 317,
     "description": "Racially-aggravated criminal damage",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 338,
+    "id": 314,
     "description": "Racially aggravated harassment/putting another in fear of violence",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 342,
+    "id": 318,
     "description": "Racially-aggravated public order offence",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 343,
+    "id": 319,
     "description": "Rape",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 344,
+    "id": 320,
     "description": "Rape of child under 13",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 345,
+    "id": 414,
     "description": "Removal of articles from places open to the public",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 346,
+    "id": 321,
     "description": "Removal of articles from places open to the public",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 347,
+    "id": 415,
     "description": "Removal of articles from places open to the public",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 348,
+    "id": 322,
     "description": "Rescue",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 349,
+    "id": 323,
     "description": "Riot",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 350,
+    "id": 324,
     "description": "Robbery (other than armed robbery)",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 351,
+    "id": 325,
     "description": "Sending prohibited articles by post",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 352,
+    "id": 326,
     "description": "Setting spring guns with intent to inflict grievous bodily harm",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 354,
+    "id": 328,
     "description": "Sexual activity with a child",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 355,
+    "id": 329,
     "description": "Sexual activity with a child family member, with penetration",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 356,
+    "id": 330,
     "description": "Sexual activity with a person with a mental disorder",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 357,
+    "id": 331,
     "description": "Sexual assault",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 358,
+    "id": 332,
     "description": "Sexual assault of child under 13",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 359,
+    "id": 333,
     "description": "Sexual intercourse with defective",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 360,
+    "id": 334,
     "description": "Sexual intercourse with girl under 13",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 361,
+    "id": 335,
     "description": "Sexual intercourse with girl under 16",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 362,
+    "id": 336,
     "description": "Sexual intercourse with patients",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 363,
+    "id": 337,
     "description": "Sexual penetration of a corpse",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 353,
+    "id": 327,
     "description": "Sex with adult relative",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 364,
+    "id": 338,
     "description": "Shortening of shotgun or possession of shortened shotgun",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 365,
+    "id": 339,
     "description": "Shortening of smooth bore gun",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 366,
+    "id": 340,
     "description": "Solicitation for immoral purposes",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 367,
+    "id": 341,
     "description": "Soliciting to commit murder",
     "offence_class_id": 1,
     "offence_class": {
       "id": 1,
       "class_letter": "A",
       "description": "Homicide and related grave offences",
-      "lgfs_offence_id": 407
+      "lgfs_offence_id": 379
     }
   },
   {
-    "id": 368,
+    "id": 342,
     "description": "Stirring up racial hatred",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 369,
+    "id": 343,
     "description": "Supplying instrument etc. to cause miscarriage",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 370,
+    "id": 344,
     "description": "Support or meeting of proscribed organisations",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 371,
+    "id": 345,
     "description": "Taking, having etc. indecent photographs of children",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 372,
+    "id": 346,
     "description": "Theft",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 373,
+    "id": 347,
     "description": "Theft",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 374,
+    "id": 348,
     "description": "Theft",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 375,
+    "id": 349,
     "description": "Tipping off",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 376,
+    "id": 350,
     "description": "Tipping-off in relation to money laundering investigations",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 377,
+    "id": 351,
     "description": "Trade description offences (9 offences)",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 378,
+    "id": 352,
     "description": "Trafficking into UK for sexual exploitation",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 379,
+    "id": 353,
     "description": "Trafficking out of UK for sexual exploitation",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 380,
+    "id": 354,
     "description": "Trafficking within UK for sexual exploitation",
     "offence_class_id": 10,
     "offence_class": {
       "id": 10,
       "class_letter": "J",
       "description": "Serious sexual offences, offences against children",
-      "lgfs_offence_id": 416
+      "lgfs_offence_id": 388
     }
   },
   {
-    "id": 382,
+    "id": 356,
     "description": "Trespassing with a firearm",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 381,
+    "id": 355,
     "description": "Trespass with intent to commit sexual offence",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 383,
+    "id": 416,
     "description": "Undischarged bankrupt being concerned in a company",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 384,
+    "id": 357,
     "description": "Undischarged bankrupt being concerned in a company",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 385,
+    "id": 417,
     "description": "Undischarged bankrupt being concerned in a company",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 386,
+    "id": 358,
     "description": "Uniform of proscribed organisations",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 387,
+    "id": 359,
     "description": "Unlawful collection of information for terrorist purposes",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 388,
+    "id": 360,
     "description": "Unlawful eviction and harassment of occupier",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 389,
+    "id": 361,
     "description": "Unlawful wounding",
     "offence_class_id": 3,
     "offence_class": {
       "id": 3,
       "class_letter": "C",
       "description": "Lesser offences involving violence or damage and less serious drug offences",
-      "lgfs_offence_id": 409
+      "lgfs_offence_id": 381
     }
   },
   {
-    "id": 390,
+    "id": 362,
     "description": "Use of firearm to resist arrest",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 391,
+    "id": 363,
     "description": "Using a copy of a false instrument",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 392,
+    "id": 364,
     "description": "Using a copy of a false instrument",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 393,
+    "id": 365,
     "description": "Using a copy of a false instrument",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 394,
+    "id": 366,
     "description": "Using a false instrument",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 395,
+    "id": 367,
     "description": "Using a false instrument",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 396,
+    "id": 368,
     "description": "Using a false instrument",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 397,
+    "id": 369,
     "description": "Using explosive or corrosives with intent to cause grievous bodily harm",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 398,
+    "id": 370,
     "description": "VAT offences",
     "offence_class_id": 6,
     "offence_class": {
       "id": 6,
       "class_letter": "F",
       "description": "Other offences of dishonesty up to £30,000",
-      "lgfs_offence_id": 412
+      "lgfs_offence_id": 384
     }
   },
   {
-    "id": 399,
+    "id": 371,
     "description": "VAT offences",
     "offence_class_id": 7,
     "offence_class": {
       "id": 7,
       "class_letter": "G",
       "description": "Other offences of dishonesty between £30,001 and £100,000",
-      "lgfs_offence_id": 413
+      "lgfs_offence_id": 385
     }
   },
   {
-    "id": 400,
+    "id": 372,
     "description": "VAT offences",
     "offence_class_id": 11,
     "offence_class": {
       "id": 11,
       "class_letter": "K",
       "description": "Offences of dishonesty in Class F where the value in is in excess of £100,000",
-      "lgfs_offence_id": 417
+      "lgfs_offence_id": 389
     }
   },
   {
-    "id": 401,
+    "id": 373,
     "description": "Violent disorder",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 402,
+    "id": 374,
     "description": "Voyeurism",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 403,
+    "id": 375,
     "description": "Wanton or furious driving",
     "offence_class_id": 8,
     "offence_class": {
       "id": 8,
       "class_letter": "H",
       "description": "Miscellaneous lesser offences",
-      "lgfs_offence_id": 414
+      "lgfs_offence_id": 386
     }
   },
   {
-    "id": 404,
+    "id": 376,
     "description": "Weapons training",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   },
   {
-    "id": 405,
+    "id": 377,
     "description": "Woman exercising control over prostitute",
     "offence_class_id": 4,
     "offence_class": {
       "id": 4,
       "class_letter": "D",
       "description": "Serious sexual offences and offences against children",
-      "lgfs_offence_id": 410
+      "lgfs_offence_id": 382
     }
   },
   {
-    "id": 406,
+    "id": 378,
     "description": "Wounding or grievous bodily harm with intent to cause grievous bodily harm etc.",
     "offence_class_id": 2,
     "offence_class": {
       "id": 2,
       "class_letter": "B",
       "description": "Offences involving serious violence or damage and serious drug offences",
-      "lgfs_offence_id": 408
+      "lgfs_offence_id": 380
     }
   }
 ]

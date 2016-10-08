@@ -408,12 +408,6 @@
     "court_type": "crown"
   },
   {
-    "id": 69,
-    "code": "460",
-    "name": "Teesside Crown",
-    "court_type": "crown"
-  },
-  {
     "id": 70,
     "code": "477",
     "name": "Truro Crown",
@@ -471,6 +465,12 @@
     "id": 79,
     "code": "467",
     "name": "York Crown",
+    "court_type": "crown"
+  },
+  {
+    "id": 69,
+    "code": "460",
+    "name": "Teesside Crown",
     "court_type": "crown"
   }
 ]

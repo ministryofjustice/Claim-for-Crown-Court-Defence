@@ -21,7 +21,7 @@
     "requires_cracked_dates": false,
     "requires_trial_dates": false,
     "allow_pcmh_fee_type": false,
-    "requires_maat_reference": false,
+    "requires_maat_reference": true,
     "requires_retrial_dates": false,
     "roles": [
       "agfs",

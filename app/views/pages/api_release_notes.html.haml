@@ -186,3 +186,11 @@
     Offence Ids on LGFS claims (Litigator Final Claim, Litigator Transfer Claim, Litigator Interim Claim) are no longer limited to those ids derived from the Offence Class.  Previously,
     the only offence ids that were considered valid on an LGFS claim were those that were derived from the litigator_offence_id on the relevant Offence Class.  This is no longer that case,
     any offence id may be used.
+
+%hr
+%h1 October 2016
+%ul.list-bullet
+  %li
+    Users of the api-sandbox where having difficulties because the ids of the static data records (expense types, fee types etc) were
+    liable to change every time we regenerated the database.  Over the weekend of 8th-9th October, the database was recreated and the ids
+    of these records fixed to match those on the live database.  These ids are now static and will not change in future.

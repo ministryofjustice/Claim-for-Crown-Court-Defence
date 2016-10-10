@@ -1,5 +1,6 @@
 class UserHomePage < SitePrism::Page
   element :start_a_claim, "div.claims-actions > a.button-start"
+  element :your_claims_link, "div.breadcrumbs > ol > li:nth-of-type(1) > a"
 
   sections :claims, "table.report > tbody > tr" do
     element :case_number, "a.js-test-case-number-link"

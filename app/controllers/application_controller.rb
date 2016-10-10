@@ -13,14 +13,14 @@ class ApplicationController < ActionController::Base
 
   load_and_authorize_resource
 
-  unless Rails.env.development? || Rails.env.devunicorn?
-    rescue_from Exception do |exception|
-      if exception.is_a?(ActiveRecord::RecordNotFound)
-        redirect_to error_404_url
-      else
-        Raven.capture_exception(exception) if Rails.env.production?
-        redirect_to error_500_url
-      end
+  rescue_from Exception do |exception|
+    raise unless Rails.env.production?
+
+    if exception.is_a?(ActiveRecord::RecordNotFound)
+      redirect_to error_404_url
+    else
+      Raven.capture_exception(exception)
+      redirect_to error_500_url
     end
   end
 

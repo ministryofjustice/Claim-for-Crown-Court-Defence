@@ -48,10 +48,13 @@
           %td
             = claim.case_type_name
           %td.numeric
-            = claim.submitted_at(include_time: false) unless claim.draft?
+            = claim.submitted_at(include_time: false)
           %td.messages
-            - if claim.messages.any?
-              = link_to claim.has_unread_messages_for?(current_user) ? "View (#{claim.unread_messages_for(current_user).count} new)" : "View" , "#{case_workers_claim_path(claim, messages: true)}#messages"
+            - if claim.has_messages?
+              - if claim.remote?
+                = link_to claim.unread_messages_count > 0 ? "View (#{claim.unread_messages_count} new)" : "View" , "#{case_workers_claim_path(claim, messages: true)}#messages"
+              - else
+                = link_to claim.has_unread_messages_for?(current_user) ? "View (#{claim.unread_messages_for(current_user).count} new)" : "View" , "#{case_workers_claim_path(claim, messages: true)}#messages"
             - else
               %span.none
                 = t(".none")

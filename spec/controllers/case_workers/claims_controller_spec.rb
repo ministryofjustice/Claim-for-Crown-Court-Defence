@@ -46,117 +46,132 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         get :index, query_params
       end
 
-      it 'returns http success' do
-        expect(response).to have_http_status(:success)
-      end
-
-      context 'current claims' do
-        it 'shows claims allocated to current user' do
-          expect(assigns(:claims)).to match_array(@case_worker.claims.caseworker_dashboard_under_assessment)
+      context 'default criteria', vcr: {cassette_name: 'spec/case_workers/claims/index'} do
+        it 'returns http success' do
+          expect(response).to have_http_status(:success)
         end
 
-        it 'defaults ordering of claims to oldest first based on last submitted date' do
-          expect(assigns(:claims)).to eq(@case_worker.claims.caseworker_dashboard_under_assessment.order(last_submitted_at: :asc))
+        it 'shows claims allocated to current user, with default ordering based on last submitted date, oldest first' do
+          expect(assigns(:claims).map(&:case_number)).to match_array(@claims.sort_by(&:last_submitted_at).map(&:case_number))
+        end
+
+        it 'does not include claim not assigned to case worker' do
+          expect(assigns(:claims)).to_not include(@other_claim)
+        end
+
+        it 'renders the template' do
+          expect(response).to render_template(:index)
         end
       end
 
-      context 'pagination limit' do
+      context 'pagination limit', vcr: {cassette_name: 'spec/case_workers/claims/index_pagination'} do
         let(:limit) { 2 }
 
         it 'paginates to N per page' do
-          expect(@case_worker.claims.caseworker_dashboard_under_assessment.count).to eq(3)
-          expect(assigns(:claims).count).to eq(2)
+          expect(@claims.size).to eq(3)
+          expect(assigns(:claims).size).to eq(2)
         end
       end
 
-      context 'search by case number' do
-        let(:query_params) { { search: @case_worker.claims.first.case_number } }
+      context 'search by case number', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_case_number'} do
+        let(:case_number) { @claims.first.case_number }
+        let(:query_params) { { search: case_number } }
 
         it 'finds the claims matching case number' do
-          expect(assigns(:claims)).to eq([@case_worker.claims.first])
+          expect(assigns(:claims).size).to eq(1)
+          expect(assigns(:claims).first.case_number).to eq(case_number)
         end
       end
 
-      context 'search by maat' do
-        let(:query_params) { { search: @case_worker.claims.first.defendants.first.representation_orders.first.maat_reference } }
+      context 'search by MAAT', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_maat'} do
+        let(:maat) { '0802551537' }
+        let(:query_params) { { search: maat } }
 
-        it 'finds the claims with MAAT reference "12345"' do
-          expect(assigns(:claims)).to eq([@case_worker.claims.first])
+        # Ensure the repo has this MAAT, otherwise VCR will fail.
+        # Rep orders should really be generated with deterministic data in first place, this is a patch.
+        before do
+          @claims.first.defendants.first.representation_orders.first.update_column(:maat_reference, maat)
+        end
+
+        it 'finds the claims matching the MAAT reference' do
+          expect(assigns(:claims).size).to eq(1)
+          expect(assigns(:claims).first.defendants.first.representation_orders.first.maat_reference).to eq(maat)
         end
       end
 
-      context 'search by defendant' do
-        let(:query_params) { { search: @case_worker.claims.first.defendants.first.name } }
+      context 'search by defendant', vcr: {cassette_name: 'spec/case_workers/claims/index_search_by_defendant'} do
+        let(:name) { 'Mya Keeling' }
+        let(:query_params) { { search: name } }
+
+        # Ensure the defendant has this name, otherwise VCR will fail.
+        # Defendants should really be generated with deterministic names in first place, this is a patch.
+        before do
+          @claims.first.defendants.first.update_column(:first_name, 'Mya')
+          @claims.first.defendants.first.update_column(:last_name, 'Keeling')
+        end
 
         it 'finds the claims with specified defendant' do
-          expect(assigns(:claims)).to eq([@case_worker.claims.first])
+          expect(assigns(:claims).size).to eq(1)
+          expect(assigns(:claims).first.defendants.first.name).to eq(name)
         end
-      end
-
-      it 'only includes claims associated with the case worker' do
-        expect(assigns(:claims)).to match_array(@claims)
-      end
-
-      it 'does not include claim not assigned to case worker' do
-        expect(assigns(:claims)).to_not include(@other_claim)
-      end
-
-      it 'renders the template' do
-        expect(response).to render_template(:index)
       end
 
       describe 'sorting' do
-        context 'case number ascending' do
+        context 'case number ascending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_case_number_asc'} do
           let(:query_params) { { sort: 'case_number', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number))
+            returned_case_numbers = assigns(:claims).map(&:case_number)
+            expect(returned_case_numbers).to eq(returned_case_numbers.sort)
           end
         end
 
-        context 'case number descending' do
+        context 'case number descending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_case_number_desc'} do
           let(:query_params) { { sort: 'case_number', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number).reverse)
+            returned_case_numbers = assigns(:claims).map(&:case_number)
+            expect(returned_case_numbers).to eq(returned_case_numbers.sort.reverse)
           end
         end
 
-        context 'advocate name ascending' do
+        context 'advocate name ascending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_advocate_asc'} do
           let(:query_params) { { sort: 'advocate', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
+            returned_names = assigns(:claims).map(&:external_user).map(&:sortable_name)
             expect(returned_names).to eq(returned_names.sort)
           end
         end
 
-        context 'advocate name descending' do
+        context 'advocate name descending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_advocate_desc'} do
           let(:query_params) { { sort: 'advocate', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
+            returned_names = assigns(:claims).map(&:external_user).map(&:sortable_name)
             expect(returned_names).to eq(returned_names.sort.reverse)
           end
         end
 
-        context 'claimed amount ascending' do
+        context 'claimed amount ascending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_amount_asc'} do
           let(:query_params) { { sort: 'total_inc_vat', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat))
+            returned_amounts = assigns(:claims).map(&:total_including_vat)
+            expect(returned_amounts).to eq(returned_amounts.sort)
           end
         end
 
-        context 'claimed amount descending' do
+        context 'claimed amount descending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_amount_desc'} do
           let(:query_params) { { sort: 'total_inc_vat', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat).reverse)
+            returned_amounts = assigns(:claims).map(&:total_including_vat)
+            expect(returned_amounts).to eq(returned_amounts.sort.reverse)
           end
         end
 
-        context 'case type ascending' do
+        context 'case type ascending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_casetype_asc'} do
           let(:query_params) { { sort: 'case_type', direction: 'asc' } }
 
           it 'returns ordered claims' do
@@ -165,7 +180,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
           end
         end
 
-        context 'case type descending' do
+        context 'case type descending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_casetype_desc'} do
           let(:query_params) { { sort: 'case_type', direction: 'desc' } }
 
           it 'returns ordered claims' do
@@ -174,19 +189,21 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
           end
         end
 
-        context 'date submitted ascending' do
+        context 'date submitted ascending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_date_asc'} do
           let(:query_params) { { sort: 'last_submitted_at', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:last_submitted_at))
+            returned_dates = assigns(:claims).map(&:last_submitted_at)
+            expect(returned_dates).to eq(returned_dates.sort)
           end
         end
 
-        context 'date submitted descending' do
+        context 'date submitted descending', vcr: {cassette_name: 'spec/case_workers/claims/index_sort_by_date_desc'} do
           let(:query_params) { { sort: 'last_submitted_at', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:last_submitted_at).reverse)
+            returned_dates = assigns(:claims).map(&:last_submitted_at)
+            expect(returned_dates).to eq(returned_dates.sort.reverse)
           end
         end
       end
@@ -253,21 +270,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       clean_database
     end
 
-    describe '#archived with no filtering' do
+    describe '#archived with no filtering', vcr: {cassette_name: 'spec/case_workers/claims/archived'} do
       before(:each) do
         get :archived, 'tab' => 'archived'
       end
 
-      it 'returns all in authorised  and part authorised statuses' do
+      it 'returns all in authorised and part authorised status, with default ordering based on last submitted date, oldest first' do
         expect(assigns(:claims).size).to eq 8
-      end
-
-      it 'defaults ordering of claims to oldest first based on last submitted date' do
-        expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:last_submitted_at))
+        expect(assigns(:claims).map(&:last_submitted_at)).to eq(assigns(:claims).sort_by(&:last_submitted_at).map(&:last_submitted_at))
       end
     end
 
-    describe '#archived with filtering by defendant name' do
+    describe '#archived with filtering by defendant name', vcr: {cassette_name: 'spec/case_workers/claims/archived_search_by_defendant'} do
       search_terms = {
         'Joex Bloggs' => 2,
         'Fred Bloggs' => 4,

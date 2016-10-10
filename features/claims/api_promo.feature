@@ -12,5 +12,7 @@ Feature: An API promotion banner will appear on the create claim page, until the
     And The API promo banner is visible
     When I click the link 'Do not show me again'
     Then The API promo banner is not visible
-    When I reload the page
+
+    When I click 'Your claims' link
+    And I click 'Start a claim'
     Then The API promo banner is not visible

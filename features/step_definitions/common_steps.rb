@@ -24,6 +24,10 @@ Given(/^I click 'Start a claim'$/) do
   @external_user_home_page.start_a_claim.click
 end
 
+Given(/^I click 'Your claims' link$/) do
+  @external_user_home_page.your_claims_link.click
+end
+
 Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
   if (visibility == 'see')
     expect(page).to have_content(text)
@@ -110,6 +114,10 @@ And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
   end
 end
 
-And(/^I reload the page$/) do
-  page.evaluate_script('window.location.reload()')
+And(/^I insert the VCR cassette '(.*?)'$/) do |name|
+  VCR.insert_cassette(name)
+end
+
+And(/^I eject the VCR cassette$/) do
+  VCR.eject_cassette
 end

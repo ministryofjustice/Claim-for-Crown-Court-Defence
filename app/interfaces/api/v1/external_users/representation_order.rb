@@ -14,7 +14,7 @@ module API
         resource :representation_orders, desc: 'Create or Validate' do
           helpers do
             def defendant_id
-              ::Defendant.find_by(uuid: params[:defendant_id]).try(:id) || (raise API::ArgumentError, 'Defendant cannot be blank')
+              ::Defendant.find_by(uuid: params[:defendant_id]).try(:id) || (raise ArgumentError, 'Defendant cannot be blank')
             end
 
             def build_arguments

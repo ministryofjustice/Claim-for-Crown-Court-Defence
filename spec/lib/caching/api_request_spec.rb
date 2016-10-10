@@ -25,7 +25,7 @@ describe Caching::ApiRequest do
 
       it 'should have a default set of options, if none provided' do
         expect(subject.options[:ttl]).to eq(900)
-        expect(subject.options[:ignore_params]).to eq(['api_key'])
+        expect(subject.options[:ignore_params]).to eq([])
       end
     end
 
@@ -50,9 +50,8 @@ describe Caching::ApiRequest do
       %w(http://test.com/?123           http://test.com/?123),
       %w(http://test.com/?321           http://test.com/?321),
       %w(http://test.com?test=1         http://test.com?test=1),
-      %w(http://test.com?api_key=1      http://test.com),
-      %w(http://test.com?API_KEY=1      http://test.com),
-      %w(http://test.com?api_key=1&a=b  http://test.com?a=b),
+      %w(http://test.com?api_key=1      http://test.com?api_key=1),
+      %w(http://test.com?api_key=1&a=b  http://test.com?a=b&api_key=1),
       %w(http://test.com?b=1&a=2        http://test.com?a=2&b=1),
       %w(http://test.com?a=1#anchor     http://test.com?a=1),
     ].each do |(url, processed_url)|

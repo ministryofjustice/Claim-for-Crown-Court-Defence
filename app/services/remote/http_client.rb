@@ -15,24 +15,28 @@ module Remote
       def logger=(log)
         @@logger = RestClient.log = log
       end
+
+      def base_url
+        @@base_url ||= Settings.remote_api_url
+      end
     end
 
-    def get(path)
-      execute_request(:get, path)
+    def get(path, query = {})
+      execute_request(:get, path, query)
     end
 
     private
 
-    def build_endpoint(path)
-      [self.base_url, path].join('/') + '?' + {api_key: self.api_key}.to_query
+    def build_endpoint(path, query)
+      [self.class.base_url, path].join('/') + '?' + {api_key: self.api_key}.merge(query).to_query
     end
 
-    def execute_request(method, path)
-      endpoint = build_endpoint(path)
+    def execute_request(method, path, query)
+      endpoint = build_endpoint(path, query)
       response = Caching::ApiRequest.cache(endpoint) do
         RestClient::Request.execute(method: method, url: endpoint, timeout: self.timeout, open_timeout: self.open_timeout)
       end
-      JSON.parse(response)
+      JSON.parse(response, symbolize_names: true)
     end
   end
 end

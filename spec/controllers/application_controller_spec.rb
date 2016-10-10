@@ -145,7 +145,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
 
     before do
-      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+      allow(Rails).to receive(:env).and_return('production'.inquiry)
       request.env['HTTPS'] = 'on'
     end
 
@@ -178,7 +178,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
 
     before do
-      allow(Rails).to receive(:env).and_return(double(development?: false, production?: true))
+      allow(Rails).to receive(:env).and_return('production'.inquiry)
     end
 
     it 'should redirect to https' do

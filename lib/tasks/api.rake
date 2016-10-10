@@ -49,6 +49,13 @@ namespace :api do
       external_users.each do |eu|
         puts sprintf("     Email: %-25s   Roles: %s", eu.user.email, eu.roles.join(', '))
       end
+
+      %w(caseworker@example.com caseworkeradmin@example.com).each do |email|
+        user = User.find_by(email: email)
+        puts
+        puts "User: #{email}"
+        puts "API-Key: #{user.api_key}"
+      end
     else
       puts "Only available in development mode"
     end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe API::ErrorResponse do
 
     VALID_MODEL_KLASSES = [::Fee, ::Expense, ::Disbursement, ::Claim, ::Defendant, ::DateAttended, ::RepresentationOrder]
-    EXCEPTION_KLASSES = [RuntimeError, ArgumentError, API::ArgumentError]
+    EXCEPTION_KLASSES = [RuntimeError, ArgumentError]
 
     let(:claim) { FactoryGirl.build :claim, case_number: 'A123456' }
     let(:er) { described_class.new(claim)}
@@ -40,7 +40,7 @@ describe API::ErrorResponse do
       end
 
       it 'populates status with 401 if exception message is "Unauthorized"' do
-        ex = API::ArgumentError.new('Unauthorised')
+        ex = ArgumentError.new('Unauthorised')
         er = described_class.new(ex)
         expect(er.status).to eql 401
       end

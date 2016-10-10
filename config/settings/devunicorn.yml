@@ -1,5 +1,0 @@
-# Base url for remote API calls
-# Please set them in your settings.local.yml so these are never committed to Git
-#
-# remote_api_key: 'uuid'
-# remote_api_url: 'http://localhost:3001/api'

@@ -44,6 +44,7 @@ class ExternalUser < ActiveRecord::Base
   delegate :first_name, to: :user
   delegate :last_name, to: :user
   delegate :name, to: :user
+  delegate :sortable_name, to: :user
   delegate :email_with_name, to: :user
   delegate :save_settings!, to: :user
   delegate :settings, to: :user

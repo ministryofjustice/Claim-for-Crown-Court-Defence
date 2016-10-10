@@ -15,7 +15,8 @@ else
     :date_of_birth,
     :supplier_number,
     :body,
-    :document
+    :document,
+    :api_key
   ]
 end
 

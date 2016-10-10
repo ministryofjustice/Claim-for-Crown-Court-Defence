@@ -103,7 +103,8 @@ group :test do
   gem 'simplecov-multi',            require: false
   gem 'i18n-tasks',                 '~> 0.8.7'
   gem 'timecop',                    '~> 0.7.4'
-  gem 'webmock',                    '~> 1.21.0'
+  gem 'vcr',                        '~> 3.0.3'
+  gem 'webmock',                    '~> 2.1.0'
 end
 
 group :doc do

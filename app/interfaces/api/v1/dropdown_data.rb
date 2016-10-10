@@ -15,6 +15,10 @@ module API
         end
       end
 
+      after do
+        header 'Cache-Control', 'max-age=3600'
+      end
+
       group do
         resource :case_types do
           desc "Return all Case Types"

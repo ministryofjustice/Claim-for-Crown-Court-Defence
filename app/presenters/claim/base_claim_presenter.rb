@@ -31,7 +31,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def defendant_names
-    defendant_names = claim.defendants.order('id ASC').map(&:name)
+    defendant_names = claim.defendants.sort_by(&:id).map(&:name)
 
     h.capture do
       defendant_names.each do |name|
@@ -174,9 +174,13 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
-
-
-
+  def has_messages?
+    if claim.remote?
+      claim.messages_count.to_i > 0
+    else
+      messages.any?
+    end
+  end
 
   # Override in subclasses if necessary
   def can_have_expenses?; true; end

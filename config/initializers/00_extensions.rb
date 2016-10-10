@@ -2,6 +2,7 @@ Dir[File.join(Rails.root, 'lib', 'extensions', '*.rb')].each { |file| require fi
 
 class Array
   include ArrayExtension
+  include RemoteExtension
 end
 
 class String
@@ -10,6 +11,11 @@ end
 
 class ActiveRecord::Base
   include NestedAttributesExtension
+  include RemoteExtension
+end
+
+class ActiveRecord::Relation
+  include RemoteExtension
 end
 
 class ActionController::Parameters

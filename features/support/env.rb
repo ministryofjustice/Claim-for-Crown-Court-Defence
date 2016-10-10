@@ -11,6 +11,7 @@ require 'selenium-webdriver'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
+require_relative '../../spec/vcr_helper'
 
 Capybara.javascript_driver = :poltergeist
 
@@ -62,5 +63,3 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
-
-WebMock.disable_net_connect!(allow_localhost: true)

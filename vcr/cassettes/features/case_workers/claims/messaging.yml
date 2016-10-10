@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=384cc8a8-de99-4100-9c3b-7db1420b76ad&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '902'
+      Etag:
+      - W/"45313ce8d86fff822015e2a9d8b2f0d7"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c56c5f24-f3a2-4908-92e6-cc11bac1e908
+      X-Runtime:
+      - '0.048992'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 06 Oct 2016 10:52:44 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"c8715bbb-c0ee-4ec5-8356-313ff52aa41e","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:52:44.188Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"5b5ee95d-18d4-4469-92f9-e83f26d60b61","first_name":"Jerald","last_name":"Auer"},"defendants":[{"id":1,"uuid":"7d45ba59-2273-4ffe-bae5-10320d1f7923","first_name":"Maybelle","last_name":"Moen"}],"case_type":{"id":1458,"name":"Case
+        Type 7","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Thu, 06 Oct 2016 10:52:44 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=384cc8a8-de99-4100-9c3b-7db1420b76ad&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=allocated
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '902'
+      Etag:
+      - W/"5617a178852d40af387196f24cd9adef"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - eed283f6-e907-4125-8892-d32db908dd42
+      X-Runtime:
+      - '0.050423'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.0/2015-12-25)
+      Date:
+      - Thu, 06 Oct 2016 10:52:47 GMT
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"c8715bbb-c0ee-4ec5-8356-313ff52aa41e","case_number":"A12345678","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2016-10-06T10:52:44.188Z","total":25.0,"vat_amount":5.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"messages_count":2,"unread_messages_count":1,"external_user":{"id":1,"uuid":"5b5ee95d-18d4-4469-92f9-e83f26d60b61","first_name":"Jerald","last_name":"Auer"},"defendants":[{"id":1,"uuid":"7d45ba59-2273-4ffe-bae5-10320d1f7923","first_name":"Maybelle","last_name":"Moen"}],"case_type":{"id":1458,"name":"Case
+        Type 7","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null}}]}'
+    http_version: 
+  recorded_at: Thu, 06 Oct 2016 10:52:47 GMT
+recorded_with: VCR 3.0.3

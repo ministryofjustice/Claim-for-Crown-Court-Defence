@@ -1,14 +1,16 @@
-@javascript
+@javascript @vcr
 Feature: Case worker messages advocate and advocate responds
 
   Scenario: I message advocate and advocate responds
 
     Given a "case worker" user account exists
     And an "advocate" user account exists
-    And there is a claim allocated to the case worker
-    And I am signed in as the case worker
+    And there is a claim allocated to the case worker with case number 'A12345678'
 
-    When I select the claim
+    And I insert the VCR cassette 'features/case_workers/claims/messaging'
+
+    When I am signed in as the case worker
+    And I select the claim
     And expand the messages section
     And I send a message 'More information please'
     And I sign out as caseworker
@@ -30,3 +32,5 @@ Feature: Case worker messages advocate and advocate responds
     When I open the claim
     And I expand messages
     Then the response and uploaded file should be visible
+
+    And I eject the VCR cassette

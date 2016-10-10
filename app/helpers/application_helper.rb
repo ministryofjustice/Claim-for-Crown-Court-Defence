@@ -22,7 +22,7 @@ module ApplicationHelper
   # e.g. - present_collection(@claims, ClaimPresenter)
   #
   def present(model, presenter_class=nil)
-    presenter_class ||= "#{model.class}Presenter".constantize
+    presenter_class ||= presenter_for(model)
     presenter = presenter_class.new(model, self)
     yield(presenter) if block_given?
     presenter
@@ -34,6 +34,10 @@ module ApplicationHelper
     end
     yield(presenter_collection) if block_given?
     presenter_collection
+  end
+
+  def presenter_for(model)
+    model.respond_to?(:presenter) ? model.presenter : "#{model.class}Presenter".constantize
   end
 
   #Returns a "current" css class if the path = current_page

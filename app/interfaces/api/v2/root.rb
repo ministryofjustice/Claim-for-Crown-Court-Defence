@@ -7,6 +7,10 @@ module API
       content_type :json, 'application/json'
 
       group do
+        before_validation do
+          authenticate_key!
+        end
+
         namespace :api, desc: 'Retrieval, creation and validation operations' do
           mount API::V2::CaseWorkers::Claim
         end

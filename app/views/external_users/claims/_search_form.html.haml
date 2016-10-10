@@ -1,3 +1,3 @@
 .container
   .search-wrapper
-    = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path : external_users_claims_path, hint_text: t('hint.search'), button_text: t('search.claims')}
+    = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path(anchor: 'listanchor') : external_users_claims_path(anchor: 'listanchor'), hint_text: t('hint.search'), button_text: t('search.claims')}

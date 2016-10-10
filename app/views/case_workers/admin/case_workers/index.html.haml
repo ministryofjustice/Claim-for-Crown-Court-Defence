@@ -3,7 +3,7 @@
 = content_for :search_html_block do
   = link_to 'Create a new case worker', new_case_workers_admin_case_worker_path
 
-= render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path, hint_text: t('hint.search_caseworker'), button_text: t('search.caseworkers') }
+= render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path(anchor: 'listanchor'), hint_text: t('hint.search_caseworker'), button_text: t('search.caseworkers') }
 
 .container.table-container
   %table.report

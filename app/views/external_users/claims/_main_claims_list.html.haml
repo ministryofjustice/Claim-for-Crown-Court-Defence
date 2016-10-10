@@ -4,7 +4,13 @@
       %span.table-caption
         = your_claims_header
       %span.claim-count
-        = t('.show_count', page_count: claims.size, total: claims.total_count)
+        - if @claims.none?
+          = t("shared.no_claims_found")
+        - else
+          = "Showing "
+          #{pluralize(@claims.size, 'claim')} of #{@claims.total_count}
+          - if params[:search].present?
+            matching "#{params[:search]}"
     %thead
 
       - if user_requires_scheme_column?

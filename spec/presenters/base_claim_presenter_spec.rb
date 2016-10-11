@@ -43,7 +43,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)},<br />Robert Smith,<br />Adam Smith")
+    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)}, <br />Robert Smith, <br />Adam Smith")
   end
 
   it '#submitted_at' do

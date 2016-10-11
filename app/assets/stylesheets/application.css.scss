@@ -41,6 +41,14 @@
   margin-bottom: -60px
 }
 
+
+@include media($max-width: 768px){
+  .contactus-link{
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
 .search-form{
   @include clearfix;
   .heading-medium{

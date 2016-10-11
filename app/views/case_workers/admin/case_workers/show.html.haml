@@ -1,18 +1,17 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Your account'}
+%table
+  %caption Your account
+  %tbody
+    %tr
+      %th{scope:'row'}
+        = 'Roles:'
+      %td
+        = @case_worker.roles.map(&:humanize).join(', ')
 
-.body-content
-  .table-container.container
-    %table
-      %caption Your account
-      %tbody
-        %tr
-          %th{scope:'row'}
-            = 'Roles:'
-          %td
-            = @case_worker.roles.map(&:humanize).join(', ')
-  .container
-    - if can? :edit, @case_worker
-      = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'btn-gray'
+- if can? :edit, @case_worker
+  .form-group
+    = link_to 'Edit', edit_case_workers_admin_case_worker_path(@case_worker), class: 'button'
 
-    - if can? :change_password, @case_worker
-      = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker), class: 'btn-gray'
+- if can? :change_password, @case_worker
+  .form-group
+    = link_to 'Change password', change_password_case_workers_admin_case_worker_path(@case_worker)

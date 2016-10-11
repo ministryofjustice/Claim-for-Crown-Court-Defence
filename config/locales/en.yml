@@ -240,6 +240,13 @@ en:
     view_claim: View your claims
   hint:
     search: for example case number, defendant name, advocate/litigator name
+    search_caseworker: search for a first or last name
+    search_users: search for a irst or last name
+  search:
+    users: 'Search users'
+    providers: 'Search providers'
+    claims: 'Search claims'
+    caseworkers: 'Search case workers'
   prep_forms:
     advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
     litigators_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/513208/litigator-fee-special-preparation-claim-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
@@ -345,7 +352,7 @@ en:
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
-          new_user: 'New user'
+          new_user: 'Create a new user'
           search: 'Search for user'
           supplier_number: 'Supplier number'
         new:
@@ -957,7 +964,10 @@ en:
         scheme_filters:
           scheme_types: 'Scheme types'
         allocation:
+          select: 'Select'
           case_number: 'Case number'
+          allocated_to: 'Allocated To'
+          type: 'Type'
           scheme: Scheme
           advocate: Advocate
           submitted_date: 'Date submitted'
@@ -965,6 +975,8 @@ en:
           defendants: Defendants
           no_of_claims: 'No. of claims'
         re_allocation:
+          select: 'Select'
+          type: 'Type'
           case_number: 'Case number'
           scheme: Scheme
           advocate: Advocate
@@ -973,6 +985,7 @@ en:
           defendants: Defendants
           no_of_claims: 'No. of claims'
           case_types: 'Case types'
+          allocated_to: 'Allocated To'
           hint:
             search: case worker name or email
       management_information:

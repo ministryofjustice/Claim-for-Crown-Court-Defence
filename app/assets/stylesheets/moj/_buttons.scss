@@ -15,14 +15,11 @@ p.file-upload-name {
   font-style: italic;
 }
 
-.button{
-	padding-bottom: 0.1em;
-}
-
 .btn-green{
-	@include button();
+  @include button();
 }
 
-.btn-gray{
-	@include button($grey-3);
+.button-grey-3{
+  @include button($grey-3);
+  padding: 0.52632em 0.78947em 0.26316em 0.78947em;
 }

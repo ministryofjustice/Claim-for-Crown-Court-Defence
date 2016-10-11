@@ -38,7 +38,10 @@
           %td
             = @provider.vat_registered == true ? 'Yes' : 'No'
 
-- if can? :edit, @provider
-  = link_to 'Edit', edit_external_users_admin_provider_path(@provider), class: 'button-secondary'
-
-= button_to 'Generate new key', regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button-secondary'
+.form-group
+  .form-row
+    .form-col.form-col-one-half
+      = button_to 'Generate new key', regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form' ,data: { confirm: "Are you sure?\n\nImportant: the new key will need to be used for all API calls and JSON file claim imports for this provider." }, class: 'button'
+    .form-col.form-col-one-half
+      - if can? :edit, @provider
+        = link_to 'Edit provider', edit_external_users_admin_provider_path(@provider), class: 'button button-grey-3'

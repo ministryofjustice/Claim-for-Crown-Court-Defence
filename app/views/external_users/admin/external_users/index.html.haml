@@ -1,9 +1,10 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.title')}
 
 = content_for :search_html_block do
-  %div
-    = link_to t('.new_user'), new_external_users_admin_external_user_path, class: 'button right'
-= render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path, hint_text: t('hint.search') }
+  .form-group
+    = link_to t('.new_user'), new_external_users_admin_external_user_path
+
+= render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path, hint_text: t('hint.search_users'), button_text: t('search.users') }
 
 %table.report
   %thead
@@ -23,18 +24,18 @@
   %tbody
     - @external_users.each do |advocate|
       %tr
-        %td
+        %td{'aria-label' => t(".last_name")}
           = advocate.last_name
-        %td
+        %td{'aria-label' => t(".first_name")}
           = advocate.first_name
-        %td
-          = advocate.supplier_number
-        %td
+        %td{'aria-label' => t(".supplier_number")}
+          = advocate.supplier_number ? advocate.supplier_number : '-'
+        %td{'aria-label' => t(".email")}
           = mail_to advocate.email, advocate.email, {title: "Email #{advocate.name}"}
         - if Settings.email_notification_enabled?
-          %td
+          %td{'aria-label' => "Email notifications of messages?"}
             = advocate.send_email_notification_of_message? ? 'Yes' : 'No'
-        %td.user-controls
+        %td.user-controls{'aria-label' => t(".actions")}
           - if advocate.active?
             = link_to 'Edit',  edit_external_users_admin_external_user_path(advocate)
             = " | "

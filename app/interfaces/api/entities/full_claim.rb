@@ -74,6 +74,8 @@ module API
       expose :defendants, using: API::Entities::Defendant
       expose :expenses, using: API::Entities::Expense
       expose :disbursements, using: API::Entities::Disbursement
+      expose :documents, using: API::Entities::Document
+      expose :messages, using: API::Entities::Message
 
       private
 

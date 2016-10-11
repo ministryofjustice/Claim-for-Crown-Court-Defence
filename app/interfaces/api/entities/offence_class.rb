@@ -1,6 +1,6 @@
 module API
   module Entities
-    class OffenceClass < UndatedEntity
+    class OffenceClass < BaseEntity
       expose :id
       expose :class_letter
       expose :description

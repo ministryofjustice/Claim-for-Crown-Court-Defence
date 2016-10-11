@@ -7,7 +7,7 @@ module API::Helpers
     end
 
     Grape::Entity.format_with :decimal do |number|
-      number&.to_f
+      number.to_f.round(2)
     end
   end
 end

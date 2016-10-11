@@ -1,6 +1,6 @@
 module API
   module Entities
-    class Claim < UndatedEntity
+    class Claim < BaseEntity
       expose :id
       expose :uuid
       expose :case_number

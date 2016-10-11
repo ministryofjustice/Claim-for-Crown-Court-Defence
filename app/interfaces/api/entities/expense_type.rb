@@ -1,6 +1,6 @@
 module API
   module Entities
-    class ExpenseType < UndatedEntity
+    class ExpenseType < BaseEntity
       expose :id
       expose :name
       expose :roles

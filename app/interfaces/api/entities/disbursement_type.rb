@@ -1,6 +1,6 @@
 module API
   module Entities
-    class DisbursementType < UndatedEntity
+    class DisbursementType < BaseEntity
       expose :id
       expose :name
     end

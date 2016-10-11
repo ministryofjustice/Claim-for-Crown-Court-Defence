@@ -1,6 +1,6 @@
 module API
   module Entities
-    class SimpleKeyValueList < Grape::Entity
+    class SimpleKeyValueList < BaseEntity
       expose :id
       expose :description
 

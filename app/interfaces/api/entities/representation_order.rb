@@ -1,6 +1,6 @@
 module API
   module Entities
-    class RepresentationOrder < UndatedEntity
+    class RepresentationOrder < BaseEntity
       expose :id
       expose :uuid
       expose :maat_reference

@@ -1,6 +1,6 @@
 module API
   module Entities
-    class ExternalUser < API::Entities::User
+    class CaseWorker < API::Entities::User
       expose :email
     end
   end

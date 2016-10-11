@@ -1,0 +1,189 @@
+{
+  "claim": {
+    "claim_details": {
+      "uuid": "96869c1d-8b9b-448e-9a6c-144b115f83fe",
+      "type": "Claim::LitigatorClaim",
+      "provider_code": "0Z310A",
+      "advocate_category": null,
+      "additional_information": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "apply_vat": true,
+      "state": "authorised",
+      "submitted_at": "2016-09-19T13:10:16.785Z",
+      "originally_submitted_at": "2016-09-15T11:35:58.496Z",
+      "authorised_at": "2016-09-27T10:58:01.351Z",
+      "created_by": {
+        "id": 756,
+        "uuid": "b831a64e-f0e8-4e91-b69f-5e43d02bfea7",
+        "first_name": "Lizzie",
+        "last_name": "Bartoletti",
+        "email": "851@example.com"
+      },
+      "external_user": {
+        "id": 756,
+        "uuid": "b831a64e-f0e8-4e91-b69f-5e43d02bfea7",
+        "first_name": "Lizzie",
+        "last_name": "Bartoletti",
+        "email": "851@example.com"
+      }
+    },
+    "case_details": {
+      "case_type": "Trial",
+      "case_number": "T20167266",
+      "source": "web",
+      "cms_number": null,
+      "providers_reference": null,
+      "court": {
+        "id": 37,
+        "code": "433",
+        "name": "Liverpool Crown",
+        "court_type": "crown"
+      },
+      "offence": {
+        "category": "Aggravated arson",
+        "class": "Offences involving serious violence or damage and serious drug offences"
+      },
+      "trial_dates": {
+        "date_started": null,
+        "date_concluded": null,
+        "estimated_length": 0,
+        "actual_length": 1
+      },
+      "retrial_dates": {
+        "date_started": null,
+        "date_concluded": null,
+        "estimated_length": 0,
+        "actual_length": 0
+      },
+      "cracked_dates": {
+        "date_fixed_notice": null,
+        "date_fixed": null,
+        "date_cracked": null,
+        "date_cracked_at_third": null
+      },
+      "effective_pcmh_date": null,
+      "legal_aid_transfer_date": null,
+      "totals": {
+        "fees": 1467.58,
+        "expenses": 24.25,
+        "disbursements": 1376.0,
+        "vat_amount": 298.37,
+        "total": 2867.83
+      },
+      "evidence_documents": [
+        "Representation order",
+        "Expenses invoices"
+      ]
+    },
+    "defendants": [
+      {
+        "id": 27087,
+        "uuid": "987f72fd-4baa-4510-8609-85b0ac33138a",
+        "first_name": "Tate",
+        "last_name": "Osinski",
+        "date_of_birth": "1964-04-30",
+        "representation_orders": [
+          {
+            "id": 27417,
+            "uuid": "cb7d8539-82d9-47b6-bcc7-8dc2b99714fe",
+            "maat_reference": "5345963",
+            "date": "2016-04-13"
+          }
+        ]
+      }
+    ],
+    "fees": [
+      {
+        "type": "Trial",
+        "code": "GTRL",
+        "date": "2016-09-07",
+        "quantity": 58.0,
+        "amount": 1467.58,
+        "rate": 0.0
+      }
+    ],
+    "expenses": [
+      {
+        "date": "2016-04-13",
+        "type": "Train/public transport",
+        "location": "South Sefton Mags",
+        "mileage_rate": null,
+        "reason": "Court hearing",
+        "distance": 0.0,
+        "hours": 0.0,
+        "quantity": 0.0,
+        "rate": 0.0,
+        "net_amount": 2.0,
+        "vat_amount": 0.4
+      },
+      {
+        "date": "2016-06-15",
+        "type": "Train/public transport",
+        "location": "HMP Styal",
+        "mileage_rate": null,
+        "reason": "Prison Visit",
+        "distance": 0.0,
+        "hours": 0.0,
+        "quantity": 0.0,
+        "rate": 0.0,
+        "net_amount": 22.25,
+        "vat_amount": 4.45
+      }
+    ],
+    "disbursements": [
+      {
+        "type": "Psychiatric reports",
+        "net_amount": 1376.0,
+        "vat_amount": 0.0,
+        "total": 1376.0
+      }
+    ],
+    "documents": [
+      {
+        "uuid": "8e41b13d-a400-4d80-b738-5b2695125f08",
+        "url": "http://.../assets/dev/images/docs/000/039/153/Kirwin__C_inv.pdf?1473938753",
+        "file_name": "Kirwin__C_inv.pdf",
+        "size": 30731
+      },
+      {
+        "uuid": "eac2f60e-ac43-40ea-9fd8-55699ea70cea",
+        "url": "http://.../assets/dev/images/docs/000/039/154/Kirwin__C_PPE.pdf?1473938760",
+        "file_name": "Kirwin__C_PPE.pdf",
+        "size": 286971
+      }
+    ],
+    "messages": [
+      {
+        "created_at": "2016-09-19T11:25:07.848Z",
+        "sender_uuid": "24724682-bdc7-40ed-8af7-8ec938ad24ac",
+        "body": "Guilty plea as per court records. Fare over Â£20 refused with receipt."
+      },
+      {
+        "created_at": "2016-09-19T13:10:16.625Z",
+        "sender_uuid": "b831a64e-f0e8-4e91-b69f-5e43d02bfea7",
+        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      }
+    ],
+    "assessment": {
+      "created_at": "2016-09-15T11:22:11.525Z",
+      "totals": {
+        "fees": 680.39,
+        "expenses": 2.0,
+        "disbursements": 1376.0,
+        "vat_amount": 136.48,
+        "total": 2058.39
+      }
+    },
+    "redeterminations": [
+      {
+        "created_at": "2016-09-27T10:58:01.282Z",
+        "totals": {
+          "fees": 1467.58,
+          "expenses": 24.25,
+          "disbursements": 1376.0,
+          "vat_amount": 298.37,
+          "total": 2867.83
+        }
+      }
+    ]
+  }
+}

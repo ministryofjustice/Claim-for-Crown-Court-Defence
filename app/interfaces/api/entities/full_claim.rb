@@ -24,7 +24,7 @@ module API
         expose :providers_ref, as: :providers_reference
 
         expose :court, using: API::Entities::Court
-        expose :transfer do
+        expose :transfer_court, if: lambda { |instance, _opts| instance.transfer_court.present? || instance.transfer_case_number.present? } do
           expose :transfer_court, as: :court, using: API::Entities::Court
           expose :transfer_case_number, as: :case_number
         end
@@ -59,23 +59,22 @@ module API
         expose :effective_pcmh_date, format_with: :utc
         expose :legal_aid_transfer_date, format_with: :utc
 
-        expose :totals do
-          with_options(format_with: :decimal) do
-            expose :fees_total, as: :fees
-            expose :expenses_total, as: :expenses
-            expose :disbursements_total, as: :disbursements
-            expose :vat_amount, as: :vat
-          end
-        end
+        expose :object, as: :totals, using: API::Entities::Totals
 
         expose :evidence_documents
       end
 
       expose :defendants, using: API::Entities::Defendant
+
+      expose :fees, using: API::Entities::Fee
       expose :expenses, using: API::Entities::Expense
       expose :disbursements, using: API::Entities::Disbursement
+
       expose :documents, using: API::Entities::Document
       expose :messages, using: API::Entities::Message
+
+      expose :assessment, using: API::Entities::Determination
+      expose :redeterminations, using: API::Entities::Determination
 
       private
 

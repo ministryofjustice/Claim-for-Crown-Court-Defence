@@ -26,6 +26,10 @@ class Determination < ActiveRecord::Base
   validate :expenses_valid
   validate :disbursements_valid
 
+  # So we expose a consistent interface shared with Claim
+  alias_attribute :fees_total, :fees
+  alias_attribute :expenses_total, :expenses
+  alias_attribute :disbursements_total, :disbursements
 
   def calculate_total
     self.total = [self.fees || 0.0, self.expenses || 0.0, self.disbursements || 0.0].sum

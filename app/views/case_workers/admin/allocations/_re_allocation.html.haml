@@ -9,7 +9,7 @@
     = submit_tag 'Filter'
 
   .search-wrapper
-    = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path, hint_text: t('hint.search'), button_text: t('search.claims') }
+    = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path(anchor: 'listanchor'), hint_text: t('hint.search'), button_text: t('search.claims') }
 
 = form_for [:case_workers, :admin, @allocation] do |f|
   = hidden_field_tag :tab, params[:tab]

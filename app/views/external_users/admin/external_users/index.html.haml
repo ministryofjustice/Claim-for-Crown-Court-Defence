@@ -4,7 +4,7 @@
   .form-group
     = link_to t('.new_user'), new_external_users_admin_external_user_path
 
-= render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path, hint_text: t('hint.search_users'), button_text: t('search.users') }
+= render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'listanchor'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
 %table.report
   %thead

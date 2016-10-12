@@ -37,6 +37,6 @@
       = claim.total_inc_vat
 
   - if display_buttons == true
-    = link_to t('.continue'), new_external_users_claim_certification_path(claim), {class: 'btn-green', role: 'button', 'aria-label': t('.button_label')}
+    = link_to t('.continue'), new_external_users_claim_certification_path(claim), {class: 'button', role: 'button', 'aria-label': t('.button_label')}
     = link_to t('.edit_claim'), edit_polymorphic_path(claim), {class: 'btn-gray', role: 'button'}
     /Edit this claim

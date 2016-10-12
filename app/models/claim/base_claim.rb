@@ -230,6 +230,10 @@ module Claim
       end.first
     end
 
+    def evidence_doc_types
+      DocType.find_by_ids(evidence_checklist_ids)
+    end
+
     # responds to methods like claim.external_user_dashboard_submitted? which correspond to the constant EXTERNAL_USER_DASHBOARD_REJECTED_STATES in Claims::StateMachine
     def method_missing(method, *args)
       if Claims::StateMachine.has_state?(method)

@@ -1,6 +1,6 @@
 module API
   module Entities
-    class BaseFeeType < UndatedEntity
+    class BaseFeeType < BaseEntity
       expose :id
       expose :description
       expose :code

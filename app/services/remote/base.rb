@@ -1,5 +1,3 @@
-require_relative 'lib/simple_associations'
-
 module Remote
   class Base
     include ActiveModel::Model

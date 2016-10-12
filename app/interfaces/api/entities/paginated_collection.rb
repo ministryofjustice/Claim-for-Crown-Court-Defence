@@ -1,6 +1,6 @@
 module API
   module Entities
-    class PaginatedCollection < Grape::Entity
+    class PaginatedCollection < BaseEntity
       present_collection true
 
       expose :pagination do

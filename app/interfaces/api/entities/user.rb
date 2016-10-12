@@ -1,6 +1,6 @@
 module API
   module Entities
-    class User < UndatedEntity
+    class User < BaseEntity
       expose :id
       expose :uuid
       expose :first_name

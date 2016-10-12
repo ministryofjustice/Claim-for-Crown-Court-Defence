@@ -1,6 +1,6 @@
 module API
   module Entities
-    class ExpenseReasonSet < Grape::Entity
+    class ExpenseReasonSet < BaseEntity
       expose :reason_set
       expose :reasons, using: API::Entities::ExpenseReason
 

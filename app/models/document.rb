@@ -48,7 +48,8 @@ class Document < ActiveRecord::Base
                      'image/x-bitmap'
                      ]}
 
-  delegate   :provider_id, to: :external_user
+  alias attachment document # to have a consistent interface to both Document and Message
+  delegate :provider_id, to: :external_user
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document

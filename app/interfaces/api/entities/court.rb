@@ -1,6 +1,6 @@
 module API
   module Entities
-    class Court < UndatedEntity
+    class Court < BaseEntity
       expose :id
       expose :code
       expose :name

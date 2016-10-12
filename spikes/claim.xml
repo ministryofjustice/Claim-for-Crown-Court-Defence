@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<claim>
+  <claim_details>
+    <uuid>96869c1d-8b9b-448e-9a6c-144b115f83fe</uuid>
+    <type>Claim::LitigatorClaim</type>
+    <provider_code>0Z310A</provider_code>
+    <advocate_category nil="true"/>
+    <additional_information>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</additional_information>
+    <apply_vat>true</apply_vat>
+    <state>authorised</state>
+    <submitted_at>2016-09-19T13:10:16Z</submitted_at>
+    <originally_submitted_at>2016-09-15T11:35:58Z</originally_submitted_at>
+    <authorised_at>2016-09-27T10:58:01Z</authorised_at>
+    <created_by>
+      <id>756</id>
+      <uuid>b831a64e-f0e8-4e91-b69f-5e43d02bfea7</uuid>
+      <first_name>Lizzie</first_name>
+      <last_name>Bartoletti</last_name>
+      <email>851@example.com</email>
+    </created_by>
+    <external_user>
+      <id>756</id>
+      <uuid>b831a64e-f0e8-4e91-b69f-5e43d02bfea7</uuid>
+      <first_name>Lizzie</first_name>
+      <last_name>Bartoletti</last_name>
+      <email>851@example.com</email>
+    </external_user>
+  </claim_details>
+  <case_details>
+    <case_type>Trial</case_type>
+    <case_number>T20167266</case_number>
+    <source>web</source>
+    <cms_number nil="true"/>
+    <providers_reference nil="true"/>
+    <court>
+      <id>37</id>
+      <code>433</code>
+      <name>Liverpool Crown</name>
+      <court_type>crown</court_type>
+    </court>
+    <offence>
+      <category>Aggravated arson</category>
+      <class>Offences involving serious violence or damage and serious drug offences</class>
+    </offence>
+    <trial_dates>
+      <date_started nil="true"/>
+      <date_concluded nil="true"/>
+      <estimated_length>0</estimated_length>
+      <actual_length>1</actual_length>
+    </trial_dates>
+    <retrial_dates>
+      <date_started nil="true"/>
+      <date_concluded nil="true"/>
+      <estimated_length>0</estimated_length>
+      <actual_length>0</actual_length>
+    </retrial_dates>
+    <cracked_dates>
+      <date_fixed_notice nil="true"/>
+      <date_fixed nil="true"/>
+      <date_cracked nil="true"/>
+      <date_cracked_at_third nil="true"/>
+    </cracked_dates>
+    <effective_pcmh_date nil="true"/>
+    <legal_aid_transfer_date nil="true"/>
+    <totals>
+      <fees>1467.58</fees>
+      <expenses>24.25</expenses>
+      <disbursements>1376.0</disbursements>
+      <vat_amount>298.37</vat_amount>
+      <total>2867.83</total>
+    </totals>
+    <evidence_documents>
+      <evidence_document>Representation order</evidence_document>
+      <evidence_document>Expenses invoices</evidence_document>
+    </evidence_documents>
+  </case_details>
+  <defendants>
+    <defendant>
+      <id>27087</id>
+      <uuid>987f72fd-4baa-4510-8609-85b0ac33138a</uuid>
+      <first_name>Tate</first_name>
+      <last_name>Osinski</last_name>
+      <date_of_birth>1964-04-30</date_of_birth>
+      <representation_orders>
+        <representation_order>
+          <id>27417</id>
+          <uuid>cb7d8539-82d9-47b6-bcc7-8dc2b99714fe</uuid>
+          <maat_reference>5345963</maat_reference>
+          <date>2016-04-13</date>
+        </representation_order>
+      </representation_orders>
+    </defendant>
+  </defendants>
+  <fees>
+    <fee>
+      <type>Trial</type>
+      <code>GTRL</code>
+      <date>2016-09-07</date>
+      <quantity>58.0</quantity>
+      <amount>1467.58</amount>
+      <rate>0.0</rate>
+    </fee>
+  </fees>
+  <expenses>
+    <expense>
+      <date>2016-04-13</date>
+      <type>Train/public transport</type>
+      <location>South Sefton Mags</location>
+      <mileage_rate nil="true"/>
+      <reason>Court hearing</reason>
+      <distance>0.0</distance>
+      <hours>0.0</hours>
+      <quantity>0.0</quantity>
+      <rate>0.0</rate>
+      <net_amount>2.0</net_amount>
+      <vat_amount>0.4</vat_amount>
+    </expense>
+    <expense>
+      <date>2016-06-15</date>
+      <type>Train/public transport</type>
+      <location>HMP Styal</location>
+      <mileage_rate nil="true"/>
+      <reason>Prison Visit</reason>
+      <distance>0.0</distance>
+      <hours>0.0</hours>
+      <quantity>0.0</quantity>
+      <rate>0.0</rate>
+      <net_amount>22.25</net_amount>
+      <vat_amount>4.45</vat_amount>
+    </expense>
+  </expenses>
+  <disbursements>
+    <disbursement>
+      <type>Psychiatric reports</type>
+      <net_amount>1376.0</net_amount>
+      <vat_amount>0.0</vat_amount>
+      <total>1376.0</total>
+    </disbursement>
+  </disbursements>
+  <documents>
+    <document>
+      <uuid>8e41b13d-a400-4d80-b738-5b2695125f08</uuid>
+      <url>http://.../assets/dev/images/docs/000/039/153/Kirwin__C_inv.pdf?1473938753</url>
+      <file_name>Kirwin__C_inv.pdf</file_name>
+      <size>30731</size>
+    </document>
+    <document>
+      <uuid>eac2f60e-ac43-40ea-9fd8-55699ea70cea</uuid>
+      <url>http://.../assets/dev/images/docs/000/039/154/Kirwin__C_PPE.pdf?1473938760</url>
+      <file_name>Kirwin__C_PPE.pdf</file_name>
+      <size>286971</size>
+    </document>
+  </documents>
+  <messages>
+    <message>
+      <created_at>2016-09-19T11:25:07Z</created_at>
+      <sender_uuid>24724682-bdc7-40ed-8af7-8ec938ad24ac</sender_uuid>
+      <body>Guilty plea as per court records. Fare over £20 refused with receipt.</body>
+    </message>
+    <message>
+      <created_at>2016-09-19T13:10:16Z</created_at>
+      <sender_uuid>b831a64e-f0e8-4e91-b69f-5e43d02bfea7</sender_uuid>
+      <body>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</body>
+    </message>
+  </messages>
+  <assessment>
+    <created_at>2016-09-15T11:22:11Z</created_at>
+    <totals>
+      <fees>680.39</fees>
+      <expenses>2.0</expenses>
+      <disbursements>1376.0</disbursements>
+      <vat_amount>136.48</vat_amount>
+      <total>2058.39</total>
+    </totals>
+  </assessment>
+  <redeterminations>
+    <redetermination>
+      <created_at>2016-09-27T10:58:01Z</created_at>
+      <totals>
+        <fees>1467.58</fees>
+        <expenses>24.25</expenses>
+        <disbursements>1376.0</disbursements>
+        <vat_amount>298.37</vat_amount>
+        <total>2867.83</total>
+      </totals>
+    </redetermination>
+  </redeterminations>
+</claim>

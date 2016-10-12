@@ -1,6 +1,6 @@
 module API
   module Entities
-    class CaseType < UndatedEntity
+    class CaseType < BaseEntity
       # Do we really need to expose all these???
       expose :id
       expose :name

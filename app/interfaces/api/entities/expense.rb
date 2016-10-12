@@ -1,7 +1,7 @@
 module API
   module Entities
     class Expense < BaseEntity
-      expose :date
+      expose :date, format_with: :utc
       expose :type
       expose :location
       expose :mileage_rate

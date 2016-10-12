@@ -67,6 +67,40 @@ form{
   }
 }
 
+
 .notice{
   margin-bottom: $gutter;
 }
+
+.supplier-number-group{
+  margin-bottom: $gutter;
+  .form-group{
+    &.supplier_number_wrapper{
+      margin-bottom: $gutter/3;
+    }
+  }
+}
+
+#provider-form{
+
+  .new_provider, .edit_provider{
+    #js-fee-schemes,
+    #js-agfs-supplier-number,
+    #js-lgfs-supplier-numbers,
+    #js-vat{
+      display:none;
+    }
+  }
+
+  #js-agfs-supplier-number{
+    .form-label{
+      font-weight: 700;
+    }
+  }
+  .remove_fields{
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+

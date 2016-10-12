@@ -17,6 +17,8 @@ module API
 
       expose :sub_type, :sub_type_code, if: lambda { |instance, _opts| instance.sub_type.present? }
 
+      expose :dates_attended, using: API::Entities::DateAttended
+
       private
 
       def type

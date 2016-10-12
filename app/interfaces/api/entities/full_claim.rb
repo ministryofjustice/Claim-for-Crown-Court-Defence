@@ -52,8 +52,8 @@ module API
             expose :trial_fixed_notice_at, as: :date_fixed_notice
             expose :trial_fixed_at, as: :date_fixed
             expose :trial_cracked_at, as: :date_cracked
-            expose :trial_cracked_at_third, as: :date_cracked_at_third
           end
+          expose :trial_cracked_at_third, as: :date_cracked_at_third
         end
 
         expose :effective_pcmh_date, format_with: :utc

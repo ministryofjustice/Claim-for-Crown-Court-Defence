@@ -37,7 +37,7 @@ class ClaimFormPage < SitePrism::Page
 
   element :add_another_defendant, "div.defendants > div:nth-of-type(2) > a.add_fields"
 
-  element :continue_button, 'div.button-holder > input.btn-green.left'
+  element :continue_button, 'div.button-holder > input.button.left'
 
   section :initial_fees, "div#basic-fees" do
     # In CSS 'foo + bar' means instances of bar which immediately follow foo and

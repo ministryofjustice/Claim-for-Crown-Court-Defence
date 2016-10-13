@@ -30,7 +30,6 @@ moj.Modules.SuperAdminProvider = {
       }
       self.showHide();
     });
-    console.log('end of init');
   },
 
   cacheElems: function() {

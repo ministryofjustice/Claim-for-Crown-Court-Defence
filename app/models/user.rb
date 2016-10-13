@@ -111,4 +111,8 @@ class User < ActiveRecord::Base
     save_settings! email_notification_of_message: value.to_bool
   end
 
+  def before_soft_delete
+    self.email = "#{self.email}.deleted.#{self.id}"
+  end
+
 end

@@ -136,7 +136,7 @@ RSpec.describe User, type: :model do
 
   context 'soft deletions' do
     before(:all) do
-      @live_user_1 = create :user
+      @live_user_1 = create :user, email: 'john.smith@example.com'
       @live_user_2 = create :user
       @dead_user_1 = create :user, :softly_deleted
       @dead_user_2 = create :user, :softly_deleted
@@ -161,6 +161,11 @@ RSpec.describe User, type: :model do
     end
 
     describe 'deleted scope' do
+      it 'changes the email of deleted records' do
+        @live_user_1.soft_delete
+        expect(@live_user_1.reload.email).to eq "john.smith@example.com.deleted.#{@live_user_1.id}"
+      end
+
       it 'should return only deleted records' do
         expect(User.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
       end

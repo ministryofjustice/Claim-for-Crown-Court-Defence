@@ -22,6 +22,7 @@
 @import "moj/accordion";
 @import "moj/icons";
 @import "moj/messages";
+@import "moj/related";
 @import "moj/print";
 
 // /////////////////////////////// TODO: KILL THIS ASAP
@@ -64,4 +65,8 @@ form{
   ul.list{
     margin-top: 30px;
   }
+}
+
+.notice{
+  margin-bottom: $gutter;
 }

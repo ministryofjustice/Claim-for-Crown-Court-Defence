@@ -13,7 +13,7 @@ module API
       end
 
       def url
-        attachment.url
+        attachment.url(nil, timestamp: false)
       end
 
       def file_name

@@ -3,7 +3,7 @@ module TimedTransitions
 
 
     @@timed_transition_specifications = {
-      draft:                    Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
+      draft:                    Specification.new(:draft, Settings.timed_transition_stale_weeks, :destroy_claim),
       authorised:               Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
       part_authorised:          Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
       refused:                  Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
@@ -12,7 +12,7 @@ module TimedTransitions
     }
 
     def self.candidate_claims_ids
-      Claim::BaseClaim.where('state in (?)', candidate_states).pluck(:id)
+      Claim::BaseClaim.where(state: candidate_states).pluck(:id)
     end
 
     def self.softly_deleted_ids
@@ -29,7 +29,7 @@ module TimedTransitions
     end
 
     def run
-      @claim.softly_deleted? ? destroy : process_stale_claim
+      @claim.softly_deleted? ? destroy_claim : process_stale_claim
     end
 
     private
@@ -44,7 +44,7 @@ module TimedTransitions
 
     def process_stale_claim
       specification = @@timed_transition_specifications[@claim.state.to_sym]
-      if @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
+      if @claim.last_state_transition_time.nil? || @claim.last_state_transition_time < specification.period_in_weeks.weeks.ago
         send(specification.method)
       end
     end

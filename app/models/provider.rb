@@ -60,11 +60,21 @@ class Provider < ActiveRecord::Base
   validates :firm_agfs_supplier_number, presence: true, if: :agfs_firm?
   validates :firm_agfs_supplier_number, absence: true, unless: :agfs_firm?
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
-  validates_with SupplierNumberSubModelValidator, if: :lgfs?
+
+
+  ############## validation for at least one supplier number removed temporarily while we restore the LGFS flags on all providers
+  # validates_with SupplierNumberSubModelValidator, if: :lgfs?
+
+  before_validation :force_lgfs_flag_for_firms
+
 
   # Allows calling of provider.admins or provider.advocates
   ExternalUser::ROLES.each do |role|
     delegate role.pluralize.to_sym, to: :external_users
+  end
+
+  def force_lgfs_flag_for_firms
+    roles << 'lgfs' if firm? && !lgfs?
   end
 
   def agfs_firm?

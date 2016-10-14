@@ -131,7 +131,7 @@ namespace :db do
     task :providers, [:file] => :environment do |_task, args|
       write_to_file(args.file) do |writer|
         Provider.find_each(batch_size: 50) do |provider|
-          provider.name = Faker::Company.name
+          provider.name = [Faker::Company.name, provider.id].join(' ')
           writer.call(provider)
         end
       end

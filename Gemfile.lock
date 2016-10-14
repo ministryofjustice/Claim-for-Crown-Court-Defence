@@ -9,6 +9,13 @@ GIT
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
 
+GIT
+  remote: https://github.com/ministryofjustice/govuk_elements_form_builder.git
+  revision: 728be7bcfdf9d44bb9cd46c2aca924a94b7a8903
+  specs:
+    govuk_elements_form_builder (0.0.1)
+      rails (>= 4.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -614,6 +621,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.7)
   faker (~> 1.4.3)
   gov_uk_date_fields (= 1.2.3)
+  govuk_elements_form_builder!
   govuk_elements_rails (>= 1.1.2)
   govuk_frontend_toolkit (>= 4.6.1)
   govuk_notify_rails (~> 1.0.0)

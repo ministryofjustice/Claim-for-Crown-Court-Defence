@@ -58,7 +58,7 @@ module TimedTransitions
           context 'less than 60 days ago' do
             it 'should not call archive if last state change less than 60 days ago' do
               claim = double Claim
-              expect(claim).to receive(:last_state_transition_time).and_return(15.weeks.ago)
+              expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('authorised')
               expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim)
@@ -99,10 +99,19 @@ module TimedTransitions
         end
 
         context 'destroying' do
+          context 'soft-deleted claim more than 16 weeks ago' do
+            it 'should destroy the claim' do
+              claim = instance_double(Claim::LitigatorClaim, id: 123, state: 'allocated', deleted_at: 17.weeks.ago)
+              expect(claim).to receive(:softly_deleted?).and_return(true)
+              expect(claim).to receive(:destroy)
+              Transitioner.new(claim).run
+            end
+          end
+
           context 'less than 60 days ago' do
             it 'should not call destroy if last state change less than 16 weeks ago' do
               claim = double Claim
-              expect(claim).to receive(:last_state_transition_time).and_return(15.weeks.ago)
+              expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('archived_pending_delete')
               expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim)
@@ -200,7 +209,7 @@ module TimedTransitions
           context 'less than 60 days ago' do
             it 'should not call archive if last state change less than 60 days ago' do
               claim = double Claim
-              expect(claim).to receive(:last_state_transition_time).and_return(15.weeks.ago)
+              expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('authorised')
               expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim, true)
@@ -243,7 +252,7 @@ module TimedTransitions
           context 'less than 60 days ago' do
             it 'should not call destroy if last state change less than 16 weeks ago' do
               claim = double Claim
-              expect(claim).to receive(:last_state_transition_time).and_return(15.weeks.ago)
+              expect(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
               expect(claim).to receive(:state).and_return('archived_pending_delete')
               expect(claim).to receive(:softly_deleted?).and_return(false)
               transitioner = Transitioner.new(claim, true)

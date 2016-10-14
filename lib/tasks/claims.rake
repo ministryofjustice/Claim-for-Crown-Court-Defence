@@ -85,8 +85,7 @@ namespace :claims do
       raise ArgumentError.new "Only valid parameter is 'dummy'"
     end
 
-    TimedTransitions::BatchTransitioner.new(dummy: @dummy).run
+    puts "Running TimedTransitions::BatchTransitioner with dummy mode: #{@dummy}"
+    TimedTransitions::BatchTransitioner.new(limit: 7200, dummy: @dummy).run
   end
-
-
 end

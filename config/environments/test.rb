@@ -6,13 +6,13 @@ Rails.application.configure do
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :filesystem,
     path: "public/assets/test/images/:id_partition/:filename",
-    url: "assets/test/images/:id_partition/:filename"
+    url: "assets/test/images/:filename"
   }
 
   REPORDER_STORAGE_OPTIONS = {
     storage: :filesystem,
     path: "public/assets/test/images/reporders/:id_partition/:filename",
-    url: "assets/test/images/reporders/:id_partition/:filename"
+    url: "assets/test/images/reporders/:filename"
   }
 
   # logstasher

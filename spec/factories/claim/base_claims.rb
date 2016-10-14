@@ -1,5 +1,3 @@
-require 'timecop'
-
 FactoryGirl.define do
 
   trait :litigator_base_setup do

@@ -98,10 +98,8 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
           expect(subject.reload.lgfs_supplier_numbers).to be_empty
         end
 
-        pending "removed until lgfs supplier number validation reinstated on Provider" do
         it 'renders the edit template' do
           expect(response).to render_template(:edit)
-        end
         end
 
       end

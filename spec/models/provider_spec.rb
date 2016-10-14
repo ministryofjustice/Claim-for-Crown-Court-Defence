@@ -207,7 +207,6 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  pending "removed until lgfs supplier number validation reinstated on Provider" do
   context 'LGFS supplier number validation' do
     it 'validates the supplier numbers sub model for LGFS role' do
       expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(firm, :lgfs_supplier_numbers)
@@ -223,7 +222,6 @@ RSpec.describe Provider, type: :model do
       allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
       expect(firm).to_not be_valid
       expect(firm.errors[:base]).to eq(["LGFS supplier numbers can't be blank"])
-    end
     end
 
   end

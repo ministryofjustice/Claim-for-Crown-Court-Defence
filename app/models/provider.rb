@@ -62,8 +62,7 @@ class Provider < ActiveRecord::Base
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX, allow_nil: true }
 
 
-  ############## validation for at least one supplier number removed temporarily while we restore the LGFS flags on all providers
-  # validates_with SupplierNumberSubModelValidator, if: :lgfs?
+  validates_with SupplierNumberSubModelValidator, if: :lgfs?
 
   before_validation :force_lgfs_flag_for_firms
 

@@ -58,7 +58,8 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'when Provider present and Provider is a "firm"' do
-      let!(:provider) { create(:provider, provider_type: 'firm', firm_agfs_supplier_number: 'ZZ123') }
+      # let!(:provider) { create(:provider, provider_type: 'firm', firm_agfs_supplier_number: 'ZZ123') }
+      let!(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: 'ZZ123') }
 
       before do
         subject.provider = provider

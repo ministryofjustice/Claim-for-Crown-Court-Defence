@@ -101,6 +101,7 @@ RSpec.describe SuperAdmins::ProvidersController, type: :controller do
         it 'renders the edit template' do
           expect(response).to render_template(:edit)
         end
+
       end
 
       context 'when valid' do

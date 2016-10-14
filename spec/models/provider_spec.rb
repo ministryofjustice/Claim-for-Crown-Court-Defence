@@ -223,5 +223,6 @@ RSpec.describe Provider, type: :model do
       expect(firm).to_not be_valid
       expect(firm.errors[:base]).to eq(["LGFS supplier numbers can't be blank"])
     end
+
   end
 end

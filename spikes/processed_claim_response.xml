@@ -1,0 +1,38 @@
+
+<!--The <errors> section is only present if <success> is false.-->
+
+<!--Error codes are numbered according to the following schema:-->
+    <!---->
+    <!--200-299     Inconsitent claim error - the data in the claim is in an inconsistent state, for example, an expense type which is not applicable-->
+                <!--to AGFS claims has been included in an AGFS claim.-->
+
+    <!--300-399     Field validation error - the formnat of a field is invalid, for example a case number which is not in X99999999 format.-->
+
+    <!--400-499     Resource not available - for example, reference is made to a Supplier, or a Defendant, or a CaseType which is unknown-->
+                <!--to CCR/CCLF.-->
+
+    <!--500-599     Server error, service unavailable, transport error, upstream service unavailable.  Codes in this range indicate that-->
+                <!--the claim was not processed by the CCR/CCLF system, probably due to an exceptional failure, or the upstream service-->
+                <!--not being contactable.-->
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<claim>
+    <claim_details>
+        <uuid>96869c1d-8b9b-448e-9a6c-144b115f83fe</uuid>
+    </claim_details>
+
+    <processing_result>
+        <success>false</success>
+        <errors>
+            <error>
+                <code>100</code>
+                <detail>Detail of the error goes here</detail>
+            </error>
+            <error>
+                <code>200</code>
+                <detail>Detail of the 200 error code goes here</detail>
+            </error>
+        </errors>
+    </processing_result>
+</claim>

@@ -1,86 +1,106 @@
 = render partial: 'layouts/header', locals: {page_heading: 'Claim for crown court defence API'}
 
-%section.api-documentation
+-# %section.api-documentation
 
-  %h2
-    Overview
+.grid-row
+  .column-two-thirds
+    %h2#overview.heading-medium
+      Overview
 
-  %p
-    An Application Program Interface (API) enables one computer system to talk to another. The "Claim for crown court defence" system has an API that allows external applications to create claims.
-
-  %p
-    The API’s typical users are commercial case management systems.  This page is mainly for software vendors of these systems, to help them provide the functionality to submit claims to the "Claim for crown court defence" system automatically.
-  %p
-    The API only submits draft claims. The end user then logs on to the "Claim for crown court defence" system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
-
-  %h2
-    Release notes
-
-  %p
-    When changes occur to the API we will endeavour to
-    = link_to "publish release notes", api_release_notes_path
-    \.
-
-  %h2
-    Documentation
-
-  %p
-    The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided #{link_to 'detailed interactive documentation', grape_swagger_rails_path}, allowing developers to try out the API from a browser.
-
-  %h2
-    A note on authentication
-  %p
-    To authenticate a request to any endpoint you will need to provide an API key.  To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}. The claim endpoint also requires the following:
-
-    %ul.list-bullet
-      %li
-        an advocate account's email address for the provider - to be used as the creator of the claim
-      %li
-        an advocate account's email address for the advocate for whom the claim is being created
+    %p.lede
+      An Application Program Interface (API) enables one computer system to talk to another. The "Claim for crown court defence" system has an API that allows external applications to create claims.
 
     %p
-      The normal course of events to submit a claim would be:
-      %ol.list-number
-        %li Perform a GET operation to retrieve the current set of various object types from their respective endpoints. These GET endpoints are:
-        %ul.list-bullet
-          %li
-            case types
-          %li
-            courts
-          %li
-            advocate categories
-          %li
-            trial cracked at thirds
-          %li
-            offences
-          %li
-            offence classes
-          %li
-            expense types
-          %li
-            fee categories
-          %li
-            fee types
-          %li
-            disbursement types
+      The API’s typical users are commercial case management systems.  This page is mainly for software vendors of these systems, to help them provide the functionality to submit claims to the "Claim for crown court defence" system automatically.
+    %p
+      The API only submits draft claims. The end user then logs on to the "Claim for crown court defence" system to review the claim, upload documentary evidence, and submit the claim to the Legal Aid Agency.
 
-        %p
-          Each endpoint returns a set of JSON formatted objects, each with an id, which you can use when submitting a claim and associated fees and expenses.
+    %h2#release-notes.heading-medium
+      Release notes
 
-        %li
-          Perform a POST operation to upload the basic details of a claim
-        %li
-          Perform one or more POST operations to add defendants to the claim
-        %li
-          Perform one or more POST operations to add representation order details to a defendant
-        %li
-          Perform one or more POST operations to add fees to a claim
-        %li
-          Perform zero or more POST operations to add expenses to a claim
-        %li
-          Perform zero or more POST operations to add dates attended to a fee
+    %p
+      When changes occur to the API we will endeavour to
+      = link_to "publish release notes", api_release_notes_path
+      \.
+
+    %h2#documentation.heading-medium
+      Documentation
+
+    %p
+      The API exposes a number of HTTP endpoints which accept JSON formatted input to create a claim. We’ve provided #{link_to 'detailed interactive documentation', grape_swagger_rails_path}, allowing developers to try out the API from a browser.
+
+
+    %h2#authentication.heading-medium
+      A note on authentication
+    %p
+      To authenticate a request to any endpoint you will need to provide an API key.  To get an API key, you’ll need to #{link_to "sign up", new_registration_path('user')}.
+
+    .panel.panel-border-wide
       %p
-        The responses of endpoints 2, 3, 5 and 6 above include a universally unique identifier (UUID) as an id attribute that must be used in subsequent calls to create or validate its sub-components (child relations). To summarise:
+        %strong.bold-small
+          The claim endpoint also requires the following:
+      %ul.list-bullet
+        %li
+          an advocate account's email address for the provider - to be used as the creator of the claim
+        %li
+          an advocate account's email address for the advocate for whom the claim is being created
+
+
+    %h2#submit-a-claim.heading-medium
+      Submitting a claim
+
+    %ol.list-number
+      %li
+        Perform a GET operation to retrieve the current set of various object types from their respective endpoints.
+
+        .panel.panel-border-wide
+          %p
+            %strong.bold-small
+              These GET endpoints are:
+          %ul.list-bullet
+            %li
+              case types
+            %li
+              courts
+            %li
+              advocate categories
+            %li
+              trial cracked at thirds
+            %li
+              offences
+            %li
+              offence classes
+            %li
+              expense types
+            %li
+              fee categories
+            %li
+              fee types
+            %li
+              disbursement types
+
+            %p
+              Each endpoint returns a set of JSON formatted objects, each with an id, which you can use when submitting a claim and associated fees and expenses.
+
+      %li
+        Perform a POST operation to upload the basic details of a claim
+      %li
+        Perform one or more POST operations to add defendants to the claim
+      %li
+        Perform one or more POST operations to add representation order details to a defendant
+      %li
+        Perform one or more POST operations to add fees to a claim
+      %li
+        Perform zero or more POST operations to add expenses to a claim
+      %li
+        Perform zero or more POST operations to add dates attended to a fee
+    %p
+      The responses of endpoints 2, 3, 5 and 6 above include a universally unique identifier (UUID) as an id attribute that must be used in subsequent calls to create or validate its sub-components (child relations).
+
+    .panel.panel-border-wide
+      %p
+        %strong.bold-small
+          To summarise:
         %ul.list-bullet
           %li
             claim id required for defendants, fees, expenses
@@ -89,49 +109,110 @@
           %li
             fee or expense id required for dates attended
 
-  %h2
-    JSON file importer
 
-  %p
-    The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the #{link_to "JSON schema definition", json_schema_path}.
+    %h2#json-file-importer.heading-medium
+      JSON file importer
 
-  %h2
-    API versioning
+    %p
+      The web application provides a claim importer facility that can be used to create one or more claims (per upload). The file must follow the #{link_to "JSON schema definition", json_schema_path}.
 
-  %p
-    We may make changes and improvements to the API from time to time. We’re working on putting in place and publishing a versioning strategy but we’re not going to increment the version number before going live.
 
-  %p
-    We plan to require a version parameter with every request and apply #{link_to 'semantic versioning','http://semver.org/', rel: 'external'}.
+    %h2#api-versioning.heading-medium
+      API versioning
 
-  %p
-    Once our versioning strategy has been finalised, we’ll inform all software vendors and update this page and the documentation.
-  %p
-    We will always signal non-backwards-compatible versions by changing the first digit of the version number, for example moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions at the same time and always give 6 months’ notice before we stop supporting an old deprecated version.
+    %p
+      We may make changes and improvements to the API from time to time. We’re working on putting in place and publishing a versioning strategy but we’re not going to increment the version number before going live.
 
-  %h2
-    Sign up as a software vendor
+    %p
+      We plan to require a version parameter with every request and apply #{link_to 'semantic versioning','http://semver.org/', rel: 'external'}.
 
-  %p
-    To access our software vendor API development environment (our API sandbox), you must #{link_to "complete a short registration form", new_registration_path('user')} and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
+    %p
+      Once our versioning strategy has been finalised, we’ll inform all software vendors and update this page and the documentation.
+    %p
+      We will always signal non-backwards-compatible versions by changing the first digit of the version number, for example moving from 1.5.8 to 2.0.0.  When this happens, we will run the two versions at the same time and always give 6 months’ notice before we stop supporting an old deprecated version.
 
-  %p
-    You can retrieve the API key assigned to your chamber/firm from the "Manage provider" page.  You can use the key, along with your admin account's email address and another advocate account, to submit claims through the interactive API documentation in the sandbox environment. You can create new advocates from the "Manage users" page.
 
-  %p
-    = link_to "Sign up", new_registration_path('user'), class: 'button'
+    %h2#vendor-signup.heading-medium
+      Sign up as a software vendor
 
-  %h2
-    Example Desktop Application
+    %p
+      To access our software vendor API development environment (our API sandbox), you must #{link_to "complete a short registration form", new_registration_path('user')} and agree to our API users’ terms and conditions. You will then get advocate administrator credentials so you can access the web application.
 
-  %p
-    We’ve provided a basic example of a desktop application written in .NET (C#) that uses the "Claim for crown court defence" API to help you write your own CMS extension. You can #{link_to 'download the source code from github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'}.
-  %p
-    We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
+    %p
+      You can retrieve the API key assigned to your chamber/firm from the "Manage provider" page.  You can use the key, along with your admin account's email address and another advocate account, to submit claims through the interactive API documentation in the sandbox environment. You can create new advocates from the "Manage users" page.
 
-  %h2
-    API Sandbox - Testing Environment
-  %p
-    The Interactive API button below will take you to our interactive API testing page where you can create claims and their sub-components, retrieve lookup data needed to create components, and view responses from the various API endpoints.
-  %p
-    = link_to 'Interactive API', grape_swagger_rails_path, class: 'button'
+    %p
+      = link_to "Sign up as a software vendor", new_registration_path('user')
+
+    %h2#desktop-app.heading-medium
+      Example Desktop Application
+
+    %p
+      We’ve provided a basic example of a desktop application written in .NET (C#) that uses the "Claim for crown court defence" API to help you write your own CMS extension. You can #{link_to 'download the source code from github', 'https://github.com/ministryofjustice/adp_api_client', rel: 'external'}.
+    %p
+      We’ll try to keep this application up to date with any changes to the API so it can submit basic claims
+
+    %h2#api-sandbox.heading-medium
+      API Sandbox - Testing Environment
+
+    %p
+      The Interactive API button below will take you to our interactive API testing page where you can create claims and their sub-components, retrieve lookup data needed to create components, and view responses from the various API endpoints.
+
+    %p
+      = link_to 'Go to the interactive API', grape_swagger_rails_path
+
+
+  .column-third
+    .related-container
+      %aside.related#related
+        .inner.group.related-subsection
+          %h2#parent-subsection
+            = "Table of contents"
+
+
+          %nav{:role => "navigation", "aria-labelledby" => "parent-subsection"}
+            %ul
+              %li
+                %a{:href => "#overview"}
+                  = "Overview"
+
+              %li
+                %a{:href => "#release-notes"}
+                  = "Release Notes"
+
+              %li
+                %a{:href => "#documentation"}
+                  = "Documentation"
+
+              %li
+                %a{:href => "#authentication"}
+                  = "Authentication"
+
+              %li
+                %a{:href => "#submit-a-claim"}
+                  = "Submitting a claim"
+
+              %li
+                %a{:href => "#json-file-importer"}
+                  = "JSON file importer"
+
+              %li
+                %a{:href => "#api-versioning"}
+                  = "API versioning"
+
+              %li
+                %a{:href => "#vendor-signup"}
+                  = "Sign up as a software vendor"
+
+              %li
+                %a{:href => "#desktop-app"}
+                  = "Example Desktop Application"
+
+              %li
+                %a{:href => "#api-sandbox"}
+                  = "API Sandbox - Testing Environment"
+
+        .inner.group
+          %a.return-to-top{:href => "#content"}
+            Return to top ↑
+

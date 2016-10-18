@@ -4,7 +4,7 @@ shared_examples 'common fee date validations' do
     it { should_error_if_not_present(fee, :date, 'blank') }
 
     it 'should be invalid if too far in the past' do
-      fee.date = 6.years.ago
+      fee.date = 11.years.ago
       expect(fee).to_not be_valid
       expect(fee.errors[:date]).to include 'check_not_too_far_in_past'
     end

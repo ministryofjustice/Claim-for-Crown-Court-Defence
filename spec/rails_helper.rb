@@ -33,6 +33,7 @@ require 'paperclip/matchers'
 require 'webmock/rspec'
 require 'kaminari_rspec'
 require 'vcr_helper'
+require 'sidekiq/testing'
 
 include ActionDispatch::TestProcess #required for fixture_file_upload
 

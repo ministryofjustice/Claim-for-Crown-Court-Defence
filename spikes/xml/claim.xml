@@ -1,0 +1,267 @@
+<claim>
+    <claim_details>
+        <claim_uuid>2161f858-cb16-4c77-9792-28defcbc5688</claim_uuid>
+        <!-- type can be Advocate, Litigator Final, Litigator Interim, Litigator Transfer -->
+        <type>Advocate</type>
+        <!--provider_key is the key that CCR/CCLF use to identify provider-->
+        <provider_key>2161f858-cb16-4c77-9792-28defcbc5688</provider_key>
+        <!--We can either send an id that identifies the creator to CCCD, or an id used byCCRR/CCLF -->
+        <supplier_number>1B222Z</supplier_number>
+
+        <!--LAA don't need this, so will ignore this sectio-->
+        <created_by>
+            <last_name>Richards</last_name>
+            <first_name>Stephen</first_name>
+            <email>stephen.richards@example.com</email>
+        </created_by>
+
+        <!--LAA don't need this, so will ignore this section->
+        <advocate_litigator>
+            <last_name>Richards</last_name>
+            <first_name>Stephen</first_name>
+            <email>stephen.richards@example.com</email>
+        </advocate_litigator>
+
+        <!--Advocate Category can be QC, Leading Junior, Led Junior, Junior alone,  or we can send a code which identifies this to CCR/CCLF-->
+        <!--LAA CODES AS FOLLOWS: -->
+        <!--QC, LEADJR, LEDJR, JRALONE-->
+
+        <advocate_category>QC</advocate_category>
+        <additional_information>
+            Free form text that the creator may add to explain certain aspects of the claim
+        </additional_information>
+        <apply_vat>true</apply_vat>
+        <!--Date and time (UTC) claim last submitted-->
+        <submitted_at>2016-09-29T13:11:43Z</submitted_at>
+        <!--Date and time claim originally submitted-->
+        <originally_submitted_at>2016-09-29T13:11:43Z</originally_submitted_at>
+        <state>Authorised</state>
+        <!--Time claim authorised in UTC-->
+        <authorised_at>2016-09-29T13:11:43Z</authorised_at>
+    </claim_details>
+
+
+    <case_details>
+        <!--Case type is a code which identifies the case type to the CCR/CCLF systems -->
+        <!--This is known as scenarios in CCR/CCLF-->
+
+        <case_type>XX1111</case_type>
+        <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
+        <!--better to send coourt code, e.g. 401-->
+        <court>Aylesbury Crown</court>
+        <!--prefix can only be A, S, T-->
+        <case_number>A12345678</case_number>
+        <!--- We can send the name of the court or a code which identifies the court to CCR/CCLF -->
+        <transfer_court>Reading Crown</transfer_court>
+        <transfer_case_number>Z12345678</transfer_case_number>
+
+        <date_trial_started>2016-07-01</date_trial_started>
+        <date_trial_concluded>2016-07-06</date_trial_concluded>
+        <estimated_trial_length>4</estimated_trial_length>
+        <actual_trial_length>5</actual_trial_length>
+        <date_trial_fixed_notice>2016-07-06</date_trial_fixed_notice>
+        <date_trial_fixed>2016-07-06</date_trial_fixed>
+        <date_trial_cracked>2016-07-06</date_trial_cracked>
+        <date_trial_cracked_at_third>2016-07-06</date_trial_cracked_at_third>
+        <date_retrial_started>2016-07-06</date_retrial_started>
+        <date_retrial_concluded>2016-07-06</date_retrial_concluded>
+        <retrial_estimated_length>4</retrial_estimated_length>
+        <retrial_actual_length>6</retrial_actual_length>
+        <effictive_pcmh_date>2016-07-06</effictive_pcmh_date>
+        <legal_aid_transfer_date>2016-07-06</legal_aid_transfer_date>
+        <!--- sourece can be Web, Api, Json -->
+        <source>Web</source>
+        <fees_total>3577.33</fees_total>
+        <expenses_total>840.22</expenses_total>
+        <claim_total>4417.55</claim_total>
+        <disbursements_total>6772.33</disbursements_total>
+        <vat_amount>350.66</vat_amount>
+        <cms_number>X67676767</cms_number>
+        <providers_reference>PSR-001/2016/5/88</providers_reference>
+        <evidence_checklist>
+            <!--Doc types can by one of the following (zero or more may be specified:-->
+            <!--'Representation order'-->
+            <!--'LAC1 - memo of conviction'-->
+            <!--'Committal bundle front sheets'-->
+            <!--'A copy of the indictment'-->
+            <!--'Order in respect of judicial apportionment'-->
+            <!--'Expenses invoices'-->
+            <!--'Hardship supporting evidence'-->
+            <!--'Details of previous fee advancements'-->
+            <!--'Justification for out of time claim'-->
+            <doc_type>Representation order</doc_type>
+            <doc_type>Expenses invoices</doc_type>
+        </evidence_checklist>
+
+        <offence>
+            <!--Will probably want to send a key identifying the offence category and class-->
+            <category>Abandonment of children under two</category>
+            <class>C: Lesser offences involving violence or damage and less serious drug offences</class>
+        </offence>
+    </case_details>
+
+
+    <defendants>
+        <!--One or more defendants-->
+        <defendant>
+            <first_name>John</first_name>
+            <last_name>Smith</last_name>
+            <date_of_birth>1976-05-19</date_of_birth>
+            <representation_order>
+                <date>2016-05-22</date>
+                <number>1234567890</number>
+            </representation_order>
+        </defendant>
+        <defendant>
+            <first_name>John</first_name>
+            <last_name>Smith</last_name>
+            <date_of_birth>1976-05-19</date_of_birth>
+            <representation_order>
+                <date>2016-05-22</date>
+                <number>1234567890</number>
+            </representation_order>
+        </defendant>
+    </defendants>
+
+
+
+    <fees>
+        <!--Zero or more fees-->
+        <fee>
+            <!--Fee type can be: Fixed, Miscellaneous, Interim, Graduated-->
+            <type>Fixed</type>
+            <!--Fee code can be some code which represents the actual fee (e.g. "Cracked case discontinued" to the CCR/CCLF systems-->
+            <fee_code>2161f859-cb16-4c77-9792-28defcbc5688123</fee_code>
+            <quantity>5</quantity>
+            <rate>149.33</rate>
+            <dates_attended>
+
+            </dates_attended>
+        </fee>
+    </fees>
+
+
+    <expenses>
+        <!--Zero or more expenses-->
+        <expense>
+            <!--Expense Type can be one of the following:-->
+            <!--Car travel-->
+            <!--Parking-->
+            <!--Hotel accommodation-->
+            <!--Train/public transport-->
+            <!--Travel time-->
+            <!--Road or tunnel tolls-->
+            <!--Cab fares-->
+            <!--Subsistence-->
+            <date>2016-05-22</date>
+            <expense_type> Car travel</expense_type>
+            <location>Peterborough</location>
+            <quantity></quantity>
+            <rate></rate>
+            <amount>35.44</amount>
+            <distance>170</distance>
+            <mileage_rate>25p</mileage_rate>
+            <reason_type></reason_type>
+        </expense>
+    </expenses>
+
+
+    <disbursements>
+        <!--Zero or more disbursments-->
+        <disbursement>
+            <!--Disbursement types can be one of the following, or a code to represent one of the following:-->
+            <!--Accident reconstruction report-->
+            <!--Accounts-->
+            <!--Computer experts-->
+            <!--Consultant medical reports-->
+            <!--Costs judge application fee-->
+            <!--Costs judge preparation award-->
+            <!--DNA testing-->
+            <!--Engineer-->
+            <!--Enquiry agents-->
+            <!--Facial mapping expert-->
+            <!--Financial expert-->
+            <!--Fingerprint expert-->
+            <!--Fire assessor/explosives expert-->
+            <!--Forensic scientists-->
+            <!--Handwriting expert-->
+            <!--Interpreter-->
+            <!--Lip readers-->
+            <!--Medical expert-->
+            <!--Memorandum of conviction fee-->
+            <!--Meteorologist-->
+            <!--Other-->
+            <!--Overnight expenses-->
+            <!--Pathologist-->
+            <!--Photocopying-->
+            <!--Psychiatric reports-->
+            <!--Psychological report-->
+            <!--Surveyor/architect-->
+            <!--Transcripts-->
+            <!--Translator-->
+            <!--Vet report-->
+            <!--Voice recognition-->
+            <disbursement_types>Accident reconstruction report</disbursement_types>
+            <net_amount>9.70</net_amount>
+            <vat_amount>1.94</vat_amount>
+        </disbursement>
+    </disbursements>
+
+    <documents>
+        <!--Zero or more documents - always pdf-->
+        <document>
+            <uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</uuid>
+            <file_name>Hogdson_-_re_order.pdf</file_name>
+            <!--URI refers to location where document is stored in Amazon S3 bucket-->
+            <uri>https://s3-eu-west-1.amazonaws.com/adp-staging-documents/documents/000/001/002/repo_order_2.pdf</uri>
+            <size>388031</size>
+        </document>
+    </documents>
+
+
+
+    <messages>
+        <!--Zero or more messages-->
+        <message>
+            <!--UUID of message sender - either caseworker or external user-->
+            <sender_uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</sender_uuid>
+            <body>Please find enclosed invoice for printhouse.  This was enclosed with our original claim however, we have enclosed it again.  \r
+                As you will see from the invoice the copies are for colour copies.  We do not have facilities in our office to produce colour photos.\r
+                We also enclose an amended more detailed invoice from the Private Investigator.\r                                                                                                                                                                                   +
+                We hope the above is now sufficient to be able to pay these invoices..
+            </body>
+            <created_at>2016-09-29T13:11:43Z</created_at>
+            <!--Optional attached document - UUID refers to a document specified in the document section above-->
+            <document_uuid>345fa455-2526-47d9-9ca0-bcc4afddfa68</document_uuid>
+        </message>
+    </messages>
+
+
+    <assessment>
+        <created_at>2016-09-29T13:11:43Z</created_at>
+        <caseworker>
+            <first_name>John</first_name>
+            <last_name>Doe</last_name>
+            <email>john.doe@example.com</email>
+        </caseworker>
+        <fees>6773.44</fees>
+        <expenses>7566.33</expenses>
+        <disbursements>388.44</disbursements>
+    </assessment>
+
+    <!--Zero or more redeterminations may exist &ndash;-->
+    <redeterminations>
+        <redetermination>
+            <created_at>2016-09-29T13:11:43Z</created_at>
+            <caseworker>
+                <first_name>John</first_name>
+                <last_name>Doe</last_name>
+                <email>john.doe@example.com</email>
+            </caseworker>
+            <fees>6773.44</fees>
+            <expenses>7566.33</expenses>
+            <disbursements>388.44</disbursements>
+        </redetermination>
+    </redeterminations>
+
+</claim>

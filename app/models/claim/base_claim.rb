@@ -387,6 +387,20 @@ module Claim
       reflect_on_all_associations.select{ |assoc| assoc.name =~ /^\S+_fees?$/ }.map(&:name)
     end
 
+    def to_h
+      Exporter::ClaimExporter.new(self).to_h
+    end
+
+    def to_json
+      to_h.to_json
+    end
+
+    def to_xml
+      to_h.to_xml
+    end
+
+
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

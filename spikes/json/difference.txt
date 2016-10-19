@@ -1,0 +1,21 @@
+case_types
+    id: 2
+    requires_maat_reference: true on gamma, false on api-sandbox
+
+
+disbursement_types:
+    id: 30 Travel costs present on api-sandbox, not present on gamma
+
+
+expense_types:
+    ids 1 - 8 need to be deleted on api-sandbox
+
+fee types: need to be copied from live
+    id 18 Contempt on api, not present on gamma
+    id 19 Committal for sentence hearing is 20 on gamma
+    id 28 Hearing subsequent to sentence no present on gamma (28 is standard appearance fee).
+
+Offence_classes: all lgfs offence classes are wrong
+
+Offences: all need replacement
+

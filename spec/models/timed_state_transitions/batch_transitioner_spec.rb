@@ -8,8 +8,8 @@ module TimedTransitions
     let(:claim_ids) { [ 22, 878 ] }
     let(:claim_22) { double'Claim 22', state: 'authorised', last_state_transition_time: 2.days.ago }
     let(:claim_878) { double 'Claim 878', state: 'authorised', last_state_transition_time: 2.days.ago }
-    let(:transitioner_22) {double 'Transitioner 22' }
-    let(:transitioner_878) {double 'Transitioner 878' }
+    let(:transitioner_22) {double('Transitioner 22', success?: true) }
+    let(:transitioner_878) {double('Transitioner 878', success?: true) }
 
     context 'non dummy' do
       let(:batch_transitioner) { BatchTransitioner.new(dummy: false) }
@@ -40,6 +40,23 @@ module TimedTransitions
         expect(transitioner_878).to receive(:run)
 
         batch_transitioner.run
+      end
+    end
+
+    context 'enforces a limit if provided' do
+      let(:batch_transitioner) { BatchTransitioner.new(limit: 1) }
+
+      it 'after the given limit it stops processing claims' do
+        expect(Transitioner).to receive(:candidate_claims_ids).and_return(claim_ids)
+        expect(Claim::BaseClaim).to receive(:find).with(22).and_return(claim_22)
+        expect(Claim::BaseClaim).not_to receive(:find).with(878)
+        expect(Transitioner).to receive(:new).with(claim_22, false).and_return transitioner_22
+        expect(Transitioner).not_to receive(:new).with(claim_878, false)
+        expect(transitioner_22).to receive(:run)
+
+        expect(batch_transitioner).to receive(:increment_counter).once.and_call_original
+        batch_transitioner.run
+        expect(batch_transitioner.transitions_counter).to eq(1)
       end
     end
   end

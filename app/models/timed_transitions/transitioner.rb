@@ -1,6 +1,6 @@
 module TimedTransitions
   class Transitioner
-
+    attr_accessor :success
 
     @@timed_transition_specifications = {
       draft:                    Specification.new(:draft, Settings.timed_transition_stale_weeks, :destroy_claim),
@@ -12,7 +12,8 @@ module TimedTransitions
     }
 
     def self.candidate_claims_ids
-      Claim::BaseClaim.where(state: candidate_states).pluck(:id)
+      Claim::BaseClaim.where(state: candidate_states).
+          where('updated_at < ?', Settings.timed_transition_stale_weeks.weeks.ago).pluck(:id)
     end
 
     def self.softly_deleted_ids
@@ -30,6 +31,10 @@ module TimedTransitions
 
     def run
       @claim.softly_deleted? ? destroy_claim : process_stale_claim
+    end
+
+    def success?
+      !!success
     end
 
     private
@@ -58,6 +63,7 @@ module TimedTransitions
                       'Archiving claim'
                     end
       @claim.archive_pending_delete!(reason_code: 'timed_transition') unless is_dummy?
+      self.success = true
     end
 
 
@@ -71,6 +77,7 @@ module TimedTransitions
                         'Destroying soft-deleted claim'
                       end
       @claim.destroy unless is_dummy?
+      self.success = true
     end 
   end
 end

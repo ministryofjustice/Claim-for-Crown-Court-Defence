@@ -345,5 +345,18 @@ RSpec.describe Claims::StateMachine, type: :model do
         subject.authorise_part!
       end
     end
+
+    describe 'override the publishing for the transition' do
+      subject { create(:allocated_claim) }
+
+      before(:each) do
+        subject.assessment.update(fees: 100.00, expenses: 23.45)
+      end
+
+      it 'should not enqueue the claim to be published' do
+        expect(PublishClaimJob).not_to receive(:perform_later)
+        subject.authorise!(publish: false)
+      end
+    end
   end
 end

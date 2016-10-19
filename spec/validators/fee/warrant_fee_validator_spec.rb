@@ -21,7 +21,7 @@ module Fee
       end
 
       it 'should be invalid if present and too far in the past' do
-        fee.warrant_issued_date = 6.years.ago
+        fee.warrant_issued_date = 11.years.ago
         expect(fee).to_not be_valid
         expect(fee.errors[:warrant_issued_date]).to include 'check_not_too_far_in_past'
       end
@@ -48,7 +48,7 @@ module Fee
       end
 
       it 'should be invalid if present and too far in the past' do
-        fee.warrant_executed_date = 6.years.ago
+        fee.warrant_executed_date = 11.years.ago
         expect(fee).to_not be_valid
         expect(fee.errors[:warrant_executed_date]).to include 'check_not_too_far_in_past'
       end

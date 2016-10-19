@@ -79,7 +79,7 @@ module Claim
       end
 
       it 'errors if too far in the past' do
-        expect_invalid_attribute_with_message(claim, :transfer_date, 6.years.ago, 'check_not_too_far_in_past')
+        expect_invalid_attribute_with_message(claim, :transfer_date, 11.years.ago, 'check_not_too_far_in_past')
       end
 
       it 'is valid if in the recent past' do

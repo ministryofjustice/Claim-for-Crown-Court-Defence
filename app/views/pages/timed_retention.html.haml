@@ -2,7 +2,6 @@
 
 - stale_weeks    = Settings.timed_transition_stale_weeks
 - archived_weeks = Settings.timed_transition_pending_weeks
-- contact_email  = 'bethany.henshaw@legalaid.gsi.gov.uk'
 
 %section.timed-retention
   %p
@@ -27,4 +26,4 @@
   %p
     Claims that have been in archived state for #{archived_weeks} weeks, along with any attached documents, will be deleted from the database and will no longer be retrievable.
   %p
-    Contact #{mail_to contact_email, contact_email} if you have any questions about this policy.
+    Contact #{mail_to Settings.laa_contact_email, Settings.laa_contact_email} if you have any questions about this policy.

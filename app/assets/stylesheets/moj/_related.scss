@@ -1,0 +1,141 @@
+.related-container {
+    padding: 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-top: 40px
+}
+
+@media (max-width: 640px) {
+    .related-container {
+    }
+}
+
+.related {
+    border-top: 10px solid #005ea5;
+    padding-top: 5px
+}
+
+.related nav {
+    margin-bottom: 1.25em
+}
+
+.related h2 {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: none;
+    font-size-adjust: 0.5;
+    font-weight: 600;
+    color: #0b0c0c;
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+    position: relative
+}
+
+@media (min-width: 641px) {
+    .related h2 {
+        font-size:24px;
+        line-height: 1.25
+    }
+}
+
+@media (max-width: 640px) {
+    .related h2 {
+        font-size:17px;
+        margin-bottom: 0.625em
+    }
+}
+
+.related ul {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.14286;
+    font-weight: 400;
+    text-transform: none;
+    font-size-adjust: 0.5;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+@media (min-width: 641px) {
+    .related ul {
+        font-size:16px;
+        line-height: 1.25
+    }
+}
+
+.related li {
+    margin-bottom: 0.75em;
+    padding-left: 0;
+    display: list-item;
+}
+
+.related li.related-topic {
+    list-style: none outside none
+}
+
+.related li.related-topic a {
+    display: inline;
+    font-weight: bold
+}
+
+.related li a {
+    background-position: 0 -287px;
+    background-repeat: no-repeat;
+    display: block;
+    line-height: 1.25em;
+    orphans: 2
+}
+
+.related li a:hover {
+    background-position: 0 10px
+}
+
+.related li a.view-all {
+    margin: 10px 0 10px
+}
+
+.related li a[rel="external"]:after {
+    content: "\A0\A0\A0\A0\A0\A0";
+    background-position: 5px 0
+}
+
+.related li a[rel="external"]:hover:after {
+    background-position: 5px -388px
+}
+
+.related .return-to-top {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.14286;
+    font-weight: 400;
+    text-transform: none;
+    font-size-adjust: 0.5;
+    margin: 0.25em 0 0;
+    padding: 0.75em 0
+}
+
+@media (min-width: 641px) {
+    .related .return-to-top {
+        font-size:16px;
+        line-height: 1.25
+    }
+}
+
+@media (min-width: 769px) {
+    .related .return-to-top {
+        position:absolute;
+        left: -9999em
+    }
+}
+
+@media (min-width: 641px) {
+    header.page-header div {
+        margin-top:30px;
+        margin-bottom: 30px
+    }
+}

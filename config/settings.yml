@@ -22,8 +22,8 @@ date_time_format: "%d/%m/%Y %H:%M"
 
 high_value_claim_threshold: 20000
 
-earliest_permitted_date: <%= 5.years.ago.to_date %>
-earliest_permitted_date_in_words: 5 years ago
+earliest_permitted_date: <%= 10.years.ago.to_date %>
+earliest_permitted_date_in_words: 10 years ago
 
 interim_earliest_permitted_repo_date: <%= Date.new(2014,10,2) %>
 
@@ -83,6 +83,9 @@ remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') +
 
 # Use remote API calls to retrieve the list of allocated/archived claims for case workers
 case_workers_remote_allocations?: true
+
+# contact email address
+laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 
 # Claim publishing to Amazon SNS queue. Not yet ready for production, only enabled in DEV.
 claim_publishing_enabled?: <%= ENV['ENV'] == 'dev' %>

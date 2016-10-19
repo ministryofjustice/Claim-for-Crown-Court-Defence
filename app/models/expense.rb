@@ -123,4 +123,9 @@ class Expense < ActiveRecord::Base
       expense_reason&.reason
     end
   end
+
+  def laa_bill_sub_type
+    raise "Not implemented for LGFS claims" if claim.lgfs?
+    LaaExpenseAdapter.laa_bill_sub_type(self)
+  end
 end

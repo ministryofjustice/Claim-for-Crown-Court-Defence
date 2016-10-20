@@ -67,7 +67,7 @@ module DemoData
           expenses: claim.expenses_total * rand(0.5..0.8),
           disbursements: claim.disbursements_total * rand(0.5..0.8))
       claim.reload
-      claim.authorise_part!(case_worker_author)
+      claim.authorise_part!({publish: false}.merge(case_worker_author))
     end
 
     def authorise(claim)
@@ -78,7 +78,7 @@ module DemoData
           expenses: claim.expenses_total,
           disbursements: claim.disbursements_total)
       claim.reload
-      claim.authorise!(case_worker_author)
+      claim.authorise!({publish: false}.merge(case_worker_author))
     end
 
     def refuse(claim)

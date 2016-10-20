@@ -63,8 +63,8 @@ module Claims::StateMachine
             :deallocated
 
       after_transition on: :submit,                   do: [:set_last_submission_date!, :set_original_submission_date!]
-      after_transition on: :authorise,                do: :set_authorised_date!
-      after_transition on: :authorise_part,           do: :set_authorised_date!
+      after_transition on: :authorise,                do: [:set_authorised_date!, :publish_claim]
+      after_transition on: :authorise_part,           do: [:set_authorised_date!, :publish_claim]
       after_transition on: :redetermine,              do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :await_written_reasons,    do: [:remove_case_workers!, :set_last_submission_date!]
       after_transition on: :archive_pending_delete,   do: :set_valid_until!
@@ -134,25 +134,6 @@ module Claims::StateMachine
     klass.scope :caseworker_dashboard_completed,          -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
     klass.scope :caseworker_dashboard_under_assessment,   -> { klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES) }
     klass.scope :caseworker_dashboard_archived,           -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
-
-    # rubocop:disable Lint/NestedMethodDefinition
-    def reason_code(transition)
-      _extract_option!(transition, :reason_code)
-    end
-
-    def author_id(transition)
-      _extract_option!(transition, :author_id)
-    end
-
-    def subject_id(transition)
-      _extract_option!(transition, :subject_id)
-    end
-
-    def _extract_option!(transition, option)
-      args = transition.args
-      args&.last.is_a?(Hash) ? args.last.delete(option) : nil
-    end
-    # rubocop:enable Lint/NestedMethodDefinition
   end
 
   def last_state_transition
@@ -180,6 +161,23 @@ module Claims::StateMachine
   end
 
   private
+
+  def reason_code(transition)
+    extract_transition_option!(transition, :reason_code)
+  end
+
+  def author_id(transition)
+    extract_transition_option!(transition, :author_id)
+  end
+
+  def subject_id(transition)
+    extract_transition_option!(transition, :subject_id)
+  end
+
+  def extract_transition_option!(transition, option, default = nil)
+    args = transition.args
+    args&.last.is_a?(Hash) ? args.last.delete(option) { default } : default
+  end
 
   def reset_state
     update_column(:state, state_at_last_submission)
@@ -216,5 +214,11 @@ module Claims::StateMachine
 
   def remove_case_workers!
     self.case_workers.destroy_all
+  end
+
+  # Default is to publish claims but can be overridden, example: claim.authorise!(publish: false)
+  def publish_claim(transition)
+    publish = extract_transition_option!(transition, :publish, true)
+    PublishClaimJob.perform_later(self) if Settings.claim_publishing_enabled? && publish
   end
 end
